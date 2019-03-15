@@ -815,6 +815,7 @@ namespace ouzel
                             texture->setFilter(setTextureParametersCommand->filter);
                             texture->setAddressX(setTextureParametersCommand->addressX);
                             texture->setAddressY(setTextureParametersCommand->addressY);
+                            texture->setAddressZ(setTextureParametersCommand->addressZ);
                             texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
 
                             break;
@@ -1109,7 +1110,7 @@ namespace ouzel
 
                 samplerStateDesc.AddressU = getTextureAddressMode(desc.addressX);
                 samplerStateDesc.AddressV = getTextureAddressMode(desc.addressY);
-                samplerStateDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+                samplerStateDesc.AddressW = getTextureAddressMode(desc.addressZ);
                 samplerStateDesc.MipLODBias = 0.0F;
                 samplerStateDesc.MaxAnisotropy = desc.maxAnisotropy;
                 samplerStateDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;

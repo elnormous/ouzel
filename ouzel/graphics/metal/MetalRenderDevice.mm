@@ -834,6 +834,7 @@ namespace ouzel
                             texture->setFilter(setTextureParametersCommand->filter);
                             texture->setAddressX(setTextureParametersCommand->addressX);
                             texture->setAddressY(setTextureParametersCommand->addressY);
+                            texture->setAddressZ(setTextureParametersCommand->addressZ);
                             texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
 
                             break;
@@ -1000,6 +1001,7 @@ namespace ouzel
 
                 samplerDescriptor.sAddressMode = getSamplerAddressMode(descriptor.addressX);
                 samplerDescriptor.tAddressMode = getSamplerAddressMode(descriptor.addressY);
+                samplerDescriptor.rAddressMode = getSamplerAddressMode(descriptor.addressZ);
 
                 samplerDescriptor.maxAnisotropy = descriptor.maxAnisotropy;
 

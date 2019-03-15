@@ -47,6 +47,7 @@ namespace ouzel
             void setFilter(Texture::Filter newFilter);
             void setAddressX(Texture::Address newAddressX);
             void setAddressY(Texture::Address newAddressY);
+            void setAddressZ(Texture::Address newAddressZ);
             void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
             inline uint32_t getFlags() const { return flags; }
@@ -77,6 +78,7 @@ namespace ouzel
             Texture::Filter filter = Texture::Filter::DEFAULT;
             Texture::Address addressX = Texture::Address::CLAMP;
             Texture::Address addressY = Texture::Address::CLAMP;
+            Texture::Address addressZ = Texture::Address::CLAMP;
             uint32_t maxAnisotropy = 0;
 
             GLenum textureTarget = 0;

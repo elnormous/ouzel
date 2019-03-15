@@ -23,11 +23,13 @@ namespace ouzel
             Texture::Filter filter;
             Texture::Address addressX;
             Texture::Address addressY;
+            Texture::Address addressZ;
             uint32_t maxAnisotropy;
 
             bool operator<(const SamplerStateDesc& other) const
             {
-                return std::tie(filter, addressX, addressY, maxAnisotropy) < std::tie(other.filter, other.addressX, other.addressY, other.maxAnisotropy);
+                return std::tie(filter, addressX, addressY, addressZ, maxAnisotropy) <
+                    std::tie(other.filter, other.addressX, other.addressY, other.addressZ, other.maxAnisotropy);
             }
         };
 
@@ -46,6 +48,7 @@ namespace ouzel
             void setFilter(Texture::Filter filter);
             void setAddressX(Texture::Address addressX);
             void setAddressY(Texture::Address addressY);
+            void setAddressZ(Texture::Address addressZ);
             void setMaxAnisotropy(uint32_t maxAnisotropy);
 
             void resolve();

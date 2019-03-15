@@ -284,6 +284,7 @@ namespace ouzel
             samplerDescriptor.filter = renderDevice.getTextureFilter();
             samplerDescriptor.addressX = Texture::Address::CLAMP;
             samplerDescriptor.addressY = Texture::Address::CLAMP;
+            samplerDescriptor.addressZ = Texture::Address::CLAMP;
             samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
 
             updateSamplerState();
@@ -375,6 +376,12 @@ namespace ouzel
         void D3D11Texture::setAddressY(Texture::Address addressY)
         {
             samplerDescriptor.addressY = addressY;
+            updateSamplerState();
+        }
+
+        void D3D11Texture::setAddressZ(Texture::Address addressZ)
+        {
+            samplerDescriptor.addressZ = addressZ;
             updateSamplerState();
         }
 

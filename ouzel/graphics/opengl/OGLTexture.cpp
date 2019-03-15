@@ -292,19 +292,15 @@ namespace ouzel
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
                     if (!levels[level].data.empty())
-                    {
                         renderDevice.glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                                       static_cast<GLsizei>(levels[level].size.v[0]),
                                                       static_cast<GLsizei>(levels[level].size.v[1]), 0,
                                                       pixelFormat, pixelType, levels[level].data.data());
-                    }
                     else
-                    {
                         renderDevice.glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                                       static_cast<GLsizei>(levels[level].size.v[0]),
                                                       static_cast<GLsizei>(levels[level].size.v[1]), 0,
                                                       pixelFormat, pixelType, nullptr);
-                    }
                 }
 
                 GLenum error;
@@ -350,19 +346,15 @@ namespace ouzel
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
                     if (!levels[level].data.empty())
-                    {
                         renderDevice.glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                                       static_cast<GLsizei>(levels[level].size.v[0]),
                                                       static_cast<GLsizei>(levels[level].size.v[1]), 0,
                                                       pixelFormat, pixelType, levels[level].data.data());
-                    }
                     else
-                    {
                         renderDevice.glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
                                                       static_cast<GLsizei>(levels[level].size.v[0]),
                                                       static_cast<GLsizei>(levels[level].size.v[1]), 0,
                                                       pixelFormat, pixelType, nullptr);
-                    }
                 }
 
                 GLenum error;
@@ -389,13 +381,11 @@ namespace ouzel
             for (size_t level = 0; level < levels.size(); ++level)
             {
                 if (!levels[level].data.empty())
-                {
                     renderDevice.glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
                                                      static_cast<GLsizei>(levels[level].size.v[0]),
                                                      static_cast<GLsizei>(levels[level].size.v[1]),
                                                      pixelFormat, pixelType,
                                                      levels[level].data.data());
-                }
             }
 
             GLenum error;
@@ -472,6 +462,24 @@ namespace ouzel
             GLenum error;
             if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
+        }
+
+        void OGLTexture::setAddressZ(Texture::Address newAddressZ)
+        {
+            addressZ = newAddressZ;
+
+            if (textureTarget == GL_TEXTURE_3D)
+            {
+                if (!textureId)
+                    throw std::runtime_error("Texture not initialized");
+
+                renderDevice.bindTexture(textureTarget, 0, textureId);
+                renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_R, getWrapMode(addressZ));
+
+                GLenum error;
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+                    throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
+            }
         }
 
         void OGLTexture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
@@ -612,6 +620,14 @@ namespace ouzel
 
             if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
+
+            if (textureTarget == GL_TEXTURE_3D)
+            {
+                renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_R, getWrapMode(addressZ));
+
+                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+                    throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
+            }
 
             uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
 

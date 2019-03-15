@@ -173,7 +173,8 @@ namespace ouzel
                         [texture replaceRegion:MTLRegionMake2D(0, 0,
                                                                static_cast<NSUInteger>(levels[level].size.v[0]),
                                                                static_cast<NSUInteger>(levels[level].size.v[1]))
-                                   mipmapLevel:level withBytes:levels[level].data.data()
+                                   mipmapLevel:level
+                                     withBytes:levels[level].data.data()
                                    bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
                 }
             }
@@ -181,6 +182,7 @@ namespace ouzel
             samplerDescriptor.filter = renderDevice.getTextureFilter();
             samplerDescriptor.addressX = Texture::Address::CLAMP;
             samplerDescriptor.addressY = Texture::Address::CLAMP;
+            samplerDescriptor.addressZ = Texture::Address::CLAMP;
             samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
 
             updateSamplerState();
@@ -206,13 +208,12 @@ namespace ouzel
             for (size_t level = 0; level < levels.size(); ++level)
             {
                 if (!levels[level].data.empty())
-                {
                     [texture replaceRegion:MTLRegionMake2D(0, 0,
                                                            static_cast<NSUInteger>(levels[level].size.v[0]),
                                                            static_cast<NSUInteger>(levels[level].size.v[1]))
-                               mipmapLevel:level withBytes:levels[level].data.data()
+                               mipmapLevel:level
+                                 withBytes:levels[level].data.data()
                                bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
-                }
             }
         }
 
@@ -231,6 +232,12 @@ namespace ouzel
         void MetalTexture::setAddressY(Texture::Address addressY)
         {
             samplerDescriptor.addressY = addressY;
+            updateSamplerState();
+        }
+
+        void MetalTexture::setAddressZ(Texture::Address addressZ)
+        {
+            samplerDescriptor.addressZ = addressZ;
             updateSamplerState();
         }
 

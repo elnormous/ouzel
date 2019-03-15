@@ -522,12 +522,14 @@ namespace ouzel
                                         Texture::Filter initFilter,
                                         Texture::Address initAddressX,
                                         Texture::Address initAddressY,
+                                        Texture::Address initAddressZ,
                                         uint32_t initMaxAnisotropy):
                 Command(Command::Type::SET_TEXTURE_PARAMETERS),
                 texture(initTexture),
                 filter(initFilter),
                 addressX(initAddressX),
                 addressY(initAddressY),
+                addressZ(initAddressZ),
                 maxAnisotropy(initMaxAnisotropy)
             {
             }
@@ -536,6 +538,7 @@ namespace ouzel
             Texture::Filter filter;
             Texture::Address addressX;
             Texture::Address addressY;
+            Texture::Address addressZ;
             uint32_t maxAnisotropy;
         };
 

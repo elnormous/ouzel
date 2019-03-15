@@ -108,6 +108,9 @@ namespace ouzel
             inline Address getAddressY() const { return addressY; }
             void setAddressY(Address newAddressY);
 
+            inline Address getAddressZ() const { return addressZ; }
+            void setAddressZ(Address newAddressZ);
+
             inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
             void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
@@ -127,6 +130,7 @@ namespace ouzel
             Filter filter = Texture::Filter::DEFAULT;
             Address addressX = Texture::Address::CLAMP;
             Address addressY = Texture::Address::CLAMP;
+            Address addressZ = Texture::Address::CLAMP;
             uint32_t maxAnisotropy = 0;
         };
     } // namespace graphics

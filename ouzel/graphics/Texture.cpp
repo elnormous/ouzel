@@ -588,6 +588,7 @@ namespace ouzel
                                                                                                             filter,
                                                                                                             addressX,
                                                                                                             addressY,
+                                                                                                            addressZ,
                                                                                                             maxAnisotropy)));
         }
 
@@ -600,6 +601,7 @@ namespace ouzel
                                                                                                             filter,
                                                                                                             addressX,
                                                                                                             addressY,
+                                                                                                            addressZ,
                                                                                                             maxAnisotropy)));
         }
 
@@ -612,6 +614,20 @@ namespace ouzel
                                                                                                             filter,
                                                                                                             addressX,
                                                                                                             addressY,
+                                                                                                            addressZ,
+                                                                                                            maxAnisotropy)));
+        }
+
+        void Texture::setAddressZ(Address newAddressZ)
+        {
+            addressZ = newAddressZ;
+
+            if (resource.getId())
+                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource.getId(),
+                                                                                                            filter,
+                                                                                                            addressX,
+                                                                                                            addressY,
+                                                                                                            addressZ,
                                                                                                             maxAnisotropy)));
         }
 
@@ -624,6 +640,7 @@ namespace ouzel
                                                                                                             filter,
                                                                                                             addressX,
                                                                                                             addressY,
+                                                                                                            addressZ,
                                                                                                             maxAnisotropy)));
         }
     } // namespace graphics

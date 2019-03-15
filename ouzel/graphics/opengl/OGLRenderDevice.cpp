@@ -1315,6 +1315,7 @@ namespace ouzel
                             texture->setFilter(setTextureParametersCommand->filter);
                             texture->setAddressX(setTextureParametersCommand->addressX);
                             texture->setAddressY(setTextureParametersCommand->addressY);
+                            texture->setAddressZ(setTextureParametersCommand->addressZ);
                             texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
                             break;
                         }
