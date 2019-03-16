@@ -15,32 +15,31 @@ namespace ouzel
         public:
             class Node
             {
-                std::vector<Node*> children;
             };
 
             class Parallel: public Node
             {
-
+                std::vector<Node*> children;
             };
 
             class Random: public Node
             {
-
+                std::vector<Node*> children;
             };
 
             class Repeat: public Node
             {
-
+                std::vector<Node*> children;
             };
 
             class Sequence: public Node
             {
-
+                std::vector<Node*> children;
             };
 
             class SoundPlayer: public Node
             {
-
+                Sound* sound = nullptr;
             };
 
             Cue(Audio& initAudio);
