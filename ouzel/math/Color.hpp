@@ -10,8 +10,6 @@
 
 namespace ouzel
 {
-    template<size_t N, class T> class Vector;
-
     class Color final
     {
     public:

@@ -6,12 +6,11 @@
 #include <cmath>
 #include <cstddef>
 #include <limits>
+#include "math/Vector.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
 {
-    template<size_t N, class T> class Vector;
-
     template<class T> class Plane final
     {
     public:
