@@ -19,10 +19,10 @@ namespace ouzel
     class AnrdoidNeonChecker final
     {
     public:
-        AnrdoidNeonChecker()
+        AnrdoidNeonChecker():
+            neonAvailable(android_getCpuFamily() == ANDROID_CPU_FAMILY_ARM &&
+                          (android_getCpuFeatures() & ANDROID_CPU_ARM_FEATURE_NEON) != 0)
         {
-            neonAvailable = (android_getCpuFamily() == ANDROID_CPU_FAMILY_ARM &&
-                             (android_getCpuFeatures() & ANDROID_CPU_ARM_FEATURE_NEON) != 0);
         }
 
         operator bool() const { return neonAvailable; }
