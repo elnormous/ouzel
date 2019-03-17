@@ -2,6 +2,8 @@
 
 #include "GltfLoader.hpp"
 #include "Bundle.hpp"
+#include "scene/SkinnedMeshRenderer.hpp"
+#include "utils/Json.hpp"
 
 namespace ouzel
 {
@@ -17,6 +19,14 @@ namespace ouzel
                                    const std::vector<uint8_t>& data,
                                    bool mipmaps)
         {
+            json::Data d(data);
+
+            json::Value& nodesValue = d["nodes"];
+            json::Value& meshesValue = d["meshes"];
+
+            scene::SkinnedMeshData skinnedMeshData;
+            bundle.setSkinnedMeshData(name, skinnedMeshData);
+
             return true;
         }
     } // namespace assets

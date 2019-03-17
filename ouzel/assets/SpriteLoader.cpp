@@ -23,13 +23,13 @@ namespace ouzel
         {
             scene::SpriteData spriteData;
 
-            json::Data document(data);
+            json::Data d(data);
 
-            if (!document.hasMember("meta") ||
-                !document.hasMember("frames"))
+            if (!d.hasMember("meta") ||
+                !d.hasMember("frames"))
                 return false;
 
-            const json::Value& metaObject = document["meta"];
+            const json::Value& metaObject = d["meta"];
 
             std::string imageFilename = metaObject["image"].as<std::string>();
             spriteData.texture = cache.getTexture(imageFilename);
@@ -45,7 +45,7 @@ namespace ouzel
             const Size2F textureSize(static_cast<float>(spriteData.texture->getSize().v[0]),
                                            static_cast<float>(spriteData.texture->getSize().v[1]));
 
-            const json::Value& framesArray = document["frames"];
+            const json::Value& framesArray = d["frames"];
 
             scene::SpriteData::Animation animation;
 
