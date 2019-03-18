@@ -60,7 +60,7 @@ namespace ouzel
 
     template<typename T> inline T smoothStep(T a, T b, T t)
     {
-        float remapSmoothStep = t * t * (3 - 2 * t);
+        T remapSmoothStep = t * t * (3 - 2 * t);
         return lerp(a, b, remapSmoothStep);
     }
 
