@@ -73,7 +73,7 @@ namespace ouzel
             if (n == 1) // already normalized
                 return;
 
-            n = sqrtf(n);
+            n = sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 

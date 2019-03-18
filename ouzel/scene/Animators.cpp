@@ -127,13 +127,13 @@ namespace ouzel
 
         static float circIn(float t)
         {
-            return 1.0F - sqrtf(1.0F - t * t);
+            return 1.0F - sqrt(1.0F - t * t);
         }
 
         static float circOut(float t)
         {
             t -= 1.0F;
-            return sqrtf(1.0F - t * t);
+            return sqrt(1.0F - t * t);
         }
 
         static float circInOut(float t)
@@ -141,12 +141,12 @@ namespace ouzel
             if (t < 0.5F)
             {
                 t *= 2.0F;
-                return 0.5F * (-sqrtf(1.0F - t * t) + 1.0F);
+                return 0.5F * (-sqrt(1.0F - t * t) + 1.0F);
             }
             else
             {
                 t = t * 2.0F - 2.0F;
-                return 0.5F * (sqrtf(1.0F - t * t) + 1.0F);
+                return 0.5F * (sqrt(1.0F - t * t) + 1.0F);
             }
         }
 
