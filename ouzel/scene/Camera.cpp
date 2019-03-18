@@ -237,14 +237,14 @@ namespace ouzel
                 // convert content size to world coordinates
                 Size2F halfWorldSize;
 
-                halfWorldSize.v[0] = std::max(fabsf(halfSize.v[0] * boxTransform.m[0] + halfSize.v[1] * boxTransform.m[4]),
-                                               fabsf(halfSize.v[0] * boxTransform.m[0] - halfSize.v[1] * boxTransform.m[4]));
-                halfWorldSize.v[1] = std::max(fabsf(halfSize.v[0] * boxTransform.m[1] + halfSize.v[1] * boxTransform.m[5]),
-                                                fabsf(halfSize.v[0] * boxTransform.m[1] - halfSize.v[1] * boxTransform.m[5]));
+                halfWorldSize.v[0] = std::max(fabs(halfSize.v[0] * boxTransform.m[0] + halfSize.v[1] * boxTransform.m[4]),
+                                               fabs(halfSize.v[0] * boxTransform.m[0] - halfSize.v[1] * boxTransform.m[4]));
+                halfWorldSize.v[1] = std::max(fabs(halfSize.v[0] * boxTransform.m[1] + halfSize.v[1] * boxTransform.m[5]),
+                                                fabs(halfSize.v[0] * boxTransform.m[1] - halfSize.v[1] * boxTransform.m[5]));
 
                 // scale half size by camera projection to get the size in clip space coordinates
-                halfWorldSize.v[0] *= (fabsf(viewProjection.m[0]) + fabsf(viewProjection.m[4])) / 2.0F;
-                halfWorldSize.v[1] *= (fabsf(viewProjection.m[1]) + fabsf(viewProjection.m[5])) / 2.0F;
+                halfWorldSize.v[0] *= (fabs(viewProjection.m[0]) + fabs(viewProjection.m[4])) / 2.0F;
+                halfWorldSize.v[1] *= (fabs(viewProjection.m[1]) + fabs(viewProjection.m[5])) / 2.0F;
 
                 // create visible rect in clip space
                 RectF visibleRect(-halfWorldSize.v[0],

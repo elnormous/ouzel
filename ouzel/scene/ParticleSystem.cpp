@@ -1,5 +1,6 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
+#include <algorithm>
 #include <cstdlib>
 #include <stdexcept>
 #include "ParticleSystem.hpp"
@@ -185,8 +186,8 @@ namespace ouzel
                             {
                                 particles[i].angle += particles[i].degreesPerSecond * UPDATE_STEP;
                                 particles[i].radius += particles[i].deltaRadius * UPDATE_STEP;
-                                particles[i].position.v[0] = -cosf(particles[i].angle) * particles[i].radius;
-                                particles[i].position.v[1] = -sinf(particles[i].angle) * particles[i].radius * particleSystemData.yCoordFlipped;
+                                particles[i].position.v[0] = -cos(particles[i].angle) * particles[i].radius;
+                                particles[i].position.v[1] = -sin(particles[i].angle) * particles[i].radius * particleSystemData.yCoordFlipped;
                             }
 
                             // color r,g,b,a
@@ -369,8 +370,8 @@ namespace ouzel
                     Vector2F v2(size_2, size_2);
 
                     float r = -degToRad(particles[i].rotation);
-                    float cr = cosf(r);
-                    float sr = sinf(r);
+                    float cr = cos(r);
+                    float sr = sin(r);
 
                     Vector2F a(v1.v[0] * cr - v1.v[1] * sr, v1.v[0] * sr + v1.v[1] * cr);
                     Vector2F b(v2.v[0] * cr - v1.v[1] * sr, v2.v[0] * sr + v1.v[1] * cr);
@@ -417,14 +418,14 @@ namespace ouzel
                 {
                     if (particleSystemData.emitterType == ParticleSystemData::EmitterType::GRAVITY)
                     {
-                        particles[i].life = fmaxf(particleSystemData.particleLifespan + particleSystemData.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
+                        particles[i].life = std::max(particleSystemData.particleLifespan + particleSystemData.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
 
                         particles[i].position = particleSystemData.sourcePosition + position + Vector2F(particleSystemData.sourcePositionVariance.v[0] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine),
                                                                                                        particleSystemData.sourcePositionVariance.v[1] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
 
-                        particles[i].size = fmaxf(particleSystemData.startParticleSize + particleSystemData.startParticleSizeVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
+                        particles[i].size = std::max(particleSystemData.startParticleSize + particleSystemData.startParticleSizeVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
 
-                        float finishSize = fmaxf(particleSystemData.finishParticleSize + particleSystemData.finishParticleSizeVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
+                        float finishSize = std::max(particleSystemData.finishParticleSize + particleSystemData.finishParticleSizeVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
                         particles[i].deltaSize = (finishSize - particles[i].size) / particles[i].life;
 
                         particles[i].colorRed = clamp(particleSystemData.startColorRed + particleSystemData.startColorRedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F, 1.0F);
@@ -453,7 +454,7 @@ namespace ouzel
                         if (particleSystemData.rotationIsDir)
                         {
                             float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
-                            Vector2F v(cosf(a), sinf(a));
+                            Vector2F v(cos(a), sin(a));
                             float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
                             Vector2F dir = v * s;
                             particles[i].direction = dir;
@@ -462,7 +463,7 @@ namespace ouzel
                         else
                         {
                             float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
-                            Vector2F v(cosf(a), sinf(a));
+                            Vector2F v(cos(a), sin(a));
                             float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
                             Vector2F dir = v * s;
                             particles[i].direction = dir;

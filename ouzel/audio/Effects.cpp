@@ -56,7 +56,7 @@ namespace ouzel
             void setGain(float newGain)
             {
                 gain = newGain;
-                gainFactor = powf(10.0F, gain / 20.0F);
+                gainFactor = pow(10.0F, gain / 20.0F);
             }
 
         private:

@@ -111,8 +111,8 @@ namespace ouzel
         {
             for (uint32_t i = 0; i < 256; ++i)
             {
-                GAMMA_ENCODE[i] = static_cast<uint8_t>(roundf(powf(i / 255.0F, 1.0F / GAMMA) * 255.0F));
-                GAMMA_DECODE[i] = roundf(powf(i / 255.0F, GAMMA) * 255.0F);
+                GAMMA_ENCODE[i] = static_cast<uint8_t>(round(pow(i / 255.0F, 1.0F / GAMMA) * 255.0F));
+                GAMMA_DECODE[i] = round(pow(i / 255.0F, GAMMA) * 255.0F);
             }
 
             switch (driver)

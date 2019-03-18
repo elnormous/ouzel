@@ -166,8 +166,8 @@ namespace ouzel
                 vertices.push_back(graphics::Vertex(Vector3F(position), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F))); // center
 
                 for (uint32_t i = 0; i <= segments; ++i)
-                    vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + radius * cosf(i * tau<float>() / static_cast<float>(segments))),
-                                                                (position.v[1] + radius * sinf(i * tau<float>() / static_cast<float>(segments))),
+                    vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + radius * cos(i * tau<float>() / static_cast<float>(segments))),
+                                                                (position.v[1] + radius * sin(i * tau<float>() / static_cast<float>(segments))),
                                                                 0.0F), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F)));
 
                 command.indexCount = segments * 2 + 1;
@@ -191,8 +191,8 @@ namespace ouzel
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
-                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + radius * cosf(i * tau<float>() / static_cast<float>(segments))),
-                                                                    (position.v[1] + radius * sinf(i * tau<float>() / static_cast<float>(segments))),
+                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + radius * cos(i * tau<float>() / static_cast<float>(segments))),
+                                                                    (position.v[1] + radius * sin(i * tau<float>() / static_cast<float>(segments))),
                                                                     0.0F), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F)));
                     }
 
@@ -214,12 +214,12 @@ namespace ouzel
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
-                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + (radius - halfThickness) * cosf(i * tau<float>() / static_cast<float>(segments))),
-                                                                    (position.v[1] + (radius - halfThickness) * sinf(i * tau<float>() / static_cast<float>(segments))),
+                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + (radius - halfThickness) * cos(i * tau<float>() / static_cast<float>(segments))),
+                                                                    (position.v[1] + (radius - halfThickness) * sin(i * tau<float>() / static_cast<float>(segments))),
                                                                     0.0F), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F)));
 
-                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + (radius + halfThickness) * cosf(i * tau<float>() / static_cast<float>(segments))),
-                                                                    (position.v[1] + (radius + halfThickness) * sinf(i * tau<float>() / static_cast<float>(segments))),
+                        vertices.push_back(graphics::Vertex(Vector3F((position.v[0] + (radius + halfThickness) * cos(i * tau<float>() / static_cast<float>(segments))),
+                                                                    (position.v[1] + (radius + halfThickness) * sin(i * tau<float>() / static_cast<float>(segments))),
                                                                     0.0F), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F)));
                     }
 
@@ -516,7 +516,7 @@ namespace ouzel
                         Vector2F position;
 
                         for (uint16_t n = 0; n < controlPoints.size(); ++n)
-                            position += static_cast<float>(binomialCoefficients[n]) * powf(t, n) * powf(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) * controlPoints[n];
+                            position += static_cast<float>(binomialCoefficients[n]) * pow(t, static_cast<float>(n)) * pow(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) * controlPoints[n];
 
                         graphics::Vertex vertex(Vector3F(position), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F));
 

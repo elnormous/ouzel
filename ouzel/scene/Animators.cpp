@@ -13,17 +13,17 @@ namespace ouzel
     {
         static float sineIn(float t)
         {
-            return 1.0F - cosf(t * pi<float>() / 2.0F);
+            return 1.0F - cos(t * pi<float>() / 2.0F);
         }
 
         static float sineOut(float t)
         {
-            return sinf(t * pi<float>() / 2.0F);
+            return sin(t * pi<float>() / 2.0F);
         }
 
         static float sineInOut(float t)
         {
-            return -0.5F * (cosf(pi<float>() * t) - 1.0F);
+            return -0.5F * (cos(pi<float>() * t) - 1.0F);
         }
 
         static float quadIn(float t)
@@ -109,20 +109,20 @@ namespace ouzel
 
         static float expoIn(float t)
         {
-            return powf(2.0F, 10.0F * (t - 1.0F));
+            return pow(2.0F, 10.0F * (t - 1.0F));
         }
 
         static float expoOut(float t)
         {
-            return 1.0F - powf(2.0F, -10.0F * t);
+            return 1.0F - pow(2.0F, -10.0F * t);
         }
 
         static float expoInOut(float t)
         {
             if (t < 0.5F)
-                return 0.5F * powf(2.0F, 10.0F * (2.0F * t - 1.0F));
+                return 0.5F * pow(2.0F, 10.0F * (2.0F * t - 1.0F));
             else
-                return 0.5F * (powf(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
+                return 0.5F * (pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
         }
 
         static float circIn(float t)
@@ -187,7 +187,7 @@ namespace ouzel
 
             t -= 1.0F;
 
-            return -powf(2.0F, 10.0F * t) * sinf((t - p / 4.0F) * (2.0F * pi<float>()) / p);
+            return -pow(2.0F, 10.0F * t) * sin((t - p / 4.0F) * (2.0F * pi<float>()) / p);
         }
 
         static float elasticOut(float t)
@@ -197,7 +197,7 @@ namespace ouzel
 
             static constexpr float p = 0.3F;
 
-            return powf(2.0F, -10.0F * t) * sinf((t - p / 4.0F) * (2.0F * pi<float>()) / p) + 1.0F;
+            return pow(2.0F, -10.0F * t) * sin((t - p / 4.0F) * (2.0F * pi<float>()) / p) + 1.0F;
         }
 
         static float elasticInOut(float t)
@@ -210,12 +210,12 @@ namespace ouzel
             if (t < 0.5F)
             {
                 t = t * 2.0F - 1.0F;
-                return -0.5F * (powf(2.0F, 10.0F * t) * sinf((t - p / 4.0F) * (2.0F * pi<float>()) / p));
+                return -0.5F * (pow(2.0F, 10.0F * t) * sin((t - p / 4.0F) * (2.0F * pi<float>()) / p));
             }
             else
             {
                 t = t * 2.0F - 1.0F;
-                return 0.5F * powf(2.0F, -10.0F * t) * sinf((t - p / 4.0F) * (2.0F * pi<float>()) / p) + 1.0F;
+                return 0.5F * pow(2.0F, -10.0F * t) * sin((t - p / 4.0F) * (2.0F * pi<float>()) / p) + 1.0F;
             }
         }
 
