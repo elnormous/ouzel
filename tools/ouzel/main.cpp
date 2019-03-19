@@ -19,10 +19,23 @@ int main(int argc, const char* argv[])
         MAKEFILE
     };
 
+    enum class Platform
+    {
+        ALL,
+        WINDOWS,
+        MACOS,
+        LINUX,
+        IOS,
+        TVOS,
+        ANDROID,
+        EMSCRIPTEN
+    };
+
     Action action = Action::NONE;
     std::string path;
     std::string name;
     Project project = Project::ALL;
+    Platform platform = Platform::ALL;
 
     for (int i = 1; i < argc; ++i)
     {
@@ -58,7 +71,9 @@ int main(int argc, const char* argv[])
         }
         else if (std::string(argv[i]) == "--project")
         {
-            if (std::string(argv[i]) == "visualstudio")
+            if (std::string(argv[i]) == "all")
+                project = Project::ALL;
+            else if (std::string(argv[i]) == "visualstudio")
                 project = Project::VISUAL_STUDIO;
             else if (std::string(argv[i]) == "xcode")
                 project = Project::XCODE;
@@ -66,6 +81,27 @@ int main(int argc, const char* argv[])
                 project = Project::MAKEFILE;
             else
                 throw std::runtime_error("Invalid project");
+        }
+        else if (std::string(argv[i]) == "--platform")
+        {
+            if (std::string(argv[i]) == "all")
+                platform = Platform::ALL;
+            else if (std::string(argv[i]) == "windows")
+                platform = Platform::WINDOWS;
+            else if (std::string(argv[i]) == "macos")
+                platform = Platform::MACOS;
+            else if (std::string(argv[i]) == "linux")
+                platform = Platform::LINUX;
+            else if (std::string(argv[i]) == "ios")
+                platform = Platform::IOS;
+            else if (std::string(argv[i]) == "tvos")
+                platform = Platform::TVOS;
+            else if (std::string(argv[i]) == "android")
+                platform = Platform::ANDROID;
+            else if (std::string(argv[i]) == "emscripten")
+                platform = Platform::EMSCRIPTEN;
+            else
+                throw std::runtime_error("Invalid platform");
         }
     }
 
