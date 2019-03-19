@@ -1,6 +1,7 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <cassert>
+#include <cmath>
 #include "ShapeRenderer.hpp"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
