@@ -171,6 +171,25 @@ namespace ouzel
                 for (float& f : samples)
                     f = clamp(f, -1.0F, 1.0F);
             }
+
+            void Mixer::main()
+            {
+                for (;;)
+                {
+                    process();
+
+                    if (masterBus)
+                    {
+                        //Vector3F listenerPosition;
+                        //QuaternionF listenerRotation;
+
+                        //masterBus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, samples);
+                    }
+
+                    //for (float& f : samples)
+                    //    f = clamp(f, -1.0F, 1.0F);
+                }
+            }
         }
     } // namespace audio
 } // namespace ouzel

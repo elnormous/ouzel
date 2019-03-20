@@ -9,6 +9,7 @@
 #include <mutex>
 #include <queue>
 #include <set>
+#include <thread>
 #include <vector>
 #include "audio/mixer/Commands.hpp"
 #include "audio/mixer/Object.hpp"
@@ -74,6 +75,8 @@ namespace ouzel
                 }
 
             private:
+                void main();
+
                 std::function<void(const Event&)> callback;
 
                 uintptr_t lastObjectId = 0;
@@ -85,6 +88,11 @@ namespace ouzel
                 std::mutex commandMutex;
                 std::condition_variable commandConditionVariable;
                 std::queue<std::unique_ptr<Command>> commandQueue;
+
+                std::thread mixerThread;
+                std::vector<float> buffer;
+                size_t readPosition = 0;
+                size_t writePosition = 0;
             };
         }
     } // namespace audio
