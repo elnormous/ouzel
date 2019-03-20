@@ -243,6 +243,14 @@ namespace ouzel
                                                kAudioUnitScope_Input, bus, &callback, sizeof(callback))) != noErr)
                 throw std::system_error(result, coreAudioErrorCategory, "Failed to set CoreAudio unit output callback");
 
+            UInt32 inIOBufferFrameSize = 512;
+            if ((result = AudioUnitSetProperty(audioUnit,
+                                               kAudioDevicePropertyBufferFrameSize,
+                                               kAudioUnitScope_Global,
+                                               0,
+                                               &inIOBufferFrameSize, sizeof(UInt32))) != noErr)
+                throw std::system_error(result, coreAudioErrorCategory, "Failed to set CoreAudio buffer size");
+
             if ((result = AudioUnitInitialize(audioUnit)) != noErr)
                 throw std::system_error(result, coreAudioErrorCategory, "Failed to initialize CoreAudio unit");
 
@@ -295,11 +303,9 @@ namespace ouzel
         {
             for (UInt32 i = 0; i < ioData->mNumberBuffers; ++i)
             {
-                AudioBuffer* buffer = &ioData->mBuffers[i];
-
-                getData(buffer->mDataByteSize / (sampleSize * channels), data);
-
-                std::copy(data.begin(), data.end(), static_cast<uint8_t*>(buffer->mData));
+                AudioBuffer& buffer = ioData->mBuffers[i];
+                getData(buffer.mDataByteSize / (sampleSize * channels), data);
+                std::copy(data.begin(), data.end(), static_cast<uint8_t*>(buffer.mData));
             }
         }
     } // namespace audio
