@@ -106,7 +106,7 @@ namespace ouzel
             waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
             waveFormat.nChannels = channels;
             waveFormat.nSamplesPerSec = sampleRate;
-            waveFormat.wBitsPerSample = 32;
+            waveFormat.wBitsPerSample = sizeof(float) * 8;
             waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
             waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
             waveFormat.cbSize = 0;

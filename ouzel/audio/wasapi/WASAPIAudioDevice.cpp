@@ -189,10 +189,13 @@ namespace ouzel
             waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
             waveFormat.nChannels = channels;
             waveFormat.nSamplesPerSec = sampleRate;
-            waveFormat.wBitsPerSample = 32;
+            waveFormat.wBitsPerSample = sizeof(float) * 8;
             waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
             waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
             waveFormat.cbSize = 0;
+
+            sampleFormat = SampleFormat::FLOAT32;
+            sampleSize = sizeof(float);
 
             DWORD streamFlags = AUDCLNT_STREAMFLAGS_EVENTCALLBACK;
 
@@ -204,18 +207,13 @@ namespace ouzel
             if (FAILED(hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED, streamFlags, 0, 0, &waveFormat, nullptr)))
             {
                 waveFormat.wFormatTag = WAVE_FORMAT_PCM;
-                waveFormat.wBitsPerSample = 16;
+                waveFormat.wBitsPerSample = sizeof(int16_t) * 8;
 
                 if (FAILED(hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED, streamFlags, 0, 0, &waveFormat, nullptr)))
                     throw std::system_error(hr, wasapiErrorCategory, "Failed to initialize audio client");
 
                 sampleFormat = SampleFormat::SINT16;
                 sampleSize = sizeof(int16_t);
-            }
-            else
-            {
-                sampleFormat = SampleFormat::FLOAT32;
-                sampleSize = sizeof(float);
             }
 
             // init output device

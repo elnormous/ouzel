@@ -96,7 +96,7 @@ namespace ouzel
             dataFormat.formatType = SL_DATAFORMAT_PCM;
             dataFormat.numChannels = channels;
             dataFormat.samplesPerSec = sampleRate * 1000; //mHz
-            dataFormat.bitsPerSample = 16;
+            dataFormat.bitsPerSample = sizeof(int16_t) * 8;
             dataFormat.containerSize = dataFormat.bitsPerSample;
 
             switch (channels)

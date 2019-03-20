@@ -209,10 +209,13 @@ namespace ouzel
             streamDescription.mFormatFlags = kLinearPCMFormatFlagIsFloat;
             streamDescription.mChannelsPerFrame = channels;
             streamDescription.mFramesPerPacket = 1;
-            streamDescription.mBitsPerChannel = 32;
+            streamDescription.mBitsPerChannel = sizeof(float) * 8;
             streamDescription.mBytesPerFrame = streamDescription.mBitsPerChannel * streamDescription.mChannelsPerFrame / 8;
             streamDescription.mBytesPerPacket = streamDescription.mBytesPerFrame * streamDescription.mFramesPerPacket;
             streamDescription.mReserved = 0;
+
+            sampleFormat = SampleFormat::FLOAT32;
+            sampleSize = sizeof(float);
 
             if ((result = AudioUnitSetProperty(audioUnit,
                                                kAudioUnitProperty_StreamFormat,
@@ -221,7 +224,7 @@ namespace ouzel
                 engine->log(Log::Level::WARN) << "Failed to set CoreAudio unit stream format to float, error: " << result;
 
                 streamDescription.mFormatFlags = kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger;
-                streamDescription.mBitsPerChannel = 16;
+                streamDescription.mBitsPerChannel = sizeof(int16_t) * 8;
 
                 if ((result = AudioUnitSetProperty(audioUnit,
                                                    kAudioUnitProperty_StreamFormat,
@@ -230,11 +233,6 @@ namespace ouzel
 
                 sampleFormat = SampleFormat::SINT16;
                 sampleSize = sizeof(int16_t);
-            }
-            else
-            {
-                sampleFormat = SampleFormat::FLOAT32;
-                sampleSize = sizeof(float);
             }
 
             AURenderCallbackStruct callback;
