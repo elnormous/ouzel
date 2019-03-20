@@ -3,9 +3,9 @@
 #include <cassert>
 #include <cmath>
 #include "ShapeRenderer.hpp"
+#include "Camera.hpp"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
-#include "Camera.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -517,7 +517,10 @@ namespace ouzel
                         Vector2F position;
 
                         for (uint16_t n = 0; n < controlPoints.size(); ++n)
-                            position += static_cast<float>(binomialCoefficients[n]) * pow(t, static_cast<float>(n)) * pow(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) * controlPoints[n];
+                            position += static_cast<float>(binomialCoefficients[n]) *
+                                powf(t, static_cast<float>(n)) *
+                                powf(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) *
+                                controlPoints[n];
 
                         graphics::Vertex vertex(Vector3F(position), color, Vector2F(), Vector3F(0.0F, 0.0F, -1.0F));
 
