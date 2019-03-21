@@ -204,12 +204,25 @@ namespace ouzel
 
             CoTaskMemFree(audioClientWaveFormat);
 
-            if (FAILED(hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED, streamFlags, 0, 0, &waveFormat, nullptr)))
+            static constexpr uint64_t TIMES_PER_SECOND = 10000000;
+            REFERENCE_TIME bufferPeriod = static_cast<REFERENCE_TIME>(512 * TIMES_PER_SECOND / waveFormat->nSamplesPerSec);
+
+            if (FAILED(hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED,
+                                                    streamFlags,
+                                                    bufferPeriod,
+                                                    0,
+                                                    &waveFormat,
+                                                    nullptr)))
             {
                 waveFormat.wFormatTag = WAVE_FORMAT_PCM;
                 waveFormat.wBitsPerSample = sizeof(int16_t) * 8;
 
-                if (FAILED(hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED, streamFlags, 0, 0, &waveFormat, nullptr)))
+                if (FAILED(hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED,
+                                                        streamFlags,
+                                                        0,
+                                                        0,
+                                                        &waveFormat,
+                                                        nullptr)))
                     throw std::system_error(hr, wasapiErrorCategory, "Failed to initialize audio client");
 
                 sampleFormat = SampleFormat::SINT16;
