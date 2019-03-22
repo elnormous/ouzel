@@ -12,7 +12,9 @@ namespace ouzel
         class EmptyAudioDevice final: public AudioDevice
         {
         public:
-            explicit EmptyAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
+            explicit EmptyAudioDevice(uint32_t initBufferSize,
+                                      uint32_t initSampleRate,
+                                      const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
         };
     } // namespace audio
 } // namespace ouzel

@@ -7,8 +7,13 @@ namespace ouzel
     namespace audio
     {
         AudioDevice::AudioDevice(Driver initDriver,
+                                 uint32_t initBufferSize,
+                                 uint32_t initSampleRate,
                                  const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter):
-            driver(initDriver), dataGetter(initDataGetter)
+            driver(initDriver),
+            bufferSize(initBufferSize),
+            sampleRate(initSampleRate),
+            dataGetter(initDataGetter)
         {
         }
 

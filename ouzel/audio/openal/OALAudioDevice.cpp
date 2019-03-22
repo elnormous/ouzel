@@ -77,8 +77,10 @@ namespace ouzel
 
         const OpenALErrorCategory openALErrorCategory{};
 
-        OALAudioDevice::OALAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter):
-            AudioDevice(Driver::OPENAL, initDataGetter)
+        OALAudioDevice::OALAudioDevice(uint32_t initBufferSize,
+                                       uint32_t initSampleRate,
+                                       const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter):
+            AudioDevice(Driver::OPENAL, initBufferSize, initSampleRate, initDataGetter)
         {
 #if TARGET_OS_IOS || TARGET_OS_TV
             id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));

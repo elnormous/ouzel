@@ -47,9 +47,11 @@ namespace ouzel
 
         const XAudio2ErrorCategory xAudio2ErrorCategory {};
 
-        XA2AudioDevice::XA2AudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter,
+        XA2AudioDevice::XA2AudioDevice(uint32_t initBufferSize,
+                                       uint32_t initSampleRate,
+                                       const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter,
                                        bool debugAudio):
-            AudioDevice(Driver::XAUDIO2, initDataGetter)
+            AudioDevice(Driver::XAUDIO2, initBufferSize, initSampleRate, initDataGetter)
         {
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 

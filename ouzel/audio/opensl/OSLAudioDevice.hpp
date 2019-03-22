@@ -20,7 +20,9 @@ namespace ouzel
         class OSLAudioDevice final: public AudioDevice
         {
         public:
-            explicit OSLAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
+            explicit OSLAudioDevice(uint32_t initBufferSize,
+                                    uint32_t initSampleRate,
+                                    const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
             ~OSLAudioDevice();
 
             void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);

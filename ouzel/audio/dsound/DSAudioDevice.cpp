@@ -73,9 +73,11 @@ namespace ouzel
 
         const DirectSoundErrorCategory directSoundErrorCategory {};
 
-        DSAudioDevice::DSAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter,
+        DSAudioDevice::DSAudioDevice(uint32_t initBufferSize,
+                                     uint32_t initSampleRate,
+                                     const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter,
                                      Window* window):
-            AudioDevice(Driver::DIRECTSOUND, initDataGetter)
+            AudioDevice(Driver::DIRECTSOUND, initBufferSize, initSampleRate, initDataGetter)
         {
             HRESULT hr;
             if (FAILED(hr = DirectSoundEnumerateW(enumCallback, this)))

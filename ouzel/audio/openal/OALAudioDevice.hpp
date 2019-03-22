@@ -28,7 +28,9 @@ namespace ouzel
         class OALAudioDevice final: public AudioDevice
         {
         public:
-            explicit OALAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
+            explicit OALAudioDevice(uint32_t initBufferSize,
+                                    uint32_t initSampleRate,
+                                    const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
             ~OALAudioDevice();
 
             void process();

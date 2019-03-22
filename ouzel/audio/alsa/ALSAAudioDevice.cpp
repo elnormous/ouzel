@@ -14,8 +14,10 @@ namespace ouzel
 {
     namespace audio
     {
-        ALSAAudioDevice::ALSAAudioDevice(const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter):
-            AudioDevice(Driver::ALSA, initDataGetter)
+        ALSAAudioDevice::ALSAAudioDevice(uint32_t initBufferSize,
+                                         uint32_t initSampleRate,
+                                         const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter):
+            AudioDevice(Driver::ALSA, initBufferSize, initSampleRate, initDataGetter)
         {
             int result;
             if ((result = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
