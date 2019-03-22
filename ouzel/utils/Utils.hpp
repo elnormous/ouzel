@@ -9,6 +9,7 @@
 #include <limits>
 #include <random>
 #include <string>
+#include <thread>
 #include <type_traits>
 #include <vector>
 
@@ -99,6 +100,7 @@ namespace ouzel
     }
 
     void setCurrentThreadName(const std::string& name);
+    void setThreadPriority(std::thread& t, float priority, bool realtime);
 }
 
 #endif // OUZEL_UTILS_UTILS_HPP
