@@ -68,6 +68,8 @@ namespace ouzel
         if (!SetThreadPriority(t.native_handle(), priorities[static_cast<size_t>((priority + 1.0F) * 6.0F / 2.0F)]))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to set thread name");
 #else
+        if (priority < 0.0F) priority = 0.0F;
+
         int policy = realtime ? SCHED_RR : SCHED_OTHER;
 
         int minPriority = sched_get_priority_min(policy);
