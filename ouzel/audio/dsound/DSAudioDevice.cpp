@@ -75,9 +75,10 @@ namespace ouzel
 
         DSAudioDevice::DSAudioDevice(uint32_t initBufferSize,
                                      uint32_t initSampleRate,
+                                     uint16_t initChannels,
                                      const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter,
                                      Window* window):
-            AudioDevice(Driver::DIRECTSOUND, initBufferSize, initSampleRate, initDataGetter)
+            AudioDevice(Driver::DIRECTSOUND, initBufferSize, initSampleRate, initChannels, initDataGetter)
         {
             HRESULT hr;
             if (FAILED(hr = DirectSoundEnumerateW(enumCallback, this)))

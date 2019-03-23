@@ -79,8 +79,9 @@ namespace ouzel
 
         CAAudioDevice::CAAudioDevice(uint32_t initBufferSize,
                                      uint32_t initSampleRate,
+                                     uint16_t initChannels,
                                      const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter):
-            AudioDevice(Driver::COREAUDIO, initBufferSize, initSampleRate, initDataGetter)
+            AudioDevice(Driver::COREAUDIO, initBufferSize, initSampleRate, initChannels, initDataGetter)
         {
             OSStatus result;
 
