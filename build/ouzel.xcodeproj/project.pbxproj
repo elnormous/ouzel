@@ -92,12 +92,6 @@
 		3023200322184518007E0AAD /* Server.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30231FFE22184518007E0AAD /* Server.hpp */; };
 		3023200422184518007E0AAD /* Server.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30231FFE22184518007E0AAD /* Server.hpp */; };
 		3023201722220C70007E0AAD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3023201622220C70007E0AAD /* main.cpp */; };
-		302320222234BB5F007E0AAD /* Cue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302320202234BB5F007E0AAD /* Cue.cpp */; };
-		302320232234BB60007E0AAD /* Cue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302320202234BB5F007E0AAD /* Cue.cpp */; };
-		302320242234BB60007E0AAD /* Cue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302320202234BB5F007E0AAD /* Cue.cpp */; };
-		302320252234BB60007E0AAD /* Cue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302320212234BB5F007E0AAD /* Cue.hpp */; };
-		302320262234BB60007E0AAD /* Cue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302320212234BB5F007E0AAD /* Cue.hpp */; };
-		302320272234BB60007E0AAD /* Cue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302320212234BB5F007E0AAD /* Cue.hpp */; };
 		302B728421BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
 		302B728521BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
 		302B728621BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
@@ -915,8 +909,6 @@
 		30231FFE22184518007E0AAD /* Server.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Server.hpp; sourceTree = "<group>"; };
 		3023200D22220BCF007E0AAD /* ouzel */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ouzel; sourceTree = BUILT_PRODUCTS_DIR; };
 		3023201622220C70007E0AAD /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		302320202234BB5F007E0AAD /* Cue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cue.cpp; sourceTree = "<group>"; };
-		302320212234BB5F007E0AAD /* Cue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cue.hpp; sourceTree = "<group>"; };
 		302B728221BDE301006EBC59 /* SilenceSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SilenceSound.cpp; sourceTree = "<group>"; };
 		302B728321BDE302006EBC59 /* SilenceSound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SilenceSound.hpp; sourceTree = "<group>"; };
 		3030D5001DAEF1FA007CC8EB /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
@@ -1647,8 +1639,6 @@
 				30C758AC1F4A0196008499DC /* AudioDevice.hpp */,
 				30BA5FB72198E43A0032AC23 /* Channel.hpp */,
 				309BA3101F183D3D006F2240 /* coreaudio */,
-				302320202234BB5F007E0AAD /* Cue.cpp */,
-				302320212234BB5F007E0AAD /* Cue.hpp */,
 				30BA5FB52198E2610032AC23 /* Driver.hpp */,
 				30C3F26E219D0846003FE9ED /* Effect.cpp */,
 				30C3F270219D0847003FE9ED /* Effect.hpp */,
@@ -2001,7 +1991,6 @@
 				30381F881D80A3EC00677CAB /* OGLShader.hpp in Headers */,
 				303B755C1C2A3CB700FEDE92 /* Vector.hpp in Headers */,
 				303B756E1C2A3CCA00FEDE92 /* Utils.hpp in Headers */,
-				302320252234BB60007E0AAD /* Cue.hpp in Headers */,
 				30C3F28C219D0847003FE9ED /* Effect.hpp in Headers */,
 				30381FFD1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */,
 				30A3821321B4BDBC0043568A /* Mix.hpp in Headers */,
@@ -2240,7 +2229,6 @@
 				30A3821D21B4BDC80043568A /* Submix.hpp in Headers */,
 				C61B49F02174B83900B818F1 /* SkinnedMeshRenderer.hpp in Headers */,
 				30C758BA1F4A0309008499DC /* RenderDevice.hpp in Headers */,
-				302320272234BB60007E0AAD /* Cue.hpp in Headers */,
 				30419DEE1D162BDC00A63759 /* Voice.hpp in Headers */,
 				306672651F964A77004515F2 /* Light.hpp in Headers */,
 				30EF36581CA76AE200F04F29 /* ScrollBar.hpp in Headers */,
@@ -2268,7 +2256,6 @@
 				304A8E651C237C70008B1151 /* Renderer.hpp in Headers */,
 				306792F6211F98070006FF79 /* Bundle.hpp in Headers */,
 				30519CBC1F9B53AB00AF3DC4 /* WaveLoader.hpp in Headers */,
-				302320262234BB60007E0AAD /* Cue.hpp in Headers */,
 				306A26B71F5DD17700E2B0B6 /* Listener.hpp in Headers */,
 				304A8E501C237C70008B1151 /* ouzel.hpp in Headers */,
 				30575ABF1C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
@@ -2588,7 +2575,6 @@
 				304E76391F7095DE0025C0DB /* Client.cpp in Sources */,
 				303821691D81876E00677CAB /* EmptyAudioDevice.cpp in Sources */,
 				30381FB51D80A3F900677CAB /* OALAudioDevice.cpp in Sources */,
-				302320222234BB5F007E0AAD /* Cue.cpp in Sources */,
 				3009030621922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
 				30EEADC721618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
 				30724D821F353A0800D915ED /* ViewIOS.mm in Sources */,
@@ -2732,7 +2718,6 @@
 				304E763B1F7095DE0025C0DB /* Client.cpp in Sources */,
 				30EEADC121618DC400D2F525 /* KeyboardDevice.cpp in Sources */,
 				3038216B1D81876E00677CAB /* EmptyAudioDevice.cpp in Sources */,
-				302320242234BB60007E0AAD /* Cue.cpp in Sources */,
 				3009030821922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
 				30381FB71D80A3F900677CAB /* OALAudioDevice.cpp in Sources */,
 				300C39F21E51355000330E4F /* PcmSound.cpp in Sources */,
@@ -2984,7 +2969,6 @@
 				303696CD1E32DD9C007F4211 /* BlendState.cpp in Sources */,
 				30CEB37221A6403800525637 /* SystemMacOS.cpp in Sources */,
 				30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */,
-				302320232234BB60007E0AAD /* Cue.cpp in Sources */,
 				306A26B41F5DD17700E2B0B6 /* Listener.cpp in Sources */,
 				30519CC91F9B53C100AF3DC4 /* TtfLoader.cpp in Sources */,
 				30724D7E1F35366F00D915ED /* ViewMacOS.mm in Sources */,
