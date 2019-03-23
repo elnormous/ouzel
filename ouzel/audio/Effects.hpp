@@ -122,6 +122,30 @@ namespace ouzel
             Reverb(Reverb&&) = delete;
             Reverb& operator=(Reverb&&) = delete;
         };
+
+        class LowPass final: public Effect
+        {
+        public:
+            LowPass(Audio& initAudio);
+            ~LowPass();
+
+            LowPass(const LowPass&) = delete;
+            LowPass& operator=(const LowPass&) = delete;
+            LowPass(LowPass&&) = delete;
+            LowPass& operator=(LowPass&&) = delete;
+        };
+
+        class HighPass final: public Effect
+        {
+        public:
+            HighPass(Audio& initAudio);
+            ~HighPass();
+
+            HighPass(const HighPass&) = delete;
+            HighPass& operator=(const HighPass&) = delete;
+            HighPass(HighPass&&) = delete;
+            HighPass& operator=(HighPass&&) = delete;
+        };
     } // namespace audio
 } // namespace ouzel
 

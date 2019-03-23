@@ -286,5 +286,25 @@ namespace ouzel
         Reverb::~Reverb()
         {
         }
+
+        LowPass::LowPass(Audio& initAudio):
+            Effect(initAudio,
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>()))
+        {
+        }
+
+        LowPass::~LowPass()
+        {
+        }
+
+        HighPass::HighPass(Audio& initAudio):
+            Effect(initAudio,
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>()))
+        {
+        }
+
+        HighPass::~HighPass()
+        {
+        }
     } // namespace audio
 } // namespace ouzel
