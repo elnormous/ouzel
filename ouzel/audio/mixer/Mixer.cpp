@@ -103,7 +103,7 @@ namespace ouzel
                             auto playStreamCommand = static_cast<const PlayStreamCommand*>(command.get());
 
                             Stream* stream = static_cast<Stream*>(objects[playStreamCommand->streamId - 1].get());
-                            stream->play(playStreamCommand->repeat);
+                            stream->play();
                             break;
                         }
                         case Command::Type::STOP_STREAM:

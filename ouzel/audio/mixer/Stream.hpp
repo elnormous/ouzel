@@ -28,9 +28,8 @@ namespace ouzel
                 void setOutput(Bus* newOutput);
 
                 bool isPlaying() const { return playing; }
-                void play(bool repeat);
+                void play();
 
-                bool isRepeating() const { return repeating; }
                 void stop(bool shouldReset);
                 virtual void reset() = 0;
 
@@ -38,7 +37,6 @@ namespace ouzel
                 Source& source;
                 Bus* output = nullptr;
                 bool playing = false;
-                bool repeating = false;
             };
         }
     } // namespace audio

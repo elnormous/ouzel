@@ -107,10 +107,8 @@ namespace ouzel
                 uint32_t neededSize = frames;
                 uint32_t totalSize = 0;
 
-                while (neededSize > 0)
+                if (neededSize > 0)
                 {
-                    if (isRepeating() && (frameCount - position) == 0) reset();
-
                     if (frameCount - position < neededSize)
                     {
                         generateWave(oscillatorData.getType(), frameCount - position, position,
@@ -131,17 +129,15 @@ namespace ouzel
                         position += neededSize;
                         neededSize = 0;
                     }
-
-                    if (!isRepeating()) break;
                 }
 
                 if ((frameCount - position) == 0)
                 {
-                    if (!isRepeating()) playing = false; // TODO: fire event
+                    playing = false; // TODO: fire event
                     reset();
                 }
 
-                std::fill(samples.begin() + totalSize, samples.end(), 0.0F);
+                std::fill(samples.begin() + totalSize, samples.end(), 0.0F); // TODO: remove
             }
             else
             {

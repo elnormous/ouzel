@@ -66,10 +66,8 @@ namespace ouzel
 
             uint32_t totalSize = 0;
 
-            while (neededSize > 0)
+            if (neededSize > 0)
             {
-                if (isRepeating() && (data.size() - position) == 0) reset();
-
                 if (data.size() - position < neededSize)
                 {
                     std::copy(data.begin() + position,
@@ -88,17 +86,15 @@ namespace ouzel
                     position += neededSize;
                     neededSize = 0;
                 }
-
-                if (!isRepeating()) break;
             }
 
             if ((data.size() - position) == 0)
             {
-                if (!isRepeating()) playing = false; // TODO: fire event
+                playing = false; // TODO: fire event
                 reset();
             }
 
-            std::fill(samples.begin() + totalSize, samples.end(), 0.0F);
+            std::fill(samples.begin() + totalSize, samples.end(), 0.0F); // TODO: remove
         }
 
         PcmSound::PcmSound(Audio& initAudio, uint16_t channels, uint32_t sampleRate,

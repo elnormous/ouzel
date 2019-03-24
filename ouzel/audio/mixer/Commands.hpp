@@ -134,15 +134,12 @@ namespace ouzel
             class PlayStreamCommand final: public Command
             {
             public:
-                PlayStreamCommand(uintptr_t initStreamId,
-                                  bool initRepeat):
+                PlayStreamCommand(uintptr_t initStreamId):
                     Command(Command::Type::PLAY_STREAM),
-                    streamId(initStreamId),
-                    repeat(initRepeat)
+                    streamId(initStreamId)
                 {}
 
                 uintptr_t streamId;
-                bool repeat;
             };
 
             class StopStreamCommand final: public Command

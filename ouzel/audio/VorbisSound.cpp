@@ -81,7 +81,7 @@ namespace ouzel
 
             uint32_t totalSize = 0;
 
-            while (neededSize > 0)
+            if (neededSize > 0)
             {
                 if (vorbisStream->eof)
                     reset();
@@ -90,17 +90,15 @@ namespace ouzel
                                                                             samples.data() + totalSize, static_cast<int>(neededSize));
                 totalSize += static_cast<uint32_t>(resultFrames) * source.getChannels();
                 neededSize -= static_cast<uint32_t>(resultFrames) * source.getChannels();
-
-                if (!isRepeating()) break;
             }
 
             if (vorbisStream->eof)
             {
-                if (!isRepeating()) playing = false; // TODO: fire event
+                playing = false; // TODO: fire event
                 reset();
             }
 
-            std::fill(samples.begin() + totalSize, samples.end(), 0.0F);
+            std::fill(samples.begin() + totalSize, samples.end(), 0.0F); // TODO: remove
         }
 
         VorbisSound::VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData):

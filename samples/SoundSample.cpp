@@ -121,7 +121,7 @@ bool SoundSample::handleUI(const UIEvent& event)
         else if (event.actor == &test24BitButton)
              test24BitVoice.isPlaying() ? test24BitVoice.pause() : test24BitVoice.play();
         else if (event.actor == &jumpButton)
-             jumpVoice.isPlaying() ? jumpVoice.pause() : jumpVoice.play(true);
+             jumpVoice.isPlaying() ? jumpVoice.pause() : jumpVoice.play();
         else if (event.actor == &ambientButton)
              ambientVoice.isPlaying() ? ambientVoice.pause() : ambientVoice.play();
         else if (event.actor == &musicButton)

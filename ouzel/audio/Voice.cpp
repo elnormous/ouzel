@@ -23,12 +23,11 @@ namespace ouzel
                 audio.deleteObject(streamId);
         }
 
-        void Voice::play(bool repeat)
+        void Voice::play()
         {
-            audio.getMixer().addCommand(std::unique_ptr<mixer::Command>(new mixer::PlayStreamCommand(streamId, repeat)));
+            audio.getMixer().addCommand(std::unique_ptr<mixer::Command>(new mixer::PlayStreamCommand(streamId)));
 
             playing = true;
-            repeating = repeat;
 
             std::unique_ptr<SoundEvent> startEvent(new SoundEvent());
             startEvent->type = Event::Type::SOUND_START;

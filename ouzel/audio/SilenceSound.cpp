@@ -58,7 +58,7 @@ namespace ouzel
             SilenceData& silenceData = static_cast<SilenceData&>(source);
 
             samples.resize(frames);
-            std::fill(samples.begin(), samples.end(), 0.0F);
+            std::fill(samples.begin(), samples.end(), 0.0F); // TODO: fill only the needed samples
 
             const uint32_t sampleRate = source.getSampleRate();
             const float length = static_cast<SilenceData&>(silenceData).getLength();
@@ -68,10 +68,8 @@ namespace ouzel
                 const uint32_t frameCount = static_cast<uint32_t>(length * sampleRate);
                 uint32_t neededSize = frames;
 
-                while (neededSize > 0)
+                if (neededSize > 0)
                 {
-                    if (isRepeating() && (frameCount - position) == 0) reset();
-
                     if (frameCount - position < neededSize)
                     {
                         neededSize -= frameCount - position;
@@ -82,13 +80,11 @@ namespace ouzel
                         position += neededSize;
                         neededSize = 0;
                     }
-
-                    if (!isRepeating()) break;
                 }
 
                 if ((frameCount - position) == 0)
                 {
-                    if (!isRepeating()) playing = false; // TODO: fire event
+                    playing = false; // TODO: fire event
                     reset();
                 }
             }

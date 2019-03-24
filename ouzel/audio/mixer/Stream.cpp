@@ -27,10 +27,9 @@ namespace ouzel
                 if (output) output->addInput(this);
             }
 
-            void Stream::play(bool repeat)
+            void Stream::play()
             {
                 playing = true;
-                repeating = repeat;
             }
 
             void Stream::stop(bool shouldReset)
