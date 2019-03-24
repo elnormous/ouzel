@@ -5,6 +5,7 @@
 #include "Stream.hpp"
 #include "Source.hpp"
 #include "math/MathUtils.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -13,8 +14,9 @@ namespace ouzel
         namespace mixer
         {
             Mixer::Mixer(const std::function<void(const Event&)>& initCallback):
-                callback(initCallback)
+                callback(initCallback), mixerThread(&Mixer::main, this)
             {
+                setThreadPriority(mixerThread, 20.0F, true);
             }
 
             void Mixer::addCommand(std::unique_ptr<Command>&& command)
@@ -176,6 +178,8 @@ namespace ouzel
             {
                 for (;;)
                 {
+                    break; // TODO: remove
+
                     process();
 
                     if (masterBus)
