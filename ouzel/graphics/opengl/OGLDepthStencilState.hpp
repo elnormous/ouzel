@@ -43,21 +43,21 @@ namespace ouzel
 
             void reload() override {}
 
-            bool getDepthTest() const { return depthTest; }
-            GLboolean getDepthMask() const { return depthMask; }
-            GLenum getCompareFunction() const { return compareFunction; }
+            inline bool getDepthTest() const { return depthTest; }
+            inline GLboolean getDepthMask() const { return depthMask; }
+            inline GLenum getCompareFunction() const { return compareFunction; }
 
-            bool getStencilTest() const { return stencilTest; }
-            GLuint getStencilReadMask() const { return stencilReadMask; }
-            GLuint getStencilWriteMask() const { return stencilWriteMask; }
-            GLenum getFrontFaceFail() const { return frontFaceFail; }
-            GLenum getFrontFaceDepthFail() const { return frontFaceDepthFail; }
-            GLenum getFrontFacePass() const { return frontFacePass; }
-            GLenum getFrontFaceFunction() const { return frontFaceFunction; }
-            GLenum getBackFaceFail() const { return backFaceFail; }
-            GLenum getBackFaceDepthFail() const { return backFaceDepthFail; }
-            GLenum getBackFacePass() const { return backFacePass; }
-            GLenum getBackFaceFunction() const { return backFaceFunction; }
+            inline bool getStencilTest() const { return stencilTest; }
+            inline GLuint getStencilReadMask() const { return stencilReadMask; }
+            inline GLuint getStencilWriteMask() const { return stencilWriteMask; }
+            inline GLenum getFrontFaceFail() const { return frontFaceFail; }
+            inline GLenum getFrontFaceDepthFail() const { return frontFaceDepthFail; }
+            inline GLenum getFrontFacePass() const { return frontFacePass; }
+            inline GLenum getFrontFaceFunction() const { return frontFaceFunction; }
+            inline GLenum getBackFaceFail() const { return backFaceFail; }
+            inline GLenum getBackFaceDepthFail() const { return backFaceDepthFail; }
+            inline GLenum getBackFacePass() const { return backFacePass; }
+            inline GLenum getBackFaceFunction() const { return backFaceFunction; }
 
         private:
             bool depthTest = false;

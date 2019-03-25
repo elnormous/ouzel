@@ -27,7 +27,7 @@ namespace ouzel
             Sound(Sound&&) = delete;
             Sound& operator=(Sound&&) = delete;
 
-            uintptr_t getSourceId() const { return sourceId; }
+            inline uintptr_t getSourceId() const { return sourceId; }
 
         protected:
             Audio& audio;

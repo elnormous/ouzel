@@ -30,7 +30,7 @@ namespace ouzel
             Mix(Mix&&) = delete;
             Mix& operator=(Mix&&) = delete;
 
-            uintptr_t getBusId() const { return busId; }
+            inline uintptr_t getBusId() const { return busId; }
 
             void addEffect(Effect* effect);
             void removeEffect(Effect* effect);
