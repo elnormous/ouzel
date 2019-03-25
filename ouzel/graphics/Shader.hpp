@@ -9,6 +9,7 @@
 #include "graphics/GraphicsResource.hpp"
 #include "graphics/DataType.hpp"
 #include "graphics/Vertex.hpp"
+#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -46,7 +47,7 @@ namespace ouzel
                    const std::string& fragmentShaderFunction = "",
                    const std::string& vertexShaderFunction = "");
 
-            inline uintptr_t getResource() const { return resource.getId(); }
+            FORCEINLINE uintptr_t getResource() const { return resource.getId(); }
 
             const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const;
 

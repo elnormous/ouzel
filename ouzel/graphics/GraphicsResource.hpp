@@ -4,6 +4,7 @@
 #define OUZEL_GRAPHICS_GRAPHICSRESOURCE_HPP
 
 #include <cstdint>
+#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -43,12 +44,12 @@ namespace ouzel
                 return *this;
             }
 
-            Renderer* getRenderer() const
+            FORCEINLINE Renderer* getRenderer() const
             {
                 return renderer;
             }
 
-            uintptr_t getId() const
+            FORCEINLINE uintptr_t getId() const
             {
                 return id;
             }

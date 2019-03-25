@@ -8,6 +8,7 @@
 #include "graphics/GraphicsResource.hpp"
 #include "math/Color.hpp"
 #include "math/Size.hpp"
+#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -27,10 +28,10 @@ namespace ouzel
                          const std::vector<std::shared_ptr<Texture>>& initColorTextures,
                          const std::shared_ptr<Texture>& initDepthTexture);
 
-            inline uintptr_t getResource() const { return resource.getId(); }
+            FORCEINLINE uintptr_t getResource() const { return resource.getId(); }
 
-            inline const std::vector<std::shared_ptr<Texture>>& getColorTextures() const { return colorTextures; }
-            inline const std::shared_ptr<Texture>& getDepthTexture() const { return depthTexture; }
+            FORCEINLINE const std::vector<std::shared_ptr<Texture>>& getColorTextures() const { return colorTextures; }
+            FORCEINLINE const std::shared_ptr<Texture>& getDepthTexture() const { return depthTexture; }
 
         private:
             Resource resource;

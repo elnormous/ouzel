@@ -537,6 +537,9 @@
     <ClInclude Include="..\ouzel\utils\Ini.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\utils\Inline.h">
+      <Filter>ouzel\utils</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\input\InputManager.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>

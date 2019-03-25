@@ -8,6 +8,7 @@
 #include "graphics/PixelFormat.hpp"
 #include "math/Color.hpp"
 #include "math/Size.hpp"
+#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -90,34 +91,34 @@ namespace ouzel
                     uint32_t newFlags = 0,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            inline uintptr_t getResource() const { return resource.getId(); }
+            FORCEINLINE uintptr_t getResource() const { return resource.getId(); }
 
-            inline const Size2U& getSize() const { return size; }
+            FORCEINLINE const Size2U& getSize() const { return size; }
 
             void setData(const std::vector<uint8_t>& newData);
             void setData(const std::vector<uint8_t>& newData, CubeFace face);
 
-            inline uint32_t getFlags() const { return flags; }
-            inline uint32_t getMipmaps() const { return mipmaps; }
+            FORCEINLINE uint32_t getFlags() const { return flags; }
+            FORCEINLINE uint32_t getMipmaps() const { return mipmaps; }
 
-            inline Filter getFilter() const { return filter; }
+            FORCEINLINE Filter getFilter() const { return filter; }
             void setFilter(Filter newFilter);
 
-            inline Address getAddressX() const { return addressX; }
+            FORCEINLINE Address getAddressX() const { return addressX; }
             void setAddressX(Address newAddressX);
 
-            inline Address getAddressY() const { return addressY; }
+            FORCEINLINE Address getAddressY() const { return addressY; }
             void setAddressY(Address newAddressY);
 
-            inline Address getAddressZ() const { return addressZ; }
+            FORCEINLINE Address getAddressZ() const { return addressZ; }
             void setAddressZ(Address newAddressZ);
 
-            inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
+            FORCEINLINE uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
             void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
-            inline uint32_t getSampleCount() const { return sampleCount; }
+            FORCEINLINE uint32_t getSampleCount() const { return sampleCount; }
 
-            inline PixelFormat getPixelFormat() const { return pixelFormat; }
+            FORCEINLINE PixelFormat getPixelFormat() const { return pixelFormat; }
 
         private:
             Resource resource;

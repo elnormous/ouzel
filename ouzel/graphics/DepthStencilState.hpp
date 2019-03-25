@@ -4,6 +4,7 @@
 #define OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
 
 #include "graphics/GraphicsResource.hpp"
+#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -61,7 +62,7 @@ namespace ouzel
                               const StencilDescriptor& initFrontFaceStencil,
                               const StencilDescriptor& initBackFaceStencil);
 
-            inline uintptr_t getResource() const { return resource.getId(); }
+            FORCEINLINE uintptr_t getResource() const { return resource.getId(); }
 
         private:
             Resource resource;
