@@ -47,7 +47,7 @@ namespace ouzel
                    const std::string& fragmentShaderFunction = "",
                    const std::string& vertexShaderFunction = "");
 
-            FORCEINLINE uintptr_t getResource() const { return resource.getId(); }
+            ALWAYSINLINE uintptr_t getResource() const { return resource.getId(); }
 
             const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const;
 

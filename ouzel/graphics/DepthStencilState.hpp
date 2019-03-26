@@ -62,7 +62,7 @@ namespace ouzel
                               const StencilDescriptor& initFrontFaceStencil,
                               const StencilDescriptor& initBackFaceStencil);
 
-            FORCEINLINE uintptr_t getResource() const { return resource.getId(); }
+            ALWAYSINLINE uintptr_t getResource() const { return resource.getId(); }
 
         private:
             Resource resource;

@@ -63,18 +63,18 @@ namespace ouzel
                        Operation initAlphaOperation,
                        uint8_t initColorMask = COLOR_MASK_ALL);
 
-            FORCEINLINE uintptr_t getResource() const { return resource.getId(); }
+            ALWAYSINLINE uintptr_t getResource() const { return resource.getId(); }
 
-            FORCEINLINE bool isBlendingEnabled() const { return enableBlending; }
+            ALWAYSINLINE bool isBlendingEnabled() const { return enableBlending; }
 
-            FORCEINLINE BlendState::Factor getColorBlendSource() const { return colorBlendSource; }
-            FORCEINLINE BlendState::Factor getColorBlendDest() const { return colorBlendDest; }
-            FORCEINLINE BlendState::Operation getColorOperation() const { return colorOperation; }
-            FORCEINLINE BlendState::Factor getAlphaBlendSource() const { return alphaBlendSource; }
-            FORCEINLINE BlendState::Factor getAlphaBlendDest() const { return alphaBlendDest; }
-            FORCEINLINE BlendState::Operation getAlphaOperation() const { return alphaOperation; }
+            ALWAYSINLINE BlendState::Factor getColorBlendSource() const { return colorBlendSource; }
+            ALWAYSINLINE BlendState::Factor getColorBlendDest() const { return colorBlendDest; }
+            ALWAYSINLINE BlendState::Operation getColorOperation() const { return colorOperation; }
+            ALWAYSINLINE BlendState::Factor getAlphaBlendSource() const { return alphaBlendSource; }
+            ALWAYSINLINE BlendState::Factor getAlphaBlendDest() const { return alphaBlendDest; }
+            ALWAYSINLINE BlendState::Operation getAlphaOperation() const { return alphaOperation; }
 
-            FORCEINLINE uint8_t getColorMask() const { return colorMask; }
+            ALWAYSINLINE uint8_t getColorMask() const { return colorMask; }
 
         private:
             Resource resource;

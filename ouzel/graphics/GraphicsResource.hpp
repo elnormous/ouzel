@@ -44,12 +44,12 @@ namespace ouzel
                 return *this;
             }
 
-            FORCEINLINE Renderer* getRenderer() const
+            ALWAYSINLINE Renderer* getRenderer() const
             {
                 return renderer;
             }
 
-            FORCEINLINE uintptr_t getId() const
+            ALWAYSINLINE uintptr_t getId() const
             {
                 return id;
             }

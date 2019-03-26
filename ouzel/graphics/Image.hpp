@@ -27,9 +27,9 @@ namespace ouzel
             {
             }
 
-            FORCEINLINE PixelFormat getPixelFormat() const { return pixelFormat; }
-            FORCEINLINE const Size2U& getSize() const { return size; }
-            FORCEINLINE const std::vector<uint8_t>& getData() const { return data; }
+            ALWAYSINLINE PixelFormat getPixelFormat() const { return pixelFormat; }
+            ALWAYSINLINE const Size2U& getSize() const { return size; }
+            ALWAYSINLINE const std::vector<uint8_t>& getData() const { return data; }
 
         private:
             PixelFormat pixelFormat = PixelFormat::DEFAULT;

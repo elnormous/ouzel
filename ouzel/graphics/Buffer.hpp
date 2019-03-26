@@ -40,11 +40,11 @@ namespace ouzel
             void setData(const void* newData, uint32_t newSize);
             void setData(const std::vector<uint8_t>& newData);
 
-            FORCEINLINE uintptr_t getResource() const { return resource.getId(); }
+            ALWAYSINLINE uintptr_t getResource() const { return resource.getId(); }
 
-            FORCEINLINE Usage getUsage() const { return usage; }
-            FORCEINLINE uint32_t getFlags() const { return flags; }
-            FORCEINLINE uint32_t getSize() const { return size; }
+            ALWAYSINLINE Usage getUsage() const { return usage; }
+            ALWAYSINLINE uint32_t getFlags() const { return flags; }
+            ALWAYSINLINE uint32_t getSize() const { return size; }
 
         private:
             Resource resource;
