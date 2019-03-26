@@ -180,12 +180,12 @@ namespace ouzel
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
-        T getMin() const
+        inline T getMin() const
         {
             return *std::min_element(std::begin(v), std::end(v));
         }
 
-        T getMax() const
+        inline T getMax() const
         {
             return *std::max_element(std::begin(v), std::end(v));
         }

@@ -191,8 +191,8 @@ namespace ouzel
 
             virtual ~OGLRenderDevice();
 
-            bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
-            bool isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }
+            inline bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
+            inline bool isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }
 
             inline void setFrontFace(GLenum mode)
             {

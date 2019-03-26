@@ -79,13 +79,13 @@ namespace ouzel
 
             void executeCommand(const Command& command) override;
 
-            KeyboardDeviceWin* getKeyboardDevice() const { return keyboardDevice.get(); }
-            MouseDeviceWin* getMouseDevice() const { return mouseDevice.get(); }
-            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
+            inline KeyboardDeviceWin* getKeyboardDevice() const { return keyboardDevice.get(); }
+            inline MouseDeviceWin* getMouseDevice() const { return mouseDevice.get(); }
+            inline TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
 
             void update();
 
-            IDirectInput8W* getDirectInput() const { return directInput; }
+            inline IDirectInput8W* getDirectInput() const { return directInput; }
             void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
 
             void updateCursor() const;

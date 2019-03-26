@@ -32,7 +32,7 @@ namespace ouzel
             inline Buffer::Usage getUsage() const { return usage; }
             inline UINT getSize() const { return size; }
 
-            ID3D11Buffer* getBuffer() const { return buffer; }
+            inline ID3D11Buffer* getBuffer() const { return buffer; }
 
         private:
             void createBuffer(UINT newSize, const std::vector<uint8_t>& data);

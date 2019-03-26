@@ -22,11 +22,11 @@ namespace ouzel
             }
 
             void setPosition(const Vector2F& position);
-            bool isCursorVisible() const { return cursorVisible; }
+            inline bool isCursorVisible() const { return cursorVisible; }
             void setCursorVisible(bool newVisible);
             void setCursorLocked(bool locked);
 
-            CursorMacOS* getCursor() const { return cursor; }
+            inline CursorMacOS* getCursor() const { return cursor; }
             void setCursor(CursorMacOS* newCursor);
 
         private:

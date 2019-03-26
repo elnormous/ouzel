@@ -29,11 +29,11 @@ namespace ouzel
 
             void executeCommand(const Command& command) override;
 
-            KeyboardDeviceLinux* getKeyboardDevice() const { return keyboardDevice.get(); }
-            MouseDeviceLinux* getMouseDevice() const { return mouseDevice.get(); }
-            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
+            inline KeyboardDeviceLinux* getKeyboardDevice() const { return keyboardDevice.get(); }
+            inline MouseDeviceLinux* getMouseDevice() const { return mouseDevice.get(); }
+            inline TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
 
-            uint32_t getNextDeviceId() { return ++lastDeviceId; }
+            inline uint32_t getNextDeviceId() { return ++lastDeviceId; }
 
             void update();
 

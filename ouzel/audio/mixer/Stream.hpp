@@ -27,7 +27,7 @@ namespace ouzel
 
                 void setOutput(Bus* newOutput);
 
-                bool isPlaying() const { return playing; }
+                inline bool isPlaying() const { return playing; }
                 void play();
 
                 void stop(bool shouldReset);

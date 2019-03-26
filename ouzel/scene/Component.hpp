@@ -59,8 +59,8 @@ namespace ouzel
             virtual bool pointOn(const Vector2F& position) const;
             virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
 
-            bool isHidden() const { return hidden; }
-            void setHidden(bool newHidden) { hidden = newHidden; }
+            inline bool isHidden() const { return hidden; }
+            inline void setHidden(bool newHidden) { hidden = newHidden; }
 
             inline Actor* getActor() const { return actor; }
             void removeFromActor();

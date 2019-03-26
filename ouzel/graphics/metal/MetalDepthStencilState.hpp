@@ -40,7 +40,7 @@ namespace ouzel
                                    const DepthStencilState::StencilDescriptor& initBackFaceStencil);
             ~MetalDepthStencilState();
 
-            MTLDepthStencilStatePtr getDepthStencilState() const { return depthStencilState; }
+            inline MTLDepthStencilStatePtr getDepthStencilState() const { return depthStencilState; }
 
         private:
             MTLDepthStencilStatePtr depthStencilState = nil;

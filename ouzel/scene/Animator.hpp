@@ -28,8 +28,8 @@ namespace ouzel
             virtual void stop(bool resetAnimation = false);
             virtual void reset();
 
-            bool isRunning() const { return running; }
-            bool isDone() const { return done; }
+            inline bool isRunning() const { return running; }
+            inline bool isDone() const { return done; }
 
             inline float getLength() const { return length; }
             inline float getCurrentTime() const { return currentTime; }

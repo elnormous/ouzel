@@ -17,7 +17,7 @@ namespace ouzel
             void setEnabled(bool newEnabled) override;
 
             void setChecked(bool newChecked);
-            bool isChecked() const { return checked; }
+            inline bool isChecked() const { return checked; }
 
         private:
             bool pointerOver = false;

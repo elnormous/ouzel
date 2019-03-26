@@ -54,13 +54,13 @@ namespace ouzel
 
         void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
 
-        JavaVM* getJavaVM() const { return javaVM; }
-        jobject getMainActivity() const { return mainActivity; }
-        jobject getSurface() const { return surface; }
-        AAssetManager* getAssetManager() const { return assetManager; }
+        inline JavaVM* getJavaVM() const { return javaVM; }
+        inline jobject getMainActivity() const { return mainActivity; }
+        inline jobject getSurface() const { return surface; }
+        inline AAssetManager* getAssetManager() const { return assetManager; }
 
-        const std::string& getFilesDirectory() const { return filesDirectory; }
-        const std::string& getCacheDirectory() const { return cacheDirectory; }
+        inline const std::string& getFilesDirectory() const { return filesDirectory; }
+        inline const std::string& getCacheDirectory() const { return cacheDirectory; }
 
         void executeAll();
 

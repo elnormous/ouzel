@@ -111,9 +111,9 @@ namespace ouzel
 
             void executeCommand(const Command& command) override;
 
-            KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
-            MouseDeviceMacOS* getMouseDevice() const { return mouseDevice.get(); }
-            TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
+            inline KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
+            inline MouseDeviceMacOS* getMouseDevice() const { return mouseDevice.get(); }
+            inline TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
 
             void handleGamepadDiscoveryCompleted();
 

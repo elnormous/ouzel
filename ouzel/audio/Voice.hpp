@@ -28,17 +28,17 @@ namespace ouzel
 
             inline const std::shared_ptr<Sound>& getSound() const { return sound; }
 
-            const Vector3F& getPosition() const { return position; }
-            void setPosition(const Vector3F& newPosition) { position = newPosition; }
+            inline const Vector3F& getPosition() const { return position; }
+            inline void setPosition(const Vector3F& newPosition) { position = newPosition; }
 
-            const Vector3F& getVelocity() const { return velocity; }
-            void setVelocity(const Vector3F& newVelocity) { velocity = newVelocity; }
+            inline const Vector3F& getVelocity() const { return velocity; }
+            inline void setVelocity(const Vector3F& newVelocity) { velocity = newVelocity; }
 
             void play();
             void pause();
             void stop();
 
-            bool isPlaying() const { return playing; }
+            inline bool isPlaying() const { return playing; }
 
             void setOutput(Mix* newOutput);
 

@@ -31,7 +31,7 @@ namespace ouzel
                                    const DepthStencilState::StencilDescriptor& initBackFaceStencil);
             ~D3D11DepthStencilState();
 
-            ID3D11DepthStencilState* getDepthStencilState() const { return depthStencilState; }
+            inline ID3D11DepthStencilState* getDepthStencilState() const { return depthStencilState; }
 
         private:
             ID3D11DepthStencilState* depthStencilState = nullptr;

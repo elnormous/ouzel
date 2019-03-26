@@ -28,7 +28,7 @@ namespace ouzel
                             const Vector2F& hotSpot);
             ~CursorWin();
 
-            HCURSOR getCursor() const { return cursor; }
+            inline HCURSOR getCursor() const { return cursor; }
 
         private:
             HCURSOR cursor = nullptr;

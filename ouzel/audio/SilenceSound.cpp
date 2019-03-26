@@ -37,7 +37,7 @@ namespace ouzel
                 sampleRate = 44100;
             }
 
-            float getLength() const { return length; }
+            inline float getLength() const { return length; }
 
             std::unique_ptr<mixer::Stream> createStream() override
             {

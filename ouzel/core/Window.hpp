@@ -44,9 +44,9 @@ namespace ouzel
         inline bool isResizable() const { return resizable; }
 
         void setFullscreen(bool newFullscreen);
-        bool isFullscreen() const { return fullscreen; }
+        inline bool isFullscreen() const { return fullscreen; }
 
-        bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
+        inline bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
 
         inline const std::string& getTitle() const { return title; }
         void setTitle(const std::string& newTitle);

@@ -89,10 +89,10 @@ namespace ouzel
         virtual void openURL(const std::string& url);
 
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
-        bool isScreenSaverEnabled() const { return screenSaverEnabled; }
+        inline bool isScreenSaverEnabled() const { return screenSaverEnabled; }
 
-        bool isOneUpdatePerFrame() const { return oneUpdatePerFrame; }
-        void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
+        inline bool isOneUpdatePerFrame() const { return oneUpdatePerFrame; }
+        inline void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
 
     protected:
         class Command final

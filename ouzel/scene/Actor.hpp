@@ -40,7 +40,7 @@ namespace ouzel
             virtual void setPosition(const Vector3F& newPosition);
 
             inline int32_t getOrder() const { return order; }
-            void setOrder(int32_t newOrder) { order = newOrder; }
+            inline void setOrder(int32_t newOrder) { order = newOrder; }
 
             virtual const QuaternionF& getRotation() const { return rotation; }
             virtual void setRotation(const QuaternionF& newRotation);
@@ -68,7 +68,7 @@ namespace ouzel
 
             virtual bool isHidden() const { return hidden; }
             virtual void setHidden(bool newHidden);
-            bool isWorldHidden() const { return worldHidden; }
+            inline bool isWorldHidden() const { return worldHidden; }
 
             virtual bool pointOn(const Vector2F& worldPosition) const;
             virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;

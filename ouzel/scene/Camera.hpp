@@ -43,18 +43,18 @@ namespace ouzel
             ~Camera();
 
             inline ProjectionMode getProjectionMode() const { return projectionMode; }
-            void setProjectionMode(ProjectionMode newProjectionMode) { projectionMode = newProjectionMode; }
+            inline void setProjectionMode(ProjectionMode newProjectionMode) { projectionMode = newProjectionMode; }
 
             inline float getFOV() const { return fov; }
-            void setFOV(float newFOV) { fov = newFOV; }
+            inline void setFOV(float newFOV) { fov = newFOV; }
 
             inline float getNearPlane() const { return nearPlane; }
-            void setNearPlane(float newNearPlane) { nearPlane = newNearPlane; }
+            inline void setNearPlane(float newNearPlane) { nearPlane = newNearPlane; }
 
             inline float getFarPlane() const { return farPlane; }
-            void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
+            inline void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
 
-            const Matrix4F& getProjection() const { return projection; }
+            inline const Matrix4F& getProjection() const { return projection; }
             void recalculateProjection();
 
             const Matrix4F& getViewProjection() const;
@@ -87,29 +87,29 @@ namespace ouzel
             void setDepthTest(bool newDepthTest);
             inline const std::shared_ptr<graphics::DepthStencilState>& getDepthStencilState() const { return depthStencilState; }
 
-            uint32_t getStencilReferenceValue() const { return stencilReferenceValue; }
-            void setStencilReferenceValue(uint32_t newStencilReferenceValue) { stencilReferenceValue = newStencilReferenceValue; }
+            inline uint32_t getStencilReferenceValue() const { return stencilReferenceValue; }
+            inline void setStencilReferenceValue(uint32_t newStencilReferenceValue) { stencilReferenceValue = newStencilReferenceValue; }
 
             inline bool getWireframe() const { return wireframe; }
             inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
             inline bool getClearColorBuffer() const { return clearColorBuffer; }
-            void setClearColorBuffer(bool clear) { clearColorBuffer = clear; }
+            inline void setClearColorBuffer(bool clear) { clearColorBuffer = clear; }
 
             inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
+            inline void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
 
             inline bool getClearStencilBuffer() const { return clearStencilBuffer; }
-            void setClearStencilBuffer(bool clear) { clearStencilBuffer = clear; }
+            inline void setClearStencilBuffer(bool clear) { clearStencilBuffer = clear; }
 
             inline Color getClearColor() const { return clearColor; }
-            void setClearColor(Color color) { clearColor = color; }
+            inline void setClearColor(Color color) { clearColor = color; }
 
             inline float getClearDepth() const { return clearDepth; }
-            void setClearDepth(float depth) { clearDepth = depth; }
+            inline void setClearDepth(float depth) { clearDepth = depth; }
 
             inline uint32_t getClearStencil() const { return clearStencil; }
-            void setClearDepth(uint32_t stencil) { clearStencil = stencil; }
+            inline void setClearDepth(uint32_t stencil) { clearStencil = stencil; }
 
         private:
             void setActor(Actor* newActor) override;

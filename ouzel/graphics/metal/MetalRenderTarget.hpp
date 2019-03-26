@@ -42,13 +42,13 @@ namespace ouzel
                                        MetalTexture* initDepthTexture);
             ~MetalRenderTarget();
 
-            const std::set<MetalTexture*>& getColorTextures() const { return colorTextures; }
-            MetalTexture* getDepthTexture() const { return depthTexture; }
+            inline const std::set<MetalTexture*>& getColorTextures() const { return colorTextures; }
+            inline MetalTexture* getDepthTexture() const { return depthTexture; }
 
-            NSUInteger getSampleCount() const { return sampleCount; }
-            const std::vector<MTLPixelFormat>& getColorFormats() const { return colorFormats; }
-            MTLPixelFormat getDepthFormat() const { return depthFormat; }
-            MTLPixelFormat getStencilFormat() const { return stencilFormat; }
+            inline NSUInteger getSampleCount() const { return sampleCount; }
+            inline const std::vector<MTLPixelFormat>& getColorFormats() const { return colorFormats; }
+            inline MTLPixelFormat getDepthFormat() const { return depthFormat; }
+            inline MTLPixelFormat getStencilFormat() const { return stencilFormat; }
 
             inline MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 

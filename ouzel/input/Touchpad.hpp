@@ -20,7 +20,7 @@ namespace ouzel
         public:
             Touchpad(InputManager& initInputManager, uint32_t initDeviceId, bool initScreen);
 
-            bool isScreen() const { return screen; }
+            inline bool isScreen() const { return screen; }
 
         protected:
             bool handleTouchBegin(uint64_t touchId, const Vector2F& position, float force = 1.0F);

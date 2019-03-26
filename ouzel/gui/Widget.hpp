@@ -20,9 +20,9 @@ namespace ouzel
             inline Menu* getMenu() const { return menu; }
 
             virtual void setEnabled(bool newEnabled);
-            bool isEnabled() const { return enabled; }
+            inline bool isEnabled() const { return enabled; }
 
-            bool isSelected() const { return selected; }
+            inline bool isSelected() const { return selected; }
 
         protected:
             virtual void setSelected(bool newSelected);
