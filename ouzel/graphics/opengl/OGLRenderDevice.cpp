@@ -800,6 +800,7 @@ namespace ouzel
             OGLShader* currentShader = nullptr;
 
             CommandBuffer commandBuffer;
+            std::unique_ptr<Command> command;
 
             for (;;)
             {
@@ -808,8 +809,6 @@ namespace ouzel
                 commandBuffer = std::move(commandQueue.front());
                 commandQueue.pop();
                 lock.unlock();
-
-                std::unique_ptr<Command> command;
 
                 while (!commandBuffer.isEmpty())
                 {

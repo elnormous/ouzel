@@ -50,8 +50,6 @@ namespace ouzel
                 Mixer(Mixer&&) = delete;
                 Mixer& operator=(Mixer&&) = delete;
 
-                void addCommand(std::unique_ptr<Command>&& command);
-
                 void process();
                 void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
 
@@ -74,6 +72,13 @@ namespace ouzel
                     deletedObjectIds.insert(objectId);
                 }
 
+                void submitCommandBuffer(CommandBuffer&& commandBuffer)
+                {
+                    std::unique_lock<std::mutex> lock(commandQueueMutex);
+                    commandQueue.push(std::forward<CommandBuffer>(commandBuffer));
+                    lock.unlock();
+                }
+                
             private:
                 void main();
 
@@ -85,8 +90,6 @@ namespace ouzel
                 std::vector<std::unique_ptr<Object>> objects;
 
                 Bus* masterBus = nullptr;
-                std::mutex commandMutex;
-                std::queue<std::unique_ptr<Command>> commandQueue;
 
                 std::thread mixerThread;
                 std::vector<float> buffer;
@@ -94,6 +97,9 @@ namespace ouzel
                 std::condition_variable bufferCondition;
                 size_t readPosition = 0;
                 size_t writePosition = 0;
+
+                std::queue<CommandBuffer> commandQueue;
+                std::mutex commandQueueMutex;
             };
         }
     } // namespace audio

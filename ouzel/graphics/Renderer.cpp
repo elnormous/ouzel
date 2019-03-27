@@ -242,7 +242,10 @@ namespace ouzel
                                         CullMode cullMode,
                                         FillMode fillMode)
         {
-            addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState, shader, cullMode, fillMode)));
+            addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState,
+                                                                            shader,
+                                                                            cullMode,
+                                                                            fillMode)));
         }
 
         void Renderer::draw(uintptr_t indexBuffer,

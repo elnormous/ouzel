@@ -49,7 +49,6 @@ namespace ouzel
             {
                 commandBuffer.pushCommand(std::move(command));
             }
-            void flush();
 
             void deleteObject(uintptr_t objectId);
             uintptr_t initBus();
@@ -63,9 +62,9 @@ namespace ouzel
             void eventCallback(const mixer::Mixer::Event& event);
 
             mixer::Mixer mixer;
-            Mix masterMix;
             std::unique_ptr<AudioDevice> device;
             mixer::CommandBuffer commandBuffer;
+            Mix masterMix;
         };
     } // namespace audio
 } // namespace ouzel

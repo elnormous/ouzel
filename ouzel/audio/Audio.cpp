@@ -156,7 +156,7 @@ namespace ouzel
             masterMix(*this),
             device(createAudioDevice(driver, mixer, debugAudio, window))
         {
-            mixer.addCommand(std::unique_ptr<mixer::Command>(new mixer::SetMasterBusCommand(masterMix.getBusId())));
+            addCommand(std::unique_ptr<mixer::Command>(new mixer::SetMasterBusCommand(masterMix.getBusId())));
         }
 
         Audio::~Audio()
@@ -166,51 +166,50 @@ namespace ouzel
         void Audio::update()
         {
             // TODO: handle events from the audio device
-        }
 
-        void Audio::flush()
-        {
-            // TODO: pass command buffer to the audio device
+            mixer.submitCommandBuffer(std::move(commandBuffer));
+            commandBuffer = mixer::CommandBuffer();
         }
 
         void Audio::deleteObject(uintptr_t objectId)
         {
-            mixer.addCommand(std::unique_ptr<mixer::Command>(new mixer::DeleteObjectCommand(objectId)));
+            addCommand(std::unique_ptr<mixer::Command>(new mixer::DeleteObjectCommand(objectId)));
         }
 
         uintptr_t Audio::initBus()
         {
             uintptr_t busId = mixer.getObjectId();
-            mixer.addCommand(std::unique_ptr<mixer::Command>(new mixer::InitBusCommand(busId)));
+            addCommand(std::unique_ptr<mixer::Command>(new mixer::InitBusCommand(busId)));
             return busId;
         }
 
         uintptr_t Audio::initStream(uintptr_t sourceId)
         {
             uintptr_t streamId = mixer.getObjectId();
-            mixer.addCommand(std::unique_ptr<mixer::Command>(new mixer::InitStreamCommand(streamId, sourceId)));
+            addCommand(std::unique_ptr<mixer::Command>(new mixer::InitStreamCommand(streamId, sourceId)));
             return streamId;
         }
 
         uintptr_t Audio::initSource(const std::function<std::unique_ptr<mixer::Source>()>& initFunction)
         {
             uintptr_t sourceId = mixer.getObjectId();
-            mixer.addCommand(std::unique_ptr<mixer::Command>(new mixer::InitSourceCommand(sourceId,
-                                                                                          initFunction)));
+            addCommand(std::unique_ptr<mixer::Command>(new mixer::InitSourceCommand(sourceId,
+                                                                                    initFunction)));
             return sourceId;
         }
 
         uintptr_t Audio::initProcessor(std::unique_ptr<mixer::Processor>&& processor)
         {
             uintptr_t processorId = mixer.getObjectId();
-            mixer.addCommand(std::unique_ptr<mixer::Command>(new mixer::InitProcessorCommand(processorId,
-                                                                                             std::forward<std::unique_ptr<mixer::Processor>>(processor))));
+            addCommand(std::unique_ptr<mixer::Command>(new mixer::InitProcessorCommand(processorId,
+                                                                                       std::forward<std::unique_ptr<mixer::Processor>>(processor))));
             return processorId;
         }
 
         void Audio::updateProcessor(uintptr_t processorId, const std::function<void(mixer::Processor*)>& updateFunction)
         {
-            mixer.addCommand(std::unique_ptr<mixer::Command>(new mixer::UpdateProcessorCommand(processorId, updateFunction)));
+            addCommand(std::unique_ptr<mixer::Command>(new mixer::UpdateProcessorCommand(processorId,
+                                                                                         updateFunction)));
         }
 
         void Audio::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)

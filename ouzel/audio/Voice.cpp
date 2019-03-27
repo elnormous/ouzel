@@ -25,7 +25,7 @@ namespace ouzel
 
         void Voice::play()
         {
-            audio.getMixer().addCommand(std::unique_ptr<mixer::Command>(new mixer::PlayStreamCommand(streamId)));
+            audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::PlayStreamCommand(streamId)));
 
             playing = true;
 
@@ -37,14 +37,14 @@ namespace ouzel
 
         void Voice::pause()
         {
-            audio.getMixer().addCommand(std::unique_ptr<mixer::Command>(new mixer::StopStreamCommand(streamId, false)));
+            audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::StopStreamCommand(streamId, false)));
 
             playing = false;
         }
 
         void Voice::stop()
         {
-            audio.getMixer().addCommand(std::unique_ptr<mixer::Command>(new mixer::StopStreamCommand(streamId, true)));
+            audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::StopStreamCommand(streamId, true)));
 
             playing = false;
         }
@@ -75,8 +75,8 @@ namespace ouzel
             output = newOutput;
             if (output) output->addInput(this);
 
-            audio.getMixer().addCommand(std::unique_ptr<mixer::Command>(new mixer::SetStreamOutputCommand(streamId,
-                                                                                                          output ? output->getBusId() : 0)));
+            audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::SetStreamOutputCommand(streamId,
+                                                                                               output ? output->getBusId() : 0)));
         }
     } // namespace audio
 } // namespace ouzel
