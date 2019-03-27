@@ -10,6 +10,7 @@
 #include <vector>
 #include "audio/Driver.hpp"
 #include "audio/Mix.hpp"
+#include "audio/mixer/Commands.hpp"
 #include "audio/mixer/Processor.hpp"
 #include "audio/mixer/Mixer.hpp"
 #include "math/Quaternion.hpp"
@@ -44,6 +45,12 @@ namespace ouzel
 
             void update();
 
+            inline void addCommand(std::unique_ptr<mixer::Command>&& command)
+            {
+                commandBuffer.pushCommand(std::move(command));
+            }
+            void flush();
+
             void deleteObject(uintptr_t objectId);
             uintptr_t initBus();
             uintptr_t initStream(uintptr_t sourceId);
@@ -58,6 +65,7 @@ namespace ouzel
             mixer::Mixer mixer;
             Mix masterMix;
             std::unique_ptr<AudioDevice> device;
+            mixer::CommandBuffer commandBuffer;
         };
     } // namespace audio
 } // namespace ouzel

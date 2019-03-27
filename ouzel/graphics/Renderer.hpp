@@ -79,11 +79,12 @@ namespace ouzel
             void setShaderConstants(std::vector<std::vector<float>> fragmentShaderConstants,
                                     std::vector<std::vector<float>> vertexShaderConstants);
             void setTextures(const std::vector<uintptr_t>& textures);
-            void present();
+
             inline void addCommand(std::unique_ptr<Command>&& command)
             {
                 commandBuffer.pushCommand(std::move(command));
             }
+            void present();
 
             inline uintptr_t getResourceId()
             {

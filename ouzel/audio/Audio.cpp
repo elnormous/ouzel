@@ -168,6 +168,11 @@ namespace ouzel
             // TODO: handle events from the audio device
         }
 
+        void Audio::flush()
+        {
+            // TODO: pass command buffer to the audio device
+        }
+
         void Audio::deleteObject(uintptr_t objectId)
         {
             mixer.addCommand(std::unique_ptr<mixer::Command>(new mixer::DeleteObjectCommand(objectId)));
