@@ -24,7 +24,6 @@ namespace ouzel
                 std::unique_lock<std::mutex> lock(commandMutex);
                 commandQueue.push(std::move(command));
                 lock.unlock();
-                commandConditionVariable.notify_all();
             }
 
             void Mixer::process()

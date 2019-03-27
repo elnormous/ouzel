@@ -86,7 +86,6 @@ namespace ouzel
 
                 Bus* masterBus = nullptr;
                 std::mutex commandMutex;
-                std::condition_variable commandConditionVariable;
                 std::queue<std::unique_ptr<Command>> commandQueue;
 
                 std::thread mixerThread;
