@@ -91,8 +91,7 @@ namespace ouzel
             {
                 size = static_cast<GLsizeiptr>(data.size());
 
-                renderDevice.glBufferDataProc(bufferType, size, data.data(),
-                                              (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                renderDevice.glBufferDataProc(bufferType, size, data.data(), GL_DYNAMIC_DRAW);
 
                 GLenum error;
 
