@@ -152,7 +152,7 @@ namespace ouzel
         Log& operator<<(const Matrix<N, M, T>& val)
         {
             bool first = true;
-            
+
             for (T c : val.m)
             {
                 if (!first) s += ",";

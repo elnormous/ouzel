@@ -298,13 +298,13 @@ namespace ouzel
         {
             projectionTransform = Matrix4F(1.0F, 0.0F, 0.0F, 0.0F,
                                            0.0F, 1.0F, 0.0F, 0.0F,
-                                           0.0F, 0.0F, 2.0F, -1.0F,
-                                           0.0F, 0.0F, 0.0F, 1.0F);
+                                           0.0F, 0.0F, 2.0F, 0.0F,
+                                           0.0F, 0.0F, -1.0F, 1.0F);
 
             renderTargetProjectionTransform = Matrix4F(1.0F, 0.0F, 0.0F, 0.0F,
                                                        0.0F, -1.0F, 0.0F, 0.0F,
-                                                       0.0F, 0.0F, 2.0F, -1.0F,
-                                                       0.0F, 0.0F, 0.0F, 1.0F);
+                                                       0.0F, 0.0F, 2.0F, 0.0F,
+                                                       0.0F, 0.0F, -1.0F, 1.0F);
         }
 
         OGLRenderDevice::~OGLRenderDevice()
