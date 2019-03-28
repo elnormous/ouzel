@@ -151,10 +151,14 @@ namespace ouzel
         template<size_t N, size_t M, class T>
         Log& operator<<(const Matrix<N, M, T>& val)
         {
-            s += std::to_string(val.m[0]) + "," + std::to_string(val.m[1]) + "," + std::to_string(val.m[2]) + "," + std::to_string(val.m[3]) + "\n" +
-                std::to_string(val.m[4]) + "," + std::to_string(val.m[5]) + "," + std::to_string(val.m[6]) + "," + std::to_string(val.m[7]) + "\n" +
-                std::to_string(val.m[8]) + "," + std::to_string(val.m[9]) + "," + std::to_string(val.m[10]) + "," + std::to_string(val.m[11]) + "\n" +
-                std::to_string(val.m[12]) + "," + std::to_string(val.m[13]) + "," + std::to_string(val.m[14]) + "," + std::to_string(val.m[15]);
+            bool first = true;
+            
+            for (T c : val.m)
+            {
+                if (!first) s += ",";
+                first = false;
+                s += std::to_string(c);
+            }
 
             return *this;
         }
