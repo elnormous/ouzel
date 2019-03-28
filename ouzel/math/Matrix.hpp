@@ -18,7 +18,7 @@ namespace ouzel
     {
     public:
 #if defined(__SSE__)
-        alignas((C == 4 && R == 4) ? 16 : alignof(T))
+        alignas((C == 4 && R == 4) ? 4 * sizeof(T) : alignof(T))
 #endif
         T m[C * R];
 
