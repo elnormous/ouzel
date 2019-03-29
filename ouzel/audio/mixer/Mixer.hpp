@@ -42,7 +42,9 @@ namespace ouzel
                     uintptr_t objectId;
                 };
 
-                Mixer(const std::function<void(const Event&)>& initCallback);
+                Mixer(uint32_t initBufferSize,
+                      uint16_t initChannels,
+                      const std::function<void(const Event&)>& initCallback);
 
                 Mixer(const Mixer&) = delete;
                 Mixer& operator=(const Mixer&) = delete;
@@ -82,6 +84,8 @@ namespace ouzel
             private:
                 void main();
 
+                uint32_t bufferSize;
+                uint16_t channels;
                 std::function<void(const Event&)> callback;
 
                 uintptr_t lastObjectId = 0;

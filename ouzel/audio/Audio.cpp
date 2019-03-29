@@ -102,10 +102,10 @@ namespace ouzel
             return availableDrivers;
         }
 
-        static std::unique_ptr<AudioDevice> createAudioDevice(Driver driver, mixer::Mixer& mixer, bool debugAudio, Window* window)
+        static std::unique_ptr<AudioDevice> createAudioDevice(Driver driver,
+                                                              const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& dataGetter,
+                                                              bool debugAudio, Window* window)
         {
-            auto dataGetter = std::bind(&mixer::Mixer::getData, &mixer, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-
             switch (driver)
             {
 #if OUZEL_COMPILE_OPENAL
@@ -152,9 +152,12 @@ namespace ouzel
         }
 
         Audio::Audio(Driver driver, bool debugAudio, Window* window):
-            mixer(std::bind(&Audio::eventCallback, this, std::placeholders::_1)),
-            masterMix(*this),
-            device(createAudioDevice(driver, mixer, debugAudio, window))
+            device(createAudioDevice(driver,
+                                     std::bind(&Audio::getData, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4),
+                                     debugAudio, window)),
+            mixer(device->getBufferSize(), device->getChannels(),
+                  std::bind(&Audio::eventCallback, this, std::placeholders::_1)),
+            masterMix(*this)
         {
             addCommand(std::unique_ptr<mixer::Command>(new mixer::SetMasterBusCommand(masterMix.getBusId())));
         }
@@ -214,7 +217,6 @@ namespace ouzel
 
         void Audio::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
-            mixer.process();
             mixer.getData(frames, channels, sampleRate, samples);
         }
 

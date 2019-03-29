@@ -13,8 +13,10 @@ namespace ouzel
     {
         namespace mixer
         {
-            Mixer::Mixer(const std::function<void(const Event&)>& initCallback):
-                callback(initCallback), mixerThread(&Mixer::main, this)
+            Mixer::Mixer(uint32_t initBufferSize,
+                         uint16_t initChannels,
+                         const std::function<void(const Event&)>& initCallback):
+                bufferSize(initBufferSize), channels(initChannels), callback(initCallback), mixerThread(&Mixer::main, this)
             {
                 //setThreadPriority(mixerThread, 20.0F, true);
             }

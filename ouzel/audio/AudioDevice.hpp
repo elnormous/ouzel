@@ -32,6 +32,10 @@ namespace ouzel
             inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
+            inline uint32_t getBufferSize() const { return bufferSize; }
+            inline uint32_t getSampleRate() const { return sampleRate; }
+            inline uint16_t getChannels() const { return channels; }
+
         protected:
             void getData(uint32_t frames, std::vector<uint8_t>& result);
 

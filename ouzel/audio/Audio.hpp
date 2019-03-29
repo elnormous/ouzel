@@ -61,8 +61,8 @@ namespace ouzel
             void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
             void eventCallback(const mixer::Mixer::Event& event);
 
-            mixer::Mixer mixer;
             std::unique_ptr<AudioDevice> device;
+            mixer::Mixer mixer;
             mixer::CommandBuffer commandBuffer;
             Mix masterMix;
         };
