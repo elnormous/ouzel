@@ -84,11 +84,9 @@ namespace ouzel
 #if OUZEL_COMPILE_OPENGL
                 availableDrivers.insert(Driver::OPENGL);
 #endif
-
 #if OUZEL_COMPILE_DIRECT3D11
                 availableDrivers.insert(Driver::DIRECT3D11);
 #endif
-
 #if OUZEL_COMPILE_METAL
                 if (MetalRenderDevice::available())
                     availableDrivers.insert(Driver::METAL);

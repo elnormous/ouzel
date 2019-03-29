@@ -74,23 +74,18 @@ namespace ouzel
 #if OUZEL_COMPILE_OPENAL
                 availableDrivers.insert(Driver::OPENAL);
 #endif
-
 #if OUZEL_COMPILE_DIRECTSOUND
                 availableDrivers.insert(Driver::DIRECTSOUND);
 #endif
-
 #if OUZEL_COMPILE_XAUDIO2
                 availableDrivers.insert(Driver::XAUDIO2);
 #endif
-
 #if OUZEL_COMPILE_OPENSL
                 availableDrivers.insert(Driver::OPENSL);
 #endif
-
 #if OUZEL_COMPILE_COREAUDIO
                 availableDrivers.insert(Driver::COREAUDIO);
 #endif
-
 #if OUZEL_COMPILE_ALSA
                 availableDrivers.insert(Driver::ALSA);
 #endif
