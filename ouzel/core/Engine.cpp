@@ -569,45 +569,55 @@ namespace ouzel
 
         std::shared_ptr<graphics::BlendState> noBlendState = std::make_shared<graphics::BlendState>(*renderer,
                                                                                                     false,
-                                                                                                    graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ZERO,
+                                                                                                    graphics::BlendState::Factor::ONE,
+                                                                                                    graphics::BlendState::Factor::ZERO,
                                                                                                     graphics::BlendState::Operation::ADD,
-                                                                                                    graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ZERO,
+                                                                                                    graphics::BlendState::Factor::ONE,
+                                                                                                    graphics::BlendState::Factor::ZERO,
                                                                                                     graphics::BlendState::Operation::ADD);
 
         assetBundle.setBlendState(BLEND_NO_BLEND, noBlendState);
 
         std::shared_ptr<graphics::BlendState> addBlendState = std::make_shared<graphics::BlendState>(*renderer,
                                                                                                      true,
-                                                                                                     graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
+                                                                                                     graphics::BlendState::Factor::ONE,
+                                                                                                     graphics::BlendState::Factor::ONE,
                                                                                                      graphics::BlendState::Operation::ADD,
-                                                                                                     graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
+                                                                                                     graphics::BlendState::Factor::ONE,
+                                                                                                     graphics::BlendState::Factor::ONE,
                                                                                                      graphics::BlendState::Operation::ADD);
 
         assetBundle.setBlendState(BLEND_ADD, addBlendState);
 
         std::shared_ptr<graphics::BlendState> multiplyBlendState = std::make_shared<graphics::BlendState>(*renderer,
                                                                                                           true,
-                                                                                                          graphics::BlendState::Factor::DEST_COLOR, graphics::BlendState::Factor::ZERO,
+                                                                                                          graphics::BlendState::Factor::DEST_COLOR,
+                                                                                                          graphics::BlendState::Factor::ZERO,
                                                                                                           graphics::BlendState::Operation::ADD,
-                                                                                                          graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
+                                                                                                          graphics::BlendState::Factor::ONE,
+                                                                                                          graphics::BlendState::Factor::ONE,
                                                                                                           graphics::BlendState::Operation::ADD);
 
         assetBundle.setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
         std::shared_ptr<graphics::BlendState> alphaBlendState = std::make_shared<graphics::BlendState>(*renderer,
                                                                                                        true,
-                                                                                                       graphics::BlendState::Factor::SRC_ALPHA, graphics::BlendState::Factor::INV_SRC_ALPHA,
+                                                                                                       graphics::BlendState::Factor::SRC_ALPHA,
+                                                                                                       graphics::BlendState::Factor::INV_SRC_ALPHA,
                                                                                                        graphics::BlendState::Operation::ADD,
-                                                                                                       graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
+                                                                                                       graphics::BlendState::Factor::ONE,
+                                                                                                       graphics::BlendState::Factor::ONE,
                                                                                                        graphics::BlendState::Operation::ADD);
 
         assetBundle.setBlendState(BLEND_ALPHA, alphaBlendState);
 
         std::shared_ptr<graphics::BlendState> screenBlendState = std::make_shared<graphics::BlendState>(*renderer,
                                                                                                         true,
-                                                                                                        graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::INV_SRC_COLOR,
+                                                                                                        graphics::BlendState::Factor::ONE,
+                                                                                                        graphics::BlendState::Factor::INV_SRC_COLOR,
                                                                                                         graphics::BlendState::Operation::ADD,
-                                                                                                        graphics::BlendState::Factor::ONE, graphics::BlendState::Factor::ONE,
+                                                                                                        graphics::BlendState::Factor::ONE,
+                                                                                                        graphics::BlendState::Factor::ONE,
                                                                                                         graphics::BlendState::Operation::ADD);
 
         assetBundle.setBlendState(BLEND_SCREEN, screenBlendState);
