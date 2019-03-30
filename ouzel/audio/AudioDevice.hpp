@@ -43,9 +43,9 @@ namespace ouzel
             uint16_t apiMinorVersion = 0;
 
             SampleFormat sampleFormat = SampleFormat::SINT16;
-            uint32_t bufferSize = 2 * 4096;
-            uint32_t sampleRate = 44100;
-            uint16_t channels = 2;
+            uint32_t bufferSize;
+            uint32_t sampleRate;
+            uint16_t channels;
 
         private:
             Driver driver;
