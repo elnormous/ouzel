@@ -19,7 +19,10 @@ namespace ouzel
                         uint32_t initBufferSize,
                         uint32_t initSampleRate,
                         uint16_t initChannels, // zero for maximum available channels
-                        const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& initDataGetter);
+                        const std::function<void(uint32_t frames,
+                                                 uint16_t channels,
+                                                 uint32_t sampleRate,
+                                                 std::vector<float>& samples)>& initDataGetter);
             virtual ~AudioDevice();
 
             AudioDevice(const AudioDevice&) = delete;
@@ -43,7 +46,7 @@ namespace ouzel
             uint16_t apiMinorVersion = 0;
 
             SampleFormat sampleFormat = SampleFormat::SINT16;
-            uint32_t bufferSize;
+            uint32_t bufferSize; // in frames
             uint32_t sampleRate;
             uint16_t channels;
 
