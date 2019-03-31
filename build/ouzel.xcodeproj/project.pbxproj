@@ -505,6 +505,12 @@
 		30575ADB1C3B48740009C8A7 /* EventDispatcher.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.hpp */; };
 		30575ADC1C3B48740009C8A7 /* EventDispatcher.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.hpp */; };
 		30575ADD1C3B48740009C8A7 /* EventDispatcher.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.hpp */; };
+		305B11382250413900EDA4F5 /* Containers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B11362250413900EDA4F5 /* Containers.cpp */; };
+		305B11392250413900EDA4F5 /* Containers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B11362250413900EDA4F5 /* Containers.cpp */; };
+		305B113A2250413900EDA4F5 /* Containers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B11362250413900EDA4F5 /* Containers.cpp */; };
+		305B113B2250413900EDA4F5 /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B11372250413900EDA4F5 /* Containers.hpp */; };
+		305B113C2250413900EDA4F5 /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B11372250413900EDA4F5 /* Containers.hpp */; };
+		305B113D2250413900EDA4F5 /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B11372250413900EDA4F5 /* Containers.hpp */; };
 		305B68D31ED1B31D003352A2 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B68D11ED1B31D003352A2 /* Timer.cpp */; };
 		305B68D41ED1B31D003352A2 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B68D11ED1B31D003352A2 /* Timer.cpp */; };
 		305B68D51ED1B31D003352A2 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B68D11ED1B31D003352A2 /* Timer.cpp */; };
@@ -1074,6 +1080,8 @@
 		30575ACC1C3B175D0009C8A7 /* Label.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Label.hpp; sourceTree = "<group>"; };
 		30575AD61C3B48740009C8A7 /* EventDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventDispatcher.cpp; sourceTree = "<group>"; };
 		30575AD71C3B48740009C8A7 /* EventDispatcher.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventDispatcher.hpp; sourceTree = "<group>"; };
+		305B11362250413900EDA4F5 /* Containers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Containers.cpp; sourceTree = "<group>"; };
+		305B11372250413900EDA4F5 /* Containers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Containers.hpp; sourceTree = "<group>"; };
 		305B68D11ED1B31D003352A2 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
 		305B68D21ED1B31D003352A2 /* Timer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timer.hpp; sourceTree = "<group>"; };
 		305B99871C41EFFA008589E1 /* Menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Menu.cpp; sourceTree = "<group>"; };
@@ -1639,6 +1647,8 @@
 				30C758AB1F4A0196008499DC /* AudioDevice.cpp */,
 				30C758AC1F4A0196008499DC /* AudioDevice.hpp */,
 				30BA5FB72198E43A0032AC23 /* Channel.hpp */,
+				305B11362250413900EDA4F5 /* Containers.cpp */,
+				305B11372250413900EDA4F5 /* Containers.hpp */,
 				309BA3101F183D3D006F2240 /* coreaudio */,
 				30BA5FB52198E2610032AC23 /* Driver.hpp */,
 				30C3F26E219D0846003FE9ED /* Effect.cpp */,
@@ -2038,6 +2048,7 @@
 				303B754E1C2A3CB700FEDE92 /* MathUtils.hpp in Headers */,
 				303696C71E32DD8F007F4211 /* Texture.hpp in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHandler.hpp in Headers */,
+				305B113B2250413900EDA4F5 /* Containers.hpp in Headers */,
 				301B30F2223D5B44005E000B /* Base64.hpp in Headers */,
 				303B75821C2B17DC00FEDE92 /* Event.hpp in Headers */,
 				303B75411C2A3C9200FEDE92 /* Image.hpp in Headers */,
@@ -2231,6 +2242,7 @@
 				30A3821D21B4BDC80043568A /* Submix.hpp in Headers */,
 				C61B49F02174B83900B818F1 /* SkinnedMeshRenderer.hpp in Headers */,
 				30C758BA1F4A0309008499DC /* RenderDevice.hpp in Headers */,
+				305B113D2250413900EDA4F5 /* Containers.hpp in Headers */,
 				30419DEE1D162BDC00A63759 /* Voice.hpp in Headers */,
 				306672651F964A77004515F2 /* Light.hpp in Headers */,
 				30EF36581CA76AE200F04F29 /* ScrollBar.hpp in Headers */,
@@ -2251,6 +2263,7 @@
 				305B999F1C42A695008589E1 /* BMFont.hpp in Headers */,
 				30419DEC1D162BDC00A63759 /* Voice.hpp in Headers */,
 				C61B49EF2174B83900B818F1 /* SkinnedMeshRenderer.hpp in Headers */,
+				305B113C2250413900EDA4F5 /* Containers.hpp in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix.hpp in Headers */,
 				301B30F3223D5B44005E000B /* Base64.hpp in Headers */,
 				303820861D816C9E00677CAB /* NativeWindowMacOS.hpp in Headers */,
@@ -2497,6 +2510,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -2686,6 +2700,7 @@
 				30C56C661CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
 				30575AD91C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				3030D5021DAEF1FA007CC8EB /* Log.cpp in Sources */,
+				305B11382250413900EDA4F5 /* Containers.cpp in Sources */,
 				303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				C6C9101A21B54B5B00B5FCB7 /* Source.cpp in Sources */,
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
@@ -2829,6 +2844,7 @@
 				3030D5041DAEF1FA007CC8EB /* Log.cpp in Sources */,
 				303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */,
+				305B113A2250413900EDA4F5 /* Containers.cpp in Sources */,
 				C6C9101C21B54B5B00B5FCB7 /* Source.cpp in Sources */,
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
 				303B76541C355A3B00FEDE92 /* Actor.cpp in Sources */,
@@ -2947,6 +2963,7 @@
 				30419DF11D162BEF00A63759 /* Sound.cpp in Sources */,
 				3031C1351F0C4350002CA717 /* VorbisSound.cpp in Sources */,
 				C6C9103A21B572C100B5FCB7 /* Processor.cpp in Sources */,
+				305B11392250413900EDA4F5 /* Containers.cpp in Sources */,
 				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				30381F6E1D80A3EC00677CAB /* OGLBuffer.cpp in Sources */,
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,

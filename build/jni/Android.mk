@@ -41,6 +41,7 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/audio/opensl/OSLAudioDevice.cpp \
     ../../ouzel/audio/Audio.cpp \
     ../../ouzel/audio/AudioDevice.cpp \
+	../../ouzel/audio/Containers.cpp \
 	../../ouzel/audio/Effect.cpp \
 	../../ouzel/audio/Effects.cpp \
     ../../ouzel/audio/Listener.cpp \

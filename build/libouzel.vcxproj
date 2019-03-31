@@ -35,6 +35,7 @@
     <ClCompile Include="..\ouzel\audio\AudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\DSAudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\EmptyAudioDevice.cpp" />
+    <ClCompile Include="..\ouzel\audio\Containers.cpp" />
     <ClCompile Include="..\ouzel\audio\Effect.cpp" />
     <ClCompile Include="..\ouzel\audio\Effects.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="..\ouzel\audio\Driver.hpp" />
     <ClInclude Include="..\ouzel\audio\dsound\DSAudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\empty\EmptyAudioDevice.hpp" />
+    <ClInclude Include="..\ouzel\audio\Containers.hpp" />
     <ClInclude Include="..\ouzel\audio\Effect.hpp" />
     <ClInclude Include="..\ouzel\audio\Effects.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Bus.hpp" />
