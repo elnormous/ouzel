@@ -46,7 +46,7 @@
     <ClCompile Include="..\ouzel\audio\SilenceSound.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
     <ClCompile Include="..\ouzel\audio\Oscillator.cpp" />
-    <ClCompile Include="..\ouzel\audio\VorbisSound.cpp" />
+    <ClCompile Include="..\ouzel\audio\VorbisClip.cpp" />
     <ClCompile Include="..\ouzel\audio\PcmSound.cpp" />
     <ClCompile Include="..\ouzel\audio\Mix.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Stream.cpp" />
@@ -202,7 +202,7 @@
     <ClInclude Include="..\ouzel\audio\SilenceSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
     <ClInclude Include="..\ouzel\audio\Oscillator.hpp" />
-    <ClInclude Include="..\ouzel\audio\VorbisSound.hpp" />
+    <ClInclude Include="..\ouzel\audio\VorbisClip.hpp" />
     <ClInclude Include="..\ouzel\audio\PcmSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Mix.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Stream.hpp" />

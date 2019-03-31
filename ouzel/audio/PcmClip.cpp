@@ -2,7 +2,7 @@
 
 #include <iterator>
 #include <stdexcept>
-#include "PcmSound.hpp"
+#include "PcmClip.hpp"
 #include "Audio.hpp"
 #include "mixer/Stream.hpp"
 #include "mixer/Source.hpp"
@@ -97,8 +97,8 @@ namespace ouzel
             std::fill(samples.begin() + totalSize, samples.end(), 0.0F); // TODO: remove
         }
 
-        PcmSound::PcmSound(Audio& initAudio, uint16_t channels, uint32_t sampleRate,
-                           const std::vector<float>& samples):
+        PcmClip::PcmClip(Audio& initAudio, uint16_t channels, uint32_t sampleRate,
+                          const std::vector<float>& samples):
             Sound(initAudio, initAudio.initSource([channels, sampleRate, samples](){
                 return std::unique_ptr<mixer::Source>(new PcmData(channels, sampleRate, samples));
             }))

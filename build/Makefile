@@ -74,7 +74,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Submix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Voice.cpp \
-	$(ROOT_DIR)/../ouzel/audio/VorbisSound.cpp \
+	$(ROOT_DIR)/../ouzel/audio/VorbisClip.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
 	$(ROOT_DIR)/../ouzel/core/System.cpp \
 	$(ROOT_DIR)/../ouzel/core/NativeWindow.cpp \

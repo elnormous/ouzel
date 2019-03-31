@@ -1,7 +1,7 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <stdexcept>
-#include "VorbisSound.hpp"
+#include "VorbisClip.hpp"
 #include "Audio.hpp"
 #include "mixer/Stream.hpp"
 #include "mixer/Source.hpp"
@@ -101,7 +101,7 @@ namespace ouzel
             std::fill(samples.begin() + totalSize, samples.end(), 0.0F); // TODO: remove
         }
 
-        VorbisSound::VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData):
+        VorbisClip::VorbisClip(Audio& initAudio, const std::vector<uint8_t>& initData):
             Sound(initAudio, initAudio.initSource([initData](){
                 return std::unique_ptr<mixer::Source>(new VorbisData(initData));
             }))

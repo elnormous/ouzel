@@ -11,10 +11,10 @@ namespace ouzel
 {
     namespace audio
     {
-        class VorbisSound final: public Sound
+        class VorbisClip final: public Sound
         {
         public:
-            VorbisSound(Audio& initAudio, const std::vector<uint8_t>& initData);
+            VorbisClip(Audio& initAudio, const std::vector<uint8_t>& initData);
         };
     } // namespace audio
 } // namespace ouzel
