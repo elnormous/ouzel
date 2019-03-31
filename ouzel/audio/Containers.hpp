@@ -17,11 +17,6 @@ namespace ouzel
         public:
         };
 
-        class Repeat final
-        {
-        public:
-        };
-
         class Sequence final
         {
         public:
