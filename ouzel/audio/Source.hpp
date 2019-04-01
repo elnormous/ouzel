@@ -3,11 +3,14 @@
 #ifndef OUZEL_AUDIO_SOURCE_HPP
 #define OUZEL_AUDIO_SOURCE_HPP
 
+#include <vector>
+
 namespace ouzel
 {
     namespace audio
     {
         class Audio;
+        class Effect;
 
         class Source
         {
@@ -24,9 +27,14 @@ namespace ouzel
 
             inline uintptr_t getSourceId() const { return sourceId; }
 
+            void addEffect(Effect* effect);
+            void removeEffect(Effect* effect);
+            
         protected:
             Audio& audio;
             uintptr_t sourceId = 0;
+
+            std::vector<Effect*> effects;
         };
     } // namespace audio
 } // namespace ouzel
