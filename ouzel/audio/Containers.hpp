@@ -3,21 +3,48 @@
 #ifndef OUZEL_AUDIO_CONTAINERS_HPP
 #define OUZEL_AUDIO_CONTAINERS_HPP
 
+#include <algorithm>
+#include <vector>
+#include "audio/Source.hpp"
+
 namespace ouzel
 {
     namespace audio
     {
-        class Parallel final
+        class Container: public Source
+        {
+        public:
+            void addSource(Source* source)
+            {
+                auto i = std::find(sources.begin(), sources.end(), source);
+
+                if (i == sources.end())
+                    sources.push_back(source);
+            }
+
+            void removeSource(Source* source)
+            {
+                auto i = std::find(sources.begin(), sources.end(), source);
+
+                if (i != sources.end())
+                    sources.erase(i);
+            }
+
+        private:
+            std::vector<Source*> sources;
+        };
+
+        class Parallel final: public Container
         {
         public:
         };
 
-        class Random final
+        class Random final: public Container
         {
         public:
         };
 
-        class Sequence final
+        class Sequence final: public Container
         {
         public:
         };
