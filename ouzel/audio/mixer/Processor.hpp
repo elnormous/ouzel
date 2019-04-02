@@ -19,7 +19,11 @@ namespace ouzel
                 Processor()
                 {
                 }
-                ~Processor();
+
+                ~Processor()
+                {
+                    if (bus) bus->removeProcessor(this);
+                }
 
                 Processor(const Processor&) = delete;
                 Processor& operator=(const Processor&) = delete;

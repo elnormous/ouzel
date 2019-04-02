@@ -40,7 +40,6 @@
     <ClCompile Include="..\ouzel\audio\Effects.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp" />
-    <ClCompile Include="..\ouzel\audio\mixer\Processor.cpp" />
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
     <ClCompile Include="..\ouzel\audio\Voice.cpp" />
     <ClCompile Include="..\ouzel\audio\SilenceSound.cpp" />
@@ -50,7 +49,6 @@
     <ClCompile Include="..\ouzel\audio\PcmClip.cpp" />
     <ClCompile Include="..\ouzel\audio\Mix.cpp" />
     <ClCompile Include="..\ouzel\audio\mixer\Stream.cpp" />
-    <ClCompile Include="..\ouzel\audio\mixer\Source.cpp" />
     <ClCompile Include="..\ouzel\audio\Submix.cpp" />
     <ClCompile Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\XA2AudioDevice.cpp" />
@@ -195,7 +193,6 @@
     <ClInclude Include="..\ouzel\audio\mixer\Commands.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Processor.hpp" />
     <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
     <ClInclude Include="..\ouzel\audio\Voice.hpp" />
@@ -206,7 +203,6 @@
     <ClInclude Include="..\ouzel\audio\PcmClip.hpp" />
     <ClInclude Include="..\ouzel\audio\Mix.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Stream.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Source.hpp" />
     <ClInclude Include="..\ouzel\audio\Submix.hpp" />
     <ClInclude Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XA2AudioDevice.hpp" />
