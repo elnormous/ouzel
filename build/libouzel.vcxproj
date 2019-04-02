@@ -183,6 +183,7 @@
     <ClInclude Include="..\ouzel\audio\Audio.hpp" />
     <ClInclude Include="..\ouzel\audio\AudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\Channel.hpp" />
+    <ClInclude Include="..\ouzel\audio\Destination.hpp" />
     <ClInclude Include="..\ouzel\audio\Driver.hpp" />
     <ClInclude Include="..\ouzel\audio\dsound\DSAudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\empty\EmptyAudioDevice.hpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="..\ouzel\audio\Voice.hpp" />
     <ClInclude Include="..\ouzel\audio\SilenceSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
+    <ClInclude Include="..\ouzel\audio\Source.hpp" />
     <ClInclude Include="..\ouzel\audio\Oscillator.hpp" />
     <ClInclude Include="..\ouzel\audio\VorbisClip.hpp" />
     <ClInclude Include="..\ouzel\audio\PcmClip.hpp" />

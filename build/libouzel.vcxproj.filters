@@ -663,6 +663,9 @@
     <ClInclude Include="..\ouzel\gui\SlideBar.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Destination.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\audio\Voice.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
@@ -670,6 +673,9 @@
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Sound.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Source.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\VorbisClip.hpp">

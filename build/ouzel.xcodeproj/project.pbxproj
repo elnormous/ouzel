@@ -1077,6 +1077,7 @@
 		305B11362250413900EDA4F5 /* Containers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Containers.cpp; sourceTree = "<group>"; };
 		305B11372250413900EDA4F5 /* Containers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Containers.hpp; sourceTree = "<group>"; };
 		305B113E2251595F00EDA4F5 /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
+		305B113F225403DD00EDA4F5 /* Destination.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Destination.hpp; sourceTree = "<group>"; };
 		305B68D11ED1B31D003352A2 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
 		305B68D21ED1B31D003352A2 /* Timer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timer.hpp; sourceTree = "<group>"; };
 		305B99871C41EFFA008589E1 /* Menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Menu.cpp; sourceTree = "<group>"; };
@@ -1643,6 +1644,7 @@
 				305B11362250413900EDA4F5 /* Containers.cpp */,
 				305B11372250413900EDA4F5 /* Containers.hpp */,
 				309BA3101F183D3D006F2240 /* coreaudio */,
+				305B113F225403DD00EDA4F5 /* Destination.hpp */,
 				30BA5FB52198E2610032AC23 /* Driver.hpp */,
 				30C3F26E219D0846003FE9ED /* Effect.cpp */,
 				30C3F270219D0847003FE9ED /* Effect.hpp */,
