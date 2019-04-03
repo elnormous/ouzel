@@ -37,6 +37,7 @@ namespace ouzel
                                                     std::vector<float>& samples)>& initDataGetter);
             ~OALAudioDevice();
 
+            void start() override;
             void process();
 
             inline ALCdevice* getDevice() const { return device; }

@@ -31,6 +31,8 @@ namespace ouzel
                            bool debugAudio);
             ~XA2AudioDevice();
 
+            void start() override;
+
         private:
             void run();
 

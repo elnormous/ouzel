@@ -103,9 +103,6 @@ namespace ouzel
 
             snd_pcm_sw_params_free(swParams);
             swParams = nullptr;
-
-            running = true;
-            audioThread = std::thread(&ALSAAudioDevice::run, this);
         }
 
         ALSAAudioDevice::~ALSAAudioDevice()
@@ -116,6 +113,12 @@ namespace ouzel
             if (swParams) snd_pcm_sw_params_free(swParams);
             if (hwParams) snd_pcm_hw_params_free(hwParams);
             if (playbackHandle) snd_pcm_close(playbackHandle);
+        }
+
+        void ALSAAudioDevice::start()
+        {
+            running = true;
+            audioThread = std::thread(&ALSAAudioDevice::run, this);
         }
 
         void ALSAAudioDevice::run()

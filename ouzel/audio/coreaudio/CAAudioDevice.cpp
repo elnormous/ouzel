@@ -259,9 +259,6 @@ namespace ouzel
 
             if ((result = AudioUnitInitialize(audioUnit)) != noErr)
                 throw std::system_error(result, coreAudioErrorCategory, "Failed to initialize CoreAudio unit");
-
-            if ((result = AudioOutputUnitStart(audioUnit)) != noErr)
-                throw std::system_error(result, coreAudioErrorCategory, "Failed to start CoreAudio output unit");
         }
 
         CAAudioDevice::~CAAudioDevice()
@@ -303,6 +300,13 @@ namespace ouzel
                 AudioObjectRemovePropertyListener(deviceId, &aliveAddress, deviceUnplugged, this);
             }
 #endif
+        }
+
+        void CAAudioDevice::start()
+        {
+            OSStatus result;
+            if ((result = AudioOutputUnitStart(audioUnit)) != noErr)
+                throw std::system_error(result, coreAudioErrorCategory, "Failed to start CoreAudio output unit");
         }
 
         void CAAudioDevice::outputCallback(AudioBufferList* ioData)

@@ -39,6 +39,8 @@ namespace ouzel
             inline uint32_t getSampleRate() const { return sampleRate; }
             inline uint16_t getChannels() const { return channels; }
 
+            virtual void start() = 0;
+
         protected:
             void getData(uint32_t frames, std::vector<uint8_t>& result);
 

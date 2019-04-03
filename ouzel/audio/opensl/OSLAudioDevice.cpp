@@ -155,14 +155,6 @@ namespace ouzel
 
             if ((result = (*bufferQueue)->RegisterCallback(bufferQueue, playerCallback, this)) != SL_RESULT_SUCCESS)
                 throw std::system_error(makeErrorCode(result), "Failed to register OpenSL buffer queue callback");
-
-            getData(bufferSize / (channels * sizeof(int16_t)), data);
-
-            if ((result = (*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size())) != SL_RESULT_SUCCESS)
-                throw std::system_error(makeErrorCode(result), "Failed to enqueue OpenSL data");
-
-            if ((result = (*player)->SetPlayState(player, SL_PLAYSTATE_PLAYING)) != SL_RESULT_SUCCESS)
-                throw std::system_error(makeErrorCode(result), "Failed to play sound");
         }
 
         OSLAudioDevice::~OSLAudioDevice()
@@ -175,6 +167,18 @@ namespace ouzel
 
             if (engineObject)
                 (*engineObject)->Destroy(engineObject);
+        }
+
+        void OSLAudioDevice::start()
+        {
+            getData(bufferSize / (channels * sizeof(int16_t)), data);
+
+            SLresult result;
+            if ((result = (*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size())) != SL_RESULT_SUCCESS)
+                throw std::system_error(makeErrorCode(result), "Failed to enqueue OpenSL data");
+
+            if ((result = (*player)->SetPlayState(player, SL_PLAYSTATE_PLAYING)) != SL_RESULT_SUCCESS)
+                throw std::system_error(makeErrorCode(result), "Failed to play sound");
         }
 
         void OSLAudioDevice::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)

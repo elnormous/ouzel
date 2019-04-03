@@ -249,13 +249,6 @@ namespace ouzel
 
             if (FAILED(hr = audioClient->SetEventHandle(notifyEvent)))
                 throw std::system_error(hr, wasapiErrorCategory, "Failed to set event handle");
-
-            if (FAILED(hr = audioClient->Start()))
-                throw std::system_error(hr, wasapiErrorCategory, "Failed to start audio");
-
-            started = true;
-            running = true;
-            audioThread = std::thread(&WASAPIAudioDevice::run, this);
         }
 
         WASAPIAudioDevice::~WASAPIAudioDevice()
@@ -276,6 +269,17 @@ namespace ouzel
             if (notificationClient) notificationClient->Release();
             if (device) device->Release();
             if (enumerator) enumerator->Release();
+        }
+
+        void WASAPIAudioDevice::start()
+        {
+            HRESULT hr;
+            if (FAILED(hr = audioClient->Start()))
+                throw std::system_error(hr, wasapiErrorCategory, "Failed to start audio");
+
+            started = true;
+            running = true;
+            audioThread = std::thread(&WASAPIAudioDevice::run, this);
         }
 
         void WASAPIAudioDevice::run()

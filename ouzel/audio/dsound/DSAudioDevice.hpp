@@ -34,6 +34,7 @@ namespace ouzel
                           Window* window);
             ~DSAudioDevice();
 
+            void start() override;
             inline IDirectSound8* getDirectSound() const { return directSound; }
 
         private:

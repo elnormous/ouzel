@@ -230,37 +230,6 @@ namespace ouzel
                 default:
                     throw std::runtime_error("Invalid channel count");
             }
-
-            getData(bufferSize / (channels * sampleSize), data);
-
-            alBufferData(bufferIds[0], format,
-                         data.data(),
-                         static_cast<ALsizei>(data.size()),
-                         static_cast<ALsizei>(sampleRate));
-
-            getData(bufferSize / (channels * sampleSize), data);
-
-            alBufferData(bufferIds[1], format,
-                         data.data(),
-                         static_cast<ALsizei>(data.size()),
-                         static_cast<ALsizei>(sampleRate));
-
-            nextBuffer = 0;
-
-            alSourceQueueBuffers(sourceId, 2, bufferIds);
-
-            if ((error = alGetError()) != AL_NO_ERROR)
-                throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffers");
-
-            alSourcePlay(sourceId);
-
-            if ((error = alGetError()) != AL_NO_ERROR)
-                throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
-
-#if !defined(__EMSCRIPTEN__)
-            running = true;
-            audioThread = std::thread(&OALAudioDevice::run, this);
-#endif
         }
 
         OALAudioDevice::~OALAudioDevice()
@@ -295,6 +264,41 @@ namespace ouzel
 
             if (device)
                 alcCloseDevice(device);
+        }
+
+        void OALAudioDevice::start()
+        {
+            getData(bufferSize / (channels * sampleSize), data);
+
+            alBufferData(bufferIds[0], format,
+                         data.data(),
+                         static_cast<ALsizei>(data.size()),
+                         static_cast<ALsizei>(sampleRate));
+
+            getData(bufferSize / (channels * sampleSize), data);
+
+            alBufferData(bufferIds[1], format,
+                         data.data(),
+                         static_cast<ALsizei>(data.size()),
+                         static_cast<ALsizei>(sampleRate));
+
+            nextBuffer = 0;
+
+            alSourceQueueBuffers(sourceId, 2, bufferIds);
+
+            ALenum error;
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffers");
+
+            alSourcePlay(sourceId);
+
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
+
+#if !defined(__EMSCRIPTEN__)
+            running = true;
+            audioThread = std::thread(&OALAudioDevice::run, this);
+#endif
         }
 
         void OALAudioDevice::process()

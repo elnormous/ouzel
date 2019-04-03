@@ -187,12 +187,6 @@ namespace ouzel
 
             if (FAILED(hr = notify->SetNotificationPositions(2, positionNotifyEvents)))
                 throw std::system_error(hr, directSoundErrorCategory, "Failed to set DirectSound notification positions");
-
-            if (FAILED(hr = buffer->Play(0, 0, DSBPLAY_LOOPING)))
-                throw std::system_error(hr, directSoundErrorCategory, "Failed to play DirectSound buffer");
-
-            running = true;
-            audioThread = std::thread(&DSAudioDevice::run, this);
         }
 
         DSAudioDevice::~DSAudioDevice()
@@ -210,6 +204,16 @@ namespace ouzel
             if (buffer) buffer->Release();
             if (primaryBuffer) primaryBuffer->Release();
             if (directSound) directSound->Release();
+        }
+
+        void DSAudioDevice::start()
+        {
+            HRESULT hr;
+            if (FAILED(hr = buffer->Play(0, 0, DSBPLAY_LOOPING)))
+                throw std::system_error(hr, directSoundErrorCategory, "Failed to play DirectSound buffer");
+
+            running = true;
+            audioThread = std::thread(&DSAudioDevice::run, this);
         }
 
         void DSAudioDevice::run()

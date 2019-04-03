@@ -29,6 +29,8 @@ namespace ouzel
                                                        std::vector<float>& samples)>& initDataGetter);
             ~WASAPIAudioDevice();
 
+            void start() override;
+
         private:
             void run();
 

@@ -155,6 +155,7 @@ namespace ouzel
             masterMix(*this)
         {
             addCommand(std::unique_ptr<mixer::Command>(new mixer::SetMasterBusCommand(masterMix.getBusId())));
+            device->start();
         }
 
         Audio::~Audio()
@@ -212,7 +213,6 @@ namespace ouzel
 
         void Audio::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
-            // TODO: mix only when mixer is ready
             mixer.getData(frames, channels, sampleRate, samples);
         }
 

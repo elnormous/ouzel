@@ -29,6 +29,7 @@ namespace ouzel
                                                     std::vector<float>& samples)>& initDataGetter);
             ~OSLAudioDevice();
 
+            void start() override;
             void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
             inline SLEngineItf getEngine() const { return engine; }

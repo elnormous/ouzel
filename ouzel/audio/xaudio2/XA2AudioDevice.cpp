@@ -163,12 +163,6 @@ namespace ouzel
                 throw std::system_error(hr, xAudio2ErrorCategory, "Failed to upload sound data");
 
             nextBuffer = 0;
-
-            if (FAILED(hr = sourceVoice->Start()))
-                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to start consuming sound data");
-
-            running = true;
-            audioThread = std::thread(&XA2AudioDevice::run, this);
         }
 
         XA2AudioDevice::~XA2AudioDevice()
@@ -191,6 +185,17 @@ namespace ouzel
                 else xAudio->Release();
             }
             if (xAudio2Library) FreeModule(xAudio2Library);
+        }
+
+        void XA2AudioDevice::start()
+        {
+            HRESULT hr;
+            if (FAILED(hr = sourceVoice->Start()))
+                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to start consuming sound data");
+
+            // TODO: remove the thread
+            running = true;
+            audioThread = std::thread(&XA2AudioDevice::run, this);
         }
 
         void XA2AudioDevice::run()
