@@ -20,7 +20,7 @@ namespace ouzel
                 GAMEPAD
             };
 
-            explicit Controller(InputManager& initInputManager, Type initType, uint32_t initDeviceId):
+            Controller(InputManager& initInputManager, Type initType, uint32_t initDeviceId):
                 inputManager(initInputManager), type(initType), deviceId(initDeviceId)
             {}
             virtual ~Controller() {}

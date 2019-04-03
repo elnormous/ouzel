@@ -23,9 +23,9 @@ namespace ouzel
         class D3D11RenderTarget final: public D3D11RenderResource
         {
         public:
-            explicit D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11,
-                                       const std::set<D3D11Texture*>& initColorTextures,
-                                       D3D11Texture* initDepthTexture);
+            D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11,
+                              const std::set<D3D11Texture*>& initColorTextures,
+                              D3D11Texture* initDepthTexture);
             ~D3D11RenderTarget();
 
             void resolve();

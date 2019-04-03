@@ -92,9 +92,9 @@ namespace ouzel
         class InitRenderTargetCommand final: public Command
         {
         public:
-            explicit InitRenderTargetCommand(uintptr_t initRenderTarget,
-                                             const std::set<uintptr_t>& initColorTextures,
-                                             uintptr_t initDepthTexture):
+            InitRenderTargetCommand(uintptr_t initRenderTarget,
+                                    const std::set<uintptr_t>& initColorTextures,
+                                    uintptr_t initDepthTexture):
                 Command(Command::Type::INIT_RENDER_TARGET),
                 renderTarget(initRenderTarget),
                 colorTextures(initColorTextures),
@@ -122,12 +122,12 @@ namespace ouzel
         class ClearRenderTargetCommand final: public Command
         {
         public:
-            explicit ClearRenderTargetCommand(bool initClearColorBuffer,
-                                              bool initClearDepthBuffer,
-                                              bool initClearStencilBuffer,
-                                              Color initClearColor,
-                                              float initClearDepth,
-                                              uint32_t initClearStencil):
+            ClearRenderTargetCommand(bool initClearColorBuffer,
+                                     bool initClearDepthBuffer,
+                                     bool initClearStencilBuffer,
+                                     Color initClearColor,
+                                     float initClearDepth,
+                                     uint32_t initClearStencil):
                 Command(Command::Type::CLEAR_RENDER_TARGET),
                 clearColorBuffer(initClearColorBuffer),
                 clearDepthBuffer(initClearDepthBuffer),
