@@ -7,10 +7,7 @@
 
 #if OUZEL_COMPILE_XAUDIO2
 
-#include <atomic>
-#include <condition_variable>
-#include <mutex>
-#include <thread>
+#include <vector>
 #include <xaudio2.h>
 #include "audio/AudioDevice.hpp"
 
@@ -52,12 +49,6 @@ namespace ouzel
 
             std::vector<uint8_t> data[2];
             uint32_t nextBuffer = 0;
-
-            std::atomic_bool running{false};
-            std::thread audioThread;
-            std::condition_variable fillDataCondition;
-            bool fillData = false;
-            std::mutex fillDataMutex;
         };
     } // namespace audio
 } // namespace ouzel

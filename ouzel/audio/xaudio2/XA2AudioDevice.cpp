@@ -150,33 +150,10 @@ namespace ouzel
             bufferData.LoopLength = 0;
             bufferData.LoopCount = 0;
             bufferData.pContext = nullptr;
-
-            HRESULT hr;
-            if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
-                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to upload sound data");
-
-            getData(bufferSize / (channels * sizeof(float)), data[1]);
-            bufferData.AudioBytes = static_cast<UINT32>(data[1].size());
-            bufferData.pAudioData = data[1].data();
-
-            if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
-                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to upload sound data");
-
-            nextBuffer = 0;
         }
 
         XA2AudioDevice::~XA2AudioDevice()
         {
-            running = false;
-
-            if (audioThread.joinable())
-            {
-                std::unique_lock<std::mutex> lock(fillDataMutex);
-                fillDataCondition.notify_all();
-                lock.unlock();
-                audioThread.join();
-            }
-
             if (sourceVoice) sourceVoice->DestroyVoice();
             if (masteringVoice) masteringVoice->DestroyVoice();
             if (xAudio)
@@ -190,53 +167,20 @@ namespace ouzel
         void XA2AudioDevice::start()
         {
             HRESULT hr;
+            if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
+                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to upload sound data");
+
+            getData(bufferSize / (channels * sizeof(float)), data[1]);
+            bufferData.AudioBytes = static_cast<UINT32>(data[1].size());
+            bufferData.pAudioData = data[1].data();
+
+            if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
+                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to upload sound data");
+
+            nextBuffer = 0;
+
             if (FAILED(hr = sourceVoice->Start()))
                 throw std::system_error(hr, xAudio2ErrorCategory, "Failed to start consuming sound data");
-
-            // TODO: remove the thread
-            running = true;
-            audioThread = std::thread(&XA2AudioDevice::run, this);
-        }
-
-        void XA2AudioDevice::run()
-        {
-            setCurrentThreadName("Audio");
-
-            for (;;)
-            {
-                try
-                {
-                    std::unique_lock<std::mutex> lock(fillDataMutex);
-                    while (!fillData && running) fillDataCondition.wait(lock);
-
-                    if (!running) break;
-
-                    getData(bufferSize / (channels * sizeof(float)), data[nextBuffer]);
-
-                    XAUDIO2_BUFFER bufferData;
-                    bufferData.Flags = 0;
-                    bufferData.AudioBytes = static_cast<UINT32>(data[nextBuffer].size());
-                    bufferData.pAudioData = data[nextBuffer].data();
-                    bufferData.PlayBegin = 0;
-                    bufferData.PlayLength = 0;
-                    bufferData.LoopBegin = 0;
-                    bufferData.LoopLength = 0;
-                    bufferData.LoopCount = 0;
-                    bufferData.pContext = nullptr;
-
-                    HRESULT hr;
-                    if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
-                        throw std::system_error(hr, xAudio2ErrorCategory, "Failed to upload sound data");
-
-                    nextBuffer = (nextBuffer == 0) ? 1 : 0;
-
-                    fillData = false;
-                }
-                catch (const std::exception& e)
-                {
-                    engine->log(Log::Level::ERR) << e.what();
-                }
-            }
         }
 
         void XA2AudioDevice::OnVoiceProcessingPassStart(UINT32)
@@ -257,10 +201,24 @@ namespace ouzel
 
         void XA2AudioDevice::OnBufferEnd(void*)
         {
-            std::unique_lock<std::mutex> lock(fillDataMutex);
-            fillData = true;
-            lock.unlock();
-            fillDataCondition.notify_all();
+            getData(bufferSize / (channels * sizeof(float)), data[nextBuffer]);
+
+            XAUDIO2_BUFFER bufferData;
+            bufferData.Flags = 0;
+            bufferData.AudioBytes = static_cast<UINT32>(data[nextBuffer].size());
+            bufferData.pAudioData = data[nextBuffer].data();
+            bufferData.PlayBegin = 0;
+            bufferData.PlayLength = 0;
+            bufferData.LoopBegin = 0;
+            bufferData.LoopLength = 0;
+            bufferData.LoopCount = 0;
+            bufferData.pContext = nullptr;
+
+            HRESULT hr;
+            if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&bufferData)))
+                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to upload sound data");
+
+            nextBuffer = (nextBuffer == 0) ? 1 : 0;
         }
 
         void XA2AudioDevice::OnLoopEnd(void*)
