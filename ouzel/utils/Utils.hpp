@@ -71,8 +71,13 @@ namespace ouzel
         static constexpr const char* digits = "0123456789ABCDEF";
         if (len == 0)
         {
-            len = 1;
-            while (static_cast<size_t>(1ull << (len * 4)) <= static_cast<size_t>(n)) ++len;
+            uint64_t t = static_cast<uint64_t>(n);
+            do
+            {
+                t >>= 4;
+                ++len;
+            }
+            while (t);
         }
 
         std::string result(len, '0');
