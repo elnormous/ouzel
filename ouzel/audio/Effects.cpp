@@ -253,9 +253,7 @@ namespace ouzel
                 uint32_t delayFrames = static_cast<uint32_t>(delay * sampleRate);
                 uint32_t bufferFrames = frames + delayFrames;
 
-                // TODO: fix
-                if (buffer.size() < bufferFrames * channels)
-                    buffer.resize(bufferFrames * channels);
+                buffer.resize(bufferFrames * channels);
 
                 for (uint16_t channel = 0; channel < channels; ++channel)
                     for (uint32_t frame = 0; frame < frames; ++frame)
@@ -272,9 +270,11 @@ namespace ouzel
                 // erase frames from beginning
                 for (uint16_t channel = 0; channel < channels; ++channel)
                     for (uint32_t frame = 0; frame < bufferFrames - frames; ++frame)
-                        buffer[channel * (bufferFrames - frames) + frame] = buffer[channel * bufferFrames + frame + frames];
+                        buffer[channel * bufferFrames + frame] = buffer[channel * bufferFrames + frame + frames];
 
-                buffer.resize(channels * (bufferFrames - frames));
+                for (uint16_t channel = 0; channel < channels; ++channel)
+                    for (uint32_t frame = frames; frame < bufferFrames; ++frame)
+                        buffer[channel * bufferFrames + frame] = 0.0F;
             }
 
         private:
