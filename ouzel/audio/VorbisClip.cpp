@@ -35,6 +35,7 @@ namespace ouzel
 
         private:
             stb_vorbis* vorbisStream = nullptr;
+            std::vector<float> data;
         };
 
         class VorbisData final: public mixer::Source
@@ -79,17 +80,54 @@ namespace ouzel
             uint32_t neededSize = frames * source.getChannels();
             samples.resize(neededSize);
 
-            uint32_t totalSize = 0;
+            uint32_t copyFrames = 0;
 
             if (neededSize > 0)
             {
                 if (vorbisStream->eof)
                     reset();
 
+                data.resize(neededSize);
+
                 int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, source.getChannels(),
-                                                                            samples.data() + totalSize, static_cast<int>(neededSize));
-                totalSize += static_cast<uint32_t>(resultFrames) * source.getChannels();
-                neededSize -= static_cast<uint32_t>(resultFrames) * source.getChannels();
+                                                                            data.data(), static_cast<int>(data.size()));
+                copyFrames = static_cast<uint32_t>(resultFrames);
+
+                switch (source.getChannels())
+                {
+                    case 1:
+                        samples = data;
+                        break;
+                    case 2:
+                        for (uint32_t frame = 0; frame < frames; ++frame)
+                        {
+                            samples[0 * frames + frame] = data[frame * 2 + 0];
+                            samples[1 * frames + frame] = data[frame * 2 + 1];
+                        }
+                        break;
+                    case 4:
+                        for (uint32_t frame = 0; frame < frames; ++frame)
+                        {
+                            samples[0 * frames + frame] = data[frame * 4 + 0];
+                            samples[1 * frames + frame] = data[frame * 4 + 1];
+                            samples[2 * frames + frame] = data[frame * 4 + 2];
+                            samples[3 * frames + frame] = data[frame * 4 + 3];
+                        }
+                        break;
+                    case 6:
+                        for (uint32_t frame = 0; frame < frames; ++frame)
+                        {
+                            samples[0 * frames + frame] = data[frame * 4 + 0];
+                            samples[1 * frames + frame] = data[frame * 4 + 2];
+                            samples[2 * frames + frame] = data[frame * 4 + 1];
+                            samples[3 * frames + frame] = data[frame * 4 + 5];
+                            samples[4 * frames + frame] = data[frame * 4 + 3];
+                            samples[5 * frames + frame] = data[frame * 4 + 4];
+                        }
+                        break;
+                    default:
+                        throw std::runtime_error("Unsupported channel count");
+                }
             }
 
             if (vorbisStream->eof)
@@ -98,7 +136,9 @@ namespace ouzel
                 reset();
             }
 
-            std::fill(samples.begin() + totalSize, samples.end(), 0.0F); // TODO: remove
+            for (uint32_t channel = 0; channel < source.getChannels(); ++channel)
+                for (uint32_t frame = copyFrames; frame < frames; ++frame)
+                    samples[channel * frames + frame] = 0.0F;
         }
 
         VorbisClip::VorbisClip(Audio& initAudio, const std::vector<uint8_t>& initData):

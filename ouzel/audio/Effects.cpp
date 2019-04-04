@@ -198,13 +198,12 @@ namespace ouzel
 
                 for (uint16_t channel = 0; channel < channels; ++channel)
                 {
-                    for (uint32_t sample = 0; sample < frames; ++sample)
-                        channelSamples[sample] = samples[sample * channels + channel];
+                    pitchShift[channel].process(pitch, frames, 1024, 4, static_cast<float>(sampleRate),
+                                                samples.data() + channel * frames,
+                                                channelSamples.data());
 
-                    pitchShift[channel].process(pitch, frames, 1024, 4, static_cast<float>(sampleRate), channelSamples.data(), channelSamples.data());
-
                     for (uint32_t sample = 0; sample < frames; ++sample)
-                        samples[sample * channels + channel] = channelSamples[sample];
+                        samples[channel * frames + sample] = channelSamples[sample];
                 }
             }
 
@@ -251,24 +250,31 @@ namespace ouzel
             void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override
             {
-                uint32_t delaySamples = static_cast<uint32_t>(delay * sampleRate);
+                uint32_t delayFrames = static_cast<uint32_t>(delay * sampleRate);
+                uint32_t bufferFrames = frames + delayFrames;
 
-                if (buffer.size() < (frames + delaySamples) * channels)
-                    buffer.resize((frames + delaySamples) * channels);
+                // TODO: fix
+                if (buffer.size() < bufferFrames * channels)
+                    buffer.resize(bufferFrames * channels);
 
-                for (uint32_t frame = 0; frame < frames; ++frame)
-                    for (uint16_t channel = 0; channel < channels; ++channel)
-                        buffer[frame * channels + channel] += samples[frame * channels + channel];
+                for (uint16_t channel = 0; channel < channels; ++channel)
+                    for (uint32_t frame = 0; frame < frames; ++frame)
+                        buffer[channel * bufferFrames + frame] += samples[channel * frames + frame];
 
-                for (uint32_t frame = 0; frame < frames; ++frame)
-                    for (uint16_t channel = 0; channel < channels; ++channel)
-                        buffer[(frame + delaySamples) * channels + channel] += buffer[frame * channels + channel] * decay;
+                for (uint16_t channel = 0; channel < channels; ++channel)
+                    for (uint32_t frame = 0; frame < frames; ++frame)
+                        buffer[channel * bufferFrames + frame + delayFrames] += buffer[channel * bufferFrames + frame] * decay;
 
-                for (uint32_t frame = 0; frame < frames; ++frame)
-                    for (uint16_t channel = 0; channel < channels; ++channel)
-                        samples[frame * channels + channel] = buffer[frame * channels + channel];
+                for (uint16_t channel = 0; channel < channels; ++channel)
+                    for (uint32_t frame = 0; frame < frames; ++frame)
+                        samples[channel * frames + frame] = buffer[channel * bufferFrames + frame];
 
-                buffer.erase(buffer.begin(), buffer.begin() + frames * channels);
+                // erase frames from beginning
+                for (uint16_t channel = 0; channel < channels; ++channel)
+                    for (uint32_t frame = 0; frame < bufferFrames - frames; ++frame)
+                        buffer[channel * (bufferFrames - frames) + frame] = buffer[channel * bufferFrames + frame + frames];
+
+                buffer.resize(channels * (bufferFrames - frames));
             }
 
         private:

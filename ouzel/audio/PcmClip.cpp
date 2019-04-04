@@ -64,37 +64,27 @@ namespace ouzel
             PcmData& pcmData = static_cast<PcmData&>(source);
             const std::vector<float>& data = pcmData.getSamples();
 
-            uint32_t totalSize = 0;
+            uint32_t sourceFrames = static_cast<uint32_t>(data.size() / pcmData.getChannels());
 
-            if (neededSize > 0)
-            {
-                if (data.size() - position < neededSize)
-                {
-                    std::copy(data.begin() + position,
-                              data.end(),
-                              samples.begin() + totalSize);
-                    totalSize += static_cast<uint32_t>(data.size() - position);
-                    neededSize -= static_cast<uint32_t>(data.size() - position);
-                    position = static_cast<uint32_t>(data.size());
-                }
-                else
-                {
-                    std::copy(data.begin() + position,
-                              data.begin() + position + neededSize,
-                              samples.begin() + totalSize);
-                    totalSize += neededSize;
-                    position += neededSize;
-                    neededSize = 0;
-                }
-            }
+            uint32_t copyFrames = frames;
+            if (copyFrames > sourceFrames - position)
+                copyFrames = sourceFrames - position;
 
-            if ((data.size() - position) == 0)
+            for (uint32_t channel = 0; channel < pcmData.getChannels(); ++channel)
+                for (uint32_t frame = 0; frame < copyFrames; ++frame)
+                    samples[channel * frames + frame] = data[channel * sourceFrames + frame + position];
+
+            position += copyFrames;
+
+            for (uint32_t channel = 0; channel < pcmData.getChannels(); ++channel)
+                for (uint32_t frame = copyFrames; frame < frames; ++frame)
+                    samples[channel * frames + frame] = 0.0F;
+
+            if ((sourceFrames - position) == 0)
             {
                 playing = false; // TODO: fire event
                 reset();
             }
-
-            std::fill(samples.begin() + totalSize, samples.end(), 0.0F); // TODO: remove
         }
 
         PcmClip::PcmClip(Audio& initAudio, uint16_t channels, uint32_t sampleRate,

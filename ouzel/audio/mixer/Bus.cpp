@@ -57,12 +57,12 @@ namespace ouzel
 
                         for (uint32_t channel = 0; channel < channels; ++channel)
                         {
-                            uint32_t sourceCurrentPosition = sourceCurrentFrame * channels + channel;
-                            uint32_t sourceNextPosition = sourceNextFrame * channels + channel;
+                            uint32_t sourceCurrentPosition = channel * sourceFrames + sourceCurrentFrame;
+                            uint32_t sourceNextPosition = channel * sourceFrames + sourceNextFrame;
 
-                            samples[frame * channels + channel] = ouzel::lerp(sourceSamples[sourceCurrentPosition],
-                                                                              sourceSamples[sourceNextPosition],
-                                                                              fraction);
+                            samples[channel * frames + frame] = ouzel::lerp(sourceSamples[sourceCurrentPosition],
+                                                                            sourceSamples[sourceNextPosition],
+                                                                            fraction);
                         }
 
                         sourcePosition += sourceIncrement;
@@ -70,7 +70,7 @@ namespace ouzel
 
                     // fill the last frame of the destination with the last frame of the source
                     for (uint32_t channel = 0; channel < channels; ++channel)
-                        samples[(frames - 1) * channels + channel] = sourceSamples[(sourceFrames - 1) * channels + channel];
+                        samples[channel * frames + frames - 1] = sourceSamples[channel * frames + sourceFrames - 1];
                 }
                 else
                     samples = sourceSamples;
@@ -92,28 +92,28 @@ namespace ouzel
                                 case 2: // upmix 1 to 2
                                     for (uint32_t frame = 0; frame < frames; ++frame)
                                     {
-                                        samples[frame * channels + 0] = sourceSamples[frame]; // L = M
-                                        samples[frame * channels + 1] = sourceSamples[frame]; // R = M
+                                        samples[0 * frames + frame] = sourceSamples[frame]; // L = M
+                                        samples[1 * frames + frame] = sourceSamples[frame]; // R = M
                                     }
                                     break;
                                 case 4: // upmix 1 to 4
                                     for (uint32_t frame = 0; frame < frames; ++frame)
                                     {
-                                        samples[frame * channels + 0] = sourceSamples[frame]; // L = M
-                                        samples[frame * channels + 1] = sourceSamples[frame]; // R = M
-                                        samples[frame * channels + 2] = 0.0F; // SL = 0
-                                        samples[frame * channels + 3] = 0.0F; // SR = 0
+                                        samples[0 * frames + frame] = sourceSamples[frame]; // L = M
+                                        samples[1 * frames + frame] = sourceSamples[frame]; // R = M
+                                        samples[2 * frames + frame] = 0.0F; // SL = 0
+                                        samples[3 * frames + frame] = 0.0F; // SR = 0
                                     }
                                     break;
                                 case 6: // upmix 1 to 6
                                     for (uint32_t frame = 0; frame < frames; ++frame)
                                     {
-                                        samples[frame * channels + 0] = 0.0F; // L = 0
-                                        samples[frame * channels + 1] = 0.0F; // R = 0
-                                        samples[frame * channels + 2] = sourceSamples[frame]; // C = M
-                                        samples[frame * channels + 3] = 0.0F; // LFE = 0
-                                        samples[frame * channels + 4] = 0.0F; // SL = 0
-                                        samples[frame * channels + 5] = 0.0F; // SR = 0
+                                        samples[0 * frames + frame] = 0.0F; // L = 0
+                                        samples[1 * frames + frame] = 0.0F; // R = 0
+                                        samples[2 * frames + frame] = sourceSamples[frame]; // C = M
+                                        samples[3 * frames + frame] = 0.0F; // LFE = 0
+                                        samples[4 * frames + frame] = 0.0F; // SL = 0
+                                        samples[5 * frames + frame] = 0.0F; // SR = 0
                                     }
                                     break;
                             }
@@ -125,27 +125,27 @@ namespace ouzel
                             {
                                 case 1: // downmix 2 to 1
                                     for (uint32_t frame = 0; frame < frames; ++frame)
-                                        samples[frame] = (sourceSamples[frame * sourceChannels + 0] +
-                                                          sourceSamples[frame * sourceChannels + 1]) * 0.5F; // M = (L + R) * 0.5
+                                        samples[frame] = (sourceSamples[0 * frames + frame] +
+                                                          sourceSamples[1 * frames + frame]) * 0.5F; // M = (L + R) * 0.5
                                     break;
                                 case 4: // upmix 2 to 4
                                     for (uint32_t frame = 0; frame < frames; ++frame)
                                     {
-                                        samples[frame * channels + 0] = sourceSamples[frame * sourceChannels + 0]; // L = L
-                                        samples[frame * channels + 1] = sourceSamples[frame * sourceChannels + 1]; // R = R
-                                        samples[frame * channels + 2] = 0.0F; // SL = 0
-                                        samples[frame * channels + 3] = 0.0F; // SR = 0
+                                        samples[0 * frames + frame] = sourceSamples[0 * frames + frame]; // L = L
+                                        samples[1 * frames + frame] = sourceSamples[1 * frames + frame]; // R = R
+                                        samples[2 * frames + frame] = 0.0F; // SL = 0
+                                        samples[3 * frames + frame] = 0.0F; // SR = 0
                                     }
                                     break;
                                 case 6: // upmix 2 to 6
                                     for (uint32_t frame = 0; frame < frames; ++frame)
                                     {
-                                        samples[frame * channels + 0] = sourceSamples[frame * sourceChannels + 0]; // L = L
-                                        samples[frame * channels + 1] = sourceSamples[frame * sourceChannels + 1]; // R = R
-                                        samples[frame * channels + 2] = 0.0F; // C = 0
-                                        samples[frame * channels + 3] = 0.0F; // LFE = 0
-                                        samples[frame * channels + 4] = 0.0F; // SL = 0
-                                        samples[frame * channels + 5] = 0.0F; // SR = 0
+                                        samples[0 * frames + frame] = sourceSamples[0 * frames + frame]; // L = L
+                                        samples[1 * frames + frame] = sourceSamples[1 * frames + frame]; // R = R
+                                        samples[2 * frames + frame] = 0.0F; // C = 0
+                                        samples[3 * frames + frame] = 0.0F; // LFE = 0
+                                        samples[4 * frames + frame] = 0.0F; // SL = 0
+                                        samples[5 * frames + frame] = 0.0F; // SR = 0
                                     }
                                     break;
                             }
@@ -157,29 +157,29 @@ namespace ouzel
                             {
                                 case 1: // downmix 4 to 1
                                     for (uint32_t frame = 0; frame < frames; ++frame)
-                                        samples[frame] = (sourceSamples[frame * sourceChannels + 0] +
-                                                          sourceSamples[frame * sourceChannels + 1] +
-                                                          sourceSamples[frame * sourceChannels + 2] +
-                                                          sourceSamples[frame * sourceChannels + 3]) * 0.25F; // M = (L + R + SL + SR) * 0.25
+                                        samples[frame] = (sourceSamples[0 * frames + frame] +
+                                                          sourceSamples[1 * frames + frame] +
+                                                          sourceSamples[2 * frames + frame] +
+                                                          sourceSamples[3 * frames + frame]) * 0.25F; // M = (L + R + SL + SR) * 0.25
                                     break;
                                 case 2: // downmix 4 to 2
                                     for (uint32_t frame = 0; frame < frames; ++frame)
                                     {
-                                        samples[frame * channels + 0] = (sourceSamples[frame * sourceChannels + 0] +
-                                                                         sourceSamples[frame * sourceChannels + 2]) * 0.5F; // L = (L + SL) * 0.5
-                                        samples[frame * channels + 1] = (sourceSamples[frame * sourceChannels + 1] +
-                                                                         sourceSamples[frame * sourceChannels + 3]) * 0.5F; // R = (R + RL) * 0.5
+                                        samples[0 * frames + frame] = (sourceSamples[0 * frames + frame] +
+                                                                       sourceSamples[2 * frames + frame]) * 0.5F; // L = (L + SL) * 0.5
+                                        samples[1 * frames + frame] = (sourceSamples[1 * frames + frame] +
+                                                                       sourceSamples[3 * frames + frame]) * 0.5F; // R = (R + RL) * 0.5
                                     }
                                     break;
                                 case 6: // upmix 4 to 6
                                     for (uint32_t frame = 0; frame < frames; ++frame)
                                     {
-                                        samples[frame * channels + 0] = sourceSamples[frame * sourceChannels + 0]; // L = L
-                                        samples[frame * channels + 1] = sourceSamples[frame * sourceChannels + 1]; // R = R
-                                        samples[frame * channels + 2] = 0.0F; // C = 0
-                                        samples[frame * channels + 3] = 0.0F; // LFE = 0
-                                        samples[frame * channels + 4] = sourceSamples[frame * sourceChannels + 2]; // SL = SL
-                                        samples[frame * channels + 5] = sourceSamples[frame * sourceChannels + 3]; // SR = SR
+                                        samples[0 * frames + frame] = sourceSamples[0 * frames + frame]; // L = L
+                                        samples[1 * frames + frame] = sourceSamples[1 * frames + frame]; // R = R
+                                        samples[2 * frames + frame] = 0.0F; // C = 0
+                                        samples[3 * frames + frame] = 0.0F; // LFE = 0
+                                        samples[4 * frames + frame] = sourceSamples[2 * frames + frame]; // SL = SL
+                                        samples[5 * frames + frame] = sourceSamples[3 * frames + frame]; // SR = SR
                                     }
                                     break;
                             }
@@ -191,32 +191,32 @@ namespace ouzel
                             {
                                 case 1: // downmix 6 to 1
                                     for (uint32_t frame = 0; frame < frames; ++frame)
-                                        samples[frame] = ((sourceSamples[frame * sourceChannels + 0] +
-                                                           sourceSamples[frame * sourceChannels + 1]) * 0.7071F +
-                                                          sourceSamples[frame * sourceChannels + 2] +
-                                                          (sourceSamples[frame * sourceChannels + 4] +
-                                                           sourceSamples[frame * sourceChannels + 5]) * 0.5F); // M = (L + R) * 0.7071 + C + (SL + SR) * 0.5
+                                        samples[frame] = ((sourceSamples[0 * frames + frame] +
+                                                           sourceSamples[1 * frames + frame]) * 0.7071F +
+                                                          sourceSamples[2 * frames + frame] +
+                                                          (sourceSamples[4 * frames + frame] +
+                                                           sourceSamples[5 * frames + frame]) * 0.5F); // M = (L + R) * 0.7071 + C + (SL + SR) * 0.5
                                     break;
                                 case 2: // downmix 6 to 2
                                     for (uint32_t frame = 0; frame < frames; ++frame)
                                     {
-                                        samples[frame * channels + 0] = (sourceSamples[frame * sourceChannels + 0] +
-                                                                         (sourceSamples[frame * sourceChannels + 2] +
-                                                                          sourceSamples[frame * sourceChannels + 4]) * 0.7071F); // L = L + (C + SL) * 0.7071
-                                        samples[frame * channels + 1] = (sourceSamples[frame * sourceChannels + 1] +
-                                                                         (sourceSamples[frame * sourceChannels + 2] +
-                                                                          sourceSamples[frame * sourceChannels + 5]) * 0.7071F); // R = R + (C + SR) * 0.7071
+                                        samples[frame * channels + 0] = (sourceSamples[0 * frames + frame] +
+                                                                         (sourceSamples[2 * frames + frame] +
+                                                                          sourceSamples[4 * frames + frame]) * 0.7071F); // L = L + (C + SL) * 0.7071
+                                        samples[frame * channels + 1] = (sourceSamples[1 * frames + frame] +
+                                                                         (sourceSamples[2 * frames + frame] +
+                                                                          sourceSamples[5 * frames + frame]) * 0.7071F); // R = R + (C + SR) * 0.7071
                                     }
                                     break;
                                 case 4: // downmix 6 to 4
                                     for (uint32_t frame = 0; frame < frames; ++frame)
                                     {
-                                        samples[frame * channels + 0] = (sourceSamples[frame * sourceChannels + 0] +
-                                                                         sourceSamples[frame * sourceChannels + 2] * 0.7071F); // L = L + C * 0.7071
-                                        samples[frame * channels + 1] = (sourceSamples[frame * sourceChannels + 1] +
-                                                                         sourceSamples[frame * sourceChannels + 2] * 0.7071F); // R = R + C * 0.7071
-                                        samples[frame * channels + 2] = sourceSamples[frame * sourceChannels + 4]; // SL = SL
-                                        samples[frame * channels + 3] = sourceSamples[frame * sourceChannels + 5]; // SR = SR
+                                        samples[frame * channels + 0] = (sourceSamples[0 * frames + frame] +
+                                                                         sourceSamples[2 * frames + frame] * 0.7071F); // L = L + C * 0.7071
+                                        samples[frame * channels + 1] = (sourceSamples[1 * frames + frame] +
+                                                                         sourceSamples[2 * frames + frame] * 0.7071F); // R = R + C * 0.7071
+                                        samples[frame * channels + 2] = sourceSamples[4 * frames + frame]; // SL = SL
+                                        samples[frame * channels + 3] = sourceSamples[5 * frames + frame]; // SR = SR
                                     }
                                     break;
                             }

@@ -144,51 +144,51 @@ namespace ouzel
 
                 uint32_t bytesPerSample = bitsPerSample / 8;
                 uint32_t sampleCount = static_cast<uint32_t>(soundData.size() / bytesPerSample);
-                uint32_t frameCount = sampleCount / channels;
+                uint32_t frames = sampleCount / channels;
                 std::vector<float> samples(sampleCount);
 
                 if (formatTag == PCM)
                 {
                     if (bitsPerSample == 8)
                     {
-                        for (uint32_t f = 0; f < frameCount; ++f)
-                            for (uint32_t c = 0; c < channels; ++c)
+                        for (uint32_t frame = 0; frame < frames; ++frame)
+                            for (uint32_t channel = 0; channel < channels; ++channel)
                             {
-                                uint32_t s = (f * channels + c);
-                                samples[f * channels + c] = 2.0F * soundData[s] / 255.0F - 1.0F;
+                                uint32_t s = (frame * channels + channel);
+                                samples[channel * frames + frame] = 2.0F * soundData[s] / 255.0F - 1.0F;
                             }
                     }
                     else if (bitsPerSample == 16)
                     {
-                        for (uint32_t f = 0; f < frameCount; ++f)
-                            for (uint32_t c = 0; c < channels; ++c)
+                        for (uint32_t frame = 0; frame < frames; ++frame)
+                            for (uint32_t channel = 0; channel < channels; ++channel)
                             {
-                                uint32_t s = (f * channels + c) * 2;
-                                samples[f * channels + c] = static_cast<int16_t>(soundData[s] |
-                                                                                 (soundData[s + 1] << 8)) / 32767.0F;
+                                uint32_t s = (frame * channels + channel) * 2;
+                                samples[channel * frames + frame] = static_cast<int16_t>(soundData[s] |
+                                                                                         (soundData[s + 1] << 8)) / 32767.0F;
                             }
                     }
                     else if (bitsPerSample == 24)
                     {
-                        for (uint32_t f = 0; f < frameCount; ++f)
-                            for (uint32_t c = 0; c < channels; ++c)
+                        for (uint32_t frame = 0; frame < frames; ++frame)
+                            for (uint32_t channel = 0; channel < channels; ++channel)
                             {
-                                uint32_t s = (f * channels + c) * 3;
-                                samples[f * channels + c] = static_cast<float>(static_cast<int32_t>((soundData[s] << 8) |
-                                                                                                    (soundData[s + 1] << 16) |
-                                                                                                    (soundData[s + 2] << 24)) / 2147483648.0);
+                                uint32_t s = (frame * channels + channel) * 3;
+                                samples[channel * frames + frame] = static_cast<float>(static_cast<int32_t>((soundData[s] << 8) |
+                                                                                                            (soundData[s + 1] << 16) |
+                                                                                                            (soundData[s + 2] << 24)) / 2147483648.0);
                             }
                     }
                     else if (bitsPerSample == 32)
                     {
-                        for (uint32_t f = 0; f < frameCount; ++f)
-                            for (uint32_t c = 0; c < channels; ++c)
+                        for (uint32_t frame = 0; frame < frames; ++frame)
+                            for (uint32_t channel = 0; channel < channels; ++channel)
                             {
-                                uint32_t s = (f * channels + c) * 4;
-                                samples[f * channels + c] = static_cast<float>(static_cast<int32_t>(soundData[s] |
-                                                                                                    (soundData[s + 1] << 8) |
-                                                                                                    (soundData[s + 2] << 16) |
-                                                                                                    (soundData[s + 2] << 24)) / 2147483648.0);
+                                uint32_t s = (frame * channels + channel) * 4;
+                                samples[channel * frames + frame] = static_cast<float>(static_cast<int32_t>(soundData[s] |
+                                                                                                            (soundData[s + 1] << 8) |
+                                                                                                            (soundData[s + 2] << 16) |
+                                                                                                            (soundData[s + 2] << 24)) / 2147483648.0);
                             }
                     }
                     else
@@ -198,11 +198,11 @@ namespace ouzel
                 {
                     if (bitsPerSample == 32)
                     {
-                        for (uint32_t f = 0; f < frameCount; ++f)
-                            for (uint32_t c = 0; c < channels; ++c)
+                        for (uint32_t frame = 0; frame < frames; ++frame)
+                            for (uint32_t channel = 0; channel < channels; ++channel)
                             {
-                                uint32_t s = (f * channels + c);
-                                samples[f * channels + c] = reinterpret_cast<float*>(soundData.data())[s];
+                                uint32_t s = (frame * channels + channel);
+                                samples[channel * frames + frame] = reinterpret_cast<float*>(soundData.data())[s];
                             }
                     }
                     else
