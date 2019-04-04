@@ -273,7 +273,7 @@ namespace ouzel
                         buffer[channel * bufferFrames + frame] = buffer[channel * bufferFrames + frame + frames];
 
                 for (uint16_t channel = 0; channel < channels; ++channel)
-                    for (uint32_t frame = frames; frame < bufferFrames; ++frame)
+                    for (uint32_t frame = bufferFrames - frames; frame < bufferFrames; ++frame)
                         buffer[channel * bufferFrames + frame] = 0.0F;
             }
 
