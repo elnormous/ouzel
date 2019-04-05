@@ -176,8 +176,8 @@ namespace ouzel
                 samples.resize(frames * channels);
 
                 for (uint16_t channel = 0; channel < channels; ++channel)
-                    for (uint32_t sample = 0; sample < frames; ++sample)
-                        samples[sample * channels + channel] = clamp(data[channel * frames + sample], -1.0F, 1.0F);
+                    for (uint32_t frame = 0; frame < frames; ++frame)
+                        samples[frame * channels + channel] = clamp(data[channel * frames + frame], -1.0F, 1.0F);
             }
 
             void Mixer::main()
