@@ -163,21 +163,18 @@ namespace ouzel
             {
                 process();
 
-                std::vector<float> data(frames * channels);
+                samples.resize(frames * channels);
 
                 if (masterBus)
                 {
                     Vector3F listenerPosition;
                     QuaternionF listenerRotation;
 
-                    masterBus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, data);
+                    masterBus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, samples);
                 }
 
-                samples.resize(frames * channels);
-
-                for (uint16_t channel = 0; channel < channels; ++channel)
-                    for (uint32_t frame = 0; frame < frames; ++frame)
-                        samples[frame * channels + channel] = clamp(data[channel * frames + frame], -1.0F, 1.0F);
+                for (float& sample : samples)
+                    sample = clamp(sample, -1.0F, 1.0F);
             }
 
             void Mixer::main()

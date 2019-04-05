@@ -231,6 +231,8 @@ namespace ouzel
 
                 streamDescription.mFormatFlags = kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger;
                 streamDescription.mBitsPerChannel = sizeof(int16_t) * 8;
+                streamDescription.mBytesPerFrame = streamDescription.mBitsPerChannel * streamDescription.mChannelsPerFrame / 8;
+                streamDescription.mBytesPerPacket = streamDescription.mBytesPerFrame * streamDescription.mFramesPerPacket;
 
                 if ((result = AudioUnitSetProperty(audioUnit,
                                                    kAudioUnitProperty_StreamFormat,

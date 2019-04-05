@@ -37,18 +37,27 @@ namespace ouzel
                     result.resize(frames * channels * sizeof(int16_t));
                     int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
 
-                    for (uint32_t i = 0; i < buffer.size(); ++i)
+                    for (uint16_t channel = 0; channel < channels; ++channel)
                     {
-                        *resultPtr = static_cast<int16_t>(buffer[i] * 32767.0F);
-                        ++resultPtr;
+                        float* bufferChannel = &buffer[channel * frames];
+
+                        for (uint32_t frame = 0; frame < frames; ++frame)
+                            resultPtr[frame * channels + channel] = static_cast<int16_t>(bufferChannel[frame] * 32767.0F);
                     }
                     break;
                 }
                 case SampleFormat::FLOAT32:
                 {
-                    result.reserve(frames * channels * sizeof(float));
-                    result.assign(reinterpret_cast<uint8_t*>(buffer.data()),
-                                  reinterpret_cast<uint8_t*>(buffer.data()) + buffer.size() * sizeof(float));
+                    result.resize(frames * channels * sizeof(float));
+                    float* resultPtr = reinterpret_cast<float*>(result.data());
+
+                    for (uint16_t channel = 0; channel < channels; ++channel)
+                    {
+                        float* bufferChannel = &buffer[channel * frames];
+
+                        for (uint32_t frame = 0; frame < frames; ++frame)
+                            resultPtr[frame * channels + channel] = bufferChannel[frame];
+                    }
                     break;
                 }
                 default:
