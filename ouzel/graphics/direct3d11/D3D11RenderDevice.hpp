@@ -68,10 +68,7 @@ namespace ouzel
             template<class T>
             inline T* getResource(uintptr_t id) const
             {
-                if (id)
-                    return static_cast<T*>(resources[id - 1].get());
-                else
-                    return nullptr;
+                return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
             }
 
         private:
