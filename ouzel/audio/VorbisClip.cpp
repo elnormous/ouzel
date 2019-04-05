@@ -90,8 +90,12 @@ namespace ouzel
 
                 data.resize(neededSize);
 
-                int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, source.getChannels(),
-                                                                            data.data(), static_cast<int>(data.size()));
+                std::vector<float*> channelData(source.getChannels());
+                for (uint32_t channel = 0; channel < source.getChannels(); ++channel)
+                    channelData[channel] = &data[channel * frames];
+
+                int resultFrames = stb_vorbis_get_samples_float(vorbisStream, source.getChannels(),
+                                                                channelData.data(), static_cast<int>(frames));
                 copyFrames = static_cast<uint32_t>(resultFrames);
 
                 switch (source.getChannels())
@@ -102,28 +106,28 @@ namespace ouzel
                     case 2:
                         for (uint32_t frame = 0; frame < frames; ++frame)
                         {
-                            samples[0 * frames + frame] = data[frame * 2 + 0];
-                            samples[1 * frames + frame] = data[frame * 2 + 1];
+                            samples[0 * frames + frame] = channelData[0][frame];
+                            samples[1 * frames + frame] = channelData[1][frame];
                         }
                         break;
                     case 4:
                         for (uint32_t frame = 0; frame < frames; ++frame)
                         {
-                            samples[0 * frames + frame] = data[frame * 4 + 0];
-                            samples[1 * frames + frame] = data[frame * 4 + 1];
-                            samples[2 * frames + frame] = data[frame * 4 + 2];
-                            samples[3 * frames + frame] = data[frame * 4 + 3];
+                            samples[0 * frames + frame] = channelData[0][frame];
+                            samples[1 * frames + frame] = channelData[1][frame];
+                            samples[2 * frames + frame] = channelData[2][frame];
+                            samples[3 * frames + frame] = channelData[3][frame];
                         }
                         break;
                     case 6:
                         for (uint32_t frame = 0; frame < frames; ++frame)
                         {
-                            samples[0 * frames + frame] = data[frame * 4 + 0];
-                            samples[1 * frames + frame] = data[frame * 4 + 2];
-                            samples[2 * frames + frame] = data[frame * 4 + 1];
-                            samples[3 * frames + frame] = data[frame * 4 + 5];
-                            samples[4 * frames + frame] = data[frame * 4 + 3];
-                            samples[5 * frames + frame] = data[frame * 4 + 4];
+                            samples[0 * frames + frame] = channelData[0][frame];
+                            samples[1 * frames + frame] = channelData[2][frame];
+                            samples[2 * frames + frame] = channelData[1][frame];
+                            samples[3 * frames + frame] = channelData[5][frame];
+                            samples[4 * frames + frame] = channelData[3][frame];
+                            samples[5 * frames + frame] = channelData[4][frame];
                         }
                         break;
                     default:
