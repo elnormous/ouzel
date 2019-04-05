@@ -57,12 +57,12 @@ namespace ouzel
 
                         for (uint32_t channel = 0; channel < channels; ++channel)
                         {
-                            uint32_t sourceCurrentPosition = channel * sourceFrames + sourceCurrentFrame;
-                            uint32_t sourceNextPosition = channel * sourceFrames + sourceNextFrame;
+                            const float* sourceChannel = &sourceSamples[channel * sourceFrames];
+                            float* outputChannel = &samples[channel * frames];
 
-                            samples[channel * frames + frame] = ouzel::lerp(sourceSamples[sourceCurrentPosition],
-                                                                            sourceSamples[sourceNextPosition],
-                                                                            fraction);
+                            outputChannel[frame] = ouzel::lerp(sourceChannel[sourceCurrentFrame],
+                                                               sourceChannel[sourceNextFrame],
+                                                               fraction);
                         }
 
                         sourcePosition += sourceIncrement;
@@ -70,7 +70,11 @@ namespace ouzel
 
                     // fill the last frame of the destination with the last frame of the source
                     for (uint32_t channel = 0; channel < channels; ++channel)
-                        samples[channel * frames + frames - 1] = sourceSamples[channel * frames + sourceFrames - 1];
+                    {
+                        const float* sourceChannel = &sourceSamples[channel * sourceFrames];
+                        float* outputChannel = &samples[channel * frames];
+                        outputChannel[frames - 1] = sourceChannel[sourceFrames - 1];
+                    }
                 }
                 else
                     samples = sourceSamples;
