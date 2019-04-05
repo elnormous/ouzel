@@ -71,8 +71,9 @@ namespace ouzel
         VorbisSource::VorbisSource(VorbisData& vorbisData):
             Stream(vorbisData)
         {
-            const std::vector<uint8_t>& data = vorbisData.getData();
-            vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
+            vorbisStream = stb_vorbis_open_memory(vorbisData.getData().data(),
+                                                  static_cast<int>(vorbisData.getData().size()),
+                                                  nullptr, nullptr);
         }
 
         void VorbisSource::getData(uint32_t frames, std::vector<float>& samples)
