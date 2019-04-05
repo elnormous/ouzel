@@ -202,8 +202,10 @@ namespace ouzel
                                                 samples.data() + channel * frames,
                                                 channelSamples.data());
 
-                    for (uint32_t sample = 0; sample < frames; ++sample)
-                        samples[channel * frames + sample] = channelSamples[sample];
+                    float* outputChannel = &samples[channel * frames];
+
+                    for (uint32_t frame = 0; frame < frames; ++frame)
+                        outputChannel[frame] = channelSamples[frame];
                 }
             }
 
@@ -256,25 +258,26 @@ namespace ouzel
                 buffer.resize(bufferFrames * channels);
 
                 for (uint16_t channel = 0; channel < channels; ++channel)
-                    for (uint32_t frame = 0; frame < frames; ++frame)
-                        buffer[channel * bufferFrames + frame] += samples[channel * frames + frame];
+                {
+                    float* bufferChannel = &buffer[channel * bufferFrames];
+                    float* outputChannel = &samples[channel * frames];
 
-                for (uint16_t channel = 0; channel < channels; ++channel)
                     for (uint32_t frame = 0; frame < frames; ++frame)
-                        buffer[channel * bufferFrames + frame + delayFrames] += buffer[channel * bufferFrames + frame] * decay;
+                        bufferChannel[frame] += outputChannel[frame];
 
-                for (uint16_t channel = 0; channel < channels; ++channel)
                     for (uint32_t frame = 0; frame < frames; ++frame)
-                        samples[channel * frames + frame] = buffer[channel * bufferFrames + frame];
+                        bufferChannel[frame + delayFrames] += bufferChannel[frame] * decay;
 
-                // erase frames from beginning
-                for (uint16_t channel = 0; channel < channels; ++channel)
+                    for (uint32_t frame = 0; frame < frames; ++frame)
+                        outputChannel[frame] = bufferChannel[frame];
+
+                    // erase frames from beginning
                     for (uint32_t frame = 0; frame < bufferFrames - frames; ++frame)
-                        buffer[channel * bufferFrames + frame] = buffer[channel * bufferFrames + frame + frames];
+                        bufferChannel[frame] = bufferChannel[frame + frames];
 
-                for (uint16_t channel = 0; channel < channels; ++channel)
                     for (uint32_t frame = bufferFrames - frames; frame < bufferFrames; ++frame)
-                        buffer[channel * bufferFrames + frame] = 0.0F;
+                        bufferChannel[frame] = 0.0F;
+                }
             }
 
         private:
