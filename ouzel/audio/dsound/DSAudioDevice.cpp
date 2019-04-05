@@ -122,6 +122,8 @@ namespace ouzel
             {
                 waveFormat.wFormatTag = WAVE_FORMAT_PCM;
                 waveFormat.wBitsPerSample = sizeof(int16_t) * 8;
+                waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
+                waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
 
                 if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
                     throw std::system_error(hr, directSoundErrorCategory, "Failed to set DirectSound buffer format");
