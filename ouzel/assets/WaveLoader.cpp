@@ -133,6 +133,7 @@ namespace ouzel
                     else if (chunkHeader[0] == 'd' && chunkHeader[1] == 'a' && chunkHeader[2] == 't' && chunkHeader[3] == 'a')
                         soundData.assign(data.begin() + static_cast<int>(offset), data.begin() + static_cast<int>(offset + chunkSize));
 
+                    // padding
                     offset += ((chunkSize + 1) & 0xFFFFFFFE);
                 }
 
@@ -142,8 +143,7 @@ namespace ouzel
                 if (data.empty())
                     throw std::runtime_error("Failed to load sound file, failed to find a data chunk");
 
-                uint32_t bytesPerSample = bitsPerSample / 8;
-                uint32_t sampleCount = static_cast<uint32_t>(soundData.size() / bytesPerSample);
+                uint32_t sampleCount = static_cast<uint32_t>(soundData.size() / (bitsPerSample / 8));
                 uint32_t frames = sampleCount / channels;
                 std::vector<float> samples(sampleCount);
 
@@ -151,45 +151,60 @@ namespace ouzel
                 {
                     if (bitsPerSample == 8)
                     {
-                        for (uint32_t frame = 0; frame < frames; ++frame)
-                            for (uint32_t channel = 0; channel < channels; ++channel)
+                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        {
+                            float* outputChannel = &samples[channel * frames];
+
+                            for (uint32_t frame = 0; frame < frames; ++frame)
                             {
                                 uint32_t s = (frame * channels + channel);
-                                samples[channel * frames + frame] = 2.0F * soundData[s] / 255.0F - 1.0F;
+                                outputChannel[frame] = 2.0F * soundData[s] / 255.0F - 1.0F;
                             }
+                        }
                     }
                     else if (bitsPerSample == 16)
                     {
-                        for (uint32_t frame = 0; frame < frames; ++frame)
-                            for (uint32_t channel = 0; channel < channels; ++channel)
+                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        {
+                            float* outputChannel = &samples[channel * frames];
+
+                            for (uint32_t frame = 0; frame < frames; ++frame)
                             {
                                 uint32_t s = (frame * channels + channel) * 2;
-                                samples[channel * frames + frame] = static_cast<int16_t>(soundData[s] |
-                                                                                         (soundData[s + 1] << 8)) / 32767.0F;
+                                outputChannel[frame] = (soundData[s] | (soundData[s + 1] << 8)) / 32767.0F;
                             }
+                        }
                     }
                     else if (bitsPerSample == 24)
                     {
-                        for (uint32_t frame = 0; frame < frames; ++frame)
-                            for (uint32_t channel = 0; channel < channels; ++channel)
+                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        {
+                            float* outputChannel = &samples[channel * frames];
+
+                            for (uint32_t frame = 0; frame < frames; ++frame)
                             {
                                 uint32_t s = (frame * channels + channel) * 3;
-                                samples[channel * frames + frame] = static_cast<float>(static_cast<int32_t>((soundData[s] << 8) |
-                                                                                                            (soundData[s + 1] << 16) |
-                                                                                                            (soundData[s + 2] << 24)) / 2147483648.0);
+                                outputChannel[frame] = static_cast<float>(((soundData[s] << 8) |
+                                                                           (soundData[s + 1] << 16) |
+                                                                           (soundData[s + 2] << 24)) / 2147483648.0);
                             }
+                        }
                     }
                     else if (bitsPerSample == 32)
                     {
-                        for (uint32_t frame = 0; frame < frames; ++frame)
-                            for (uint32_t channel = 0; channel < channels; ++channel)
+                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        {
+                            float* outputChannel = &samples[channel * frames];
+
+                            for (uint32_t frame = 0; frame < frames; ++frame)
                             {
                                 uint32_t s = (frame * channels + channel) * 4;
-                                samples[channel * frames + frame] = static_cast<float>(static_cast<int32_t>(soundData[s] |
-                                                                                                            (soundData[s + 1] << 8) |
-                                                                                                            (soundData[s + 2] << 16) |
-                                                                                                            (soundData[s + 2] << 24)) / 2147483648.0);
+                                outputChannel[frame] = static_cast<float>((soundData[s] |
+                                                                           (soundData[s + 1] << 8) |
+                                                                           (soundData[s + 2] << 16) |
+                                                                           (soundData[s + 2] << 24)) / 2147483648.0);
                             }
+                        }
                     }
                     else
                         throw std::runtime_error("Failed to load sound file, unsupported bit depth");
@@ -198,12 +213,16 @@ namespace ouzel
                 {
                     if (bitsPerSample == 32)
                     {
-                        for (uint32_t frame = 0; frame < frames; ++frame)
-                            for (uint32_t channel = 0; channel < channels; ++channel)
+                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        {
+                            float* outputChannel = &samples[channel * frames];
+
+                            for (uint32_t frame = 0; frame < frames; ++frame)
                             {
                                 uint32_t s = (frame * channels + channel);
-                                samples[channel * frames + frame] = reinterpret_cast<float*>(soundData.data())[s];
+                                outputChannel[frame] = reinterpret_cast<float*>(soundData.data())[s];
                             }
+                        }
                     }
                     else
                         throw std::runtime_error("Failed to load sound file, unsupported bit depth");

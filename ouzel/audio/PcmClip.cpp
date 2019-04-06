@@ -71,14 +71,23 @@ namespace ouzel
                 copyFrames = sourceFrames - position;
 
             for (uint32_t channel = 0; channel < pcmData.getChannels(); ++channel)
+            {
+                const float* sourceChannel = &data[channel * sourceFrames];
+                float* outputChannel = &samples[channel * frames];
+
                 for (uint32_t frame = 0; frame < copyFrames; ++frame)
-                    samples[channel * frames + frame] = data[channel * sourceFrames + frame + position];
+                    outputChannel[frame] = sourceChannel[frame + position];
+            }
 
             position += copyFrames;
 
             for (uint32_t channel = 0; channel < pcmData.getChannels(); ++channel)
+            {
+                float* outputChannel = &samples[channel * frames];
+
                 for (uint32_t frame = copyFrames; frame < frames; ++frame)
-                    samples[channel * frames + frame] = 0.0F;
+                    outputChannel[frame] = 0.0F;
+            }
 
             if ((sourceFrames - position) == 0)
             {
