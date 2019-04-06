@@ -80,8 +80,8 @@ namespace ouzel
                     samples = sourceSamples;
             }
 
-            static void mix(uint32_t frames, uint16_t sourceChannels, const std::vector<float>& sourceSamples,
-                            uint16_t channels, std::vector<float>& samples)
+            static void convert(uint32_t frames, uint16_t sourceChannels, const std::vector<float>& sourceSamples,
+                                uint16_t channels, std::vector<float>& samples)
             {
                 samples.resize(frames * channels);
 
@@ -268,7 +268,7 @@ namespace ouzel
                             stream->getData(frames, mixBuffer);
 
                         if (sourceChannels != channels)
-                            mix(frames, sourceChannels, mixBuffer, channels, buffer);
+                            convert(frames, sourceChannels, mixBuffer, channels, buffer);
                         else
                             buffer = mixBuffer;
 
