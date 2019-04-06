@@ -157,8 +157,8 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < frames; ++frame)
                             {
-                                uint32_t s = (frame * channels + channel);
-                                outputChannel[frame] = 2.0F * soundData[s] / 255.0F - 1.0F;
+                                uint8_t* sourceData = &soundData[frame * channels + channel];
+                                outputChannel[frame] = 2.0F * sourceData[0] / 255.0F - 1.0F;
                             }
                         }
                     }
@@ -170,8 +170,9 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < frames; ++frame)
                             {
-                                uint32_t s = (frame * channels + channel) * 2;
-                                outputChannel[frame] = (soundData[s] | (soundData[s + 1] << 8)) / 32767.0F;
+                                uint8_t* sourceData = &soundData[(frame * channels + channel) * 2];
+                                outputChannel[frame] = static_cast<int16_t>(sourceData[0] |
+                                                                            (sourceData[1] << 8)) / 32767.0F;
                             }
                         }
                     }
@@ -183,10 +184,10 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < frames; ++frame)
                             {
-                                uint32_t s = (frame * channels + channel) * 3;
-                                outputChannel[frame] = static_cast<float>(((soundData[s] << 8) |
-                                                                           (soundData[s + 1] << 16) |
-                                                                           (soundData[s + 2] << 24)) / 2147483648.0);
+                                uint8_t* sourceData = &soundData[(frame * channels + channel) * 3];
+                                outputChannel[frame] = static_cast<float>(static_cast<int32_t>((sourceData[0] << 8) |
+                                                                                               (sourceData[1] << 16) |
+                                                                                               (sourceData[2] << 24)) / 2147483648.0);
                             }
                         }
                     }
@@ -198,11 +199,11 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < frames; ++frame)
                             {
-                                uint32_t s = (frame * channels + channel) * 4;
-                                outputChannel[frame] = static_cast<float>((soundData[s] |
-                                                                           (soundData[s + 1] << 8) |
-                                                                           (soundData[s + 2] << 16) |
-                                                                           (soundData[s + 2] << 24)) / 2147483648.0);
+                                uint8_t* sourceData = &soundData[(frame * channels + channel) * 4];
+                                outputChannel[frame] = static_cast<float>(static_cast<int32_t>(sourceData[0] |
+                                                                                               (sourceData[1] << 8) |
+                                                                                               (sourceData[2] << 16) |
+                                                                                               (sourceData[3] << 24)) / 2147483648.0);
                             }
                         }
                     }
@@ -219,8 +220,8 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < frames; ++frame)
                             {
-                                uint32_t s = (frame * channels + channel);
-                                outputChannel[frame] = reinterpret_cast<float*>(soundData.data())[s];
+                                float* floatData = reinterpret_cast<float*>(soundData.data());
+                                outputChannel[frame] = floatData[frame * channels + channel];
                             }
                         }
                     }
