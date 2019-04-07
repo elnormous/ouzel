@@ -288,7 +288,9 @@ namespace ouzel
 
         Reverb::Reverb(Audio& initAudio, float initDelay, float initDecay):
             Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new ReverbProcessor(initDelay, initDecay))))
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new ReverbProcessor(initDelay, initDecay)))),
+            delay(initDelay),
+            decay(initDecay)
         {
         }
 

@@ -121,6 +121,13 @@ namespace ouzel
             Reverb& operator=(const Reverb&) = delete;
             Reverb(Reverb&&) = delete;
             Reverb& operator=(Reverb&&) = delete;
+
+            inline float getDelay() const { return delay; }
+            inline float getDecay() const { return decay; }
+
+        private:
+            float delay;
+            float decay;
         };
 
         class LowPass final: public Effect
