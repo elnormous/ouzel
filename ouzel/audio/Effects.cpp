@@ -14,19 +14,48 @@ namespace ouzel
         class DelayProcessor final: public mixer::Processor
         {
         public:
-            DelayProcessor()
+            DelayProcessor(float initDelay):
+                delay(initDelay)
             {
             }
 
             void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override
             {
+                uint32_t delayFrames = static_cast<uint32_t>(delay * sampleRate);
+                uint32_t bufferFrames = frames + delayFrames;
+
+                buffer.resize(bufferFrames * channels);
+
+                for (uint16_t channel = 0; channel < channels; ++channel)
+                {
+                    float* bufferChannel = &buffer[channel * bufferFrames];
+                    float* outputChannel = &samples[channel * frames];
+
+                    for (uint32_t frame = 0; frame < frames; ++frame)
+                        bufferChannel[frame + delayFrames] += outputChannel[frame];
+
+                    for (uint32_t frame = 0; frame < frames; ++frame)
+                        outputChannel[frame] = bufferChannel[frame];
+
+                    // erase frames from beginning
+                    for (uint32_t frame = 0; frame < bufferFrames - frames; ++frame)
+                        bufferChannel[frame] = bufferChannel[frame + frames];
+
+                    for (uint32_t frame = bufferFrames - frames; frame < bufferFrames; ++frame)
+                        bufferChannel[frame] = 0.0F;
+                }
             }
+
+        private:
+            float delay = 0.0F;
+            std::vector<float> buffer;
         };
 
-        Delay::Delay(Audio& initAudio):
+        Delay::Delay(Audio& initAudio, float initDelay):
             Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new DelayProcessor())))
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new DelayProcessor(initDelay)))),
+            delay(initDelay)
         {
         }
 
@@ -42,7 +71,9 @@ namespace ouzel
         class GainProcessor final: public mixer::Processor
         {
         public:
-            GainProcessor()
+            GainProcessor(float initGain = 0.0F):
+                gain(initGain),
+                gainFactor(pow(10.0F, initGain / 20.0F))
             {
             }
 
@@ -64,9 +95,10 @@ namespace ouzel
             float gainFactor = 1.0F;
         };
 
-        Gain::Gain(Audio& initAudio):
+        Gain::Gain(Audio& initAudio, float initGain):
             Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new GainProcessor())))
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new GainProcessor(initGain)))),
+            gain(initGain)
         {
         }
 
@@ -281,9 +313,9 @@ namespace ouzel
             }
 
         private:
-            std::vector<float> buffer;
             float delay = 0.1F;
             float decay = 0.5F;
+            std::vector<float> buffer;
         };
 
         Reverb::Reverb(Audio& initAudio, float initDelay, float initDecay):

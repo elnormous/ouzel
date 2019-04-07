@@ -16,7 +16,7 @@ namespace ouzel
         class Delay final: public Effect
         {
         public:
-            Delay(Audio& initAudio);
+            Delay(Audio& initAudio, float initDelay = 0.0F);
             ~Delay();
 
             Delay(const Delay&) = delete;
@@ -31,14 +31,14 @@ namespace ouzel
             inline const std::pair<float, float>& getDelayRandom() const { return delayRandom; }
 
         private:
-            float delay = 0.0F;
+            float delay;
             std::pair<float, float> delayRandom{0.0F, 0.0F};
         };
 
         class Gain final: public Effect
         {
         public:
-            Gain(Audio& initAudio);
+            Gain(Audio& initAudio, float initGain = 0.0F);
             ~Gain();
 
             Gain(const Gain&) = delete;
@@ -53,7 +53,7 @@ namespace ouzel
             inline const std::pair<float, float>& getGainRandom() const { return gainRandom; }
 
         private:
-            float gain = 0.0F; // dB
+            float gain; // dB
             std::pair<float, float> gainRandom{0.0F, 0.0F};
         };
 
