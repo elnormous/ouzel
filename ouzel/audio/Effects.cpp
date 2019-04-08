@@ -47,6 +47,11 @@ namespace ouzel
                 }
             }
 
+            void setDelay(float newDelay)
+            {
+                delay = newDelay;
+            }
+
         private:
             float delay = 0.0F;
             std::vector<float> buffer;
@@ -66,6 +71,11 @@ namespace ouzel
         void Delay::setDelay(float newDelay)
         {
             delay = newDelay;
+
+            audio.updateProcessor(processorId, [newDelay](mixer::Object* node) {
+                DelayProcessor* delayProcessor = static_cast<DelayProcessor*>(node);
+                delayProcessor->setDelay(newDelay);
+            });
         }
 
         class GainProcessor final: public mixer::Processor
