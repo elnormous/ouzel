@@ -481,12 +481,6 @@
 		30575AA91C39D1FF0009C8A7 /* Layer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30575AA51C39D1FF0009C8A7 /* Layer.hpp */; };
 		30575AAA1C39D1FF0009C8A7 /* Layer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30575AA51C39D1FF0009C8A7 /* Layer.hpp */; };
 		30575AAB1C39D1FF0009C8A7 /* Layer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30575AA51C39D1FF0009C8A7 /* Layer.hpp */; };
-		30575ABC1C39D9850009C8A7 /* ActorContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575ABA1C39D9850009C8A7 /* ActorContainer.cpp */; };
-		30575ABD1C39D9850009C8A7 /* ActorContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575ABA1C39D9850009C8A7 /* ActorContainer.cpp */; };
-		30575ABE1C39D9850009C8A7 /* ActorContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575ABA1C39D9850009C8A7 /* ActorContainer.cpp */; };
-		30575ABF1C39D9850009C8A7 /* ActorContainer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30575ABB1C39D9850009C8A7 /* ActorContainer.hpp */; };
-		30575AC01C39D9850009C8A7 /* ActorContainer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30575ABB1C39D9850009C8A7 /* ActorContainer.hpp */; };
-		30575AC11C39D9850009C8A7 /* ActorContainer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30575ABB1C39D9850009C8A7 /* ActorContainer.hpp */; };
 		30575AC51C3B17540009C8A7 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AC31C3B17540009C8A7 /* Button.cpp */; };
 		30575AC61C3B17540009C8A7 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AC31C3B17540009C8A7 /* Button.cpp */; };
 		30575AC71C3B17540009C8A7 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575AC31C3B17540009C8A7 /* Button.cpp */; };
@@ -1066,8 +1060,6 @@
 		30575A9D1C39CB790009C8A7 /* Scene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Scene.hpp; sourceTree = "<group>"; };
 		30575AA41C39D1FF0009C8A7 /* Layer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cpp; sourceTree = "<group>"; };
 		30575AA51C39D1FF0009C8A7 /* Layer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Layer.hpp; sourceTree = "<group>"; };
-		30575ABA1C39D9850009C8A7 /* ActorContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActorContainer.cpp; sourceTree = "<group>"; };
-		30575ABB1C39D9850009C8A7 /* ActorContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ActorContainer.hpp; sourceTree = "<group>"; };
 		30575AC31C3B17540009C8A7 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
 		30575AC41C3B17540009C8A7 /* Button.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Button.hpp; sourceTree = "<group>"; };
 		30575ACB1C3B175D0009C8A7 /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Label.cpp; sourceTree = "<group>"; };
@@ -1391,8 +1383,6 @@
 			children = (
 				304A8E361C237C70008B1151 /* Actor.cpp */,
 				304A8E371C237C70008B1151 /* Actor.hpp */,
-				30575ABA1C39D9850009C8A7 /* ActorContainer.cpp */,
-				30575ABB1C39D9850009C8A7 /* ActorContainer.hpp */,
 				3047F73C1C4C344A00774E3D /* Animator.cpp */,
 				3047F73D1C4C344A00774E3D /* Animator.hpp */,
 				30EABE38220E5C6C001C70A6 /* Animators.cpp */,
@@ -2022,7 +2012,6 @@
 				304736DC1E0B4776009BC562 /* Box.hpp in Headers */,
 				30ADCBBE1E9A957C000DC9AC /* MetalRenderDeviceIOS.hpp in Headers */,
 				30216B831ED5C3900073E3D5 /* Plane.hpp in Headers */,
-				30575AC01C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
 				309BA3161F183D6E006F2240 /* CAAudioDevice.hpp in Headers */,
 				30C3F294219D0DD9003FE9ED /* Object.hpp in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Actor.hpp in Headers */,
@@ -2167,7 +2156,6 @@
 				C6C9102F21B54EE000B5FCB7 /* Oscillator.hpp in Headers */,
 				303B76641C355A3B00FEDE92 /* SceneManager.hpp in Headers */,
 				3047F7431C4C344A00774E3D /* Animator.hpp in Headers */,
-				30575AC11C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
 				300862DB2154725500D8CC45 /* InputSystemTVOS.hpp in Headers */,
 				304736DE1E0B4776009BC562 /* Box.hpp in Headers */,
 				30216B851ED5C3900073E3D5 /* Plane.hpp in Headers */,
@@ -2267,7 +2255,6 @@
 				30519CBC1F9B53AB00AF3DC4 /* WaveLoader.hpp in Headers */,
 				306A26B71F5DD17700E2B0B6 /* Listener.hpp in Headers */,
 				304A8E501C237C70008B1151 /* ouzel.hpp in Headers */,
-				30575ABF1C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
 				3038216D1D81876E00677CAB /* EmptyAudioDevice.hpp in Headers */,
 				30519CB01F9B4E3E00AF3DC4 /* Loader.hpp in Headers */,
 				30DADE9F1C5167BC001A63B4 /* Cache.hpp in Headers */,
@@ -2666,7 +2653,6 @@
 				30381F4F1D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,
 				302B728421BDE302006EBC59 /* SilenceSound.cpp in Sources */,
 				303B04B61E207B6100011CBE /* OGLRenderDeviceIOS.mm in Sources */,
-				30575ABD1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
 				30EF364C1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */,
 				3031C1341F0C4350002CA717 /* VorbisClip.cpp in Sources */,
 				30419DF21D162BEF00A63759 /* Sound.cpp in Sources */,
@@ -2809,7 +2795,6 @@
 				302B728621BDE302006EBC59 /* SilenceSound.cpp in Sources */,
 				30381F511D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,
 				30EA71211D52783000AE8C3E /* EngineTVOS.mm in Sources */,
-				30575ABE1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
 				30EF364D1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */,
 				30419DF31D162BEF00A63759 /* Sound.cpp in Sources */,
 				3031C1361F0C4350002CA717 /* VorbisClip.cpp in Sources */,
@@ -2877,7 +2862,6 @@
 				30216B641ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
 				30FFBE3B2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
 				3085DA21211A4A5500F4C2D0 /* Socket.cpp in Sources */,
-				30575ABC1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
 				30EF36531CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				30A883651E7432DA004A033F /* Archive.cpp in Sources */,

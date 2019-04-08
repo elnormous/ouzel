@@ -142,7 +142,6 @@
     <ClCompile Include="..\ouzel\network\Server.cpp" />
     <ClCompile Include="..\ouzel\network\Socket.cpp" />
     <ClCompile Include="..\ouzel\scene\Actor.cpp" />
-    <ClCompile Include="..\ouzel\scene\ActorContainer.cpp" />
     <ClCompile Include="..\ouzel\scene\Animator.cpp" />
     <ClCompile Include="..\ouzel\scene\Animators.cpp" />
     <ClCompile Include="..\ouzel\scene\Camera.cpp" />
@@ -321,7 +320,6 @@
     <ClInclude Include="..\ouzel\network\Socket.hpp" />
     <ClInclude Include="..\ouzel\ouzel.hpp" />
     <ClInclude Include="..\ouzel\scene\Actor.hpp" />
-    <ClInclude Include="..\ouzel\scene\ActorContainer.hpp" />
     <ClInclude Include="..\ouzel\scene\Animator.hpp" />
     <ClInclude Include="..\ouzel\scene\Animators.hpp" />
     <ClInclude Include="..\ouzel\scene\Camera.hpp" />

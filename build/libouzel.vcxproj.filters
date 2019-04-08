@@ -145,9 +145,6 @@
     <ClCompile Include="..\ouzel\scene\Actor.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\ActorContainer.cpp">
-      <Filter>ouzel\scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\utils\Obf.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
@@ -592,9 +589,6 @@
       <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\Actor.hpp">
-      <Filter>ouzel\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\scene\ActorContainer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\Obf.hpp">

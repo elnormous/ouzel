@@ -119,7 +119,6 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
 	../../ouzel/network/Server.cpp \
     ../../ouzel/network/Socket.cpp \
     ../../ouzel/scene/Actor.cpp \
-    ../../ouzel/scene/ActorContainer.cpp \
     ../../ouzel/scene/Animator.cpp \
 	../../ouzel/scene/Animators.cpp \
     ../../ouzel/scene/Camera.cpp \

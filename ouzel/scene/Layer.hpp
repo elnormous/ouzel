@@ -5,7 +5,7 @@
 
 #include <cstdint>
 #include <vector>
-#include "scene/ActorContainer.hpp"
+#include "scene/Actor.hpp"
 #include "math/Vector.hpp"
 
 namespace ouzel

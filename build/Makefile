@@ -134,7 +134,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/network/Server.cpp \
 	$(ROOT_DIR)/../ouzel/network/Socket.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Actor.cpp \
-	$(ROOT_DIR)/../ouzel/scene/ActorContainer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Animators.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Camera.cpp \
