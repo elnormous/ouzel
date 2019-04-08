@@ -94,9 +94,6 @@
     <ClCompile Include="..\ouzel\gui\Label.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\localization\Language.cpp">
-      <Filter>ouzel\localization</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\scene\Layer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
@@ -539,9 +536,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\Label.hpp">
       <Filter>ouzel\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\localization\Language.hpp">
-      <Filter>ouzel\localization</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\Layer.hpp">
       <Filter>ouzel\scene</Filter>

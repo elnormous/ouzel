@@ -125,7 +125,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/input/MouseDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/Touchpad.cpp \
 	$(ROOT_DIR)/../ouzel/input/TouchpadDevice.cpp \
-	$(ROOT_DIR)/../ouzel/localization/Language.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Localization.cpp \
 	$(ROOT_DIR)/../ouzel/math/MathUtils.cpp \
 	$(ROOT_DIR)/../ouzel/math/Matrix.cpp \
