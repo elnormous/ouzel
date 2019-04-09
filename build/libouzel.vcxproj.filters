@@ -211,9 +211,6 @@
     <ClCompile Include="..\ouzel\gui\TTFont.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\Vertex.cpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\gui\Widget.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>

@@ -97,7 +97,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/RenderTarget.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Shader.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Texture.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/Vertex.cpp \
 	$(ROOT_DIR)/../ouzel/gui/BMFont.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Button.cpp \
 	$(ROOT_DIR)/../ouzel/gui/CheckBox.cpp \

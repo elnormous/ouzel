@@ -7,6 +7,14 @@ namespace ouzel
 {
     namespace graphics
     {
+        const std::array<Vertex::Attribute, 5> RenderDevice::VERTEX_ATTRIBUTES{
+            Vertex::Attribute(Vertex::Attribute::Usage::POSITION, DataType::FLOAT_VECTOR3),
+            Vertex::Attribute(Vertex::Attribute::Usage::COLOR, DataType::UNSIGNED_BYTE_VECTOR4_NORM),
+            Vertex::Attribute(Vertex::Attribute::Usage::TEXTURE_COORDINATES0, DataType::FLOAT_VECTOR2),
+            Vertex::Attribute(Vertex::Attribute::Usage::TEXTURE_COORDINATES1, DataType::FLOAT_VECTOR2),
+            Vertex::Attribute(Vertex::Attribute::Usage::NORMAL, DataType::FLOAT_VECTOR3)
+        };
+
         RenderDevice::RenderDevice(Driver initDriver,
                                    const std::function<void(const Event&)>& initCallback):
             driver(initDriver),

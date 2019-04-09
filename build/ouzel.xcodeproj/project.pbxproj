@@ -265,7 +265,6 @@
 		303B75521C2A3CB700FEDE92 /* Matrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E351C237C70008B1151 /* Matrix.hpp */; };
 		303B75541C2A3CB700FEDE92 /* Rect.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rect.hpp */; };
 		303B755C1C2A3CB700FEDE92 /* Vector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4F1C237C70008B1151 /* Vector.hpp */; };
-		303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA01C270833008B1151 /* Vertex.cpp */; };
 		303B755E1C2A3CB700FEDE92 /* Vertex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EA11C270833008B1151 /* Vertex.hpp */; };
 		303B755F1C2A3CBF00FEDE92 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		303B75601C2A3CBF00FEDE92 /* Camera.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.hpp */; };
@@ -290,7 +289,6 @@
 		303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */; };
 		303B76381C355A3B00FEDE92 /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* InputManager.cpp */; };
 		303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* Sprite.cpp */; };
-		303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA01C270833008B1151 /* Vertex.cpp */; };
 		303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E401C237C70008B1151 /* SceneManager.cpp */; };
 		303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E301C237C70008B1151 /* MathUtils.cpp */; };
 		303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E481C237C70008B1151 /* Utils.cpp */; };
@@ -380,7 +378,6 @@
 		304A8E751C237C70008B1151 /* Vector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4F1C237C70008B1151 /* Vector.hpp */; };
 		304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */; };
 		304A8E971C26EDFB008B1151 /* ParticleSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E951C26EDFB008B1151 /* ParticleSystem.hpp */; };
-		304A8EA21C270833008B1151 /* Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA01C270833008B1151 /* Vertex.cpp */; };
 		304A8EA31C270833008B1151 /* Vertex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EA11C270833008B1151 /* Vertex.hpp */; };
 		304AA8BE1E1190E4006FA70E /* Obf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304AA8BC1E1190E4006FA70E /* Obf.cpp */; };
 		304AA8BF1E1190E4006FA70E /* Obf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304AA8BC1E1190E4006FA70E /* Obf.cpp */; };
@@ -1018,7 +1015,6 @@
 		304A8E871C248204008B1151 /* Setup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Setup.h; sourceTree = "<group>"; };
 		304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
 		304A8E951C26EDFB008B1151 /* ParticleSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParticleSystem.hpp; sourceTree = "<group>"; };
-		304A8EA01C270833008B1151 /* Vertex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vertex.cpp; sourceTree = "<group>"; };
 		304A8EA11C270833008B1151 /* Vertex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vertex.hpp; sourceTree = "<group>"; };
 		304AA8BC1E1190E4006FA70E /* Obf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Obf.cpp; sourceTree = "<group>"; };
 		304AA8BD1E1190E4006FA70E /* Obf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Obf.hpp; sourceTree = "<group>"; };
@@ -1458,7 +1454,6 @@
 				303696EB1E32DE08007F4211 /* Shader.hpp */,
 				303696C21E32DD8F007F4211 /* Texture.cpp */,
 				303696C31E32DD8F007F4211 /* Texture.hpp */,
-				304A8EA01C270833008B1151 /* Vertex.cpp */,
 				304A8EA11C270833008B1151 /* Vertex.hpp */,
 			);
 			path = graphics;
@@ -2593,7 +2588,6 @@
 				30519CF81F9B54E300AF3DC4 /* VorbisLoader.cpp in Sources */,
 				30519CE01F9B53E900AF3DC4 /* ParticleSystemLoader.cpp in Sources */,
 				30EEADBB21618DAF00D2F525 /* GamepadDevice.cpp in Sources */,
-				303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */,
 				3038200C1D80A40700677CAB /* MetalShader.mm in Sources */,
 				300902FE219224B100B00BF4 /* DepthStencilState.cpp in Sources */,
 				30A381F521B201C20043568A /* Bus.cpp in Sources */,
@@ -2727,7 +2721,6 @@
 				303696C61E32DD8F007F4211 /* Texture.cpp in Sources */,
 				303696EE1E32DE08007F4211 /* Shader.cpp in Sources */,
 				30519CFA1F9B54E300AF3DC4 /* VorbisLoader.cpp in Sources */,
-				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
 				30519CE21F9B53E900AF3DC4 /* ParticleSystemLoader.cpp in Sources */,
 				3038200E1D80A40700677CAB /* MetalShader.mm in Sources */,
 				301EB3A41CCD691800466E92 /* Component.cpp in Sources */,
@@ -2964,7 +2957,6 @@
 				3049DCDB1EDCD0450000997A /* Cursor.cpp in Sources */,
 				305B68D41ED1B31D003352A2 /* Timer.cpp in Sources */,
 				304A8E5A1C237C70008B1151 /* Matrix.cpp in Sources */,
-				304A8EA21C270833008B1151 /* Vertex.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

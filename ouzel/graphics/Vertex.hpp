@@ -3,7 +3,6 @@
 #ifndef OUZEL_GRAPHICS_VERTEX_HPP
 #define OUZEL_GRAPHICS_VERTEX_HPP
 
-#include <vector>
 #include "graphics/DataType.hpp"
 #include "math/Vector.hpp"
 #include "math/Color.hpp"
@@ -39,8 +38,6 @@ namespace ouzel
                 Usage usage = Usage::NONE;
                 DataType dataType = DataType::NONE;
             };
-
-            static const std::vector<Attribute> ATTRIBUTES;
 
             Vertex() {}
             Vertex(const Vector3F& initPosition, Color initColor, const Vector2F& initTexCoord, const Vector3F& initNormal):

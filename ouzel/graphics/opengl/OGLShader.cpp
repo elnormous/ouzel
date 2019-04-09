@@ -118,7 +118,7 @@ namespace ouzel
 
             GLuint index = 0;
 
-            for (const Vertex::Attribute& vertexAttribute : Vertex::ATTRIBUTES)
+            for (const Vertex::Attribute& vertexAttribute : RenderDevice::VERTEX_ATTRIBUTES)
             {
                 if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
                 {

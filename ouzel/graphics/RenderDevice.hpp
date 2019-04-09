@@ -3,6 +3,7 @@
 #ifndef OUZEL_GRAPHICS_RENDERDEVICE_HPP
 #define OUZEL_GRAPHICS_RENDERDEVICE_HPP
 
+#include <array>
 #include <atomic>
 #include <condition_variable>
 #include <mutex>
@@ -34,6 +35,8 @@ namespace ouzel
             friend Shader;
             friend Texture;
         public:
+            static const std::array<Vertex::Attribute, 5> VERTEX_ATTRIBUTES;
+
             struct Event
             {
                 enum class Type

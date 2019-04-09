@@ -99,7 +99,6 @@
     <ClCompile Include="..\ouzel\graphics\Renderer.cpp" />
     <ClCompile Include="..\ouzel\graphics\Shader.cpp" />
     <ClCompile Include="..\ouzel\graphics\Texture.cpp" />
-    <ClCompile Include="..\ouzel\graphics\Vertex.cpp" />
     <ClCompile Include="..\ouzel\gui\BMFont.cpp" />
     <ClCompile Include="..\ouzel\gui\Button.cpp" />
     <ClCompile Include="..\ouzel\gui\CheckBox.cpp" />

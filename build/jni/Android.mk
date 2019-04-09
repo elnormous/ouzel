@@ -80,7 +80,6 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
 	../../ouzel/graphics/RenderTarget.cpp \
     ../../ouzel/graphics/Shader.cpp \
     ../../ouzel/graphics/Texture.cpp \
-    ../../ouzel/graphics/Vertex.cpp \
     ../../ouzel/gui/BMFont.cpp \
     ../../ouzel/gui/TTFont.cpp \
     ../../ouzel/gui/Button.cpp \

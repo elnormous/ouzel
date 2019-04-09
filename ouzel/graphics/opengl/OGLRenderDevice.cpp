@@ -1124,9 +1124,9 @@ namespace ouzel
 
                             GLuint vertexOffset = 0;
 
-                            for (GLuint index = 0; index < Vertex::ATTRIBUTES.size(); ++index)
+                            for (GLuint index = 0; index < RenderDevice::VERTEX_ATTRIBUTES.size(); ++index)
                             {
-                                const Vertex::Attribute& vertexAttribute = Vertex::ATTRIBUTES[index];
+                                const Vertex::Attribute& vertexAttribute = RenderDevice::VERTEX_ATTRIBUTES[index];
 
                                 glEnableVertexAttribArrayProc(index);
                                 glVertexAttribPointerProc(index,
