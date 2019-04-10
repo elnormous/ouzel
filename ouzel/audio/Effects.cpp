@@ -314,10 +314,10 @@ namespace ouzel
                         outputChannel[frame] = bufferChannel[frame];
 
                     // erase frames from beginning
-                    for (uint32_t frame = 0; frame < bufferFrames - frames; ++frame)
+                    for (uint32_t frame = 0; frame < delayFrames; ++frame)
                         bufferChannel[frame] = bufferChannel[frame + frames];
 
-                    for (uint32_t frame = bufferFrames - frames; frame < bufferFrames; ++frame)
+                    for (uint32_t frame = delayFrames; frame < bufferFrames; ++frame)
                         bufferChannel[frame] = 0.0F;
                 }
             }
