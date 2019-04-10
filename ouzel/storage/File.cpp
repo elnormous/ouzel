@@ -13,10 +13,6 @@ namespace ouzel
 {
     namespace storage
     {
-        File::File()
-        {
-        }
-
         File::File(const std::string& filename, int mode)
         {
 #if defined(_WIN32)

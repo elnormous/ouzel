@@ -40,7 +40,7 @@ namespace ouzel
                 END
             };
 
-            File();
+            File() {}
             File(const std::string& filename, int mode);
             ~File();
 
