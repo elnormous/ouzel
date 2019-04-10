@@ -98,20 +98,10 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Shader.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Texture.cpp \
 	$(ROOT_DIR)/../ouzel/gui/BMFont.cpp \
-	$(ROOT_DIR)/../ouzel/gui/Button.cpp \
-	$(ROOT_DIR)/../ouzel/gui/CheckBox.cpp \
-	$(ROOT_DIR)/../ouzel/gui/ComboBox.cpp \
-	$(ROOT_DIR)/../ouzel/gui/EditBox.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Font.cpp \
-	$(ROOT_DIR)/../ouzel/gui/Label.cpp \
-	$(ROOT_DIR)/../ouzel/gui/Menu.cpp \
-	$(ROOT_DIR)/../ouzel/gui/RadioButton.cpp \
-	$(ROOT_DIR)/../ouzel/gui/RadioButtonGroup.cpp \
-	$(ROOT_DIR)/../ouzel/gui/ScrollArea.cpp \
-	$(ROOT_DIR)/../ouzel/gui/ScrollBar.cpp \
-	$(ROOT_DIR)/../ouzel/gui/SlideBar.cpp \
 	$(ROOT_DIR)/../ouzel/gui/TTFont.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Widget.cpp \
+	$(ROOT_DIR)/../ouzel/gui/Widgets.cpp \
 	$(ROOT_DIR)/../ouzel/input/Cursor.cpp \
 	$(ROOT_DIR)/../ouzel/input/Gamepad.cpp \
 	$(ROOT_DIR)/../ouzel/input/GamepadDevice.cpp \

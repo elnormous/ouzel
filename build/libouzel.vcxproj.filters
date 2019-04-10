@@ -43,17 +43,8 @@
     <ClCompile Include="..\ouzel\graphics\opengl\OGLBuffer.cpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\gui\Button.cpp">
-      <Filter>ouzel\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\scene\Camera.cpp">
       <Filter>ouzel\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\gui\CheckBox.cpp">
-      <Filter>ouzel\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\gui\ComboBox.cpp">
-      <Filter>ouzel\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\Component.cpp">
       <Filter>ouzel\scene</Filter>
@@ -63,9 +54,6 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\input\windows\CursorWin.cpp">
       <Filter>ouzel\input\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\gui\EditBox.cpp">
-      <Filter>ouzel\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\core\Engine.cpp">
       <Filter>ouzel\core</Filter>
@@ -90,9 +78,6 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\input\InputManager.cpp">
       <Filter>ouzel\input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\gui\Label.cpp">
-      <Filter>ouzel\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\Layer.cpp">
       <Filter>ouzel\scene</Filter>
@@ -130,9 +115,6 @@
     <ClCompile Include="..\ouzel\math\Matrix.cpp">
       <Filter>ouzel\math</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\gui\Menu.cpp">
-      <Filter>ouzel\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\scene\SkinnedMeshRenderer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
@@ -151,12 +133,6 @@
     <ClCompile Include="..\ouzel\scene\ParticleSystem.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\gui\RadioButton.cpp">
-      <Filter>ouzel\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\gui\RadioButtonGroup.cpp">
-      <Filter>ouzel\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\scene\Scene.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
@@ -165,12 +141,6 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\SceneManager.cpp">
       <Filter>ouzel\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\gui\ScrollArea.cpp">
-      <Filter>ouzel\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\gui\ScrollBar.cpp">
-      <Filter>ouzel\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\RenderTarget.cpp">
       <Filter>ouzel\graphics</Filter>
@@ -183,9 +153,6 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\Sprite.cpp">
       <Filter>ouzel\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\gui\SlideBar.cpp">
-      <Filter>ouzel\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\Voice.cpp">
       <Filter>ouzel\audio</Filter>
@@ -212,6 +179,9 @@
       <Filter>ouzel\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\Widget.cpp">
+      <Filter>ouzel\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\gui\Widgets.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp">
@@ -450,20 +420,11 @@
     <ClInclude Include="..\ouzel\graphics\opengl\OGLBuffer.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\Button.hpp">
-      <Filter>ouzel\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\scene\Camera.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\CheckBox.hpp">
-      <Filter>ouzel\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\math\Color.hpp">
       <Filter>ouzel\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\gui\ComboBox.hpp">
-      <Filter>ouzel\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\Setup.h">
       <Filter>ouzel\core</Filter>
@@ -485,9 +446,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\DataType.hpp">
       <Filter>ouzel\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\gui\EditBox.hpp">
-      <Filter>ouzel\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\Application.hpp">
       <Filter>ouzel\core</Filter>
@@ -531,9 +489,6 @@
     <ClInclude Include="..\ouzel\input\InputManager.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\Label.hpp">
-      <Filter>ouzel\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\scene\Layer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
@@ -570,9 +525,6 @@
     <ClInclude Include="..\ouzel\math\Matrix.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\Menu.hpp">
-      <Filter>ouzel\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\scene\SkinnedMeshRenderer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
@@ -600,12 +552,6 @@
     <ClInclude Include="..\ouzel\math\Quaternion.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\RadioButton.hpp">
-      <Filter>ouzel\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\gui\RadioButtonGroup.hpp">
-      <Filter>ouzel\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\math\Rect.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
@@ -620,12 +566,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\SceneManager.hpp">
       <Filter>ouzel\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\gui\ScrollArea.hpp">
-      <Filter>ouzel\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\gui\ScrollBar.hpp">
-      <Filter>ouzel\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Shader.hpp">
       <Filter>ouzel\graphics</Filter>
@@ -644,9 +584,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\math\Vector.hpp">
       <Filter>ouzel\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\gui\SlideBar.hpp">
-      <Filter>ouzel\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Destination.hpp">
       <Filter>ouzel\audio</Filter>
@@ -682,6 +619,9 @@
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\Widget.hpp">
+      <Filter>ouzel\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\gui\Widgets.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.hpp">

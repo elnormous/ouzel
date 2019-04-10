@@ -82,19 +82,9 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/graphics/Texture.cpp \
     ../../ouzel/gui/BMFont.cpp \
     ../../ouzel/gui/TTFont.cpp \
-    ../../ouzel/gui/Button.cpp \
-    ../../ouzel/gui/CheckBox.cpp \
-    ../../ouzel/gui/ComboBox.cpp \
-    ../../ouzel/gui/EditBox.cpp \
     ../../ouzel/gui/Font.cpp \
-    ../../ouzel/gui/Label.cpp \
-    ../../ouzel/gui/Menu.cpp \
-    ../../ouzel/gui/RadioButton.cpp \
-    ../../ouzel/gui/RadioButtonGroup.cpp \
-    ../../ouzel/gui/ScrollArea.cpp \
-    ../../ouzel/gui/ScrollBar.cpp \
-    ../../ouzel/gui/SlideBar.cpp \
     ../../ouzel/gui/Widget.cpp \
+	../../ouzel/gui/Widgets.cpp \
     ../../ouzel/input/android/GamepadDeviceAndroid.cpp \
 	../../ouzel/input/android/InputSystemAndroid.cpp \
     ../../ouzel/input/Cursor.cpp \
