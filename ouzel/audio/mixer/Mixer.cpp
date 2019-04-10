@@ -185,6 +185,9 @@ namespace ouzel
 
                     process();
 
+                    std::unique_lock<std::mutex> lock(bufferMutex);
+                    bufferCondition.wait(lock);
+
                     if (masterBus)
                     {
                         //Vector3F listenerPosition;
