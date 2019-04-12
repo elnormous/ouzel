@@ -24,10 +24,10 @@ namespace ouzel
             if (offset == -1)
                 throw std::runtime_error("Not a font");
 
-            if (!stbtt_InitFont(&font, data.data(), offset))
-                throw std::runtime_error("Failed to load font");
+            font.reset(new stbtt_fontinfo());
 
-            loaded = true;
+            if (!stbtt_InitFont(font.get(), data.data(), offset))
+                throw std::runtime_error("Failed to load font");
         }
 
         void TTFont::getVertices(const std::string& text,
@@ -38,7 +38,7 @@ namespace ouzel
                                  std::vector<graphics::Vertex>& vertices,
                                  std::shared_ptr<graphics::Texture>& texture)
         {
-            if (!loaded)
+            if (!font)
                 throw std::runtime_error("Font not loaded");
 
             static constexpr uint32_t SPACING = 2;
@@ -56,7 +56,7 @@ namespace ouzel
 
             std::unordered_map<uint32_t, CharDescriptor> chars;
 
-            float s = stbtt_ScaleForPixelHeight(&font, fontSize);
+            float s = stbtt_ScaleForPixelHeight(font.get(), fontSize);
 
             std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
 
@@ -70,7 +70,7 @@ namespace ouzel
             int ascent;
             int descent;
             int lineGap;
-            stbtt_GetFontVMetrics(&font, &ascent, &descent, &lineGap);
+            stbtt_GetFontVMetrics(font.get(), &ascent, &descent, &lineGap);
 
             for (uint32_t c : glyphs)
             {
@@ -79,15 +79,15 @@ namespace ouzel
                 int xoff;
                 int yoff;
 
-                if (int index = stbtt_FindGlyphIndex(&font, static_cast<int>(c)))
+                if (int index = stbtt_FindGlyphIndex(font.get(), static_cast<int>(c)))
                 {
                     int advance;
                     int leftBearing;
-                    stbtt_GetGlyphHMetrics(&font, index, &advance, &leftBearing);
+                    stbtt_GetGlyphHMetrics(font.get(), index, &advance, &leftBearing);
 
                     CharDescriptor charDesc;
 
-                    if (unsigned char* bitmap = stbtt_GetGlyphBitmapSubpixel(&font, s, s, 0.0F, 0.0F, index, &w, &h, &xoff, &yoff))
+                    if (unsigned char* bitmap = stbtt_GetGlyphBitmapSubpixel(font.get(), s, s, 0.0F, 0.0F, index, &w, &h, &xoff, &yoff))
                     {
                         charDesc.width = static_cast<uint16_t>(w);
                         charDesc.height = static_cast<uint16_t>(h);
@@ -196,7 +196,7 @@ namespace ouzel
 
                     if ((i + 1) != utf32Text.end())
                     {
-                        int kernAdvance = stbtt_GetCodepointKernAdvance(&font,
+                        int kernAdvance = stbtt_GetCodepointKernAdvance(font.get(),
                                                                         static_cast<int>(*i),
                                                                         static_cast<int>(*(i + 1)));
                         position.v[0] += static_cast<float>(kernAdvance) * s;

@@ -29,9 +29,8 @@ namespace ouzel
         private:
             int16_t getKerningPair(uint32_t, uint32_t);
 
-            stbtt_fontinfo font;
+            std::unique_ptr<stbtt_fontinfo> font;
             std::vector<unsigned char> data;
-            bool loaded = false;
             bool mipmaps = true;
         };
     } // namespace gui
