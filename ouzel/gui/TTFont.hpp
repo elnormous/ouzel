@@ -13,7 +13,7 @@ namespace ouzel
         class TTFont final: public Font
         {
         public:
-            TTFont();
+            TTFont() {}
             TTFont(const std::vector<uint8_t>& newData, bool newMipmaps = true);
 
             void getVertices(const std::string& text,

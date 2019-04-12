@@ -11,10 +11,6 @@ namespace ouzel
 {
     namespace gui
     {
-        TTFont::TTFont()
-        {
-        }
-
         TTFont::TTFont(const std::vector<uint8_t>& initData, bool initMipmaps):
             data(initData),
             mipmaps(initMipmaps)
