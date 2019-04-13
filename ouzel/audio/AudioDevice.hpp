@@ -7,6 +7,7 @@
 #include <vector>
 #include "audio/Driver.hpp"
 #include "audio/SampleFormat.hpp"
+#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -30,14 +31,14 @@ namespace ouzel
             AudioDevice(AudioDevice&&) = delete;
             AudioDevice& operator=(AudioDevice&&) = delete;
 
-            inline Driver getDriver() const { return driver; }
+            ALWAYSINLINE Driver getDriver() const { return driver; }
 
-            inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
-            inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
+            ALWAYSINLINE uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
+            ALWAYSINLINE uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
-            inline uint32_t getBufferSize() const { return bufferSize; }
-            inline uint32_t getSampleRate() const { return sampleRate; }
-            inline uint16_t getChannels() const { return channels; }
+            ALWAYSINLINE uint32_t getBufferSize() const { return bufferSize; }
+            ALWAYSINLINE uint32_t getSampleRate() const { return sampleRate; }
+            ALWAYSINLINE uint16_t getChannels() const { return channels; }
 
             virtual void start() = 0;
 
