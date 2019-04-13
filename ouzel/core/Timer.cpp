@@ -10,6 +10,6 @@ namespace ouzel
 
     void Timer::update(float delta)
     {
-        time += delta;
+        time += delta * scale;
     }
 }

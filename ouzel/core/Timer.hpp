@@ -19,8 +19,13 @@ namespace ouzel
 
         void update(float delta);
 
+        inline float getTime() const { return time; }
+        inline float getScale() const { return scale; }
+        inline void setScale(float newScale) { scale = newScale; }
+
     private:
         float time = 0.0F;
+        float scale = 1.0F;
     };
 }
 
