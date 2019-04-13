@@ -31,6 +31,7 @@ namespace ouzel
 
         };
 
+        System();
         virtual ~System() {}
     };
 }

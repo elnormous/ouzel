@@ -4,5 +4,7 @@
 
 namespace ouzel
 {
-
+    System::System()
+    {
+    }
 }

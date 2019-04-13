@@ -18,6 +18,9 @@ namespace ouzel
         Timer& operator=(Timer&&) = delete;
 
         void update(float delta);
+
+    private:
+        float time = 0.0F;
     };
 }
 

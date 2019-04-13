@@ -8,7 +8,8 @@ namespace ouzel
     {
     }
 
-    void Timer::update(float)
+    void Timer::update(float delta)
     {
+        time += delta;
     }
 }
