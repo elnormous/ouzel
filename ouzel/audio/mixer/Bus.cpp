@@ -243,10 +243,6 @@ namespace ouzel
                 {
                     bus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, buffer);
 
-                    for (Processor* processor : processors)
-                        if (processor->isEnabled())
-                            processor->process(frames, channels, sampleRate, buffer);
-
                     for (size_t s = 0; s < samples.size(); ++s)
                         samples[s] += buffer[s];
                 }
@@ -278,7 +274,8 @@ namespace ouzel
                 }
 
                 for (Processor* processor : processors)
-                    processor->process(frames, channels, sampleRate, samples);
+                    if (processor->isEnabled())
+                        processor->process(frames, channels, sampleRate, samples);
             }
 
             void Bus::addProcessor(Processor* processor)
