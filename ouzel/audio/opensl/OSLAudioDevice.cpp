@@ -100,6 +100,7 @@ namespace ouzel
 
             SLDataFormat_PCM dataFormat;
             dataFormat.formatType = SL_DATAFORMAT_PCM;
+            // TODO: get speaker count
             dataFormat.numChannels = channels;
             dataFormat.samplesPerSec = sampleRate * 1000; //mHz
             dataFormat.bitsPerSample = sizeof(int16_t) * 8;

@@ -213,6 +213,10 @@ namespace ouzel
             streamDescription.mSampleRate = sampleRate;
             streamDescription.mFormatID = kAudioFormatLinearPCM;
             streamDescription.mFormatFlags = kLinearPCMFormatFlagIsFloat;
+#if TARGET_OS_IOS
+            // TODO: get speaker count
+            channels = 1;
+#endif
             streamDescription.mChannelsPerFrame = channels;
             streamDescription.mFramesPerPacket = 1;
             streamDescription.mBitsPerChannel = sizeof(float) * 8;
