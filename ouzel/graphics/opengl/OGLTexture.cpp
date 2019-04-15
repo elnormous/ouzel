@@ -491,11 +491,11 @@ namespace ouzel
 
             renderDevice.bindTexture(textureTarget, 0, textureId);
 
-            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
+            GLint finalMaxAnisotropy = static_cast<GLint>((maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy);
 
             if (finalMaxAnisotropy > 1 && renderDevice.isAnisotropicFilteringSupported())
             {
-                renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
+                renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, finalMaxAnisotropy);
 
                 GLenum error;
 
@@ -629,11 +629,11 @@ namespace ouzel
                     throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
             }
 
-            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
+            GLint finalMaxAnisotropy = static_cast<GLint>((maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy);
 
             if (finalMaxAnisotropy > 1 && renderDevice.isAnisotropicFilteringSupported())
             {
-                renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
+                renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, finalMaxAnisotropy);
 
                 if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set texture max anisotrophy");
