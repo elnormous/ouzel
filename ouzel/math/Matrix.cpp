@@ -48,8 +48,8 @@ namespace ouzel
                 "fadd v11.4s, v3.4s, v4.4s\n\t" // dst.m[12-15] = m[12-15] + s
 
                 "st4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%0]\n\t" // result in V9
-                :
-                : "r"(dst.m), "r"(m), "r"(&scalar)
+                : // output
+                : "r"(dst.m), "r"(m), "r"(&scalar) // input
                 : "v0", "v1", "v2", "v3", "v4", "v8", "v9", "v10", "v11", "memory"
             );
 #  else // NEON
@@ -69,8 +69,8 @@ namespace ouzel
 
                 "vst1.32 {q8, q9}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q10, q11}, [%0]\n\t" // dst.m[8-15]
-                :
-                : "r"(dst.m), "r"(m), "r"(&scalar)
+                : // output
+                : "r"(dst.m), "r"(m), "r"(&scalar) // input
                 : "q0", "q1", "q2", "q3", "q4", "q8", "q9", "q10", "q11", "memory"
             );
 #  endif
@@ -144,8 +144,8 @@ namespace ouzel
                 "fadd v15.4s, v3.4s, v11.4s\n\t" // dst.m[12-15] = m1.m[12-15] + m2.m[12-15]
 
                 "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
-                :
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m)
+                : // output
+                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
                 : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
             );
 #  else // NEON
@@ -163,8 +163,8 @@ namespace ouzel
 
                 "vst1.32 {q12, q13}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q14, q15}, [%0]\n\t" // dst.m[8-15]
-                :
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m)
+                : // output
+                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
                 : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
             );
 #  endif
@@ -283,8 +283,8 @@ namespace ouzel
                 "fmul v11.4s, v7.4s, v0.s[0]\n\t" // dst.m[12-15] = m.m[12-15] * s
 
                 "st4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
-                :
-                : "r"(dst.m), "r"(m.m), "r"(&scalar)
+                : // output
+                : "r"(dst.m), "r"(m.m), "r"(&scalar) // input
                 : "v0", "v4", "v5", "v6", "v7", "v8", "v9", "v10", "v11", "memory"
             );
 #  else // NEON
@@ -301,8 +301,8 @@ namespace ouzel
 
                 "vst1.32 {q8-q9}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q10-q11}, [%0]\n\t" // dst.m[8-15]
-                :
-                : "r"(dst.m), "r"(m.m), "r"(&scalar)
+                : // output
+                : "r"(dst.m), "r"(m.m), "r"(&scalar) // input
                 : "q0", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "memory"
             );
 #  endif
@@ -400,7 +400,7 @@ namespace ouzel
                 "st1 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
 
                 : // output
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input - note *value* of pointer doesn't change
+                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
                 : "memory", "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15"
             );
 #  else // NEON
@@ -435,7 +435,7 @@ namespace ouzel
                 "vst1.32 {d28 - d31}, [%0]\n\t" // dst.m[8-15]
 
                 : // output
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input - note *value* of pointer doesn't change
+                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
                 : "memory", "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15"
             );
 #  endif
@@ -589,8 +589,8 @@ namespace ouzel
                 "fneg v7.4s, v3.4s\n\t" // -m[12-15]
 
                 "st4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
-                :
-                : "r"(dst.m), "r"(m)
+                : // output
+                : "r"(dst.m), "r"(m) // input
                 : "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "memory"
             );
 #  else // NEON
@@ -606,8 +606,8 @@ namespace ouzel
 
                 "vst1.32 {q4-q5}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q6-q7}, [%0]\n\t" // dst.m[8-15]
-                :
-                : "r"(dst.m), "r"(m)
+                : // output
+                : "r"(dst.m), "r"(m) // input
                 : "q0", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "memory"
             );
 #  endif
@@ -681,8 +681,8 @@ namespace ouzel
                 "fsub v15.4s, v3.4s, v11.4s\n\t" // dst.m[12-15] = m1.m[12-15] - m2.m[12-15]
 
                 "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
-                :
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m)
+                : // output
+                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
                 : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
             );
 #  else // NEON
@@ -700,8 +700,8 @@ namespace ouzel
 
                 "vst1.32 {q12, q13}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q14, q15}, [%0]\n\t" // dst.m[8-15]
-                :
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m)
+                : // output
+                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
                 : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
             );
 #  endif
@@ -763,8 +763,8 @@ namespace ouzel
                 "fmla v13.4s, v12.4s, v0.s[3]\n\t" // dst.v = m[12-15] * v.v[3]
 
                 "st1 {v13.4s}, [%0]\n\t" // dst.v[0, 1, 2, 3]
-                :
-                : "r"(dst.v), "r"(v.v), "r"(m)
+                : // output
+                : "r"(dst.v), "r"(v.v), "r"(m) // input
                 : "v0", "v9", "v10","v11", "v12", "v13", "memory"
             );
 #  else // NEON
@@ -780,8 +780,8 @@ namespace ouzel
                 "vmla.f32 q13, q12, d1[1]\n\t" // dst.v = m[12-15] * v.v[3]
 
                 "vst1.32 {d26, d27}, [%0]\n\t" // dst.v[0, 1, 2, 3]
-                :
-                : "r"(dst.v), "r"(v.v), "r"(m)
+                : // output
+                : "r"(dst.v), "r"(v.v), "r"(m) // input
                 : "q0", "q9", "q10","q11", "q12", "q13", "memory"
              );
 #  endif
@@ -833,8 +833,8 @@ namespace ouzel
             (
                 "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]\n\t" // dst.m[0, 4, 8, 12] = m[0-3]
                 "st1 {v0.4s, v1.4s, v2.4s, v3.4s}, [%0]\n\t" // dst.m[1, 5, 9, 13] = m[4-7]
-                :
-                : "r"(dst.m), "r"(m)
+                : // output
+                : "r"(dst.m), "r"(m) // input
                 : "v0", "v1", "v2", "v3", "memory"
             );
 #  else // NEON
@@ -847,8 +847,8 @@ namespace ouzel
 
                 "vst1.32 {q0-q1}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q2-q3}, [%0]\n\t" // dst.m[8-15]
-                :
-                : "r"(dst.m), "r"(m)
+                : // output
+                : "r"(dst.m), "r"(m) // input
                 : "q0", "q1", "q2", "q3", "memory"
             );
 #  endif

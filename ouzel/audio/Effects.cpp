@@ -297,35 +297,33 @@ namespace ouzel
                 const uint32_t delayFrames = static_cast<uint32_t>(delay * sampleRate);
                 const uint32_t bufferFrames = frames + delayFrames;
 
-                buffer.resize(bufferFrames * channels);
+                buffers.resize(channels);
 
                 for (uint16_t channel = 0; channel < channels; ++channel)
                 {
-                    float* bufferChannel = &buffer[channel * bufferFrames];
+                    std::vector<float>& buffer = buffers[channel];
+                    buffer.resize(bufferFrames);
+
                     float* outputChannel = &samples[channel * frames];
 
                     for (uint32_t frame = 0; frame < frames; ++frame)
-                        bufferChannel[frame] += outputChannel[frame];
+                        buffer[frame] += outputChannel[frame];
 
                     for (uint32_t frame = 0; frame < frames; ++frame)
-                        bufferChannel[frame + delayFrames] += bufferChannel[frame] * decay;
+                        buffer[frame + delayFrames] += buffer[frame] * decay;
 
                     for (uint32_t frame = 0; frame < frames; ++frame)
-                        outputChannel[frame] = bufferChannel[frame];
+                        outputChannel[frame] = buffer[frame];
 
                     // erase frames from beginning
-                    for (uint32_t frame = 0; frame < delayFrames; ++frame)
-                        bufferChannel[frame] = bufferChannel[frame + frames];
-
-                    for (uint32_t frame = delayFrames; frame < bufferFrames; ++frame)
-                        bufferChannel[frame] = 0.0F;
+                    buffer.erase(buffer.begin(), buffer.begin() + frames);
                 }
             }
 
         private:
             float delay = 0.1F;
             float decay = 0.5F;
-            std::vector<float> buffer;
+            std::vector<std::vector<float>> buffers;
         };
 
         Reverb::Reverb(Audio& initAudio, float initDelay, float initDecay):
