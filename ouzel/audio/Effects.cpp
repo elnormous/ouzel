@@ -235,19 +235,13 @@ namespace ouzel
             void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override
             {
-                channelSamples.resize(frames);
                 pitchShift.resize(channels);
 
                 for (uint16_t channel = 0; channel < channels; ++channel)
                 {
                     pitchShift[channel].process(pitch, frames, 1024, 4, static_cast<float>(sampleRate),
-                                                samples.data() + channel * frames,
-                                                channelSamples.data());
-
-                    float* outputChannel = &samples[channel * frames];
-
-                    for (uint32_t frame = 0; frame < frames; ++frame)
-                        outputChannel[frame] = channelSamples[frame];
+                                                &samples[channel * frames],
+                                                &samples[channel * frames]);
                 }
             }
 
@@ -258,7 +252,6 @@ namespace ouzel
 
         private:
             float pitch = 1.0f;
-            std::vector<float> channelSamples;
             std::vector<smb::PitchShift> pitchShift;
         };
 
