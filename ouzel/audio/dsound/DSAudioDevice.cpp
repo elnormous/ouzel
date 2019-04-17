@@ -218,7 +218,7 @@ namespace ouzel
             audioThread = std::thread(&DSAudioDevice::run, this);
         }
 
-        void DSAudioDevice::start()
+        void DSAudioDevice::stop()
         {
             running = false;
             if (audioThread.joinable()) audioThread.join();
