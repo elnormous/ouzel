@@ -30,6 +30,7 @@ namespace ouzel
             ~ALSAAudioDevice();
 
             void start() override;
+            void stop() override;
 
         private:
             void run();

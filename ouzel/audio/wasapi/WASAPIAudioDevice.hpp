@@ -30,6 +30,7 @@ namespace ouzel
             ~WASAPIAudioDevice();
 
             void start() override;
+            void stop() override;
 
         private:
             void run();

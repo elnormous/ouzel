@@ -30,6 +30,8 @@ namespace ouzel
             ~OSLAudioDevice();
 
             void start() override;
+            void stop() override;
+
             void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
             ALWAYSINLINE SLEngineItf getEngine() const { return engine; }

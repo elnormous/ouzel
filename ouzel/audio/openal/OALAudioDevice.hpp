@@ -38,6 +38,7 @@ namespace ouzel
             ~OALAudioDevice();
 
             void start() override;
+            void stop() override;
             void process();
 
             ALWAYSINLINE ALCdevice* getDevice() const { return device; }

@@ -36,6 +36,8 @@ namespace ouzel
             ~CAAudioDevice();
 
             void start() override;
+            void stop() override;
+
             void outputCallback(AudioBufferList* ioData);
 
         private:

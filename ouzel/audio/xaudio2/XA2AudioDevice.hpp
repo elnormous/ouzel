@@ -29,6 +29,7 @@ namespace ouzel
             ~XA2AudioDevice();
 
             void start() override;
+            void stop() override;
 
         private:
             void run();

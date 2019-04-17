@@ -183,6 +183,16 @@ namespace ouzel
                 throw std::system_error(hr, xAudio2ErrorCategory, "Failed to start consuming sound data");
         }
 
+        void XA2AudioDevice::stop()
+        {
+            HRESULT hr;
+            if (FAILED(hr = sourceVoice->Stop()))
+                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to stop consuming sound data");
+
+            if (FAILED(hr = sourceVoice->FlushSourceBuffers()))
+                throw std::system_error(hr, xAudio2ErrorCategory, "Failed to flush sound data");
+        }
+
         void XA2AudioDevice::OnVoiceProcessingPassStart(UINT32)
         {
         }

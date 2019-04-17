@@ -182,6 +182,13 @@ namespace ouzel
                 throw std::system_error(makeErrorCode(result), "Failed to play sound");
         }
 
+        void OSLAudioDevice::stop()
+        {
+            SLresult result;
+            if ((result = (*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED)) != SL_RESULT_SUCCESS)
+                throw std::system_error(makeErrorCode(result), "Failed to stop sound");
+        }
+
         void OSLAudioDevice::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
         {
             getData(bufferSize / (channels * sizeof(int16_t)), data);

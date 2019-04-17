@@ -21,6 +21,7 @@ namespace ouzel
                                                       std::vector<float>& samples)>& initDataGetter);
 
             void start() override {}
+            void stop() override {}
         };
     } // namespace audio
 } // namespace ouzel

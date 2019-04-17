@@ -284,6 +284,21 @@ namespace ouzel
             audioThread = std::thread(&WASAPIAudioDevice::run, this);
         }
 
+        void WASAPIAudioDevice::stop()
+        {
+            running = false;
+            if (audioThread.joinable()) audioThread.join();
+
+            if (started)
+            {
+                HRESULT hr;
+                if (FAILED(hr = audioClient->Stop()))
+                    throw std::system_error(hr, wasapiErrorCategory, "Failed to stop audio");
+                
+                started = false;
+            }
+        }
+
         void WASAPIAudioDevice::run()
         {
             setCurrentThreadName("Audio");

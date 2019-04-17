@@ -121,6 +121,12 @@ namespace ouzel
             audioThread = std::thread(&ALSAAudioDevice::run, this);
         }
 
+        void ALSAAudioDevice::stop()
+        {
+            running = false;
+            if (audioThread.joinable()) audioThread.join();
+        }
+
         void ALSAAudioDevice::run()
         {
             setCurrentThreadName("Audio");

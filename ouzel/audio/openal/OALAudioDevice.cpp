@@ -301,6 +301,20 @@ namespace ouzel
 #endif
         }
 
+        void OALAudioDevice::stop()
+        {
+#if !defined(__EMSCRIPTEN__)
+            running = false;
+            if (audioThread.joinable()) audioThread.join();
+#endif
+
+            alSourceStop(sourceId);
+
+            ALenum error;
+            if ((error = alGetError()) != AL_NO_ERROR)
+                throw std::system_error(error, openALErrorCategory, "Failed to stop OpenAL source");
+        }
+
         void OALAudioDevice::process()
         {
             if (!alcMakeContextCurrent(context))

@@ -218,6 +218,16 @@ namespace ouzel
             audioThread = std::thread(&DSAudioDevice::run, this);
         }
 
+        void DSAudioDevice::start()
+        {
+            running = false;
+            if (audioThread.joinable()) audioThread.join();
+
+            HRESULT hr;
+            if (FAILED(hr = buffer->Stop()))
+                throw std::system_error(hr, directSoundErrorCategory, "Failed to stop DirectSound buffer");
+        }
+
         void DSAudioDevice::run()
         {
             setCurrentThreadName("Audio");

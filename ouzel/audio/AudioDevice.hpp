@@ -41,6 +41,7 @@ namespace ouzel
             ALWAYSINLINE uint16_t getChannels() const { return channels; }
 
             virtual void start() = 0;
+            virtual void stop() = 0;
 
         protected:
             void getData(uint32_t frames, std::vector<uint8_t>& result);

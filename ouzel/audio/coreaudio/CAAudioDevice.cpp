@@ -317,6 +317,13 @@ namespace ouzel
                 throw std::system_error(result, coreAudioErrorCategory, "Failed to start CoreAudio output unit");
         }
 
+        void CAAudioDevice::stop()
+        {
+            OSStatus result;
+            if ((result = AudioOutputUnitStop(audioUnit)) != noErr)
+                throw std::system_error(result, coreAudioErrorCategory, "Failed to stop CoreAudio output unit");
+        }
+
         void CAAudioDevice::outputCallback(AudioBufferList* ioData)
         {
             for (UInt32 i = 0; i < ioData->mNumberBuffers; ++i)
