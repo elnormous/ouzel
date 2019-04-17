@@ -20,5 +20,15 @@ namespace ouzel
             if (mix) mix->removeEffect(this);
             if (processorId) audio.deleteObject(processorId);
         }
+
+        void Effect::setEnabled(bool newEnabled)
+        {
+            enabled = newEnabled;
+
+            audio.updateProcessor(processorId, [newEnabled](mixer::Object* node) {
+                mixer::Processor* processor = static_cast<mixer::Processor*>(node);
+                processor->setEnabled(newEnabled);
+            });
+        }
     } // namespace audio
 } // namespace ouzel

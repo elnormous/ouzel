@@ -29,6 +29,7 @@ namespace ouzel
             inline uintptr_t getProcessorId() const { return processorId; }
 
             inline bool isEnabled() const { return enabled; }
+            inline void setEnabled(bool newEnabled);
 
         protected:
             Audio& audio;

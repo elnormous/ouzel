@@ -35,6 +35,7 @@ namespace ouzel
                                      std::vector<float>& samples) = 0;
 
                 inline bool isEnabled() const { return enabled; }
+                inline void setEnabled(bool newEnabled) { enabled = newEnabled; }
 
             private:
                 Bus* bus = nullptr;
