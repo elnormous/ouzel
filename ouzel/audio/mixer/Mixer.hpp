@@ -96,11 +96,23 @@ namespace ouzel
                 Bus* masterBus = nullptr;
 
                 std::thread mixerThread;
-                std::vector<float> buffer;
+
+                class Buffer
+                {
+                public:
+                    bool canRead() const { return frames > 0; }
+                    bool canWrite() const { return frames < maxFrames; }
+
+                    size_t frames = 0;
+                    size_t maxFrames = 0;
+                    size_t readPosition = 0;
+                    size_t writePosition = 0;
+                    std::vector<float> buffer;
+                };
+
                 std::mutex bufferMutex;
                 std::condition_variable bufferCondition;
-                size_t readPosition = 0;
-                size_t writePosition = 0;
+                Buffer buffer;
 
                 std::queue<CommandBuffer> commandQueue;
                 std::mutex commandQueueMutex;
