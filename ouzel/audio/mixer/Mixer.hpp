@@ -95,21 +95,29 @@ namespace ouzel
 
                 Bus* masterBus = nullptr;
 
-                std::thread mixerThread;
-
                 class Buffer
                 {
                 public:
+                    Buffer(size_t size, uint16_t initChannels):
+                        maxFrames(size),
+                        channels(initChannels),
+                        buffer(size * channels)
+                    {
+                    }
+
                     bool canRead() const { return frames > 0; }
                     bool canWrite() const { return frames < maxFrames; }
 
+                private:
                     size_t frames = 0;
-                    size_t maxFrames = 0;
+                    size_t maxFrames;
+                    uint16_t channels;
                     size_t readPosition = 0;
                     size_t writePosition = 0;
                     std::vector<float> buffer;
                 };
 
+                std::thread mixerThread;
                 std::mutex bufferMutex;
                 std::condition_variable bufferCondition;
                 Buffer buffer;
