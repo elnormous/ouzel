@@ -44,12 +44,12 @@ SoundSample::SoundSample():
     submix.addEffect(&soundGain);
     soundGain.setGain(1.0F);
 
-    test8BitPitch.setPitch(2.0F);
+    test8BitPitch.setScale(2.0F);
     test8BitVoice.setOutput(&test8BitSubmix);
     test8BitSubmix.addEffect(&test8BitPitch);
     test8BitSubmix.setOutput(&submix);
 
-    test24BitPitch.setPitch(0.5F);
+    test24BitPitch.setScale(0.5F);
     test24BitVoice.setOutput(&test24BitSubmix);
     test24BitSubmix.addEffect(&test24BitPitch);
     test24BitSubmix.setOutput(&submix);

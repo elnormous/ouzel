@@ -89,26 +89,26 @@ namespace ouzel
             float maxDistance = FLT_MAX;
         };
 
-        class Pitch final: public Effect
+        class PitchScale final: public Effect
         {
         public:
-            Pitch(Audio& initAudio, float initPitch = 1.0F);
-            ~Pitch();
+            PitchScale(Audio& initAudio, float initScale = 1.0F);
+            ~PitchScale();
 
-            Pitch(const Pitch&) = delete;
-            Pitch& operator=(const Pitch&) = delete;
-            Pitch(Pitch&&) = delete;
-            Pitch& operator=(Pitch&&) = delete;
+            PitchScale(const PitchScale&) = delete;
+            PitchScale& operator=(const PitchScale&) = delete;
+            PitchScale(PitchScale&&) = delete;
+            PitchScale& operator=(PitchScale&&) = delete;
 
-            inline float getPitch() const { return pitch; }
-            void setPitch(float newPitch);
+            inline float getScale() const { return scale; }
+            void setScale(float newScale);
 
-            inline void setPitchRandom(const std::pair<float, float>& newPitchRandom) { pitchRandom = newPitchRandom; }
-            inline const std::pair<float, float>& getPitchRandom() const { return pitchRandom; }
+            inline void setScaleRandom(const std::pair<float, float>& newScaleRandom) { scaleRandom = newScaleRandom; }
+            inline const std::pair<float, float>& getScaleRandom() const { return scaleRandom; }
 
         private:
-            float pitch = 1.0f;
-            std::pair<float, float> pitchRandom{0.0F, 0.0F};
+            float scale = 1.0f;
+            std::pair<float, float> scaleRandom{0.0F, 0.0F};
         };
 
         class Reverb final: public Effect

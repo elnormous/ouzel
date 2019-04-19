@@ -224,11 +224,11 @@ namespace ouzel
         static constexpr float MIN_PITCH = 0.5F;
         static constexpr float MAX_PITCH = 2.0F;
 
-        class PitchProcessor final: public mixer::Processor
+        class PitchScaleProcessor final: public mixer::Processor
         {
         public:
-            PitchProcessor(float initPitch):
-                pitch(clamp(initPitch, MIN_PITCH, MAX_PITCH))
+            PitchScaleProcessor(float initPitch):
+                scale(clamp(initPitch, MIN_PITCH, MAX_PITCH))
             {
             }
 
@@ -239,40 +239,40 @@ namespace ouzel
 
                 for (uint16_t channel = 0; channel < channels; ++channel)
                 {
-                    pitchShift[channel].process(pitch, frames, 1024, 4, static_cast<float>(sampleRate),
+                    pitchShift[channel].process(scale, frames, 1024, 4, static_cast<float>(sampleRate),
                                                 &samples[channel * frames],
                                                 &samples[channel * frames]);
                 }
             }
 
-            void setPitch(float newPitch)
+            void setScale(float newScale)
             {
-                pitch = clamp(newPitch, MIN_PITCH, MAX_PITCH);
+                scale = clamp(newScale, MIN_PITCH, MAX_PITCH);
             }
 
         private:
-            float pitch = 1.0f;
+            float scale = 1.0f;
             std::vector<smb::PitchShift> pitchShift;
         };
 
-        Pitch::Pitch(Audio& initAudio, float initPitch):
+        PitchScale::PitchScale(Audio& initAudio, float initScale):
             Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PitchProcessor(initPitch)))),
-            pitch(initPitch)
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PitchScaleProcessor(initScale)))),
+            scale(initScale)
         {
         }
 
-        Pitch::~Pitch()
+        PitchScale::~PitchScale()
         {
         }
 
-        void Pitch::setPitch(float newPitch)
+        void PitchScale::setScale(float newScale)
         {
-            pitch = newPitch;
+            scale = newScale;
 
-            audio.updateProcessor(processorId, [newPitch](mixer::Object* node) {
-                PitchProcessor* pitchProcessor = static_cast<PitchProcessor*>(node);
-                pitchProcessor->setPitch(newPitch);
+            audio.updateProcessor(processorId, [newScale](mixer::Object* node) {
+                PitchScaleProcessor* pitchScaleProcessor = static_cast<PitchScaleProcessor*>(node);
+                pitchScaleProcessor->setScale(newScale);
             });
         }
 
