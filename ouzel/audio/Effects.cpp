@@ -227,8 +227,8 @@ namespace ouzel
         class PitchScaleProcessor final: public mixer::Processor
         {
         public:
-            PitchScaleProcessor(float initPitch):
-                scale(clamp(initPitch, MIN_PITCH, MAX_PITCH))
+            PitchScaleProcessor(float initScale):
+                scale(clamp(initScale, MIN_PITCH, MAX_PITCH))
             {
             }
 
@@ -273,6 +273,50 @@ namespace ouzel
             audio.updateProcessor(processorId, [newScale](mixer::Object* node) {
                 PitchScaleProcessor* pitchScaleProcessor = static_cast<PitchScaleProcessor*>(node);
                 pitchScaleProcessor->setScale(newScale);
+            });
+        }
+
+        class PitchShiftProcessor final: public mixer::Processor
+        {
+        public:
+            PitchShiftProcessor(float initShift):
+                shift(initShift)
+            {
+            }
+
+            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                         std::vector<float>& samples) override
+            {
+                // TODO: implement
+            }
+
+            void setShift(float newShift)
+            {
+                shift = newShift;
+            }
+
+        private:
+            float shift = 1.0f;
+        };
+
+        PitchShift::PitchShift(Audio& initAudio, float initShift):
+            Effect(initAudio,
+                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PitchShiftProcessor(initShift)))),
+            shift(initShift)
+        {
+        }
+
+        PitchShift::~PitchShift()
+        {
+        }
+
+        void PitchShift::setShift(float newShift)
+        {
+            shift = newShift;
+
+            audio.updateProcessor(processorId, [newShift](mixer::Object* node) {
+                PitchShiftProcessor* pitchShiftProcessor = static_cast<PitchShiftProcessor*>(node);
+                pitchShiftProcessor->setShift(newShift);
             });
         }
 

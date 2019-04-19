@@ -111,6 +111,28 @@ namespace ouzel
             std::pair<float, float> scaleRandom{0.0F, 0.0F};
         };
 
+        class PitchShift final: public Effect
+        {
+        public:
+            PitchShift(Audio& initAudio, float initShift = 1.0F);
+            ~PitchShift();
+
+            PitchShift(const PitchShift&) = delete;
+            PitchShift& operator=(const PitchShift&) = delete;
+            PitchShift(PitchShift&&) = delete;
+            PitchShift& operator=(PitchShift&&) = delete;
+
+            inline float getShift() const { return shift; }
+            void setShift(float newShift);
+
+            inline void setShiftRandom(const std::pair<float, float>& newShiftRandom) { shiftRandom = newShiftRandom; }
+            inline const std::pair<float, float>& getShiftRandom() const { return shiftRandom; }
+
+        private:
+            float shift = 1.0f;
+            std::pair<float, float> shiftRandom{0.0F, 0.0F};
+        };
+
         class Reverb final: public Effect
         {
         public:
