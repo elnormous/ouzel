@@ -27,8 +27,8 @@ namespace ouzel
             inline float getDelay() const { return delay; }
             inline void setDelay(float newDelay);
 
-            inline void setDelayRandom(const std::pair<float, float>& newDelayRandom) { delayRandom = newDelayRandom; }
             inline const std::pair<float, float>& getDelayRandom() const { return delayRandom; }
+            void setDelayRandom(const std::pair<float, float>& newDelayRandom);
 
         private:
             float delay;
@@ -49,8 +49,8 @@ namespace ouzel
             inline float getGain() const { return gain; }
             void setGain(float newGain);
 
-            inline void setGainRandom(const std::pair<float, float>& newGainRandom) { gainRandom = newGainRandom; }
             inline const std::pair<float, float>& getGainRandom() const { return gainRandom; }
+            void setGainRandom(const std::pair<float, float>& newGainRandom);
 
         private:
             float gain; // dB
@@ -103,8 +103,8 @@ namespace ouzel
             inline float getScale() const { return scale; }
             void setScale(float newScale);
 
-            inline void setScaleRandom(const std::pair<float, float>& newScaleRandom) { scaleRandom = newScaleRandom; }
             inline const std::pair<float, float>& getScaleRandom() const { return scaleRandom; }
+            void setScaleRandom(const std::pair<float, float>& newScaleRandom);
 
         private:
             float scale = 1.0f;
@@ -125,8 +125,8 @@ namespace ouzel
             inline float getShift() const { return shift; }
             void setShift(float newShift);
 
-            inline void setShiftRandom(const std::pair<float, float>& newShiftRandom) { shiftRandom = newShiftRandom; }
             inline const std::pair<float, float>& getShiftRandom() const { return shiftRandom; }
+            void setShiftRandom(const std::pair<float, float>& newShiftRandom);
 
         private:
             float shift = 1.0f;

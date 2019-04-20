@@ -78,6 +78,12 @@ namespace ouzel
             });
         }
 
+        void Delay::setDelayRandom(const std::pair<float, float>& newDelayRandom)
+        {
+            delayRandom = newDelayRandom;
+            // TODO: pass to processor
+        }
+
         class GainProcessor final: public mixer::Processor
         {
         public:
@@ -124,6 +130,12 @@ namespace ouzel
                 GainProcessor* gainProcessor = static_cast<GainProcessor*>(node);
                 gainProcessor->setGain(newGain);
             });
+        }
+
+        void Gain::setGainRandom(const std::pair<float, float>& newGainRandom)
+        {
+            gainRandom = newGainRandom;
+            // TODO: pass to processor
         }
 
         class PannerProcessor final: public mixer::Processor
@@ -276,6 +288,12 @@ namespace ouzel
             });
         }
 
+        void PitchScale::setScaleRandom(const std::pair<float, float>& newScaleRandom)
+        {
+            scaleRandom = newScaleRandom;
+            // TODO: pass to processor
+        }
+
         class PitchShiftProcessor final: public mixer::Processor
         {
         public:
@@ -318,6 +336,12 @@ namespace ouzel
                 PitchShiftProcessor* pitchShiftProcessor = static_cast<PitchShiftProcessor*>(node);
                 pitchShiftProcessor->setShift(newShift);
             });
+        }
+
+        void PitchShift::setShiftRandom(const std::pair<float, float>& newShiftRandom)
+        {
+            shiftRandom = newShiftRandom;
+            // TODO: pass to processor
         }
 
         class ReverbProcessor final: public mixer::Processor

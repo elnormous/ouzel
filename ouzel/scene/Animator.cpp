@@ -28,7 +28,7 @@ namespace ouzel
         {
             if (running)
             {
-                if (length == 0.0F) // never-ending action
+                if (length == 0.0F) // never-ending animation
                 {
                     currentTime += delta;
                     progress = 0.0F;
