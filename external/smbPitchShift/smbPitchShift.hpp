@@ -137,11 +137,6 @@ namespace smb
     class PitchShift
     {
     public:
-        PitchShift()
-        {
-            std::fill(std::begin(fftWorksp), std::end(fftWorksp), Complex<float>{0.0F, 0.0F});
-        }
-
         /*
             Routine process(). See top of file for explanation
             Purpose: doing pitch shifting while maintaining duration using the Short
@@ -293,7 +288,7 @@ namespace smb
     private:
         float inFifo[MAX_FRAME_LENGTH]{0.0F};
         float outFifo[MAX_FRAME_LENGTH]{0.0F};
-        Complex<float> fftWorksp[MAX_FRAME_LENGTH];
+        Complex<float> fftWorksp[MAX_FRAME_LENGTH]{{0.0F, 0.0F}};
         float lastPhase[MAX_FRAME_LENGTH / 2 + 1]{0.0F};
         float sumPhase[MAX_FRAME_LENGTH / 2 + 1]{0.0F};
         float outputAccum[2 * MAX_FRAME_LENGTH]{0.0F};
