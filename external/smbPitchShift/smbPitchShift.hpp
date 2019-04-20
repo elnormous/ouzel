@@ -119,7 +119,7 @@ namespace smb
             float arg = PI / step2;
 
             Complex<float> w{std::cos(arg), std::sin(arg) * sign};
-            Complex<float> u{1.0, 0.0};
+            Complex<float> u{1.0F, 0.0F};
             for (unsigned long j = 0; j < step2; j++)
             {
                 for (unsigned long k = j; k < fftFrameSize; k += step)
@@ -139,14 +139,7 @@ namespace smb
     public:
         PitchShift()
         {
-            std::fill(std::begin(inFifo), std::end(inFifo), 0.0F);
-            std::fill(std::begin(outFifo), std::end(outFifo), 0.0F);
             std::fill(std::begin(fftWorksp), std::end(fftWorksp), Complex<float>{0.0F, 0.0F});
-            std::fill(std::begin(lastPhase), std::end(lastPhase), 0.0F);
-            std::fill(std::begin(sumPhase), std::end(sumPhase), 0.0F);
-            std::fill(std::begin(outputAccum), std::end(outputAccum), 0.0F);
-            std::fill(std::begin(anaFreq), std::end(anaFreq), 0.0F);
-            std::fill(std::begin(anaMagn), std::end(anaMagn), 0.0F);
         }
 
         /*
@@ -298,16 +291,16 @@ namespace smb
         }
 
     private:
-        float inFifo[MAX_FRAME_LENGTH];
-        float outFifo[MAX_FRAME_LENGTH];
+        float inFifo[MAX_FRAME_LENGTH]{0.0F};
+        float outFifo[MAX_FRAME_LENGTH]{0.0F};
         Complex<float> fftWorksp[MAX_FRAME_LENGTH];
-        float lastPhase[MAX_FRAME_LENGTH / 2 + 1];
-        float sumPhase[MAX_FRAME_LENGTH / 2 + 1];
-        float outputAccum[2 * MAX_FRAME_LENGTH];
-        float anaFreq[MAX_FRAME_LENGTH];
-        float anaMagn[MAX_FRAME_LENGTH];
-        float synFreq[MAX_FRAME_LENGTH];
-        float synMagn[MAX_FRAME_LENGTH];
+        float lastPhase[MAX_FRAME_LENGTH / 2 + 1]{0.0F};
+        float sumPhase[MAX_FRAME_LENGTH / 2 + 1]{0.0F};
+        float outputAccum[2 * MAX_FRAME_LENGTH]{0.0F};
+        float anaFreq[MAX_FRAME_LENGTH]{0.0F};
+        float anaMagn[MAX_FRAME_LENGTH]{0.0F};
+        float synFreq[MAX_FRAME_LENGTH]{0.0F};
+        float synMagn[MAX_FRAME_LENGTH]{0.0F};
         unsigned long rover = 0;
     };
 }
