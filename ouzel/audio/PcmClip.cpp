@@ -4,8 +4,8 @@
 #include <stdexcept>
 #include "PcmClip.hpp"
 #include "Audio.hpp"
+#include "mixer/Data.hpp"
 #include "mixer/Stream.hpp"
-#include "mixer/Source.hpp"
 
 namespace ouzel
 {
@@ -29,7 +29,7 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class PcmData final: public mixer::Source
+        class PcmData final: public mixer::Data
         {
         public:
             PcmData(uint16_t initChannels, uint32_t initSampleRate,
@@ -58,10 +58,10 @@ namespace ouzel
 
         void PcmSource::getData(uint32_t frames, std::vector<float>& samples)
         {
-            uint32_t neededSize = frames * source.getChannels();
+            uint32_t neededSize = frames * data.getChannels();
             samples.resize(neededSize);
 
-            PcmData& pcmData = static_cast<PcmData&>(source);
+            PcmData& pcmData = static_cast<PcmData&>(data);
             const std::vector<float>& data = pcmData.getSamples();
 
             uint32_t sourceFrames = static_cast<uint32_t>(data.size() / pcmData.getChannels());
@@ -98,8 +98,8 @@ namespace ouzel
 
         PcmClip::PcmClip(Audio& initAudio, uint16_t channels, uint32_t sampleRate,
                           const std::vector<float>& samples):
-            Sound(initAudio, initAudio.initSource([channels, sampleRate, samples](){
-                return std::unique_ptr<mixer::Source>(new PcmData(channels, sampleRate, samples));
+            Sound(initAudio, initAudio.initData([channels, sampleRate, samples](){
+                return std::unique_ptr<mixer::Data>(new PcmData(channels, sampleRate, samples));
             }))
         {
         }

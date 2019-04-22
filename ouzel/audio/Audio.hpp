@@ -53,7 +53,7 @@ namespace ouzel
             void deleteObject(uintptr_t objectId);
             uintptr_t initBus();
             uintptr_t initStream(uintptr_t sourceId);
-            uintptr_t initSource(const std::function<std::unique_ptr<mixer::Source>()>& initFunction);
+            uintptr_t initData(const std::function<std::unique_ptr<mixer::Data>()>& initFunction);
             uintptr_t initProcessor(std::unique_ptr<mixer::Processor>&& processor);
             void updateProcessor(uintptr_t processorId, const std::function<void(mixer::Processor*)>& updateFunction);
 

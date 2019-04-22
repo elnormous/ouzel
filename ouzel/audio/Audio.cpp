@@ -189,12 +189,12 @@ namespace ouzel
             return streamId;
         }
 
-        uintptr_t Audio::initSource(const std::function<std::unique_ptr<mixer::Source>()>& initFunction)
+        uintptr_t Audio::initData(const std::function<std::unique_ptr<mixer::Data>()>& initFunction)
         {
-            uintptr_t sourceId = mixer.getObjectId();
-            addCommand(std::unique_ptr<mixer::Command>(new mixer::InitSourceCommand(sourceId,
-                                                                                    initFunction)));
-            return sourceId;
+            uintptr_t dataId = mixer.getObjectId();
+            addCommand(std::unique_ptr<mixer::Command>(new mixer::InitDataCommand(dataId,
+                                                                                  initFunction)));
+            return dataId;
         }
 
         uintptr_t Audio::initProcessor(std::unique_ptr<mixer::Processor>&& processor)

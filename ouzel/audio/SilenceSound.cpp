@@ -2,8 +2,8 @@
 
 #include "SilenceSound.hpp"
 #include "Audio.hpp"
+#include "mixer/Data.hpp"
 #include "mixer/Stream.hpp"
-#include "mixer/Source.hpp"
 
 namespace ouzel
 {
@@ -27,7 +27,7 @@ namespace ouzel
             uint32_t position = 0;
         };
 
-        class SilenceData final: public mixer::Source
+        class SilenceData final: public mixer::Data
         {
         public:
             SilenceData(float initLength):
@@ -55,7 +55,7 @@ namespace ouzel
 
         void SilenceSource::getData(uint32_t frames, std::vector<float>& samples)
         {
-            SilenceData& silenceData = static_cast<SilenceData&>(source);
+            SilenceData& silenceData = static_cast<SilenceData&>(data);
 
             samples.resize(frames);
             std::fill(samples.begin(), samples.end(), 0.0F); // TODO: fill only the needed samples
@@ -64,7 +64,7 @@ namespace ouzel
 
             if (length > 0.0F)
             {
-                const uint32_t frameCount = static_cast<uint32_t>(length * source.getSampleRate());
+                const uint32_t frameCount = static_cast<uint32_t>(length * data.getSampleRate());
                 uint32_t neededSize = frames;
 
                 if (neededSize > 0)
@@ -94,8 +94,8 @@ namespace ouzel
         }
 
         SilenceSound::SilenceSound(Audio& initAudio, float initLength):
-            Sound(initAudio, initAudio.initSource([initLength](){
-                return std::unique_ptr<mixer::Source>(new SilenceData(initLength));
+            Sound(initAudio, initAudio.initData([initLength](){
+                return std::unique_ptr<mixer::Data>(new SilenceData(initLength));
             })),
             length(initLength)
         {

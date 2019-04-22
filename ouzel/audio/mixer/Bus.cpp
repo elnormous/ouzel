@@ -2,9 +2,9 @@
 
 #include <algorithm>
 #include "Bus.hpp"
+#include "Data.hpp"
 #include "Processor.hpp"
 #include "Stream.hpp"
-#include "Source.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -251,8 +251,8 @@ namespace ouzel
                 {
                     if (stream->isPlaying())
                     {
-                        const uint32_t sourceSampleRate = stream->getSource().getSampleRate();
-                        const uint16_t sourceChannels = stream->getSource().getChannels();
+                        const uint32_t sourceSampleRate = stream->getData().getSampleRate();
+                        const uint16_t sourceChannels = stream->getData().getChannels();
 
                         if (sourceSampleRate != sampleRate)
                         {

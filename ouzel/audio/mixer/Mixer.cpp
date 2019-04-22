@@ -100,8 +100,8 @@ namespace ouzel
                                 if (initStreamCommand->streamId > objects.size())
                                     objects.resize(initStreamCommand->streamId);
 
-                                Source* source = static_cast<Source*>(objects[initStreamCommand->sourceId - 1].get());
-                                objects[initStreamCommand->streamId - 1] = source->createStream();
+                                Data* data = static_cast<Data*>(objects[initStreamCommand->dataId - 1].get());
+                                objects[initStreamCommand->streamId - 1] = data->createStream();
                                 break;
                             }
                             case Command::Type::PLAY_STREAM:
@@ -128,14 +128,14 @@ namespace ouzel
                                 stream->setOutput(setStreamOutputCommand->busId ? static_cast<Bus*>(objects[setStreamOutputCommand->busId - 1].get()) : nullptr);
                                 break;
                             }
-                            case Command::Type::INIT_SOURCE:
+                            case Command::Type::INIT_DATA:
                             {
-                                auto initSourceCommand = static_cast<const InitSourceCommand*>(command.get());
+                                auto initDataCommand = static_cast<const InitDataCommand*>(command.get());
 
-                                if (initSourceCommand->sourceId > objects.size())
-                                    objects.resize(initSourceCommand->sourceId);
+                                if (initDataCommand->dataId > objects.size())
+                                    objects.resize(initDataCommand->dataId);
 
-                                objects[initSourceCommand->sourceId - 1] = initSourceCommand->initFunction();
+                                objects[initDataCommand->dataId - 1] = initDataCommand->initFunction();
                                 break;
                             }
                             case Command::Type::INIT_PROCESSOR:

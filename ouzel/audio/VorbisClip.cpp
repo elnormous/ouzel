@@ -3,8 +3,8 @@
 #include <stdexcept>
 #include "VorbisClip.hpp"
 #include "Audio.hpp"
+#include "mixer/Data.hpp"
 #include "mixer/Stream.hpp"
-#include "mixer/Source.hpp"
 #include "utils/Utils.hpp"
 
 #include "stb_vorbis.c"
@@ -35,10 +35,10 @@ namespace ouzel
 
         private:
             stb_vorbis* vorbisStream = nullptr;
-            std::vector<float> data;
+            std::vector<float> samples;
         };
 
-        class VorbisData final: public mixer::Source
+        class VorbisData final: public mixer::Data
         {
         public:
             VorbisData(const std::vector<uint8_t>& initData):
@@ -78,7 +78,7 @@ namespace ouzel
 
         void VorbisSource::getData(uint32_t frames, std::vector<float>& samples)
         {
-            uint32_t neededSize = frames * source.getChannels();
+            uint32_t neededSize = frames * data.getChannels();
             samples.resize(neededSize);
 
             uint32_t copyFrames = 0;
@@ -88,20 +88,20 @@ namespace ouzel
                 if (vorbisStream->eof)
                     reset();
 
-                data.resize(neededSize);
+                samples.resize(neededSize);
 
-                std::vector<float*> channelData(source.getChannels());
-                for (uint32_t channel = 0; channel < source.getChannels(); ++channel)
-                    channelData[channel] = &data[channel * frames];
+                std::vector<float*> channelData(data.getChannels());
+                for (uint32_t channel = 0; channel < data.getChannels(); ++channel)
+                    channelData[channel] = &samples[channel * frames];
 
-                int resultFrames = stb_vorbis_get_samples_float(vorbisStream, source.getChannels(),
+                int resultFrames = stb_vorbis_get_samples_float(vorbisStream, data.getChannels(),
                                                                 channelData.data(), static_cast<int>(frames));
                 copyFrames = static_cast<uint32_t>(resultFrames);
 
-                switch (source.getChannels())
+                switch (data.getChannels())
                 {
                     case 1:
-                        samples = data;
+                        samples = samples;
                         break;
                     case 2:
                         for (uint32_t frame = 0; frame < frames; ++frame)
@@ -141,14 +141,14 @@ namespace ouzel
                 reset();
             }
 
-            for (uint32_t channel = 0; channel < source.getChannels(); ++channel)
+            for (uint32_t channel = 0; channel < data.getChannels(); ++channel)
                 for (uint32_t frame = copyFrames; frame < frames; ++frame)
                     samples[channel * frames + frame] = 0.0F;
         }
 
         VorbisClip::VorbisClip(Audio& initAudio, const std::vector<uint8_t>& initData):
-            Sound(initAudio, initAudio.initSource([initData](){
-                return std::unique_ptr<mixer::Source>(new VorbisData(initData));
+            Sound(initAudio, initAudio.initData([initData](){
+                return std::unique_ptr<mixer::Data>(new VorbisData(initData));
             }))
         {
         }

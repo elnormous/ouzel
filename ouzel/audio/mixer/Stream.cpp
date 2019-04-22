@@ -2,7 +2,7 @@
 
 #include "Stream.hpp"
 #include "Bus.hpp"
-#include "Source.hpp"
+#include "Data.hpp"
 
 namespace ouzel
 {
@@ -10,8 +10,8 @@ namespace ouzel
     {
         namespace mixer
         {
-            Stream::Stream(Source& initSource):
-                source(initSource)
+            Stream::Stream(Data& initData):
+                data(initData)
             {
             }
 

@@ -772,9 +772,9 @@
 		C6C9101221B54A9600B5FCB7 /* Stream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Stream.hpp */; };
 		C6C9101321B54A9600B5FCB7 /* Stream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Stream.hpp */; };
 		C6C9101421B54A9600B5FCB7 /* Stream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Stream.hpp */; };
-		C6C9101D21B54B5B00B5FCB7 /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Source.hpp */; };
-		C6C9101E21B54B5B00B5FCB7 /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Source.hpp */; };
-		C6C9101F21B54B5B00B5FCB7 /* Source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Source.hpp */; };
+		C6C9101D21B54B5B00B5FCB7 /* Data.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Data.hpp */; };
+		C6C9101E21B54B5B00B5FCB7 /* Data.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Data.hpp */; };
+		C6C9101F21B54B5B00B5FCB7 /* Data.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Data.hpp */; };
 		C6C9102A21B54EE000B5FCB7 /* Oscillator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */; };
 		C6C9102B21B54EE000B5FCB7 /* Oscillator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */; };
 		C6C9102C21B54EE000B5FCB7 /* Oscillator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */; };
@@ -1137,7 +1137,7 @@
 		C6C9100B21AEB47E00B5FCB7 /* Utf8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utf8.hpp; sourceTree = "<group>"; };
 		C6C9100D21B54A9600B5FCB7 /* Stream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Stream.cpp; sourceTree = "<group>"; };
 		C6C9100E21B54A9600B5FCB7 /* Stream.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Stream.hpp; sourceTree = "<group>"; };
-		C6C9101921B54B5B00B5FCB7 /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
+		C6C9101921B54B5B00B5FCB7 /* Data.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Data.hpp; sourceTree = "<group>"; };
 		C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Oscillator.cpp; sourceTree = "<group>"; };
 		C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Oscillator.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1803,13 +1803,13 @@
 				30A381F321B201C20043568A /* Bus.cpp */,
 				30A381F421B201C20043568A /* Bus.hpp */,
 				30A3821F21B5E7B90043568A /* Commands.hpp */,
+				C6C9101921B54B5B00B5FCB7 /* Data.hpp */,
 				30A381FC21B382A20043568A /* Mixer.cpp */,
 				30A381FD21B382A20043568A /* Mixer.hpp */,
 				30C3F290219D0DD9003FE9ED /* Object.hpp */,
 				30A3821E21B4C5E90043568A /* Processor.hpp */,
 				C6C9100D21B54A9600B5FCB7 /* Stream.cpp */,
 				C6C9100E21B54A9600B5FCB7 /* Stream.hpp */,
-				C6C9101921B54B5B00B5FCB7 /* Source.hpp */,
 			);
 			path = mixer;
 			sourceTree = "<group>";
@@ -1928,7 +1928,7 @@
 				303B755E1C2A3CB700FEDE92 /* Vertex.hpp in Headers */,
 				30519CAF1F9B4E3E00AF3DC4 /* Loader.hpp in Headers */,
 				303B75601C2A3CBF00FEDE92 /* Camera.hpp in Headers */,
-				C6C9101D21B54B5B00B5FCB7 /* Source.hpp in Headers */,
+				C6C9101D21B54B5B00B5FCB7 /* Data.hpp in Headers */,
 				30CEB36C21A6385C00525637 /* System.hpp in Headers */,
 				303B75371C2A3C8200FEDE92 /* Setup.h in Headers */,
 				305B68D61ED1B31D003352A2 /* Timer.hpp in Headers */,
@@ -1973,7 +1973,7 @@
 				303696D11E32DD9C007F4211 /* BlendState.hpp in Headers */,
 				30CC89FE203C5DFB00E2C8C3 /* File.hpp in Headers */,
 				30519CBD1F9B53AB00AF3DC4 /* WaveLoader.hpp in Headers */,
-				C6C9101F21B54B5B00B5FCB7 /* Source.hpp in Headers */,
+				C6C9101F21B54B5B00B5FCB7 /* Data.hpp in Headers */,
 				30381F721D80A3EC00677CAB /* OGLBuffer.hpp in Headers */,
 				3085DA25211A4A5500F4C2D0 /* Socket.hpp in Headers */,
 				30519CCD1F9B53C100AF3DC4 /* TtfLoader.hpp in Headers */,
@@ -2189,7 +2189,7 @@
 				304A8E571C237C70008B1151 /* MathUtils.hpp in Headers */,
 				30519CD41F9B53CB00AF3DC4 /* ImageLoader.hpp in Headers */,
 				30419DE41D162BCF00A63759 /* Audio.hpp in Headers */,
-				C6C9101E21B54B5B00B5FCB7 /* Source.hpp in Headers */,
+				C6C9101E21B54B5B00B5FCB7 /* Data.hpp in Headers */,
 				C6C9102E21B54EE000B5FCB7 /* Oscillator.hpp in Headers */,
 				C6AC8A8D215BD7D500F14D75 /* MouseDeviceMacOS.hpp in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.hpp in Headers */,

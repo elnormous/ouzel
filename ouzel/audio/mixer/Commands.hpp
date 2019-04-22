@@ -9,7 +9,7 @@
 
 #include "audio/mixer/Processor.hpp"
 #include "audio/mixer/Stream.hpp"
-#include "audio/mixer/Source.hpp"
+#include "audio/mixer/Data.hpp"
 
 namespace ouzel
 {
@@ -32,7 +32,7 @@ namespace ouzel
                     PLAY_STREAM,
                     STOP_STREAM,
                     SET_STREAM_OUTPUT,
-                    INIT_SOURCE,
+                    INIT_DATA,
                     INIT_PROCESSOR,
                     UPDATE_PROCESSOR
                 };
@@ -121,14 +121,14 @@ namespace ouzel
             {
             public:
                 InitStreamCommand(uintptr_t initStreamId,
-                                  uintptr_t initSourceId):
+                                  uintptr_t initDataId):
                     Command(Command::Type::INIT_STREAM),
                     streamId(initStreamId),
-                    sourceId(initSourceId)
+                    dataId(initDataId)
                 {}
 
                 uintptr_t streamId;
-                uintptr_t sourceId;
+                uintptr_t dataId;
             };
 
             class PlayStreamCommand final: public Command
@@ -170,18 +170,18 @@ namespace ouzel
                 uintptr_t busId;
             };
 
-            class InitSourceCommand final: public Command
+            class InitDataCommand final: public Command
             {
             public:
-                InitSourceCommand(uintptr_t initSourceId,
-                                  const std::function<std::unique_ptr<Source>()>& initInitFunction):
-                    Command(Command::Type::INIT_SOURCE),
-                    sourceId(initSourceId),
+                InitDataCommand(uintptr_t initDataId,
+                                const std::function<std::unique_ptr<Data>()>& initInitFunction):
+                    Command(Command::Type::INIT_DATA),
+                    dataId(initDataId),
                     initFunction(initInitFunction)
                 {}
 
-                uintptr_t sourceId;
-                std::function<std::unique_ptr<Source>()> initFunction;
+                uintptr_t dataId;
+                std::function<std::unique_ptr<Data>()> initFunction;
             };
 
             class InitProcessorCommand final: public Command

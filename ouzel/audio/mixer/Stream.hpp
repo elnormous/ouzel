@@ -12,16 +12,16 @@ namespace ouzel
         namespace mixer
         {
             class Bus;
-            class Source;
+            class Data;
 
             class Stream: public Object
             {
                 friend Bus;
             public:
-                Stream(Source& initSource);
+                Stream(Data& initData);
                 ~Stream();
 
-                const Source& getSource() const { return source; }
+                const Data& getData() const { return data; }
 
                 virtual void getData(uint32_t frames, std::vector<float>& samples) = 0;
 
@@ -34,7 +34,7 @@ namespace ouzel
                 virtual void reset() = 0;
 
             protected:
-                Source& source;
+                Data& data;
                 Bus* output = nullptr;
                 bool playing = false;
             };
