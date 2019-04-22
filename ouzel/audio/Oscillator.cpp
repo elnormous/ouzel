@@ -22,7 +22,7 @@ namespace ouzel
                 position = 0;
             }
 
-            void getData(uint32_t frames, std::vector<float>& samples) override;
+            void getSamples(uint32_t frames, std::vector<float>& samples) override;
 
         private:
             uint32_t position = 0;
@@ -92,7 +92,7 @@ namespace ouzel
             }
         }
 
-        void OscillatorSource::getData(uint32_t frames, std::vector<float>& samples)
+        void OscillatorSource::getSamples(uint32_t frames, std::vector<float>& samples)
         {
             OscillatorData& oscillatorData = static_cast<OscillatorData&>(data);
 

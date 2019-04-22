@@ -21,7 +21,7 @@ namespace ouzel
                 position = 0;
             }
 
-            void getData(uint32_t frames, std::vector<float>& samples) override;
+            void getSamples(uint32_t frames, std::vector<float>& samples) override;
 
         private:
             uint32_t position = 0;
@@ -53,7 +53,7 @@ namespace ouzel
         {
         }
 
-        void SilenceSource::getData(uint32_t frames, std::vector<float>& samples)
+        void SilenceSource::getSamples(uint32_t frames, std::vector<float>& samples)
         {
             SilenceData& silenceData = static_cast<SilenceData&>(data);
 

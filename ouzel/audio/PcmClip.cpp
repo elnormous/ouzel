@@ -23,7 +23,7 @@ namespace ouzel
                 position = 0;
             }
 
-            void getData(uint32_t frames, std::vector<float>& samples) override;
+            void getSamples(uint32_t frames, std::vector<float>& samples) override;
 
         private:
             uint32_t position = 0;
@@ -56,7 +56,7 @@ namespace ouzel
         {
         }
 
-        void PcmSource::getData(uint32_t frames, std::vector<float>& samples)
+        void PcmSource::getSamples(uint32_t frames, std::vector<float>& samples)
         {
             uint32_t neededSize = frames * data.getChannels();
             samples.resize(neededSize);

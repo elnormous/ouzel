@@ -182,6 +182,8 @@
     <ClInclude Include="..\ouzel\audio\mixer\Data.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp" />
+    <ClInclude Include="..\ouzel\audio\mixer\Source.hpp" />
+    <ClInclude Include="..\ouzel\audio\mixer\Stream.hpp" />
     <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
     <ClInclude Include="..\ouzel\audio\Voice.hpp" />
@@ -192,7 +194,6 @@
     <ClInclude Include="..\ouzel\audio\VorbisClip.hpp" />
     <ClInclude Include="..\ouzel\audio\PcmClip.hpp" />
     <ClInclude Include="..\ouzel\audio\Mix.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Stream.hpp" />
     <ClInclude Include="..\ouzel\audio\Submix.hpp" />
     <ClInclude Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XA2AudioDevice.hpp" />

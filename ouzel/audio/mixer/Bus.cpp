@@ -257,11 +257,11 @@ namespace ouzel
                         if (sourceSampleRate != sampleRate)
                         {
                             uint32_t sourceFrames = (frames * sourceSampleRate + sampleRate - 1) / sampleRate; // round up
-                            stream->getData(sourceFrames, resampleBuffer);
+                            stream->getSamples(sourceFrames, resampleBuffer);
                             resample(sourceChannels, sourceFrames, resampleBuffer, frames, mixBuffer);
                         }
                         else
-                            stream->getData(frames, mixBuffer);
+                            stream->getSamples(frames, mixBuffer);
 
                         if (sourceChannels != channels)
                             convert(frames, sourceChannels, mixBuffer, channels, buffer);
