@@ -35,7 +35,7 @@ namespace ouzel
 
         private:
             stb_vorbis* vorbisStream = nullptr;
-            std::vector<float> samples;
+            std::vector<float> buffer;
         };
 
         class VorbisData final: public mixer::Data
@@ -88,11 +88,11 @@ namespace ouzel
                 if (vorbisStream->eof)
                     reset();
 
-                samples.resize(neededSize);
+                buffer.resize(neededSize);
 
                 std::vector<float*> channelData(data.getChannels());
                 for (uint32_t channel = 0; channel < data.getChannels(); ++channel)
-                    channelData[channel] = &samples[channel * frames];
+                    channelData[channel] = &buffer[channel * frames];
 
                 int resultFrames = stb_vorbis_get_samples_float(vorbisStream, data.getChannels(),
                                                                 channelData.data(), static_cast<int>(frames));
@@ -101,7 +101,7 @@ namespace ouzel
                 switch (data.getChannels())
                 {
                     case 1:
-                        samples = samples;
+                        samples = buffer;
                         break;
                     case 2:
                         for (uint32_t frame = 0; frame < frames; ++frame)
