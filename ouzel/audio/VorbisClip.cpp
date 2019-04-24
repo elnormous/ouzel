@@ -35,7 +35,6 @@ namespace ouzel
 
         private:
             stb_vorbis* vorbisStream = nullptr;
-            std::vector<float> buffer;
         };
 
         class VorbisData final: public mixer::Data
@@ -81,58 +80,44 @@ namespace ouzel
             uint32_t neededSize = frames * data.getChannels();
             samples.resize(neededSize);
 
-            uint32_t copyFrames = 0;
+            int resultFrames = 0;
 
             if (neededSize > 0)
             {
                 if (vorbisStream->eof)
                     reset();
 
-                buffer.resize(neededSize);
-
                 std::vector<float*> channelData(data.getChannels());
-                for (uint32_t channel = 0; channel < data.getChannels(); ++channel)
-                    channelData[channel] = &buffer[channel * frames];
-
-                int resultFrames = stb_vorbis_get_samples_float(vorbisStream, data.getChannels(),
-                                                                channelData.data(), static_cast<int>(frames));
-                copyFrames = static_cast<uint32_t>(resultFrames);
 
                 switch (data.getChannels())
                 {
                     case 1:
-                        samples = buffer;
+                        channelData[0] = &samples[0];
                         break;
                     case 2:
-                        for (uint32_t frame = 0; frame < frames; ++frame)
-                        {
-                            samples[0 * frames + frame] = channelData[0][frame];
-                            samples[1 * frames + frame] = channelData[1][frame];
-                        }
+                        channelData[0] = &samples[0 * frames];
+                        channelData[1] = &samples[1 * frames];
                         break;
                     case 4:
-                        for (uint32_t frame = 0; frame < frames; ++frame)
-                        {
-                            samples[0 * frames + frame] = channelData[0][frame];
-                            samples[1 * frames + frame] = channelData[1][frame];
-                            samples[2 * frames + frame] = channelData[2][frame];
-                            samples[3 * frames + frame] = channelData[3][frame];
-                        }
+                        channelData[0] = &samples[0 * frames];
+                        channelData[1] = &samples[1 * frames];
+                        channelData[2] = &samples[2 * frames];
+                        channelData[3] = &samples[3 * frames];
                         break;
                     case 6:
-                        for (uint32_t frame = 0; frame < frames; ++frame)
-                        {
-                            samples[0 * frames + frame] = channelData[0][frame];
-                            samples[1 * frames + frame] = channelData[2][frame];
-                            samples[2 * frames + frame] = channelData[1][frame];
-                            samples[3 * frames + frame] = channelData[5][frame];
-                            samples[4 * frames + frame] = channelData[3][frame];
-                            samples[5 * frames + frame] = channelData[4][frame];
-                        }
+                        channelData[0] = &samples[0 * frames];
+                        channelData[1] = &samples[2 * frames];
+                        channelData[2] = &samples[1 * frames];
+                        channelData[3] = &samples[4 * frames];
+                        channelData[4] = &samples[5 * frames];
+                        channelData[5] = &samples[3 * frames];
                         break;
                     default:
                         throw std::runtime_error("Unsupported channel count");
                 }
+
+                resultFrames = stb_vorbis_get_samples_float(vorbisStream, data.getChannels(),
+                                                            channelData.data(), static_cast<int>(frames));
             }
 
             if (vorbisStream->eof)
@@ -142,7 +127,7 @@ namespace ouzel
             }
 
             for (uint32_t channel = 0; channel < data.getChannels(); ++channel)
-                for (uint32_t frame = copyFrames; frame < frames; ++frame)
+                for (uint32_t frame = static_cast<uint32_t>(resultFrames); frame < frames; ++frame)
                     samples[channel * frames + frame] = 0.0F;
         }
 
