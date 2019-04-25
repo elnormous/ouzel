@@ -148,7 +148,7 @@ namespace ouzel
 
         Audio::Audio(Driver driver, bool debugAudio, Window* window):
             device(createAudioDevice(driver,
-                                     std::bind(&Audio::getData, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4),
+                                     std::bind(&Audio::getSamples, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4),
                                      debugAudio, window)),
             mixer(device->getBufferSize(), device->getChannels(),
                   std::bind(&Audio::eventCallback, this, std::placeholders::_1)),
@@ -211,7 +211,7 @@ namespace ouzel
                                                                                          updateFunction)));
         }
 
-        void Audio::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
+        void Audio::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
             mixer.getSamples(frames, channels, sampleRate, samples);
         }
