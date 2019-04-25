@@ -232,16 +232,16 @@ namespace ouzel
                     samples = sourceSamples;
             }
 
-            void Bus::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                              const Vector3F& listenerPosition, const QuaternionF& listenerRotation,
-                              std::vector<float>& samples)
+            void Bus::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                                 const Vector3F& listenerPosition, const QuaternionF& listenerRotation,
+                                 std::vector<float>& samples)
             {
                 samples.resize(frames * channels);
                 std::fill(samples.begin(), samples.end(), 0.0F);
 
                 for (Bus* bus : inputBuses)
                 {
-                    bus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, buffer);
+                    bus->getSamples(frames, channels, sampleRate, listenerPosition, listenerRotation, buffer);
 
                     for (size_t s = 0; s < samples.size(); ++s)
                         samples[s] += buffer[s];

@@ -213,7 +213,7 @@ namespace ouzel
 
         void Audio::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
-            mixer.getData(frames, channels, sampleRate, samples);
+            mixer.getSamples(frames, channels, sampleRate, samples);
         }
 
         void Audio::eventCallback(const mixer::Mixer::Event& event)

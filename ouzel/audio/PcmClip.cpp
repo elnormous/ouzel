@@ -13,10 +13,10 @@ namespace ouzel
     {
         class PcmData;
 
-        class PcmSource final: public mixer::Stream
+        class PcmStream final: public mixer::Stream
         {
         public:
-            PcmSource(PcmData& pcmData);
+            PcmStream(PcmData& pcmData);
 
             void reset() override
             {
@@ -44,19 +44,19 @@ namespace ouzel
 
             std::unique_ptr<mixer::Stream> createStream() override
             {
-                return std::unique_ptr<mixer::Stream>(new PcmSource(*this));
+                return std::unique_ptr<mixer::Stream>(new PcmStream(*this));
             }
 
         private:
             std::vector<float> samples;
         };
 
-        PcmSource::PcmSource(PcmData& pcmData):
+        PcmStream::PcmStream(PcmData& pcmData):
             Stream(pcmData)
         {
         }
 
-        void PcmSource::getSamples(uint32_t frames, std::vector<float>& samples)
+        void PcmStream::getSamples(uint32_t frames, std::vector<float>& samples)
         {
             uint32_t neededSize = frames * data.getChannels();
             samples.resize(neededSize);

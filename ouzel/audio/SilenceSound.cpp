@@ -11,10 +11,10 @@ namespace ouzel
     {
         class SilenceData;
 
-        class SilenceSource final: public mixer::Stream
+        class SilenceStream final: public mixer::Stream
         {
         public:
-            SilenceSource(SilenceData& toneData);
+            SilenceStream(SilenceData& toneData);
 
             void reset() override
             {
@@ -41,19 +41,19 @@ namespace ouzel
 
             std::unique_ptr<mixer::Stream> createStream() override
             {
-                return std::unique_ptr<mixer::Stream>(new SilenceSource(*this));
+                return std::unique_ptr<mixer::Stream>(new SilenceStream(*this));
             }
 
         private:
             float length;
         };
 
-        SilenceSource::SilenceSource(SilenceData& silenceData):
+        SilenceStream::SilenceStream(SilenceData& silenceData):
             Stream(silenceData)
         {
         }
 
-        void SilenceSource::getSamples(uint32_t frames, std::vector<float>& samples)
+        void SilenceStream::getSamples(uint32_t frames, std::vector<float>& samples)
         {
             SilenceData& silenceData = static_cast<SilenceData&>(data);
 

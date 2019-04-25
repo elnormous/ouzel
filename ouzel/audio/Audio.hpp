@@ -58,7 +58,7 @@ namespace ouzel
             void updateProcessor(uintptr_t processorId, const std::function<void(mixer::Processor*)>& updateFunction);
 
         private:
-            void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
+            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
             void eventCallback(const mixer::Mixer::Event& event);
 
             std::unique_ptr<AudioDevice> device;

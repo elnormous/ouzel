@@ -163,7 +163,7 @@ namespace ouzel
                 }
             }
 
-            void Mixer::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
+            void Mixer::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
             {
                 process();
 
@@ -174,7 +174,7 @@ namespace ouzel
                     Vector3F listenerPosition;
                     QuaternionF listenerRotation;
 
-                    masterBus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, samples);
+                    masterBus->getSamples(frames, channels, sampleRate, listenerPosition, listenerRotation, samples);
                 }
 
                 for (float& sample : samples)

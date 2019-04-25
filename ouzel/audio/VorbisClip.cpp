@@ -15,12 +15,12 @@ namespace ouzel
     {
         class VorbisData;
 
-        class VorbisSource final: public mixer::Stream
+        class VorbisStream final: public mixer::Stream
         {
         public:
-            VorbisSource(VorbisData& vorbisData);
+            VorbisStream(VorbisData& vorbisData);
 
-            ~VorbisSource()
+            ~VorbisStream()
             {
                 if (vorbisStream)
                     stb_vorbis_close(vorbisStream);
@@ -60,14 +60,14 @@ namespace ouzel
 
             std::unique_ptr<mixer::Stream> createStream() override
             {
-                return std::unique_ptr<mixer::Stream>(new VorbisSource(*this));
+                return std::unique_ptr<mixer::Stream>(new VorbisStream(*this));
             }
 
         private:
             std::vector<uint8_t> data;
         };
 
-        VorbisSource::VorbisSource(VorbisData& vorbisData):
+        VorbisStream::VorbisStream(VorbisData& vorbisData):
             Stream(vorbisData)
         {
             vorbisStream = stb_vorbis_open_memory(vorbisData.getData().data(),
@@ -75,7 +75,7 @@ namespace ouzel
                                                   nullptr, nullptr);
         }
 
-        void VorbisSource::getSamples(uint32_t frames, std::vector<float>& samples)
+        void VorbisStream::getSamples(uint32_t frames, std::vector<float>& samples)
         {
             uint32_t neededSize = frames * data.getChannels();
             samples.resize(neededSize);

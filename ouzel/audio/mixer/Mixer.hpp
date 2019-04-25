@@ -53,7 +53,7 @@ namespace ouzel
                 Mixer& operator=(Mixer&&) = delete;
 
                 void process();
-                void getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
+                void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
 
                 uintptr_t getObjectId()
                 {

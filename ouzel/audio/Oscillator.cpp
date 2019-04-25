@@ -12,10 +12,10 @@ namespace ouzel
     {
         class OscillatorData;
 
-        class OscillatorSource final: public mixer::Stream
+        class OscillatorStream final: public mixer::Stream
         {
         public:
-            OscillatorSource(OscillatorData& oscillatorData);
+            OscillatorStream(OscillatorData& oscillatorData);
 
             void reset() override
             {
@@ -48,7 +48,7 @@ namespace ouzel
 
             std::unique_ptr<mixer::Stream> createStream() override
             {
-                return std::unique_ptr<mixer::Stream>(new OscillatorSource(*this));
+                return std::unique_ptr<mixer::Stream>(new OscillatorStream(*this));
             }
 
         private:
@@ -58,7 +58,7 @@ namespace ouzel
             float length;
         };
 
-        OscillatorSource::OscillatorSource(OscillatorData& oscillatorData):
+        OscillatorStream::OscillatorStream(OscillatorData& oscillatorData):
             Stream(oscillatorData)
         {
         }
@@ -92,7 +92,7 @@ namespace ouzel
             }
         }
 
-        void OscillatorSource::getSamples(uint32_t frames, std::vector<float>& samples)
+        void OscillatorStream::getSamples(uint32_t frames, std::vector<float>& samples)
         {
             OscillatorData& oscillatorData = static_cast<OscillatorData&>(data);
 
