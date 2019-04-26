@@ -24,6 +24,7 @@ namespace ouzel
         public:
             enum Type
             {
+                STOP,
                 RESIZE,
                 PRESENT,
                 DELETE_RESOURCE,
@@ -59,6 +60,12 @@ namespace ouzel
             virtual ~Command() {}
 
             const Type type;
+        };
+
+        class StopCommand final: public Command
+        {
+        public:
+            StopCommand(): Command(Command::Type::STOP) {}
         };
 
         class ResizeCommand final: public Command
