@@ -32,7 +32,7 @@ namespace ouzel
                         a += pixel[pitch + 0];
                         a += pixel[pitch + 1];
                         a /= 4.0F;
-                        dst[0] = static_cast<uint8_t>(a);
+                        dst[0] = static_cast<uint8_t>(round(a));
                     }
                 }
             }
@@ -49,7 +49,7 @@ namespace ouzel
                     a += pixel[0];
                     a += pixel[pitch + 0];
                     a /= 2.0F;
-                    dst[0] = static_cast<uint8_t>(a);
+                    dst[0] = static_cast<uint8_t>(round(a));
                 }
             }
             else if (dstWidth > 0)
@@ -61,7 +61,7 @@ namespace ouzel
                     a += pixel[0];
                     a += pixel[1];
                     a /= 2.0F;
-                    dst[0] = static_cast<uint8_t>(a);
+                    dst[0] = static_cast<uint8_t>(round(a));
                 }
             }
         }
@@ -266,11 +266,11 @@ namespace ouzel
                             r /= pixels;
                             g /= pixels;
                             b /= pixels;
-                            a *= 0.25F;
+                            a /= 4.0F;
                             dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
                             dst[1] = static_cast<uint8_t>(round(pow(g, 1.0F / GAMMA) * 255.0F));
                             dst[2] = static_cast<uint8_t>(round(pow(b, 1.0F / GAMMA) * 255.0F));
-                            dst[3] = static_cast<uint8_t>(a);
+                            dst[3] = static_cast<uint8_t>(round(a));
                         }
                         else
                         {
@@ -320,11 +320,11 @@ namespace ouzel
                         r /= pixels;
                         g /= pixels;
                         b /= pixels;
-                        a *= 0.5F;
+                        a /= 2.0F;
                         dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
                         dst[1] = static_cast<uint8_t>(round(pow(g, 1.0F / GAMMA) * 255.0F));
                         dst[2] = static_cast<uint8_t>(round(pow(b, 1.0F / GAMMA) * 255.0F));
-                        dst[3] = static_cast<uint8_t>(a);
+                        dst[3] = static_cast<uint8_t>(round(a));
                     }
                     else
                     {
@@ -369,11 +369,11 @@ namespace ouzel
                         r /= pixels;
                         g /= pixels;
                         b /= pixels;
-                        a *= 0.5F;
+                        a /= 2.0F;
                         dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
                         dst[1] = static_cast<uint8_t>(round(pow(g, 1.0F / GAMMA) * 255.0F));
                         dst[2] = static_cast<uint8_t>(round(pow(b, 1.0F / GAMMA) * 255.0F));
-                        dst[3] = static_cast<uint8_t>(a);
+                        dst[3] = static_cast<uint8_t>(round(a));
                     }
                     else
                     {
