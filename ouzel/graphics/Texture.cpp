@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        static void imageA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
+        static void downsample2x2A8(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
             const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
@@ -60,7 +60,7 @@ namespace ouzel
             }
         }
 
-        static void imageR8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
+        static void downsample2x2R8(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
             const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
@@ -109,7 +109,7 @@ namespace ouzel
             }
         }
 
-        static void imageRG8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
+        static void downsample2x2Rg8(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
             const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
@@ -188,7 +188,7 @@ namespace ouzel
             }
         }
 
-        static void imageRGBA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
+        static void downsample2x2Rgba8(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
             const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
@@ -409,23 +409,23 @@ namespace ouzel
                     switch (pixelFormat)
                     {
                         case PixelFormat::RGBA8_UNORM:
-                            imageRGBA8Downsample2x2(previousWidth, previousHeight, previousPitch,
-                                                    previousData.data(), newData.data());
+                            downsample2x2Rgba8(previousWidth, previousHeight, previousPitch,
+                                               previousData.data(), newData.data());
                             break;
 
                         case PixelFormat::RG8_UNORM:
-                            imageRG8Downsample2x2(previousWidth, previousHeight, previousPitch,
-                                                  previousData.data(), newData.data());
+                            downsample2x2Rg8(previousWidth, previousHeight, previousPitch,
+                                             previousData.data(), newData.data());
                             break;
 
                         case PixelFormat::R8_UNORM:
-                            imageR8Downsample2x2(previousWidth, previousHeight, previousPitch,
-                                                 previousData.data(), newData.data());
+                            downsample2x2R8(previousWidth, previousHeight, previousPitch,
+                                            previousData.data(), newData.data());
                             break;
 
                         case PixelFormat::A8_UNORM:
-                            imageA8Downsample2x2(previousWidth, previousHeight, previousPitch,
-                                                 previousData.data(), newData.data());
+                            downsample2x2A8(previousWidth, previousHeight, previousPitch,
+                                            previousData.data(), newData.data());
                             break;
 
                         default:
