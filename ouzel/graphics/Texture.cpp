@@ -383,7 +383,7 @@ namespace ouzel
                             dst[0] = pow(pixel[0] / 255.0F, GAMMA); // red
                             dst[1] = pow(pixel[1] / 255.0F, GAMMA); // green
                             dst[2] = pow(pixel[2] / 255.0F, GAMMA); // blue
-                            dst[3] = static_cast<float>(pixel[3]) / 255.0F; // alpha
+                            dst[3] = pixel[3] / 255.0F; // alpha
                         }
                     }
                     break;
@@ -417,7 +417,7 @@ namespace ouzel
                         const uint8_t* pixel = src;
                         for (uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
                         {
-                            dst[0] = static_cast<float>(pixel[0]) / 255.0F; // alpha
+                            dst[0] = pixel[0] / 255.0F; // alpha
                         }
                     }
                     break;
