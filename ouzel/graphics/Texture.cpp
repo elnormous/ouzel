@@ -11,16 +11,21 @@ namespace ouzel
 {
     namespace graphics
     {
-        static void downsample2x2A8(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
+        static void downsample2x2A8(uint32_t width, uint32_t height,
+                                    const std::vector<float>& original, std::vector<float>& resized)
         {
             const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
+            const uint32_t pitch = width * 1;
+            resized.resize(dstWidth * dstHeight * 1);
+            const float* src = original.data();
+            float* dst = resized.data();
 
             if (dstWidth > 0 && dstHeight > 0)
             {
                 for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                 {
-                    const uint8_t* pixel = src;
+                    const float* pixel = src;
                     for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                     {
                         float a = 0.0F;
@@ -28,8 +33,7 @@ namespace ouzel
                         a += pixel[1];
                         a += pixel[pitch + 0];
                         a += pixel[pitch + 1];
-                        a /= 4.0F;
-                        dst[0] = static_cast<uint8_t>(round(a));
+                        dst[0] = a / 4.0F;
                     }
                 }
             }
@@ -37,48 +41,52 @@ namespace ouzel
             {
                 for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 1)
                 {
-                    const uint8_t* pixel = src;
+                    const float* pixel = src;
 
                     float a = 0.0F;
                     a += pixel[0];
                     a += pixel[pitch + 0];
-                    a /= 2.0F;
-                    dst[0] = static_cast<uint8_t>(round(a));
+                    dst[0] = a / 2.0F;
                 }
             }
             else if (dstWidth > 0)
             {
-                const uint8_t* pixel = src;
+                const float* pixel = src;
                 for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                 {
                     float a = 0.0F;
                     a += pixel[0];
                     a += pixel[1];
-                    a /= 2.0F;
-                    dst[0] = static_cast<uint8_t>(round(a));
+                    dst[0] = a / 2.0F;
                 }
             }
         }
 
-        static void downsample2x2R8(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
+        static void downsample2x2R8(uint32_t width, uint32_t height,
+                                    const std::vector<float>& original, std::vector<float>& resized)
         {
+            std::vector<float> normalized(width * height * 1);
+
             const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
+            const uint32_t pitch = width * 1;
+            resized.resize(dstWidth * dstHeight * 1);
+            const float* src = original.data();
+            float* dst = resized.data();
 
             if (dstWidth > 0 && dstHeight > 0)
             {
                 for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                 {
-                    const uint8_t* pixel = src;
+                    const float* pixel = src;
                     for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                     {
                         float r = 0.0F;
-                        r += pow(pixel[0] / 255.0F, GAMMA);
-                        r += pow(pixel[1] / 255.0F, GAMMA);
-                        r += pow(pixel[pitch + 0] / 255.0F, GAMMA);
-                        r += pow(pixel[pitch + 1] / 255.0F, GAMMA);
-                        r /= 4.0F;
-                        dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
+                        r += pixel[0];
+                        r += pixel[1];
+                        r += pixel[pitch + 0];
+                        r += pixel[pitch + 1];
+                        dst[0] = r / 4.0F;
                     }
                 }
             }
@@ -86,61 +94,63 @@ namespace ouzel
             {
                 for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 1)
                 {
-                    const uint8_t* pixel = src;
+                    const float* pixel = src;
 
                     float r = 0.0F;
-                    r += pow(pixel[0] / 255.0F, GAMMA);
-                    r += pow(pixel[pitch + 0] / 255.0F, GAMMA);
-                    r /= 2.0F;
-                    dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
+                    r += pixel[0];
+                    r += pixel[pitch + 0];
+                    dst[0] = r / 2.0F;
                 }
             }
             else if (dstWidth > 0)
             {
-                const uint8_t* pixel = src;
+                const float* pixel = src;
                 for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                 {
                     float r = 0.0F;
-                    r += pow(pixel[0] / 255.0F, GAMMA);
-                    r += pow(pixel[1] / 255.0F, GAMMA);
-                    r /= 2.0F;
-                    dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
+                    r += pixel[0];
+                    r += pixel[1];
+                    dst[0] = r / 2.0F;
                 }
             }
         }
 
-        static void downsample2x2Rg8(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
+        static void downsample2x2Rg8(uint32_t width, uint32_t height,
+                                     const std::vector<float>& original, std::vector<float>& resized)
         {
+            std::vector<float> normalized(width * height * 2);
+
             const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
+            const uint32_t pitch = width * 2;
+            resized.resize(dstWidth * dstHeight * 2);
+            const float* src = original.data();
+            float* dst = resized.data();
 
             if (dstWidth > 0 && dstHeight > 0)
             {
                 for (uint32_t  y = 0; y < dstHeight; ++y, src += pitch * 2)
                 {
-                    const uint8_t* pixel = src;
+                    const float* pixel = src;
                     for (uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
                     {
                         float r = 0.0F;
                         float g = 0.0F;
 
-                        r += pow(pixel[0] / 255.0F, GAMMA);
-                        g += pow(pixel[1] / 255.0F, GAMMA);
+                        r += pixel[0];
+                        g += pixel[1];
 
-                        r += pow(pixel[2] / 255.0F, GAMMA);
-                        g += pow(pixel[3] / 255.0F, GAMMA);
+                        r += pixel[2];
+                        g += pixel[3];
 
-                        r += pow(pixel[pitch + 0] / 255.0F, GAMMA);
-                        g += pow(pixel[pitch + 1] / 255.0F, GAMMA);
+                        r += pixel[pitch + 0];
+                        g += pixel[pitch + 1];
 
-                        r += pow(pixel[pitch + 2] / 255.0F, GAMMA);
-                        g += pow(pixel[pitch + 3] / 255.0F, GAMMA);
+                        r += pixel[pitch + 2];
+                        g += pixel[pitch + 3];
 
-                        r /= 4.0F;
-                        g /= 4.0F;
-
-                        dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
-                        dst[1] = static_cast<uint8_t>(round(pow(g, 1.0F / GAMMA) * 255.0F));
+                        dst[0] = r / 4.0F;
+                        dst[1] = g / 4.0F;
                     }
                 }
             }
@@ -148,56 +158,55 @@ namespace ouzel
             {
                 for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 2)
                 {
-                    const uint8_t* pixel = src;
+                    const float* pixel = src;
                     float r = 0.0F;
                     float g = 0.0F;
 
-                    r += pow(pixel[0] / 255.0F, GAMMA);
-                    g += pow(pixel[1] / 255.0F, GAMMA);
+                    r += pixel[0];
+                    g += pixel[1];
 
-                    r += pow(pixel[pitch + 0] / 255.0F, GAMMA);
-                    g += pow(pixel[pitch + 1] / 255.0F, GAMMA);
+                    r += pixel[pitch + 0];
+                    g += pixel[pitch + 1];
 
-                    r /= 2.0F;
-                    g /= 2.0F;
-
-                    dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
-                    dst[1] = static_cast<uint8_t>(round(pow(g, 1.0F / GAMMA) * 255.0F));
+                    dst[0] = r / 2.0F;
+                    dst[1] = g / 2.0F;
                 }
             }
             else if (dstWidth > 0)
             {
-                const uint8_t* pixel = src;
+                const float* pixel = src;
                 for (uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
                 {
                     float r = 0.0F;
                     float g = 0.0F;
 
-                    r += pow(pixel[0] / 255.0F, GAMMA);
-                    g += pow(pixel[1] / 255.0F, GAMMA);
+                    r += pixel[0];
+                    g += pixel[1];
 
-                    r += pow(pixel[2] / 255.0F, GAMMA);
-                    g += pow(pixel[3] / 255.0F, GAMMA);
+                    r += pixel[2];
+                    g += pixel[3];
 
-                    r /= 2.0F;
-                    g /= 2.0F;
-
-                    dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
-                    dst[1] = static_cast<uint8_t>(round(pow(g, 1.0F / GAMMA) * 255.0F));
+                    dst[0] = r / 2.0F;
+                    dst[1] = g / 2.0F;
                 }
             }
         }
 
-        static void downsample2x2Rgba8(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
+        static void downsample2x2Rgba8(uint32_t width, uint32_t height,
+                                       const std::vector<float>& original, std::vector<float>& resized)
         {
             const uint32_t dstWidth = width >> 1;
             const uint32_t dstHeight = height >> 1;
+            const uint32_t pitch = width * 4;
+            resized.resize(dstWidth * dstHeight * 4);
+            const float* src = original.data();
+            float* dst = resized.data();
 
             if (dstWidth > 0 && dstHeight > 0)
             {
                 for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                 {
-                    const uint8_t* pixel = src;
+                    const float* pixel = src;
                     for (uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
                     {
                         float pixels = 0.0F;
@@ -206,52 +215,48 @@ namespace ouzel
                         float b = 0.0F;
                         float a = 0.0F;
 
-                        if (pixel[3] > 0)
+                        if (pixel[3] > 0.0F)
                         {
-                            r += pow(pixel[0] / 255.0F, GAMMA);
-                            g += pow(pixel[1] / 255.0F, GAMMA);
-                            b += pow(pixel[2] / 255.0F, GAMMA);
+                            r += pixel[0];
+                            g += pixel[1];
+                            b += pixel[2];
                             pixels += 1.0F;
                         }
                         a += pixel[3];
 
-                        if (pixel[7] > 0)
+                        if (pixel[7] > 0.0F)
                         {
-                            r += pow(pixel[4] / 255.0F, GAMMA);
-                            g += pow(pixel[5] / 255.0F, GAMMA);
-                            b += pow(pixel[6] / 255.0F, GAMMA);
+                            r += pixel[4];
+                            g += pixel[5];
+                            b += pixel[6];
                             pixels += 1.0F;
                         }
                         a += pixel[7];
 
-                        if (pixel[pitch + 3] > 0)
+                        if (pixel[pitch + 3] > 0.0F)
                         {
-                            r += pow(pixel[pitch + 0] / 255.0F, GAMMA);
-                            g += pow(pixel[pitch + 1] / 255.0F, GAMMA);
-                            b += pow(pixel[pitch + 2] / 255.0F, GAMMA);
+                            r += pixel[pitch + 0];
+                            g += pixel[pitch + 1];
+                            b += pixel[pitch + 2];
                             pixels += 1.0F;
                         }
                         a += pixel[pitch + 3];
 
-                        if (pixel[pitch + 7] > 0)
+                        if (pixel[pitch + 7] > 0.0F)
                         {
-                            r += pow(pixel[pitch + 4] / 255.0F, GAMMA);
-                            g += pow(pixel[pitch + 5] / 255.0F, GAMMA);
-                            b += pow(pixel[pitch + 6] / 255.0F, GAMMA);
+                            r += pixel[pitch + 4];
+                            g += pixel[pitch + 5];
+                            b += pixel[pitch + 6];
                             pixels += 1.0F;
                         }
                         a += pixel[pitch + 7];
 
                         if (pixels > 0.0F)
                         {
-                            r /= pixels;
-                            g /= pixels;
-                            b /= pixels;
-                            a /= 4.0F;
-                            dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
-                            dst[1] = static_cast<uint8_t>(round(pow(g, 1.0F / GAMMA) * 255.0F));
-                            dst[2] = static_cast<uint8_t>(round(pow(b, 1.0F / GAMMA) * 255.0F));
-                            dst[3] = static_cast<uint8_t>(round(a));
+                            dst[0] = r / pixels;
+                            dst[1] = g / pixels;
+                            dst[2] = b / pixels;
+                            dst[3] = a / 4.0F;
                         }
                         else
                         {
@@ -267,7 +272,7 @@ namespace ouzel
             {
                 for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 4)
                 {
-                    const uint8_t* pixel = src;
+                    const float* pixel = src;
 
                     float pixels = 0.0F;
                     float r = 0.0F;
@@ -277,32 +282,28 @@ namespace ouzel
 
                     if (pixel[3] > 0)
                     {
-                        r += pow(pixel[0] / 255.0F, GAMMA);
-                        g += pow(pixel[1] / 255.0F, GAMMA);
-                        b += pow(pixel[2] / 255.0F, GAMMA);
+                        r += pixel[0];
+                        g += pixel[1];
+                        b += pixel[2];
                         pixels += 1.0F;
                     }
                     a = pixel[3];
 
                     if (pixel[pitch + 3] > 0)
                     {
-                        r += pow(pixel[pitch + 0] / 255.0F, GAMMA);
-                        g += pow(pixel[pitch + 1] / 255.0F, GAMMA);
-                        b += pow(pixel[pitch + 2] / 255.0F, GAMMA);
+                        r += pixel[pitch + 0];
+                        g += pixel[pitch + 1];
+                        b += pixel[pitch + 2];
                         pixels += 1.0F;
                     }
                     a += pixel[pitch + 3];
 
                     if (pixels > 0.0F)
                     {
-                        r /= pixels;
-                        g /= pixels;
-                        b /= pixels;
-                        a /= 2.0F;
-                        dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
-                        dst[1] = static_cast<uint8_t>(round(pow(g, 1.0F / GAMMA) * 255.0F));
-                        dst[2] = static_cast<uint8_t>(round(pow(b, 1.0F / GAMMA) * 255.0F));
-                        dst[3] = static_cast<uint8_t>(round(a));
+                        dst[0] = r / pixels;
+                        dst[1] = g / pixels;
+                        dst[2] = b / pixels;
+                        dst[3] = a / 2.0F;
                     }
                     else
                     {
@@ -315,7 +316,7 @@ namespace ouzel
             }
             else if (dstWidth > 0)
             {
-                const uint8_t* pixel = src;
+                const float* pixel = src;
                 for (uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
                 {
                     float pixels = 0.0F;
@@ -326,32 +327,28 @@ namespace ouzel
 
                     if (pixel[3] > 0)
                     {
-                        r += pow(pixel[0] / 255.0F, GAMMA);
-                        g += pow(pixel[1] / 255.0F, GAMMA);
-                        b += pow(pixel[2] / 255.0F, GAMMA);
+                        r += pixel[0];
+                        g += pixel[1];
+                        b += pixel[2];
                         pixels += 1.0F;
                     }
                     a += pixel[3];
 
                     if (pixel[7] > 0)
                     {
-                        r += pow(pixel[4] / 255.0F, GAMMA);
-                        g += pow(pixel[5] / 255.0F, GAMMA);
-                        b += pow(pixel[6] / 255.0F, GAMMA);
+                        r += pixel[4];
+                        g += pixel[5];
+                        b += pixel[6];
                         pixels += 1.0F;
                     }
                     a += pixel[7];
 
                     if (pixels > 0.0F)
                     {
-                        r /= pixels;
-                        g /= pixels;
-                        b /= pixels;
-                        a /= 2.0F;
-                        dst[0] = static_cast<uint8_t>(round(pow(r, 1.0F / GAMMA) * 255.0F));
-                        dst[1] = static_cast<uint8_t>(round(pow(g, 1.0F / GAMMA) * 255.0F));
-                        dst[2] = static_cast<uint8_t>(round(pow(b, 1.0F / GAMMA) * 255.0F));
-                        dst[3] = static_cast<uint8_t>(round(a));
+                        dst[0] = r / pixels;
+                        dst[1] = g / pixels;
+                        dst[2] = b / pixels;
+                        dst[3] = a / 2.0F;
                     }
                     else
                     {
@@ -361,6 +358,138 @@ namespace ouzel
                         dst[3] = 0;
                     }
                 }
+            }
+        }
+
+        static void decode(const Size2U& size,
+                           const std::vector<uint8_t>& encodedData,
+                           PixelFormat pixelFormat,
+                           std::vector<float>& decodedData)
+        {
+            uint32_t channelCount = getChannelCount(pixelFormat);
+            uint32_t pitch = size.width() * channelCount;
+            decodedData.resize(size.width() * size.height() * channelCount);
+            const uint8_t* src = encodedData.data();
+            float* dst = decodedData.data();
+
+            switch (pixelFormat)
+            {
+                case PixelFormat::RGBA8_UNORM:
+                    for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    {
+                        const uint8_t* pixel = src;
+                        for (uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
+                        {
+                            dst[0] = pow(pixel[0] / 255.0F, GAMMA); // red
+                            dst[1] = pow(pixel[1] / 255.0F, GAMMA); // green
+                            dst[2] = pow(pixel[2] / 255.0F, GAMMA); // blue
+                            dst[3] = static_cast<float>(pixel[3]) / 255.0F; // alpha
+                        }
+                    }
+                    break;
+
+                case PixelFormat::RG8_UNORM:
+                    for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    {
+                        const uint8_t* pixel = src;
+                        for (uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
+                        {
+                            dst[0] = pow(pixel[0] / 255.0F, GAMMA); // red
+                            dst[1] = pow(pixel[1] / 255.0F, GAMMA); // green
+                        }
+                    }
+                    break;
+
+                case PixelFormat::R8_UNORM:
+                    for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    {
+                        const uint8_t* pixel = src;
+                        for (uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 1)
+                        {
+                            dst[0] = pow(pixel[0] / 255.0F, GAMMA); // red
+                        }
+                    }
+                    break;
+
+                case PixelFormat::A8_UNORM:
+                    for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    {
+                        const uint8_t* pixel = src;
+                        for (uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
+                        {
+                            dst[0] = static_cast<float>(pixel[0]) / 255.0F; // alpha
+                        }
+                    }
+                    break;
+
+                default:
+                    throw std::runtime_error("Invalid pixel format");
+            }
+        }
+
+        static void encode(const Size2U& size,
+                           const std::vector<float>& decodedData,
+                           PixelFormat pixelFormat,
+                           std::vector<uint8_t>& encodedData)
+        {
+            uint32_t pixelSize = getPixelSize(pixelFormat);
+            uint32_t pitch = size.width() * pixelSize;
+            encodedData.resize(size.width() * size.height() * pixelSize);
+            const float* src = decodedData.data();
+            uint8_t* dst = encodedData.data();
+
+            switch (pixelFormat)
+            {
+                case PixelFormat::RGBA8_UNORM:
+                    for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    {
+                        const float* pixel = src;
+                        for (uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
+                        {
+                            dst[0] = static_cast<uint8_t>(round(pow(pixel[0], 1.0F / GAMMA) * 255.0F)); //red
+                            dst[1] = static_cast<uint8_t>(round(pow(pixel[1], 1.0F / GAMMA) * 255.0F)); // green
+                            dst[2] = static_cast<uint8_t>(round(pow(pixel[2], 1.0F / GAMMA) * 255.0F)); // blue
+                            dst[3] = static_cast<uint8_t>(round(pixel[3] * 255.0F)); // alpha
+                        }
+                    }
+                    break;
+
+                case PixelFormat::RG8_UNORM:
+                    for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    {
+                        const float* pixel = src;
+                        for (uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
+                        {
+                            dst[0] = static_cast<uint8_t>(round(pow(pixel[0], 1.0F / GAMMA) * 255.0F)); //red
+                            dst[1] = static_cast<uint8_t>(round(pow(pixel[1], 1.0F / GAMMA) * 255.0F)); // green
+                        }
+                    }
+                    break;
+
+                case PixelFormat::R8_UNORM:
+                    for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    {
+                        const float* pixel = src;
+                        for (uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
+                        {
+                            dst[0] = static_cast<uint8_t>(round(pow(pixel[0], 1.0F / GAMMA) * 255.0F)); //red
+                        }
+                    }
+                    break;
+
+                case PixelFormat::A8_UNORM:
+                    for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    {
+                        const float* pixel = src;
+                        for (uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
+                        {
+                            dst[0] = static_cast<uint8_t>(round(pixel[0] * 255.0F)); // alpha
+                        }
+                    }
+                    break;
+
+                default:
+                    throw std::runtime_error("Invalid pixel format");
             }
         }
 
@@ -385,7 +514,12 @@ namespace ouzel
             uint32_t previousWidth = newWidth;
             uint32_t previousHeight = newHeight;
             uint32_t previousPitch = pitch;
-            std::vector<uint8_t> previousData = data;
+            std::vector<float> previousData;
+
+            decode(size, data, pixelFormat, previousData);
+
+            std::vector<float> newData;
+            std::vector<uint8_t> encodedData;
 
             while ((newWidth > 1 || newHeight > 1) &&
                    (mipmaps == 0 || levels.size() < mipmaps))
@@ -404,37 +538,33 @@ namespace ouzel
                     levels.push_back({mipMapSize, pitch, std::vector<uint8_t>(bufferSize)});
                 else
                 {
-                    std::vector<uint8_t> newData(bufferSize);
 
                     switch (pixelFormat)
                     {
                         case PixelFormat::RGBA8_UNORM:
-                            downsample2x2Rgba8(previousWidth, previousHeight, previousPitch,
-                                               previousData.data(), newData.data());
+                            downsample2x2Rgba8(previousWidth, previousHeight, previousData, newData);
                             break;
 
                         case PixelFormat::RG8_UNORM:
-                            downsample2x2Rg8(previousWidth, previousHeight, previousPitch,
-                                             previousData.data(), newData.data());
+                            downsample2x2Rg8(previousWidth, previousHeight, previousData, newData);
                             break;
 
                         case PixelFormat::R8_UNORM:
-                            downsample2x2R8(previousWidth, previousHeight, previousPitch,
-                                            previousData.data(), newData.data());
+                            downsample2x2R8(previousWidth, previousHeight, previousData, newData);
                             break;
 
                         case PixelFormat::A8_UNORM:
-                            downsample2x2A8(previousWidth, previousHeight, previousPitch,
-                                            previousData.data(), newData.data());
+                            downsample2x2A8(previousWidth, previousHeight, previousData, newData);
                             break;
 
                         default:
                             throw std::runtime_error("Invalid pixel format");
                     }
 
-                    levels.push_back({mipMapSize, pitch, newData});
+                    encode(mipMapSize, newData, pixelFormat, encodedData);
+                    levels.push_back({mipMapSize, pitch, encodedData});
 
-                    previousData = std::move(newData);
+                    previousData = newData;
                 }
 
                 previousWidth = newWidth;
