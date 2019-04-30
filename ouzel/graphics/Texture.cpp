@@ -361,6 +361,16 @@ namespace ouzel
             }
         }
 
+        static inline float gammaDecode(uint8_t value)
+        {
+            return pow(value / 255.0F, GAMMA);
+        }
+
+        static inline uint8_t gammaEncode(float value)
+        {
+            return static_cast<uint8_t>(round(pow(value, 1.0F / GAMMA) * 255.0F));
+        }
+
         static void decode(const Size2U& size,
                            const std::vector<uint8_t>& encodedData,
                            PixelFormat pixelFormat,
@@ -380,9 +390,9 @@ namespace ouzel
                         const uint8_t* pixel = src;
                         for (uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
                         {
-                            dst[0] = pow(pixel[0] / 255.0F, GAMMA); // red
-                            dst[1] = pow(pixel[1] / 255.0F, GAMMA); // green
-                            dst[2] = pow(pixel[2] / 255.0F, GAMMA); // blue
+                            dst[0] = gammaDecode(pixel[0]); // red
+                            dst[1] = gammaDecode(pixel[1]); // green
+                            dst[2] = gammaDecode(pixel[2]); // blue
                             dst[3] = pixel[3] / 255.0F; // alpha
                         }
                     }
@@ -394,8 +404,8 @@ namespace ouzel
                         const uint8_t* pixel = src;
                         for (uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
                         {
-                            dst[0] = pow(pixel[0] / 255.0F, GAMMA); // red
-                            dst[1] = pow(pixel[1] / 255.0F, GAMMA); // green
+                            dst[0] = gammaDecode(pixel[0]); // red
+                            dst[1] = gammaDecode(pixel[1]); // green
                         }
                     }
                     break;
@@ -406,7 +416,7 @@ namespace ouzel
                         const uint8_t* pixel = src;
                         for (uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 1)
                         {
-                            dst[0] = pow(pixel[0] / 255.0F, GAMMA); // red
+                            dst[0] = gammaDecode(pixel[0]); // red
                         }
                     }
                     break;
@@ -446,9 +456,9 @@ namespace ouzel
                         const float* pixel = src;
                         for (uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
                         {
-                            dst[0] = static_cast<uint8_t>(round(pow(pixel[0], 1.0F / GAMMA) * 255.0F)); //red
-                            dst[1] = static_cast<uint8_t>(round(pow(pixel[1], 1.0F / GAMMA) * 255.0F)); // green
-                            dst[2] = static_cast<uint8_t>(round(pow(pixel[2], 1.0F / GAMMA) * 255.0F)); // blue
+                            dst[0] = gammaEncode(pixel[0]); //red
+                            dst[1] = gammaEncode(pixel[1]); // green
+                            dst[2] = gammaEncode(pixel[2]); // blue
                             dst[3] = static_cast<uint8_t>(round(pixel[3] * 255.0F)); // alpha
                         }
                     }
@@ -460,8 +470,8 @@ namespace ouzel
                         const float* pixel = src;
                         for (uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
                         {
-                            dst[0] = static_cast<uint8_t>(round(pow(pixel[0], 1.0F / GAMMA) * 255.0F)); //red
-                            dst[1] = static_cast<uint8_t>(round(pow(pixel[1], 1.0F / GAMMA) * 255.0F)); // green
+                            dst[0] = gammaEncode(pixel[0]); //red
+                            dst[1] = gammaEncode(pixel[1]); // green
                         }
                     }
                     break;
@@ -472,7 +482,7 @@ namespace ouzel
                         const float* pixel = src;
                         for (uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
                         {
-                            dst[0] = static_cast<uint8_t>(round(pow(pixel[0], 1.0F / GAMMA) * 255.0F)); //red
+                            dst[0] = gammaEncode(pixel[0]); //red
                         }
                     }
                     break;
