@@ -385,6 +385,7 @@ namespace ouzel
             switch (pixelFormat)
             {
                 case PixelFormat::RGBA8_UNORM:
+                case PixelFormat::RGBA8_UNORM_SRGB:
                     for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
                         const uint8_t* pixel = src;
@@ -451,6 +452,7 @@ namespace ouzel
             switch (pixelFormat)
             {
                 case PixelFormat::RGBA8_UNORM:
+                case PixelFormat::RGBA8_UNORM_SRGB:
                     for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
                         const float* pixel = src;
@@ -552,6 +554,7 @@ namespace ouzel
                     switch (pixelFormat)
                     {
                         case PixelFormat::RGBA8_UNORM:
+                        case PixelFormat::RGBA8_UNORM_SRGB:
                             downsample2x2Rgba8(previousWidth, previousHeight, previousData, newData);
                             break;
 

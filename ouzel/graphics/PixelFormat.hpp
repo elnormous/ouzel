@@ -28,6 +28,7 @@ namespace ouzel
             RG8_UINT,
             RG8_SINT,
             RGBA8_UNORM,
+            RGBA8_UNORM_SRGB,
             RGBA8_SNORM,
             RGBA8_UINT,
             RGBA8_SINT,
@@ -69,6 +70,7 @@ namespace ouzel
                 case PixelFormat::RG8_SINT:
                     return 2;
                 case PixelFormat::RGBA8_UNORM:
+                case PixelFormat::RGBA8_UNORM_SRGB:
                 case PixelFormat::RGBA8_SNORM:
                 case PixelFormat::RGBA8_UINT:
                 case PixelFormat::RGBA8_SINT:
@@ -104,6 +106,7 @@ namespace ouzel
                 case PixelFormat::RG8_UINT:
                 case PixelFormat::RG8_SINT:
                 case PixelFormat::RGBA8_UNORM:
+                case PixelFormat::RGBA8_UNORM_SRGB:
                 case PixelFormat::RGBA8_SNORM:
                 case PixelFormat::RGBA8_UINT:
                 case PixelFormat::RGBA8_SINT:
@@ -157,6 +160,7 @@ namespace ouzel
                 case PixelFormat::RG8_SINT:
                     return 2;
                 case PixelFormat::RGBA8_UNORM:
+                case PixelFormat::RGBA8_UNORM_SRGB:
                 case PixelFormat::RGBA8_SNORM:
                 case PixelFormat::RGBA8_UINT:
                 case PixelFormat::RGBA8_SINT:
