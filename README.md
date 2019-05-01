@@ -47,7 +47,7 @@ Supported audio backends:
 * Localization support via loading string translations and UTF-8 string support
 * Software audio mixer for sound effect playback
 * High DPI support on Windows, macOS, and iOS
-* Easy to install (just pull the repository and it's subrepositories and build it)
+* Easy to install (just pull the repository and build it)
 
 ## Example app
 
