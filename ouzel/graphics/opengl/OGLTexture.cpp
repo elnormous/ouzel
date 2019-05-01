@@ -37,7 +37,7 @@ namespace ouzel
                     case PixelFormat::RG8_UINT: return GL_RG8UI;
                     case PixelFormat::RG8_SINT: return GL_RG8I;
                     case PixelFormat::RGBA8_UNORM: return GL_RGBA8;
-                    case PixelFormat::RGBA8_UNORM_SRGB: return GL_RGBA8_SNORM;
+                    case PixelFormat::RGBA8_UNORM_SRGB: return GL_SRGB8_ALPHA8;
                     case PixelFormat::RGBA8_SNORM: return GL_RGBA8_SNORM;
                     case PixelFormat::RGBA8_UINT: return GL_RGBA8UI;
                     case PixelFormat::RGBA8_SINT: return GL_RGBA8I;
@@ -89,7 +89,7 @@ namespace ouzel
                 case PixelFormat::RG8_UINT: return GL_RG8UI;
                 case PixelFormat::RG8_SINT: return GL_RG8I;
                 case PixelFormat::RGBA8_UNORM: return GL_RGBA8;
-                case PixelFormat::RGBA8_UNORM_SRGB: return GL_RGBA8_SNORM;
+                case PixelFormat::RGBA8_UNORM_SRGB: return GL_SRGB8_ALPHA8;
                 case PixelFormat::RGBA8_SNORM: return GL_RGBA8_SNORM;
                 case PixelFormat::RGBA8_UINT: return GL_RGBA8UI;
                 case PixelFormat::RGBA8_SINT: return GL_RGBA8I;
@@ -135,6 +135,7 @@ namespace ouzel
                 case PixelFormat::RG8_SINT:
                     return GL_RG_INTEGER;
                 case PixelFormat::RGBA8_UNORM:
+                case PixelFormat::RGBA8_UNORM_SRGB:
                 case PixelFormat::RGBA8_SNORM:
                 case PixelFormat::RGBA16_UNORM:
                 case PixelFormat::RGBA16_SNORM:
@@ -166,6 +167,7 @@ namespace ouzel
                 case PixelFormat::R16_UNORM:
                 case PixelFormat::RG8_UNORM:
                 case PixelFormat::RGBA8_UNORM:
+                case PixelFormat::RGBA8_UNORM_SRGB:
                 case PixelFormat::RGBA16_UNORM:
                     return GL_UNSIGNED_BYTE;
                 case PixelFormat::R8_SNORM:
