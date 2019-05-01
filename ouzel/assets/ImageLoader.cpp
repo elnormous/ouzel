@@ -50,19 +50,45 @@ namespace ouzel
             {
                 case STBI_grey:
                 {
-                    pixelFormat = graphics::PixelFormat::R8_UNORM;
-                    pixelSize = 1;
-                    imageData.assign(tempData,
-                                     tempData + static_cast<size_t>(width * height) * pixelSize);
+                    pixelFormat = graphics::PixelFormat::RGBA8_UNORM;
+                    pixelSize = 4;
+
+                    imageData.resize(static_cast<size_t>(width * height * 4));
+
+                    for (int y = 0; y < height; ++y)
+                    {
+                        for (int x = 0; x < width; ++x)
+                        {
+                            size_t sourceOffset = static_cast<size_t>(y * width + x);
+                            size_t destinationOffset = static_cast<size_t>((y * width + x) * 4);
+                            imageData[destinationOffset + 0] = tempData[sourceOffset];
+                            imageData[destinationOffset + 1] = tempData[sourceOffset];
+                            imageData[destinationOffset + 2] = tempData[sourceOffset];
+                            imageData[destinationOffset + 3] = 255;
+                        }
+                    }
                     stbi_image_free(tempData);
                     break;
                 }
                 case STBI_grey_alpha:
                 {
-                    pixelFormat = graphics::PixelFormat::RG8_UNORM;
-                    pixelSize = 2;
-                    imageData.assign(tempData,
-                                     tempData + static_cast<size_t>(width * height) * pixelSize);
+                    pixelFormat = graphics::PixelFormat::RGBA8_UNORM;
+                    pixelSize = 4;
+
+                    imageData.resize(static_cast<size_t>(width * height * 4));
+
+                    for (int y = 0; y < height; ++y)
+                    {
+                        for (int x = 0; x < width; ++x)
+                        {
+                            size_t sourceOffset = static_cast<size_t>((y * width + x) * 2);
+                            size_t destinationOffset = static_cast<size_t>((y * width + x) * 4);
+                            imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
+                            imageData[destinationOffset + 1] = tempData[sourceOffset + 0];
+                            imageData[destinationOffset + 2] = tempData[sourceOffset + 0];
+                            imageData[destinationOffset + 3] = tempData[sourceOffset + 1];
+                        }
+                    }
                     stbi_image_free(tempData);
                     break;
                 }
