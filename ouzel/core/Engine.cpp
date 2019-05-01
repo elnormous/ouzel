@@ -218,6 +218,7 @@ namespace ouzel
                                               sampleCount,
                                               textureFilter,
                                               maxAnisotropy,
+                                              false,
                                               verticalSync,
                                               depth,
                                               stencil,

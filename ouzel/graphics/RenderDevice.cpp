@@ -33,6 +33,7 @@ namespace ouzel
                                 uint32_t newSampleCount,
                                 Texture::Filter newTextureFilter,
                                 uint32_t newMaxAnisotropy,
+                                bool newSrgb,
                                 bool newVerticalSync,
                                 bool newDepth,
                                 bool newStencil,
@@ -42,6 +43,7 @@ namespace ouzel
             sampleCount = newSampleCount;
             textureFilter = newTextureFilter;
             maxAnisotropy = newMaxAnisotropy;
+            srgb = newSrgb;
             verticalSync = newVerticalSync;
             depth = newDepth;
             stencil = newStencil;

@@ -118,6 +118,7 @@ namespace ouzel
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
                               uint32_t newMaxAnisotropy,
+                              bool newSrgb,
                               bool newVerticalSync,
                               bool newDepth,
                               bool newStencil,
@@ -140,6 +141,7 @@ namespace ouzel
             uint32_t maxAnisotropy = 1;
 
             bool verticalSync = true;
+            bool srgb = false;
             bool depth = false;
             bool stencil = false;
             bool debugRenderer = false;
