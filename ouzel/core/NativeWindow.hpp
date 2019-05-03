@@ -51,7 +51,7 @@ namespace ouzel
                 CLOSE
             };
 
-            Event() = default;
+            Event() {}
             explicit Event(Type initType): type(initType) {}
 
             Type type;
