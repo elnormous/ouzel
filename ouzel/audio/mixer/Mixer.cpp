@@ -19,8 +19,8 @@ namespace ouzel
                 bufferSize(initBufferSize),
                 channels(initChannels),
                 callback(initCallback),
-                buffer(initBufferSize * 3, initChannels),
-                mixerThread(&Mixer::main, this)
+                mixerThread(&Mixer::main, this),
+                buffer(initBufferSize * 3, initChannels)
             {
                 //setThreadPriority(mixerThread, 20.0F, true);
             }
