@@ -10,10 +10,6 @@ namespace ouzel
 {
     namespace scene
     {
-        SceneManager::SceneManager()
-        {
-        }
-
         SceneManager::~SceneManager()
         {
             for (Scene* scene : scenes)

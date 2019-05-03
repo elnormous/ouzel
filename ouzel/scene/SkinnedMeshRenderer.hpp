@@ -21,7 +21,7 @@ namespace ouzel
                 QuaternionF rotation;
             };
 
-            SkinnedMeshData() {}
+            SkinnedMeshData() = default;
             SkinnedMeshData(Box3F initBoundingBox,
                             const std::shared_ptr<graphics::Material>& initMaterial):
                 boundingBox(initBoundingBox),

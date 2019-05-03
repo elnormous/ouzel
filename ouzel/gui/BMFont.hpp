@@ -12,7 +12,7 @@ namespace ouzel
         class BMFont final: public Font
         {
         public:
-            BMFont();
+            BMFont() = default;
             explicit BMFont(const std::vector<uint8_t>& data);
 
             void getVertices(const std::string& text,

@@ -263,7 +263,7 @@ namespace ouzel
                 TEXT
             };
 
-            Node() {}
+            Node() = default;
             Node(Type initType): type(initType) {}
             Node(const std::string& val): type(Type::TEXT), value(val) {}
 

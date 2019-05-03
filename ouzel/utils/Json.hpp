@@ -268,7 +268,7 @@ namespace ouzel
                 BOOLEAN
             };
 
-            Value() {}
+            Value() = default;
 
             template<typename T, typename std::enable_if<std::is_same<T, Type>::value>::type* = nullptr>
             Value(T initType): type(initType) {}

@@ -15,7 +15,7 @@ namespace ouzel
         class Resource final
         {
         public:
-            Resource() {}
+            Resource() = default;
             Resource(Renderer& initRenderer);
             ~Resource();
 

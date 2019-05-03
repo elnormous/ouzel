@@ -13,10 +13,6 @@ namespace ouzel
 {
     namespace scene
     {
-        ActorContainer::ActorContainer()
-        {
-        }
-
         ActorContainer::~ActorContainer()
         {
             for (auto& actor : children)
@@ -221,10 +217,6 @@ namespace ouzel
             }
 
             return actors;
-        }
-        
-        Actor::Actor()
-        {
         }
 
         Actor::~Actor()

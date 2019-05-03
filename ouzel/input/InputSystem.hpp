@@ -49,7 +49,7 @@ namespace ouzel
                     HIDE_VIRTUAL_KEYBOARD
                 };
 
-                Command() {}
+                Command() = default;
                 explicit Command(Type initType): type(initType) {}
 
                 Type type;
@@ -101,7 +101,7 @@ namespace ouzel
                     TOUCH_CANCEL
                 };
 
-                Event() {}
+                Event() = default;
                 explicit Event(Type initType): type(initType) {}
 
                 Type type;

@@ -16,9 +16,7 @@ namespace ouzel
         class Image final
         {
         public:
-            Image()
-            {
-            }
+            Image() = default;
 
             Image(PixelFormat initPixelFormat,
                   const Size2U& initSize,

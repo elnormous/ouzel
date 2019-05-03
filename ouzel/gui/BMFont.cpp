@@ -141,10 +141,6 @@ namespace ouzel
             ++iterator;
         }
 
-        BMFont::BMFont()
-        {
-        }
-
         BMFont::BMFont(const std::vector<uint8_t>& data)
         {
             auto iterator = data.cbegin();

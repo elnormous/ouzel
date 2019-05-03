@@ -19,7 +19,7 @@ namespace ouzel
         class SceneManager final
         {
         public:
-            SceneManager();
+            SceneManager() = default;
             ~SceneManager();
 
             SceneManager(const SceneManager&) = delete;

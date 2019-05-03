@@ -25,7 +25,7 @@ namespace ouzel
         {
             friend Data;
         public:
-            Section() {}
+            Section() = default;
 
             Section(const std::string& initName):
                 name(initName)

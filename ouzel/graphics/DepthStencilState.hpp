@@ -47,9 +47,7 @@ namespace ouzel
                 CompareFunction compareFunction = CompareFunction::ALWAYS;
             };
 
-            DepthStencilState()
-            {
-            }
+            DepthStencilState() = default;
 
             explicit DepthStencilState(Renderer& initRenderer);
             DepthStencilState(Renderer& initRenderer,

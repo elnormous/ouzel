@@ -35,7 +35,7 @@ namespace ouzel
                         STARVATION
                     };
 
-                    Event() {}
+                    Event() = default;
                     explicit Event(Type initType): type(initType) {}
 
                     Type type;

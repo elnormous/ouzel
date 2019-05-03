@@ -24,7 +24,7 @@ namespace ouzel
         class ActorContainer
         {
         public:
-            ActorContainer();
+            ActorContainer() = default;
             virtual ~ActorContainer();
 
             ActorContainer(const ActorContainer&) = delete;
@@ -66,7 +66,7 @@ namespace ouzel
             friend ActorContainer;
             friend Layer;
         public:
-            Actor();
+            Actor() = default;
             virtual ~Actor();
 
             virtual void visit(std::vector<Actor*>& drawQueue,

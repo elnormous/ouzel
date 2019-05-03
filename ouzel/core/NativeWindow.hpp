@@ -24,7 +24,7 @@ namespace ouzel
                 SET_TITLE
             };
 
-            Command() {}
+            Command() = default;
             explicit Command(Type initType): type(initType) {}
 
             Type type;
@@ -51,7 +51,7 @@ namespace ouzel
                 CLOSE
             };
 
-            Event() {}
+            Event() = default;
             explicit Event(Type initType): type(initType) {}
 
             Type type;

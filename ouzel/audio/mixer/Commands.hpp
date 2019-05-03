@@ -215,7 +215,7 @@ namespace ouzel
             class CommandBuffer final
             {
             public:
-                CommandBuffer() {}
+                CommandBuffer() = default;
                 CommandBuffer(const std::string& initName):
                     name(initName)
                 {

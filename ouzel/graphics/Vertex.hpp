@@ -39,7 +39,7 @@ namespace ouzel
                 DataType dataType = DataType::NONE;
             };
 
-            Vertex() {}
+            Vertex() = default;
             Vertex(const Vector3F& initPosition, Color initColor, const Vector2F& initTexCoord, const Vector3F& initNormal):
                 position(initPosition), color(initColor), normal(initNormal)
             {

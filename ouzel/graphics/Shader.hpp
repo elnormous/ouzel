@@ -31,9 +31,7 @@ namespace ouzel
                 uint32_t size;
             };
 
-            Shader()
-            {
-            }
+            Shader() = default;
 
             explicit Shader(Renderer& initRenderer);
             Shader(Renderer& initRenderer,

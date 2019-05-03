@@ -52,7 +52,7 @@ namespace ouzel
                 DICTIONARY
             };
 
-            Value() {}
+            Value() = default;
             Value(Type initType): type(initType) {}
             Value(uint8_t value):
                 type(Type::INT), intValue(value)

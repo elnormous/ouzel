@@ -28,9 +28,7 @@ namespace ouzel
                 VERTEX
             };
 
-            Buffer()
-            {
-            }
+            Buffer() = default;
 
             explicit Buffer(Renderer& initRenderer);
             Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, uint32_t newSize = 0);

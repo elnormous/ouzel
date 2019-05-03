@@ -15,7 +15,7 @@ namespace ouzel
         {
             friend Menu;
         public:
-            Widget();
+            Widget() = default;
 
             inline Menu* getMenu() const { return menu; }
 

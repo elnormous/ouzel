@@ -20,9 +20,7 @@ namespace ouzel
         class RenderTarget final
         {
         public:
-            RenderTarget()
-            {
-            }
+            RenderTarget() = default;
 
             RenderTarget(Renderer& initRenderer,
                          const std::vector<std::shared_ptr<Texture>>& initColorTextures,

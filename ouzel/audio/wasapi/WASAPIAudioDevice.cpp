@@ -23,7 +23,7 @@ namespace ouzel
             LONG refCount = 1;
 
         public:
-            NotificationClient() {}
+            NotificationClient() = default;
             NotificationClient(const NotificationClient&) = delete;
             NotificationClient(NotificationClient&&) = delete;
             NotificationClient& operator=(const NotificationClient&) = delete;

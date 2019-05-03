@@ -6,10 +6,6 @@ namespace ouzel
 {
     namespace gui
     {
-        Widget::Widget()
-        {
-        }
-
         void Widget::setEnabled(bool newEnabled)
         {
             enabled = newEnabled;

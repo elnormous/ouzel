@@ -68,9 +68,7 @@ namespace ouzel
                 std::vector<uint8_t> data;
             };
 
-            Texture()
-            {
-            }
+            Texture() = default;
 
             explicit Texture(Renderer& initRenderer);
             Texture(Renderer& initRenderer,

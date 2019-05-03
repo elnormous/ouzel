@@ -50,9 +50,7 @@ namespace ouzel
                 COLOR_MASK_ALL = COLOR_MASK_RED | COLOR_MASK_GREEN | COLOR_MASK_BLUE | COLOR_MASK_ALPHA
             };
 
-            BlendState()
-            {
-            }
+            BlendState() = default;
 
             explicit BlendState(Renderer& initRenderer);
             BlendState(Renderer& initRenderer,

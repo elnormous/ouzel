@@ -17,7 +17,7 @@ namespace ouzel
             class Object
             {
             public:
-                Object() {}
+                Object() = default;
                 virtual ~Object() {}
 
                 Object(const Object&) = delete;
