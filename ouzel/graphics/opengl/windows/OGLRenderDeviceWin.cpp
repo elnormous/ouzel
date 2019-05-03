@@ -234,6 +234,7 @@ namespace ouzel
                     WGL_STENCIL_BITS_ARB, newStencil ? 8 : 0,
                     WGL_SAMPLE_BUFFERS_ARB, newSampleCount > 0 ? 1 : 0,
                     WGL_SAMPLES_ARB, static_cast<int>(newSampleCount),
+                    WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB, newSrgb ? 1 : 0,
                     0,
                 };
 

@@ -165,6 +165,7 @@ namespace ouzel
                 GLX_STENCIL_SIZE, newStencil ? 8 : 0,
                 GLX_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
                 GLX_SAMPLES, static_cast<int>(newSampleCount),
+                GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, newSrgb ? 1 : 0,
                 0
             };
 
