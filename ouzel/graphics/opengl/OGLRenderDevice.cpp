@@ -708,6 +708,9 @@ namespace ouzel
 
             glDisableProc(GL_DITHER);
 
+            if (srgb)
+                glEnableProc(GL_FRAMEBUFFER_SRGB);
+
             if ((error = glGetErrorProc()) != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set depth function");
 
