@@ -22,7 +22,7 @@ namespace ouzel
 
             Image(PixelFormat initPixelFormat,
                   const Size2U& initSize,
-                  std::vector<uint8_t>& initData):
+                  const std::vector<uint8_t>& initData):
                 pixelFormat(initPixelFormat), size(initSize), data(initData)
             {
             }
