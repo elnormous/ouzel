@@ -11,12 +11,9 @@ namespace ouzel
     template<size_t N, class T> class Size final
     {
     public:
-        T v[N];
+        T v[N]{0};
 
-        Size():
-            v{0}
-        {
-        }
+        Size() = default;
 
         template<typename ...A>
         Size(A... args):
@@ -31,10 +28,9 @@ namespace ouzel
                 v[i] = size.v[i];
         }
 
-        explicit Size(const Vector<N, T>& vec)
+        explicit Size(const Vector<N, T>& vec):
+            v(vec.v)
         {
-            for (size_t i = 0; i < N; ++i)
-                v[i] = vec.v[i];
         }
 
         inline T& operator[](size_t index) { return v[index]; }

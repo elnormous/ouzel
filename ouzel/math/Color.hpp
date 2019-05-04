@@ -23,12 +23,9 @@ namespace ouzel
         static constexpr uint32_t WHITE = 0xffffffff;
         static constexpr uint32_t GRAY = 0x808080ff;
 
-        uint8_t v[4];
+        uint8_t v[4]{0};
 
-        Color():
-            v{0}
-        {
-        }
+        Color() = default;
 
         Color(uint32_t color):
             v{

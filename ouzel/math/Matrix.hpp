@@ -20,23 +20,14 @@ namespace ouzel
 #if defined(__SSE__)
         alignas((C == 4 && R == 4) ? 4 * sizeof(T) : alignof(T))
 #endif
-        T m[C * R];
+        T m[C * R]{0};
 
-        Matrix():
-            m{0}
-        {
-        }
+        Matrix() = default;
 
         template<typename ...A>
         Matrix(A... args):
             m{static_cast<T>(args)...}
         {
-        }
-
-        explicit Matrix(const T* array)
-        {
-            for (size_t i = 0; i < C * R; ++i)
-                m[i] = array[i];
         }
 
         T& operator[](size_t index) { return m[index]; }

@@ -13,9 +13,7 @@ namespace ouzel
     template<class T> class ConvexVolume final
     {
     public:
-        ConvexVolume()
-        {
-        }
+        ConvexVolume() = default;
 
         explicit ConvexVolume(const std::vector<Plane<T>>& initPlanes):
             planes(initPlanes)

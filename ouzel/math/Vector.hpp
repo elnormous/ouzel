@@ -17,12 +17,9 @@ namespace ouzel
 #if defined(__SSE__)
         alignas(N == 4 ? 4 * sizeof(T) : alignof(T))
 #endif
-        T v[N];
+        T v[N]{0};
 
-        Vector():
-            v{0}
-        {
-        }
+        Vector() = default;
 
         template<typename ...A>
         Vector(A... args):
@@ -33,8 +30,8 @@ namespace ouzel
         template<size_t X = N, size_t N2, typename std::enable_if<(X != N2)>::type* = nullptr>
         explicit Vector(const Vector<N2, T>& vec)
         {
-            for (size_t i = 0; i < N; ++i)
-                v[i] = (i < N2) ? vec.v[i] : 0;
+            for (size_t i = 0; i < N && i < N2; ++i)
+                v[i] = vec.v[i];
         }
 
         inline T& operator[](size_t index) { return v[index]; }

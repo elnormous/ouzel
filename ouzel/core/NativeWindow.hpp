@@ -51,15 +51,15 @@ namespace ouzel
                 CLOSE
             };
 
-            Event() {}
+            Event() = default;
             explicit Event(Type initType): type(initType) {}
 
             Type type;
 
+            Size2U size;
+            Size2U resolution;
             union
             {
-                Size2U size;
-                Size2U resolution;
                 bool fullscreen;
                 uint32_t displayId;
                 bool focus;
