@@ -19,6 +19,12 @@ namespace ouzel
             SOLID,
             WIREFRAME
         };
+
+        enum class Face
+        {
+            CLOCK_WISE,
+            COUNTER_CLOCK_WISE
+        };
     } // namespace graphics
 } // namespace ouzel
 
