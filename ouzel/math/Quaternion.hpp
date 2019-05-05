@@ -15,7 +15,9 @@ namespace ouzel
     public:
         T v[4]{0, 0, 0, 0};
 
-        Quaternion() = default;
+        Quaternion()
+        {
+        }
 
         Quaternion(T x, T y, T z, T w):
             v{x, y, z, w}

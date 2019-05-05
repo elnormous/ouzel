@@ -22,7 +22,9 @@ namespace ouzel
 #endif
         T m[C * R]{0};
 
-        Matrix() = default;
+        Matrix()
+        {
+        }
 
         template<typename ...A>
         Matrix(A... args):

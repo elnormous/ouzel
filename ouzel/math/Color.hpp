@@ -25,7 +25,9 @@ namespace ouzel
 
         uint8_t v[4]{0};
 
-        Color() = default;
+        Color()
+        {
+        }
 
         Color(uint32_t color):
             v{
