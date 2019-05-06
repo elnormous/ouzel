@@ -22,7 +22,7 @@
 
         touchpadDevice->handleTouchBegin(reinterpret_cast<uint64_t>(touch),
                                          ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
-                                                        static_cast<float>(location.y / self.bounds.size.height)),
+                                                         static_cast<float>(location.y / self.bounds.size.height)),
                                          static_cast<float>(force));
     }
 }
@@ -40,7 +40,7 @@
 
         touchpadDevice->handleTouchMove(reinterpret_cast<uint64_t>(touch),
                                         ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
-                                                       static_cast<float>(location.y / self.bounds.size.height)),
+                                                        static_cast<float>(location.y / self.bounds.size.height)),
                                         static_cast<float>(force));
     }
 }
@@ -58,7 +58,7 @@
 
         touchpadDevice->handleTouchEnd(reinterpret_cast<uint64_t>(touch),
                                        ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
-                                                      static_cast<float>(location.y / self.bounds.size.height)),
+                                                       static_cast<float>(location.y / self.bounds.size.height)),
                                        static_cast<float>(force));
     }
 }
@@ -76,7 +76,7 @@
 
         touchpadDevice->handleTouchCancel(reinterpret_cast<uint64_t>(touch),
                                           ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
-                                                         static_cast<float>(location.y / self.bounds.size.height)),
+                                                          static_cast<float>(location.y / self.bounds.size.height)),
                                           static_cast<float>(force));
     }
 }

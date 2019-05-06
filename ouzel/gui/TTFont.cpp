@@ -171,10 +171,10 @@ namespace ouzel
                     indices.push_back(startIndex + 2);
 
                     Vector2F leftTop(f.x / static_cast<float>(width),
-                                    f.y / static_cast<float>(height));
+                                     f.y / static_cast<float>(height));
 
                     Vector2F rightBottom((f.x + f.width) / static_cast<float>(width),
-                                        (f.y + f.height) / static_cast<float>(height));
+                                         (f.y + f.height) / static_cast<float>(height));
 
                     textCoords[0] = Vector2F(leftTop.v[0], rightBottom.v[1]);
                     textCoords[1] = Vector2F(rightBottom.v[0], rightBottom.v[1]);

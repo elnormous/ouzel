@@ -120,7 +120,7 @@ namespace ouzel
 
                 contentSize = Size2F(renderViewport.size.v[0] / contentScale.v[0], renderViewport.size.v[1] / contentScale.v[1]);
                 contentPosition = Vector2F((contentSize.v[0] - targetContentSize.v[0]) / 2.0F,
-                                          (contentSize.v[1] - targetContentSize.v[1]) / 2.0F);
+                                           (contentSize.v[1] - targetContentSize.v[1]) / 2.0F);
             }
             else
             {
@@ -205,7 +205,7 @@ namespace ouzel
 
             // convert viewport clip position to window normalized
             return Vector2F((result.v[0] / 2.0F + 0.5F) * viewport.size.v[0] + viewport.position.v[0],
-                           1.0F - ((result.v[1] / 2.0F + 0.5F) * viewport.size.v[1] + viewport.position.v[1]));
+                            1.0F - ((result.v[1] / 2.0F + 0.5F) * viewport.size.v[1] + viewport.position.v[1]));
         }
 
         bool Camera::checkVisibility(const Matrix4F& boxTransform, const Box3F& box) const

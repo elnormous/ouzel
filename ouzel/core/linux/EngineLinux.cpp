@@ -371,7 +371,7 @@ namespace ouzel
                         ouzel::input::MouseDeviceLinux* mouseDevice = inputSystemLinux->getMouseDevice();
 
                         Vector2F pos(static_cast<float>(event.xbutton.x),
-                                    static_cast<float>(event.xbutton.y));
+                                     static_cast<float>(event.xbutton.y));
 
                         if (event.type == ButtonPress)
                             mouseDevice->handleButtonPress(convertButtonCode(event.xbutton.button),
@@ -387,7 +387,7 @@ namespace ouzel
                         ouzel::input::MouseDeviceLinux* mouseDevice = inputSystemLinux->getMouseDevice();
 
                         Vector2F pos(static_cast<float>(event.xmotion.x),
-                                           static_cast<float>(event.xmotion.y));
+                                     static_cast<float>(event.xmotion.y));
 
                         mouseDevice->handleMove(window->convertWindowToNormalizedLocation(pos));
 
@@ -419,7 +419,7 @@ namespace ouzel
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchBegin(xievent->detail,
                                                                      window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
-                                                                                                                              static_cast<float>(xievent->event_y))));
+                                                                                                                        static_cast<float>(xievent->event_y))));
                                     break;
                                 }
                                 case XI_TouchEnd:
@@ -427,7 +427,7 @@ namespace ouzel
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchEnd(xievent->detail,
                                                                    window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
-                                                                                                                            static_cast<float>(xievent->event_y))));
+                                                                                                                      static_cast<float>(xievent->event_y))));
                                     break;
                                 }
                                 case XI_TouchUpdate:
@@ -435,7 +435,7 @@ namespace ouzel
                                     XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchMove(xievent->detail,
                                                                     window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
-                                                                                                                             static_cast<float>(xievent->event_y))));
+                                                                                                                       static_cast<float>(xievent->event_y))));
                                     break;
                                 }
                             }

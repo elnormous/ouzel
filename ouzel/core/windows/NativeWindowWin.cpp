@@ -640,7 +640,7 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
 
                 Vector2F position(static_cast<float>(cursorPos.x),
-                                        static_cast<float>(cursorPos.y));
+                                  static_cast<float>(cursorPos.y));
                 mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
     }
@@ -666,7 +666,7 @@ namespace ouzel
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
 
         Vector2F position(static_cast<float>(cursorPos.x),
-                                static_cast<float>(cursorPos.y));
+                          static_cast<float>(cursorPos.y));
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 
@@ -687,7 +687,7 @@ namespace ouzel
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
 
         Vector2F position(static_cast<float>(GET_X_LPARAM(lParam)),
-                                static_cast<float>(GET_Y_LPARAM(lParam)));
+                          static_cast<float>(GET_Y_LPARAM(lParam)));
 
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
@@ -698,7 +698,7 @@ namespace ouzel
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
 
         Vector2F position(static_cast<float>(GET_X_LPARAM(lParam)),
-                                static_cast<float>(GET_Y_LPARAM(lParam)));
+                          static_cast<float>(GET_Y_LPARAM(lParam)));
 
         input::Mouse::Button button;
 
@@ -734,7 +734,7 @@ namespace ouzel
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
 
         Vector2F position(static_cast<float>(GET_X_LPARAM(lParam)),
-                                static_cast<float>(GET_Y_LPARAM(lParam)));
+                          static_cast<float>(GET_Y_LPARAM(lParam)));
 
         if (message == WM_MOUSEWHEEL)
         {

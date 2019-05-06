@@ -449,7 +449,7 @@ namespace ouzel
                             }
 
                             Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                        static_cast<float>(cursorPosition.y)));
+                                                                                                                          static_cast<float>(cursorPosition.y)));
                             mouseDevice->handleMove(normalizedPosition);
                             break;
                         }
@@ -472,14 +472,14 @@ namespace ouzel
                                 case REL_WHEEL:
                                 {
                                     Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                                static_cast<float>(cursorPosition.y)));
+                                                                                                                                  static_cast<float>(cursorPosition.y)));
                                     mouseDevice->handleScroll(Vector2F(0.0F, static_cast<float>(event.value)), normalizedPosition);
                                     break;
                                 }
                                 case REL_HWHEEL:
                                 {
                                     Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                                static_cast<float>(cursorPosition.y)));
+                                                                                                                                  static_cast<float>(cursorPosition.y)));
                                     mouseDevice->handleScroll(Vector2F(static_cast<float>(event.value), 0.0F), normalizedPosition);
                                     break;
                                 }
@@ -489,7 +489,7 @@ namespace ouzel
                         case EV_KEY:
                         {
                             Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                        static_cast<float>(cursorPosition.y)));
+                                                                                                                          static_cast<float>(cursorPosition.y)));
 
                             if (event.value == 1)
                                 mouseDevice->handleButtonPress(convertButtonCode(event.code), normalizedPosition);
@@ -554,7 +554,7 @@ namespace ouzel
                                         if (slot.action != Slot::Action::NONE)
                                         {
                                             Vector2F position(static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
-                                                             static_cast<float>(slot.positionY - touchMinY) / touchRangeY);
+                                                              static_cast<float>(slot.positionY - touchMinY) / touchRangeY);
                                             float pressure = static_cast<float>(slot.pressure - touchMinPressure) / touchMaxPressure;
 
                                             switch (slot.action)
