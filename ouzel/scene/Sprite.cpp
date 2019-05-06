@@ -229,7 +229,7 @@ namespace ouzel
                               static_cast<float>(newTexture->getSize().v[1]));
 
             Size2F spriteSize = Size2F(size.v[0] / spritesX,
-                                                   size.v[1] / spritesY);
+                                       size.v[1] / spritesY);
 
             SpriteData::Animation animation;
             animation.frames.reserve(spritesX * spritesY);
