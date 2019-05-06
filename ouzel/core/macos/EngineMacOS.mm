@@ -179,8 +179,8 @@ namespace ouzel
         Engine::main();
 
         executeOnMainThread([]() {
-            NSApplication* application = [NSApplication sharedApplication];
-            if ([application isRunning]) [application terminate:nil];
+            NSApplication* app = [NSApplication sharedApplication];
+            if ([app isRunning]) [app terminate:nil];
         });
     }
 
