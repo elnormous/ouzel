@@ -57,33 +57,33 @@ namespace ouzel
             return size.isZero();
         }
 
-        void setPosition(T x, T y)
+        inline void setPosition(T x, T y)
         {
             position.v[0] = x;
             position.v[1] = y;
         }
 
-        void setPosition(const Vector<2, T>& newPosition)
+        inline void setPosition(const Vector<2, T>& newPosition)
         {
             position = newPosition;
         }
 
-        T left() const
+        inline T left() const
         {
             return position.v[0];
         }
 
-        T bottom() const
+        inline T bottom() const
         {
             return position.v[1];
         }
 
-        T right() const
+        inline T right() const
         {
             return position.v[0] + size.v[0];
         }
 
-        T top() const
+        inline T top() const
         {
             return position.v[1] + size.v[1];
         }
@@ -98,13 +98,13 @@ namespace ouzel
             return Vector<2, T>(position.v[0] + size.v[0], position.v[1] + size.v[1]);
         }
 
-        bool containsPoint(T x, T y) const
+        inline bool containsPoint(T x, T y) const
         {
             return x >= position.v[0] && x <= (position.v[0] + size.v[0]) &&
                 y >= position.v[1] && y <= (position.v[1] + size.v[1]);
         }
 
-        bool containsPoint(const Vector<2, T>& point) const
+        inline bool containsPoint(const Vector<2, T>& point) const
         {
             return point.v[0] >= position.v[0] && point.v[0] <= (position.v[0] + size.v[0]) &&
                 point.v[1] >= position.v[1] && point.v[1] <= (position.v[1] + size.v[1]);
@@ -120,7 +120,7 @@ namespace ouzel
             return contains(r.position.v[0], r.position.v[1], r.size.v[0], r.size.v[1]);
         }
 
-        bool intersects(T x, T y, T width, T height) const
+        inline bool intersects(T x, T y, T width, T height) const
         {
             T t;
             if ((t = x - position.v[0]) > size.v[0] || -t > width)
@@ -165,7 +165,7 @@ namespace ouzel
             dst.size.v[1] = std::max(r1.position.v[1] + r1.size.v[1], r2.position.v[1] + r2.size.v[1]) - dst.position.v[1];
         }
 
-        void inflate(T horizontalAmount, T verticalAmount)
+        inline void inflate(T horizontalAmount, T verticalAmount)
         {
             position.v[0] -= horizontalAmount;
             position.v[1] -= verticalAmount;
@@ -173,13 +173,13 @@ namespace ouzel
             size.v[1] += verticalAmount * 2;
         }
 
-        bool operator==(const Rect& other) const
+        inline bool operator==(const Rect& other) const
         {
             return position.v[0] == other.position.v[0] && size.v[0] == other.size.v[0] &&
                 position.v[1] == other.position.v[1] && size.v[1] == other.size.v[1];
         }
 
-        bool operator!=(const Rect& other) const
+        inline bool operator!=(const Rect& other) const
         {
             return position.v[0] != other.position.v[0] || size.v[0] != other.size.v[0] ||
                 position.v[1] != other.position.v[1] || size.v[1] != other.size.v[1];

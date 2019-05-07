@@ -56,7 +56,7 @@ namespace ouzel
         template<size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         inline T depth() const { return v[2]; }
 
-        void scale(const Vector<N, T>& scale)
+        inline void scale(const Vector<N, T>& scale)
         {
             for (size_t i = 0; i < N; ++i)
                 v[i] *= scale.v[i];
@@ -144,7 +144,7 @@ namespace ouzel
             return false;
         }
 
-        bool isZero() const
+        inline bool isZero() const
         {
             for (const T& c : v)
                 if (c != 0) return false;

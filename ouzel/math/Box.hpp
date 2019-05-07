@@ -66,7 +66,7 @@ namespace ouzel
                 max.v[i] = std::max(max.v[i], box.max.v[i]);
         }
 
-        void reset()
+        inline void reset()
         {
             for (T& v : min.v)
                 v = std::numeric_limits<T>::max();
@@ -74,7 +74,7 @@ namespace ouzel
                 v = std::numeric_limits<T>::lowest();
         }
 
-        bool isEmpty() const
+        inline bool isEmpty() const
         {
             for (size_t i = 0; i < N; ++i)
                 if (min.v[i] > max.v[i])
@@ -82,7 +82,7 @@ namespace ouzel
             return false;
         }
 
-        void insertPoint(const Vector<N, T>& point)
+        inline void insertPoint(const Vector<N, T>& point)
         {
             for (size_t i = 0; i < N; ++i)
                 if (point.v[i] < min.v[i]) min.v[i] = point.v[i];

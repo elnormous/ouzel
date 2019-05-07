@@ -104,7 +104,7 @@ namespace ouzel
                           (v[0] * vec.v[1]) - (v[1] * vec.v[0]));
         }
 
-        T distance(const Vector& vec) const
+        inline T distance(const Vector& vec) const
         {
             T d = 0;
             for (size_t i = 0; i < N; ++i)
@@ -112,7 +112,7 @@ namespace ouzel
             return sqrt(d);
         }
 
-        T distanceSquared(const Vector& vec) const
+        inline T distanceSquared(const Vector& vec) const
         {
             T d = 0;
             for (size_t i = 0; i < N; ++i)
@@ -120,7 +120,7 @@ namespace ouzel
             return d;
         }
 
-        T dot(const Vector& vec) const
+        inline T dot(const Vector& vec) const
         {
             T d = 0;
             for (size_t i = 0; i < N; ++i)
@@ -167,13 +167,13 @@ namespace ouzel
                 c /= n;
         }
 
-        void scale(const Vector& scale)
+        inline void scale(const Vector& scale)
         {
             for (size_t i = 0; i < N; ++i)
                 v[i] *= scale.v[i];
         }
 
-        void smooth(const Vector& target, T elapsedTime, T responseTime)
+        inline void smooth(const Vector& target, T elapsedTime, T responseTime)
         {
             if (elapsedTime > 0)
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
@@ -277,7 +277,7 @@ namespace ouzel
             return false;
         }
 
-        bool isZero() const
+        inline bool isZero() const
         {
             for (const T& c : v)
                 if (c != 0) return false;

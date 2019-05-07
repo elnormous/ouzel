@@ -54,7 +54,7 @@ namespace ouzel
         inline T& d() { return v[3]; }
         inline T d() const { return v[3]; }
 
-        void flip()
+        inline void flip()
         {
             v[0] = -v[0];
             v[1] = -v[1];
@@ -62,7 +62,7 @@ namespace ouzel
             v[3] = -v[3];
         }
 
-        T dot(const Vector<4, T>& vec) const
+        inline T dot(const Vector<4, T>& vec) const
         {
             return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];
         }
