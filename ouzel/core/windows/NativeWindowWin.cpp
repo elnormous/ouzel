@@ -544,9 +544,9 @@ namespace ouzel
 
             if (!SetWindowTextW(window, titleBuffer.data()))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to set window title");
-        }
 
-        title = newTitle;
+            title = newTitle;
+        }
     }
 
     void NativeWindowWin::setFullscreen(bool newFullscreen)

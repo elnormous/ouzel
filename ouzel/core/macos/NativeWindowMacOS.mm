@@ -334,9 +334,8 @@ namespace ouzel
             NSString* objCTitle = [NSString stringWithCString:newTitle.c_str() encoding:NSUTF8StringEncoding];
 
             window.title = objCTitle;
+            title = newTitle;
         }
-
-        title = newTitle;
     }
 
     void NativeWindowMacOS::handleResize()
