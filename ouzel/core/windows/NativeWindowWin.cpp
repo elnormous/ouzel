@@ -497,6 +497,8 @@ namespace ouzel
             case Command::Type::SET_TITLE:
                 setTitle(command.title);
                 break;
+            case Command::Type::BRING_TO_FRONT:
+                break;
             default:
                 throw std::runtime_error("Invalid command");
         }
@@ -530,6 +532,13 @@ namespace ouzel
         sendEvent(resolutionChangeEvent);
     }
 
+    void NativeWindowWin::setFullscreen(bool newFullscreen)
+    {
+        fullscreen = newFullscreen;
+
+        switchFullscreen(newFullscreen);
+    }
+
     void NativeWindowWin::setTitle(const std::string& newTitle)
     {
         if (title != newTitle)
@@ -549,11 +558,9 @@ namespace ouzel
         }
     }
 
-    void NativeWindowWin::setFullscreen(bool newFullscreen)
+    void NativeWindowWin::bringToFront()
     {
-        fullscreen = newFullscreen;
-
-        switchFullscreen(newFullscreen);
+        SetForegroundWindow(window);
     }
 
     void NativeWindowWin::switchFullscreen(bool newFullscreen)

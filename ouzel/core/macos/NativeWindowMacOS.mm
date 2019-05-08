@@ -233,6 +233,9 @@ namespace ouzel
             case Command::Type::SET_TITLE:
                 setTitle(command.title);
                 break;
+            case Command::Type::BRING_TO_FRONT:
+                bringToFront();
+                break;
             default:
                 throw std::runtime_error("Invalid command");
         }
@@ -334,6 +337,10 @@ namespace ouzel
             window.title = objCTitle;
             title = newTitle;
         }
+    }
+
+    void NativeWindowMacOS::bringToFront()
+    {
     }
 
     void NativeWindowMacOS::handleResize()

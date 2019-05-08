@@ -232,6 +232,8 @@ namespace ouzel
             case Command::Type::SET_TITLE:
                 setTitle(command.title);
                 break;
+            case Command::Type::BRING_TO_FRONT:
+                break;
             default:
                 throw std::runtime_error("Invalid command");
         }
@@ -323,6 +325,10 @@ namespace ouzel
 #endif
 
         title = newTitle;
+    }
+
+    void NativeWindowLinux::bringToFront()
+    {
     }
 
     void NativeWindowLinux::handleFocusIn()

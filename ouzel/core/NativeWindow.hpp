@@ -21,7 +21,8 @@ namespace ouzel
                 CHANGE_SIZE,
                 CHANGE_FULLSCREEN,
                 CLOSE,
-                SET_TITLE
+                SET_TITLE,
+                BRING_TO_FRONT
             };
 
             Command() = default;

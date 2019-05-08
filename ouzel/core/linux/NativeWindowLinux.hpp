@@ -46,6 +46,7 @@ namespace ouzel
         void setSize(const Size2U& newSize);
         void setFullscreen(bool newFullscreen);
         void setTitle(const std::string& newTitle);
+        void bringToFront();
 
 #if OUZEL_SUPPORTS_X11
         inline ::Window getNativeWindow() const { return window; }

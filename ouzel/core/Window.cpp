@@ -263,4 +263,10 @@ namespace ouzel
             engine.getEventDispatcher().dispatchEvent(std::move(event));
         }
     }
+
+    void Window::bringToFront()
+    {
+        NativeWindow::Command command(NativeWindow::Command::Type::BRING_TO_FRONT);
+        nativeWindow->addCommand(command);
+    }
 }

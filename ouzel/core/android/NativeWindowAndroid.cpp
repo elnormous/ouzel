@@ -49,6 +49,8 @@ namespace ouzel
                 break;
             case Command::Type::SET_TITLE:
                 break;
+            case Command::Type::BRING_TO_FRONT:
+                break;
             default:
                 throw std::runtime_error("Invalid command");
         }

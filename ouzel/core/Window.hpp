@@ -51,6 +51,8 @@ namespace ouzel
         inline const std::string& getTitle() const { return title; }
         void setTitle(const std::string& newTitle);
 
+        void bringToFront();
+
         inline Vector2F convertWindowToNormalizedLocation(const Vector2F& position) const
         {
             return Vector2F(position.v[0] / size.v[0], position.v[1] / size.v[1]);
