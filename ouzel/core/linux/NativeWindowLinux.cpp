@@ -136,6 +136,7 @@ namespace ouzel
         XSetWMProtocols(display, window, &deleteAtom, 1);
         stateAtom = XInternAtom(display, "_NET_WM_STATE", False);
         stateFullscreenAtom = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
+        activateWindowAtom = XInternAtom(display, "_NET_ACTIVE_WINDOW", False);
 
         if (fullscreen)
         {
@@ -156,7 +157,7 @@ namespace ouzel
             event.xclient.data.l[3] = 1; // source indication: application
             event.xclient.data.l[4] = 0; // unused
 
-            if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
+            if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &event))
                 throw std::runtime_error("Failed to send X11 fullscreen message");
         }
 #elif OUZEL_SUPPORTS_DISPMANX
@@ -310,7 +311,7 @@ namespace ouzel
             event.xclient.data.l[3] = 1; // source indication: application
             event.xclient.data.l[4] = 0; // unused
 
-            if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
+            if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &event))
                 throw std::runtime_error("Failed to send X11 fullscreen message");
         }
 #endif
@@ -329,6 +330,23 @@ namespace ouzel
 
     void NativeWindowLinux::bringToFront()
     {
+#if OUZEL_SUPPORTS_X11
+        XRaiseWindow(display, window);
+
+        XEvent event;
+        event.type = ClientMessage;
+        event.xclient.window = window;
+        event.xclient.message_type = activateWindowAtom;
+        event.xclient.format = 32;
+        event.xclient.data.l[0] = 1; // source indication: application
+        event.xclient.data.l[1] = CurrentTime;
+        event.xclient.data.l[2] = 0;
+
+        if (!XSendEvent(display, RootWindow(display, displaydata->screen), 0, SubstructureNotifyMask | SubstructureRedirectMask, &event))
+            throw std::runtime_error("Failed to send X11 activate window message");
+
+        XFlush(display);
+#endif
     }
 
     void NativeWindowLinux::handleFocusIn()

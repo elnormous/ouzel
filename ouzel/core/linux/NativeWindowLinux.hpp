@@ -70,6 +70,7 @@ namespace ouzel
         Atom protocolsAtom = None;
         Atom stateAtom = None;
         Atom stateFullscreenAtom = None;
+        Atom activateWindowAtom = None;
 #elif OUZEL_SUPPORTS_DISPMANX
         EGL_DISPMANX_WINDOW_T window;
 #endif
