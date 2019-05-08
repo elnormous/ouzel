@@ -341,7 +341,7 @@ namespace ouzel
 
     void NativeWindowMacOS::bringToFront()
     {
-        [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+        [window orderFront:nil];
     }
 
     void NativeWindowMacOS::handleResize()
