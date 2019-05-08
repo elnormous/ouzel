@@ -43,6 +43,9 @@ namespace ouzel
             virtual void start() = 0;
             virtual void stop() = 0;
 
+        private:
+            Driver driver;
+
         protected:
             void getData(uint32_t frames, std::vector<uint8_t>& result);
 
@@ -55,7 +58,6 @@ namespace ouzel
             uint16_t channels;
 
         private:
-            Driver driver;
             std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)> dataGetter;
             std::vector<float> buffer;
         };
