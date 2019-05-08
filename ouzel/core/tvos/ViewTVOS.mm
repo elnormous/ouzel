@@ -91,5 +91,4 @@ static ouzel::input::Keyboard::Key convertKeyCode(NSInteger keyCode)
     if (forward)
         [super pressesCancelled:presses withEvent:event];
 }
-
 @end

@@ -35,7 +35,6 @@
 {
     return [CAMetalLayer class];
 }
-
 @end
 
 #endif

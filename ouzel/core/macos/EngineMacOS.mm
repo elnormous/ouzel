@@ -6,7 +6,6 @@
 #include "EngineMacOS.hpp"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
-
 @end
 
 @implementation AppDelegate
@@ -58,11 +57,9 @@
 {
     [[NSApplication sharedApplication] terminate:nil];
 }
-
 @end
 
 @interface ExecuteHandler: NSObject
-
 @end
 
 @implementation ExecuteHandler
@@ -82,7 +79,6 @@
 {
     engine->executeAll();
 }
-
 @end
 
 namespace ouzel

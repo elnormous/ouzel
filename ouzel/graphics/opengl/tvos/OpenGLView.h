@@ -11,7 +11,6 @@
 #import "core/tvos/ViewTVOS.h"
 
 @interface OpenGLView: ViewTVOS
-
 @end
 
 #endif

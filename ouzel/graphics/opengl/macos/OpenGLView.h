@@ -13,7 +13,6 @@
 @interface OpenGLView: ViewMacOS
 
 -(void)setOpenGLContext:(NSOpenGLContext*)context;
-
 @end
 
 #endif

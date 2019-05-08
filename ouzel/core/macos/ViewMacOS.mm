@@ -431,5 +431,4 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 -(void)magnifyWithEvent:(__unused NSEvent*)event
 {
 }
-
 @end

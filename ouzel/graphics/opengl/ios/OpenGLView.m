@@ -12,7 +12,6 @@
 {
     return [CAEAGLLayer class];
 }
-
 @end
 
 #endif

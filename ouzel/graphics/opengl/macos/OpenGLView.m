@@ -22,7 +22,6 @@
 
     [openGLContext update];
 }
-
 @end
 
 #endif

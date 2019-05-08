@@ -10,7 +10,6 @@
 #include "events/EventDispatcher.hpp"
 
 @interface ViewController: UIViewController
-
 @end
 
 @implementation ViewController
@@ -48,7 +47,6 @@
     window->handleResize(ouzel::Size2U(static_cast<uint32_t>(size.width),
                                        static_cast<uint32_t>(size.height)));
 }
-
 @end
 
 namespace ouzel

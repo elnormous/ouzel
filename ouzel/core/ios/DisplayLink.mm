@@ -5,7 +5,6 @@
 #include "utils/Utils.hpp"
 
 @interface DisplayLinkHandler: NSObject
-
 @end
 
 @implementation DisplayLinkHandler
@@ -32,7 +31,6 @@
         callback(userInfo);
     }
 }
-
 @end
 
 namespace ouzel

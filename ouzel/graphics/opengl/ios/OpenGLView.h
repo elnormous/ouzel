@@ -11,7 +11,6 @@
 #import "core/ios/ViewIOS.h"
 
 @interface OpenGLView: ViewIOS
-
 @end
 
 #endif

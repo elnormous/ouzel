@@ -8,7 +8,6 @@
 #include "graphics/metal/macos/MetalView.h"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
-
 @end
 
 @implementation WindowDelegate
@@ -63,7 +62,6 @@
 {
     window->handleResignKeyChange();
 }
-
 @end
 
 namespace ouzel

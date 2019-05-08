@@ -10,7 +10,6 @@
 
 -(void)handleControllerConnected:(NSNotification*)notification;
 -(void)handleControllerDisconnected:(NSNotification*)notification;
-
 @end
 
 @implementation ConnectDelegate
@@ -35,7 +34,6 @@
 {
     input->handleGamepadDisconnected(notification.object);
 }
-
 @end
 
 namespace ouzel

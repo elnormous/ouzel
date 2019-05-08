@@ -42,7 +42,6 @@
 
     return self;
 }
-
 @end
 
 #endif

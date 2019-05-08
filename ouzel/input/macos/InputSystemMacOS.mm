@@ -15,7 +15,6 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
 
 -(void)handleControllerConnected:(NSNotification*)notification;
 -(void)handleControllerDisconnected:(NSNotification*)notification;
-
 @end
 
 @implementation ConnectDelegate
@@ -40,7 +39,6 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
 {
     input->handleGamepadDisconnected(notification.object);
 }
-
 @end
 
 static void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)

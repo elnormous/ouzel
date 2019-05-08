@@ -10,7 +10,6 @@
 #import "core/ios/ViewIOS.h"
 
 @interface MetalView: ViewIOS
-
 @end
 
 #endif

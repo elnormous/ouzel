@@ -7,7 +7,6 @@
 #import <UIKit/UITextInput.h>
 
 @interface ViewTVOS: UIView<UIKeyInput>
-
 @end
 
 #endif // OUZEL_VIEWTVOS_H

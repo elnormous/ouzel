@@ -4,7 +4,6 @@
 #include "EngineIOS.hpp"
 
 @interface AppDelegate: UIResponder<UIApplicationDelegate>
-
 @end
 
 @implementation AppDelegate
@@ -98,11 +97,9 @@
 
     ouzel::engine->getEventDispatcher().postEvent(std::move(event));
 }
-
 @end
 
 @interface ExecuteHandler: NSObject
-
 @end
 
 @implementation ExecuteHandler
@@ -122,7 +119,6 @@
 {
     engine->executeAll();
 }
-
 @end
 
 namespace ouzel

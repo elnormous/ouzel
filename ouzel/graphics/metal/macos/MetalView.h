@@ -10,7 +10,6 @@
 #import "core/macos/ViewMacOS.h"
 
 @interface MetalView: ViewMacOS
-
 @end
 
 #endif
