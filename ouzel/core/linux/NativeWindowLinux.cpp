@@ -342,7 +342,7 @@ namespace ouzel
         event.xclient.data.l[1] = CurrentTime;
         event.xclient.data.l[2] = 0;
 
-        if (!XSendEvent(display, RootWindow(display, displaydata->screen), 0, SubstructureNotifyMask | SubstructureRedirectMask, &event))
+        if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &event))
             throw std::runtime_error("Failed to send X11 activate window message");
 
         XFlush(display);
