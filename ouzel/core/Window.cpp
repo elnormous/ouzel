@@ -269,4 +269,28 @@ namespace ouzel
         NativeWindow::Command command(NativeWindow::Command::Type::BRING_TO_FRONT);
         nativeWindow->addCommand(command);
     }
+
+    void Window::show()
+    {
+        NativeWindow::Command command(NativeWindow::Command::Type::SHOW);
+        nativeWindow->addCommand(command);
+    }
+
+    void Window::hide()
+    {
+        NativeWindow::Command command(NativeWindow::Command::Type::HIDE);
+        nativeWindow->addCommand(command);
+    }
+
+    void Window::minimize()
+    {
+        NativeWindow::Command command(NativeWindow::Command::Type::MINIMIZE);
+        nativeWindow->addCommand(command);
+    }
+
+    void Window::maximize()
+    {
+        NativeWindow::Command command(NativeWindow::Command::Type::MAXIMIZE);
+        nativeWindow->addCommand(command);
+    }
 }

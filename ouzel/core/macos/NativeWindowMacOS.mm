@@ -236,6 +236,14 @@ namespace ouzel
             case Command::Type::BRING_TO_FRONT:
                 bringToFront();
                 break;
+            case Command::Type::SHOW:
+                break;
+            case Command::Type::HIDE:
+                break;
+            case Command::Type::MINIMIZE:
+                break;
+            case Command::Type::MAXIMIZE:
+                break;
             default:
                 throw std::runtime_error("Invalid command");
         }

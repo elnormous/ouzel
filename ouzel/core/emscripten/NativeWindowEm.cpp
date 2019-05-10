@@ -90,6 +90,14 @@ namespace ouzel
                 break;
             case Command::Type::BRING_TO_FRONT:
                 break;
+            case Command::Type::SHOW:
+                break;
+            case Command::Type::HIDE:
+                break;
+            case Command::Type::MINIMIZE:
+                break;
+            case Command::Type::MAXIMIZE:
+                break;
             default:
                 throw std::runtime_error("Invalid command");
         }

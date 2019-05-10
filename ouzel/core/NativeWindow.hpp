@@ -22,7 +22,11 @@ namespace ouzel
                 CHANGE_FULLSCREEN,
                 CLOSE,
                 SET_TITLE,
-                BRING_TO_FRONT
+                BRING_TO_FRONT,
+                SHOW,
+                HIDE,
+                MINIMIZE,
+                MAXIMIZE
             };
 
             Command() = default;
