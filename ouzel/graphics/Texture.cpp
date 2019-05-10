@@ -559,7 +559,6 @@ namespace ouzel
 
             uint32_t previousWidth = newWidth;
             uint32_t previousHeight = newHeight;
-            uint32_t previousPitch = pitch;
             std::vector<float> previousData;
 
             decode(size, data, pixelFormat, previousData);
@@ -616,7 +615,6 @@ namespace ouzel
 
                 previousWidth = newWidth;
                 previousHeight = newHeight;
-                previousPitch = pitch;
             }
 
             return levels;
