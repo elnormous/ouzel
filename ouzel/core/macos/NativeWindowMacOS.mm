@@ -376,7 +376,8 @@ namespace ouzel
 
     void NativeWindowMacOS::maximize()
     {
-        [window setFrame:[screen visibleFrame] display:YES];
+        windowRect = [screen visibleFrame];
+        [window setFrame:windowRect display:YES];
     }
 
     void NativeWindowMacOS::restore()
