@@ -26,7 +26,8 @@ namespace ouzel
                 SHOW,
                 HIDE,
                 MINIMIZE,
-                MAXIMIZE
+                MAXIMIZE,
+                RESTORE
             };
 
             Command() = default;

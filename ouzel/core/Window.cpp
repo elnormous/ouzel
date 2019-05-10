@@ -293,4 +293,10 @@ namespace ouzel
         NativeWindow::Command command(NativeWindow::Command::Type::MAXIMIZE);
         nativeWindow->addCommand(command);
     }
+
+    void Window::restore()
+    {
+        NativeWindow::Command command(NativeWindow::Command::Type::RESTORE);
+        nativeWindow->addCommand(command);
+    }
 }

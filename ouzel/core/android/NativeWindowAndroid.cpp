@@ -59,6 +59,8 @@ namespace ouzel
                 break;
             case Command::Type::MAXIMIZE:
                 break;
+            case Command::Type::RESTORE:
+                break;
             default:
                 throw std::runtime_error("Invalid command");
         }

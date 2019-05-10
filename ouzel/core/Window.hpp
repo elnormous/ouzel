@@ -55,6 +55,7 @@ namespace ouzel
         void hide();
         void minimize();
         void maximize();
+        void restore();
 
         inline Vector2F convertWindowToNormalizedLocation(const Vector2F& position) const
         {
