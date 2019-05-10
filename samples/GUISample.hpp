@@ -19,6 +19,8 @@ private:
 
     ouzel::gui::Button button;
     ouzel::gui::Button fullscreenButton;
+    ouzel::gui::Button minimizeButton;
+    ouzel::gui::Button maximizeButton;
     ouzel::gui::CheckBox checkBox;
 
     ouzel::gui::Label label1;

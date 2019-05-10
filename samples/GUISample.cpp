@@ -9,6 +9,8 @@ using namespace input;
 GUISample::GUISample():
     button("button.png", "button_selected.png", "button_down.png", "", "Button", "Arial", 1.0F, Color::RED, Color::RED, Color::BLACK),
     fullscreenButton("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    minimizeButton("button.png", "button_selected.png", "button_down.png", "", "Minimize", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    maximizeButton("button.png", "button_selected.png", "button_down.png", "", "Maximize", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     checkBox("checkbox.png", "", "", "", "tick.png"),
     label1("checkbox test", "AmosisTechnik", 24.0F, Color::WHITE, Vector2F(0.0F, 0.5F)),
     label2("", "ArialBlack"),
@@ -38,6 +40,12 @@ GUISample::GUISample():
 
     fullscreenButton.setPosition(Vector2F(-200.0F, 40.0F));
     menu.addWidget(&fullscreenButton);
+
+    minimizeButton.setPosition(Vector2F(-200.0F, -0.0F));
+    menu.addWidget(&minimizeButton);
+
+    maximizeButton.setPosition(Vector2F(-200.0F, -40.0F));
+    menu.addWidget(&maximizeButton);
 
     label1.getLabelDrawable()->setColor(Color::CYAN);
     label1.setPosition(Vector2F(-88.0F, 108.0F));
@@ -84,6 +92,14 @@ bool GUISample::handleUI(const UIEvent& event)
         {
             bool fullscreen = engine->getWindow()->isFullscreen();
             engine->getWindow()->setFullscreen(!fullscreen);
+        }
+        else if (event.actor == &minimizeButton)
+        {
+            engine->getWindow()->minimize();
+        }
+        else if (event.actor == &maximizeButton)
+        {
+            engine->getWindow()->maximize();
         }
     }
 
