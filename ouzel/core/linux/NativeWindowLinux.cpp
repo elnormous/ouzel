@@ -237,14 +237,19 @@ namespace ouzel
                 bringToFront();
                 break;
             case Command::Type::SHOW:
+                show();
                 break;
             case Command::Type::HIDE:
+                hide();
                 break;
             case Command::Type::MINIMIZE:
+                minimize();
                 break;
             case Command::Type::MAXIMIZE:
+                maximize();
                 break;
             case Command::Type::RESTORE:
+                restore();
                 break;
             default:
                 throw std::runtime_error("Invalid command");
@@ -358,6 +363,26 @@ namespace ouzel
 
         XFlush(display);
 #endif
+    }
+
+    void NativeWindowLinux::show()
+    {
+    }
+
+    void NativeWindowLinux::hide()
+    {
+    }
+
+    void NativeWindowLinux::minimize()
+    {
+    }
+
+    void NativeWindowLinux::maximize()
+    {
+    }
+
+    void NativeWindowLinux::restore()
+    {
     }
 
     void NativeWindowLinux::handleFocusIn()

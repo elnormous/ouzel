@@ -237,14 +237,19 @@ namespace ouzel
                 bringToFront();
                 break;
             case Command::Type::SHOW:
+                show();
                 break;
             case Command::Type::HIDE:
+                hide();
                 break;
             case Command::Type::MINIMIZE:
+                minimize();
                 break;
             case Command::Type::MAXIMIZE:
+                maximize();
                 break;
             case Command::Type::RESTORE:
+                restore();
                 break;
             default:
                 throw std::runtime_error("Invalid command");
@@ -352,6 +357,31 @@ namespace ouzel
     void NativeWindowMacOS::bringToFront()
     {
         [window orderFront:nil];
+    }
+
+    void NativeWindowMacOS::show()
+    {
+        [window orderFront:nil];
+    }
+
+    void NativeWindowMacOS::hide()
+    {
+        [window orderOut:nil];
+    }
+
+    void NativeWindowMacOS::minimize()
+    {
+        [window miniaturize:nil];
+    }
+
+    void NativeWindowMacOS::maximize()
+    {
+        [window setFrame:[screen visibleFrame] display:YES];
+    }
+
+    void NativeWindowMacOS::restore()
+    {
+        [window deminiaturize:nil];
     }
 
     void NativeWindowMacOS::handleResize()

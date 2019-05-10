@@ -36,6 +36,11 @@ namespace ouzel
         void setFullscreen(bool newFullscreen);
         void setTitle(const std::string& newTitle);
         void bringToFront();
+        void show();
+        void hide();
+        void minimize();
+        void maximize();
+        void restore();
 
         void handleResize(const Size2U& newSize);
         void handleMove();

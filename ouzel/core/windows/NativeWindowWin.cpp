@@ -501,14 +501,19 @@ namespace ouzel
                 bringToFront();
                 break;
             case Command::Type::SHOW:
+                show();
                 break;
             case Command::Type::HIDE:
+                hide();
                 break;
             case Command::Type::MINIMIZE:
+                minimize();
                 break;
             case Command::Type::MAXIMIZE:
+                maximize();
                 break;
             case Command::Type::RESTORE:
+                restore();
                 break;
             default:
                 throw std::runtime_error("Invalid command");
@@ -572,6 +577,31 @@ namespace ouzel
     void NativeWindowWin::bringToFront()
     {
         SetForegroundWindow(window);
+    }
+
+    void NativeWindowWin::show()
+    {
+        ShowWindow(window, SW_SHOW);
+    }
+
+    void NativeWindowWin::hide()
+    {
+        ShowWindow(window, SW_HIDE);
+    }
+
+    void NativeWindowWin::minimize()
+    {
+        ShowWindow(window, SW_MINIMIZE);
+    }
+
+    void NativeWindowWin::maximize()
+    {
+        ShowWindow(window, SW_MAXIMIZE);
+    }
+
+    void NativeWindowWin::restore()
+    {
+        ShowWindow(window, SW_RESTORE);
     }
 
     void NativeWindowWin::switchFullscreen(bool newFullscreen)
