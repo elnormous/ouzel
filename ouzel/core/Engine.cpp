@@ -202,15 +202,18 @@ namespace ouzel
 
         graphics::Driver graphicsDriver = graphics::Renderer::getDriver(graphicsDriverValue);
 
+        uint32_t windowFlags = 0;
+        if (resizable) windowFlags |= Window::RESIZABLE;
+        if (fullscreen) windowFlags |= Window::FULLSCREEN;
+        if (exclusiveFullscreen) windowFlags |= Window::EXCLUSIVE_FULLSCREEN;
+        if (highDpi) windowFlags |= Window::HIGH_DPI;
+        if (depth) windowFlags |= Window::DEPTH;
+
         window.reset(new Window(*this,
                                 size,
-                                resizable,
-                                fullscreen,
-                                exclusiveFullscreen,
+                                windowFlags,
                                 OUZEL_APPLICATION_NAME,
-                                graphicsDriver,
-                                highDpi,
-                                depth));
+                                graphicsDriver));
 
         renderer.reset(new graphics::Renderer(graphicsDriver,
                                               window.get(),

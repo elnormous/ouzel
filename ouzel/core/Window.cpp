@@ -29,82 +29,73 @@ namespace ouzel
 {
     Window::Window(Engine& initEngine,
                    const Size2U& newSize,
-                   bool newResizable,
-                   bool newFullscreen,
-                   bool newExclusiveFullscreen,
+                   uint32_t flags,
                    const std::string& newTitle,
-                   graphics::Driver graphicsDriver,
-                   bool newHighDpi,
-                   bool depth):
+                   graphics::Driver graphicsDriver):
         engine(initEngine),
 #if TARGET_OS_IOS
         nativeWindow(new NativeWindowIOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                          newTitle,
                                          graphicsDriver,
-                                         newHighDpi)),
+                                         flags & HIGH_DPI)),
 #elif TARGET_OS_TV
         nativeWindow(new NativeWindowTVOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                           newTitle,
                                           graphicsDriver,
-                                          newHighDpi)),
+                                          flags & HIGH_DPI)),
 #elif TARGET_OS_MAC
     nativeWindow(new NativeWindowMacOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                        newSize,
-                                       newResizable,
-                                       newFullscreen,
-                                       newExclusiveFullscreen,
+                                       flags & RESIZABLE,
+                                       flags & FULLSCREEN,
+                                       flags & EXCLUSIVE_FULLSCREEN,
                                        newTitle,
                                        graphicsDriver,
-                                       newHighDpi)),
+                                       flags & HIGH_DPI)),
 #elif defined(__ANDROID__)
         nativeWindow(new NativeWindowAndroid(std::bind(&Window::eventCallback, this, std::placeholders::_1), newTitle)),
 #elif defined(__linux__)
         nativeWindow(new NativeWindowLinux(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                            newSize,
-                                           newResizable,
-                                           newFullscreen,
-                                           newExclusiveFullscreen,
+                                           flags & RESIZABLE,
+                                           flags & FULLSCREEN,
+                                           flags & EXCLUSIVE_FULLSCREEN,
                                            newTitle,
                                            graphicsDriver,
-                                           depth)),
+                                           flags & DEPTH)),
 #elif defined(_WIN32)
         nativeWindow(new NativeWindowWin(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                          newSize,
-                                         newResizable,
-                                         newFullscreen,
-                                         newExclusiveFullscreen,
+                                         flags & RESIZABLE,
+                                         flags & FULLSCREEN,
+                                         flags & EXCLUSIVE_FULLSCREEN,
                                          newTitle,
-                                         newHighDpi)),
+                                         flags & HIGH_DPI)),
 #elif defined(__EMSCRIPTEN__)
         nativeWindow(new NativeWindowEm(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                         newSize,
-                                        newFullscreen,
+                                        flags & FULLSCREEN,
                                         newTitle,
                                         newHighDpi)),
 #else
         nativeWindow(new NativeWindow(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                       newSize,
-                                      newResizable,
-                                      newFullscreen,
-                                      newExclusiveFullscreen,
+                                      flags & RESIZABLE,
+                                      flags & FULLSCREEN,
+                                      flags & EXCLUSIVE_FULLSCREEN,
                                       newTitle,
-                                      newHighDpi)),
+                                      flags & HIGH_DPI)),
 #endif
         size(nativeWindow->getSize()),
         resolution(nativeWindow->getResolution()),
-        resizable(newResizable),
-        fullscreen(newFullscreen),
-        exclusiveFullscreen(newExclusiveFullscreen),
-        highDpi(newHighDpi),
+        resizable(flags & RESIZABLE),
+        fullscreen(flags & FULLSCREEN),
+        exclusiveFullscreen(flags & EXCLUSIVE_FULLSCREEN),
+        highDpi(flags & HIGH_DPI),
         title(newTitle)
     {
         (void)newSize;
-        (void)newResizable;
-        (void)newFullscreen;
-        (void)newExclusiveFullscreen;
         (void)graphicsDriver;
-        (void)newHighDpi;
-        (void)depth;
     }
 
     void Window::update()

@@ -16,15 +16,20 @@ namespace ouzel
     class Window final
     {
     public:
+        enum Flags
+        {
+            RESIZABLE = 0x01,
+            FULLSCREEN = 0x02,
+            EXCLUSIVE_FULLSCREEN = 0x04,
+            HIGH_DPI = 0x08,
+            DEPTH = 0x10,
+        };
+
         Window(Engine& initEngine,
                const Size2U& newSize,
-               bool newResizable,
-               bool newFullscreen,
-               bool newExclusiveFullscreen,
+               uint32_t flags,
                const std::string& newTitle,
-               graphics::Driver graphicsDriver,
-               bool newHighDpi,
-               bool depth);
+               graphics::Driver graphicsDriver);
         Window(const Window&) = delete;
         Window& operator=(const Window&) = delete;
 
