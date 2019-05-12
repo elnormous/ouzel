@@ -44,14 +44,16 @@ namespace ouzel
 
         void handleResize(const Size2U& newSize);
         void handleMove();
-        void handleActivateEvent(WPARAM wParam);
-        void handleMinimizeEvent();
-        void handleRestoreEvent();
-        void handleKeyEvent(UINT message, WPARAM wParam, LPARAM lParam);
-        void handleMouseMoveEvent(LPARAM lParam);
-        void handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam);
-        void handleMouseWheelEvent(UINT message, WPARAM wParam, LPARAM lParam);
-        void handleTouchEvent(WPARAM wParam, LPARAM lParam);
+        void handleActivate(WPARAM wParam);
+        void handleShowWindow(BOOL shown);
+        void handleMinimize();
+        void handleMaximize();
+        void handleRestore();
+        void handleKey(UINT message, WPARAM wParam, LPARAM lParam);
+        void handleMouseMove(LPARAM lParam);
+        void handleMouseButton(UINT message, WPARAM wParam, LPARAM lParam);
+        void handleMouseWheel(UINT message, WPARAM wParam, LPARAM lParam);
+        void handleTouch(WPARAM wParam, LPARAM lParam);
 
         inline HWND getNativeWindow() const { return window; }
         void addAccelerator(HACCEL accelerator);

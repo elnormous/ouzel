@@ -230,13 +230,13 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
     switch (message)
     {
         case WM_ACTIVATEAPP:
-            windowWin->handleActivateEvent(wParam);
+            windowWin->handleActivate(wParam);
             break;
         case WM_KEYDOWN:
         case WM_KEYUP:
         case WM_SYSKEYDOWN:
         case WM_SYSKEYUP:
-            windowWin->handleKeyEvent(message, wParam, lParam);
+            windowWin->handleKey(message, wParam, lParam);
             break;
         case WM_LBUTTONDOWN:
         case WM_LBUTTONUP:
@@ -252,7 +252,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
             // don't handle mouse event that came from touch
             if ((extraInfo & SIGNATURE_MASK) != MOUSEEVENTF_FROMTOUCH)
             {
-                windowWin->handleMouseButtonEvent(message, wParam, lParam);
+                windowWin->handleMouseButton(message, wParam, lParam);
 
                 // must return TRUE if WM_XBUTTONDOWN or WM_XBUTTONUP is handled
                 if (message == WM_XBUTTONDOWN || message == WM_XBUTTONUP)
@@ -269,17 +269,17 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
             // don't handle mouse event that came from touch
             if ((extraInfo & SIGNATURE_MASK) != MOUSEEVENTF_FROMTOUCH)
             {
-                windowWin->handleMouseMoveEvent(lParam);
+                windowWin->handleMouseMove(lParam);
                 return 0;
             }
             break;
         }
         case WM_MOUSEWHEEL:
         case WM_MOUSEHWHEEL:
-            windowWin->handleMouseWheelEvent(message, wParam, lParam);
+            windowWin->handleMouseWheel(message, wParam, lParam);
             return 0;
         case WM_TOUCH:
-            windowWin->handleTouchEvent(wParam, lParam);
+            windowWin->handleTouch(wParam, lParam);
             return 0;
         case WM_SETCURSOR:
         {
@@ -291,21 +291,27 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
             }
             break;
         }
+        case WM_SHOWWINDOW:
+        {
+            windowWin->handleShowWindow(wParam);
+            break;
+        }
         case WM_SIZE:
         {
             switch (wParam)
             {
                 case SIZE_MINIMIZED:
-                    windowWin->handleMinimizeEvent();
+                    windowWin->handleMinimize();
                     break;
                 case SIZE_RESTORED:
-                    windowWin->handleRestoreEvent();
                     windowWin->handleResize(ouzel::Size2U(static_cast<uint32_t>(LOWORD(lParam)),
                                                           static_cast<uint32_t>(HIWORD(lParam))));
+                    windowWin->handleRestore();
                     break;
                 case SIZE_MAXIMIZED:
                     windowWin->handleResize(ouzel::Size2U(static_cast<uint32_t>(LOWORD(lParam)),
                                                           static_cast<uint32_t>(HIWORD(lParam))));
+                    windowWin->handleMaximize();
                     break;
             }
             return 0;
@@ -672,7 +678,7 @@ namespace ouzel
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
     }
 
-    void NativeWindowWin::handleActivateEvent(WPARAM wParam)
+    void NativeWindowWin::handleActivate(WPARAM wParam)
     {
         Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
         focusChangeEvent.focus = wParam != 0;
@@ -693,14 +699,26 @@ namespace ouzel
         }
     }
 
-    void NativeWindowWin::handleMinimizeEvent()
+    void NativeWindowWin::handleShowWindow(BOOL shown)
+    {
+        sendEvent(Event(shown ? Event::Type::SHOW : Event::Type::HIDE));
+    }
+
+    void NativeWindowWin::handleMinimize()
     {
         Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
         focusChangeEvent.focus = false;
         sendEvent(focusChangeEvent);
+
+        sendEvent(Event(Event::Type::MINIMIZE));
     }
 
-    void NativeWindowWin::handleRestoreEvent()
+    void NativeWindowWin::handleMaximize()
+    {
+        sendEvent(Event(Event::Type::MAXIMIZE));
+    }
+
+    void NativeWindowWin::handleRestore()
     {
         Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
         focusChangeEvent.focus = true;
@@ -716,9 +734,11 @@ namespace ouzel
         Vector2F position(static_cast<float>(cursorPos.x),
                           static_cast<float>(cursorPos.y));
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
+
+        sendEvent(Event(Event::Type::RESTORE));
     }
 
-    void NativeWindowWin::handleKeyEvent(UINT message, WPARAM wParam, LPARAM lParam)
+    void NativeWindowWin::handleKey(UINT message, WPARAM wParam, LPARAM lParam)
     {
         input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
         input::KeyboardDeviceWin* keyboardDevice = inputSystemWin->getKeyboardDevice();
@@ -729,7 +749,7 @@ namespace ouzel
             keyboardDevice->handleKeyRelease(convertKeyCode(lParam, wParam));
     }
 
-    void NativeWindowWin::handleMouseMoveEvent(LPARAM lParam)
+    void NativeWindowWin::handleMouseMove(LPARAM lParam)
     {
         input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
@@ -740,7 +760,7 @@ namespace ouzel
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 
-    void NativeWindowWin::handleMouseButtonEvent(UINT message, WPARAM wParam, LPARAM lParam)
+    void NativeWindowWin::handleMouseButton(UINT message, WPARAM wParam, LPARAM lParam)
     {
         input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
@@ -776,7 +796,7 @@ namespace ouzel
                                              engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 
-    void NativeWindowWin::handleMouseWheelEvent(UINT message, WPARAM wParam, LPARAM lParam)
+    void NativeWindowWin::handleMouseWheel(UINT message, WPARAM wParam, LPARAM lParam)
     {
         input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
         input::MouseDeviceWin* mouseDevice = inputSystemWin->getMouseDevice();
@@ -798,7 +818,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowWin::handleTouchEvent(WPARAM wParam, LPARAM lParam)
+    void NativeWindowWin::handleTouch(WPARAM wParam, LPARAM lParam)
     {
         input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
         input::TouchpadDevice* touchpadDevice = inputSystemWin->getTouchpadDevice();
