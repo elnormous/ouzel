@@ -40,7 +40,7 @@ namespace ouzel
         display = engineLinux->getDisplay();
 
         Screen* screen = XDefaultScreenOfDisplay(display);
-        int screenIndex = XScreenNumberOfScreen(screen);
+        screenNumber = XScreenNumberOfScreen(screen);
 
         if (size.v[0] <= 0.0F) size.v[0] = static_cast<uint32_t>(XWidthOfScreen(screen) * 0.8F);
         if (size.v[1] <= 0.0F) size.v[1] = static_cast<uint32_t>(XHeightOfScreen(screen) * 0.8F);
@@ -55,13 +55,13 @@ namespace ouzel
             case graphics::Driver::EMPTY:
             {
                 XSetWindowAttributes swa;
-                swa.background_pixel = XWhitePixel(display, screenIndex);
+                swa.background_pixel = XWhitePixel(display, screenNumber);
                 swa.border_pixel = 0;
                 swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
-                window = XCreateWindow(display, RootWindow(display, screenIndex), x, y,
+                window = XCreateWindow(display, RootWindow(display, screenNumber), x, y,
                                        static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
-                                       0, DefaultDepth(display, screenIndex), InputOutput, DefaultVisual(display, screenIndex),
+                                       0, DefaultDepth(display, screenNumber), InputOutput, DefaultVisual(display, screenNumber),
                                        CWBorderPixel | CWBackPixel | CWEventMask, &swa);
 
                 break;
@@ -80,7 +80,7 @@ namespace ouzel
                     None
                 };
 
-                visualInfo = glXChooseVisual(display, screenIndex, doubleBuffer);
+                visualInfo = glXChooseVisual(display, screenNumber, doubleBuffer);
                 if (!visualInfo)
                     throw std::runtime_error("Failed to choose visual");
 
@@ -375,6 +375,10 @@ namespace ouzel
 
     void NativeWindowLinux::minimize()
     {
+#if OUZEL_SUPPORTS_X11
+        XIconifyWindow(display, window, screenNumber);
+        XFlush(display);
+#endif
     }
 
     void NativeWindowLinux::maximize()
@@ -383,6 +387,23 @@ namespace ouzel
 
     void NativeWindowLinux::restore()
     {
+#if OUZEL_SUPPORTS_X11
+        XRaiseWindow(display, window);
+
+        XEvent event;
+        event.type = ClientMessage;
+        event.xclient.window = window;
+        event.xclient.message_type = activateWindowAtom;
+        event.xclient.format = 32;
+        event.xclient.data.l[0] = 1; // source indication: application
+        event.xclient.data.l[1] = CurrentTime;
+        event.xclient.data.l[2] = 0;
+
+        if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &event))
+            throw std::runtime_error("Failed to send X11 activate window message");
+
+        XFlush(display);
+#endif
     }
 
     void NativeWindowLinux::handleFocusIn()

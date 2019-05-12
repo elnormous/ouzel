@@ -70,6 +70,7 @@ namespace ouzel
 #if OUZEL_SUPPORTS_X11
         XVisualInfo* visualInfo = nullptr;
         Display* display = nullptr;
+        int screenNumber = 0;
         ::Window window = None;
         Atom deleteAtom = None;
         Atom protocolsAtom = None;
