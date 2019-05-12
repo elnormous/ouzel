@@ -55,6 +55,8 @@ namespace ouzel
 
         void handleResize();
         void handleClose();
+        void handleMinituarize();
+        void handleDeminituarize();
         void handleFullscreenChange(bool newFullscreen);
         void handleScaleFactorChange();
         void handleScreenChange();

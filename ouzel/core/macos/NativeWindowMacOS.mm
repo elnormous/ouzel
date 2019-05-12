@@ -33,6 +33,16 @@
     window->handleClose();
 }
 
+-(void)windowDidMiniaturize:(__unused NSNotification*)notification
+{
+    window->handleMinituarize();
+}
+
+- (void)windowDidDeminiaturize:(__unused NSNotification*)notification
+{
+    window->handleDeminituarize();
+}
+
 -(void)windowDidEnterFullScreen:(__unused NSNotification*)notification
 {
     window->handleFullscreenChange(true);
@@ -406,6 +416,16 @@ namespace ouzel
     void NativeWindowMacOS::handleClose()
     {
         sendEvent(Event(Event::Type::CLOSE));
+    }
+
+    void NativeWindowMacOS::handleMinituarize()
+    {
+        sendEvent(Event(Event::Type::MINIMIZE));
+    }
+
+    void NativeWindowMacOS::handleDeminituarize()
+    {
+        sendEvent(Event(Event::Type::RESTORE));
     }
 
     void NativeWindowMacOS::handleFullscreenChange(bool newFullscreen)
