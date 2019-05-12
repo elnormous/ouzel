@@ -184,6 +184,21 @@ namespace ouzel
             case NativeWindow::Event::Type::CLOSE:
                 engine.exit();
                 break;
+
+            case NativeWindow::Event::Type::SHOW:
+                visible = true;
+                break;
+            case NativeWindow::Event::Type::HIDE:
+                visible = false;
+                break;
+            case NativeWindow::Event::Type::MINIMIZE:
+                minimized = true;
+                break;
+            case NativeWindow::Event::Type::MAXIMIZE:
+                break;
+            case NativeWindow::Event::Type::RESTORE:
+                minimized = false;
+                break;
             default:
                 throw std::runtime_error("Unhandled event");
         }

@@ -54,7 +54,12 @@ namespace ouzel
                 FULLSCREEN_CHANGE,
                 SCREEN_CHANGE,
                 FOCUS_CHANGE,
-                CLOSE
+                CLOSE,
+                SHOW,
+                HIDE,
+                MINIMIZE,
+                MAXIMIZE,
+                RESTORE
             };
 
             Event() = default;

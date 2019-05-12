@@ -62,6 +62,16 @@ namespace ouzel
         void maximize();
         void restore();
 
+        inline bool isVisible() const
+        {
+            return visible;
+        }
+
+        inline bool isMinimized() const
+        {
+            return minimized;
+        }
+
         inline Vector2F convertWindowToNormalizedLocation(const Vector2F& position) const
         {
             return Vector2F(position.v[0] / size.v[0], position.v[1] / size.v[1]);
@@ -85,6 +95,8 @@ namespace ouzel
         bool fullscreen = false;
         bool exclusiveFullscreen = false;
         bool highDpi = true;
+        bool visible = false;
+        bool minimized = false;
         uint32_t displayId = 0;
 
         std::string title;
