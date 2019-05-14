@@ -367,12 +367,24 @@ namespace ouzel
 
     void NativeWindowLinux::show()
     {
+#if OUZEL_SUPPORTS_X11
+        if (!isMapped())
+        {
+            XMapRaised(display, window);
+            XFlush(display);
+        }
+#endif
     }
 
     void NativeWindowLinux::hide()
     {
-        XWithdrawWindow(display, window, screenNumber);
-        XFlush(display);
+#if OUZEL_SUPPORTS_X11
+        if (isMapped())
+        {
+            XWithdrawWindow(display, window, screenNumber);
+            XFlush(display);
+        }
+#endif
     }
 
     void NativeWindowLinux::minimize()
@@ -408,6 +420,7 @@ namespace ouzel
 #endif
     }
 
+#if OUZEL_SUPPORTS_X11
     void NativeWindowLinux::handleFocusIn()
     {
         Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
@@ -445,4 +458,12 @@ namespace ouzel
     {
         sendEvent(Event(Event::Type::MINIMIZE));
     }
+
+    bool NativeWindowLinux::isMapped() const
+    {
+        XWindowAttributes attributes;
+        XGetWindowAttributes(display, xwindow, &attributes);
+        return attr.map_state != IsUnmapped;
+    }
+#endif
 }

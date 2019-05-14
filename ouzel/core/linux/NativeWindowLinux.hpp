@@ -63,13 +63,14 @@ namespace ouzel
 #endif
 
     private:
+#if OUZEL_SUPPORTS_X11
         void handleFocusIn();
         void handleFocusOut();
         void handleResize(const Size2U& newSize);
         void handleMap();
         void handleUnmap();
+        bool isMapped() const;
 
-#if OUZEL_SUPPORTS_X11
         XVisualInfo* visualInfo = nullptr;
         Display* display = nullptr;
         int screenNumber = 0;
