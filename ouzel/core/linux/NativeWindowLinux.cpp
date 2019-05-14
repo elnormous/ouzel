@@ -463,7 +463,7 @@ namespace ouzel
     {
         XWindowAttributes attributes;
         XGetWindowAttributes(display, xwindow, &attributes);
-        return attr.map_state != IsUnmapped;
+        return attributes.map_state != IsUnmapped;
     }
 #endif
 }
