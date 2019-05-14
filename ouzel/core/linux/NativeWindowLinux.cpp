@@ -371,6 +371,8 @@ namespace ouzel
 
     void NativeWindowLinux::hide()
     {
+        XWithdrawWindow(display, window, screenNumber);
+        XFlush(display);
     }
 
     void NativeWindowLinux::minimize()
