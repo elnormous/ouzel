@@ -381,6 +381,16 @@ namespace ouzel
                                                              window->convertWindowToNormalizedLocation(pos));
                         break;
                     }
+                    case MapNotify:
+                    {
+                        windowLinux->handleMap();
+                        break;
+                    }
+                    case UnmapNotify:
+                    {
+                        windowLinux->handleUnmap();
+                        break;
+                    }
                     case MotionNotify:
                     {
                         ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());

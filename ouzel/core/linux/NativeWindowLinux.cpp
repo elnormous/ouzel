@@ -433,4 +433,14 @@ namespace ouzel
         resolutionChangeEvent.resolution = resolution;
         sendEvent(resolutionChangeEvent);
     }
+
+    void NativeWindowLinux::handleMap()
+    {
+        sendEvent(Event(Event::Type::RESTORE));
+    }
+
+    void NativeWindowLinux::handleUnmap()
+    {
+        sendEvent(Event(Event::Type::MINIMIZE));
+    }
 }

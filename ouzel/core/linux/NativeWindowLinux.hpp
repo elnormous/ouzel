@@ -66,6 +66,8 @@ namespace ouzel
         void handleFocusIn();
         void handleFocusOut();
         void handleResize(const Size2U& newSize);
+        void handleMap();
+        void handleUnmap();
 
 #if OUZEL_SUPPORTS_X11
         XVisualInfo* visualInfo = nullptr;
