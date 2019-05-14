@@ -462,7 +462,7 @@ namespace ouzel
     bool NativeWindowLinux::isMapped() const
     {
         XWindowAttributes attributes;
-        XGetWindowAttributes(display, xwindow, &attributes);
+        XGetWindowAttributes(display, window, &attributes);
         return attributes.map_state != IsUnmapped;
     }
 #endif
