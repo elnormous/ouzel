@@ -47,9 +47,7 @@ namespace ouzel
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
-                XINPUT_STATE state;
-                ZeroMemory(&state, sizeof(XINPUT_STATE));
-
+                XINPUT_STATE state = {};
                 DWORD result = XInputGetState(userIndex, &state);
 
                 if (result == ERROR_SUCCESS)
@@ -202,9 +200,7 @@ namespace ouzel
                 {
                     if (!gamepadsXI[userIndex])
                     {
-                        XINPUT_STATE state;
-                        ZeroMemory(&state, sizeof(XINPUT_STATE));
-
+                        XINPUT_STATE state = {};
                         DWORD result = XInputGetState(userIndex, &state);
 
                         if (result == ERROR_SUCCESS)

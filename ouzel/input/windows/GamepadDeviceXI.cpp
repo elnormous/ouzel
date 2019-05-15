@@ -16,15 +16,11 @@ namespace ouzel
             GamepadDeviceWin(initInputSystem, initId),
             playerIndex(aPlayerIndex)
         {
-            ZeroMemory(&state, sizeof(XINPUT_STATE));
-            ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
         }
 
         void GamepadDeviceXI::update()
         {
-            XINPUT_STATE newState;
-            ZeroMemory(&newState, sizeof(XINPUT_STATE));
-
+            XINPUT_STATE newState = {};
             DWORD result = XInputGetState(playerIndex, &newState);
 
             if (result != ERROR_SUCCESS)

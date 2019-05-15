@@ -34,8 +34,8 @@ namespace ouzel
             void checkThumbAxis(SHORT oldValue, SHORT newValue, Gamepad::Button negativeButton, Gamepad::Button positiveButton);
             void checkButton(const XINPUT_STATE& newState, WORD mask, Gamepad::Button button);
 
-            XINPUT_STATE state;
-            XINPUT_VIBRATION vibration;
+            XINPUT_STATE state = {};
+            XINPUT_VIBRATION vibration = {};
             DWORD playerIndex;
         };
     } // namespace input
