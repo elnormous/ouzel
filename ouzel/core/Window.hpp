@@ -25,6 +25,13 @@ namespace ouzel
             DEPTH = 0x10,
         };
 
+        enum class Mode
+        {
+            WINDOWED,
+            WINDOWED_FULLSCREEN,
+            FULLSCREEN
+        };
+
         Window(Engine& initEngine,
                const Size2U& newSize,
                uint32_t flags,

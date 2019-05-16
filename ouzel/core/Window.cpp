@@ -44,14 +44,14 @@ namespace ouzel
                                           graphicsDriver,
                                           flags & HIGH_DPI)),
 #elif TARGET_OS_MAC
-    nativeWindow(new NativeWindowMacOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                       newSize,
-                                       flags & RESIZABLE,
-                                       flags & FULLSCREEN,
-                                       flags & EXCLUSIVE_FULLSCREEN,
-                                       newTitle,
-                                       graphicsDriver,
-                                       flags & HIGH_DPI)),
+        nativeWindow(new NativeWindowMacOS(std::bind(&Window::eventCallback, this, std::placeholders::_1),
+                                           newSize,
+                                           flags & RESIZABLE,
+                                           flags & FULLSCREEN,
+                                           flags & EXCLUSIVE_FULLSCREEN,
+                                           newTitle,
+                                           graphicsDriver,
+                                           flags & HIGH_DPI)),
 #elif defined(__ANDROID__)
         nativeWindow(new NativeWindowAndroid(std::bind(&Window::eventCallback, this, std::placeholders::_1), newTitle)),
 #elif defined(__linux__)
