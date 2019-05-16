@@ -20,7 +20,6 @@ namespace ouzel
         title(newTitle),
         callback(initCallback)
     {
-
     }
 
     void NativeWindow::addCommand(const Command& command)

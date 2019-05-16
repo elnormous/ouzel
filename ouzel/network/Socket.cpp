@@ -44,7 +44,6 @@ namespace ouzel
         Socket::Socket(Socket&& other):
             endpoint(other.endpoint)
         {
-
 #ifdef _WIN32
             other.endpoint = INVALID_SOCKET;
 #else

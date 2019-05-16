@@ -6,6 +6,5 @@ namespace ouzel
 {
     namespace audio
     {
-
     } // namespace audio
 } // namespace ouzel

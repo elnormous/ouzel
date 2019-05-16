@@ -583,7 +583,6 @@ namespace ouzel
                     levels.push_back({mipMapSize, pitch, std::vector<uint8_t>(bufferSize)});
                 else
                 {
-
                     switch (pixelFormat)
                     {
                         case PixelFormat::RGBA8_UNORM:

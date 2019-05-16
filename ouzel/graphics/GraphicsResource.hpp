@@ -26,7 +26,6 @@ namespace ouzel
                 renderer(other.renderer),
                 id(other.id)
             {
-
                 other.renderer = nullptr;
                 other.id = 0;
             }

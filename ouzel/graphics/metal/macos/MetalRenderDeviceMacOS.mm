@@ -136,7 +136,6 @@ namespace ouzel
             if (event.type == ouzel::Event::Type::SCREEN_CHANGE)
             {
                 engine->executeOnMainThread([this, event]() {
-
                     running = false;
 
                     CommandBuffer commandBuffer;

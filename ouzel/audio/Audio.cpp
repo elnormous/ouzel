@@ -218,7 +218,6 @@ namespace ouzel
 
         void Audio::eventCallback(const mixer::Mixer::Event& event)
         {
-
         }
     } // namespace audio
 } // namespace ouzel
