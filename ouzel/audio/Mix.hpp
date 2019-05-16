@@ -53,4 +53,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif //OUZEL_AUDIO_MIX_HPP
+#endif // OUZEL_AUDIO_MIX_HPP

@@ -492,7 +492,7 @@ namespace ouzel
                         const float* pixel = src;
                         for (uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
                         {
-                            dst[0] = gammaEncode(pixel[0]); //red
+                            dst[0] = gammaEncode(pixel[0]); // red
                             dst[1] = gammaEncode(pixel[1]); // green
                             dst[2] = gammaEncode(pixel[2]); // blue
                             dst[3] = static_cast<uint8_t>(round(pixel[3] * 255.0F)); // alpha
@@ -506,7 +506,7 @@ namespace ouzel
                         const float* pixel = src;
                         for (uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
                         {
-                            dst[0] = gammaEncode(pixel[0]); //red
+                            dst[0] = gammaEncode(pixel[0]); // red
                             dst[1] = gammaEncode(pixel[1]); // green
                         }
                     }
@@ -518,7 +518,7 @@ namespace ouzel
                         const float* pixel = src;
                         for (uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
                         {
-                            dst[0] = gammaEncode(pixel[0]); //red
+                            dst[0] = gammaEncode(pixel[0]); // red
                         }
                     }
                     break;

@@ -56,4 +56,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif //OUZEL_AUDIO_MIXER_BUS_HPP
+#endif // OUZEL_AUDIO_MIXER_BUS_HPP
