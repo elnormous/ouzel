@@ -1132,7 +1132,6 @@
 		C61B49E62174B83900B818F1 /* SkinnedMeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkinnedMeshRenderer.hpp; sourceTree = "<group>"; };
 		C61B49E72174B83900B818F1 /* SkinnedMeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkinnedMeshRenderer.cpp; sourceTree = "<group>"; };
 		C6630AD9215BC65700DB5214 /* InputDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputDevice.hpp; sourceTree = "<group>"; };
-		C6A08836226E4FD000D6A77A /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
 		C6AC8A8A215BD7D500F14D75 /* MouseDeviceMacOS.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MouseDeviceMacOS.mm; sourceTree = "<group>"; };
 		C6AC8A8B215BD7D500F14D75 /* MouseDeviceMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MouseDeviceMacOS.hpp; sourceTree = "<group>"; };
 		C6C9100B21AEB47E00B5FCB7 /* Utf8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utf8.hpp; sourceTree = "<group>"; };
@@ -1811,7 +1810,6 @@
 				30A3821E21B4C5E90043568A /* Processor.hpp */,
 				C6C9100D21B54A9600B5FCB7 /* Stream.cpp */,
 				C6C9100E21B54A9600B5FCB7 /* Stream.hpp */,
-				C6A08836226E4FD000D6A77A /* Source.hpp */,
 			);
 			path = mixer;
 			sourceTree = "<group>";
