@@ -22,3 +22,5 @@ namespace ouzel
         };
     }
 }
+
+#endif // OUZEL_AUDIO_NODE_HPP

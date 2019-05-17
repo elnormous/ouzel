@@ -585,9 +585,6 @@
     <ClInclude Include="..\ouzel\math\Vector.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Destination.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\Voice.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>

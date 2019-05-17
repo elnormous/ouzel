@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <vector>
+#include "audio/Node.hpp"
 #include "audio/Source.hpp"
 
 namespace ouzel

@@ -170,7 +170,6 @@
     <ClInclude Include="..\ouzel\audio\Audio.hpp" />
     <ClInclude Include="..\ouzel\audio\AudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\Channel.hpp" />
-    <ClInclude Include="..\ouzel\audio\Destination.hpp" />
     <ClInclude Include="..\ouzel\audio\Driver.hpp" />
     <ClInclude Include="..\ouzel\audio\dsound\DSAudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\empty\EmptyAudioDevice.hpp" />
