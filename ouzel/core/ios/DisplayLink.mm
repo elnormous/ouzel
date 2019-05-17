@@ -26,10 +26,9 @@
 
 -(void)draw:(__unused CADisplayLink*)sender
 {
-    @autoreleasepool
-    {
-        callback(userInfo);
-    }
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    callback(userInfo);
+    [pool release];
 }
 @end
 
@@ -91,10 +90,9 @@ namespace ouzel
         {
             while (running)
             {
-                @autoreleasepool
-                {
-                    callback(userInfo);
-                }
+                NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+                callback(userInfo);
+                [pool release];
             }
         }
     }

@@ -22,19 +22,20 @@ static CVReturn renderCallback(CVDisplayLinkRef,
                                CVOptionFlags*,
                                void* userInfo)
 {
-    @autoreleasepool
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+
+    try
     {
-        try
-        {
-            ouzel::graphics::MetalRenderDeviceMacOS* renderDevice = static_cast<ouzel::graphics::MetalRenderDeviceMacOS*>(userInfo);
-            renderDevice->renderCallback();
-        }
-        catch (const std::exception& e)
-        {
-            ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
-            return kCVReturnError;
-        }
+        ouzel::graphics::MetalRenderDeviceMacOS* renderDevice = static_cast<ouzel::graphics::MetalRenderDeviceMacOS*>(userInfo);
+        renderDevice->renderCallback();
     }
+    catch (const std::exception& e)
+    {
+        ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
+        return kCVReturnError;
+    }
+
+    [pool release];
 
     return kCVReturnSuccess;
 }

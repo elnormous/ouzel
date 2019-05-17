@@ -824,6 +824,7 @@
 		301EB3A11CCD691800466E92 /* Component.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
 		301EB3A81CCD77F600466E92 /* TextRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextRenderer.cpp; sourceTree = "<group>"; };
 		301EB3A91CCD77F600466E92 /* TextRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextRenderer.hpp; sourceTree = "<group>"; };
+		3020D274228E40E20056FA47 /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
 		30216B611ED462B80073E3D5 /* StaticMeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticMeshRenderer.cpp; sourceTree = "<group>"; };
 		30216B621ED462B80073E3D5 /* StaticMeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StaticMeshRenderer.hpp; sourceTree = "<group>"; };
 		30216B721ED464730073E3D5 /* Material.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
@@ -1553,6 +1554,7 @@
 				30A3820E21B4BDBC0043568A /* Mix.cpp */,
 				30A3820F21B4BDBC0043568A /* Mix.hpp */,
 				C6C9101621B54AD600B5FCB7 /* mixer */,
+				3020D274228E40E20056FA47 /* Node.hpp */,
 				30419E6C1D20254100A63759 /* openal */,
 				C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */,
 				C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */,
