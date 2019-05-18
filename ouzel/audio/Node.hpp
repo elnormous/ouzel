@@ -34,23 +34,32 @@ namespace ouzel
 
             void addChild(Node& child)
             {
-                auto i = std::find(children.begin(), children.end(), &child);
-                if (i == children.end())
+                if (child.parent != this)
                 {
-                    child.parent = this;
-                    children.push_back(&child);
-                    audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::AddChildCommand(objectId, child.objectId)));
+                    if (child.parent)
+                        child.parent->removeChild(child);
+
+                    auto i = std::find(children.begin(), children.end(), &child);
+                    if (i == children.end())
+                    {
+                        child.parent = this;
+                        children.push_back(&child);
+                        audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::AddChildCommand(objectId, child.objectId)));
+                    }
                 }
             }
 
             void removeChild(Node& child)
             {
-                auto i = std::find(children.begin(), children.end(), &child);
-                if (i != children.end())
+                if (child.parent == this)
                 {
-                    child.parent = this;
-                    children.erase(i);
-                    audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::RemoveChildCommand(objectId, child.objectId)));
+                    auto i = std::find(children.begin(), children.end(), &child);
+                    if (i != children.end())
+                    {
+                        child.parent = this;
+                        children.erase(i);
+                        audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::RemoveChildCommand(objectId, child.objectId)));
+                    }
                 }
             }
 

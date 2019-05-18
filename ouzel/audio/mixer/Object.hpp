@@ -32,21 +32,30 @@ namespace ouzel
 
                 void addChild(Object& child)
                 {
-                    auto i = std::find(children.begin(), children.end(), &child);
-                    if (i == children.end())
+                    if (child.parent != this)
                     {
-                        child.parent = this;
-                        children.push_back(&child);
+                        if (child.parent)
+                            child.parent->removeChild(child);
+
+                        auto i = std::find(children.begin(), children.end(), &child);
+                        if (i == children.end())
+                        {
+                            child.parent = this;
+                            children.push_back(&child);
+                        }
                     }
                 }
 
                 void removeChild(Object& child)
                 {
-                    auto i = std::find(children.begin(), children.end(), &child);
-                    if (i != children.end())
+                    if (child.parent == this)
                     {
-                        child.parent = this;
-                        children.erase(i);
+                        auto i = std::find(children.begin(), children.end(), &child);
+                        if (i != children.end())
+                        {
+                            child.parent = this;
+                            children.erase(i);
+                        }
                     }
                 }
 
