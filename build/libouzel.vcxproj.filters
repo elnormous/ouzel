@@ -594,7 +594,7 @@
     <ClInclude Include="..\ouzel\audio\Sound.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Source.hpp">
+    <ClInclude Include="..\ouzel\audio\Node.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\VorbisClip.hpp">
