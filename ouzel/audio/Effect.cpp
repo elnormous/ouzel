@@ -10,6 +10,7 @@ namespace ouzel
     {
         Effect::Effect(Audio& initAudio,
                        uintptr_t initProcessorId):
+            Node(initAudio),
             audio(initAudio),
             processorId(initProcessorId)
         {

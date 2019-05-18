@@ -50,6 +50,22 @@ namespace ouzel
                                 objects[deleteObjectCommand->objectId - 1].reset();
                                 break;
                             }
+                            case Command::Type::ADD_CHILD:
+                            {
+                                auto addChildCommand = static_cast<const AddChildCommand*>(command.get());
+                                Object* object = objects[addChildCommand->objectId - 1].get();
+                                Object* child = objects[addChildCommand->objectId - 1].get();
+                                object->addChild(*child);
+                                break;
+                            }
+                            case Command::Type::REMOVE_CHILD:
+                            {
+                                auto removeChildCommand = static_cast<const RemoveChildCommand*>(command.get());
+                                Object* object = objects[removeChildCommand->objectId - 1].get();
+                                Object* child = objects[removeChildCommand->objectId - 1].get();
+                                object->removeChild(*child);
+                                break;
+                            }
                             case Command::Type::INIT_BUS:
                             {
                                 auto initBusCommand = static_cast<const InitBusCommand*>(command.get());

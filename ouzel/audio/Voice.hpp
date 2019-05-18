@@ -4,6 +4,7 @@
 #define OUZEL_AUDIO_VOICE_HPP
 
 #include <memory>
+#include "audio/Node.hpp"
 #include "math/Vector.hpp"
 
 namespace ouzel
@@ -14,7 +15,7 @@ namespace ouzel
         class Mix;
         class Sound;
 
-        class Voice final
+        class Voice final: public Node
         {
             friend Mix;
         public:

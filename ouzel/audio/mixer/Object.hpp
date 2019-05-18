@@ -18,13 +18,41 @@ namespace ouzel
             {
             public:
                 Object() = default;
-                virtual ~Object() {}
+                virtual ~Object()
+                {
+                    if (parent)
+                        parent->removeChild(*this);
+                }
 
                 Object(const Object&) = delete;
                 Object& operator=(const Object&) = delete;
 
                 Object(Object&&) = delete;
                 Object& operator=(Object&&) = delete;
+
+                void addChild(Object& child)
+                {
+                    auto i = std::find(children.begin(), children.end(), &child);
+                    if (i == children.end())
+                    {
+                        child.parent = this;
+                        children.push_back(&child);
+                    }
+                }
+
+                void removeChild(Object& child)
+                {
+                    auto i = std::find(children.begin(), children.end(), &child);
+                    if (i != children.end())
+                    {
+                        child.parent = this;
+                        children.erase(i);
+                    }
+                }
+
+            private:
+                Object* parent = nullptr;
+                std::vector<Object*> children;
             };
         }
     } // namespace audio

@@ -4,6 +4,7 @@
 #define OUZEL_AUDIO_EFFECT_HPP
 
 #include <cstdint>
+#include "audio/Node.hpp"
 
 namespace ouzel
 {
@@ -13,7 +14,7 @@ namespace ouzel
         class Mix;
         class Source;
 
-        class Effect
+        class Effect: public Node
         {
             friend Mix;
         public:

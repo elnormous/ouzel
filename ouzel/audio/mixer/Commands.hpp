@@ -23,6 +23,8 @@ namespace ouzel
                 enum class Type
                 {
                     DELETE_OBJECT,
+                    ADD_CHILD,
+                    REMOVE_CHILD,
                     INIT_BUS,
                     SET_BUS_OUTPUT,
                     ADD_PROCESSOR,
@@ -51,6 +53,32 @@ namespace ouzel
                 {}
 
                 uintptr_t objectId;
+            };
+
+            class AddChildCommand final: public Command
+            {
+            public:
+                AddChildCommand(uintptr_t initObjectId, uintptr_t initChildId):
+                    Command(Command::Type::ADD_CHILD),
+                    objectId(initObjectId),
+                    childId(initChildId)
+                {}
+
+                uintptr_t objectId;
+                uintptr_t childId;
+            };
+
+            class RemoveChildCommand final: public Command
+            {
+            public:
+                RemoveChildCommand(uintptr_t initObjectId, uintptr_t initChildId):
+                    Command(Command::Type::REMOVE_CHILD),
+                    objectId(initObjectId),
+                    childId(initChildId)
+                {}
+
+                uintptr_t objectId;
+                uintptr_t childId;
             };
 
             class InitBusCommand final: public Command

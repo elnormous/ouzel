@@ -11,6 +11,7 @@ namespace ouzel
     namespace audio
     {
         Voice::Voice(Audio& initAudio, const std::shared_ptr<Sound>& initSound):
+            Node(initAudio),
             audio(initAudio),
             streamId(audio.initStream(initSound->getSourceId()))
         {

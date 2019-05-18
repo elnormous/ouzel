@@ -995,7 +995,6 @@
 		30575AD71C3B48740009C8A7 /* EventDispatcher.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventDispatcher.hpp; sourceTree = "<group>"; };
 		305B11362250413900EDA4F5 /* Containers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Containers.cpp; sourceTree = "<group>"; };
 		305B11372250413900EDA4F5 /* Containers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Containers.hpp; sourceTree = "<group>"; };
-		305B113E2251595F00EDA4F5 /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
 		305B68D11ED1B31D003352A2 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
 		305B68D21ED1B31D003352A2 /* Timer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timer.hpp; sourceTree = "<group>"; };
 		305B998F1C41F06F008589E1 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
@@ -1563,7 +1562,6 @@
 				302B728321BDE302006EBC59 /* SilenceSound.hpp */,
 				30419DEF1D162BEF00A63759 /* Sound.cpp */,
 				30419DF01D162BEF00A63759 /* Sound.hpp */,
-				305B113E2251595F00EDA4F5 /* Source.hpp */,
 				30A3821621B4BDC80043568A /* Submix.cpp */,
 				30A3821721B4BDC80043568A /* Submix.hpp */,
 				30419DE71D162BDC00A63759 /* Voice.cpp */,
