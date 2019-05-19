@@ -6,12 +6,13 @@
 #include <cstdint>
 #include <algorithm>
 #include <vector>
-#include "audio/Audio.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
+        class Audio;
+
         class Node
         {
         public:
@@ -32,36 +33,8 @@ namespace ouzel
             Node(Node&&) = delete;
             Node& operator=(Node&&) = delete;
 
-            void addChild(Node& child)
-            {
-                if (child.parent != this)
-                {
-                    if (child.parent)
-                        child.parent->removeChild(child);
-
-                    auto i = std::find(children.begin(), children.end(), &child);
-                    if (i == children.end())
-                    {
-                        child.parent = this;
-                        children.push_back(&child);
-                        audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::AddChildCommand(objectId, child.objectId)));
-                    }
-                }
-            }
-
-            void removeChild(Node& child)
-            {
-                if (child.parent == this)
-                {
-                    auto i = std::find(children.begin(), children.end(), &child);
-                    if (i != children.end())
-                    {
-                        child.parent = this;
-                        children.erase(i);
-                        audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::RemoveChildCommand(objectId, child.objectId)));
-                    }
-                }
-            }
+            void addChild(Node& child);
+            void removeChild(Node& child);
 
         private:
             Audio& audio;
@@ -69,7 +42,7 @@ namespace ouzel
             Node* parent = nullptr;
             std::vector<Node*> children;
         };
-    }
-}
+    } // namespace audio
+} // namespace ouzel
 
 #endif // OUZEL_AUDIO_NODE_HPP

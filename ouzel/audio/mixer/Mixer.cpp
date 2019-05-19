@@ -23,6 +23,11 @@ namespace ouzel
                 buffer(initBufferSize * 3, initChannels)
             {
                 //setThreadPriority(mixerThread, 20.0F, true);
+
+                rootObjectId = getObjectId();
+                objects.resize(rootObjectId);
+                objects[rootObjectId - 1] = std::unique_ptr<Object>(new Object());
+                rootObject = objects[rootObjectId - 1].get();
             }
 
             void Mixer::process()

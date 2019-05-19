@@ -152,7 +152,8 @@ namespace ouzel
                                      debugAudio, window)),
             mixer(device->getBufferSize(), device->getChannels(),
                   std::bind(&Audio::eventCallback, this, std::placeholders::_1)),
-            masterMix(*this)
+            masterMix(*this),
+            rootNode(*this) // mixer.getRootObjectId()
         {
             addCommand(std::unique_ptr<mixer::Command>(new mixer::SetMasterBusCommand(masterMix.getBusId())));
             device->start();

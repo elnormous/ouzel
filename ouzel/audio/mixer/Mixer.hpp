@@ -80,7 +80,12 @@ namespace ouzel
                     commandQueue.push(std::forward<CommandBuffer>(commandBuffer));
                     lock.unlock();
                 }
-                
+
+                uintptr_t getRootObjectId() const
+                {
+                    return rootObjectId;
+                }
+
             private:
                 void main();
 
@@ -92,6 +97,8 @@ namespace ouzel
                 std::set<uintptr_t> deletedObjectIds;
 
                 std::vector<std::unique_ptr<Object>> objects;
+                uintptr_t rootObjectId = 0;
+                Object* rootObject = nullptr;
 
                 Bus* masterBus = nullptr;
 

@@ -355,6 +355,9 @@
     <ClCompile Include="..\ouzel\audio\Mix.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
+      <ClCompile Include="..\ouzel\audio\Node.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClCompile>
