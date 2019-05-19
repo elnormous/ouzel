@@ -52,7 +52,7 @@ namespace smb
     template<class T>
     struct Complex
     {
-        inline Complex<T> operator+(const Complex& other)
+        inline Complex<T> operator+(const Complex& other) const
         {
             return Complex{real + other.real, imag + other.imag};
         }
@@ -64,9 +64,14 @@ namespace smb
             return *this;
         }
 
-        inline Complex<T> operator-(const Complex& other)
+        inline Complex<T> operator-(const Complex& other) const
         {
             return Complex{real - other.real, imag - other.imag};
+        }
+
+        inline Complex<T> operator-() const
+        {
+            return Complex{-real, -imag};
         }
 
         inline Complex<T>& operator-=(const Complex& other)
@@ -76,7 +81,7 @@ namespace smb
             return *this;
         }
 
-        inline Complex<T> operator*(const Complex& other)
+        inline Complex<T> operator*(const Complex& other) const
         {
             return Complex{real * other.real - imag * other.imag, real * other.imag + imag * other.real};
         }
@@ -261,7 +266,8 @@ namespace smb
                     }
 
                     // zero negative frequencies
-                    for (unsigned long k = fftFrameSize + 1; k < fftFrameSize; k++) fftWorksp[k] = {0.0F, 0.0F};
+                    for (unsigned long k = fftFrameSize + 1; k < fftFrameSize; k++)
+                        fftWorksp[k] = {0.0F, 0.0F};
 
                     // do inverse transform
                     fft(fftWorksp, fftFrameSize, 1);
@@ -273,14 +279,18 @@ namespace smb
                         outputAccum[k] += 2.0F * window * fftWorksp[k].real / (fftFrameSizeHalf * oversamp);
                     }
                     unsigned long k;
-                    for (k = 0 ; k < stepSize; k++) outFifo[k] = outputAccum[k];
+                    for (k = 0 ; k < stepSize; k++)
+                        outFifo[k] = outputAccum[k];
                     // shift accumulator
                     unsigned long j;
-                    for (j = 0; k < fftFrameSize; k++, j++) outputAccum[j] = outputAccum[k];
-                    for (; j < fftFrameSize; j++) outputAccum[j] = 0.0;
+                    for (j = 0; k < fftFrameSize; k++, j++)
+                        outputAccum[j] = outputAccum[k];
+                    for (; j < fftFrameSize; j++)
+                        outputAccum[j] = 0.0;
 
                     // move input FIFO
-                    for (k = 0; k < inFifoLatency; k++) inFifo[k] = inFifo[k + stepSize];
+                    for (k = 0; k < inFifoLatency; k++)
+                        inFifo[k] = inFifo[k + stepSize];
                 }
             }
         }
