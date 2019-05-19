@@ -4,6 +4,8 @@
 #define OUZEL_AUDIO_MIXER_STREAM_HPP
 
 #include "audio/mixer/Object.hpp"
+#include "audio/mixer/Bus.hpp"
+#include "audio/mixer/Data.hpp"
 
 namespace ouzel
 {
@@ -18,17 +20,34 @@ namespace ouzel
             {
                 friend Bus;
             public:
-                Stream(Data& initData);
-                ~Stream();
+                Stream(Data& initData):
+                    data(initData)
+                {
+                }
+
+                ~Stream()
+                {
+                    if (output) output->removeInput(this);
+                }
 
                 const Data& getData() const { return data; }
 
-                void setOutput(Bus* newOutput);
+                void setOutput(Bus* newOutput)
+                {
+                    if (output) output->removeInput(this);
+                    output = newOutput;
+                    if (output) output->addInput(this);
+                }
 
                 inline bool isPlaying() const { return playing; }
-                void play();
+                void play() { playing = true; }
 
-                void stop(bool shouldReset);
+                void stop(bool shouldReset)
+                {
+                    playing = false;
+                    if (shouldReset) reset();
+                }
+
                 virtual void reset() = 0;
 
                 virtual void getSamples(uint32_t frames, std::vector<float>& samples) = 0;

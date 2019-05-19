@@ -349,9 +349,6 @@
     <ClCompile Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.cpp">
       <Filter>ouzel\audio\wasapi</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\mixer\Stream.cpp">
-      <Filter>ouzel\audio\mixer</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>

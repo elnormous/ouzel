@@ -58,7 +58,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/audio/empty/EmptyAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/mixer/Bus.cpp \
 	$(ROOT_DIR)/../ouzel/audio/mixer/Mixer.cpp \
-	$(ROOT_DIR)/../ouzel/audio/mixer/Stream.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)/../ouzel/audio/AudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Containers.cpp \

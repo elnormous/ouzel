@@ -48,7 +48,6 @@
     <ClCompile Include="..\ouzel\audio\VorbisClip.cpp" />
     <ClCompile Include="..\ouzel\audio\PcmClip.cpp" />
     <ClCompile Include="..\ouzel\audio\Mix.cpp" />
-    <ClCompile Include="..\ouzel\audio\mixer\Stream.cpp" />
     <ClCompile Include="..\ouzel\audio\Submix.cpp" />
     <ClCompile Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\XA2AudioDevice.cpp" />

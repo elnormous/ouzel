@@ -766,9 +766,6 @@
 		C61B49F32174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C61B49E72174B83900B818F1 /* SkinnedMeshRenderer.cpp */; };
 		C6AC8A8C215BD7D500F14D75 /* MouseDeviceMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = C6AC8A8A215BD7D500F14D75 /* MouseDeviceMacOS.mm */; };
 		C6AC8A8D215BD7D500F14D75 /* MouseDeviceMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A8B215BD7D500F14D75 /* MouseDeviceMacOS.hpp */; };
-		C6C9100F21B54A9600B5FCB7 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9100D21B54A9600B5FCB7 /* Stream.cpp */; };
-		C6C9101021B54A9600B5FCB7 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9100D21B54A9600B5FCB7 /* Stream.cpp */; };
-		C6C9101121B54A9600B5FCB7 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C9100D21B54A9600B5FCB7 /* Stream.cpp */; };
 		C6C9101221B54A9600B5FCB7 /* Stream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Stream.hpp */; };
 		C6C9101321B54A9600B5FCB7 /* Stream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Stream.hpp */; };
 		C6C9101421B54A9600B5FCB7 /* Stream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Stream.hpp */; };
@@ -1134,7 +1131,6 @@
 		C6AC8A8A215BD7D500F14D75 /* MouseDeviceMacOS.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MouseDeviceMacOS.mm; sourceTree = "<group>"; };
 		C6AC8A8B215BD7D500F14D75 /* MouseDeviceMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MouseDeviceMacOS.hpp; sourceTree = "<group>"; };
 		C6C9100B21AEB47E00B5FCB7 /* Utf8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utf8.hpp; sourceTree = "<group>"; };
-		C6C9100D21B54A9600B5FCB7 /* Stream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Stream.cpp; sourceTree = "<group>"; };
 		C6C9100E21B54A9600B5FCB7 /* Stream.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Stream.hpp; sourceTree = "<group>"; };
 		C6C9101921B54B5B00B5FCB7 /* Data.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Data.hpp; sourceTree = "<group>"; };
 		C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Oscillator.cpp; sourceTree = "<group>"; };
@@ -1806,7 +1802,6 @@
 				30A381FD21B382A20043568A /* Mixer.hpp */,
 				30C3F290219D0DD9003FE9ED /* Object.hpp */,
 				30A3821E21B4C5E90043568A /* Processor.hpp */,
-				C6C9100D21B54A9600B5FCB7 /* Stream.cpp */,
 				C6C9100E21B54A9600B5FCB7 /* Stream.hpp */,
 			);
 			path = mixer;
@@ -2425,7 +2420,6 @@
 				30EEADC721618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
 				30724D821F353A0800D915ED /* ViewIOS.mm in Sources */,
 				300C39F01E51355000330E4F /* PcmClip.cpp in Sources */,
-				C6C9100F21B54A9600B5FCB7 /* Stream.cpp in Sources */,
 				306B0E601C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				306792F2211F98070006FF79 /* Bundle.cpp in Sources */,
@@ -2554,7 +2548,6 @@
 				3009030821922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
 				30381FB71D80A3F900677CAB /* OALAudioDevice.cpp in Sources */,
 				300C39F21E51355000330E4F /* PcmClip.cpp in Sources */,
-				C6C9101121B54A9600B5FCB7 /* Stream.cpp in Sources */,
 				306B0E611C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
 				305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */,
 				306792F4211F98070006FF79 /* Bundle.cpp in Sources */,
@@ -2690,7 +2683,6 @@
 				3085DA21211A4A5500F4C2D0 /* Socket.cpp in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				30A883651E7432DA004A033F /* Archive.cpp in Sources */,
-				C6C9101021B54A9600B5FCB7 /* Stream.cpp in Sources */,
 				C6C9102B21B54EE000B5FCB7 /* Oscillator.cpp in Sources */,
 				30419DE91D162BDC00A63759 /* Voice.cpp in Sources */,
 				302B728521BDE302006EBC59 /* SilenceSound.cpp in Sources */,
