@@ -26,9 +26,7 @@ namespace ouzel
 
                 rootObjectId = getObjectId();
                 objects.resize(rootObjectId);
-                std::unique_ptr<RootObject> newRootObject(new RootObject());
-                rootObject = newRootObject.get();
-                objects[rootObjectId - 1] = std::move(newRootObject);
+                objects[rootObjectId - 1].reset(rootObject = new RootObject());
             }
 
             void Mixer::process()
