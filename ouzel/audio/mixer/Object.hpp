@@ -59,7 +59,12 @@ namespace ouzel
                     }
                 }
 
-            private:
+                // TODO: make pure virtual
+                virtual void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
+                {
+                }
+
+            protected:
                 Object* parent = nullptr;
                 std::vector<Object*> children;
             };

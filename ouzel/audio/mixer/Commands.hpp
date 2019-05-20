@@ -22,6 +22,7 @@ namespace ouzel
             public:
                 enum class Type
                 {
+                    INIT_OBJECT,
                     DELETE_OBJECT,
                     ADD_CHILD,
                     REMOVE_CHILD,
@@ -42,6 +43,17 @@ namespace ouzel
                 explicit Command(Type initType): type(initType) {}
 
                 Type type;
+            };
+
+            class InitObjectCommand final: public Command
+            {
+            public:
+                InitObjectCommand(uintptr_t initObjectId):
+                    Command(Command::Type::INIT_OBJECT),
+                    objectId(initObjectId)
+                {}
+
+                uintptr_t objectId;
             };
 
             class DeleteObjectCommand final: public Command

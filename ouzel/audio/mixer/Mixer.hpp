@@ -21,6 +21,28 @@ namespace ouzel
     {
         namespace mixer
         {
+            class RootObject final: public Object
+            {
+            public:
+                void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
+                {
+                    samples.resize(frames * channels);
+                    std::fill(samples.begin(), samples.end(), 0.0F);
+
+                    for (Object* child : children)
+                    {
+                        child->getSamples(frames, channels, sampleRate, buffer);
+
+                        for (uint32_t channel = 0; channel < channels; ++channel)
+                            for (uint32_t frame = 0; frame < frames; ++frame)
+                                samples[channel * frames + frame] += buffer[channel * frames + frame];
+                    }
+                }
+
+            private:
+                std::vector<float> buffer;
+            };
+
             class Mixer
             {
             public:
@@ -98,7 +120,7 @@ namespace ouzel
 
                 std::vector<std::unique_ptr<Object>> objects;
                 uintptr_t rootObjectId = 0;
-                Object* rootObject = nullptr;
+                RootObject* rootObject = nullptr;
 
                 Bus* masterBus = nullptr;
 
