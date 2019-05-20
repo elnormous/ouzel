@@ -11,11 +11,16 @@ namespace ouzel
 {
     namespace audio
     {
+        class PcmData;
+
         class PcmClip final: public Sound
         {
         public:
             PcmClip(Audio& initAudio, uint16_t channels, uint32_t sampleRate,
                     const std::vector<float>& samples);
+
+        private:
+            PcmData* data;
         };
     } // namespace audio
 } // namespace ouzel

@@ -9,12 +9,15 @@ namespace ouzel
 {
     namespace audio
     {
+        class SilenceData;
+
         class SilenceSound final: public Sound
         {
         public:
             SilenceSound(Audio& initAudio, float initLength = 0.0F);
 
         private:
+            SilenceData* data;
             float length;
         };
     } // namespace audio

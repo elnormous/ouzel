@@ -9,6 +9,8 @@ namespace ouzel
 {
     namespace audio
     {
+        class OscillatorData;
+
         class Oscillator final: public Sound
         {
         public:
@@ -25,6 +27,7 @@ namespace ouzel
                        float initAmplitude = 0.5F, float initLength = 0.0F);
 
         private:
+            OscillatorData* data;
             Type type;
             float frequency;
             float amplitude;

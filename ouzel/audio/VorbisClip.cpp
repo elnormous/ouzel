@@ -132,9 +132,7 @@ namespace ouzel
         }
 
         VorbisClip::VorbisClip(Audio& initAudio, const std::vector<uint8_t>& initData):
-            Sound(initAudio, initAudio.initData([initData](){
-                return std::unique_ptr<mixer::Data>(new VorbisData(initData));
-            }))
+            Sound(initAudio, initAudio.initData(std::unique_ptr<mixer::Data>(data = new VorbisData(initData))))
         {
         }
     } // namespace audio

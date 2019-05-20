@@ -150,12 +150,12 @@ namespace ouzel
                             }
                             case Command::Type::INIT_DATA:
                             {
-                                auto initDataCommand = static_cast<const InitDataCommand*>(command.get());
+                                auto initDataCommand = static_cast<InitDataCommand*>(command.get());
 
                                 if (initDataCommand->dataId > objects.size())
                                     objects.resize(initDataCommand->dataId);
 
-                                objects[initDataCommand->dataId - 1] = initDataCommand->initFunction();
+                                objects[initDataCommand->dataId - 1] = std::move(initDataCommand->data);
                                 break;
                             }
                             case Command::Type::INIT_PROCESSOR:

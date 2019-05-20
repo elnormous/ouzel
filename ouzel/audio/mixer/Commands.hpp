@@ -214,14 +214,14 @@ namespace ouzel
             {
             public:
                 InitDataCommand(uintptr_t initDataId,
-                                const std::function<std::unique_ptr<Data>()>& initInitFunction):
+                                std::unique_ptr<Data>&& initData):
                     Command(Command::Type::INIT_DATA),
                     dataId(initDataId),
-                    initFunction(initInitFunction)
+                    data(std::move(initData))
                 {}
 
                 uintptr_t dataId;
-                std::function<std::unique_ptr<Data>()> initFunction;
+                std::unique_ptr<Data> data;
             };
 
             class InitProcessorCommand final: public Command
@@ -231,7 +231,7 @@ namespace ouzel
                                     std::unique_ptr<Processor>&& initProcessor):
                     Command(Command::Type::INIT_PROCESSOR),
                     processorId(initProcessorId),
-                    processor(std::forward<std::unique_ptr<Processor>>(initProcessor))
+                    processor(std::move(initProcessor))
                 {}
 
                 uintptr_t processorId;
