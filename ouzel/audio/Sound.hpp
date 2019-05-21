@@ -18,7 +18,13 @@ namespace ouzel
         {
             friend Audio;
         public:
-            Sound(Audio& initAudio, uintptr_t initSourceId);
+            enum class Format
+            {
+                PCM,
+                VORBIS
+            };
+
+            Sound(Audio& initAudio, uintptr_t initSourceId, Format initFormat);
             virtual ~Sound();
 
             Sound(const Sound&) = delete;
@@ -28,10 +34,12 @@ namespace ouzel
             Sound& operator=(Sound&&) = delete;
 
             inline uintptr_t getSourceId() const { return sourceId; }
+            inline Format getFormat() const { return format; }
 
         protected:
             Audio& audio;
             uintptr_t sourceId = 0;
+            Format format;
         };
     } // namespace audio
 } // namespace ouzel

@@ -98,7 +98,9 @@ namespace ouzel
 
         PcmClip::PcmClip(Audio& initAudio, uint16_t channels, uint32_t sampleRate,
                           const std::vector<float>& samples):
-            Sound(initAudio, initAudio.initData(std::unique_ptr<mixer::Data>(data = new PcmData(channels, sampleRate, samples))))
+            Sound(initAudio,
+                  initAudio.initData(std::unique_ptr<mixer::Data>(data = new PcmData(channels, sampleRate, samples))),
+                  Sound::Format::PCM)
         {
         }
     } // namespace audio

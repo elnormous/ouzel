@@ -7,9 +7,10 @@ namespace ouzel
 {
     namespace audio
     {
-        Sound::Sound(Audio& initAudio, uintptr_t initSourceId):
+        Sound::Sound(Audio& initAudio, uintptr_t initSourceId, Format initFormat):
             audio(initAudio),
-            sourceId(initSourceId)
+            sourceId(initSourceId),
+            format(initFormat)
         {
         }
 
