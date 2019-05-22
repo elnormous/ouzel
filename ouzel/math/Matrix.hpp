@@ -576,8 +576,8 @@ namespace ouzel
 
         inline void setZero()
         {
-            for (size_t i = 0; i < C * R; ++i)
-                m[i] = 0;
+            for (T& c : m)
+                c = 0;
         }
 
         void subtract(const Matrix& matrix)

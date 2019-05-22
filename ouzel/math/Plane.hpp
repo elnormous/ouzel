@@ -14,7 +14,7 @@ namespace ouzel
     template <class T> class Plane final
     {
     public:
-        T v[4]{0, 0, 0, 0};
+        T v[4]{0};
 
         Plane()
         {
@@ -23,20 +23,6 @@ namespace ouzel
         Plane(T a, T b, T c, T d):
             v{a, b, c, d}
         {
-        }
-
-        Plane(const Plane& copy):
-            v{copy.v[0], copy.v[1], copy.v[2], copy.v[3]}
-        {
-        }
-
-        Plane& operator=(const Plane& vec)
-        {
-            v[0] = vec.v[0];
-            v[1] = vec.v[1];
-            v[2] = vec.v[2];
-            v[3] = vec.v[3];
-            return *this;
         }
 
         inline T& operator[](size_t index) { return v[index]; }

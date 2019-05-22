@@ -150,7 +150,7 @@ namespace ouzel
                 c = -c;
         }
 
-        bool isNormalized(T tolerance = std::numeric_limits<T>::min()) const
+        inline bool isNormalized(T tolerance = std::numeric_limits<T>::min()) const
         {
             return abs(1 - lengthSquared()) < tolerance;
         }
