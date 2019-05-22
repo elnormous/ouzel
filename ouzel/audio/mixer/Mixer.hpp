@@ -124,7 +124,7 @@ namespace ouzel
 
                 Bus* masterBus = nullptr;
 
-                class Buffer
+                class Buffer final
                 {
                 public:
                     Buffer(size_t size, uint16_t initChannels):
