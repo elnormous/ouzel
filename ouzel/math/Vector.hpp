@@ -132,7 +132,7 @@ namespace ouzel
         {
             T l = 0;
             for (const T& c : v)
-                l += c;
+                l += c * c;
             return sqrt(l);
         }
 
@@ -140,7 +140,7 @@ namespace ouzel
         {
             T l = 0;
             for (const T& c : v)
-                l += c;
+                l += c * c;
             return l;
         }
 
@@ -148,6 +148,11 @@ namespace ouzel
         {
             for (T& c : v)
                 c = -c;
+        }
+
+        bool isNormalized(T tolerance = std::numeric_limits<T>::min()) const
+        {
+            return abs(1 - lengthSquared()) < tolerance;
         }
 
         void normalize()
