@@ -26,12 +26,12 @@ namespace ouzel
                     stb_vorbis_close(vorbisStream);
             }
 
-            void reset() override
+            void reset() final
             {
                 stb_vorbis_seek_start(vorbisStream);
             }
 
-            void getSamples(uint32_t frames, std::vector<float>& samples) override;
+            void getSamples(uint32_t frames, std::vector<float>& samples) final;
 
         private:
             stb_vorbis* vorbisStream = nullptr;
@@ -58,7 +58,7 @@ namespace ouzel
 
             const std::vector<uint8_t>& getData() const { return data; }
 
-            std::unique_ptr<mixer::Stream> createStream() override
+            std::unique_ptr<mixer::Stream> createStream() final
             {
                 return std::unique_ptr<mixer::Stream>(new VorbisStream(*this));
             }

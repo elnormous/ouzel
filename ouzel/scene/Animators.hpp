@@ -45,7 +45,7 @@ namespace ouzel
             Ease(const std::unique_ptr<Animator>& animator, Mode initMode, Func initFunc);
 
         protected:
-            void updateProgress() override;
+            void updateProgress() final;
 
         private:
             Mode mode;
@@ -57,10 +57,10 @@ namespace ouzel
         public:
             Fade(float initLength, float initOpacity, bool initRelative = false);
 
-            void play() override;
+            void play() final;
 
         protected:
-            void updateProgress() override;
+            void updateProgress() final;
 
         private:
             float opacity;
@@ -75,10 +75,10 @@ namespace ouzel
         public:
             Move(float initLength, const Vector3F& initPosition, bool initRelative = false);
 
-            void play() override;
+            void play() final;
 
         protected:
-            void updateProgress() override;
+            void updateProgress() final;
 
         private:
             Vector3F position;
@@ -95,7 +95,7 @@ namespace ouzel
             explicit Parallel(const std::vector<std::unique_ptr<Animator>>& initAnimators);
 
         protected:
-            void updateProgress() override;
+            void updateProgress() final;
         };
 
         class Repeat final: public Animator
@@ -104,10 +104,10 @@ namespace ouzel
             explicit Repeat(Animator* animator, uint32_t initCount = 0);
             explicit Repeat(const std::unique_ptr<Animator>& animator, uint32_t initCount = 0);
 
-            void reset() override;
+            void reset() final;
 
         protected:
-            void updateProgress() override;
+            void updateProgress() final;
 
         private:
             uint32_t count = 0;
@@ -119,10 +119,10 @@ namespace ouzel
         public:
             Rotate(float initLength, const Vector3F& initRotation, bool initRelative = false);
 
-            void play() override;
+            void play() final;
 
         protected:
-            void updateProgress() override;
+            void updateProgress() final;
 
         private:
             Vector3F rotation;
@@ -137,10 +137,10 @@ namespace ouzel
         public:
             Scale(float initLength, const Vector3F& initScale, bool initRelative = false);
 
-            void play() override;
+            void play() final;
 
         protected:
-            void updateProgress() override;
+            void updateProgress() final;
 
         private:
             Vector3F scale;
@@ -156,10 +156,10 @@ namespace ouzel
             explicit Sequence(const std::vector<Animator*>& initAnimators);
             explicit Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators);
 
-            void play() override;
+            void play() final;
 
         protected:
-            void updateProgress() override;
+            void updateProgress() final;
 
         private:
             Animator* currentAnimator = nullptr;
@@ -170,10 +170,10 @@ namespace ouzel
         public:
             Shake(float initLength, const Vector3F& initDistance, float initTimeScale);
 
-            void play() override;
+            void play() final;
 
         protected:
-            void updateProgress() override;
+            void updateProgress() final;
 
         private:
             uint32_t seedX;

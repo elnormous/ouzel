@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class Light final: public Component
+        class Light: public Component
         {
         public:
             static constexpr uint32_t CLASS = Component::LIGHT;

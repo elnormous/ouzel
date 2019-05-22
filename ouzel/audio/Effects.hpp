@@ -81,7 +81,7 @@ namespace ouzel
             void setMaxDistance(float newMaxDistance);
 
         private:
-            void updateTransform() override;
+            void updateTransform() final;
 
             Vector3F position;
             float rolloffFactor = 1.0F;

@@ -39,7 +39,7 @@ namespace ouzel
                           bool newHighDpi);
         ~NativeWindowMacOS();
 
-        void executeCommand(const Command& command) override;
+        void executeCommand(const Command& command) final;
 
         void close();
 

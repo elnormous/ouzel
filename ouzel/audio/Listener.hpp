@@ -40,7 +40,7 @@ namespace ouzel
             inline void setRotation(const QuaternionF& newRotation) { rotation = newRotation; }
 
         private:
-            void updateTransform() override;
+            void updateTransform() final;
 
             Audio& audio;
 

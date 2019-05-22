@@ -16,12 +16,12 @@ namespace ouzel
         public:
             SilenceStream(SilenceData& toneData);
 
-            void reset() override
+            void reset() final
             {
                 position = 0;
             }
 
-            void getSamples(uint32_t frames, std::vector<float>& samples) override;
+            void getSamples(uint32_t frames, std::vector<float>& samples) final;
 
         private:
             uint32_t position = 0;
@@ -39,7 +39,7 @@ namespace ouzel
 
             inline float getLength() const { return length; }
 
-            std::unique_ptr<mixer::Stream> createStream() override
+            std::unique_ptr<mixer::Stream> createStream() final
             {
                 return std::unique_ptr<mixer::Stream>(new SilenceStream(*this));
             }

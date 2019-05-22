@@ -27,7 +27,7 @@ namespace ouzel
             explicit InputSystemLinux(const std::function<std::future<bool>(const Event&)>& initCallback);
             ~InputSystemLinux();
 
-            void executeCommand(const Command& command) override;
+            void executeCommand(const Command& command) final;
 
             inline KeyboardDeviceLinux* getKeyboardDevice() const { return keyboardDevice.get(); }
             inline MouseDeviceLinux* getMouseDevice() const { return mouseDevice.get(); }

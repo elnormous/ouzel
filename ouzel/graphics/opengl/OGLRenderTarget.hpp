@@ -38,7 +38,7 @@ namespace ouzel
                             OGLTexture* initDepthTexture);
             ~OGLRenderTarget();
 
-            void reload() override;
+            void reload() final;
 
             void setClearColorBuffer(bool clear);
             void setClearDepthBuffer(bool clear);

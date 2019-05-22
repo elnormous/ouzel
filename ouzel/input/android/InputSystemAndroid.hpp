@@ -18,7 +18,7 @@ namespace ouzel
             explicit InputSystemAndroid(const std::function<std::future<bool>(const Event&)>& initCallback);
             ~InputSystemAndroid();
 
-            void executeCommand(const Command& command) override;
+            void executeCommand(const Command& command) final;
 
             inline KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
             inline MouseDevice* getMouseDevice() const { return mouseDevice.get(); }

@@ -18,7 +18,7 @@ namespace ouzel
             bool loadAsset(Bundle& bundle,
                            const std::string& name,
                            const std::vector<uint8_t>& data,
-                           bool mipmaps = true) override;
+                           bool mipmaps = true) final;
         };
     } // namespace assets
 } // namespace ouzel

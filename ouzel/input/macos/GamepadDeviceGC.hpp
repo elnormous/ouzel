@@ -29,7 +29,7 @@ namespace ouzel
             bool isAbsoluteDPadValues() const;
 
             int32_t getPlayerIndex() const;
-            void setPlayerIndex(int32_t playerIndex) override;
+            void setPlayerIndex(int32_t playerIndex) final;
 
             inline GCControllerPtr getController() const { return controller; }
 

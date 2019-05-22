@@ -15,7 +15,7 @@ namespace ouzel
             EmptyRenderDevice(const std::function<void(const Event&)>& initCallback);
 
         private:
-            void process() override;
+            void process() final;
         };
     } // namespace graphics
 } // namespace ouzel

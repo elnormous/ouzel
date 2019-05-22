@@ -20,8 +20,8 @@ namespace ouzel
                                                       uint32_t sampleRate,
                                                       std::vector<float>& samples)>& initDataGetter);
 
-            void start() override {}
-            void stop() override {}
+            void start() final {}
+            void stop() final {}
         };
     } // namespace audio
 } // namespace ouzel

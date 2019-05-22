@@ -37,7 +37,7 @@ namespace ouzel
                       uint32_t newSize);
             ~OGLBuffer();
 
-            void reload() override;
+            void reload() final;
 
             void setData(const std::vector<uint8_t>& newData);
 

@@ -37,9 +37,9 @@ namespace ouzel
                       bool newVerticalSync,
                       bool newDepth,
                       bool newStencil,
-                      bool newDebugRenderer) override;
+                      bool newDebugRenderer) final;
 
-            void present() override;
+            void present() final;
             void main();
 
             HDC deviceContext = 0;

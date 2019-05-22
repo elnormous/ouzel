@@ -28,7 +28,7 @@ namespace ouzel
                         bool newHighDpi);
         ~NativeWindowWin();
 
-        void executeCommand(const Command& command) override;
+        void executeCommand(const Command& command) final;
 
         void close();
 

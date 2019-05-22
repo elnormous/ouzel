@@ -15,12 +15,12 @@ namespace ouzel
     class JNIErrorCategory final: public std::error_category
     {
     public:
-        const char* name() const noexcept override
+        const char* name() const noexcept final
         {
             return "JNI";
         }
 
-        std::string message(int condition) const override
+        std::string message(int condition) const final
         {
             switch (condition)
             {
@@ -50,9 +50,9 @@ namespace ouzel
 
         void run();
 
-        void openURL(const std::string& url) override;
+        void openURL(const std::string& url) final;
 
-        void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
+        void setScreenSaverEnabled(bool newScreenSaverEnabled) final;
 
         inline JavaVM* getJavaVM() const { return javaVM; }
         inline jobject getMainActivity() const { return mainActivity; }
@@ -65,8 +65,8 @@ namespace ouzel
         void executeAll();
 
     private:
-        void main() override;
-        void runOnMainThread(const std::function<void()>& func) override;
+        void main() final;
+        void runOnMainThread(const std::function<void()>& func) final;
 
         JavaVM* javaVM = nullptr;
         jclass uriClass = nullptr;

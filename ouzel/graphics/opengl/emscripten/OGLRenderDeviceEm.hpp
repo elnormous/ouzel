@@ -32,7 +32,7 @@ namespace ouzel
                       bool newVerticalSync,
                       bool newDepth,
                       bool newStencil,
-                      bool newDebugRenderer) override;
+                      bool newDebugRenderer) final;
 
             EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
         };

@@ -37,9 +37,9 @@ namespace ouzel
                       bool newVerticalSync,
                       bool newDepth,
                       bool newStencil,
-                      bool newDebugRenderer) override;
+                      bool newDebugRenderer) final;
 
-            void present() override;
+            void present() final;
             void main();
 
             EGLDisplay display = 0;

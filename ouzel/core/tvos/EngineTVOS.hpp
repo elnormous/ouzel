@@ -22,14 +22,14 @@ namespace ouzel
 
         void run();
 
-        void openURL(const std::string& url) override;
+        void openURL(const std::string& url) final;
 
-        void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
+        void setScreenSaverEnabled(bool newScreenSaverEnabled) final;
 
         void executeAll();
 
     private:
-        void runOnMainThread(const std::function<void()>& func) override;
+        void runOnMainThread(const std::function<void()>& func) final;
 
         NSAutoreleasePoolPtr pool = nullptr;
 

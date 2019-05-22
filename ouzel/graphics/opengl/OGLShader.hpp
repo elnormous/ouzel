@@ -43,7 +43,7 @@ namespace ouzel
                       const std::string& vertexShaderFunction);
             ~OGLShader();
 
-            void reload() override;
+            void reload() final;
 
             struct Location final
             {

@@ -24,12 +24,12 @@ namespace ouzel
         class Direct3D11ErrorCategory final: public std::error_category
         {
         public:
-            const char* name() const noexcept override
+            const char* name() const noexcept final
             {
                 return "Direct3D11";
             }
 
-            std::string message(int condition) const override
+            std::string message(int condition) const final
             {
                 switch (condition)
                 {
@@ -57,7 +57,7 @@ namespace ouzel
         public:
             ~D3D11RenderDevice();
 
-            std::vector<Size2U> getSupportedResolutions() const override;
+            std::vector<Size2U> getSupportedResolutions() const final;
 
             inline ID3D11Device* getDevice() const { return device; }
             inline ID3D11DeviceContext* getContext() const { return context; }
@@ -83,12 +83,12 @@ namespace ouzel
                       bool newVerticalSync,
                       bool newDepth,
                       bool newStencil,
-                      bool newDebugRenderer) override;
+                      bool newDebugRenderer) final;
 
-            void process() override;
+            void process() final;
             void resizeBackBuffer(UINT newWidth, UINT newHeight);
             void uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
-            void generateScreenshot(const std::string& filename) override;
+            void generateScreenshot(const std::string& filename) final;
             void main();
 
             IDXGIOutput* getOutput() const;

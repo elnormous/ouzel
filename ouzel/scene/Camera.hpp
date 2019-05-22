@@ -16,7 +16,7 @@ namespace ouzel
     {
         class Layer;
 
-        class Camera final: public Component
+        class Camera: public Component
         {
             friend Layer;
         public:

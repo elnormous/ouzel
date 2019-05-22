@@ -29,8 +29,8 @@ namespace ouzel
                                                      std::vector<float>& samples)>& initDataGetter);
             ~ALSAAudioDevice();
 
-            void start() override;
-            void stop() override;
+            void start() final;
+            void stop() final;
 
         private:
             void run();

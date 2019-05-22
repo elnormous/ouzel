@@ -31,7 +31,7 @@ namespace ouzel
             OGLRenderDeviceLinux(const std::function<void(const Event&)>& initCallback);
             ~OGLRenderDeviceLinux();
 
-            std::vector<Size2U> getSupportedResolutions() const override;
+            std::vector<Size2U> getSupportedResolutions() const final;
 
         private:
             void init(Window* newWindow,
@@ -43,9 +43,9 @@ namespace ouzel
                       bool newVerticalSync,
                       bool newDepth,
                       bool newStencil,
-                      bool newDebugRenderer) override;
+                      bool newDebugRenderer) final;
 
-            void present() override;
+            void present() final;
             void main();
 
 #if OUZEL_OPENGL_INTERFACE_GLX

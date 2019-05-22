@@ -47,10 +47,10 @@ namespace ouzel
                       bool newVerticalSync,
                       bool newDepth,
                       bool newStencil,
-                      bool newDebugRenderer) override;
+                      bool newDebugRenderer) final;
 
-            void resizeFrameBuffer() override;
-            void present() override;
+            void resizeFrameBuffer() final;
+            void present() final;
 
             void createFrameBuffer();
 

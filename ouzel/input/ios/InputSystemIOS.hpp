@@ -28,7 +28,7 @@ namespace ouzel
             InputSystemIOS(const std::function<std::future<bool>(const Event&)>& initCallback);
             ~InputSystemIOS();
 
-            void executeCommand(const Command& command) override;
+            void executeCommand(const Command& command) final;
 
             inline KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
             inline TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }

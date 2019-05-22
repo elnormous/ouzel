@@ -41,7 +41,7 @@ namespace ouzel
                                  const DepthStencilState::StencilDescriptor& initFrontFaceStencil,
                                  const DepthStencilState::StencilDescriptor& initBackFaceStencil);
 
-            void reload() override {}
+            void reload() final {}
 
             inline bool getDepthTest() const { return depthTest; }
             inline GLboolean getDepthMask() const { return depthMask; }

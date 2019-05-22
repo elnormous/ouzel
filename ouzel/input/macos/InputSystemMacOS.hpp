@@ -33,12 +33,12 @@ namespace ouzel
         class IOKitErrorCategory final: public std::error_category
         {
         public:
-            const char* name() const noexcept override
+            const char* name() const noexcept final
             {
                 return "IOKit";
             }
 
-            std::string message(int condition) const override
+            std::string message(int condition) const final
             {
                 switch (condition)
                 {
@@ -109,7 +109,7 @@ namespace ouzel
             explicit InputSystemMacOS(const std::function<std::future<bool>(const Event&)>& initCallback);
             ~InputSystemMacOS();
 
-            void executeCommand(const Command& command) override;
+            void executeCommand(const Command& command) final;
 
             inline KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
             inline MouseDeviceMacOS* getMouseDevice() const { return mouseDevice.get(); }

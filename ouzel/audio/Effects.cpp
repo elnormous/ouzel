@@ -20,7 +20,7 @@ namespace ouzel
             }
 
             void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                         std::vector<float>& samples) override
+                         std::vector<float>& samples) final
             {
                 const uint32_t delayFrames = static_cast<uint32_t>(delay * sampleRate);
                 const uint32_t bufferFrames = frames + delayFrames;
@@ -94,7 +94,7 @@ namespace ouzel
             }
 
             void process(uint32_t, uint16_t, uint32_t,
-                         std::vector<float>& samples) override
+                         std::vector<float>& samples) final
             {
                 for (float& sample : samples)
                     sample *= gainFactor;
@@ -146,7 +146,7 @@ namespace ouzel
             }
 
             void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                         std::vector<float>& samples) override
+                         std::vector<float>& samples) final
             {
             }
 
@@ -245,7 +245,7 @@ namespace ouzel
             }
 
             void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                         std::vector<float>& samples) override
+                         std::vector<float>& samples) final
             {
                 pitchShift.resize(channels);
 
@@ -303,7 +303,7 @@ namespace ouzel
             }
 
             void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                         std::vector<float>& samples) override
+                         std::vector<float>& samples) final
             {
                 // TODO: implement
             }
@@ -353,7 +353,7 @@ namespace ouzel
             }
 
             void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                         std::vector<float>& samples) override
+                         std::vector<float>& samples) final
             {
                 const uint32_t delayFrames = static_cast<uint32_t>(delay * sampleRate);
                 const uint32_t bufferFrames = frames + delayFrames;

@@ -28,19 +28,19 @@ namespace ouzel
                            bool debugAudio);
             ~XA2AudioDevice();
 
-            void start() override;
-            void stop() override;
+            void start() final;
+            void stop() final;
 
         private:
             void run();
 
-            void STDMETHODCALLTYPE OnVoiceProcessingPassStart(UINT32 bytesRequired) override;
-            void STDMETHODCALLTYPE OnVoiceProcessingPassEnd() override;
-            void STDMETHODCALLTYPE OnStreamEnd() override;
-            void STDMETHODCALLTYPE OnBufferStart(void* bufferContext) override;
-            void STDMETHODCALLTYPE OnBufferEnd(void* bufferContext) override;
-            void STDMETHODCALLTYPE OnLoopEnd(void* bufferContext) override;
-            void STDMETHODCALLTYPE OnVoiceError(void* bufferContext, HRESULT error) override;
+            void STDMETHODCALLTYPE OnVoiceProcessingPassStart(UINT32 bytesRequired) final;
+            void STDMETHODCALLTYPE OnVoiceProcessingPassEnd() final;
+            void STDMETHODCALLTYPE OnStreamEnd() final;
+            void STDMETHODCALLTYPE OnBufferStart(void* bufferContext) final;
+            void STDMETHODCALLTYPE OnBufferEnd(void* bufferContext) final;
+            void STDMETHODCALLTYPE OnLoopEnd(void* bufferContext) final;
+            void STDMETHODCALLTYPE OnVoiceError(void* bufferContext, HRESULT error) final;
 
             HMODULE xAudio2Library = nullptr;
 

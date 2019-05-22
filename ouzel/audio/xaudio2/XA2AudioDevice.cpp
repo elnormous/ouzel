@@ -27,12 +27,12 @@ namespace ouzel
         class XAudio2ErrorCategory final: public std::error_category
         {
         public:
-            const char* name() const noexcept override
+            const char* name() const noexcept final
             {
                 return "XAudio2";
             }
 
-            std::string message(int condition) const override
+            std::string message(int condition) const final
             {
                 switch (condition)
                 {

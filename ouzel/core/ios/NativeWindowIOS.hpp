@@ -33,7 +33,7 @@ namespace ouzel
                         bool newHighDpi);
         ~NativeWindowIOS();
 
-        void executeCommand(const Command& command) override;
+        void executeCommand(const Command& command) final;
 
         inline UIWindowPtr getNativeWindow() const { return window; }
         inline UIViewPtr getNativeView() const { return view; }

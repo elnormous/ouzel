@@ -37,7 +37,7 @@ namespace ouzel
             OGLRenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
             ~OGLRenderDeviceMacOS();
 
-            std::vector<Size2U> getSupportedResolutions() const override;
+            std::vector<Size2U> getSupportedResolutions() const final;
 
             inline NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
 
@@ -53,10 +53,10 @@ namespace ouzel
                       bool newVerticalSync,
                       bool newDepth,
                       bool newStencil,
-                      bool newDebugRenderer) override;
+                      bool newDebugRenderer) final;
 
-            void resizeFrameBuffer() override;
-            void present() override;
+            void resizeFrameBuffer() final;
+            void present() final;
 
             bool handleWindow(const WindowEvent& event);
 

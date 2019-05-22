@@ -54,12 +54,12 @@ namespace ouzel
         class CoreAudioErrorCategory final: public std::error_category
         {
         public:
-            const char* name() const noexcept override
+            const char* name() const noexcept final
             {
                 return "CoreAudio";
             }
 
-            std::string message(int condition) const override
+            std::string message(int condition) const final
             {
                 switch (condition)
                 {

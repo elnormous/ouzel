@@ -41,7 +41,7 @@ namespace ouzel
                        PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
             ~OGLTexture();
 
-            void reload() override;
+            void reload() final;
 
             void setData(const std::vector<Texture::Level>& newLevels);
             void setFilter(Texture::Filter newFilter);

@@ -17,7 +17,7 @@ namespace ouzel
                             const std::string& newTitle);
         ~NativeWindowAndroid();
 
-        void executeCommand(const Command& command) override;
+        void executeCommand(const Command& command) final;
 
         void handleResize(const Size2U& newSize);
         void handleSurfaceChange(jobject surface);

@@ -28,7 +28,7 @@ namespace ouzel
             explicit InputSystemTVOS(const std::function<std::future<bool>(const Event&)>& initCallback);
             ~InputSystemTVOS();
 
-            void executeCommand(const Command& command) override;
+            void executeCommand(const Command& command) final;
 
             inline KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
 

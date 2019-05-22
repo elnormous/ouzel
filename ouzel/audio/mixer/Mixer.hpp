@@ -24,7 +24,7 @@ namespace ouzel
             class RootObject final: public Object
             {
             public:
-                void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
+                void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) final
                 {
                     samples.resize(frames * channels);
                     std::fill(samples.begin(), samples.end(), 0.0F);

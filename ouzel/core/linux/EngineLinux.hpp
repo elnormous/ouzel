@@ -21,9 +21,9 @@ namespace ouzel
 
         void run();
 
-        void openURL(const std::string& url) override;
+        void openURL(const std::string& url) final;
 
-        void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
+        void setScreenSaverEnabled(bool newScreenSaverEnabled) final;
 
 #if OUZEL_SUPPORTS_X11
         inline Display* getDisplay() const { return display; }
@@ -32,7 +32,7 @@ namespace ouzel
 #endif
 
     private:
-        void runOnMainThread(const std::function<void()>& func) override;
+        void runOnMainThread(const std::function<void()>& func) final;
         void executeAll();
 
         std::queue<std::function<void()>> executeQueue;

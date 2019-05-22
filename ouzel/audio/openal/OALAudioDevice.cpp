@@ -32,12 +32,12 @@ namespace ouzel
         class ALCErrorCategory final: public std::error_category
         {
         public:
-            const char* name() const noexcept override
+            const char* name() const noexcept final
             {
                 return "ALC";
             }
 
-            std::string message(int condition) const override
+            std::string message(int condition) const final
             {
                 switch (condition)
                 {
@@ -56,12 +56,12 @@ namespace ouzel
         class OpenALErrorCategory final: public std::error_category
         {
         public:
-            const char* name() const noexcept override
+            const char* name() const noexcept final
             {
                 return "OpenAL";
             }
 
-            std::string message(int condition) const override
+            std::string message(int condition) const final
             {
                 switch (condition)
                 {

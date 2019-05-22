@@ -22,7 +22,7 @@ namespace ouzel
             InputSystemEm(const std::function<std::future<bool>(const Event&)>& initCallback);
             ~InputSystemEm() {}
 
-            void executeCommand(const Command& command) override;
+            void executeCommand(const Command& command) final;
 
             inline KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
             inline MouseDeviceEm* getMouseDevice() const { return mouseDevice.get(); }

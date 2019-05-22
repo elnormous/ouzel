@@ -35,8 +35,8 @@ namespace ouzel
                                                    std::vector<float>& samples)>& initDataGetter);
             ~CAAudioDevice();
 
-            void start() override;
-            void stop() override;
+            void start() final;
+            void stop() final;
 
             void outputCallback(AudioBufferList* ioData);
 
