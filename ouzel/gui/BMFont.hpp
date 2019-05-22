@@ -28,9 +28,8 @@ namespace ouzel
         private:
             int16_t getKerningPair(uint32_t, uint32_t);
 
-            class CharDescriptor
+            struct CharDescriptor final
             {
-            public:
                 int16_t x = 0;
                 int16_t y = 0;
                 int16_t width = 0;
