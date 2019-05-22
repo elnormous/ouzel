@@ -32,12 +32,12 @@ namespace ouzel
 
             void setScene(Scene* scene);
 
-            template<typename T> void setScene(const std::unique_ptr<T>& scene)
+            template <typename T> void setScene(const std::unique_ptr<T>& scene)
             {
                 setScene(scene.get());
             }
 
-            template<typename T> void setScene(std::unique_ptr<T>&& scene)
+            template <typename T> void setScene(std::unique_ptr<T>&& scene)
             {
                 setScene(scene.get());
                 ownedScenes.push_back(std::move(scene));
@@ -45,7 +45,7 @@ namespace ouzel
 
             bool removeScene(Scene* scene);
 
-            template<typename T> bool setScene(const std::unique_ptr<T>& scene)
+            template <typename T> bool setScene(const std::unique_ptr<T>& scene)
             {
                 return removeScene(scene.get());
             }

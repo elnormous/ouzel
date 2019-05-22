@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace utf8
     {
-        template<typename T>
+        template <typename T>
         inline std::vector<uint32_t> toUtf32(const T& text)
         {
             std::vector<uint32_t> result;

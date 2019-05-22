@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    template<class T> class Quaternion final
+    template <class T> class Quaternion final
     {
     public:
         T v[4]{0, 0, 0, 0};

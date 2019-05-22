@@ -11,7 +11,7 @@
 
 namespace ouzel
 {
-    template<size_t N, class T> class Vector final
+    template <size_t N, class T> class Vector final
     {
     public:
 #if defined(__SSE__)
@@ -23,13 +23,13 @@ namespace ouzel
         {
         }
 
-        template<typename ...A>
+        template <typename ...A>
         Vector(A... args):
             v{static_cast<T>(args)...}
         {
         }
 
-        template<size_t X = N, size_t N2, typename std::enable_if<(X != N2)>::type* = nullptr>
+        template <size_t X = N, size_t N2, typename std::enable_if<(X != N2)>::type* = nullptr>
         explicit Vector(const Vector<N2, T>& vec)
         {
             for (size_t i = 0; i < N && i < N2; ++i)
@@ -39,37 +39,37 @@ namespace ouzel
         inline T& operator[](size_t index) { return v[index]; }
         inline T operator[](size_t index) const { return v[index]; }
 
-        template<size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
         inline T& x() { return v[0]; }
 
-        template<size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
         inline T x() const { return v[0]; }
 
-        template<size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
         inline T& y() { return v[1]; }
 
-        template<size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
         inline T y() const { return v[1]; }
 
-        template<size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         inline T& z() { return v[2]; }
 
-        template<size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         inline T z() const { return v[2]; }
 
-        template<size_t X = N, typename std::enable_if<(X >= 4)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X >= 4)>::type* = nullptr>
         inline T& w() { return v[3]; }
 
-        template<size_t X = N, typename std::enable_if<(X >= 4)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X >= 4)>::type* = nullptr>
         inline T w() const { return v[3]; }
 
-        template<size_t X = N, typename std::enable_if<(X == 2)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X == 2)>::type* = nullptr>
         inline T getAngle() const
         {
             return atan2(v[1], v[0]);
         }
 
-        template<size_t X = N, typename std::enable_if<(X == 3)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X == 3)>::type* = nullptr>
         inline T getAngle(const Vector& axis) const
         {
             T dx = axis.v[0] - v[0] - v[1] * axis.v[2] + v[2] * axis.v[1];
@@ -79,7 +79,7 @@ namespace ouzel
             return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
-        template<size_t X = N, typename std::enable_if<(X == 4)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X == 4)>::type* = nullptr>
         inline T getAngle(const Vector& axis) const
         {
             T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
@@ -96,7 +96,7 @@ namespace ouzel
                 else if (v[i] > max.v[i]) v[i] = max.v[i];
         }
 
-        template<size_t X = N, typename std::enable_if<(X == 3)>::type* = nullptr>
+        template <size_t X = N, typename std::enable_if<(X == 3)>::type* = nullptr>
         Vector cross(const Vector& vec) const
         {
             return Vector((v[1] * vec.v[2]) - (v[2] * vec.v[1]),
@@ -285,7 +285,7 @@ namespace ouzel
         }
     };
 
-    template<size_t N, class T>
+    template <size_t N, class T>
     inline const Vector<N, T> operator*(T scalar, const Vector<N, T>& vec)
     {
         Vector<N, T> result = vec;

@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    template<size_t N, class T> class Box final
+    template <size_t N, class T> class Box final
     {
     public:
         Vector<N, T> min;
@@ -29,7 +29,7 @@ namespace ouzel
         {
         }
 
-        template<size_t N2>
+        template <size_t N2>
         explicit Box(const Box<N2, T>& box):
             min(Vector<N, T>(box.min)), max(Vector<N, T>(box.max))
         {

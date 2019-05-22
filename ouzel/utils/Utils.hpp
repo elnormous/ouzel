@@ -17,13 +17,13 @@ namespace ouzel
 {
     extern std::mt19937 randomEngine;
 
-    template<typename T>
+    template <typename T>
     inline size_t getVectorSize(const typename std::vector<T>& vec)
     {
         return sizeof(T) * vec.size();
     }
 
-    template<class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T decodeBigEndian(const void* buffer)
     {
         const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
@@ -35,7 +35,7 @@ namespace ouzel
         return result;
     }
 
-    template<class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T decodeLittleEndian(const void* buffer)
     {
         const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
@@ -47,7 +47,7 @@ namespace ouzel
         return result;
     }
 
-    template<class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline void encodeBigEndian(void* buffer, T value)
     {
         uint8_t* bytes = static_cast<uint8_t*>(buffer);
@@ -56,7 +56,7 @@ namespace ouzel
             bytes[i] = static_cast<uint8_t>(value >> ((sizeof(T) - i - 1) * 8));
     }
 
-    template<class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T encodeLittleEndian(void* buffer, T value)
     {
         uint8_t* bytes = static_cast<uint8_t*>(buffer);
@@ -65,7 +65,7 @@ namespace ouzel
             bytes[i] = static_cast<uint8_t>(value >> (i * 8));
     }
 
-    template<typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     std::string hexToString(T n, size_t len = 0)
     {
         static constexpr const char* digits = "0123456789ABCDEF";

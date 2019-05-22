@@ -41,36 +41,36 @@ namespace ouzel
     constexpr bool isSimdAvailable = false;
 #endif
 
-    template<typename T>
+    template <typename T>
     constexpr T tau()
     {
         return static_cast<T>(6.28318530717958647692);
     }
 
-    template<typename T>
+    template <typename T>
     constexpr T pi()
     {
         return static_cast<T>(3.14159265358979323846);
     }
 
-    template<typename T> inline T lerp(T v0, T v1, T t)
+    template <typename T> inline T lerp(T v0, T v1, T t)
     {
         return (1 - t) * v0 + t * v1;
     }
 
-    template<typename T> inline T smoothStep(T a, T b, T t)
+    template <typename T> inline T smoothStep(T a, T b, T t)
     {
         T remapSmoothStep = t * t * (3 - 2 * t);
         return lerp(a, b, remapSmoothStep);
     }
 
-    template<typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline bool isPowerOfTwo(T x)
     {
         return (x != 0) && (((x - 1) & x) == 0);
     }
 
-    template<typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T nextPowerOfTwo(T x)
     {
         if (x != 0)
@@ -82,22 +82,22 @@ namespace ouzel
         return ++x;
     }
 
-    template<typename T> inline int sgn(T val)
+    template <typename T> inline int sgn(T val)
     {
         return (T(0) < val) - (val < T(0));
     }
 
-    template<typename T> inline T degToRad(T x)
+    template <typename T> inline T degToRad(T x)
     {
         return static_cast<T>(x * 0.01745329252);
     }
 
-    template<typename T> inline T radToDeg(T x)
+    template <typename T> inline T radToDeg(T x)
     {
         return static_cast<T>(x * 57.295779513);
     }
 
-    template<typename T>
+    template <typename T>
     inline T clamp(T x, T lo, T hi)
     {
         return (x < lo) ? lo : ((x > hi) ? hi : x);
@@ -118,7 +118,7 @@ namespace ouzel
         return hash;
     }
 
-    template<class T>
+    template <class T>
     inline bool isNearlyEqual(T a, T b, T tolerance = std::numeric_limits<T>::min())
     {
         return fabs(a - b) <= tolerance;

@@ -74,35 +74,35 @@ namespace ouzel
 
         ~Log();
 
-        template<typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
         Log& operator<<(T val)
         {
             s += std::to_string(val);
             return *this;
         }
 
-        template<typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
         Log& operator<<(T val)
         {
             s += val ? "true" : "false";
             return *this;
         }
 
-        template<typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
         Log& operator<<(const T& val)
         {
             s += val;
             return *this;
         }
 
-        template<typename T, typename std::enable_if<std::is_same<T, char>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if<std::is_same<T, char>::value>::type* = nullptr>
         Log& operator<<(const T* val)
         {
             s += val;
             return *this;
         }
 
-        template<typename T, typename std::enable_if<!std::is_same<T, char>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if<!std::is_same<T, char>::value>::type* = nullptr>
         Log& operator<<(const T* val)
         {
             static constexpr const char* digits = "0123456789ABCDEF";
@@ -115,7 +115,7 @@ namespace ouzel
             return *this;
         }
 
-        template<typename T, typename std::enable_if<std::is_same<T, std::vector<uint8_t>>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if<std::is_same<T, std::vector<uint8_t>>::value>::type* = nullptr>
         Log& operator<<(const T& val)
         {
             bool first = true;
@@ -133,7 +133,7 @@ namespace ouzel
             return *this;
         }
 
-        template<typename T, typename std::enable_if<std::is_same<T, std::vector<std::string>>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if<std::is_same<T, std::vector<std::string>>::value>::type* = nullptr>
         Log& operator<<(const T& val)
         {
             bool first = true;
@@ -148,7 +148,7 @@ namespace ouzel
             return *this;
         }
 
-        template<size_t N, size_t M, class T>
+        template <size_t N, size_t M, class T>
         Log& operator<<(const Matrix<N, M, T>& val)
         {
             bool first = true;
@@ -163,7 +163,7 @@ namespace ouzel
             return *this;
         }
 
-        template<class T>
+        template <class T>
         Log& operator<<(const Quaternion<T>& val)
         {
             s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
@@ -171,7 +171,7 @@ namespace ouzel
             return *this;
         }
 
-        template<size_t N, class T>
+        template <size_t N, class T>
         Log& operator<<(const Size<N, T>& val)
         {
             bool first = true;
@@ -185,7 +185,7 @@ namespace ouzel
             return *this;
         }
 
-        template<size_t N, class T>
+        template <size_t N, class T>
         Log& operator<<(const Vector<N, T>& val)
         {
             bool first = true;

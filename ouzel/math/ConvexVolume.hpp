@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    template<class T> class ConvexVolume final
+    template <class T> class ConvexVolume final
     {
     public:
         ConvexVolume() = default;

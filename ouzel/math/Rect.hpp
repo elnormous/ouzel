@@ -8,7 +8,7 @@
 
 namespace ouzel
 {
-    template<class T> class Rect final
+    template <class T> class Rect final
     {
     public:
         Vector<2, T> position;

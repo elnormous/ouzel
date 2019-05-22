@@ -11,7 +11,7 @@
 
 namespace ouzel
 {
-    template<class T> class Plane final
+    template <class T> class Plane final
     {
     public:
         T v[4]{0, 0, 0, 0};

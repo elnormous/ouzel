@@ -44,7 +44,7 @@
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
 
-template<typename T>
+template <typename T>
 static inline T getCoreProcAddress(const char* name)
 {
 #if OUZEL_OPENGL_INTERFACE_GLX
@@ -58,7 +58,7 @@ static inline T getCoreProcAddress(const char* name)
 #endif
 }
 
-template<typename T>
+template <typename T>
 static inline T getExtProcAddress(const char* name)
 {
 #if OUZEL_OPENGL_INTERFACE_EGL

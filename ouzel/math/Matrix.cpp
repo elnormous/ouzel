@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    template<size_t C, size_t R, class T>
+    template <size_t C, size_t R, class T>
     void Matrix<C, R, T>::add(T scalar, Matrix& dst)
     {
         dst.m[0] = m[0] + scalar;
@@ -30,7 +30,7 @@ namespace ouzel
         dst.m[15] = m[15] + scalar;
     }
 
-    template<>
+    template <>
     void Matrix<4, 4, float>::add(float scalar, Matrix& dst)
     {
         if (isSimdAvailable)
@@ -105,7 +105,7 @@ namespace ouzel
         }
     }
 
-    template<size_t C, size_t R, class T>
+    template <size_t C, size_t R, class T>
     void Matrix<C, R, T>::add(const Matrix& m1, const Matrix& m2, Matrix& dst)
     {
         dst.m[0] = m1.m[0] + m2.m[0];
@@ -126,7 +126,7 @@ namespace ouzel
         dst.m[15] = m1.m[15] + m2.m[15];
     }
 
-    template<>
+    template <>
     void Matrix<4, 4, float>::add(const Matrix& m1, const Matrix& m2, Matrix& dst)
     {
         if (isSimdAvailable)
@@ -198,7 +198,7 @@ namespace ouzel
         }
     }
 
-    template<size_t C, size_t R, class T>
+    template <size_t C, size_t R, class T>
     void Matrix<C, R, T>::invert(Matrix& dst) const
     {
         T a0 = m[0] * m[5] - m[1] * m[4];
@@ -244,7 +244,7 @@ namespace ouzel
         multiply(inverse, 1 / det, dst);
     }
 
-    template<size_t C, size_t R, class T>
+    template <size_t C, size_t R, class T>
     void Matrix<C, R, T>::multiply(const Matrix& m, T scalar, Matrix& dst)
     {
         dst.m[0] = m.m[0] * scalar;
@@ -265,7 +265,7 @@ namespace ouzel
         dst.m[15] = m.m[15] * scalar;
     }
 
-    template<>
+    template <>
     void Matrix<4, 4, float>::multiply(const Matrix& m, float scalar, Matrix& dst)
     {
         if (isSimdAvailable)
@@ -337,7 +337,7 @@ namespace ouzel
         }
     }
 
-    template<size_t C, size_t R, class T>
+    template <size_t C, size_t R, class T>
     void Matrix<C, R, T>::multiply(const Matrix& m1, const Matrix& m2, Matrix& dst)
     {
         T product[16];
@@ -365,7 +365,7 @@ namespace ouzel
         std::copy(std::begin(product), std::end(product), dst.m);
     }
 
-    template<>
+    template <>
     void Matrix<4, 4, float>::multiply(const Matrix& m1, const Matrix& m2, Matrix& dst)
     {
         if (isSimdAvailable)
@@ -551,7 +551,7 @@ namespace ouzel
         }
     }
 
-    template<size_t C, size_t R, class T>
+    template <size_t C, size_t R, class T>
     void Matrix<C, R, T>::negate(Matrix& dst) const
     {
         dst.m[0] = -m[0];
@@ -572,7 +572,7 @@ namespace ouzel
         dst.m[15] = -m[15];
     }
 
-    template<>
+    template <>
     void Matrix<4, 4, float>::negate(Matrix& dst) const
     {
         if (isSimdAvailable)
@@ -642,7 +642,7 @@ namespace ouzel
         }
     }
 
-    template<size_t C, size_t R, class T>
+    template <size_t C, size_t R, class T>
     void Matrix<C, R, T>::subtract(const Matrix& m1, const Matrix& m2, Matrix& dst)
     {
         dst.m[0] = m1.m[0] - m2.m[0];
@@ -663,7 +663,7 @@ namespace ouzel
         dst.m[15] = m1.m[15] - m2.m[15];
     }
 
-    template<>
+    template <>
     void Matrix<4, 4, float>::subtract(const Matrix& m1, const Matrix& m2, Matrix& dst)
     {
         if (isSimdAvailable)
@@ -735,7 +735,7 @@ namespace ouzel
         }
     }
 
-    template<size_t C, size_t R, class T>
+    template <size_t C, size_t R, class T>
     void Matrix<C, R, T>::transformVector(const Vector<4, T>& v, Vector<4, T>& dst) const
     {
         assert(&v != &dst);
@@ -745,7 +745,7 @@ namespace ouzel
         dst.v[3] = v.v[0] * m[3] + v.v[1] * m[7] + v.v[2] * m[11] + v.v[3] * m[15];
     }
 
-    template<>
+    template <>
     void Matrix<4, 4, float>::transformVector(const Vector<4, float>& v, Vector<4, float>& dst) const
     {
         if (isSimdAvailable)
@@ -810,7 +810,7 @@ namespace ouzel
         }
     }
 
-    template<size_t C, size_t R, class T>
+    template <size_t C, size_t R, class T>
     void Matrix<C, R, T>::transpose(Matrix& dst) const
     {
         T t[16] = {
@@ -822,7 +822,7 @@ namespace ouzel
         std::copy(std::begin(t), std::end(t), dst.m);
     }
 
-    template<>
+    template <>
     void Matrix<4, 4, float>::transpose(Matrix& dst) const
     {
         if (isSimdAvailable)

@@ -65,7 +65,7 @@ namespace ouzel
             ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
             void setFullscreen(bool newFullscreen);
 
-            template<class T>
+            template <class T>
             inline T* getResource(uintptr_t id) const
             {
                 return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
