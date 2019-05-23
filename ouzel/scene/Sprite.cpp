@@ -346,7 +346,12 @@ namespace ouzel
                 if (currentFrame >= currentAnimation->animation->frames.size()) currentFrame = currentAnimation->animation->frames.size() - 1;
 
                 Matrix4F modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
-                float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
+                float colorVector[] = {
+                    material->diffuseColor.normR(),
+                    material->diffuseColor.normG(),
+                    material->diffuseColor.normB(),
+                    material->diffuseColor.normA() * opacity * material->opacity
+                };
 
                 std::vector<std::vector<float>> fragmentShaderConstants(1);
                 fragmentShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};

@@ -892,16 +892,12 @@ namespace ouzel
                             GLbitfield clearMask = (clearCommand->clearColorBuffer ? GL_COLOR_BUFFER_BIT : 0) |
                                 (clearCommand->clearDepthBuffer ? GL_DEPTH_BUFFER_BIT : 0 |
                                 (clearCommand->clearStencilBuffer ? GL_STENCIL_BUFFER_BIT : 0));
-                            std::array<float, 4> clearColor = {clearCommand->clearColor.normR(),
-                                clearCommand->clearColor.normG(),
-                                clearCommand->clearColor.normB(),
-                                clearCommand->clearColor.normA()};
 
                             if (clearMask)
                             {
                                 if (clearCommand->clearColorBuffer)
                                 {
-                                    setClearColorValue(clearColor);
+                                    setClearColorValue(clearCommand->clearColor.norm());
                                     glColorMaskProc(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
                                 }
 

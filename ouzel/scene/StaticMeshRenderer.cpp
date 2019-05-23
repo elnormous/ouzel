@@ -95,7 +95,12 @@ namespace ouzel
                             wireframe);
 
             Matrix4F modelViewProj = renderViewProjection * transformMatrix;
-            float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
+            float colorVector[] = {
+                material->diffuseColor.normR(),
+                material->diffuseColor.normG(),
+                material->diffuseColor.normB(),
+                material->diffuseColor.normA() * opacity * material->opacity
+            };
 
             std::vector<std::vector<float>> fragmentShaderConstants(1);
             fragmentShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};

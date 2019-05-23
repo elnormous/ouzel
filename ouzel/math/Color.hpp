@@ -5,6 +5,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <array>
 #include <string>
 #include "Vector.hpp"
 
@@ -141,6 +142,10 @@ namespace ouzel
         inline uint8_t& a() { return v[3]; }
         inline uint8_t a() const { return v[3]; }
 
+        inline std::array<float, 4> norm() const
+        {
+            return {v[0] / 255.0F, v[1] / 255.0F, v[2] / 255.0F, v[3] / 255.0F};
+        }
         inline float normR() const { return v[0] / 255.0F; }
         inline float normG() const { return v[1] / 255.0F; }
         inline float normB() const { return v[2] / 255.0F; }
