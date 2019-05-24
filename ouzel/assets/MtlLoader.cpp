@@ -79,7 +79,7 @@ namespace ouzel
         }
 
         static float parseFloat(const std::vector<uint8_t>& str,
-                               std::vector<uint8_t>::const_iterator& iterator)
+                                std::vector<uint8_t>::const_iterator& iterator)
         {
             float result;
             std::string value;

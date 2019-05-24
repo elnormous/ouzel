@@ -158,7 +158,7 @@ namespace ouzel
                 newSpriteData.texture = getTexture(filename);
 
                 const Size2F textureSize(static_cast<float>(newSpriteData.texture->getSize().v[0]),
-                                               static_cast<float>(newSpriteData.texture->getSize().v[1]));
+                                         static_cast<float>(newSpriteData.texture->getSize().v[1]));
 
                 if (newSpriteData.texture)
                 {
@@ -173,9 +173,9 @@ namespace ouzel
                         for (uint32_t y = 0; y < spritesY; ++y)
                         {
                             RectF rectangle(spriteSize.v[0] * x,
-                                                  spriteSize.v[1] * y,
-                                                  spriteSize.v[0],
-                                                  spriteSize.v[1]);
+                                            spriteSize.v[1] * y,
+                                            spriteSize.v[0],
+                                            spriteSize.v[1]);
 
                             scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, textureSize, rectangle, false, spriteSize, Vector2F(), pivot);
                             animation.frames.push_back(frame);
