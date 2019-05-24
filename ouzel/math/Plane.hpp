@@ -16,9 +16,7 @@ namespace ouzel
     public:
         T v[4]{0};
 
-        Plane()
-        {
-        }
+        Plane() = default;
 
         Plane(T a, T b, T c, T d):
             v{a, b, c, d}

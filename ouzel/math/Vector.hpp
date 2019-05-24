@@ -19,9 +19,7 @@ namespace ouzel
 #endif
         T v[N]{0};
 
-        Vector()
-        {
-        }
+        Vector() = default;
 
         template <typename ...A>
         Vector(A... args):

@@ -13,9 +13,7 @@ namespace ouzel
     public:
         T v[N]{0};
 
-        Size()
-        {
-        }
+        Size() = default;
 
         template <typename ...A>
         Size(A... args):

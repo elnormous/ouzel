@@ -14,9 +14,7 @@ namespace ouzel
         Vector<2, T> position;
         Size<2, T> size;
 
-        Rect()
-        {
-        }
+        Rect() = default;
 
         Rect(T width, T height):
             size(width, height)

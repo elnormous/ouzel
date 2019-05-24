@@ -13,19 +13,12 @@ namespace ouzel
     template <class T> class Quaternion final
     {
     public:
-        T v[4]{0, 0, 0, 0};
+        T v[4]{0};
 
-        Quaternion()
-        {
-        }
+        Quaternion() = default;
 
         Quaternion(T x, T y, T z, T w):
             v{x, y, z, w}
-        {
-        }
-
-        Quaternion(const Quaternion& copy):
-            v{copy.v[0], copy.v[1], copy.v[2], copy.v[3]}
         {
         }
 
