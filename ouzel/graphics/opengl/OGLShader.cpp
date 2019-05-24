@@ -47,7 +47,7 @@ namespace ouzel
             compileShader();
         }
 
-        std::string OGLShader::getShaderMessage(GLuint shaderId)
+        std::string OGLShader::getShaderMessage(GLuint shaderId) const
         {
             GLint logLength = 0;
             renderDevice.glGetShaderivProc(shaderId, GL_INFO_LOG_LENGTH, &logLength);
@@ -63,7 +63,7 @@ namespace ouzel
             return std::string();
         }
 
-        std::string OGLShader::getProgramMessage()
+        std::string OGLShader::getProgramMessage() const
         {
             GLint logLength = 0;
             renderDevice.glGetProgramivProc(programId, GL_INFO_LOG_LENGTH, &logLength);

@@ -3,6 +3,9 @@
 #include <stdexcept>
 #include "Localization.hpp"
 
+static constexpr uint32_t MAGIC_BIG = 0xde120495;
+static constexpr uint32_t MAGIC_LITTLE = 0x950412de;
+
 namespace ouzel
 {
     struct TranslationInfo final
@@ -16,9 +19,6 @@ namespace ouzel
 
     Language::Language(const std::vector<uint8_t>& data)
     {
-        constexpr uint32_t MAGIC_BIG = 0xde120495;
-        constexpr uint32_t MAGIC_LITTLE = 0x950412de;
-
         uint32_t offset = 0;
 
         if (data.size() < 5 * sizeof(uint32_t))

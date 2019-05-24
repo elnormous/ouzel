@@ -60,8 +60,8 @@ namespace ouzel
 
         private:
             void compileShader();
-            std::string getShaderMessage(GLuint shaderId);
-            std::string getProgramMessage();
+            std::string getShaderMessage(GLuint shaderId) const;
+            std::string getProgramMessage() const;
 
             std::vector<uint8_t> fragmentShaderData;
             std::vector<uint8_t> vertexShaderData;
