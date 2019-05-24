@@ -116,7 +116,7 @@ namespace ouzel
 
             inline const std::map<std::string, SpriteData::Animation>& getAnimations() const { return animations; }
             inline const SpriteData::Animation* getAnimation() const { return currentAnimation->animation; }
-            inline std::string getAnimationName() const { return currentAnimation->animation->name; }
+            inline const std::string& getAnimationName() const { return currentAnimation->animation->name; }
             bool hasAnimation(const std::string& animation) const;
             void setAnimation(const std::string& newAnimation, bool repeat = true);
             void addAnimation(const std::string& newAnimation, bool repeat = true);
