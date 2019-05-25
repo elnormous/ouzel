@@ -84,7 +84,7 @@ namespace ouzel
                      bool newExclusiveFullscreen,
                      const std::string& newTitle,
                      bool newHighDpi);
-        virtual ~NativeWindow() {}
+        virtual ~NativeWindow() = default;
 
         NativeWindow(const NativeWindow&) = delete;
         NativeWindow& operator=(const NativeWindow&) = delete;

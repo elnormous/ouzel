@@ -32,7 +32,7 @@ namespace ouzel
         };
 
         System();
-        virtual ~System() {}
+        virtual ~System() = default;
     };
 }
 

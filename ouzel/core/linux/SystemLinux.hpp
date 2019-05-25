@@ -10,7 +10,7 @@ namespace ouzel
     class SystemLinux final: public System
     {
     public:
-        ~SystemLinux() {}
+        ~SystemLinux() = default;
     };
 }
 

@@ -21,7 +21,7 @@ namespace ouzel
             {
             }
 
-            virtual ~D3D11RenderResource() {}
+            virtual ~D3D11RenderResource() = default;
 
             D3D11RenderResource(const D3D11RenderResource&) = delete;
             D3D11RenderResource& operator=(const D3D11RenderResource&) = delete;

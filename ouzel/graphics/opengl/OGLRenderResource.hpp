@@ -20,7 +20,7 @@ namespace ouzel
                 renderDevice(initRenderDevice)
             {
             }
-            virtual ~OGLRenderResource() {}
+            virtual ~OGLRenderResource() = default;
 
             OGLRenderResource(const OGLRenderResource&) = delete;
             OGLRenderResource& operator=(const OGLRenderResource&) = delete;

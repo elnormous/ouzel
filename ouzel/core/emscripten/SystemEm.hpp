@@ -10,7 +10,7 @@ namespace ouzel
     class SystemEm final: public System
     {
     public:
-        ~SystemEm() {}
+        ~SystemEm() = default;
     };
 }
 

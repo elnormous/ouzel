@@ -10,7 +10,7 @@ namespace ouzel
     class SystemMacOS final: public System
     {
     public:
-        ~SystemMacOS() {}
+        ~SystemMacOS() = default;
     };
 }
 

@@ -20,7 +20,7 @@ namespace ouzel
         {
         public:
             InputSystemEm(const std::function<std::future<bool>(const Event&)>& initCallback);
-            ~InputSystemEm() {}
+            ~InputSystemEm() = default;
 
             void executeCommand(const Command& command) final;
 

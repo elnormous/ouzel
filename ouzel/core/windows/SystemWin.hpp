@@ -10,7 +10,7 @@ namespace ouzel
     class SystemWin final: public System
     {
     public:
-        ~SystemWin() {}
+        ~SystemWin() = default;
     };
 }
 

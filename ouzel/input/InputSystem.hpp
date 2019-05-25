@@ -127,7 +127,7 @@ namespace ouzel
             };
 
             explicit InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
-            virtual ~InputSystem() {}
+            virtual ~InputSystem() = default;
 
             void addCommand(const Command& command);
             virtual void executeCommand(const Command&) {}

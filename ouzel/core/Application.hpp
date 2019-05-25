@@ -8,7 +8,7 @@ namespace ouzel
     class Application
     {
     public:
-        virtual ~Application() {}
+        virtual ~Application() = default;
     };
 }
 

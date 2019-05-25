@@ -10,7 +10,7 @@ namespace ouzel
     class SystemAndroid final: public System
     {
     public:
-        ~SystemAndroid() {}
+        ~SystemAndroid() = default;
     };
 }
 

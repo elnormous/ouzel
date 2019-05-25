@@ -23,7 +23,7 @@ namespace ouzel
             Controller(InputManager& initInputManager, Type initType, uint32_t initDeviceId):
                 inputManager(initInputManager), type(initType), deviceId(initDeviceId)
             {}
-            virtual ~Controller() {}
+            virtual ~Controller() = default;
 
             inline Type getType() const { return type; }
             inline uint32_t getDeviceId() const { return deviceId; }

@@ -10,7 +10,7 @@ namespace ouzel
     class SystemTVOS final: public System
     {
     public:
-        ~SystemTVOS() {}
+        ~SystemTVOS() = default;
     };
 }
 

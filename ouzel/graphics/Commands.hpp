@@ -57,7 +57,7 @@ namespace ouzel
             {
             }
 
-            virtual ~Command() {}
+            virtual ~Command() = default;
 
             const Type type;
         };

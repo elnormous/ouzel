@@ -21,7 +21,7 @@ namespace ouzel
             {
             }
 
-            virtual ~MetalRenderResource() {}
+            virtual ~MetalRenderResource() = default;
 
             MetalRenderResource(const MetalRenderResource&) = delete;
             MetalRenderResource& operator=(const MetalRenderResource&) = delete;

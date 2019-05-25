@@ -10,7 +10,7 @@ namespace ouzel
     class SystemIOS final: public System
     {
     public:
-        ~SystemIOS() {}
+        ~SystemIOS() = default;
     };
 }
 
