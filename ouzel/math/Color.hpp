@@ -142,7 +142,7 @@ namespace ouzel
 
         inline std::array<float, 4> norm() const
         {
-            return {v[0] / 255.0F, v[1] / 255.0F, v[2] / 255.0F, v[3] / 255.0F};
+            return {{v[0] / 255.0F, v[1] / 255.0F, v[2] / 255.0F, v[3] / 255.0F}};
         }
         inline float normR() const { return v[0] / 255.0F; }
         inline float normG() const { return v[1] / 255.0F; }
