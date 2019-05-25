@@ -189,9 +189,9 @@ namespace ouzel
         Vector3F Camera::convertNormalizedToWorld(const Vector2F& normalizedPosition) const
         {
             // convert window normalized to viewport clip position
-            Vector3F result = Vector3F(((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5F) * 2.0F,
-                                     (((1.0F - normalizedPosition.v[1]) - viewport.position.v[1]) / viewport.size.v[1] - 0.5F) * 2.0F,
-                                     0.0F);
+            Vector3F result = Vector3F{((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5F) * 2.0F,
+                                       (((1.0F - normalizedPosition.v[1]) - viewport.position.v[1]) / viewport.size.v[1] - 0.5F) * 2.0F,
+                                       0.0F};
 
             getInverseViewProjection().transformPoint(result);
 

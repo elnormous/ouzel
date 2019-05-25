@@ -188,7 +188,7 @@ namespace ouzel
 
             Vector3F position;
             QuaternionF rotation = QuaternionF::identity();
-            Vector3F scale = Vector3F(1.0F, 1.0F, 1.0F);
+            Vector3F scale = Vector3F{1.0F, 1.0F, 1.0F};
             float opacity = 1.0F;
             int32_t order = 0;
             int32_t worldOrder = 0;

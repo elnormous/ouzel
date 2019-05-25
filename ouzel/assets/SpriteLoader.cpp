@@ -107,13 +107,13 @@ namespace ouzel
                         const json::Value& vertexObject = verticesObject[vertexIndex];
                         const json::Value& vertexUVObject = verticesUVObject[vertexIndex];
 
-                        vertices.push_back(graphics::Vertex(Vector3F(static_cast<float>(vertexObject[0].as<int32_t>()) + finalOffset.v[0],
+                        vertices.push_back(graphics::Vertex(Vector3F{static_cast<float>(vertexObject[0].as<int32_t>()) + finalOffset.v[0],
                                                                      -static_cast<float>(vertexObject[1].as<int32_t>()) - finalOffset.v[1],
-                                                                     0.0F),
+                                                                     0.0F},
                                                             Color::WHITE,
-                                                            Vector2F(static_cast<float>(vertexUVObject[0].as<int32_t>()) / textureSize.v[0],
-                                                                     static_cast<float>(vertexUVObject[1].as<int32_t>()) / textureSize.v[1]),
-                                                            Vector3F(0.0F, 0.0F, -1.0F)));
+                                                            Vector2F{static_cast<float>(vertexUVObject[0].as<int32_t>()) / textureSize.v[0],
+                                                                     static_cast<float>(vertexUVObject[1].as<int32_t>()) / textureSize.v[1]},
+                                                            Vector3F{0.0F, 0.0F, -1.0F}));
                     }
 
                     animation.frames.push_back(scene::SpriteData::Frame(filename, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));

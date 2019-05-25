@@ -51,10 +51,21 @@ namespace ouzel
             {
                 if (event.axis[i] != axis[i])
                 {
-                    if (i == 0) handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
-                    else if (i == 1) handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
-                    else if (i == 2) handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
-                    else if (i == 3) handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
+                    switch (i)
+                    {
+                        case 0:
+                            handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::LEFT_THUMB_LEFT, Gamepad::Button::LEFT_THUMB_RIGHT);
+                            break;
+                        case 1:
+                            handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::LEFT_THUMB_UP, Gamepad::Button::LEFT_THUMB_DOWN);
+                            break;
+                        case 2:
+                            handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::RIGHT_THUMB_LEFT, Gamepad::Button::RIGHT_THUMB_RIGHT);
+                            break;
+                        case 3:
+                            handleThumbAxisChange(event.axis[i], axis[i], Gamepad::Button::RIGHT_THUMB_UP, Gamepad::Button::RIGHT_THUMB_DOWN);
+                            break;
+                    }
 
                     axis[i] = event.axis[i];
                 }

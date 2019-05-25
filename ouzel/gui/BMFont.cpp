@@ -401,14 +401,14 @@ namespace ouzel
                     textCoords[2] = Vector2F(leftTop.v[0], leftTop.v[1]);
                     textCoords[3] = Vector2F(rightBottom.v[0], leftTop.v[1]);
 
-                    vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.xOffset, -position.v[1] - f.yOffset - f.height, 0.0F),
-                                                        color, textCoords[0], Vector3F(0.0F, 0.0F, -1.0F)));
-                    vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset - f.height, 0.0F),
-                                                        color, textCoords[1], Vector3F(0.0F, 0.0F, -1.0F)));
-                    vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.xOffset, -position.v[1] - f.yOffset, 0.0F),
-                                                        color, textCoords[2], Vector3F(0.0F, 0.0F, -1.0F)));
-                    vertices.push_back(graphics::Vertex(Vector3F(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset, 0.0F),
-                                                        color, textCoords[3], Vector3F(0.0F, 0.0F, -1.0F)));
+                    vertices.push_back(graphics::Vertex(Vector3F{position.v[0] + f.xOffset, -position.v[1] - f.yOffset - f.height, 0.0F},
+                                                        color, textCoords[0], Vector3F{0.0F, 0.0F, -1.0F}));
+                    vertices.push_back(graphics::Vertex(Vector3F{position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset - f.height, 0.0F},
+                                                        color, textCoords[1], Vector3F{0.0F, 0.0F, -1.0F}));
+                    vertices.push_back(graphics::Vertex(Vector3F{position.v[0] + f.xOffset, -position.v[1] - f.yOffset, 0.0F},
+                                                        color, textCoords[2], Vector3F{0.0F, 0.0F, -1.0F}));
+                    vertices.push_back(graphics::Vertex(Vector3F{position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset, 0.0F},
+                                                        color, textCoords[3], Vector3F{0.0F, 0.0F, -1.0F}));
 
                     if ((i + 1) != utf32Text.end())
                         position.v[0] += static_cast<float>(getKerningPair(*i, *(i + 1)));

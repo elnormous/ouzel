@@ -320,7 +320,7 @@ namespace ouzel
         void Actor::setRotation(float newRotation)
         {
             QuaternionF roationQuaternion;
-            roationQuaternion.rotate(newRotation, Vector3F(0.0F, 0.0F, 1.0F));
+            roationQuaternion.rotate(newRotation, Vector3F{0.0F, 0.0F, 1.0F});
 
             rotation = roationQuaternion;
 
@@ -455,9 +455,9 @@ namespace ouzel
 
             localTransform *= rotationMatrix;
 
-            Vector3F finalScale = Vector3F(scale.v[0] * (flipX ? -1.0F : 1.0F),
+            Vector3F finalScale = Vector3F{scale.v[0] * (flipX ? -1.0F : 1.0F),
                                            scale.v[1] * (flipY ? -1.0F : 1.0F),
-                                           scale.v[2]);
+                                           scale.v[2]};
 
             Matrix4F scaleMatrix;
             scaleMatrix.setScale(finalScale);
