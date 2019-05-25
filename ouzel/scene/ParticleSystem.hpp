@@ -88,7 +88,7 @@ namespace ouzel
             bool yCoordFlipped = false;
             bool rotationIsDir = false;
 
-            Vector2F gravity = Vector2F(0.0F, 0.0F);
+            Vector2F gravity = Vector2F{0.0F, 0.0F};
 
             float startColorRed = 0.0F;
             float startColorGreen = 0.0F;

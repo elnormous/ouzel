@@ -201,7 +201,7 @@ namespace ouzel
 
                 RectF rectangle(0.0F, 0.0F, size.v[0], size.v[1]);
 
-                SpriteData::Frame frame = SpriteData::Frame("", size, rectangle, false, size, Vector2F(), Vector2F(0.5F, 0.5F));
+                SpriteData::Frame frame = SpriteData::Frame("", size, rectangle, false, size, Vector2F(), Vector2F{0.5F, 0.5F});
                 animation.frames.push_back(frame);
 
                 animations[""] = std::move(animation);

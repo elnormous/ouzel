@@ -124,9 +124,9 @@ namespace ouzel
             }
             else
             {
-                contentScale = Vector2F(1.0F, 1.0F);
+                contentScale = Vector2F{1.0F, 1.0F};
                 contentSize = Size2F(renderViewport.size.v[0], renderViewport.size.v[1]);
-                contentPosition = Vector2F(0.0F, 0.0F);
+                contentPosition = Vector2F{0.0F, 0.0F};
             }
 
             switch (projectionMode)
