@@ -76,7 +76,7 @@ namespace ouzel
                                         newSize,
                                         flags & FULLSCREEN,
                                         newTitle,
-                                        newHighDpi)),
+                                        flags & HIGH_DPI)),
 #else
         nativeWindow(new NativeWindow(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                       newSize,

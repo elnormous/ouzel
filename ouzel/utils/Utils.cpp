@@ -48,11 +48,13 @@ namespace ouzel
 #else
 #  ifdef __APPLE__
         int error = pthread_setname_np(name.c_str());
-#  elif defined(__linux__)
-        int error = pthread_setname_np(pthread_self(), name.c_str());
-#  endif
         if (error != 0)
             throw std::system_error(error, std::system_category(), "Failed to set thread name");
+#  elif defined(__linux__)
+        int error = pthread_setname_np(pthread_self(), name.c_str());
+        if (error != 0)
+            throw std::system_error(error, std::system_category(), "Failed to set thread name");
+#  endif
 #endif
     }
 
