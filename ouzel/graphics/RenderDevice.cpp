@@ -19,6 +19,10 @@ namespace ouzel
                                    const std::function<void(const Event&)>& initCallback):
             driver(initDriver),
             callback(initCallback),
+            npotTexturesSupported(false),
+            anisotropicFilteringSupported(false),
+            renderTargetsSupported(false),
+            clampToBorderSupported(false),
             projectionTransform(Matrix4F::identity()),
             renderTargetProjectionTransform(Matrix4F::identity())
         {

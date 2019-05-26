@@ -142,6 +142,10 @@ namespace ouzel
                                newStencil,
                                newDebugRenderer);
 
+            anisotropicFilteringSupported = true;
+            renderTargetsSupported = true;
+            clampToBorderSupported = true;
+
             UINT deviceCreationFlags = 0;
 
             if (debugRenderer)
@@ -161,8 +165,8 @@ namespace ouzel
                                               &context)))
                 throw std::system_error(hr, direct3D11ErrorCategory, "Failed to create the Direct3D 11 device");
 
-            if (featureLevel < D3D_FEATURE_LEVEL_10_0)
-                npotTexturesSupported = false;
+            if (featureLevel >= D3D_FEATURE_LEVEL_10_0)
+                npotTexturesSupported = true;
 
             IDXGIDevice* dxgiDevice;
             IDXGIFactory* factory;

@@ -74,6 +74,14 @@ static inline T getExtProcAddress(const char* name)
 #endif
 }
 
+static constexpr bool isVersionGreaterOrEqual(uint16_t majorVersion, uint16_t minorVersion,
+                                              uint16_t checkMajorVersion, uint16_t checkMinorVersion)
+{
+    return (majorVersion == checkMajorVersion) ?
+        (minorVersion >= checkMinorVersion) :
+        (majorVersion > checkMajorVersion);
+}
+
 namespace ouzel
 {
     namespace graphics
@@ -387,6 +395,9 @@ namespace ouzel
             glGenTexturesProc = getCoreProcAddress<PFNGLGENTEXTURESPROC>("glGenTextures");
             glDeleteTexturesProc = getCoreProcAddress<PFNGLDELETETEXTURESPROC>("glDeleteTextures");
             glTexParameteriProc = getCoreProcAddress<PFNGLTEXPARAMETERIPROC>("glTexParameteri");
+            glTexParameterivProc = getCoreProcAddress<PFNGLTEXPARAMETERIVPROC>("glTexParameteriv");
+            glTexParameterfProc = getCoreProcAddress<PFNGLTEXPARAMETERFPROC>("glTexParameterf");
+            glTexParameterfvProc = getCoreProcAddress<PFNGLTEXPARAMETERFVPROC>("glTexParameterfv");
             glTexImage2DProc = getCoreProcAddress<PFNGLTEXIMAGE2DPROC>("glTexImage2D");
             glTexSubImage2DProc = getCoreProcAddress<PFNGLTEXSUBIMAGE2DPROC>("glTexSubImage2D");
             glViewportProc = getCoreProcAddress<PFNGLVIEWPORTPROC>("glViewport");
@@ -481,7 +492,7 @@ namespace ouzel
 
             std::vector<std::string> extensions;
 
-            if (apiMajorVersion >= 3)
+            if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 3, 0))
             {
                 glGetStringiProc = getExtProcAddress<PFNGLGETSTRINGIPROC>("glGetStringi");
 
@@ -512,23 +523,18 @@ namespace ouzel
 
             engine->log(Log::Level::ALL) << "Supported OpenGL extensions: " << extensions;
 
-            anisotropicFilteringSupported = false;
-            npotTexturesSupported = false;
             bool multisamplingSupported = false;
             textureBaseLevelSupported = false;
             textureMaxLevelSupported = false;
-            renderTargetsSupported = false;
             uintElementIndexSupported = false;
 
-            if (apiMajorVersion >= 4)
+            if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 4, 0))
             {
 #if !OUZEL_OPENGLES
-                if ((apiMajorVersion == 4 && apiMinorVersion >= 6) || // at least OpenGL 4.6
-                    apiMajorVersion > 4)
+                if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 4, 6)) // at least OpenGL 4.6
                     anisotropicFilteringSupported = true;
 
-                if ((apiMajorVersion == 4 && apiMinorVersion >= 3) || // at least OpenGL 4.3
-                    apiMajorVersion > 4)
+                if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 4, 3)) // at least OpenGL 4.3
                 {
                     glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData");
                     glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
@@ -536,16 +542,16 @@ namespace ouzel
 #endif
             }
 
-            if (apiMajorVersion >= 3)
+            if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 3, 0))
             {
 #if OUZEL_OPENGLES
-                if ((apiMajorVersion == 3 && apiMinorVersion >= 1) || // at least OpenGL ES 3.1
-                    apiMajorVersion > 3)
+                if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 3, 1)) // at least OpenGL ES 3.1
                     glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
 #endif
                 npotTexturesSupported = true;
                 renderTargetsSupported = true;
                 multisamplingSupported = true;
+                clampToBorderSupported = true;
                 textureBaseLevelSupported = true;
                 textureMaxLevelSupported = true;
                 uintElementIndexSupported = true;
@@ -598,13 +604,20 @@ namespace ouzel
 #endif
             }
 
-            if (apiMajorVersion >= 2)
+            if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 2, 0))
             {
 #if !OUZEL_OPENGLES
                 renderTargetsSupported = true;
                 textureBaseLevelSupported = true;
                 textureMaxLevelSupported = true;
                 uintElementIndexSupported = true;
+#endif
+            }
+
+            if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 1, 3))
+            {
+#if !OUZEL_OPENGLES
+                clampToBorderSupported = true;
 #endif
             }
 
@@ -649,6 +662,8 @@ namespace ouzel
                 }
                 else if (extension == "OES_element_index_uint")
                     uintElementIndexSupported = true;
+                else if (extension == "GL_EXT_texture_border_clamp")
+                    clampToBorderSupported = true;
 #  if !OUZEL_OPENGL_INTERFACE_EAGL
                 else if (extension == "GL_EXT_copy_image")
                     glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAEXTPROC>("glCopyImageSubDataEXT");

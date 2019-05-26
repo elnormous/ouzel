@@ -561,7 +561,8 @@ namespace ouzel
             uint32_t previousHeight = newHeight;
             std::vector<float> previousData;
 
-            decode(size, data, pixelFormat, previousData);
+            if (!data.empty())
+                decode(size, data, pixelFormat, previousData);
 
             std::vector<float> newData;
             std::vector<uint8_t> encodedData;

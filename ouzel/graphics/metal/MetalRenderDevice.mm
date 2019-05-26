@@ -162,6 +162,10 @@ namespace ouzel
                                newStencil,
                                newDebugRenderer);
 
+            npotTexturesSupported = true;
+            anisotropicFilteringSupported = true;
+            renderTargetsSupported = true;
+
             inflightSemaphore = dispatch_semaphore_create(BUFFER_COUNT);
 
             device = MTLCreateSystemDefaultDevice();
@@ -174,9 +178,7 @@ namespace ouzel
 
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
             if ([device supportsFeatureSet:MTLFeatureSet_macOS_GPUFamily1_v2])
-            {
-                // TODO: supports clamp to border
-            }
+                clampToBorderSupported = true;
 #endif
 
             metalCommandQueue = [device newCommandQueue];

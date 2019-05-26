@@ -81,6 +81,9 @@ namespace ouzel
             PFNGLGENTEXTURESPROC glGenTexturesProc = nullptr;
             PFNGLDELETETEXTURESPROC glDeleteTexturesProc = nullptr;
             PFNGLTEXPARAMETERIPROC glTexParameteriProc = nullptr;
+            PFNGLTEXPARAMETERIVPROC glTexParameterivProc = nullptr;
+            PFNGLTEXPARAMETERFPROC glTexParameterfProc = nullptr;
+            PFNGLTEXPARAMETERFVPROC glTexParameterfvProc = nullptr;
             PFNGLTEXIMAGE2DPROC glTexImage2DProc = nullptr;
             PFNGLTEXSUBIMAGE2DPROC glTexSubImage2DProc = nullptr;
             PFNGLVIEWPORTPROC glViewportProc = nullptr;

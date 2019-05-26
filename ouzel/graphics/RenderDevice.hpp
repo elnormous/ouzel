@@ -146,9 +146,11 @@ namespace ouzel
             bool stencil = false;
             bool debugRenderer = false;
 
-            bool npotTexturesSupported = true;
-            bool anisotropicFilteringSupported = true;
-            bool renderTargetsSupported = true;
+            // features
+            bool npotTexturesSupported:1;
+            bool anisotropicFilteringSupported:1;
+            bool renderTargetsSupported:1;
+            bool clampToBorderSupported:1;
 
             Matrix4F projectionTransform;
             Matrix4F renderTargetProjectionTransform;
