@@ -212,7 +212,11 @@ namespace ouzel
                 case Texture::Address::CLAMP_TO_EDGE:
                     return GL_CLAMP_TO_EDGE;
                 case Texture::Address::CLAMP_TO_BORDER:
+#if OUZEL_OPENGLES
+                    return GL_CLAMP_TO_BORDER_EXT;
+#else
                     return GL_CLAMP_TO_BORDER;
+#endif
                 case Texture::Address::REPEAT:
                     return GL_REPEAT;
                 case Texture::Address::MIRROR_REPEAT:
