@@ -540,6 +540,45 @@ namespace ouzel
         }
 
         static std::vector<Texture::Level> calculateSizes(const Size2U& size,
+                                                          uint32_t mipmaps,
+                                                          PixelFormat pixelFormat)
+        {
+            std::vector<Texture::Level> levels;
+
+            uint32_t newWidth = size.v[0];
+            uint32_t newHeight = size.v[1];
+
+            uint32_t pixelSize = getPixelSize(pixelFormat);
+            uint32_t pitch = newWidth * pixelSize;
+            uint32_t bufferSize = pitch * newHeight;
+            levels.push_back({size, pitch, std::vector<uint8_t>(bufferSize)});
+
+            uint32_t previousWidth = newWidth;
+            uint32_t previousHeight = newHeight;
+
+            while ((newWidth > 1 || newHeight > 1) &&
+                   (mipmaps == 0 || levels.size() < mipmaps))
+            {
+                newWidth >>= 1;
+                newHeight >>= 1;
+
+                if (newWidth < 1) newWidth = 1;
+                if (newHeight < 1) newHeight = 1;
+
+                Size2U mipMapSize = Size2U(newWidth, newHeight);
+                pitch = newWidth * pixelSize;
+                bufferSize = pitch * newHeight;
+
+                levels.push_back({mipMapSize, pitch, std::vector<uint8_t>(bufferSize)});
+
+                previousWidth = newWidth;
+                previousHeight = newHeight;
+            }
+
+            return levels;
+        }
+
+        static std::vector<Texture::Level> calculateSizes(const Size2U& size,
                                                           const std::vector<uint8_t>& data,
                                                           uint32_t mipmaps,
                                                           PixelFormat pixelFormat)
@@ -552,17 +591,13 @@ namespace ouzel
             uint32_t pixelSize = getPixelSize(pixelFormat);
             uint32_t pitch = newWidth * pixelSize;
             uint32_t bufferSize = pitch * newHeight;
-            if (data.empty())
-                levels.push_back({size, pitch, std::vector<uint8_t>(bufferSize)});
-            else
-                levels.push_back({size, pitch, data});
+            levels.push_back({size, pitch, data});
 
             uint32_t previousWidth = newWidth;
             uint32_t previousHeight = newHeight;
             std::vector<float> previousData;
 
-            if (!data.empty())
-                decode(size, data, pixelFormat, previousData);
+            decode(size, data, pixelFormat, previousData);
 
             std::vector<float> newData;
             std::vector<uint8_t> encodedData;
@@ -580,38 +615,33 @@ namespace ouzel
                 pitch = newWidth * pixelSize;
                 bufferSize = pitch * newHeight;
 
-                if (data.empty())
-                    levels.push_back({mipMapSize, pitch, std::vector<uint8_t>(bufferSize)});
-                else
+                switch (pixelFormat)
                 {
-                    switch (pixelFormat)
-                    {
-                        case PixelFormat::RGBA8_UNORM:
-                        case PixelFormat::RGBA8_UNORM_SRGB:
-                            downsample2x2Rgba8(previousWidth, previousHeight, previousData, newData);
-                            break;
+                    case PixelFormat::RGBA8_UNORM:
+                    case PixelFormat::RGBA8_UNORM_SRGB:
+                        downsample2x2Rgba8(previousWidth, previousHeight, previousData, newData);
+                        break;
 
-                        case PixelFormat::RG8_UNORM:
-                            downsample2x2Rg8(previousWidth, previousHeight, previousData, newData);
-                            break;
+                    case PixelFormat::RG8_UNORM:
+                        downsample2x2Rg8(previousWidth, previousHeight, previousData, newData);
+                        break;
 
-                        case PixelFormat::R8_UNORM:
-                            downsample2x2R8(previousWidth, previousHeight, previousData, newData);
-                            break;
+                    case PixelFormat::R8_UNORM:
+                        downsample2x2R8(previousWidth, previousHeight, previousData, newData);
+                        break;
 
-                        case PixelFormat::A8_UNORM:
-                            downsample2x2A8(previousWidth, previousHeight, previousData, newData);
-                            break;
+                    case PixelFormat::A8_UNORM:
+                        downsample2x2A8(previousWidth, previousHeight, previousData, newData);
+                        break;
 
-                        default:
-                            throw std::runtime_error("Invalid pixel format");
-                    }
-
-                    encode(mipMapSize, newData, pixelFormat, encodedData);
-                    levels.push_back({mipMapSize, pitch, encodedData});
-
-                    previousData = newData;
+                    default:
+                        throw std::runtime_error("Invalid pixel format");
                 }
+
+                encode(mipMapSize, newData, pixelFormat, encodedData);
+                levels.push_back({mipMapSize, pitch, encodedData});
+
+                previousData = newData;
 
                 previousWidth = newWidth;
                 previousHeight = newHeight;
@@ -645,7 +675,7 @@ namespace ouzel
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
                 mipmaps = 1;
 
-            std::vector<Level> levels = calculateSizes(size, std::vector<uint8_t>(), mipmaps, pixelFormat);
+            std::vector<Level> levels = calculateSizes(size, mipmaps, pixelFormat);
 
             initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource.getId(),
                                                                                     levels,
