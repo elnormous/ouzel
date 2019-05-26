@@ -151,6 +151,7 @@ namespace ouzel
             bool anisotropicFilteringSupported:1;
             bool renderTargetsSupported:1;
             bool clampToBorderSupported:1;
+            bool multisamplingSupported:1;
 
             Matrix4F projectionTransform;
             Matrix4F renderTargetProjectionTransform;

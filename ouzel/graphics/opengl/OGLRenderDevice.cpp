@@ -374,8 +374,7 @@ namespace ouzel
             apiMajorVersion = static_cast<uint16_t>(std::stoi(versionParts[0]));
             apiMinorVersion = static_cast<uint16_t>(std::stoi(versionParts[1]));
 
-            if (apiMajorVersion < 2 ||
-                apiMajorVersion > 4)
+            if (apiMajorVersion < 2 || apiMajorVersion > 4)
                 throw std::runtime_error("Unsupported OpenGL version");
 #endif
 
@@ -523,7 +522,6 @@ namespace ouzel
 
             engine->log(Log::Level::ALL) << "Supported OpenGL extensions: " << extensions;
 
-            bool multisamplingSupported = false;
             textureBaseLevelSupported = false;
             textureMaxLevelSupported = false;
             uintElementIndexSupported = false;
@@ -550,8 +548,8 @@ namespace ouzel
 #endif
                 npotTexturesSupported = true;
                 renderTargetsSupported = true;
-                multisamplingSupported = true;
                 clampToBorderSupported = true;
+                multisamplingSupported = true;
                 textureBaseLevelSupported = true;
                 textureMaxLevelSupported = true;
                 uintElementIndexSupported = true;
@@ -671,6 +669,7 @@ namespace ouzel
                 {
                     multisamplingSupported = true;
                     glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>("glRenderbufferStorageMultisampleEXT");
+                    glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisampleEXT");
                 }
                 else if (extension == "GL_IMG_multisampled_render_to_texture")
                 {
@@ -710,11 +709,6 @@ namespace ouzel
                 {
                     multisamplingSupported = true;
                     glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample");
-                }
-                else if (extension == "GL_EXT_multisampled_render_to_texture")
-                {
-                    glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample");
-                    glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
                 }
 #endif
             }

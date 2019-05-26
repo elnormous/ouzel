@@ -165,6 +165,7 @@ namespace ouzel
             npotTexturesSupported = true;
             anisotropicFilteringSupported = true;
             renderTargetsSupported = true;
+            multisamplingSupported = true;
 
             inflightSemaphore = dispatch_semaphore_create(BUFFER_COUNT);
 

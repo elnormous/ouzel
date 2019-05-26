@@ -145,6 +145,7 @@ namespace ouzel
             anisotropicFilteringSupported = true;
             renderTargetsSupported = true;
             clampToBorderSupported = true;
+            multisamplingSupported = true;
 
             UINT deviceCreationFlags = 0;
 

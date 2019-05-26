@@ -23,6 +23,7 @@ namespace ouzel
             anisotropicFilteringSupported(false),
             renderTargetsSupported(false),
             clampToBorderSupported(false),
+            multisamplingSupported(false),
             projectionTransform(Matrix4F::identity()),
             renderTargetProjectionTransform(Matrix4F::identity())
         {
