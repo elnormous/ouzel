@@ -172,6 +172,13 @@ namespace ouzel
             if (device.name)
                 engine->log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
 
+#if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
+            if ([device supportsFeatureSet:MTLFeatureSet_macOS_GPUFamily1_v2])
+            {
+                // TODO: supports clamp to border
+            }
+#endif
+
             metalCommandQueue = [device newCommandQueue];
 
             if (!metalCommandQueue)
