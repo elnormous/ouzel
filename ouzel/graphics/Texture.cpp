@@ -751,6 +751,7 @@ namespace ouzel
                                                                                                             addressX,
                                                                                                             addressY,
                                                                                                             addressZ,
+                                                                                                            borderColor,
                                                                                                             maxAnisotropy)));
         }
 
@@ -764,6 +765,7 @@ namespace ouzel
                                                                                                             addressX,
                                                                                                             addressY,
                                                                                                             addressZ,
+                                                                                                            borderColor,
                                                                                                             maxAnisotropy)));
         }
 
@@ -777,6 +779,7 @@ namespace ouzel
                                                                                                             addressX,
                                                                                                             addressY,
                                                                                                             addressZ,
+                                                                                                            borderColor,
                                                                                                             maxAnisotropy)));
         }
 
@@ -790,6 +793,21 @@ namespace ouzel
                                                                                                             addressX,
                                                                                                             addressY,
                                                                                                             addressZ,
+                                                                                                            borderColor,
+                                                                                                            maxAnisotropy)));
+        }
+
+        void Texture::setBorderColor(Color newBorderColor)
+        {
+            borderColor = newBorderColor;
+
+            if (resource.getId())
+                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource.getId(),
+                                                                                                            filter,
+                                                                                                            addressX,
+                                                                                                            addressY,
+                                                                                                            addressZ,
+                                                                                                            borderColor,
                                                                                                             maxAnisotropy)));
         }
 
@@ -803,6 +821,7 @@ namespace ouzel
                                                                                                             addressX,
                                                                                                             addressY,
                                                                                                             addressZ,
+                                                                                                            borderColor,
                                                                                                             maxAnisotropy)));
         }
     } // namespace graphics

@@ -283,9 +283,9 @@ namespace ouzel
             }
 
             samplerDescriptor.filter = renderDevice.getTextureFilter();
-            samplerDescriptor.addressX = Texture::Address::CLAMP;
-            samplerDescriptor.addressY = Texture::Address::CLAMP;
-            samplerDescriptor.addressZ = Texture::Address::CLAMP;
+            samplerDescriptor.addressX = Texture::Address::CLAMP_TO_EDGE;
+            samplerDescriptor.addressY = Texture::Address::CLAMP_TO_EDGE;
+            samplerDescriptor.addressZ = Texture::Address::CLAMP_TO_EDGE;
             samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
 
             updateSamplerState();

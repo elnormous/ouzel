@@ -76,9 +76,9 @@ namespace ouzel
             uint32_t mipmaps = 0;
             uint32_t sampleCount = 1;
             Texture::Filter filter = Texture::Filter::DEFAULT;
-            Texture::Address addressX = Texture::Address::CLAMP;
-            Texture::Address addressY = Texture::Address::CLAMP;
-            Texture::Address addressZ = Texture::Address::CLAMP;
+            Texture::Address addressX = Texture::Address::CLAMP_TO_EDGE;
+            Texture::Address addressY = Texture::Address::CLAMP_TO_EDGE;
+            Texture::Address addressZ = Texture::Address::CLAMP_TO_EDGE;
             uint32_t maxAnisotropy = 0;
 
             GLenum textureTarget = 0;

@@ -52,8 +52,10 @@ namespace ouzel
         {
             switch (address)
             {
-                case Texture::Address::CLAMP:
+                case Texture::Address::CLAMP_TO_EDGE:
                     return D3D11_TEXTURE_ADDRESS_CLAMP;
+                case Texture::Address::CLAMP_TO_BORDER:
+                    return D3D11_TEXTURE_ADDRESS_BORDER;
                 case Texture::Address::REPEAT:
                     return D3D11_TEXTURE_ADDRESS_WRAP;
                 case Texture::Address::MIRROR_REPEAT:

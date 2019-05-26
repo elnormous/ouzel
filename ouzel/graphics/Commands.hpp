@@ -541,6 +541,7 @@ namespace ouzel
                                         Texture::Address initAddressX,
                                         Texture::Address initAddressY,
                                         Texture::Address initAddressZ,
+                                        Color initBorderColor,
                                         uint32_t initMaxAnisotropy):
                 Command(Command::Type::SET_TEXTURE_PARAMETERS),
                 texture(initTexture),
@@ -548,6 +549,7 @@ namespace ouzel
                 addressX(initAddressX),
                 addressY(initAddressY),
                 addressZ(initAddressZ),
+                borderColor(initBorderColor),
                 maxAnisotropy(initMaxAnisotropy)
             {
             }
@@ -557,6 +559,7 @@ namespace ouzel
             Texture::Address addressX;
             Texture::Address addressY;
             Texture::Address addressZ;
+            Color borderColor;
             uint32_t maxAnisotropy;
         };
 

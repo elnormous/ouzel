@@ -56,7 +56,8 @@ namespace ouzel
 
             enum class Address
             {
-                CLAMP,
+                CLAMP_TO_EDGE,
+                CLAMP_TO_BORDER,
                 REPEAT,
                 MIRROR_REPEAT
             };
@@ -111,6 +112,9 @@ namespace ouzel
             ALWAYSINLINE Address getAddressZ() const { return addressZ; }
             void setAddressZ(Address newAddressZ);
 
+            ALWAYSINLINE Color getBorderColor() const { return borderColor; }
+            void setBorderColor(Color newBorderColor);
+
             ALWAYSINLINE uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
             void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
@@ -128,9 +132,10 @@ namespace ouzel
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
             Filter filter = Texture::Filter::DEFAULT;
-            Address addressX = Texture::Address::CLAMP;
-            Address addressY = Texture::Address::CLAMP;
-            Address addressZ = Texture::Address::CLAMP;
+            Address addressX = Texture::Address::CLAMP_TO_EDGE;
+            Address addressY = Texture::Address::CLAMP_TO_EDGE;
+            Address addressZ = Texture::Address::CLAMP_TO_EDGE;
+            Color borderColor;
             uint32_t maxAnisotropy = 0;
         };
     } // namespace graphics

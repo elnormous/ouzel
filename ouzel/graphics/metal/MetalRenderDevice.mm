@@ -72,8 +72,10 @@ namespace ouzel
         {
             switch (address)
             {
-                case Texture::Address::CLAMP:
+                case Texture::Address::CLAMP_TO_EDGE:
                     return MTLSamplerAddressModeClampToEdge;
+                case Texture::Address::CLAMP_TO_BORDER:
+                    return MTLSamplerAddressModeClampToBorderColor;
                 case Texture::Address::REPEAT:
                     return MTLSamplerAddressModeRepeat;
                 case Texture::Address::MIRROR_REPEAT:

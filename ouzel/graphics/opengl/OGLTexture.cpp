@@ -209,8 +209,10 @@ namespace ouzel
         {
             switch (address)
             {
-                case Texture::Address::CLAMP:
+                case Texture::Address::CLAMP_TO_EDGE:
                     return GL_CLAMP_TO_EDGE;
+                case Texture::Address::CLAMP_TO_BORDER:
+                    return GL_CLAMP_TO_BORDER;
                 case Texture::Address::REPEAT:
                     return GL_REPEAT;
                 case Texture::Address::MIRROR_REPEAT:
