@@ -1,6 +1,7 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <unordered_map>
+#include <Availability.h>
 #import <Carbon/Carbon.h>
 #import "ViewMacOS.h"
 #include "core/Engine.hpp"

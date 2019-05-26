@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_METAL
 
+#include <Availability.h>
 #include <TargetConditionals.h>
 #include <cassert>
 #include <stdexcept>
@@ -74,8 +75,10 @@ namespace ouzel
             {
                 case Texture::Address::CLAMP_TO_EDGE:
                     return MTLSamplerAddressModeClampToEdge;
-                //case Texture::Address::CLAMP_TO_BORDER:
-                //    return MTLSamplerAddressModeClampToBorderColor;
+#if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
+                case Texture::Address::CLAMP_TO_BORDER:
+                    return MTLSamplerAddressModeClampToBorderColor;
+#endif
                 case Texture::Address::REPEAT:
                     return MTLSamplerAddressModeRepeat;
                 case Texture::Address::MIRROR_REPEAT:
