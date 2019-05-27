@@ -302,7 +302,10 @@ namespace ouzel
 #endif
 
         OGLRenderDevice::OGLRenderDevice(const std::function<void(const Event&)>& initCallback):
-            RenderDevice(Driver::OPENGL, initCallback)
+            RenderDevice(Driver::OPENGL, initCallback),
+            textureBaseLevelSupported(false),
+            textureMaxLevelSupported(false),
+            uintElementIndexSupported(false)
         {
             projectionTransform = Matrix4F(1.0F, 0.0F, 0.0F, 0.0F,
                                            0.0F, 1.0F, 0.0F, 0.0F,

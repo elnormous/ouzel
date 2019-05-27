@@ -646,9 +646,9 @@ namespace ouzel
             GLsizei frameBufferHeight = 0;
             GLuint vertexArrayId = 0;
 
-            bool textureBaseLevelSupported = false;
-            bool textureMaxLevelSupported = false;
-            bool uintElementIndexSupported = false;
+            bool textureBaseLevelSupported:1;
+            bool textureMaxLevelSupported:1;
+            bool uintElementIndexSupported:1;
 
             struct StateCache
             {
