@@ -154,9 +154,8 @@ namespace ouzel
                 std::unique_ptr<WindowEvent> resolutionChangeEvent(new WindowEvent());
                 resolutionChangeEvent->type = Event::Type::RESOLUTION_CHANGE;
                 resolutionChangeEvent->window = this;
-                resolutionChangeEvent->size = event.size;
+                resolutionChangeEvent->size = event.resolution;
                 engine.getEventDispatcher().dispatchEvent(std::move(resolutionChangeEvent));
-                engine.getRenderer()->setSize(event.size);
                 break;
             }
             case NativeWindow::Event::Type::FULLSCREEN_CHANGE:
