@@ -5,6 +5,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <algorithm>
 #include <array>
 #include <string>
 #include "Vector.hpp"
@@ -155,6 +156,36 @@ namespace ouzel
                    (static_cast<uint32_t>(v[1]) << 16) |
                    (static_cast<uint32_t>(v[2]) << 8) |
                    static_cast<uint32_t>(v[3]);
+        }
+
+        inline bool operator<(const Color& c) const
+        {
+            return std::lexicographical_compare(std::begin(v), std::end(v),
+                                                std::begin(c.v), std::end(c.v));
+        }
+        
+        inline bool operator==(const Color& c) const
+        {
+            return v[0] == c.v[0] &&
+                v[1] == c.v[1] &&
+                v[2] == c.v[2] &&
+                v[3] == c.v[3];
+        }
+
+        inline bool operator!=(const Color& c) const
+        {
+            return v[0] != c.v[0] ||
+                v[1] != c.v[1] ||
+                v[2] != c.v[2] ||
+                v[3] != c.v[3];
+        }
+
+        inline bool isZero() const
+        {
+            return v[0] == 0 &&
+                v[1] == 0 &&
+                v[2] == 0 &&
+                v[3] == 0;
         }
     };
 } // namespace ouzel
