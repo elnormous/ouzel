@@ -129,6 +129,17 @@ namespace ouzel
             return *this;
         }
 
+        inline bool operator<(const Size& size) const
+        {
+            for (size_t i = 0; i < N; ++i)
+            {
+                if (v[i] < size.v[i]) return true;
+                if (size.v[i] < v[i]) return false;
+            }
+
+            return false;
+        }
+
         inline bool operator==(const Size& size) const
         {
             for (size_t i = 0; i < N; ++i)
