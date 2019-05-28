@@ -4,6 +4,7 @@
 #define OUZEL_MATH_SIZE_HPP
 
 #include <cstddef>
+#include <type_traits>
 #include "math/Vector.hpp"
 
 namespace ouzel

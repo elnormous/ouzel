@@ -7,6 +7,7 @@
 #include <cmath>
 #include <cstddef>
 #include <limits>
+#include <type_traits>
 #include "math/ConvexVolume.hpp"
 #include "math/Plane.hpp"
 #include "math/Quaternion.hpp"

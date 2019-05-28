@@ -5,7 +5,6 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <algorithm>
 #include <array>
 #include <string>
 #include "Vector.hpp"
@@ -160,8 +159,13 @@ namespace ouzel
 
         inline bool operator<(const Color& c) const
         {
-            return std::lexicographical_compare(std::begin(v), std::end(v),
-                                                std::begin(c.v), std::end(c.v));
+            for (size_t i = 0; i < 4; ++i)
+            {
+                if (v[i] < c.v[i]) return true;
+                if (c.v[i] < v[i]) return false;
+            }
+
+            return false;
         }
         
         inline bool operator==(const Color& c) const

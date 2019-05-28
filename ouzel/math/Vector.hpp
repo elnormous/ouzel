@@ -6,8 +6,8 @@
 #include <cassert>
 #include <cmath>
 #include <cstddef>
-#include <algorithm>
 #include <limits>
+#include <type_traits>
 
 namespace ouzel
 {
@@ -184,12 +184,24 @@ namespace ouzel
 
         inline T getMin() const
         {
-            return *std::min_element(std::begin(v), std::end(v));
+            T result = v[0];
+
+            for (size_t i = 1; i < N; ++i)
+                if (v[i] < result)
+                    result = v[i];
+
+            return result;
         }
 
         inline T getMax() const
         {
-            return *std::max_element(std::begin(v), std::end(v));
+            T result = v[0];
+
+            for (size_t i = 1; i < N; ++i)
+                if (v[i] > result)
+                    result = v[i];
+
+            return result;
         }
 
         inline const Vector operator+(const Vector& vec) const
@@ -262,8 +274,13 @@ namespace ouzel
 
         inline bool operator<(const Vector& vec) const
         {
-            return std::lexicographical_compare(std::begin(v), std::end(v),
-                                                std::begin(vec.v), std::end(vec.v));
+            for (size_t i = 0; i < N; ++i)
+            {
+                if (v[i] < vec.v[i]) return true;
+                if (vec.v[i] < v[i]) return false;
+            }
+
+            return false;
         }
 
         inline bool operator==(const Vector& vec) const
