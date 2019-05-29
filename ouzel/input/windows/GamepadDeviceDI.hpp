@@ -5,14 +5,21 @@
 
 #include <string>
 #include <unordered_map>
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
+#pragma push_macro("WIN32_LEAN_AND_MEAN")
+#pragma push_macro("NOMINMAX")
+#ifndef WIN32_LEAN_AND_MEAN
+#  define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
 #include <Windows.h>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <hidusage.h>
-#undef WIN32_LEAN_AND_MEAN
-#undef NOMINMAX
+#pragma pop_macro("WIN32_LEAN_AND_MEAN")
+#pragma pop_macro("NOMINMAX")
+
 #include "input/Gamepad.hpp"
 #include "input/windows/GamepadDeviceWin.hpp"
 

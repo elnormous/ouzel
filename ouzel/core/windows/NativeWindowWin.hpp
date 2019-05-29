@@ -3,12 +3,19 @@
 #ifndef OUZEL_CORE_NATIVEWINDOWWIN_HPP
 #define OUZEL_CORE_NATIVEWINDOWWIN_HPP
 
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
-#include <Windows.h>
-#undef WIN32_LEAN_AND_MEAN
-#undef NOMINMAX
 #include <set>
+#pragma push_macro("WIN32_LEAN_AND_MEAN")
+#pragma push_macro("NOMINMAX")
+#ifndef WIN32_LEAN_AND_MEAN
+#  define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
+#include <Windows.h>
+#pragma pop_macro("WIN32_LEAN_AND_MEAN")
+#pragma pop_macro("NOMINMAX")
+
 #include "core/NativeWindow.hpp"
 
 namespace ouzel
