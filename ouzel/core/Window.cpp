@@ -147,14 +147,14 @@ namespace ouzel
             }
             case NativeWindow::Event::Type::RESOLUTION_CHANGE:
             {
-                resolution = event.resolution;
+                resolution = event.size;
 
                 engine.getRenderer()->setSize(resolution);
 
                 std::unique_ptr<WindowEvent> resolutionChangeEvent(new WindowEvent());
                 resolutionChangeEvent->type = Event::Type::RESOLUTION_CHANGE;
                 resolutionChangeEvent->window = this;
-                resolutionChangeEvent->size = event.resolution;
+                resolutionChangeEvent->size = event.size;
                 engine.getEventDispatcher().dispatchEvent(std::move(resolutionChangeEvent));
                 break;
             }

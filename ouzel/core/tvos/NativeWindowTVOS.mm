@@ -147,7 +147,7 @@ namespace ouzel
         sendEvent(sizeChangeEvent);
 
         Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
-        resolutionChangeEvent.resolution = resolution;
+        resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
 }

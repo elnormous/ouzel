@@ -68,7 +68,6 @@ namespace ouzel
             Type type;
 
             Size2U size;
-            Size2U resolution;
             union
             {
                 bool fullscreen;
