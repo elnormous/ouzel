@@ -35,7 +35,7 @@ namespace ouzel
         T operator[](size_t index) const { return m[index]; }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        static inline constexpr Matrix identity()
+        static constexpr Matrix identity()
         {
             return Matrix(1, 0, 0, 0,
                           0, 1, 0, 0,
