@@ -15,17 +15,17 @@ namespace ouzel
 {
     namespace assets
     {
-        static bool isWhitespace(uint8_t c)
+        constexpr bool isWhitespace(uint8_t c)
         {
             return c == ' ' || c == '\t';
         }
 
-        static bool isNewline(uint8_t c)
+        constexpr bool isNewline(uint8_t c)
         {
             return c == '\r' || c == '\n';
         }
 
-        static bool isControlChar(uint8_t c)
+        constexpr bool isControlChar(uint8_t c)
         {
             return c <= 0x1F;
         }

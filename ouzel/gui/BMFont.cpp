@@ -12,17 +12,17 @@ namespace ouzel
 {
     namespace gui
     {
-        static inline bool isWhitespace(uint8_t c)
+        constexpr bool isWhitespace(uint8_t c)
         {
             return c == ' ' || c == '\t';
         }
 
-        static inline bool isNewline(uint8_t c)
+        constexpr bool isNewline(uint8_t c)
         {
             return c == '\r' || c == '\n';
         }
 
-        static inline bool isControlChar(uint8_t c)
+        constexpr bool isControlChar(uint8_t c)
         {
             return c <= 0x1F;
         }
