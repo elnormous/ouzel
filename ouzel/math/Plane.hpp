@@ -54,14 +54,14 @@ namespace ouzel
         void normalize()
         {
             T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (n == 1) // already normalized
+            if (n == T(1)) // already normalized
                 return;
 
             n = sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            n = 1 / n;
+            n = T(1) / n;
             v[0] *= n;
             v[1] *= n;
             v[2] *= n;
@@ -84,7 +84,7 @@ namespace ouzel
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return Plane();
 
-            n = 1 / n;
+            n = T(1) / n;
             return Plane(a * n, b * n, c * n, d * n);
         }
     };

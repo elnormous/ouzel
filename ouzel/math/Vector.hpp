@@ -178,7 +178,7 @@ namespace ouzel
 
         inline void smooth(const Vector& target, T elapsedTime, T responseTime)
         {
-            if (elapsedTime > 0)
+            if (elapsedTime > T(0))
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
@@ -300,7 +300,7 @@ namespace ouzel
         inline bool isZero() const
         {
             for (const T& c : v)
-                if (c != 0) return false;
+                if (c != T(0)) return false;
             return true;
         }
     };

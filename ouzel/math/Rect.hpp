@@ -167,8 +167,8 @@ namespace ouzel
         {
             position.v[0] -= horizontalAmount;
             position.v[1] -= verticalAmount;
-            size.v[0] += horizontalAmount * 2;
-            size.v[1] += verticalAmount * 2;
+            size.v[0] += horizontalAmount * T(2);
+            size.v[1] += verticalAmount * T(2);
         }
 
         inline bool operator==(const Rect& other) const

@@ -97,19 +97,19 @@ namespace ouzel
 
         explicit Color(float color[4]):
             v{
-                static_cast<uint8_t>(color[0] * 255),
-                static_cast<uint8_t>(color[1] * 255),
-                static_cast<uint8_t>(color[2] * 255),
-                static_cast<uint8_t>(color[3] * 255)
+                static_cast<uint8_t>(round(color[0] * 255.0F)),
+                static_cast<uint8_t>(round(color[1] * 255.0F)),
+                static_cast<uint8_t>(round(color[2] * 255.0F)),
+                static_cast<uint8_t>(round(color[3] * 255.0F))
             }
         {
         }
 
         explicit Color(const Vector<3, float>& vec):
             v{
-                static_cast<uint8_t>(vec.v[0] * 255),
-                static_cast<uint8_t>(vec.v[1] * 255),
-                static_cast<uint8_t>(vec.v[2] * 255),
+                static_cast<uint8_t>(round(vec.v[0] * 255.0F)),
+                static_cast<uint8_t>(round(vec.v[1] * 255.0F)),
+                static_cast<uint8_t>(round(vec.v[2] * 255.0F)),
                 0
             }
         {
@@ -117,10 +117,10 @@ namespace ouzel
 
         explicit Color(const Vector<4, float>& vec):
             v{
-                static_cast<uint8_t>(vec.v[0] * 255),
-                static_cast<uint8_t>(vec.v[1] * 255),
-                static_cast<uint8_t>(vec.v[2] * 255),
-                static_cast<uint8_t>(vec.v[3] * 255)
+                static_cast<uint8_t>(round(vec.v[0] * 255.0F)),
+                static_cast<uint8_t>(round(vec.v[1] * 255.0F)),
+                static_cast<uint8_t>(round(vec.v[2] * 255.0F)),
+                static_cast<uint8_t>(round(vec.v[3] * 255.0F))
             }
         {
         }

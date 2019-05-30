@@ -53,18 +53,18 @@ namespace ouzel
 
     template <typename T> constexpr T lerp(T v0, T v1, T t)
     {
-        return (1 - t) * v0 + t * v1;
+        return (T(1) - t) * v0 + t * v1;
     }
 
     template <typename T> constexpr T smoothStep(T a, T b, T t)
     {
-        return lerp(a, b, t * t * (3 - 2 * t));
+        return lerp(a, b, t * t * (T(3) - T(2) * t));
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     constexpr bool isPowerOfTwo(T x)
     {
-        return (x != 0) && (((x - 1) & x) == 0);
+        return (x != T(0)) && (((x - T(1)) & x) == 0);
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
@@ -86,12 +86,12 @@ namespace ouzel
 
     template <typename T> constexpr T degToRad(T x)
     {
-        return static_cast<T>(x * 0.01745329252);
+        return static_cast<T>(x * 0.01745329251994329576);
     }
 
     template <typename T> constexpr T radToDeg(T x)
     {
-        return static_cast<T>(x * 57.295779513);
+        return static_cast<T>(x * 57.2957795130823208767);
     }
 
     template <typename T> constexpr T clamp(T x, T lo, T hi)
