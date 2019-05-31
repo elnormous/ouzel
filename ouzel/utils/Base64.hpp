@@ -19,7 +19,7 @@ namespace ouzel
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
         };
 
-        static inline bool isBase64(char c)
+        constexpr bool isBase64(char c)
         {
             return ((c >= 'A' && c <= 'Z') ||
                     (c >= 'a' && c <= 'z') ||
@@ -27,12 +27,12 @@ namespace ouzel
                     (c == '+') || (c == '/'));
         }
 
-        static inline uint8_t charIndex(uint8_t c)
+        constexpr uint8_t getIndex(uint8_t c)
         {
-            for (uint8_t i = 0; i < sizeof(CHARS); ++i)
-                if (CHARS[i] == c) return i;
-
-            throw std::runtime_error("Invalid character");
+            return (c >= 'A' && c <= 'Z') ? c - 'A' :
+                (c >= 'a' && c <= 'z') ? 26 + (c - 'a') :
+                (c >= '0' && c <= '9') ? 52 + (c - '0') :
+                (c == '+') ? 62 : (c == '/') ? 63 : 0;
         }
 
         inline std::string encode(const std::vector<uint8_t>& bytes)
@@ -89,7 +89,7 @@ namespace ouzel
                 charArray4[i++] = static_cast<uint8_t>(encodedString[in]); in++;
                 if (i == 4)
                 {
-                    for (i = 0; i < 4; i++) charArray4[i] = charIndex(charArray4[i]);
+                    for (i = 0; i < 4; i++) charArray4[i] = getIndex(charArray4[i]);
 
                     charArray3[0] = static_cast<uint8_t>((charArray4[0] << 2) + ((charArray4[1] & 0x30) >> 4));
                     charArray3[1] = static_cast<uint8_t>(((charArray4[1] & 0x0F) << 4) + ((charArray4[2] & 0x3C) >> 2));
@@ -102,7 +102,7 @@ namespace ouzel
 
             if (i)
             {
-                for (uint32_t j = 0; j < i; j++) charArray4[j] = charIndex(charArray4[j]);
+                for (uint32_t j = 0; j < i; j++) charArray4[j] = getIndex(charArray4[j]);
 
                 charArray3[0] = static_cast<uint8_t>((charArray4[0] << 2) + ((charArray4[1] & 0x30) >> 4));
                 charArray3[1] = static_cast<uint8_t>(((charArray4[1] & 0x0F) << 4) + ((charArray4[2] & 0x3C) >> 2));

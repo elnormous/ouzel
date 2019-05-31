@@ -15,12 +15,12 @@ namespace ouzel
     {
         static const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
 
-        static inline bool isWhitespace(uint32_t c)
+        static constexpr bool isWhitespace(uint32_t c)
         {
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
         }
 
-        static inline bool isNameStartChar(uint32_t c)
+        static constexpr bool isNameStartChar(uint32_t c)
         {
             return (c >= 'a' && c <= 'z') ||
                 (c >= 'A' && c <= 'Z') ||
@@ -34,7 +34,7 @@ namespace ouzel
                 (c >= 0x2070 && c <= 0x218F);
         }
 
-        static inline bool isNameChar(uint32_t c)
+        static constexpr bool isNameChar(uint32_t c)
         {
             return isNameStartChar(c) ||
                 c == '-' || c == '.' ||

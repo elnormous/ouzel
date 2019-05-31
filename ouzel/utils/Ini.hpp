@@ -104,7 +104,7 @@ namespace ouzel
             std::map<std::string, std::string> values;
         };
 
-        static inline bool isWhitespace(uint32_t c)
+        static constexpr bool isWhitespace(uint32_t c)
         {
             return c == ' ' || c == '\t';
         }
