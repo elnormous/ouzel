@@ -12,7 +12,7 @@ AnimationsSample::AnimationsSample():
     handler.gamepadHandler = std::bind(&AnimationsSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&AnimationsSample::handleUI, this, std::placeholders::_1);
     handler.keyboardHandler = std::bind(&AnimationsSample::handleKeyboard, this, std::placeholders::_1);
-    engine->getEventDispatcher().addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(handler);
 
     camera.setClearColorBuffer(true);
     camera.setClearColor(ouzel::Color(64, 0, 0));

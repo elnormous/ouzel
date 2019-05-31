@@ -13,7 +13,7 @@ RTSample::RTSample():
     handler.gamepadHandler = std::bind(&RTSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&RTSample::handleUI, this, std::placeholders::_1);
     handler.keyboardHandler = std::bind(&RTSample::handleKeyboard, this, std::placeholders::_1);
-    engine->getEventDispatcher().addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(handler);
 
     addLayer(&rtLayer);
 

@@ -24,7 +24,7 @@ MainMenu::MainMenu():
 {
     handler.uiHandler = std::bind(&MainMenu::handleUI, this, std::placeholders::_1);
     handler.keyboardHandler = std::bind(&MainMenu::handleKeyboard, this, std::placeholders::_1);
-    engine->getEventDispatcher().addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(handler);
 
     addLayer(&layer);
 

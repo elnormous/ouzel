@@ -17,7 +17,7 @@ GameSample::GameSample()
     camera.setClearColorBuffer(true);
     camera.setClearColor(ouzel::Color(64, 0, 0));
     
-    engine->getEventDispatcher().addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(handler);
 
     addLayer(&layer);
     cameraActor.addComponent(&camera);

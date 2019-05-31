@@ -172,29 +172,29 @@ namespace ouzel
         return handled;
     }
 
-    void EventDispatcher::addEventHandler(EventHandler* eventHandler)
+    void EventDispatcher::addEventHandler(EventHandler& eventHandler)
     {
-        if (eventHandler->eventDispatcher)
-            eventHandler->eventDispatcher->removeEventHandler(eventHandler);
+        if (eventHandler.eventDispatcher)
+            eventHandler.eventDispatcher->removeEventHandler(eventHandler);
 
-        eventHandler->eventDispatcher = this;
+        eventHandler.eventDispatcher = this;
 
-        eventHandlerAddSet.insert(eventHandler);
+        eventHandlerAddSet.insert(&eventHandler);
 
-        auto setIterator = eventHandlerDeleteSet.find(eventHandler);
+        auto setIterator = eventHandlerDeleteSet.find(&eventHandler);
 
         if (setIterator != eventHandlerDeleteSet.end())
             eventHandlerDeleteSet.erase(setIterator);
     }
 
-    void EventDispatcher::removeEventHandler(EventHandler* eventHandler)
+    void EventDispatcher::removeEventHandler(EventHandler& eventHandler)
     {
-        if (eventHandler->eventDispatcher == this)
-            eventHandler->eventDispatcher = nullptr;
+        if (eventHandler.eventDispatcher == this)
+            eventHandler.eventDispatcher = nullptr;
 
-        eventHandlerDeleteSet.insert(eventHandler);
+        eventHandlerDeleteSet.insert(&eventHandler);
 
-        auto setIterator = eventHandlerAddSet.find(eventHandler);
+        auto setIterator = eventHandlerAddSet.find(&eventHandler);
 
         if (setIterator != eventHandlerAddSet.end())
             eventHandlerAddSet.erase(setIterator);

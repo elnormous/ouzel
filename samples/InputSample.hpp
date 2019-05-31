@@ -13,7 +13,7 @@ public:
     {
         handler.keyboardHandler = std::bind(&Mover::handleKeyboard, this, std::placeholders::_1);
 
-        ouzel::engine->getEventDispatcher().addEventHandler(&handler);
+        ouzel::engine->getEventDispatcher().addEventHandler(handler);
     }
 
     bool handleKeyboard(const ouzel::KeyboardEvent& event)

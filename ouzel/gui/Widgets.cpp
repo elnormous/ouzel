@@ -22,7 +22,7 @@ namespace ouzel
             eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
             eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1);
-            engine->getEventDispatcher().addEventHandler(&eventHandler);
+            engine->getEventDispatcher().addEventHandler(eventHandler);
 
             pickable = true;
         }
@@ -45,7 +45,7 @@ namespace ouzel
             labelDisabledColor(initLabelDisabledColor)
         {
             eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1);
-            engine->getEventDispatcher().addEventHandler(&eventHandler);
+            engine->getEventDispatcher().addEventHandler(eventHandler);
 
             if (!normalImage.empty())
             {
@@ -186,7 +186,7 @@ namespace ouzel
             eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
             eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1);
-            engine->getEventDispatcher().addEventHandler(&eventHandler);
+            engine->getEventDispatcher().addEventHandler(eventHandler);
 
             if (!normalImage.empty())
             {
@@ -359,7 +359,7 @@ namespace ouzel
 
         void Menu::enter()
         {
-            engine->getEventDispatcher().addEventHandler(&eventHandler);
+            engine->getEventDispatcher().addEventHandler(eventHandler);
         }
 
         void Menu::leave()

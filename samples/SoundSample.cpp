@@ -36,7 +36,7 @@ SoundSample::SoundSample():
     handler.gamepadHandler = std::bind(&SoundSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&SoundSample::handleUI, this, std::placeholders::_1);
     handler.keyboardHandler = std::bind(&SoundSample::handleKeyboard, this, std::placeholders::_1);
-    engine->getEventDispatcher().addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(handler);
 
     submix.setOutput(&engine->getAudio()->getMasterMix());
 

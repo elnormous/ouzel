@@ -10,10 +10,11 @@
 #include <set>
 #include <vector>
 #include "events/Event.hpp"
-#include "events/EventHandler.hpp"
 
 namespace ouzel
 {
+    class EventHandler;
+
     class EventDispatcher final
     {
     public:
@@ -26,8 +27,8 @@ namespace ouzel
         EventDispatcher(EventDispatcher&&) = delete;
         EventDispatcher& operator=(EventDispatcher&&) = delete;
 
-        void addEventHandler(EventHandler* eventHandler);
-        void removeEventHandler(EventHandler* eventHandler);
+        void addEventHandler(EventHandler& eventHandler);
+        void removeEventHandler(EventHandler& eventHandler);
 
         // dispatches the event immediately
         bool dispatchEvent(std::unique_ptr<Event>&& event);

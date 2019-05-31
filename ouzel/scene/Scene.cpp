@@ -177,7 +177,7 @@ namespace ouzel
             entered = true;
 
             recalculateProjection();
-            engine->getEventDispatcher().addEventHandler(&eventHandler);
+            engine->getEventDispatcher().addEventHandler(eventHandler);
 
             for (Layer* layer : layers)
                 layer->enter();

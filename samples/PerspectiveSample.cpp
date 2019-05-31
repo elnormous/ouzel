@@ -28,7 +28,7 @@ PerspectiveSample::PerspectiveSample():
     handler.gamepadHandler = std::bind(&PerspectiveSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&PerspectiveSample::handleUI, this, std::placeholders::_1);
 
-    engine->getEventDispatcher().addEventHandler(&handler);
+    engine->getEventDispatcher().addEventHandler(handler);
 
     camera.setClearColorBuffer(true);
     camera.setClearColor(ouzel::Color(0, 0, 128));

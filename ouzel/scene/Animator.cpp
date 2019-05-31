@@ -65,7 +65,7 @@ namespace ouzel
 
         void Animator::start()
         {
-            engine->getEventDispatcher().addEventHandler(&updateHandler);
+            engine->getEventDispatcher().addEventHandler(updateHandler);
             play();
 
             std::unique_ptr<AnimationEvent> startEvent(new AnimationEvent());

@@ -97,7 +97,7 @@ namespace ouzel
             colorFormat = metalLayer.pixelFormat;
 
             eventHandler.windowHandler = std::bind(&MetalRenderDeviceMacOS::handleWindow, this, std::placeholders::_1);
-            engine->getEventDispatcher().addEventHandler(&eventHandler);
+            engine->getEventDispatcher().addEventHandler(eventHandler);
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
             if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)

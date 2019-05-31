@@ -394,7 +394,7 @@ namespace ouzel
         {
             if (!playing)
             {
-                engine->getEventDispatcher().addEventHandler(&updateHandler);
+                engine->getEventDispatcher().addEventHandler(updateHandler);
                 playing = true;
                 running = true;
             }

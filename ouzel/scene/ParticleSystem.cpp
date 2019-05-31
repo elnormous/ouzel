@@ -285,7 +285,7 @@ namespace ouzel
                 if (!active)
                 {
                     active = true;
-                    engine->getEventDispatcher().addEventHandler(&updateHandler);
+                    engine->getEventDispatcher().addEventHandler(updateHandler);
                 }
 
                 if (particleCount == 0)

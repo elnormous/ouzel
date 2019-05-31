@@ -7,14 +7,14 @@ namespace ouzel
 {
     EventHandler::~EventHandler()
     {
-        if (eventDispatcher) eventDispatcher->removeEventHandler(this);
+        if (eventDispatcher) eventDispatcher->removeEventHandler(*this);
     }
 
     void EventHandler::remove()
     {
         if (eventDispatcher)
         {
-            eventDispatcher->removeEventHandler(this);
+            eventDispatcher->removeEventHandler(*this);
             eventDispatcher = nullptr;
         }
     }
