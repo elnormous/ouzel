@@ -6,11 +6,10 @@
 #include <functional>
 #include <cstdint>
 #include "events/Event.hpp"
+#include "events/EventDispatcher.hpp"
 
 namespace ouzel
 {
-    class EventDispatcher;
-
     class EventHandler final
     {
         friend EventDispatcher;
@@ -18,9 +17,19 @@ namespace ouzel
         static constexpr int32_t PRIORITY_MAX = 0x1000;
 
         explicit EventHandler(int32_t initPriority = 0): priority(initPriority) {}
-        ~EventHandler();
+        ~EventHandler()
+        {
+            if (eventDispatcher) eventDispatcher->removeEventHandler(*this);
+        }
 
-        void remove();
+        void remove()
+        {
+            if (eventDispatcher)
+            {
+                eventDispatcher->removeEventHandler(*this);
+                eventDispatcher = nullptr;
+            }
+        }
 
         std::function<bool(const KeyboardEvent&)> keyboardHandler;
         std::function<bool(const MouseEvent&)> mouseHandler;

@@ -702,9 +702,6 @@
 		30DADE9F1C5167BC001A63B4 /* Cache.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.hpp */; };
 		30DADEA01C5167BC001A63B4 /* Cache.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.hpp */; };
 		30DADEA11C5167BC001A63B4 /* Cache.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.hpp */; };
-		30E75F3F1D7B783B000300D4 /* EventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E75F3E1D7B783B000300D4 /* EventHandler.cpp */; };
-		30E75F401D7B783B000300D4 /* EventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E75F3E1D7B783B000300D4 /* EventHandler.cpp */; };
-		30E75F411D7B783B000300D4 /* EventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E75F3E1D7B783B000300D4 /* EventHandler.cpp */; };
 		30EA71201D52783000AE8C3E /* EngineTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30EA711E1D52783000AE8C3E /* EngineTVOS.hpp */; };
 		30EA71211D52783000AE8C3E /* EngineTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30EA711F1D52783000AE8C3E /* EngineTVOS.mm */; };
 		30EABD7E22028861001C70A6 /* GraphicsResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EABD7C22028861001C70A6 /* GraphicsResource.cpp */; };
@@ -1102,7 +1099,6 @@
 		30CEB37821A6404B00525637 /* SystemTVOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemTVOS.cpp; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cache.hpp; sourceTree = "<group>"; };
-		30E75F3E1D7B783B000300D4 /* EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandler.cpp; sourceTree = "<group>"; };
 		30EA711E1D52783000AE8C3E /* EngineTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineTVOS.hpp; sourceTree = "<group>"; };
 		30EA711F1D52783000AE8C3E /* EngineTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EngineTVOS.mm; sourceTree = "<group>"; };
 		30EABD7C22028861001C70A6 /* GraphicsResource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GraphicsResource.cpp; sourceTree = "<group>"; };
@@ -1724,7 +1720,6 @@
 				303B75801C2B17DC00FEDE92 /* Event.hpp */,
 				30575AD61C3B48740009C8A7 /* EventDispatcher.cpp */,
 				30575AD71C3B48740009C8A7 /* EventDispatcher.hpp */,
-				30E75F3E1D7B783B000300D4 /* EventHandler.cpp */,
 				304A8E2F1C237C70008B1151 /* EventHandler.hpp */,
 			);
 			path = events;
@@ -2414,7 +2409,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				306672601F964A77004515F2 /* Light.cpp in Sources */,
-				30E75F401D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				309BA3131F183D6E006F2240 /* CAAudioDevice.cpp in Sources */,
 				30B8598C1F3D286600A16952 /* TTFont.cpp in Sources */,
 				30FFBE3A2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
@@ -2543,7 +2537,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				306672621F964A77004515F2 /* Light.cpp in Sources */,
-				30E75F411D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
 				309BA3151F183D6E006F2240 /* CAAudioDevice.cpp in Sources */,
 				30B8598E1F3D286600A16952 /* TTFont.cpp in Sources */,
@@ -2672,7 +2665,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				306672611F964A77004515F2 /* Light.cpp in Sources */,
-				30E75F3F1D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				3038207E1D816C9E00677CAB /* EngineMacOS.mm in Sources */,
 				309BA3141F183D6E006F2240 /* CAAudioDevice.cpp in Sources */,
 				3038216A1D81876E00677CAB /* EmptyAudioDevice.cpp in Sources */,

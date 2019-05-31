@@ -79,7 +79,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/core/Timer.cpp \
 	$(ROOT_DIR)/../ouzel/core/Window.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventDispatcher.cpp \
-	$(ROOT_DIR)/../ouzel/events/EventHandler.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/EmptyRenderDevice.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/OGLBlendState.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/OGLBuffer.cpp \

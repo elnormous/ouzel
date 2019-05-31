@@ -64,9 +64,6 @@
     <ClCompile Include="..\ouzel\events\EventDispatcher.cpp">
       <Filter>ouzel\events</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\events\EventHandler.cpp">
-      <Filter>ouzel\events</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\storage\File.cpp">
       <Filter>ouzel\storage</Filter>
     </ClCompile>
