@@ -319,35 +319,30 @@ namespace ouzel
             inline Array::iterator begin()
             {
                 assert(type == Type::ARRAY);
-
                 return arrayValue.begin();
             }
 
             inline Array::const_iterator begin() const
             {
                 assert(type == Type::ARRAY);
-
                 return arrayValue.begin();
             }
 
             inline Array::iterator end()
             {
                 assert(type == Type::ARRAY);
-
                 return arrayValue.end();
             }
 
             inline Array::const_iterator end() const
             {
                 assert(type == Type::ARRAY);
-
                 return arrayValue.end();
             }
 
             inline uint32_t getSize() const
             {
                 assert(type == Type::ARRAY);
-
                 return static_cast<uint32_t>(arrayValue.size());
             }
 

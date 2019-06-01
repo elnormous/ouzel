@@ -287,6 +287,12 @@ namespace ouzel
 
             inline const std::vector<Node>& getChildren() const { return children; }
 
+            std::vector<Node>::iterator begin() { return children.begin(); }
+            std::vector<Node>::iterator end() { return children.end(); }
+
+            std::vector<Node>::const_iterator begin() const { return children.begin(); }
+            std::vector<Node>::const_iterator end() const { return children.end(); }
+
         protected:
             void parse(const std::vector<uint32_t>& str,
                        std::vector<uint32_t>::const_iterator& iterator,
