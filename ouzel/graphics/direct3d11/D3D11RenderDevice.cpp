@@ -577,9 +577,9 @@ namespace ouzel
                             currentShader = shader;
 
                             if (blendState)
-                                context->OMSetBlendState(blendState->getBlendState(), nullptr, 0xffffffff);
+                                context->OMSetBlendState(blendState->getBlendState(), nullptr, 0xFFFFFFFF);
                             else
-                                context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
+                                context->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
 
                             if (shader)
                             {

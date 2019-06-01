@@ -56,10 +56,10 @@ namespace ouzel
                 bitmapHeader.bV5Planes = 1;
                 bitmapHeader.bV5BitCount = 32;
                 bitmapHeader.bV5Compression = BI_BITFIELDS;
-                bitmapHeader.bV5RedMask = 0x00ff0000;
-                bitmapHeader.bV5GreenMask = 0x000ff00;
-                bitmapHeader.bV5BlueMask = 0x000000ff;
-                bitmapHeader.bV5AlphaMask = 0xff000000;
+                bitmapHeader.bV5RedMask = 0x00FF0000;
+                bitmapHeader.bV5GreenMask = 0x0000FF00;
+                bitmapHeader.bV5BlueMask = 0x000000FF;
+                bitmapHeader.bV5AlphaMask = 0xFF000000;
 
                 dc = GetDC(nullptr);
                 unsigned char* target = nullptr;

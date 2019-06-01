@@ -52,7 +52,7 @@ namespace ouzel
                     charArray4[0] = static_cast<uint8_t>((charArray3[0] & 0xFC) >> 2);
                     charArray4[1] = static_cast<uint8_t>(((charArray3[0] & 0x03) << 4) + ((charArray3[1] & 0xF0) >> 4));
                     charArray4[2] = static_cast<uint8_t>(((charArray3[1] & 0x0F) << 2) + ((charArray3[2] & 0xC0) >> 6));
-                    charArray4[3] = static_cast<uint8_t>(charArray3[2] & 0x3f);
+                    charArray4[3] = static_cast<uint8_t>(charArray3[2] & 0x3F);
 
                     for (i = 0; (i < 4) ; i++) result += CHARS[charArray4[i]];
                     i = 0;

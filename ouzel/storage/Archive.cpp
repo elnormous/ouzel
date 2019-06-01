@@ -22,10 +22,10 @@ namespace ouzel
 
                 file.read(&signature, sizeof(signature), true);
 
-                if (decodeLittleEndian<uint32_t>(&signature) == 0x02014b50) // central directory
+                if (decodeLittleEndian<uint32_t>(&signature) == 0x02014B50) // central directory
                     break;
 
-                if (decodeLittleEndian<uint32_t>(&signature) != 0x04034b50)
+                if (decodeLittleEndian<uint32_t>(&signature) != 0x04034B50)
                     throw std::runtime_error("Bad signature");
 
                 uint8_t version[2];

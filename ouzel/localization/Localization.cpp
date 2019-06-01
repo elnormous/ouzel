@@ -3,8 +3,8 @@
 #include <stdexcept>
 #include "Localization.hpp"
 
-static constexpr uint32_t MAGIC_BIG = 0xde120495;
-static constexpr uint32_t MAGIC_LITTLE = 0x950412de;
+static constexpr uint32_t MAGIC_BIG = 0xDE120495;
+static constexpr uint32_t MAGIC_LITTLE = 0x950412DE;
 
 namespace ouzel
 {

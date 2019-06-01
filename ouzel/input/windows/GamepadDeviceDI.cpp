@@ -230,7 +230,7 @@ namespace ouzel
                 if (events[e].dwOfs == DIJOFS_POV(0))
                 {
                     uint32_t oldHatValue = hatValue;
-                    if (oldHatValue == 0xffffffff)
+                    if (oldHatValue == 0xFFFFFFFF)
                         oldHatValue = 8;
                     else
                     {
@@ -241,7 +241,7 @@ namespace ouzel
                     }
 
                     uint32_t newHatValue = events[e].dwData;
-                    if (newHatValue == 0xffffffff)
+                    if (newHatValue == 0xFFFFFFFF)
                         newHatValue = 8;
                     else
                     {
@@ -330,7 +330,7 @@ namespace ouzel
             if (hatValue != newDIState.rgdwPOV[0])
             {
                 uint32_t oldHatValue = hatValue;
-                if (oldHatValue == 0xffffffff)
+                if (oldHatValue == 0xFFFFFFFF)
                     oldHatValue = 8;
                 else
                 {
@@ -341,7 +341,7 @@ namespace ouzel
                 }
 
                 uint32_t newHatValue = newDIState.rgdwPOV[0];
-                if (newHatValue == 0xffffffff)
+                if (newHatValue == 0xFFFFFFFF)
                     newHatValue = 8;
                 else
                 {
