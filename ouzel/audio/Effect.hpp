@@ -12,7 +12,6 @@ namespace ouzel
     {
         class Audio;
         class Mix;
-        class Source;
 
         class Effect: public Node
         {
@@ -36,7 +35,6 @@ namespace ouzel
             Audio& audio;
             uintptr_t processorId = 0;
             Mix* mix = nullptr;
-            Source* source = nullptr;
             bool enabled = true;
         };
     } // namespace audio
