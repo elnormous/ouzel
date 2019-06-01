@@ -432,6 +432,30 @@ namespace ouzel
                 return arrayValue;
             }
 
+            Array::iterator begin()
+            {
+                assert(type == Type::ARRAY);
+                return arrayValue.begin();
+            }
+
+            Array::iterator end()
+            {
+                assert(type == Type::ARRAY);
+                return arrayValue.end();
+            }
+
+            Array::const_iterator begin() const
+            {
+                assert(type == Type::ARRAY);
+                return arrayValue.begin();
+            }
+
+            Array::const_iterator end() const
+            {
+                assert(type == Type::ARRAY);
+                return arrayValue.end();
+            }
+
             inline bool isNull() const
             {
                 assert(type == Type::OBJECT);

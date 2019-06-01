@@ -51,7 +51,7 @@ namespace ouzel
 
             animation.frames.reserve(framesArray.getSize());
 
-            for (const json::Value& frameObject : framesArray.as<json::Value::Array>())
+            for (const json::Value& frameObject : framesArray)
             {
                 std::string filename = frameObject["filename"].as<std::string>();
 
@@ -85,9 +85,9 @@ namespace ouzel
 
                     const json::Value& trianglesObject = frameObject["triangles"];
 
-                    for (const json::Value& triangleObject : trianglesObject.as<json::Value::Array>())
+                    for (const json::Value& triangleObject : trianglesObject)
                     {
-                        for (const json::Value& indexObject : triangleObject.as<json::Value::Array>())
+                        for (const json::Value& indexObject : triangleObject)
                             indices.push_back(static_cast<uint16_t>(indexObject.as<uint32_t>()));
                     }
 

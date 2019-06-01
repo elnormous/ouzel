@@ -44,7 +44,7 @@ namespace ouzel
         {
             json::Data data(fileSystem.readFile(filename));
 
-            for (const json::Value& asset : data["assets"].as<json::Value::Array>())
+            for (const json::Value& asset : data["assets"])
             {
                 std::string file = asset["filename"].as<std::string>();
                 std::string name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;
