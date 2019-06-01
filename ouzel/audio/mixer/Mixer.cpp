@@ -29,6 +29,12 @@ namespace ouzel
                 objects[rootObjectId - 1].reset(rootObject = new RootObject());
             }
 
+            Mixer::~Mixer()
+            {
+                if (mixerThread.joinable())
+                    mixerThread.join();
+            }
+
             void Mixer::process()
             {
                 CommandBuffer commandBuffer;

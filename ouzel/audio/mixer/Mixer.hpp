@@ -68,6 +68,8 @@ namespace ouzel
                       uint16_t initChannels,
                       const std::function<void(const Event&)>& initCallback);
 
+                ~Mixer();
+
                 Mixer(const Mixer&) = delete;
                 Mixer& operator=(const Mixer&) = delete;
 

@@ -300,7 +300,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
         }
         case WM_SHOWWINDOW:
         {
-            windowWin->handleShowWindow(wParam);
+            windowWin->handleShowWindow(wParam ? TRUE : FALSE);
             break;
         }
         case WM_SIZE:
