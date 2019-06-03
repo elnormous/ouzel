@@ -649,7 +649,7 @@ namespace ouzel
                     data[2] == UTF8_BOM[2])
                 {
                     bom = true;
-                    str = utf8::toUtf32(std::vector<uint8_t>(data.begin() + 3, data.end()));
+                    str = utf8::toUtf32(data.begin() + 3, data.end());
                 }
                 else
                 {
