@@ -122,7 +122,7 @@ namespace ouzel
         {
             return fromUtf32(text.begin(), text.end());
         }
-    } // namespace json
+    } // namespace utf8
 } // namespace ouzel
 
 #endif // OUZEL_UTILS_UTF8_HPP

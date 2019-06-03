@@ -506,72 +506,74 @@ namespace ouzel
             }
 
         protected:
-            void parseValue(const std::vector<Token>& tokens,
-                            std::vector<Token>::const_iterator& iterator)
+            template <class TokenIterator>
+            void parseValue(TokenIterator& begin,
+                            TokenIterator end)
             {
-                if (iterator == tokens.end())
+                if (begin == end)
                     throw std::runtime_error("Unexpected end of data");
 
-                if (iterator->type == Token::Type::LEFT_BRACE)
-                    return parseObject(tokens, iterator);
-                else if (iterator->type == Token::Type::LEFT_BRACKET)
-                    return parseArray(tokens, iterator);
-                else if (iterator->type == Token::Type::LITERAL_INTEGER)
+                if (begin->type == Token::Type::LEFT_BRACE)
+                    return parseObject(begin, end);
+                else if (begin->type == Token::Type::LEFT_BRACKET)
+                    return parseArray(begin, end);
+                else if (begin->type == Token::Type::LITERAL_INTEGER)
                 {
                     type = Type::INTEGER;
-                    intValue = std::stoll(utf8::fromUtf32(iterator->value));
-                    ++iterator;
+                    intValue = std::stoll(utf8::fromUtf32(begin->value));
+                    ++begin;
                 }
-                else if (iterator->type == Token::Type::LITERAL_FLOAT)
+                else if (begin->type == Token::Type::LITERAL_FLOAT)
                 {
                     type = Type::FLOAT;
-                    doubleValue = std::stod(utf8::fromUtf32(iterator->value));
-                    ++iterator;
+                    doubleValue = std::stod(utf8::fromUtf32(begin->value));
+                    ++begin;
                 }
-                else if (iterator->type == Token::Type::LITERAL_STRING)
+                else if (begin->type == Token::Type::LITERAL_STRING)
                 {
                     type = Type::STRING;
-                    stringValue = utf8::fromUtf32(iterator->value);
-                    ++iterator;
+                    stringValue = utf8::fromUtf32(begin->value);
+                    ++begin;
                 }
-                else if (iterator->type == Token::Type::KEYWORD_TRUE ||
-                         iterator->type == Token::Type::KEYWORD_FALSE)
+                else if (begin->type == Token::Type::KEYWORD_TRUE ||
+                         begin->type == Token::Type::KEYWORD_FALSE)
                 {
                     type = Type::BOOLEAN;
-                    boolValue = (iterator->type == Token::Type::KEYWORD_TRUE);
-                    ++iterator;
+                    boolValue = (begin->type == Token::Type::KEYWORD_TRUE);
+                    ++begin;
                 }
-                else if (iterator->type == Token::Type::KEYWORD_NULL)
+                else if (begin->type == Token::Type::KEYWORD_NULL)
                 {
                     type = Type::OBJECT;
                     nullValue = true;
-                    ++iterator;
+                    ++begin;
                 }
                 else
                     throw std::runtime_error("Expected a value");
             }
 
-            void parseObject(const std::vector<Token>& tokens,
-                             std::vector<Token>::const_iterator& iterator)
+            template <class TokenIterator>
+            void parseObject(TokenIterator& begin,
+                             TokenIterator end)
             {
-                if (iterator == tokens.end())
+                if (begin == end)
                     throw std::runtime_error("Unexpected end of data");
 
-                if (iterator->type != Token::Type::LEFT_BRACE)
+                if (begin->type != Token::Type::LEFT_BRACE)
                     throw std::runtime_error("Expected a left brace");
 
-                ++iterator; // skip the left brace
+                ++begin; // skip the left brace
 
                 bool first = true;
 
                 for (;;)
                 {
-                    if (iterator == tokens.end())
+                    if (begin == end)
                         throw std::runtime_error("Unexpected end of data");
 
-                    if (iterator->type == Token::Type::RIGHT_BRACE)
+                    if (begin->type == Token::Type::RIGHT_BRACE)
                     {
-                        ++iterator;// skip the right brace
+                        ++begin;// skip the right brace
                         break;
                     }
 
@@ -579,32 +581,32 @@ namespace ouzel
                         first = false;
                     else
                     {
-                        if (iterator->type != Token::Type::COMMA)
+                        if (begin->type != Token::Type::COMMA)
                             throw std::runtime_error("Expected a comma");
 
-                        if (++iterator == tokens.end())
+                        if (++begin == end)
                             throw std::runtime_error("Unexpected end of data");
                     }
 
-                    if (iterator->type != Token::Type::LITERAL_STRING)
+                    if (begin->type != Token::Type::LITERAL_STRING)
                         throw std::runtime_error("Expected a string literal");
 
-                    std::string key = utf8::fromUtf32(iterator->value);
+                    std::string key = utf8::fromUtf32(begin->value);
 
                     if (objectValue.find(key) != objectValue.end())
                         throw std::runtime_error("Duplicate key value " + key);
 
-                    if (++iterator == tokens.end())
+                    if (++begin == end)
                         throw std::runtime_error("Unexpected end of data");
 
-                    if (iterator->type != Token::Type::COLON)
+                    if (begin->type != Token::Type::COLON)
                         throw std::runtime_error("Expected a colon");
 
-                    if (++iterator == tokens.end())
+                    if (++begin == end)
                         throw std::runtime_error("Unexpected end of data");
 
                     Value value;
-                    value.parseValue(tokens, iterator);
+                    value.parseValue(begin, end);
 
                     objectValue[key] = value;
                 }
@@ -612,27 +614,28 @@ namespace ouzel
                 type = Type::OBJECT;
             }
 
-            void parseArray(const std::vector<Token>& tokens,
-                            std::vector<Token>::const_iterator& iterator)
+            template <class TokenIterator>
+            void parseArray(TokenIterator& begin,
+                            TokenIterator end)
             {
-                if (iterator == tokens.end())
+                if (begin == end)
                     throw std::runtime_error("Unexpected end of data");
 
-                if (iterator->type != Token::Type::LEFT_BRACKET)
+                if (begin->type != Token::Type::LEFT_BRACKET)
                     throw std::runtime_error("Expected a left bracket");
 
-                ++iterator; // skip the left bracket
+                ++begin; // skip the left bracket
 
                 bool first = true;
 
                 for (;;)
                 {
-                    if (iterator == tokens.end())
+                    if (begin == end)
                         throw std::runtime_error("Unexpected end of data");
 
-                    if (iterator->type == Token::Type::RIGHT_BRACKET)
+                    if (begin->type == Token::Type::RIGHT_BRACKET)
                     {
-                        ++iterator;// skip the right bracket
+                        ++begin;// skip the right bracket
                         break;
                     }
 
@@ -640,15 +643,15 @@ namespace ouzel
                         first = false;
                     else
                     {
-                        if (iterator->type != Token::Type::COMMA)
+                        if (begin->type != Token::Type::COMMA)
                             throw std::runtime_error("Expected a comma");
 
-                        if (++iterator == tokens.end())
+                        if (++begin == end)
                             throw std::runtime_error("Unexpected end of data");
                     }
 
                     Value value;
-                    value.parseValue(tokens, iterator);
+                    value.parseValue(begin, end);
 
                     arrayValue.push_back(value);
                 }
@@ -772,7 +775,7 @@ namespace ouzel
 
                 auto iterator = tokens.cbegin();
 
-                parseValue(tokens, iterator);
+                parseValue(iterator, tokens.cend());
             }
 
             std::vector<uint8_t> encode() const
