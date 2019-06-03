@@ -11,12 +11,12 @@ namespace ouzel
 {
     namespace utf8
     {
-        template <typename T>
-        inline std::vector<uint32_t> toUtf32(const T& text)
+        template <typename Iterator>
+        inline std::vector<uint32_t> toUtf32(Iterator begin, Iterator end)
         {
             std::vector<uint32_t> result;
 
-            for (auto i = text.begin(); i != text.end(); ++i)
+            for (auto i = begin; i != end; ++i)
             {
                 uint32_t cp = *i & 0xFF;
 
@@ -26,23 +26,23 @@ namespace ouzel
                 }
                 else if ((cp >> 5) == 0x6) // length = 2
                 {
-                    if (++i == text.end()) return result;
+                    if (++i == end) return result;
                     cp = ((cp << 6) & 0x7FF) + (*i & 0x3F);
                 }
                 else if ((cp >> 4) == 0xE) // length = 3
                 {
-                    if (++i == text.end()) return result;
+                    if (++i == end) return result;
                     cp = ((cp << 12) & 0xFFFF) + (((*i & 0xFF) << 6) & 0x0FFF);
-                    if (++i == text.end()) return result;
+                    if (++i == end) return result;
                     cp += *i & 0x3F;
                 }
                 else if ((cp >> 3) == 0x1E) // length = 4
                 {
-                    if (++i == text.end()) return result;
+                    if (++i == end) return result;
                     cp = ((cp << 18) & 0x1FFFFF) + (((*i & 0xFF) << 12) & 0x3FFFF);
-                    if (++i == text.end()) return result;
+                    if (++i == end) return result;
                     cp += ((*i & 0xFF) << 6) & 0x0FFF;
-                    if (++i == text.end()) return result;
+                    if (++i == end) return result;
                     cp += (*i) & 0x3F;
                 }
 
@@ -50,6 +50,12 @@ namespace ouzel
             }
 
             return result;
+        }
+
+        template <typename T>
+        inline std::vector<uint32_t> toUtf32(const T& text)
+        {
+            return toUtf32(text.begin(), text.end());
         }
 
         inline std::string fromUtf32(uint32_t c)
@@ -80,11 +86,12 @@ namespace ouzel
             return result;
         }
 
-        inline std::string fromUtf32(const std::vector<uint32_t>& text)
+        template <typename Iterator>
+        inline std::string fromUtf32(Iterator begin, Iterator end)
         {
             std::string result;
 
-            for (auto i = text.begin(); i != text.end(); ++i)
+            for (auto i = begin; i != end; ++i)
             {
                 if (*i <= 0x7F)
                     result.push_back(static_cast<char>(*i));
@@ -109,6 +116,11 @@ namespace ouzel
             }
 
             return result;
+        }
+
+        inline std::string fromUtf32(const std::vector<uint32_t>& text)
+        {
+            return fromUtf32(text.begin(), text.end());
         }
     } // namespace json
 } // namespace ouzel
