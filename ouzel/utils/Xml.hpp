@@ -44,12 +44,12 @@ namespace ouzel
                 (c >= 0x203F && c <= 0x2040);
         }
 
-        static void skipWhitespaces(const std::vector<uint32_t>& str,
-                                    std::vector<uint32_t>::const_iterator& iterator)
+        static void skipWhitespaces(std::vector<uint32_t>::const_iterator& iterator,
+                                    std::vector<uint32_t>::const_iterator end)
         {
             for (;;)
             {
-                if (iterator == str.end()) break;
+                if (iterator == end) break;
 
                 if (isWhitespace(*iterator))
                     ++iterator;
@@ -58,12 +58,12 @@ namespace ouzel
             }
         }
 
-        static std::string parseName(const std::vector<uint32_t>& str,
-                                     std::vector<uint32_t>::const_iterator& iterator)
+        static std::string parseName(std::vector<uint32_t>::const_iterator& iterator,
+                                     std::vector<uint32_t>::const_iterator end)
         {
             std::string result;
 
-            if (iterator == str.end())
+            if (iterator == end)
                 throw std::runtime_error("Unexpected end of data");
 
             if (!isNameStartChar(*iterator))
@@ -71,7 +71,7 @@ namespace ouzel
 
             for (;;)
             {
-                if (iterator == str.end())
+                if (iterator == end)
                     throw std::runtime_error("Unexpected end of data");
 
                 if (!isNameChar(*iterator))
@@ -86,12 +86,12 @@ namespace ouzel
             return result;
         }
 
-        static std::string parseEntity(const std::vector<uint32_t>& str,
-                                       std::vector<uint32_t>::const_iterator& iterator)
+        static std::string parseEntity(std::vector<uint32_t>::const_iterator& iterator,
+                                       std::vector<uint32_t>::const_iterator end)
         {
             std::string result;
 
-            if (iterator == str.end())
+            if (iterator == end)
                 throw std::runtime_error("Unexpected end of data");
 
             if (*iterator != '&')
@@ -101,7 +101,7 @@ namespace ouzel
 
             for (;;)
             {
-                if (++iterator == str.end())
+                if (++iterator == end)
                     throw std::runtime_error("Unexpected end of data");
 
                 if (*iterator == ';')
@@ -176,12 +176,12 @@ namespace ouzel
             return result;
         }
 
-        static std::string parseString(const std::vector<uint32_t>& str,
-                                       std::vector<uint32_t>::const_iterator& iterator)
+        static std::string parseString(std::vector<uint32_t>::const_iterator& iterator,
+                                       std::vector<uint32_t>::const_iterator end)
         {
             std::string result;
 
-            if (iterator == str.end())
+            if (iterator == end)
                 throw std::runtime_error("Unexpected end of data");
 
             if (*iterator != '"' && *iterator != '\'')
@@ -193,7 +193,7 @@ namespace ouzel
 
             for (;;)
             {
-                if (iterator == str.end())
+                if (iterator == end)
                     throw std::runtime_error("Unexpected end of data");
 
                 if (*iterator == static_cast<uint32_t>(quotes))
@@ -203,7 +203,7 @@ namespace ouzel
                 }
                 else if (*iterator == '&')
                 {
-                    std::string entity = parseEntity(str, iterator);
+                    std::string entity = parseEntity(iterator, end);
                     result += entity;
                 }
                 else
@@ -294,28 +294,28 @@ namespace ouzel
             std::vector<Node>::const_iterator end() const { return children.end(); }
 
         protected:
-            void parse(const std::vector<uint32_t>& str,
-                       std::vector<uint32_t>::const_iterator& iterator,
+            void parse(std::vector<uint32_t>::const_iterator& iterator,
+                       std::vector<uint32_t>::const_iterator end,
                        bool preserveWhitespaces = false,
                        bool preserveComments = false,
                        bool preserveProcessingInstructions = false)
             {
-                if (iterator == str.end())
+                if (iterator == end)
                     throw std::runtime_error("Unexpected end of data");
 
                 if (*iterator == '<')
                 {
-                    if (++iterator == str.end())
+                    if (++iterator == end)
                         throw std::runtime_error("Unexpected end of data");
 
                     if (*iterator == '!') // <!
                     {
-                        if (++iterator == str.end())
+                        if (++iterator == end)
                             throw std::runtime_error("Unexpected end of data");
 
                         if (*iterator == '-') // <!-
                         {
-                            if (++iterator == str.end())
+                            if (++iterator == end)
                                 throw std::runtime_error("Unexpected end of data");
 
                             if (*iterator != '-') // <!--
@@ -323,7 +323,7 @@ namespace ouzel
 
                             for (;;)
                             {
-                                if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, str.end()) < 3)
+                                if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, end) < 3)
                                     throw std::runtime_error("Unexpected end of data");
 
                                 if (*iterator == '-')
@@ -351,12 +351,12 @@ namespace ouzel
                         {
                             ++iterator;
                             std::string name;
-                            name = parseName(str, iterator);
+                            name = parseName(iterator, end);
 
                             if (name != "CDATA")
                                 throw std::runtime_error("Expected CDATA");
 
-                            if (iterator == str.end())
+                            if (iterator == end)
                                 throw std::runtime_error("Unexpected end of data");
 
                             if (*iterator != '[')
@@ -364,7 +364,7 @@ namespace ouzel
 
                             for (;;)
                             {
-                                if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, str.end()) < 3)
+                                if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, end) < 3)
                                     throw std::runtime_error("Unexpected end of data");
 
                                 if (*iterator == ']' &&
@@ -386,18 +386,18 @@ namespace ouzel
                     else if (*iterator == '?') // <?
                     {
                         ++iterator;
-                        value = parseName(str, iterator);
+                        value = parseName(iterator, end);
 
                         for (;;)
                         {
-                            skipWhitespaces(str, iterator);
+                            skipWhitespaces(iterator, end);
 
-                            if (iterator == str.end())
+                            if (iterator == end)
                                 throw std::runtime_error("Unexpected end of data");
 
                             if (*iterator == '?')
                             {
-                                if (++iterator == str.end())
+                                if (++iterator == end)
                                     throw std::runtime_error("Unexpected end of data");
 
                                 if (*iterator != '>') // ?>
@@ -407,11 +407,11 @@ namespace ouzel
                                 break;
                             }
 
-                            std::string attribute = parseName(str, iterator);
+                            std::string attribute = parseName(iterator, end);
 
-                            skipWhitespaces(str, iterator);
+                            skipWhitespaces(iterator, end);
 
-                            if (iterator == str.end())
+                            if (iterator == end)
                                 throw std::runtime_error("Unexpected end of data");
 
                             if (*iterator != '=')
@@ -419,23 +419,23 @@ namespace ouzel
 
                             ++iterator;
 
-                            skipWhitespaces(str, iterator);
-                            attributes[attribute] = parseString(str, iterator);
+                            skipWhitespaces(iterator, end);
+                            attributes[attribute] = parseString(iterator, end);
                         }
 
                         type = Type::PROCESSING_INSTRUCTION;
                     }
                     else // <
                     {
-                        value = parseName(str, iterator);
+                        value = parseName(iterator, end);
 
                         bool tagClosed = false;
 
                         for (;;)
                         {
-                            skipWhitespaces(str, iterator);
+                            skipWhitespaces(iterator, end);
 
-                            if (iterator == str.end())
+                            if (iterator == end)
                                 throw std::runtime_error("Unexpected end of data");
 
                             if (*iterator == '>')
@@ -445,7 +445,7 @@ namespace ouzel
                             }
                             else if (*iterator == '/')
                             {
-                                if (++iterator == str.end())
+                                if (++iterator == end)
                                     throw std::runtime_error("Unexpected end of data");
 
                                 if (*iterator != '>') // />
@@ -457,11 +457,11 @@ namespace ouzel
                             }
 
                             std::string attribute;
-                            attribute = parseName(str, iterator);
+                            attribute = parseName(iterator, end);
 
-                            skipWhitespaces(str, iterator);
+                            skipWhitespaces(iterator, end);
 
-                            if (iterator == str.end())
+                            if (iterator == end)
                                 throw std::runtime_error("Unexpected end of data");
 
                             if (*iterator != '=')
@@ -469,33 +469,33 @@ namespace ouzel
 
                             ++iterator;
 
-                            skipWhitespaces(str, iterator);
+                            skipWhitespaces(iterator, end);
 
-                            attributes[attribute] = parseString(str, iterator);
+                            attributes[attribute] = parseString(iterator, end);
                         }
 
                         if (!tagClosed)
                         {
                             for (;;)
                             {
-                                if (!preserveWhitespaces) skipWhitespaces(str, iterator);
+                                if (!preserveWhitespaces) skipWhitespaces(iterator, end);
 
-                                if (iterator == str.end())
+                                if (iterator == end)
                                     throw std::runtime_error("Unexpected end of data");
 
                                 if (*iterator == '<' &&
-                                    iterator + 1 != str.end() &&
+                                    iterator + 1 != end &&
                                     *(iterator + 1) == '/')
                                 {
                                     ++iterator; // skip the left angle bracket
                                     ++iterator; // skip the slash
 
-                                    std::string tag = parseName(str, iterator);
+                                    std::string tag = parseName(iterator, end);
 
                                     if (tag != value)
                                         throw std::runtime_error("Tag not closed properly");
 
-                                    if (iterator == str.end())
+                                    if (iterator == end)
                                         throw std::runtime_error("Unexpected end of data");
 
                                     if (*iterator != '>')
@@ -508,7 +508,7 @@ namespace ouzel
                                 else
                                 {
                                     Node node;
-                                    node.parse(str, iterator, preserveWhitespaces, preserveComments, preserveProcessingInstructions);
+                                    node.parse(iterator, end, preserveWhitespaces, preserveComments, preserveProcessingInstructions);
 
                                     if ((preserveComments || node.getType() != Type::COMMENT) &&
                                         (preserveProcessingInstructions || node.getType() != Type::PROCESSING_INSTRUCTION))
@@ -524,12 +524,12 @@ namespace ouzel
                 {
                     for (;;)
                     {
-                        if (iterator == str.end() || // end of a file
+                        if (iterator == end || // end of a file
                             *iterator == '<') // start of a tag
                             break;
                         else if (*iterator == '&')
                         {
-                            std::string entity = parseEntity(str, iterator);
+                            std::string entity = parseEntity(iterator, end);
                             value += entity;
                         }
                         else
@@ -631,9 +631,7 @@ namespace ouzel
         class Data final
         {
         public:
-            Data()
-            {
-            }
+            Data() = default;
 
             Data(const std::vector<uint8_t>& data,
                  bool preserveWhitespaces = false,
@@ -663,12 +661,12 @@ namespace ouzel
 
                 for (;;)
                 {
-                    if (!preserveWhitespaces) skipWhitespaces(str, iterator);
+                    if (!preserveWhitespaces) skipWhitespaces(iterator, str.end());
 
                     if (iterator == str.end()) break;
 
                     Node node;
-                    node.parse(str, iterator,
+                    node.parse(iterator, str.end(),
                                preserveWhitespaces,
                                preserveComments,
                                preserveProcessingInstructions);

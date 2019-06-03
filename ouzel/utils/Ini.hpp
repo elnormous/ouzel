@@ -131,9 +131,7 @@ namespace ouzel
         class Data final
         {
         public:
-            Data()
-            {
-            }
+            Data() = default;
 
             Data(const std::vector<uint8_t>& data)
             {
