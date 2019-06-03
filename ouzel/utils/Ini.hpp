@@ -152,149 +152,7 @@ namespace ouzel
                     str = utf8::toUtf32(data);
                 }
 
-                auto result = sections.insert(std::make_pair("", Section())); // default section
-                auto sectionIterator = result.first;
-
-                for (auto iterator = str.begin(); iterator != str.end();)
-                {
-                    if (isWhitespace(*iterator) || *iterator == '\n' || *iterator == '\r') // line starts with a whitespace
-                        ++iterator; // skip the white space
-                    else if (*iterator == '[') // section
-                    {
-                        ++iterator; // skip the left bracket
-
-                        std::vector<uint32_t> sectionUtf32;
-                        bool parsedSection = false;
-
-                        for (;;)
-                        {
-                            if (iterator == str.end() || *iterator == '\n' || *iterator == '\r')
-                            {
-                                if (!parsedSection)
-                                    throw std::runtime_error("Unexpected end of section");
-
-                                ++iterator; // skip the newline
-                                break;
-                            }
-                            else if (*iterator == ';')
-                            {
-                                ++iterator; // skip the semicolon
-
-                                if (!parsedSection)
-                                    throw std::runtime_error("Unexpected comment");
-
-                                for (;;)
-                                {
-                                    if (iterator == str.end())
-                                        break;
-                                    else if (*iterator == '\n' || *iterator == '\r')
-                                    {
-                                        ++iterator; // skip the newline
-                                        break;
-                                    }
-
-                                    ++iterator;
-                                }
-                                break;
-                            }
-                            else if (*iterator == ']')
-                                parsedSection = true;
-                            else if (*iterator != ' ' && *iterator != '\t')
-                            {
-                                if (parsedSection)
-                                    throw std::runtime_error("Unexpected character after section");
-                            }
-
-                            if (!parsedSection)
-                                sectionUtf32.push_back(*iterator);
-
-                            ++iterator;
-                        }
-
-                        trimUtf32(sectionUtf32);
-
-                        if (sectionUtf32.empty())
-                            throw std::runtime_error("Invalid section name");
-
-                        std::string section = utf8::fromUtf32(sectionUtf32);
-
-                        result = sections.insert(std::make_pair(section, Section(section)));
-                        sectionIterator = result.first;
-                    }
-                    else if (*iterator == ';') // comment
-                    {
-                        while (++iterator != str.end())
-                        {
-                            if (*iterator == '\r' || *iterator == '\n')
-                            {
-                                ++iterator; // skip the newline
-                                break;
-                            }
-                        }
-                    }
-                    else // key, value pair
-                    {
-                        std::vector<uint32_t> keyUtf32;
-                        std::vector<uint32_t> valueUtf32;
-                        bool parsedKey = false;
-
-                        for (;;)
-                        {
-                            if (iterator == str.end())
-                                break;
-                            else if (*iterator == '\r' || *iterator == '\n')
-                            {
-                                ++iterator; // skip the newline
-                                break;
-                            }
-                            else if (*iterator == '=')
-                            {
-                                if (!parsedKey)
-                                    parsedKey = true;
-                                else
-                                    throw std::runtime_error("Unexpected character");
-                            }
-                            else if (*iterator == ';')
-                            {
-                                ++iterator; // skip the semicolon
-
-                                for (;;)
-                                {
-                                    if (iterator == str.end())
-                                        break;
-                                    else if (*iterator == '\r' || *iterator == '\n')
-                                    {
-                                        ++iterator; // skip the newline
-                                        break;
-                                    }
-
-                                    ++iterator;
-                                }
-                                break;
-                            }
-                            else
-                            {
-                                if (!parsedKey)
-                                    keyUtf32.push_back(*iterator);
-                                else
-                                    valueUtf32.push_back(*iterator);
-                            }
-
-                            ++iterator;
-                        }
-
-                        if (keyUtf32.empty())
-                            throw std::runtime_error("Invalid key name");
-
-                        keyUtf32 = trimUtf32(keyUtf32);
-                        valueUtf32 = trimUtf32(valueUtf32);
-
-                        std::string key = utf8::fromUtf32(keyUtf32);
-                        std::string value = utf8::fromUtf32(valueUtf32);
-
-                        sectionIterator->second.values[key] = value;
-                    }
-                }
+                parse(str.begin(), str.end());
             }
 
             std::vector<uint8_t> encode() const
@@ -354,6 +212,154 @@ namespace ouzel
             inline void setBom(bool newBom) { bom = newBom; }
 
         private:
+            void parse(std::vector<uint32_t>::iterator begin,
+                       std::vector<uint32_t>::iterator end)
+            {
+                auto result = sections.insert(std::make_pair("", Section())); // default section
+                auto sectionIterator = result.first;
+
+                for (auto iterator = begin; iterator != end;)
+                {
+                    if (isWhitespace(*iterator) || *iterator == '\n' || *iterator == '\r') // line starts with a whitespace
+                        ++iterator; // skip the white space
+                    else if (*iterator == '[') // section
+                    {
+                        ++iterator; // skip the left bracket
+
+                        std::vector<uint32_t> sectionUtf32;
+                        bool parsedSection = false;
+
+                        for (;;)
+                        {
+                            if (iterator == end || *iterator == '\n' || *iterator == '\r')
+                            {
+                                if (!parsedSection)
+                                    throw std::runtime_error("Unexpected end of section");
+
+                                ++iterator; // skip the newline
+                                break;
+                            }
+                            else if (*iterator == ';')
+                            {
+                                ++iterator; // skip the semicolon
+
+                                if (!parsedSection)
+                                    throw std::runtime_error("Unexpected comment");
+
+                                for (;;)
+                                {
+                                    if (iterator == end)
+                                        break;
+                                    else if (*iterator == '\n' || *iterator == '\r')
+                                    {
+                                        ++iterator; // skip the newline
+                                        break;
+                                    }
+
+                                    ++iterator;
+                                }
+                                break;
+                            }
+                            else if (*iterator == ']')
+                                parsedSection = true;
+                            else if (*iterator != ' ' && *iterator != '\t')
+                            {
+                                if (parsedSection)
+                                    throw std::runtime_error("Unexpected character after section");
+                            }
+
+                            if (!parsedSection)
+                                sectionUtf32.push_back(*iterator);
+
+                            ++iterator;
+                        }
+
+                        trimUtf32(sectionUtf32);
+
+                        if (sectionUtf32.empty())
+                            throw std::runtime_error("Invalid section name");
+
+                        std::string section = utf8::fromUtf32(sectionUtf32);
+
+                        result = sections.insert(std::make_pair(section, Section(section)));
+                        sectionIterator = result.first;
+                    }
+                    else if (*iterator == ';') // comment
+                    {
+                        while (++iterator != end)
+                        {
+                            if (*iterator == '\r' || *iterator == '\n')
+                            {
+                                ++iterator; // skip the newline
+                                break;
+                            }
+                        }
+                    }
+                    else // key, value pair
+                    {
+                        std::vector<uint32_t> keyUtf32;
+                        std::vector<uint32_t> valueUtf32;
+                        bool parsedKey = false;
+
+                        for (;;)
+                        {
+                            if (iterator == end)
+                                break;
+                            else if (*iterator == '\r' || *iterator == '\n')
+                            {
+                                ++iterator; // skip the newline
+                                break;
+                            }
+                            else if (*iterator == '=')
+                            {
+                                if (!parsedKey)
+                                    parsedKey = true;
+                                else
+                                    throw std::runtime_error("Unexpected character");
+                            }
+                            else if (*iterator == ';')
+                            {
+                                ++iterator; // skip the semicolon
+
+                                for (;;)
+                                {
+                                    if (iterator == end)
+                                        break;
+                                    else if (*iterator == '\r' || *iterator == '\n')
+                                    {
+                                        ++iterator; // skip the newline
+                                        break;
+                                    }
+
+                                    ++iterator;
+                                }
+                                break;
+                            }
+                            else
+                            {
+                                if (!parsedKey)
+                                    keyUtf32.push_back(*iterator);
+                                else
+                                    valueUtf32.push_back(*iterator);
+                            }
+
+                            ++iterator;
+                        }
+
+                        if (keyUtf32.empty())
+                            throw std::runtime_error("Invalid key name");
+
+                        keyUtf32 = trimUtf32(keyUtf32);
+                        valueUtf32 = trimUtf32(valueUtf32);
+
+                        std::string key = utf8::fromUtf32(keyUtf32);
+                        std::string value = utf8::fromUtf32(valueUtf32);
+
+                        sectionIterator->second.values[key] = value;
+                    }
+                }
+            }
+
             bool bom = false;
             std::map<std::string, Section> sections;
         };
