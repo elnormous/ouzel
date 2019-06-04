@@ -5,7 +5,6 @@ jobs:
 - job: Linux
   pool:
     vmImage: 'Ubuntu-16.04'
-
   steps:
   - script: sudo apt-get install -y libopenal-dev
   - script: sudo apt-get install -y libasound2-dev
@@ -20,9 +19,17 @@ jobs:
 - job: Windows
   pool:
     vmImage: 'vs2017-win2016'
-
   steps:
   - task: MSBuild@1
     inputs:
       solution: samples/samples.vcxproj
       configuration: Release
+
+- job: macOS
+  pool:
+    vmImage: 'macOS-10.14'
+  steps:
+  - script: |
+      cd samples
+      make -j2
+    displayName: 'make'
