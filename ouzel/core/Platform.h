@@ -40,12 +40,17 @@
 #    endif
 #  endif
 
-#elif defined(__ANDROID__) // Android (check this before Linux because __linux__ is also defined for Android)
+#elif defined(__ANDROID__) // Android (check this before Linux because __unix__ is also defined for Android)
 #  define OUZEL_PLATFORM_ANDROID 1
 #  define OUZEL_SUPPORTS_OPENGL 1
 #  define OUZEL_SUPPORTS_OPENSL 1
 
-#elif defined(__linux__) // Linux
+#elif defined(__EMSCRIPTEN__) // Emscripten (check this before Linux because __unix__ is also defined for Emscripten)
+#  define OUZEL_PLATFORM_EMSCRIPTEN 1
+#  define OUZEL_SUPPORTS_OPENGL 1
+#  define OUZEL_SUPPORTS_OPENAL 1
+
+#elif defined(__unix__) // Linux/BSD/Solaris
 #  define OUZEL_PLATFORM_LINUX 1
 #  define OUZEL_SUPPORTS_OPENGL 1
 #  define OUZEL_SUPPORTS_OPENAL 1
@@ -58,11 +63,6 @@
 #  else
 #    error "Unsupported architecture"
 #  endif
-
-#elif defined(__EMSCRIPTEN__) // Emscripten
-#  define OUZEL_PLATFORM_EMSCRIPTEN 1
-#  define OUZEL_SUPPORTS_OPENGL 1
-#  define OUZEL_SUPPORTS_OPENAL 1
 
 #else
 #  error "Unsupported platform"
