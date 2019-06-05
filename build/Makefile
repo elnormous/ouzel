@@ -7,8 +7,18 @@ architecture=$(shell uname -m)
 os=$(shell uname -s)
 ifeq ($(os),Linux)
 PLATFORM=linux
+else ifeq ($(os),FreeBSD)
+PLATFORM=linux
+else ifeq ($(os),NetBSD)
+PLATFORM=linux
+else ifeq ($(os),DragonFly)
+PLATFORM=linux
+else ifeq ($(os),Solaris)
+PLATFORM=linux
 else ifeq ($(os),Darwin)
 PLATFORM=macos
+else ifeq ($(os),Haiku)
+PLATFORM=haiku
 endif
 endif
 ifeq ($(PLATFORM),emscripten)
