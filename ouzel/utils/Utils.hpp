@@ -5,8 +5,6 @@
 
 #include <cstdint>
 #include <cstdlib>
-#include <functional>
-#include <limits>
 #include <random>
 #include <string>
 #include <thread>
