@@ -87,18 +87,17 @@ namespace ouzel
 
     inline std::vector<std::string> explodeString(const std::string& str, char delimiter = ' ')
     {
-        std::string buffer;
         std::vector<std::string> result;
-
-        for(char c : str)
-            if (c != delimiter) buffer.push_back(c);
-            else if (c == delimiter && !buffer.empty())
-            {
-                result.push_back(buffer);
-                buffer.clear();
-            }
-
-        if (!buffer.empty()) result.push_back(buffer);
+        size_t pos;
+        size_t initialPos = 0;
+        while ((pos = str.find(delimiter, initialPos)) != std::string::npos)
+        {
+            if (pos != initialPos)
+                result.push_back(str.substr(initialPos, pos - initialPos));
+            initialPos = pos + 1;
+        }
+        if (initialPos < str.size())
+            result.push_back(str.substr(initialPos, str.size() - initialPos + 1));
         return result;
     }
 
