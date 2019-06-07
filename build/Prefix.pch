@@ -20,6 +20,18 @@
 #  endif
 #endif
 
+#if defined(__ANDROID__)
+#  include <android/keycodes.h>
+#  include <android/native_window.h>
+#  include <android/native_window_jni.h>
+#  include <jni.h>
+#endif
+
+#if defined(__EMSCRIPTEN__)
+#  include <emscripten.h>
+#  include <emscripten/html5.h>
+#endif
+
 #ifdef __cplusplus
 #  include <algorithm>
 #  include <array>
