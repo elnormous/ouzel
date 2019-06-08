@@ -62,7 +62,6 @@
     <ClCompile Include="..\ouzel\assets\Loader.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
     <ClCompile Include="..\ouzel\core\System.cpp" />
-    <ClCompile Include="..\ouzel\core\Timer.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
     <ClCompile Include="..\ouzel\core\NativeWindow.cpp" />
     <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp" />

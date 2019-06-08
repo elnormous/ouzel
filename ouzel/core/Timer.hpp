@@ -8,7 +8,7 @@ namespace ouzel
     class Timer final
     {
     public:
-        Timer();
+        Timer() = default;
         ~Timer() = default;
 
         Timer(const Timer&) = delete;
@@ -17,7 +17,10 @@ namespace ouzel
         Timer(Timer&&) = delete;
         Timer& operator=(Timer&&) = delete;
 
-        void update(float delta);
+        void update(float delta)
+        {
+            time += delta * scale;
+        }
 
         inline float getTime() const { return time; }
         inline float getScale() const { return scale; }

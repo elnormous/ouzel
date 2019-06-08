@@ -490,9 +490,6 @@
 		305B113B2250413900EDA4F5 /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B11372250413900EDA4F5 /* Containers.hpp */; };
 		305B113C2250413900EDA4F5 /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B11372250413900EDA4F5 /* Containers.hpp */; };
 		305B113D2250413900EDA4F5 /* Containers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B11372250413900EDA4F5 /* Containers.hpp */; };
-		305B68D31ED1B31D003352A2 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B68D11ED1B31D003352A2 /* Timer.cpp */; };
-		305B68D41ED1B31D003352A2 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B68D11ED1B31D003352A2 /* Timer.cpp */; };
-		305B68D51ED1B31D003352A2 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B68D11ED1B31D003352A2 /* Timer.cpp */; };
 		305B68D61ED1B31D003352A2 /* Timer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B68D21ED1B31D003352A2 /* Timer.hpp */; };
 		305B68D71ED1B31D003352A2 /* Timer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B68D21ED1B31D003352A2 /* Timer.hpp */; };
 		305B68D81ED1B31D003352A2 /* Timer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B68D21ED1B31D003352A2 /* Timer.hpp */; };
@@ -992,7 +989,6 @@
 		30575AD71C3B48740009C8A7 /* EventDispatcher.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventDispatcher.hpp; sourceTree = "<group>"; };
 		305B11362250413900EDA4F5 /* Containers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Containers.cpp; sourceTree = "<group>"; };
 		305B11372250413900EDA4F5 /* Containers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Containers.hpp; sourceTree = "<group>"; };
-		305B68D11ED1B31D003352A2 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
 		305B68D21ED1B31D003352A2 /* Timer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timer.hpp; sourceTree = "<group>"; };
 		305B998F1C41F06F008589E1 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
 		305B99901C41F06F008589E1 /* Widget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Widget.hpp; sourceTree = "<group>"; };
@@ -1388,7 +1384,6 @@
 				304A8E871C248204008B1151 /* Setup.h */,
 				30CEB36721A6385C00525637 /* System.cpp */,
 				30CEB36821A6385C00525637 /* System.hpp */,
-				305B68D11ED1B31D003352A2 /* Timer.cpp */,
 				305B68D21ED1B31D003352A2 /* Timer.hpp */,
 				303B76311C355A3400FEDE92 /* tvos */,
 				3009341A1C88698500CC50D3 /* Window.cpp */,
@@ -2495,7 +2490,6 @@
 				30519CB81F9B53AB00AF3DC4 /* WaveLoader.cpp in Sources */,
 				303B04B41E207B6100011CBE /* OpenGLView.m in Sources */,
 				30EEADBF21618DC400D2F525 /* KeyboardDevice.cpp in Sources */,
-				305B68D31ED1B31D003352A2 /* Timer.cpp in Sources */,
 				30381F6D1D80A3EC00677CAB /* OGLBuffer.cpp in Sources */,
 				30AEFA0C20C0A90400CDFD33 /* GltfLoader.cpp in Sources */,
 				30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */,
@@ -2623,7 +2617,6 @@
 				30381F6F1D80A3EC00677CAB /* OGLBuffer.cpp in Sources */,
 				30519CBA1F9B53AB00AF3DC4 /* WaveLoader.cpp in Sources */,
 				303B04C41E207B7800011CBE /* OpenGLView.m in Sources */,
-				305B68D51ED1B31D003352A2 /* Timer.cpp in Sources */,
 				30AEFA0E20C0A90400CDFD33 /* GltfLoader.cpp in Sources */,
 				303820021D80A40700677CAB /* MetalRenderDevice.mm in Sources */,
 				30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */,
@@ -2785,7 +2778,6 @@
 				30B859951F3D2F3200A16952 /* Font.cpp in Sources */,
 				30381F861D80A3EC00677CAB /* OGLShader.cpp in Sources */,
 				3049DCDB1EDCD0450000997A /* Cursor.cpp in Sources */,
-				305B68D41ED1B31D003352A2 /* Timer.cpp in Sources */,
 				304A8E5A1C237C70008B1151 /* Matrix.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
