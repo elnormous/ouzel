@@ -77,10 +77,10 @@ namespace ouzel
                 {
                     case ouzel::graphics::Texture::Address::CLAMP_TO_EDGE:
                         return MTLSamplerAddressModeClampToEdge;
-    #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
+#if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
                     case ouzel::graphics::Texture::Address::CLAMP_TO_BORDER:
                         return MTLSamplerAddressModeClampToBorderColor;
-    #endif
+#endif
                     case ouzel::graphics::Texture::Address::REPEAT:
                         return MTLSamplerAddressModeRepeat;
                     case ouzel::graphics::Texture::Address::MIRROR_REPEAT:
@@ -179,10 +179,10 @@ namespace ouzel
                 if (device.name)
                     engine->log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
 
-    #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
+#if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
                 if ([device supportsFeatureSet:MTLFeatureSet_macOS_GPUFamily1_v2])
                     clampToBorderSupported = true;
-    #endif
+#endif
 
                 metalCommandQueue = [device newCommandQueue];
 
@@ -191,13 +191,13 @@ namespace ouzel
 
                 if (depth)
                 {
-    #if TARGET_OS_IOS || TARGET_OS_TV
+#if TARGET_OS_IOS || TARGET_OS_TV
                     depthFormat = stencil ? MTLPixelFormatDepth32Float_Stencil8 : MTLPixelFormatDepth32Float;
                     stencilFormat = stencil ? MTLPixelFormatDepth32Float_Stencil8 : MTLPixelFormatInvalid;
-    #else
+#else
                     depthFormat = stencil ? MTLPixelFormatDepth24Unorm_Stencil8 : MTLPixelFormatDepth32Float;
                     stencilFormat = stencil ? MTLPixelFormatDepth24Unorm_Stencil8 : MTLPixelFormatInvalid;
-    #endif
+#endif
                 }
 
                 renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
