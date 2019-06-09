@@ -148,7 +148,7 @@ namespace ouzel
 #endif
                 default:
                     engine->log(Log::Level::INFO) << "Not using render driver";
-                    device.reset(new EmptyRenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new empty::RenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
                     break;
             }
 

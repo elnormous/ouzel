@@ -9,14 +9,17 @@ namespace ouzel
 {
     namespace graphics
     {
-        class EmptyRenderDevice final: public RenderDevice
+        namespace empty
         {
-        public:
-            EmptyRenderDevice(const std::function<void(const Event&)>& initCallback);
+            class RenderDevice final: public ouzel::graphics::RenderDevice
+            {
+            public:
+                RenderDevice(const std::function<void(const Event&)>& initCallback);
 
-        private:
-            void process() final;
-        };
+            private:
+                void process() final;
+            };
+        } // namespace empty
     } // namespace graphics
 } // namespace ouzel
 

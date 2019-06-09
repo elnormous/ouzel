@@ -6,13 +6,16 @@ namespace ouzel
 {
     namespace graphics
     {
-        EmptyRenderDevice::EmptyRenderDevice(const std::function<void(const Event&)>& initCallback):
-            RenderDevice(Driver::EMPTY, initCallback)
+        namespace empty
         {
-        }
+            RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
+                ouzel::graphics::RenderDevice(Driver::EMPTY, initCallback)
+            {
+            }
 
-        void EmptyRenderDevice::process()
-        {
-        }
+            void RenderDevice::process()
+            {
+            }
+        } // namespace empty
     } // namespace graphics
 } // namespace ouzel
