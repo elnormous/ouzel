@@ -24,27 +24,30 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MetalRenderDevice;
-
-        class MetalDepthStencilState final: public MetalRenderResource
+        namespace metal
         {
-        public:
-            MetalDepthStencilState(MetalRenderDevice& renderDeviceMetal,
-                                   bool initDepthTest,
-                                   bool initDepthWrite,
-                                   DepthStencilState::CompareFunction initCompareFunction,
-                                   bool initStencilEnabled,
-                                   uint32_t initStencilReadMask,
-                                   uint32_t initStencilWriteMask,
-                                   const DepthStencilState::StencilDescriptor& initFrontFaceStencil,
-                                   const DepthStencilState::StencilDescriptor& initBackFaceStencil);
-            ~MetalDepthStencilState();
+            class RenderDevice;
 
-            inline MTLDepthStencilStatePtr getDepthStencilState() const { return depthStencilState; }
+            class DepthStencilState final: public RenderResource
+            {
+            public:
+                DepthStencilState(RenderDevice& renderDevice,
+                                  bool initDepthTest,
+                                  bool initDepthWrite,
+                                  ouzel::graphics::DepthStencilState::CompareFunction initCompareFunction,
+                                  bool initStencilEnabled,
+                                  uint32_t initStencilReadMask,
+                                  uint32_t initStencilWriteMask,
+                                  const ouzel::graphics::DepthStencilState::StencilDescriptor& initFrontFaceStencil,
+                                  const ouzel::graphics::DepthStencilState::StencilDescriptor& initBackFaceStencil);
+                ~DepthStencilState();
 
-        private:
-            MTLDepthStencilStatePtr depthStencilState = nil;
-        };
+                inline MTLDepthStencilStatePtr getDepthStencilState() const { return depthStencilState; }
+
+            private:
+                MTLDepthStencilStatePtr depthStencilState = nil;
+            };
+        } // namespace metal
     } // namespace graphics
 } // namespace ouzel
 

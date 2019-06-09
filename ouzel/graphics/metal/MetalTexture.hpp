@@ -29,75 +29,78 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MetalRenderDevice;
-
-        class SamplerStateDescriptor final
+        namespace metal
         {
-        public:
-            Texture::Filter filter;
-            Texture::Address addressX;
-            Texture::Address addressY;
-            Texture::Address addressZ;
-            uint32_t maxAnisotropy;
+            class RenderDevice;
 
-            bool operator<(const SamplerStateDescriptor& other) const
+            class SamplerStateDescriptor final
             {
-                return std::tie(filter, addressX, addressY, addressZ, maxAnisotropy) <
-                    std::tie(other.filter, other.addressX, other.addressY, other.addressZ, other.maxAnisotropy);
-            }
-        };
+            public:
+                ouzel::graphics::Texture::Filter filter;
+                ouzel::graphics::Texture::Address addressX;
+                ouzel::graphics::Texture::Address addressY;
+                ouzel::graphics::Texture::Address addressZ;
+                uint32_t maxAnisotropy;
 
-        class MetalTexture final: public MetalRenderResource
-        {
-        public:
-            MetalTexture(MetalRenderDevice& renderDeviceMetal,
-                         const std::vector<Texture::Level>& levels,
-                         Texture::Dimensions dimensions,
-                         uint32_t initFlags = 0,
-                         uint32_t initSampleCount = 1,
-                         PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
-            ~MetalTexture();
+                bool operator<(const SamplerStateDescriptor& other) const
+                {
+                    return std::tie(filter, addressX, addressY, addressZ, maxAnisotropy) <
+                        std::tie(other.filter, other.addressX, other.addressY, other.addressZ, other.maxAnisotropy);
+                }
+            };
 
-            void setData(const std::vector<Texture::Level>& levels);
-            void setFilter(Texture::Filter filter);
-            void setAddressX(Texture::Address addressX);
-            void setAddressY(Texture::Address addressY);
-            void setAddressZ(Texture::Address addressZ);
-            void setMaxAnisotropy(uint32_t maxAnisotropy);
+            class Texture final: public RenderResource
+            {
+            public:
+                Texture(RenderDevice& renderDeviceMetal,
+                        const std::vector<ouzel::graphics::Texture::Level>& levels,
+                        ouzel::graphics::Texture::Dimensions dimensions,
+                        uint32_t initFlags = 0,
+                        uint32_t initSampleCount = 1,
+                        PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
+                ~Texture();
 
-            inline uint32_t getFlags() const { return flags; }
-            inline uint32_t getMipmaps() const { return mipmaps; }
-            inline uint32_t getSampleCount() const { return sampleCount; }
+                void setData(const std::vector<ouzel::graphics::Texture::Level>& levels);
+                void setFilter(ouzel::graphics::Texture::Filter filter);
+                void setAddressX(ouzel::graphics::Texture::Address addressX);
+                void setAddressY(ouzel::graphics::Texture::Address addressY);
+                void setAddressZ(ouzel::graphics::Texture::Address addressZ);
+                void setMaxAnisotropy(uint32_t maxAnisotropy);
 
-            inline MTLTexturePtr getTexture() const { return texture; }
-            inline MTLPixelFormat getPixelFormat() const { return pixelFormat; }
-            inline bool getStencilBuffer() const { return stencilBuffer; }
+                inline uint32_t getFlags() const { return flags; }
+                inline uint32_t getMipmaps() const { return mipmaps; }
+                inline uint32_t getSampleCount() const { return sampleCount; }
 
-            inline MTLSamplerStatePtr getSamplerState() const { return samplerState; }
+                inline MTLTexturePtr getTexture() const { return texture; }
+                inline MTLPixelFormat getPixelFormat() const { return pixelFormat; }
+                inline bool getStencilBuffer() const { return stencilBuffer; }
 
-            inline NSUInteger getWidth() const { return width; }
-            inline NSUInteger getHeight() const { return height; }
+                inline MTLSamplerStatePtr getSamplerState() const { return samplerState; }
 
-        private:
-            void updateSamplerState();
+                inline NSUInteger getWidth() const { return width; }
+                inline NSUInteger getHeight() const { return height; }
 
-            uint32_t flags = 0;
-            uint32_t mipmaps = 0;
-            uint32_t sampleCount = 1;
+            private:
+                void updateSamplerState();
 
-            SamplerStateDescriptor samplerDescriptor;
+                uint32_t flags = 0;
+                uint32_t mipmaps = 0;
+                uint32_t sampleCount = 1;
 
-            MTLTexturePtr texture = nil;
+                SamplerStateDescriptor samplerDescriptor;
 
-            NSUInteger width = 0;
-            NSUInteger height = 0;
+                MTLTexturePtr texture = nil;
 
-            MTLSamplerStatePtr samplerState = nil;
-            MTLTexturePtr msaaTexture = nil;
+                NSUInteger width = 0;
+                NSUInteger height = 0;
 
-            MTLPixelFormat pixelFormat;
-            bool stencilBuffer = false;
-        };
+                MTLSamplerStatePtr samplerState = nil;
+                MTLTexturePtr msaaTexture = nil;
+
+                MTLPixelFormat pixelFormat;
+                bool stencilBuffer = false;
+            };
+        } // namespace metal
     } // namespace graphics
 } // namespace ouzel
 

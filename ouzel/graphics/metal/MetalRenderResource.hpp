@@ -11,27 +11,30 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MetalRenderDevice;
-
-        class MetalRenderResource
+        namespace metal
         {
-        public:
-            explicit MetalRenderResource(MetalRenderDevice& initRenderDevice):
-                renderDevice(initRenderDevice)
+            class RenderDevice;
+
+            class RenderResource
             {
-            }
+            public:
+                explicit RenderResource(RenderDevice& initRenderDevice):
+                    renderDevice(initRenderDevice)
+                {
+                }
 
-            virtual ~MetalRenderResource() = default;
+                virtual ~RenderResource() = default;
 
-            MetalRenderResource(const MetalRenderResource&) = delete;
-            MetalRenderResource& operator=(const MetalRenderResource&) = delete;
+                RenderResource(const RenderResource&) = delete;
+                RenderResource& operator=(const RenderResource&) = delete;
 
-            MetalRenderResource(MetalRenderResource&&) = delete;
-            MetalRenderResource& operator=(MetalRenderResource&&) = delete;
+                RenderResource(RenderResource&&) = delete;
+                RenderResource& operator=(RenderResource&&) = delete;
 
-        protected:
-            MetalRenderDevice& renderDevice;
-        };
+            protected:
+                RenderDevice& renderDevice;
+            };
+        } // namespace metal
     } // namespace graphics
 } // namespace ouzel
 

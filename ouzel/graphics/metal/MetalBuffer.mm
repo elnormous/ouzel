@@ -13,58 +13,61 @@ namespace ouzel
 {
     namespace graphics
     {
-        MetalBuffer::MetalBuffer(MetalRenderDevice& renderDeviceMetal,
-                                 Buffer::Usage newUsage, uint32_t newFlags,
-                                 const std::vector<uint8_t>& data,
-                                 uint32_t newSize):
-            MetalRenderResource(renderDeviceMetal),
-            usage(newUsage),
-            flags(newFlags)
+        namespace metal
         {
-            createBuffer(newSize);
+            Buffer::Buffer(RenderDevice& renderDevice,
+                           ouzel::graphics::Buffer::Usage newUsage, uint32_t newFlags,
+                           const std::vector<uint8_t>& data,
+                           uint32_t newSize):
+                RenderResource(renderDevice),
+                usage(newUsage),
+                flags(newFlags)
+            {
+                createBuffer(newSize);
 
-            if (!data.empty())
+                if (!data.empty())
+                    std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
+            }
+
+            Buffer::~Buffer()
+            {
+                if (buffer) [buffer release];
+            }
+
+            void Buffer::setData(const std::vector<uint8_t>& data)
+            {
+                if (!(flags & ouzel::graphics::Buffer::DYNAMIC))
+                    throw std::runtime_error("Buffer is not dynamic");
+
+                if (data.empty())
+                    throw std::runtime_error("Data is empty");
+
+                if (!buffer || data.size() > size)
+                    createBuffer(static_cast<uint32_t>(data.size()));
+
                 std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
-        }
-
-        MetalBuffer::~MetalBuffer()
-        {
-            if (buffer) [buffer release];
-        }
-
-        void MetalBuffer::setData(const std::vector<uint8_t>& data)
-        {
-            if (!(flags & Buffer::DYNAMIC))
-                throw std::runtime_error("Buffer is not dynamic");
-
-            if (data.empty())
-                throw std::runtime_error("Data is empty");
-
-            if (!buffer || data.size() > size)
-                createBuffer(static_cast<uint32_t>(data.size()));
-
-            std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
-        }
-
-        void MetalBuffer::createBuffer(NSUInteger newSize)
-        {
-            if (buffer)
-            {
-                [buffer release];
-                buffer = nil;
             }
 
-            if (newSize > 0)
+            void Buffer::createBuffer(NSUInteger newSize)
             {
-                size = newSize;
+                if (buffer)
+                {
+                    [buffer release];
+                    buffer = nil;
+                }
 
-                buffer = [renderDevice.getDevice() newBufferWithLength:size
-                                                               options:MTLResourceCPUCacheModeWriteCombined];
+                if (newSize > 0)
+                {
+                    size = newSize;
 
-                if (!buffer)
-                    throw std::runtime_error("Failed to create Metal buffer");
+                    buffer = [renderDevice.getDevice() newBufferWithLength:size
+                                                                   options:MTLResourceCPUCacheModeWriteCombined];
+
+                    if (!buffer)
+                        throw std::runtime_error("Failed to create Metal buffer");
+                }
             }
-        }
+        } // namespace metal
     } // namespace graphics
 } // namespace ouzel
 

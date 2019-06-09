@@ -18,28 +18,31 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MetalRenderDeviceTVOS final: public MetalRenderDevice
+        namespace metal
         {
-            friend Renderer;
-        public:
-            MetalRenderDeviceTVOS(const std::function<void(const Event&)>& initCallback);
-            ~MetalRenderDeviceTVOS();
+            class RenderDeviceTVOS final: public RenderDevice
+            {
+                friend Renderer;
+            public:
+                RenderDeviceTVOS(const std::function<void(const Event&)>& initCallback);
+                ~RenderDeviceTVOS();
 
-            void renderCallback();
+                void renderCallback();
 
-        private:
-            void init(Window* newWindow,
-                      const Size2U& newSize,
-                      uint32_t newSampleCount,
-                      Texture::Filter newTextureFilter,
-                      uint32_t newMaxAnisotropy,
-                      bool newVerticalSync,
-                      bool newDepth,
-                      bool newStencil,
-                      bool newDebugRenderer) final;
+            private:
+                void init(Window* newWindow,
+                          const Size2U& newSize,
+                          uint32_t newSampleCount,
+                          ouzel::graphics::Texture::Filter newTextureFilter,
+                          uint32_t newMaxAnisotropy,
+                          bool newVerticalSync,
+                          bool newDepth,
+                          bool newStencil,
+                          bool newDebugRenderer) final;
 
-            DisplayLink displayLink;
-        };
+                DisplayLink displayLink;
+            };
+        } // namespace metal
     } // namespace graphics
 } // namespace ouzel
 

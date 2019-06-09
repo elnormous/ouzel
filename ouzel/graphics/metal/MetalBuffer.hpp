@@ -22,34 +22,37 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MetalRenderDevice;
-
-        class MetalBuffer final: public MetalRenderResource
+        namespace metal
         {
-        public:
-            MetalBuffer(MetalRenderDevice& renderDeviceMetal,
-                        Buffer::Usage newUsage, uint32_t newFlags,
-                        const std::vector<uint8_t>& newData,
-                        uint32_t newSize);
-            ~MetalBuffer();
+            class RenderDevice;
 
-            void setData(const std::vector<uint8_t>& data);
+            class Buffer final: public RenderResource
+            {
+            public:
+                Buffer(RenderDevice& renderDevice,
+                       ouzel::graphics::Buffer::Usage newUsage, uint32_t newFlags,
+                       const std::vector<uint8_t>& newData,
+                       uint32_t newSize);
+                ~Buffer();
 
-            inline uint32_t getFlags() const { return flags; }
-            inline Buffer::Usage getUsage() const { return usage; }
-            inline NSUInteger getSize() const { return size; }
+                void setData(const std::vector<uint8_t>& data);
 
-            inline MTLBufferPtr getBuffer() const { return buffer; }
+                inline uint32_t getFlags() const { return flags; }
+                inline ouzel::graphics::Buffer::Usage getUsage() const { return usage; }
+                inline NSUInteger getSize() const { return size; }
 
-        private:
-            void createBuffer(NSUInteger newSize);
+                inline MTLBufferPtr getBuffer() const { return buffer; }
 
-            Buffer::Usage usage;
-            uint32_t flags = 0;
+            private:
+                void createBuffer(NSUInteger newSize);
 
-            MTLBufferPtr buffer = nil;
-            NSUInteger size = 0;
-        };
+                ouzel::graphics::Buffer::Usage usage;
+                uint32_t flags = 0;
+
+                MTLBufferPtr buffer = nil;
+                NSUInteger size = 0;
+            };
+        } // namespace metal
     } // namespace graphics
 } // namespace ouzel
 

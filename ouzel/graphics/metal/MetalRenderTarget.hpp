@@ -31,38 +31,41 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MetalRenderDevice;
-        class MetalTexture;
-
-        class MetalRenderTarget final: public MetalRenderResource
+        namespace metal
         {
-        public:
-            MetalRenderTarget(MetalRenderDevice& renderDeviceMetal,
-                              const std::set<MetalTexture*>& initColorTextures,
-                              MetalTexture* initDepthTexture);
-            ~MetalRenderTarget();
+            class RenderDevice;
+            class Texture;
 
-            inline const std::set<MetalTexture*>& getColorTextures() const { return colorTextures; }
-            inline MetalTexture* getDepthTexture() const { return depthTexture; }
+            class RenderTarget final: public RenderResource
+            {
+            public:
+                RenderTarget(RenderDevice& renderDevice,
+                             const std::set<Texture*>& initColorTextures,
+                             Texture* initDepthTexture);
+                ~RenderTarget();
 
-            inline NSUInteger getSampleCount() const { return sampleCount; }
-            inline const std::vector<MTLPixelFormat>& getColorFormats() const { return colorFormats; }
-            inline MTLPixelFormat getDepthFormat() const { return depthFormat; }
-            inline MTLPixelFormat getStencilFormat() const { return stencilFormat; }
+                inline const std::set<Texture*>& getColorTextures() const { return colorTextures; }
+                inline Texture* getDepthTexture() const { return depthTexture; }
 
-            inline MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
+                inline NSUInteger getSampleCount() const { return sampleCount; }
+                inline const std::vector<MTLPixelFormat>& getColorFormats() const { return colorFormats; }
+                inline MTLPixelFormat getDepthFormat() const { return depthFormat; }
+                inline MTLPixelFormat getStencilFormat() const { return stencilFormat; }
 
-        private:
-            std::set<MetalTexture*> colorTextures;
-            MetalTexture* depthTexture = nullptr;
+                inline MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 
-            NSUInteger sampleCount = 0;
-            std::vector<MTLPixelFormat> colorFormats;
-            MTLPixelFormat depthFormat;
-            MTLPixelFormat stencilFormat;
+            private:
+                std::set<Texture*> colorTextures;
+                Texture* depthTexture = nullptr;
 
-            MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
-        };
+                NSUInteger sampleCount = 0;
+                std::vector<MTLPixelFormat> colorFormats;
+                MTLPixelFormat depthFormat;
+                MTLPixelFormat stencilFormat;
+
+                MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
+            };
+        } // namespace metal
     } // namespace graphics
 } // namespace ouzel
 

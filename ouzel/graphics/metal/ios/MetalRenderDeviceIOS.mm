@@ -19,7 +19,7 @@ static void renderCallback(void* userInfo)
 {
     try
     {
-        ouzel::graphics::MetalRenderDeviceIOS* renderDevice = static_cast<ouzel::graphics::MetalRenderDeviceIOS*>(userInfo);
+        ouzel::graphics::metal::RenderDeviceIOS* renderDevice = static_cast<ouzel::graphics::metal::RenderDeviceIOS*>(userInfo);
         renderDevice->renderCallback();
     }
     catch (const std::exception& e)
@@ -32,56 +32,59 @@ namespace ouzel
 {
     namespace graphics
     {
-        MetalRenderDeviceIOS::MetalRenderDeviceIOS(const std::function<void(const Event&)>& initCallback):
-            MetalRenderDevice(initCallback),
-            displayLink(::renderCallback, this)
+        namespace metal
         {
-        }
+            RenderDeviceIOS::RenderDeviceIOS(const std::function<void(const Event&)>& initCallback):
+                RenderDevice(initCallback),
+                displayLink(::renderCallback, this)
+            {
+            }
 
-        MetalRenderDeviceIOS::~MetalRenderDeviceIOS()
-        {
-            displayLink.stop();
-            CommandBuffer commandBuffer;
-            commandBuffer.pushCommand(std::unique_ptr<Command>(new PresentCommand()));
-            submitCommandBuffer(std::move(commandBuffer));
-        }
+            RenderDeviceIOS::~RenderDeviceIOS()
+            {
+                displayLink.stop();
+                CommandBuffer commandBuffer;
+                commandBuffer.pushCommand(std::unique_ptr<Command>(new PresentCommand()));
+                submitCommandBuffer(std::move(commandBuffer));
+            }
 
-        void MetalRenderDeviceIOS::init(Window* newWindow,
-                                        const Size2U& newSize,
-                                        uint32_t newSampleCount,
-                                        Texture::Filter newTextureFilter,
-                                        uint32_t newMaxAnisotropy,
-                                        bool newVerticalSync,
-                                        bool newDepth,
-                                        bool newStencil,
-                                        bool newDebugRenderer)
-        {
-            MetalRenderDevice::init(newWindow,
-                                    newSize,
-                                    newSampleCount,
-                                    newTextureFilter,
-                                    newMaxAnisotropy,
-                                    newVerticalSync,
-                                    newDepth,
-                                    newStencil,
-                                    newDebugRenderer);
+            void RenderDeviceIOS::init(Window* newWindow,
+                                       const Size2U& newSize,
+                                       uint32_t newSampleCount,
+                                       ouzel::graphics::Texture::Filter newTextureFilter,
+                                       uint32_t newMaxAnisotropy,
+                                       bool newVerticalSync,
+                                       bool newDepth,
+                                       bool newStencil,
+                                       bool newDebugRenderer)
+            {
+                RenderDevice::init(newWindow,
+                                   newSize,
+                                   newSampleCount,
+                                   newTextureFilter,
+                                   newMaxAnisotropy,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newStencil,
+                                   newDebugRenderer);
 
-            MetalView* view = (MetalView*)static_cast<NativeWindowIOS*>(newWindow->getNativeWindow())->getNativeView();
+                MetalView* view = (MetalView*)static_cast<NativeWindowIOS*>(newWindow->getNativeWindow())->getNativeView();
 
-            metalLayer = (CAMetalLayer*)view.layer;
-            metalLayer.device = device;
-            CGSize drawableSize = CGSizeMake(newSize.v[0], newSize.v[1]);
-            metalLayer.drawableSize = drawableSize;
+                metalLayer = (CAMetalLayer*)view.layer;
+                metalLayer.device = device;
+                CGSize drawableSize = CGSizeMake(newSize.v[0], newSize.v[1]);
+                metalLayer.drawableSize = drawableSize;
 
-            colorFormat = metalLayer.pixelFormat;
+                colorFormat = metalLayer.pixelFormat;
 
-            displayLink.start(verticalSync);
-        }
+                displayLink.start(verticalSync);
+            }
 
-        void MetalRenderDeviceIOS::renderCallback()
-        {
-            process();
-        }
+            void RenderDeviceIOS::renderCallback()
+            {
+                process();
+            }
+        } // namespace metal
     } // namespace graphics
 } // namespace ouzel
 

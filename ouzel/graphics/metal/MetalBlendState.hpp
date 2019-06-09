@@ -23,38 +23,43 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MetalRenderDevice;
-
-        class MetalBlendState final: public MetalRenderResource
+        namespace metal
         {
-        public:
-            MetalBlendState(MetalRenderDevice& renderDeviceMetal,
-                            bool enableBlending,
-                            BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
-                            BlendState::Operation colorOperation,
-                            BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
-                            BlendState::Operation alphaOperation,
-                            uint8_t colorMask);
+            class RenderDevice;
 
-            inline MTLBlendOperation getRGBBlendOperation() const { return rgbBlendOperation; }
-            inline MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }
-            inline MTLBlendFactor getSourceRGBBlendFactor() const { return sourceRGBBlendFactor; }
-            inline MTLBlendFactor getDestinationRGBBlendFactor() const { return destinationRGBBlendFactor; }
-            inline MTLBlendFactor getSourceAlphaBlendFactor() const { return sourceAlphaBlendFactor; }
-            inline MTLBlendFactor getDestinationAlphaBlendFactor() const { return destinationAlphaBlendFactor; }
-            inline MTLColorWriteMask getColorWriteMask() const { return colorWriteMask; }
-            inline bool isBlendingEnabled() const { return blendingEnabled; }
+            class BlendState final: public RenderResource
+            {
+            public:
+                BlendState(RenderDevice& renderDevice,
+                           bool enableBlending,
+                           ouzel::graphics::BlendState::Factor colorBlendSource,
+                           ouzel::graphics::BlendState::Factor colorBlendDest,
+                           ouzel::graphics::BlendState::Operation colorOperation,
+                           ouzel::graphics::BlendState::Factor alphaBlendSource,
+                           ouzel::graphics::BlendState::Factor alphaBlendDest,
+                           ouzel::graphics::BlendState::Operation alphaOperation,
+                           uint8_t colorMask);
 
-        private:
-            MTLBlendOperation rgbBlendOperation;
-            MTLBlendOperation alphaBlendOperation;
-            MTLBlendFactor sourceRGBBlendFactor;
-            MTLBlendFactor destinationRGBBlendFactor;
-            MTLBlendFactor sourceAlphaBlendFactor;
-            MTLBlendFactor destinationAlphaBlendFactor;
-            MTLColorWriteMask colorWriteMask;
-            bool blendingEnabled;
-        };
+                inline MTLBlendOperation getRgbBlendOperation() const { return rgbBlendOperation; }
+                inline MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }
+                inline MTLBlendFactor getSourceRgbBlendFactor() const { return sourceRgbBlendFactor; }
+                inline MTLBlendFactor getDestinationRgbBlendFactor() const { return destinationRgbBlendFactor; }
+                inline MTLBlendFactor getSourceAlphaBlendFactor() const { return sourceAlphaBlendFactor; }
+                inline MTLBlendFactor getDestinationAlphaBlendFactor() const { return destinationAlphaBlendFactor; }
+                inline MTLColorWriteMask getColorWriteMask() const { return colorWriteMask; }
+                inline bool isBlendingEnabled() const { return blendingEnabled; }
+
+            private:
+                MTLBlendOperation rgbBlendOperation;
+                MTLBlendOperation alphaBlendOperation;
+                MTLBlendFactor sourceRgbBlendFactor;
+                MTLBlendFactor destinationRgbBlendFactor;
+                MTLBlendFactor sourceAlphaBlendFactor;
+                MTLBlendFactor destinationAlphaBlendFactor;
+                MTLColorWriteMask colorWriteMask;
+                bool blendingEnabled;
+            };
+        } // namespace metal
     } // namespace graphics
 } // namespace ouzel
 

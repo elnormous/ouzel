@@ -84,7 +84,7 @@ namespace ouzel
                 availableDrivers.insert(Driver::DIRECT3D11);
 #endif
 #if OUZEL_COMPILE_METAL
-                if (MetalRenderDevice::available())
+                if (metal::RenderDevice::available())
                     availableDrivers.insert(Driver::METAL);
 #endif
             }
@@ -138,11 +138,11 @@ namespace ouzel
                 case Driver::METAL:
                     engine->log(Log::Level::INFO) << "Using Metal render driver";
 #  if TARGET_OS_IOS
-                    device.reset(new MetalRenderDeviceIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new metal::RenderDeviceIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif TARGET_OS_TV
-                    device.reset(new MetalRenderDeviceTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new metal::RenderDeviceTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif TARGET_OS_MAC
-                    device.reset(new MetalRenderDeviceMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new metal::RenderDeviceMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  endif
                     break;
 #endif

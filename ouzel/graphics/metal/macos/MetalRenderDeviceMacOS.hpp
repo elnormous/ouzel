@@ -48,36 +48,39 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MetalRenderDeviceMacOS final: public MetalRenderDevice
+        namespace metal
         {
-            friend Renderer;
-        public:
-            MetalRenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
-            ~MetalRenderDeviceMacOS();
+            class RenderDeviceMacOS final: public RenderDevice
+            {
+                friend Renderer;
+            public:
+                RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
+                ~RenderDeviceMacOS();
 
-            std::vector<Size2U> getSupportedResolutions() const final;
+                std::vector<Size2U> getSupportedResolutions() const final;
 
-            void renderCallback();
+                void renderCallback();
 
-        private:
-            void init(Window* newWindow,
-                      const Size2U& newSize,
-                      uint32_t newSampleCount,
-                      Texture::Filter newTextureFilter,
-                      uint32_t newMaxAnisotropy,
-                      bool newSrgb,
-                      bool newVerticalSync,
-                      bool newDepth,
-                      bool newStencil,
-                      bool newDebugRenderer) final;
+            private:
+                void init(Window* newWindow,
+                          const Size2U& newSize,
+                          uint32_t newSampleCount,
+                          ouzel::graphics::Texture::Filter newTextureFilter,
+                          uint32_t newMaxAnisotropy,
+                          bool newSrgb,
+                          bool newVerticalSync,
+                          bool newDepth,
+                          bool newStencil,
+                          bool newDebugRenderer) final;
 
-            bool handleWindow(const WindowEvent& event);
+                bool handleWindow(const WindowEvent& event);
 
-            CVDisplayLinkRef displayLink = nullptr;
-            EventHandler eventHandler;
+                CVDisplayLinkRef displayLink = nullptr;
+                EventHandler eventHandler;
 
-            std::atomic_bool running{false};
-        };
+                std::atomic_bool running{false};
+            };
+        } // namespace metal
     } // namespace graphics
 } // namespace ouzel
 
