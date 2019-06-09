@@ -11,27 +11,30 @@ namespace ouzel
 {
     namespace graphics
     {
-        class D3D11RenderDevice;
-
-        class D3D11RenderResource
+        namespace d3d11
         {
-        public:
-            explicit D3D11RenderResource(D3D11RenderDevice& initRenderDevice):
-                renderDevice(initRenderDevice)
+            class RenderDevice;
+
+            class RenderResource
             {
-            }
+            public:
+                explicit RenderResource(RenderDevice& initRenderDevice):
+                    renderDevice(initRenderDevice)
+                {
+                }
 
-            virtual ~D3D11RenderResource() = default;
+                virtual ~RenderResource() = default;
 
-            D3D11RenderResource(const D3D11RenderResource&) = delete;
-            D3D11RenderResource& operator=(const D3D11RenderResource&) = delete;
+                RenderResource(const RenderResource&) = delete;
+                RenderResource& operator=(const RenderResource&) = delete;
 
-            D3D11RenderResource(D3D11RenderResource&&) = delete;
-            D3D11RenderResource& operator=(D3D11RenderResource&&) = delete;
+                RenderResource(RenderResource&&) = delete;
+                RenderResource& operator=(RenderResource&&) = delete;
 
-        protected:
-            D3D11RenderDevice& renderDevice;
-        };
+            protected:
+                RenderDevice& renderDevice;
+            };
+        } // namespace d3d11
     } // namespace graphics
 } // namespace ouzel
 

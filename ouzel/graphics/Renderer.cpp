@@ -131,7 +131,7 @@ namespace ouzel
 #if OUZEL_COMPILE_DIRECT3D11
                 case Driver::DIRECT3D11:
                     engine->log(Log::Level::INFO) << "Using Direct3D 11 render driver";
-                    device.reset(new D3D11RenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new d3d11::RenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
                     break;
 #endif
 #if OUZEL_COMPILE_METAL

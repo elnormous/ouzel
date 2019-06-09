@@ -15,27 +15,30 @@ namespace ouzel
 {
     namespace graphics
     {
-        class D3D11RenderDevice;
-
-        class D3D11DepthStencilState final: public D3D11RenderResource
+        namespace d3d11
         {
-        public:
-            D3D11DepthStencilState(D3D11RenderDevice& renderDeviceD3D11,
-                                   bool initDepthTest,
-                                   bool initDepthWrite,
-                                   DepthStencilState::CompareFunction initCompareFunction,
-                                   bool initStencilEnabled,
-                                   uint32_t initStencilReadMask,
-                                   uint32_t initStencilWriteMask,
-                                   const DepthStencilState::StencilDescriptor& initFrontFaceStencil,
-                                   const DepthStencilState::StencilDescriptor& initBackFaceStencil);
-            ~D3D11DepthStencilState();
+            class RenderDevice;
 
-            inline ID3D11DepthStencilState* getDepthStencilState() const { return depthStencilState; }
+            class DepthStencilState final: public RenderResource
+            {
+            public:
+                DepthStencilState(RenderDevice& renderDevice,
+                                  bool initDepthTest,
+                                  bool initDepthWrite,
+                                  ouzel::graphics::DepthStencilState::CompareFunction initCompareFunction,
+                                  bool initStencilEnabled,
+                                  uint32_t initStencilReadMask,
+                                  uint32_t initStencilWriteMask,
+                                  const ouzel::graphics::DepthStencilState::StencilDescriptor& initFrontFaceStencil,
+                                  const ouzel::graphics::DepthStencilState::StencilDescriptor& initBackFaceStencil);
+                ~DepthStencilState();
 
-        private:
-            ID3D11DepthStencilState* depthStencilState = nullptr;
-        };
+                inline ID3D11DepthStencilState* getDepthStencilState() const { return depthStencilState; }
+
+            private:
+                ID3D11DepthStencilState* depthStencilState = nullptr;
+            };
+        } // namespace d3d11
     } // namespace graphics
 } // namespace ouzel
 

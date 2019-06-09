@@ -15,34 +15,37 @@ namespace ouzel
 {
     namespace graphics
     {
-        class D3D11RenderDevice;
-
-        class D3D11Buffer final: public D3D11RenderResource
+        namespace d3d11
         {
-        public:
-            D3D11Buffer(D3D11RenderDevice& renderDeviceD3D11,
-                        Buffer::Usage newUsage, uint32_t newFlags,
-                        const std::vector<uint8_t>& data,
-                        uint32_t newSize);
-            ~D3D11Buffer();
+            class RenderDevice;
 
-            void setData(const std::vector<uint8_t>& data);
+            class Buffer final: public RenderResource
+            {
+            public:
+                Buffer(RenderDevice& renderDevice,
+                       ouzel::graphics::Buffer::Usage newUsage, uint32_t newFlags,
+                       const std::vector<uint8_t>& data,
+                       uint32_t newSize);
+                ~Buffer();
 
-            inline uint32_t getFlags() const { return flags; }
-            inline Buffer::Usage getUsage() const { return usage; }
-            inline UINT getSize() const { return size; }
+                void setData(const std::vector<uint8_t>& data);
 
-            inline ID3D11Buffer* getBuffer() const { return buffer; }
+                inline uint32_t getFlags() const { return flags; }
+                inline ouzel::graphics::Buffer::Usage getUsage() const { return usage; }
+                inline UINT getSize() const { return size; }
 
-        private:
-            void createBuffer(UINT newSize, const std::vector<uint8_t>& data);
+                inline ID3D11Buffer* getBuffer() const { return buffer; }
 
-            Buffer::Usage usage;
-            uint32_t flags = 0;
+            private:
+                void createBuffer(UINT newSize, const std::vector<uint8_t>& data);
 
-            ID3D11Buffer* buffer = nullptr;
-            UINT size = 0;
-        };
+                ouzel::graphics::Buffer::Usage usage;
+                uint32_t flags = 0;
+
+                ID3D11Buffer* buffer = nullptr;
+                UINT size = 0;
+            };
+        } // namespace d3d11
     } // namespace graphics
 } // namespace ouzel
 

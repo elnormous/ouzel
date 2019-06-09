@@ -15,25 +15,30 @@ namespace ouzel
 {
     namespace graphics
     {
-        class D3D11RenderDevice;
-
-        class D3D11BlendState final: public D3D11RenderResource
+        namespace d3d11
         {
-        public:
-            D3D11BlendState(D3D11RenderDevice& renderDeviceD3D11,
-                            bool enableBlending,
-                            BlendState::Factor colorBlendSource, BlendState::Factor colorBlendDest,
-                            BlendState::Operation colorOperation,
-                            BlendState::Factor alphaBlendSource, BlendState::Factor alphaBlendDest,
-                            BlendState::Operation alphaOperation,
-                            uint8_t colorMask);
-            ~D3D11BlendState();
+            class RenderDevice;
 
-            inline ID3D11BlendState* getBlendState() const { return blendState; }
+            class BlendState final: public RenderResource
+            {
+            public:
+                BlendState(RenderDevice& renderDevice,
+                           bool enableBlending,
+                           ouzel::graphics::BlendState::Factor colorBlendSource,
+                           ouzel::graphics::BlendState::Factor colorBlendDest,
+                           ouzel::graphics::BlendState::Operation colorOperation,
+                           ouzel::graphics::BlendState::Factor alphaBlendSource,
+                           ouzel::graphics::BlendState::Factor alphaBlendDest,
+                           ouzel::graphics::BlendState::Operation alphaOperation,
+                           uint8_t colorMask);
+                ~BlendState();
 
-        private:
-            ID3D11BlendState* blendState = nullptr;
-        };
+                inline ID3D11BlendState* getBlendState() const { return blendState; }
+
+            private:
+                ID3D11BlendState* blendState = nullptr;
+            };
+        } // namespace d3d11
     } // namespace graphics
 } // namespace ouzel
 

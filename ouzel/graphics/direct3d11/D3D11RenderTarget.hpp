@@ -17,29 +17,32 @@ namespace ouzel
 {
     namespace graphics
     {
-        class D3D11RenderDevice;
-        class D3D11Texture;
-
-        class D3D11RenderTarget final: public D3D11RenderResource
+        namespace d3d11
         {
-        public:
-            D3D11RenderTarget(D3D11RenderDevice& renderDeviceD3D11,
-                              const std::set<D3D11Texture*>& initColorTextures,
-                              D3D11Texture* initDepthTexture);
-            ~D3D11RenderTarget();
+            class RenderDevice;
+            class Texture;
 
-            void resolve();
+            class RenderTarget final: public RenderResource
+            {
+            public:
+                RenderTarget(RenderDevice& renderDevice,
+                             const std::set<Texture*>& initColorTextures,
+                             Texture* initDepthTexture);
+                ~RenderTarget();
 
-            inline const std::vector<ID3D11RenderTargetView*>& getRenderTargetViews() const { return renderTargetViews; }
-            inline ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
+                void resolve();
 
-        private:
-            std::set<D3D11Texture*> colorTextures;
-            D3D11Texture* depthTexture = nullptr;
+                inline const std::vector<ID3D11RenderTargetView*>& getRenderTargetViews() const { return renderTargetViews; }
+                inline ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
 
-            std::vector<ID3D11RenderTargetView*> renderTargetViews;
-            ID3D11DepthStencilView* depthStencilView = nullptr;
-        };
+            private:
+                std::set<Texture*> colorTextures;
+                Texture* depthTexture = nullptr;
+
+                std::vector<ID3D11RenderTargetView*> renderTargetViews;
+                ID3D11DepthStencilView* depthStencilView = nullptr;
+            };
+        } // namespace d3d11
     } // namespace graphics
 } // namespace ouzel
 

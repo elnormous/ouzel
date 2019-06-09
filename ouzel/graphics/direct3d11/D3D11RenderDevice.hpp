@@ -21,100 +21,103 @@ namespace ouzel
 {
     namespace graphics
     {
-        class Direct3D11ErrorCategory final: public std::error_category
+        namespace d3d11
         {
-        public:
-            const char* name() const noexcept final
+            class Direct3D11ErrorCategory final: public std::error_category
             {
-                return "Direct3D11";
-            }
-
-            std::string message(int condition) const final
-            {
-                switch (condition)
+            public:
+                const char* name() const noexcept final
                 {
-                    case D3D11_ERROR_FILE_NOT_FOUND: return "D3D11_ERROR_FILE_NOT_FOUND";
-                    case D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS: return "D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS";
-                    case D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS: return "D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS";
-                    case D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD: return "D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD";
-                    case DXGI_ERROR_INVALID_CALL: return "DXGI_ERROR_INVALID_CALL";
-                    case DXGI_ERROR_WAS_STILL_DRAWING: return "DXGI_ERROR_WAS_STILL_DRAWING";
-                    case DXGI_ERROR_NOT_CURRENTLY_AVAILABLE: return "DXGI_ERROR_NOT_CURRENTLY_AVAILABLE";
-                    case E_FAIL: return "E_FAIL";
-                    case E_INVALIDARG: return "E_INVALIDARG";
-                    case E_OUTOFMEMORY: return "E_OUTOFMEMORY";
-                    case E_NOTIMPL: return "E_NOTIMPL";
-                    default: return "Unknown error (" + std::to_string(condition) + ")";
+                    return "Direct3D11";
                 }
-            }
-        };
 
-        extern const Direct3D11ErrorCategory direct3D11ErrorCategory;
+                std::string message(int condition) const final
+                {
+                    switch (condition)
+                    {
+                        case D3D11_ERROR_FILE_NOT_FOUND: return "D3D11_ERROR_FILE_NOT_FOUND";
+                        case D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS: return "D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS";
+                        case D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS: return "D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS";
+                        case D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD: return "D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD";
+                        case DXGI_ERROR_INVALID_CALL: return "DXGI_ERROR_INVALID_CALL";
+                        case DXGI_ERROR_WAS_STILL_DRAWING: return "DXGI_ERROR_WAS_STILL_DRAWING";
+                        case DXGI_ERROR_NOT_CURRENTLY_AVAILABLE: return "DXGI_ERROR_NOT_CURRENTLY_AVAILABLE";
+                        case E_FAIL: return "E_FAIL";
+                        case E_INVALIDARG: return "E_INVALIDARG";
+                        case E_OUTOFMEMORY: return "E_OUTOFMEMORY";
+                        case E_NOTIMPL: return "E_NOTIMPL";
+                        default: return "Unknown error (" + std::to_string(condition) + ")";
+                    }
+                }
+            };
 
-        class D3D11RenderDevice final: public RenderDevice
-        {
-            friend Renderer;
-        public:
-            ~D3D11RenderDevice();
+            extern const Direct3D11ErrorCategory direct3D11ErrorCategory;
 
-            std::vector<Size2U> getSupportedResolutions() const final;
-
-            inline ID3D11Device* getDevice() const { return device; }
-            inline ID3D11DeviceContext* getContext() const { return context; }
-
-            ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
-            void setFullscreen(bool newFullscreen);
-
-            template <class T>
-            inline T* getResource(uintptr_t id) const
+            class RenderDevice final: public ouzel::graphics::RenderDevice
             {
-                return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
-            }
+                friend Renderer;
+            public:
+                ~RenderDevice();
 
-        private:
-            D3D11RenderDevice(const std::function<void(const Event&)>& initCallback);
+                std::vector<Size2U> getSupportedResolutions() const final;
 
-            void init(Window* newWindow,
-                      const Size2U& newSize,
-                      uint32_t newSampleCount,
-                      Texture::Filter newTextureFilter,
-                      uint32_t newMaxAnisotropy,
-                      bool newSrgb,
-                      bool newVerticalSync,
-                      bool newDepth,
-                      bool newStencil,
-                      bool newDebugRenderer) final;
+                inline ID3D11Device* getDevice() const { return device; }
+                inline ID3D11DeviceContext* getContext() const { return context; }
 
-            void process() final;
-            void resizeBackBuffer(UINT newWidth, UINT newHeight);
-            void uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
-            void generateScreenshot(const std::string& filename) final;
-            void main();
+                ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
+                void setFullscreen(bool newFullscreen);
 
-            IDXGIOutput* getOutput() const;
+                template <class T>
+                inline T* getResource(uintptr_t id) const
+                {
+                    return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
+                }
 
-            ID3D11Device* device = nullptr;
-            ID3D11DeviceContext* context = nullptr;
-            IDXGISwapChain* swapChain = nullptr;
-            IDXGIAdapter* adapter = nullptr;
-            ID3D11Texture2D* backBuffer = nullptr;
-            ID3D11RenderTargetView* renderTargetView = nullptr;
-            std::map<SamplerStateDesc, ID3D11SamplerState*> samplerStates;
-            ID3D11RasterizerState* rasterizerStates[12]{nullptr};
-            ID3D11Texture2D* depthStencilTexture = nullptr;
-            ID3D11DepthStencilView* depthStencilView = nullptr;
-            ID3D11DepthStencilState* defaultDepthStencilState = nullptr;
+            private:
+                RenderDevice(const std::function<void(const Event&)>& initCallback);
 
-            UINT frameBufferWidth = 0;
-            UINT frameBufferHeight = 0;
+                void init(Window* newWindow,
+                          const Size2U& newSize,
+                          uint32_t newSampleCount,
+                          ouzel::graphics::Texture::Filter newTextureFilter,
+                          uint32_t newMaxAnisotropy,
+                          bool newSrgb,
+                          bool newVerticalSync,
+                          bool newDepth,
+                          bool newStencil,
+                          bool newDebugRenderer) final;
 
-            UINT swapInterval = 0;
+                void process() final;
+                void resizeBackBuffer(UINT newWidth, UINT newHeight);
+                void uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
+                void generateScreenshot(const std::string& filename) final;
+                void main();
 
-            std::atomic_bool running{false};
-            std::thread renderThread;
+                IDXGIOutput* getOutput() const;
 
-            std::vector<std::unique_ptr<D3D11RenderResource>> resources;
-        };
+                ID3D11Device* device = nullptr;
+                ID3D11DeviceContext* context = nullptr;
+                IDXGISwapChain* swapChain = nullptr;
+                IDXGIAdapter* adapter = nullptr;
+                ID3D11Texture2D* backBuffer = nullptr;
+                ID3D11RenderTargetView* renderTargetView = nullptr;
+                std::map<SamplerStateDesc, ID3D11SamplerState*> samplerStates;
+                ID3D11RasterizerState* rasterizerStates[12]{nullptr};
+                ID3D11Texture2D* depthStencilTexture = nullptr;
+                ID3D11DepthStencilView* depthStencilView = nullptr;
+                ID3D11DepthStencilState* defaultDepthStencilState = nullptr;
+
+                UINT frameBufferWidth = 0;
+                UINT frameBufferHeight = 0;
+
+                UINT swapInterval = 0;
+
+                std::atomic_bool running{false};
+                std::thread renderThread;
+
+                std::vector<std::unique_ptr<RenderResource>> resources;
+            };
+        } // namespace d3d11
     } // namespace graphics
 } // namespace ouzel
 

@@ -623,8 +623,8 @@ namespace ouzel
         {
             if (engine->getRenderer()->getDevice()->getDriver() == graphics::Driver::DIRECT3D11)
             {
-                graphics::D3D11RenderDevice* renderDeviceD3D11 = static_cast<graphics::D3D11RenderDevice*>(engine->getRenderer()->getDevice());
-                renderDeviceD3D11->setFullscreen(newFullscreen);
+                graphics::d3d11::RenderDevice* renderDevice = static_cast<graphics::d3d11::RenderDevice*>(engine->getRenderer()->getDevice());
+                renderDevice->setFullscreen(newFullscreen);
             }
         }
         else

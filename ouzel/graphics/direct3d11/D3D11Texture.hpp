@@ -16,79 +16,82 @@ namespace ouzel
 {
     namespace graphics
     {
-        class D3D11RenderDevice;
-
-        struct SamplerStateDesc final
+        namespace d3d11
         {
-            Texture::Filter filter;
-            Texture::Address addressX;
-            Texture::Address addressY;
-            Texture::Address addressZ;
-            uint32_t maxAnisotropy;
+            class RenderDevice;
 
-            bool operator<(const SamplerStateDesc& other) const
+            struct SamplerStateDesc final
             {
-                return std::tie(filter, addressX, addressY, addressZ, maxAnisotropy) <
-                    std::tie(other.filter, other.addressX, other.addressY, other.addressZ, other.maxAnisotropy);
-            }
-        };
+                ouzel::graphics::Texture::Filter filter;
+                ouzel::graphics::Texture::Address addressX;
+                ouzel::graphics::Texture::Address addressY;
+                ouzel::graphics::Texture::Address addressZ;
+                uint32_t maxAnisotropy;
 
-        class D3D11Texture final: public D3D11RenderResource
-        {
-        public:
-            D3D11Texture(D3D11RenderDevice& renderDeviceD3D11,
-                         const std::vector<Texture::Level>& levels,
-                         Texture::Dimensions dimensions,
-                         uint32_t initFlags = 0,
-                         uint32_t initSampleCount = 1,
-                         PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
-            ~D3D11Texture();
+                bool operator<(const SamplerStateDesc& other) const
+                {
+                    return std::tie(filter, addressX, addressY, addressZ, maxAnisotropy) <
+                        std::tie(other.filter, other.addressX, other.addressY, other.addressZ, other.maxAnisotropy);
+                }
+            };
 
-            void setData(const std::vector<Texture::Level>& levels);
-            void setFilter(Texture::Filter filter);
-            void setAddressX(Texture::Address addressX);
-            void setAddressY(Texture::Address addressY);
-            void setAddressZ(Texture::Address addressZ);
-            void setMaxAnisotropy(uint32_t maxAnisotropy);
+            class Texture final: public RenderResource
+            {
+            public:
+                Texture(RenderDevice& renderDevice,
+                        const std::vector<ouzel::graphics::Texture::Level>& levels,
+                        ouzel::graphics::Texture::Dimensions dimensions,
+                        uint32_t initFlags = 0,
+                        uint32_t initSampleCount = 1,
+                        PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
+                ~Texture();
 
-            void resolve();
+                void setData(const std::vector<ouzel::graphics::Texture::Level>& levels);
+                void setFilter(ouzel::graphics::Texture::Filter filter);
+                void setAddressX(ouzel::graphics::Texture::Address addressX);
+                void setAddressY(ouzel::graphics::Texture::Address addressY);
+                void setAddressZ(ouzel::graphics::Texture::Address addressZ);
+                void setMaxAnisotropy(uint32_t maxAnisotropy);
 
-            inline uint32_t getFlags() const { return flags; }
-            inline uint32_t getMipmaps() const { return mipmaps; }
-            inline uint32_t getSampleCount() const { return sampleCount; }
-            inline DXGI_FORMAT getPixelFormat() const { return pixelFormat; }
+                void resolve();
 
-            inline ID3D11Texture2D* getTexture() const { return texture; }
-            inline ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
-            inline ID3D11SamplerState* getSamplerState() const { return samplerState; }
+                inline uint32_t getFlags() const { return flags; }
+                inline uint32_t getMipmaps() const { return mipmaps; }
+                inline uint32_t getSampleCount() const { return sampleCount; }
+                inline DXGI_FORMAT getPixelFormat() const { return pixelFormat; }
 
-            inline ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
-            inline ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
+                inline ID3D11Texture2D* getTexture() const { return texture; }
+                inline ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
+                inline ID3D11SamplerState* getSamplerState() const { return samplerState; }
 
-            inline UINT getWidth() const { return width; }
-            inline UINT getHeight() const { return height; }
+                inline ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
+                inline ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
 
-        private:
-            void updateSamplerState();
+                inline UINT getWidth() const { return width; }
+                inline UINT getHeight() const { return height; }
 
-            uint32_t flags = 0;
-            uint32_t mipmaps = 0;
-            uint32_t sampleCount = 1;
-            DXGI_FORMAT pixelFormat = DXGI_FORMAT_UNKNOWN;
-            uint32_t pixelSize = 0;
-            SamplerStateDesc samplerDescriptor;
+            private:
+                void updateSamplerState();
 
-            ID3D11Texture2D* texture = nullptr;
-            ID3D11Texture2D* msaaTexture = nullptr;
-            ID3D11ShaderResourceView* resourceView = nullptr;
-            ID3D11SamplerState* samplerState = nullptr;
+                uint32_t flags = 0;
+                uint32_t mipmaps = 0;
+                uint32_t sampleCount = 1;
+                DXGI_FORMAT pixelFormat = DXGI_FORMAT_UNKNOWN;
+                uint32_t pixelSize = 0;
+                SamplerStateDesc samplerDescriptor;
 
-            UINT width = 0;
-            UINT height = 0;
+                ID3D11Texture2D* texture = nullptr;
+                ID3D11Texture2D* msaaTexture = nullptr;
+                ID3D11ShaderResourceView* resourceView = nullptr;
+                ID3D11SamplerState* samplerState = nullptr;
 
-            ID3D11RenderTargetView* renderTargetView = nullptr;
-            ID3D11DepthStencilView* depthStencilView = nullptr;
-        };
+                UINT width = 0;
+                UINT height = 0;
+
+                ID3D11RenderTargetView* renderTargetView = nullptr;
+                ID3D11DepthStencilView* depthStencilView = nullptr;
+            };
+        } // namespace d3d11
     } // namespace graphics
 } // namespace ouzel
 
