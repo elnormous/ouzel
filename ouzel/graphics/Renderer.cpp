@@ -110,21 +110,21 @@ namespace ouzel
                 case Driver::OPENGL:
                     engine->log(Log::Level::INFO) << "Using OpenGL render driver";
 #  if TARGET_OS_IOS
-                    device.reset(new OGLRenderDeviceIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new opengl::RenderDeviceIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif TARGET_OS_TV
-                    device.reset(new OGLRenderDeviceTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new opengl::RenderDeviceTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif TARGET_OS_MAC
-                    device.reset(new OGLRenderDeviceMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new opengl::RenderDeviceMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif defined(__ANDROID__)
-                    device.reset(new OGLRenderDeviceAndroid(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new opengl::RenderDeviceAndroid(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif defined(__linux__)
-                    device.reset(new OGLRenderDeviceLinux(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new opengl::RenderDeviceLinux(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif defined(_WIN32)
-                    device.reset(new OGLRenderDeviceWin(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new opengl::RenderDeviceWin(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  elif defined(__EMSCRIPTEN__)
-                    device.reset(new OGLRenderDeviceEm(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new opengl::RenderDeviceEm(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  else
-                    device.reset(new OGLRenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device.reset(new opengl::RenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
 #  endif
                     break;
 #endif

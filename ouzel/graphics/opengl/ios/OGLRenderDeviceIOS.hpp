@@ -28,45 +28,48 @@ namespace ouzel
 {
     namespace graphics
     {
-        class OGLRenderDeviceIOS final: public OGLRenderDevice
+        namespace opengl
         {
-            friend Renderer;
-        public:
-            OGLRenderDeviceIOS(const std::function<void(const Event&)>& initCallback);
-            ~OGLRenderDeviceIOS();
+            class RenderDeviceIOS final: public RenderDevice
+            {
+                friend Renderer;
+            public:
+                RenderDeviceIOS(const std::function<void(const Event&)>& initCallback);
+                ~RenderDeviceIOS();
 
-            void renderCallback();
+                void renderCallback();
 
-        private:
-            void init(Window* newWindow,
-                      const Size2U& newSize,
-                      uint32_t newSampleCount,
-                      Texture::Filter newTextureFilter,
-                      uint32_t newMaxAnisotropy,
-                      bool newSrgb,
-                      bool newVerticalSync,
-                      bool newDepth,
-                      bool newStencil,
-                      bool newDebugRenderer) final;
+            private:
+                void init(Window* newWindow,
+                          const Size2U& newSize,
+                          uint32_t newSampleCount,
+                          Texture::Filter newTextureFilter,
+                          uint32_t newMaxAnisotropy,
+                          bool newSrgb,
+                          bool newVerticalSync,
+                          bool newDepth,
+                          bool newStencil,
+                          bool newDebugRenderer) final;
 
-            void resizeFrameBuffer() final;
-            void present() final;
+                void resizeFrameBuffer() final;
+                void present() final;
 
-            void createFrameBuffer();
+                void createFrameBuffer();
 
-            EAGLContextPtr context = nil;
-            CAEAGLLayerPtr eaglLayer = nil;
+                EAGLContextPtr context = nil;
+                CAEAGLLayerPtr eaglLayer = nil;
 
-            GLuint msaaFrameBufferId = 0;
-            GLuint msaaColorRenderBufferId = 0;
+                GLuint msaaFrameBufferId = 0;
+                GLuint msaaColorRenderBufferId = 0;
 
-            GLuint resolveFrameBufferId = 0;
-            GLuint resolveColorRenderBufferId = 0;
+                GLuint resolveFrameBufferId = 0;
+                GLuint resolveColorRenderBufferId = 0;
 
-            GLuint depthRenderBufferId = 0;
+                GLuint depthRenderBufferId = 0;
 
-            DisplayLink displayLink;
-        };
+                DisplayLink displayLink;
+            };
+        } // namespace opengl
     } // namespace graphics
 } // namespace ouzel
 

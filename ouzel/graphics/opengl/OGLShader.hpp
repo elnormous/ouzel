@@ -26,58 +26,61 @@ namespace ouzel
 {
     namespace graphics
     {
-        class OGLRenderDevice;
-
-        class OGLShader final: public OGLRenderResource
+        namespace opengl
         {
-        public:
-            OGLShader(OGLRenderDevice& renderDeviceOGL,
-                      const std::vector<uint8_t>& newFragmentShader,
-                      const std::vector<uint8_t>& newVertexShader,
-                      const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                      const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                      const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                      uint32_t newFragmentShaderDataAlignment,
-                      uint32_t newVertexShaderDataAlignment,
-                      const std::string& fragmentShaderFunction,
-                      const std::string& vertexShaderFunction);
-            ~OGLShader();
+            class RenderDevice;
 
-            void reload() final;
-
-            struct Location final
+            class Shader final: public RenderResource
             {
-                GLint location;
-                DataType dataType;
+            public:
+                Shader(RenderDevice& renderDevice,
+                       const std::vector<uint8_t>& newFragmentShader,
+                       const std::vector<uint8_t>& newVertexShader,
+                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
+                       const std::vector<ouzel::graphics::Shader::ConstantInfo>& newFragmentShaderConstantInfo,
+                       const std::vector<ouzel::graphics::Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                       uint32_t newFragmentShaderDataAlignment,
+                       uint32_t newVertexShaderDataAlignment,
+                       const std::string& fragmentShaderFunction,
+                       const std::string& vertexShaderFunction);
+                ~Shader();
+
+                void reload() final;
+
+                struct Location final
+                {
+                    GLint location;
+                    DataType dataType;
+                };
+
+                inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
+
+                inline const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
+                inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
+
+                inline GLuint getProgramId() const { return programId; }
+
+            private:
+                void compileShader();
+                std::string getShaderMessage(GLuint shaderId) const;
+                std::string getProgramMessage() const;
+
+                std::vector<uint8_t> fragmentShaderData;
+                std::vector<uint8_t> vertexShaderData;
+
+                std::set<Vertex::Attribute::Usage> vertexAttributes;
+
+                std::vector<ouzel::graphics::Shader::ConstantInfo> fragmentShaderConstantInfo;
+                std::vector<ouzel::graphics::Shader::ConstantInfo> vertexShaderConstantInfo;
+
+                GLuint fragmentShaderId = 0;
+                GLuint vertexShaderId = 0;
+                GLuint programId = 0;
+
+                std::vector<Location> fragmentShaderConstantLocations;
+                std::vector<Location> vertexShaderConstantLocations;
             };
-
-            inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
-
-            inline const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
-            inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
-
-            inline GLuint getProgramId() const { return programId; }
-
-        private:
-            void compileShader();
-            std::string getShaderMessage(GLuint shaderId) const;
-            std::string getProgramMessage() const;
-
-            std::vector<uint8_t> fragmentShaderData;
-            std::vector<uint8_t> vertexShaderData;
-
-            std::set<Vertex::Attribute::Usage> vertexAttributes;
-
-            std::vector<Shader::ConstantInfo> fragmentShaderConstantInfo;
-            std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
-
-            GLuint fragmentShaderId = 0;
-            GLuint vertexShaderId = 0;
-            GLuint programId = 0;
-
-            std::vector<Location> fragmentShaderConstantLocations;
-            std::vector<Location> vertexShaderConstantLocations;
-        };
+        } // namespace opengl
     } // namespace graphics
 } // namespace ouzel
 

@@ -27,34 +27,37 @@ namespace ouzel
 {
     namespace graphics
     {
-        class OGLRenderDeviceWin final: public OGLRenderDevice
+        namespace opengl
         {
-            friend Renderer;
-        public:
-            OGLRenderDeviceWin(const std::function<void(const Event&)>& initCallback);
-            ~OGLRenderDeviceWin();
+            class RenderDeviceWin final: public RenderDevice
+            {
+                friend Renderer;
+            public:
+                RenderDeviceWin(const std::function<void(const Event&)>& initCallback);
+                ~RenderDeviceWin();
 
-        private:
-            void init(Window* newWindow,
-                      const Size2U& newSize,
-                      uint32_t newSampleCount,
-                      Texture::Filter newTextureFilter,
-                      uint32_t newMaxAnisotropy,
-                      bool newSrgb,
-                      bool newVerticalSync,
-                      bool newDepth,
-                      bool newStencil,
-                      bool newDebugRenderer) final;
+            private:
+                void init(Window* newWindow,
+                          const Size2U& newSize,
+                          uint32_t newSampleCount,
+                          Texture::Filter newTextureFilter,
+                          uint32_t newMaxAnisotropy,
+                          bool newSrgb,
+                          bool newVerticalSync,
+                          bool newDepth,
+                          bool newStencil,
+                          bool newDebugRenderer) final;
 
-            void present() final;
-            void main();
+                void present() final;
+                void main();
 
-            HDC deviceContext = 0;
-            HGLRC renderContext = 0;
+                HDC deviceContext = 0;
+                HGLRC renderContext = 0;
 
-            std::atomic_bool running{false};
-            std::thread renderThread;
-        };
+                std::atomic_bool running{false};
+                std::thread renderThread;
+            };
+        } // namespace opengl
     } // namespace graphics
 } // namespace ouzel
 

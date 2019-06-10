@@ -27,33 +27,36 @@ namespace ouzel
 {
     namespace graphics
     {
-        class OGLRenderDevice;
-        class OGLTexture;
-
-        class OGLRenderTarget final: public OGLRenderResource
+        namespace opengl
         {
-        public:
-            OGLRenderTarget(OGLRenderDevice& renderDeviceOGL,
-                            const std::set<OGLTexture*>& initColorTextures,
-                            OGLTexture* initDepthTexture);
-            ~OGLRenderTarget();
+            class RenderDevice;
+            class Texture;
 
-            void reload() final;
+            class RenderTarget final: public RenderResource
+            {
+            public:
+                RenderTarget(RenderDevice& renderDevice,
+                             const std::set<Texture*>& initColorTextures,
+                             Texture* initDepthTexture);
+                ~RenderTarget();
 
-            void setClearColorBuffer(bool clear);
-            void setClearDepthBuffer(bool clear);
-            void setClearColor(Color color);
-            void setClearDepth(float newClearDepth);
+                void reload() final;
 
-            inline GLuint getFrameBufferId() const { return frameBufferId; }
+                void setClearColorBuffer(bool clear);
+                void setClearDepthBuffer(bool clear);
+                void setClearColor(Color color);
+                void setClearDepth(float newClearDepth);
 
-        private:
-            void createFrameBuffer();
-            GLuint frameBufferId = 0;
+                inline GLuint getFrameBufferId() const { return frameBufferId; }
 
-            std::set<OGLTexture*> colorTextures;
-            OGLTexture* depthTexture = nullptr;
-        };
+            private:
+                void createFrameBuffer();
+                GLuint frameBufferId = 0;
+
+                std::set<Texture*> colorTextures;
+                Texture* depthTexture = nullptr;
+            };
+        } // namespace opengl
     } // namespace graphics
 } // namespace ouzel
 

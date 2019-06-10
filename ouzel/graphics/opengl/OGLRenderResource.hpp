@@ -11,40 +11,43 @@ namespace ouzel
 {
     namespace graphics
     {
-        class OGLRenderDevice;
-
-        class OGLRenderResource
+        namespace opengl
         {
-        public:
-            explicit OGLRenderResource(OGLRenderDevice& initRenderDevice):
-                renderDevice(initRenderDevice)
+            class RenderDevice;
+
+            class RenderResource
             {
-            }
-            virtual ~OGLRenderResource() = default;
+            public:
+                explicit RenderResource(RenderDevice& initRenderDevice):
+                    renderDevice(initRenderDevice)
+                {
+                }
+                virtual ~RenderResource() = default;
 
-            OGLRenderResource(const OGLRenderResource&) = delete;
-            OGLRenderResource& operator=(const OGLRenderResource&) = delete;
+                RenderResource(const RenderResource&) = delete;
+                RenderResource& operator=(const RenderResource&) = delete;
 
-            OGLRenderResource(OGLRenderResource&&) = delete;
-            OGLRenderResource& operator=(OGLRenderResource&&) = delete;
+                RenderResource(RenderResource&&) = delete;
+                RenderResource& operator=(RenderResource&&) = delete;
 
-            inline bool isInvalid() const { return invalid; }
-            inline void invalidate() { invalid = true; }
+                inline bool isInvalid() const { return invalid; }
+                inline void invalidate() { invalid = true; }
 
-            inline void restore()
-            {
-                if (invalid) reload();
-                invalid = false;
-            }
+                inline void restore()
+                {
+                    if (invalid) reload();
+                    invalid = false;
+                }
 
-        protected:
-            virtual void reload() = 0;
+            protected:
+                virtual void reload() = 0;
 
-            OGLRenderDevice& renderDevice;
+                RenderDevice& renderDevice;
 
-        private:
-            bool invalid = false;
-        };
+            private:
+                bool invalid = false;
+            };
+        } // namespace opengl
     } // namespace graphics
 } // namespace ouzel
 

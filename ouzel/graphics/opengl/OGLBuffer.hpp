@@ -26,40 +26,43 @@ namespace ouzel
 {
     namespace graphics
     {
-        class OGLRenderDevice;
-
-        class OGLBuffer final: public OGLRenderResource
+        namespace opengl
         {
-        public:
-            OGLBuffer(OGLRenderDevice& renderDeviceOGL,
-                      Buffer::Usage newUsage, uint32_t newFlags,
-                      const std::vector<uint8_t>& newData,
-                      uint32_t newSize);
-            ~OGLBuffer();
+            class RenderDevice;
 
-            void reload() final;
+            class Buffer final: public RenderResource
+            {
+            public:
+                Buffer(RenderDevice& renderDevice,
+                       ouzel::graphics::Buffer::Usage newUsage, uint32_t newFlags,
+                       const std::vector<uint8_t>& newData,
+                       uint32_t newSize);
+                ~Buffer();
 
-            void setData(const std::vector<uint8_t>& newData);
+                void reload() final;
 
-            inline uint32_t getFlags() const { return flags; }
-            inline Buffer::Usage getUsage() const { return usage; }
-            inline GLsizeiptr getSize() const { return size; }
+                void setData(const std::vector<uint8_t>& newData);
 
-            inline GLuint getBufferId() const { return bufferId; }
-            inline GLuint getBufferType() const { return bufferType; }
+                inline uint32_t getFlags() const { return flags; }
+                inline ouzel::graphics::Buffer::Usage getUsage() const { return usage; }
+                inline GLsizeiptr getSize() const { return size; }
 
-        private:
-            void createBuffer();
+                inline GLuint getBufferId() const { return bufferId; }
+                inline GLuint getBufferType() const { return bufferType; }
 
-            Buffer::Usage usage;
-            uint32_t flags = 0;
-            std::vector<uint8_t> data;
+            private:
+                void createBuffer();
 
-            GLuint bufferId = 0;
-            GLsizeiptr size = 0;
+                ouzel::graphics::Buffer::Usage usage;
+                uint32_t flags = 0;
+                std::vector<uint8_t> data;
 
-            GLuint bufferType = 0;
-        };
+                GLuint bufferId = 0;
+                GLsizeiptr size = 0;
+
+                GLuint bufferType = 0;
+            };
+        } // namespace opengl
     } // namespace graphics
 } // namespace ouzel
 

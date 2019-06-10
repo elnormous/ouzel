@@ -11,62 +11,65 @@ namespace ouzel
 {
     namespace graphics
     {
-        OGLRenderDeviceEm::OGLRenderDeviceEm(const std::function<void(const Event&)>& initCallback):
-            OGLRenderDevice(initCallback)
+        namespace opengl
         {
-        }
+            RenderDeviceEm::RenderDeviceEm(const std::function<void(const Event&)>& initCallback):
+                RenderDevice(initCallback)
+            {
+            }
 
-        OGLRenderDeviceEm::~OGLRenderDeviceEm()
-        {
-            if (webGLContext)
-                emscripten_webgl_destroy_context(webGLContext);
-        }
+            RenderDeviceEm::~RenderDeviceEm()
+            {
+                if (webGLContext)
+                    emscripten_webgl_destroy_context(webGLContext);
+            }
 
-        void OGLRenderDeviceEm::init(Window* newWindow,
-                                     const Size2U& newSize,
-                                     uint32_t newSampleCount,
-                                     Texture::Filter newTextureFilter,
-                                     uint32_t newMaxAnisotropy,
-                                     bool newSrgb,
-                                     bool newVerticalSync,
-                                     bool newDepth,
-                                     bool newStencil,
-                                     bool newDebugRenderer)
-        {
-            apiMajorVersion = 2;
-            apiMinorVersion = 0;
+            void RenderDeviceEm::init(Window* newWindow,
+                                      const Size2U& newSize,
+                                      uint32_t newSampleCount,
+                                      Texture::Filter newTextureFilter,
+                                      uint32_t newMaxAnisotropy,
+                                      bool newSrgb,
+                                      bool newVerticalSync,
+                                      bool newDepth,
+                                      bool newStencil,
+                                      bool newDebugRenderer)
+            {
+                apiMajorVersion = 2;
+                apiMinorVersion = 0;
 
-            EmscriptenWebGLContextAttributes attrs;
-            emscripten_webgl_init_context_attributes(&attrs);
+                EmscriptenWebGLContextAttributes attrs;
+                emscripten_webgl_init_context_attributes(&attrs);
 
-            attrs.alpha = true;
-            attrs.depth = newDepth;
-            attrs.stencil = newStencil;
-            attrs.antialias = newSampleCount > 0;
+                attrs.alpha = true;
+                attrs.depth = newDepth;
+                attrs.stencil = newStencil;
+                attrs.antialias = newSampleCount > 0;
 
-            webGLContext = emscripten_webgl_create_context(0, &attrs);
+                webGLContext = emscripten_webgl_create_context(0, &attrs);
 
-            if (!webGLContext)
-                throw std::runtime_error("Failed to create WebGL context");
+                if (!webGLContext)
+                    throw std::runtime_error("Failed to create WebGL context");
 
-            EMSCRIPTEN_RESULT result = emscripten_webgl_make_context_current(webGLContext);
+                EMSCRIPTEN_RESULT result = emscripten_webgl_make_context_current(webGLContext);
 
-            if (result != EMSCRIPTEN_RESULT_SUCCESS)
-                throw std::runtime_error("Failed to make WebGL context current");
+                if (result != EMSCRIPTEN_RESULT_SUCCESS)
+                    throw std::runtime_error("Failed to make WebGL context current");
 
-            emscripten_set_main_loop_timing(newVerticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
+                emscripten_set_main_loop_timing(newVerticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
-            OGLRenderDevice::init(newWindow,
-                                  newSize,
-                                  newSampleCount,
-                                  newTextureFilter,
-                                  newMaxAnisotropy,
-                                  newSrgb,
-                                  newVerticalSync,
-                                  newDepth,
-                                  newStencil,
-                                  newDebugRenderer);
-        }
+                RenderDevice::init(newWindow,
+                                    newSize,
+                                    newSampleCount,
+                                    newTextureFilter,
+                                    newMaxAnisotropy,
+                                    newSrgb,
+                                    newVerticalSync,
+                                    newDepth,
+                                    newStencil,
+                                    newDebugRenderer);
+            }
+        } // namespace opengl
     } // namespace graphics
 } // namespace ouzel
 

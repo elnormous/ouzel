@@ -30,44 +30,47 @@ namespace ouzel
 {
     namespace graphics
     {
-        class OGLRenderDeviceMacOS final: public OGLRenderDevice
+        namespace opengl
         {
-            friend Renderer;
-        public:
-            OGLRenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
-            ~OGLRenderDeviceMacOS();
+            class RenderDeviceMacOS final: public RenderDevice
+            {
+                friend Renderer;
+            public:
+                RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
+                ~RenderDeviceMacOS();
 
-            std::vector<Size2U> getSupportedResolutions() const final;
+                std::vector<Size2U> getSupportedResolutions() const final;
 
-            inline NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
+                inline NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
 
-            void renderCallback();
+                void renderCallback();
 
-        private:
-            void init(Window* newWindow,
-                      const Size2U& newSize,
-                      uint32_t newSampleCount,
-                      Texture::Filter newTextureFilter,
-                      uint32_t newMaxAnisotropy,
-                      bool newSrgb,
-                      bool newVerticalSync,
-                      bool newDepth,
-                      bool newStencil,
-                      bool newDebugRenderer) final;
+            private:
+                void init(Window* newWindow,
+                          const Size2U& newSize,
+                          uint32_t newSampleCount,
+                          Texture::Filter newTextureFilter,
+                          uint32_t newMaxAnisotropy,
+                          bool newSrgb,
+                          bool newVerticalSync,
+                          bool newDepth,
+                          bool newStencil,
+                          bool newDebugRenderer) final;
 
-            void resizeFrameBuffer() final;
-            void present() final;
+                void resizeFrameBuffer() final;
+                void present() final;
 
-            bool handleWindow(const WindowEvent& event);
+                bool handleWindow(const WindowEvent& event);
 
-            NSOpenGLContextPtr openGLContext = nil;
-            NSOpenGLPixelFormatPtr pixelFormat = nil;
+                NSOpenGLContextPtr openGLContext = nil;
+                NSOpenGLPixelFormatPtr pixelFormat = nil;
 
-            CVDisplayLinkRef displayLink = nullptr;
-            EventHandler eventHandler;
+                CVDisplayLinkRef displayLink = nullptr;
+                EventHandler eventHandler;
 
-            std::atomic_bool running{false};
-        };
+                std::atomic_bool running{false};
+            };
+        } // namespace opengl
     } // namespace graphics
 } // namespace ouzel
 

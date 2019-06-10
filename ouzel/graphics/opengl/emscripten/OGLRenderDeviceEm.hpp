@@ -15,27 +15,30 @@ namespace ouzel
 {
     namespace graphics
     {
-        class OGLRenderDeviceEm final: public OGLRenderDevice
+        namespace opengl
         {
-            friend Renderer;
-        public:
-            OGLRenderDeviceEm(const std::function<void(const Event&)>& initCallback);
-            ~OGLRenderDeviceEm();
+            class RenderDeviceEm final: public RenderDevice
+            {
+                friend Renderer;
+            public:
+                RenderDeviceEm(const std::function<void(const Event&)>& initCallback);
+                ~RenderDeviceEm();
 
-        private:
-            void init(Window* newWindow,
-                      const Size2U& newSize,
-                      uint32_t newSampleCount,
-                      Texture::Filter newTextureFilter,
-                      uint32_t newMaxAnisotropy,
-                      bool newSrgb,
-                      bool newVerticalSync,
-                      bool newDepth,
-                      bool newStencil,
-                      bool newDebugRenderer) final;
+            private:
+                void init(Window* newWindow,
+                          const Size2U& newSize,
+                          uint32_t newSampleCount,
+                          Texture::Filter newTextureFilter,
+                          uint32_t newMaxAnisotropy,
+                          bool newSrgb,
+                          bool newVerticalSync,
+                          bool newDepth,
+                          bool newStencil,
+                          bool newDebugRenderer) final;
 
-            EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
-        };
+                EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
+            };
+        } // namespace opengl
     } // namespace graphics
 } // namespace ouzel
 

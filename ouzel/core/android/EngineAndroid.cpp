@@ -162,7 +162,7 @@ namespace ouzel
                 graphics::RenderDevice* renderDevice = renderer->getDevice();
                 if (renderDevice->getDriver() == graphics::Driver::OPENGL)
                 {
-                    graphics::OGLRenderDeviceAndroid* renderDeviceOGLAndroid = static_cast<graphics::OGLRenderDeviceAndroid*>(renderDevice);
+                    graphics::opengl::RenderDeviceAndroid* renderDeviceOGLAndroid = static_cast<graphics::opengl::RenderDeviceAndroid*>(renderDevice);
                     renderDeviceOGLAndroid->reload();
                 }
             }
@@ -227,7 +227,7 @@ namespace ouzel
                 graphics::RenderDevice* renderDevice = renderer->getDevice();
                 if (renderDevice->getDriver() == graphics::Driver::OPENGL)
                 {
-                    graphics::OGLRenderDeviceAndroid* renderDeviceOGLAndroid = static_cast<graphics::OGLRenderDeviceAndroid*>(renderDevice);
+                    graphics::opengl::RenderDeviceAndroid* renderDeviceOGLAndroid = static_cast<graphics::opengl::RenderDeviceAndroid*>(renderDevice);
                     renderDeviceOGLAndroid->destroy();
                 }
             }

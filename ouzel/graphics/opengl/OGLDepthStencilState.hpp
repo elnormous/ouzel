@@ -26,55 +26,58 @@ namespace ouzel
 {
     namespace graphics
     {
-        class OGLRenderDevice;
-
-        class OGLDepthStencilState final: public OGLRenderResource
+        namespace opengl
         {
-        public:
-            OGLDepthStencilState(OGLRenderDevice& renderDeviceOGL,
-                                 bool initDepthTest,
-                                 bool initDepthWrite,
-                                 DepthStencilState::CompareFunction initCompareFunction,
-                                 bool initStencilEnabled,
-                                 uint32_t initStencilReadMask,
-                                 uint32_t initStencilWriteMask,
-                                 const DepthStencilState::StencilDescriptor& initFrontFaceStencil,
-                                 const DepthStencilState::StencilDescriptor& initBackFaceStencil);
+            class RenderDevice;
 
-            void reload() final {}
+            class DepthStencilState final: public RenderResource
+            {
+            public:
+                DepthStencilState(RenderDevice& renderDevice,
+                                     bool initDepthTest,
+                                     bool initDepthWrite,
+                                     ouzel::graphics::DepthStencilState::CompareFunction initCompareFunction,
+                                     bool initStencilEnabled,
+                                     uint32_t initStencilReadMask,
+                                     uint32_t initStencilWriteMask,
+                                     const ouzel::graphics::DepthStencilState::StencilDescriptor& initFrontFaceStencil,
+                                     const ouzel::graphics::DepthStencilState::StencilDescriptor& initBackFaceStencil);
 
-            inline bool getDepthTest() const { return depthTest; }
-            inline GLboolean getDepthMask() const { return depthMask; }
-            inline GLenum getCompareFunction() const { return compareFunction; }
+                void reload() final {}
 
-            inline bool getStencilTest() const { return stencilTest; }
-            inline GLuint getStencilReadMask() const { return stencilReadMask; }
-            inline GLuint getStencilWriteMask() const { return stencilWriteMask; }
-            inline GLenum getFrontFaceFail() const { return frontFaceFail; }
-            inline GLenum getFrontFaceDepthFail() const { return frontFaceDepthFail; }
-            inline GLenum getFrontFacePass() const { return frontFacePass; }
-            inline GLenum getFrontFaceFunction() const { return frontFaceFunction; }
-            inline GLenum getBackFaceFail() const { return backFaceFail; }
-            inline GLenum getBackFaceDepthFail() const { return backFaceDepthFail; }
-            inline GLenum getBackFacePass() const { return backFacePass; }
-            inline GLenum getBackFaceFunction() const { return backFaceFunction; }
+                inline bool getDepthTest() const { return depthTest; }
+                inline GLboolean getDepthMask() const { return depthMask; }
+                inline GLenum getCompareFunction() const { return compareFunction; }
 
-        private:
-            bool depthTest = false;
-            GLboolean depthMask = GL_TRUE;
-            GLenum compareFunction;
-            bool stencilTest = false;
-            GLuint stencilReadMask = 0xFFFFFFFF;
-            GLuint stencilWriteMask = 0xFFFFFFFF;
-            GLenum frontFaceFail;
-            GLenum frontFaceDepthFail;
-            GLenum frontFacePass;
-            GLenum frontFaceFunction;
-            GLenum backFaceFail;
-            GLenum backFaceDepthFail;
-            GLenum backFacePass;
-            GLenum backFaceFunction;
-        };
+                inline bool getStencilTest() const { return stencilTest; }
+                inline GLuint getStencilReadMask() const { return stencilReadMask; }
+                inline GLuint getStencilWriteMask() const { return stencilWriteMask; }
+                inline GLenum getFrontFaceFail() const { return frontFaceFail; }
+                inline GLenum getFrontFaceDepthFail() const { return frontFaceDepthFail; }
+                inline GLenum getFrontFacePass() const { return frontFacePass; }
+                inline GLenum getFrontFaceFunction() const { return frontFaceFunction; }
+                inline GLenum getBackFaceFail() const { return backFaceFail; }
+                inline GLenum getBackFaceDepthFail() const { return backFaceDepthFail; }
+                inline GLenum getBackFacePass() const { return backFacePass; }
+                inline GLenum getBackFaceFunction() const { return backFaceFunction; }
+
+            private:
+                bool depthTest = false;
+                GLboolean depthMask = GL_TRUE;
+                GLenum compareFunction;
+                bool stencilTest = false;
+                GLuint stencilReadMask = 0xFFFFFFFF;
+                GLuint stencilWriteMask = 0xFFFFFFFF;
+                GLenum frontFaceFail;
+                GLenum frontFaceDepthFail;
+                GLenum frontFacePass;
+                GLenum frontFaceFunction;
+                GLenum backFaceFail;
+                GLenum backFaceDepthFail;
+                GLenum backFacePass;
+                GLenum backFaceFunction;
+            };
+        } // namespace opengl
     } // namespace graphics
 } // namespace ouzel
 
