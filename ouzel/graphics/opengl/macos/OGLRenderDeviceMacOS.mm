@@ -153,15 +153,15 @@ namespace ouzel
                 [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 
                 RenderDevice::init(newWindow,
-                                      newSize,
-                                      newSampleCount,
-                                      newTextureFilter,
-                                      newMaxAnisotropy,
-                                      newSrgb,
-                                      newVerticalSync,
-                                      newDepth,
-                                      newStencil,
-                                      newDebugRenderer);
+                                   newSize,
+                                   newSampleCount,
+                                   newTextureFilter,
+                                   newMaxAnisotropy,
+                                   newSrgb,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newStencil,
+                                   newDebugRenderer);
 
                 eventHandler.windowHandler = std::bind(&RenderDeviceMacOS::handleWindow, this, std::placeholders::_1);
                 engine->getEventDispatcher().addEventHandler(eventHandler);

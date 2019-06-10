@@ -291,15 +291,15 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to set current OpenGL context");
 
                 RenderDevice::init(newWindow,
-                                    newSize,
-                                    newSampleCount,
-                                    newTextureFilter,
-                                    newMaxAnisotropy,
-                                    newSrgb,
-                                    newVerticalSync,
-                                    newDepth,
-                                    newStencil,
-                                    newDebugRenderer);
+                                   newSize,
+                                   newSampleCount,
+                                   newTextureFilter,
+                                   newMaxAnisotropy,
+                                   newSrgb,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newStencil,
+                                   newDebugRenderer);
 
                 if (!wglMakeCurrent(deviceContext, nullptr))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL context");

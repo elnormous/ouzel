@@ -179,15 +179,15 @@ namespace ouzel
                                             static_cast<uint32_t>(frameBufferHeight));
 
                 RenderDevice::init(newWindow,
-                                    backBufferSize,
-                                    newSampleCount,
-                                    newTextureFilter,
-                                    newMaxAnisotropy,
-                                    newSrgb,
-                                    newVerticalSync,
-                                    newDepth,
-                                    newStencil,
-                                    newDebugRenderer);
+                                   backBufferSize,
+                                   newSampleCount,
+                                   newTextureFilter,
+                                   newMaxAnisotropy,
+                                   newSrgb,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newStencil,
+                                   newDebugRenderer);
 
                 if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
                     throw std::runtime_error("Failed to unset EGL context");

@@ -294,15 +294,15 @@ namespace ouzel
 #endif
 
                 RenderDevice::init(newWindow,
-                                    newSize,
-                                    newSampleCount,
-                                    newTextureFilter,
-                                    newMaxAnisotropy,
-                                    newSrgb,
-                                    newVerticalSync,
-                                    newDepth,
-                                    newStencil,
-                                    newDebugRenderer);
+                                   newSize,
+                                   newSampleCount,
+                                   newTextureFilter,
+                                   newMaxAnisotropy,
+                                   newSrgb,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newStencil,
+                                   newDebugRenderer);
 
 #if OUZEL_OPENGL_INTERFACE_EGL
                 if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))

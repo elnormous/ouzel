@@ -815,7 +815,7 @@ namespace ouzel
 
             void RenderDevice::process()
             {
-                RenderDevice::process();
+                ouzel::graphics::RenderDevice::process();
                 executeAll();
 
                 RenderTarget* currentRenderTarget = nullptr;

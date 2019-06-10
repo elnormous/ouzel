@@ -59,15 +59,15 @@ namespace ouzel
                 emscripten_set_main_loop_timing(newVerticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
                 RenderDevice::init(newWindow,
-                                    newSize,
-                                    newSampleCount,
-                                    newTextureFilter,
-                                    newMaxAnisotropy,
-                                    newSrgb,
-                                    newVerticalSync,
-                                    newDepth,
-                                    newStencil,
-                                    newDebugRenderer);
+                                   newSize,
+                                   newSampleCount,
+                                   newTextureFilter,
+                                   newMaxAnisotropy,
+                                   newSrgb,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newStencil,
+                                   newDebugRenderer);
             }
         } // namespace opengl
     } // namespace graphics
