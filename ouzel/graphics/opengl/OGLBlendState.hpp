@@ -35,12 +35,12 @@ namespace ouzel
             public:
                 BlendState(RenderDevice& renderDevice,
                            bool enableBlending,
-                           ouzel::graphics::BlendState::Factor colorBlendSource,
-                           ouzel::graphics::BlendState::Factor colorBlendDest,
-                           ouzel::graphics::BlendState::Operation colorOperation,
-                           ouzel::graphics::BlendState::Factor alphaBlendSource,
-                           ouzel::graphics::BlendState::Factor alphaBlendDest,
-                           ouzel::graphics::BlendState::Operation alphaOperation,
+                           graphics::BlendState::Factor colorBlendSource,
+                           graphics::BlendState::Factor colorBlendDest,
+                           graphics::BlendState::Operation colorOperation,
+                           graphics::BlendState::Factor alphaBlendSource,
+                           graphics::BlendState::Factor alphaBlendDest,
+                           graphics::BlendState::Operation alphaOperation,
                            uint8_t colorMask);
 
                 void reload() final {}

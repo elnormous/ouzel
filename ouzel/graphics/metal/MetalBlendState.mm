@@ -13,37 +13,37 @@ namespace ouzel
     {
         namespace metal
         {
-            static MTLBlendFactor getBlendFactor(ouzel::graphics::BlendState::Factor blendFactor)
+            static MTLBlendFactor getBlendFactor(graphics::BlendState::Factor blendFactor)
             {
                 switch (blendFactor)
                 {
-                    case ouzel::graphics::BlendState::Factor::ZERO: return MTLBlendFactorZero;
-                    case ouzel::graphics::BlendState::Factor::ONE: return MTLBlendFactorOne;
-                    case ouzel::graphics::BlendState::Factor::SRC_COLOR: return MTLBlendFactorSourceColor;
-                    case ouzel::graphics::BlendState::Factor::INV_SRC_COLOR: return MTLBlendFactorOneMinusSourceColor;
-                    case ouzel::graphics::BlendState::Factor::SRC_ALPHA: return MTLBlendFactorSourceAlpha;
-                    case ouzel::graphics::BlendState::Factor::INV_SRC_ALPHA: return MTLBlendFactorOneMinusSourceAlpha;
-                    case ouzel::graphics::BlendState::Factor::DEST_ALPHA: return MTLBlendFactorDestinationAlpha;
-                    case ouzel::graphics::BlendState::Factor::INV_DEST_ALPHA: return MTLBlendFactorOneMinusDestinationAlpha;
-                    case ouzel::graphics::BlendState::Factor::DEST_COLOR: return MTLBlendFactorDestinationColor;
-                    case ouzel::graphics::BlendState::Factor::INV_DEST_COLOR: return MTLBlendFactorOneMinusDestinationColor;
-                    case ouzel::graphics::BlendState::Factor::SRC_ALPHA_SAT: return MTLBlendFactorSourceAlphaSaturated;
-                    case ouzel::graphics::BlendState::Factor::BLEND_FACTOR: return MTLBlendFactorBlendColor;
-                    case ouzel::graphics::BlendState::Factor::INV_BLEND_FACTOR: return MTLBlendFactorOneMinusBlendColor;
+                    case graphics::BlendState::Factor::ZERO: return MTLBlendFactorZero;
+                    case graphics::BlendState::Factor::ONE: return MTLBlendFactorOne;
+                    case graphics::BlendState::Factor::SRC_COLOR: return MTLBlendFactorSourceColor;
+                    case graphics::BlendState::Factor::INV_SRC_COLOR: return MTLBlendFactorOneMinusSourceColor;
+                    case graphics::BlendState::Factor::SRC_ALPHA: return MTLBlendFactorSourceAlpha;
+                    case graphics::BlendState::Factor::INV_SRC_ALPHA: return MTLBlendFactorOneMinusSourceAlpha;
+                    case graphics::BlendState::Factor::DEST_ALPHA: return MTLBlendFactorDestinationAlpha;
+                    case graphics::BlendState::Factor::INV_DEST_ALPHA: return MTLBlendFactorOneMinusDestinationAlpha;
+                    case graphics::BlendState::Factor::DEST_COLOR: return MTLBlendFactorDestinationColor;
+                    case graphics::BlendState::Factor::INV_DEST_COLOR: return MTLBlendFactorOneMinusDestinationColor;
+                    case graphics::BlendState::Factor::SRC_ALPHA_SAT: return MTLBlendFactorSourceAlphaSaturated;
+                    case graphics::BlendState::Factor::BLEND_FACTOR: return MTLBlendFactorBlendColor;
+                    case graphics::BlendState::Factor::INV_BLEND_FACTOR: return MTLBlendFactorOneMinusBlendColor;
                 }
 
                 return MTLBlendFactorZero;
             }
 
-            static MTLBlendOperation getBlendOperation(ouzel::graphics::BlendState::Operation blendOperation)
+            static MTLBlendOperation getBlendOperation(graphics::BlendState::Operation blendOperation)
             {
                 switch (blendOperation)
                 {
-                    case ouzel::graphics::BlendState::Operation::ADD: return MTLBlendOperationAdd;
-                    case ouzel::graphics::BlendState::Operation::SUBTRACT: return MTLBlendOperationSubtract;
-                    case ouzel::graphics::BlendState::Operation::REV_SUBTRACT: return MTLBlendOperationReverseSubtract;
-                    case ouzel::graphics::BlendState::Operation::MIN: return MTLBlendOperationMin;
-                    case ouzel::graphics::BlendState::Operation::MAX: return MTLBlendOperationMax;
+                    case graphics::BlendState::Operation::ADD: return MTLBlendOperationAdd;
+                    case graphics::BlendState::Operation::SUBTRACT: return MTLBlendOperationSubtract;
+                    case graphics::BlendState::Operation::REV_SUBTRACT: return MTLBlendOperationReverseSubtract;
+                    case graphics::BlendState::Operation::MIN: return MTLBlendOperationMin;
+                    case graphics::BlendState::Operation::MAX: return MTLBlendOperationMax;
                 }
 
                 return MTLBlendOperationAdd;
@@ -51,12 +51,12 @@ namespace ouzel
 
             BlendState::BlendState(RenderDevice& renderDevice,
                                    bool enableBlending,
-                                   ouzel::graphics::BlendState::Factor colorBlendSource,
-                                   ouzel::graphics::BlendState::Factor colorBlendDest,
-                                   ouzel::graphics::BlendState::Operation colorOperation,
-                                   ouzel::graphics::BlendState::Factor alphaBlendSource,
-                                   ouzel::graphics::BlendState::Factor alphaBlendDest,
-                                   ouzel::graphics::BlendState::Operation alphaOperation,
+                                   graphics::BlendState::Factor colorBlendSource,
+                                   graphics::BlendState::Factor colorBlendDest,
+                                   graphics::BlendState::Operation colorOperation,
+                                   graphics::BlendState::Factor alphaBlendSource,
+                                   graphics::BlendState::Factor alphaBlendDest,
+                                   graphics::BlendState::Operation alphaOperation,
                                    uint8_t colorMask):
                 RenderResource(renderDevice),
                 rgbBlendOperation(getBlendOperation(colorOperation)),
@@ -68,10 +68,10 @@ namespace ouzel
                 blendingEnabled(enableBlending)
             {
                 colorWriteMask = MTLColorWriteMaskNone;
-                if (colorMask & ouzel::graphics::BlendState::COLOR_MASK_RED) colorWriteMask |= MTLColorWriteMaskRed;
-                if (colorMask & ouzel::graphics::BlendState::COLOR_MASK_GREEN) colorWriteMask |= MTLColorWriteMaskGreen;
-                if (colorMask & ouzel::graphics::BlendState::COLOR_MASK_BLUE) colorWriteMask |= MTLColorWriteMaskBlue;
-                if (colorMask & ouzel::graphics::BlendState::COLOR_MASK_ALPHA) colorWriteMask |= MTLColorWriteMaskAlpha;
+                if (colorMask & graphics::BlendState::COLOR_MASK_RED) colorWriteMask |= MTLColorWriteMaskRed;
+                if (colorMask & graphics::BlendState::COLOR_MASK_GREEN) colorWriteMask |= MTLColorWriteMaskGreen;
+                if (colorMask & graphics::BlendState::COLOR_MASK_BLUE) colorWriteMask |= MTLColorWriteMaskBlue;
+                if (colorMask & graphics::BlendState::COLOR_MASK_ALPHA) colorWriteMask |= MTLColorWriteMaskAlpha;
             }
         } // namespace metal
     } // namespace graphics

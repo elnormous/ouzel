@@ -34,12 +34,12 @@ namespace ouzel
                 DepthStencilState(RenderDevice& renderDevice,
                                   bool initDepthTest,
                                   bool initDepthWrite,
-                                  ouzel::graphics::DepthStencilState::CompareFunction initCompareFunction,
+                                  graphics::DepthStencilState::CompareFunction initCompareFunction,
                                   bool initStencilEnabled,
                                   uint32_t initStencilReadMask,
                                   uint32_t initStencilWriteMask,
-                                  const ouzel::graphics::DepthStencilState::StencilDescriptor& initFrontFaceStencil,
-                                  const ouzel::graphics::DepthStencilState::StencilDescriptor& initBackFaceStencil);
+                                  const graphics::DepthStencilState::StencilDescriptor& initFrontFaceStencil,
+                                  const graphics::DepthStencilState::StencilDescriptor& initBackFaceStencil);
                 ~DepthStencilState();
 
                 inline MTLDepthStencilStatePtr getDepthStencilState() const { return depthStencilState; }

@@ -16,7 +16,7 @@ namespace ouzel
         namespace metal
         {
             Buffer::Buffer(RenderDevice& renderDevice,
-                           ouzel::graphics::Buffer::Usage newUsage, uint32_t newFlags,
+                           graphics::Buffer::Usage newUsage, uint32_t newFlags,
                            const std::vector<uint8_t>& data,
                            uint32_t newSize):
                 RenderResource(renderDevice),
@@ -36,7 +36,7 @@ namespace ouzel
 
             void Buffer::setData(const std::vector<uint8_t>& data)
             {
-                if (!(flags & ouzel::graphics::Buffer::DYNAMIC))
+                if (!(flags & graphics::Buffer::DYNAMIC))
                     throw std::runtime_error("Buffer is not dynamic");
 
                 if (data.empty())

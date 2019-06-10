@@ -36,10 +36,10 @@ namespace ouzel
             class SamplerStateDescriptor final
             {
             public:
-                ouzel::graphics::Texture::Filter filter;
-                ouzel::graphics::Texture::Address addressX;
-                ouzel::graphics::Texture::Address addressY;
-                ouzel::graphics::Texture::Address addressZ;
+                graphics::Texture::Filter filter;
+                graphics::Texture::Address addressX;
+                graphics::Texture::Address addressY;
+                graphics::Texture::Address addressZ;
                 uint32_t maxAnisotropy;
 
                 bool operator<(const SamplerStateDescriptor& other) const
@@ -53,18 +53,18 @@ namespace ouzel
             {
             public:
                 Texture(RenderDevice& renderDeviceMetal,
-                        const std::vector<ouzel::graphics::Texture::Level>& levels,
-                        ouzel::graphics::Texture::Dimensions dimensions,
+                        const std::vector<graphics::Texture::Level>& levels,
+                        graphics::Texture::Dimensions dimensions,
                         uint32_t initFlags = 0,
                         uint32_t initSampleCount = 1,
                         PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
                 ~Texture();
 
-                void setData(const std::vector<ouzel::graphics::Texture::Level>& levels);
-                void setFilter(ouzel::graphics::Texture::Filter filter);
-                void setAddressX(ouzel::graphics::Texture::Address addressX);
-                void setAddressY(ouzel::graphics::Texture::Address addressY);
-                void setAddressZ(ouzel::graphics::Texture::Address addressZ);
+                void setData(const std::vector<graphics::Texture::Level>& levels);
+                void setFilter(graphics::Texture::Filter filter);
+                void setAddressX(graphics::Texture::Address addressX);
+                void setAddressY(graphics::Texture::Address addressY);
+                void setAddressZ(graphics::Texture::Address addressZ);
                 void setMaxAnisotropy(uint32_t maxAnisotropy);
 
                 inline uint32_t getFlags() const { return flags; }

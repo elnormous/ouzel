@@ -14,7 +14,7 @@ namespace ouzel
         namespace d3d11
         {
             Buffer::Buffer(RenderDevice& renderDevice,
-                           ouzel::graphics::Buffer::Usage newUsage, uint32_t newFlags,
+                           graphics::Buffer::Usage newUsage, uint32_t newFlags,
                            const std::vector<uint8_t>& data,
                            uint32_t newSize):
                 RenderResource(renderDevice),
@@ -32,7 +32,7 @@ namespace ouzel
 
             void Buffer::setData(const std::vector<uint8_t>& data)
             {
-                if (!(flags & ouzel::graphics::Buffer::DYNAMIC))
+                if (!(flags & graphics::Buffer::DYNAMIC))
                     throw std::runtime_error("Buffer is not dynamic");
 
                 if (data.empty())
@@ -74,21 +74,21 @@ namespace ouzel
 
                     D3D11_BUFFER_DESC bufferDesc;
                     bufferDesc.ByteWidth = size;
-                    bufferDesc.Usage = (flags & ouzel::graphics::Texture::DYNAMIC) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
+                    bufferDesc.Usage = (flags & graphics::Texture::DYNAMIC) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
 
                     switch (usage)
                     {
-                        case ouzel::graphics::Buffer::Usage::INDEX:
+                        case graphics::Buffer::Usage::INDEX:
                             bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
                             break;
-                        case ouzel::graphics::Buffer::Usage::VERTEX:
+                        case graphics::Buffer::Usage::VERTEX:
                             bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
                             break;
                         default:
                             throw std::runtime_error("Unsupported buffer type");
                     }
 
-                    bufferDesc.CPUAccessFlags = (flags & ouzel::graphics::Texture::DYNAMIC) ? D3D11_CPU_ACCESS_WRITE : 0;
+                    bufferDesc.CPUAccessFlags = (flags & graphics::Texture::DYNAMIC) ? D3D11_CPU_ACCESS_WRITE : 0;
                     bufferDesc.MiscFlags = 0;
                     bufferDesc.StructureByteStride = 0;
 

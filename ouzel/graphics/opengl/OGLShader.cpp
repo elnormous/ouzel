@@ -17,8 +17,8 @@ namespace ouzel
                            const std::vector<uint8_t>& newFragmentShader,
                            const std::vector<uint8_t>& newVertexShader,
                            const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                           const std::vector<ouzel::graphics::Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                           const std::vector<ouzel::graphics::Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                           const std::vector<graphics::Shader::ConstantInfo>& newFragmentShaderConstantInfo,
+                           const std::vector<graphics::Shader::ConstantInfo>& newVertexShaderConstantInfo,
                            uint32_t,
                            uint32_t,
                            const std::string&,
@@ -206,7 +206,7 @@ namespace ouzel
                     fragmentShaderConstantLocations.clear();
                     fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
 
-                    for (const ouzel::graphics::Shader::ConstantInfo& info : fragmentShaderConstantInfo)
+                    for (const graphics::Shader::ConstantInfo& info : fragmentShaderConstantInfo)
                     {
                         GLint location = renderDevice.glGetUniformLocationProc(programId, info.name.c_str());
 
@@ -225,7 +225,7 @@ namespace ouzel
                     vertexShaderConstantLocations.clear();
                     vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
 
-                    for (const ouzel::graphics::Shader::ConstantInfo& info : vertexShaderConstantInfo)
+                    for (const graphics::Shader::ConstantInfo& info : vertexShaderConstantInfo)
                     {
                         GLint location = renderDevice.glGetUniformLocationProc(programId, info.name.c_str());
 

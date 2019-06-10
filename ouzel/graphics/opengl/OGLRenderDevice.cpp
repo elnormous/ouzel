@@ -304,7 +304,7 @@ namespace ouzel
 #endif
 
             RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-                ouzel::graphics::RenderDevice(Driver::OPENGL, initCallback),
+                graphics::RenderDevice(Driver::OPENGL, initCallback),
                 textureBaseLevelSupported(false),
                 textureMaxLevelSupported(false),
                 uintElementIndexSupported(false)
@@ -330,7 +330,7 @@ namespace ouzel
             void RenderDevice::init(Window* newWindow,
                                     const Size2U& newSize,
                                     uint32_t newSampleCount,
-                                    ouzel::graphics::Texture::Filter newTextureFilter,
+                                    graphics::Texture::Filter newTextureFilter,
                                     uint32_t newMaxAnisotropy,
                                     bool newSrgb,
                                     bool newVerticalSync,
@@ -338,16 +338,16 @@ namespace ouzel
                                     bool newStencil,
                                     bool newDebugRenderer)
             {
-                ouzel::graphics::RenderDevice::init(newWindow,
-                                                    newSize,
-                                                    newSampleCount,
-                                                    newTextureFilter,
-                                                    newMaxAnisotropy,
-                                                    newSrgb,
-                                                    newVerticalSync,
-                                                    newDepth,
-                                                    newStencil,
-                                                    newDebugRenderer);
+                graphics::RenderDevice::init(newWindow,
+                                             newSize,
+                                             newSampleCount,
+                                             newTextureFilter,
+                                             newMaxAnisotropy,
+                                             newSrgb,
+                                             newVerticalSync,
+                                             newDepth,
+                                             newStencil,
+                                             newDebugRenderer);
 
                 frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
                 frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);
@@ -815,7 +815,7 @@ namespace ouzel
 
             void RenderDevice::process()
             {
-                ouzel::graphics::RenderDevice::process();
+                graphics::RenderDevice::process();
                 executeAll();
 
                 RenderTarget* currentRenderTarget = nullptr;

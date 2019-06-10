@@ -13,34 +13,34 @@ namespace ouzel
     {
         namespace metal
         {
-            static MTLCompareFunction getCompareFunction(ouzel::graphics::DepthStencilState::CompareFunction compareFunction)
+            static MTLCompareFunction getCompareFunction(graphics::DepthStencilState::CompareFunction compareFunction)
             {
                 switch (compareFunction)
                 {
-                    case ouzel::graphics::DepthStencilState::CompareFunction::NEVER: return MTLCompareFunctionNever;
-                    case ouzel::graphics::DepthStencilState::CompareFunction::LESS: return MTLCompareFunctionLess;
-                    case ouzel::graphics::DepthStencilState::CompareFunction::EQUAL: return MTLCompareFunctionEqual;
-                    case ouzel::graphics::DepthStencilState::CompareFunction::LESS_EQUAL: return MTLCompareFunctionLessEqual;
-                    case ouzel::graphics::DepthStencilState::CompareFunction::GREATER: return MTLCompareFunctionGreater;
-                    case ouzel::graphics::DepthStencilState::CompareFunction::NOT_EQUAL: return MTLCompareFunctionNotEqual;
-                    case ouzel::graphics::DepthStencilState::CompareFunction::GREATER_EQUAL: return MTLCompareFunctionGreaterEqual;
-                    case ouzel::graphics::DepthStencilState::CompareFunction::ALWAYS: return MTLCompareFunctionAlways;
+                    case graphics::DepthStencilState::CompareFunction::NEVER: return MTLCompareFunctionNever;
+                    case graphics::DepthStencilState::CompareFunction::LESS: return MTLCompareFunctionLess;
+                    case graphics::DepthStencilState::CompareFunction::EQUAL: return MTLCompareFunctionEqual;
+                    case graphics::DepthStencilState::CompareFunction::LESS_EQUAL: return MTLCompareFunctionLessEqual;
+                    case graphics::DepthStencilState::CompareFunction::GREATER: return MTLCompareFunctionGreater;
+                    case graphics::DepthStencilState::CompareFunction::NOT_EQUAL: return MTLCompareFunctionNotEqual;
+                    case graphics::DepthStencilState::CompareFunction::GREATER_EQUAL: return MTLCompareFunctionGreaterEqual;
+                    case graphics::DepthStencilState::CompareFunction::ALWAYS: return MTLCompareFunctionAlways;
                     default: return MTLCompareFunctionNever;
                 }
             }
 
-            static MTLStencilOperation getStencilOperation(ouzel::graphics::DepthStencilState::StencilOperation stencilOperation)
+            static MTLStencilOperation getStencilOperation(graphics::DepthStencilState::StencilOperation stencilOperation)
             {
                 switch (stencilOperation)
                 {
-                    case ouzel::graphics::DepthStencilState::StencilOperation::KEEP: return MTLStencilOperationKeep;
-                    case ouzel::graphics::DepthStencilState::StencilOperation::ZERO: return MTLStencilOperationZero;
-                    case ouzel::graphics::DepthStencilState::StencilOperation::REPLACE: return MTLStencilOperationReplace;
-                    case ouzel::graphics::DepthStencilState::StencilOperation::INCREMENT_CLAMP: return MTLStencilOperationIncrementClamp;
-                    case ouzel::graphics::DepthStencilState::StencilOperation::DECREMENT_CLAMP: return MTLStencilOperationDecrementClamp;
-                    case ouzel::graphics::DepthStencilState::StencilOperation::INVERT: return MTLStencilOperationInvert;
-                    case ouzel::graphics::DepthStencilState::StencilOperation::INCREMENT_WRAP: return MTLStencilOperationIncrementWrap;
-                    case ouzel::graphics::DepthStencilState::StencilOperation::DECREMENT_WRAP: return MTLStencilOperationDecrementWrap;
+                    case graphics::DepthStencilState::StencilOperation::KEEP: return MTLStencilOperationKeep;
+                    case graphics::DepthStencilState::StencilOperation::ZERO: return MTLStencilOperationZero;
+                    case graphics::DepthStencilState::StencilOperation::REPLACE: return MTLStencilOperationReplace;
+                    case graphics::DepthStencilState::StencilOperation::INCREMENT_CLAMP: return MTLStencilOperationIncrementClamp;
+                    case graphics::DepthStencilState::StencilOperation::DECREMENT_CLAMP: return MTLStencilOperationDecrementClamp;
+                    case graphics::DepthStencilState::StencilOperation::INVERT: return MTLStencilOperationInvert;
+                    case graphics::DepthStencilState::StencilOperation::INCREMENT_WRAP: return MTLStencilOperationIncrementWrap;
+                    case graphics::DepthStencilState::StencilOperation::DECREMENT_WRAP: return MTLStencilOperationDecrementWrap;
                     default: return MTLStencilOperationKeep;
                 }
             }
@@ -48,12 +48,12 @@ namespace ouzel
             DepthStencilState::DepthStencilState(RenderDevice& renderDevice,
                                                  bool initDepthTest,
                                                  bool initDepthWrite,
-                                                 ouzel::graphics::DepthStencilState::CompareFunction initCompareFunction,
+                                                 graphics::DepthStencilState::CompareFunction initCompareFunction,
                                                  bool initStencilEnabled,
                                                  uint32_t initStencilReadMask,
                                                  uint32_t initStencilWriteMask,
-                                                 const ouzel::graphics::DepthStencilState::StencilDescriptor& initFrontFaceStencil,
-                                                 const ouzel::graphics::DepthStencilState::StencilDescriptor& initBackFaceStencil):
+                                                 const graphics::DepthStencilState::StencilDescriptor& initFrontFaceStencil,
+                                                 const graphics::DepthStencilState::StencilDescriptor& initBackFaceStencil):
                 RenderResource(renderDevice)
             {
                 MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];

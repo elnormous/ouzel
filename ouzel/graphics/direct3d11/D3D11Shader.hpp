@@ -27,8 +27,8 @@ namespace ouzel
                        const std::vector<uint8_t>& fragmentShaderData,
                        const std::vector<uint8_t>& vertexShaderData,
                        const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                       const std::vector<ouzel::graphics::Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                       const std::vector<ouzel::graphics::Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                       const std::vector<graphics::Shader::ConstantInfo>& newFragmentShaderConstantInfo,
+                       const std::vector<graphics::Shader::ConstantInfo>& newVertexShaderConstantInfo,
                        uint32_t,
                        uint32_t,
                        const std::string& fragmentShaderFunction,
@@ -56,8 +56,8 @@ namespace ouzel
             private:
                 std::set<Vertex::Attribute::Usage> vertexAttributes;
 
-                std::vector<ouzel::graphics::Shader::ConstantInfo> fragmentShaderConstantInfo;
-                std::vector<ouzel::graphics::Shader::ConstantInfo> vertexShaderConstantInfo;
+                std::vector<graphics::Shader::ConstantInfo> fragmentShaderConstantInfo;
+                std::vector<graphics::Shader::ConstantInfo> vertexShaderConstantInfo;
 
                 ID3D11PixelShader* fragmentShader = nullptr;
                 ID3D11VertexShader* vertexShader = nullptr;

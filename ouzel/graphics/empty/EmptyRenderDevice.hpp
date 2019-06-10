@@ -11,7 +11,7 @@ namespace ouzel
     {
         namespace empty
         {
-            class RenderDevice final: public ouzel::graphics::RenderDevice
+            class RenderDevice final: public graphics::RenderDevice
             {
             public:
                 RenderDevice(const std::function<void(const Event&)>& initCallback);

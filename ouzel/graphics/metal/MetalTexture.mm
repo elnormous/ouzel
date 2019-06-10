@@ -55,13 +55,13 @@ namespace ouzel
                 }
             }
 
-            static MTLTextureType getTextureType(ouzel::graphics::Texture::Dimensions dimensions, bool multisample)
+            static MTLTextureType getTextureType(graphics::Texture::Dimensions dimensions, bool multisample)
             {
                 if (multisample)
                 {
                     switch (dimensions)
                     {
-                        case ouzel::graphics::Texture::Dimensions::TWO: return MTLTextureType2DMultisample;
+                        case graphics::Texture::Dimensions::TWO: return MTLTextureType2DMultisample;
                         default: throw std::runtime_error("Invalid multisample texture type");
                     }
                 }
@@ -69,32 +69,32 @@ namespace ouzel
                 {
                     switch (dimensions)
                     {
-                        case ouzel::graphics::Texture::Dimensions::ONE: return MTLTextureType1D;
-                        case ouzel::graphics::Texture::Dimensions::TWO: return MTLTextureType2D;
-                        case ouzel::graphics::Texture::Dimensions::THREE: return MTLTextureType3D;
-                        case ouzel::graphics::Texture::Dimensions::CUBE: return MTLTextureTypeCube;
+                        case graphics::Texture::Dimensions::ONE: return MTLTextureType1D;
+                        case graphics::Texture::Dimensions::TWO: return MTLTextureType2D;
+                        case graphics::Texture::Dimensions::THREE: return MTLTextureType3D;
+                        case graphics::Texture::Dimensions::CUBE: return MTLTextureTypeCube;
                         default: throw std::runtime_error("Invalid texture type");
                     }
                 }
             }
 
-            static NSUInteger getCubeFace(ouzel::graphics::Texture::CubeFace face)
+            static NSUInteger getCubeFace(graphics::Texture::CubeFace face)
             {
                 switch (face)
                 {
-                    case ouzel::graphics::Texture::CubeFace::POSITIVE_X: return 0;
-                    case ouzel::graphics::Texture::CubeFace::NEGATIVE_X: return 1;
-                    case ouzel::graphics::Texture::CubeFace::POSITIVE_Y: return 2;
-                    case ouzel::graphics::Texture::CubeFace::NEGATIVE_Y: return 3;
-                    case ouzel::graphics::Texture::CubeFace::POSITIVE_Z: return 4;
-                    case ouzel::graphics::Texture::CubeFace::NEGATIVE_Z: return 5;
+                    case graphics::Texture::CubeFace::POSITIVE_X: return 0;
+                    case graphics::Texture::CubeFace::NEGATIVE_X: return 1;
+                    case graphics::Texture::CubeFace::POSITIVE_Y: return 2;
+                    case graphics::Texture::CubeFace::NEGATIVE_Y: return 3;
+                    case graphics::Texture::CubeFace::POSITIVE_Z: return 4;
+                    case graphics::Texture::CubeFace::NEGATIVE_Z: return 5;
                     default: throw std::runtime_error("Invalid cube face");
                 }
             }
 
             Texture::Texture(RenderDevice& renderDevice,
-                                       const std::vector<ouzel::graphics::Texture::Level>& levels,
-                                       ouzel::graphics::Texture::Dimensions dimensions,
+                                       const std::vector<graphics::Texture::Level>& levels,
+                                       graphics::Texture::Dimensions dimensions,
                                        uint32_t initFlags,
                                        uint32_t initSampleCount,
                                        PixelFormat initPixelFormat):
@@ -105,7 +105,7 @@ namespace ouzel
                 pixelFormat(getMetalPixelFormat(initPixelFormat)),
                 stencilBuffer(initPixelFormat == PixelFormat::DEPTH_STENCIL)
             {
-                if ((flags & ouzel::graphics::Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                if ((flags & graphics::Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                     throw std::runtime_error("Invalid mip map count");
 
                 if (pixelFormat == MTLPixelFormatInvalid)
@@ -130,11 +130,11 @@ namespace ouzel
                     initPixelFormat == PixelFormat::DEPTH_STENCIL)
                     textureDescriptor.storageMode = MTLStorageModePrivate;
 
-                if (flags & ouzel::graphics::Texture::BIND_RENDER_TARGET)
+                if (flags & graphics::Texture::BIND_RENDER_TARGET)
                 {
                     textureDescriptor.usage = MTLTextureUsageRenderTarget;
-                    if (flags & ouzel::graphics::Texture::BIND_SHADER &&
-                        !(flags & ouzel::graphics::Texture::Flags::BIND_SHADER_MSAA))
+                    if (flags & graphics::Texture::BIND_SHADER &&
+                        !(flags & graphics::Texture::Flags::BIND_SHADER_MSAA))
                         textureDescriptor.usage |= MTLTextureUsageShaderRead;
                 }
                 else
@@ -145,7 +145,7 @@ namespace ouzel
                 if (!texture)
                     throw std::runtime_error("Failed to create Metal texture");
 
-                if (flags & ouzel::graphics::Texture::BIND_RENDER_TARGET)
+                if (flags & graphics::Texture::BIND_RENDER_TARGET)
                 {
                     if (sampleCount > 1)
                     {
@@ -159,7 +159,7 @@ namespace ouzel
                         msaaTextureDescriptor.mipmapLevelCount = 1;
                         msaaTextureDescriptor.usage = MTLTextureUsageRenderTarget;
 
-                        if (flags & ouzel::graphics::Texture::Flags::BIND_SHADER_MSAA)
+                        if (flags & graphics::Texture::Flags::BIND_SHADER_MSAA)
                             msaaTextureDescriptor.usage |= MTLTextureUsageShaderRead;
 
                         msaaTexture = [renderDevice.getDevice() newTextureWithDescriptor:msaaTextureDescriptor];
@@ -183,9 +183,9 @@ namespace ouzel
                 }
 
                 samplerDescriptor.filter = renderDevice.getTextureFilter();
-                samplerDescriptor.addressX = ouzel::graphics::Texture::Address::CLAMP_TO_EDGE;
-                samplerDescriptor.addressY = ouzel::graphics::Texture::Address::CLAMP_TO_EDGE;
-                samplerDescriptor.addressZ = ouzel::graphics::Texture::Address::CLAMP_TO_EDGE;
+                samplerDescriptor.addressX = graphics::Texture::Address::CLAMP_TO_EDGE;
+                samplerDescriptor.addressY = graphics::Texture::Address::CLAMP_TO_EDGE;
+                samplerDescriptor.addressZ = graphics::Texture::Address::CLAMP_TO_EDGE;
                 samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
 
                 updateSamplerState();
@@ -203,10 +203,10 @@ namespace ouzel
                     [samplerState release];
             }
 
-            void Texture::setData(const std::vector<ouzel::graphics::Texture::Level>& levels)
+            void Texture::setData(const std::vector<graphics::Texture::Level>& levels)
             {
-                if (!(flags & ouzel::graphics::Texture::DYNAMIC) ||
-                    flags & ouzel::graphics::Texture::BIND_RENDER_TARGET)
+                if (!(flags & graphics::Texture::DYNAMIC) ||
+                    flags & graphics::Texture::BIND_RENDER_TARGET)
                     throw std::runtime_error("Texture is not dynamic");
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -221,25 +221,25 @@ namespace ouzel
                 }
             }
 
-            void Texture::setFilter(ouzel::graphics::Texture::Filter filter)
+            void Texture::setFilter(graphics::Texture::Filter filter)
             {
-                samplerDescriptor.filter = (filter == ouzel::graphics::Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                samplerDescriptor.filter = (filter == graphics::Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
                 updateSamplerState();
             }
 
-            void Texture::setAddressX(ouzel::graphics::Texture::Address addressX)
+            void Texture::setAddressX(graphics::Texture::Address addressX)
             {
                 samplerDescriptor.addressX = addressX;
                 updateSamplerState();
             }
 
-            void Texture::setAddressY(ouzel::graphics::Texture::Address addressY)
+            void Texture::setAddressY(graphics::Texture::Address addressY)
             {
                 samplerDescriptor.addressY = addressY;
                 updateSamplerState();
             }
 
-            void Texture::setAddressZ(ouzel::graphics::Texture::Address addressZ)
+            void Texture::setAddressZ(graphics::Texture::Address addressZ)
             {
                 samplerDescriptor.addressZ = addressZ;
                 updateSamplerState();

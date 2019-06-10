@@ -14,7 +14,7 @@ namespace ouzel
         namespace opengl
         {
             Buffer::Buffer(RenderDevice& renderDevice,
-                           ouzel::graphics::Buffer::Usage newUsage, uint32_t newFlags,
+                           graphics::Buffer::Usage newUsage, uint32_t newFlags,
                            const std::vector<uint8_t>& newData,
                            uint32_t newSize):
                 RenderResource(renderDevice),
@@ -76,7 +76,7 @@ namespace ouzel
 
             void Buffer::setData(const std::vector<uint8_t>& newData)
             {
-                if (!(flags & ouzel::graphics::Buffer::DYNAMIC))
+                if (!(flags & graphics::Buffer::DYNAMIC))
                     throw std::runtime_error("Buffer is not dynamic");
 
                 if (newData.empty())
@@ -122,10 +122,10 @@ namespace ouzel
 
                 switch (usage)
                 {
-                    case ouzel::graphics::Buffer::Usage::INDEX:
+                    case graphics::Buffer::Usage::INDEX:
                         bufferType = GL_ELEMENT_ARRAY_BUFFER;
                         break;
-                    case ouzel::graphics::Buffer::Usage::VERTEX:
+                    case graphics::Buffer::Usage::VERTEX:
                         bufferType = GL_ARRAY_BUFFER;
                         break;
                     default:

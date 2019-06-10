@@ -23,7 +23,7 @@ namespace ouzel
             {
             public:
                 Buffer(RenderDevice& renderDevice,
-                       ouzel::graphics::Buffer::Usage newUsage, uint32_t newFlags,
+                       graphics::Buffer::Usage newUsage, uint32_t newFlags,
                        const std::vector<uint8_t>& data,
                        uint32_t newSize);
                 ~Buffer();
@@ -31,7 +31,7 @@ namespace ouzel
                 void setData(const std::vector<uint8_t>& data);
 
                 inline uint32_t getFlags() const { return flags; }
-                inline ouzel::graphics::Buffer::Usage getUsage() const { return usage; }
+                inline graphics::Buffer::Usage getUsage() const { return usage; }
                 inline UINT getSize() const { return size; }
 
                 inline ID3D11Buffer* getBuffer() const { return buffer; }
@@ -39,7 +39,7 @@ namespace ouzel
             private:
                 void createBuffer(UINT newSize, const std::vector<uint8_t>& data);
 
-                ouzel::graphics::Buffer::Usage usage;
+                graphics::Buffer::Usage usage;
                 uint32_t flags = 0;
 
                 ID3D11Buffer* buffer = nullptr;

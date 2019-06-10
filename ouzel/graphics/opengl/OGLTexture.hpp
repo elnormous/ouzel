@@ -36,8 +36,8 @@ namespace ouzel
             {
             public:
                 Texture(RenderDevice& renderDevice,
-                        const std::vector<ouzel::graphics::Texture::Level>& initLevels,
-                        ouzel::graphics::Texture::Dimensions dimensions,
+                        const std::vector<graphics::Texture::Level>& initLevels,
+                        graphics::Texture::Dimensions dimensions,
                         uint32_t initFlags = 0,
                         uint32_t initSampleCount = 1,
                         PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
@@ -45,19 +45,19 @@ namespace ouzel
 
                 void reload() final;
 
-                void setData(const std::vector<ouzel::graphics::Texture::Level>& newLevels);
-                void setFilter(ouzel::graphics::Texture::Filter newFilter);
-                void setAddressX(ouzel::graphics::Texture::Address newAddressX);
-                void setAddressY(ouzel::graphics::Texture::Address newAddressY);
-                void setAddressZ(ouzel::graphics::Texture::Address newAddressZ);
+                void setData(const std::vector<graphics::Texture::Level>& newLevels);
+                void setFilter(graphics::Texture::Filter newFilter);
+                void setAddressX(graphics::Texture::Address newAddressX);
+                void setAddressY(graphics::Texture::Address newAddressY);
+                void setAddressZ(graphics::Texture::Address newAddressZ);
                 void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
                 inline uint32_t getFlags() const { return flags; }
                 inline uint32_t getMipmaps() const { return mipmaps; }
 
-                inline ouzel::graphics::Texture::Filter getFilter() const { return filter; }
-                inline ouzel::graphics::Texture::Address getAddressX() const { return addressX; }
-                inline ouzel::graphics::Texture::Address getAddressY() const { return addressY; }
+                inline graphics::Texture::Filter getFilter() const { return filter; }
+                inline graphics::Texture::Address getAddressX() const { return addressX; }
+                inline graphics::Texture::Address getAddressY() const { return addressY; }
                 inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
                 inline uint32_t getSampleCount() const { return sampleCount; }
 
@@ -73,14 +73,14 @@ namespace ouzel
                 void createTexture();
                 void setTextureParameters();
 
-                std::vector<ouzel::graphics::Texture::Level> levels;
+                std::vector<graphics::Texture::Level> levels;
                 uint32_t flags = 0;
                 uint32_t mipmaps = 0;
                 uint32_t sampleCount = 1;
-                ouzel::graphics::Texture::Filter filter = ouzel::graphics::Texture::Filter::DEFAULT;
-                ouzel::graphics::Texture::Address addressX = ouzel::graphics::Texture::Address::CLAMP_TO_EDGE;
-                ouzel::graphics::Texture::Address addressY = ouzel::graphics::Texture::Address::CLAMP_TO_EDGE;
-                ouzel::graphics::Texture::Address addressZ = ouzel::graphics::Texture::Address::CLAMP_TO_EDGE;
+                graphics::Texture::Filter filter = graphics::Texture::Filter::DEFAULT;
+                graphics::Texture::Address addressX = graphics::Texture::Address::CLAMP_TO_EDGE;
+                graphics::Texture::Address addressY = graphics::Texture::Address::CLAMP_TO_EDGE;
+                graphics::Texture::Address addressZ = graphics::Texture::Address::CLAMP_TO_EDGE;
                 uint32_t maxAnisotropy = 0;
 
                 GLenum textureTarget = 0;

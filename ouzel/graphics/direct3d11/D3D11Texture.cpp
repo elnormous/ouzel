@@ -54,13 +54,13 @@ namespace ouzel
                 }
             }
 
-            static D3D11_SRV_DIMENSION getShaderViewDimension(ouzel::graphics::Texture::Dimensions dimensions, bool multisample)
+            static D3D11_SRV_DIMENSION getShaderViewDimension(graphics::Texture::Dimensions dimensions, bool multisample)
             {
                 if (multisample)
                 {
                     switch (dimensions)
                     {
-                        case ouzel::graphics::Texture::Dimensions::TWO: return D3D11_SRV_DIMENSION_TEXTURE2DMS;
+                        case graphics::Texture::Dimensions::TWO: return D3D11_SRV_DIMENSION_TEXTURE2DMS;
                         default: throw std::runtime_error("Invalid multisample texture type");
                     }
                 }
@@ -68,32 +68,32 @@ namespace ouzel
                 {
                     switch (dimensions)
                     {
-                        case ouzel::graphics::Texture::Dimensions::ONE: return D3D11_SRV_DIMENSION_TEXTURE1D;
-                        case ouzel::graphics::Texture::Dimensions::TWO: return D3D11_SRV_DIMENSION_TEXTURE2D;
-                        case ouzel::graphics::Texture::Dimensions::THREE: return D3D11_SRV_DIMENSION_TEXTURE3D;
-                        case ouzel::graphics::Texture::Dimensions::CUBE: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                        case graphics::Texture::Dimensions::ONE: return D3D11_SRV_DIMENSION_TEXTURE1D;
+                        case graphics::Texture::Dimensions::TWO: return D3D11_SRV_DIMENSION_TEXTURE2D;
+                        case graphics::Texture::Dimensions::THREE: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                        case graphics::Texture::Dimensions::CUBE: return D3D11_SRV_DIMENSION_TEXTURE3D;
                         default: throw std::runtime_error("Invalid texture type");
                     }
                 }
             }
 
-            static D3D11_TEXTURECUBE_FACE getCubeFace(ouzel::graphics::Texture::CubeFace face)
+            static D3D11_TEXTURECUBE_FACE getCubeFace(graphics::Texture::CubeFace face)
             {
                 switch (face)
                 {
-                    case ouzel::graphics::Texture::CubeFace::POSITIVE_X: return D3D11_TEXTURECUBE_FACE_POSITIVE_X;
-                    case ouzel::graphics::Texture::CubeFace::NEGATIVE_X: return D3D11_TEXTURECUBE_FACE_NEGATIVE_X;
-                    case ouzel::graphics::Texture::CubeFace::POSITIVE_Y: return D3D11_TEXTURECUBE_FACE_POSITIVE_Y;
-                    case ouzel::graphics::Texture::CubeFace::NEGATIVE_Y: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Y;
-                    case ouzel::graphics::Texture::CubeFace::POSITIVE_Z: return D3D11_TEXTURECUBE_FACE_POSITIVE_Z;
-                    case ouzel::graphics::Texture::CubeFace::NEGATIVE_Z: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Z;
+                    case graphics::Texture::CubeFace::POSITIVE_X: return D3D11_TEXTURECUBE_FACE_POSITIVE_X;
+                    case graphics::Texture::CubeFace::NEGATIVE_X: return D3D11_TEXTURECUBE_FACE_NEGATIVE_X;
+                    case graphics::Texture::CubeFace::POSITIVE_Y: return D3D11_TEXTURECUBE_FACE_POSITIVE_Y;
+                    case graphics::Texture::CubeFace::NEGATIVE_Y: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Y;
+                    case graphics::Texture::CubeFace::POSITIVE_Z: return D3D11_TEXTURECUBE_FACE_POSITIVE_Z;
+                    case graphics::Texture::CubeFace::NEGATIVE_Z: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Z;
                     default: throw std::runtime_error("Invalid cube face");
                 }
             }
 
             Texture::Texture(RenderDevice& renderDevice,
-                             const std::vector<ouzel::graphics::Texture::Level>& levels,
-                             ouzel::graphics::Texture::Dimensions dimensions,
+                             const std::vector<graphics::Texture::Level>& levels,
+                             graphics::Texture::Dimensions dimensions,
                              uint32_t initFlags,
                              uint32_t initSampleCount,
                              PixelFormat initPixelFormat):
@@ -104,7 +104,7 @@ namespace ouzel
                 pixelFormat(getD3D11PixelFormat(initPixelFormat)),
                 pixelSize(getPixelSize(initPixelFormat))
             {
-                if ((flags & ouzel::graphics::Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                if ((flags & graphics::Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                     throw std::runtime_error("Invalid mip map count");
 
                 if (pixelFormat == DXGI_FORMAT_UNKNOWN)
@@ -113,7 +113,7 @@ namespace ouzel
                 DXGI_FORMAT texturePixelFormat = pixelFormat;
                 DXGI_FORMAT shaderViewPixelFormat = pixelFormat;
 
-                if (flags & ouzel::graphics::Texture::BIND_SHADER || flags & ouzel::graphics::Texture::BIND_SHADER_MSAA)
+                if (flags & graphics::Texture::BIND_SHADER || flags & graphics::Texture::BIND_SHADER_MSAA)
                 {
                     if (initPixelFormat == PixelFormat::DEPTH)
                     {
@@ -141,28 +141,28 @@ namespace ouzel
                 textureDescriptor.Format = texturePixelFormat;
                 textureDescriptor.SampleDesc.Count = 1;
                 textureDescriptor.SampleDesc.Quality = 0;
-                if (flags & ouzel::graphics::Texture::BIND_RENDER_TARGET) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
-                else if (flags & ouzel::graphics::Texture::DYNAMIC) textureDescriptor.Usage = D3D11_USAGE_DYNAMIC;
+                if (flags & graphics::Texture::BIND_RENDER_TARGET) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
+                else if (flags & graphics::Texture::DYNAMIC) textureDescriptor.Usage = D3D11_USAGE_DYNAMIC;
                 else textureDescriptor.Usage = D3D11_USAGE_IMMUTABLE;
 
-                if (flags & ouzel::graphics::Texture::BIND_RENDER_TARGET)
+                if (flags & graphics::Texture::BIND_RENDER_TARGET)
                 {
                     if (initPixelFormat == PixelFormat::DEPTH || initPixelFormat == PixelFormat::DEPTH_STENCIL)
                         textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_DEPTH_STENCIL : 0;
                     else
                         textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_RENDER_TARGET : 0;
 
-                    if (flags & ouzel::graphics::Texture::BIND_SHADER &&
-                        !(flags & ouzel::graphics::Texture::BIND_SHADER_MSAA))
+                    if (flags & graphics::Texture::BIND_SHADER &&
+                        !(flags & graphics::Texture::BIND_SHADER_MSAA))
                         textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
                 }
                 else
                     textureDescriptor.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
-                textureDescriptor.CPUAccessFlags = (flags & ouzel::graphics::Texture::DYNAMIC && !(flags & ouzel::graphics::Texture::BIND_RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
+                textureDescriptor.CPUAccessFlags = (flags & graphics::Texture::DYNAMIC && !(flags & graphics::Texture::BIND_RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
                 textureDescriptor.MiscFlags = 0;
 
-                if (levels.empty() || flags & ouzel::graphics::Texture::BIND_RENDER_TARGET)
+                if (levels.empty() || flags & graphics::Texture::BIND_RENDER_TARGET)
                 {
                     HRESULT hr;
                     if (FAILED(hr = renderDevice.getDevice()->CreateTexture2D(&textureDescriptor, nullptr, &texture)))
@@ -184,7 +184,7 @@ namespace ouzel
                         throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 texture");
                 }
 
-                if (flags & ouzel::graphics::Texture::BIND_RENDER_TARGET)
+                if (flags & graphics::Texture::BIND_RENDER_TARGET)
                 {
                     if (sampleCount > 1)
                     {
@@ -201,7 +201,7 @@ namespace ouzel
                             msaaTextureDescriptor.BindFlags = D3D11_BIND_DEPTH_STENCIL;
                         else
                             msaaTextureDescriptor.BindFlags = D3D11_BIND_RENDER_TARGET;
-                        if (flags & ouzel::graphics::Texture::Flags::BIND_SHADER_MSAA)
+                        if (flags & graphics::Texture::Flags::BIND_SHADER_MSAA)
                             msaaTextureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
                         msaaTextureDescriptor.CPUAccessFlags = 0;
                         msaaTextureDescriptor.MiscFlags = 0;
@@ -259,11 +259,11 @@ namespace ouzel
                         }
                     }
 
-                    if (flags & ouzel::graphics::Texture::BIND_SHADER || flags & ouzel::graphics::Texture::BIND_SHADER_MSAA)
+                    if (flags & graphics::Texture::BIND_SHADER || flags & graphics::Texture::BIND_SHADER_MSAA)
                     {
                         D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
                         resourceViewDesc.Format = shaderViewPixelFormat;
-                        resourceViewDesc.ViewDimension = getShaderViewDimension(dimensions, (flags & ouzel::graphics::Texture::BIND_SHADER_MSAA) != 0);
+                        resourceViewDesc.ViewDimension = getShaderViewDimension(dimensions, (flags & graphics::Texture::BIND_SHADER_MSAA) != 0);
                         resourceViewDesc.Texture2D.MostDetailedMip = 0;
                         resourceViewDesc.Texture2D.MipLevels = 1;
 
@@ -286,9 +286,9 @@ namespace ouzel
                 }
 
                 samplerDescriptor.filter = renderDevice.getTextureFilter();
-                samplerDescriptor.addressX = ouzel::graphics::Texture::Address::CLAMP_TO_EDGE;
-                samplerDescriptor.addressY = ouzel::graphics::Texture::Address::CLAMP_TO_EDGE;
-                samplerDescriptor.addressZ = ouzel::graphics::Texture::Address::CLAMP_TO_EDGE;
+                samplerDescriptor.addressX = graphics::Texture::Address::CLAMP_TO_EDGE;
+                samplerDescriptor.addressY = graphics::Texture::Address::CLAMP_TO_EDGE;
+                samplerDescriptor.addressZ = graphics::Texture::Address::CLAMP_TO_EDGE;
                 samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
 
                 updateSamplerState();
@@ -315,9 +315,9 @@ namespace ouzel
                     samplerState->Release();
             }
 
-            void Texture::setData(const std::vector<ouzel::graphics::Texture::Level>& levels)
+            void Texture::setData(const std::vector<graphics::Texture::Level>& levels)
             {
-                if (!(flags & ouzel::graphics::Texture::DYNAMIC) || flags & ouzel::graphics::Texture::BIND_RENDER_TARGET)
+                if (!(flags & graphics::Texture::DYNAMIC) || flags & graphics::Texture::BIND_RENDER_TARGET)
                     throw std::runtime_error("Texture is not dynamic");
 
                 for (size_t level = 0; level < levels.size(); ++level)
@@ -365,25 +365,25 @@ namespace ouzel
                 }
             }
 
-            void Texture::setFilter(ouzel::graphics::Texture::Filter filter)
+            void Texture::setFilter(graphics::Texture::Filter filter)
             {
-                samplerDescriptor.filter = (filter == ouzel::graphics::Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                samplerDescriptor.filter = (filter == graphics::Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
                 updateSamplerState();
             }
 
-            void Texture::setAddressX(ouzel::graphics::Texture::Address addressX)
+            void Texture::setAddressX(graphics::Texture::Address addressX)
             {
                 samplerDescriptor.addressX = addressX;
                 updateSamplerState();
             }
 
-            void Texture::setAddressY(ouzel::graphics::Texture::Address addressY)
+            void Texture::setAddressY(graphics::Texture::Address addressY)
             {
                 samplerDescriptor.addressY = addressY;
                 updateSamplerState();
             }
 
-            void Texture::setAddressZ(ouzel::graphics::Texture::Address addressZ)
+            void Texture::setAddressZ(graphics::Texture::Address addressZ)
             {
                 samplerDescriptor.addressZ = addressZ;
                 updateSamplerState();

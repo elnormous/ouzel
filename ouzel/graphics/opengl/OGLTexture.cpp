@@ -207,58 +207,58 @@ namespace ouzel
                 }
             }
 
-            static GLint getWrapMode(ouzel::graphics::Texture::Address address)
+            static GLint getWrapMode(graphics::Texture::Address address)
             {
                 switch (address)
                 {
-                    case ouzel::graphics::Texture::Address::CLAMP_TO_EDGE:
+                    case graphics::Texture::Address::CLAMP_TO_EDGE:
                         return GL_CLAMP_TO_EDGE;
-                    case ouzel::graphics::Texture::Address::CLAMP_TO_BORDER:
+                    case graphics::Texture::Address::CLAMP_TO_BORDER:
 #if OUZEL_OPENGLES
                         return GL_CLAMP_TO_BORDER_EXT;
 #else
                         return GL_CLAMP_TO_BORDER;
 #endif
-                    case ouzel::graphics::Texture::Address::REPEAT:
+                    case graphics::Texture::Address::REPEAT:
                         return GL_REPEAT;
-                    case ouzel::graphics::Texture::Address::MIRROR_REPEAT:
+                    case graphics::Texture::Address::MIRROR_REPEAT:
                         return GL_MIRRORED_REPEAT;
                     default:
                         throw std::runtime_error("Invalid texture address mode");
                 }
             }
 
-            static GLenum getTextureTarget(ouzel::graphics::Texture::Dimensions dimensions)
+            static GLenum getTextureTarget(graphics::Texture::Dimensions dimensions)
             {
                 switch (dimensions)
                 {
 #if !OUZEL_OPENGLES
-                    case ouzel::graphics::Texture::Dimensions::ONE: return GL_TEXTURE_1D;
+                    case graphics::Texture::Dimensions::ONE: return GL_TEXTURE_1D;
 #endif
-                    case ouzel::graphics::Texture::Dimensions::TWO: return GL_TEXTURE_2D;
-                    case ouzel::graphics::Texture::Dimensions::THREE: return GL_TEXTURE_3D;
-                    case ouzel::graphics::Texture::Dimensions::CUBE: return GL_TEXTURE_CUBE_MAP;
+                    case graphics::Texture::Dimensions::TWO: return GL_TEXTURE_2D;
+                    case graphics::Texture::Dimensions::THREE: return GL_TEXTURE_3D;
+                    case graphics::Texture::Dimensions::CUBE: return GL_TEXTURE_CUBE_MAP;
                     default: throw std::runtime_error("Invalid texture type");
                 }
             }
 
-            static GLenum getCubeFace(ouzel::graphics::Texture::CubeFace face)
+            static GLenum getCubeFace(graphics::Texture::CubeFace face)
             {
                 switch (face)
                 {
-                    case ouzel::graphics::Texture::CubeFace::POSITIVE_X: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
-                    case ouzel::graphics::Texture::CubeFace::NEGATIVE_X: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
-                    case ouzel::graphics::Texture::CubeFace::POSITIVE_Y: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
-                    case ouzel::graphics::Texture::CubeFace::NEGATIVE_Y: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
-                    case ouzel::graphics::Texture::CubeFace::POSITIVE_Z: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
-                    case ouzel::graphics::Texture::CubeFace::NEGATIVE_Z: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+                    case graphics::Texture::CubeFace::POSITIVE_X: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+                    case graphics::Texture::CubeFace::NEGATIVE_X: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+                    case graphics::Texture::CubeFace::POSITIVE_Y: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+                    case graphics::Texture::CubeFace::NEGATIVE_Y: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+                    case graphics::Texture::CubeFace::POSITIVE_Z: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+                    case graphics::Texture::CubeFace::NEGATIVE_Z: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
                     default: throw std::runtime_error("Invalid cube face");
                 }
             }
 
             Texture::Texture(RenderDevice& renderDevice,
-                             const std::vector<ouzel::graphics::Texture::Level>& initLevels,
-                             ouzel::graphics::Texture::Dimensions dimensions,
+                             const std::vector<graphics::Texture::Level>& initLevels,
+                             graphics::Texture::Dimensions dimensions,
                              uint32_t initFlags,
                              uint32_t initSampleCount,
                              PixelFormat initPixelFormat):
@@ -272,7 +272,7 @@ namespace ouzel
                 pixelFormat(getOpenGlPixelFormat(initPixelFormat)),
                 pixelType(getOpenGlPixelType(initPixelFormat))
             {
-                if ((flags & ouzel::graphics::Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                if ((flags & graphics::Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                     throw std::runtime_error("Invalid mip map count");
 
                 if (internalPixelFormat == GL_NONE)
@@ -288,7 +288,7 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                if (!(flags & ouzel::graphics::Texture::BIND_RENDER_TARGET))
+                if (!(flags & graphics::Texture::BIND_RENDER_TARGET))
                 {
                     if (!levels.empty())
                     {
@@ -340,7 +340,7 @@ namespace ouzel
 
                 createTexture();
 
-                if (!(flags & ouzel::graphics::Texture::BIND_RENDER_TARGET))
+                if (!(flags & graphics::Texture::BIND_RENDER_TARGET))
                 {
                     renderDevice.bindTexture(textureTarget, 0, textureId);
 
@@ -378,9 +378,9 @@ namespace ouzel
                 }
             }
 
-            void Texture::setData(const std::vector<ouzel::graphics::Texture::Level>& newLevels)
+            void Texture::setData(const std::vector<graphics::Texture::Level>& newLevels)
             {
-                if (!(flags & ouzel::graphics::Texture::DYNAMIC) || flags & ouzel::graphics::Texture::BIND_RENDER_TARGET)
+                if (!(flags & graphics::Texture::DYNAMIC) || flags & graphics::Texture::BIND_RENDER_TARGET)
                     throw std::runtime_error("Texture is not dynamic");
 
                 levels = newLevels;
@@ -406,7 +406,7 @@ namespace ouzel
                     throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
             }
 
-            void Texture::setFilter(ouzel::graphics::Texture::Filter newFilter)
+            void Texture::setFilter(graphics::Texture::Filter newFilter)
             {
                 filter = newFilter;
 
@@ -415,24 +415,24 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                ouzel::graphics::Texture::Filter finalFilter = (filter == ouzel::graphics::Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                graphics::Texture::Filter finalFilter = (filter == graphics::Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 
                 switch (finalFilter)
                 {
-                    case ouzel::graphics::Texture::Filter::DEFAULT:
-                    case ouzel::graphics::Texture::Filter::POINT:
+                    case graphics::Texture::Filter::DEFAULT:
+                    case graphics::Texture::Filter::POINT:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case ouzel::graphics::Texture::Filter::LINEAR:
+                    case graphics::Texture::Filter::LINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case ouzel::graphics::Texture::Filter::BILINEAR:
+                    case graphics::Texture::Filter::BILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
-                    case ouzel::graphics::Texture::Filter::TRILINEAR:
+                    case graphics::Texture::Filter::TRILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
@@ -446,7 +446,7 @@ namespace ouzel
                     throw std::system_error(makeErrorCode(error), "Failed to set texture filter");
             }
 
-            void Texture::setAddressX(ouzel::graphics::Texture::Address newAddressX)
+            void Texture::setAddressX(graphics::Texture::Address newAddressX)
             {
                 addressX = newAddressX;
 
@@ -461,7 +461,7 @@ namespace ouzel
                     throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
             }
 
-            void Texture::setAddressY(ouzel::graphics::Texture::Address newAddressY)
+            void Texture::setAddressY(graphics::Texture::Address newAddressY)
             {
                 addressY = newAddressY;
 
@@ -476,7 +476,7 @@ namespace ouzel
                     throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
             }
 
-            void Texture::setAddressZ(ouzel::graphics::Texture::Address newAddressZ)
+            void Texture::setAddressZ(graphics::Texture::Address newAddressZ)
             {
                 addressZ = newAddressZ;
 
@@ -521,9 +521,9 @@ namespace ouzel
                 width = static_cast<GLsizei>(levels.front().size.v[0]);
                 height = static_cast<GLsizei>(levels.front().size.v[1]);
 
-                if ((flags & ouzel::graphics::Texture::BIND_RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
+                if ((flags & graphics::Texture::BIND_RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
                 {
-                    if (flags & ouzel::graphics::Texture::BIND_SHADER)
+                    if (flags & graphics::Texture::BIND_SHADER)
                     {
                         renderDevice.glGenTexturesProc(1, &textureId);
 
@@ -593,24 +593,24 @@ namespace ouzel
             {
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                ouzel::graphics::Texture::Filter finalFilter = (filter == ouzel::graphics::Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                graphics::Texture::Filter finalFilter = (filter == graphics::Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 
                 switch (finalFilter)
                 {
-                    case ouzel::graphics::Texture::Filter::DEFAULT:
-                    case ouzel::graphics::Texture::Filter::POINT:
+                    case graphics::Texture::Filter::DEFAULT:
+                    case graphics::Texture::Filter::POINT:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case ouzel::graphics::Texture::Filter::LINEAR:
+                    case graphics::Texture::Filter::LINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case ouzel::graphics::Texture::Filter::BILINEAR:
+                    case graphics::Texture::Filter::BILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
-                    case ouzel::graphics::Texture::Filter::TRILINEAR:
+                    case graphics::Texture::Filter::TRILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;

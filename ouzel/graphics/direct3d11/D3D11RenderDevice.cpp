@@ -50,17 +50,17 @@ namespace ouzel
                 }
             }
 
-            static D3D11_TEXTURE_ADDRESS_MODE getTextureAddressMode(ouzel::graphics::Texture::Address address)
+            static D3D11_TEXTURE_ADDRESS_MODE getTextureAddressMode(graphics::Texture::Address address)
             {
                 switch (address)
                 {
-                    case ouzel::graphics::Texture::Address::CLAMP_TO_EDGE:
+                    case graphics::Texture::Address::CLAMP_TO_EDGE:
                         return D3D11_TEXTURE_ADDRESS_CLAMP;
-                    case ouzel::graphics::Texture::Address::CLAMP_TO_BORDER:
+                    case graphics::Texture::Address::CLAMP_TO_BORDER:
                         return D3D11_TEXTURE_ADDRESS_BORDER;
-                    case ouzel::graphics::Texture::Address::REPEAT:
+                    case graphics::Texture::Address::REPEAT:
                         return D3D11_TEXTURE_ADDRESS_WRAP;
-                    case ouzel::graphics::Texture::Address::MIRROR_REPEAT:
+                    case graphics::Texture::Address::MIRROR_REPEAT:
                         return D3D11_TEXTURE_ADDRESS_MIRROR;
                     default:
                         throw std::runtime_error("Invalid address mode");
@@ -68,7 +68,7 @@ namespace ouzel
             }
 
             RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-                ouzel::graphics::RenderDevice(Driver::DIRECT3D11, initCallback)
+                graphics::RenderDevice(Driver::DIRECT3D11, initCallback)
             {
                 apiMajorVersion = 11;
                 apiMinorVersion = 0;
@@ -125,7 +125,7 @@ namespace ouzel
             void RenderDevice::init(Window* newWindow,
                                     const Size2U& newSize,
                                     uint32_t newSampleCount,
-                                    ouzel::graphics::Texture::Filter newTextureFilter,
+                                    graphics::Texture::Filter newTextureFilter,
                                     uint32_t newMaxAnisotropy,
                                     bool newSrgb,
                                     bool newVerticalSync,
@@ -133,16 +133,16 @@ namespace ouzel
                                     bool newStencil,
                                     bool newDebugRenderer)
             {
-                ouzel::graphics::RenderDevice::init(newWindow,
-                                                    newSize,
-                                                    newSampleCount,
-                                                    newTextureFilter,
-                                                    newMaxAnisotropy,
-                                                    newSrgb,
-                                                    newVerticalSync,
-                                                    newDepth,
-                                                    newStencil,
-                                                    newDebugRenderer);
+                graphics::RenderDevice::init(newWindow,
+                                             newSize,
+                                             newSampleCount,
+                                             newTextureFilter,
+                                             newMaxAnisotropy,
+                                             newSrgb,
+                                             newVerticalSync,
+                                             newDepth,
+                                             newStencil,
+                                             newDebugRenderer);
 
                 anisotropicFilteringSupported = true;
                 renderTargetsSupported = true;
@@ -338,7 +338,7 @@ namespace ouzel
 
             void RenderDevice::process()
             {
-                ouzel::graphics::RenderDevice::process();
+                graphics::RenderDevice::process();
                 executeAll();
 
                 std::vector<float> shaderData;
@@ -1100,17 +1100,17 @@ namespace ouzel
                     {
                         switch (desc.filter)
                         {
-                            case ouzel::graphics::Texture::Filter::DEFAULT:
-                            case ouzel::graphics::Texture::Filter::POINT:
+                            case graphics::Texture::Filter::DEFAULT:
+                            case graphics::Texture::Filter::POINT:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
                                 break;
-                            case ouzel::graphics::Texture::Filter::LINEAR:
+                            case graphics::Texture::Filter::LINEAR:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
                                 break;
-                            case ouzel::graphics::Texture::Filter::BILINEAR:
+                            case graphics::Texture::Filter::BILINEAR:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
                                 break;
-                            case ouzel::graphics::Texture::Filter::TRILINEAR:
+                            case graphics::Texture::Filter::TRILINEAR:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
                                 break;
                             default:

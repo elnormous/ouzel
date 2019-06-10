@@ -53,7 +53,7 @@ namespace ouzel
 
             extern const ErrorCategory errorCategory;
 
-            class RenderDevice final: public ouzel::graphics::RenderDevice
+            class RenderDevice final: public graphics::RenderDevice
             {
                 friend Renderer;
             public:
@@ -79,7 +79,7 @@ namespace ouzel
                 void init(Window* newWindow,
                           const Size2U& newSize,
                           uint32_t newSampleCount,
-                          ouzel::graphics::Texture::Filter newTextureFilter,
+                          graphics::Texture::Filter newTextureFilter,
                           uint32_t newMaxAnisotropy,
                           bool newSrgb,
                           bool newVerticalSync,

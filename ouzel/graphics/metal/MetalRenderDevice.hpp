@@ -56,7 +56,7 @@ namespace ouzel
             class BlendState;
             class Shader;
 
-            class RenderDevice: public ouzel::graphics::RenderDevice
+            class RenderDevice: public graphics::RenderDevice
             {
                 friend Renderer;
             public:
@@ -83,7 +83,7 @@ namespace ouzel
                 void init(Window* newWindow,
                           const Size2U& newSize,
                           uint32_t newSampleCount,
-                          ouzel::graphics::Texture::Filter newTextureFilter,
+                          graphics::Texture::Filter newTextureFilter,
                           uint32_t newMaxAnisotropy,
                           bool newSrgb,
                           bool newVerticalSync,
