@@ -23,7 +23,7 @@ namespace ouzel
     {
         namespace d3d11
         {
-            class Direct3D11ErrorCategory final: public std::error_category
+            class ErrorCategory final: public std::error_category
             {
             public:
                 const char* name() const noexcept final
@@ -51,7 +51,7 @@ namespace ouzel
                 }
             };
 
-            extern const Direct3D11ErrorCategory direct3D11ErrorCategory;
+            extern const ErrorCategory errorCategory;
 
             class RenderDevice final: public ouzel::graphics::RenderDevice
             {

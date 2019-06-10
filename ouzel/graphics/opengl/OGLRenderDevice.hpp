@@ -39,7 +39,7 @@ namespace ouzel
     {
         namespace opengl
         {
-            class OpenGLErrorCategory final: public std::error_category
+            class ErrorCategory final: public std::error_category
             {
             public:
                 const char* name() const noexcept final
@@ -66,7 +66,7 @@ namespace ouzel
                 }
             };
 
-            extern const OpenGLErrorCategory openGLErrorCategory;
+            extern const ErrorCategory errorCategory;
             std::error_code makeErrorCode(GLenum e);
 
             class RenderDevice: public ouzel::graphics::RenderDevice

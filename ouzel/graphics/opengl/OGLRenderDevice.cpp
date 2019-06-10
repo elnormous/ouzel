@@ -88,10 +88,10 @@ namespace ouzel
     {
         namespace opengl
         {
-            const OpenGLErrorCategory openGLErrorCategory {};
+            const ErrorCategory errorCategory {};
             std::error_code makeErrorCode(GLenum e)
             {
-                return std::error_code(static_cast<int>(e), openGLErrorCategory);
+                return std::error_code(static_cast<int>(e), errorCategory);
             }
 
             static GLenum getIndexType(uint32_t indexSize)
