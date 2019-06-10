@@ -14,7 +14,7 @@ namespace ouzel
     {
         namespace opengl
         {
-            static GLenum getOGLInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
+            static GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
             {
 #if OUZEL_OPENGLES
                 if (openGLVersion >= 3)
@@ -110,7 +110,7 @@ namespace ouzel
 #endif
             }
 
-            static GLenum getOGLPixelFormat(PixelFormat pixelFormat)
+            static GLenum getOpenGlPixelFormat(PixelFormat pixelFormat)
             {
                 switch (pixelFormat)
                 {
@@ -160,7 +160,7 @@ namespace ouzel
                 }
             }
 
-            static GLenum getOGLPixelType(PixelFormat pixelFormat)
+            static GLenum getOpenGlPixelType(PixelFormat pixelFormat)
             {
                 switch (pixelFormat)
                 {
@@ -268,9 +268,9 @@ namespace ouzel
                 mipmaps(static_cast<uint32_t>(initLevels.size())),
                 sampleCount(initSampleCount),
                 textureTarget(getTextureTarget(dimensions)),
-                internalPixelFormat(getOGLInternalPixelFormat(initPixelFormat, renderDevice.getAPIMajorVersion())),
-                pixelFormat(getOGLPixelFormat(initPixelFormat)),
-                pixelType(getOGLPixelType(initPixelFormat))
+                internalPixelFormat(getOpenGlInternalPixelFormat(initPixelFormat, renderDevice.getAPIMajorVersion())),
+                pixelFormat(getOpenGlPixelFormat(initPixelFormat)),
+                pixelType(getOpenGlPixelType(initPixelFormat))
             {
                 if ((flags & ouzel::graphics::Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                     throw std::runtime_error("Invalid mip map count");
