@@ -29,363 +29,366 @@ namespace ouzel
 {
     namespace audio
     {
-        class ALCErrorCategory final: public std::error_category
+        namespace openal
         {
-        public:
-            const char* name() const noexcept final
+            class ALCErrorCategory final: public std::error_category
             {
-                return "ALC";
-            }
-
-            std::string message(int condition) const final
-            {
-                switch (condition)
+            public:
+                const char* name() const noexcept final
                 {
-                    case ALC_INVALID_DEVICE: return "ALC_INVALID_DEVICE";
-                    case ALC_INVALID_CONTEXT: return "ALC_INVALID_CONTEXT";
-                    case ALC_INVALID_ENUM: return "ALC_INVALID_ENUM";
-                    case ALC_INVALID_VALUE: return "ALC_INVALID_VALUE";
-                    case ALC_OUT_OF_MEMORY: return "ALC_OUT_OF_MEMORY";
-                    default: return "Unknown error (" + std::to_string(condition) + ")";
+                    return "ALC";
                 }
-            }
-        };
 
-        const ALCErrorCategory alcErrorCategory {};
-
-        class OpenALErrorCategory final: public std::error_category
-        {
-        public:
-            const char* name() const noexcept final
-            {
-                return "OpenAL";
-            }
-
-            std::string message(int condition) const final
-            {
-                switch (condition)
+                std::string message(int condition) const final
                 {
-                    case AL_INVALID_NAME: return "AL_INVALID_NAME";
-                    case AL_INVALID_ENUM: return "AL_INVALID_ENUM";
-                    case AL_INVALID_VALUE: return "AL_INVALID_VALUE";
-                    case AL_INVALID_OPERATION: return "AL_INVALID_OPERATION";
-                    case AL_OUT_OF_MEMORY: return "AL_OUT_OF_MEMORY";
-                    default: return "Unknown error (" + std::to_string(condition) + ")";
+                    switch (condition)
+                    {
+                        case ALC_INVALID_DEVICE: return "ALC_INVALID_DEVICE";
+                        case ALC_INVALID_CONTEXT: return "ALC_INVALID_CONTEXT";
+                        case ALC_INVALID_ENUM: return "ALC_INVALID_ENUM";
+                        case ALC_INVALID_VALUE: return "ALC_INVALID_VALUE";
+                        case ALC_OUT_OF_MEMORY: return "ALC_OUT_OF_MEMORY";
+                        default: return "Unknown error (" + std::to_string(condition) + ")";
+                    }
                 }
-            }
-        };
+            };
 
-        const OpenALErrorCategory openALErrorCategory{};
+            const ALCErrorCategory alcErrorCategory {};
 
-        OALAudioDevice::OALAudioDevice(uint32_t initBufferSize,
-                                       uint32_t initSampleRate,
-                                       uint16_t initChannels,
-                                       const std::function<void(uint32_t frames,
-                                                                uint16_t channels,
-                                                                uint32_t sampleRate,
-                                                                std::vector<float>& samples)>& initDataGetter):
-            AudioDevice(Driver::OPENAL, initBufferSize, initSampleRate, initChannels, initDataGetter)
-        {
+            class OpenALErrorCategory final: public std::error_category
+            {
+            public:
+                const char* name() const noexcept final
+                {
+                    return "OpenAL";
+                }
+
+                std::string message(int condition) const final
+                {
+                    switch (condition)
+                    {
+                        case AL_INVALID_NAME: return "AL_INVALID_NAME";
+                        case AL_INVALID_ENUM: return "AL_INVALID_ENUM";
+                        case AL_INVALID_VALUE: return "AL_INVALID_VALUE";
+                        case AL_INVALID_OPERATION: return "AL_INVALID_OPERATION";
+                        case AL_OUT_OF_MEMORY: return "AL_OUT_OF_MEMORY";
+                        default: return "Unknown error (" + std::to_string(condition) + ")";
+                    }
+                }
+            };
+
+            const OpenALErrorCategory openALErrorCategory{};
+
+            AudioDevice::AudioDevice(uint32_t initBufferSize,
+                                     uint32_t initSampleRate,
+                                     uint16_t initChannels,
+                                     const std::function<void(uint32_t frames,
+                                                              uint16_t channels,
+                                                              uint32_t sampleRate,
+                                                              std::vector<float>& samples)>& initDataGetter):
+                audio::AudioDevice(Driver::OPENAL, initBufferSize, initSampleRate, initChannels, initDataGetter)
+            {
 #if TARGET_OS_IOS || TARGET_OS_TV
-            id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));
-            reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil);
+                id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));
+                reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil);
 #endif
 
-            const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
+                const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
-            engine->log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for audio";
+                engine->log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for audio";
 
-            device = alcOpenDevice(deviceName);
+                device = alcOpenDevice(deviceName);
 
-            if (!device)
-                throw std::runtime_error("Failed to open ALC device");
+                if (!device)
+                    throw std::runtime_error("Failed to open ALC device");
 
-            ALCenum alcError;
+                ALCenum alcError;
 
-            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
-                throw std::system_error(alcError, alcErrorCategory, "Failed to create ALC device");
+                if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                    throw std::system_error(alcError, alcErrorCategory, "Failed to create ALC device");
 
-            context = alcCreateContext(device, nullptr);
+                context = alcCreateContext(device, nullptr);
 
-            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
-                throw std::system_error(alcError, alcErrorCategory, "Failed to create ALC context");
+                if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                    throw std::system_error(alcError, alcErrorCategory, "Failed to create ALC context");
 
-            if (!context)
-                throw std::runtime_error("Failed to create ALC context");
+                if (!context)
+                    throw std::runtime_error("Failed to create ALC context");
 
-            if (!alcMakeContextCurrent(context))
-                throw std::runtime_error("Failed to make ALC context current");
+                if (!alcMakeContextCurrent(context))
+                    throw std::runtime_error("Failed to make ALC context current");
 
-            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
-                throw std::system_error(alcError, alcErrorCategory, "Failed to make ALC context current");
+                if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                    throw std::system_error(alcError, alcErrorCategory, "Failed to make ALC context current");
 
-            const ALchar* audioRenderer = alGetString(AL_RENDERER);
+                const ALchar* audioRenderer = alGetString(AL_RENDERER);
 
-            ALenum error;
+                ALenum error;
 
-            if ((error = alGetError()) != AL_NO_ERROR || !audioRenderer)
-                engine->log(Log::Level::WARN) << "Failed to get OpenAL renderer, error: " + std::to_string(error);
-            else
-                engine->log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(audioRenderer) << " audio renderer";
+                if ((error = alGetError()) != AL_NO_ERROR || !audioRenderer)
+                    engine->log(Log::Level::WARN) << "Failed to get OpenAL renderer, error: " + std::to_string(error);
+                else
+                    engine->log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(audioRenderer) << " audio renderer";
 
-            std::vector<std::string> extensions;
-            const ALchar* extensionsPtr = alGetString(AL_EXTENSIONS);
+                std::vector<std::string> extensions;
+                const ALchar* extensionsPtr = alGetString(AL_EXTENSIONS);
 
-            if ((error = alGetError()) != AL_NO_ERROR || !extensionsPtr)
-                engine->log(Log::Level::WARN) << "Failed to get OpenGL extensions";
-            else
-                extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
+                if ((error = alGetError()) != AL_NO_ERROR || !extensionsPtr)
+                    engine->log(Log::Level::WARN) << "Failed to get OpenGL extensions";
+                else
+                    extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
 
-            engine->log(Log::Level::ALL) << "Supported OpenAL extensions: " << extensions;
+                engine->log(Log::Level::ALL) << "Supported OpenAL extensions: " << extensions;
 
-            bool float32Supported = false;
-            for (const std::string& extension : extensions)
-            {
-                if (extension == "AL_EXT_float32")
-                    float32Supported = true;
-            }
+                bool float32Supported = false;
+                for (const std::string& extension : extensions)
+                {
+                    if (extension == "AL_EXT_float32")
+                        float32Supported = true;
+                }
 
 #if !defined(__EMSCRIPTEN__)
-            format40 = alGetEnumValue("AL_FORMAT_QUAD16");
-            format51 = alGetEnumValue("AL_FORMAT_51CHN16");
-            format61 = alGetEnumValue("AL_FORMAT_61CHN16");
-            format71 = alGetEnumValue("AL_FORMAT_71CHN16");
-
-            if ((error = alGetError()) != AL_NO_ERROR)
-                engine->log(Log::Level::WARN) << "Failed to get OpenAL enum values";
-#endif
-
-            alGenSources(1, &sourceId);
-
-            if ((error = alGetError()) != AL_NO_ERROR)
-                throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL source");
-
-            alGenBuffers(2, bufferIds);
-
-            if ((error = alGetError()) != AL_NO_ERROR)
-                throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL buffers");
-
-            switch (channels)
-            {
-                case 1:
-                {
-                    if (float32Supported)
-                    {
-                        format = AL_FORMAT_MONO_FLOAT32;
-                        sampleFormat = SampleFormat::FLOAT32;
-                        sampleSize = sizeof(float);
-                    }
-                    else
-                    {
-                        format = AL_FORMAT_MONO16;
-                        sampleFormat = SampleFormat::SINT16;
-                        sampleSize = sizeof(int16_t);
-                    }
-                    break;
-                }
-                case 2:
-                {
-                    if (float32Supported)
-                    {
-                        format = AL_FORMAT_STEREO_FLOAT32;
-                        sampleFormat = SampleFormat::FLOAT32;
-                        sampleSize = sizeof(float);
-                    }
-                    else
-                    {
-                        format = AL_FORMAT_STEREO16;
-                        sampleFormat = SampleFormat::SINT16;
-                        sampleSize = sizeof(int16_t);
-                    }
-                    break;
-                }
-                case 4:
-                {
-                    format = format40;
-                    sampleFormat = SampleFormat::SINT16;
-                    sampleSize = sizeof(int16_t);
-                    break;
-                }
-                case 6:
-                {
-                    format = format51;
-                    sampleFormat = SampleFormat::SINT16;
-                    sampleSize = sizeof(int16_t);
-                    break;
-                }
-                case 7:
-                {
-                    format = format61;
-                    sampleFormat = SampleFormat::SINT16;
-                    sampleSize = sizeof(int16_t);
-                    break;
-                }
-                case 8:
-                {
-                    format = format71;
-                    sampleFormat = SampleFormat::SINT16;
-                    sampleSize = sizeof(int16_t);
-                    break;
-                }
-                default:
-                    throw std::runtime_error("Invalid channel count");
-            }
-        }
-
-        OALAudioDevice::~OALAudioDevice()
-        {
-#if !defined(__EMSCRIPTEN__)
-            running = false;
-            if (audioThread.joinable()) audioThread.join();
-#endif
-
-            if (sourceId)
-            {
-                alSourceStop(sourceId);
-                alSourcei(sourceId, AL_BUFFER, 0);
-                alDeleteSources(1, &sourceId);
-                alGetError();
-            }
-
-            for (ALuint bufferId : bufferIds)
-            {
-                if (bufferId)
-                {
-                    alDeleteBuffers(1, &bufferId);
-                    alGetError();
-                }
-            }
-
-            if (context)
-            {
-                alcMakeContextCurrent(nullptr);
-                alcDestroyContext(context);
-            }
-
-            if (device)
-                alcCloseDevice(device);
-        }
-
-        void OALAudioDevice::start()
-        {
-            getData(bufferSize / (channels * sampleSize), data);
-
-            alBufferData(bufferIds[0], format,
-                         data.data(),
-                         static_cast<ALsizei>(data.size()),
-                         static_cast<ALsizei>(sampleRate));
-
-            getData(bufferSize / (channels * sampleSize), data);
-
-            alBufferData(bufferIds[1], format,
-                         data.data(),
-                         static_cast<ALsizei>(data.size()),
-                         static_cast<ALsizei>(sampleRate));
-
-            nextBuffer = 0;
-
-            alSourceQueueBuffers(sourceId, 2, bufferIds);
-
-            ALenum error;
-            if ((error = alGetError()) != AL_NO_ERROR)
-                throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffers");
-
-            alSourcePlay(sourceId);
-
-            if ((error = alGetError()) != AL_NO_ERROR)
-                throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
-
-#if !defined(__EMSCRIPTEN__)
-            running = true;
-            audioThread = std::thread(&OALAudioDevice::run, this);
-#endif
-        }
-
-        void OALAudioDevice::stop()
-        {
-#if !defined(__EMSCRIPTEN__)
-            running = false;
-            if (audioThread.joinable()) audioThread.join();
-#endif
-
-            alSourceStop(sourceId);
-
-            ALenum error;
-            if ((error = alGetError()) != AL_NO_ERROR)
-                throw std::system_error(error, openALErrorCategory, "Failed to stop OpenAL source");
-        }
-
-        void OALAudioDevice::process()
-        {
-            if (!alcMakeContextCurrent(context))
-                throw std::runtime_error("Failed to make ALC context current");
-
-            ALCenum alcError;
-
-            if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
-                throw std::system_error(alcError, alcErrorCategory, "Failed to make ALC context current");
-
-            ALint buffersProcessed;
-            alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
-
-            ALenum error;
-
-            if ((error = alGetError()) != AL_NO_ERROR)
-                throw std::system_error(error, openALErrorCategory, "Failed to get processed buffer count");
-
-            // requeue all processed buffers
-            for (; buffersProcessed > 0; --buffersProcessed)
-            {
-                alSourceUnqueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
+                format40 = alGetEnumValue("AL_FORMAT_QUAD16");
+                format51 = alGetEnumValue("AL_FORMAT_51CHN16");
+                format61 = alGetEnumValue("AL_FORMAT_61CHN16");
+                format71 = alGetEnumValue("AL_FORMAT_71CHN16");
 
                 if ((error = alGetError()) != AL_NO_ERROR)
-                    throw std::system_error(error, openALErrorCategory, "Failed to unqueue OpenAL buffer");
+                    engine->log(Log::Level::WARN) << "Failed to get OpenAL enum values";
+#endif
 
+                alGenSources(1, &sourceId);
+
+                if ((error = alGetError()) != AL_NO_ERROR)
+                    throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL source");
+
+                alGenBuffers(2, bufferIds);
+
+                if ((error = alGetError()) != AL_NO_ERROR)
+                    throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL buffers");
+
+                switch (channels)
+                {
+                    case 1:
+                    {
+                        if (float32Supported)
+                        {
+                            format = AL_FORMAT_MONO_FLOAT32;
+                            sampleFormat = SampleFormat::FLOAT32;
+                            sampleSize = sizeof(float);
+                        }
+                        else
+                        {
+                            format = AL_FORMAT_MONO16;
+                            sampleFormat = SampleFormat::SINT16;
+                            sampleSize = sizeof(int16_t);
+                        }
+                        break;
+                    }
+                    case 2:
+                    {
+                        if (float32Supported)
+                        {
+                            format = AL_FORMAT_STEREO_FLOAT32;
+                            sampleFormat = SampleFormat::FLOAT32;
+                            sampleSize = sizeof(float);
+                        }
+                        else
+                        {
+                            format = AL_FORMAT_STEREO16;
+                            sampleFormat = SampleFormat::SINT16;
+                            sampleSize = sizeof(int16_t);
+                        }
+                        break;
+                    }
+                    case 4:
+                    {
+                        format = format40;
+                        sampleFormat = SampleFormat::SINT16;
+                        sampleSize = sizeof(int16_t);
+                        break;
+                    }
+                    case 6:
+                    {
+                        format = format51;
+                        sampleFormat = SampleFormat::SINT16;
+                        sampleSize = sizeof(int16_t);
+                        break;
+                    }
+                    case 7:
+                    {
+                        format = format61;
+                        sampleFormat = SampleFormat::SINT16;
+                        sampleSize = sizeof(int16_t);
+                        break;
+                    }
+                    case 8:
+                    {
+                        format = format71;
+                        sampleFormat = SampleFormat::SINT16;
+                        sampleSize = sizeof(int16_t);
+                        break;
+                    }
+                    default:
+                        throw std::runtime_error("Invalid channel count");
+                }
+            }
+
+            AudioDevice::~AudioDevice()
+            {
+#if !defined(__EMSCRIPTEN__)
+                running = false;
+                if (audioThread.joinable()) audioThread.join();
+#endif
+
+                if (sourceId)
+                {
+                    alSourceStop(sourceId);
+                    alSourcei(sourceId, AL_BUFFER, 0);
+                    alDeleteSources(1, &sourceId);
+                    alGetError();
+                }
+
+                for (ALuint bufferId : bufferIds)
+                {
+                    if (bufferId)
+                    {
+                        alDeleteBuffers(1, &bufferId);
+                        alGetError();
+                    }
+                }
+
+                if (context)
+                {
+                    alcMakeContextCurrent(nullptr);
+                    alcDestroyContext(context);
+                }
+
+                if (device)
+                    alcCloseDevice(device);
+            }
+
+            void AudioDevice::start()
+            {
                 getData(bufferSize / (channels * sampleSize), data);
 
-                alBufferData(bufferIds[nextBuffer], format,
+                alBufferData(bufferIds[0], format,
                              data.data(),
                              static_cast<ALsizei>(data.size()),
                              static_cast<ALsizei>(sampleRate));
 
-                alSourceQueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
+                getData(bufferSize / (channels * sampleSize), data);
+
+                alBufferData(bufferIds[1], format,
+                             data.data(),
+                             static_cast<ALsizei>(data.size()),
+                             static_cast<ALsizei>(sampleRate));
+
+                nextBuffer = 0;
+
+                alSourceQueueBuffers(sourceId, 2, bufferIds);
+
+                ALenum error;
+                if ((error = alGetError()) != AL_NO_ERROR)
+                    throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffers");
+
+                alSourcePlay(sourceId);
 
                 if ((error = alGetError()) != AL_NO_ERROR)
-                    throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffer");
-
-                ALint state;
-                alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
-                if (state != AL_PLAYING)
-                {
-                    alSourcePlay(sourceId);
-
-                    if ((error = alGetError()) != AL_NO_ERROR)
-                        throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
-                }
-
-                // swap the buffer
-                nextBuffer = (nextBuffer + 1) % 2;
-            }
-        }
-
-        void OALAudioDevice::run()
-        {
-            setCurrentThreadName("Audio");
+                    throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
 
 #if !defined(__EMSCRIPTEN__)
-            while (running)
+                running = true;
+                audioThread = std::thread(&AudioDevice::run, this);
+#endif
+            }
+
+            void AudioDevice::stop()
             {
-                try
+#if !defined(__EMSCRIPTEN__)
+                running = false;
+                if (audioThread.joinable()) audioThread.join();
+#endif
+
+                alSourceStop(sourceId);
+
+                ALenum error;
+                if ((error = alGetError()) != AL_NO_ERROR)
+                    throw std::system_error(error, openALErrorCategory, "Failed to stop OpenAL source");
+            }
+
+            void AudioDevice::process()
+            {
+                if (!alcMakeContextCurrent(context))
+                    throw std::runtime_error("Failed to make ALC context current");
+
+                ALCenum alcError;
+
+                if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+                    throw std::system_error(alcError, alcErrorCategory, "Failed to make ALC context current");
+
+                ALint buffersProcessed;
+                alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
+
+                ALenum error;
+
+                if ((error = alGetError()) != AL_NO_ERROR)
+                    throw std::system_error(error, openALErrorCategory, "Failed to get processed buffer count");
+
+                // requeue all processed buffers
+                for (; buffersProcessed > 0; --buffersProcessed)
                 {
-                    process();
-                }
-                catch (const std::exception& e)
-                {
-                    ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
+                    alSourceUnqueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
+
+                    if ((error = alGetError()) != AL_NO_ERROR)
+                        throw std::system_error(error, openALErrorCategory, "Failed to unqueue OpenAL buffer");
+
+                    getData(bufferSize / (channels * sampleSize), data);
+
+                    alBufferData(bufferIds[nextBuffer], format,
+                                 data.data(),
+                                 static_cast<ALsizei>(data.size()),
+                                 static_cast<ALsizei>(sampleRate));
+
+                    alSourceQueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
+
+                    if ((error = alGetError()) != AL_NO_ERROR)
+                        throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffer");
+
+                    ALint state;
+                    alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
+                    if (state != AL_PLAYING)
+                    {
+                        alSourcePlay(sourceId);
+
+                        if ((error = alGetError()) != AL_NO_ERROR)
+                            throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
+                    }
+
+                    // swap the buffer
+                    nextBuffer = (nextBuffer + 1) % 2;
                 }
             }
+
+            void AudioDevice::run()
+            {
+                setCurrentThreadName("Audio");
+
+#if !defined(__EMSCRIPTEN__)
+                while (running)
+                {
+                    try
+                    {
+                        process();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
+                    }
+                }
 #endif
-        }
+            }
+        } // namespace openal
     } // namespace audio
 } // namespace ouzel
 

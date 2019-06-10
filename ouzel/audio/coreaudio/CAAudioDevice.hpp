@@ -23,33 +23,36 @@ namespace ouzel
 {
     namespace audio
     {
-        class CAAudioDevice final: public AudioDevice
+        namespace coreaudio
         {
-        public:
-            CAAudioDevice(uint32_t initBufferSize,
-                          uint32_t initSampleRate,
-                          uint16_t initChannels,
-                          const std::function<void(uint32_t frames,
-                                                   uint16_t channels,
-                                                   uint32_t sampleRate,
-                                                   std::vector<float>& samples)>& initDataGetter);
-            ~CAAudioDevice();
+            class AudioDevice final: public audio::AudioDevice
+            {
+            public:
+                AudioDevice(uint32_t initBufferSize,
+                            uint32_t initSampleRate,
+                            uint16_t initChannels,
+                            const std::function<void(uint32_t frames,
+                                                     uint16_t channels,
+                                                     uint32_t sampleRate,
+                                                     std::vector<float>& samples)>& initDataGetter);
+                ~AudioDevice();
 
-            void start() final;
-            void stop() final;
+                void start() final;
+                void stop() final;
 
-            void outputCallback(AudioBufferList* ioData);
+                void outputCallback(AudioBufferList* ioData);
 
-        private:
+            private:
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
-            AudioDeviceID deviceId = 0;
+                AudioDeviceID deviceId = 0;
 #endif
-            AudioComponent audioComponent = nullptr;
-            AudioUnit audioUnit = nullptr;
+                AudioComponent audioComponent = nullptr;
+                AudioUnit audioUnit = nullptr;
 
-            uint32_t sampleSize = 0;
-            std::vector<uint8_t> data;
-        };
+                uint32_t sampleSize = 0;
+                std::vector<uint8_t> data;
+            };
+        } // namespace coreaudio
     } // namespace audio
 } // namespace ouzel
 

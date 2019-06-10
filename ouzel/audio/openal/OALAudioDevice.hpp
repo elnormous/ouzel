@@ -25,49 +25,52 @@ namespace ouzel
 {
     namespace audio
     {
-        class OALAudioDevice final: public AudioDevice
+        namespace openal
         {
-        public:
-            OALAudioDevice(uint32_t initBufferSize,
-                           uint32_t initSampleRate,
-                           uint16_t initChannels,
-                           const std::function<void(uint32_t frames,
-                                                    uint16_t channels,
-                                                    uint32_t sampleRate,
-                                                    std::vector<float>& samples)>& initDataGetter);
-            ~OALAudioDevice();
+            class AudioDevice final: public audio::AudioDevice
+            {
+            public:
+                AudioDevice(uint32_t initBufferSize,
+                            uint32_t initSampleRate,
+                            uint16_t initChannels,
+                            const std::function<void(uint32_t frames,
+                                                     uint16_t channels,
+                                                     uint32_t sampleRate,
+                                                     std::vector<float>& samples)>& initDataGetter);
+                ~AudioDevice();
 
-            void start() final;
-            void stop() final;
-            void process();
+                void start() final;
+                void stop() final;
+                void process();
 
-            ALWAYSINLINE ALCdevice* getDevice() const { return device; }
-            ALWAYSINLINE ALCcontext* getContext() const { return context; }
+                ALWAYSINLINE ALCdevice* getDevice() const { return device; }
+                ALWAYSINLINE ALCcontext* getContext() const { return context; }
 
-        private:
-            void run();
+            private:
+                void run();
 
-            ALCdevice* device = nullptr;
-            ALCcontext* context = nullptr;
+                ALCdevice* device = nullptr;
+                ALCcontext* context = nullptr;
 
-            ALenum format40 = 0;
-            ALenum format51 = 0;
-            ALenum format61 = 0;
-            ALenum format71 = 0;
+                ALenum format40 = 0;
+                ALenum format51 = 0;
+                ALenum format61 = 0;
+                ALenum format71 = 0;
 
-            ALuint sourceId = 0;
-            ALenum format = 0;
-            uint32_t nextBuffer = 0;
-            ALuint bufferIds[2] = {0, 0};
+                ALuint sourceId = 0;
+                ALenum format = 0;
+                uint32_t nextBuffer = 0;
+                ALuint bufferIds[2] = {0, 0};
 
-            uint32_t sampleSize = 0;
-            std::vector<uint8_t> data;
+                uint32_t sampleSize = 0;
+                std::vector<uint8_t> data;
 
 #if !defined(__EMSCRIPTEN__)
-            std::atomic_bool running{false};
-            std::thread audioThread;
+                std::atomic_bool running{false};
+                std::thread audioThread;
 #endif
-        };
+            };
+        } // namespace openal
     } // namespace audio
 } // namespace ouzel
 

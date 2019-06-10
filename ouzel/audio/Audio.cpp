@@ -106,43 +106,43 @@ namespace ouzel
 #if OUZEL_COMPILE_OPENAL
                 case Driver::OPENAL:
                     engine->log(Log::Level::INFO) << "Using OpenAL audio driver";
-                    return std::unique_ptr<AudioDevice>(new OALAudioDevice(512, 44100, 0, dataGetter));
+                    return std::unique_ptr<AudioDevice>(new openal::AudioDevice(512, 44100, 0, dataGetter));
 #endif
 #if OUZEL_COMPILE_DIRECTSOUND
                 case Driver::DIRECTSOUND:
                     engine->log(Log::Level::INFO) << "Using DirectSound audio driver";
-                    return std::unique_ptr<AudioDevice>(new DSAudioDevice(512, 44100, 0, dataGetter, window));
+                    return std::unique_ptr<AudioDevice>(new directsound::AudioDevice(512, 44100, 0, dataGetter, window));
 #endif
 #if OUZEL_COMPILE_XAUDIO2
                 case Driver::XAUDIO2:
                     engine->log(Log::Level::INFO) << "Using XAudio 2 audio driver";
-                    return std::unique_ptr<AudioDevice>(new XA2AudioDevice(512, 44100, 0, dataGetter, debugAudio));
+                    return std::unique_ptr<AudioDevice>(new xaudio2::AudioDevice(512, 44100, 0, dataGetter, debugAudio));
 #endif
 #if OUZEL_COMPILE_OPENSL
                 case Driver::OPENSL:
                     engine->log(Log::Level::INFO) << "Using OpenSL ES audio driver";
-                    return std::unique_ptr<AudioDevice>(new OSLAudioDevice(512, 44100, 0, dataGetter));
+                    return std::unique_ptr<AudioDevice>(new opensl::AudioDevice(512, 44100, 0, dataGetter));
 #endif
 #if OUZEL_COMPILE_COREAUDIO
                 case Driver::COREAUDIO:
                     engine->log(Log::Level::INFO) << "Using CoreAudio audio driver";
-                    return std::unique_ptr<AudioDevice>(new CAAudioDevice(512, 44100, 0, dataGetter));
+                    return std::unique_ptr<AudioDevice>(new coreaudio::AudioDevice(512, 44100, 0, dataGetter));
 #endif
 #if OUZEL_COMPILE_ALSA
                 case Driver::ALSA:
                     engine->log(Log::Level::INFO) << "Using ALSA audio driver";
-                    return std::unique_ptr<AudioDevice>(new ALSAAudioDevice(512, 44100, 0, dataGetter));
+                    return std::unique_ptr<AudioDevice>(new alsa::AudioDevice(512, 44100, 0, dataGetter));
 #endif
 #if OUZEL_COMPILE_WASAPI
                 case Driver::WASAPI:
                     engine->log(Log::Level::INFO) << "Using WASAPI audio driver";
-                    return std::unique_ptr<AudioDevice>(new WASAPIAudioDevice(512, 44100, 0, dataGetter));
+                    return std::unique_ptr<AudioDevice>(new wasapi::AudioDevice(512, 44100, 0, dataGetter));
 #endif
                 default:
                     engine->log(Log::Level::INFO) << "Not using audio driver";
                     (void)debugAudio;
                     (void)window;
-                    return std::unique_ptr<AudioDevice>(new EmptyAudioDevice(512, 44100, 0, dataGetter));
+                    return std::unique_ptr<AudioDevice>(new empty::AudioDevice(512, 44100, 0, dataGetter));
             }
         }
 

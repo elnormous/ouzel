@@ -17,39 +17,42 @@ namespace ouzel
 {
     namespace audio
     {
-        class WASAPIAudioDevice final: public AudioDevice
+        namespace wasapi
         {
-        public:
-            WASAPIAudioDevice(uint32_t initBufferSize,
-                              uint32_t initSampleRate,
-                              uint16_t initChannels,
-                              const std::function<void(uint32_t frames,
-                                                       uint16_t channels,
-                                                       uint32_t sampleRate,
-                                                       std::vector<float>& samples)>& initDataGetter);
-            ~WASAPIAudioDevice();
+            class AudioDevice final: public audio::AudioDevice
+            {
+            public:
+                AudioDevice(uint32_t initBufferSize,
+                            uint32_t initSampleRate,
+                            uint16_t initChannels,
+                            const std::function<void(uint32_t frames,
+                                                     uint16_t channels,
+                                                     uint32_t sampleRate,
+                                                     std::vector<float>& samples)>& initDataGetter);
+                ~AudioDevice();
 
-            void start() final;
-            void stop() final;
+                void start() final;
+                void stop() final;
 
-        private:
-            void run();
+            private:
+                void run();
 
-            IMMDeviceEnumerator* enumerator = nullptr;
-            IMMDevice* device = nullptr;
-            IMMNotificationClient* notificationClient = nullptr;
-            IAudioClient* audioClient = nullptr;
-            IAudioRenderClient* renderClient = nullptr;
-            HANDLE notifyEvent = nullptr;
+                IMMDeviceEnumerator* enumerator = nullptr;
+                IMMDevice* device = nullptr;
+                IMMNotificationClient* notificationClient = nullptr;
+                IAudioClient* audioClient = nullptr;
+                IAudioRenderClient* renderClient = nullptr;
+                HANDLE notifyEvent = nullptr;
 
-            UINT32 bufferFrameCount;
-            uint32_t sampleSize = 0;
-            bool started = false;
-            std::vector<uint8_t> data;
+                UINT32 bufferFrameCount;
+                uint32_t sampleSize = 0;
+                bool started = false;
+                std::vector<uint8_t> data;
 
-            std::atomic_bool running{false};
-            std::thread audioThread;
-        };
+                std::atomic_bool running{false};
+                std::thread audioThread;
+            };
+        } // namespace wasapi
     } // namespace audio
 } // namespace ouzel
 

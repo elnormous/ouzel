@@ -28,42 +28,45 @@ namespace ouzel
 {
     namespace audio
     {
-        class DSAudioDevice final: public AudioDevice
+        namespace directsound
         {
-        public:
-            DSAudioDevice(uint32_t initBufferSize,
-                          uint32_t initSampleRate,
-                          uint16_t initChannels,
-                          const std::function<void(uint32_t frames,
-                                                   uint16_t channels,
-                                                   uint32_t sampleRate,
-                                                   std::vector<float>& samples)>& initDataGetter,
-                          Window* window);
-            ~DSAudioDevice();
+            class AudioDevice final: public audio::AudioDevice
+            {
+            public:
+                AudioDevice(uint32_t initBufferSize,
+                            uint32_t initSampleRate,
+                            uint16_t initChannels,
+                            const std::function<void(uint32_t frames,
+                                                     uint16_t channels,
+                                                     uint32_t sampleRate,
+                                                     std::vector<float>& samples)>& initDataGetter,
+                            Window* window);
+                ~AudioDevice();
 
-            void start() final;
-            void stop() final;
+                void start() final;
+                void stop() final;
 
-            ALWAYSINLINE IDirectSound8* getDirectSound() const { return directSound; }
+                ALWAYSINLINE IDirectSound8* getDirectSound() const { return directSound; }
 
-        private:
-            void run();
+            private:
+                void run();
 
-            IDirectSound8* directSound = nullptr;
+                IDirectSound8* directSound = nullptr;
 
-            IDirectSoundBuffer* primaryBuffer = nullptr;
-            IDirectSoundBuffer8* buffer = nullptr;
-            IDirectSoundNotify* notify = nullptr;
-            HANDLE notifyEvents[2] = {nullptr, nullptr};
+                IDirectSoundBuffer* primaryBuffer = nullptr;
+                IDirectSoundBuffer8* buffer = nullptr;
+                IDirectSoundNotify* notify = nullptr;
+                HANDLE notifyEvents[2] = {nullptr, nullptr};
 
-            uint32_t nextBuffer = 0;
+                uint32_t nextBuffer = 0;
 
-            uint32_t sampleSize = 0;
-            std::vector<uint8_t> data;
+                uint32_t sampleSize = 0;
+                std::vector<uint8_t> data;
 
-            std::atomic_bool running{false};
-            std::thread audioThread;
-        };
+                std::atomic_bool running{false};
+                std::thread audioThread;
+            };
+        } // namespace directsound
     } // namespace audio
 } // namespace ouzel
 

@@ -9,20 +9,23 @@ namespace ouzel
 {
     namespace audio
     {
-        class EmptyAudioDevice final: public AudioDevice
+        namespace empty
         {
-        public:
-            EmptyAudioDevice(uint32_t initBufferSize,
-                             uint32_t initSampleRate,
-                             uint16_t initChannels,
-                             const std::function<void(uint32_t frames,
-                                                      uint16_t channels,
-                                                      uint32_t sampleRate,
-                                                      std::vector<float>& samples)>& initDataGetter);
+            class AudioDevice final: public audio::AudioDevice
+            {
+            public:
+                AudioDevice(uint32_t initBufferSize,
+                            uint32_t initSampleRate,
+                            uint16_t initChannels,
+                            const std::function<void(uint32_t frames,
+                                                     uint16_t channels,
+                                                     uint32_t sampleRate,
+                                                     std::vector<float>& samples)>& initDataGetter);
 
-            void start() final {}
-            void stop() final {}
-        };
+                void start() final {}
+                void stop() final {}
+            };
+        } // namespace empty
     } // namespace audio
 } // namespace ouzel
 
