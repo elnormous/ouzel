@@ -30,32 +30,33 @@ namespace ouzel
             return boundingBox.containsPoint(Vector3F(position));
         }
 
-        inline void gatherPolygonProjectionExtents(const std::vector<Vector2F>& vertList,
-                                                   const Vector2F& v,
-                                                   float& outMin, float& outMax)
+        static inline void gatherPolygonProjectionExtents(const std::vector<Vector2F>& vertList,
+                                                          const Vector2F& v,
+                                                          float& outMin, float& outMax)
         {
-            outMin = outMax = v.dot(vertList[0]);
-
-            size_t vertListSize = vertList.size();
-            for (size_t i = 1 ; i < vertListSize; ++i)
+            auto i = vertList.begin();
+            if (i != vertList.end())
             {
-                float d = v.dot(vertList[i]);
-                if (d < outMin) outMin = d;
-                else if (d > outMax) outMax = d;
+                outMin = outMax = v.dot(*i);
+                ++i;
+
+                for (; i != vertList.end(); ++i)
+                {
+                    float d = v.dot(*i);
+                    if (d < outMin) outMin = d;
+                    else if (d > outMax) outMax = d;
+                }
             }
         }
 
-        inline bool findSeparatingAxis(const std::vector<Vector2F>& aVertList,
-                                       const std::vector<Vector2F>& bVertList)
+        static inline bool findSeparatingAxis(const std::vector<Vector2F>& aVertList,
+                                              const std::vector<Vector2F>& bVertList)
         {
             Vector2F v;
-
-            size_t aVertListSize = aVertList.size();
-            size_t prev = aVertListSize - 1;
-            for (size_t cur = 0; cur < aVertListSize; ++cur)
+            auto prev = aVertList.end() - 1;
+            for (auto cur = aVertList.begin(); cur != aVertList.end(); ++cur)
             {
-                Vector2F edge = aVertList[cur] - aVertList[prev];
-
+                Vector2F edge = *cur - *prev;
                 v.v[0] = edge.v[1];
                 v.v[1] = -edge.v[0];
 
