@@ -106,7 +106,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Shader.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Texture.cpp \
 	$(ROOT_DIR)/../ouzel/gui/BMFont.cpp \
-	$(ROOT_DIR)/../ouzel/gui/Font.cpp \
 	$(ROOT_DIR)/../ouzel/gui/TTFont.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Widget.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Widgets.cpp \

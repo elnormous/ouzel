@@ -80,7 +80,6 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/graphics/Texture.cpp \
     ../../ouzel/gui/BMFont.cpp \
     ../../ouzel/gui/TTFont.cpp \
-    ../../ouzel/gui/Font.cpp \
     ../../ouzel/gui/Widget.cpp \
 	../../ouzel/gui/Widgets.cpp \
     ../../ouzel/input/android/GamepadDeviceAndroid.cpp \

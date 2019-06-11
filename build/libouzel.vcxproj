@@ -98,7 +98,6 @@
     <ClCompile Include="..\ouzel\graphics\Shader.cpp" />
     <ClCompile Include="..\ouzel\graphics\Texture.cpp" />
     <ClCompile Include="..\ouzel\gui\BMFont.cpp" />
-    <ClCompile Include="..\ouzel\gui\Font.cpp" />
     <ClCompile Include="..\ouzel\gui\TTFont.cpp" />
     <ClCompile Include="..\ouzel\gui\Widget.cpp" />
     <ClCompile Include="..\ouzel\gui\Widgets.cpp" />

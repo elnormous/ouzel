@@ -645,9 +645,6 @@
 		30B8598F1F3D286600A16952 /* TTFont.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B8598B1F3D286600A16952 /* TTFont.hpp */; };
 		30B859901F3D286600A16952 /* TTFont.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B8598B1F3D286600A16952 /* TTFont.hpp */; };
 		30B859911F3D286600A16952 /* TTFont.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B8598B1F3D286600A16952 /* TTFont.hpp */; };
-		30B859941F3D2F3200A16952 /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B859921F3D2F3200A16952 /* Font.cpp */; };
-		30B859951F3D2F3200A16952 /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B859921F3D2F3200A16952 /* Font.cpp */; };
-		30B859961F3D2F3200A16952 /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B859921F3D2F3200A16952 /* Font.cpp */; };
 		30B859971F3D2F3200A16952 /* Font.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B859931F3D2F3200A16952 /* Font.hpp */; };
 		30B859981F3D2F3200A16952 /* Font.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B859931F3D2F3200A16952 /* Font.hpp */; };
 		30B859991F3D2F3200A16952 /* Font.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B859931F3D2F3200A16952 /* Font.hpp */; };
@@ -1059,7 +1056,6 @@
 		30AF9FC32145D6F000F9266B /* OGLRenderResource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLRenderResource.hpp; sourceTree = "<group>"; };
 		30B8598A1F3D286600A16952 /* TTFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTFont.cpp; sourceTree = "<group>"; };
 		30B8598B1F3D286600A16952 /* TTFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TTFont.hpp; sourceTree = "<group>"; };
-		30B859921F3D2F3200A16952 /* Font.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Font.cpp; sourceTree = "<group>"; };
 		30B859931F3D2F3200A16952 /* Font.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Font.hpp; sourceTree = "<group>"; };
 		30B8D1AF2248DC8D00172BCA /* Inline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Inline.h; sourceTree = "<group>"; };
 		30BA5FB22198B42D0032AC23 /* RasterizerState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RasterizerState.hpp; sourceTree = "<group>"; };
@@ -1697,7 +1693,6 @@
 			children = (
 				305B999A1C42A695008589E1 /* BMFont.cpp */,
 				305B999B1C42A695008589E1 /* BMFont.hpp */,
-				30B859921F3D2F3200A16952 /* Font.cpp */,
 				30B859931F3D2F3200A16952 /* Font.hpp */,
 				30B8598A1F3D286600A16952 /* TTFont.cpp */,
 				30B8598B1F3D286600A16952 /* TTFont.hpp */,
@@ -2477,7 +2472,6 @@
 				30CC89F9203C5DFB00E2C8C3 /* File.cpp in Sources */,
 				3067D7A5209B450F008DF6AF /* InputSystem.cpp in Sources */,
 				30519CB31F9B506F00AF3DC4 /* Loader.cpp in Sources */,
-				30B859941F3D2F3200A16952 /* Font.cpp in Sources */,
 				30381F8B1D80A3EC00677CAB /* OGLTexture.cpp in Sources */,
 				30519CE81F9B53F500AF3DC4 /* MtlLoader.cpp in Sources */,
 				30381F4F1D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,
@@ -2606,7 +2600,6 @@
 				30CEB37A21A6404B00525637 /* SystemTVOS.cpp in Sources */,
 				30519CB51F9B506F00AF3DC4 /* Loader.cpp in Sources */,
 				30381F8D1D80A3EC00677CAB /* OGLTexture.cpp in Sources */,
-				30B859961F3D2F3200A16952 /* Font.cpp in Sources */,
 				30519CEA1F9B53F500AF3DC4 /* MtlLoader.cpp in Sources */,
 				302B728621BDE302006EBC59 /* SilenceSound.cpp in Sources */,
 				30381F511D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,
@@ -2775,7 +2768,6 @@
 				30381F7A1D80A3EC00677CAB /* OGLRenderDevice.cpp in Sources */,
 				30419DE11D162BCF00A63759 /* Audio.cpp in Sources */,
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,
-				30B859951F3D2F3200A16952 /* Font.cpp in Sources */,
 				30381F861D80A3EC00677CAB /* OGLShader.cpp in Sources */,
 				3049DCDB1EDCD0450000997A /* Cursor.cpp in Sources */,
 				304A8E5A1C237C70008B1151 /* Matrix.cpp in Sources */,
