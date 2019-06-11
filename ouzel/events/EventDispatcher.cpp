@@ -7,10 +7,6 @@
 
 namespace ouzel
 {
-    EventDispatcher::EventDispatcher()
-    {
-    }
-
     EventDispatcher::~EventDispatcher()
     {
         for (EventHandler* eventHandler : eventHandlerAddSet)

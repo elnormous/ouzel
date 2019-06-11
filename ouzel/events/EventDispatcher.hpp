@@ -18,7 +18,7 @@ namespace ouzel
     class EventDispatcher final
     {
     public:
-        EventDispatcher();
+        EventDispatcher() = default;
         ~EventDispatcher();
 
         EventDispatcher(const EventDispatcher&) = delete;

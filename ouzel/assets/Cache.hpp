@@ -3,7 +3,6 @@
 #ifndef OUZEL_ASSETS_CACHE_HPP
 #define OUZEL_ASSETS_CACHE_HPP
 
-#include <map>
 #include <memory>
 #include <string>
 #include "assets/Bundle.hpp"

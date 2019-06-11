@@ -2,13 +2,9 @@
 
 #include <algorithm>
 #include "Cache.hpp"
-#include "Bundle.hpp"
-#include "Loader.hpp"
 #include "graphics/Renderer.hpp"
 #include "gui/BMFont.hpp"
 #include "gui/TTFont.hpp"
-#include "storage/FileSystem.hpp"
-#include "utils/Json.hpp"
 
 namespace ouzel
 {
