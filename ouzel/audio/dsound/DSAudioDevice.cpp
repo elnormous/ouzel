@@ -8,7 +8,6 @@
 #include "DSAudioDevice.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
-#include "core/windows/NativeWindowWin.hpp"
 #include "utils/Utils.hpp"
 
 #ifndef WAVE_FORMAT_IEEE_FLOAT
@@ -81,8 +80,7 @@ namespace ouzel
                                      const std::function<void(uint32_t frames,
                                                               uint16_t channels,
                                                               uint32_t sampleRate,
-                                                              std::vector<float>& samples)>& initDataGetter,
-                                        Window* window):
+                                                              std::vector<float>& samples)>& initDataGetter):
                 audio::AudioDevice(Driver::DIRECTSOUND, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
                 HRESULT hr;
@@ -92,9 +90,7 @@ namespace ouzel
                 if (FAILED(hr = DirectSoundCreate8(&DSDEVID_DefaultPlayback, &directSound, nullptr)))
                     throw std::system_error(hr, directSoundErrorCategory, "Failed to create DirectSound 8 instance");
 
-                NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
-
-                if (FAILED(hr = directSound->SetCooperativeLevel(windowWin->getNativeWindow(), DSSCL_PRIORITY)))
+                if (FAILED(hr = directSound->SetCooperativeLevel(GetDesktopWindow(), DSSCL_PRIORITY)))
                     throw std::system_error(hr, directSoundErrorCategory, "Failed to set cooperative level for DirectSound 8");
 
                 DSBUFFERDESC primaryBufferDesc;

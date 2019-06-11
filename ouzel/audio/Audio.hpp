@@ -19,8 +19,6 @@
 
 namespace ouzel
 {
-    class Window;
-
     namespace audio
     {
         class AudioDevice;
@@ -29,7 +27,7 @@ namespace ouzel
         class Audio final
         {
         public:
-            Audio(Driver driver, bool debugAudio, Window* window);
+            Audio(Driver driver, bool debugAudio);
             ~Audio();
 
             Audio(const Audio&) = delete;

@@ -228,7 +228,7 @@ namespace ouzel
                                               debugRenderer));
 
         audio::Driver audioDriver = audio::Audio::getDriver(audioDriverValue);
-        audio.reset(new audio::Audio(audioDriver, debugAudio, window.get()));
+        audio.reset(new audio::Audio(audioDriver, debugAudio));
 
         inputManager.reset(new input::InputManager());
 

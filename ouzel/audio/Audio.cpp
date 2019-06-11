@@ -99,7 +99,7 @@ namespace ouzel
 
         static std::unique_ptr<AudioDevice> createAudioDevice(Driver driver,
                                                               const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& dataGetter,
-                                                              bool debugAudio, Window* window)
+                                                              bool debugAudio)
         {
             switch (driver)
             {
@@ -111,7 +111,7 @@ namespace ouzel
 #if OUZEL_COMPILE_DIRECTSOUND
                 case Driver::DIRECTSOUND:
                     engine->log(Log::Level::INFO) << "Using DirectSound audio driver";
-                    return std::unique_ptr<AudioDevice>(new directsound::AudioDevice(512, 44100, 0, dataGetter, window));
+                    return std::unique_ptr<AudioDevice>(new directsound::AudioDevice(512, 44100, 0, dataGetter));
 #endif
 #if OUZEL_COMPILE_XAUDIO2
                 case Driver::XAUDIO2:
@@ -141,15 +141,14 @@ namespace ouzel
                 default:
                     engine->log(Log::Level::INFO) << "Not using audio driver";
                     (void)debugAudio;
-                    (void)window;
                     return std::unique_ptr<AudioDevice>(new empty::AudioDevice(512, 44100, 0, dataGetter));
             }
         }
 
-        Audio::Audio(Driver driver, bool debugAudio, Window* window):
+        Audio::Audio(Driver driver, bool debugAudio):
             device(createAudioDevice(driver,
                                      std::bind(&Audio::getSamples, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4),
-                                     debugAudio, window)),
+                                     debugAudio)),
             mixer(device->getBufferSize(), device->getChannels(),
                   std::bind(&Audio::eventCallback, this, std::placeholders::_1)),
             masterMix(*this),

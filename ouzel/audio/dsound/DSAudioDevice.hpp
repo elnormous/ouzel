@@ -39,8 +39,7 @@ namespace ouzel
                             const std::function<void(uint32_t frames,
                                                      uint16_t channels,
                                                      uint32_t sampleRate,
-                                                     std::vector<float>& samples)>& initDataGetter,
-                            Window* window);
+                                                     std::vector<float>& samples)>& initDataGetter);
                 ~AudioDevice();
 
                 void start() final;
