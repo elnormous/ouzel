@@ -150,6 +150,12 @@ namespace ouzel
                     wglMakeCurrent(deviceContext, nullptr);
                     wglDeleteContext(renderContext);
                 }
+
+                if (deviceContext)
+                {
+                    NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
+                    ReleaseDC(windowWin->getNativeWindow(), deviceContext);
+                }
             }
 
             void RenderDeviceWin::init(Window* newWindow,
