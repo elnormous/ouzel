@@ -60,10 +60,10 @@ namespace ouzel
                 v.v[0] = edge.v[1];
                 v.v[1] = -edge.v[0];
 
-                float aMin;
-                float aMax;
-                float bMin;
-                float bMax;
+                float aMin = 0.0F;
+                float aMax = 0.0F;
+                float bMin = 0.0F;
+                float bMax = 0.0F;
                 gatherPolygonProjectionExtents(aVertList, v, aMin, aMax);
                 gatherPolygonProjectionExtents(bVertList, v, bMin, bMax);
 
