@@ -221,9 +221,9 @@ namespace ouzel
                 }
             }
 
-            void Texture::setFilter(graphics::Texture::Filter filter)
+            void Texture::setFilter(graphics::Filter filter)
             {
-                samplerDescriptor.filter = (filter == graphics::Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                samplerDescriptor.filter = (filter == graphics::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
                 updateSamplerState();
             }
 

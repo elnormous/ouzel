@@ -11,7 +11,7 @@ namespace ouzel
         RenderTarget::RenderTarget(Renderer& initRenderer,
                                    const std::vector<std::shared_ptr<Texture>>& initColorTextures,
                                    const std::shared_ptr<Texture>& initDepthTexture):
-            resource(initRenderer),
+            resource(*initRenderer.getDevice()),
             colorTextures(initColorTextures),
             depthTexture(initDepthTexture)
         {

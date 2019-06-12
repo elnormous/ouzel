@@ -810,6 +810,9 @@
     <ClInclude Include="..\ouzel\graphics\Driver.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\Filter.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\audio\Containers.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>

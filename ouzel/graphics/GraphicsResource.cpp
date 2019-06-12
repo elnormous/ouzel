@@ -1,21 +1,21 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include "GraphicsResource.hpp"
-#include "Renderer.hpp"
+#include "RenderDevice.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        Resource::Resource(Renderer& initRenderer):
-            renderer(&initRenderer),
-            id(renderer->getResourceId())
+        Resource::Resource(RenderDevice& initRendererDevice):
+            renderDevice(&initRendererDevice),
+            id(renderDevice->getResourceId())
         {
         }
 
         Resource::~Resource()
         {
-            if (id) renderer->deleteResourceId(id);
+            if (id) renderDevice->deleteResourceId(id);
         }
     } // namespace graphics
 } // namespace ouzel

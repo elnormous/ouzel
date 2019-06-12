@@ -9,7 +9,7 @@ namespace ouzel
     namespace graphics
     {
         DepthStencilState::DepthStencilState(Renderer& initRenderer):
-            resource(initRenderer)
+            resource(*initRenderer.getDevice())
         {
         }
 
@@ -22,7 +22,7 @@ namespace ouzel
                                              uint32_t initStencilWriteMask,
                                              const StencilDescriptor& initFrontFaceStencil,
                                              const StencilDescriptor& initBackFaceStencil):
-            resource(initRenderer),
+            resource(*initRenderer.getDevice()),
             depthTest(initDepthTest),
             depthWrite(initDepthWrite),
             compareFunction(initCompareFunction),

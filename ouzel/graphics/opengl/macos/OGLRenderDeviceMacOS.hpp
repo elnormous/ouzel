@@ -49,7 +49,7 @@ namespace ouzel
                 void init(Window* newWindow,
                           const Size2U& newSize,
                           uint32_t newSampleCount,
-                          Texture::Filter newTextureFilter,
+                          Filter newTextureFilter,
                           uint32_t newMaxAnisotropy,
                           bool newSrgb,
                           bool newVerticalSync,

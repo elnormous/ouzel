@@ -145,7 +145,7 @@ namespace ouzel
             void RenderDevice::init(Window* newWindow,
                                          const Size2U& newSize,
                                          uint32_t newSampleCount,
-                                         graphics::Texture::Filter newTextureFilter,
+                                         graphics::Filter newTextureFilter,
                                          uint32_t newMaxAnisotropy,
                                          bool newSrgb,
                                          bool newVerticalSync,
@@ -992,23 +992,23 @@ namespace ouzel
                     MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
                     switch (descriptor.filter)
                     {
-                        case graphics::Texture::Filter::DEFAULT:
-                        case graphics::Texture::Filter::POINT:
+                        case graphics::Filter::DEFAULT:
+                        case graphics::Filter::POINT:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case graphics::Texture::Filter::LINEAR:
+                        case graphics::Filter::LINEAR:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case graphics::Texture::Filter::BILINEAR:
+                        case graphics::Filter::BILINEAR:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case graphics::Texture::Filter::TRILINEAR:
+                        case graphics::Filter::TRILINEAR:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;

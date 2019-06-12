@@ -228,6 +228,7 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Texture.hpp" />
     <ClInclude Include="..\ouzel\graphics\DrawMode.hpp" />
     <ClInclude Include="..\ouzel\graphics\Driver.hpp" />
+    <ClInclude Include="..\ouzel\graphics\Filter.hpp" />
     <ClInclude Include="..\ouzel\graphics\empty\EmptyRenderDevice.hpp" />
     <ClInclude Include="..\ouzel\graphics\GraphicsResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Image.hpp" />

@@ -5,6 +5,7 @@
 
 #include <vector>
 #include "graphics/GraphicsResource.hpp"
+#include "graphics/Filter.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "math/Color.hpp"
 #include "math/Size.hpp"
@@ -43,15 +44,6 @@ namespace ouzel
                 BIND_RENDER_TARGET = 0x02,
                 BIND_SHADER = 0x04,
                 BIND_SHADER_MSAA = 0x08
-            };
-
-            enum class Filter
-            {
-                DEFAULT,
-                POINT,
-                LINEAR,
-                BILINEAR,
-                TRILINEAR
             };
 
             enum class Address
@@ -123,6 +115,7 @@ namespace ouzel
             ALWAYSINLINE PixelFormat getPixelFormat() const { return pixelFormat; }
 
         private:
+            Renderer& renderer;
             Resource resource;
 
             Dimensions dimensions = Dimensions::TWO;
@@ -131,7 +124,7 @@ namespace ouzel
             uint32_t mipmaps = 0;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
-            Filter filter = Texture::Filter::DEFAULT;
+            Filter filter = Filter::DEFAULT;
             Address addressX = Texture::Address::CLAMP_TO_EDGE;
             Address addressY = Texture::Address::CLAMP_TO_EDGE;
             Address addressZ = Texture::Address::CLAMP_TO_EDGE;

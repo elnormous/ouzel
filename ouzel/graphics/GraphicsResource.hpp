@@ -10,23 +10,23 @@ namespace ouzel
 {
     namespace graphics
     {
-        class Renderer;
+        class RenderDevice;
 
         class Resource final
         {
         public:
             Resource() = default;
-            Resource(Renderer& initRenderer);
+            Resource(RenderDevice& initRendererDevice);
             ~Resource();
 
             Resource(const Resource&) = delete;
             Resource& operator=(const Resource&) = delete;
 
             Resource(Resource&& other):
-                renderer(other.renderer),
+                renderDevice(other.renderDevice),
                 id(other.id)
             {
-                other.renderer = nullptr;
+                other.renderDevice = nullptr;
                 other.id = 0;
             }
 
@@ -34,18 +34,13 @@ namespace ouzel
             {
                 if (&other != this)
                 {
-                    renderer = other.renderer;
+                    renderDevice = other.renderDevice;
                     id = other.id;
-                    other.renderer = nullptr;
+                    other.renderDevice = nullptr;
                     other.id = 0;
                 }
 
                 return *this;
-            }
-
-            ALWAYSINLINE Renderer* getRenderer() const
-            {
-                return renderer;
             }
 
             ALWAYSINLINE uintptr_t getId() const
@@ -54,7 +49,7 @@ namespace ouzel
             }
 
         private:
-            Renderer* renderer = nullptr;
+            RenderDevice* renderDevice = nullptr;
             uintptr_t id = 0;
         };
     } // namespace graphics

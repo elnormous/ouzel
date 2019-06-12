@@ -36,7 +36,7 @@ namespace ouzel
             class SamplerStateDescriptor final
             {
             public:
-                graphics::Texture::Filter filter;
+                graphics::Filter filter;
                 graphics::Texture::Address addressX;
                 graphics::Texture::Address addressY;
                 graphics::Texture::Address addressZ;
@@ -61,7 +61,7 @@ namespace ouzel
                 ~Texture();
 
                 void setData(const std::vector<graphics::Texture::Level>& levels);
-                void setFilter(graphics::Texture::Filter filter);
+                void setFilter(graphics::Filter filter);
                 void setAddressX(graphics::Texture::Address addressX);
                 void setAddressY(graphics::Texture::Address addressY);
                 void setAddressZ(graphics::Texture::Address addressZ);

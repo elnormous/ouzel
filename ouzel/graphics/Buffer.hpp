@@ -31,9 +31,20 @@ namespace ouzel
             Buffer() = default;
 
             explicit Buffer(Renderer& initRenderer);
-            Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, uint32_t newSize = 0);
-            Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize);
-            Buffer(Renderer& initRenderer, Usage newUsage, uint32_t newFlags, const std::vector<uint8_t>& newData, uint32_t newSize);
+            Buffer(Renderer& initRenderer,
+                   Usage newUsage,
+                   uint32_t newFlags,
+                   uint32_t newSize = 0);
+            Buffer(Renderer& initRenderer,
+                   Usage newUsage,
+                   uint32_t newFlags,
+                   const void* newData,
+                   uint32_t newSize);
+            Buffer(Renderer& initRenderer,
+                   Usage newUsage,
+                   uint32_t newFlags,
+                   const std::vector<uint8_t>& newData,
+                   uint32_t newSize);
 
             void setData(const void* newData, uint32_t newSize);
             void setData(const std::vector<uint8_t>& newData);
@@ -45,6 +56,7 @@ namespace ouzel
             ALWAYSINLINE uint32_t getSize() const { return size; }
 
         private:
+            Renderer& renderer;
             Resource resource;
 
             Buffer::Usage usage;

@@ -31,7 +31,7 @@ namespace ouzel
                      Window* newWindow,
                      const Size2U& newSize,
                      uint32_t newSampleCount,
-                     Texture::Filter newTextureFilter,
+                     Filter newTextureFilter,
                      uint32_t newMaxAnisotropy,
                      bool newSrgb,
                      bool newVerticalSync,
@@ -86,17 +86,6 @@ namespace ouzel
                 commandBuffer.pushCommand(std::move(command));
             }
             void present();
-
-            inline uintptr_t getResourceId()
-            {
-                return device->getResourceId();
-            }
-
-            void deleteResourceId(uintptr_t resourceId)
-            {
-                addCommand(std::unique_ptr<Command>(new DeleteResourceCommand(resourceId)));
-                device->deleteResourceId(resourceId);
-            }
 
             void waitForNextFrame();
             inline bool getRefillQueue() const { return refillQueue; }

@@ -406,7 +406,7 @@ namespace ouzel
                     throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
             }
 
-            void Texture::setFilter(graphics::Texture::Filter newFilter)
+            void Texture::setFilter(graphics::Filter newFilter)
             {
                 filter = newFilter;
 
@@ -415,24 +415,24 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                graphics::Texture::Filter finalFilter = (filter == graphics::Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                graphics::Filter finalFilter = (filter == graphics::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 
                 switch (finalFilter)
                 {
-                    case graphics::Texture::Filter::DEFAULT:
-                    case graphics::Texture::Filter::POINT:
+                    case graphics::Filter::DEFAULT:
+                    case graphics::Filter::POINT:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case graphics::Texture::Filter::LINEAR:
+                    case graphics::Filter::LINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case graphics::Texture::Filter::BILINEAR:
+                    case graphics::Filter::BILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
-                    case graphics::Texture::Filter::TRILINEAR:
+                    case graphics::Filter::TRILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
@@ -593,24 +593,24 @@ namespace ouzel
             {
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                graphics::Texture::Filter finalFilter = (filter == graphics::Texture::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                graphics::Filter finalFilter = (filter == graphics::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 
                 switch (finalFilter)
                 {
-                    case graphics::Texture::Filter::DEFAULT:
-                    case graphics::Texture::Filter::POINT:
+                    case graphics::Filter::DEFAULT:
+                    case graphics::Filter::POINT:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case graphics::Texture::Filter::LINEAR:
+                    case graphics::Filter::LINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case graphics::Texture::Filter::BILINEAR:
+                    case graphics::Filter::BILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
-                    case graphics::Texture::Filter::TRILINEAR:
+                    case graphics::Filter::TRILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;

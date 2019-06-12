@@ -9,7 +9,7 @@ namespace ouzel
     namespace graphics
     {
         Shader::Shader(Renderer& initRenderer):
-            resource(initRenderer)
+            resource(*initRenderer.getDevice())
         {
         }
 
@@ -23,7 +23,7 @@ namespace ouzel
                        uint32_t initVertexShaderDataAlignment,
                        const std::string& fragmentShaderFunction,
                        const std::string& vertexShaderFunction):
-            resource(initRenderer),
+            resource(*initRenderer.getDevice()),
             vertexAttributes(initVertexAttributes)
         {
             initRenderer.addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource.getId(),

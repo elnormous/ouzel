@@ -36,7 +36,7 @@ namespace ouzel
         void RenderDevice::init(Window* newWindow,
                                 const Size2U&,
                                 uint32_t newSampleCount,
-                                Texture::Filter newTextureFilter,
+                                Filter newTextureFilter,
                                 uint32_t newMaxAnisotropy,
                                 bool newSrgb,
                                 bool newVerticalSync,

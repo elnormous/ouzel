@@ -125,7 +125,7 @@ namespace ouzel
             void RenderDevice::init(Window* newWindow,
                                     const Size2U& newSize,
                                     uint32_t newSampleCount,
-                                    graphics::Texture::Filter newTextureFilter,
+                                    graphics::Filter newTextureFilter,
                                     uint32_t newMaxAnisotropy,
                                     bool newSrgb,
                                     bool newVerticalSync,
@@ -1100,17 +1100,17 @@ namespace ouzel
                     {
                         switch (desc.filter)
                         {
-                            case graphics::Texture::Filter::DEFAULT:
-                            case graphics::Texture::Filter::POINT:
+                            case graphics::Filter::DEFAULT:
+                            case graphics::Filter::POINT:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
                                 break;
-                            case graphics::Texture::Filter::LINEAR:
+                            case graphics::Filter::LINEAR:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
                                 break;
-                            case graphics::Texture::Filter::BILINEAR:
+                            case graphics::Filter::BILINEAR:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
                                 break;
-                            case graphics::Texture::Filter::TRILINEAR:
+                            case graphics::Filter::TRILINEAR:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
                                 break;
                             default:

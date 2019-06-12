@@ -537,7 +537,7 @@ namespace ouzel
         {
         public:
             SetTextureParametersCommand(uintptr_t initTexture,
-                                        Texture::Filter initFilter,
+                                        Filter initFilter,
                                         Texture::Address initAddressX,
                                         Texture::Address initAddressY,
                                         Texture::Address initAddressZ,
@@ -555,7 +555,7 @@ namespace ouzel
             }
 
             uintptr_t texture;
-            Texture::Filter filter;
+            Filter filter;
             Texture::Address addressX;
             Texture::Address addressY;
             Texture::Address addressZ;

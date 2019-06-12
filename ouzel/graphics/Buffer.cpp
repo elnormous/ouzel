@@ -10,12 +10,17 @@ namespace ouzel
     namespace graphics
     {
         Buffer::Buffer(Renderer& initRenderer):
-            resource(initRenderer)
+            renderer(initRenderer),
+            resource(*initRenderer.getDevice())
         {
         }
 
-        Buffer::Buffer(Renderer& initRenderer, Usage initUsage, uint32_t initFlags, uint32_t initSize):
-            resource(initRenderer),
+        Buffer::Buffer(Renderer& initRenderer,
+                       Usage initUsage,
+                       uint32_t initFlags,
+                       uint32_t initSize):
+            renderer(initRenderer),
+            resource(*initRenderer.getDevice()),
             usage(initUsage),
             flags(initFlags),
             size(initSize)
@@ -27,8 +32,13 @@ namespace ouzel
                                                                                    initSize)));
         }
 
-        Buffer::Buffer(Renderer& initRenderer, Usage initUsage, uint32_t initFlags, const void* initData, uint32_t initSize):
-            resource(initRenderer),
+        Buffer::Buffer(Renderer& initRenderer,
+                       Usage initUsage,
+                       uint32_t initFlags,
+                       const void* initData,
+                       uint32_t initSize):
+            renderer(initRenderer),
+            resource(*initRenderer.getDevice()),
             usage(initUsage),
             flags(initFlags),
             size(initSize)
@@ -41,8 +51,13 @@ namespace ouzel
                                                                                    initSize)));
         }
 
-        Buffer::Buffer(Renderer& initRenderer, Usage initUsage, uint32_t initFlags, const std::vector<uint8_t>& initData, uint32_t initSize):
-            resource(initRenderer),
+        Buffer::Buffer(Renderer& initRenderer,
+                       Usage initUsage,
+                       uint32_t initFlags,
+                       const std::vector<uint8_t>& initData,
+                       uint32_t initSize):
+            renderer(initRenderer),
+            resource(*initRenderer.getDevice()),
             usage(initUsage),
             flags(initFlags),
             size(initSize)
@@ -60,9 +75,9 @@ namespace ouzel
         void Buffer::setData(const void* newData, uint32_t newSize)
         {
             if (resource.getId())
-                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new SetBufferDataCommand(resource.getId(),
-                                                                                                     std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
-                                                                                                                          static_cast<const uint8_t*>(newData) + newSize))));
+                renderer.addCommand(std::unique_ptr<Command>(new SetBufferDataCommand(resource.getId(),
+                                                                                      std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
+                                                                                                           static_cast<const uint8_t*>(newData) + newSize))));
         }
 
         void Buffer::setData(const std::vector<uint8_t>& newData)
@@ -76,8 +91,8 @@ namespace ouzel
             if (newData.size() > size) size = static_cast<uint32_t>(newData.size());
 
             if (resource.getId())
-                resource.getRenderer()->addCommand(std::unique_ptr<Command>(new SetBufferDataCommand(resource.getId(),
-                                                                                                     newData)));
+                renderer.addCommand(std::unique_ptr<Command>(new SetBufferDataCommand(resource.getId(),
+                                                                                      newData)));
         }
     } // namespace graphics
 } // namespace ouzel
