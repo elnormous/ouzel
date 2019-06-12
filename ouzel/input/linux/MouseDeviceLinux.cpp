@@ -46,9 +46,9 @@ namespace ouzel
             if (locked)
             {
                 if (XGrabPointer(display, window, False,
-                                    ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask,
-                                    GrabModeAsync, GrabModeAsync,
-                                    None, None, CurrentTime) != GrabSuccess)
+                                 ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask,
+                                 GrabModeAsync, GrabModeAsync,
+                                 None, None, CurrentTime) != GrabSuccess)
                     throw std::runtime_error("Failed to grab pointer");
             }
             else
