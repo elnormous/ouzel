@@ -23,17 +23,12 @@ namespace ouzel
     namespace graphics
     {
         class Renderer;
-        class BlendState;
-        class Buffer;
-        class Shader;
+        class Resource;
 
         class RenderDevice
         {
             friend Renderer;
-            friend BlendState;
-            friend Buffer;
-            friend Shader;
-            friend Texture;
+            friend Resource;
         public:
             static const std::array<Vertex::Attribute, 5> VERTEX_ATTRIBUTES;
 
@@ -92,25 +87,6 @@ namespace ouzel
             inline float getAccumulatedFPS() const { return accumulatedFPS; }
 
             void executeOnRenderThread(const std::function<void()>& func);
-
-            uintptr_t getResourceId()
-            {
-                auto i = deletedResourceIds.begin();
-
-                if (i == deletedResourceIds.end())
-                    return ++lastResourceId; // zero is reserved for null resource
-                else
-                {
-                    uintptr_t resourceId = *i;
-                    deletedResourceIds.erase(i);
-                    return resourceId;
-                }
-            }
-
-            void deleteResourceId(uintptr_t resourceId)
-            {
-                deletedResourceIds.insert(resourceId);
-            }
 
         protected:
             virtual void init(Window* newWindow,
@@ -171,6 +147,26 @@ namespace ouzel
 
             std::queue<std::function<void()>> executeQueue;
             std::mutex executeMutex;
+
+        private:
+            uintptr_t getResourceId()
+            {
+                auto i = deletedResourceIds.begin();
+
+                if (i == deletedResourceIds.end())
+                    return ++lastResourceId; // zero is reserved for null resource
+                else
+                {
+                    uintptr_t resourceId = *i;
+                    deletedResourceIds.erase(i);
+                    return resourceId;
+                }
+            }
+
+            void deleteResourceId(uintptr_t resourceId)
+            {
+                deletedResourceIds.insert(resourceId);
+            }
 
             uintptr_t lastResourceId = 0;
             std::set<uintptr_t> deletedResourceIds;
