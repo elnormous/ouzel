@@ -49,20 +49,17 @@ namespace ouzel
                     wc.lpszMenuName = nullptr;
                     wc.lpszClassName = TEMP_WINDOW_CLASS_NAME;
 
-                    windowClass = RegisterClassW(&wc);
-
-                    if (!windowClass)
+                    if (!(windowClass = RegisterClassW(&wc)))
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to register window class");
 
-                    window = CreateWindowW(TEMP_WINDOW_CLASS_NAME, L"TempWindow", 0,
-                                        CW_USEDEFAULT, CW_USEDEFAULT,
-                                        CW_USEDEFAULT, CW_USEDEFAULT,
-                                        0, 0, instance, 0);
-
-                    if (!window)
+                    if (!(window = CreateWindowW(TEMP_WINDOW_CLASS_NAME, L"TempWindow", 0,
+                                                 CW_USEDEFAULT, CW_USEDEFAULT,
+                                                 CW_USEDEFAULT, CW_USEDEFAULT,
+                                                 0, 0, instance, 0)))
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to create window");
 
-                    deviceContext = GetDC(window);
+                    if (!(deviceContext = GetDC(window)))
+                        throw std::runtime_error("Failed to get device context");
 
                     PIXELFORMATDESCRIPTOR pixelFormatDesc;
                     pixelFormatDesc.nSize = sizeof(pixelFormatDesc);
@@ -100,9 +97,7 @@ namespace ouzel
                     if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to set pixel format");
 
-                    renderContext = wglCreateContext(deviceContext);
-
-                    if (!renderContext)
+                    if (!(renderContext = wglCreateContext(deviceContext)))
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to create OpenGL context");
 
                     if (!wglMakeCurrent(deviceContext, renderContext))
@@ -118,7 +113,12 @@ namespace ouzel
                     }
 
                     if (window)
+                    {
+                        if (deviceContext)
+                            ReleaseDC(window, deviceContext);
+
                         DestroyWindow(window);
+                    }
 
                     if (windowClass)
                         UnregisterClassW(TEMP_WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
