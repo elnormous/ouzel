@@ -419,7 +419,6 @@ namespace ouzel
 
                 switch (finalFilter)
                 {
-                    case graphics::Filter::DEFAULT:
                     case graphics::Filter::POINT:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -503,11 +502,9 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                GLint finalMaxAnisotropy = static_cast<GLint>((maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy);
-
-                if (finalMaxAnisotropy > 1 && renderDevice.isAnisotropicFilteringSupported())
+                if (maxAnisotropy > 1 && renderDevice.isAnisotropicFilteringSupported())
                 {
-                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, finalMaxAnisotropy);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(maxAnisotropy));
 
                     GLenum error;
 

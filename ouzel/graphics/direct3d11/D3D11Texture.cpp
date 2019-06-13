@@ -367,7 +367,7 @@ namespace ouzel
 
             void Texture::setFilter(graphics::Filter filter)
             {
-                samplerDescriptor.filter = (filter == graphics::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                samplerDescriptor.filter = filter;
                 updateSamplerState();
             }
 
@@ -391,7 +391,7 @@ namespace ouzel
 
             void Texture::setMaxAnisotropy(uint32_t maxAnisotropy)
             {
-                samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy;
+                samplerDescriptor.maxAnisotropy = maxAnisotropy;
                 updateSamplerState();
             }
 
