@@ -32,7 +32,7 @@ namespace ouzel
             frontFaceStencil(initFrontFaceStencil),
             backFaceStencil(initBackFaceStencil)
         {
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource.getId(),
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
                                                                                               initDepthTest,
                                                                                               initDepthWrite,
                                                                                               initCompareFunction,

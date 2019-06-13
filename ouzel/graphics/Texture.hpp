@@ -82,7 +82,7 @@ namespace ouzel
                     uint32_t newFlags = 0,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            ALWAYSINLINE uintptr_t getResource() const { return resource.getId(); }
+            ALWAYSINLINE const Resource& getResource() const { return resource; }
 
             ALWAYSINLINE const Size2U& getSize() const { return size; }
 

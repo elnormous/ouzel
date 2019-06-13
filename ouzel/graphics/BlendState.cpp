@@ -30,7 +30,7 @@ namespace ouzel
             colorMask(initColorMask),
             enableBlending(initEnableBlending)
         {
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource.getId(),
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
                                                                                        initEnableBlending,
                                                                                        initColorBlendSource, initColorBlendDest,
                                                                                        initColorOperation,

@@ -25,7 +25,7 @@ namespace ouzel
             flags(initFlags),
             size(initSize)
         {
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource.getId(),
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
                                                                                    initUsage,
                                                                                    initFlags,
                                                                                    std::vector<uint8_t>(),
@@ -43,7 +43,7 @@ namespace ouzel
             flags(initFlags),
             size(initSize)
         {
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource.getId(),
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
                                                                                    initUsage,
                                                                                    initFlags,
                                                                                    std::vector<uint8_t>(static_cast<const uint8_t*>(initData),
@@ -65,7 +65,7 @@ namespace ouzel
             if (!initData.empty() && initSize != initData.size())
                 throw std::runtime_error("Invalid buffer data");
 
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource.getId(),
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
                                                                                    initUsage,
                                                                                    initFlags,
                                                                                    initData,
@@ -74,8 +74,8 @@ namespace ouzel
 
         void Buffer::setData(const void* newData, uint32_t newSize)
         {
-            if (resource.getId())
-                renderer.addCommand(std::unique_ptr<Command>(new SetBufferDataCommand(resource.getId(),
+            if (resource)
+                renderer.addCommand(std::unique_ptr<Command>(new SetBufferDataCommand(resource,
                                                                                       std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
                                                                                                            static_cast<const uint8_t*>(newData) + newSize))));
         }
@@ -90,8 +90,8 @@ namespace ouzel
 
             if (newData.size() > size) size = static_cast<uint32_t>(newData.size());
 
-            if (resource.getId())
-                renderer.addCommand(std::unique_ptr<Command>(new SetBufferDataCommand(resource.getId(),
+            if (resource)
+                renderer.addCommand(std::unique_ptr<Command>(new SetBufferDataCommand(resource,
                                                                                       newData)));
         }
     } // namespace graphics

@@ -679,7 +679,7 @@ namespace ouzel
 
             std::vector<Level> levels = calculateSizes(size, mipmaps, pixelFormat);
 
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource.getId(),
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                     levels,
                                                                                     Dimensions::TWO,
                                                                                     flags,
@@ -710,7 +710,7 @@ namespace ouzel
 
             std::vector<Level> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
 
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource.getId(),
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                     levels,
                                                                                     Dimensions::TWO,
                                                                                     flags,
@@ -743,7 +743,7 @@ namespace ouzel
                 levels.resize(1);
             }
 
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource.getId(),
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                     levels,
                                                                                     Dimensions::TWO,
                                                                                     flags,
@@ -758,8 +758,8 @@ namespace ouzel
 
             std::vector<Level> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
-            if (resource.getId())
-                renderer.addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource.getId(),
+            if (resource)
+                renderer.addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource,
                                                                                        levels)));
         }
 
@@ -770,8 +770,8 @@ namespace ouzel
 
             std::vector<Level> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
-            if (resource.getId())
-                renderer.addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource.getId(),
+            if (resource)
+                renderer.addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource,
                                                                                        levels,
                                                                                        face)));
         }
@@ -780,8 +780,8 @@ namespace ouzel
         {
             filter = newFilter;
 
-            if (resource.getId())
-                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource.getId(),
+            if (resource)
+                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
                                                                                              filter,
                                                                                              addressX,
                                                                                              addressY,
@@ -794,8 +794,8 @@ namespace ouzel
         {
             addressX = newAddressX;
 
-            if (resource.getId())
-                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource.getId(),
+            if (resource)
+                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
                                                                                              filter,
                                                                                              addressX,
                                                                                              addressY,
@@ -808,8 +808,8 @@ namespace ouzel
         {
             addressY = newAddressY;
 
-            if (resource.getId())
-                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource.getId(),
+            if (resource)
+                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
                                                                                              filter,
                                                                                              addressX,
                                                                                              addressY,
@@ -822,8 +822,8 @@ namespace ouzel
         {
             addressZ = newAddressZ;
 
-            if (resource.getId())
-                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource.getId(),
+            if (resource)
+                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
                                                                                              filter,
                                                                                              addressX,
                                                                                              addressY,
@@ -836,8 +836,8 @@ namespace ouzel
         {
             borderColor = newBorderColor;
 
-            if (resource.getId())
-                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource.getId(),
+            if (resource)
+                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
                                                                                              filter,
                                                                                              addressX,
                                                                                              addressY,
@@ -850,8 +850,8 @@ namespace ouzel
         {
             maxAnisotropy = newMaxAnisotropy;
 
-            if (resource.getId())
-                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource.getId(),
+            if (resource)
+                renderer.addCommand(std::unique_ptr<Command>(new SetTextureParametersCommand(resource,
                                                                                              filter,
                                                                                              addressX,
                                                                                              addressY,

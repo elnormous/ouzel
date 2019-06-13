@@ -61,7 +61,7 @@ namespace ouzel
                        Operation initAlphaOperation,
                        uint8_t initColorMask = COLOR_MASK_ALL);
 
-            ALWAYSINLINE uintptr_t getResource() const { return resource.getId(); }
+            ALWAYSINLINE const Resource& getResource() const { return resource; }
 
             ALWAYSINLINE bool isBlendingEnabled() const { return enableBlending; }
 

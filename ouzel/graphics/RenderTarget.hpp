@@ -26,7 +26,7 @@ namespace ouzel
                          const std::vector<std::shared_ptr<Texture>>& initColorTextures,
                          const std::shared_ptr<Texture>& initDepthTexture);
 
-            ALWAYSINLINE uintptr_t getResource() const { return resource.getId(); }
+            ALWAYSINLINE const Resource& getResource() const { return resource; }
 
             ALWAYSINLINE const std::vector<std::shared_ptr<Texture>>& getColorTextures() const { return colorTextures; }
             ALWAYSINLINE const std::shared_ptr<Texture>& getDepthTexture() const { return depthTexture; }

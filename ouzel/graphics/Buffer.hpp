@@ -49,7 +49,7 @@ namespace ouzel
             void setData(const void* newData, uint32_t newSize);
             void setData(const std::vector<uint8_t>& newData);
 
-            ALWAYSINLINE uintptr_t getResource() const { return resource.getId(); }
+            ALWAYSINLINE const Resource& getResource() const { return resource; }
 
             ALWAYSINLINE Usage getUsage() const { return usage; }
             ALWAYSINLINE uint32_t getFlags() const { return flags; }

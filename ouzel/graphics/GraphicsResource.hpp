@@ -43,7 +43,7 @@ namespace ouzel
                 return *this;
             }
 
-            ALWAYSINLINE uintptr_t getId() const
+            ALWAYSINLINE operator uintptr_t() const
             {
                 return id;
             }

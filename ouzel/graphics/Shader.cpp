@@ -26,7 +26,7 @@ namespace ouzel
             resource(*initRenderer.getDevice()),
             vertexAttributes(initVertexAttributes)
         {
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource.getId(),
+            initRenderer.addCommand(std::unique_ptr<Command>(new InitShaderCommand(resource,
                                                                                    initFragmentShader,
                                                                                    initVertexShader,
                                                                                    initVertexAttributes,
