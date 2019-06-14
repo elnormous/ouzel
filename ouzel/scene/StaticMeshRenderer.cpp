@@ -36,18 +36,18 @@ namespace ouzel
                     convertedIndices.push_back(static_cast<uint16_t>(index));
 
                 indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                                 graphics::Buffer::Usage::INDEX, 0,
+                                                                 graphics::BufferType::INDEX, 0,
                                                                  convertedIndices.data(),
                                                                  static_cast<uint32_t>(getVectorSize(convertedIndices)));
             }
             else if (indexSize == sizeof(uint32_t))
                 indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                                 graphics::Buffer::Usage::INDEX, 0,
+                                                                 graphics::BufferType::INDEX, 0,
                                                                  indices.data(),
                                                                  static_cast<uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                              graphics::Buffer::Usage::VERTEX, 0,
+                                                              graphics::BufferType::VERTEX, 0,
                                                               vertices.data(),
                                                               static_cast<uint32_t>(getVectorSize(vertices)));
         }

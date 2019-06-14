@@ -16,14 +16,15 @@ namespace ouzel
         namespace metal
         {
             Buffer::Buffer(RenderDevice& renderDevice,
-                           graphics::Buffer::Usage newUsage, uint32_t newFlags,
+                           BufferType initType,
+                           uint32_t initFlags,
                            const std::vector<uint8_t>& data,
-                           uint32_t newSize):
+                           uint32_t initSize):
                 RenderResource(renderDevice),
-                usage(newUsage),
-                flags(newFlags)
+                type(initType),
+                flags(initFlags)
             {
-                createBuffer(newSize);
+                createBuffer(initSize);
 
                 if (!data.empty())
                     std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));

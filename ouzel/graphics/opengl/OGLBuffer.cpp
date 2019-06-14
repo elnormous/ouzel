@@ -14,17 +14,18 @@ namespace ouzel
         namespace opengl
         {
             Buffer::Buffer(RenderDevice& renderDevice,
-                           graphics::Buffer::Usage newUsage, uint32_t newFlags,
-                           const std::vector<uint8_t>& newData,
-                           uint32_t newSize):
+                           BufferType initType,
+                           uint32_t initFlags,
+                           const std::vector<uint8_t>& initData,
+                           uint32_t initSize):
                 RenderResource(renderDevice),
-                usage(newUsage),
-                flags(newFlags),
-                data(newData)
+                type(initType),
+                flags(initFlags),
+                data(initData)
             {
                 createBuffer();
 
-                size = static_cast<GLsizeiptr>(newSize);
+                size = static_cast<GLsizeiptr>(initSize);
 
                 if (size > 0)
                 {
@@ -120,12 +121,12 @@ namespace ouzel
                 if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to create buffer");
 
-                switch (usage)
+                switch (type)
                 {
-                    case graphics::Buffer::Usage::INDEX:
+                    case BufferType::INDEX:
                         bufferType = GL_ELEMENT_ARRAY_BUFFER;
                         break;
-                    case graphics::Buffer::Usage::VERTEX:
+                    case BufferType::VERTEX:
                         bufferType = GL_ARRAY_BUFFER;
                         break;
                     default:

@@ -1087,6 +1087,7 @@
 		30CB946A22B455F80025C927 /* SamplerAddressMode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SamplerAddressMode.hpp; sourceTree = "<group>"; };
 		30CB946C22B4607D0025C927 /* TextureType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextureType.hpp; sourceTree = "<group>"; };
 		30CB946D22B465BA0025C927 /* Flags.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Flags.hpp; sourceTree = "<group>"; };
+		30CB946E22B4681C0025C927 /* BufferType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BufferType.hpp; sourceTree = "<group>"; };
 		30CC89F7203C5DFB00E2C8C3 /* File.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
 		30CC89F8203C5DFB00E2C8C3 /* File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = File.hpp; sourceTree = "<group>"; };
 		30CEB36721A6385C00525637 /* System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = System.cpp; sourceTree = "<group>"; };
@@ -1350,6 +1351,7 @@
 				303696CB1E32DD9C007F4211 /* BlendState.hpp */,
 				303696D21E32DDA9007F4211 /* Buffer.cpp */,
 				303696D31E32DDA9007F4211 /* Buffer.hpp */,
+				30CB946E22B4681C0025C927 /* BufferType.hpp */,
 				30F249ED20A7681E0007D417 /* Commands.hpp */,
 				30CB946922B451A80025C927 /* CompareFunction.hpp */,
 				C67DDC3422B3F16E009408A8 /* CubeFace.hpp */,

@@ -30,15 +30,16 @@ namespace ouzel
             {
             public:
                 Buffer(RenderDevice& renderDevice,
-                       graphics::Buffer::Usage newUsage, uint32_t newFlags,
-                       const std::vector<uint8_t>& newData,
-                       uint32_t newSize);
+                       BufferType initType,
+                       uint32_t initFlags,
+                       const std::vector<uint8_t>& initData,
+                       uint32_t initSize);
                 ~Buffer();
 
                 void setData(const std::vector<uint8_t>& data);
 
                 inline uint32_t getFlags() const { return flags; }
-                inline graphics::Buffer::Usage getUsage() const { return usage; }
+                inline BufferType getType() const { return type; }
                 inline NSUInteger getSize() const { return size; }
 
                 inline MTLBufferPtr getBuffer() const { return buffer; }
@@ -46,7 +47,7 @@ namespace ouzel
             private:
                 void createBuffer(NSUInteger newSize);
 
-                graphics::Buffer::Usage usage;
+                BufferType type;
                 uint32_t flags = 0;
 
                 MTLBufferPtr buffer = nil;

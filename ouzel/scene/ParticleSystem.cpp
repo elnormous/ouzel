@@ -337,12 +337,12 @@ namespace ouzel
             }
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                             graphics::Buffer::Usage::INDEX, 0,
+                                                             graphics::BufferType::INDEX, 0,
                                                              indices.data(),
                                                              static_cast<uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                              graphics::Buffer::Usage::VERTEX,
+                                                              graphics::BufferType::VERTEX,
                                                               graphics::Flags::DYNAMIC,
                                                               vertices.data(),
                                                               static_cast<uint32_t>(getVectorSize(vertices)));

@@ -8,6 +8,7 @@
 #include "graphics/BlendFactor.hpp"
 #include "graphics/BlendOperation.hpp"
 #include "graphics/Buffer.hpp"
+#include "graphics/BufferType.hpp"
 #include "graphics/CompareFunction.hpp"
 #include "graphics/CubeFace.hpp"
 #include "graphics/DrawMode.hpp"
@@ -417,13 +418,13 @@ namespace ouzel
         {
         public:
             InitBufferCommand(uintptr_t initBuffer,
-                              Buffer::Usage initUsage,
+                              BufferType initType,
                               uint32_t initFlags,
                               const std::vector<uint8_t>& initData,
                               uint32_t initSize):
                 Command(Command::Type::INIT_BUFFER),
                 buffer(initBuffer),
-                usage(initUsage),
+                type(initType),
                 flags(initFlags),
                 data(initData),
                 size(initSize)
@@ -431,7 +432,7 @@ namespace ouzel
             }
 
             uintptr_t buffer;
-            Buffer::Usage usage;
+            BufferType type;
             uint32_t flags;
             std::vector<uint8_t> data;
             uint32_t size;

@@ -14,15 +14,16 @@ namespace ouzel
         namespace d3d11
         {
             Buffer::Buffer(RenderDevice& renderDevice,
-                           graphics::Buffer::Usage newUsage, uint32_t newFlags,
+                           BufferType initType,
+                           uint32_t initFlags,
                            const std::vector<uint8_t>& data,
-                           uint32_t newSize):
+                           uint32_t initSize):
                 RenderResource(renderDevice),
-                usage(newUsage),
-                flags(newFlags),
-                size(static_cast<UINT>(newSize))
+                type(initType),
+                flags(initFlags),
+                size(static_cast<UINT>(initSize))
             {
-                createBuffer(newSize, data);
+                createBuffer(initSize, data);
             }
 
             Buffer::~Buffer()

@@ -27,11 +27,11 @@ namespace ouzel
             whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                             graphics::Buffer::Usage::INDEX,
+                                                             graphics::BufferType::INDEX,
                                                              graphics::Flags::DYNAMIC);
 
             vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                              graphics::Buffer::Usage::VERTEX,
+                                                              graphics::BufferType::VERTEX,
                                                               graphics::Flags::DYNAMIC);
 
             font = engine->getCache().getFont(fontFile);

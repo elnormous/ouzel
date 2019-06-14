@@ -405,6 +405,9 @@
     <ClInclude Include="..\ouzel\graphics\Buffer.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\BufferType.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Buffer.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>

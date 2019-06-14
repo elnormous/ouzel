@@ -667,7 +667,7 @@ namespace ouzel
                                 auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
                                 std::unique_ptr<Buffer> buffer(new Buffer(*this,
-                                                                          initBufferCommand->usage,
+                                                                          initBufferCommand->type,
                                                                           initBufferCommand->flags,
                                                                           initBufferCommand->data,
                                                                           initBufferCommand->size));

@@ -220,6 +220,7 @@
     <ClInclude Include="..\ouzel\storage\FileSystem.hpp" />
     <ClInclude Include="..\ouzel\graphics\BlendState.hpp" />
     <ClInclude Include="..\ouzel\graphics\Buffer.hpp" />
+    <ClInclude Include="..\ouzel\graphics\BufferType.hpp" />
     <ClInclude Include="..\ouzel\graphics\Commands.hpp" />
     <ClInclude Include="..\ouzel\graphics\DataType.hpp" />
     <ClInclude Include="..\ouzel\graphics\DepthStencilState.hpp" />

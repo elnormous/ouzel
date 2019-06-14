@@ -16,35 +16,35 @@ namespace ouzel
         }
 
         Buffer::Buffer(Renderer& initRenderer,
-                       Usage initUsage,
+                       BufferType initType,
                        uint32_t initFlags,
                        uint32_t initSize):
             renderer(initRenderer),
             resource(*initRenderer.getDevice()),
-            usage(initUsage),
+            type(initType),
             flags(initFlags),
             size(initSize)
         {
             initRenderer.addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
-                                                                                   initUsage,
+                                                                                   initType,
                                                                                    initFlags,
                                                                                    std::vector<uint8_t>(),
                                                                                    initSize)));
         }
 
         Buffer::Buffer(Renderer& initRenderer,
-                       Usage initUsage,
+                       BufferType initType,
                        uint32_t initFlags,
                        const void* initData,
                        uint32_t initSize):
             renderer(initRenderer),
             resource(*initRenderer.getDevice()),
-            usage(initUsage),
+            type(initType),
             flags(initFlags),
             size(initSize)
         {
             initRenderer.addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
-                                                                                   initUsage,
+                                                                                   initType,
                                                                                    initFlags,
                                                                                    std::vector<uint8_t>(static_cast<const uint8_t*>(initData),
                                                                                                         static_cast<const uint8_t*>(initData) + initSize),
@@ -52,13 +52,13 @@ namespace ouzel
         }
 
         Buffer::Buffer(Renderer& initRenderer,
-                       Usage initUsage,
+                       BufferType initType,
                        uint32_t initFlags,
                        const std::vector<uint8_t>& initData,
                        uint32_t initSize):
             renderer(initRenderer),
             resource(*initRenderer.getDevice()),
-            usage(initUsage),
+            type(initType),
             flags(initFlags),
             size(initSize)
         {
@@ -66,7 +66,7 @@ namespace ouzel
                 throw std::runtime_error("Invalid buffer data");
 
             initRenderer.addCommand(std::unique_ptr<Command>(new InitBufferCommand(resource,
-                                                                                   initUsage,
+                                                                                   initType,
                                                                                    initFlags,
                                                                                    initData,
                                                                                    initSize)));

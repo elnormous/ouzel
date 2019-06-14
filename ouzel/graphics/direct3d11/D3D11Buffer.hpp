@@ -23,15 +23,16 @@ namespace ouzel
             {
             public:
                 Buffer(RenderDevice& renderDevice,
-                       graphics::Buffer::Usage newUsage, uint32_t newFlags,
+                       BufferType initType,
+                       uint32_t initFlags,
                        const std::vector<uint8_t>& data,
-                       uint32_t newSize);
+                       uint32_t initSize);
                 ~Buffer();
 
                 void setData(const std::vector<uint8_t>& data);
 
                 inline uint32_t getFlags() const { return flags; }
-                inline graphics::Buffer::Usage getUsage() const { return usage; }
+                inline BufferType getType() const { return type; }
                 inline UINT getSize() const { return size; }
 
                 inline ID3D11Buffer* getBuffer() const { return buffer; }
@@ -39,7 +40,7 @@ namespace ouzel
             private:
                 void createBuffer(UINT newSize, const std::vector<uint8_t>& data);
 
-                graphics::Buffer::Usage usage;
+                BufferType type;
                 uint32_t flags = 0;
 
                 ID3D11Buffer* buffer = nullptr;

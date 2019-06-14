@@ -5,6 +5,7 @@
 
 #include <vector>
 #include "graphics/GraphicsResource.hpp"
+#include "graphics/BufferType.hpp"
 #include "graphics/Flags.hpp"
 #include "utils/Inline.h"
 
@@ -17,37 +18,30 @@ namespace ouzel
         class Buffer final
         {
         public:
-            enum class Usage
-            {
-                NONE,
-                INDEX,
-                VERTEX
-            };
-
             Buffer() = default;
 
             explicit Buffer(Renderer& initRenderer);
             Buffer(Renderer& initRenderer,
-                   Usage newUsage,
-                   uint32_t newFlags,
-                   uint32_t newSize = 0);
+                   BufferType initType,
+                   uint32_t initFlags,
+                   uint32_t initSize = 0);
             Buffer(Renderer& initRenderer,
-                   Usage newUsage,
-                   uint32_t newFlags,
-                   const void* newData,
-                   uint32_t newSize);
+                   BufferType initType,
+                   uint32_t initFlags,
+                   const void* initData,
+                   uint32_t initSize);
             Buffer(Renderer& initRenderer,
-                   Usage newUsage,
-                   uint32_t newFlags,
-                   const std::vector<uint8_t>& newData,
-                   uint32_t newSize);
+                   BufferType initType,
+                   uint32_t initFlags,
+                   const std::vector<uint8_t>& initData,
+                   uint32_t initSize);
 
             void setData(const void* newData, uint32_t newSize);
             void setData(const std::vector<uint8_t>& newData);
 
             ALWAYSINLINE const Resource& getResource() const { return resource; }
 
-            ALWAYSINLINE Usage getUsage() const { return usage; }
+            ALWAYSINLINE BufferType getType() const { return type; }
             ALWAYSINLINE uint32_t getFlags() const { return flags; }
             ALWAYSINLINE uint32_t getSize() const { return size; }
 
@@ -55,7 +49,7 @@ namespace ouzel
             Renderer& renderer;
             Resource resource;
 
-            Buffer::Usage usage;
+            BufferType type;
             uint32_t flags = 0;
             uint32_t size = 0;
         };
