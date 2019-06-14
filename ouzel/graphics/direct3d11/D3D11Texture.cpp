@@ -77,16 +77,16 @@ namespace ouzel
                 }
             }
 
-            static D3D11_TEXTURECUBE_FACE getCubeFace(graphics::Texture::CubeFace face)
+            static D3D11_TEXTURECUBE_FACE getCubeFace(CubeFace face)
             {
                 switch (face)
                 {
-                    case graphics::Texture::CubeFace::POSITIVE_X: return D3D11_TEXTURECUBE_FACE_POSITIVE_X;
-                    case graphics::Texture::CubeFace::NEGATIVE_X: return D3D11_TEXTURECUBE_FACE_NEGATIVE_X;
-                    case graphics::Texture::CubeFace::POSITIVE_Y: return D3D11_TEXTURECUBE_FACE_POSITIVE_Y;
-                    case graphics::Texture::CubeFace::NEGATIVE_Y: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Y;
-                    case graphics::Texture::CubeFace::POSITIVE_Z: return D3D11_TEXTURECUBE_FACE_POSITIVE_Z;
-                    case graphics::Texture::CubeFace::NEGATIVE_Z: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Z;
+                    case CubeFace::POSITIVE_X: return D3D11_TEXTURECUBE_FACE_POSITIVE_X;
+                    case CubeFace::NEGATIVE_X: return D3D11_TEXTURECUBE_FACE_NEGATIVE_X;
+                    case CubeFace::POSITIVE_Y: return D3D11_TEXTURECUBE_FACE_POSITIVE_Y;
+                    case CubeFace::NEGATIVE_Y: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Y;
+                    case CubeFace::POSITIVE_Z: return D3D11_TEXTURECUBE_FACE_POSITIVE_Z;
+                    case CubeFace::NEGATIVE_Z: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Z;
                     default: throw std::runtime_error("Invalid cube face");
                 }
             }

@@ -29,18 +29,18 @@ namespace ouzel
                 }
             }
 
-            static GLenum getOperation(graphics::DepthStencilState::StencilOperation stencilOperation)
+            static GLenum getOperation(StencilOperation stencilOperation)
             {
                 switch (stencilOperation)
                 {
-                    case graphics::DepthStencilState::StencilOperation::KEEP: return GL_KEEP;
-                    case graphics::DepthStencilState::StencilOperation::ZERO: return GL_ZERO;
-                    case graphics::DepthStencilState::StencilOperation::REPLACE: return GL_REPLACE;
-                    case graphics::DepthStencilState::StencilOperation::INCREMENT_CLAMP: return GL_INCR;
-                    case graphics::DepthStencilState::StencilOperation::DECREMENT_CLAMP: return GL_DECR;
-                    case graphics::DepthStencilState::StencilOperation::INVERT: return GL_INVERT;
-                    case graphics::DepthStencilState::StencilOperation::INCREMENT_WRAP: return GL_INCR_WRAP;
-                    case graphics::DepthStencilState::StencilOperation::DECREMENT_WRAP: return GL_DECR_WRAP;
+                    case StencilOperation::KEEP: return GL_KEEP;
+                    case StencilOperation::ZERO: return GL_ZERO;
+                    case StencilOperation::REPLACE: return GL_REPLACE;
+                    case StencilOperation::INCREMENT_CLAMP: return GL_INCR;
+                    case StencilOperation::DECREMENT_CLAMP: return GL_DECR;
+                    case StencilOperation::INVERT: return GL_INVERT;
+                    case StencilOperation::INCREMENT_WRAP: return GL_INCR_WRAP;
+                    case StencilOperation::DECREMENT_WRAP: return GL_DECR_WRAP;
                     default: return GL_KEEP;
                 }
             }

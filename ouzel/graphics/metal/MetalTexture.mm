@@ -78,16 +78,16 @@ namespace ouzel
                 }
             }
 
-            static NSUInteger getCubeFace(graphics::Texture::CubeFace face)
+            static NSUInteger getCubeFace(CubeFace face)
             {
                 switch (face)
                 {
-                    case graphics::Texture::CubeFace::POSITIVE_X: return 0;
-                    case graphics::Texture::CubeFace::NEGATIVE_X: return 1;
-                    case graphics::Texture::CubeFace::POSITIVE_Y: return 2;
-                    case graphics::Texture::CubeFace::NEGATIVE_Y: return 3;
-                    case graphics::Texture::CubeFace::POSITIVE_Z: return 4;
-                    case graphics::Texture::CubeFace::NEGATIVE_Z: return 5;
+                    case CubeFace::POSITIVE_X: return 0;
+                    case CubeFace::NEGATIVE_X: return 1;
+                    case CubeFace::POSITIVE_Y: return 2;
+                    case CubeFace::NEGATIVE_Y: return 3;
+                    case CubeFace::POSITIVE_Z: return 4;
+                    case CubeFace::NEGATIVE_Z: return 5;
                     default: throw std::runtime_error("Invalid cube face");
                 }
             }

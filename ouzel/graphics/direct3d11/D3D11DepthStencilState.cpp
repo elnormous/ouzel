@@ -29,18 +29,18 @@ namespace ouzel
                 }
             }
 
-            static D3D11_STENCIL_OP getStencilOperation(graphics::DepthStencilState::StencilOperation stencilOperation)
+            static D3D11_STENCIL_OP getStencilOperation(StencilOperation stencilOperation)
             {
                 switch (stencilOperation)
                 {
-                    case graphics::DepthStencilState::StencilOperation::KEEP: return D3D11_STENCIL_OP_KEEP;
-                    case graphics::DepthStencilState::StencilOperation::ZERO: return D3D11_STENCIL_OP_ZERO;
-                    case graphics::DepthStencilState::StencilOperation::REPLACE: return D3D11_STENCIL_OP_REPLACE;
-                    case graphics::DepthStencilState::StencilOperation::INCREMENT_CLAMP: return D3D11_STENCIL_OP_INCR_SAT;
-                    case graphics::DepthStencilState::StencilOperation::DECREMENT_CLAMP: return D3D11_STENCIL_OP_DECR_SAT;
-                    case graphics::DepthStencilState::StencilOperation::INVERT: return D3D11_STENCIL_OP_INVERT;
-                    case graphics::DepthStencilState::StencilOperation::INCREMENT_WRAP: return D3D11_STENCIL_OP_INCR;
-                    case graphics::DepthStencilState::StencilOperation::DECREMENT_WRAP: return D3D11_STENCIL_OP_DECR;
+                    case StencilOperation::KEEP: return D3D11_STENCIL_OP_KEEP;
+                    case StencilOperation::ZERO: return D3D11_STENCIL_OP_ZERO;
+                    case StencilOperation::REPLACE: return D3D11_STENCIL_OP_REPLACE;
+                    case StencilOperation::INCREMENT_CLAMP: return D3D11_STENCIL_OP_INCR_SAT;
+                    case StencilOperation::DECREMENT_CLAMP: return D3D11_STENCIL_OP_DECR_SAT;
+                    case StencilOperation::INVERT: return D3D11_STENCIL_OP_INVERT;
+                    case StencilOperation::INCREMENT_WRAP: return D3D11_STENCIL_OP_INCR;
+                    case StencilOperation::DECREMENT_WRAP: return D3D11_STENCIL_OP_DECR;
                     default: return D3D11_STENCIL_OP_KEEP;
                 }
             }

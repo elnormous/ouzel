@@ -29,18 +29,18 @@ namespace ouzel
                 }
             }
 
-            static MTLStencilOperation getStencilOperation(graphics::DepthStencilState::StencilOperation stencilOperation)
+            static MTLStencilOperation getStencilOperation(StencilOperation stencilOperation)
             {
                 switch (stencilOperation)
                 {
-                    case graphics::DepthStencilState::StencilOperation::KEEP: return MTLStencilOperationKeep;
-                    case graphics::DepthStencilState::StencilOperation::ZERO: return MTLStencilOperationZero;
-                    case graphics::DepthStencilState::StencilOperation::REPLACE: return MTLStencilOperationReplace;
-                    case graphics::DepthStencilState::StencilOperation::INCREMENT_CLAMP: return MTLStencilOperationIncrementClamp;
-                    case graphics::DepthStencilState::StencilOperation::DECREMENT_CLAMP: return MTLStencilOperationDecrementClamp;
-                    case graphics::DepthStencilState::StencilOperation::INVERT: return MTLStencilOperationInvert;
-                    case graphics::DepthStencilState::StencilOperation::INCREMENT_WRAP: return MTLStencilOperationIncrementWrap;
-                    case graphics::DepthStencilState::StencilOperation::DECREMENT_WRAP: return MTLStencilOperationDecrementWrap;
+                    case StencilOperation::KEEP: return MTLStencilOperationKeep;
+                    case StencilOperation::ZERO: return MTLStencilOperationZero;
+                    case StencilOperation::REPLACE: return MTLStencilOperationReplace;
+                    case StencilOperation::INCREMENT_CLAMP: return MTLStencilOperationIncrementClamp;
+                    case StencilOperation::DECREMENT_CLAMP: return MTLStencilOperationDecrementClamp;
+                    case StencilOperation::INVERT: return MTLStencilOperationInvert;
+                    case StencilOperation::INCREMENT_WRAP: return MTLStencilOperationIncrementWrap;
+                    case StencilOperation::DECREMENT_WRAP: return MTLStencilOperationDecrementWrap;
                     default: return MTLStencilOperationKeep;
                 }
             }

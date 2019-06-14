@@ -4,6 +4,7 @@
 #define OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
 
 #include "graphics/GraphicsResource.hpp"
+#include "graphics/StencilOperation.hpp"
 #include "utils/Inline.h"
 
 namespace ouzel
@@ -25,18 +26,6 @@ namespace ouzel
                 NOT_EQUAL,
                 GREATER_EQUAL,
                 ALWAYS,
-            };
-
-            enum class StencilOperation
-            {
-                KEEP,
-                ZERO,
-                REPLACE,
-                INCREMENT_CLAMP,
-                DECREMENT_CLAMP,
-                INVERT,
-                INCREMENT_WRAP,
-                DECREMENT_WRAP
             };
 
             struct StencilDescriptor

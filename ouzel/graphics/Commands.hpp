@@ -8,11 +8,12 @@
 #include "graphics/BlendFactor.hpp"
 #include "graphics/BlendOperation.hpp"
 #include "graphics/Buffer.hpp"
+#include "graphics/CubeFace.hpp"
 #include "graphics/DepthStencilState.hpp"
 #include "graphics/DrawMode.hpp"
 #include "graphics/RasterizerState.hpp"
-#include "graphics/RenderTarget.hpp"
 #include "graphics/Shader.hpp"
+#include "graphics/StencilOperation.hpp"
 #include "graphics/Texture.hpp"
 #include "math/Rect.hpp"
 
@@ -523,7 +524,7 @@ namespace ouzel
 
             SetTextureDataCommand(uintptr_t initTexture,
                                   const std::vector<Texture::Level>& initLevels,
-                                  Texture::CubeFace initFace):
+                                  CubeFace initFace):
                 Command(Command::Type::SET_TEXTURE_DATA),
                 texture(initTexture),
                 levels(initLevels),
@@ -533,7 +534,7 @@ namespace ouzel
 
             uintptr_t texture;
             std::vector<Texture::Level> levels;
-            Texture::CubeFace face;
+            CubeFace face;
         };
 
         class SetTextureParametersCommand final: public Command

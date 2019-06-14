@@ -5,6 +5,7 @@
 
 #include <vector>
 #include "graphics/GraphicsResource.hpp"
+#include "graphics/CubeFace.hpp"
 #include "graphics/Filter.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "math/Color.hpp"
@@ -26,16 +27,6 @@ namespace ouzel
                 TWO,
                 THREE,
                 CUBE
-            };
-
-            enum class CubeFace
-            {
-                POSITIVE_X,
-                NEGATIVE_X,
-                POSITIVE_Y,
-                NEGATIVE_Y,
-                POSITIVE_Z,
-                NEGATIVE_Z
             };
 
             enum Flags

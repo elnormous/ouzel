@@ -755,6 +755,8 @@
 		C61B49F12174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C61B49E72174B83900B818F1 /* SkinnedMeshRenderer.cpp */; };
 		C61B49F22174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C61B49E72174B83900B818F1 /* SkinnedMeshRenderer.cpp */; };
 		C61B49F32174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C61B49E72174B83900B818F1 /* SkinnedMeshRenderer.cpp */; };
+		C67DDC3322B3F084009408A8 /* StencilOperation.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C67DDC3222B3F083009408A8 /* StencilOperation.hpp */; };
+		C67DDC3522B3F16E009408A8 /* CubeFace.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C67DDC3422B3F16E009408A8 /* CubeFace.hpp */; };
 		C6AC8A8C215BD7D500F14D75 /* MouseDeviceMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = C6AC8A8A215BD7D500F14D75 /* MouseDeviceMacOS.mm */; };
 		C6AC8A8D215BD7D500F14D75 /* MouseDeviceMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A8B215BD7D500F14D75 /* MouseDeviceMacOS.hpp */; };
 		C6C9101221B54A9600B5FCB7 /* Stream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Stream.hpp */; };
@@ -1122,6 +1124,8 @@
 		C6630AD9215BC65700DB5214 /* InputDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputDevice.hpp; sourceTree = "<group>"; };
 		C67DDC3022B3E065009408A8 /* BlendFactor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BlendFactor.hpp; sourceTree = "<group>"; };
 		C67DDC3122B3E0F3009408A8 /* BlendOperation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BlendOperation.hpp; sourceTree = "<group>"; };
+		C67DDC3222B3F083009408A8 /* StencilOperation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StencilOperation.hpp; sourceTree = "<group>"; };
+		C67DDC3422B3F16E009408A8 /* CubeFace.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubeFace.hpp; sourceTree = "<group>"; };
 		C6AC8A8A215BD7D500F14D75 /* MouseDeviceMacOS.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MouseDeviceMacOS.mm; sourceTree = "<group>"; };
 		C6AC8A8B215BD7D500F14D75 /* MouseDeviceMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MouseDeviceMacOS.hpp; sourceTree = "<group>"; };
 		C6C9100B21AEB47E00B5FCB7 /* Utf8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utf8.hpp; sourceTree = "<group>"; };
@@ -1342,6 +1346,7 @@
 				303696D21E32DDA9007F4211 /* Buffer.cpp */,
 				303696D31E32DDA9007F4211 /* Buffer.hpp */,
 				30F249ED20A7681E0007D417 /* Commands.hpp */,
+				C67DDC3422B3F16E009408A8 /* CubeFace.hpp */,
 				301457091E40FB5100BA75DB /* DataType.hpp */,
 				300902FC219224B100B00BF4 /* DepthStencilState.cpp */,
 				300902FD219224B100B00BF4 /* DepthStencilState.hpp */,
@@ -1365,6 +1370,7 @@
 				30AEFA1320C0FB2E00CDFD33 /* RenderTarget.hpp */,
 				303696EA1E32DE08007F4211 /* Shader.cpp */,
 				303696EB1E32DE08007F4211 /* Shader.hpp */,
+				C67DDC3222B3F083009408A8 /* StencilOperation.hpp */,
 				303696C21E32DD8F007F4211 /* Texture.cpp */,
 				303696C31E32DD8F007F4211 /* Texture.hpp */,
 				304A8EA11C270833008B1151 /* Vertex.hpp */,
@@ -1811,6 +1817,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30AEFA0F20C0A90400CDFD33 /* GltfLoader.hpp in Headers */,
+				C67DDC3322B3F084009408A8 /* StencilOperation.hpp in Headers */,
 				30519CD31F9B53CB00AF3DC4 /* ImageLoader.hpp in Headers */,
 				30216B761ED464730073E3D5 /* Material.hpp in Headers */,
 				306B0E631C567D05005C75C1 /* ShapeRenderer.hpp in Headers */,
@@ -1856,6 +1863,7 @@
 				30EEADD4216ECEFE00D2F525 /* GamepadConfig.hpp in Headers */,
 				30381F881D80A3EC00677CAB /* OGLShader.hpp in Headers */,
 				303B755C1C2A3CB700FEDE92 /* Vector.hpp in Headers */,
+				C67DDC3522B3F16E009408A8 /* CubeFace.hpp in Headers */,
 				303B756E1C2A3CCA00FEDE92 /* Utils.hpp in Headers */,
 				30C3F28C219D0847003FE9ED /* Effect.hpp in Headers */,
 				30381FFD1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */,
