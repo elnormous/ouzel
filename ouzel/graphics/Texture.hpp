@@ -6,6 +6,7 @@
 #include <vector>
 #include "graphics/GraphicsResource.hpp"
 #include "graphics/CubeFace.hpp"
+#include "graphics/Flags.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "graphics/SamplerAddressMode.hpp"
 #include "graphics/SamplerFilter.hpp"
@@ -23,14 +24,6 @@ namespace ouzel
         class Texture final
         {
         public:
-            enum Flags
-            {
-                DYNAMIC = 0x01,
-                BIND_RENDER_TARGET = 0x02,
-                BIND_SHADER = 0x04,
-                BIND_SHADER_MSAA = 0x08
-            };
-
             struct Level final
             {
                 Size2U size;

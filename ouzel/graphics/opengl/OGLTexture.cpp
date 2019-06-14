@@ -272,7 +272,7 @@ namespace ouzel
                 pixelFormat(getOpenGlPixelFormat(initPixelFormat)),
                 pixelType(getOpenGlPixelType(initPixelFormat))
             {
-                if ((flags & graphics::Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                if ((flags & Flags::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                     throw std::runtime_error("Invalid mip map count");
 
                 if (internalPixelFormat == GL_NONE)
@@ -288,7 +288,7 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                if (!(flags & graphics::Texture::BIND_RENDER_TARGET))
+                if (!(flags & Flags::BIND_RENDER_TARGET))
                 {
                     if (!levels.empty())
                     {
@@ -340,7 +340,7 @@ namespace ouzel
 
                 createTexture();
 
-                if (!(flags & graphics::Texture::BIND_RENDER_TARGET))
+                if (!(flags & Flags::BIND_RENDER_TARGET))
                 {
                     renderDevice.bindTexture(textureTarget, 0, textureId);
 
@@ -380,7 +380,7 @@ namespace ouzel
 
             void Texture::setData(const std::vector<graphics::Texture::Level>& newLevels)
             {
-                if (!(flags & graphics::Texture::DYNAMIC) || flags & graphics::Texture::BIND_RENDER_TARGET)
+                if (!(flags & Flags::DYNAMIC) || flags & Flags::BIND_RENDER_TARGET)
                     throw std::runtime_error("Texture is not dynamic");
 
                 levels = newLevels;
@@ -518,9 +518,9 @@ namespace ouzel
                 width = static_cast<GLsizei>(levels.front().size.v[0]);
                 height = static_cast<GLsizei>(levels.front().size.v[1]);
 
-                if ((flags & graphics::Texture::BIND_RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
+                if ((flags & Flags::BIND_RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
                 {
-                    if (flags & graphics::Texture::BIND_SHADER)
+                    if (flags & Flags::BIND_SHADER)
                     {
                         renderDevice.glGenTexturesProc(1, &textureId);
 

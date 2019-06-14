@@ -1086,6 +1086,7 @@
 		30CB946922B451A80025C927 /* CompareFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CompareFunction.hpp; sourceTree = "<group>"; };
 		30CB946A22B455F80025C927 /* SamplerAddressMode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SamplerAddressMode.hpp; sourceTree = "<group>"; };
 		30CB946C22B4607D0025C927 /* TextureType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextureType.hpp; sourceTree = "<group>"; };
+		30CB946D22B465BA0025C927 /* Flags.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Flags.hpp; sourceTree = "<group>"; };
 		30CC89F7203C5DFB00E2C8C3 /* File.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
 		30CC89F8203C5DFB00E2C8C3 /* File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = File.hpp; sourceTree = "<group>"; };
 		30CEB36721A6385C00525637 /* System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = System.cpp; sourceTree = "<group>"; };
@@ -1358,6 +1359,7 @@
 				30BA5FB32198B4900032AC23 /* DrawMode.hpp */,
 				30BA5FB42198CE810032AC23 /* Driver.hpp */,
 				303820881D816EAB00677CAB /* empty */,
+				30CB946D22B465BA0025C927 /* Flags.hpp */,
 				30EABD7C22028861001C70A6 /* GraphicsResource.cpp */,
 				30EABD7D22028861001C70A6 /* GraphicsResource.hpp */,
 				303B74E21C277A7500FEDE92 /* Image.hpp */,

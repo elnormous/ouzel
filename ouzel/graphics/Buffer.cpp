@@ -82,7 +82,7 @@ namespace ouzel
 
         void Buffer::setData(const std::vector<uint8_t>& newData)
         {
-            if (!(flags & Buffer::DYNAMIC))
+            if (!(flags & Flags::DYNAMIC))
                 throw std::runtime_error("Buffer is not dynamic");
 
             if (newData.empty())

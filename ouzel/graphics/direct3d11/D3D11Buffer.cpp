@@ -32,7 +32,7 @@ namespace ouzel
 
             void Buffer::setData(const std::vector<uint8_t>& data)
             {
-                if (!(flags & graphics::Buffer::DYNAMIC))
+                if (!(flags & Flags::DYNAMIC))
                     throw std::runtime_error("Buffer is not dynamic");
 
                 if (data.empty())
@@ -74,7 +74,7 @@ namespace ouzel
 
                     D3D11_BUFFER_DESC bufferDesc;
                     bufferDesc.ByteWidth = size;
-                    bufferDesc.Usage = (flags & graphics::Texture::DYNAMIC) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
+                    bufferDesc.Usage = (flags & Flags::DYNAMIC) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
 
                     switch (usage)
                     {
@@ -88,7 +88,7 @@ namespace ouzel
                             throw std::runtime_error("Unsupported buffer type");
                     }
 
-                    bufferDesc.CPUAccessFlags = (flags & graphics::Texture::DYNAMIC) ? D3D11_CPU_ACCESS_WRITE : 0;
+                    bufferDesc.CPUAccessFlags = (flags & Flags::DYNAMIC) ? D3D11_CPU_ACCESS_WRITE : 0;
                     bufferDesc.MiscFlags = 0;
                     bufferDesc.StructureByteStride = 0;
 

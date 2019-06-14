@@ -104,7 +104,7 @@ namespace ouzel
                 pixelFormat(getD3D11PixelFormat(initPixelFormat)),
                 pixelSize(getPixelSize(initPixelFormat))
             {
-                if ((flags & graphics::Texture::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                if ((flags & Flags::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                     throw std::runtime_error("Invalid mip map count");
 
                 if (pixelFormat == DXGI_FORMAT_UNKNOWN)
@@ -113,7 +113,7 @@ namespace ouzel
                 DXGI_FORMAT texturePixelFormat = pixelFormat;
                 DXGI_FORMAT shaderViewPixelFormat = pixelFormat;
 
-                if (flags & graphics::Texture::BIND_SHADER || flags & graphics::Texture::BIND_SHADER_MSAA)
+                if (flags & Flags::BIND_SHADER || flags & Flags::BIND_SHADER_MSAA)
                 {
                     if (initPixelFormat == PixelFormat::DEPTH)
                     {
@@ -141,28 +141,28 @@ namespace ouzel
                 textureDescriptor.Format = texturePixelFormat;
                 textureDescriptor.SampleDesc.Count = 1;
                 textureDescriptor.SampleDesc.Quality = 0;
-                if (flags & graphics::Texture::BIND_RENDER_TARGET) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
-                else if (flags & graphics::Texture::DYNAMIC) textureDescriptor.Usage = D3D11_USAGE_DYNAMIC;
+                if (flags & Flags::BIND_RENDER_TARGET) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
+                else if (flags & Flags::DYNAMIC) textureDescriptor.Usage = D3D11_USAGE_DYNAMIC;
                 else textureDescriptor.Usage = D3D11_USAGE_IMMUTABLE;
 
-                if (flags & graphics::Texture::BIND_RENDER_TARGET)
+                if (flags & Flags::BIND_RENDER_TARGET)
                 {
                     if (initPixelFormat == PixelFormat::DEPTH || initPixelFormat == PixelFormat::DEPTH_STENCIL)
                         textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_DEPTH_STENCIL : 0;
                     else
                         textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_RENDER_TARGET : 0;
 
-                    if (flags & graphics::Texture::BIND_SHADER &&
-                        !(flags & graphics::Texture::BIND_SHADER_MSAA))
+                    if (flags & Flags::BIND_SHADER &&
+                        !(flags & Flags::BIND_SHADER_MSAA))
                         textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
                 }
                 else
                     textureDescriptor.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
-                textureDescriptor.CPUAccessFlags = (flags & graphics::Texture::DYNAMIC && !(flags & graphics::Texture::BIND_RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
+                textureDescriptor.CPUAccessFlags = (flags & Flags::DYNAMIC && !(flags & Flags::BIND_RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
                 textureDescriptor.MiscFlags = 0;
 
-                if (levels.empty() || flags & graphics::Texture::BIND_RENDER_TARGET)
+                if (levels.empty() || flags & Flags::BIND_RENDER_TARGET)
                 {
                     HRESULT hr;
                     if (FAILED(hr = renderDevice.getDevice()->CreateTexture2D(&textureDescriptor, nullptr, &texture)))
@@ -184,7 +184,7 @@ namespace ouzel
                         throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 texture");
                 }
 
-                if (flags & graphics::Texture::BIND_RENDER_TARGET)
+                if (flags & Flags::BIND_RENDER_TARGET)
                 {
                     if (sampleCount > 1)
                     {
@@ -201,7 +201,7 @@ namespace ouzel
                             msaaTextureDescriptor.BindFlags = D3D11_BIND_DEPTH_STENCIL;
                         else
                             msaaTextureDescriptor.BindFlags = D3D11_BIND_RENDER_TARGET;
-                        if (flags & graphics::Texture::Flags::BIND_SHADER_MSAA)
+                        if (flags & Flags::BIND_SHADER_MSAA)
                             msaaTextureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
                         msaaTextureDescriptor.CPUAccessFlags = 0;
                         msaaTextureDescriptor.MiscFlags = 0;
@@ -259,11 +259,11 @@ namespace ouzel
                         }
                     }
 
-                    if (flags & graphics::Texture::BIND_SHADER || flags & graphics::Texture::BIND_SHADER_MSAA)
+                    if (flags & Flags::BIND_SHADER || flags & Flags::BIND_SHADER_MSAA)
                     {
                         D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
                         resourceViewDesc.Format = shaderViewPixelFormat;
-                        resourceViewDesc.ViewDimension = getShaderViewDimension(type, (flags & graphics::Texture::BIND_SHADER_MSAA) != 0);
+                        resourceViewDesc.ViewDimension = getShaderViewDimension(type, (flags & Flags::BIND_SHADER_MSAA) != 0);
                         resourceViewDesc.Texture2D.MostDetailedMip = 0;
                         resourceViewDesc.Texture2D.MipLevels = 1;
 
@@ -317,7 +317,7 @@ namespace ouzel
 
             void Texture::setData(const std::vector<graphics::Texture::Level>& levels)
             {
-                if (!(flags & graphics::Texture::DYNAMIC) || flags & graphics::Texture::BIND_RENDER_TARGET)
+                if (!(flags & Flags::DYNAMIC) || flags & Flags::BIND_RENDER_TARGET)
                     throw std::runtime_error("Texture is not dynamic");
 
                 for (size_t level = 0; level < levels.size(); ++level)

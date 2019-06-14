@@ -867,6 +867,9 @@
     <ClInclude Include="stdafx.h">
       <Filter>ouzel</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\Flags.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\GraphicsResource.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>

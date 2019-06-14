@@ -5,6 +5,7 @@
 
 #include <vector>
 #include "graphics/GraphicsResource.hpp"
+#include "graphics/Flags.hpp"
 #include "utils/Inline.h"
 
 namespace ouzel
@@ -16,11 +17,6 @@ namespace ouzel
         class Buffer final
         {
         public:
-            enum Flags
-            {
-                DYNAMIC = 0x01
-            };
-
             enum class Usage
             {
                 NONE,

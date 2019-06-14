@@ -11,6 +11,7 @@
 #include "graphics/CompareFunction.hpp"
 #include "graphics/CubeFace.hpp"
 #include "graphics/DrawMode.hpp"
+#include "graphics/Flags.hpp"
 #include "graphics/RasterizerState.hpp"
 #include "graphics/SamplerFilter.hpp"
 #include "graphics/SamplerAddressMode.hpp"
