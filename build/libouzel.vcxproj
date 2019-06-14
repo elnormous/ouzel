@@ -233,7 +233,6 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Texture.hpp" />
     <ClInclude Include="..\ouzel\graphics\DrawMode.hpp" />
     <ClInclude Include="..\ouzel\graphics\Driver.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Filter.hpp" />
     <ClInclude Include="..\ouzel\graphics\empty\EmptyRenderDevice.hpp" />
     <ClInclude Include="..\ouzel\graphics\GraphicsResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Image.hpp" />
@@ -253,6 +252,8 @@
     <ClInclude Include="..\ouzel\graphics\RenderDevice.hpp" />
     <ClInclude Include="..\ouzel\graphics\Renderer.hpp" />
     <ClInclude Include="..\ouzel\graphics\RenderResource.hpp" />
+    <ClInclude Include="..\ouzel\graphics\SamplerAddressMode.hpp" />
+    <ClInclude Include="..\ouzel\graphics\SamplerFilter.hpp" />
     <ClInclude Include="..\ouzel\graphics\Shader.hpp" />
     <ClInclude Include="..\ouzel\graphics\Texture.hpp" />
     <ClInclude Include="..\ouzel\graphics\Vertex.hpp" />
