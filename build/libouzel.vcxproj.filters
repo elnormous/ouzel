@@ -346,7 +346,7 @@
     <ClCompile Include="..\ouzel\audio\Mix.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-      <ClCompile Include="..\ouzel\audio\Node.cpp">
+    <ClCompile Include="..\ouzel\audio\Node.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp">
@@ -866,6 +866,21 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\OGL.h">
       <Filter>ouzel\graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\BlendFactor.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\BlendOperation.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\CompareFunction.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\CubeFace.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\StencilOperation.hpp">
+      <Filter>ouzel\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

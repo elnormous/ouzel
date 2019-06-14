@@ -210,6 +210,11 @@
     <ClInclude Include="..\ouzel\events\Event.hpp" />
     <ClInclude Include="..\ouzel\events\EventDispatcher.hpp" />
     <ClInclude Include="..\ouzel\events\EventHandler.hpp" />
+    <ClInclude Include="..\ouzel\graphics\BlendFactor.hpp" />
+    <ClInclude Include="..\ouzel\graphics\BlendOperation.hpp" />
+    <ClInclude Include="..\ouzel\graphics\CompareFunction.hpp" />
+    <ClInclude Include="..\ouzel\graphics\CubeFace.hpp" />
+    <ClInclude Include="..\ouzel\graphics\StencilOperation.hpp" />
     <ClInclude Include="..\ouzel\storage\Archive.hpp" />
     <ClInclude Include="..\ouzel\storage\File.hpp" />
     <ClInclude Include="..\ouzel\storage\FileSystem.hpp" />
