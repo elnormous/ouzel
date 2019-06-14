@@ -802,7 +802,7 @@ namespace ouzel
 
                                 std::unique_ptr<Texture> texture(new Texture(*this,
                                                                              initTextureCommand->levels,
-                                                                             initTextureCommand->dimensions,
+                                                                             initTextureCommand->type,
                                                                              initTextureCommand->flags,
                                                                              initTextureCommand->sampleCount,
                                                                              initTextureCommand->pixelFormat));

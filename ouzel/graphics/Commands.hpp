@@ -17,6 +17,7 @@
 #include "graphics/Shader.hpp"
 #include "graphics/StencilOperation.hpp"
 #include "graphics/Texture.hpp"
+#include "graphics/TextureType.hpp"
 #include "math/Rect.hpp"
 
 namespace ouzel
@@ -509,14 +510,14 @@ namespace ouzel
         public:
             InitTextureCommand(uintptr_t initTexture,
                                const std::vector<Texture::Level>& initLevels,
-                               Texture::Dimensions initDimensions,
+                               TextureType initType,
                                uint32_t initFlags,
                                uint32_t initSampleCount,
                                PixelFormat initPixelFormat):
                 Command(Command::Type::INIT_TEXTURE),
                 texture(initTexture),
                 levels(initLevels),
-                dimensions(initDimensions),
+                type(initType),
                 flags(initFlags),
                 sampleCount(initSampleCount),
                 pixelFormat(initPixelFormat)
@@ -525,7 +526,7 @@ namespace ouzel
 
             uintptr_t texture;
             std::vector<Texture::Level> levels;
-            Texture::Dimensions dimensions;
+            TextureType type;
             uint32_t flags;
             uint32_t sampleCount;
             PixelFormat pixelFormat;

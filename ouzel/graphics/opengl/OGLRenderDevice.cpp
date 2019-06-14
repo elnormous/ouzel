@@ -1308,11 +1308,11 @@ namespace ouzel
                                 auto initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
                                 std::unique_ptr<Texture> texture(new Texture(*this,
-                                                                                   initTextureCommand->levels,
-                                                                                   initTextureCommand->dimensions,
-                                                                                   initTextureCommand->flags,
-                                                                                   initTextureCommand->sampleCount,
-                                                                                   initTextureCommand->pixelFormat));
+                                                                             initTextureCommand->levels,
+                                                                             initTextureCommand->type,
+                                                                             initTextureCommand->flags,
+                                                                             initTextureCommand->sampleCount,
+                                                                             initTextureCommand->pixelFormat));
 
                                 if (initTextureCommand->texture > resources.size())
                                     resources.resize(initTextureCommand->texture);

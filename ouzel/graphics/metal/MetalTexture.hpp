@@ -54,7 +54,7 @@ namespace ouzel
             public:
                 Texture(RenderDevice& renderDeviceMetal,
                         const std::vector<graphics::Texture::Level>& levels,
-                        graphics::Texture::Dimensions dimensions,
+                        TextureType type,
                         uint32_t initFlags = 0,
                         uint32_t initSampleCount = 1,
                         PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);

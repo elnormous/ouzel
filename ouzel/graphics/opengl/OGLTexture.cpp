@@ -228,16 +228,16 @@ namespace ouzel
                 }
             }
 
-            static GLenum getTextureTarget(graphics::Texture::Dimensions dimensions)
+            static GLenum getTextureTarget(TextureType type)
             {
-                switch (dimensions)
+                switch (type)
                 {
 #if !OUZEL_OPENGLES
-                    case graphics::Texture::Dimensions::ONE: return GL_TEXTURE_1D;
+                    case TextureType::ONE_DIMENSIONAL: return GL_TEXTURE_1D;
 #endif
-                    case graphics::Texture::Dimensions::TWO: return GL_TEXTURE_2D;
-                    case graphics::Texture::Dimensions::THREE: return GL_TEXTURE_3D;
-                    case graphics::Texture::Dimensions::CUBE: return GL_TEXTURE_CUBE_MAP;
+                    case TextureType::TWO_DIMENSIONAL: return GL_TEXTURE_2D;
+                    case TextureType::THREE_DIMENSIONAL: return GL_TEXTURE_3D;
+                    case TextureType::CUBE: return GL_TEXTURE_CUBE_MAP;
                     default: throw std::runtime_error("Invalid texture type");
                 }
             }
@@ -258,7 +258,7 @@ namespace ouzel
 
             Texture::Texture(RenderDevice& renderDevice,
                              const std::vector<graphics::Texture::Level>& initLevels,
-                             graphics::Texture::Dimensions dimensions,
+                             TextureType type,
                              uint32_t initFlags,
                              uint32_t initSampleCount,
                              PixelFormat initPixelFormat):
@@ -267,7 +267,7 @@ namespace ouzel
                 flags(initFlags),
                 mipmaps(static_cast<uint32_t>(initLevels.size())),
                 sampleCount(initSampleCount),
-                textureTarget(getTextureTarget(dimensions)),
+                textureTarget(getTextureTarget(type)),
                 internalPixelFormat(getOpenGlInternalPixelFormat(initPixelFormat, renderDevice.getAPIMajorVersion())),
                 pixelFormat(getOpenGlPixelFormat(initPixelFormat)),
                 pixelType(getOpenGlPixelType(initPixelFormat))

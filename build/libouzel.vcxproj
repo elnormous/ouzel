@@ -256,6 +256,7 @@
     <ClInclude Include="..\ouzel\graphics\SamplerFilter.hpp" />
     <ClInclude Include="..\ouzel\graphics\Shader.hpp" />
     <ClInclude Include="..\ouzel\graphics\Texture.hpp" />
+    <ClInclude Include="..\ouzel\graphics\TextureType.hpp" />
     <ClInclude Include="..\ouzel\graphics\Vertex.hpp" />
     <ClInclude Include="..\ouzel\gui\BMFont.hpp" />
     <ClInclude Include="..\ouzel\gui\Font.hpp" />

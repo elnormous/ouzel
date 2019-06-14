@@ -9,6 +9,7 @@
 #include "graphics/PixelFormat.hpp"
 #include "graphics/SamplerAddressMode.hpp"
 #include "graphics/SamplerFilter.hpp"
+#include "graphics/TextureType.hpp"
 #include "math/Color.hpp"
 #include "math/Size.hpp"
 #include "utils/Inline.h"
@@ -22,14 +23,6 @@ namespace ouzel
         class Texture final
         {
         public:
-            enum class Dimensions
-            {
-                ONE,
-                TWO,
-                THREE,
-                CUBE
-            };
-
             enum Flags
             {
                 DYNAMIC = 0x01,
@@ -102,7 +95,7 @@ namespace ouzel
             Renderer& renderer;
             Resource resource;
 
-            Dimensions dimensions = Dimensions::TWO;
+            TextureType type = TextureType::TWO_DIMENSIONAL;
             Size2U size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;

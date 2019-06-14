@@ -681,7 +681,7 @@ namespace ouzel
 
             initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                     levels,
-                                                                                    Dimensions::TWO,
+                                                                                    TextureType::TWO_DIMENSIONAL,
                                                                                     flags,
                                                                                     sampleCount,
                                                                                     pixelFormat)));
@@ -712,7 +712,7 @@ namespace ouzel
 
             initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                     levels,
-                                                                                    Dimensions::TWO,
+                                                                                    TextureType::TWO_DIMENSIONAL,
                                                                                     flags,
                                                                                     sampleCount,
                                                                                     pixelFormat)));
@@ -745,7 +745,7 @@ namespace ouzel
 
             initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                     levels,
-                                                                                    Dimensions::TWO,
+                                                                                    TextureType::TWO_DIMENSIONAL,
                                                                                     flags,
                                                                                     sampleCount,
                                                                                     pixelFormat)));

@@ -55,24 +55,24 @@ namespace ouzel
                 }
             }
 
-            static MTLTextureType getTextureType(graphics::Texture::Dimensions dimensions, bool multisample)
+            static MTLTextureType getTextureType(TextureType type, bool multisample)
             {
                 if (multisample)
                 {
-                    switch (dimensions)
+                    switch (type)
                     {
-                        case graphics::Texture::Dimensions::TWO: return MTLTextureType2DMultisample;
+                        case TextureType::TWO_DIMENSIONAL: return MTLTextureType2DMultisample;
                         default: throw std::runtime_error("Invalid multisample texture type");
                     }
                 }
                 else
                 {
-                    switch (dimensions)
+                    switch (type)
                     {
-                        case graphics::Texture::Dimensions::ONE: return MTLTextureType1D;
-                        case graphics::Texture::Dimensions::TWO: return MTLTextureType2D;
-                        case graphics::Texture::Dimensions::THREE: return MTLTextureType3D;
-                        case graphics::Texture::Dimensions::CUBE: return MTLTextureTypeCube;
+                        case TextureType::ONE_DIMENSIONAL: return MTLTextureType1D;
+                        case TextureType::TWO_DIMENSIONAL: return MTLTextureType2D;
+                        case TextureType::THREE_DIMENSIONAL: return MTLTextureType3D;
+                        case TextureType::CUBE: return MTLTextureTypeCube;
                         default: throw std::runtime_error("Invalid texture type");
                     }
                 }
@@ -94,7 +94,7 @@ namespace ouzel
 
             Texture::Texture(RenderDevice& renderDevice,
                                        const std::vector<graphics::Texture::Level>& levels,
-                                       graphics::Texture::Dimensions dimensions,
+                                       TextureType type,
                                        uint32_t initFlags,
                                        uint32_t initSampleCount,
                                        PixelFormat initPixelFormat):
@@ -122,7 +122,7 @@ namespace ouzel
                 textureDescriptor.pixelFormat = pixelFormat;
                 textureDescriptor.width = width;
                 textureDescriptor.height = height;
-                textureDescriptor.textureType = getTextureType(dimensions, false);
+                textureDescriptor.textureType = getTextureType(type, false);
                 textureDescriptor.sampleCount = 1;
                 textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
 
@@ -153,7 +153,7 @@ namespace ouzel
                         msaaTextureDescriptor.pixelFormat = pixelFormat;
                         msaaTextureDescriptor.width = width;
                         msaaTextureDescriptor.height = height;
-                        msaaTextureDescriptor.textureType = getTextureType(dimensions, true);
+                        msaaTextureDescriptor.textureType = getTextureType(type, true);
                         msaaTextureDescriptor.storageMode = MTLStorageModePrivate;
                         msaaTextureDescriptor.sampleCount = sampleCount;
                         msaaTextureDescriptor.mipmapLevelCount = 1;

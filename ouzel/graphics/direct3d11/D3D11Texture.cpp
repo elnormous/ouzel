@@ -54,24 +54,24 @@ namespace ouzel
                 }
             }
 
-            static D3D11_SRV_DIMENSION getShaderViewDimension(graphics::Texture::Dimensions dimensions, bool multisample)
+            static D3D11_SRV_DIMENSION getShaderViewDimension(TextureType type, bool multisample)
             {
                 if (multisample)
                 {
-                    switch (dimensions)
+                    switch (type)
                     {
-                        case graphics::Texture::Dimensions::TWO: return D3D11_SRV_DIMENSION_TEXTURE2DMS;
+                        case TextureType::TWO_DIMENSIONAL: return D3D11_SRV_DIMENSION_TEXTURE2DMS;
                         default: throw std::runtime_error("Invalid multisample texture type");
                     }
                 }
                 else
                 {
-                    switch (dimensions)
+                    switch (type)
                     {
-                        case graphics::Texture::Dimensions::ONE: return D3D11_SRV_DIMENSION_TEXTURE1D;
-                        case graphics::Texture::Dimensions::TWO: return D3D11_SRV_DIMENSION_TEXTURE2D;
-                        case graphics::Texture::Dimensions::THREE: return D3D11_SRV_DIMENSION_TEXTURE3D;
-                        case graphics::Texture::Dimensions::CUBE: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                        case TextureType::ONE_DIMENSIONAL: return D3D11_SRV_DIMENSION_TEXTURE1D;
+                        case TextureType::TWO_DIMENSIONAL: return D3D11_SRV_DIMENSION_TEXTURE2D;
+                        case TextureType::THREE_DIMENSIONAL: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                        case TextureType::CUBE: return D3D11_SRV_DIMENSION_TEXTURE3D;
                         default: throw std::runtime_error("Invalid texture type");
                     }
                 }
@@ -93,7 +93,7 @@ namespace ouzel
 
             Texture::Texture(RenderDevice& renderDevice,
                              const std::vector<graphics::Texture::Level>& levels,
-                             graphics::Texture::Dimensions dimensions,
+                             TextureType type,
                              uint32_t initFlags,
                              uint32_t initSampleCount,
                              PixelFormat initPixelFormat):
@@ -263,7 +263,7 @@ namespace ouzel
                     {
                         D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
                         resourceViewDesc.Format = shaderViewPixelFormat;
-                        resourceViewDesc.ViewDimension = getShaderViewDimension(dimensions, (flags & graphics::Texture::BIND_SHADER_MSAA) != 0);
+                        resourceViewDesc.ViewDimension = getShaderViewDimension(type, (flags & graphics::Texture::BIND_SHADER_MSAA) != 0);
                         resourceViewDesc.Texture2D.MostDetailedMip = 0;
                         resourceViewDesc.Texture2D.MipLevels = 1;
 
@@ -276,7 +276,7 @@ namespace ouzel
                 {
                     D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
                     resourceViewDesc.Format = texturePixelFormat;
-                    resourceViewDesc.ViewDimension = getShaderViewDimension(dimensions, false);
+                    resourceViewDesc.ViewDimension = getShaderViewDimension(type, false);
                     resourceViewDesc.Texture2D.MostDetailedMip = 0;
                     resourceViewDesc.Texture2D.MipLevels = static_cast<UINT>(levels.size());
 

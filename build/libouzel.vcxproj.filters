@@ -597,6 +597,9 @@
     <ClInclude Include="..\ouzel\graphics\Texture.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\TextureType.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\core\Timer.hpp">
       <Filter>ouzel\core</Filter>
     </ClInclude>
