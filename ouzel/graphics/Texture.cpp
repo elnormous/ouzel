@@ -776,7 +776,7 @@ namespace ouzel
                                                                                        face)));
         }
 
-        void Texture::setFilter(Filter newFilter)
+        void Texture::setFilter(SamplerFilter newFilter)
         {
             filter = newFilter;
 
@@ -790,7 +790,7 @@ namespace ouzel
                                                                                              maxAnisotropy)));
         }
 
-        void Texture::setAddressX(Address newAddressX)
+        void Texture::setAddressX(SamplerAddressMode newAddressX)
         {
             addressX = newAddressX;
 
@@ -804,7 +804,7 @@ namespace ouzel
                                                                                              maxAnisotropy)));
         }
 
-        void Texture::setAddressY(Address newAddressY)
+        void Texture::setAddressY(SamplerAddressMode newAddressY)
         {
             addressY = newAddressY;
 
@@ -818,7 +818,7 @@ namespace ouzel
                                                                                              maxAnisotropy)));
         }
 
-        void Texture::setAddressZ(Address newAddressZ)
+        void Texture::setAddressZ(SamplerAddressMode newAddressZ)
         {
             addressZ = newAddressZ;
 

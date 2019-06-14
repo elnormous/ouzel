@@ -22,10 +22,10 @@ namespace ouzel
 
             struct SamplerStateDesc final
             {
-                graphics::Filter filter;
-                graphics::Texture::Address addressX;
-                graphics::Texture::Address addressY;
-                graphics::Texture::Address addressZ;
+                SamplerFilter filter;
+                SamplerAddressMode addressX;
+                SamplerAddressMode addressY;
+                SamplerAddressMode addressZ;
                 uint32_t maxAnisotropy;
 
                 bool operator<(const SamplerStateDesc& other) const
@@ -47,10 +47,10 @@ namespace ouzel
                 ~Texture();
 
                 void setData(const std::vector<graphics::Texture::Level>& levels);
-                void setFilter(graphics::Filter filter);
-                void setAddressX(graphics::Texture::Address addressX);
-                void setAddressY(graphics::Texture::Address addressY);
-                void setAddressZ(graphics::Texture::Address addressZ);
+                void setFilter(SamplerFilter filter);
+                void setAddressX(SamplerAddressMode addressX);
+                void setAddressY(SamplerAddressMode addressY);
+                void setAddressZ(SamplerAddressMode addressZ);
                 void setMaxAnisotropy(uint32_t maxAnisotropy);
 
                 void resolve();

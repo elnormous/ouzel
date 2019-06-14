@@ -80,7 +80,7 @@ namespace ouzel
             void RenderDeviceAndroid::init(Window* newWindow,
                                            const Size2U&,
                                            uint32_t newSampleCount,
-                                           Filter newTextureFilter,
+                                           SamplerFilter newTextureFilter,
                                            uint32_t newMaxAnisotropy,
                                            bool newSrgb,
                                            bool newVerticalSync,

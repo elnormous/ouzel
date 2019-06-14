@@ -46,18 +46,18 @@ namespace ouzel
                 void reload() final;
 
                 void setData(const std::vector<graphics::Texture::Level>& newLevels);
-                void setFilter(graphics::Filter newFilter);
-                void setAddressX(graphics::Texture::Address newAddressX);
-                void setAddressY(graphics::Texture::Address newAddressY);
-                void setAddressZ(graphics::Texture::Address newAddressZ);
+                void setFilter(SamplerFilter newFilter);
+                void setAddressX(SamplerAddressMode newAddressX);
+                void setAddressY(SamplerAddressMode newAddressY);
+                void setAddressZ(SamplerAddressMode newAddressZ);
                 void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
                 inline uint32_t getFlags() const { return flags; }
                 inline uint32_t getMipmaps() const { return mipmaps; }
 
-                inline graphics::Filter getFilter() const { return filter; }
-                inline graphics::Texture::Address getAddressX() const { return addressX; }
-                inline graphics::Texture::Address getAddressY() const { return addressY; }
+                inline SamplerFilter getFilter() const { return filter; }
+                inline SamplerAddressMode getAddressX() const { return addressX; }
+                inline SamplerAddressMode getAddressY() const { return addressY; }
                 inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
                 inline uint32_t getSampleCount() const { return sampleCount; }
 
@@ -77,10 +77,10 @@ namespace ouzel
                 uint32_t flags = 0;
                 uint32_t mipmaps = 0;
                 uint32_t sampleCount = 1;
-                graphics::Filter filter = graphics::Filter::DEFAULT;
-                graphics::Texture::Address addressX = graphics::Texture::Address::CLAMP_TO_EDGE;
-                graphics::Texture::Address addressY = graphics::Texture::Address::CLAMP_TO_EDGE;
-                graphics::Texture::Address addressZ = graphics::Texture::Address::CLAMP_TO_EDGE;
+                SamplerFilter filter = SamplerFilter::DEFAULT;
+                SamplerAddressMode addressX = SamplerAddressMode::CLAMP_TO_EDGE;
+                SamplerAddressMode addressY = SamplerAddressMode::CLAMP_TO_EDGE;
+                SamplerAddressMode addressZ = SamplerAddressMode::CLAMP_TO_EDGE;
                 uint32_t maxAnisotropy = 0;
 
                 GLenum textureTarget = 0;

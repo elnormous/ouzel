@@ -330,7 +330,7 @@ namespace ouzel
             void RenderDevice::init(Window* newWindow,
                                     const Size2U& newSize,
                                     uint32_t newSampleCount,
-                                    graphics::Filter newTextureFilter,
+                                    SamplerFilter newTextureFilter,
                                     uint32_t newMaxAnisotropy,
                                     bool newSrgb,
                                     bool newVerticalSync,
@@ -1335,7 +1335,7 @@ namespace ouzel
                                 auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
                                 Texture* texture = getResource<Texture>(setTextureParametersCommand->texture);
-                                texture->setFilter(setTextureParametersCommand->filter == graphics::Filter::DEFAULT ? textureFilter : setTextureParametersCommand->filter);
+                                texture->setFilter(setTextureParametersCommand->filter == SamplerFilter::DEFAULT ? textureFilter : setTextureParametersCommand->filter);
                                 texture->setAddressX(setTextureParametersCommand->addressX);
                                 texture->setAddressY(setTextureParametersCommand->addressY);
                                 texture->setAddressZ(setTextureParametersCommand->addressZ);

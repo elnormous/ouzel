@@ -207,21 +207,21 @@ namespace ouzel
                 }
             }
 
-            static GLint getWrapMode(graphics::Texture::Address address)
+            static GLint getWrapMode(SamplerAddressMode address)
             {
                 switch (address)
                 {
-                    case graphics::Texture::Address::CLAMP_TO_EDGE:
+                    case SamplerAddressMode::CLAMP_TO_EDGE:
                         return GL_CLAMP_TO_EDGE;
-                    case graphics::Texture::Address::CLAMP_TO_BORDER:
+                    case SamplerAddressMode::CLAMP_TO_BORDER:
 #if OUZEL_OPENGLES
                         return GL_CLAMP_TO_BORDER_EXT;
 #else
                         return GL_CLAMP_TO_BORDER;
 #endif
-                    case graphics::Texture::Address::REPEAT:
+                    case SamplerAddressMode::REPEAT:
                         return GL_REPEAT;
-                    case graphics::Texture::Address::MIRROR_REPEAT:
+                    case SamplerAddressMode::MIRROR_REPEAT:
                         return GL_MIRRORED_REPEAT;
                     default:
                         throw std::runtime_error("Invalid texture address mode");
@@ -406,7 +406,7 @@ namespace ouzel
                     throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
             }
 
-            void Texture::setFilter(graphics::Filter newFilter)
+            void Texture::setFilter(SamplerFilter newFilter)
             {
                 filter = newFilter;
 
@@ -415,23 +415,23 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                graphics::Filter finalFilter = (filter == graphics::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                SamplerFilter finalFilter = (filter == SamplerFilter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 
                 switch (finalFilter)
                 {
-                    case graphics::Filter::POINT:
+                    case SamplerFilter::POINT:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case graphics::Filter::LINEAR:
+                    case SamplerFilter::LINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case graphics::Filter::BILINEAR:
+                    case SamplerFilter::BILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
-                    case graphics::Filter::TRILINEAR:
+                    case SamplerFilter::TRILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
@@ -445,7 +445,7 @@ namespace ouzel
                     throw std::system_error(makeErrorCode(error), "Failed to set texture filter");
             }
 
-            void Texture::setAddressX(graphics::Texture::Address newAddressX)
+            void Texture::setAddressX(SamplerAddressMode newAddressX)
             {
                 addressX = newAddressX;
 
@@ -460,7 +460,7 @@ namespace ouzel
                     throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
             }
 
-            void Texture::setAddressY(graphics::Texture::Address newAddressY)
+            void Texture::setAddressY(SamplerAddressMode newAddressY)
             {
                 addressY = newAddressY;
 
@@ -475,7 +475,7 @@ namespace ouzel
                     throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
             }
 
-            void Texture::setAddressZ(graphics::Texture::Address newAddressZ)
+            void Texture::setAddressZ(SamplerAddressMode newAddressZ)
             {
                 addressZ = newAddressZ;
 
@@ -590,24 +590,24 @@ namespace ouzel
             {
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                graphics::Filter finalFilter = (filter == graphics::Filter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                SamplerFilter finalFilter = (filter == SamplerFilter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
 
                 switch (finalFilter)
                 {
-                    case graphics::Filter::DEFAULT:
-                    case graphics::Filter::POINT:
+                    case SamplerFilter::DEFAULT:
+                    case SamplerFilter::POINT:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case graphics::Filter::LINEAR:
+                    case SamplerFilter::LINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case graphics::Filter::BILINEAR:
+                    case SamplerFilter::BILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
-                    case graphics::Filter::TRILINEAR:
+                    case SamplerFilter::TRILINEAR:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;

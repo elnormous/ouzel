@@ -1,13 +1,13 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_FILTER_HPP
-#define OUZEL_GRAPHICS_FILTER_HPP
+#ifndef OUZEL_GRAPHICS_SAMPLERFILTER_HPP
+#define OUZEL_GRAPHICS_SAMPLERFILTER_HPP
 
 namespace ouzel
 {
     namespace graphics
     {
-        enum class Filter
+        enum class SamplerFilter
         {
             DEFAULT,
             POINT,
@@ -18,4 +18,4 @@ namespace ouzel
     } // namespace graphics
 } // namespace ouzel
 
-#endif // OUZEL_GRAPHICS_FILTER_HPP
+#endif // OUZEL_GRAPHICS_SAMPLERFILTER_HPP

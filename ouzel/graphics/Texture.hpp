@@ -6,8 +6,9 @@
 #include <vector>
 #include "graphics/GraphicsResource.hpp"
 #include "graphics/CubeFace.hpp"
-#include "graphics/Filter.hpp"
 #include "graphics/PixelFormat.hpp"
+#include "graphics/SamplerAddressMode.hpp"
+#include "graphics/SamplerFilter.hpp"
 #include "math/Color.hpp"
 #include "math/Size.hpp"
 #include "utils/Inline.h"
@@ -35,14 +36,6 @@ namespace ouzel
                 BIND_RENDER_TARGET = 0x02,
                 BIND_SHADER = 0x04,
                 BIND_SHADER_MSAA = 0x08
-            };
-
-            enum class Address
-            {
-                CLAMP_TO_EDGE,
-                CLAMP_TO_BORDER,
-                REPEAT,
-                MIRROR_REPEAT
             };
 
             struct Level final
@@ -83,17 +76,17 @@ namespace ouzel
             ALWAYSINLINE uint32_t getFlags() const { return flags; }
             ALWAYSINLINE uint32_t getMipmaps() const { return mipmaps; }
 
-            ALWAYSINLINE Filter getFilter() const { return filter; }
-            void setFilter(Filter newFilter);
+            ALWAYSINLINE SamplerFilter getFilter() const { return filter; }
+            void setFilter(SamplerFilter newFilter);
 
-            ALWAYSINLINE Address getAddressX() const { return addressX; }
-            void setAddressX(Address newAddressX);
+            ALWAYSINLINE SamplerAddressMode getAddressX() const { return addressX; }
+            void setAddressX(SamplerAddressMode newAddressX);
 
-            ALWAYSINLINE Address getAddressY() const { return addressY; }
-            void setAddressY(Address newAddressY);
+            ALWAYSINLINE SamplerAddressMode getAddressY() const { return addressY; }
+            void setAddressY(SamplerAddressMode newAddressY);
 
-            ALWAYSINLINE Address getAddressZ() const { return addressZ; }
-            void setAddressZ(Address newAddressZ);
+            ALWAYSINLINE SamplerAddressMode getAddressZ() const { return addressZ; }
+            void setAddressZ(SamplerAddressMode newAddressZ);
 
             ALWAYSINLINE Color getBorderColor() const { return borderColor; }
             void setBorderColor(Color newBorderColor);
@@ -115,10 +108,10 @@ namespace ouzel
             uint32_t mipmaps = 0;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
-            Filter filter = Filter::DEFAULT;
-            Address addressX = Texture::Address::CLAMP_TO_EDGE;
-            Address addressY = Texture::Address::CLAMP_TO_EDGE;
-            Address addressZ = Texture::Address::CLAMP_TO_EDGE;
+            SamplerFilter filter = SamplerFilter::DEFAULT;
+            SamplerAddressMode addressX = SamplerAddressMode::CLAMP_TO_EDGE;
+            SamplerAddressMode addressY = SamplerAddressMode::CLAMP_TO_EDGE;
+            SamplerAddressMode addressZ = SamplerAddressMode::CLAMP_TO_EDGE;
             Color borderColor;
             uint32_t maxAnisotropy = 0;
         };

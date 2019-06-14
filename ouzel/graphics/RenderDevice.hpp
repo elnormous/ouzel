@@ -11,7 +11,7 @@
 #include <set>
 #include "graphics/Commands.hpp"
 #include "graphics/Driver.hpp"
-#include "graphics/Filter.hpp"
+#include "graphics/SamplerFilter.hpp"
 #include "graphics/Vertex.hpp"
 #include "math/Matrix.hpp"
 #include "math/Size.hpp"
@@ -56,7 +56,7 @@ namespace ouzel
             virtual void process();
 
             inline uint32_t getSampleCount() const { return sampleCount; }
-            inline Filter getTextureFilter() const { return textureFilter; }
+            inline SamplerFilter getTextureFilter() const { return textureFilter; }
             inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
 
             virtual std::vector<Size2U> getSupportedResolutions() const;
@@ -92,7 +92,7 @@ namespace ouzel
             virtual void init(Window* newWindow,
                               const Size2U& newSize,
                               uint32_t newSampleCount,
-                              Filter newTextureFilter,
+                              SamplerFilter newTextureFilter,
                               uint32_t newMaxAnisotropy,
                               bool newSrgb,
                               bool newVerticalSync,
@@ -113,7 +113,7 @@ namespace ouzel
             uint16_t apiMinorVersion = 0;
 
             uint32_t sampleCount = 1; // MSAA sample count
-            Filter textureFilter = Filter::POINT;
+            SamplerFilter textureFilter = SamplerFilter::POINT;
             uint32_t maxAnisotropy = 1;
 
             bool verticalSync = true;

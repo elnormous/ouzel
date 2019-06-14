@@ -68,7 +68,7 @@ namespace ouzel
             void RenderDeviceMacOS::init(Window* newWindow,
                                          const Size2U& newSize,
                                          uint32_t newSampleCount,
-                                         graphics::Filter newTextureFilter,
+                                         SamplerFilter newTextureFilter,
                                          uint32_t newMaxAnisotropy,
                                          bool newSrgb,
                                          bool newVerticalSync,

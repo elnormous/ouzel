@@ -71,19 +71,19 @@ namespace ouzel
                 }
             }
 
-            static MTLSamplerAddressMode getSamplerAddressMode(graphics::Texture::Address address)
+            static MTLSamplerAddressMode getSamplerAddressMode(SamplerAddressMode address)
             {
                 switch (address)
                 {
-                    case graphics::Texture::Address::CLAMP_TO_EDGE:
+                    case SamplerAddressMode::CLAMP_TO_EDGE:
                         return MTLSamplerAddressModeClampToEdge;
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
-                    case graphics::Texture::Address::CLAMP_TO_BORDER:
+                    case SamplerAddressMode::CLAMP_TO_BORDER:
                         return MTLSamplerAddressModeClampToBorderColor;
 #endif
-                    case graphics::Texture::Address::REPEAT:
+                    case SamplerAddressMode::REPEAT:
                         return MTLSamplerAddressModeRepeat;
-                    case graphics::Texture::Address::MIRROR_REPEAT:
+                    case SamplerAddressMode::MIRROR_REPEAT:
                         return MTLSamplerAddressModeMirrorRepeat;
                     default:
                         throw std::runtime_error("Invalid address mode");
@@ -145,7 +145,7 @@ namespace ouzel
             void RenderDevice::init(Window* newWindow,
                                          const Size2U& newSize,
                                          uint32_t newSampleCount,
-                                         graphics::Filter newTextureFilter,
+                                         SamplerFilter newTextureFilter,
                                          uint32_t newMaxAnisotropy,
                                          bool newSrgb,
                                          bool newVerticalSync,
@@ -855,7 +855,7 @@ namespace ouzel
                                 auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
                                 Texture* texture = getResource<Texture>(setTextureParametersCommand->texture);
-                                texture->setFilter(setTextureParametersCommand->filter == graphics::Filter::DEFAULT ? textureFilter : setTextureParametersCommand->filter);
+                                texture->setFilter(setTextureParametersCommand->filter == SamplerFilter::DEFAULT ? textureFilter : setTextureParametersCommand->filter);
                                 texture->setAddressX(setTextureParametersCommand->addressX);
                                 texture->setAddressY(setTextureParametersCommand->addressY);
                                 texture->setAddressZ(setTextureParametersCommand->addressZ);
@@ -998,23 +998,23 @@ namespace ouzel
                     MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
                     switch (descriptor.filter)
                     {
-                        case graphics::Filter::DEFAULT:
-                        case graphics::Filter::POINT:
+                        case SamplerFilter::DEFAULT:
+                        case SamplerFilter::POINT:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case graphics::Filter::LINEAR:
+                        case SamplerFilter::LINEAR:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case graphics::Filter::BILINEAR:
+                        case SamplerFilter::BILINEAR:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case graphics::Filter::TRILINEAR:
+                        case SamplerFilter::TRILINEAR:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;

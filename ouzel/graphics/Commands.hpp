@@ -12,6 +12,8 @@
 #include "graphics/CubeFace.hpp"
 #include "graphics/DrawMode.hpp"
 #include "graphics/RasterizerState.hpp"
+#include "graphics/SamplerFilter.hpp"
+#include "graphics/SamplerAddressMode.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/StencilOperation.hpp"
 #include "graphics/Texture.hpp"
@@ -559,10 +561,10 @@ namespace ouzel
         {
         public:
             SetTextureParametersCommand(uintptr_t initTexture,
-                                        Filter initFilter,
-                                        Texture::Address initAddressX,
-                                        Texture::Address initAddressY,
-                                        Texture::Address initAddressZ,
+                                        SamplerFilter initFilter,
+                                        SamplerAddressMode initAddressX,
+                                        SamplerAddressMode initAddressY,
+                                        SamplerAddressMode initAddressZ,
                                         Color initBorderColor,
                                         uint32_t initMaxAnisotropy):
                 Command(Command::Type::SET_TEXTURE_PARAMETERS),
@@ -577,10 +579,10 @@ namespace ouzel
             }
 
             uintptr_t texture;
-            Filter filter;
-            Texture::Address addressX;
-            Texture::Address addressY;
-            Texture::Address addressZ;
+            SamplerFilter filter;
+            SamplerAddressMode addressX;
+            SamplerAddressMode addressY;
+            SamplerAddressMode addressZ;
             Color borderColor;
             uint32_t maxAnisotropy;
         };

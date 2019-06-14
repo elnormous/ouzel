@@ -50,17 +50,17 @@ namespace ouzel
                 }
             }
 
-            static D3D11_TEXTURE_ADDRESS_MODE getTextureAddressMode(graphics::Texture::Address address)
+            static D3D11_TEXTURE_ADDRESS_MODE getTextureAddressMode(SamplerAddressMode address)
             {
                 switch (address)
                 {
-                    case graphics::Texture::Address::CLAMP_TO_EDGE:
+                    case SamplerAddressMode::CLAMP_TO_EDGE:
                         return D3D11_TEXTURE_ADDRESS_CLAMP;
-                    case graphics::Texture::Address::CLAMP_TO_BORDER:
+                    case SamplerAddressMode::CLAMP_TO_BORDER:
                         return D3D11_TEXTURE_ADDRESS_BORDER;
-                    case graphics::Texture::Address::REPEAT:
+                    case SamplerAddressMode::REPEAT:
                         return D3D11_TEXTURE_ADDRESS_WRAP;
-                    case graphics::Texture::Address::MIRROR_REPEAT:
+                    case SamplerAddressMode::MIRROR_REPEAT:
                         return D3D11_TEXTURE_ADDRESS_MIRROR;
                     default:
                         throw std::runtime_error("Invalid address mode");
@@ -125,7 +125,7 @@ namespace ouzel
             void RenderDevice::init(Window* newWindow,
                                     const Size2U& newSize,
                                     uint32_t newSampleCount,
-                                    graphics::Filter newTextureFilter,
+                                    SamplerFilter newTextureFilter,
                                     uint32_t newMaxAnisotropy,
                                     bool newSrgb,
                                     bool newVerticalSync,
@@ -828,7 +828,7 @@ namespace ouzel
                                 auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
                                 Texture* texture = getResource<Texture>(setTextureParametersCommand->texture);
-                                texture->setFilter((setTextureParametersCommand->filter == graphics::Filter::DEFAULT) ? textureFilter : setTextureParametersCommand->filter);
+                                texture->setFilter((setTextureParametersCommand->filter == SamplerFilter::DEFAULT) ? textureFilter : setTextureParametersCommand->filter);
                                 texture->setAddressX(setTextureParametersCommand->addressX);
                                 texture->setAddressY(setTextureParametersCommand->addressY);
                                 texture->setAddressZ(setTextureParametersCommand->addressZ);
@@ -1106,17 +1106,17 @@ namespace ouzel
                     {
                         switch (desc.filter)
                         {
-                            case graphics::Filter::DEFAULT:
-                            case graphics::Filter::POINT:
+                            case SamplerFilter::DEFAULT:
+                            case SamplerFilter::POINT:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
                                 break;
-                            case graphics::Filter::LINEAR:
+                            case SamplerFilter::LINEAR:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
                                 break;
-                            case graphics::Filter::BILINEAR:
+                            case SamplerFilter::BILINEAR:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
                                 break;
-                            case graphics::Filter::TRILINEAR:
+                            case SamplerFilter::TRILINEAR:
                                 samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
                                 break;
                             default:
