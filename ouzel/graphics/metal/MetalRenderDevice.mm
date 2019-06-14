@@ -528,8 +528,14 @@ namespace ouzel
                                                                                                            initDepthStencilStateCommand->stencilEnabled,
                                                                                                            initDepthStencilStateCommand->stencilReadMask,
                                                                                                            initDepthStencilStateCommand->stencilWriteMask,
-                                                                                                           initDepthStencilStateCommand->frontFaceStencil,
-                                                                                                           initDepthStencilStateCommand->backFaceStencil));
+                                                                                                           initDepthStencilStateCommand->frontFaceStencilFailureOperation,
+                                                                                                           initDepthStencilStateCommand->frontFaceStencilDepthFailureOperation,
+                                                                                                           initDepthStencilStateCommand->frontFaceStencilPassOperation,
+                                                                                                           initDepthStencilStateCommand->frontFaceStencilCompareFunction,
+                                                                                                           initDepthStencilStateCommand->backFaceStencilFailureOperation,
+                                                                                                           initDepthStencilStateCommand->backFaceStencilDepthFailureOperation,
+                                                                                                           initDepthStencilStateCommand->backFaceStencilPassOperation,
+                                                                                                           initDepthStencilStateCommand->backFaceStencilCompareFunction));
 
                                 if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                     resources.resize(initDepthStencilStateCommand->depthStencilState);

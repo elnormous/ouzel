@@ -1012,14 +1012,20 @@ namespace ouzel
                             {
                                 auto initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
                                 std::unique_ptr<DepthStencilState> depthStencilState(new DepthStencilState(*this,
-                                                                                                                 initDepthStencilStateCommand->depthTest,
-                                                                                                                 initDepthStencilStateCommand->depthWrite,
-                                                                                                                 initDepthStencilStateCommand->compareFunction,
-                                                                                                                 initDepthStencilStateCommand->stencilEnabled,
-                                                                                                                 initDepthStencilStateCommand->stencilReadMask,
-                                                                                                                 initDepthStencilStateCommand->stencilWriteMask,
-                                                                                                                 initDepthStencilStateCommand->frontFaceStencil,
-                                                                                                                 initDepthStencilStateCommand->backFaceStencil));
+                                                                                                           initDepthStencilStateCommand->depthTest,
+                                                                                                           initDepthStencilStateCommand->depthWrite,
+                                                                                                           initDepthStencilStateCommand->compareFunction,
+                                                                                                           initDepthStencilStateCommand->stencilEnabled,
+                                                                                                           initDepthStencilStateCommand->stencilReadMask,
+                                                                                                           initDepthStencilStateCommand->stencilWriteMask,
+                                                                                                           initDepthStencilStateCommand->frontFaceStencilFailureOperation,
+                                                                                                           initDepthStencilStateCommand->frontFaceStencilDepthFailureOperation,
+                                                                                                           initDepthStencilStateCommand->frontFaceStencilPassOperation,
+                                                                                                           initDepthStencilStateCommand->frontFaceStencilCompareFunction,
+                                                                                                           initDepthStencilStateCommand->backFaceStencilFailureOperation,
+                                                                                                           initDepthStencilStateCommand->backFaceStencilDepthFailureOperation,
+                                                                                                           initDepthStencilStateCommand->backFaceStencilPassOperation,
+                                                                                                           initDepthStencilStateCommand->backFaceStencilCompareFunction));
 
                                 if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                     resources.resize(initDepthStencilStateCommand->depthStencilState);

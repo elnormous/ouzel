@@ -34,14 +34,20 @@ namespace ouzel
             {
             public:
                 DepthStencilState(RenderDevice& renderDevice,
-                                     bool initDepthTest,
-                                     bool initDepthWrite,
-                                     graphics::DepthStencilState::CompareFunction initCompareFunction,
-                                     bool initStencilEnabled,
-                                     uint32_t initStencilReadMask,
-                                     uint32_t initStencilWriteMask,
-                                     const graphics::DepthStencilState::StencilDescriptor& initFrontFaceStencil,
-                                     const graphics::DepthStencilState::StencilDescriptor& initBackFaceStencil);
+                                  bool initDepthTest,
+                                  bool initDepthWrite,
+                                  CompareFunction initCompareFunction,
+                                  bool initStencilEnabled,
+                                  uint32_t initStencilReadMask,
+                                  uint32_t initStencilWriteMask,
+                                  StencilOperation initFrontFaceStencilFailureOperation,
+                                  StencilOperation initFrontFaceStencilDepthFailureOperation,
+                                  StencilOperation initFrontFaceStencilPassOperation,
+                                  CompareFunction initFrontFaceStencilCompareFunction,
+                                  StencilOperation initBackFaceStencilFailureOperation,
+                                  StencilOperation initBackFaceStencilDepthFailureOperation,
+                                  StencilOperation initBackFaceStencilPassOperation,
+                                  CompareFunction initBackFaceStencilCompareFunction);
 
                 void reload() final {}
 

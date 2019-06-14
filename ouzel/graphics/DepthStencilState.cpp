@@ -20,8 +20,14 @@ namespace ouzel
                                              bool initStencilEnabled,
                                              uint32_t initStencilReadMask,
                                              uint32_t initStencilWriteMask,
-                                             const StencilDescriptor& initFrontFaceStencil,
-                                             const StencilDescriptor& initBackFaceStencil):
+                                             StencilOperation initFrontFaceStencilFailureOperation,
+                                             StencilOperation initFrontFaceStencilDepthFailureOperation,
+                                             StencilOperation initFrontFaceStencilPassOperation,
+                                             CompareFunction initFrontFaceStencilCompareFunction,
+                                             StencilOperation initBackFaceStencilFailureOperation,
+                                             StencilOperation initBackFaceStencilDepthFailureOperation,
+                                             StencilOperation initBackFaceStencilPassOperation,
+                                             CompareFunction initBackFaceStencilCompareFunction):
             resource(*initRenderer.getDevice()),
             depthTest(initDepthTest),
             depthWrite(initDepthWrite),
@@ -29,8 +35,14 @@ namespace ouzel
             stencilEnabled(initStencilEnabled),
             stencilReadMask(initStencilReadMask),
             stencilWriteMask(initStencilWriteMask),
-            frontFaceStencil(initFrontFaceStencil),
-            backFaceStencil(initBackFaceStencil)
+            frontFaceStencilFailureOperation(initFrontFaceStencilFailureOperation),
+            frontFaceStencilDepthFailureOperation(initFrontFaceStencilDepthFailureOperation),
+            frontFaceStencilPassOperation(initFrontFaceStencilPassOperation),
+            frontFaceStencilCompareFunction(initFrontFaceStencilCompareFunction),
+            backFaceStencilFailureOperation(initBackFaceStencilFailureOperation),
+            backFaceStencilDepthFailureOperation(initBackFaceStencilDepthFailureOperation),
+            backFaceStencilPassOperation(initBackFaceStencilPassOperation),
+            backFaceStencilCompareFunction(initBackFaceStencilCompareFunction)
         {
             initRenderer.addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
                                                                                               initDepthTest,
@@ -39,8 +51,14 @@ namespace ouzel
                                                                                               initStencilEnabled,
                                                                                               initStencilReadMask,
                                                                                               initStencilWriteMask,
-                                                                                              initFrontFaceStencil,
-                                                                                              initBackFaceStencil)));
+                                                                                              initFrontFaceStencilFailureOperation,
+                                                                                              initFrontFaceStencilDepthFailureOperation,
+                                                                                              initFrontFaceStencilPassOperation,
+                                                                                              initFrontFaceStencilCompareFunction,
+                                                                                              initBackFaceStencilFailureOperation,
+                                                                                              initBackFaceStencilDepthFailureOperation,
+                                                                                              initBackFaceStencilPassOperation,
+                                                                                              initBackFaceStencilCompareFunction)));
         }
     } // namespace graphics
 } // namespace ouzel

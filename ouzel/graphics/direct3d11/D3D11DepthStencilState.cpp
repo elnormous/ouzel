@@ -13,18 +13,18 @@ namespace ouzel
     {
         namespace d3d11
         {
-            static D3D11_COMPARISON_FUNC getCompareFunction(graphics::DepthStencilState::CompareFunction compareFunction)
+            static D3D11_COMPARISON_FUNC getCompareFunction(CompareFunction compareFunction)
             {
                 switch (compareFunction)
                 {
-                    case graphics::DepthStencilState::CompareFunction::NEVER: return D3D11_COMPARISON_NEVER;
-                    case graphics::DepthStencilState::CompareFunction::LESS: return D3D11_COMPARISON_LESS;
-                    case graphics::DepthStencilState::CompareFunction::EQUAL: return D3D11_COMPARISON_EQUAL;
-                    case graphics::DepthStencilState::CompareFunction::LESS_EQUAL: return D3D11_COMPARISON_LESS_EQUAL;
-                    case graphics::DepthStencilState::CompareFunction::GREATER: return D3D11_COMPARISON_GREATER;
-                    case graphics::DepthStencilState::CompareFunction::NOT_EQUAL: return D3D11_COMPARISON_NOT_EQUAL;
-                    case graphics::DepthStencilState::CompareFunction::GREATER_EQUAL: return D3D11_COMPARISON_GREATER_EQUAL;
-                    case graphics::DepthStencilState::CompareFunction::ALWAYS: return D3D11_COMPARISON_ALWAYS;
+                    case CompareFunction::NEVER: return D3D11_COMPARISON_NEVER;
+                    case CompareFunction::LESS: return D3D11_COMPARISON_LESS;
+                    case CompareFunction::EQUAL: return D3D11_COMPARISON_EQUAL;
+                    case CompareFunction::LESS_EQUAL: return D3D11_COMPARISON_LESS_EQUAL;
+                    case CompareFunction::GREATER: return D3D11_COMPARISON_GREATER;
+                    case CompareFunction::NOT_EQUAL: return D3D11_COMPARISON_NOT_EQUAL;
+                    case CompareFunction::GREATER_EQUAL: return D3D11_COMPARISON_GREATER_EQUAL;
+                    case CompareFunction::ALWAYS: return D3D11_COMPARISON_ALWAYS;
                     default: return D3D11_COMPARISON_NEVER;
                 }
             }
@@ -48,12 +48,18 @@ namespace ouzel
             DepthStencilState::DepthStencilState(RenderDevice& renderDevice,
                                                  bool initDepthTest,
                                                  bool initDepthWrite,
-                                                 graphics::DepthStencilState::CompareFunction initCompareFunction,
+                                                 CompareFunction initCompareFunction,
                                                  bool initStencilEnabled,
                                                  uint32_t initStencilReadMask,
                                                  uint32_t initStencilWriteMask,
-                                                 const graphics::DepthStencilState::StencilDescriptor& initFrontFaceStencil,
-                                                 const graphics::DepthStencilState::StencilDescriptor& initBackFaceStencil):
+                                                 StencilOperation initFrontFaceStencilFailureOperation,
+                                                 StencilOperation initFrontFaceStencilDepthFailureOperation,
+                                                 StencilOperation initFrontFaceStencilPassOperation,
+                                                 CompareFunction initFrontFaceStencilCompareFunction,
+                                                 StencilOperation initBackFaceStencilFailureOperation,
+                                                 StencilOperation initBackFaceStencilDepthFailureOperation,
+                                                 StencilOperation initBackFaceStencilPassOperation,
+                                                 CompareFunction initBackFaceStencilCompareFunction):
                 RenderResource(renderDevice)
             {
                 D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
@@ -63,14 +69,14 @@ namespace ouzel
                 depthStencilStateDesc.StencilEnable = initStencilEnabled ? TRUE : FALSE;
                 depthStencilStateDesc.StencilReadMask = static_cast<UINT8>(initStencilReadMask);
                 depthStencilStateDesc.StencilWriteMask = static_cast<UINT8>(initStencilWriteMask);
-                depthStencilStateDesc.FrontFace.StencilFailOp = getStencilOperation(initFrontFaceStencil.failureOperation);
-                depthStencilStateDesc.FrontFace.StencilDepthFailOp = getStencilOperation(initFrontFaceStencil.depthFailureOperation);
-                depthStencilStateDesc.FrontFace.StencilPassOp = getStencilOperation(initFrontFaceStencil.passOperation);
-                depthStencilStateDesc.FrontFace.StencilFunc = getCompareFunction(initFrontFaceStencil.compareFunction);
-                depthStencilStateDesc.BackFace.StencilFailOp = getStencilOperation(initBackFaceStencil.failureOperation);
-                depthStencilStateDesc.BackFace.StencilDepthFailOp = getStencilOperation(initBackFaceStencil.depthFailureOperation);
-                depthStencilStateDesc.BackFace.StencilPassOp = getStencilOperation(initBackFaceStencil.passOperation);
-                depthStencilStateDesc.BackFace.StencilFunc = getCompareFunction(initBackFaceStencil.compareFunction);
+                depthStencilStateDesc.FrontFace.StencilFailOp = getStencilOperation(initFrontFaceStencilFailureOperation);
+                depthStencilStateDesc.FrontFace.StencilDepthFailOp = getStencilOperation(initFrontFaceStencilDepthFailureOperation);
+                depthStencilStateDesc.FrontFace.StencilPassOp = getStencilOperation(initFrontFaceStencilPassOperation);
+                depthStencilStateDesc.FrontFace.StencilFunc = getCompareFunction(initFrontFaceStencilCompareFunction);
+                depthStencilStateDesc.BackFace.StencilFailOp = getStencilOperation(initBackFaceStencilFailureOperation);
+                depthStencilStateDesc.BackFace.StencilDepthFailOp = getStencilOperation(initBackFaceStencilDepthFailureOperation);
+                depthStencilStateDesc.BackFace.StencilPassOp = getStencilOperation(initBackFaceStencilPassOperation);
+                depthStencilStateDesc.BackFace.StencilFunc = getCompareFunction(initBackFaceStencilCompareFunction);
 
                 HRESULT hr;
                 if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilState)))

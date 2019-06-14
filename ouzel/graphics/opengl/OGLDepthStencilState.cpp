@@ -13,18 +13,18 @@ namespace ouzel
     {
         namespace opengl
         {
-            static GLenum getFunction(graphics::DepthStencilState::CompareFunction compareFunction)
+            static GLenum getFunction(CompareFunction compareFunction)
             {
                 switch (compareFunction)
                 {
-                    case graphics::DepthStencilState::CompareFunction::NEVER: return GL_NEVER;
-                    case graphics::DepthStencilState::CompareFunction::LESS: return GL_LESS;
-                    case graphics::DepthStencilState::CompareFunction::EQUAL: return GL_EQUAL;
-                    case graphics::DepthStencilState::CompareFunction::LESS_EQUAL: return GL_LEQUAL;
-                    case graphics::DepthStencilState::CompareFunction::GREATER: return GL_GREATER;
-                    case graphics::DepthStencilState::CompareFunction::NOT_EQUAL: return GL_NOTEQUAL;
-                    case graphics::DepthStencilState::CompareFunction::GREATER_EQUAL: return GL_GEQUAL;
-                    case graphics::DepthStencilState::CompareFunction::ALWAYS: return GL_ALWAYS;
+                    case CompareFunction::NEVER: return GL_NEVER;
+                    case CompareFunction::LESS: return GL_LESS;
+                    case CompareFunction::EQUAL: return GL_EQUAL;
+                    case CompareFunction::LESS_EQUAL: return GL_LEQUAL;
+                    case CompareFunction::GREATER: return GL_GREATER;
+                    case CompareFunction::NOT_EQUAL: return GL_NOTEQUAL;
+                    case CompareFunction::GREATER_EQUAL: return GL_GEQUAL;
+                    case CompareFunction::ALWAYS: return GL_ALWAYS;
                     default: return GL_NEVER;
                 }
             }
@@ -48,12 +48,18 @@ namespace ouzel
             DepthStencilState::DepthStencilState(RenderDevice& renderDevice,
                                                  bool initDepthTest,
                                                  bool initDepthWrite,
-                                                 graphics::DepthStencilState::CompareFunction initCompareFunction,
+                                                 CompareFunction initCompareFunction,
                                                  bool initStencilEnabled,
                                                  uint32_t initStencilReadMask,
                                                  uint32_t initStencilWriteMask,
-                                                 const graphics::DepthStencilState::StencilDescriptor& initFrontFaceStencil,
-                                                 const graphics::DepthStencilState::StencilDescriptor& initBackFaceStencil):
+                                                 StencilOperation initFrontFaceStencilFailureOperation,
+                                                 StencilOperation initFrontFaceStencilDepthFailureOperation,
+                                                 StencilOperation initFrontFaceStencilPassOperation,
+                                                 CompareFunction initFrontFaceStencilCompareFunction,
+                                                 StencilOperation initBackFaceStencilFailureOperation,
+                                                 StencilOperation initBackFaceStencilDepthFailureOperation,
+                                                 StencilOperation initBackFaceStencilPassOperation,
+                                                 CompareFunction initBackFaceStencilCompareFunction):
                 RenderResource(renderDevice),
                 depthTest(initDepthTest),
                 depthMask(initDepthWrite ? GL_TRUE : GL_FALSE),
@@ -61,14 +67,14 @@ namespace ouzel
                 stencilTest(initStencilEnabled),
                 stencilReadMask(initStencilReadMask),
                 stencilWriteMask(initStencilWriteMask),
-                frontFaceFail(getOperation(initFrontFaceStencil.failureOperation)),
-                frontFaceDepthFail(getOperation(initFrontFaceStencil.depthFailureOperation)),
-                frontFacePass(getOperation(initFrontFaceStencil.passOperation)),
-                frontFaceFunction(getFunction(initFrontFaceStencil.compareFunction)),
-                backFaceFail(getOperation(initBackFaceStencil.failureOperation)),
-                backFaceDepthFail(getOperation(initBackFaceStencil.depthFailureOperation)),
-                backFacePass(getOperation(initBackFaceStencil.passOperation)),
-                backFaceFunction(getFunction(initBackFaceStencil.compareFunction))
+                frontFaceFail(getOperation(initFrontFaceStencilFailureOperation)),
+                frontFaceDepthFail(getOperation(initFrontFaceStencilDepthFailureOperation)),
+                frontFacePass(getOperation(initFrontFaceStencilPassOperation)),
+                frontFaceFunction(getFunction(initFrontFaceStencilCompareFunction)),
+                backFaceFail(getOperation(initBackFaceStencilFailureOperation)),
+                backFaceDepthFail(getOperation(initBackFaceStencilDepthFailureOperation)),
+                backFacePass(getOperation(initBackFaceStencilPassOperation)),
+                backFaceFunction(getFunction(initBackFaceStencilCompareFunction))
             {
             }
         } // namespace opengl

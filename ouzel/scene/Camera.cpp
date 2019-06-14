@@ -294,12 +294,18 @@ namespace ouzel
             if (depthTest)
                 depthStencilState = std::make_shared<graphics::DepthStencilState>(*engine->getRenderer(),
                                                                                   true, true,
-                                                                                  graphics::DepthStencilState::CompareFunction::LESS_EQUAL,
+                                                                                  graphics::CompareFunction::LESS_EQUAL,
                                                                                   false,
                                                                                   0xFFFFFFFF,
                                                                                   0xFFFFFFFF,
-                                                                                  graphics::DepthStencilState::StencilDescriptor(),
-                                                                                  graphics::DepthStencilState::StencilDescriptor());
+                                                                                  graphics::StencilOperation::KEEP,
+                                                                                  graphics::StencilOperation::KEEP,
+                                                                                  graphics::StencilOperation::KEEP,
+                                                                                  graphics::CompareFunction::ALWAYS,
+                                                                                  graphics::StencilOperation::KEEP,
+                                                                                  graphics::StencilOperation::KEEP,
+                                                                                  graphics::StencilOperation::KEEP,
+                                                                                  graphics::CompareFunction::ALWAYS);
             else
                 depthStencilState.reset();
         }

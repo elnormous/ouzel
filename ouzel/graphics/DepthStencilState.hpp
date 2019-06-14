@@ -4,6 +4,7 @@
 #define OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
 
 #include "graphics/GraphicsResource.hpp"
+#include "graphics/CompareFunction.hpp"
 #include "graphics/StencilOperation.hpp"
 #include "utils/Inline.h"
 
@@ -16,26 +17,6 @@ namespace ouzel
         class DepthStencilState final
         {
         public:
-            enum class CompareFunction
-            {
-                NEVER,
-                LESS,
-                EQUAL,
-                LESS_EQUAL,
-                GREATER,
-                NOT_EQUAL,
-                GREATER_EQUAL,
-                ALWAYS,
-            };
-
-            struct StencilDescriptor
-            {
-                StencilOperation failureOperation = StencilOperation::KEEP;
-                StencilOperation depthFailureOperation = StencilOperation::KEEP;
-                StencilOperation passOperation = StencilOperation::KEEP;
-                CompareFunction compareFunction = CompareFunction::ALWAYS;
-            };
-
             DepthStencilState() = default;
 
             explicit DepthStencilState(Renderer& initRenderer);
@@ -46,8 +27,14 @@ namespace ouzel
                               bool initStencilEnabled,
                               uint32_t initStencilReadMask,
                               uint32_t initStencilWriteMask,
-                              const StencilDescriptor& initFrontFaceStencil,
-                              const StencilDescriptor& initBackFaceStencil);
+                              StencilOperation initFrontFaceStencilFailureOperation,
+                              StencilOperation initFrontFaceStencilDepthFailureOperation,
+                              StencilOperation initFrontFaceStencilPassOperation,
+                              CompareFunction initFrontFaceStencilCompareFunction,
+                              StencilOperation initBackFaceStencilFailureOperation,
+                              StencilOperation initBackFaceStencilDepthFailureOperation,
+                              StencilOperation initBackFaceStencilPassOperation,
+                              CompareFunction initBackFaceStencilCompareFunction);
 
             ALWAYSINLINE const Resource& getResource() const { return resource; }
 
@@ -60,8 +47,14 @@ namespace ouzel
             bool stencilEnabled = false;
             uint32_t stencilReadMask = 0xFFFFFFFF;
             uint32_t stencilWriteMask = 0xFFFFFFFF;
-            StencilDescriptor frontFaceStencil;
-            StencilDescriptor backFaceStencil;
+            StencilOperation frontFaceStencilFailureOperation;
+            StencilOperation frontFaceStencilDepthFailureOperation;
+            StencilOperation frontFaceStencilPassOperation;
+            CompareFunction frontFaceStencilCompareFunction;
+            StencilOperation backFaceStencilFailureOperation;
+            StencilOperation backFaceStencilDepthFailureOperation;
+            StencilOperation backFaceStencilPassOperation;
+            CompareFunction backFaceStencilCompareFunction;
         };
     } // namespace graphics
 } // namespace ouzel

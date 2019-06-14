@@ -8,8 +8,8 @@
 #include "graphics/BlendFactor.hpp"
 #include "graphics/BlendOperation.hpp"
 #include "graphics/Buffer.hpp"
+#include "graphics/CompareFunction.hpp"
 #include "graphics/CubeFace.hpp"
-#include "graphics/DepthStencilState.hpp"
 #include "graphics/DrawMode.hpp"
 #include "graphics/RasterizerState.hpp"
 #include "graphics/Shader.hpp"
@@ -241,12 +241,18 @@ namespace ouzel
             InitDepthStencilStateCommand(uintptr_t initDepthStencilState,
                                          bool initDepthTest,
                                          bool initDepthWrite,
-                                         DepthStencilState::CompareFunction initCompareFunction,
+                                         CompareFunction initCompareFunction,
                                          bool initStencilEnabled,
                                          uint32_t initStencilReadMask,
                                          uint32_t initStencilWriteMask,
-                                         const DepthStencilState::StencilDescriptor& initFrontFaceStencil,
-                                         const DepthStencilState::StencilDescriptor& initBackFaceStencil):
+                                         StencilOperation initFrontFaceStencilFailureOperation,
+                                         StencilOperation initFrontFaceStencilDepthFailureOperation,
+                                         StencilOperation initFrontFaceStencilPassOperation,
+                                         CompareFunction initFrontFaceStencilCompareFunction,
+                                         StencilOperation initBackFaceStencilFailureOperation,
+                                         StencilOperation initBackFaceStencilDepthFailureOperation,
+                                         StencilOperation initBackFaceStencilPassOperation,
+                                         CompareFunction initBackFaceStencilCompareFunction):
                 Command(Command::Type::INIT_DEPTH_STENCIL_STATE),
                 depthStencilState(initDepthStencilState),
                 depthTest(initDepthTest),
@@ -255,20 +261,32 @@ namespace ouzel
                 stencilEnabled(initStencilEnabled),
                 stencilReadMask(initStencilReadMask),
                 stencilWriteMask(initStencilWriteMask),
-                frontFaceStencil(initFrontFaceStencil),
-                backFaceStencil(initBackFaceStencil)
+                frontFaceStencilFailureOperation(initFrontFaceStencilFailureOperation),
+                frontFaceStencilDepthFailureOperation(initFrontFaceStencilDepthFailureOperation),
+                frontFaceStencilPassOperation(initFrontFaceStencilPassOperation),
+                frontFaceStencilCompareFunction(initFrontFaceStencilCompareFunction),
+                backFaceStencilFailureOperation(initBackFaceStencilFailureOperation),
+                backFaceStencilDepthFailureOperation(initBackFaceStencilDepthFailureOperation),
+                backFaceStencilPassOperation(initBackFaceStencilPassOperation),
+                backFaceStencilCompareFunction(initBackFaceStencilCompareFunction)
             {
             }
 
             uintptr_t depthStencilState;
             bool depthTest;
             bool depthWrite;
-            DepthStencilState::CompareFunction compareFunction;
+            CompareFunction compareFunction;
             bool stencilEnabled;
             uint32_t stencilReadMask;
             uint32_t stencilWriteMask;
-            DepthStencilState::StencilDescriptor frontFaceStencil;
-            DepthStencilState::StencilDescriptor backFaceStencil;
+            StencilOperation frontFaceStencilFailureOperation;
+            StencilOperation frontFaceStencilDepthFailureOperation;
+            StencilOperation frontFaceStencilPassOperation;
+            CompareFunction frontFaceStencilCompareFunction;
+            StencilOperation backFaceStencilFailureOperation;
+            StencilOperation backFaceStencilDepthFailureOperation;
+            StencilOperation backFaceStencilPassOperation;
+            CompareFunction backFaceStencilCompareFunction;
         };
 
         class SetDepthStencilStateCommand final: public Command
