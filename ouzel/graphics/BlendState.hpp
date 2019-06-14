@@ -4,6 +4,8 @@
 #define OUZEL_GRAPHICS_BLENDSTATE_HPP
 
 #include "graphics/GraphicsResource.hpp"
+#include "graphics/BlendFactor.hpp"
+#include "graphics/BlendOperation.hpp"
 #include "utils/Inline.h"
 
 namespace ouzel
@@ -15,32 +17,6 @@ namespace ouzel
         class BlendState final
         {
         public:
-            enum class Factor
-            {
-                ZERO,
-                ONE,
-                SRC_COLOR,
-                INV_SRC_COLOR,
-                SRC_ALPHA,
-                INV_SRC_ALPHA,
-                DEST_ALPHA,
-                INV_DEST_ALPHA,
-                DEST_COLOR,
-                INV_DEST_COLOR,
-                SRC_ALPHA_SAT,
-                BLEND_FACTOR,
-                INV_BLEND_FACTOR
-            };
-
-            enum class Operation
-            {
-                ADD,
-                SUBTRACT,
-                REV_SUBTRACT,
-                MIN,
-                MAX
-            };
-
             enum ColorMask
             {
                 COLOR_MASK_RED = 0x01,
@@ -55,34 +31,34 @@ namespace ouzel
             explicit BlendState(Renderer& initRenderer);
             BlendState(Renderer& initRenderer,
                        bool initEnableBlending,
-                       Factor initColorBlendSource, Factor initColorBlendDest,
-                       Operation initColorOperation,
-                       Factor initAlphaBlendSource, Factor initAlphaBlendDest,
-                       Operation initAlphaOperation,
+                       BlendFactor initColorBlendSource, BlendFactor initColorBlendDest,
+                       BlendOperation initColorOperation,
+                       BlendFactor initAlphaBlendSource, BlendFactor initAlphaBlendDest,
+                       BlendOperation initAlphaOperation,
                        uint8_t initColorMask = COLOR_MASK_ALL);
 
             ALWAYSINLINE const Resource& getResource() const { return resource; }
 
             ALWAYSINLINE bool isBlendingEnabled() const { return enableBlending; }
 
-            ALWAYSINLINE BlendState::Factor getColorBlendSource() const { return colorBlendSource; }
-            ALWAYSINLINE BlendState::Factor getColorBlendDest() const { return colorBlendDest; }
-            ALWAYSINLINE BlendState::Operation getColorOperation() const { return colorOperation; }
-            ALWAYSINLINE BlendState::Factor getAlphaBlendSource() const { return alphaBlendSource; }
-            ALWAYSINLINE BlendState::Factor getAlphaBlendDest() const { return alphaBlendDest; }
-            ALWAYSINLINE BlendState::Operation getAlphaOperation() const { return alphaOperation; }
+            ALWAYSINLINE BlendFactor getColorBlendSource() const { return colorBlendSource; }
+            ALWAYSINLINE BlendFactor getColorBlendDest() const { return colorBlendDest; }
+            ALWAYSINLINE BlendOperation getColorOperation() const { return colorOperation; }
+            ALWAYSINLINE BlendFactor getAlphaBlendSource() const { return alphaBlendSource; }
+            ALWAYSINLINE BlendFactor getAlphaBlendDest() const { return alphaBlendDest; }
+            ALWAYSINLINE BlendOperation getAlphaOperation() const { return alphaOperation; }
 
             ALWAYSINLINE uint8_t getColorMask() const { return colorMask; }
 
         private:
             Resource resource;
 
-            BlendState::Factor colorBlendSource = BlendState::Factor::ONE;
-            BlendState::Factor colorBlendDest = BlendState::Factor::ZERO;
-            BlendState::Operation colorOperation = BlendState::Operation::ADD;
-            BlendState::Factor alphaBlendSource = BlendState::Factor::ONE;
-            BlendState::Factor alphaBlendDest = BlendState::Factor::ZERO;
-            BlendState::Operation alphaOperation = BlendState::Operation::ADD;
+            BlendFactor colorBlendSource = BlendFactor::ONE;
+            BlendFactor colorBlendDest = BlendFactor::ZERO;
+            BlendOperation colorOperation = BlendOperation::ADD;
+            BlendFactor alphaBlendSource = BlendFactor::ONE;
+            BlendFactor alphaBlendDest = BlendFactor::ZERO;
+            BlendOperation alphaOperation = BlendOperation::ADD;
             uint8_t colorMask = BlendState::COLOR_MASK_ALL;
             bool enableBlending = false;
         };

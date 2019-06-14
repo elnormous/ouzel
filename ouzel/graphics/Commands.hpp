@@ -5,7 +5,8 @@
 
 #include <queue>
 #include <string>
-#include "graphics/BlendState.hpp"
+#include "graphics/BlendFactor.hpp"
+#include "graphics/BlendOperation.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/DepthStencilState.hpp"
 #include "graphics/DrawMode.hpp"
@@ -358,10 +359,12 @@ namespace ouzel
         public:
             InitBlendStateCommand(uintptr_t initBlendState,
                                   bool initEnableBlending,
-                                  BlendState::Factor initColorBlendSource, BlendState::Factor initColorBlendDest,
-                                  BlendState::Operation initColorOperation,
-                                  BlendState::Factor initAlphaBlendSource, BlendState::Factor initAlphaBlendDest,
-                                  BlendState::Operation initAlphaOperation,
+                                  BlendFactor initColorBlendSource,
+                                  BlendFactor initColorBlendDest,
+                                  BlendOperation initColorOperation,
+                                  BlendFactor initAlphaBlendSource,
+                                  BlendFactor initAlphaBlendDest,
+                                  BlendOperation initAlphaOperation,
                                   uint8_t initColorMask):
                 Command(Command::Type::INIT_BLEND_STATE),
                 blendState(initBlendState),
@@ -378,12 +381,12 @@ namespace ouzel
 
             uintptr_t blendState;
             bool enableBlending;
-            BlendState::Factor colorBlendSource;
-            BlendState::Factor colorBlendDest;
-            BlendState::Operation colorOperation;
-            BlendState::Factor alphaBlendSource;
-            BlendState::Factor alphaBlendDest;
-            BlendState::Operation alphaOperation;
+            BlendFactor colorBlendSource;
+            BlendFactor colorBlendDest;
+            BlendOperation colorOperation;
+            BlendFactor alphaBlendSource;
+            BlendFactor alphaBlendDest;
+            BlendOperation alphaOperation;
             uint8_t colorMask;
         };
 

@@ -32,12 +32,12 @@ namespace ouzel
             public:
                 BlendState(RenderDevice& renderDevice,
                            bool enableBlending,
-                           graphics::BlendState::Factor colorBlendSource,
-                           graphics::BlendState::Factor colorBlendDest,
-                           graphics::BlendState::Operation colorOperation,
-                           graphics::BlendState::Factor alphaBlendSource,
-                           graphics::BlendState::Factor alphaBlendDest,
-                           graphics::BlendState::Operation alphaOperation,
+                           BlendFactor colorBlendSource,
+                           BlendFactor colorBlendDest,
+                           BlendOperation colorOperation,
+                           BlendFactor alphaBlendSource,
+                           BlendFactor alphaBlendDest,
+                           BlendOperation alphaOperation,
                            uint8_t colorMask);
 
                 inline MTLBlendOperation getRgbBlendOperation() const { return rgbBlendOperation; }

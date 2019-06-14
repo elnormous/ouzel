@@ -13,38 +13,38 @@ namespace ouzel
     {
         namespace opengl
         {
-            static GLenum getBlendFactor(graphics::BlendState::Factor blendFactor)
+            static GLenum getBlendFactor(BlendFactor blendFactor)
             {
                 switch (blendFactor)
                 {
-                    case graphics::BlendState::Factor::ZERO: return GL_ZERO;
-                    case graphics::BlendState::Factor::ONE: return GL_ONE;
-                    case graphics::BlendState::Factor::SRC_COLOR: return GL_SRC_COLOR;
-                    case graphics::BlendState::Factor::INV_SRC_COLOR: return GL_ONE_MINUS_SRC_COLOR;
-                    case graphics::BlendState::Factor::SRC_ALPHA: return GL_SRC_ALPHA;
-                    case graphics::BlendState::Factor::INV_SRC_ALPHA: return GL_ONE_MINUS_SRC_ALPHA;
-                    case graphics::BlendState::Factor::DEST_ALPHA: return GL_DST_ALPHA;
-                    case graphics::BlendState::Factor::INV_DEST_ALPHA: return GL_ONE_MINUS_DST_ALPHA;
-                    case graphics::BlendState::Factor::DEST_COLOR: return GL_DST_COLOR;
-                    case graphics::BlendState::Factor::INV_DEST_COLOR: return GL_ONE_MINUS_DST_COLOR;
-                    case graphics::BlendState::Factor::SRC_ALPHA_SAT: return GL_SRC_ALPHA_SATURATE;
-                    case graphics::BlendState::Factor::BLEND_FACTOR: return GL_CONSTANT_COLOR;
-                    case graphics::BlendState::Factor::INV_BLEND_FACTOR: return GL_ONE_MINUS_CONSTANT_COLOR;
+                    case BlendFactor::ZERO: return GL_ZERO;
+                    case BlendFactor::ONE: return GL_ONE;
+                    case BlendFactor::SRC_COLOR: return GL_SRC_COLOR;
+                    case BlendFactor::INV_SRC_COLOR: return GL_ONE_MINUS_SRC_COLOR;
+                    case BlendFactor::SRC_ALPHA: return GL_SRC_ALPHA;
+                    case BlendFactor::INV_SRC_ALPHA: return GL_ONE_MINUS_SRC_ALPHA;
+                    case BlendFactor::DEST_ALPHA: return GL_DST_ALPHA;
+                    case BlendFactor::INV_DEST_ALPHA: return GL_ONE_MINUS_DST_ALPHA;
+                    case BlendFactor::DEST_COLOR: return GL_DST_COLOR;
+                    case BlendFactor::INV_DEST_COLOR: return GL_ONE_MINUS_DST_COLOR;
+                    case BlendFactor::SRC_ALPHA_SAT: return GL_SRC_ALPHA_SATURATE;
+                    case BlendFactor::BLEND_FACTOR: return GL_CONSTANT_COLOR;
+                    case BlendFactor::INV_BLEND_FACTOR: return GL_ONE_MINUS_CONSTANT_COLOR;
                     default:
                         return GL_NONE;
                 }
             }
 
-            static GLenum getBlendOperation(graphics::BlendState::Operation blendOperation)
+            static GLenum getBlendOperation(BlendOperation blendOperation)
             {
                 switch (blendOperation)
                 {
-                    case graphics::BlendState::Operation::ADD: return GL_FUNC_ADD;
-                    case graphics::BlendState::Operation::SUBTRACT: return GL_FUNC_SUBTRACT;
-                    case graphics::BlendState::Operation::REV_SUBTRACT: return GL_FUNC_REVERSE_SUBTRACT;
+                    case BlendOperation::ADD: return GL_FUNC_ADD;
+                    case BlendOperation::SUBTRACT: return GL_FUNC_SUBTRACT;
+                    case BlendOperation::REV_SUBTRACT: return GL_FUNC_REVERSE_SUBTRACT;
 #if !OUZEL_OPENGLES
-                    case graphics::BlendState::Operation::MIN: return GL_MIN;
-                    case graphics::BlendState::Operation::MAX: return GL_MAX;
+                    case BlendOperation::MIN: return GL_MIN;
+                    case BlendOperation::MAX: return GL_MAX;
 #endif
                     default:
                         return GL_NONE;
@@ -53,12 +53,12 @@ namespace ouzel
 
             BlendState::BlendState(RenderDevice& renderDevice,
                                    bool enableBlending,
-                                   graphics::BlendState::Factor colorBlendSource,
-                                   graphics::BlendState::Factor colorBlendDest,
-                                   graphics::BlendState::Operation colorOperation,
-                                   graphics::BlendState::Factor alphaBlendSource,
-                                   graphics::BlendState::Factor alphaBlendDest,
-                                   graphics::BlendState::Operation alphaOperation,
+                                   BlendFactor colorBlendSource,
+                                   BlendFactor colorBlendDest,
+                                   BlendOperation colorOperation,
+                                   BlendFactor alphaBlendSource,
+                                   BlendFactor alphaBlendDest,
+                                   BlendOperation alphaOperation,
                                    uint8_t colorMask):
                 RenderResource(renderDevice),
                 blendEnabled(enableBlending)

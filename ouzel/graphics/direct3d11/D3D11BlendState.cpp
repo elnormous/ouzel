@@ -13,48 +13,48 @@ namespace ouzel
     {
         namespace d3d11
         {
-            static D3D11_BLEND getBlendFactor(graphics::BlendState::Factor blendFactor)
+            static D3D11_BLEND getBlendFactor(BlendFactor blendFactor)
             {
                 switch (blendFactor)
                 {
-                    case graphics::BlendState::Factor::ZERO: return D3D11_BLEND_ZERO;
-                    case graphics::BlendState::Factor::ONE: return D3D11_BLEND_ONE;
-                    case graphics::BlendState::Factor::SRC_COLOR: return D3D11_BLEND_SRC_COLOR;
-                    case graphics::BlendState::Factor::INV_SRC_COLOR: return D3D11_BLEND_INV_SRC_COLOR;
-                    case graphics::BlendState::Factor::SRC_ALPHA: return D3D11_BLEND_SRC_ALPHA;
-                    case graphics::BlendState::Factor::INV_SRC_ALPHA: return D3D11_BLEND_INV_SRC_ALPHA;
-                    case graphics::BlendState::Factor::DEST_ALPHA: return D3D11_BLEND_DEST_ALPHA;
-                    case graphics::BlendState::Factor::INV_DEST_ALPHA: return D3D11_BLEND_INV_DEST_ALPHA;
-                    case graphics::BlendState::Factor::DEST_COLOR: return D3D11_BLEND_DEST_COLOR;
-                    case graphics::BlendState::Factor::INV_DEST_COLOR: return D3D11_BLEND_INV_DEST_COLOR;
-                    case graphics::BlendState::Factor::SRC_ALPHA_SAT: return D3D11_BLEND_SRC_ALPHA_SAT;
-                    case graphics::BlendState::Factor::BLEND_FACTOR: return D3D11_BLEND_BLEND_FACTOR;
-                    case graphics::BlendState::Factor::INV_BLEND_FACTOR: return D3D11_BLEND_INV_BLEND_FACTOR;
+                    case BlendFactor::ZERO: return D3D11_BLEND_ZERO;
+                    case BlendFactor::ONE: return D3D11_BLEND_ONE;
+                    case BlendFactor::SRC_COLOR: return D3D11_BLEND_SRC_COLOR;
+                    case BlendFactor::INV_SRC_COLOR: return D3D11_BLEND_INV_SRC_COLOR;
+                    case BlendFactor::SRC_ALPHA: return D3D11_BLEND_SRC_ALPHA;
+                    case BlendFactor::INV_SRC_ALPHA: return D3D11_BLEND_INV_SRC_ALPHA;
+                    case BlendFactor::DEST_ALPHA: return D3D11_BLEND_DEST_ALPHA;
+                    case BlendFactor::INV_DEST_ALPHA: return D3D11_BLEND_INV_DEST_ALPHA;
+                    case BlendFactor::DEST_COLOR: return D3D11_BLEND_DEST_COLOR;
+                    case BlendFactor::INV_DEST_COLOR: return D3D11_BLEND_INV_DEST_COLOR;
+                    case BlendFactor::SRC_ALPHA_SAT: return D3D11_BLEND_SRC_ALPHA_SAT;
+                    case BlendFactor::BLEND_FACTOR: return D3D11_BLEND_BLEND_FACTOR;
+                    case BlendFactor::INV_BLEND_FACTOR: return D3D11_BLEND_INV_BLEND_FACTOR;
                     default: return D3D11_BLEND_ZERO;
                 }
             }
 
-            static D3D11_BLEND_OP getBlendOperation(graphics::BlendState::Operation blendOperation)
+            static D3D11_BLEND_OP getBlendOperation(BlendOperation blendOperation)
             {
                 switch (blendOperation)
                 {
-                    case graphics::BlendState::Operation::ADD: return D3D11_BLEND_OP_ADD;
-                    case graphics::BlendState::Operation::SUBTRACT: return D3D11_BLEND_OP_SUBTRACT;
-                    case graphics::BlendState::Operation::REV_SUBTRACT: return D3D11_BLEND_OP_REV_SUBTRACT;
-                    case graphics::BlendState::Operation::MIN: return D3D11_BLEND_OP_MIN;
-                    case graphics::BlendState::Operation::MAX: return D3D11_BLEND_OP_MAX;
+                    case BlendOperation::ADD: return D3D11_BLEND_OP_ADD;
+                    case BlendOperation::SUBTRACT: return D3D11_BLEND_OP_SUBTRACT;
+                    case BlendOperation::REV_SUBTRACT: return D3D11_BLEND_OP_REV_SUBTRACT;
+                    case BlendOperation::MIN: return D3D11_BLEND_OP_MIN;
+                    case BlendOperation::MAX: return D3D11_BLEND_OP_MAX;
                     default: return D3D11_BLEND_OP_ADD;
                 }
             }
 
             BlendState::BlendState(RenderDevice& renderDevice,
                                    bool enableBlending,
-                                   graphics::BlendState::Factor colorBlendSource,
-                                   graphics::BlendState::Factor colorBlendDest,
-                                   graphics::BlendState::Operation colorOperation,
-                                   graphics::BlendState::Factor alphaBlendSource,
-                                   graphics::BlendState::Factor alphaBlendDest,
-                                   graphics::BlendState::Operation alphaOperation,
+                                   BlendFactor colorBlendSource,
+                                   BlendFactor colorBlendDest,
+                                   BlendOperation colorOperation,
+                                   BlendFactor alphaBlendSource,
+                                   BlendFactor alphaBlendDest,
+                                   BlendOperation alphaOperation,
                                    uint8_t colorMask):
                 RenderResource(renderDevice)
             {

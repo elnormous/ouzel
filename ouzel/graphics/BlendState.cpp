@@ -15,10 +15,12 @@ namespace ouzel
 
         BlendState::BlendState(Renderer& initRenderer,
                                bool initEnableBlending,
-                               Factor initColorBlendSource, Factor initColorBlendDest,
-                               Operation initColorOperation,
-                               Factor initAlphaBlendSource, Factor initAlphaBlendDest,
-                               Operation initAlphaOperation,
+                               BlendFactor initColorBlendSource,
+                               BlendFactor initColorBlendDest,
+                               BlendOperation initColorOperation,
+                               BlendFactor initAlphaBlendSource,
+                               BlendFactor initAlphaBlendDest,
+                               BlendOperation initAlphaOperation,
                                uint8_t initColorMask):
             resource(*initRenderer.getDevice()),
             colorBlendSource(initColorBlendSource),
