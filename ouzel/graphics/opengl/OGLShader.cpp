@@ -14,21 +14,21 @@ namespace ouzel
         namespace opengl
         {
             Shader::Shader(RenderDevice& renderDevice,
-                           const std::vector<uint8_t>& newFragmentShader,
-                           const std::vector<uint8_t>& newVertexShader,
-                           const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                           const std::vector<std::pair<std::string, DataType>>& newFragmentShaderConstantInfo,
-                           const std::vector<std::pair<std::string, DataType>>& newVertexShaderConstantInfo,
+                           const std::vector<uint8_t>& initFragmentShader,
+                           const std::vector<uint8_t>& initVertexShader,
+                           const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+                           const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
+                           const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                            uint32_t,
                            uint32_t,
                            const std::string&,
                            const std::string&):
                 RenderResource(renderDevice),
-                fragmentShaderData(newFragmentShader),
-                vertexShaderData(newVertexShader),
-                vertexAttributes(newVertexAttributes),
-                fragmentShaderConstantInfo(newFragmentShaderConstantInfo),
-                vertexShaderConstantInfo(newVertexShaderConstantInfo)
+                fragmentShaderData(initFragmentShader),
+                vertexShaderData(initVertexShader),
+                vertexAttributes(initVertexAttributes),
+                fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
+                vertexShaderConstantInfo(initVertexShaderConstantInfo)
             {
                 compileShader();
             }

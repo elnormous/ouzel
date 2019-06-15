@@ -29,22 +29,22 @@ namespace ouzel
 
             explicit Texture(Renderer& initRenderer);
             Texture(Renderer& initRenderer,
-                    const Size2U& newSize,
-                    uint32_t newFlags = 0,
-                    uint32_t newMipmaps = 0,
-                    uint32_t newSampleCount = 1,
-                    PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+                    const Size2U& initSize,
+                    uint32_t initFlags = 0,
+                    uint32_t initMipmaps = 0,
+                    uint32_t initSampleCount = 1,
+                    PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
             Texture(Renderer& initRenderer,
-                    const std::vector<uint8_t>& newData,
-                    const Size2U& newSize,
-                    uint32_t newFlags = 0,
-                    uint32_t newMipmaps = 0,
-                    PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+                    const std::vector<uint8_t>& initData,
+                    const Size2U& initSize,
+                    uint32_t initFlags = 0,
+                    uint32_t initMipmaps = 0,
+                    PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
             Texture(Renderer& initRenderer,
-                    const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& newLevels,
-                    const Size2U& newSize,
-                    uint32_t newFlags = 0,
-                    PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+                    const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
+                    const Size2U& initSize,
+                    uint32_t initFlags = 0,
+                    PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
 
             ALWAYSINLINE const Resource& getResource() const { return resource; }
 

@@ -87,35 +87,35 @@ namespace ouzel
             Shader::Shader(RenderDevice& renderDevice,
                            const std::vector<uint8_t>& fragmentShaderData,
                            const std::vector<uint8_t>& vertexShaderData,
-                           const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                           const std::vector<std::pair<std::string, DataType>>& newFragmentShaderConstantInfo,
-                           const std::vector<std::pair<std::string, DataType>>& newVertexShaderConstantInfo,
-                           uint32_t newFragmentShaderDataAlignment,
-                           uint32_t newVertexShaderDataAlignment,
+                           const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+                           const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
+                           const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
+                           uint32_t initFragmentShaderDataAlignment,
+                           uint32_t initVertexShaderDataAlignment,
                            const std::string& fragmentShaderFunction,
                            const std::string& vertexShaderFunction):
                 RenderResource(renderDevice),
-                vertexAttributes(newVertexAttributes),
-                fragmentShaderConstantInfo(newFragmentShaderConstantInfo),
-                vertexShaderConstantInfo(newVertexShaderConstantInfo)
+                vertexAttributes(initVertexAttributes),
+                fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
+                vertexShaderConstantInfo(initVertexShaderConstantInfo)
             {
-                if (newFragmentShaderDataAlignment)
-                    fragmentShaderAlignment = newFragmentShaderDataAlignment;
+                if (initFragmentShaderDataAlignment)
+                    fragmentShaderAlignment = initFragmentShaderDataAlignment;
                 else
                 {
                     fragmentShaderAlignment = 0;
 
-                    for (const std::pair<std::string, DataType>& info : newFragmentShaderConstantInfo)
+                    for (const std::pair<std::string, DataType>& info : initFragmentShaderConstantInfo)
                         fragmentShaderAlignment += getDataTypeSize(info.second);
                 }
 
-                if (newVertexShaderDataAlignment)
-                    vertexShaderAlignment = newVertexShaderDataAlignment;
+                if (initVertexShaderDataAlignment)
+                    vertexShaderAlignment = initVertexShaderDataAlignment;
                 else
                 {
                     vertexShaderAlignment = 0;
 
-                    for (const std::pair<std::string, DataType>& info : newVertexShaderConstantInfo)
+                    for (const std::pair<std::string, DataType>& info : initVertexShaderConstantInfo)
                         vertexShaderAlignment += getDataTypeSize(info.second);
                 }
 
@@ -171,10 +171,7 @@ namespace ouzel
 
                 if (!fragmentShaderConstantInfo.empty())
                 {
-                    fragmentShaderConstantLocations.clear();
                     fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
-
-                    fragmentShaderConstantSize = 0;
 
                     for (const std::pair<std::string, DataType>& info : fragmentShaderConstantInfo)
                     {
@@ -205,10 +202,7 @@ namespace ouzel
 
                 if (!vertexShaderConstantInfo.empty())
                 {
-                    vertexShaderConstantLocations.clear();
                     vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
-
-                    vertexShaderConstantSize = 0;
 
                     for (const std::pair<std::string, DataType>& info : vertexShaderConstantInfo)
                     {

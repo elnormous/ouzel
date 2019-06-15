@@ -85,17 +85,17 @@ namespace ouzel
             Shader::Shader(RenderDevice& renderDevice,
                            const std::vector<uint8_t>& fragmentShaderData,
                            const std::vector<uint8_t>& vertexShaderData,
-                           const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                           const std::vector<std::pair<std::string, DataType>>& newFragmentShaderConstantInfo,
-                           const std::vector<std::pair<std::string, DataType>>& newVertexShaderConstantInfo,
+                           const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+                           const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
+                           const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                            uint32_t,
                            uint32_t,
                            const std::string&,
                            const std::string&):
                 RenderResource(renderDevice),
-                vertexAttributes(newVertexAttributes),
-                fragmentShaderConstantInfo(newFragmentShaderConstantInfo),
-                vertexShaderConstantInfo(newVertexShaderConstantInfo)
+                vertexAttributes(initVertexAttributes),
+                fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
+                vertexShaderConstantInfo(initVertexShaderConstantInfo)
             {
                 HRESULT hr;
                 if (FAILED(hr = renderDevice.getDevice()->CreatePixelShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &fragmentShader)))
@@ -183,10 +183,7 @@ namespace ouzel
 
                 if (!fragmentShaderConstantInfo.empty())
                 {
-                    fragmentShaderConstantLocations.clear();
                     fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
-
-                    fragmentShaderConstantSize = 0;
 
                     for (const std::pair<std::string, DataType>& info : fragmentShaderConstantInfo)
                     {
@@ -211,10 +208,7 @@ namespace ouzel
 
                 if (!vertexShaderConstantInfo.empty())
                 {
-                    vertexShaderConstantLocations.clear();
                     vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
-
-                    vertexShaderConstantSize = 0;
 
                     for (const std::pair<std::string, DataType>& info : vertexShaderConstantInfo)
                     {
