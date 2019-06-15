@@ -19,21 +19,10 @@ namespace ouzel
             init(meshData);
         }
 
-        SkinnedMeshRenderer::SkinnedMeshRenderer(const std::string& filename):
-            Component(CLASS)
-        {
-            init(filename);
-        }
-
         void SkinnedMeshRenderer::init(const SkinnedMeshData& meshData)
         {
             boundingBox = meshData.boundingBox;
             material = meshData.material;
-        }
-
-        void SkinnedMeshRenderer::init(const std::string& filename)
-        {
-            init(*engine->getCache().getSkinnedMeshData(filename));
         }
 
         void SkinnedMeshRenderer::draw(const Matrix4F& transformMatrix,

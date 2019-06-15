@@ -122,7 +122,6 @@ namespace ouzel
 
             ParticleSystem();
             explicit ParticleSystem(const ParticleSystemData& initParticleSystemData);
-            explicit ParticleSystem(const std::string& filename);
 
             void draw(const Matrix4F& transformMatrix,
                       float opacity,
@@ -130,7 +129,6 @@ namespace ouzel
                       bool wireframe) override;
 
             void init(const ParticleSystemData& newParticleSystemData);
-            void init(const std::string& filename);
 
             void resume();
             void stop();

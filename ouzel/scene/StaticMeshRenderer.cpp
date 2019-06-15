@@ -63,12 +63,6 @@ namespace ouzel
             init(meshData);
         }
 
-        StaticMeshRenderer::StaticMeshRenderer(const std::string& filename):
-            Component(CLASS)
-        {
-            init(filename);
-        }
-
         void StaticMeshRenderer::init(const StaticMeshData& meshData)
         {
             boundingBox = meshData.boundingBox;
@@ -77,11 +71,6 @@ namespace ouzel
             indexSize = meshData.indexSize;
             indexBuffer = meshData.indexBuffer;
             vertexBuffer = meshData.vertexBuffer;
-        }
-
-        void StaticMeshRenderer::init(const std::string& filename)
-        {
-            init(*engine->getCache().getStaticMeshData(filename));
         }
 
         void StaticMeshRenderer::draw(const Matrix4F& transformMatrix,

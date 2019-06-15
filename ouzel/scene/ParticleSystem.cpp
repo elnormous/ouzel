@@ -35,13 +35,7 @@ namespace ouzel
         {
             init(initParticleSystemData);
         }
-
-        ParticleSystem::ParticleSystem(const std::string& filename):
-            ParticleSystem()
-        {
-            init(filename);
-        }
-
+        
         void ParticleSystem::draw(const Matrix4F& transformMatrix,
                                   float opacity,
                                   const Matrix4F& renderViewProjection,
@@ -252,19 +246,6 @@ namespace ouzel
         void ParticleSystem::init(const ParticleSystemData& newParticleSystemData)
         {
             particleSystemData = newParticleSystemData;
-
-            texture = particleSystemData.texture;
-
-            if (!texture)
-                throw std::runtime_error("Paricle system data has no texture");
-
-            createParticleMesh();
-            resume();
-        }
-
-        void ParticleSystem::init(const std::string& filename)
-        {
-            particleSystemData = *engine->getCache().getParticleSystemData(filename);
 
             texture = particleSystemData.texture;
 

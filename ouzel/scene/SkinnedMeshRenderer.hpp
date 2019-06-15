@@ -40,10 +40,8 @@ namespace ouzel
 
             SkinnedMeshRenderer();
             explicit SkinnedMeshRenderer(const SkinnedMeshData& meshData);
-            explicit SkinnedMeshRenderer(const std::string& filename);
 
             void init(const SkinnedMeshData& meshData);
-            void init(const std::string& filename);
 
             void draw(const Matrix4F& transformMatrix,
                       float opacity,

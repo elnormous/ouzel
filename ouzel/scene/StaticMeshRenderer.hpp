@@ -37,10 +37,8 @@ namespace ouzel
 
             StaticMeshRenderer();
             explicit StaticMeshRenderer(const StaticMeshData& meshData);
-            explicit StaticMeshRenderer(const std::string& filename);
 
             void init(const StaticMeshData& meshData);
-            void init(const std::string& filename);
 
             void draw(const Matrix4F& transformMatrix,
                       float opacity,

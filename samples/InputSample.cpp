@@ -34,7 +34,7 @@ InputSample::InputSample():
     layer.addChild(&cameraActor);
     addLayer(&layer);
 
-    flameParticleSystem.init("flame.json");
+    flameParticleSystem.init(*engine->getCache().getParticleSystemData("flame.json"));
 
     flame.addComponent(&flameParticleSystem);
     flame.setPickable(false);
