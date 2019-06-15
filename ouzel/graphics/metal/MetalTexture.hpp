@@ -98,6 +98,7 @@ namespace ouzel
                 MTLTexturePtr msaaTexture = nil;
 
                 MTLPixelFormat pixelFormat;
+                uint32_t pixelSize = 0;
                 bool stencilBuffer = false;
             };
         } // namespace metal

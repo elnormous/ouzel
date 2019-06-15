@@ -20,7 +20,7 @@
 #endif
 
 #include "graphics/opengl/OGLRenderResource.hpp"
-#include "graphics/Buffer.hpp"
+#include "graphics/BufferType.hpp"
 
 namespace ouzel
 {

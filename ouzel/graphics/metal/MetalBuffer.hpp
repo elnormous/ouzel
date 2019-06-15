@@ -16,7 +16,7 @@ typedef id MTLBufferPtr;
 #endif
 
 #include "graphics/metal/MetalRenderResource.hpp"
-#include "graphics/Buffer.hpp"
+#include "graphics/BufferType.hpp"
 
 namespace ouzel
 {

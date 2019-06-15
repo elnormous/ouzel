@@ -175,7 +175,7 @@ namespace ouzel
                     for (size_t level = 0; level < levels.size(); ++level)
                     {
                         subresourceData[level].pSysMem = levels[level].data.data();
-                        subresourceData[level].SysMemPitch = static_cast<UINT>(levels[level].pitch);
+                        subresourceData[level].SysMemPitch = static_cast<UINT>(levels[level].size.v[0] * pixelSize);
                         subresourceData[level].SysMemSlicePitch = 0;
                     }
 
@@ -337,7 +337,7 @@ namespace ouzel
 
                         uint8_t* destination = static_cast<uint8_t*>(mappedSubresource.pData);
 
-                        if (mappedSubresource.RowPitch == levels[level].pitch)
+                        if (mappedSubresource.RowPitch == levels[level].size.v[0] * pixelSize)
                         {
                             std::copy(levels[level].data.begin(),
                                       levels[level].data.end(),
@@ -355,7 +355,7 @@ namespace ouzel
                                           source + rowSize,
                                           destination);
 
-                                source += levels[level].pitch;
+                                source += levels[level].size.v[0] * pixelSize;
                                 destination += mappedSubresource.RowPitch;
                             }
                         }

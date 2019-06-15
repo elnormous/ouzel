@@ -103,6 +103,7 @@ namespace ouzel
                 mipmaps(static_cast<uint32_t>(levels.size())),
                 sampleCount(initSampleCount),
                 pixelFormat(getMetalPixelFormat(initPixelFormat)),
+                pixelSize(getPixelSize(initPixelFormat)),
                 stencilBuffer(initPixelFormat == PixelFormat::DEPTH_STENCIL)
             {
                 if ((flags & Flags::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
@@ -178,7 +179,7 @@ namespace ouzel
                                                                    static_cast<NSUInteger>(levels[level].size.v[1]))
                                        mipmapLevel:level
                                          withBytes:levels[level].data.data()
-                                       bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
+                                       bytesPerRow:static_cast<NSUInteger>(levels[level].size.v[0] * pixelSize)];
                     }
                 }
 
@@ -217,7 +218,7 @@ namespace ouzel
                                                                static_cast<NSUInteger>(levels[level].size.v[1]))
                                    mipmapLevel:level
                                      withBytes:levels[level].data.data()
-                                   bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
+                                   bytesPerRow:static_cast<NSUInteger>(levels[level].size.v[0] * pixelSize)];
                 }
             }
 

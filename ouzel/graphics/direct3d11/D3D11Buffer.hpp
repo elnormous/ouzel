@@ -9,7 +9,7 @@
 
 #include <d3d11.h>
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
-#include "graphics/Buffer.hpp"
+#include "graphics/BufferType.hpp"
 
 namespace ouzel
 {

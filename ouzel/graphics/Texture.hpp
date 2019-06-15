@@ -27,7 +27,6 @@ namespace ouzel
             struct Level final
             {
                 Size2U size;
-                uint32_t pitch;
                 std::vector<uint8_t> data;
             };
 

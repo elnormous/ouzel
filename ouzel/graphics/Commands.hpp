@@ -7,7 +7,6 @@
 #include <string>
 #include "graphics/BlendFactor.hpp"
 #include "graphics/BlendOperation.hpp"
-#include "graphics/Buffer.hpp"
 #include "graphics/BufferType.hpp"
 #include "graphics/CompareFunction.hpp"
 #include "graphics/CubeFace.hpp"

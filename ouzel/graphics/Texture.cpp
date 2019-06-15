@@ -549,9 +549,8 @@ namespace ouzel
             uint32_t newHeight = size.v[1];
 
             uint32_t pixelSize = getPixelSize(pixelFormat);
-            uint32_t pitch = newWidth * pixelSize;
-            uint32_t bufferSize = pitch * newHeight;
-            levels.push_back({size, pitch, std::vector<uint8_t>(bufferSize)});
+            uint32_t bufferSize = newWidth * newHeight * pixelSize;
+            levels.push_back({size, std::vector<uint8_t>(bufferSize)});
 
             uint32_t previousWidth = newWidth;
             uint32_t previousHeight = newHeight;
@@ -566,10 +565,9 @@ namespace ouzel
                 if (newHeight < 1) newHeight = 1;
 
                 Size2U mipMapSize = Size2U(newWidth, newHeight);
-                pitch = newWidth * pixelSize;
-                bufferSize = pitch * newHeight;
+                bufferSize = newWidth * newHeight * pixelSize;
 
-                levels.push_back({mipMapSize, pitch, std::vector<uint8_t>(bufferSize)});
+                levels.push_back({mipMapSize, std::vector<uint8_t>(bufferSize)});
 
                 previousWidth = newWidth;
                 previousHeight = newHeight;
@@ -589,9 +587,8 @@ namespace ouzel
             uint32_t newHeight = size.v[1];
 
             uint32_t pixelSize = getPixelSize(pixelFormat);
-            uint32_t pitch = newWidth * pixelSize;
-            uint32_t bufferSize = pitch * newHeight;
-            levels.push_back({size, pitch, data});
+            uint32_t bufferSize = newWidth * newHeight * pixelSize;
+            levels.push_back({size, data});
 
             uint32_t previousWidth = newWidth;
             uint32_t previousHeight = newHeight;
@@ -612,8 +609,7 @@ namespace ouzel
                 if (newHeight < 1) newHeight = 1;
 
                 Size2U mipMapSize = Size2U(newWidth, newHeight);
-                pitch = newWidth * pixelSize;
-                bufferSize = pitch * newHeight;
+                bufferSize = newWidth * newHeight * pixelSize;
 
                 switch (pixelFormat)
                 {
@@ -639,7 +635,7 @@ namespace ouzel
                 }
 
                 encode(mipMapSize, newData, pixelFormat, encodedData);
-                levels.push_back({mipMapSize, pitch, encodedData});
+                levels.push_back({mipMapSize, encodedData});
 
                 previousData = newData;
 
