@@ -15,6 +15,7 @@
 #include "graphics/Vertex.hpp"
 #include "math/Matrix.hpp"
 #include "math/Size.hpp"
+#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -170,6 +171,55 @@ namespace ouzel
 
             uintptr_t lastResourceId = 0;
             std::set<uintptr_t> deletedResourceIds;
+        };
+
+        class Resource final
+        {
+        public:
+            Resource() = default;
+            Resource(RenderDevice& initRendererDevice):
+                renderDevice(&initRendererDevice),
+                id(renderDevice->getResourceId())
+            {
+            }
+
+            ~Resource()
+            {
+                if (id) renderDevice->deleteResourceId(id);
+            }
+
+            Resource(const Resource&) = delete;
+            Resource& operator=(const Resource&) = delete;
+
+            Resource(Resource&& other):
+                renderDevice(other.renderDevice),
+                id(other.id)
+            {
+                other.renderDevice = nullptr;
+                other.id = 0;
+            }
+
+            Resource& operator=(Resource&& other)
+            {
+                if (&other != this)
+                {
+                    renderDevice = other.renderDevice;
+                    id = other.id;
+                    other.renderDevice = nullptr;
+                    other.id = 0;
+                }
+
+                return *this;
+            }
+
+            ALWAYSINLINE operator uintptr_t() const
+            {
+                return id;
+            }
+
+        private:
+            RenderDevice* renderDevice = nullptr;
+            uintptr_t id = 0;
         };
     } // namespace graphics
 } // namespace ouzel

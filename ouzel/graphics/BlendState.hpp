@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_BLENDSTATE_HPP
 #define OUZEL_GRAPHICS_BLENDSTATE_HPP
 
-#include "graphics/GraphicsResource.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "graphics/BlendFactor.hpp"
 #include "graphics/BlendOperation.hpp"
 #include "graphics/ColorMask.hpp"

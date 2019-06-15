@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <utility>
-#include "graphics/GraphicsResource.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "graphics/CubeFace.hpp"
 #include "graphics/Flags.hpp"
 #include "graphics/PixelFormat.hpp"

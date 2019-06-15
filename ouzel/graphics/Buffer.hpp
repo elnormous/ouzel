@@ -4,7 +4,7 @@
 #define OUZEL_GRAPHICS_BUFFER_HPP
 
 #include <vector>
-#include "graphics/GraphicsResource.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "graphics/BufferType.hpp"
 #include "graphics/Flags.hpp"
 #include "utils/Inline.h"

@@ -2,7 +2,6 @@
 
 #include "Shader.hpp"
 #include "Renderer.hpp"
-#include "RenderDevice.hpp"
 
 namespace ouzel
 {

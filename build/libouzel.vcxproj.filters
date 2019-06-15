@@ -361,9 +361,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>ouzel</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\GraphicsResource.cpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\scene\Animator.hpp">
@@ -874,9 +871,6 @@
       <Filter>ouzel</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Flags.hpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\GraphicsResource.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\OGL.h">

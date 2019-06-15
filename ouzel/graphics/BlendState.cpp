@@ -2,7 +2,6 @@
 
 #include "BlendState.hpp"
 #include "Renderer.hpp"
-#include "RenderDevice.hpp"
 
 namespace ouzel
 {

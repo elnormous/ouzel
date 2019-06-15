@@ -2,7 +2,6 @@
 
 #include "DepthStencilState.hpp"
 #include "Renderer.hpp"
-#include "RenderDevice.hpp"
 
 namespace ouzel
 {

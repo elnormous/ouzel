@@ -699,12 +699,6 @@
 		30DADEA11C5167BC001A63B4 /* Cache.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30DADE9B1C5167BC001A63B4 /* Cache.hpp */; };
 		30EA71201D52783000AE8C3E /* EngineTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30EA711E1D52783000AE8C3E /* EngineTVOS.hpp */; };
 		30EA71211D52783000AE8C3E /* EngineTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30EA711F1D52783000AE8C3E /* EngineTVOS.mm */; };
-		30EABD7E22028861001C70A6 /* GraphicsResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EABD7C22028861001C70A6 /* GraphicsResource.cpp */; };
-		30EABD7F22028862001C70A6 /* GraphicsResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EABD7C22028861001C70A6 /* GraphicsResource.cpp */; };
-		30EABD8022028862001C70A6 /* GraphicsResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EABD7C22028861001C70A6 /* GraphicsResource.cpp */; };
-		30EABD8122028862001C70A6 /* GraphicsResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30EABD7D22028861001C70A6 /* GraphicsResource.hpp */; };
-		30EABD8222028862001C70A6 /* GraphicsResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30EABD7D22028861001C70A6 /* GraphicsResource.hpp */; };
-		30EABD8322028862001C70A6 /* GraphicsResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30EABD7D22028861001C70A6 /* GraphicsResource.hpp */; };
 		30EABE3A220E5C6C001C70A6 /* Animators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EABE38220E5C6C001C70A6 /* Animators.cpp */; };
 		30EABE3B220E5C6C001C70A6 /* Animators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EABE38220E5C6C001C70A6 /* Animators.cpp */; };
 		30EABE3C220E5C6C001C70A6 /* Animators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EABE38220E5C6C001C70A6 /* Animators.cpp */; };
@@ -1103,8 +1097,6 @@
 		30DADE9B1C5167BC001A63B4 /* Cache.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cache.hpp; sourceTree = "<group>"; };
 		30EA711E1D52783000AE8C3E /* EngineTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineTVOS.hpp; sourceTree = "<group>"; };
 		30EA711F1D52783000AE8C3E /* EngineTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EngineTVOS.mm; sourceTree = "<group>"; };
-		30EABD7C22028861001C70A6 /* GraphicsResource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GraphicsResource.cpp; sourceTree = "<group>"; };
-		30EABD7D22028861001C70A6 /* GraphicsResource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GraphicsResource.hpp; sourceTree = "<group>"; };
 		30EABE38220E5C6C001C70A6 /* Animators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animators.cpp; sourceTree = "<group>"; };
 		30EABE39220E5C6C001C70A6 /* Animators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animators.hpp; sourceTree = "<group>"; };
 		30EEADB5215DA81500D2F525 /* Application.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Application.hpp; sourceTree = "<group>"; };
@@ -1364,8 +1356,6 @@
 				30BA5FB42198CE810032AC23 /* Driver.hpp */,
 				303820881D816EAB00677CAB /* empty */,
 				30CB946D22B465BA0025C927 /* Flags.hpp */,
-				30EABD7C22028861001C70A6 /* GraphicsResource.cpp */,
-				30EABD7D22028861001C70A6 /* GraphicsResource.hpp */,
 				303B74E21C277A7500FEDE92 /* Image.hpp */,
 				30216B721ED464730073E3D5 /* Material.hpp */,
 				30547E351CB3D6570055EE79 /* metal */,
@@ -1870,7 +1860,6 @@
 				30381F521D80A3EC00677CAB /* OGLBlendState.hpp in Headers */,
 				30A3820121B382A20043568A /* Mixer.hpp in Headers */,
 				30575AAA1C39D1FF0009C8A7 /* Layer.hpp in Headers */,
-				30EABD8122028862001C70A6 /* GraphicsResource.hpp in Headers */,
 				3030D5051DAEF1FA007CC8EB /* Log.hpp in Headers */,
 				30519CE31F9B53E900AF3DC4 /* ParticleSystemLoader.hpp in Headers */,
 				30EEADD4216ECEFE00D2F525 /* GamepadConfig.hpp in Headers */,
@@ -2068,7 +2057,6 @@
 				3017AEC021E5815100B07B53 /* Prefix.pch in Headers */,
 				30B859991F3D2F3200A16952 /* Font.hpp in Headers */,
 				303B04A51E207B1000011CBE /* MetalView.h in Headers */,
-				30EABD8322028862001C70A6 /* GraphicsResource.hpp in Headers */,
 				30519CB11F9B4E3E00AF3DC4 /* Loader.hpp in Headers */,
 				303696D91E32DDA9007F4211 /* Buffer.hpp in Headers */,
 				30519CF51F9B53FF00AF3DC4 /* ObjLoader.hpp in Headers */,
@@ -2138,7 +2126,6 @@
 				3009341F1C88698500CC50D3 /* Window.hpp in Headers */,
 				30AEFA1020C0A90400CDFD33 /* GltfLoader.hpp in Headers */,
 				30519CCC1F9B53C100AF3DC4 /* TtfLoader.hpp in Headers */,
-				30EABD8222028862001C70A6 /* GraphicsResource.hpp in Headers */,
 				30B859981F3D2F3200A16952 /* Font.hpp in Headers */,
 				305B99941C41F06F008589E1 /* Widget.hpp in Headers */,
 				305B68D71ED1B31D003352A2 /* Timer.hpp in Headers */,
@@ -2534,7 +2521,6 @@
 				30CEB36921A6385C00525637 /* System.cpp in Sources */,
 				302261811FDB8C59005279FC /* ColladaLoader.cpp in Sources */,
 				30C758AD1F4A0196008499DC /* AudioDevice.cpp in Sources */,
-				30EABD7E22028861001C70A6 /* GraphicsResource.cpp in Sources */,
 				303696D41E32DDA9007F4211 /* Buffer.cpp in Sources */,
 				30381F791D80A3EC00677CAB /* OGLRenderDevice.cpp in Sources */,
 				30419DE21D162BCF00A63759 /* Audio.cpp in Sources */,
@@ -2660,7 +2646,6 @@
 				302261831FDB8C59005279FC /* ColladaLoader.cpp in Sources */,
 				30C758AF1F4A0196008499DC /* AudioDevice.cpp in Sources */,
 				303696D61E32DDA9007F4211 /* Buffer.cpp in Sources */,
-				30EABD8022028862001C70A6 /* GraphicsResource.cpp in Sources */,
 				30381F7B1D80A3EC00677CAB /* OGLRenderDevice.cpp in Sources */,
 				30419DE31D162BCF00A63759 /* Audio.cpp in Sources */,
 				30EEADC521618DD800D2F525 /* MouseDevice.cpp in Sources */,
@@ -2774,7 +2759,6 @@
 				30575AD81C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				306B0E5F1C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
 				30FFBE332158FB3F004B0BD3 /* Touchpad.cpp in Sources */,
-				30EABD7F22028862001C70A6 /* GraphicsResource.cpp in Sources */,
 				303B04BE1E207B6D00011CBE /* OGLRenderDeviceMacOS.mm in Sources */,
 				30A3821921B4BDC80043568A /* Submix.cpp in Sources */,
 				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,

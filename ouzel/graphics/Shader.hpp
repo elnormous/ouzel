@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include <utility>
-#include "graphics/GraphicsResource.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "graphics/DataType.hpp"
 #include "graphics/Vertex.hpp"
 #include "utils/Inline.h"

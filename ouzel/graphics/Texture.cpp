@@ -3,7 +3,6 @@
 #include <stdexcept>
 #include "Texture.hpp"
 #include "Renderer.hpp"
-#include "RenderDevice.hpp"
 
 static constexpr float GAMMA = 2.2F;
 static const float GAMMA_DECODE[256] = {

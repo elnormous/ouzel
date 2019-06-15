@@ -2,7 +2,6 @@
 
 #include "RenderTarget.hpp"
 #include "Renderer.hpp"
-#include "RenderDevice.hpp"
 #include "Texture.hpp"
 
 namespace ouzel

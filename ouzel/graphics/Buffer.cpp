@@ -3,7 +3,6 @@
 #include <stdexcept>
 #include "Buffer.hpp"
 #include "Renderer.hpp"
-#include "RenderDevice.hpp"
 
 namespace ouzel
 {

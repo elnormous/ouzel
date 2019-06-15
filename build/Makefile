@@ -99,7 +99,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendState.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Buffer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/DepthStencilState.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/GraphicsResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/RenderDevice.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/RenderTarget.cpp \
