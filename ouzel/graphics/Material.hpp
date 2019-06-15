@@ -30,7 +30,7 @@ namespace ouzel
             std::shared_ptr<BlendState> blendState;
             std::shared_ptr<Shader> shader;
             std::shared_ptr<Texture> textures[TEXTURE_LAYERS];
-            graphics::CullMode cullMode = graphics::CullMode::BACK;
+            CullMode cullMode = CullMode::BACK;
             Color diffuseColor = Color::WHITE;
             float opacity = 1.0F;
         };

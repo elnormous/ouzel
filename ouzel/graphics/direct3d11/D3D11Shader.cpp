@@ -86,8 +86,8 @@ namespace ouzel
                            const std::vector<uint8_t>& fragmentShaderData,
                            const std::vector<uint8_t>& vertexShaderData,
                            const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                           const std::vector<graphics::Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                           const std::vector<graphics::Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                           const std::vector<std::pair<std::string, DataType>>& newFragmentShaderConstantInfo,
+                           const std::vector<std::pair<std::string, DataType>>& newVertexShaderConstantInfo,
                            uint32_t,
                            uint32_t,
                            const std::string&,
@@ -188,9 +188,9 @@ namespace ouzel
 
                     fragmentShaderConstantSize = 0;
 
-                    for (const graphics::Shader::ConstantInfo& info : fragmentShaderConstantInfo)
+                    for (const std::pair<std::string, DataType>& info : fragmentShaderConstantInfo)
                     {
-                        uint32_t size = getDataTypeSize(info.dataType);
+                        uint32_t size = getDataTypeSize(info.second);
                         fragmentShaderConstantLocations.push_back({fragmentShaderConstantSize, size});
                         fragmentShaderConstantSize += size;
                     }
@@ -216,9 +216,9 @@ namespace ouzel
 
                     vertexShaderConstantSize = 0;
 
-                    for (const graphics::Shader::ConstantInfo& info : vertexShaderConstantInfo)
+                    for (const std::pair<std::string, DataType>& info : vertexShaderConstantInfo)
                     {
-                        uint32_t size = getDataTypeSize(info.dataType);
+                        uint32_t size = getDataTypeSize(info.second);
                         vertexShaderConstantLocations.push_back({vertexShaderConstantSize, size});
                         vertexShaderConstantSize += size;
                     }

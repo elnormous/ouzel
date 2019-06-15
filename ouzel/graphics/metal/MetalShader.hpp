@@ -3,6 +3,8 @@
 #ifndef OUZEL_GRAPHICS_METALSHADER_HPP
 #define OUZEL_GRAPHICS_METALSHADER_HPP
 
+#include <utility>
+
 #include "core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
@@ -18,7 +20,8 @@ typedef id MTLVertexDescriptorPtr;
 #endif
 
 #include "graphics/metal/MetalRenderResource.hpp"
-#include "graphics/Shader.hpp"
+#include "graphics/DataType.hpp"
+#include "graphics/Vertex.hpp"
 
 namespace ouzel
 {
@@ -35,8 +38,8 @@ namespace ouzel
                        const std::vector<uint8_t>& fragmentShaderData,
                        const std::vector<uint8_t>& vertexShaderData,
                        const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                       const std::vector<graphics::Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                       const std::vector<graphics::Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                       const std::vector<std::pair<std::string, DataType>>& newFragmentShaderConstantInfo,
+                       const std::vector<std::pair<std::string, DataType>>& newVertexShaderConstantInfo,
                        uint32_t newFragmentShaderDataAlignment,
                        uint32_t newVertexShaderDataAlignment,
                        const std::string& fragmentShaderFunction,
@@ -68,9 +71,9 @@ namespace ouzel
             private:
                 std::set<Vertex::Attribute::Usage> vertexAttributes;
 
-                std::vector<graphics::Shader::ConstantInfo> fragmentShaderConstantInfo;
+                std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
                 uint32_t fragmentShaderAlignment = 0;
-                std::vector<graphics::Shader::ConstantInfo> vertexShaderConstantInfo;
+                std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
                 uint32_t vertexShaderAlignment = 0;
 
                 MTLFunctionPtr fragmentShader = nil;

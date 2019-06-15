@@ -6,6 +6,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <utility>
 #include "graphics/GraphicsResource.hpp"
 #include "graphics/DataType.hpp"
 #include "graphics/Vertex.hpp"
@@ -20,16 +21,6 @@ namespace ouzel
         class Shader final
         {
         public:
-            class ConstantInfo final
-            {
-            public:
-                ConstantInfo(const std::string& initName, DataType initDataType):
-                    name(initName), dataType(initDataType) {}
-
-                std::string name;
-                DataType dataType;
-            };
-
             Shader() = default;
 
             explicit Shader(Renderer& initRenderer);
@@ -37,8 +28,8 @@ namespace ouzel
                    const std::vector<uint8_t>& initFragmentShader,
                    const std::vector<uint8_t>& initVertexShader,
                    const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
-                   const std::vector<ConstantInfo>& initFragmentShaderConstantInfo,
-                   const std::vector<ConstantInfo>& initVertexShaderConstantInfo,
+                   const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
+                   const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                    uint32_t initFragmentShaderDataAlignment = 0,
                    uint32_t initVertexShaderDataAlignment = 0,
                    const std::string& fragmentShaderFunction = "",

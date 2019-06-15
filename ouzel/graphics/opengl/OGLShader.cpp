@@ -17,8 +17,8 @@ namespace ouzel
                            const std::vector<uint8_t>& newFragmentShader,
                            const std::vector<uint8_t>& newVertexShader,
                            const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                           const std::vector<graphics::Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                           const std::vector<graphics::Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                           const std::vector<std::pair<std::string, DataType>>& newFragmentShaderConstantInfo,
+                           const std::vector<std::pair<std::string, DataType>>& newVertexShaderConstantInfo,
                            uint32_t,
                            uint32_t,
                            const std::string&,
@@ -206,9 +206,9 @@ namespace ouzel
                     fragmentShaderConstantLocations.clear();
                     fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
 
-                    for (const graphics::Shader::ConstantInfo& info : fragmentShaderConstantInfo)
+                    for (const std::pair<std::string, DataType>& info : fragmentShaderConstantInfo)
                     {
-                        GLint location = renderDevice.glGetUniformLocationProc(programId, info.name.c_str());
+                        GLint location = renderDevice.glGetUniformLocationProc(programId, info.first.c_str());
 
                         if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                             throw std::system_error(makeErrorCode(error), "Failed to get OpenGL uniform location");
@@ -216,7 +216,7 @@ namespace ouzel
                         if (location == -1)
                             throw std::runtime_error("Failed to get OpenGL uniform location");
 
-                        fragmentShaderConstantLocations.push_back({location, info.dataType});
+                        fragmentShaderConstantLocations.push_back({location, info.second});
                     }
                 }
 
@@ -225,9 +225,9 @@ namespace ouzel
                     vertexShaderConstantLocations.clear();
                     vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
 
-                    for (const graphics::Shader::ConstantInfo& info : vertexShaderConstantInfo)
+                    for (const std::pair<std::string, DataType>& info : vertexShaderConstantInfo)
                     {
-                        GLint location = renderDevice.glGetUniformLocationProc(programId, info.name.c_str());
+                        GLint location = renderDevice.glGetUniformLocationProc(programId, info.first.c_str());
 
                         if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                             throw std::system_error(makeErrorCode(error), "Failed to get OpenGL uniform location");
@@ -235,7 +235,7 @@ namespace ouzel
                         if (location == -1)
                             throw std::runtime_error("Failed to get OpenGL uniform location");
 
-                        vertexShaderConstantLocations.push_back({location, info.dataType});
+                        vertexShaderConstantLocations.push_back({location, info.second});
                     }
                 }
             }

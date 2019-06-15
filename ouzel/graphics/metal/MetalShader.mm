@@ -88,8 +88,8 @@ namespace ouzel
                            const std::vector<uint8_t>& fragmentShaderData,
                            const std::vector<uint8_t>& vertexShaderData,
                            const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                           const std::vector<graphics::Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                           const std::vector<graphics::Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                           const std::vector<std::pair<std::string, DataType>>& newFragmentShaderConstantInfo,
+                           const std::vector<std::pair<std::string, DataType>>& newVertexShaderConstantInfo,
                            uint32_t newFragmentShaderDataAlignment,
                            uint32_t newVertexShaderDataAlignment,
                            const std::string& fragmentShaderFunction,
@@ -105,8 +105,8 @@ namespace ouzel
                 {
                     fragmentShaderAlignment = 0;
 
-                    for (const graphics::Shader::ConstantInfo& info : newFragmentShaderConstantInfo)
-                        fragmentShaderAlignment += getDataTypeSize(info.dataType);
+                    for (const std::pair<std::string, DataType>& info : newFragmentShaderConstantInfo)
+                        fragmentShaderAlignment += getDataTypeSize(info.second);
                 }
 
                 if (newVertexShaderDataAlignment)
@@ -115,8 +115,8 @@ namespace ouzel
                 {
                     vertexShaderAlignment = 0;
 
-                    for (const graphics::Shader::ConstantInfo& info : newVertexShaderConstantInfo)
-                        vertexShaderAlignment += getDataTypeSize(info.dataType);
+                    for (const std::pair<std::string, DataType>& info : newVertexShaderConstantInfo)
+                        vertexShaderAlignment += getDataTypeSize(info.second);
                 }
 
                 uint32_t index = 0;
@@ -176,9 +176,9 @@ namespace ouzel
 
                     fragmentShaderConstantSize = 0;
 
-                    for (const graphics::Shader::ConstantInfo& info : fragmentShaderConstantInfo)
+                    for (const std::pair<std::string, DataType>& info : fragmentShaderConstantInfo)
                     {
-                        uint32_t size = getDataTypeSize(info.dataType);
+                        uint32_t size = getDataTypeSize(info.second);
                         fragmentShaderConstantLocations.push_back({fragmentShaderConstantSize, size});
                         fragmentShaderConstantSize += size;
                     }
@@ -210,9 +210,9 @@ namespace ouzel
 
                     vertexShaderConstantSize = 0;
 
-                    for (const graphics::Shader::ConstantInfo& info : vertexShaderConstantInfo)
+                    for (const std::pair<std::string, DataType>& info : vertexShaderConstantInfo)
                     {
-                        uint32_t size = getDataTypeSize(info.dataType);
+                        uint32_t size = getDataTypeSize(info.second);
                         vertexShaderConstantLocations.push_back({vertexShaderConstantSize, size});
                         vertexShaderConstantSize += size;
                     }

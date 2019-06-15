@@ -254,10 +254,10 @@ namespace ouzel
                                                                                graphics::Vertex::Attribute::Usage::COLOR,
                                                                                graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
                                                                            },
-                                                                           std::vector<graphics::Shader::ConstantInfo>{
+                                                                           std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"color",graphics::DataType::FLOAT_VECTOR4}
                                                                            },
-                                                                           std::vector<graphics::Shader::ConstantInfo>{
+                                                                           std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                            });
                         break;
@@ -272,10 +272,10 @@ namespace ouzel
                                                                                graphics::Vertex::Attribute::Usage::COLOR,
                                                                                graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
                                                                            },
-                                                                           std::vector<graphics::Shader::ConstantInfo>{
+                                                                           std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                            },
-                                                                           std::vector<graphics::Shader::ConstantInfo>{
+                                                                           std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                            });
                         break;
@@ -291,10 +291,10 @@ namespace ouzel
                                                                                graphics::Vertex::Attribute::Usage::COLOR,
                                                                                graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
                                                                            },
-                                                                           std::vector<graphics::Shader::ConstantInfo>{
+                                                                           std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                            },
-                                                                           std::vector<graphics::Shader::ConstantInfo>{
+                                                                           std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                            });
                         break;
@@ -309,10 +309,10 @@ namespace ouzel
                                                                                graphics::Vertex::Attribute::Usage::COLOR,
                                                                                graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
                                                                            },
-                                                                           std::vector<graphics::Shader::ConstantInfo>{
+                                                                           std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                            },
-                                                                           std::vector<graphics::Shader::ConstantInfo>{
+                                                                           std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                            });
                         break;
@@ -327,10 +327,10 @@ namespace ouzel
                                                                                graphics::Vertex::Attribute::Usage::COLOR,
                                                                                graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
                                                                            },
-                                                                           std::vector<graphics::Shader::ConstantInfo>{
+                                                                           std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                            },
-                                                                           std::vector<graphics::Shader::ConstantInfo>{
+                                                                           std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                            });
                         break;
@@ -356,10 +356,10 @@ namespace ouzel
                                                                              graphics::Vertex::Attribute::Usage::POSITION,
                                                                              graphics::Vertex::Attribute::Usage::COLOR
                                                                          },
-                                                                         std::vector<graphics::Shader::ConstantInfo>{
+                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                          },
-                                                                         std::vector<graphics::Shader::ConstantInfo>{
+                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                          });
 
@@ -374,10 +374,10 @@ namespace ouzel
                                                                              graphics::Vertex::Attribute::Usage::POSITION,
                                                                              graphics::Vertex::Attribute::Usage::COLOR
                                                                          },
-                                                                         std::vector<graphics::Shader::ConstantInfo>{
+                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                          },
-                                                                         std::vector<graphics::Shader::ConstantInfo>{
+                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                          });
                         break;
@@ -392,10 +392,10 @@ namespace ouzel
                                                                              graphics::Vertex::Attribute::Usage::POSITION,
                                                                              graphics::Vertex::Attribute::Usage::COLOR
                                                                          },
-                                                                         std::vector<graphics::Shader::ConstantInfo>{
+                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                          },
-                                                                         std::vector<graphics::Shader::ConstantInfo>{
+                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                          });
                         break;
@@ -409,10 +409,10 @@ namespace ouzel
                                                                              graphics::Vertex::Attribute::Usage::POSITION,
                                                                              graphics::Vertex::Attribute::Usage::COLOR
                                                                          },
-                                                                         std::vector<graphics::Shader::ConstantInfo>{
+                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                          },
-                                                                         std::vector<graphics::Shader::ConstantInfo>{
+                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                          });
                         break;
@@ -426,10 +426,10 @@ namespace ouzel
                                                                              graphics::Vertex::Attribute::Usage::POSITION,
                                                                              graphics::Vertex::Attribute::Usage::COLOR
                                                                          },
-                                                                         std::vector<graphics::Shader::ConstantInfo>{
+                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                          },
-                                                                         std::vector<graphics::Shader::ConstantInfo>{
+                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                          });
                         break;
@@ -456,10 +456,10 @@ namespace ouzel
                                                                                                          graphics::Vertex::Attribute::Usage::COLOR,
                                                                                                          graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
                                                                                                      },
-                                                                                                     std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                          {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                                                      },
-                                                                                                     std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                          {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                                                      });
 
@@ -474,10 +474,10 @@ namespace ouzel
                                                                                                        graphics::Vertex::Attribute::Usage::POSITION,
                                                                                                        graphics::Vertex::Attribute::Usage::COLOR
                                                                                                    },
-                                                                                                   std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                        {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                                                    },
-                                                                                                   std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                        {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                                                    });
 
@@ -499,10 +499,10 @@ namespace ouzel
                                                                                                          graphics::Vertex::Attribute::Usage::COLOR,
                                                                                                          graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
                                                                                                      },
-                                                                                                     std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                          {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                                                      },
-                                                                                                     std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                          {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                                                      },
                                                                                                      256, 256,
@@ -519,10 +519,10 @@ namespace ouzel
                                                                                                        graphics::Vertex::Attribute::Usage::POSITION,
                                                                                                        graphics::Vertex::Attribute::Usage::COLOR
                                                                                                    },
-                                                                                                   std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                        {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                                                    },
-                                                                                                   std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                        {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                                                    },
                                                                                                    256, 256,
@@ -543,10 +543,10 @@ namespace ouzel
                                                                                                          graphics::Vertex::Attribute::Usage::COLOR,
                                                                                                          graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
                                                                                                      },
-                                                                                                     std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                          {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                                                      },
-                                                                                                     std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                          {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                                                      });
 
@@ -559,10 +559,10 @@ namespace ouzel
                                                                                                        graphics::Vertex::Attribute::Usage::POSITION,
                                                                                                        graphics::Vertex::Attribute::Usage::COLOR
                                                                                                    },
-                                                                                                   std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                        {"color", graphics::DataType::FLOAT_VECTOR4}
                                                                                                    },
-                                                                                                   std::vector<graphics::Shader::ConstantInfo>{
+                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                                        {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
                                                                                                    });
 

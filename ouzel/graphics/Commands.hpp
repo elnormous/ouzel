@@ -10,15 +10,17 @@
 #include "graphics/BufferType.hpp"
 #include "graphics/CompareFunction.hpp"
 #include "graphics/CubeFace.hpp"
+#include "graphics/DataType.hpp"
 #include "graphics/DrawMode.hpp"
 #include "graphics/Flags.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "graphics/RasterizerState.hpp"
 #include "graphics/SamplerFilter.hpp"
 #include "graphics/SamplerAddressMode.hpp"
-#include "graphics/Shader.hpp"
 #include "graphics/StencilOperation.hpp"
 #include "graphics/TextureType.hpp"
+#include "graphics/Vertex.hpp"
+#include "math/Color.hpp"
 #include "math/Rect.hpp"
 
 namespace ouzel
@@ -459,8 +461,8 @@ namespace ouzel
                               const std::vector<uint8_t>& initFragmentShader,
                               const std::vector<uint8_t>& initVertexShader,
                               const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
-                              const std::vector<Shader::ConstantInfo>& initFragmentShaderConstantInfo,
-                              const std::vector<Shader::ConstantInfo>& initVertexShaderConstantInfo,
+                              const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
+                              const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                               uint32_t initFragmentShaderDataAlignment,
                               uint32_t initVertexShaderDataAlignment,
                               const std::string& initFragmentShaderFunction,
@@ -483,8 +485,8 @@ namespace ouzel
             std::vector<uint8_t> fragmentShader;
             std::vector<uint8_t> vertexShader;
             std::set<Vertex::Attribute::Usage> vertexAttributes;
-            std::vector<Shader::ConstantInfo> fragmentShaderConstantInfo;
-            std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
+            std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
+            std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
             uint32_t fragmentShaderDataAlignment;
             uint32_t vertexShaderDataAlignment;
             std::string fragmentShaderFunction;

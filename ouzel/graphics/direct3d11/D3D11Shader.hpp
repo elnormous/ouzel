@@ -8,9 +8,11 @@
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include <vector>
+#include <utility>
 #include <d3d11.h>
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
-#include "graphics/Shader.hpp"
+#include "graphics/DataType.hpp"
+#include "graphics/Vertex.hpp"
 
 namespace ouzel
 {
@@ -27,8 +29,8 @@ namespace ouzel
                        const std::vector<uint8_t>& fragmentShaderData,
                        const std::vector<uint8_t>& vertexShaderData,
                        const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                       const std::vector<graphics::Shader::ConstantInfo>& newFragmentShaderConstantInfo,
-                       const std::vector<graphics::Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                       const std::vector<std::pair<std::string, DataType>>& newFragmentShaderConstantInfo,
+                       const std::vector<std::pair<std::string, DataType>>& newVertexShaderConstantInfo,
                        uint32_t,
                        uint32_t,
                        const std::string& fragmentShaderFunction,
@@ -56,8 +58,8 @@ namespace ouzel
             private:
                 std::set<Vertex::Attribute::Usage> vertexAttributes;
 
-                std::vector<graphics::Shader::ConstantInfo> fragmentShaderConstantInfo;
-                std::vector<graphics::Shader::ConstantInfo> vertexShaderConstantInfo;
+                std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
+                std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
 
                 ID3D11PixelShader* fragmentShader = nullptr;
                 ID3D11VertexShader* vertexShader = nullptr;
