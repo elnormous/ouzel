@@ -9,7 +9,8 @@
 
 #include <d3d11.h>
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
-#include "graphics/DepthStencilState.hpp"
+#include "graphics/CompareFunction.hpp"
+#include "graphics/StencilOperation.hpp"
 
 namespace ouzel
 {

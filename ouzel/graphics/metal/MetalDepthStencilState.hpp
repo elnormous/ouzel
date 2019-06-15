@@ -18,7 +18,8 @@ typedef id MTLDepthStencilStatePtr;
 #endif
 
 #include "graphics/metal/MetalRenderResource.hpp"
-#include "graphics/DepthStencilState.hpp"
+#include "graphics/CompareFunction.hpp"
+#include "graphics/StencilOperation.hpp"
 
 namespace ouzel
 {

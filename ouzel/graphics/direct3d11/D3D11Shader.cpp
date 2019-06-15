@@ -179,7 +179,7 @@ namespace ouzel
                                                                             vertexShaderData.data(),
                                                                             vertexShaderData.size(),
                                                                             &inputLayout)))
-                    throw std::system_error(hr, errorCategory, "Fato create Direct3D 11 input layout for vertex shader");
+                    throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 input layout for vertex shader");
 
                 if (!fragmentShaderConstantInfo.empty())
                 {
@@ -190,8 +190,9 @@ namespace ouzel
 
                     for (const graphics::Shader::ConstantInfo& info : fragmentShaderConstantInfo)
                     {
-                        fragmentShaderConstantLocations.push_back({fragmentShaderConstantSize, info.size});
-                        fragmentShaderConstantSize += info.size;
+                        uint32_t size = getDataTypeSize(info.dataType);
+                        fragmentShaderConstantLocations.push_back({fragmentShaderConstantSize, size});
+                        fragmentShaderConstantSize += size;
                     }
                 }
 
@@ -217,8 +218,9 @@ namespace ouzel
 
                     for (const graphics::Shader::ConstantInfo& info : vertexShaderConstantInfo)
                     {
-                        vertexShaderConstantLocations.push_back({vertexShaderConstantSize, info.size});
-                        vertexShaderConstantSize += info.size;
+                        uint32_t size = getDataTypeSize(info.dataType);
+                        vertexShaderConstantLocations.push_back({vertexShaderConstantSize, size});
+                        vertexShaderConstantSize += size;
                     }
                 }
 

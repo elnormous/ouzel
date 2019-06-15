@@ -20,7 +20,8 @@
 #endif
 
 #include "graphics/opengl/OGLRenderResource.hpp"
-#include "graphics/DepthStencilState.hpp"
+#include "graphics/CompareFunction.hpp"
+#include "graphics/StencilOperation.hpp"
 
 namespace ouzel
 {

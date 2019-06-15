@@ -24,11 +24,10 @@ namespace ouzel
             {
             public:
                 ConstantInfo(const std::string& initName, DataType initDataType):
-                    name(initName), dataType(initDataType), size(getDataTypeSize(initDataType)) {}
+                    name(initName), dataType(initDataType) {}
 
                 std::string name;
                 DataType dataType;
-                uint32_t size;
             };
 
             Shader() = default;

@@ -106,7 +106,7 @@ namespace ouzel
                     fragmentShaderAlignment = 0;
 
                     for (const graphics::Shader::ConstantInfo& info : newFragmentShaderConstantInfo)
-                        fragmentShaderAlignment += info.size;
+                        fragmentShaderAlignment += getDataTypeSize(info.dataType);
                 }
 
                 if (newVertexShaderDataAlignment)
@@ -116,7 +116,7 @@ namespace ouzel
                     vertexShaderAlignment = 0;
 
                     for (const graphics::Shader::ConstantInfo& info : newVertexShaderConstantInfo)
-                        vertexShaderAlignment += info.size;
+                        vertexShaderAlignment += getDataTypeSize(info.dataType);
                 }
 
                 uint32_t index = 0;
@@ -178,8 +178,9 @@ namespace ouzel
 
                     for (const graphics::Shader::ConstantInfo& info : fragmentShaderConstantInfo)
                     {
-                        fragmentShaderConstantLocations.push_back({fragmentShaderConstantSize, info.size});
-                        fragmentShaderConstantSize += info.size;
+                        uint32_t size = getDataTypeSize(info.dataType);
+                        fragmentShaderConstantLocations.push_back({fragmentShaderConstantSize, size});
+                        fragmentShaderConstantSize += size;
                     }
                 }
 
@@ -211,8 +212,9 @@ namespace ouzel
 
                     for (const graphics::Shader::ConstantInfo& info : vertexShaderConstantInfo)
                     {
-                        vertexShaderConstantLocations.push_back({vertexShaderConstantSize, info.size});
-                        vertexShaderConstantSize += info.size;
+                        uint32_t size = getDataTypeSize(info.dataType);
+                        vertexShaderConstantLocations.push_back({vertexShaderConstantSize, size});
+                        vertexShaderConstantSize += size;
                     }
                 }
             }
