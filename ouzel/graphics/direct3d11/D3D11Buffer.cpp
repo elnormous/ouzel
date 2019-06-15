@@ -77,12 +77,12 @@ namespace ouzel
                     bufferDesc.ByteWidth = size;
                     bufferDesc.Usage = (flags & Flags::DYNAMIC) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
 
-                    switch (usage)
+                    switch (type)
                     {
-                        case graphics::Buffer::Usage::INDEX:
+                        case BufferType::INDEX:
                             bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
                             break;
-                        case graphics::Buffer::Usage::VERTEX:
+                        case BufferType::VERTEX:
                             bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
                             break;
                         default:

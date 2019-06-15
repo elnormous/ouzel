@@ -741,6 +741,9 @@
     <ClInclude Include="..\ouzel\input\InputSystem.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\ColorMask.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Commands.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>

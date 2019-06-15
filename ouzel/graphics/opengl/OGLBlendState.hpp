@@ -20,7 +20,9 @@
 #endif
 
 #include "graphics/opengl/OGLRenderResource.hpp"
-#include "graphics/BlendState.hpp"
+#include "graphics/BlendFactor.hpp"
+#include "graphics/BlendOperation.hpp"
+#include "graphics/ColorMask.hpp"
 
 namespace ouzel
 {

@@ -9,7 +9,9 @@
 
 #include <d3d11.h>
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
-#include "graphics/BlendState.hpp"
+#include "graphics/BlendFactor.hpp"
+#include "graphics/BlendOperation.hpp"
+#include "graphics/ColorMask.hpp"
 
 namespace ouzel
 {

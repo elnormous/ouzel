@@ -71,10 +71,10 @@ namespace ouzel
                 targetBlendDesc.DestBlendAlpha = getBlendFactor(alphaBlendDest);
                 targetBlendDesc.BlendOpAlpha = getBlendOperation(alphaOperation);
                 targetBlendDesc.RenderTargetWriteMask = 0;
-                if (colorMask & graphics::BlendState::COLOR_MASK_RED) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_RED;
-                if (colorMask & graphics::BlendState::COLOR_MASK_GREEN) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_GREEN;
-                if (colorMask & graphics::BlendState::COLOR_MASK_BLUE) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_BLUE;
-                if (colorMask & graphics::BlendState::COLOR_MASK_ALPHA) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_ALPHA;
+                if (colorMask & graphics::ColorMask::COLOR_MASK_RED) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_RED;
+                if (colorMask & graphics::ColorMask::COLOR_MASK_GREEN) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_GREEN;
+                if (colorMask & graphics::ColorMask::COLOR_MASK_BLUE) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_BLUE;
+                if (colorMask & graphics::ColorMask::COLOR_MASK_ALPHA) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_ALPHA;
                 blendStateDesc.RenderTarget[0] = targetBlendDesc;
 
                 if (blendState) blendState->Release();

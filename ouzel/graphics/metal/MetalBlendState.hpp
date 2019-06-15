@@ -17,7 +17,9 @@ typedef NSUInteger MTLColorWriteMask;
 #endif
 
 #include "graphics/metal/MetalRenderResource.hpp"
-#include "graphics/BlendState.hpp"
+#include "graphics/BlendFactor.hpp"
+#include "graphics/BlendOperation.hpp"
+#include "graphics/ColorMask.hpp"
 
 namespace ouzel
 {

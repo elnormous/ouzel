@@ -6,6 +6,7 @@
 #include "graphics/GraphicsResource.hpp"
 #include "graphics/BlendFactor.hpp"
 #include "graphics/BlendOperation.hpp"
+#include "graphics/ColorMask.hpp"
 #include "utils/Inline.h"
 
 namespace ouzel
@@ -17,15 +18,6 @@ namespace ouzel
         class BlendState final
         {
         public:
-            enum ColorMask
-            {
-                COLOR_MASK_RED = 0x01,
-                COLOR_MASK_GREEN = 0x02,
-                COLOR_MASK_BLUE = 0x04,
-                COLOR_MASK_ALPHA = 0x08,
-                COLOR_MASK_ALL = COLOR_MASK_RED | COLOR_MASK_GREEN | COLOR_MASK_BLUE | COLOR_MASK_ALPHA
-            };
-
             BlendState() = default;
 
             explicit BlendState(Renderer& initRenderer);
@@ -35,7 +27,7 @@ namespace ouzel
                        BlendOperation initColorOperation,
                        BlendFactor initAlphaBlendSource, BlendFactor initAlphaBlendDest,
                        BlendOperation initAlphaOperation,
-                       uint8_t initColorMask = COLOR_MASK_ALL);
+                       uint8_t initColorMask = ColorMask::COLOR_MASK_ALL);
 
             ALWAYSINLINE const Resource& getResource() const { return resource; }
 
@@ -59,7 +51,7 @@ namespace ouzel
             BlendFactor alphaBlendSource = BlendFactor::ONE;
             BlendFactor alphaBlendDest = BlendFactor::ZERO;
             BlendOperation alphaOperation = BlendOperation::ADD;
-            uint8_t colorMask = BlendState::COLOR_MASK_ALL;
+            uint8_t colorMask = ColorMask::COLOR_MASK_ALL;
             bool enableBlending = false;
         };
     } // namespace graphics
