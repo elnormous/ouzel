@@ -539,11 +539,11 @@ namespace ouzel
             }
         }
 
-        static std::vector<Texture::Level> calculateSizes(const Size2U& size,
-                                                          uint32_t mipmaps,
-                                                          PixelFormat pixelFormat)
+        static std::vector<std::pair<Size2U, std::vector<uint8_t>>> calculateSizes(const Size2U& size,
+                                                                                   uint32_t mipmaps,
+                                                                                   PixelFormat pixelFormat)
         {
-            std::vector<Texture::Level> levels;
+            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels;
 
             uint32_t newWidth = size.v[0];
             uint32_t newHeight = size.v[1];
@@ -576,12 +576,12 @@ namespace ouzel
             return levels;
         }
 
-        static std::vector<Texture::Level> calculateSizes(const Size2U& size,
-                                                          const std::vector<uint8_t>& data,
-                                                          uint32_t mipmaps,
-                                                          PixelFormat pixelFormat)
+        static std::vector<std::pair<Size2U, std::vector<uint8_t>>> calculateSizes(const Size2U& size,
+                                                                                   const std::vector<uint8_t>& data,
+                                                                                   uint32_t mipmaps,
+                                                                                   PixelFormat pixelFormat)
         {
-            std::vector<Texture::Level> levels;
+            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels;
 
             uint32_t newWidth = size.v[0];
             uint32_t newHeight = size.v[1];
@@ -673,7 +673,7 @@ namespace ouzel
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
                 mipmaps = 1;
 
-            std::vector<Level> levels = calculateSizes(size, mipmaps, pixelFormat);
+            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = calculateSizes(size, mipmaps, pixelFormat);
 
             initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                     levels,
@@ -704,7 +704,7 @@ namespace ouzel
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
                 mipmaps = 1;
 
-            std::vector<Level> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
+            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
 
             initRenderer.addCommand(std::unique_ptr<Command>(new InitTextureCommand(resource,
                                                                                     levels,
@@ -715,7 +715,7 @@ namespace ouzel
         }
 
         Texture::Texture(Renderer& initRenderer,
-                         const std::vector<Level>& initLevels,
+                         const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
                          const Size2U& initSize,
                          uint32_t initFlags,
                          PixelFormat initPixelFormat):
@@ -730,7 +730,7 @@ namespace ouzel
             if ((flags & BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
-            std::vector<Level> levels = initLevels;
+            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = initLevels;
 
             if (!initRenderer.getDevice()->isNPOTTexturesSupported() &&
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
@@ -752,7 +752,7 @@ namespace ouzel
             if (!(flags & Flags::DYNAMIC) || flags & Flags::BIND_RENDER_TARGET)
                 throw std::runtime_error("Texture is not dynamic");
 
-            std::vector<Level> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
+            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
             if (resource)
                 renderer.addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource,
@@ -764,7 +764,7 @@ namespace ouzel
             if (!(flags & Flags::DYNAMIC) || flags & Flags::BIND_RENDER_TARGET)
                 throw std::runtime_error("Texture is not dynamic");
 
-            std::vector<Level> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
+            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
             if (resource)
                 renderer.addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource,

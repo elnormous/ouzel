@@ -4,6 +4,7 @@
 #define OUZEL_GRAPHICS_OGLTEXTURE_HPP
 
 #include <array>
+#include <utility>
 
 #include "core/Setup.h"
 
@@ -22,7 +23,11 @@
 #endif
 
 #include "graphics/opengl/OGLRenderResource.hpp"
-#include "graphics/Texture.hpp"
+#include "graphics/PixelFormat.hpp"
+#include "graphics/SamplerAddressMode.hpp"
+#include "graphics/SamplerFilter.hpp"
+#include "graphics/TextureType.hpp"
+#include "math/Size.hpp"
 
 namespace ouzel
 {
@@ -36,7 +41,7 @@ namespace ouzel
             {
             public:
                 Texture(RenderDevice& renderDevice,
-                        const std::vector<graphics::Texture::Level>& initLevels,
+                        const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
                         TextureType type,
                         uint32_t initFlags = 0,
                         uint32_t initSampleCount = 1,
@@ -45,7 +50,7 @@ namespace ouzel
 
                 void reload() final;
 
-                void setData(const std::vector<graphics::Texture::Level>& newLevels);
+                void setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& newLevels);
                 void setFilter(SamplerFilter newFilter);
                 void setAddressX(SamplerAddressMode newAddressX);
                 void setAddressY(SamplerAddressMode newAddressY);
@@ -73,7 +78,7 @@ namespace ouzel
                 void createTexture();
                 void setTextureParameters();
 
-                std::vector<graphics::Texture::Level> levels;
+                std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels;
                 uint32_t flags = 0;
                 uint32_t mipmaps = 0;
                 uint32_t sampleCount = 1;

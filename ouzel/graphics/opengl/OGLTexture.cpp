@@ -257,7 +257,7 @@ namespace ouzel
             }
 
             Texture::Texture(RenderDevice& renderDevice,
-                             const std::vector<graphics::Texture::Level>& initLevels,
+                             const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
                              TextureType type,
                              uint32_t initFlags,
                              uint32_t initSampleCount,
@@ -303,15 +303,15 @@ namespace ouzel
 
                     for (size_t level = 0; level < levels.size(); ++level)
                     {
-                        if (!levels[level].data.empty())
+                        if (!levels[level].second.empty())
                             renderDevice.glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
-                                                          static_cast<GLsizei>(levels[level].size.v[0]),
-                                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                                          pixelFormat, pixelType, levels[level].data.data());
+                                                          static_cast<GLsizei>(levels[level].first.v[0]),
+                                                          static_cast<GLsizei>(levels[level].first.v[1]), 0,
+                                                          pixelFormat, pixelType, levels[level].second.data());
                         else
                             renderDevice.glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
-                                                          static_cast<GLsizei>(levels[level].size.v[0]),
-                                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                                          static_cast<GLsizei>(levels[level].first.v[0]),
+                                                          static_cast<GLsizei>(levels[level].first.v[1]), 0,
                                                           pixelFormat, pixelType, nullptr);
                     }
 
@@ -357,15 +357,15 @@ namespace ouzel
 
                     for (size_t level = 0; level < levels.size(); ++level)
                     {
-                        if (!levels[level].data.empty())
+                        if (!levels[level].second.empty())
                             renderDevice.glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
-                                                          static_cast<GLsizei>(levels[level].size.v[0]),
-                                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                                          pixelFormat, pixelType, levels[level].data.data());
+                                                          static_cast<GLsizei>(levels[level].first.v[0]),
+                                                          static_cast<GLsizei>(levels[level].first.v[1]), 0,
+                                                          pixelFormat, pixelType, levels[level].second.data());
                         else
                             renderDevice.glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
-                                                          static_cast<GLsizei>(levels[level].size.v[0]),
-                                                          static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                                          static_cast<GLsizei>(levels[level].first.v[0]),
+                                                          static_cast<GLsizei>(levels[level].first.v[1]), 0,
                                                           pixelFormat, pixelType, nullptr);
                     }
 
@@ -378,7 +378,7 @@ namespace ouzel
                 }
             }
 
-            void Texture::setData(const std::vector<graphics::Texture::Level>& newLevels)
+            void Texture::setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& newLevels)
             {
                 if (!(flags & Flags::DYNAMIC) || flags & Flags::BIND_RENDER_TARGET)
                     throw std::runtime_error("Texture is not dynamic");
@@ -392,12 +392,12 @@ namespace ouzel
 
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
-                    if (!levels[level].data.empty())
+                    if (!levels[level].second.empty())
                         renderDevice.glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                                         static_cast<GLsizei>(levels[level].size.v[0]),
-                                                         static_cast<GLsizei>(levels[level].size.v[1]),
+                                                         static_cast<GLsizei>(levels[level].first.v[0]),
+                                                         static_cast<GLsizei>(levels[level].first.v[1]),
                                                          pixelFormat, pixelType,
-                                                         levels[level].data.data());
+                                                         levels[level].second.data());
                 }
 
                 GLenum error;
@@ -515,8 +515,8 @@ namespace ouzel
 
             void Texture::createTexture()
             {
-                width = static_cast<GLsizei>(levels.front().size.v[0]);
-                height = static_cast<GLsizei>(levels.front().size.v[1]);
+                width = static_cast<GLsizei>(levels.front().first.v[0]);
+                height = static_cast<GLsizei>(levels.front().first.v[1]);
 
                 if ((flags & Flags::BIND_RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
                 {

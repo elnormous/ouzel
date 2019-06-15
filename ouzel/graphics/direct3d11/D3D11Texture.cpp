@@ -92,7 +92,7 @@ namespace ouzel
             }
 
             Texture::Texture(RenderDevice& renderDevice,
-                             const std::vector<graphics::Texture::Level>& levels,
+                             const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels,
                              TextureType type,
                              uint32_t initFlags,
                              uint32_t initSampleCount,
@@ -127,8 +127,8 @@ namespace ouzel
                     }
                 }
 
-                width = static_cast<UINT>(levels.front().size.v[0]);
-                height = static_cast<UINT>(levels.front().size.v[1]);
+                width = static_cast<UINT>(levels.front().first.v[0]);
+                height = static_cast<UINT>(levels.front().first.v[1]);
 
                 if (!width || !height)
                     throw std::runtime_error("Invalid texture size");
@@ -174,8 +174,8 @@ namespace ouzel
 
                     for (size_t level = 0; level < levels.size(); ++level)
                     {
-                        subresourceData[level].pSysMem = levels[level].data.data();
-                        subresourceData[level].SysMemPitch = static_cast<UINT>(levels[level].size.v[0] * pixelSize);
+                        subresourceData[level].pSysMem = levels[level].second.data();
+                        subresourceData[level].SysMemPitch = static_cast<UINT>(levels[level].first.v[0] * pixelSize);
                         subresourceData[level].SysMemSlicePitch = 0;
                     }
 
@@ -315,14 +315,14 @@ namespace ouzel
                     samplerState->Release();
             }
 
-            void Texture::setData(const std::vector<graphics::Texture::Level>& levels)
+            void Texture::setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels)
             {
                 if (!(flags & Flags::DYNAMIC) || flags & Flags::BIND_RENDER_TARGET)
                     throw std::runtime_error("Texture is not dynamic");
 
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
-                    if (!levels[level].data.empty())
+                    if (!levels[level].second.empty())
                     {
                         D3D11_MAPPED_SUBRESOURCE mappedSubresource;
                         mappedSubresource.pData = nullptr;
@@ -337,17 +337,17 @@ namespace ouzel
 
                         uint8_t* destination = static_cast<uint8_t*>(mappedSubresource.pData);
 
-                        if (mappedSubresource.RowPitch == levels[level].size.v[0] * pixelSize)
+                        if (mappedSubresource.RowPitch == levels[level].first.v[0] * pixelSize)
                         {
-                            std::copy(levels[level].data.begin(),
-                                      levels[level].data.end(),
+                            std::copy(levels[level].second.begin(),
+                                      levels[level].second.end(),
                                       destination);
                         }
                         else
                         {
-                            auto source = levels[level].data.begin();
-                            uint32_t rowSize = static_cast<uint32_t>(levels[level].size.v[0]) * pixelSize;
-                            UINT rows = static_cast<UINT>(levels[level].size.v[1]);
+                            auto source = levels[level].second.begin();
+                            uint32_t rowSize = static_cast<uint32_t>(levels[level].first.v[0]) * pixelSize;
+                            UINT rows = static_cast<UINT>(levels[level].first.v[1]);
 
                             for (UINT row = 0; row < rows; ++row)
                             {
@@ -355,7 +355,7 @@ namespace ouzel
                                           source + rowSize,
                                           destination);
 
-                                source += levels[level].size.v[0] * pixelSize;
+                                source += levels[level].first.v[0] * pixelSize;
                                 destination += mappedSubresource.RowPitch;
                             }
                         }

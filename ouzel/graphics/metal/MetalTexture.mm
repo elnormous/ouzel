@@ -93,7 +93,7 @@ namespace ouzel
             }
 
             Texture::Texture(RenderDevice& renderDevice,
-                                       const std::vector<graphics::Texture::Level>& levels,
+                                       const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels,
                                        TextureType type,
                                        uint32_t initFlags,
                                        uint32_t initSampleCount,
@@ -112,8 +112,8 @@ namespace ouzel
                 if (pixelFormat == MTLPixelFormatInvalid)
                     throw std::runtime_error("Invalid pixel format");
 
-                width = static_cast<NSUInteger>(levels.front().size.v[0]);
-                height = static_cast<NSUInteger>(levels.front().size.v[1]);
+                width = static_cast<NSUInteger>(levels.front().first.v[0]);
+                height = static_cast<NSUInteger>(levels.front().first.v[1]);
 
                 if (!width || !height)
                     throw std::runtime_error("Invalid texture size");
@@ -173,13 +173,13 @@ namespace ouzel
                 {
                     for (size_t level = 0; level < levels.size(); ++level)
                     {
-                        if (!levels[level].data.empty())
+                        if (!levels[level].second.empty())
                             [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                                   static_cast<NSUInteger>(levels[level].size.v[0]),
-                                                                   static_cast<NSUInteger>(levels[level].size.v[1]))
+                                                                   static_cast<NSUInteger>(levels[level].first.v[0]),
+                                                                   static_cast<NSUInteger>(levels[level].first.v[1]))
                                        mipmapLevel:level
-                                         withBytes:levels[level].data.data()
-                                       bytesPerRow:static_cast<NSUInteger>(levels[level].size.v[0] * pixelSize)];
+                                         withBytes:levels[level].second.data()
+                                       bytesPerRow:static_cast<NSUInteger>(levels[level].first.v[0] * pixelSize)];
                     }
                 }
 
@@ -204,7 +204,7 @@ namespace ouzel
                     [samplerState release];
             }
 
-            void Texture::setData(const std::vector<graphics::Texture::Level>& levels)
+            void Texture::setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels)
             {
                 if (!(flags & Flags::DYNAMIC) ||
                     flags & Flags::BIND_RENDER_TARGET)
@@ -212,13 +212,13 @@ namespace ouzel
 
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
-                    if (!levels[level].data.empty())
+                    if (!levels[level].second.empty())
                         [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                               static_cast<NSUInteger>(levels[level].size.v[0]),
-                                                               static_cast<NSUInteger>(levels[level].size.v[1]))
+                                                               static_cast<NSUInteger>(levels[level].first.v[0]),
+                                                               static_cast<NSUInteger>(levels[level].first.v[1]))
                                    mipmapLevel:level
-                                     withBytes:levels[level].data.data()
-                                   bytesPerRow:static_cast<NSUInteger>(levels[level].size.v[0] * pixelSize)];
+                                     withBytes:levels[level].second.data()
+                                   bytesPerRow:static_cast<NSUInteger>(levels[level].first.v[0] * pixelSize)];
                 }
             }
 

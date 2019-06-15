@@ -3,6 +3,8 @@
 #ifndef OUZEL_GRAPHICS_METALTEXTURE_HPP
 #define OUZEL_GRAPHICS_METALTEXTURE_HPP
 
+#include <utility>
+
 #include "core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
@@ -23,7 +25,11 @@ typedef NSUInteger MTLLoadAction;
 
 #include <tuple>
 #include "graphics/metal/MetalRenderResource.hpp"
-#include "graphics/Texture.hpp"
+#include "graphics/PixelFormat.hpp"
+#include "graphics/SamplerAddressMode.hpp"
+#include "graphics/SamplerFilter.hpp"
+#include "graphics/TextureType.hpp"
+#include "math/Size.hpp"
 
 namespace ouzel
 {
@@ -53,14 +59,14 @@ namespace ouzel
             {
             public:
                 Texture(RenderDevice& renderDeviceMetal,
-                        const std::vector<graphics::Texture::Level>& levels,
+                        const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels,
                         TextureType type,
                         uint32_t initFlags = 0,
                         uint32_t initSampleCount = 1,
                         PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
                 ~Texture();
 
-                void setData(const std::vector<graphics::Texture::Level>& levels);
+                void setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels);
                 void setFilter(SamplerFilter filter);
                 void setAddressX(SamplerAddressMode addressX);
                 void setAddressY(SamplerAddressMode addressY);

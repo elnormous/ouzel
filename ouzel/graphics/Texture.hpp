@@ -4,6 +4,7 @@
 #define OUZEL_GRAPHICS_TEXTURE_HPP
 
 #include <vector>
+#include <utility>
 #include "graphics/GraphicsResource.hpp"
 #include "graphics/CubeFace.hpp"
 #include "graphics/Flags.hpp"
@@ -24,12 +25,6 @@ namespace ouzel
         class Texture final
         {
         public:
-            struct Level final
-            {
-                Size2U size;
-                std::vector<uint8_t> data;
-            };
-
             Texture() = default;
 
             explicit Texture(Renderer& initRenderer);
@@ -46,7 +41,7 @@ namespace ouzel
                     uint32_t newMipmaps = 0,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             Texture(Renderer& initRenderer,
-                    const std::vector<Level>& newLevels,
+                    const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& newLevels,
                     const Size2U& newSize,
                     uint32_t newFlags = 0,
                     PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
