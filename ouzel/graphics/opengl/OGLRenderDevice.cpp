@@ -52,9 +52,7 @@ static inline T getCoreProcAddress(const char* name)
 #elif OUZEL_OPENGL_INTERFACE_WGL
     return reinterpret_cast<T>(wglGetProcAddress(name));
 #else
-    T result;
-    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
-    return result;
+    return reinterpret_cast<T>(reinterpret_cast<uintptr_t>(dlsym(RTLD_DEFAULT, name)));
 #endif
 }
 
@@ -68,9 +66,7 @@ static inline T getExtProcAddress(const char* name)
 #elif OUZEL_OPENGL_INTERFACE_WGL
     return reinterpret_cast<T>(wglGetProcAddress(name));
 #else
-    T result;
-    *reinterpret_cast<void**>(&result) = dlsym(RTLD_DEFAULT, name);
-    return result;
+    return reinterpret_cast<T>(reinterpret_cast<uintptr_t>(dlsym(RTLD_DEFAULT, name)));
 #endif
 }
 
