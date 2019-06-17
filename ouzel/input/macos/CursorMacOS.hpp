@@ -26,10 +26,15 @@ namespace ouzel
         public:
             explicit CursorMacOS(SystemCursor systemCursor);
             CursorMacOS(const std::vector<uint8_t>& newData,
-                              const Size2F& size,
-                              graphics::PixelFormat pixelFormat,
-                              const Vector2F& hotSpot);
+                        const Size2F& size,
+                        graphics::PixelFormat pixelFormat,
+                        const Vector2F& hotSpot);
             ~CursorMacOS();
+
+            CursorMacOS(const CursorMacOS&) = delete;
+            CursorMacOS& operator=(const CursorMacOS&) = delete;
+            CursorMacOS(CursorMacOS&&) = delete;
+            CursorMacOS& operator=(CursorMacOS&&) = delete;
 
             inline NSCursorPtr getCursor() const { return cursor; }
 

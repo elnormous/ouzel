@@ -23,10 +23,15 @@ namespace ouzel
         public:
             explicit CursorLinux(SystemCursor systemCursor);
             CursorLinux(const std::vector<uint8_t>& data,
-                              const Size2F& size,
-                              graphics::PixelFormat pixelFormat,
-                              const Vector2F& hotSpot);
+                        const Size2F& size,
+                        graphics::PixelFormat pixelFormat,
+                        const Vector2F& hotSpot);
             ~CursorLinux();
+
+            CursorLinux(const CursorLinux&) = delete;
+            CursorLinux& operator=(const CursorLinux&) = delete;
+            CursorLinux(CursorLinux&&) = delete;
+            CursorLinux& operator=(CursorLinux&&) = delete;
 
 #if OUZEL_SUPPORTS_X11
             ::Cursor getCursor() const { return cursor; }

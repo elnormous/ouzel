@@ -124,6 +124,11 @@ namespace ouzel
                         UnregisterClassW(TEMP_WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
                 }
 
+                TempContext(const TempContext&) = delete;
+                TempContext& operator=(const TempContext&) = delete;
+                TempContext(TempContext&&) = delete;
+                TempContext& operator=(TempContext&&) = delete;
+
             private:
                 ATOM windowClass = 0;
                 HWND window = 0;
