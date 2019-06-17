@@ -22,6 +22,11 @@ namespace ouzel
             if (eventDispatcher) eventDispatcher->removeEventHandler(*this);
         }
 
+        EventHandler(const EventHandler&) = delete;
+        EventHandler& operator=(const EventHandler&) = delete;
+        EventHandler(EventHandler&&) = delete;
+        EventHandler& operator=(EventHandler&&) = delete;
+
         void remove()
         {
             if (eventDispatcher)

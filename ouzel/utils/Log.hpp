@@ -54,8 +54,11 @@ namespace ouzel
 
         Log& operator=(const Log& other)
         {
-            level = other.level;
-            s = other.s;
+            if (&other != this)
+            {
+                level = other.level;
+                s = other.s;
+            }
 
             return *this;
         }
