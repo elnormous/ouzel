@@ -18,6 +18,11 @@ namespace ouzel
             InputDevice(InputSystem& initInputSystem, uint32_t initId, Controller::Type initType);
             virtual ~InputDevice();
 
+            InputDevice(const InputDevice&) = delete;
+            InputDevice& operator=(const InputDevice&) = delete;
+            InputDevice(InputDevice&&) = delete;
+            InputDevice& operator=(InputDevice&&) = delete;
+
             inline uint32_t getId() const { return id; }
             inline Controller::Type getType() const { return type; }
 

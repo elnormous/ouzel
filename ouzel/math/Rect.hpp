@@ -36,20 +36,6 @@ namespace ouzel
         {
         }
 
-        Rect(const Rect& copy):
-            position(copy.position), size(copy.size)
-        {
-        }
-
-        Rect& operator=(const Rect& other)
-        {
-            position.v[0] = other.position.v[0];
-            position.v[1] = other.position.v[1];
-            size.v[0] = other.size.v[0];
-            size.v[1] = other.size.v[1];
-            return *this;
-        }
-
         inline bool isEmpty() const
         {
             return size.isZero();
