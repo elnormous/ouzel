@@ -144,7 +144,6 @@ namespace ouzel
             case Gamepad::Motor::ALL:
             case Gamepad::Motor::LEFT:
                 return vibration.wLeftMotorSpeed;
-                break;
             case Gamepad::Motor::RIGHT:
                 return vibration.wRightMotorSpeed;
             default:

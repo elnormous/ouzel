@@ -32,7 +32,6 @@ namespace ouzel
                     break;
                 default:
                     throw std::runtime_error("Invalid cursor");
-                    break;
             }
 
             if (!cursor)
