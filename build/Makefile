@@ -143,7 +143,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/scene/StaticMeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/storage/Archive.cpp \
-	$(ROOT_DIR)/../ouzel/storage/File.cpp \
 	$(ROOT_DIR)/../ouzel/storage/FileSystem.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Obf.cpp \

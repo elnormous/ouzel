@@ -40,7 +40,8 @@ namespace ouzel
             };
 
             Vertex() = default;
-            Vertex(const Vector3F& initPosition, Color initColor, const Vector2F& initTexCoord, const Vector3F& initNormal):
+            Vertex(const Vector3F& initPosition, Color initColor,
+                   const Vector2F& initTexCoord, const Vector3F& initNormal):
                 position(initPosition), color(initColor), normal(initNormal)
             {
                 texCoords[0] = initTexCoord;
