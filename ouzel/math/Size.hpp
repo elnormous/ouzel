@@ -14,10 +14,10 @@ namespace ouzel
     public:
         T v[N]{0};
 
-        Size() {}
+        constexpr Size() {}
 
         template <typename ...A>
-        Size(A... args):
+        constexpr Size(A... args):
             v{static_cast<T>(args)...}
         {
         }

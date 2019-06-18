@@ -23,10 +23,10 @@ namespace ouzel
 #endif
         T m[C * R]{0};
 
-        Matrix() {}
+        constexpr Matrix() {}
 
         template <typename ...A>
-        Matrix(A... args):
+        constexpr Matrix(A... args):
             m{static_cast<T>(args)...}
         {
         }

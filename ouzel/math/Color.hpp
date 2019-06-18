@@ -26,9 +26,9 @@ namespace ouzel
 
         uint8_t v[4]{0};
 
-        Color() {}
+        constexpr Color() {}
 
-        Color(uint32_t color):
+        constexpr Color(uint32_t color):
             v{
                 static_cast<uint8_t>((color & 0xFF000000) >> 24),
                 static_cast<uint8_t>((color & 0x00FF0000) >> 16),
@@ -90,7 +90,7 @@ namespace ouzel
         {
         }
 
-        Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 0xFF):
+        constexpr Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 0xFF):
             v{red, green, blue, alpha}
         {
         }

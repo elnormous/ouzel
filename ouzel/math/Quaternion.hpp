@@ -15,9 +15,9 @@ namespace ouzel
     public:
         T v[4]{0};
 
-        Quaternion() {}
+        constexpr Quaternion() {}
 
-        Quaternion(T x, T y, T z, T w):
+        constexpr Quaternion(T x, T y, T z, T w):
             v{x, y, z, w}
         {
         }

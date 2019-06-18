@@ -19,10 +19,10 @@ namespace ouzel
 #endif
         T v[N]{0};
 
-        Vector() {}
+        constexpr Vector() {}
 
         template <typename ...A>
-        Vector(A... args):
+        constexpr Vector(A... args):
             v{static_cast<T>(args)...}
         {
         }

@@ -16,9 +16,9 @@ namespace ouzel
     public:
         T v[4]{0};
 
-        Plane() {}
+        constexpr Plane() {}
 
-        Plane(T a, T b, T c, T d):
+        constexpr Plane(T a, T b, T c, T d):
             v{a, b, c, d}
         {
         }
