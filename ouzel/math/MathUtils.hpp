@@ -79,11 +79,6 @@ namespace ouzel
         return ++x;
     }
 
-    template <typename T> constexpr int sgn(T val)
-    {
-        return (T(0) < val) - (val < T(0));
-    }
-
     template <typename T> constexpr T degToRad(T x)
     {
         return static_cast<T>(x * 0.01745329251994329576);

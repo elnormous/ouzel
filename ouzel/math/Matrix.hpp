@@ -691,9 +691,10 @@ namespace ouzel
             result.v[2] = sqrt(std::max(static_cast<T>(0), T(1) - m11 - m22 + m33)) / T(2);
             result.v[3] = sqrt(std::max(static_cast<T>(0), T(1) + m11 + m22 + m33)) / T(2);
 
-            result.v[0] *= sgn(result.v[0] * (m32 - m23));
-            result.v[1] *= sgn(result.v[1] * (m13 - m31));
-            result.v[2] *= sgn(result.v[2] * (m21 - m12));
+            // The problem with using copysign: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/paul.htm
+            result.v[0] = copysign(result.v[0], m32 - m23);
+            result.v[1] = copysign(result.v[1], m13 - m31);
+            result.v[2] = copysign(result.v[2], m21 - m12);
 
             result.normalize();
 
