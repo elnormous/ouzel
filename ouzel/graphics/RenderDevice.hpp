@@ -89,6 +89,69 @@ namespace ouzel
 
             void executeOnRenderThread(const std::function<void()>& func);
 
+            class Resource final
+            {
+                friend RenderDevice;
+            public:
+                Resource() = default;
+                ~Resource()
+                {
+                    if (id) renderDevice->deletedResourceIds.insert(id);
+                }
+
+                Resource(const Resource&) = delete;
+                Resource& operator=(const Resource&) = delete;
+
+                Resource(Resource&& other):
+                    renderDevice(other.renderDevice),
+                    id(other.id)
+                {
+                    other.renderDevice = nullptr;
+                    other.id = 0;
+                }
+
+                Resource& operator=(Resource&& other)
+                {
+                    if (&other != this)
+                    {
+                        renderDevice = other.renderDevice;
+                        id = other.id;
+                        other.renderDevice = nullptr;
+                        other.id = 0;
+                    }
+
+                    return *this;
+                }
+
+                ALWAYSINLINE operator uintptr_t() const
+                {
+                    return id;
+                }
+
+            private:
+                Resource(RenderDevice& initRendererDevice, uintptr_t initId):
+                    renderDevice(&initRendererDevice), id(initId)
+                {
+                }
+
+                RenderDevice* renderDevice = nullptr;
+                uintptr_t id = 0;
+            };
+
+            Resource createResource()
+            {
+                auto i = deletedResourceIds.begin();
+
+                if (i == deletedResourceIds.end())
+                    return Resource(*this, ++lastResourceId); // zero is reserved for null resource
+                else
+                {
+                    uintptr_t resourceId = *i;
+                    deletedResourceIds.erase(i);
+                    return Resource(*this, resourceId);
+                }
+            }
+            
         protected:
             virtual void init(Window* newWindow,
                               const Size2U& newSize,
@@ -150,76 +213,8 @@ namespace ouzel
             std::mutex executeMutex;
 
         private:
-            uintptr_t getResourceId()
-            {
-                auto i = deletedResourceIds.begin();
-
-                if (i == deletedResourceIds.end())
-                    return ++lastResourceId; // zero is reserved for null resource
-                else
-                {
-                    uintptr_t resourceId = *i;
-                    deletedResourceIds.erase(i);
-                    return resourceId;
-                }
-            }
-
-            void deleteResourceId(uintptr_t resourceId)
-            {
-                deletedResourceIds.insert(resourceId);
-            }
-
             uintptr_t lastResourceId = 0;
             std::set<uintptr_t> deletedResourceIds;
-        };
-
-        class Resource final
-        {
-        public:
-            Resource() = default;
-            Resource(RenderDevice& initRendererDevice):
-                renderDevice(&initRendererDevice),
-                id(renderDevice->getResourceId())
-            {
-            }
-
-            ~Resource()
-            {
-                if (id) renderDevice->deleteResourceId(id);
-            }
-
-            Resource(const Resource&) = delete;
-            Resource& operator=(const Resource&) = delete;
-
-            Resource(Resource&& other):
-                renderDevice(other.renderDevice),
-                id(other.id)
-            {
-                other.renderDevice = nullptr;
-                other.id = 0;
-            }
-
-            Resource& operator=(Resource&& other)
-            {
-                if (&other != this)
-                {
-                    renderDevice = other.renderDevice;
-                    id = other.id;
-                    other.renderDevice = nullptr;
-                    other.id = 0;
-                }
-
-                return *this;
-            }
-
-            ALWAYSINLINE operator uintptr_t() const
-            {
-                return id;
-            }
-
-        private:
-            RenderDevice* renderDevice = nullptr;
-            uintptr_t id = 0;
         };
     } // namespace graphics
 } // namespace ouzel

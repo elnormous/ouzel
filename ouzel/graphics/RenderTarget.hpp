@@ -26,13 +26,13 @@ namespace ouzel
                          const std::vector<std::shared_ptr<Texture>>& initColorTextures,
                          const std::shared_ptr<Texture>& initDepthTexture);
 
-            ALWAYSINLINE const Resource& getResource() const { return resource; }
+            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
 
             ALWAYSINLINE const std::vector<std::shared_ptr<Texture>>& getColorTextures() const { return colorTextures; }
             ALWAYSINLINE const std::shared_ptr<Texture>& getDepthTexture() const { return depthTexture; }
 
         private:
-            Resource resource;
+            RenderDevice::Resource resource;
 
             std::vector<std::shared_ptr<Texture>> colorTextures;
             std::shared_ptr<Texture> depthTexture;

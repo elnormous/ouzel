@@ -46,7 +46,7 @@ namespace ouzel
                     uint32_t initFlags = 0,
                     PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            ALWAYSINLINE const Resource& getResource() const { return resource; }
+            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
 
             ALWAYSINLINE const Size2U& getSize() const { return size; }
 
@@ -80,7 +80,7 @@ namespace ouzel
 
         private:
             Renderer& renderer;
-            Resource resource;
+            RenderDevice::Resource resource;
 
             TextureType type = TextureType::TWO_DIMENSIONAL;
             Size2U size;

@@ -36,10 +36,10 @@ namespace ouzel
                               StencilOperation initBackFaceStencilPassOperation,
                               CompareFunction initBackFaceStencilCompareFunction);
 
-            ALWAYSINLINE const Resource& getResource() const { return resource; }
+            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
 
         private:
-            Resource resource;
+            RenderDevice::Resource resource;
 
             bool depthTest = false;
             bool depthWrite = false;

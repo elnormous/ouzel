@@ -39,7 +39,7 @@ namespace ouzel
             void setData(const void* newData, uint32_t newSize);
             void setData(const std::vector<uint8_t>& newData);
 
-            ALWAYSINLINE const Resource& getResource() const { return resource; }
+            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
 
             ALWAYSINLINE BufferType getType() const { return type; }
             ALWAYSINLINE uint32_t getFlags() const { return flags; }
@@ -47,7 +47,7 @@ namespace ouzel
 
         private:
             Renderer& renderer;
-            Resource resource;
+            RenderDevice::Resource resource;
 
             BufferType type;
             uint32_t flags = 0;

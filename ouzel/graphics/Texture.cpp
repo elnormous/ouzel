@@ -647,7 +647,7 @@ namespace ouzel
 
         Texture::Texture(Renderer& initRenderer):
             renderer(initRenderer),
-            resource(*initRenderer.getDevice())
+            resource(initRenderer.getDevice()->createResource())
         {
         }
 
@@ -658,7 +658,7 @@ namespace ouzel
                          uint32_t initSampleCount,
                          PixelFormat initPixelFormat):
             renderer(initRenderer),
-            resource(*initRenderer.getDevice()),
+            resource(initRenderer.getDevice()->createResource()),
             size(initSize),
             flags(initFlags),
             mipmaps(initMipmaps),
@@ -689,7 +689,7 @@ namespace ouzel
                          uint32_t initMipmaps,
                          PixelFormat initPixelFormat):
             renderer(initRenderer),
-            resource(*initRenderer.getDevice()),
+            resource(initRenderer.getDevice()->createResource()),
             size(initSize),
             flags(initFlags),
             mipmaps(initMipmaps),
@@ -719,7 +719,7 @@ namespace ouzel
                          uint32_t initFlags,
                          PixelFormat initPixelFormat):
             renderer(initRenderer),
-            resource(*initRenderer.getDevice()),
+            resource(initRenderer.getDevice()->createResource()),
             size(initSize),
             flags(initFlags),
             mipmaps(static_cast<uint32_t>(initLevels.size())),

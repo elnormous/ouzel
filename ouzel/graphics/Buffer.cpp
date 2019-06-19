@@ -10,7 +10,7 @@ namespace ouzel
     {
         Buffer::Buffer(Renderer& initRenderer):
             renderer(initRenderer),
-            resource(*initRenderer.getDevice())
+            resource(initRenderer.getDevice()->createResource())
         {
         }
 
@@ -19,7 +19,7 @@ namespace ouzel
                        uint32_t initFlags,
                        uint32_t initSize):
             renderer(initRenderer),
-            resource(*initRenderer.getDevice()),
+            resource(initRenderer.getDevice()->createResource()),
             type(initType),
             flags(initFlags),
             size(initSize)
@@ -37,7 +37,7 @@ namespace ouzel
                        const void* initData,
                        uint32_t initSize):
             renderer(initRenderer),
-            resource(*initRenderer.getDevice()),
+            resource(initRenderer.getDevice()->createResource()),
             type(initType),
             flags(initFlags),
             size(initSize)
@@ -56,7 +56,7 @@ namespace ouzel
                        const std::vector<uint8_t>& initData,
                        uint32_t initSize):
             renderer(initRenderer),
-            resource(*initRenderer.getDevice()),
+            resource(initRenderer.getDevice()->createResource()),
             type(initType),
             flags(initFlags),
             size(initSize)

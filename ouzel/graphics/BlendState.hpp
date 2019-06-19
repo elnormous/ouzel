@@ -29,7 +29,7 @@ namespace ouzel
                        BlendOperation initAlphaOperation,
                        uint8_t initColorMask = ColorMask::COLOR_MASK_ALL);
 
-            ALWAYSINLINE const Resource& getResource() const { return resource; }
+            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
 
             ALWAYSINLINE bool isBlendingEnabled() const { return enableBlending; }
 
@@ -43,7 +43,7 @@ namespace ouzel
             ALWAYSINLINE uint8_t getColorMask() const { return colorMask; }
 
         private:
-            Resource resource;
+            RenderDevice::Resource resource;
 
             BlendFactor colorBlendSource = BlendFactor::ONE;
             BlendFactor colorBlendDest = BlendFactor::ZERO;

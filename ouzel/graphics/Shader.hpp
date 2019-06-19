@@ -35,12 +35,12 @@ namespace ouzel
                    const std::string& fragmentShaderFunction = "",
                    const std::string& vertexShaderFunction = "");
 
-            ALWAYSINLINE const Resource& getResource() const { return resource; }
+            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
 
             const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const;
 
         private:
-            Resource resource;
+            RenderDevice::Resource resource;
 
             std::set<Vertex::Attribute::Usage> vertexAttributes;
         };
