@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include "Archive.hpp"
 
 namespace ouzel
 {
@@ -13,8 +14,6 @@ namespace ouzel
 
     namespace storage
     {
-        class Archive;
-
         class FileSystem final
         {
         public:
@@ -36,8 +35,8 @@ namespace ouzel
             bool resourceFileExists(const std::string& filename) const;
             std::string getPath(const std::string& filename, bool searchResources = true) const;
             void addResourcePath(const std::string& path);
-            void addArchive(Archive* archive);
-            void removeArchive(Archive* archive);
+            void addArchive(const std::string& name, Archive&& archive);
+            void removeArchive(const std::string& name);
 
             static std::string getExtensionPart(const std::string& path);
             static std::string getFilenamePart(const std::string& path);
@@ -51,7 +50,7 @@ namespace ouzel
             Engine& engine;
             std::string appPath;
             std::vector<std::string> resourcePaths;
-            std::vector<Archive*> archives;
+            std::vector<std::pair<std::string, Archive>> archives;
         };
     } // namespace storage
 } // namespace ouzel

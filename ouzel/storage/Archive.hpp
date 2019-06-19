@@ -5,35 +5,107 @@
 
 #include <cstdint>
 #include <map>
+#include <stdexcept>
 #include <string>
 #include <vector>
 #include "storage/File.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {
     namespace storage
     {
-        class FileSystem;
-
         class Archive final
         {
         public:
-            explicit Archive(FileSystem& initFileSystem): fileSystem(initFileSystem) {}
-            Archive(FileSystem& initFileSystem, const std::string& filename);
-            ~Archive();
+            Archive() = default;
 
-            Archive(const Archive&) = delete;
-            Archive& operator=(const Archive&) = delete;
+            explicit Archive(const std::string& path)
+            {
+                file = File(path, File::READ);
 
-            Archive(Archive&& other) = delete;
-            Archive& operator=(Archive&& other) = delete;
+                for (;;)
+                {
+                    uint32_t signature;
 
-            std::vector<uint8_t> readFile(const std::string& filename) const;
+                    file.read(&signature, sizeof(signature), true);
 
-            bool fileExists(const std::string& filename) const;
+                    if (decodeLittleEndian<uint32_t>(&signature) == 0x02014B50) // central directory
+                        break;
+
+                    if (decodeLittleEndian<uint32_t>(&signature) != 0x04034B50)
+                        throw std::runtime_error("Bad signature");
+
+                    uint8_t version[2];
+
+                    file.read(version, sizeof(version), true);
+
+                    uint16_t flags;
+
+                    file.read(&flags, sizeof(flags), true);
+
+                    uint16_t compression;
+                    file.read(&compression, sizeof(compression), true);
+
+                    if (compression != 0x00)
+                        throw std::runtime_error("Unsupported compression");
+
+                    file.seek(4, File::CURRENT); // skip modification time
+                    file.seek(4, File::CURRENT); // skip CRC-32
+
+                    uint32_t compressedSize;
+                    file.read(&compressedSize, sizeof(compressedSize), true);
+
+                    uint32_t uncompressedSize;
+                    file.read(&uncompressedSize, sizeof(uncompressedSize), true);
+
+                    uint16_t fileNameLength;
+                    file.read(&fileNameLength, sizeof(fileNameLength), true);
+
+                    uint16_t extraFieldLength;
+                    file.read(&extraFieldLength, sizeof(extraFieldLength), true);
+
+                    std::vector<char> name(decodeLittleEndian<uint16_t>(&fileNameLength) + 1);
+
+                    file.read(name.data(), decodeLittleEndian<uint16_t>(&fileNameLength), true);
+
+                    name[decodeLittleEndian<uint16_t>(&fileNameLength)] = '\0';
+
+                    Entry& entry = entries[name.data()];
+                    entry.size = decodeLittleEndian<uint32_t>(&uncompressedSize);
+
+                    file.seek(decodeLittleEndian<uint16_t>(&extraFieldLength), File::CURRENT); // skip extra field
+
+                    entry.offset = file.getOffset();
+
+                    file.seek(static_cast<int32_t>(decodeLittleEndian<uint32_t>(&uncompressedSize)), File::CURRENT); // skip uncompressed size
+                }
+            }
+
+            std::vector<uint8_t> readFile(const std::string& filename) const
+            {
+                std::vector<uint8_t> data;
+
+                auto i = entries.find(filename);
+
+                if (i == entries.end())
+                    throw std::runtime_error("File " + filename + " does not exist");
+
+                file.seek(static_cast<int32_t>(i->second.offset), File::BEGIN);
+
+                data.resize(i->second.size);
+
+                file.read(data.data(), i->second.size, true);
+
+                return data;
+            }
+
+            bool fileExists(const std::string& filename) const
+            {
+                return entries.find(filename) != entries.end();
+            }
 
         private:
-            FileSystem& fileSystem;
             File file;
 
             struct Entry final

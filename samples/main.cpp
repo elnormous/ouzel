@@ -45,7 +45,8 @@ public:
         engine->getFileSystem().addResourcePath("Resources");
 
 #if !defined(__ANDROID__)
-        archive.reset(new ouzel::storage::Archive(engine->getFileSystem(), "gui.zip"));
+        ouzel::storage::Archive archive(engine->getFileSystem().getPath("gui.zip"));
+        engine->getFileSystem().addArchive("gui.zip", std::move(archive));
 #endif
 
         bundle->loadAssets("assets.json");
@@ -68,9 +69,6 @@ public:
         engine->getSceneManager().setScene(std::move(currentScene));
     }
 private:
-#if !defined(__ANDROID__)
-    std::unique_ptr<ouzel::storage::Archive> archive;
-#endif
     std::unique_ptr<assets::Bundle> bundle;
 };
 

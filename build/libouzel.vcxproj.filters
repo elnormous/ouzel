@@ -7,9 +7,6 @@
     <ClCompile Include="..\ouzel\scene\Animators.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\storage\Archive.cpp">
-      <Filter>ouzel\storage</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\audio\Audio.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>

@@ -332,8 +332,8 @@ namespace ouzel
             {
                 for (const auto& archive : archives)
                 {
-                    if (archive->fileExists(filename))
-                        return archive->readFile(filename);
+                    if (archive.second.fileExists(filename))
+                        return archive.second.readFile(filename);
                 }
             }
 
@@ -536,20 +536,18 @@ namespace ouzel
                 resourcePaths.push_back(path);
         }
 
-        void FileSystem::addArchive(Archive* archive)
+        void FileSystem::addArchive(const std::string& name, Archive&& archive)
         {
-            auto i = std::find(archives.begin(), archives.end(), archive);
-
-            if (i == archives.end())
-                archives.push_back(archive);
+            archives.push_back(std::make_pair(name, std::move(archive)));
         }
 
-        void FileSystem::removeArchive(Archive* archive)
+        void FileSystem::removeArchive(const std::string& name)
         {
-            auto i = std::find(archives.begin(), archives.end(), archive);
-
-            if (i != archives.end())
-                archives.erase(i);
+            for (auto i = archives.begin(); i != archives.end();)
+                if (i->first == name)
+                    i = archives.erase(i);
+                else
+                    ++i;
         }
 
         std::string FileSystem::getExtensionPart(const std::string& path)

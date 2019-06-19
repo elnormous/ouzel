@@ -69,7 +69,6 @@
     <ClCompile Include="..\ouzel\core\windows\NativeWindowWin.cpp" />
     <ClCompile Include="..\ouzel\core\windows\SystemWin.cpp" />
     <ClCompile Include="..\ouzel\events\EventDispatcher.cpp" />
-    <ClCompile Include="..\ouzel\storage\Archive.cpp" />
     <ClCompile Include="..\ouzel\storage\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp" />
     <ClCompile Include="..\ouzel\graphics\Buffer.cpp" />
