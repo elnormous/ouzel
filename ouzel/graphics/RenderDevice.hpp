@@ -24,12 +24,10 @@ namespace ouzel
     namespace graphics
     {
         class Renderer;
-        class Resource;
 
         class RenderDevice
         {
             friend Renderer;
-            friend Resource;
         public:
             static const std::array<Vertex::Attribute, 5> VERTEX_ATTRIBUTES;
 
@@ -91,22 +89,25 @@ namespace ouzel
 
             class Resource final
             {
-                friend RenderDevice;
             public:
                 Resource() = default;
+                Resource(uintptr_t initId, const std::function<void(uintptr_t)>& initDeleter):
+                    id(initId), deleter(initDeleter)
+                {
+                }
+
                 ~Resource()
                 {
-                    if (id) renderDevice->deletedResourceIds.insert(id);
+                    if (id) deleter(id);
                 }
 
                 Resource(const Resource&) = delete;
                 Resource& operator=(const Resource&) = delete;
 
                 Resource(Resource&& other):
-                    renderDevice(other.renderDevice),
-                    id(other.id)
+                    id(other.id),
+                    deleter(std::move(other.deleter))
                 {
-                    other.renderDevice = nullptr;
                     other.id = 0;
                 }
 
@@ -114,9 +115,8 @@ namespace ouzel
                 {
                     if (&other != this)
                     {
-                        renderDevice = other.renderDevice;
                         id = other.id;
-                        other.renderDevice = nullptr;
+                        deleter = std::move(other.deleter);
                         other.id = 0;
                     }
 
@@ -129,13 +129,8 @@ namespace ouzel
                 }
 
             private:
-                Resource(RenderDevice& initRendererDevice, uintptr_t initId):
-                    renderDevice(&initRendererDevice), id(initId)
-                {
-                }
-
-                RenderDevice* renderDevice = nullptr;
                 uintptr_t id = 0;
+                std::function<void(uintptr_t)> deleter;
             };
 
             Resource createResource()
@@ -143,12 +138,16 @@ namespace ouzel
                 auto i = deletedResourceIds.begin();
 
                 if (i == deletedResourceIds.end())
-                    return Resource(*this, ++lastResourceId); // zero is reserved for null resource
+                    return Resource(++lastResourceId, [this](uintptr_t id){
+                        deletedResourceIds.insert(id);
+                    }); // zero is reserved for null resource
                 else
                 {
                     uintptr_t resourceId = *i;
                     deletedResourceIds.erase(i);
-                    return Resource(*this, resourceId);
+                    return Resource(resourceId, [this](uintptr_t id){
+                        deletedResourceIds.insert(id);
+                    });
                 }
             }
             
