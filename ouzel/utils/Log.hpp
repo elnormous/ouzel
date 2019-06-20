@@ -219,6 +219,11 @@ namespace ouzel
 #endif
         }
 
+        Logger(const Logger&) = delete;
+        Logger& operator=(const Logger&) = delete;
+        Logger(Logger&&) = delete;
+        Logger& operator=(Logger&&) = delete;
+
         ~Logger()
         {
 #if !defined(__EMSCRIPTEN__)
