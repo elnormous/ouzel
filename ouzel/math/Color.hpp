@@ -14,16 +14,6 @@ namespace ouzel
     class Color final
     {
     public:
-        static constexpr uint32_t BLACK = 0x000000FF;
-        static constexpr uint32_t RED = 0xFF0000FF;
-        static constexpr uint32_t MAGENTA = 0xFF00FFFF;
-        static constexpr uint32_t GREEN = 0x00FF00FF;
-        static constexpr uint32_t CYAN = 0x00FFFFFF;
-        static constexpr uint32_t BLUE = 0x0000FFFF;
-        static constexpr uint32_t YELLOW = 0xFFFF00FF;
-        static constexpr uint32_t WHITE = 0xFFFFFFFF;
-        static constexpr uint32_t GRAY = 0x808080FF;
-
         uint8_t v[4]{0};
 
         constexpr Color() {}
@@ -124,6 +114,16 @@ namespace ouzel
             }
         {
         }
+
+        static constexpr Color black() { return Color(0, 0, 0, 255); }
+        static constexpr Color red() { return Color(255, 0, 0, 255); }
+        static constexpr Color magenta() { return Color(255, 0, 255, 255); }
+        static constexpr Color green() { return Color(0, 255, 0, 255); }
+        static constexpr Color cyan() { return Color(0, 255, 255, 255); }
+        static constexpr Color blue() { return Color(0, 0, 255, 255); }
+        static constexpr Color yellow() { return Color(255, 255, 0, 255); }
+        static constexpr Color white() { return Color(255, 255, 255, 255); }
+        static constexpr Color gray() { return Color(128, 128, 128, 255); }
 
         inline uint8_t& operator[](size_t index) { return v[index]; }
         inline uint8_t operator[](size_t index) const { return v[index]; }

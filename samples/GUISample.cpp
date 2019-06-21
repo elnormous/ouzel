@@ -7,15 +7,15 @@ using namespace ouzel;
 using namespace input;
 
 GUISample::GUISample():
-    button("button.png", "button_selected.png", "button_down.png", "", "Button", "Arial", 1.0F, Color::RED, Color::RED, Color::BLACK),
-    fullscreenButton("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    minimizeButton("button.png", "button_selected.png", "button_down.png", "", "Minimize", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
-    maximizeButton("button.png", "button_selected.png", "button_down.png", "", "Maximize", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    button("button.png", "button_selected.png", "button_down.png", "", "Button", "Arial", 1.0F, Color::red(), Color::red(), Color::black()),
+    fullscreenButton("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
+    minimizeButton("button.png", "button_selected.png", "button_down.png", "", "Minimize", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
+    maximizeButton("button.png", "button_selected.png", "button_down.png", "", "Maximize", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
     checkBox("checkbox.png", "", "", "", "tick.png"),
-    label1("checkbox test", "AmosisTechnik", 24.0F, Color::WHITE, Vector2F(0.0F, 0.5F)),
+    label1("checkbox test", "AmosisTechnik", 24.0F, Color::white(), Vector2F(0.0F, 0.5F)),
     label2("", "ArialBlack"),
-    label3("UTF-8 ĀāČč\nNew line", "ArialBlack", 1.0F, Color::WHITE, Vector2F(0.0F, 0.5F)),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
+    label3("UTF-8 ĀāČč\nNew line", "ArialBlack", 1.0F, Color::white(), Vector2F(0.0F, 0.5F)),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
 {
     handler.gamepadHandler = std::bind(&GUISample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&GUISample::handleUI, this, std::placeholders::_1);
@@ -47,7 +47,7 @@ GUISample::GUISample():
     maximizeButton.setPosition(Vector2F(-200.0F, -40.0F));
     menu.addWidget(&maximizeButton);
 
-    label1.getLabelDrawable()->setColor(Color::CYAN);
+    label1.getLabelDrawable()->setColor(Color::cyan());
     label1.setPosition(Vector2F(-88.0F, 108.0F));
     layer.addChild(&label1);
 
@@ -59,7 +59,7 @@ GUISample::GUISample():
     label2.setPosition(Vector2F(10.0F, 0.0F));
     layer.addChild(&label2);
 
-    label3.getLabelDrawable()->setColor(Color::BLUE);
+    label3.getLabelDrawable()->setColor(Color::blue());
     label3.setPosition(Vector2F(-100.0F, -100.0F));
     label3.setScale(Vector3F(0.5F, 0.5F, 1.0F));
     layer.addChild(&label3);

@@ -8,7 +8,7 @@ using namespace input;
 
 RTSample::RTSample():
     characterSprite("run.json"),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
 {
     handler.gamepadHandler = std::bind(&RTSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&RTSample::handleUI, this, std::placeholders::_1);

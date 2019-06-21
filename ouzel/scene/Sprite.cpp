@@ -58,13 +58,13 @@ namespace ouzel
             }
 
             std::vector<graphics::Vertex> vertices = {
-                graphics::Vertex(Vector3F{finalOffset.v[0], finalOffset.v[1], 0.0F}, Color::WHITE,
+                graphics::Vertex(Vector3F{finalOffset.v[0], finalOffset.v[1], 0.0F}, Color::white(),
                                  textCoords[0], Vector3F{0.0F, 0.0F, -1.0F}),
-                graphics::Vertex(Vector3F{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, Color::WHITE,
+                graphics::Vertex(Vector3F{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, Color::white(),
                                  textCoords[1], Vector3F{0.0F, 0.0F, -1.0F}),
-                graphics::Vertex(Vector3F{finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, Color::WHITE,
+                graphics::Vertex(Vector3F{finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, Color::white(),
                                  textCoords[2], Vector3F{0.0F, 0.0F, -1.0F}),
-                graphics::Vertex(Vector3F{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, Color::WHITE,
+                graphics::Vertex(Vector3F{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, Color::white(),
                                  textCoords[3], Vector3F{0.0F, 0.0F, -1.0F})
             };
 

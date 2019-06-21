@@ -107,22 +107,19 @@ namespace ouzel
                         const json::Value& vertexObject = verticesObject[vertexIndex];
                         const json::Value& vertexUVObject = verticesUVObject[vertexIndex];
 
-                        vertices.push_back(graphics::Vertex(Vector3F{static_cast<float>(vertexObject[0].as<int32_t>()) + finalOffset.v[0],
-                                                                     -static_cast<float>(vertexObject[1].as<int32_t>()) - finalOffset.v[1],
-                                                                     0.0F},
-                                                            Color::WHITE,
-                                                            Vector2F{static_cast<float>(vertexUVObject[0].as<int32_t>()) / textureSize.v[0],
-                                                                     static_cast<float>(vertexUVObject[1].as<int32_t>()) / textureSize.v[1]},
-                                                            Vector3F{0.0F, 0.0F, -1.0F}));
+                        vertices.emplace_back(Vector3F{static_cast<float>(vertexObject[0].as<int32_t>()) + finalOffset.v[0], -static_cast<float>(vertexObject[1].as<int32_t>()) - finalOffset.v[1], 0.0F},
+                                              Color::white(),
+                                              Vector2F{static_cast<float>(vertexUVObject[0].as<int32_t>()) / textureSize.v[0], static_cast<float>(vertexUVObject[1].as<int32_t>()) / textureSize.v[1]},
+                                              Vector3F{0.0F, 0.0F, -1.0F});
                     }
 
-                    animation.frames.push_back(scene::SpriteData::Frame(filename, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
+                    animation.frames.emplace_back(filename, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot);
                 }
                 else
                 {
                     bool rotated = frameObject["rotated"].as<bool>();
 
-                    animation.frames.push_back(scene::SpriteData::Frame(filename, textureSize, frameRectangle, rotated, sourceSize, sourceOffset, pivot));
+                    animation.frames.emplace_back(filename, textureSize, frameRectangle, rotated, sourceSize, sourceOffset, pivot);
                 }
             }
 

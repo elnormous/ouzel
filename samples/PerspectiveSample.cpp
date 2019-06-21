@@ -14,7 +14,7 @@ PerspectiveSample::PerspectiveSample():
     jumpSubmix(*engine->getAudio()),
     jumpVoice(*engine->getAudio(), engine->getCache().getSound("jump.wav")),
     jumpPanner(*engine->getAudio()),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
     cursor(*engine->getInputManager())
 {
     cursor.init(SystemCursor::CROSS);

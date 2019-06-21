@@ -24,7 +24,7 @@ namespace ouzel
             TextRenderer(const std::string& fontFile,
                          float initFontSize = 1.0F,
                          const std::string& initText = std::string(),
-                         Color initColor = Color::WHITE,
+                         Color initColor = Color::white(),
                          const Vector2F& initTextAnchor = Vector2F{0.5F, 0.5F});
 
             void draw(const Matrix4F& transformMatrix,
@@ -72,7 +72,7 @@ namespace ouzel
             std::vector<uint16_t> indices;
             std::vector<graphics::Vertex> vertices;
 
-            Color color = Color::WHITE;
+            Color color = Color::white();
 
             bool needsMeshUpdate = false;
         };

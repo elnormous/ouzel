@@ -137,7 +137,7 @@ namespace ouzel
             std::string materialName = name;
             std::shared_ptr<graphics::Texture> diffuseTexture;
             std::shared_ptr<graphics::Texture> ambientTexture;
-            Color diffuseColor = Color::WHITE;
+            Color diffuseColor = Color::white();
             float opacity = 1.0F;
 
             uint32_t materialCount = 0;
@@ -189,7 +189,7 @@ namespace ouzel
 
                         diffuseTexture.reset();
                         ambientTexture.reset();
-                        diffuseColor = Color::WHITE;
+                        diffuseColor = Color::white();
                         opacity = 1.0F;
                     }
                     else if (keyword == "map_Ka") // ambient texture map

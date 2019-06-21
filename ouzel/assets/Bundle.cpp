@@ -177,8 +177,7 @@ namespace ouzel
                                             spriteSize.v[0],
                                             spriteSize.v[1]);
 
-                            scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, textureSize, rectangle, false, spriteSize, Vector2F(), pivot);
-                            animation.frames.push_back(frame);
+                            animation.frames.emplace_back(filename, textureSize, rectangle, false, spriteSize, Vector2F(), pivot);
                         }
                     }
 

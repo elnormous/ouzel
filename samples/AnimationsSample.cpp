@@ -7,7 +7,7 @@ using namespace ouzel;
 using namespace input;
 
 AnimationsSample::AnimationsSample():
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
 {
     handler.gamepadHandler = std::bind(&AnimationsSample::handleGamepad, this, std::placeholders::_1);
     handler.uiHandler = std::bind(&AnimationsSample::handleUI, this, std::placeholders::_1);
@@ -23,18 +23,18 @@ AnimationsSample::AnimationsSample():
     addLayer(&layer);
 
     shapeDrawable.rectangle(ouzel::RectF(100.0F, 100.0F), Color(0, 128, 128, 255), true);
-    shapeDrawable.rectangle(ouzel::RectF(100.0F, 100.0F), Color::WHITE, false, 2.0F);
-    shapeDrawable.line(Vector2F(0.0F, 0.0F), Vector2F(50.0F, 50.0F), Color::CYAN, 2.0F);
+    shapeDrawable.rectangle(ouzel::RectF(100.0F, 100.0F), Color::white(), false, 2.0F);
+    shapeDrawable.line(Vector2F(0.0F, 0.0F), Vector2F(50.0F, 50.0F), Color::cyan(), 2.0F);
 
     shapeDrawable.curve({Vector2F(50.0F, 50.0F),
                          Vector2F(100.0F, 50.0F),
                          Vector2F(50.0F, 0.0F),
                          Vector2F(100.0F, 0.0F)},
-                        Color::YELLOW);
+                        Color::yellow());
 
-    shapeDrawable.circle(Vector2F(25.0F, 75.0F), 20.0F, Color::BLUE, true);
-    shapeDrawable.circle(Vector2F(25.0F, 75.0F), 20.0F, Color::WHITE, false);
-    shapeDrawable.circle(Vector2F(75.0F, 75.0F), 20.0F, Color::BLUE, false, 16, 4.0F);
+    shapeDrawable.circle(Vector2F(25.0F, 75.0F), 20.0F, Color::blue(), true);
+    shapeDrawable.circle(Vector2F(25.0F, 75.0F), 20.0F, Color::white(), false);
+    shapeDrawable.circle(Vector2F(75.0F, 75.0F), 20.0F, Color::blue(), false, 16, 4.0F);
 
     shapeDrawable.polygon({Vector2F(15.0F, 75.0F),
                            Vector2F(25.0F, 75.0F),

@@ -120,7 +120,7 @@ namespace ouzel
 
             if (font)
             {
-                font->getVertices(text, Color::WHITE, fontSize, textAnchor, indices, vertices, texture);
+                font->getVertices(text, Color::white(), fontSize, textAnchor, indices, vertices, texture);
                 needsMeshUpdate = true;
 
                 for (const graphics::Vertex& vertex : vertices)
