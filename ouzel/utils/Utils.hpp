@@ -4,7 +4,6 @@
 #define OUZEL_UTILS_UTILS_HPP
 
 #include <cstdint>
-#include <cstdlib>
 #include <random>
 #include <string>
 #include <thread>
