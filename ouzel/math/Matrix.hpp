@@ -58,8 +58,8 @@ namespace ouzel
                        T targetPositionX, T targetPositionY, T targetPositionZ,
                        T upX, T upY, T upZ)
         {
-            Vector<3, T> eye(eyePositionX, eyePositionY, eyePositionZ);
-            Vector<3, T> target(targetPositionX, targetPositionY, targetPositionZ);
+            const Vector<3, T> eye(eyePositionX, eyePositionY, eyePositionZ);
+            const Vector<3, T> target(targetPositionX, targetPositionY, targetPositionZ);
             Vector<3, T> up(upX, upY, upZ);
             up.normalize();
 
@@ -98,13 +98,13 @@ namespace ouzel
         {
             assert(zFarPlane != zNearPlane);
 
-            T theta = fieldOfView / T(2);
+            const T theta = fieldOfView / T(2);
             if (fabs(fmod(theta, pi<T>() / T(2))) <= std::numeric_limits<T>::min())
                 return;
 
-            T divisor = tan(theta);
+            const T divisor = tan(theta);
             assert(divisor);
-            T factor = T(1) / divisor;
+            const T factor = T(1) / divisor;
 
             setZero();
 
@@ -119,8 +119,8 @@ namespace ouzel
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void setOrthographicFromSize(T width, T height, T zNearPlane, T zFarPlane)
         {
-            T halfWidth = width / T(2);
-            T halfHeight = height / T(2);
+            const T halfWidth = width / T(2);
+            const T halfHeight = height / T(2);
             setOrthographicOffCenter(-halfWidth, halfWidth,
                                      -halfHeight, halfHeight,
                                      zNearPlane, zFarPlane);
@@ -188,8 +188,8 @@ namespace ouzel
         {
             setIdentity();
 
-            T c = cos(angle);
-            T s = sin(angle);
+            const T c = cos(angle);
+            const T s = sin(angle);
 
             m[0] = c;
             m[3] = -s;
@@ -200,9 +200,9 @@ namespace ouzel
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void setRotation(const Vector<3, T>& axis, T angle)
         {
-            T x = axis.v[0];
-            T y = axis.v[1];
-            T z = axis.v[2];
+            const T x = axis.v[0];
+            const T y = axis.v[1];
+            const T z = axis.v[2];
 
             // Make sure the input axis is normalized
             T n = x * x + y * y + z * z;
@@ -220,19 +220,19 @@ namespace ouzel
                 }
             }
 
-            T c = cos(angle);
-            T s = sin(angle);
+            const T c = cos(angle);
+            const T s = sin(angle);
 
-            T t = T(1) - c;
-            T tx = t * x;
-            T ty = t * y;
-            T tz = t * z;
-            T txy = tx * y;
-            T txz = tx * z;
-            T tyz = ty * z;
-            T sx = s * x;
-            T sy = s * y;
-            T sz = s * z;
+            const T t = T(1) - c;
+            const T tx = t * x;
+            const T ty = t * y;
+            const T tz = t * z;
+            const T txy = tx * y;
+            const T txz = tx * z;
+            const T tyz = ty * z;
+            const T sx = s * x;
+            const T sy = s * y;
+            const T sz = s * z;
 
             m[0] = c + tx * x;
             m[4] = txy - sz;
@@ -258,18 +258,18 @@ namespace ouzel
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void setRotation(const Quaternion<T>& rotation)
         {
-            T wx = rotation.v[3] * rotation.v[0];
-            T wy = rotation.v[3] * rotation.v[1];
-            T wz = rotation.v[3] * rotation.v[2];
+            const T wx = rotation.v[3] * rotation.v[0];
+            const T wy = rotation.v[3] * rotation.v[1];
+            const T wz = rotation.v[3] * rotation.v[2];
 
-            T xx = rotation.v[0] * rotation.v[0];
-            T xy = rotation.v[0] * rotation.v[1];
-            T xz = rotation.v[0] * rotation.v[2];
+            const T xx = rotation.v[0] * rotation.v[0];
+            const T xy = rotation.v[0] * rotation.v[1];
+            const T xz = rotation.v[0] * rotation.v[2];
 
-            T yy = rotation.v[1] * rotation.v[1];
-            T yz = rotation.v[1] * rotation.v[2];
+            const T yy = rotation.v[1] * rotation.v[1];
+            const T yz = rotation.v[1] * rotation.v[2];
 
-            T zz = rotation.v[2] * rotation.v[2];
+            const T zz = rotation.v[2] * rotation.v[2];
 
             m[0] = T(1) - T(2) * (yy + zz);
             m[4] = T(2) * (xy - wz);
@@ -297,8 +297,8 @@ namespace ouzel
         {
             setIdentity();
 
-            T c = cos(angle);
-            T s = sin(angle);
+            const T c = cos(angle);
+            const T s = sin(angle);
 
             m[5] = c;
             m[9] = -s;
@@ -311,8 +311,8 @@ namespace ouzel
         {
             setIdentity();
 
-            T c = cos(angle);
-            T s = sin(angle);
+            const T c = cos(angle);
+            const T s = sin(angle);
 
             m[0] = c;
             m[8] = s;
@@ -325,8 +325,8 @@ namespace ouzel
         {
             setIdentity();
 
-            T c = cos(angle);
-            T s = sin(angle);
+            const T c = cos(angle);
+            const T s = sin(angle);
 
             m[0] = c;
             m[4] = -s;
@@ -673,17 +673,17 @@ namespace ouzel
         {
             Vector<3, T> scale = getScale();
 
-            T m11 = m[0] / scale.v[0];
-            T m21 = m[1] / scale.v[0];
-            T m31 = m[2] / scale.v[0];
+            const T m11 = m[0] / scale.v[0];
+            const T m21 = m[1] / scale.v[0];
+            const T m31 = m[2] / scale.v[0];
 
-            T m12 = m[4] / scale.v[1];
-            T m22 = m[5] / scale.v[1];
-            T m32 = m[6] / scale.v[1];
+            const T m12 = m[4] / scale.v[1];
+            const T m22 = m[5] / scale.v[1];
+            const T m32 = m[6] / scale.v[1];
 
-            T m13 = m[8] / scale.v[2];
-            T m23 = m[9] / scale.v[2];
-            T m33 = m[10] / scale.v[2];
+            const T m13 = m[8] / scale.v[2];
+            const T m23 = m[9] / scale.v[2];
+            const T m33 = m[10] / scale.v[2];
 
             Quaternion<T> result;
             result.v[0] = sqrt(std::max(static_cast<T>(0), T(1) + m11 - m22 - m33)) / T(2);

@@ -52,10 +52,10 @@ namespace ouzel
 
         inline Quaternion& operator*=(const Quaternion& q)
         {
-            T tempX = v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0];
-            T tempY = -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1];
-            T tempZ = v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2];
-            T tempW = -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3];
+            const T tempX = v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0];
+            const T tempY = -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1];
+            const T tempZ = v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2];
+            const T tempW = -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3];
 
             v[0] = tempX;
             v[1] = tempY;
@@ -175,7 +175,7 @@ namespace ouzel
 
         inline void invert()
         {
-            T n2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
+            const T n2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
 
             if (n2 <= std::numeric_limits<T>::min())
                 return;
@@ -217,8 +217,8 @@ namespace ouzel
         {
             axis.normalize();
 
-            T cosAngle = cos(angle / T(2));
-            T sinAngle = sin(angle / T(2));
+            const T cosAngle = cos(angle / T(2));
+            const T sinAngle = sin(angle / T(2));
 
             v[0] = axis.v[0] * sinAngle;
             v[1] = axis.v[1] * sinAngle;
@@ -229,7 +229,7 @@ namespace ouzel
         void getRotation(T& angle, Vector<3, T>& axis) const
         {
             angle = T(2) * acos(v[3]);
-            T s = sqrt(T(1) - v[3] * v[3]);
+            const T s = sqrt(T(1) - v[3] * v[3]);
             if (s <= std::numeric_limits<T>::min()) // too close to zero
             {
                 axis.v[0] = v[0];

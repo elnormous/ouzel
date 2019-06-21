@@ -70,9 +70,9 @@ namespace ouzel
         template <size_t X = N, typename std::enable_if<(X == 3)>::type* = nullptr>
         inline T getAngle(const Vector& axis) const
         {
-            T dx = axis.v[0] - v[0] - v[1] * axis.v[2] + v[2] * axis.v[1];
-            T dy = axis.v[1] - v[1] - v[2] * axis.v[0] + v[0] * axis.v[2];
-            T dz = axis.v[2] - v[2] - v[0] * axis.v[1] + v[1] * axis.v[0];
+            const T dx = axis.v[0] - v[0] - v[1] * axis.v[2] + v[2] * axis.v[1];
+            const T dy = axis.v[1] - v[1] - v[2] * axis.v[0] + v[0] * axis.v[2];
+            const T dz = axis.v[2] - v[2] - v[0] * axis.v[1] + v[1] * axis.v[0];
 
             return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
         }
@@ -80,9 +80,9 @@ namespace ouzel
         template <size_t X = N, typename std::enable_if<(X == 4)>::type* = nullptr>
         inline T getAngle(const Vector& axis) const
         {
-            T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
-            T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
-            T dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
+            const T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
+            const T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
+            const T dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
 
             return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
         }

@@ -121,12 +121,12 @@ namespace ouzel
 
         static bool intersect(const Rect& r1, const Rect& r2, Rect& dst)
         {
-            T xmin = std::max(r1.position.v[0], r2.position.v[0]);
-            T xmax = std::min(r1.right(), r2.right());
+            const T xmin = std::max(r1.position.v[0], r2.position.v[0]);
+            const T xmax = std::min(r1.right(), r2.right());
             if (xmax > xmin)
             {
-                T ymin = std::max(r1.position.v[1], r2.position.v[1]);
-                T ymax = std::min(r1.bottom(), r2.bottom());
+                const T ymin = std::max(r1.position.v[1], r2.position.v[1]);
+                const T ymax = std::min(r1.bottom(), r2.bottom());
                 if (ymax > ymin)
                 {
                     dst.position.v[0] = xmin;
