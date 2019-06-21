@@ -213,7 +213,7 @@ namespace ouzel
             if (projectionMode == ProjectionMode::ORTHOGRAPHIC)
             {
                 // calculate center point of the box
-                Vector2F diff = Vector2F(box.max - box.min);
+                const Vector2F diff = Vector2F(box.max - box.min);
 
                 // offset the center point, so that it is relative to 0,0
                 Vector3F v3p(box.min.v[0] + diff.v[0] / 2.0F, box.min.v[1] + diff.v[1] / 2.0F, 0.0F);
@@ -228,11 +228,11 @@ namespace ouzel
                 assert(clipPos.v[3] != 0.0F);
 
                 // normalize position of the center point
-                Vector2F v2p((clipPos.v[0] / clipPos.v[3] + 1.0F) * 0.5F,
-                            (clipPos.v[1] / clipPos.v[3] + 1.0F) * 0.5F);
+                const Vector2F v2p((clipPos.v[0] / clipPos.v[3] + 1.0F) * 0.5F,
+                                   (clipPos.v[1] / clipPos.v[3] + 1.0F) * 0.5F);
 
                 // calculate half size
-                Size2F halfSize(diff.v[0] / 2.0F, diff.v[1] / 2.0F);
+                const Size2F halfSize(diff.v[0] / 2.0F, diff.v[1] / 2.0F);
 
                 // convert content size to world coordinates
                 Size2F halfWorldSize;
@@ -247,10 +247,10 @@ namespace ouzel
                 halfWorldSize.v[1] *= (fabs(viewProjection.m[1]) + fabs(viewProjection.m[5])) / 2.0F;
 
                 // create visible rect in clip space
-                RectF visibleRect(-halfWorldSize.v[0],
-                                 -halfWorldSize.v[1],
-                                 1.0F + halfWorldSize.v[0] * 2.0F,
-                                 1.0F + halfWorldSize.v[1] * 2.0F);
+                const RectF visibleRect(-halfWorldSize.v[0],
+                                        -halfWorldSize.v[1],
+                                        1.0F + halfWorldSize.v[0] * 2.0F,
+                                        1.0F + halfWorldSize.v[1] * 2.0F);
 
                 return visibleRect.containsPoint(v2p);
             }

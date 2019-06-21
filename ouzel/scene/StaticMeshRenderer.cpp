@@ -83,8 +83,8 @@ namespace ouzel
                             renderViewProjection,
                             wireframe);
 
-            Matrix4F modelViewProj = renderViewProjection * transformMatrix;
-            float colorVector[] = {
+            const Matrix4F modelViewProj = renderViewProjection * transformMatrix;
+            const float colorVector[] = {
                 material->diffuseColor.normR(),
                 material->diffuseColor.normG(),
                 material->diffuseColor.normB(),

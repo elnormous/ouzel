@@ -44,8 +44,8 @@ namespace ouzel
                 dirty = false;
             }
 
-            Matrix4F modelViewProj = renderViewProjection * transformMatrix;
-            float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
+            const Matrix4F modelViewProj = renderViewProjection * transformMatrix;
+            const float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
 
             for (const DrawCommand& drawCommand : drawCommands)
             {

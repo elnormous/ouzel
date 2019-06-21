@@ -68,7 +68,7 @@ namespace ouzel
     {
 #if defined(_MSC_VER)
         (void)realtime;
-        int priorities[] = {
+        static const int priorities[] = {
             THREAD_PRIORITY_IDLE, THREAD_PRIORITY_LOWEST, THREAD_PRIORITY_BELOW_NORMAL, THREAD_PRIORITY_NORMAL,
             THREAD_PRIORITY_ABOVE_NORMAL, THREAD_PRIORITY_HIGHEST, THREAD_PRIORITY_TIME_CRITICAL
         };
@@ -78,18 +78,18 @@ namespace ouzel
 #else
         if (priority < 0.0F) priority = 0.0F;
 
-        int policy = realtime ? SCHED_RR : SCHED_OTHER;
+        const int policy = realtime ? SCHED_RR : SCHED_OTHER;
 
-        int minPriority = sched_get_priority_min(policy);
+        const int minPriority = sched_get_priority_min(policy);
         if (minPriority == -1)
             throw std::system_error(errno, std::system_category(), "Failed to get thread min priority");
-        int maxPriority = sched_get_priority_max(policy);
+        const int maxPriority = sched_get_priority_max(policy);
         if (maxPriority == -1)
             throw std::system_error(errno, std::system_category(), "Failed to get thread max priority");
 
         sched_param param;
         param.sched_priority = static_cast<int>(priority * (maxPriority - minPriority)) + minPriority;
-        int error = pthread_setschedparam(t.native_handle(), policy, &param);
+        const int error = pthread_setschedparam(t.native_handle(), policy, &param);
         if (error != 0)
             throw std::system_error(error, std::system_category(), "Failed to set thread priority");
 

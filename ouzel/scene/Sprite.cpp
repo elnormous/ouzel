@@ -345,8 +345,8 @@ namespace ouzel
                 size_t currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);
                 if (currentFrame >= currentAnimation->animation->frames.size()) currentFrame = currentAnimation->animation->frames.size() - 1;
 
-                Matrix4F modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
-                float colorVector[] = {
+                const Matrix4F modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
+                const float colorVector[] = {
                     material->diffuseColor.normR(),
                     material->diffuseColor.normG(),
                     material->diffuseColor.normB(),

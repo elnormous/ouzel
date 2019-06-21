@@ -54,15 +54,14 @@ namespace ouzel
                     needsMeshUpdate = false;
                 }
 
-                Matrix4F transform;
+                const Matrix4F transform =
+                    (particleSystemData.positionType == ParticleSystemData::PositionType::FREE ||
+                     particleSystemData.positionType == ParticleSystemData::PositionType::PARENT) ?
+                    renderViewProjection :
+                    (particleSystemData.positionType == ParticleSystemData::PositionType::GROUPED) ?
+                    renderViewProjection * transformMatrix : Matrix4F::identity();
 
-                if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE ||
-                    particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
-                    transform = renderViewProjection;
-                else if (particleSystemData.positionType == ParticleSystemData::PositionType::GROUPED)
-                    transform = renderViewProjection * transformMatrix;
-
-                float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
+                const float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
                 pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
