@@ -10,7 +10,6 @@
 #include "graphics/RenderDevice.hpp"
 #include "graphics/DataType.hpp"
 #include "graphics/Vertex.hpp"
-#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -35,7 +34,7 @@ namespace ouzel
                    const std::string& fragmentShaderFunction = "",
                    const std::string& vertexShaderFunction = "");
 
-            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
+            inline const RenderDevice::Resource& getResource() const { return resource; }
 
             const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const;
 

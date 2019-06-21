@@ -7,7 +7,6 @@
 #include <vector>
 #include "graphics/PixelFormat.hpp"
 #include "math/Size.hpp"
-#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -25,9 +24,9 @@ namespace ouzel
             {
             }
 
-            ALWAYSINLINE PixelFormat getPixelFormat() const { return pixelFormat; }
-            ALWAYSINLINE const Size2U& getSize() const { return size; }
-            ALWAYSINLINE const std::vector<uint8_t>& getData() const { return data; }
+            inline PixelFormat getPixelFormat() const { return pixelFormat; }
+            inline const Size2U& getSize() const { return size; }
+            inline const std::vector<uint8_t>& getData() const { return data; }
 
         private:
             PixelFormat pixelFormat = PixelFormat::DEFAULT;

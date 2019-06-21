@@ -8,7 +8,6 @@
 #include "graphics/RenderDevice.hpp"
 #include "math/Color.hpp"
 #include "math/Size.hpp"
-#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -26,10 +25,10 @@ namespace ouzel
                          const std::vector<std::shared_ptr<Texture>>& initColorTextures,
                          const std::shared_ptr<Texture>& initDepthTexture);
 
-            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
+            inline const RenderDevice::Resource& getResource() const { return resource; }
 
-            ALWAYSINLINE const std::vector<std::shared_ptr<Texture>>& getColorTextures() const { return colorTextures; }
-            ALWAYSINLINE const std::shared_ptr<Texture>& getDepthTexture() const { return depthTexture; }
+            inline const std::vector<std::shared_ptr<Texture>>& getColorTextures() const { return colorTextures; }
+            inline const std::shared_ptr<Texture>& getDepthTexture() const { return depthTexture; }
 
         private:
             RenderDevice::Resource resource;

@@ -7,7 +7,6 @@
 #include "graphics/BlendFactor.hpp"
 #include "graphics/BlendOperation.hpp"
 #include "graphics/ColorMask.hpp"
-#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -29,18 +28,18 @@ namespace ouzel
                        BlendOperation initAlphaOperation,
                        uint8_t initColorMask = ColorMask::COLOR_MASK_ALL);
 
-            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
+            inline const RenderDevice::Resource& getResource() const { return resource; }
 
-            ALWAYSINLINE bool isBlendingEnabled() const { return enableBlending; }
+            inline bool isBlendingEnabled() const { return enableBlending; }
 
-            ALWAYSINLINE BlendFactor getColorBlendSource() const { return colorBlendSource; }
-            ALWAYSINLINE BlendFactor getColorBlendDest() const { return colorBlendDest; }
-            ALWAYSINLINE BlendOperation getColorOperation() const { return colorOperation; }
-            ALWAYSINLINE BlendFactor getAlphaBlendSource() const { return alphaBlendSource; }
-            ALWAYSINLINE BlendFactor getAlphaBlendDest() const { return alphaBlendDest; }
-            ALWAYSINLINE BlendOperation getAlphaOperation() const { return alphaOperation; }
+            inline BlendFactor getColorBlendSource() const { return colorBlendSource; }
+            inline BlendFactor getColorBlendDest() const { return colorBlendDest; }
+            inline BlendOperation getColorOperation() const { return colorOperation; }
+            inline BlendFactor getAlphaBlendSource() const { return alphaBlendSource; }
+            inline BlendFactor getAlphaBlendDest() const { return alphaBlendDest; }
+            inline BlendOperation getAlphaOperation() const { return alphaOperation; }
 
-            ALWAYSINLINE uint8_t getColorMask() const { return colorMask; }
+            inline uint8_t getColorMask() const { return colorMask; }
 
         private:
             RenderDevice::Resource resource;

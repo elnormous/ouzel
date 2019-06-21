@@ -15,7 +15,6 @@
 #include "graphics/Vertex.hpp"
 #include "math/Matrix.hpp"
 #include "math/Size.hpp"
-#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -122,7 +121,7 @@ namespace ouzel
                     return *this;
                 }
 
-                ALWAYSINLINE operator uintptr_t() const
+                inline operator uintptr_t() const
                 {
                     return id;
                 }

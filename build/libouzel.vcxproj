@@ -317,7 +317,6 @@
     <ClInclude Include="..\ouzel\scene\TextRenderer.hpp" />
     <ClInclude Include="..\ouzel\utils\Base64.hpp" />
     <ClInclude Include="..\ouzel\utils\Ini.hpp" />
-    <ClInclude Include="..\ouzel\utils\Inline.h" />
     <ClInclude Include="..\ouzel\utils\Json.hpp" />
     <ClInclude Include="..\ouzel\utils\Log.hpp" />
     <ClInclude Include="..\ouzel\utils\Obf.hpp" />

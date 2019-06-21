@@ -6,7 +6,6 @@
 #include "graphics/RenderDevice.hpp"
 #include "graphics/CompareFunction.hpp"
 #include "graphics/StencilOperation.hpp"
-#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -36,7 +35,7 @@ namespace ouzel
                               StencilOperation initBackFaceStencilPassOperation,
                               CompareFunction initBackFaceStencilCompareFunction);
 
-            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
+            inline const RenderDevice::Resource& getResource() const { return resource; }
 
         private:
             RenderDevice::Resource resource;

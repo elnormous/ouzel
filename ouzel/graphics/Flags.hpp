@@ -4,7 +4,6 @@
 #define OUZEL_GRAPHICS_FLAGS_HPP
 
 #include <cstdint>
-#include "utils/Inline.h"
 
 namespace ouzel
 {

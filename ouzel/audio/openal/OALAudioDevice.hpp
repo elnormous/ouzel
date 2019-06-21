@@ -43,8 +43,8 @@ namespace ouzel
                 void stop() final;
                 void process();
 
-                ALWAYSINLINE ALCdevice* getDevice() const { return device; }
-                ALWAYSINLINE ALCcontext* getContext() const { return context; }
+                inline ALCdevice* getDevice() const { return device; }
+                inline ALCcontext* getContext() const { return context; }
 
             private:
                 void run();

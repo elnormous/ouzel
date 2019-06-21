@@ -7,7 +7,6 @@
 #include "graphics/RenderDevice.hpp"
 #include "graphics/BufferType.hpp"
 #include "graphics/Flags.hpp"
-#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -39,11 +38,11 @@ namespace ouzel
             void setData(const void* newData, uint32_t newSize);
             void setData(const std::vector<uint8_t>& newData);
 
-            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
+            inline const RenderDevice::Resource& getResource() const { return resource; }
 
-            ALWAYSINLINE BufferType getType() const { return type; }
-            ALWAYSINLINE uint32_t getFlags() const { return flags; }
-            ALWAYSINLINE uint32_t getSize() const { return size; }
+            inline BufferType getType() const { return type; }
+            inline uint32_t getFlags() const { return flags; }
+            inline uint32_t getSize() const { return size; }
 
         private:
             Renderer& renderer;

@@ -14,7 +14,6 @@
 #include "graphics/TextureType.hpp"
 #include "math/Color.hpp"
 #include "math/Size.hpp"
-#include "utils/Inline.h"
 
 namespace ouzel
 {
@@ -46,37 +45,37 @@ namespace ouzel
                     uint32_t initFlags = 0,
                     PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            ALWAYSINLINE const RenderDevice::Resource& getResource() const { return resource; }
+            inline const RenderDevice::Resource& getResource() const { return resource; }
 
-            ALWAYSINLINE const Size2U& getSize() const { return size; }
+            inline const Size2U& getSize() const { return size; }
 
             void setData(const std::vector<uint8_t>& newData);
             void setData(const std::vector<uint8_t>& newData, CubeFace face);
 
-            ALWAYSINLINE uint32_t getFlags() const { return flags; }
-            ALWAYSINLINE uint32_t getMipmaps() const { return mipmaps; }
+            inline uint32_t getFlags() const { return flags; }
+            inline uint32_t getMipmaps() const { return mipmaps; }
 
-            ALWAYSINLINE SamplerFilter getFilter() const { return filter; }
+            inline SamplerFilter getFilter() const { return filter; }
             void setFilter(SamplerFilter newFilter);
 
-            ALWAYSINLINE SamplerAddressMode getAddressX() const { return addressX; }
+            inline SamplerAddressMode getAddressX() const { return addressX; }
             void setAddressX(SamplerAddressMode newAddressX);
 
-            ALWAYSINLINE SamplerAddressMode getAddressY() const { return addressY; }
+            inline SamplerAddressMode getAddressY() const { return addressY; }
             void setAddressY(SamplerAddressMode newAddressY);
 
-            ALWAYSINLINE SamplerAddressMode getAddressZ() const { return addressZ; }
+            inline SamplerAddressMode getAddressZ() const { return addressZ; }
             void setAddressZ(SamplerAddressMode newAddressZ);
 
-            ALWAYSINLINE Color getBorderColor() const { return borderColor; }
+            inline Color getBorderColor() const { return borderColor; }
             void setBorderColor(Color newBorderColor);
 
-            ALWAYSINLINE uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
+            inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
             void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
-            ALWAYSINLINE uint32_t getSampleCount() const { return sampleCount; }
+            inline uint32_t getSampleCount() const { return sampleCount; }
 
-            ALWAYSINLINE PixelFormat getPixelFormat() const { return pixelFormat; }
+            inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
         private:
             Renderer& renderer;
