@@ -59,22 +59,21 @@ namespace ouzel
 
         Socket& Socket::operator=(Socket&& other)
         {
-            if (&other != this)
-            {
-#ifdef _WIN32
-                if (endpoint != INVALID_SOCKET) closesocket(endpoint);
-#else
-                if (endpoint != -1) close(endpoint);
-#endif
-
-                endpoint = other.endpoint;
+            if (&other == this) return *this;
 
 #ifdef _WIN32
-                other.endpoint = INVALID_SOCKET;
+            if (endpoint != INVALID_SOCKET) closesocket(endpoint);
 #else
-                other.endpoint = -1;
+            if (endpoint != -1) close(endpoint);
 #endif
-            }
+
+            endpoint = other.endpoint;
+
+#ifdef _WIN32
+            other.endpoint = INVALID_SOCKET;
+#else
+            other.endpoint = -1;
+#endif
 
             return *this;
         }

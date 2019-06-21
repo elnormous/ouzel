@@ -121,18 +121,17 @@ namespace ouzel
 
             File& operator=(File&& other)
             {
-                if (&other != this)
-                {
+                if (&other == this) return *this;
+
 #if defined(_WIN32)
-                    if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
-                    file = other.file;
-                    other.file = nullptr;
+                if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
+                file = other.file;
+                other.file = nullptr;
 #else
-                    if (file != -1) ::close(file);
-                    file = other.file;
-                    other.file = -1;
+                if (file != -1) ::close(file);
+                file = other.file;
+                other.file = -1;
 #endif
-                }
 
                 return *this;
             }

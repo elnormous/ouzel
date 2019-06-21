@@ -23,10 +23,9 @@ namespace ouzel
 
         Server& Server::operator=(Server&& other)
         {
-            if (&other != this)
-            {
-                sock = std::move(other.sock);
-            }
+            if (&other == this) return *this;
+
+            sock = std::move(other.sock);
 
             return *this;
         }

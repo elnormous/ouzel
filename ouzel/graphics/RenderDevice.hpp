@@ -113,12 +113,11 @@ namespace ouzel
 
                 Resource& operator=(Resource&& other)
                 {
-                    if (&other != this)
-                    {
-                        id = other.id;
-                        deleter = std::move(other.deleter);
-                        other.id = 0;
-                    }
+                    if (&other == this) return *this;
+
+                    id = other.id;
+                    deleter = std::move(other.deleter);
+                    other.id = 0;
 
                     return *this;
                 }
