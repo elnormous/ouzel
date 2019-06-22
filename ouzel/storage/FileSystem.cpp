@@ -538,7 +538,7 @@ namespace ouzel
 
         void FileSystem::addArchive(const std::string& name, Archive&& archive)
         {
-            archives.push_back(std::make_pair(name, std::move(archive)));
+            archives.emplace_back(name, std::move(archive));
         }
 
         void FileSystem::removeArchive(const std::string& name)

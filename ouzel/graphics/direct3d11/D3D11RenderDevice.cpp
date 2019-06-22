@@ -928,8 +928,8 @@ namespace ouzel
                     output->GetDisplayModeList(format, 0, &numModes, displayModes.data());
 
                     for (const DXGI_MODE_DESC& displayMode : displayModes)
-                        result.push_back(Size2U(static_cast<uint32_t>(displayMode.Width),
-                                                static_cast<uint32_t>(displayMode.Height)));
+                        result.emplace_back(static_cast<uint32_t>(displayMode.Width),
+                                            static_cast<uint32_t>(displayMode.Height));
                 }
 
                 output->Release();

@@ -549,7 +549,7 @@ namespace ouzel
 
             uint32_t pixelSize = getPixelSize(pixelFormat);
             uint32_t bufferSize = newWidth * newHeight * pixelSize;
-            levels.push_back({size, std::vector<uint8_t>(bufferSize)});
+            levels.emplace_back(size, std::vector<uint8_t>(bufferSize));
 
             uint32_t previousWidth = newWidth;
             uint32_t previousHeight = newHeight;
@@ -566,7 +566,7 @@ namespace ouzel
                 Size2U mipMapSize = Size2U(newWidth, newHeight);
                 bufferSize = newWidth * newHeight * pixelSize;
 
-                levels.push_back({mipMapSize, std::vector<uint8_t>(bufferSize)});
+                levels.emplace_back(mipMapSize, std::vector<uint8_t>(bufferSize));
 
                 previousWidth = newWidth;
                 previousHeight = newHeight;
@@ -587,7 +587,7 @@ namespace ouzel
 
             uint32_t pixelSize = getPixelSize(pixelFormat);
             uint32_t bufferSize = newWidth * newHeight * pixelSize;
-            levels.push_back({size, data});
+            levels.emplace_back(size, data);
 
             uint32_t previousWidth = newWidth;
             uint32_t previousHeight = newHeight;
@@ -634,7 +634,7 @@ namespace ouzel
                 }
 
                 encode(mipMapSize, newData, pixelFormat, encodedData);
-                levels.push_back({mipMapSize, encodedData});
+                levels.emplace_back(mipMapSize, encodedData);
 
                 previousData = newData;
 

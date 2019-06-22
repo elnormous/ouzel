@@ -391,7 +391,7 @@ namespace ouzel
 
                 inverse.transformPoint(transformedEdge);
 
-                transformedEdges.push_back(Vector2F(transformedEdge.v[0], transformedEdge.v[1]));
+                transformedEdges.emplace_back(transformedEdge.v[0], transformedEdge.v[1]);
             }
 
             for (Component* component : components)

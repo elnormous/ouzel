@@ -195,8 +195,8 @@ namespace ouzel
                 {
                     const CGDisplayModeRef displayMode = (const CGDisplayModeRef)CFArrayGetValueAtIndex(displayModes, i);
 
-                    result.push_back(Size2U(static_cast<uint32_t>(CGDisplayModeGetWidth(displayMode)),
-                                            static_cast<uint32_t>(CGDisplayModeGetHeight(displayMode))));
+                    result.emplace_back(static_cast<uint32_t>(CGDisplayModeGetWidth(displayMode)),
+                                        static_cast<uint32_t>(CGDisplayModeGetHeight(displayMode)));
                 }
 
                 CFRelease(displayModes);

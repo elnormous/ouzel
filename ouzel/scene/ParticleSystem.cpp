@@ -306,14 +306,14 @@ namespace ouzel
                 indices.push_back(i * 4 + 3);
                 indices.push_back(i * 4 + 2);
 
-                vertices.push_back(graphics::Vertex(Vector3F{-1.0F, -1.0F, 0.0F}, Color::white(),
-                                                    Vector2F{0.0F, 1.0F}, Vector3F{0.0F, 0.0F, -1.0F}));
-                vertices.push_back(graphics::Vertex(Vector3F{1.0F, -1.0F, 0.0F}, Color::white(),
-                                                    Vector2F{1.0F, 1.0F}, Vector3F{0.0F, 0.0F, -1.0F}));
-                vertices.push_back(graphics::Vertex(Vector3F{-1.0F, 1.0F, 0.0F}, Color::white(),
-                                                    Vector2F{0.0F, 0.0F}, Vector3F{0.0F, 0.0F, -1.0F}));
-                vertices.push_back(graphics::Vertex(Vector3F{1.0F, 1.0F, 0.0F}, Color::white(),
-                                                    Vector2F{1.0F, 0.0F}, Vector3F{0.0F, 0.0F, -1.0F}));
+                vertices.emplace_back(Vector3F{-1.0F, -1.0F, 0.0F}, Color::white(),
+                                      Vector2F{0.0F, 1.0F}, Vector3F{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(Vector3F{1.0F, -1.0F, 0.0F}, Color::white(),
+                                      Vector2F{1.0F, 1.0F}, Vector3F{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(Vector3F{-1.0F, 1.0F, 0.0F}, Color::white(),
+                                      Vector2F{0.0F, 0.0F}, Vector3F{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(Vector3F{1.0F, 1.0F, 0.0F}, Color::white(),
+                                      Vector2F{1.0F, 0.0F}, Vector3F{0.0F, 0.0F, -1.0F});
             }
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),

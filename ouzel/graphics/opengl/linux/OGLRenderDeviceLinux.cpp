@@ -326,8 +326,8 @@ namespace ouzel
                 XF86VidModeGetAllModeLines(engineLinux->getDisplay(), 0, &modeCount, &modeInfo);
 
                 for (int i = 0; i < modeCount; ++i)
-                    result.push_back(Size2U(static_cast<uint32_t>(modeInfo[i]->hdisplay),
-                                            static_cast<uint32_t>(modeInfo[i]->vdisplay)));
+                    result.emplace_back(static_cast<uint32_t>(modeInfo[i]->hdisplay),
+                                        static_cast<uint32_t>(modeInfo[i]->vdisplay));
 
                 XFree(modeInfo);
 #elif OUZEL_OPENGL_INTERFACE_EGL

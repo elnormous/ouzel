@@ -200,9 +200,7 @@ namespace ouzel
                                   static_cast<float>(texture->getSize().v[1]));
 
                 RectF rectangle(0.0F, 0.0F, size.v[0], size.v[1]);
-
-                SpriteData::Frame frame = SpriteData::Frame("", size, rectangle, false, size, Vector2F(), Vector2F{0.5F, 0.5F});
-                animation.frames.push_back(frame);
+                animation.frames.emplace_back("", size, rectangle, false, size, Vector2F(), Vector2F{0.5F, 0.5F});
 
                 animations[""] = std::move(animation);
             }
@@ -242,9 +240,7 @@ namespace ouzel
                                           spriteSize.v[1] * y,
                                           spriteSize.v[0],
                                           spriteSize.v[1]);
-
-                    SpriteData::Frame frame = SpriteData::Frame("", size, rectangle, false, spriteSize, Vector2F(), pivot);
-                    animation.frames.push_back(frame);
+                    animation.frames.emplace_back("", size, rectangle, false, spriteSize, Vector2F(), pivot);
                 }
             }
 

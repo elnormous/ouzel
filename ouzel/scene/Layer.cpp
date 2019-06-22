@@ -134,7 +134,7 @@ namespace ouzel
                     worldEdges.reserve(edges.size());
 
                     for (const Vector2F& edge : edges)
-                        worldEdges.push_back(Vector2F(camera->convertNormalizedToWorld(edge)));
+                        worldEdges.emplace_back(camera->convertNormalizedToWorld(edge));
 
                     std::vector<Actor*> actors = findActors(worldEdges);
                     result.insert(result.end(), actors.begin(), actors.end());
