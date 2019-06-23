@@ -14,7 +14,7 @@ namespace ouzel
     {
         namespace d3d11
         {
-            static DXGI_FORMAT getD3D11PixelFormat(PixelFormat pixelFormat)
+            static DXGI_FORMAT getPixelFormat(PixelFormat pixelFormat)
             {
                 switch (pixelFormat)
                 {
@@ -101,7 +101,7 @@ namespace ouzel
                 flags(initFlags),
                 mipmaps(static_cast<uint32_t>(levels.size())),
                 sampleCount(initSampleCount),
-                pixelFormat(getD3D11PixelFormat(initPixelFormat)),
+                pixelFormat(d3d11::getPixelFormat(initPixelFormat)),
                 pixelSize(getPixelSize(initPixelFormat))
             {
                 if ((flags & Flags::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
