@@ -52,6 +52,11 @@ namespace ouzel
 
                 struct Location final
                 {
+                    Location(GLint initLocation, DataType initDataType):
+                        location(initLocation), dataType(initDataType)
+                    {
+                    }
+
                     GLint location;
                     DataType dataType;
                 };

@@ -216,7 +216,7 @@ namespace ouzel
                         if (location == -1)
                             throw std::runtime_error("Failed to get OpenGL uniform location");
 
-                        fragmentShaderConstantLocations.push_back({location, info.second});
+                        fragmentShaderConstantLocations.emplace_back(location, info.second);
                     }
                 }
 
@@ -235,7 +235,7 @@ namespace ouzel
                         if (location == -1)
                             throw std::runtime_error("Failed to get OpenGL uniform location");
 
-                        vertexShaderConstantLocations.push_back({location, info.second});
+                        vertexShaderConstantLocations.emplace_back(location, info.second);
                     }
                 }
             }

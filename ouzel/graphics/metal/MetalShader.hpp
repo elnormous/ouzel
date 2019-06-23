@@ -48,6 +48,11 @@ namespace ouzel
 
                 struct Location final
                 {
+                    Location(uint32_t initOffset, uint32_t initSize):
+                        offset(initOffset), size(initSize)
+                    {
+                    }
+
                     uint32_t offset;
                     uint32_t size;
                 };
