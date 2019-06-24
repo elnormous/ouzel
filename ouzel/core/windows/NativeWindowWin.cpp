@@ -393,7 +393,7 @@ namespace ouzel
 
             if (shcoreModule)
             {
-                typedef HRESULT(STDAPICALLTYPE *SetProcessDpiAwarenessProc)(int value);
+                using SetProcessDpiAwarenessProc = HRESULT(STDAPICALLTYPE *)(int value);
                 SetProcessDpiAwarenessProc setProcessDpiAwarenessProc = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcoreModule, "SetProcessDpiAwareness"));
 
                 static constexpr int PROCESS_PER_MONITOR_DPI_AWARE = 2;

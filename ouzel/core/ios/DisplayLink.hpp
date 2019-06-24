@@ -17,7 +17,7 @@ typedef id NSRunLoopPtr;
 
 #include "graphics/RenderDevice.hpp"
 
-typedef void (*RenderCallback)(void*);
+using RenderCallback = void (*)(void*);
 
 namespace ouzel
 {

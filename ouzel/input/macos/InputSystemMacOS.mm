@@ -8,7 +8,7 @@
 #include "events/Event.hpp"
 #include "utils/Log.hpp"
 
-typedef struct CF_BRIDGED_TYPE(id) __IOHIDServiceClient * IOHIDServiceClientRef;
+typedef struct CF_BRIDGED_TYPE(id) __IOHIDServiceClient* IOHIDServiceClientRef;
 extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClientRef service, CFStringRef key);
 
 @interface ConnectDelegate: NSObject

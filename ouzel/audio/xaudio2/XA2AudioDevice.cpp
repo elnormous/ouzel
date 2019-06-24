@@ -18,7 +18,7 @@
 static constexpr char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
 static constexpr char* XAUDIO2_DLL_27 = "xaudio2_7.dll";
 
-typedef HRESULT(__stdcall *XAudio2CreateProc)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
+using XAudio2CreateProc = HRESULT(__stdcall *)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
 
 namespace ouzel
 {
