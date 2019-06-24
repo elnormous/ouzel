@@ -536,6 +536,14 @@ namespace ouzel
                 resourcePaths.push_back(path);
         }
 
+        void FileSystem::removeResourcePath(const std::string& path)
+        {
+            auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
+
+            if (i != resourcePaths.end())
+                resourcePaths.erase(i);
+        }
+
         void FileSystem::addArchive(const std::string& name, Archive&& archive)
         {
             archives.emplace_back(name, std::move(archive));

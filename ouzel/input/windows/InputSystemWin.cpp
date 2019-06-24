@@ -315,9 +315,9 @@ namespace ouzel
                 {
                     NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow());
 
-                    gamepadsDI.push_back(std::unique_ptr<GamepadDeviceDI>(new GamepadDeviceDI(*this, ++lastDeviceId,
-                                                                                              didInstance, directInput,
-                                                                                              windowWin->getNativeWindow())));
+                    gamepadsDI.emplace_back(new GamepadDeviceDI(*this, ++lastDeviceId,
+                                                                didInstance, directInput,
+                                                                windowWin->getNativeWindow()));
                 }
             }
         }

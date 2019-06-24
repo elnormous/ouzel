@@ -35,6 +35,7 @@ namespace ouzel
             bool resourceFileExists(const std::string& filename) const;
             std::string getPath(const std::string& filename, bool searchResources = true) const;
             void addResourcePath(const std::string& path);
+            void removeResourcePath(const std::string& path);
             void addArchive(const std::string& name, Archive&& archive);
             void removeArchive(const std::string& name);
 
