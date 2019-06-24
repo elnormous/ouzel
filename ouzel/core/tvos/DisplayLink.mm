@@ -63,7 +63,7 @@ namespace ouzel
 
         running = true;
 
-        renderThread = std::thread(&DisplayLink::main, this);
+        renderThread = std::thread(&DisplayLink::renderMain, this);
     }
 
     void DisplayLink::stop()
@@ -76,7 +76,7 @@ namespace ouzel
         }
     }
 
-    void DisplayLink::main()
+    void DisplayLink::renderMain()
     {
         setCurrentThreadName("Render");
 

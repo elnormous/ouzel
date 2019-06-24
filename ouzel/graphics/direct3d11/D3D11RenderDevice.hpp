@@ -91,7 +91,7 @@ namespace ouzel
                 void resizeBackBuffer(UINT newWidth, UINT newHeight);
                 void uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
                 void generateScreenshot(const std::string& filename) final;
-                void main();
+                void renderMain();
 
                 IDXGIOutput* getOutput() const;
 

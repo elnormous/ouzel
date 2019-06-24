@@ -316,7 +316,7 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL context");
 
                 running = true;
-                renderThread = std::thread(&RenderDeviceWin::main, this);
+                renderThread = std::thread(&RenderDeviceWin::renderMain, this);
             }
 
             void RenderDeviceWin::present()
@@ -325,7 +325,7 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to swap buffers");
             }
 
-            void RenderDeviceWin::main()
+            void RenderDeviceWin::renderMain()
             {
                 setCurrentThreadName("Render");
 

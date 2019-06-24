@@ -193,7 +193,7 @@ namespace ouzel
                     throw std::runtime_error("Failed to unset EGL context");
 
                 running = true;
-                renderThread = std::thread(&RenderDeviceAndroid::main, this);
+                renderThread = std::thread(&RenderDeviceAndroid::renderMain, this);
             }
 
             void RenderDeviceAndroid::reload()
@@ -305,7 +305,7 @@ namespace ouzel
                     throw std::runtime_error("Failed to unset EGL context");
 
                 running = true;
-                renderThread = std::thread(&RenderDeviceAndroid::main, this);
+                renderThread = std::thread(&RenderDeviceAndroid::renderMain, this);
             }
 
             void RenderDeviceAndroid::destroy()
@@ -343,7 +343,7 @@ namespace ouzel
                     throw std::system_error(eglGetError(), eglErrorCategory, "Failed to swap buffers");
             }
 
-            void RenderDeviceAndroid::main()
+            void RenderDeviceAndroid::renderMain()
             {
                 setCurrentThreadName("Render");
 

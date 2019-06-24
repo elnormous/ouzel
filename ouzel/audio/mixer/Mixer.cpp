@@ -19,7 +19,7 @@ namespace ouzel
                 bufferSize(initBufferSize),
                 channels(initChannels),
                 callback(initCallback),
-                mixerThread(&Mixer::main, this),
+                mixerThread(&Mixer::mixerMain, this),
                 buffer(initBufferSize * 3, initChannels)
             {
                 //setThreadPriority(mixerThread, 20.0F, true);
@@ -207,7 +207,7 @@ namespace ouzel
                     sample = clamp(sample, -1.0F, 1.0F);
             }
 
-            void Mixer::main()
+            void Mixer::mixerMain()
             {
                 for (;;)
                 {

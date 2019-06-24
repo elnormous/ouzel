@@ -49,7 +49,7 @@ namespace ouzel
                           bool newDebugRenderer) final;
 
                 void present() final;
-                void main();
+                void renderMain();
 
                 HDC deviceContext = 0;
                 HGLRC renderContext = 0;

@@ -111,7 +111,7 @@ namespace ouzel
             bool enabled = false;
         };
 
-        virtual void main();
+        virtual void engineMain();
         virtual void runOnMainThread(const std::function<void()>& func) = 0;
 
         Logger logger;

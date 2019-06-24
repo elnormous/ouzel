@@ -111,7 +111,7 @@ namespace ouzel
                 }
 
             private:
-                void main();
+                void mixerMain();
 
                 uint32_t bufferSize;
                 uint16_t channels;

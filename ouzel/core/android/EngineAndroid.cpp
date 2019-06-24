@@ -315,7 +315,7 @@ namespace ouzel
         }
     }
 
-    void EngineAndroid::main()
+    void EngineAndroid::engineMain()
     {
         JNIEnv* jniEnv;
         JavaVMAttachArgs attachArgs;
@@ -327,7 +327,7 @@ namespace ouzel
         if ((result = javaVM->AttachCurrentThread(&jniEnv, &attachArgs)) != JNI_OK)
             throw std::system_error(result, jniErrorCategory, "Failed to attach current thread to Java VM");
 
-        Engine::main();
+        Engine::engineMain();
 
         if ((result = javaVM->DetachCurrentThread()) != JNI_OK)
             throw std::system_error(result, jniErrorCategory, "Failed to detach current thread from Java VM");

@@ -48,7 +48,7 @@ namespace ouzel
                           bool newDebugRenderer) final;
 
                 void present() final;
-                void main();
+                void renderMain();
 
 #if OUZEL_OPENGL_INTERFACE_GLX
                 GLXContext context = 0;

@@ -39,7 +39,7 @@ namespace ouzel
         void stop();
 
     private:
-        void main();
+        void renderMain();
 
         RenderCallback callback;
         void* userInfo;

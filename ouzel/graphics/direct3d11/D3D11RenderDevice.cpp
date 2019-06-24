@@ -324,7 +324,7 @@ namespace ouzel
                     throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 depth stencil state");
 
                 running = true;
-                renderThread = std::thread(&RenderDevice::main, this);
+                renderThread = std::thread(&RenderDevice::renderMain, this);
             }
 
             void RenderDevice::setFullscreen(bool newFullscreen)
@@ -1149,7 +1149,7 @@ namespace ouzel
                 }
             }
 
-            void RenderDevice::main()
+            void RenderDevice::renderMain()
             {
                 setCurrentThreadName("Render");
 

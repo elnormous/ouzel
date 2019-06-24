@@ -310,7 +310,7 @@ namespace ouzel
 #endif
 
                 running = true;
-                renderThread = std::thread(&RenderDeviceLinux::main, this);
+                renderThread = std::thread(&RenderDeviceLinux::renderMain, this);
             }
 
             std::vector<Size2U> RenderDeviceLinux::getSupportedResolutions() const
@@ -350,7 +350,7 @@ namespace ouzel
 #endif
             }
 
-            void RenderDeviceLinux::main()
+            void RenderDeviceLinux::renderMain()
             {
                 setCurrentThreadName("Render");
 

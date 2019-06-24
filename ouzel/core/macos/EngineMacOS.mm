@@ -170,9 +170,9 @@ namespace ouzel
         });
     }
 
-    void EngineMacOS::main()
+    void EngineMacOS::engineMain()
     {
-        Engine::main();
+        Engine::engineMain();
 
         executeOnMainThread([]() {
             NSApplication* app = [NSApplication sharedApplication];

@@ -31,7 +31,7 @@ namespace ouzel
         void executeAll();
 
     private:
-        void main() final;
+        void engineMain() final;
         void runOnMainThread(const std::function<void()>& func) final;
 
         NSApplicationPtr application = nullptr;

@@ -645,7 +645,7 @@ namespace ouzel
             paused = false;
 
 #if !defined(__EMSCRIPTEN__)
-            updateThread = std::thread(&Engine::main, this);
+            updateThread = std::thread(&Engine::engineMain, this);
 #else
             main();
 #endif
@@ -740,7 +740,7 @@ namespace ouzel
         if (active) runOnMainThread(func);
     }
 
-    void Engine::main()
+    void Engine::engineMain()
     {
         setCurrentThreadName("Application");
 

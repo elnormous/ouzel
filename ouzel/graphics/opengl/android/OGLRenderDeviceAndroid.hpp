@@ -42,7 +42,7 @@ namespace ouzel
                           bool newDebugRenderer) final;
 
                 void present() final;
-                void main();
+                void renderMain();
 
                 EGLDisplay display = 0;
                 EGLSurface surface = 0;
