@@ -845,7 +845,6 @@ namespace ouzel
                                 currentSamplerStates.clear();
 
                                 for (uintptr_t resource : setTexturesCommand->textures)
-                                {
                                     if (Texture* texture = getResource<Texture>(resource))
                                     {
                                         currentResourceViews.push_back(texture->getResourceView());
@@ -856,7 +855,6 @@ namespace ouzel
                                         currentResourceViews.push_back(nullptr);
                                         currentSamplerStates.push_back(nullptr);
                                     }
-                                }
 
                                 context->PSSetShaderResources(0, static_cast<UINT>(currentResourceViews.size()), currentResourceViews.data());
                                 context->PSSetSamplers(0, static_cast<UINT>(currentSamplerStates.size()), currentSamplerStates.data());

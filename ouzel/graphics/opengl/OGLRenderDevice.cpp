@@ -502,14 +502,8 @@ namespace ouzel
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         engine->log(Log::Level::WARN) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
                     else
-                    {
                         for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
-                        {
-                            std::string extension(reinterpret_cast<const char*>(glGetStringiProc(GL_EXTENSIONS, i)));
-
-                            extensions.push_back(extension);
-                        }
-                    }
+                            extensions.emplace_back(reinterpret_cast<const char*>(glGetStringiProc(GL_EXTENSIONS, i)));
                 }
                 else
                 {
