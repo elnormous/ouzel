@@ -13,12 +13,12 @@ namespace ouzel
     {
         namespace opengl
         {
-            Buffer::Buffer(RenderDevice& renderDevice,
+            Buffer::Buffer(RenderDevice& initRenderDevice,
                            BufferType initType,
                            uint32_t initFlags,
                            const std::vector<uint8_t>& initData,
                            uint32_t initSize):
-                RenderResource(renderDevice),
+                RenderResource(initRenderDevice),
                 type(initType),
                 flags(initFlags),
                 data(initData)

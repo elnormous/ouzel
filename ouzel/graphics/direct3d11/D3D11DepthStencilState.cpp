@@ -45,7 +45,7 @@ namespace ouzel
                 }
             }
 
-            DepthStencilState::DepthStencilState(RenderDevice& renderDevice,
+            DepthStencilState::DepthStencilState(RenderDevice& initRenderDevice,
                                                  bool initDepthTest,
                                                  bool initDepthWrite,
                                                  CompareFunction initCompareFunction,
@@ -60,7 +60,7 @@ namespace ouzel
                                                  StencilOperation initBackFaceStencilDepthFailureOperation,
                                                  StencilOperation initBackFaceStencilPassOperation,
                                                  CompareFunction initBackFaceStencilCompareFunction):
-                RenderResource(renderDevice)
+                RenderResource(initRenderDevice)
             {
                 D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
                 depthStencilStateDesc.DepthEnable = initDepthTest ? TRUE : FALSE;

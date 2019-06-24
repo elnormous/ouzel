@@ -22,7 +22,7 @@ namespace ouzel
             class Buffer final: public RenderResource
             {
             public:
-                Buffer(RenderDevice& renderDevice,
+                Buffer(RenderDevice& initRenderDevice,
                        BufferType initType,
                        uint32_t initFlags,
                        const std::vector<uint8_t>& data,

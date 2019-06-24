@@ -40,7 +40,7 @@ namespace ouzel
             class Texture final: public RenderResource
             {
             public:
-                Texture(RenderDevice& renderDevice,
+                Texture(RenderDevice& initRenderDevice,
                         const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
                         TextureType type,
                         uint32_t initFlags = 0,

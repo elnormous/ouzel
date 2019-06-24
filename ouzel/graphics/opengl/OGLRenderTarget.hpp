@@ -35,7 +35,7 @@ namespace ouzel
             class RenderTarget final: public RenderResource
             {
             public:
-                RenderTarget(RenderDevice& renderDevice,
+                RenderTarget(RenderDevice& initRenderDevice,
                              const std::set<Texture*>& initColorTextures,
                              Texture* initDepthTexture);
                 ~RenderTarget();

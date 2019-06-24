@@ -82,7 +82,7 @@ namespace ouzel
                 return DXGI_FORMAT_UNKNOWN;
             }
 
-            Shader::Shader(RenderDevice& renderDevice,
+            Shader::Shader(RenderDevice& initRenderDevice,
                            const std::vector<uint8_t>& fragmentShaderData,
                            const std::vector<uint8_t>& vertexShaderData,
                            const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
@@ -92,7 +92,7 @@ namespace ouzel
                            uint32_t,
                            const std::string&,
                            const std::string&):
-                RenderResource(renderDevice),
+                RenderResource(initRenderDevice),
                 vertexAttributes(initVertexAttributes),
                 fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
                 vertexShaderConstantInfo(initVertexShaderConstantInfo)

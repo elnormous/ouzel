@@ -34,7 +34,7 @@ namespace ouzel
             class DepthStencilState final: public RenderResource
             {
             public:
-                DepthStencilState(RenderDevice& renderDevice,
+                DepthStencilState(RenderDevice& initRenderDevice,
                                   bool initDepthTest,
                                   bool initDepthWrite,
                                   CompareFunction initCompareFunction,

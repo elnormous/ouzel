@@ -92,13 +92,13 @@ namespace ouzel
                 }
             }
 
-            Texture::Texture(RenderDevice& renderDevice,
-                                       const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels,
-                                       TextureType type,
-                                       uint32_t initFlags,
-                                       uint32_t initSampleCount,
-                                       PixelFormat initPixelFormat):
-                RenderResource(renderDevice),
+            Texture::Texture(RenderDevice& initRenderDevice,
+                             const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels,
+                             TextureType type,
+                             uint32_t initFlags,
+                             uint32_t initSampleCount,
+                             PixelFormat initPixelFormat):
+                RenderResource(initRenderDevice),
                 flags(initFlags),
                 mipmaps(static_cast<uint32_t>(levels.size())),
                 sampleCount(initSampleCount),

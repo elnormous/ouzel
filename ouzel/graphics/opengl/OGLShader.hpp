@@ -36,7 +36,7 @@ namespace ouzel
             class Shader final: public RenderResource
             {
             public:
-                Shader(RenderDevice& renderDevice,
+                Shader(RenderDevice& initRenderDevice,
                        const std::vector<uint8_t>& initFragmentShader,
                        const std::vector<uint8_t>& initVertexShader,
                        const std::set<Vertex::Attribute::Usage>& initVertexAttributes,

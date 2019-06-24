@@ -256,13 +256,13 @@ namespace ouzel
                 }
             }
 
-            Texture::Texture(RenderDevice& renderDevice,
+            Texture::Texture(RenderDevice& initRenderDevice,
                              const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
                              TextureType type,
                              uint32_t initFlags,
                              uint32_t initSampleCount,
                              PixelFormat initPixelFormat):
-                RenderResource(renderDevice),
+                RenderResource(initRenderDevice),
                 levels(initLevels),
                 flags(initFlags),
                 mipmaps(static_cast<uint32_t>(initLevels.size())),

@@ -47,7 +47,7 @@ namespace ouzel
                 }
             }
 
-            BlendState::BlendState(RenderDevice& renderDevice,
+            BlendState::BlendState(RenderDevice& initRenderDevice,
                                    bool enableBlending,
                                    BlendFactor colorBlendSource,
                                    BlendFactor colorBlendDest,
@@ -56,7 +56,7 @@ namespace ouzel
                                    BlendFactor alphaBlendDest,
                                    BlendOperation alphaOperation,
                                    uint8_t colorMask):
-                RenderResource(renderDevice)
+                RenderResource(initRenderDevice)
             {
                 D3D11_BLEND_DESC blendStateDesc;
                 blendStateDesc.AlphaToCoverageEnable = FALSE;

@@ -13,12 +13,12 @@ namespace ouzel
     {
         namespace d3d11
         {
-            Buffer::Buffer(RenderDevice& renderDevice,
+            Buffer::Buffer(RenderDevice& initRenderDevice,
                            BufferType initType,
                            uint32_t initFlags,
                            const std::vector<uint8_t>& data,
                            uint32_t initSize):
-                RenderResource(renderDevice),
+                RenderResource(initRenderDevice),
                 type(initType),
                 flags(initFlags),
                 size(static_cast<UINT>(initSize))

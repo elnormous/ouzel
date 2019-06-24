@@ -58,7 +58,7 @@ namespace ouzel
             class Texture final: public RenderResource
             {
             public:
-                Texture(RenderDevice& renderDeviceMetal,
+                Texture(RenderDevice& initRenderDevice,
                         const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels,
                         TextureType type,
                         uint32_t initFlags = 0,

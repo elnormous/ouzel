@@ -14,10 +14,10 @@ namespace ouzel
     {
         namespace d3d11
         {
-            RenderTarget::RenderTarget(RenderDevice& renderDevice,
+            RenderTarget::RenderTarget(RenderDevice& initRenderDevice,
                                        const std::set<Texture*>& initColorTextures,
                                        Texture* initDepthTexture):
-                RenderResource(renderDevice),
+                RenderResource(initRenderDevice),
                 colorTextures(initColorTextures),
                 depthTexture(initDepthTexture)
             {

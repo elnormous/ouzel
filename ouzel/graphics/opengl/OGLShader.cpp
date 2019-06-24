@@ -13,7 +13,7 @@ namespace ouzel
     {
         namespace opengl
         {
-            Shader::Shader(RenderDevice& renderDevice,
+            Shader::Shader(RenderDevice& initRenderDevice,
                            const std::vector<uint8_t>& initFragmentShader,
                            const std::vector<uint8_t>& initVertexShader,
                            const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
@@ -23,7 +23,7 @@ namespace ouzel
                            uint32_t,
                            const std::string&,
                            const std::string&):
-                RenderResource(renderDevice),
+                RenderResource(initRenderDevice),
                 fragmentShaderData(initFragmentShader),
                 vertexShaderData(initVertexShader),
                 vertexAttributes(initVertexAttributes),

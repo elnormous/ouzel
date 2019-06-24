@@ -84,7 +84,7 @@ namespace ouzel
                 return MTLVertexFormatInvalid;
             }
 
-            Shader::Shader(RenderDevice& renderDevice,
+            Shader::Shader(RenderDevice& initRenderDevice,
                            const std::vector<uint8_t>& fragmentShaderData,
                            const std::vector<uint8_t>& vertexShaderData,
                            const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
@@ -94,7 +94,7 @@ namespace ouzel
                            uint32_t initVertexShaderDataAlignment,
                            const std::string& fragmentShaderFunction,
                            const std::string& vertexShaderFunction):
-                RenderResource(renderDevice),
+                RenderResource(initRenderDevice),
                 vertexAttributes(initVertexAttributes),
                 fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
                 vertexShaderConstantInfo(initVertexShaderConstantInfo)

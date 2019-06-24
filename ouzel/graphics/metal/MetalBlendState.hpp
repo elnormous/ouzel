@@ -32,7 +32,7 @@ namespace ouzel
             class BlendState final: public RenderResource
             {
             public:
-                BlendState(RenderDevice& renderDevice,
+                BlendState(RenderDevice& initRenderDevice,
                            bool enableBlending,
                            BlendFactor colorBlendSource,
                            BlendFactor colorBlendDest,
