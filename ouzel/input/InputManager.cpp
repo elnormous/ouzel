@@ -4,6 +4,7 @@
 #  include <TargetConditionals.h>
 #endif
 #include <algorithm>
+#include <stdexcept>
 #include "InputManager.hpp"
 #include "Gamepad.hpp"
 #include "Keyboard.hpp"
@@ -129,6 +130,7 @@ namespace ouzel
                             controllers.push_back(connectEvent->touchpad);
                             return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
+                        default: throw std::runtime_error("Invalid controller type");
                     }
                     break;
                 }
@@ -189,6 +191,7 @@ namespace ouzel
                                 handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
                                 break;
                             }
+                            default: throw std::runtime_error("Invalid controller type");
                         }
 
                         controllerMap.erase(i);

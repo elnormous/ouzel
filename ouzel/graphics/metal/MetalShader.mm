@@ -79,9 +79,8 @@ namespace ouzel
                     case DataType::FLOAT_MATRIX4: return MTLVertexFormatInvalid;
 
                     case DataType::NONE: return MTLVertexFormatInvalid;
+                    default: throw std::runtime_error("Invalid data type");
                 }
-
-                return MTLVertexFormatInvalid;
             }
 
             Shader::Shader(RenderDevice& initRenderDevice,

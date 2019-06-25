@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
+#include <stdexcept>
 #include "D3D11Shader.hpp"
 #include "D3D11RenderDevice.hpp"
 
@@ -77,9 +78,8 @@ namespace ouzel
                     case DataType::FLOAT_MATRIX4: return DXGI_FORMAT_UNKNOWN;
 
                     case DataType::NONE: return DXGI_FORMAT_UNKNOWN;
+                    default: throw std::runtime_error("Invalid data type");
                 }
-
-                return DXGI_FORMAT_UNKNOWN;
             }
 
             Shader::Shader(RenderDevice& initRenderDevice,

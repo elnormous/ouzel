@@ -9,6 +9,7 @@
 #endif
 
 #include <cassert>
+#include <stdexcept>
 
 #include "graphics/opengl/OGL.h"
 
@@ -166,7 +167,7 @@ namespace ouzel
                         return GL_FLOAT;
 
                     default:
-                        return 0;
+                        throw std::runtime_error("Invalid data type");
                 }
             }
 
@@ -233,7 +234,7 @@ namespace ouzel
                         return 4 * 4;
 
                     default:
-                        return 0;
+                        throw std::runtime_error("Invalid data type");
                 }
             }
 
