@@ -170,8 +170,8 @@ namespace ouzel
 
                                 particles[i].direction.v[0] += tmp.v[0];
                                 particles[i].direction.v[1] += tmp.v[1];
-                                tmp.v[0] = particles[i].direction.v[0] * UPDATE_STEP * particleSystemData.yCoordFlipped;
-                                tmp.v[1] = particles[i].direction.v[1] * UPDATE_STEP * particleSystemData.yCoordFlipped;
+                                tmp.v[0] = particles[i].direction.v[0] * UPDATE_STEP * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F);
+                                tmp.v[1] = particles[i].direction.v[1] * UPDATE_STEP * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F);
                                 particles[i].position.v[0] += tmp.v[0];
                                 particles[i].position.v[1] += tmp.v[1];
                             }
@@ -180,7 +180,7 @@ namespace ouzel
                                 particles[i].angle += particles[i].degreesPerSecond * UPDATE_STEP;
                                 particles[i].radius += particles[i].deltaRadius * UPDATE_STEP;
                                 particles[i].position.v[0] = -cos(particles[i].angle) * particles[i].radius;
-                                particles[i].position.v[1] = -sin(particles[i].angle) * particles[i].radius * particleSystemData.yCoordFlipped;
+                                particles[i].position.v[1] = -sin(particles[i].angle) * particles[i].radius * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F);
                             }
 
                             // color r,g,b,a
