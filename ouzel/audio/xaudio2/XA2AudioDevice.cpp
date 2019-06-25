@@ -18,8 +18,6 @@
 static constexpr char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
 static constexpr char* XAUDIO2_DLL_27 = "xaudio2_7.dll";
 
-using XAudio2CreateProc = HRESULT(__stdcall *)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
-
 namespace ouzel
 {
     namespace audio
@@ -66,6 +64,7 @@ namespace ouzel
                     apiMajorVersion = 2;
                     apiMinorVersion = 8;
 
+                    using XAudio2CreateProc = HRESULT(__stdcall *)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
                     XAudio2CreateProc xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
 
                     if (!xAudio2CreateProc)

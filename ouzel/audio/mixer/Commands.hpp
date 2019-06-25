@@ -242,7 +242,7 @@ namespace ouzel
             {
             public:
                 UpdateProcessorCommand(uintptr_t initProcessorId,
-                                       std::function<void(Processor*)> initUpdateFunction):
+                                       const std::function<void(Processor*)>& initUpdateFunction):
                     Command(Command::Type::UPDATE_PROCESSOR),
                     processorId(initProcessorId),
                     updateFunction(initUpdateFunction)

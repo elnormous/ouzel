@@ -24,7 +24,6 @@
 #  include <objc/message.h>
 #  include <objc/NSObjCRuntime.h>
 #  include <CoreFoundation/CoreFoundation.h>
-extern "C" id NSTemporaryDirectory();
 #elif defined(__ANDROID__)
 #  include "core/android/EngineAndroid.hpp"
 #elif defined(__linux__)
@@ -42,6 +41,10 @@ extern "C" id NSTemporaryDirectory();
 #include "Archive.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
+
+#if defined(__APPLE__)
+extern "C" id NSTemporaryDirectory();
+#endif
 
 namespace ouzel
 {
