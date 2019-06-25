@@ -21,7 +21,7 @@ namespace ouzel
             {
                 friend Renderer;
             public:
-                RenderDeviceEm(const std::function<void(const Event&)>& initCallback);
+                explicit RenderDeviceEm(const std::function<void(const Event&)>& initCallback);
                 ~RenderDeviceEm();
 
             private:

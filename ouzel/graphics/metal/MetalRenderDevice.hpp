@@ -78,7 +78,7 @@ namespace ouzel
                 }
 
             protected:
-                RenderDevice(const std::function<void(const Event&)>& initCallback);
+                explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
 
                 void init(Window* newWindow,
                           const Size2U& newSize,

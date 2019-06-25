@@ -30,7 +30,7 @@ namespace ouzel
             {
                 friend Renderer;
             public:
-                RenderDeviceLinux(const std::function<void(const Event&)>& initCallback);
+                explicit RenderDeviceLinux(const std::function<void(const Event&)>& initCallback);
                 ~RenderDeviceLinux();
 
                 std::vector<Size2U> getSupportedResolutions() const final;

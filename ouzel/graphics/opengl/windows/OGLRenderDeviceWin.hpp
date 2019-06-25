@@ -33,7 +33,7 @@ namespace ouzel
             {
                 friend Renderer;
             public:
-                RenderDeviceWin(const std::function<void(const Event&)>& initCallback);
+                explicit RenderDeviceWin(const std::function<void(const Event&)>& initCallback);
                 ~RenderDeviceWin();
 
             private:

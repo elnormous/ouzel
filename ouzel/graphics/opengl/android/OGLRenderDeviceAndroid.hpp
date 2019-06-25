@@ -23,7 +23,7 @@ namespace ouzel
             {
                 friend Renderer;
             public:
-                RenderDeviceAndroid(const std::function<void(const Event&)>& initCallback);
+                explicit RenderDeviceAndroid(const std::function<void(const Event&)>& initCallback);
                 ~RenderDeviceAndroid();
 
                 void reload();

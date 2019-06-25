@@ -194,6 +194,7 @@ namespace ouzel
                 PFNGLPUSHGROUPMARKEREXTPROC glPushGroupMarkerEXTProc = nullptr;
                 PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc = nullptr;
 
+                explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
                 virtual ~RenderDevice();
 
                 inline bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
@@ -623,8 +624,6 @@ namespace ouzel
                 }
 
             protected:
-                RenderDevice(const std::function<void(const Event&)>& initCallback);
-
                 void init(Window* newWindow,
                           const Size2U& newSize,
                           uint32_t newSampleCount,

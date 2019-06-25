@@ -36,7 +36,7 @@ namespace ouzel
             {
                 friend Renderer;
             public:
-                RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
+                explicit RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
                 ~RenderDeviceMacOS();
 
                 std::vector<Size2U> getSupportedResolutions() const final;

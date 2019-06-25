@@ -79,7 +79,7 @@ namespace ouzel
         class ResizeCommand final: public Command
         {
         public:
-            ResizeCommand(const Size2U& initSize):
+            explicit ResizeCommand(const Size2U& initSize):
                 Command(Command::Type::RESIZE),
                 size(initSize)
             {}
@@ -96,7 +96,7 @@ namespace ouzel
         class DeleteResourceCommand final: public Command
         {
         public:
-            DeleteResourceCommand(uintptr_t initResource):
+            explicit DeleteResourceCommand(uintptr_t initResource):
                 Command(Command::Type::DELETE_RESOURCE),
                 resource(initResource)
             {}
@@ -607,7 +607,7 @@ namespace ouzel
         {
         public:
             CommandBuffer() = default;
-            CommandBuffer(const std::string& initName):
+            explicit CommandBuffer(const std::string& initName):
                 name(initName)
             {
             }

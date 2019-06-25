@@ -14,7 +14,7 @@ namespace ouzel
             class RenderDevice final: public graphics::RenderDevice
             {
             public:
-                RenderDevice(const std::function<void(const Event&)>& initCallback);
+                explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
 
             private:
                 void process() final;

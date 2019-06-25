@@ -34,7 +34,7 @@ namespace ouzel
             {
                 friend Renderer;
             public:
-                RenderDeviceIOS(const std::function<void(const Event&)>& initCallback);
+                explicit RenderDeviceIOS(const std::function<void(const Event&)>& initCallback);
                 ~RenderDeviceIOS();
 
                 void renderCallback();
