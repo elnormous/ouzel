@@ -21,11 +21,10 @@ namespace ouzel
                 RenderResource(initRenderDevice),
                 type(initType),
                 flags(initFlags),
-                data(initData)
+                data(initData),
+                size(static_cast<GLsizeiptr>(initSize))
             {
                 createBuffer();
-
-                size = static_cast<GLsizeiptr>(initSize);
 
                 if (size > 0)
                 {
