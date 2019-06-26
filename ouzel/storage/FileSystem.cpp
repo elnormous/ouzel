@@ -15,7 +15,7 @@
 #    define NOMINMAX
 #  endif
 #  include <Windows.h>
-#  include <Shlobj.h>
+#  include <ShlObj.h>
 #  include <Shlwapi.h>
 #  pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #  pragma pop_macro("NOMINMAX")

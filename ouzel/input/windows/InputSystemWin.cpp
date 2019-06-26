@@ -271,7 +271,8 @@ namespace ouzel
                             if (wcsstr(var.bstrVal, L"IG_"))
                             {
                                 // If it does, then get the VID/PID from var.bstrVal
-                                DWORD dwPid = 0, dwVid = 0;
+                                DWORD dwPid = 0
+                                DWORD dwVid = 0;
                                 WCHAR* strVid = wcsstr(var.bstrVal, L"VID_");
                                 if (strVid && swscanf(strVid, L"VID_%4X", &dwVid) != 1) dwVid = 0;
                                 WCHAR* strPid = wcsstr(var.bstrVal, L"PID_");
