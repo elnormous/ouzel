@@ -494,7 +494,7 @@ namespace ouzel
 
         XFlush(display);
 #else
-        std::unique_lock<std::mutex> lock(executeMutex);
+        std::lock_guard<std::mutex> lock(executeMutex);
         executeQueue.push(func);
 #endif
     }

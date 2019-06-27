@@ -94,7 +94,7 @@ namespace ouzel
 
         void RenderDevice::executeOnRenderThread(const std::function<void()>& func)
         {
-            std::unique_lock<std::mutex> lock(executeMutex);
+            std::lock_guard<std::mutex> lock(executeMutex);
             executeQueue.push(func);
         }
 

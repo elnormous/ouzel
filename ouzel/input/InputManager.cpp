@@ -77,7 +77,7 @@ namespace ouzel
             std::pair<std::promise<bool>, InputSystem::Event> p(std::promise<bool>(), event);
             std::future<bool> f = p.first.get_future();
 
-            std::unique_lock<std::mutex> lock(eventQueueMutex);
+            std::lock_guard<std::mutex> lock(eventQueueMutex);
             eventQueue.push(std::move(p));
 
             return f;

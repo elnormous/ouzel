@@ -204,7 +204,7 @@ namespace ouzel
 #if defined(__EMSCRIPTEN__)
         promise.set_value(dispatchEvent(std::move(event)));
 #else
-        std::unique_lock<std::mutex> lock(eventQueueMutex);
+        std::lock_guard<std::mutex> lock(eventQueueMutex);
         eventQueue.push(std::pair<std::promise<bool>, std::unique_ptr<Event>>(std::move(promise), std::move(event)));
 #endif
 

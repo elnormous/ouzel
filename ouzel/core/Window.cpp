@@ -125,7 +125,7 @@ namespace ouzel
         }
         else
         {
-            std::unique_lock<std::mutex> lock(eventQueueMutex);
+            std::lock_guard<std::mutex> lock(eventQueueMutex);
             eventQueue.push(event);
         }
     }
