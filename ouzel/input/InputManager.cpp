@@ -81,7 +81,7 @@ namespace ouzel
             eventQueue.push(std::move(p));
 
             return f;
-        };
+        }
 
         bool InputManager::handleEvent(const InputSystem::Event& event)
         {
