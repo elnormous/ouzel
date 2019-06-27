@@ -40,7 +40,7 @@ namespace ouzel
             explicit Camera(const Matrix4F& initProjection);
             explicit Camera(const Size2F& initTargetContentSize = Size2F(), ScaleMode initScaleMode = ScaleMode::NONE);
             explicit Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
-            ~Camera();
+            ~Camera() override;
 
             inline ProjectionMode getProjectionMode() const { return projectionMode; }
             inline void setProjectionMode(ProjectionMode newProjectionMode) { projectionMode = newProjectionMode; }

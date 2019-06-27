@@ -23,7 +23,7 @@ namespace ouzel
             friend Light;
         public:
             Layer();
-            virtual ~Layer();
+            ~Layer() override;
 
             virtual void draw();
 

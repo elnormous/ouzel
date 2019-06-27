@@ -67,7 +67,7 @@ namespace ouzel
             friend Layer;
         public:
             Actor() = default;
-            virtual ~Actor();
+            ~Actor() override;
 
             virtual void visit(std::vector<Actor*>& drawQueue,
                                const Matrix4F& newParentTransform,

@@ -25,7 +25,7 @@ namespace ouzel
 
             Light();
             explicit Light(Type initType);
-            virtual ~Light();
+            ~Light() override;
 
             inline Type getType() const { return type; }
             inline void setType(Type newType) { type = newType; }
