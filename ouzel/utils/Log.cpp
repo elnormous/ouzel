@@ -43,6 +43,7 @@ namespace ouzel
         int priority = 0;
         switch (level)
         {
+            case Log::Level::OFF: return;
             case Log::Level::ERR: priority = ANDROID_LOG_ERROR; break;
             case Log::Level::WARN: priority = ANDROID_LOG_WARN; break;
             case Log::Level::INFO: priority = ANDROID_LOG_INFO; break;
@@ -54,6 +55,7 @@ namespace ouzel
         int priority = 0;
         switch (level)
         {
+            case Log::Level::OFF: return;
             case Log::Level::ERR: priority = LOG_ERR; break;
             case Log::Level::WARN: priority = LOG_WARNING; break;
             case Log::Level::INFO: priority = LOG_INFO; break;
@@ -65,6 +67,7 @@ namespace ouzel
         int fd = 0;
         switch (level)
         {
+            case Log::Level::OFF: return;
             case Log::Level::ERR:
             case Log::Level::WARN:
                 fd = STDERR_FILENO;
@@ -104,6 +107,7 @@ namespace ouzel
         HANDLE handle = 0;
         switch (level)
         {
+            case Log::Level::OFF: return;
             case Log::Level::ERR:
             case Log::Level::WARN:
                 handle = GetStdHandle(STD_ERROR_HANDLE);
@@ -125,8 +129,8 @@ namespace ouzel
         int flags = EM_LOG_CONSOLE;
         if (level == Log::Level::ERR) flags |= EM_LOG_ERROR;
         else if (level == Log::Level::WARN) flags |= EM_LOG_WARN;
+        else return;
         emscripten_log(flags, "%s", str.c_str());
-
 #endif
     }
 }
