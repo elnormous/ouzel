@@ -85,6 +85,9 @@ namespace ouzel
                 case PixelFormat::RGBA32_SINT:
                 case PixelFormat::RGBA32_FLOAT:
                     return 16;
+                case PixelFormat::DEPTH:
+                case PixelFormat::DEPTH_STENCIL:
+                    return 4;
                 case PixelFormat::DEFAULT:
                     return 0;
                 default:
@@ -128,6 +131,9 @@ namespace ouzel
                 case PixelFormat::RGBA32_UINT:
                 case PixelFormat::RGBA32_SINT:
                 case PixelFormat::RGBA32_FLOAT:
+                    return 4;
+                case PixelFormat::DEPTH:
+                case PixelFormat::DEPTH_STENCIL:
                     return 4;
                 case PixelFormat::DEFAULT:
                     return 0;
@@ -173,6 +179,9 @@ namespace ouzel
                 case PixelFormat::RGBA32_SINT:
                 case PixelFormat::RGBA32_FLOAT:
                     return 4;
+                case PixelFormat::DEPTH:
+                case PixelFormat::DEPTH_STENCIL:
+                    return 1;
                 case PixelFormat::DEFAULT:
                     return 0;
                 default:

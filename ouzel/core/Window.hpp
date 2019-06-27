@@ -22,7 +22,7 @@ namespace ouzel
             FULLSCREEN = 0x02,
             EXCLUSIVE_FULLSCREEN = 0x04,
             HIGH_DPI = 0x08,
-            DEPTH = 0x10,
+            DEPTH = 0x10
         };
 
         enum class Mode
