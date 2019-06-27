@@ -33,6 +33,7 @@
     <ClCompile Include="..\ouzel\assets\WaveLoader.cpp" />
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
     <ClCompile Include="..\ouzel\audio\AudioDevice.cpp" />
+    <ClCompile Include="..\ouzel\audio\Bank.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\DSAudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\EmptyAudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\Containers.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="..\ouzel\assets\WaveLoader.hpp" />
     <ClInclude Include="..\ouzel\audio\Audio.hpp" />
     <ClInclude Include="..\ouzel\audio\AudioDevice.hpp" />
+    <ClInclude Include="..\ouzel\audio\Bank.hpp" />
     <ClInclude Include="..\ouzel\audio\Channel.hpp" />
     <ClInclude Include="..\ouzel\audio\Driver.hpp" />
     <ClInclude Include="..\ouzel\audio\dsound\DSAudioDevice.hpp" />

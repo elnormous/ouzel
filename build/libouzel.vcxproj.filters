@@ -10,6 +10,9 @@
     <ClCompile Include="..\ouzel\audio\Audio.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Bank.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\audio\dsound\DSAudioDevice.cpp">
       <Filter>ouzel\audio\directsound</Filter>
     </ClCompile>
@@ -367,6 +370,9 @@
       <Filter>ouzel\storage</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Audio.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Bank.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\dsound\DSAudioDevice.hpp">

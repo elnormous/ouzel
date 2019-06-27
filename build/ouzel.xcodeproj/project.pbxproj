@@ -552,6 +552,12 @@
 		30724D831F353A0800D915ED /* ViewIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30724D811F353A0800D915ED /* ViewIOS.h */; };
 		30724D861F353A1800D915ED /* ViewTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30724D841F353A1800D915ED /* ViewTVOS.mm */; };
 		30724D871F353A1800D915ED /* ViewTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30724D851F353A1800D915ED /* ViewTVOS.h */; };
+		307934D422C58CFE005A6804 /* Bank.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307934D222C58CFE005A6804 /* Bank.cpp */; };
+		307934D522C58CFE005A6804 /* Bank.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307934D222C58CFE005A6804 /* Bank.cpp */; };
+		307934D622C58CFE005A6804 /* Bank.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307934D222C58CFE005A6804 /* Bank.cpp */; };
+		307934D722C58CFE005A6804 /* Bank.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307934D322C58CFE005A6804 /* Bank.hpp */; };
+		307934D822C58CFE005A6804 /* Bank.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307934D322C58CFE005A6804 /* Bank.hpp */; };
+		307934D922C58CFE005A6804 /* Bank.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307934D322C58CFE005A6804 /* Bank.hpp */; };
 		307F9FFE1F1E9CA000BA73CB /* GamepadDeviceGC.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */; };
 		307F9FFF1F1E9CA000BA73CB /* GamepadDeviceGC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */; };
 		3085DA20211A4A5500F4C2D0 /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3085DA1E211A4A5500F4C2D0 /* Socket.cpp */; };
@@ -1003,6 +1009,8 @@
 		30724D841F353A1800D915ED /* ViewTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewTVOS.mm; sourceTree = "<group>"; };
 		30724D851F353A1800D915ED /* ViewTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewTVOS.h; sourceTree = "<group>"; };
 		307726CE2187F2880050F94C /* SystemCursor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SystemCursor.hpp; sourceTree = "<group>"; };
+		307934D222C58CFE005A6804 /* Bank.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bank.cpp; sourceTree = "<group>"; };
+		307934D322C58CFE005A6804 /* Bank.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bank.hpp; sourceTree = "<group>"; };
 		307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceGC.hpp; sourceTree = "<group>"; };
 		307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceGC.mm; sourceTree = "<group>"; };
 		3082C3461D94A8D90090FC9D /* PixelFormat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
@@ -1527,6 +1535,8 @@
 				30419DE01D162BCF00A63759 /* Audio.hpp */,
 				30C758AB1F4A0196008499DC /* AudioDevice.cpp */,
 				30C758AC1F4A0196008499DC /* AudioDevice.hpp */,
+				307934D222C58CFE005A6804 /* Bank.cpp */,
+				307934D322C58CFE005A6804 /* Bank.hpp */,
 				30BA5FB72198E43A0032AC23 /* Channel.hpp */,
 				305B11362250413900EDA4F5 /* Containers.cpp */,
 				305B11372250413900EDA4F5 /* Containers.hpp */,
@@ -1841,6 +1851,7 @@
 				30419DF51D162BEF00A63759 /* Sound.hpp in Headers */,
 				303B04B31E207B6100011CBE /* OpenGLView.h in Headers */,
 				30519CEB1F9B53F500AF3DC4 /* MtlLoader.hpp in Headers */,
+				307934D722C58CFE005A6804 /* Bank.hpp in Headers */,
 				30FE38511DFDE49E00305B3B /* Quaternion.hpp in Headers */,
 				30A381F821B201C20043568A /* Bus.hpp in Headers */,
 				302B728721BDE302006EBC59 /* SilenceSound.hpp in Headers */,
@@ -1987,6 +1998,7 @@
 				30575AAB1C39D1FF0009C8A7 /* Layer.hpp in Headers */,
 				30519CFD1F9B54E300AF3DC4 /* VorbisLoader.hpp in Headers */,
 				303B76601C355A3B00FEDE92 /* Vector.hpp in Headers */,
+				307934D922C58CFE005A6804 /* Bank.hpp in Headers */,
 				30CEB37921A6404B00525637 /* SystemTVOS.hpp in Headers */,
 				303B76611C355A3B00FEDE92 /* Utils.hpp in Headers */,
 				30381FFF1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */,
@@ -2189,6 +2201,7 @@
 				30A3821C21B4BDC80043568A /* Submix.hpp in Headers */,
 				303B75011C28208800FEDE92 /* FileSystem.hpp in Headers */,
 				30381FE01D80A40700677CAB /* MetalBlendState.hpp in Headers */,
+				307934D822C58CFE005A6804 /* Bank.hpp in Headers */,
 				303B760A1C34A92B00FEDE92 /* InputManager.hpp in Headers */,
 				304A8E541C237C70008B1151 /* Engine.hpp in Headers */,
 				3011E1C71EFFE6DE00CB1DDC /* Ini.hpp in Headers */,
@@ -2500,6 +2513,7 @@
 				303B75511C2A3CB700FEDE92 /* Matrix.cpp in Sources */,
 				30575AD91C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				3030D5021DAEF1FA007CC8EB /* Log.cpp in Sources */,
+				307934D422C58CFE005A6804 /* Bank.cpp in Sources */,
 				305B11382250413900EDA4F5 /* Containers.cpp in Sources */,
 				303647151C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				30575AA71C39D1FF0009C8A7 /* Layer.cpp in Sources */,
@@ -2623,6 +2637,7 @@
 				3030D5041DAEF1FA007CC8EB /* Log.cpp in Sources */,
 				303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */,
+				307934D622C58CFE005A6804 /* Bank.cpp in Sources */,
 				305B113A2250413900EDA4F5 /* Containers.cpp in Sources */,
 				303B76521C355A3B00FEDE92 /* Engine.cpp in Sources */,
 				303B76541C355A3B00FEDE92 /* Actor.cpp in Sources */,
@@ -2675,6 +2690,7 @@
 				30A381F621B201C20043568A /* Bus.cpp in Sources */,
 				30575AC51C3B17540009C8A7 /* Widgets.cpp in Sources */,
 				304AA8BF1E1190E4006FA70E /* Obf.cpp in Sources */,
+				307934D522C58CFE005A6804 /* Bank.cpp in Sources */,
 				30EEADCC216A44EC00D2F525 /* InputDevice.cpp in Sources */,
 				30EEADC421618DD800D2F525 /* MouseDevice.cpp in Sources */,
 				3009030F21922E1300B00BF4 /* OGLDepthStencilState.cpp in Sources */,
