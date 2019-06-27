@@ -1191,14 +1191,14 @@ namespace ouzel
                                 auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
                                 std::unique_ptr<BlendState> blendState(new BlendState(*this,
-                                                                                            initBlendStateCommand->enableBlending,
-                                                                                            initBlendStateCommand->colorBlendSource,
-                                                                                            initBlendStateCommand->colorBlendDest,
-                                                                                            initBlendStateCommand->colorOperation,
-                                                                                            initBlendStateCommand->alphaBlendSource,
-                                                                                            initBlendStateCommand->alphaBlendDest,
-                                                                                            initBlendStateCommand->alphaOperation,
-                                                                                            initBlendStateCommand->colorMask));
+                                                                                      initBlendStateCommand->enableBlending,
+                                                                                      initBlendStateCommand->colorBlendSource,
+                                                                                      initBlendStateCommand->colorBlendDest,
+                                                                                      initBlendStateCommand->colorOperation,
+                                                                                      initBlendStateCommand->alphaBlendSource,
+                                                                                      initBlendStateCommand->alphaBlendDest,
+                                                                                      initBlendStateCommand->alphaOperation,
+                                                                                      initBlendStateCommand->colorMask));
 
                                 if (initBlendStateCommand->blendState > resources.size())
                                     resources.resize(initBlendStateCommand->blendState);
@@ -1211,10 +1211,10 @@ namespace ouzel
                                 auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
                                 std::unique_ptr<Buffer> buffer(new Buffer(*this,
-                                                                                initBufferCommand->type,
-                                                                                initBufferCommand->flags,
-                                                                                initBufferCommand->data,
-                                                                                initBufferCommand->size));
+                                                                          initBufferCommand->bufferType,
+                                                                          initBufferCommand->flags,
+                                                                          initBufferCommand->data,
+                                                                          initBufferCommand->size));
 
                                 if (initBufferCommand->buffer > resources.size())
                                     resources.resize(initBufferCommand->buffer);
@@ -1300,7 +1300,7 @@ namespace ouzel
 
                                 std::unique_ptr<Texture> texture(new Texture(*this,
                                                                              initTextureCommand->levels,
-                                                                             initTextureCommand->type,
+                                                                             initTextureCommand->textureType,
                                                                              initTextureCommand->flags,
                                                                              initTextureCommand->sampleCount,
                                                                              initTextureCommand->pixelFormat));

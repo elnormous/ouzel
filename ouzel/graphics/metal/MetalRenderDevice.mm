@@ -667,7 +667,7 @@ namespace ouzel
                                 auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
                                 std::unique_ptr<Buffer> buffer(new Buffer(*this,
-                                                                          initBufferCommand->type,
+                                                                          initBufferCommand->bufferType,
                                                                           initBufferCommand->flags,
                                                                           initBufferCommand->data,
                                                                           initBufferCommand->size));
@@ -829,7 +829,7 @@ namespace ouzel
 
                                 std::unique_ptr<Texture> texture(new Texture(*this,
                                                                              initTextureCommand->levels,
-                                                                             initTextureCommand->type,
+                                                                             initTextureCommand->textureType,
                                                                              initTextureCommand->flags,
                                                                              initTextureCommand->sampleCount,
                                                                              initTextureCommand->pixelFormat));

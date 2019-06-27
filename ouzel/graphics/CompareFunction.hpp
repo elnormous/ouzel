@@ -16,7 +16,7 @@ namespace ouzel
             GREATER,
             NOT_EQUAL,
             GREATER_EQUAL,
-            ALWAYS,
+            ALWAYS
         };
     } // namespace graphics
 } // namespace ouzel

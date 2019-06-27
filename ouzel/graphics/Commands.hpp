@@ -419,13 +419,13 @@ namespace ouzel
         {
         public:
             InitBufferCommand(uintptr_t initBuffer,
-                              BufferType initType,
+                              BufferType initBufferType,
                               uint32_t initFlags,
                               const std::vector<uint8_t>& initData,
                               uint32_t initSize):
                 Command(Command::Type::INIT_BUFFER),
                 buffer(initBuffer),
-                type(initType),
+                bufferType(initBufferType),
                 flags(initFlags),
                 data(initData),
                 size(initSize)
@@ -433,7 +433,7 @@ namespace ouzel
             }
 
             uintptr_t buffer;
-            BufferType type;
+            BufferType bufferType;
             uint32_t flags;
             std::vector<uint8_t> data;
             uint32_t size;
@@ -513,14 +513,14 @@ namespace ouzel
         public:
             InitTextureCommand(uintptr_t initTexture,
                                const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
-                               TextureType initType,
+                               TextureType initTextureType,
                                uint32_t initFlags,
                                uint32_t initSampleCount,
                                PixelFormat initPixelFormat):
                 Command(Command::Type::INIT_TEXTURE),
                 texture(initTexture),
                 levels(initLevels),
-                type(initType),
+                textureType(initTextureType),
                 flags(initFlags),
                 sampleCount(initSampleCount),
                 pixelFormat(initPixelFormat)
@@ -529,7 +529,7 @@ namespace ouzel
 
             uintptr_t texture;
             std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels;
-            TextureType type;
+            TextureType textureType;
             uint32_t flags;
             uint32_t sampleCount;
             PixelFormat pixelFormat;

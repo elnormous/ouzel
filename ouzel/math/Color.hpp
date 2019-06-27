@@ -56,7 +56,7 @@ namespace ouzel
                                 currentValue += "0";
                         }
 
-                        v[component] = static_cast<uint8_t>(std::stoul(currentValue, 0, 16));
+                        v[component] = static_cast<uint8_t>(std::stoul(currentValue, nullptr, 16));
                     }
 
                     v[3] = 0xFF; // alpha
