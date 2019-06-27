@@ -47,12 +47,8 @@ namespace ouzel
 
                 HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, VOID** ppvInterface)
                 {
-                    if (riid == IID_IUnknown)
-                    {
-                        AddRef();
-                        *ppvInterface = this;
-                    }
-                    else if (riid == __uuidof(IMMNotificationClient))
+                    if (riid == IID_IUnknown ||
+                        riid == __uuidof(IMMNotificationClient))
                     {
                         AddRef();
                         *ppvInterface = this;

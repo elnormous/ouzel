@@ -25,7 +25,7 @@ namespace ouzel
             Delay& operator=(Delay&&) = delete;
 
             inline float getDelay() const { return delay; }
-            inline void setDelay(float newDelay);
+            void setDelay(float newDelay);
 
             inline const std::pair<float, float>& getDelayRandom() const { return delayRandom; }
             void setDelayRandom(const std::pair<float, float>& newDelayRandom);
