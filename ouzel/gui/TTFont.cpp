@@ -2,10 +2,11 @@
 
 #include <cassert>
 #include <stdexcept>
-#define STB_TRUETYPE_IMPLEMENTATION
 #include "TTFont.hpp"
 #include "core/Engine.hpp"
 #include "utils/Utf8.hpp"
+#define STB_TRUETYPE_IMPLEMENTATION
+#include "stb_truetype.h"
 
 namespace ouzel
 {

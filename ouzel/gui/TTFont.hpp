@@ -3,8 +3,9 @@
 #ifndef OUZEL_GUI_TTFONT_HPP
 #define OUZEL_GUI_TTFONT_HPP
 
-#include "stb_truetype.h"
 #include "gui/Font.hpp"
+
+struct stbtt_fontinfo;
 
 namespace ouzel
 {
@@ -30,7 +31,7 @@ namespace ouzel
             int16_t getKerningPair(uint32_t, uint32_t);
 
             std::unique_ptr<stbtt_fontinfo> font;
-            std::vector<unsigned char> data;
+            std::vector<uint8_t> data;
             bool mipmaps = true;
         };
     } // namespace gui

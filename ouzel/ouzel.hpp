@@ -72,7 +72,7 @@
 #include "graphics/TextureType.hpp"
 #include "graphics/Vertex.hpp"
 #include "gui/BMFont.hpp"
-//#include "gui/TTFont.hpp"
+#include "gui/TTFont.hpp"
 #include "gui/Widget.hpp"
 #include "gui/Widgets.hpp"
 #include "input/Controller.hpp"

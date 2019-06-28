@@ -3,6 +3,7 @@
 #include "TtfLoader.hpp"
 #include "Bundle.hpp"
 #include "gui/TTFont.hpp"
+#include "stb_truetype.h"
 
 namespace ouzel
 {
