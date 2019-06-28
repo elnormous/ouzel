@@ -10,6 +10,12 @@ namespace ouzel
 {
     namespace audio
     {
+        Voice::Voice(Audio& initAudio):
+            Node(initAudio),
+            audio(initAudio)
+        {
+        }
+
         Voice::Voice(Audio& initAudio, const std::shared_ptr<Sound>& initSound):
             Node(initAudio),
             audio(initAudio),
