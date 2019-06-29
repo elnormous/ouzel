@@ -17,7 +17,7 @@ namespace ouzel
         {
         public:
             StaticMeshData() = default;
-            StaticMeshData(Box3F initBoundingBox,
+            StaticMeshData(const Box3F& initBoundingBox,
                            const std::vector<uint32_t> indices,
                            const std::vector<graphics::Vertex>& vertices,
                            const std::shared_ptr<graphics::Material>& initMaterial);

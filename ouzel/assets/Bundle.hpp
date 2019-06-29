@@ -29,8 +29,8 @@ namespace ouzel
         {
         public:
             Asset(uint32_t initType,
-                  std::string initName,
-                  std::string initFilename,
+                  const std::string& initName,
+                  const std::string& initFilename,
                   bool initMipmaps = true):
                 type(initType),
                 name(initName),

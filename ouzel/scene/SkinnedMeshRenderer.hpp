@@ -22,7 +22,7 @@ namespace ouzel
             };
 
             SkinnedMeshData() = default;
-            SkinnedMeshData(Box3F initBoundingBox,
+            SkinnedMeshData(const Box3F& initBoundingBox,
                             const std::shared_ptr<graphics::Material>& initMaterial):
                 boundingBox(initBoundingBox),
                 material(initMaterial)
