@@ -21,7 +21,18 @@
 #include "scene/SceneManager.hpp"
 #include "storage/FileSystem.hpp"
 #include "assets/Bundle.hpp"
+#include "assets/BmfLoader.hpp"
 #include "assets/Cache.hpp"
+#include "assets/ColladaLoader.hpp"
+#include "assets/GltfLoader.hpp"
+#include "assets/ImageLoader.hpp"
+#include "assets/MtlLoader.hpp"
+#include "assets/ObjLoader.hpp"
+#include "assets/ParticleSystemLoader.hpp"
+#include "assets/SpriteLoader.hpp"
+#include "assets/TtfLoader.hpp"
+#include "assets/VorbisLoader.hpp"
+#include "assets/WaveLoader.hpp"
 #include "localization/Localization.hpp"
 #include "network/Network.hpp"
 #include "utils/Ini.hpp"
@@ -143,6 +154,18 @@ namespace ouzel
 
         std::atomic_bool screenSaverEnabled{true};
         std::vector<std::string> args;
+
+        assets::BmfLoader loaderBMF;
+        assets::ColladaLoader loaderCollada;
+        assets::GltfLoader loaderGLTF;
+        assets::ImageLoader loaderImage;
+        assets::MtlLoader loaderMTL;
+        assets::ObjLoader loaderOBJ;
+        assets::ParticleSystemLoader loaderParticleSystem;
+        assets::SpriteLoader loaderSprite;
+        assets::TtfLoader loaderTTF;
+        assets::VorbisLoader loaderVorbis;
+        assets::WaveLoader loaderWave;
     };
 
     extern Engine* engine;

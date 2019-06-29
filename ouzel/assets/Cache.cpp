@@ -10,21 +10,6 @@ namespace ouzel
 {
     namespace assets
     {
-        Cache::Cache():
-            loaderBMF(*this),
-            loaderCollada(*this),
-            loaderGLTF(*this),
-            loaderImage(*this),
-            loaderMTL(*this),
-            loaderOBJ(*this),
-            loaderParticleSystem(*this),
-            loaderSprite(*this),
-            loaderTTF(*this),
-            loaderVorbis(*this),
-            loaderWave(*this)
-        {
-        }
-
         void Cache::addBundle(Bundle* bundle)
         {
             auto i = std::find(bundles.begin(), bundles.end(), bundle);
