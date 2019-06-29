@@ -253,15 +253,10 @@ namespace ouzel
                 return bounceOut(t * 2.0F - 1.0F) * 0.5F + 0.5F;
         }
 
-        Ease::Ease(Animator* animator, Mode initMode, Func initFunc):
-            Animator(animator->getLength()), mode(initMode), func(initFunc)
+        Ease::Ease(Animator& animator, Mode initMode, Func initFunc):
+            Animator(animator.getLength()), mode(initMode), func(initFunc)
         {
-            addAnimator(animator);
-        }
-
-        Ease::Ease(const std::unique_ptr<Animator>& animator, Mode initMode, Func initFunc):
-            Ease(animator.get(), initMode, initFunc)
-        {
+            addAnimator(&animator);
         }
 
         void Ease::updateProgress()

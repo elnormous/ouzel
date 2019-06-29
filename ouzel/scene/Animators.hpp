@@ -41,8 +41,7 @@ namespace ouzel
                 BOUNCE
             };
 
-            Ease(Animator* animator, Mode initModee, Func initFunc);
-            Ease(const std::unique_ptr<Animator>& animator, Mode initMode, Func initFunc);
+            Ease(Animator& animator, Mode initModee, Func initFunc);
 
         protected:
             void updateProgress() final;
