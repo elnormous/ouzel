@@ -746,18 +746,6 @@ namespace ouzel
                                                                                     pixelFormat)));
         }
 
-        void Texture::setData(const std::vector<uint8_t>& newData)
-        {
-            if (!(flags & Flags::DYNAMIC) || flags & Flags::BIND_RENDER_TARGET)
-                throw std::runtime_error("Texture is not dynamic");
-
-            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
-
-            if (resource)
-                renderer.addCommand(std::unique_ptr<Command>(new SetTextureDataCommand(resource,
-                                                                                       levels)));
-        }
-
         void Texture::setData(const std::vector<uint8_t>& newData, CubeFace face)
         {
             if (!(flags & Flags::DYNAMIC) || flags & Flags::BIND_RENDER_TARGET)
