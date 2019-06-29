@@ -36,6 +36,7 @@ namespace ouzel
             void addChild(std::unique_ptr<Actor>&& actor);
             virtual void addChild(Actor* actor);
             virtual bool removeChild(Actor* actor);
+            std::unique_ptr<Actor>&& releaseChild(Actor* actor);
 
             bool moveChildToBack(Actor* actor);
             bool moveChildToFront(Actor* actor);

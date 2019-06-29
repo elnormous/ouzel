@@ -67,6 +67,19 @@ namespace ouzel
             return result;
         }
 
+        std::unique_ptr<Actor>&& ActorContainer::releaseChild(Actor* actor)
+        {
+            auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const std::unique_ptr<Actor>& ownedChild){
+                return actor == ownedChild.get();
+            });
+            std::unique_ptr<Actor> result = std::move(*ownedChildIterator);
+            ownedChildren.erase(ownedChildIterator);
+
+            removeChild(actor);
+
+            return std::move(result);
+        }
+
         bool ActorContainer::moveChildToBack(Actor* actor)
         {
             auto i = std::find(children.begin(), children.end(), actor);
