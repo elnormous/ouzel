@@ -65,7 +65,7 @@ AnimationsSample::AnimationsSample():
 
     witchRotate.reset(new scene::Rotate(1.0F, Vector3F(0.0F, 0.0F, tau<float>()), false));
 
-    witchRepeat.reset(new scene::Repeat(witchRotate, 3));
+    witchRepeat.reset(new scene::Repeat(*witchRotate, 3));
     witchParallel.reset(new scene::Parallel(parallel));
 
     std::vector<scene::Animator*> sequence = {

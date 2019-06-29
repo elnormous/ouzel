@@ -100,8 +100,7 @@ namespace ouzel
         class Repeat final: public Animator
         {
         public:
-            explicit Repeat(Animator* animator, uint32_t initCount = 0);
-            explicit Repeat(const std::unique_ptr<Animator>& animator, uint32_t initCount = 0);
+            explicit Repeat(Animator& animator, uint32_t initCount = 0);
 
             void reset() final;
 

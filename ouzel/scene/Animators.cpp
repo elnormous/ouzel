@@ -421,15 +421,10 @@ namespace ouzel
             }
         }
 
-        Repeat::Repeat(Animator* animator, uint32_t initCount):
-            Animator(animator->getLength() * static_cast<float>(initCount)), count(initCount)
+        Repeat::Repeat(Animator& animator, uint32_t initCount):
+            Animator(animator.getLength() * static_cast<float>(initCount)), count(initCount)
         {
-            addAnimator(animator);
-        }
-
-        Repeat::Repeat(const std::unique_ptr<Animator>& animator, uint32_t initCount):
-            Repeat(animator.get(), initCount)
-        {
+            addAnimator(&animator);
         }
 
         void Repeat::reset()
