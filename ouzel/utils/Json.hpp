@@ -184,7 +184,7 @@ namespace ouzel
                             else if (*iterator == 't') token.value.push_back('\t');
                             else if (*iterator == 'u')
                             {
-                                if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, str.cend()) < 4)
+                                if (std::distance(++iterator, str.cend()) < 4)
                                     throw std::runtime_error("Unexpected end of data");
 
                                 uint32_t c = 0;
@@ -227,9 +227,9 @@ namespace ouzel
                         ++iterator;
                     }
 
-                    std::map<std::vector<uint32_t>, Token::Type>::const_iterator keywordIterator;
+                    auto keywordIterator = keywordMap.find(token.value);
 
-                    if ((keywordIterator = keywordMap.find(token.value)) != keywordMap.end())
+                    if (keywordIterator != keywordMap.end())
                         token.type = keywordIterator->second;
                     else
                         throw std::runtime_error("Unknown keyword " + utf8::fromUtf32(token.value));

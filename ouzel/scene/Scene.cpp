@@ -133,7 +133,7 @@ namespace ouzel
 
         std::pair<Actor*, Vector3F> Scene::pickActor(const Vector2F& position, bool renderTargets) const
         {
-            for (std::vector<Layer*>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
+            for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 Layer* layer = *i;
                 std::pair<Actor*, Vector3F> result = layer->pickActor(position, renderTargets);

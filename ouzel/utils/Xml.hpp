@@ -323,7 +323,7 @@ namespace ouzel
 
                             for (;;)
                             {
-                                if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, end) < 3)
+                                if (std::distance(++iterator, end) < 3)
                                     throw std::runtime_error("Unexpected end of data");
 
                                 if (*iterator == '-')
@@ -364,7 +364,7 @@ namespace ouzel
 
                             for (;;)
                             {
-                                if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, end) < 3)
+                                if (std::distance(++iterator, end) < 3)
                                     throw std::runtime_error("Unexpected end of data");
 
                                 if (*iterator == ']' &&
