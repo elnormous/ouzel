@@ -30,10 +30,10 @@ namespace ouzel
         void removeEventHandler(EventHandler& eventHandler);
 
         // dispatches the event immediately
-        bool dispatchEvent(std::unique_ptr<Event>&& event);
+        bool dispatchEvent(std::unique_ptr<Event> event);
 
         // posts the event for dispatching on the game thread
-        std::future<bool> postEvent(std::unique_ptr<Event>&& event);
+        std::future<bool> postEvent(std::unique_ptr<Event> event);
 
         // dispatches all queued events on the game thread
         void dispatchEvents();

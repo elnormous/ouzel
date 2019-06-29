@@ -214,7 +214,7 @@ namespace ouzel
             {
             public:
                 InitDataCommand(uintptr_t initDataId,
-                                std::unique_ptr<Data>&& initData):
+                                std::unique_ptr<Data> initData):
                     Command(Command::Type::INIT_DATA),
                     dataId(initDataId),
                     data(std::move(initData))
@@ -228,7 +228,7 @@ namespace ouzel
             {
             public:
                 InitProcessorCommand(uintptr_t initProcessorId,
-                                    std::unique_ptr<Processor>&& initProcessor):
+                                    std::unique_ptr<Processor> initProcessor):
                     Command(Command::Type::INIT_PROCESSOR),
                     processorId(initProcessorId),
                     processor(std::move(initProcessor))
@@ -265,7 +265,7 @@ namespace ouzel
 
                 inline bool isEmpty() const { return commands.empty(); }
 
-                inline void pushCommand(std::unique_ptr<Command>&& command)
+                inline void pushCommand(std::unique_ptr<Command> command)
                 {
                     commands.push(std::move(command));
                 }

@@ -23,7 +23,7 @@ namespace ouzel
             }
         }
 
-        void ActorContainer::addChild(std::unique_ptr<Actor>&& actor)
+        void ActorContainer::addChild(std::unique_ptr<Actor> actor)
         {
             addChild(actor.get());
             ownedChildren.push_back(std::move(actor));
@@ -506,7 +506,7 @@ namespace ouzel
             if (parent) parent->removeChild(this);
         }
 
-        void Actor::addComponent(std::unique_ptr<Component>&& component)
+        void Actor::addComponent(std::unique_ptr<Component> component)
         {
             addComponent(component.get());
             ownedComponents.push_back(std::move(component));

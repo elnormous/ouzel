@@ -33,23 +33,13 @@ namespace ouzel
 
             void addLayer(Layer* layer);
 
-            template <typename T> void addLayer(const std::unique_ptr<T>& layer)
-            {
-                addLayer(layer.get());
-            }
-
-            template <typename T> void addLayer(std::unique_ptr<T>&& layer)
+            template <typename T> void addLayer(std::unique_ptr<T> layer)
             {
                 addLayer(layer.get());
                 ownedLayers.push_back(std::move(layer));
             }
 
             bool removeLayer(Layer* layer);
-
-            template <typename T> bool removeLayer(const std::unique_ptr<T>& layer)
-            {
-                return removeLayer(layer.get());
-            }
 
             void removeAllLayers();
             bool hasLayer(Layer* layer) const;

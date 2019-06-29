@@ -123,7 +123,7 @@ namespace ouzel
             updateProgress();
         }
 
-        void Animator::addAnimator(std::unique_ptr<Animator>&& animator)
+        void Animator::addAnimator(std::unique_ptr<Animator> animator)
         {
             addAnimator(animator.get());
             ownedAnimators.push_back(std::move(animator));

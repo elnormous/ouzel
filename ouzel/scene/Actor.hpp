@@ -33,7 +33,7 @@ namespace ouzel
             ActorContainer(ActorContainer&&) = delete;
             ActorContainer& operator=(ActorContainer&&) = delete;
 
-            void addChild(std::unique_ptr<Actor>&& actor);
+            void addChild(std::unique_ptr<Actor> actor);
             virtual void addChild(Actor* actor);
             virtual bool removeChild(Actor* actor);
             std::unique_ptr<Actor> releaseChild(Actor* actor);
@@ -148,7 +148,7 @@ namespace ouzel
 
             void addChild(Actor* actor) override;
 
-            void addComponent(std::unique_ptr<Component>&& component);
+            void addComponent(std::unique_ptr<Component> component);
             void addComponent(Component* component);
             bool removeComponent(Component* component);
 

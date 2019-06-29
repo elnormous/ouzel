@@ -616,7 +616,7 @@ namespace ouzel
 
             inline bool isEmpty() const { return commands.empty(); }
 
-            inline void pushCommand(std::unique_ptr<Command>&& command)
+            inline void pushCommand(std::unique_ptr<Command> command)
             {
                 commands.push(std::move(command));
             }

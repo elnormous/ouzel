@@ -81,7 +81,7 @@ namespace ouzel
                                     std::vector<std::vector<float>> vertexShaderConstants);
             void setTextures(const std::vector<uintptr_t>& textures);
 
-            inline void addCommand(std::unique_ptr<Command>&& command)
+            inline void addCommand(std::unique_ptr<Command> command)
             {
                 commandBuffer.pushCommand(std::move(command));
             }

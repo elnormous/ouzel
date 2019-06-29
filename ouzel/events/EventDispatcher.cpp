@@ -63,7 +63,7 @@ namespace ouzel
         }
     }
 
-    bool EventDispatcher::dispatchEvent(std::unique_ptr<Event>&& event)
+    bool EventDispatcher::dispatchEvent(std::unique_ptr<Event> event)
     {
         if (!event) return false;
 
@@ -196,7 +196,7 @@ namespace ouzel
             eventHandlerAddSet.erase(setIterator);
     }
 
-    std::future<bool> EventDispatcher::postEvent(std::unique_ptr<Event>&& event)
+    std::future<bool> EventDispatcher::postEvent(std::unique_ptr<Event> event)
     {
         std::promise<bool> promise;
         std::future<bool> future = promise.get_future();

@@ -44,7 +44,7 @@ namespace ouzel
 
             void update();
 
-            inline void addCommand(std::unique_ptr<mixer::Command>&& command)
+            inline void addCommand(std::unique_ptr<mixer::Command> command)
             {
                 commandBuffer.pushCommand(std::move(command));
             }
@@ -52,8 +52,8 @@ namespace ouzel
             void deleteObject(uintptr_t objectId);
             uintptr_t initBus();
             uintptr_t initStream(uintptr_t sourceId);
-            uintptr_t initData(std::unique_ptr<mixer::Data>&& data);
-            uintptr_t initProcessor(std::unique_ptr<mixer::Processor>&& processor);
+            uintptr_t initData(std::unique_ptr<mixer::Data> data);
+            uintptr_t initProcessor(std::unique_ptr<mixer::Processor> processor);
             void updateProcessor(uintptr_t processorId, const std::function<void(mixer::Processor*)>& updateFunction);
 
             Node& getRootNode() { return rootNode; }
