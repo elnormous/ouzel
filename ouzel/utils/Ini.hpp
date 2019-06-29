@@ -215,8 +215,8 @@ namespace ouzel
             void parse(std::vector<uint32_t>::iterator begin,
                        std::vector<uint32_t>::iterator end)
             {
-                auto result = sections.insert(std::make_pair("", Section())); // default section
-                auto sectionIterator = result.first;
+                std::map<std::string, Section>::iterator sectionIterator;
+                std::tie(sectionIterator, std::ignore) = sections.insert(std::make_pair("", Section())); // default section
 
                 for (auto iterator = begin; iterator != end;)
                 {
@@ -281,8 +281,7 @@ namespace ouzel
 
                         std::string section = utf8::fromUtf32(sectionUtf32);
 
-                        result = sections.insert(std::make_pair(section, Section(section)));
-                        sectionIterator = result.first;
+                        std::tie(sectionIterator, std::ignore) = sections.insert(std::make_pair(section, Section(section)));
                     }
                     else if (*iterator == ';') // comment
                     {
