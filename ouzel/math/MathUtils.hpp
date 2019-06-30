@@ -41,15 +41,8 @@ namespace ouzel
     constexpr bool isSimdAvailable = false;
 #endif
 
-    template <typename T> constexpr T tau()
-    {
-        return static_cast<T>(6.28318530717958647692);
-    }
-
-    template <typename T> constexpr T pi()
-    {
-        return static_cast<T>(3.14159265358979323846);
-    }
+    template <typename T> constexpr T tau = T(6.28318530717958647692);
+    template <typename T> constexpr T pi = T(3.14159265358979323846);
 
     template <typename T> constexpr T lerp(T v0, T v1, T t)
     {

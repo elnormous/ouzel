@@ -31,7 +31,7 @@ CFLAGS=-Wall \
 	-I"$(ROOT_DIR)/../external/khronos" \
 	-I"$(ROOT_DIR)/../external/smbPitchShift" \
 	-I"$(ROOT_DIR)/../external/stb"
-CXXFLAGS=-std=c++11 \
+CXXFLAGS=-std=c++14 \
 	-Wall \
 	-I"$(ROOT_DIR)/../ouzel" \
 	-I"$(ROOT_DIR)/../shaders" \
@@ -44,7 +44,7 @@ OBJCFLAGS=-fno-objc-arc \
 	-I"$(ROOT_DIR)/../external/khronos" \
 	-I"$(ROOT_DIR)/../external/smbPitchShift" \
 	-I"$(ROOT_DIR)/../external/stb"
-OBJCXXFLAGS=-std=c++11 \
+OBJCXXFLAGS=-std=c++14 \
 	-fno-objc-arc \
 	-Wall \
 	-I"$(ROOT_DIR)/../ouzel" \
