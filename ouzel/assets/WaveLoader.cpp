@@ -229,7 +229,7 @@ namespace ouzel
                         throw std::runtime_error("Failed to load sound file, unsupported bit depth");
                 }
 
-                std::shared_ptr<audio::Sound> sound = std::make_shared<audio::PcmClip>(*engine->getAudio(), channels, sampleRate, samples);
+                auto sound = std::make_shared<audio::PcmClip>(*engine->getAudio(), channels, sampleRate, samples);
                 bundle.setSound(name, sound);
             }
             catch (const std::exception&)

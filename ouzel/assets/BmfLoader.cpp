@@ -21,7 +21,7 @@ namespace ouzel
             try
             {
                 // TODO: move the loader here
-                std::shared_ptr<gui::BMFont> font = std::make_shared<gui::BMFont>(data);
+                auto font = std::make_shared<gui::BMFont>(data);
                 bundle.setFont(name, font);
             }
             catch (const std::exception&)

@@ -17,20 +17,20 @@ RTSample::RTSample():
 
     addLayer(&rtLayer);
 
-    std::shared_ptr<graphics::Texture> renderTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
-                                                                                           Size2U(256, 256),
-                                                                                           graphics::Flags::BIND_RENDER_TARGET |
-                                                                                           graphics::Flags::BIND_SHADER, 1, 1);
+    auto renderTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
+                                                             Size2U(256, 256),
+                                                             graphics::Flags::BIND_RENDER_TARGET |
+                                                             graphics::Flags::BIND_SHADER, 1, 1);
 
-    std::shared_ptr<graphics::Texture> depthTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
-                                                                                          Size2U(256, 256),
-                                                                                          graphics::Flags::BIND_RENDER_TARGET |
-                                                                                          graphics::Flags::BIND_SHADER, 1, 1,
-                                                                                          graphics::PixelFormat::DEPTH);
+    auto depthTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
+                                                            Size2U(256, 256),
+                                                            graphics::Flags::BIND_RENDER_TARGET |
+                                                            graphics::Flags::BIND_SHADER, 1, 1,
+                                                            graphics::PixelFormat::DEPTH);
 
-    std::shared_ptr<graphics::RenderTarget> renderTarget = std::make_shared<graphics::RenderTarget>(*engine->getRenderer(),
-                                                                                                    std::vector<std::shared_ptr<graphics::Texture>>{renderTexture},
-                                                                                                    depthTexture);
+    auto renderTarget = std::make_shared<graphics::RenderTarget>(*engine->getRenderer(),
+                                                                 std::vector<std::shared_ptr<graphics::Texture>>{renderTexture},
+                                                                 depthTexture);
 
     rtCamera.setRenderTarget(renderTarget);
     rtCamera.setClearColorBuffer(true);

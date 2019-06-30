@@ -22,7 +22,7 @@ namespace ouzel
             try
             {
                 // TODO: move the loader here
-                std::shared_ptr<gui::TTFont> font = std::make_shared<gui::TTFont>(data, mipmaps);
+                auto font = std::make_shared<gui::TTFont>(data, mipmaps);
                 bundle.setFont(name, font);
             }
             catch (const std::exception&)

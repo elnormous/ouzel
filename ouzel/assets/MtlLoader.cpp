@@ -170,7 +170,7 @@ namespace ouzel
                     {
                         if (materialCount)
                         {
-                            std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
+                            auto material = std::make_shared<graphics::Material>();
                             material->blendState = cache.getBlendState(BLEND_ALPHA);
                             material->shader = cache.getShader(SHADER_TEXTURE);
                             material->textures[0] = diffuseTexture;
@@ -269,7 +269,7 @@ namespace ouzel
 
             if (materialCount)
             {
-                std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
+                auto material = std::make_shared<graphics::Material>();
                 material->blendState = cache.getBlendState(BLEND_ALPHA);
                 material->shader = cache.getShader(SHADER_TEXTURE);
                 material->textures[0] = diffuseTexture;

@@ -116,7 +116,7 @@ namespace ouzel
     
     void Localization::addLanguage(const std::string& name, const std::vector<uint8_t>& data)
     {
-        std::shared_ptr<Language> language = std::make_shared<Language>(data);
+        auto language = std::make_shared<Language>(data);
         languages[name] = language;
     }
 

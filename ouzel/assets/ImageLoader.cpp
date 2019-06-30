@@ -132,11 +132,11 @@ namespace ouzel
                                          static_cast<uint32_t>(height)),
                                   imageData);
 
-            std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
-                                                                                             image.getData(),
-                                                                                             image.getSize(), 0,
-                                                                                             mipmaps ? 0 : 1,
-                                                                                             image.getPixelFormat());
+            auto texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
+                                                               image.getData(),
+                                                               image.getSize(), 0,
+                                                               mipmaps ? 0 : 1,
+                                                               image.getPixelFormat());
 
             bundle.setTexture(name, texture);
 

@@ -353,7 +353,7 @@ namespace ouzel
 
                 assetBundle.setShader(SHADER_TEXTURE, textureShader);
 
-                std::shared_ptr<graphics::Shader> colorShader = std::make_shared<graphics::Shader>(*renderer);
+                auto colorShader = std::make_shared<graphics::Shader>(*renderer);
 
                 switch (renderer->getDevice()->getAPIMajorVersion())
                 {
@@ -458,40 +458,40 @@ namespace ouzel
 #if OUZEL_COMPILE_DIRECT3D11
             case graphics::Driver::DIRECT3D11:
             {
-                std::shared_ptr<graphics::Shader> textureShader = std::make_shared<graphics::Shader>(*renderer,
-                                                                                                     std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11),
-                                                                                                                          std::end(TEXTURE_PIXEL_SHADER_D3D11)),
-                                                                                                     std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11),
-                                                                                                                          std::end(TEXTURE_VERTEX_SHADER_D3D11)),
-                                                                                                     std::set<graphics::Vertex::Attribute::Usage>{
-                                                                                                         graphics::Vertex::Attribute::Usage::POSITION,
-                                                                                                         graphics::Vertex::Attribute::Usage::COLOR,
-                                                                                                         graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
-                                                                                                     },
-                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                         {"color", graphics::DataType::FLOAT_VECTOR4}
-                                                                                                     },
-                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                         {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
-                                                                                                     });
+                auto textureShader = std::make_shared<graphics::Shader>(*renderer,
+                                                                        std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11),
+                                                                                             std::end(TEXTURE_PIXEL_SHADER_D3D11)),
+                                                                        std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11),
+                                                                                             std::end(TEXTURE_VERTEX_SHADER_D3D11)),
+                                                                        std::set<graphics::Vertex::Attribute::Usage>{
+                                                                            graphics::Vertex::Attribute::Usage::POSITION,
+                                                                            graphics::Vertex::Attribute::Usage::COLOR,
+                                                                            graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                        },
+                                                                        std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                            {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                        },
+                                                                        std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                            {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                        });
 
                 assetBundle.setShader(SHADER_TEXTURE, textureShader);
 
-                std::shared_ptr<graphics::Shader> colorShader = std::make_shared<graphics::Shader>(*renderer,
-                                                                                                   std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11),
-                                                                                                                        std::end(COLOR_PIXEL_SHADER_D3D11)),
-                                                                                                   std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11),
-                                                                                                                        std::end(COLOR_VERTEX_SHADER_D3D11)),
-                                                                                                   std::set<graphics::Vertex::Attribute::Usage>{
-                                                                                                       graphics::Vertex::Attribute::Usage::POSITION,
-                                                                                                       graphics::Vertex::Attribute::Usage::COLOR
-                                                                                                   },
-                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                       {"color", graphics::DataType::FLOAT_VECTOR4}
-                                                                                                   },
-                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                       {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
-                                                                                                   });
+                auto colorShader = std::make_shared<graphics::Shader>(*renderer,
+                                                                      std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11),
+                                                                                           std::end(COLOR_PIXEL_SHADER_D3D11)),
+                                                                      std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11),
+                                                                                           std::end(COLOR_VERTEX_SHADER_D3D11)),
+                                                                      std::set<graphics::Vertex::Attribute::Usage>{
+                                                                          graphics::Vertex::Attribute::Usage::POSITION,
+                                                                          graphics::Vertex::Attribute::Usage::COLOR
+                                                                      },
+                                                                      std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                          {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                      },
+                                                                      std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                          {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                      });
 
                 assetBundle.setShader(SHADER_COLOR, colorShader);
                 break;
@@ -501,44 +501,44 @@ namespace ouzel
 #if OUZEL_COMPILE_METAL
             case graphics::Driver::METAL:
             {
-                std::shared_ptr<graphics::Shader> textureShader = std::make_shared<graphics::Shader>(*renderer,
-                                                                                                     std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL),
-                                                                                                                          std::end(TEXTURE_PIXEL_SHADER_METAL)),
-                                                                                                     std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL),
-                                                                                                                          std::end(TEXTURE_VERTEX_SHADER_METAL)),
-                                                                                                     std::set<graphics::Vertex::Attribute::Usage>{
-                                                                                                         graphics::Vertex::Attribute::Usage::POSITION,
-                                                                                                         graphics::Vertex::Attribute::Usage::COLOR,
-                                                                                                         graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
-                                                                                                     },
-                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                         {"color", graphics::DataType::FLOAT_VECTOR4}
-                                                                                                     },
-                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                         {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
-                                                                                                     },
-                                                                                                     256, 256,
-                                                                                                     "mainPS", "mainVS");
+                auto textureShader = std::make_shared<graphics::Shader>(*renderer,
+                                                                        std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL),
+                                                                                             std::end(TEXTURE_PIXEL_SHADER_METAL)),
+                                                                        std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL),
+                                                                                             std::end(TEXTURE_VERTEX_SHADER_METAL)),
+                                                                        std::set<graphics::Vertex::Attribute::Usage>{
+                                                                            graphics::Vertex::Attribute::Usage::POSITION,
+                                                                            graphics::Vertex::Attribute::Usage::COLOR,
+                                                                            graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                        },
+                                                                        std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                            {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                        },
+                                                                        std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                            {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                        },
+                                                                        256, 256,
+                                                                        "mainPS", "mainVS");
 
                 assetBundle.setShader(SHADER_TEXTURE, textureShader);
 
-                std::shared_ptr<graphics::Shader> colorShader = std::make_shared<graphics::Shader>(*renderer,
-                                                                                                   std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL),
-                                                                                                                        std::end(COLOR_PIXEL_SHADER_METAL)),
-                                                                                                   std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL),
-                                                                                                                        std::end(COLOR_VERTEX_SHADER_METAL)),
-                                                                                                   std::set<graphics::Vertex::Attribute::Usage>{
-                                                                                                       graphics::Vertex::Attribute::Usage::POSITION,
-                                                                                                       graphics::Vertex::Attribute::Usage::COLOR
-                                                                                                   },
-                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                       {"color", graphics::DataType::FLOAT_VECTOR4}
-                                                                                                   },
-                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                       {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
-                                                                                                   },
-                                                                                                   256, 256,
-                                                                                                   "mainPS", "mainVS");
+                auto colorShader = std::make_shared<graphics::Shader>(*renderer,
+                                                                      std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL),
+                                                                                           std::end(COLOR_PIXEL_SHADER_METAL)),
+                                                                      std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL),
+                                                                                           std::end(COLOR_VERTEX_SHADER_METAL)),
+                                                                      std::set<graphics::Vertex::Attribute::Usage>{
+                                                                          graphics::Vertex::Attribute::Usage::POSITION,
+                                                                          graphics::Vertex::Attribute::Usage::COLOR
+                                                                      },
+                                                                      std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                          {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                      },
+                                                                      std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                          {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                      },
+                                                                      256, 256,
+                                                                      "mainPS", "mainVS");
 
                 assetBundle.setShader(SHADER_COLOR, colorShader);
                 break;
@@ -547,101 +547,101 @@ namespace ouzel
 
             default:
             {
-                std::shared_ptr<graphics::Shader> textureShader = std::make_shared<graphics::Shader>(*renderer,
-                                                                                                     std::vector<uint8_t>(),
-                                                                                                     std::vector<uint8_t>(),
-                                                                                                     std::set<graphics::Vertex::Attribute::Usage>{
-                                                                                                         graphics::Vertex::Attribute::Usage::POSITION,
-                                                                                                         graphics::Vertex::Attribute::Usage::COLOR,
-                                                                                                         graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
-                                                                                                     },
-                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                         {"color", graphics::DataType::FLOAT_VECTOR4}
-                                                                                                     },
-                                                                                                     std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                         {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
-                                                                                                     });
+                auto textureShader = std::make_shared<graphics::Shader>(*renderer,
+                                                                        std::vector<uint8_t>(),
+                                                                        std::vector<uint8_t>(),
+                                                                        std::set<graphics::Vertex::Attribute::Usage>{
+                                                                            graphics::Vertex::Attribute::Usage::POSITION,
+                                                                            graphics::Vertex::Attribute::Usage::COLOR,
+                                                                            graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                        },
+                                                                        std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                            {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                        },
+                                                                        std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                            {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                        });
 
                 assetBundle.setShader(SHADER_TEXTURE, textureShader);
 
-                std::shared_ptr<graphics::Shader> colorShader = std::make_shared<graphics::Shader>(*renderer,
-                                                                                                   std::vector<uint8_t>(),
-                                                                                                   std::vector<uint8_t>(),
-                                                                                                   std::set<graphics::Vertex::Attribute::Usage>{
-                                                                                                       graphics::Vertex::Attribute::Usage::POSITION,
-                                                                                                       graphics::Vertex::Attribute::Usage::COLOR
-                                                                                                   },
-                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                       {"color", graphics::DataType::FLOAT_VECTOR4}
-                                                                                                   },
-                                                                                                   std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                                                       {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
-                                                                                                   });
+                auto colorShader = std::make_shared<graphics::Shader>(*renderer,
+                                                                      std::vector<uint8_t>(),
+                                                                      std::vector<uint8_t>(),
+                                                                      std::set<graphics::Vertex::Attribute::Usage>{
+                                                                          graphics::Vertex::Attribute::Usage::POSITION,
+                                                                          graphics::Vertex::Attribute::Usage::COLOR
+                                                                      },
+                                                                      std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                          {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                      },
+                                                                      std::vector<std::pair<std::string, graphics::DataType>>{
+                                                                          {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                      });
 
                 assetBundle.setShader(SHADER_COLOR, colorShader);
                 break;
             }
         }
 
-        std::shared_ptr<graphics::BlendState> noBlendState = std::make_shared<graphics::BlendState>(*renderer,
-                                                                                                    false,
-                                                                                                    graphics::BlendFactor::ONE,
-                                                                                                    graphics::BlendFactor::ZERO,
-                                                                                                    graphics::BlendOperation::ADD,
-                                                                                                    graphics::BlendFactor::ONE,
-                                                                                                    graphics::BlendFactor::ZERO,
-                                                                                                    graphics::BlendOperation::ADD);
+        auto noBlendState = std::make_shared<graphics::BlendState>(*renderer,
+                                                                   false,
+                                                                   graphics::BlendFactor::ONE,
+                                                                   graphics::BlendFactor::ZERO,
+                                                                   graphics::BlendOperation::ADD,
+                                                                   graphics::BlendFactor::ONE,
+                                                                   graphics::BlendFactor::ZERO,
+                                                                   graphics::BlendOperation::ADD);
 
         assetBundle.setBlendState(BLEND_NO_BLEND, noBlendState);
 
-        std::shared_ptr<graphics::BlendState> addBlendState = std::make_shared<graphics::BlendState>(*renderer,
-                                                                                                     true,
-                                                                                                     graphics::BlendFactor::ONE,
-                                                                                                     graphics::BlendFactor::ONE,
-                                                                                                     graphics::BlendOperation::ADD,
-                                                                                                     graphics::BlendFactor::ONE,
-                                                                                                     graphics::BlendFactor::ONE,
-                                                                                                     graphics::BlendOperation::ADD);
+        auto addBlendState = std::make_shared<graphics::BlendState>(*renderer,
+                                                                    true,
+                                                                    graphics::BlendFactor::ONE,
+                                                                    graphics::BlendFactor::ONE,
+                                                                    graphics::BlendOperation::ADD,
+                                                                    graphics::BlendFactor::ONE,
+                                                                    graphics::BlendFactor::ONE,
+                                                                    graphics::BlendOperation::ADD);
 
         assetBundle.setBlendState(BLEND_ADD, addBlendState);
 
-        std::shared_ptr<graphics::BlendState> multiplyBlendState = std::make_shared<graphics::BlendState>(*renderer,
-                                                                                                          true,
-                                                                                                          graphics::BlendFactor::DEST_COLOR,
-                                                                                                          graphics::BlendFactor::ZERO,
-                                                                                                          graphics::BlendOperation::ADD,
-                                                                                                          graphics::BlendFactor::ONE,
-                                                                                                          graphics::BlendFactor::ONE,
-                                                                                                          graphics::BlendOperation::ADD);
+        auto multiplyBlendState = std::make_shared<graphics::BlendState>(*renderer,
+                                                                         true,
+                                                                         graphics::BlendFactor::DEST_COLOR,
+                                                                         graphics::BlendFactor::ZERO,
+                                                                         graphics::BlendOperation::ADD,
+                                                                         graphics::BlendFactor::ONE,
+                                                                         graphics::BlendFactor::ONE,
+                                                                         graphics::BlendOperation::ADD);
 
         assetBundle.setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
-        std::shared_ptr<graphics::BlendState> alphaBlendState = std::make_shared<graphics::BlendState>(*renderer,
-                                                                                                       true,
-                                                                                                       graphics::BlendFactor::SRC_ALPHA,
-                                                                                                       graphics::BlendFactor::INV_SRC_ALPHA,
-                                                                                                       graphics::BlendOperation::ADD,
-                                                                                                       graphics::BlendFactor::ONE,
-                                                                                                       graphics::BlendFactor::ONE,
-                                                                                                       graphics::BlendOperation::ADD);
+        auto alphaBlendState = std::make_shared<graphics::BlendState>(*renderer,
+                                                                      true,
+                                                                      graphics::BlendFactor::SRC_ALPHA,
+                                                                      graphics::BlendFactor::INV_SRC_ALPHA,
+                                                                      graphics::BlendOperation::ADD,
+                                                                      graphics::BlendFactor::ONE,
+                                                                      graphics::BlendFactor::ONE,
+                                                                      graphics::BlendOperation::ADD);
 
         assetBundle.setBlendState(BLEND_ALPHA, alphaBlendState);
 
-        std::shared_ptr<graphics::BlendState> screenBlendState = std::make_shared<graphics::BlendState>(*renderer,
-                                                                                                        true,
-                                                                                                        graphics::BlendFactor::ONE,
-                                                                                                        graphics::BlendFactor::INV_SRC_COLOR,
-                                                                                                        graphics::BlendOperation::ADD,
-                                                                                                        graphics::BlendFactor::ONE,
-                                                                                                        graphics::BlendFactor::ONE,
-                                                                                                        graphics::BlendOperation::ADD);
+        auto screenBlendState = std::make_shared<graphics::BlendState>(*renderer,
+                                                                       true,
+                                                                       graphics::BlendFactor::ONE,
+                                                                       graphics::BlendFactor::INV_SRC_COLOR,
+                                                                       graphics::BlendOperation::ADD,
+                                                                       graphics::BlendFactor::ONE,
+                                                                       graphics::BlendFactor::ONE,
+                                                                       graphics::BlendOperation::ADD);
 
         assetBundle.setBlendState(BLEND_SCREEN, screenBlendState);
 
-        std::shared_ptr<graphics::Texture> whitePixelTexture = std::make_shared<graphics::Texture>(*renderer,
-                                                                                                   std::vector<uint8_t>{255, 255, 255, 255},
-                                                                                                   Size2U(1, 1),
-                                                                                                   0, 1);
+        auto whitePixelTexture = std::make_shared<graphics::Texture>(*renderer,
+                                                                     std::vector<uint8_t>{255, 255, 255, 255},
+                                                                     Size2U(1, 1),
+                                                                     0, 1);
         assetBundle.setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
     }
 
