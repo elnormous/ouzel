@@ -150,7 +150,7 @@ namespace ouzel
 
         inline bool isNormalized(T tolerance = std::numeric_limits<T>::min()) const
         {
-            return abs(T{1} - lengthSquared()) < tolerance;
+            return abs(T(1) - lengthSquared()) < tolerance;
         }
 
         void normalize()
@@ -178,7 +178,7 @@ namespace ouzel
 
         inline void smooth(const Vector& target, T elapsedTime, T responseTime)
         {
-            if (elapsedTime > T{0})
+            if (elapsedTime > T(0))
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
@@ -300,7 +300,7 @@ namespace ouzel
         inline bool isZero() const
         {
             for (const T& c : v)
-                if (c != T{0}) return false;
+                if (c != T(0)) return false;
             return true;
         }
     };

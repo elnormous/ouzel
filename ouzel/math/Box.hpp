@@ -37,7 +37,7 @@ namespace ouzel
 
         inline Vector<N, T> getCenter() const
         {
-            return (min + max) / T{2};
+            return (min + max) / T(2);
         }
 
         bool intersects(const Box& aabb) const

@@ -190,7 +190,7 @@ namespace ouzel
         inline T getNorm() const
         {
             T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (n == T{1}) // already normalized
+            if (n == T(1)) // already normalized
                 return 1;
 
             return sqrt(n);
@@ -199,14 +199,14 @@ namespace ouzel
         void normalize()
         {
             T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (n == T{1}) // already normalized
+            if (n == T(1)) // already normalized
                 return;
 
             n = sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            n = T{1} / n;
+            n = T(1) / n;
             v[0] *= n;
             v[1] *= n;
             v[2] *= n;
@@ -217,8 +217,8 @@ namespace ouzel
         {
             axis.normalize();
 
-            const T cosAngle = cos(angle / T{2});
-            const T sinAngle = sin(angle / T{2});
+            const T cosAngle = cos(angle / T(2));
+            const T sinAngle = sin(angle / T(2));
 
             v[0] = axis.v[0] * sinAngle;
             v[1] = axis.v[1] * sinAngle;
@@ -228,8 +228,8 @@ namespace ouzel
 
         void getRotation(T& angle, Vector<3, T>& axis) const
         {
-            angle = T{2} * acos(v[3]);
-            const T s = sqrt(T{1} - v[3] * v[3]);
+            angle = T(2) * acos(v[3]);
+            const T s = sqrt(T(1) - v[3] * v[3]);
             if (s <= std::numeric_limits<T>::min()) // too close to zero
             {
                 axis.v[0] = v[0];
@@ -255,7 +255,7 @@ namespace ouzel
 
         inline T getEulerAngleX() const
         {
-            return atan2(T{2} * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
+            return atan2(T(2) * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
         }
 
         inline T getEulerAngleY() const
@@ -265,22 +265,22 @@ namespace ouzel
 
         inline T getEulerAngleZ() const
         {
-            return atan2(T{2} * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
+            return atan2(T(2) * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }
 
         void setEulerAngles(const Vector<3, T>& angles)
         {
             T angle;
 
-            angle = angles.v[0] / T{2};
+            angle = angles.v[0] / T(2);
             const T sr = sin(angle);
             const T cr = cos(angle);
 
-            angle = angles.v[1] / T{2};
+            angle = angles.v[1] / T(2);
             const T sp = sin(angle);
             const T cp = cos(angle);
 
-            angle = angles.v[2] / T{2};
+            angle = angles.v[2] / T(2);
             const T sy = sin(angle);
             const T cy = cos(angle);
 
@@ -303,7 +303,7 @@ namespace ouzel
         inline Vector<3, T> rotateVector(const Vector<3, T>& vector) const
         {
             Vector<3, T> q(v[0], v[1], v[2]);
-            Vector<3, T> t = T{2} * q.cross(vector);
+            Vector<3, T> t = T(2) * q.cross(vector);
             return vector + (v[3] * t) + q.cross(t);
         }
 
@@ -324,7 +324,7 @@ namespace ouzel
 
         inline Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, T t)
         {
-            const T scale = T{1} - t;
+            const T scale = T(1) - t;
             *this = (q1 * scale) + (q2 * t);
             return *this;
         }

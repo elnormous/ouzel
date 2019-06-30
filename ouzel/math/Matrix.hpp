@@ -98,29 +98,29 @@ namespace ouzel
         {
             assert(zFarPlane != zNearPlane);
 
-            const T theta = fieldOfView / T{2};
-            if (fabs(fmod(theta, pi<T>() / T{2})) <= std::numeric_limits<T>::min())
+            const T theta = fieldOfView / T(2);
+            if (fabs(fmod(theta, pi<T>() / T(2))) <= std::numeric_limits<T>::min())
                 return;
 
             const T divisor = tan(theta);
             assert(divisor);
-            const T factor = T{1} / divisor;
+            const T factor = T(1) / divisor;
 
             setZero();
 
             assert(aspectRatio);
-            m[0] = (T{1} / aspectRatio) * factor;
+            m[0] = (T(1) / aspectRatio) * factor;
             m[5] = factor;
             m[10] = zFarPlane / (zFarPlane - zNearPlane);
-            m[11] = T{1};
+            m[11] = T(1);
             m[14] = -zNearPlane * zFarPlane / (zFarPlane - zNearPlane);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void setOrthographicFromSize(T width, T height, T zNearPlane, T zFarPlane)
         {
-            const T halfWidth = width / T{2};
-            const T halfHeight = height / T{2};
+            const T halfWidth = width / T(2);
+            const T halfHeight = height / T(2);
             setOrthographicOffCenter(-halfWidth, halfWidth,
                                      -halfHeight, halfHeight,
                                      zNearPlane, zFarPlane);
@@ -136,9 +136,9 @@ namespace ouzel
 
             setZero();
 
-            m[0] = T{2} / (right - left);
-            m[5] = T{2} / (top - bottom);
-            m[10] = T{1} / (zFarPlane - zNearPlane);
+            m[0] = T(2) / (right - left);
+            m[5] = T(2) / (top - bottom);
+            m[10] = T(1) / (zFarPlane - zNearPlane);
             m[12] = (left + right) / (left - right);
             m[13] = (bottom + top) / (bottom - top);
             m[14] = zNearPlane / (zNearPlane - zFarPlane);
@@ -206,14 +206,14 @@ namespace ouzel
 
             // Make sure the input axis is normalized
             T n = x * x + y * y + z * z;
-            if (n != T{1})
+            if (n != T(1))
             {
                 // Not normalized
                 n = sqrt(n);
                 // Prevent divide too close to zero
                 if (n > std::numeric_limits<T>::min())
                 {
-                    n = T{1} / n;
+                    n = T(1) / n;
                     x *= n;
                     y *= n;
                     z *= n;
@@ -223,7 +223,7 @@ namespace ouzel
             const T c = cos(angle);
             const T s = sin(angle);
 
-            const T t = T{1} - c;
+            const T t = T(1) - c;
             const T tx = t * x;
             const T ty = t * y;
             const T tz = t * z;
@@ -271,19 +271,19 @@ namespace ouzel
 
             const T zz = rotation.v[2] * rotation.v[2];
 
-            m[0] = T{1} - T{2} * (yy + zz);
-            m[4] = T{2} * (xy - wz);
-            m[8] = T{2} * (xz + wy);
+            m[0] = T(1) - T(2) * (yy + zz);
+            m[4] = T(2) * (xy - wz);
+            m[8] = T(2) * (xz + wy);
             m[12] = 0;
 
-            m[1] = T{2} * (xy + wz);
-            m[5] = T{1} - T{2} * (xx + zz);
-            m[9] = T{2} * (yz - wx);
+            m[1] = T(2) * (xy + wz);
+            m[5] = T(1) - T(2) * (xx + zz);
+            m[9] = T(2) * (yz - wx);
             m[13] = 0;
 
-            m[2] = T{2} * (xz - wy);
-            m[6] = T{2} * (yz + wx);
-            m[10] = T{1} - T{2} * (xx + yy);
+            m[2] = T(2) * (xz - wy);
+            m[6] = T(2) * (yz + wx);
+            m[10] = T(1) - T(2) * (xx + yy);
             m[14] = 0;
 
             m[3] = 0;
@@ -534,7 +534,7 @@ namespace ouzel
         {
             for (size_t r = 0; r < R; ++r)
                 for (size_t c = 0; c < C; ++c)
-                    if (m[r * C + c] != (r == c ? T{1} : T{0}))
+                    if (m[r * C + c] != (r == c ? T(1) : T(0)))
                         return false;
             return true;
         }
@@ -570,7 +570,7 @@ namespace ouzel
         {
             for (size_t r = 0; r < R; ++r)
                 for (size_t c = 0; c < C; ++c)
-                    m[r * C + c] = static_cast<T>(r == c ? T{1} : T{0});
+                    m[r * C + c] = static_cast<T>(r == c ? T(1) : T(0));
         }
 
         inline void setZero()
@@ -602,7 +602,7 @@ namespace ouzel
         void transformVector(Vector<3, T>& v) const
         {
             Vector<4, T> t;
-            transformVector(Vector<4, T>(v.v[0], v.v[1], v.v[2], T{0}), t);
+            transformVector(Vector<4, T>(v.v[0], v.v[1], v.v[2], T(0)), t);
             v = Vector<3, T>(t.v[0], t.v[1], t.v[2]);
         }
 
@@ -686,10 +686,10 @@ namespace ouzel
             const T m33 = m[10] / scale.v[2];
 
             Quaternion<T> result;
-            result.v[0] = sqrt(std::max(static_cast<T>(0), T{1} + m11 - m22 - m33)) / T{2};
-            result.v[1] = sqrt(std::max(static_cast<T>(0), T{1} - m11 + m22 - m33)) / T{2};
-            result.v[2] = sqrt(std::max(static_cast<T>(0), T{1} - m11 - m22 + m33)) / T{2};
-            result.v[3] = sqrt(std::max(static_cast<T>(0), T{1} + m11 + m22 + m33)) / T{2};
+            result.v[0] = sqrt(std::max(static_cast<T>(0), T(1) + m11 - m22 - m33)) / T(2);
+            result.v[1] = sqrt(std::max(static_cast<T>(0), T(1) - m11 + m22 - m33)) / T(2);
+            result.v[2] = sqrt(std::max(static_cast<T>(0), T(1) - m11 - m22 + m33)) / T(2);
+            result.v[3] = sqrt(std::max(static_cast<T>(0), T(1) + m11 + m22 + m33)) / T(2);
 
             // The problem with using copysign: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/paul.htm
             result.v[0] = copysign(result.v[0], m32 - m23);

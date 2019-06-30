@@ -23,7 +23,7 @@ namespace ouzel
         bool isPointInside(const Vector<4, T>& position) const
         {
             for (const Plane<T>& plane : planes)
-                if (plane.dot(position) < T{0})
+                if (plane.dot(position) < T(0))
                     return false;
 
             return true;
@@ -50,14 +50,14 @@ namespace ouzel
             Vector<4, T> rightTopFront(box.max.v[0], box.max.v[1], box.max.v[2], 1);
 
             for (const Plane<T>& plane : planes)
-                if (plane.dot(leftBottomBack) < T{0} &&
-                    plane.dot(leftBottomFront) < T{0} &&
-                    plane.dot(leftTopBack) < T{0} &&
-                    plane.dot(leftTopFront) < T{0} &&
-                    plane.dot(rightBottomBack) < T{0} &&
-                    plane.dot(rightBottomFront) < T{0} &&
-                    plane.dot(rightTopBack) < T{0} &&
-                    plane.dot(rightTopFront) < T{0})
+                if (plane.dot(leftBottomBack) < T(0) &&
+                    plane.dot(leftBottomFront) < T(0) &&
+                    plane.dot(leftTopBack) < T(0) &&
+                    plane.dot(leftTopFront) < T(0) &&
+                    plane.dot(rightBottomBack) < T(0) &&
+                    plane.dot(rightBottomFront) < T(0) &&
+                    plane.dot(rightTopBack) < T(0) &&
+                    plane.dot(rightTopFront) < T(0))
                     return false;
 
             return true;
