@@ -136,7 +136,7 @@ namespace ouzel
                 if ((error = alGetError()) != AL_NO_ERROR || !extensionsPtr)
                     engine->log(Log::Level::WARN) << "Failed to get OpenGL extensions";
                 else
-                    extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
+                    extensions = explodeString(std::string(reinterpret_cast<const char*>(extensionsPtr)), ' ');
 
                 engine->log(Log::Level::ALL) << "Supported OpenAL extensions: " << extensions;
 

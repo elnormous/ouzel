@@ -41,7 +41,7 @@ namespace ouzel
         std::shared_ptr<graphics::Texture> Cache::getTexture(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::Texture> texture = bundle->getTexture(name))
+                if (auto texture = bundle->getTexture(name))
                     return texture;
 
             return nullptr;
@@ -50,7 +50,7 @@ namespace ouzel
         std::shared_ptr<graphics::Shader> Cache::getShader(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::Shader> shader = bundle->getShader(name))
+                if (auto shader = bundle->getShader(name))
                     return shader;
 
             return nullptr;
@@ -59,7 +59,7 @@ namespace ouzel
         std::shared_ptr<graphics::BlendState> Cache::getBlendState(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::BlendState> blendState = bundle->getBlendState(name))
+                if (auto blendState = bundle->getBlendState(name))
                     return blendState;
 
             return nullptr;
@@ -68,7 +68,7 @@ namespace ouzel
         std::shared_ptr<graphics::DepthStencilState> Cache::getDepthStencilState(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::DepthStencilState> depthStencilState = bundle->getDepthStencilState(name))
+                if (auto depthStencilState = bundle->getDepthStencilState(name))
                     return depthStencilState;
 
             return nullptr;
@@ -77,7 +77,7 @@ namespace ouzel
         const scene::SpriteData* Cache::getSpriteData(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (const scene::SpriteData* spriteData = bundle->getSpriteData(name))
+                if (auto spriteData = bundle->getSpriteData(name))
                     return spriteData;
 
             return nullptr;
@@ -86,7 +86,7 @@ namespace ouzel
         const scene::ParticleSystemData* Cache::getParticleSystemData(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (const scene::ParticleSystemData* particleSystemData = bundle->getParticleSystemData(name))
+                if (auto particleSystemData = bundle->getParticleSystemData(name))
                     return particleSystemData;
 
             return nullptr;
@@ -95,7 +95,7 @@ namespace ouzel
         std::shared_ptr<gui::Font> Cache::getFont(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<gui::Font> font = bundle->getFont(name))
+                if (auto font = bundle->getFont(name))
                     return font;
 
             return nullptr;
@@ -104,7 +104,7 @@ namespace ouzel
         std::shared_ptr<audio::Sound> Cache::getSound(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<audio::Sound> sound = bundle->getSound(name))
+                if (auto sound = bundle->getSound(name))
                     return sound;
 
             return nullptr;
@@ -113,7 +113,7 @@ namespace ouzel
         std::shared_ptr<graphics::Material> Cache::getMaterial(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
-                if (std::shared_ptr<graphics::Material> material = bundle->getMaterial(name))
+                if (auto material = bundle->getMaterial(name))
                     return material;
 
             return nullptr;

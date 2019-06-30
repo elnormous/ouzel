@@ -140,15 +140,14 @@ namespace ouzel
         }
 
         void Bundle::preloadSpriteData(const std::string& filename, bool mipmaps,
-                                      uint32_t spritesX, uint32_t spritesY,
-                                      const Vector2F& pivot)
+                                       uint32_t spritesX, uint32_t spritesY,
+                                       const Vector2F& pivot)
         {
             std::string extension = storage::FileSystem::getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
-            std::vector<std::string> imageExtensions = {"jpg", "jpeg", "png", "bmp", "tga"};
+            std::vector<std::string> imageExtensions{"jpg", "jpeg", "png", "bmp", "tga"};
 
-            if (std::find(imageExtensions.begin(), imageExtensions.end(),
-                          extension) != imageExtensions.end())
+            if (std::find(imageExtensions.begin(), imageExtensions.end(), extension) != imageExtensions.end())
             {
                 scene::SpriteData newSpriteData;
 

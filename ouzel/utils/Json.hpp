@@ -73,7 +73,7 @@ namespace ouzel
         {
             std::vector<Token> tokens;
 
-            static const std::map<std::vector<uint32_t>, Token::Type> keywordMap = {
+            static const std::map<std::vector<uint32_t>, Token::Type> keywordMap{
                 {{'t', 'r', 'u', 'e'}, Token::Type::KEYWORD_TRUE},
                 {{'f', 'a', 'l', 's', 'e'}, Token::Type::KEYWORD_FALSE},
                 {{'n', 'u', 'l', 'l'}, Token::Type::KEYWORD_NULL}

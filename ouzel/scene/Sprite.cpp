@@ -57,7 +57,7 @@ namespace ouzel
                 textCoords[3] = Vector2F(rightBottom.v[0], rightBottom.v[1]);
             }
 
-            std::vector<graphics::Vertex> vertices = {
+            std::vector<graphics::Vertex> vertices{
                 graphics::Vertex(Vector3F{finalOffset.v[0], finalOffset.v[1], 0.0F}, Color::white(),
                                  textCoords[0], Vector3F{0.0F, 0.0F, -1.0F}),
                 graphics::Vertex(Vector3F{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, Color::white(),
@@ -190,7 +190,7 @@ namespace ouzel
 
                 animations = spriteData->animations;
             }
-            else if (std::shared_ptr<graphics::Texture> texture = engine->getCache().getTexture(filename))
+            else if (auto texture = engine->getCache().getTexture(filename))
             {
                 material->textures[0] = texture;
 

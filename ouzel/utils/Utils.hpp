@@ -84,9 +84,10 @@ namespace ouzel
         return result;
     }
 
-    inline std::vector<std::string> explodeString(const std::string& str, char delimiter = ' ')
+    template <typename T>
+    std::vector<T> explodeString(const T& str, char delimiter = ' ')
     {
-        std::vector<std::string> result;
+        std::vector<T> result;
         size_t pos;
         size_t initialPos = 0;
         while ((pos = str.find(delimiter, initialPos)) != std::string::npos)

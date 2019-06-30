@@ -92,7 +92,7 @@ namespace ouzel
                 {
                     Vector2F worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
 
-                    std::vector<std::pair<Actor*, Vector3F>> actors = findActors(worldPosition);
+                    auto actors = findActors(worldPosition);
                     if (!actors.empty()) return actors.front();
                 }
             }
@@ -112,7 +112,7 @@ namespace ouzel
                 {
                     Vector2F worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
 
-                    std::vector<std::pair<Actor*, Vector3F>> actors = findActors(worldPosition);
+                    auto actors = findActors(worldPosition);
                     result.insert(result.end(), actors.begin(), actors.end());
                 }
             }

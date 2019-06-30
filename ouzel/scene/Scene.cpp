@@ -150,7 +150,7 @@ namespace ouzel
 
             for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                std::vector<std::pair<Actor*, Vector3F>> actors = (*i)->pickActors(position, renderTargets);
+                auto actors = (*i)->pickActors(position, renderTargets);
 
                 result.insert(result.end(), actors.begin(), actors.end());
             }

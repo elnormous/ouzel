@@ -19,7 +19,7 @@ namespace ouzel
         {
             friend Mix;
         public:
-            Voice(Audio& initAudio);
+            explicit Voice(Audio& initAudio);
             Voice(Audio& initAudio, const std::shared_ptr<Sound>& initSound);
             ~Voice();
 
