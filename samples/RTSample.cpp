@@ -80,7 +80,7 @@ bool RTSample::handleGamepad(const GamepadEvent& event)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
-            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
     }
 
     return false;
@@ -89,7 +89,7 @@ bool RTSample::handleGamepad(const GamepadEvent& event)
 bool RTSample::handleUI(const UIEvent& event) const
 {
     if (event.type == Event::Type::ACTOR_CLICK && event.actor == &backButton)
-        engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+        engine->getSceneManager().setScene(std::make_unique<MainMenu>());
 
     return false;
 }
@@ -103,7 +103,7 @@ bool RTSample::handleKeyboard(const KeyboardEvent& event) const
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
             case Keyboard::Key::BACK:
-                engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                 return true;
             default:
                 break;

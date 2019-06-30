@@ -74,7 +74,7 @@ bool GUISample::handleGamepad(const GamepadEvent& event)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
-            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
     }
 
     return false;
@@ -85,7 +85,7 @@ bool GUISample::handleUI(const UIEvent& event)
     if (event.type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
-            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
         else if (event.actor == &button)
             checkBox.setChecked(!checkBox.isChecked());
         else if (event.actor == &fullscreenButton)
@@ -115,7 +115,7 @@ bool GUISample::handleKeyboard(const KeyboardEvent& event) const
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
             case Keyboard::Key::BACK:
-                engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                 return true;
             default:
                 break;

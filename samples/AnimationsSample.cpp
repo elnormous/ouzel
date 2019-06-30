@@ -45,7 +45,7 @@ AnimationsSample::AnimationsSample():
     drawActor.setPosition(Vector2F(-300.0F, 0.0F));
     layer.addChild(&drawActor);
 
-    shake.reset(new scene::Shake(10.0F, Vector3F(10.0F, 20.0F, 0.0F), 20.0F));
+    shake = std::make_unique<scene::Shake>(10.0F, Vector3F(10.0F, 20.0F, 0.0F), 20.0F);
     drawActor.addComponent(shake.get());
     shake->start();
 
@@ -55,25 +55,25 @@ AnimationsSample::AnimationsSample():
     witch.addComponent(&witchSprite);
     layer.addChild(&witch);
 
-    witchScale.reset(new scene::Scale(2.0F, Vector3F(0.1F, 0.1F, 0.0F), false));
-    witchFade.reset(new scene::Fade(2.0F, 0.4F));
+    witchScale = std::make_unique<scene::Scale>(2.0F, Vector3F(0.1F, 0.1F, 0.0F), false);
+    witchFade = std::make_unique<scene::Fade>(2.0F, 0.4F);
 
     std::vector<scene::Animator*> parallel = {
         witchScale.get(),
         witchFade.get()
     };
 
-    witchRotate.reset(new scene::Rotate(1.0F, Vector3F(0.0F, 0.0F, tau<float>), false));
+    witchRotate = std::make_unique<scene::Rotate>(1.0F, Vector3F(0.0F, 0.0F, tau<float>), false);
 
-    witchRepeat.reset(new scene::Repeat(*witchRotate, 3));
-    witchParallel.reset(new scene::Parallel(parallel));
+    witchRepeat = std::make_unique<scene::Repeat>(*witchRotate, 3);
+    witchParallel = std::make_unique<scene::Parallel>(parallel);
 
     std::vector<scene::Animator*> sequence = {
         witchRepeat.get(),
         witchParallel.get()
     };
 
-    witchSequence.reset(new scene::Sequence(sequence));
+    witchSequence = std::make_unique<scene::Sequence>(sequence);
 
     witch.addComponent(witchSequence.get());
     witchSequence->start();
@@ -83,16 +83,16 @@ AnimationsSample::AnimationsSample():
     ball.addComponent(&ballSprite);
     layer.addChild(&ball);
 
-    ballDelay.reset(new scene::Animator(1.0F));
-    ballMove.reset(new scene::Move(2.0F, Vector3F(0.0F, -240.0F, 0.0F), false));
-    ballEase.reset(new scene::Ease(*ballMove, scene::Ease::Mode::EASE_OUT, scene::Ease::Func::BOUNCE));
+    ballDelay = std::make_unique<scene::Animator>(1.0F);
+    ballMove = std::make_unique<scene::Move>(2.0F, Vector3F(0.0F, -240.0F, 0.0F), false);
+    ballEase = std::make_unique<scene::Ease>(*ballMove, scene::Ease::Mode::EASE_OUT, scene::Ease::Func::BOUNCE);
 
     std::vector<scene::Animator*> sequence2 = {
         ballDelay.get(),
         ballEase.get()
     };
 
-    ballSequence.reset(new scene::Sequence(sequence2));
+    ballSequence = std::make_unique<scene::Sequence>(sequence2);
 
     ball.addComponent(ballSequence.get());
     ballSequence->start();
@@ -115,7 +115,7 @@ bool AnimationsSample::handleGamepad(const GamepadEvent& event)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
-            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
     }
 
     return false;
@@ -124,7 +124,7 @@ bool AnimationsSample::handleGamepad(const GamepadEvent& event)
 bool AnimationsSample::handleUI(const UIEvent& event) const
 {
     if (event.type == Event::Type::ACTOR_CLICK && event.actor == &backButton)
-        engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+        engine->getSceneManager().setScene(std::make_unique<MainMenu>());
 
     return false;
 }
@@ -138,7 +138,7 @@ bool AnimationsSample::handleKeyboard(const KeyboardEvent& event) const
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
             case Keyboard::Key::BACK:
-                engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                 return true;
             default:
                 break;

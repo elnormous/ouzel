@@ -16,7 +16,7 @@ class Samples: public ouzel::Application
 {
 public:
     explicit Samples(const std::vector<std::string>& args):
-        bundle(new assets::Bundle(engine->getCache(), engine->getFileSystem()))
+        bundle(std::make_unique<assets::Bundle>(engine->getCache(), engine->getFileSystem()))
     {
         // disable screen saver
         engine->setScreenSaverEnabled(false);
@@ -55,16 +55,16 @@ public:
 
         if (!sample.empty())
         {
-            if (sample == "sprites") currentScene.reset(new SpritesSample());
-            else if (sample == "gui") currentScene.reset(new GUISample());
-            else if (sample == "render_target") currentScene.reset(new RTSample());
-            else if (sample == "animations") currentScene.reset(new AnimationsSample());
-            else if (sample == "input") currentScene.reset(new InputSample());
-            else if (sample == "sound") currentScene.reset(new SoundSample());
-            else if (sample == "perspective") currentScene.reset(new PerspectiveSample());
+            if (sample == "sprites") currentScene = std::make_unique<SpritesSample>();
+            else if (sample == "gui") currentScene = std::make_unique<GUISample>();
+            else if (sample == "render_target") currentScene = std::make_unique<RTSample>();
+            else if (sample == "animations") currentScene = std::make_unique<AnimationsSample>();
+            else if (sample == "input") currentScene = std::make_unique<InputSample>();
+            else if (sample == "sound") currentScene = std::make_unique<SoundSample>();
+            else if (sample == "perspective") currentScene = std::make_unique<PerspectiveSample>();
         }
 
-        if (!currentScene) currentScene.reset(new MainMenu());
+        if (!currentScene) currentScene = std::make_unique<MainMenu>();
 
         engine->getSceneManager().setScene(std::move(currentScene));
     }

@@ -33,7 +33,7 @@ bool GameSample::handleKeyboard(const KeyboardEvent& event)
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
             case Keyboard::Key::BACK:
-                engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                 return true;
             default:
                 break;
@@ -79,7 +79,7 @@ bool GameSample::handleGamepad(const GamepadEvent& event)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
-            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
     }
 
     return false;

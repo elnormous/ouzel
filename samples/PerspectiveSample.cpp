@@ -74,7 +74,7 @@ PerspectiveSample::PerspectiveSample():
     jumpPanner.setRolloffFactor(0.01F);
     character.addComponent(&jumpPanner);
 
-    rotate.reset(new scene::Rotate(10.0F, Vector3F(0.0F, tau<float>, 0.0F)));
+    rotate = std::make_unique<scene::Rotate>(10.0F, Vector3F(0.0F, tau<float>, 0.0F));
     character.addComponent(rotate.get());
     rotate->start();
 
@@ -100,7 +100,7 @@ bool PerspectiveSample::handleUI(const ouzel::UIEvent& event)
     if (event.type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
-            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
     }
 
     return false;
@@ -127,7 +127,7 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
             case Keyboard::Key::BACK:
-                engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                 return true;
             case Keyboard::Key::TAB:
                 jumpVoice.play();
@@ -200,7 +200,7 @@ bool PerspectiveSample::handleGamepad(const GamepadEvent& event)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
-            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
     }
 
     return false;

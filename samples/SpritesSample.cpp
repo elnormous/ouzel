@@ -33,7 +33,7 @@ SpritesSample::SpritesSample():
     layer.addChild(&character);
     character.setPosition(Vector2F(-300.0F, 0.0F));
 
-    move.reset(new scene::Move(4.0F, Vector3F(300.0F, 0.0F, 0.0F)));
+    move = std::make_unique<scene::Move>(4.0F, Vector3F(300.0F, 0.0F, 0.0F));
     character.addComponent(move.get());
     move->start();
 
@@ -78,7 +78,7 @@ bool SpritesSample::handleGamepad(const GamepadEvent& event)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
-            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
     }
 
     return false;
@@ -89,7 +89,7 @@ bool SpritesSample::handleUI(const UIEvent& event)
     if (event.type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &backButton)
-            engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
         else if (event.actor == &hideButton)
             character.setHidden(!character.isHidden());
         else if (event.actor == &wireframeButton)
@@ -108,7 +108,7 @@ bool SpritesSample::handleKeyboard(const KeyboardEvent& event) const
             case Keyboard::Key::ESCAPE:
             case Keyboard::Key::MENU:
             case Keyboard::Key::BACK:
-                engine->getSceneManager().setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                 return true;
             default:
                 break;
