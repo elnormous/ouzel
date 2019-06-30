@@ -106,13 +106,13 @@ namespace ouzel
 
                     if (command.data.empty())
                     {
-                        std::unique_ptr<CursorWin> cursor = std::make_unique<CursorWin>(command.systemCursor);
+                        auto cursor = std::make_unique<CursorWin>(command.systemCursor);
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
                     else
                     {
-                        std::unique_ptr<CursorWin> cursor = std::make_unique<CursorWin>(command.data, command.size,
-                                                                                        command.pixelFormat, command.hotSpot);
+                        auto cursor = std::make_unique<CursorWin>(command.data, command.size,
+                                                                  command.pixelFormat, command.hotSpot);
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
                     break;

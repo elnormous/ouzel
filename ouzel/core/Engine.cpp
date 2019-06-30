@@ -103,7 +103,7 @@ namespace ouzel
     {
         if (active)
         {
-            std::unique_ptr<SystemEvent> event = std::make_unique<SystemEvent>();
+            auto event = std::make_unique<SystemEvent>();
             event->type = Event::Type::ENGINE_STOP;
             eventDispatcher.postEvent(std::move(event));
         }
@@ -649,7 +649,7 @@ namespace ouzel
     {
         if (!active)
         {
-            std::unique_ptr<SystemEvent> event = std::make_unique<SystemEvent>();
+            auto event = std::make_unique<SystemEvent>();
             event->type = Event::Type::ENGINE_START;
             eventDispatcher.postEvent(std::move(event));
 
@@ -668,7 +668,7 @@ namespace ouzel
     {
         if (active && !paused)
         {
-            std::unique_ptr<SystemEvent> event = std::make_unique<SystemEvent>();
+            auto event = std::make_unique<SystemEvent>();
             event->type = Event::Type::ENGINE_PAUSE;
             eventDispatcher.postEvent(std::move(event));
 
@@ -680,7 +680,7 @@ namespace ouzel
     {
         if (active && paused)
         {
-            std::unique_ptr<SystemEvent> event = std::make_unique<SystemEvent>();
+            auto event = std::make_unique<SystemEvent>();
             event->type = Event::Type::ENGINE_RESUME;
             eventDispatcher.postEvent(std::move(event));
 
@@ -698,7 +698,7 @@ namespace ouzel
 
         if (active)
         {
-            std::unique_ptr<SystemEvent> event = std::make_unique<SystemEvent>();
+            auto event = std::make_unique<SystemEvent>();
             event->type = Event::Type::ENGINE_STOP;
             eventDispatcher.postEvent(std::move(event));
 
@@ -731,7 +731,7 @@ namespace ouzel
             previousUpdateTime = currentTime;
             float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
 
-            std::unique_ptr<UpdateEvent> updateEvent = std::make_unique<UpdateEvent>();
+            auto updateEvent = std::make_unique<UpdateEvent>();
             updateEvent->type = Event::Type::UPDATE;
             updateEvent->delta = delta;
             eventDispatcher.dispatchEvent(std::move(updateEvent));

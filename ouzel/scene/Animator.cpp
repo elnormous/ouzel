@@ -40,7 +40,7 @@ namespace ouzel
                     progress = 1.0F;
                     currentTime = length;
 
-                    std::unique_ptr<AnimationEvent> finishEvent = std::make_unique<AnimationEvent>();
+                    auto finishEvent = std::make_unique<AnimationEvent>();
                     finishEvent->type = Event::Type::ANIMATION_FINISH;
                     finishEvent->component = this;
                     engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
@@ -68,7 +68,7 @@ namespace ouzel
             engine->getEventDispatcher().addEventHandler(updateHandler);
             play();
 
-            std::unique_ptr<AnimationEvent> startEvent = std::make_unique<AnimationEvent>();
+            auto startEvent = std::make_unique<AnimationEvent>();
             startEvent->type = Event::Type::ANIMATION_START;
             startEvent->component = this;
             engine->getEventDispatcher().dispatchEvent(std::move(startEvent));

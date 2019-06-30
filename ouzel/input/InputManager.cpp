@@ -93,7 +93,7 @@ namespace ouzel
                     {
                         case Controller::Type::GAMEPAD:
                         {
-                            std::unique_ptr<GamepadEvent> connectEvent = std::make_unique<GamepadEvent>();
+                            auto connectEvent = std::make_unique<GamepadEvent>();
                             connectEvent->type = Event::Type::GAMEPAD_CONNECT;
                             controllerMap.insert(std::make_pair(event.deviceId,
                                                                 std::unique_ptr<Gamepad>(connectEvent->gamepad = new Gamepad(*this, event.deviceId))));
@@ -102,7 +102,7 @@ namespace ouzel
                         }
                         case Controller::Type::KEYBOARD:
                         {
-                            std::unique_ptr<KeyboardEvent> connectEvent = std::make_unique<KeyboardEvent>();
+                            auto connectEvent = std::make_unique<KeyboardEvent>();
                             connectEvent->type = Event::Type::KEYBOARD_CONNECT;
                             controllerMap.insert(std::make_pair(event.deviceId,
                                                                 std::unique_ptr<Keyboard>(connectEvent->keyboard = new Keyboard(*this, event.deviceId))));
@@ -112,7 +112,7 @@ namespace ouzel
                         }
                         case Controller::Type::MOUSE:
                         {
-                            std::unique_ptr<MouseEvent> connectEvent = std::make_unique<MouseEvent>();
+                            auto connectEvent = std::make_unique<MouseEvent>();
                             connectEvent->type = Event::Type::MOUSE_CONNECT;
                             controllerMap.insert(std::make_pair(event.deviceId,
                                                                 std::unique_ptr<Mouse>(connectEvent->mouse = new Mouse(*this, event.deviceId))));
@@ -122,7 +122,7 @@ namespace ouzel
                         }
                         case Controller::Type::TOUCHPAD:
                         {
-                            std::unique_ptr<TouchEvent> connectEvent = std::make_unique<TouchEvent>();
+                            auto connectEvent = std::make_unique<TouchEvent>();
                             connectEvent->type = Event::Type::TOUCHPAD_CONNECT;
                             controllerMap.insert(std::make_pair(event.deviceId,
                                                                 std::unique_ptr<Touchpad>(connectEvent->touchpad = new Touchpad(*this, event.deviceId, event.screen))));
@@ -149,7 +149,7 @@ namespace ouzel
                         {
                             case Controller::Type::GAMEPAD:
                             {
-                                std::unique_ptr<GamepadEvent> disconnectEvent = std::make_unique<GamepadEvent>();
+                                auto disconnectEvent = std::make_unique<GamepadEvent>();
                                 disconnectEvent->type = Event::Type::GAMEPAD_DISCONNECT;
                                 disconnectEvent->gamepad = static_cast<Gamepad*>(i->second.get());
                                 handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
@@ -157,7 +157,7 @@ namespace ouzel
                             }
                             case Controller::Type::KEYBOARD:
                             {
-                                std::unique_ptr<KeyboardEvent> disconnectEvent = std::make_unique<KeyboardEvent>();
+                                auto disconnectEvent = std::make_unique<KeyboardEvent>();
                                 disconnectEvent->type = Event::Type::KEYBOARD_DISCONNECT;
                                 disconnectEvent->keyboard = static_cast<Keyboard*>(i->second.get());
                                 keyboard = nullptr;
@@ -169,7 +169,7 @@ namespace ouzel
                             }
                             case Controller::Type::MOUSE:
                             {
-                                std::unique_ptr<MouseEvent> disconnectEvent = std::make_unique<MouseEvent>();
+                                auto disconnectEvent = std::make_unique<MouseEvent>();
                                 disconnectEvent->type = Event::Type::MOUSE_DISCONNECT;
                                 disconnectEvent->mouse = static_cast<Mouse*>(i->second.get());
                                 mouse = nullptr;
@@ -181,7 +181,7 @@ namespace ouzel
                             }
                             case Controller::Type::TOUCHPAD:
                             {
-                                std::unique_ptr<TouchEvent> disconnectEvent = std::make_unique<TouchEvent>();
+                                auto disconnectEvent = std::make_unique<TouchEvent>();
                                 disconnectEvent->type = Event::Type::TOUCHPAD_DISCONNECT;
                                 disconnectEvent->touchpad = static_cast<Touchpad*>(i->second.get());
                                 touchpad = nullptr;

@@ -62,7 +62,7 @@ namespace ouzel
                     try
                     {
                         std::string filename = std::string("/dev/input/") + ent.d_name;
-                        std::unique_ptr<EventDevice> eventDevice = std::make_unique<EventDevice>(*this, filename);
+                        auto eventDevice = std::make_unique<EventDevice>(*this, filename);
                         eventDevices.insert(std::make_pair(eventDevice->getFd(), std::move(eventDevice)));
                     }
                     catch (const std::exception&)
@@ -116,13 +116,13 @@ namespace ouzel
 
                     if (command.data.empty())
                     {
-                        std::unique_ptr<CursorLinux> cursor = std::make_unique<CursorLinux>(command.systemCursor);
+                        auto cursor = std::make_unique<CursorLinux>(command.systemCursor);
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
                     else
                     {
-                        std::unique_ptr<CursorLinux> cursor = std::make_unique<CursorLinux>(command.data, command.size,
-                                                                                            command.pixelFormat, command.hotSpot);
+                        auto cursor = std::make_unique<CursorLinux>(command.data, command.size,
+                                                                    command.pixelFormat, command.hotSpot);
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
                     break;
@@ -241,7 +241,7 @@ namespace ouzel
                         try
                         {
                             std::string filename = std::string("/dev/input/") + ent.d_name;
-                            std::unique_ptr<EventDevice> eventDevice = std::make_unique<EventDevice>(*this, filename);
+                            auto eventDevice = std::make_unique<EventDevice>(*this, filename);
                             eventDevices.insert(std::make_pair(eventDevice->getFd(), std::move(eventDevice)));
                         }
                         catch (const std::exception&)

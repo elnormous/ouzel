@@ -390,7 +390,7 @@ namespace ouzel
 
         void InputSystemEm::handleGamepadConnected(long index)
         {
-            std::unique_ptr<GamepadDeviceEm> gamepadDevice = std::make_unique<GamepadDeviceEm>(*this, ++lastDeviceId, index);
+            auto gamepadDevice = std::make_unique<GamepadDeviceEm>(*this, ++lastDeviceId, index);
             gamepadDevices.insert(std::make_pair(index, std::move(gamepadDevice)));
         }
 

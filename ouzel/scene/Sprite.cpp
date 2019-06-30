@@ -273,7 +273,7 @@ namespace ouzel
                             {
                                 currentTime = fmod(currentTime, length);
 
-                                std::unique_ptr<AnimationEvent> resetEvent = std::make_unique<AnimationEvent>();
+                                auto resetEvent = std::make_unique<AnimationEvent>();
                                 resetEvent->type = Event::Type::ANIMATION_RESET;
                                 resetEvent->component = this;
                                 resetEvent->name = currentAnimation->animation->name;
@@ -284,7 +284,7 @@ namespace ouzel
                             {
                                 if (running)
                                 {
-                                    std::unique_ptr<AnimationEvent> finishEvent = std::make_unique<AnimationEvent>();
+                                    auto finishEvent = std::make_unique<AnimationEvent>();
                                     finishEvent->type = Event::Type::ANIMATION_FINISH;
                                     finishEvent->component = this;
                                     finishEvent->name = currentAnimation->animation->name;
@@ -302,7 +302,7 @@ namespace ouzel
                                 {
                                     currentTime -= length;
 
-                                    std::unique_ptr<AnimationEvent> startEvent = std::make_unique<AnimationEvent>();
+                                    auto startEvent = std::make_unique<AnimationEvent>();
                                     startEvent->type = Event::Type::ANIMATION_START;
                                     startEvent->component = this;
                                     startEvent->name = nextAnimation->animation->name;

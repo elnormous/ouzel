@@ -138,7 +138,7 @@ namespace ouzel
             {
                 size = event.size;
 
-                std::unique_ptr<WindowEvent> sizeChangeEvent = std::make_unique<WindowEvent>();
+                auto sizeChangeEvent = std::make_unique<WindowEvent>();
                 sizeChangeEvent->type = Event::Type::WINDOW_SIZE_CHANGE;
                 sizeChangeEvent->window = this;
                 sizeChangeEvent->size = event.size;
@@ -151,7 +151,7 @@ namespace ouzel
 
                 engine.getRenderer()->setSize(resolution);
 
-                std::unique_ptr<WindowEvent> resolutionChangeEvent = std::make_unique<WindowEvent>();
+                auto resolutionChangeEvent = std::make_unique<WindowEvent>();
                 resolutionChangeEvent->type = Event::Type::RESOLUTION_CHANGE;
                 resolutionChangeEvent->window = this;
                 resolutionChangeEvent->size = event.size;
@@ -162,7 +162,7 @@ namespace ouzel
             {
                 fullscreen = event.fullscreen;
 
-                std::unique_ptr<WindowEvent> fullscreenChangeEvent = std::make_unique<WindowEvent>();
+                auto fullscreenChangeEvent = std::make_unique<WindowEvent>();
                 fullscreenChangeEvent->type = Event::Type::FULLSCREEN_CHANGE;
                 fullscreenChangeEvent->window = this;
                 fullscreenChangeEvent->fullscreen = event.fullscreen;
@@ -173,7 +173,7 @@ namespace ouzel
             {
                 displayId = event.displayId;
 
-                std::unique_ptr<WindowEvent> screenChangeEvent = std::make_unique<WindowEvent>();
+                auto screenChangeEvent = std::make_unique<WindowEvent>();
                 screenChangeEvent->type = Event::Type::SCREEN_CHANGE;
                 screenChangeEvent->window = this;
                 screenChangeEvent->screenId = event.displayId;
@@ -219,7 +219,7 @@ namespace ouzel
             command.size = newSize;
             nativeWindow->addCommand(command);
 
-            std::unique_ptr<WindowEvent> event = std::make_unique<WindowEvent>();
+            auto event = std::make_unique<WindowEvent>();
             event->type = Event::Type::WINDOW_SIZE_CHANGE;
             event->window = this;
             event->size = size;
@@ -239,7 +239,7 @@ namespace ouzel
             command.fullscreen = newFullscreen;
             nativeWindow->addCommand(command);
 
-            std::unique_ptr<WindowEvent> event = std::make_unique<WindowEvent>();
+            auto event = std::make_unique<WindowEvent>();
             event->type = Event::Type::FULLSCREEN_CHANGE;
             event->window = this;
             event->size = size;
@@ -259,7 +259,7 @@ namespace ouzel
             command.title = newTitle;
             nativeWindow->addCommand(command);
 
-            std::unique_ptr<WindowEvent> event = std::make_unique<WindowEvent>();
+            auto event = std::make_unique<WindowEvent>();
             event->type = Event::Type::WINDOW_TITLE_CHANGE;
             event->window = this;
             event->size = size;

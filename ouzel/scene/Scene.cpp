@@ -288,7 +288,7 @@ namespace ouzel
         {
             if (actor)
             {
-                std::unique_ptr<UIEvent> event = std::make_unique<UIEvent>();
+                auto event = std::make_unique<UIEvent>();
                 event->type = Event::Type::ACTOR_ENTER;
                 event->actor = actor;
                 event->touchId = pointerId;
@@ -301,7 +301,7 @@ namespace ouzel
         {
             if (actor)
             {
-                std::unique_ptr<UIEvent> event = std::make_unique<UIEvent>();
+                auto event = std::make_unique<UIEvent>();
                 event->type = Event::Type::ACTOR_LEAVE;
                 event->actor = actor;
                 event->touchId = pointerId;
@@ -316,7 +316,7 @@ namespace ouzel
             {
                 pointerDownOnActors[pointerId] = std::make_pair(actor, localPosition);
 
-                std::unique_ptr<UIEvent> event = std::make_unique<UIEvent>();
+                auto event = std::make_unique<UIEvent>();
                 event->type = Event::Type::ACTOR_PRESS;
                 event->actor = actor;
                 event->touchId = pointerId;
@@ -336,7 +336,7 @@ namespace ouzel
 
                 if (pointerDownOnActor.first)
                 {
-                    std::unique_ptr<UIEvent> releaseEvent = std::make_unique<UIEvent>();
+                    auto releaseEvent = std::make_unique<UIEvent>();
                     releaseEvent->type = Event::Type::ACTOR_RELEASE;
                     releaseEvent->actor = pointerDownOnActor.first;
                     releaseEvent->touchId = pointerId;
@@ -347,7 +347,7 @@ namespace ouzel
 
                     if (pointerDownOnActor.first == actor)
                     {
-                        std::unique_ptr<UIEvent> clickEvent = std::make_unique<UIEvent>();
+                        auto clickEvent = std::make_unique<UIEvent>();
                         clickEvent->type = Event::Type::ACTOR_CLICK;
                         clickEvent->actor = actor;
                         clickEvent->touchId = pointerId;
@@ -366,7 +366,7 @@ namespace ouzel
         {
             if (actor)
             {
-                std::unique_ptr<UIEvent> event = std::make_unique<UIEvent>();
+                auto event = std::make_unique<UIEvent>();
                 event->type = Event::Type::ACTOR_DRAG;
                 event->actor = actor;
                 event->touchId = pointerId;

@@ -176,13 +176,13 @@ namespace ouzel
 
                     if (command.data.empty())
                     {
-                        std::unique_ptr<CursorMacOS> cursor = std::make_unique<CursorMacOS>(command.systemCursor);
+                        auto cursor = std::make_unique<CursorMacOS>(command.systemCursor);
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
                     else
                     {
-                        std::unique_ptr<CursorMacOS> cursor = std::make_unique<CursorMacOS>(command.data, command.size,
-                                                                                            command.pixelFormat, command.hotSpot);
+                        auto cursor = std::make_unique<CursorMacOS>(command.data, command.size,
+                                                                    command.pixelFormat, command.hotSpot);
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
                     break;
@@ -292,7 +292,7 @@ namespace ouzel
             // Use IOKit only if the controller does not support GameController framework
             if (supportsGameController)
             {
-                std::unique_ptr<GamepadDeviceGC> gamepadDevice = std::make_unique<GamepadDeviceGC>(*this, ++lastDeviceId, controller);
+                auto gamepadDevice = std::make_unique<GamepadDeviceGC>(*this, ++lastDeviceId, controller);
                 gamepadDevicesGC.insert(std::make_pair(controller, std::move(gamepadDevice)));
             }
         }
@@ -324,7 +324,7 @@ namespace ouzel
             // Use IOKit only if the controller does not support GameController framework
             if (!supportsGameController)
             {
-                std::unique_ptr<GamepadDeviceIOKit> gamepadDevice = std::make_unique<GamepadDeviceIOKit>(*this, ++lastDeviceId, device);
+                auto gamepadDevice = std::make_unique<GamepadDeviceIOKit>(*this, ++lastDeviceId, device);
                 gamepadDevicesIOKit.insert(std::make_pair(device, std::move(gamepadDevice)));
             }
         }

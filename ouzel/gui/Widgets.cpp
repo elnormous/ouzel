@@ -281,7 +281,7 @@ namespace ouzel
                     checked = !checked;
                     updateSprite();
 
-                    std::unique_ptr<UIEvent> changeEvent = std::make_unique<UIEvent>();
+                    auto changeEvent = std::make_unique<UIEvent>();
                     changeEvent->type = Event::Type::WIDGET_CHANGE;
                     changeEvent->actor = event.actor;
                     engine->getEventDispatcher().dispatchEvent(std::move(changeEvent));
@@ -513,7 +513,7 @@ namespace ouzel
                     {
                         if (selectedWidget)
                         {
-                            std::unique_ptr<UIEvent> clickEvent = std::make_unique<UIEvent>();
+                            auto clickEvent = std::make_unique<UIEvent>();
                             clickEvent->type = Event::Type::ACTOR_CLICK;
                             clickEvent->actor = selectedWidget;
                             clickEvent->position = Vector2F(selectedWidget->getPosition());
@@ -560,7 +560,7 @@ namespace ouzel
                 {
                     if (!event.previousPressed && event.pressed && selectedWidget)
                     {
-                        std::unique_ptr<UIEvent> clickEvent = std::make_unique<UIEvent>();
+                        auto clickEvent = std::make_unique<UIEvent>();
                         clickEvent->type = Event::Type::ACTOR_CLICK;
                         clickEvent->actor = selectedWidget;
                         clickEvent->position = Vector2F(selectedWidget->getPosition());
