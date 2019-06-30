@@ -93,41 +93,53 @@ namespace ouzel
                     {
                         case Controller::Type::GAMEPAD:
                         {
+                            auto controller = std::make_unique<Gamepad>(*this, event.deviceId);
+                            controllers.push_back(controller.get());
+
                             auto connectEvent = std::make_unique<GamepadEvent>();
                             connectEvent->type = Event::Type::GAMEPAD_CONNECT;
-                            controllerMap.insert(std::make_pair(event.deviceId,
-                                                                std::unique_ptr<Gamepad>(connectEvent->gamepad = new Gamepad(*this, event.deviceId))));
-                            controllers.push_back(connectEvent->gamepad);
+                            connectEvent->gamepad = controller.get();
+
+                            controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                             return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
                         case Controller::Type::KEYBOARD:
                         {
+                            auto controller = std::make_unique<Keyboard>(*this, event.deviceId);
+                            controllers.push_back(controller.get());
+                            if (!keyboard) keyboard = controller.get();
+
                             auto connectEvent = std::make_unique<KeyboardEvent>();
                             connectEvent->type = Event::Type::KEYBOARD_CONNECT;
-                            controllerMap.insert(std::make_pair(event.deviceId,
-                                                                std::unique_ptr<Keyboard>(connectEvent->keyboard = new Keyboard(*this, event.deviceId))));
-                            if (!keyboard) keyboard = connectEvent->keyboard;
-                            controllers.push_back(connectEvent->keyboard);
+                            connectEvent->keyboard = controller.get();
+
+                            controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                             return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
                         case Controller::Type::MOUSE:
                         {
+                            auto controller = std::make_unique<Mouse>(*this, event.deviceId);
+                            controllers.push_back(controller.get());
+                            if (!mouse) mouse = controller.get();
+
                             auto connectEvent = std::make_unique<MouseEvent>();
                             connectEvent->type = Event::Type::MOUSE_CONNECT;
-                            controllerMap.insert(std::make_pair(event.deviceId,
-                                                                std::unique_ptr<Mouse>(connectEvent->mouse = new Mouse(*this, event.deviceId))));
-                            if (!mouse) mouse = connectEvent->mouse;
-                            controllers.push_back(connectEvent->mouse);
+                            connectEvent->mouse = controller.get();
+
+                            controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                             return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
                         case Controller::Type::TOUCHPAD:
                         {
+                            auto controller = std::make_unique<Touchpad>(*this, event.deviceId, event.screen);
+                            controllers.push_back(controller.get());
+                            if (!touchpad) touchpad = controller.get();
+
                             auto connectEvent = std::make_unique<TouchEvent>();
                             connectEvent->type = Event::Type::TOUCHPAD_CONNECT;
-                            controllerMap.insert(std::make_pair(event.deviceId,
-                                                                std::unique_ptr<Touchpad>(connectEvent->touchpad = new Touchpad(*this, event.deviceId, event.screen))));
-                            if (!touchpad) touchpad = connectEvent->touchpad;
-                            controllers.push_back(connectEvent->touchpad);
+                            connectEvent->touchpad = controller.get();
+
+                            controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                             return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
                         default: throw std::runtime_error("Invalid controller type");
