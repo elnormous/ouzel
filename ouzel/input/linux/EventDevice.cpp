@@ -19,12 +19,12 @@ static constexpr float THUMB_DEADZONE = 0.2F;
 
 static constexpr uint32_t BITS_PER_LONG = 8 * sizeof(long);
 
-static constexpr size_t bitsToLongs(size_t n)
+constexpr size_t bitsToLongs(size_t n)
 {
     return (n + BITS_PER_LONG - 1) / BITS_PER_LONG; // rounded up
 }
 
-static inline bool isBitSet(const unsigned long* array, int bit)
+inline bool isBitSet(const unsigned long* array, int bit)
 {
     return (array[bit / BITS_PER_LONG] & (1LL << (bit % BITS_PER_LONG))) != 0;
 }

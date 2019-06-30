@@ -394,12 +394,12 @@ namespace ouzel
             }
         }
 
-        static inline float gammaDecode(uint8_t value)
+        inline float gammaDecode(uint8_t value)
         {
             return GAMMA_DECODE[value]; // pow(value / 255.0F, GAMMA);
         }
 
-        static inline uint8_t gammaEncode(float value)
+        inline uint8_t gammaEncode(float value)
         {
             return static_cast<uint8_t>(round(pow(value, 1.0F / GAMMA) * 255.0F));
         }

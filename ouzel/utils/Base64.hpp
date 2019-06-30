@@ -4,6 +4,7 @@
 #define OUZE_UTILS_BASE64_HPP
 
 #include <cstdint>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -19,20 +20,13 @@ namespace ouzel
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
         };
 
-        constexpr bool isBase64(char c)
-        {
-            return ((c >= 'A' && c <= 'Z') ||
-                    (c >= 'a' && c <= 'z') ||
-                    (c >= '0' && c <= '9') ||
-                    (c == '+') || (c == '/'));
-        }
-
         constexpr uint8_t getIndex(uint8_t c)
         {
             return (c >= 'A' && c <= 'Z') ? c - 'A' :
                 (c >= 'a' && c <= 'z') ? 26 + (c - 'a') :
                 (c >= '0' && c <= '9') ? 52 + (c - '0') :
-                (c == '+') ? 62 : (c == '/') ? 63 : 0;
+                (c == '+') ? 62 : (c == '/') ? 63 :
+                throw std::out_of_range("Invalid Base64 digit");
         }
 
         template <class Iterator>

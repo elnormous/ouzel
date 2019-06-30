@@ -15,12 +15,12 @@ namespace ouzel
     {
         static const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
 
-        static constexpr bool isWhitespace(uint32_t c)
+        constexpr bool isWhitespace(uint32_t c)
         {
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
         }
 
-        static constexpr bool isNameStartChar(uint32_t c)
+        constexpr bool isNameStartChar(uint32_t c)
         {
             return (c >= 'a' && c <= 'z') ||
                 (c >= 'A' && c <= 'Z') ||
@@ -34,7 +34,7 @@ namespace ouzel
                 (c >= 0x2070 && c <= 0x218F);
         }
 
-        static constexpr bool isNameChar(uint32_t c)
+        constexpr bool isNameChar(uint32_t c)
         {
             return isNameStartChar(c) ||
                 c == '-' || c == '.' ||
@@ -44,7 +44,7 @@ namespace ouzel
                 (c >= 0x203F && c <= 0x2040);
         }
 
-        static void skipWhitespaces(std::vector<uint32_t>::const_iterator& iterator,
+        inline void skipWhitespaces(std::vector<uint32_t>::const_iterator& iterator,
                                     std::vector<uint32_t>::const_iterator end)
         {
             for (;;)
@@ -58,7 +58,7 @@ namespace ouzel
             }
         }
 
-        static std::string parseName(std::vector<uint32_t>::const_iterator& iterator,
+        inline std::string parseName(std::vector<uint32_t>::const_iterator& iterator,
                                      std::vector<uint32_t>::const_iterator end)
         {
             std::string result;
@@ -86,7 +86,7 @@ namespace ouzel
             return result;
         }
 
-        static std::string parseEntity(std::vector<uint32_t>::const_iterator& iterator,
+        inline std::string parseEntity(std::vector<uint32_t>::const_iterator& iterator,
                                        std::vector<uint32_t>::const_iterator end)
         {
             std::string result;
@@ -176,7 +176,7 @@ namespace ouzel
             return result;
         }
 
-        static std::string parseString(std::vector<uint32_t>::const_iterator& iterator,
+        inline std::string parseString(std::vector<uint32_t>::const_iterator& iterator,
                                        std::vector<uint32_t>::const_iterator end)
         {
             std::string result;
@@ -216,7 +216,7 @@ namespace ouzel
             return result;
         }
 
-        static void encodeString(std::vector<uint8_t>& data,
+        inline void encodeString(std::vector<uint8_t>& data,
                                  const std::vector<uint32_t>& str)
         {
             for (uint32_t c : str)

@@ -17,8 +17,8 @@ namespace ouzel
     {
         static const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
 
-        static void encodeString(std::vector<uint8_t>& data,
-                                 const std::vector<uint32_t>& str)
+        void encodeString(std::vector<uint8_t>& data,
+                          const std::vector<uint32_t>& str)
         {
             for (uint32_t c : str)
             {
@@ -69,7 +69,7 @@ namespace ouzel
             std::vector<uint32_t> value;
         };
         
-        static std::vector<Token> tokenize(const std::vector<uint32_t>& str)
+        inline std::vector<Token> tokenize(const std::vector<uint32_t>& str)
         {
             std::vector<Token> tokens;
 

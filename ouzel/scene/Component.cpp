@@ -30,9 +30,9 @@ namespace ouzel
             return boundingBox.containsPoint(Vector3F(position));
         }
 
-        static inline void gatherPolygonProjectionExtents(const std::vector<Vector2F>& vertList,
-                                                          const Vector2F& v,
-                                                          float& outMin, float& outMax)
+        inline void gatherPolygonProjectionExtents(const std::vector<Vector2F>& vertList,
+                                                   const Vector2F& v,
+                                                   float& outMin, float& outMax)
         {
             auto i = vertList.begin();
             if (i != vertList.end())
@@ -49,8 +49,8 @@ namespace ouzel
             }
         }
 
-        static inline bool findSeparatingAxis(const std::vector<Vector2F>& aVertList,
-                                              const std::vector<Vector2F>& bVertList)
+        inline bool findSeparatingAxis(const std::vector<Vector2F>& aVertList,
+                                       const std::vector<Vector2F>& bVertList)
         {
             Vector2F v;
             auto prev = aVertList.end() - 1;
