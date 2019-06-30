@@ -49,35 +49,35 @@ namespace ouzel
 
             if (!normalImage.empty())
             {
-                normalSprite.reset(new scene::Sprite());
+                normalSprite = std::make_unique<scene::Sprite>();
                 normalSprite->init(normalImage);
                 addComponent(normalSprite.get());
             }
 
             if (!selectedImage.empty())
             {
-                selectedSprite.reset(new scene::Sprite());
+                selectedSprite = std::make_unique<scene::Sprite>();
                 selectedSprite->init(selectedImage);
                 addComponent(selectedSprite.get());
             }
 
             if (!pressedImage.empty())
             {
-                pressedSprite.reset(new scene::Sprite());
+                pressedSprite = std::make_unique<scene::Sprite>();
                 pressedSprite->init(pressedImage);
                 addComponent(pressedSprite.get());
             }
 
             if (!disabledImage.empty())
             {
-                disabledSprite.reset(new scene::Sprite());
+                disabledSprite = std::make_unique<scene::Sprite>();
                 disabledSprite->init(disabledImage);
                 addComponent(disabledSprite.get());
             }
 
             if (!label.empty())
             {
-                labelDrawable.reset(new scene::TextRenderer(font, fontSize, label));
+                labelDrawable = std::make_unique<scene::TextRenderer>(font, fontSize, label);
                 labelDrawable->setColor(labelColor);
                 addComponent(labelDrawable.get());
             }
@@ -190,35 +190,35 @@ namespace ouzel
 
             if (!normalImage.empty())
             {
-                normalSprite.reset(new scene::Sprite());
+                normalSprite = std::make_unique<scene::Sprite>();
                 normalSprite->init(normalImage);
                 addComponent(normalSprite.get());
             }
 
             if (!selectedImage.empty())
             {
-                selectedSprite.reset(new scene::Sprite());
+                selectedSprite = std::make_unique<scene::Sprite>();
                 selectedSprite->init(selectedImage);
                 addComponent(selectedSprite.get());
             }
 
             if (!pressedImage.empty())
             {
-                pressedSprite.reset(new scene::Sprite());
+                pressedSprite = std::make_unique<scene::Sprite>();
                 pressedSprite->init(pressedImage);
                 addComponent(pressedSprite.get());
             }
 
             if (!disabledImage.empty())
             {
-                disabledSprite.reset(new scene::Sprite());
+                disabledSprite = std::make_unique<scene::Sprite>();
                 disabledSprite->init(disabledImage);
                 addComponent(disabledSprite.get());
             }
 
             if (!tickImage.empty())
             {
-                tickSprite.reset(new scene::Sprite());
+                tickSprite = std::make_unique<scene::Sprite>();
                 tickSprite->init(tickImage);
                 addComponent(tickSprite.get());
             }
@@ -281,7 +281,7 @@ namespace ouzel
                     checked = !checked;
                     updateSprite();
 
-                    std::unique_ptr<UIEvent> changeEvent(new UIEvent());
+                    std::unique_ptr<UIEvent> changeEvent = std::make_unique<UIEvent>();
                     changeEvent->type = Event::Type::WIDGET_CHANGE;
                     changeEvent->actor = event.actor;
                     engine->getEventDispatcher().dispatchEvent(std::move(changeEvent));
@@ -513,7 +513,7 @@ namespace ouzel
                     {
                         if (selectedWidget)
                         {
-                            std::unique_ptr<UIEvent> clickEvent(new UIEvent());
+                            std::unique_ptr<UIEvent> clickEvent = std::make_unique<UIEvent>();
                             clickEvent->type = Event::Type::ACTOR_CLICK;
                             clickEvent->actor = selectedWidget;
                             clickEvent->position = Vector2F(selectedWidget->getPosition());
@@ -560,7 +560,7 @@ namespace ouzel
                 {
                     if (!event.previousPressed && event.pressed && selectedWidget)
                     {
-                        std::unique_ptr<UIEvent> clickEvent(new UIEvent());
+                        std::unique_ptr<UIEvent> clickEvent = std::make_unique<UIEvent>();
                         clickEvent->type = Event::Type::ACTOR_CLICK;
                         clickEvent->actor = selectedWidget;
                         clickEvent->position = Vector2F(selectedWidget->getPosition());

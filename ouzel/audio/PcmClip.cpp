@@ -44,7 +44,7 @@ namespace ouzel
 
             std::unique_ptr<mixer::Stream> createStream() final
             {
-                return std::unique_ptr<mixer::Stream>(new PcmStream(*this));
+                return std::make_unique<PcmStream>(*this);
             }
 
         private:

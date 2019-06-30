@@ -183,7 +183,7 @@ namespace ouzel
         {
             orientation = newOrientation;
 
-            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            std::unique_ptr<SystemEvent> event = std::make_unique<SystemEvent>();
             event->type = Event::Type::ORIENTATION_CHANGE;
 
             switch (orientation)

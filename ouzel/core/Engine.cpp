@@ -103,7 +103,7 @@ namespace ouzel
     {
         if (active)
         {
-            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            std::unique_ptr<SystemEvent> event = std::make_unique<SystemEvent>();
             event->type = Event::Type::ENGINE_STOP;
             eventDispatcher.postEvent(std::move(event));
         }
@@ -221,28 +221,28 @@ namespace ouzel
         if (highDpi) windowFlags |= Window::HIGH_DPI;
         if (depth) windowFlags |= Window::DEPTH;
 
-        window.reset(new Window(*this,
-                                size,
-                                windowFlags,
-                                OUZEL_APPLICATION_NAME,
-                                graphicsDriver));
+        window = std::make_unique<Window>(*this,
+                                          size,
+                                          windowFlags,
+                                          OUZEL_APPLICATION_NAME,
+                                          graphicsDriver);
 
-        renderer.reset(new graphics::Renderer(graphicsDriver,
-                                              window.get(),
-                                              window->getResolution(),
-                                              sampleCount,
-                                              textureFilter,
-                                              maxAnisotropy,
-                                              false,
-                                              verticalSync,
-                                              depth,
-                                              stencil,
-                                              debugRenderer));
+        renderer = std::make_unique<graphics::Renderer>(graphicsDriver,
+                                                        window.get(),
+                                                        window->getResolution(),
+                                                        sampleCount,
+                                                        textureFilter,
+                                                        maxAnisotropy,
+                                                        false,
+                                                        verticalSync,
+                                                        depth,
+                                                        stencil,
+                                                        debugRenderer);
 
         audio::Driver audioDriver = audio::Audio::getDriver(audioDriverValue);
-        audio.reset(new audio::Audio(audioDriver, debugAudio));
+        audio = std::make_unique<audio::Audio>(audioDriver, debugAudio);
 
-        inputManager.reset(new input::InputManager());
+        inputManager = std::make_unique<input::InputManager>();
 
         // default assets
         switch (graphicsDriver)
@@ -649,7 +649,7 @@ namespace ouzel
     {
         if (!active)
         {
-            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            std::unique_ptr<SystemEvent> event = std::make_unique<SystemEvent>();
             event->type = Event::Type::ENGINE_START;
             eventDispatcher.postEvent(std::move(event));
 
@@ -668,7 +668,7 @@ namespace ouzel
     {
         if (active && !paused)
         {
-            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            std::unique_ptr<SystemEvent> event = std::make_unique<SystemEvent>();
             event->type = Event::Type::ENGINE_PAUSE;
             eventDispatcher.postEvent(std::move(event));
 
@@ -680,7 +680,7 @@ namespace ouzel
     {
         if (active && paused)
         {
-            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            std::unique_ptr<SystemEvent> event = std::make_unique<SystemEvent>();
             event->type = Event::Type::ENGINE_RESUME;
             eventDispatcher.postEvent(std::move(event));
 
@@ -698,7 +698,7 @@ namespace ouzel
 
         if (active)
         {
-            std::unique_ptr<SystemEvent> event(new SystemEvent());
+            std::unique_ptr<SystemEvent> event = std::make_unique<SystemEvent>();
             event->type = Event::Type::ENGINE_STOP;
             eventDispatcher.postEvent(std::move(event));
 
@@ -731,7 +731,7 @@ namespace ouzel
             previousUpdateTime = currentTime;
             float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
 
-            std::unique_ptr<UpdateEvent> updateEvent(new UpdateEvent());
+            std::unique_ptr<UpdateEvent> updateEvent = std::make_unique<UpdateEvent>();
             updateEvent->type = Event::Type::UPDATE;
             updateEvent->delta = delta;
             eventDispatcher.dispatchEvent(std::move(updateEvent));

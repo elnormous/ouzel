@@ -16,7 +16,7 @@ namespace ouzel
 
         bool Keyboard::handleKeyPress(Keyboard::Key key)
         {
-            std::unique_ptr<KeyboardEvent> event(new KeyboardEvent());
+            std::unique_ptr<KeyboardEvent> event = std::make_unique<KeyboardEvent>();
             event->keyboard = this;
             event->key = key;
 
@@ -35,7 +35,7 @@ namespace ouzel
         {
             keyStates[static_cast<uint32_t>(key)] = false;
 
-            std::unique_ptr<KeyboardEvent> event(new KeyboardEvent());
+            std::unique_ptr<KeyboardEvent> event = std::make_unique<KeyboardEvent>();
             event->type = Event::Type::KEY_RELEASE;
             event->keyboard = this;
             event->key = key;

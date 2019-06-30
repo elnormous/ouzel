@@ -60,7 +60,7 @@ namespace ouzel
 
             std::unique_ptr<mixer::Stream> createStream() final
             {
-                return std::unique_ptr<mixer::Stream>(new VorbisStream(*this));
+                return std::make_unique<VorbisStream>(*this);
             }
 
         private:

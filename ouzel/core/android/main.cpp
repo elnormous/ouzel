@@ -15,7 +15,7 @@ static std::unique_ptr<ouzel::EngineAndroid> engine;
 
 extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVM, void*)
 {
-    engine.reset(new ouzel::EngineAndroid(javaVM));
+    engine = std::make_unique<ouzel::EngineAndroid>(javaVM);
     return JNI_VERSION_1_6;
 }
 
@@ -78,7 +78,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onConfigurat
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onLowMemory(JNIEnv*, jclass)
 {
-    std::unique_ptr<ouzel::SystemEvent> event(new ouzel::SystemEvent());
+    std::unique_ptr<ouzel::SystemEvent> event = std::make_unique<ouzel::SystemEvent>();
     event->type = ouzel::Event::Type::LOW_MEMORY;
     engine->getEventDispatcher().postEvent(std::move(event));
 }

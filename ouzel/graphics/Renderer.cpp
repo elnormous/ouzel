@@ -110,45 +110,45 @@ namespace ouzel
                 case Driver::OPENGL:
                     engine->log(Log::Level::INFO) << "Using OpenGL render driver";
 #  if TARGET_OS_IOS
-                    device.reset(new opengl::RenderDeviceIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<opengl::RenderDeviceIOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_TV
-                    device.reset(new opengl::RenderDeviceTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<opengl::RenderDeviceTVOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_MAC
-                    device.reset(new opengl::RenderDeviceMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<opengl::RenderDeviceMacOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif defined(__ANDROID__)
-                    device.reset(new opengl::RenderDeviceAndroid(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<opengl::RenderDeviceAndroid>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif defined(__linux__)
-                    device.reset(new opengl::RenderDeviceLinux(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<opengl::RenderDeviceLinux>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif defined(_WIN32)
-                    device.reset(new opengl::RenderDeviceWin(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<opengl::RenderDeviceWin>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif defined(__EMSCRIPTEN__)
-                    device.reset(new opengl::RenderDeviceEm(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<opengl::RenderDeviceEm>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  else
-                    device.reset(new opengl::RenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<opengl::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  endif
                     break;
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
                 case Driver::DIRECT3D11:
                     engine->log(Log::Level::INFO) << "Using Direct3D 11 render driver";
-                    device.reset(new d3d11::RenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<d3d11::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
                     break;
 #endif
 #if OUZEL_COMPILE_METAL
                 case Driver::METAL:
                     engine->log(Log::Level::INFO) << "Using Metal render driver";
 #  if TARGET_OS_IOS
-                    device.reset(new metal::RenderDeviceIOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<metal::RenderDeviceIOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_TV
-                    device.reset(new metal::RenderDeviceTVOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<metal::RenderDeviceTVOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_MAC
-                    device.reset(new metal::RenderDeviceMacOS(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<metal::RenderDeviceMacOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  endif
                     break;
 #endif
                 default:
                     engine->log(Log::Level::INFO) << "Not using render driver";
-                    device.reset(new empty::RenderDevice(std::bind(&Renderer::handleEvent, this, std::placeholders::_1)));
+                    device = std::make_unique<empty::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
                     break;
             }
 
@@ -182,7 +182,7 @@ namespace ouzel
         {
             size = newSize;
 
-            addCommand(std::unique_ptr<Command>(new ResizeCommand(newSize)));
+            addCommand(std::make_unique<ResizeCommand>(newSize));
         }
 
         void Renderer::saveScreenshot(const std::string& filename)
@@ -192,7 +192,7 @@ namespace ouzel
 
         void Renderer::setRenderTarget(uintptr_t renderTarget)
         {
-            addCommand(std::unique_ptr<Command>(new SetRenderTargetCommand(renderTarget)));
+            addCommand(std::make_unique<SetRenderTargetCommand>(renderTarget));
         }
 
         void Renderer::clearRenderTarget(bool clearColorBuffer,
@@ -202,29 +202,29 @@ namespace ouzel
                                          float clearDepth,
                                          uint32_t clearStencil)
         {
-            addCommand(std::unique_ptr<Command>(new ClearRenderTargetCommand(clearColorBuffer,
-                                                                             clearDepthBuffer,
-                                                                             clearStencilBuffer,
-                                                                             clearColor,
-                                                                             clearDepth,
-                                                                             clearStencil)));
+            addCommand(std::make_unique<ClearRenderTargetCommand>(clearColorBuffer,
+                                                                  clearDepthBuffer,
+                                                                  clearStencilBuffer,
+                                                                  clearColor,
+                                                                  clearDepth,
+                                                                  clearStencil));
         }
 
         void Renderer::setScissorTest(bool enabled, const RectF& rectangle)
         {
-            addCommand(std::unique_ptr<Command>(new SetScissorTestCommand(enabled, rectangle)));
+            addCommand(std::make_unique<SetScissorTestCommand>(enabled, rectangle));
         }
 
         void Renderer::setViewport(const RectF& viewport)
         {
-            addCommand(std::unique_ptr<Command>(new SetViewportCommand(viewport)));
+            addCommand(std::make_unique<SetViewportCommand>(viewport));
         }
 
         void Renderer::setDepthStencilState(uintptr_t depthStencilState,
                                             uint32_t stencilReferenceValue)
         {
-            addCommand(std::unique_ptr<Command>(new SetDepthStencilStateCommand(depthStencilState,
-                                                                                stencilReferenceValue)));
+            addCommand(std::make_unique<SetDepthStencilStateCommand>(depthStencilState,
+                                                                     stencilReferenceValue));
         }
 
         void Renderer::setPipelineState(uintptr_t blendState,
@@ -232,10 +232,10 @@ namespace ouzel
                                         CullMode cullMode,
                                         FillMode fillMode)
         {
-            addCommand(std::unique_ptr<Command>(new SetPipelineStateCommand(blendState,
-                                                                            shader,
-                                                                            cullMode,
-                                                                            fillMode)));
+            addCommand(std::make_unique<SetPipelineStateCommand>(blendState,
+                                                                 shader,
+                                                                 cullMode,
+                                                                 fillMode));
         }
 
         void Renderer::draw(uintptr_t indexBuffer,
@@ -248,40 +248,40 @@ namespace ouzel
             if (!indexBuffer || !vertexBuffer)
                 throw std::runtime_error("Invalid mesh buffer passed to render queue");
 
-            addCommand(std::unique_ptr<Command>(new DrawCommand(indexBuffer,
-                                                                indexCount,
-                                                                indexSize,
-                                                                vertexBuffer,
-                                                                drawMode,
-                                                                startIndex)));
+            addCommand(std::make_unique<DrawCommand>(indexBuffer,
+                                                     indexCount,
+                                                     indexSize,
+                                                     vertexBuffer,
+                                                     drawMode,
+                                                     startIndex));
         }
 
         void Renderer::pushDebugMarker(const std::string& name)
         {
-            addCommand(std::unique_ptr<Command>(new PushDebugMarkerCommand(name)));
+            addCommand(std::make_unique<PushDebugMarkerCommand>(name));
         }
 
         void Renderer::popDebugMarker()
         {
-            addCommand(std::unique_ptr<Command>(new PopDebugMarkerCommand()));
+            addCommand(std::make_unique<PopDebugMarkerCommand>());
         }
 
         void Renderer::setShaderConstants(std::vector<std::vector<float>> fragmentShaderConstants,
                                           std::vector<std::vector<float>> vertexShaderConstants)
         {
-            addCommand(std::unique_ptr<Command>(new SetShaderConstantsCommand(fragmentShaderConstants,
-                                                                              vertexShaderConstants)));
+            addCommand(std::make_unique<SetShaderConstantsCommand>(fragmentShaderConstants,
+                                                                   vertexShaderConstants));
         }
 
         void Renderer::setTextures(const std::vector<uintptr_t>& textures)
         {
-            addCommand(std::unique_ptr<Command>(new SetTexturesCommand(textures)));
+            addCommand(std::make_unique<SetTexturesCommand>(textures));
         }
 
         void Renderer::present()
         {
             refillQueue = false;
-            addCommand(std::unique_ptr<Command>(new PresentCommand()));
+            addCommand(std::make_unique<PresentCommand>());
             device->submitCommandBuffer(std::move(commandBuffer));
             commandBuffer = CommandBuffer();
         }

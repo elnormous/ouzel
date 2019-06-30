@@ -32,11 +32,11 @@ namespace ouzel
 
         void Voice::play()
         {
-            audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::PlayStreamCommand(streamId)));
+            audio.addCommand(std::make_unique<mixer::PlayStreamCommand>(streamId));
 
             playing = true;
 
-            std::unique_ptr<SoundEvent> startEvent(new SoundEvent());
+            std::unique_ptr<SoundEvent> startEvent = std::make_unique<SoundEvent>();
             startEvent->type = Event::Type::SOUND_START;
             startEvent->voice = this;
             engine->getEventDispatcher().postEvent(std::move(startEvent));
@@ -44,14 +44,14 @@ namespace ouzel
 
         void Voice::pause()
         {
-            audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::StopStreamCommand(streamId, false)));
+            audio.addCommand(std::make_unique<mixer::StopStreamCommand>(streamId, false));
 
             playing = false;
         }
 
         void Voice::stop()
         {
-            audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::StopStreamCommand(streamId, true)));
+            audio.addCommand(std::make_unique<mixer::StopStreamCommand>(streamId, true));
 
             playing = false;
         }
@@ -59,7 +59,7 @@ namespace ouzel
         // executed on audio thread
         /*void Voice::onReset()
         {
-            std::unique_ptr<SoundEvent> event(new SoundEvent());
+            std::unique_ptr<SoundEvent> event = std::make_unique<SoundEvent>();
             event->type = Event::Type::SOUND_RESET;
             event->voice = this;
             engine->getEventDispatcher().postEvent(std::move(event));
@@ -70,7 +70,7 @@ namespace ouzel
         {
             playing = false;
 
-            std::unique_ptr<SoundEvent> event(new SoundEvent());
+            std::unique_ptr<SoundEvent> event = std::make_unique<SoundEvent>();
             event->type = Event::Type::SOUND_FINISH;
             event->voice = this;
             engine->getEventDispatcher().postEvent(std::move(event));
@@ -82,8 +82,8 @@ namespace ouzel
             output = newOutput;
             if (output) output->addInput(this);
 
-            audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::SetStreamOutputCommand(streamId,
-                                                                                               output ? output->getBusId() : 0)));
+            audio.addCommand(std::make_unique<mixer::SetStreamOutputCommand>(streamId,
+                                                                             output ? output->getBusId() : 0));
         }
     } // namespace audio
 } // namespace ouzel

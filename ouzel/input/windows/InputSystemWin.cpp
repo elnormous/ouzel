@@ -38,9 +38,9 @@ namespace ouzel
 
         InputSystemWin::InputSystemWin(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
-            keyboardDevice(new KeyboardDeviceWin(*this, ++lastDeviceId)),
-            mouseDevice(new MouseDeviceWin(*this, ++lastDeviceId)),
-            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId, true))
+            keyboardDevice(std::make_unique<KeyboardDeviceWin>(*this, ++lastDeviceId)),
+            mouseDevice(std::make_unique<MouseDeviceWin>(*this, ++lastDeviceId)),
+            touchpadDevice(std::make_unique<TouchpadDevice>(*this, ++lastDeviceId, true))
         {
             defaultCursor = LoadCursor(nullptr, IDC_ARROW);
 
@@ -58,7 +58,7 @@ namespace ouzel
                 DWORD result = XInputGetState(userIndex, &state);
 
                 if (result == ERROR_SUCCESS)
-                    gamepadsXI[userIndex].reset(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
+                    gamepadsXI[userIndex] = std::make_unique<GamepadDeviceXI>(*this, ++lastDeviceId, userIndex);
                 else if (result != ERROR_DEVICE_NOT_CONNECTED)
                     throw std::system_error(result, std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex));
             }
@@ -106,13 +106,13 @@ namespace ouzel
 
                     if (command.data.empty())
                     {
-                        std::unique_ptr<CursorWin> cursor(new CursorWin(command.systemCursor));
+                        std::unique_ptr<CursorWin> cursor = std::make_unique<CursorWin>(command.systemCursor);
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
                     else
                     {
-                        std::unique_ptr<CursorWin> cursor(new CursorWin(command.data, command.size,
-                                                                                    command.pixelFormat, command.hotSpot));
+                        std::unique_ptr<CursorWin> cursor = std::make_unique<CursorWin>(command.data, command.size,
+                                                                                        command.pixelFormat, command.hotSpot);
                         cursors[command.cursorResource - 1] = std::move(cursor);
                     }
                     break;
@@ -211,7 +211,7 @@ namespace ouzel
                         DWORD result = XInputGetState(userIndex, &state);
 
                         if (result == ERROR_SUCCESS)
-                            gamepadsXI[userIndex].reset(new GamepadDeviceXI(*this, ++lastDeviceId, userIndex));
+                            gamepadsXI[userIndex] = std::make_unique<GamepadDeviceXI>(*this, ++lastDeviceId, userIndex);
                         else if (result != ERROR_DEVICE_NOT_CONNECTED)
                             throw std::system_error(result, std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex));
                     }
@@ -316,9 +316,9 @@ namespace ouzel
                 {
                     NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow());
 
-                    gamepadsDI.emplace_back(new GamepadDeviceDI(*this, ++lastDeviceId,
-                                                                didInstance, directInput,
-                                                                windowWin->getNativeWindow()));
+                    gamepadsDI.emplace_back(std::make_unique<GamepadDeviceDI>(*this, ++lastDeviceId,
+                                                                              didInstance, directInput,
+                                                                              windowWin->getNativeWindow()));
                 }
             }
         }

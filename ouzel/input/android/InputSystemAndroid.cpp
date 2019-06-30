@@ -13,9 +13,9 @@ namespace ouzel
     {
         InputSystemAndroid::InputSystemAndroid(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
-            keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId)),
-            mouseDevice(new MouseDevice(*this, ++lastDeviceId)),
-            touchpadDevice(new TouchpadDevice(*this, ++lastDeviceId, true))
+            keyboardDevice(std::make_unique<KeyboardDevice>(*this, ++lastDeviceId)),
+            mouseDevice(std::make_unique<MouseDevice>(*this, ++lastDeviceId)),
+            touchpadDevice(std::make_unique<TouchpadDevice>(*this, ++lastDeviceId, true))
         {
             EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
             javaVM = engineAndroid->getJavaVM();

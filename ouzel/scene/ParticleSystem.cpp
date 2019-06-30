@@ -124,7 +124,7 @@ namespace ouzel
                     active = false;
                     updateHandler.remove();
 
-                    std::unique_ptr<AnimationEvent> finishEvent(new AnimationEvent());
+                    std::unique_ptr<AnimationEvent> finishEvent = std::make_unique<AnimationEvent>();
                     finishEvent->type = Event::Type::ANIMATION_FINISH;
                     finishEvent->component = this;
                     engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
@@ -270,7 +270,7 @@ namespace ouzel
 
                 if (particleCount == 0)
                 {
-                    std::unique_ptr<AnimationEvent> startEvent(new AnimationEvent());
+                    std::unique_ptr<AnimationEvent> startEvent = std::make_unique<AnimationEvent>();
                     startEvent->type = Event::Type::ANIMATION_START;
                     startEvent->component = this;
                     engine->getEventDispatcher().dispatchEvent(std::move(startEvent));

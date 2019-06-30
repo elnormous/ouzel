@@ -43,21 +43,21 @@ namespace ouzel
             backFaceStencilPassOperation(initBackFaceStencilPassOperation),
             backFaceStencilCompareFunction(initBackFaceStencilCompareFunction)
         {
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitDepthStencilStateCommand(resource,
-                                                                                              initDepthTest,
-                                                                                              initDepthWrite,
-                                                                                              initCompareFunction,
-                                                                                              initStencilEnabled,
-                                                                                              initStencilReadMask,
-                                                                                              initStencilWriteMask,
-                                                                                              initFrontFaceStencilFailureOperation,
-                                                                                              initFrontFaceStencilDepthFailureOperation,
-                                                                                              initFrontFaceStencilPassOperation,
-                                                                                              initFrontFaceStencilCompareFunction,
-                                                                                              initBackFaceStencilFailureOperation,
-                                                                                              initBackFaceStencilDepthFailureOperation,
-                                                                                              initBackFaceStencilPassOperation,
-                                                                                              initBackFaceStencilCompareFunction)));
+            initRenderer.addCommand(std::make_unique<InitDepthStencilStateCommand>(resource,
+                                                                                   initDepthTest,
+                                                                                   initDepthWrite,
+                                                                                   initCompareFunction,
+                                                                                   initStencilEnabled,
+                                                                                   initStencilReadMask,
+                                                                                   initStencilWriteMask,
+                                                                                   initFrontFaceStencilFailureOperation,
+                                                                                   initFrontFaceStencilDepthFailureOperation,
+                                                                                   initFrontFaceStencilPassOperation,
+                                                                                   initFrontFaceStencilCompareFunction,
+                                                                                   initBackFaceStencilFailureOperation,
+                                                                                   initBackFaceStencilDepthFailureOperation,
+                                                                                   initBackFaceStencilPassOperation,
+                                                                                   initBackFaceStencilCompareFunction));
         }
     } // namespace graphics
 } // namespace ouzel

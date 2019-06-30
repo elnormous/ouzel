@@ -31,13 +31,13 @@ namespace ouzel
             colorMask(initColorMask),
             enableBlending(initEnableBlending)
         {
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitBlendStateCommand(resource,
-                                                                                       initEnableBlending,
-                                                                                       initColorBlendSource, initColorBlendDest,
-                                                                                       initColorOperation,
-                                                                                       initAlphaBlendSource, initAlphaBlendDest,
-                                                                                       initAlphaOperation,
-                                                                                       initColorMask)));
+            initRenderer.addCommand(std::make_unique<InitBlendStateCommand>(resource,
+                                                                            initEnableBlending,
+                                                                            initColorBlendSource, initColorBlendDest,
+                                                                            initColorOperation,
+                                                                            initAlphaBlendSource, initAlphaBlendDest,
+                                                                            initAlphaOperation,
+                                                                            initColorMask));
         }
     } // namespace graphics
 } // namespace ouzel

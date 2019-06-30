@@ -36,21 +36,21 @@ namespace ouzel
     {
         InputManager::InputManager():
 #if TARGET_OS_IOS
-            inputSystem(new InputSystemIOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+            inputSystem(std::make_unique<InputSystemIOS>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif TARGET_OS_TV
-            inputSystem(new InputSystemTVOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+            inputSystem(std::make_unique<InputSystemTVOS>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif TARGET_OS_MAC
-        inputSystem(new InputSystemMacOS(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+            inputSystem(std::make_unique<InputSystemMacOS>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__ANDROID__)
-            inputSystem(new InputSystemAndroid(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+            inputSystem(std::make_unique<InputSystemAndroid>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__linux__)
-            inputSystem(new InputSystemLinux(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+            inputSystem(std::make_unique<InputSystemLinux>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(_WIN32)
-            inputSystem(new InputSystemWin(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+            inputSystem(std::make_unique<InputSystemWin>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__EMSCRIPTEN__)
-            inputSystem(new InputSystemEm(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+            inputSystem(std::make_unique<InputSystemEm>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #else
-            inputSystem(new InputSystem(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+            inputSystem(std::make_unique<InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #endif
         {
         }
@@ -93,7 +93,7 @@ namespace ouzel
                     {
                         case Controller::Type::GAMEPAD:
                         {
-                            std::unique_ptr<GamepadEvent> connectEvent(new GamepadEvent());
+                            std::unique_ptr<GamepadEvent> connectEvent = std::make_unique<GamepadEvent>();
                             connectEvent->type = Event::Type::GAMEPAD_CONNECT;
                             controllerMap.insert(std::make_pair(event.deviceId,
                                                                 std::unique_ptr<Gamepad>(connectEvent->gamepad = new Gamepad(*this, event.deviceId))));
@@ -102,7 +102,7 @@ namespace ouzel
                         }
                         case Controller::Type::KEYBOARD:
                         {
-                            std::unique_ptr<KeyboardEvent> connectEvent(new KeyboardEvent());
+                            std::unique_ptr<KeyboardEvent> connectEvent = std::make_unique<KeyboardEvent>();
                             connectEvent->type = Event::Type::KEYBOARD_CONNECT;
                             controllerMap.insert(std::make_pair(event.deviceId,
                                                                 std::unique_ptr<Keyboard>(connectEvent->keyboard = new Keyboard(*this, event.deviceId))));
@@ -112,7 +112,7 @@ namespace ouzel
                         }
                         case Controller::Type::MOUSE:
                         {
-                            std::unique_ptr<MouseEvent> connectEvent(new MouseEvent());
+                            std::unique_ptr<MouseEvent> connectEvent = std::make_unique<MouseEvent>();
                             connectEvent->type = Event::Type::MOUSE_CONNECT;
                             controllerMap.insert(std::make_pair(event.deviceId,
                                                                 std::unique_ptr<Mouse>(connectEvent->mouse = new Mouse(*this, event.deviceId))));
@@ -122,7 +122,7 @@ namespace ouzel
                         }
                         case Controller::Type::TOUCHPAD:
                         {
-                            std::unique_ptr<TouchEvent> connectEvent(new TouchEvent());
+                            std::unique_ptr<TouchEvent> connectEvent = std::make_unique<TouchEvent>();
                             connectEvent->type = Event::Type::TOUCHPAD_CONNECT;
                             controllerMap.insert(std::make_pair(event.deviceId,
                                                                 std::unique_ptr<Touchpad>(connectEvent->touchpad = new Touchpad(*this, event.deviceId, event.screen))));
@@ -149,7 +149,7 @@ namespace ouzel
                         {
                             case Controller::Type::GAMEPAD:
                             {
-                                std::unique_ptr<GamepadEvent> disconnectEvent(new GamepadEvent());
+                                std::unique_ptr<GamepadEvent> disconnectEvent = std::make_unique<GamepadEvent>();
                                 disconnectEvent->type = Event::Type::GAMEPAD_DISCONNECT;
                                 disconnectEvent->gamepad = static_cast<Gamepad*>(i->second.get());
                                 handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
@@ -157,7 +157,7 @@ namespace ouzel
                             }
                             case Controller::Type::KEYBOARD:
                             {
-                                std::unique_ptr<KeyboardEvent> disconnectEvent(new KeyboardEvent());
+                                std::unique_ptr<KeyboardEvent> disconnectEvent = std::make_unique<KeyboardEvent>();
                                 disconnectEvent->type = Event::Type::KEYBOARD_DISCONNECT;
                                 disconnectEvent->keyboard = static_cast<Keyboard*>(i->second.get());
                                 keyboard = nullptr;
@@ -169,7 +169,7 @@ namespace ouzel
                             }
                             case Controller::Type::MOUSE:
                             {
-                                std::unique_ptr<MouseEvent> disconnectEvent(new MouseEvent());
+                                std::unique_ptr<MouseEvent> disconnectEvent = std::make_unique<MouseEvent>();
                                 disconnectEvent->type = Event::Type::MOUSE_DISCONNECT;
                                 disconnectEvent->mouse = static_cast<Mouse*>(i->second.get());
                                 mouse = nullptr;
@@ -181,7 +181,7 @@ namespace ouzel
                             }
                             case Controller::Type::TOUCHPAD:
                             {
-                                std::unique_ptr<TouchEvent> disconnectEvent(new TouchEvent());
+                                std::unique_ptr<TouchEvent> disconnectEvent = std::make_unique<TouchEvent>();
                                 disconnectEvent->type = Event::Type::TOUCHPAD_DISCONNECT;
                                 disconnectEvent->touchpad = static_cast<Touchpad*>(i->second.get());
                                 touchpad = nullptr;

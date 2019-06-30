@@ -263,7 +263,7 @@ namespace ouzel
                     isBitSet(keyBits, KEY_9) ||
                     isBitSet(keyBits, KEY_0)
                 ))
-                keyboardDevice.reset(new KeyboardDevice(inputSystem, inputSystem.getNextDeviceId()));
+                keyboardDevice = std::make_unique<KeyboardDevice>(inputSystem, inputSystem.getNextDeviceId());
 
             if (isBitSet(eventBits, EV_ABS) && isBitSet(absBits, ABS_X) && isBitSet(absBits, ABS_Y))
             {
@@ -271,7 +271,7 @@ namespace ouzel
                     (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN)) || // touchpad
                     isBitSet(keyBits, BTN_TOUCH)) // touchscreen
                 {
-                    touchpadDevice.reset(new TouchpadDevice(inputSystem, inputSystem.getNextDeviceId(), false));
+                    touchpadDevice = std::make_unique<TouchpadDevice>(inputSystem, inputSystem.getNextDeviceId(), false);
 
                     input_absinfo info;
 
@@ -301,18 +301,18 @@ namespace ouzel
                     }
                 }
                 else if (isBitSet(keyBits, BTN_MOUSE)) // mouse
-                    mouseDevice.reset(new MouseDevice(inputSystem, inputSystem.getNextDeviceId()));
+                    mouseDevice = std::make_unique<MouseDevice>(inputSystem, inputSystem.getNextDeviceId());
             }
             else if (isBitSet(eventBits, EV_REL) && isBitSet(relBits, REL_X) && isBitSet(relBits, REL_Y))
             {
                 if (isBitSet(keyBits, BTN_MOUSE))
-                    mouseDevice.reset(new MouseDevice(inputSystem, inputSystem.getNextDeviceId()));
+                    mouseDevice = std::make_unique<MouseDevice>(inputSystem, inputSystem.getNextDeviceId());
             }
 
             if (isBitSet(keyBits, BTN_JOYSTICK) || // joystick
                 isBitSet(keyBits, BTN_GAMEPAD)) // gamepad
             {
-                gamepadDevice.reset(new GamepadDevice(inputSystem, inputSystem.getNextDeviceId()));
+                gamepadDevice = std::make_unique<GamepadDevice>(inputSystem, inputSystem.getNextDeviceId());
 
                 struct input_id id;
                 if (ioctl(fd, EVIOCGID, &id) == -1)

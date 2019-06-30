@@ -54,7 +54,7 @@ namespace ouzel
             {
                 running = false;
                 CommandBuffer commandBuffer;
-                commandBuffer.pushCommand(std::unique_ptr<Command>(new PresentCommand()));
+                commandBuffer.pushCommand(std::make_unique<PresentCommand>());
                 submitCommandBuffer(std::move(commandBuffer));
 
                 if (displayLink)

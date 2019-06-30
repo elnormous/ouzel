@@ -83,7 +83,7 @@ namespace ouzel
                                 if (initBusCommand->busId > objects.size())
                                     objects.resize(initBusCommand->busId);
 
-                                objects[initBusCommand->busId - 1].reset(new Bus());
+                                objects[initBusCommand->busId - 1] = std::make_unique<Bus>();
                                 break;
                             }
                             case Command::Type::SET_BUS_OUTPUT:

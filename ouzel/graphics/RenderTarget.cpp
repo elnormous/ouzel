@@ -20,9 +20,9 @@ namespace ouzel
             for (const auto& colorTexture : colorTextures)
                 colorTextureIds.insert(colorTexture ? colorTexture->getResource() : 0);
 
-            initRenderer.addCommand(std::unique_ptr<Command>(new InitRenderTargetCommand(resource,
-                                                                                         colorTextureIds,
-                                                                                         depthTexture ? depthTexture->getResource() : 0)));
+            initRenderer.addCommand(std::make_unique<InitRenderTargetCommand>(resource,
+                                                                              colorTextureIds,
+                                                                              depthTexture ? depthTexture->getResource() : 0));
         }
     } // namespace graphics
 } // namespace ouzel

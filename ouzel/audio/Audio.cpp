@@ -106,42 +106,42 @@ namespace ouzel
 #if OUZEL_COMPILE_OPENAL
                 case Driver::OPENAL:
                     engine->log(Log::Level::INFO) << "Using OpenAL audio driver";
-                    return std::unique_ptr<AudioDevice>(new openal::AudioDevice(512, 44100, 0, dataGetter));
+                    return std::make_unique<openal::AudioDevice>(512, 44100, 0, dataGetter);
 #endif
 #if OUZEL_COMPILE_DIRECTSOUND
                 case Driver::DIRECTSOUND:
                     engine->log(Log::Level::INFO) << "Using DirectSound audio driver";
-                    return std::unique_ptr<AudioDevice>(new directsound::AudioDevice(512, 44100, 0, dataGetter));
+                    return std::make_unique<directsound::AudioDevice>(512, 44100, 0, dataGetter);
 #endif
 #if OUZEL_COMPILE_XAUDIO2
                 case Driver::XAUDIO2:
                     engine->log(Log::Level::INFO) << "Using XAudio 2 audio driver";
-                    return std::unique_ptr<AudioDevice>(new xaudio2::AudioDevice(512, 44100, 0, dataGetter, debugAudio));
+                    return std::make_unique<xaudio2::AudioDevice>(512, 44100, 0, dataGetter, debugAudio);
 #endif
 #if OUZEL_COMPILE_OPENSL
                 case Driver::OPENSL:
                     engine->log(Log::Level::INFO) << "Using OpenSL ES audio driver";
-                    return std::unique_ptr<AudioDevice>(new opensl::AudioDevice(512, 44100, 0, dataGetter));
+                    return std::make_unique<opensl::AudioDevice>(512, 44100, 0, dataGetter);
 #endif
 #if OUZEL_COMPILE_COREAUDIO
                 case Driver::COREAUDIO:
                     engine->log(Log::Level::INFO) << "Using CoreAudio audio driver";
-                    return std::unique_ptr<AudioDevice>(new coreaudio::AudioDevice(512, 44100, 0, dataGetter));
+                    return std::make_unique<coreaudio::AudioDevice>(512, 44100, 0, dataGetter);
 #endif
 #if OUZEL_COMPILE_ALSA
                 case Driver::ALSA:
                     engine->log(Log::Level::INFO) << "Using ALSA audio driver";
-                    return std::unique_ptr<AudioDevice>(new alsa::AudioDevice(512, 44100, 0, dataGetter));
+                    return std::make_unique<alsa::AudioDevice>(512, 44100, 0, dataGetter);
 #endif
 #if OUZEL_COMPILE_WASAPI
                 case Driver::WASAPI:
                     engine->log(Log::Level::INFO) << "Using WASAPI audio driver";
-                    return std::unique_ptr<AudioDevice>(new wasapi::AudioDevice(512, 44100, 0, dataGetter));
+                    return std::make_unique<wasapi::AudioDevice>(512, 44100, 0, dataGetter);
 #endif
                 default:
                     engine->log(Log::Level::INFO) << "Not using audio driver";
                     (void)debugAudio;
-                    return std::unique_ptr<AudioDevice>(new empty::AudioDevice(512, 44100, 0, dataGetter));
+                    return std::make_unique<empty::AudioDevice>(512, 44100, 0, dataGetter);
             }
         }
 
@@ -154,7 +154,7 @@ namespace ouzel
             masterMix(*this),
             rootNode(*this) // mixer.getRootObjectId()
         {
-            addCommand(std::unique_ptr<mixer::Command>(new mixer::SetMasterBusCommand(masterMix.getBusId())));
+            addCommand(std::make_unique<mixer::SetMasterBusCommand>(masterMix.getBusId()));
             device->start();
         }
 
@@ -172,43 +172,40 @@ namespace ouzel
 
         void Audio::deleteObject(uintptr_t objectId)
         {
-            addCommand(std::unique_ptr<mixer::Command>(new mixer::DeleteObjectCommand(objectId)));
+            addCommand(std::make_unique<mixer::DeleteObjectCommand>(objectId));
         }
 
         uintptr_t Audio::initBus()
         {
             uintptr_t busId = mixer.getObjectId();
-            addCommand(std::unique_ptr<mixer::Command>(new mixer::InitBusCommand(busId)));
+            addCommand(std::make_unique<mixer::InitBusCommand>(busId));
             return busId;
         }
 
         uintptr_t Audio::initStream(uintptr_t sourceId)
         {
             uintptr_t streamId = mixer.getObjectId();
-            addCommand(std::unique_ptr<mixer::Command>(new mixer::InitStreamCommand(streamId, sourceId)));
+            addCommand(std::make_unique<mixer::InitStreamCommand>(streamId, sourceId));
             return streamId;
         }
 
         uintptr_t Audio::initData(std::unique_ptr<mixer::Data> data)
         {
             uintptr_t dataId = mixer.getObjectId();
-            addCommand(std::unique_ptr<mixer::Command>(new mixer::InitDataCommand(dataId,
-                                                                                  std::move(data))));
+            addCommand(std::make_unique<mixer::InitDataCommand>(dataId, std::move(data)));
             return dataId;
         }
 
         uintptr_t Audio::initProcessor(std::unique_ptr<mixer::Processor> processor)
         {
             uintptr_t processorId = mixer.getObjectId();
-            addCommand(std::unique_ptr<mixer::Command>(new mixer::InitProcessorCommand(processorId,
-                                                                                       std::move(processor))));
+            addCommand(std::make_unique<mixer::InitProcessorCommand>(processorId, std::move(processor)));
             return processorId;
         }
 
         void Audio::updateProcessor(uintptr_t processorId, const std::function<void(mixer::Processor*)>& updateFunction)
         {
-            addCommand(std::unique_ptr<mixer::Command>(new mixer::UpdateProcessorCommand(processorId,
-                                                                                         updateFunction)));
+            addCommand(std::make_unique<mixer::UpdateProcessorCommand>(processorId, updateFunction));
         }
 
         void Audio::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)

@@ -59,7 +59,7 @@ namespace ouzel
 
         Delay::Delay(Audio& initAudio, float initDelay):
             Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new DelayProcessor(initDelay)))),
+                   initAudio.initProcessor(std::make_unique<DelayProcessor>(initDelay))),
             delay(initDelay)
         {
         }
@@ -113,7 +113,7 @@ namespace ouzel
 
         Gain::Gain(Audio& initAudio, float initGain):
             Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new GainProcessor(initGain)))),
+                   initAudio.initProcessor(std::make_unique<GainProcessor>(initGain))),
             gain(initGain)
         {
         }
@@ -179,7 +179,7 @@ namespace ouzel
 
         Panner::Panner(Audio& initAudio):
             Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PannerProcessor()))),
+                   initAudio.initProcessor(std::make_unique<PannerProcessor>())),
             scene::Component(scene::Component::SOUND)
         {
         }
@@ -269,7 +269,7 @@ namespace ouzel
 
         PitchScale::PitchScale(Audio& initAudio, float initScale):
             Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PitchScaleProcessor(initScale)))),
+                   initAudio.initProcessor(std::make_unique<PitchScaleProcessor>(initScale))),
             scale(initScale)
         {
         }
@@ -319,7 +319,7 @@ namespace ouzel
 
         PitchShift::PitchShift(Audio& initAudio, float initShift):
             Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new PitchShiftProcessor(initShift)))),
+                   initAudio.initProcessor(std::make_unique<PitchShiftProcessor>(initShift))),
             shift(initShift)
         {
         }
@@ -389,7 +389,7 @@ namespace ouzel
 
         Reverb::Reverb(Audio& initAudio, float initDelay, float initDecay):
             Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>(new ReverbProcessor(initDelay, initDecay)))),
+                   initAudio.initProcessor(std::make_unique<ReverbProcessor>(initDelay, initDecay))),
             delay(initDelay),
             decay(initDecay)
         {

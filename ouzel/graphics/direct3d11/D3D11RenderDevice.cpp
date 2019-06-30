@@ -78,7 +78,7 @@ namespace ouzel
             {
                 running = false;
                 CommandBuffer commandBuffer;
-                commandBuffer.pushCommand(std::unique_ptr<Command>(new PresentCommand()));
+                commandBuffer.pushCommand(std::make_unique<PresentCommand>());
                 submitCommandBuffer(std::move(commandBuffer));
 
                 if (renderThread.joinable()) renderThread.join();
@@ -401,9 +401,9 @@ namespace ouzel
                                 for (uintptr_t colorTextureId : initRenderTargetCommand->colorTextures)
                                     colorTextures.insert(getResource<Texture>(colorTextureId));
 
-                                std::unique_ptr<RenderTarget> renderTarget(new RenderTarget(*this,
-                                                                                            colorTextures,
-                                                                                            getResource<Texture>(initRenderTargetCommand->depthTexture)));
+                                std::unique_ptr<RenderTarget> renderTarget = std::make_unique<RenderTarget>(*this,
+                                                                                                            colorTextures,
+                                                                                                            getResource<Texture>(initRenderTargetCommand->depthTexture));
 
                                 if (initRenderTargetCommand->renderTarget > resources.size())
                                     resources.resize(initRenderTargetCommand->renderTarget);
@@ -537,21 +537,21 @@ namespace ouzel
                             case Command::Type::INIT_DEPTH_STENCIL_STATE:
                             {
                                 auto initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
-                                std::unique_ptr<DepthStencilState> depthStencilState(new DepthStencilState(*this,
-                                                                                                           initDepthStencilStateCommand->depthTest,
-                                                                                                           initDepthStencilStateCommand->depthWrite,
-                                                                                                           initDepthStencilStateCommand->compareFunction,
-                                                                                                           initDepthStencilStateCommand->stencilEnabled,
-                                                                                                           initDepthStencilStateCommand->stencilReadMask,
-                                                                                                           initDepthStencilStateCommand->stencilWriteMask,
-                                                                                                           initDepthStencilStateCommand->frontFaceStencilFailureOperation,
-                                                                                                           initDepthStencilStateCommand->frontFaceStencilDepthFailureOperation,
-                                                                                                           initDepthStencilStateCommand->frontFaceStencilPassOperation,
-                                                                                                           initDepthStencilStateCommand->frontFaceStencilCompareFunction,
-                                                                                                           initDepthStencilStateCommand->backFaceStencilFailureOperation,
-                                                                                                           initDepthStencilStateCommand->backFaceStencilDepthFailureOperation,
-                                                                                                           initDepthStencilStateCommand->backFaceStencilPassOperation,
-                                                                                                           initDepthStencilStateCommand->backFaceStencilCompareFunction));
+                                std::unique_ptr<DepthStencilState> depthStencilState = std::make_unique<DepthStencilState>(*this,
+                                                                                                                           initDepthStencilStateCommand->depthTest,
+                                                                                                                           initDepthStencilStateCommand->depthWrite,
+                                                                                                                           initDepthStencilStateCommand->compareFunction,
+                                                                                                                           initDepthStencilStateCommand->stencilEnabled,
+                                                                                                                           initDepthStencilStateCommand->stencilReadMask,
+                                                                                                                           initDepthStencilStateCommand->stencilWriteMask,
+                                                                                                                           initDepthStencilStateCommand->frontFaceStencilFailureOperation,
+                                                                                                                           initDepthStencilStateCommand->frontFaceStencilDepthFailureOperation,
+                                                                                                                           initDepthStencilStateCommand->frontFaceStencilPassOperation,
+                                                                                                                           initDepthStencilStateCommand->frontFaceStencilCompareFunction,
+                                                                                                                           initDepthStencilStateCommand->backFaceStencilFailureOperation,
+                                                                                                                           initDepthStencilStateCommand->backFaceStencilDepthFailureOperation,
+                                                                                                                           initDepthStencilStateCommand->backFaceStencilPassOperation,
+                                                                                                                           initDepthStencilStateCommand->backFaceStencilCompareFunction);
 
                                 if (initDepthStencilStateCommand->depthStencilState > resources.size())
                                     resources.resize(initDepthStencilStateCommand->depthStencilState);
@@ -672,15 +672,15 @@ namespace ouzel
                             {
                                 auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
-                                std::unique_ptr<BlendState> blendState(new BlendState(*this,
-                                                                                      initBlendStateCommand->enableBlending,
-                                                                                      initBlendStateCommand->colorBlendSource,
-                                                                                      initBlendStateCommand->colorBlendDest,
-                                                                                      initBlendStateCommand->colorOperation,
-                                                                                      initBlendStateCommand->alphaBlendSource,
-                                                                                      initBlendStateCommand->alphaBlendDest,
-                                                                                      initBlendStateCommand->alphaOperation,
-                                                                                      initBlendStateCommand->colorMask));
+                                std::unique_ptr<BlendState> blendState = std::make_unique<BlendState>(*this,
+                                                                                                      initBlendStateCommand->enableBlending,
+                                                                                                      initBlendStateCommand->colorBlendSource,
+                                                                                                      initBlendStateCommand->colorBlendDest,
+                                                                                                      initBlendStateCommand->colorOperation,
+                                                                                                      initBlendStateCommand->alphaBlendSource,
+                                                                                                      initBlendStateCommand->alphaBlendDest,
+                                                                                                      initBlendStateCommand->alphaOperation,
+                                                                                                      initBlendStateCommand->colorMask);
 
                                 if (initBlendStateCommand->blendState > resources.size())
                                     resources.resize(initBlendStateCommand->blendState);
@@ -692,11 +692,11 @@ namespace ouzel
                             {
                                 auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
-                                std::unique_ptr<Buffer> buffer(new Buffer(*this,
-                                                                          initBufferCommand->bufferType,
-                                                                          initBufferCommand->flags,
-                                                                          initBufferCommand->data,
-                                                                          initBufferCommand->size));
+                                std::unique_ptr<Buffer> buffer = std::make_unique<Buffer>(*this,
+                                                                                          initBufferCommand->bufferType,
+                                                                                          initBufferCommand->flags,
+                                                                                          initBufferCommand->data,
+                                                                                          initBufferCommand->size);
 
                                 if (initBufferCommand->buffer > resources.size())
                                     resources.resize(initBufferCommand->buffer);
@@ -717,16 +717,16 @@ namespace ouzel
                             {
                                 auto initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
-                                std::unique_ptr<Shader> shader(new Shader(*this,
-                                                                          initShaderCommand->fragmentShader,
-                                                                          initShaderCommand->vertexShader,
-                                                                          initShaderCommand->vertexAttributes,
-                                                                          initShaderCommand->fragmentShaderConstantInfo,
-                                                                          initShaderCommand->vertexShaderConstantInfo,
-                                                                          initShaderCommand->fragmentShaderDataAlignment,
-                                                                          initShaderCommand->vertexShaderDataAlignment,
-                                                                          initShaderCommand->fragmentShaderFunction,
-                                                                          initShaderCommand->vertexShaderFunction));
+                                std::unique_ptr<Shader> shader = std::make_unique<Shader>(*this,
+                                                                                          initShaderCommand->fragmentShader,
+                                                                                          initShaderCommand->vertexShader,
+                                                                                          initShaderCommand->vertexAttributes,
+                                                                                          initShaderCommand->fragmentShaderConstantInfo,
+                                                                                          initShaderCommand->vertexShaderConstantInfo,
+                                                                                          initShaderCommand->fragmentShaderDataAlignment,
+                                                                                          initShaderCommand->vertexShaderDataAlignment,
+                                                                                          initShaderCommand->fragmentShaderFunction,
+                                                                                          initShaderCommand->vertexShaderFunction);
 
                                 if (initShaderCommand->shader > resources.size())
                                     resources.resize(initShaderCommand->shader);
@@ -800,12 +800,12 @@ namespace ouzel
                             {
                                 auto initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
-                                std::unique_ptr<Texture> texture(new Texture(*this,
-                                                                             initTextureCommand->levels,
-                                                                             initTextureCommand->textureType,
-                                                                             initTextureCommand->flags,
-                                                                             initTextureCommand->sampleCount,
-                                                                             initTextureCommand->pixelFormat));
+                                std::unique_ptr<Texture> texture = std::make_unique<Texture>(*this,
+                                                                                             initTextureCommand->levels,
+                                                                                             initTextureCommand->textureType,
+                                                                                             initTextureCommand->flags,
+                                                                                             initTextureCommand->sampleCount,
+                                                                                             initTextureCommand->pixelFormat);
 
                                 if (initTextureCommand->texture > resources.size())
                                     resources.resize(initTextureCommand->texture);

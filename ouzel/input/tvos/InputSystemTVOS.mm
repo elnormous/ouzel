@@ -42,7 +42,7 @@ namespace ouzel
     {
         InputSystemTVOS::InputSystemTVOS(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
-            keyboardDevice(new KeyboardDevice(*this, ++lastDeviceId))
+            keyboardDevice(std::make_unique<KeyboardDevice>(*this, ++lastDeviceId))
         {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
@@ -144,7 +144,7 @@ namespace ouzel
 
             if (!playerIndices.empty()) controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
 
-            std::unique_ptr<GamepadDeviceTVOS> gamepadDevice(new GamepadDeviceTVOS(*this, ++lastDeviceId, controller));
+            std::unique_ptr<GamepadDeviceTVOS> gamepadDevice = std::make_unique<GamepadDeviceTVOS>(*this, ++lastDeviceId, controller);
             gamepadDevices.insert(std::make_pair(controller, std::move(gamepadDevice)));
         }
 

@@ -74,5 +74,5 @@ private:
 
 std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& args)
 {
-    return std::unique_ptr<Application>(new Samples(args));
+    return std::make_unique<Samples>(args);
 }

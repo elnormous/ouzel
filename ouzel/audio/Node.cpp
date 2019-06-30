@@ -19,7 +19,7 @@ namespace ouzel
                 {
                     child.parent = this;
                     children.push_back(&child);
-                    audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::AddChildCommand(objectId, child.objectId)));
+                    audio.addCommand(std::make_unique<mixer::AddChildCommand>(objectId, child.objectId));
                 }
             }
         }
@@ -33,7 +33,7 @@ namespace ouzel
                 {
                     child.parent = this;
                     children.erase(i);
-                    audio.addCommand(std::unique_ptr<mixer::Command>(new mixer::RemoveChildCommand(objectId, child.objectId)));
+                    audio.addCommand(std::make_unique<mixer::RemoveChildCommand>(objectId, child.objectId));
                 }
             }
         }

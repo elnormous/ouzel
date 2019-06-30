@@ -21,7 +21,7 @@ namespace ouzel
             if (offset == -1)
                 throw std::runtime_error("Not a font");
 
-            font.reset(new stbtt_fontinfo());
+            font = std::make_unique<stbtt_fontinfo>();
 
             if (!stbtt_InitFont(font.get(), data.data(), offset))
                 throw std::runtime_error("Failed to load font");
