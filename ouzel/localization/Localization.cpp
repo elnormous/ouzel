@@ -116,18 +116,41 @@ namespace ouzel
     
     void Localization::addLanguage(const std::string& name, const std::vector<uint8_t>& data)
     {
-        auto language = std::make_shared<Language>(data);
-        languages[name] = language;
-    }
-
-    void Localization::setLanguage(const std::string& language)
-    {
-        auto i = languages.find(language);
+        auto i = languages.find(name);
 
         if (i != languages.end())
-            currentLanguage = i->second;
+        {
+            bool isCurrent = (currentLanguage == i->second.get());
+
+            i->second = std::make_unique<Language>(data);
+
+            if (isCurrent) currentLanguage = i->second.get();
+        }
         else
-            currentLanguage.reset();
+            languages.insert(std::make_pair(name, std::make_unique<Language>(data)));
+    }
+
+    void Localization::removeLanguage(const std::string& name)
+    {
+        auto i = languages.find(name);
+
+        if (i != languages.end())
+        {
+            if (currentLanguage == i->second.get())
+                currentLanguage = nullptr;
+
+            languages.erase(i);
+        }
+    }
+
+    void Localization::setLanguage(const std::string& name)
+    {
+        auto i = languages.find(name);
+
+        if (i != languages.end())
+            currentLanguage = i->second.get();
+        else
+            currentLanguage = nullptr;
     }
 
     std::string Localization::getString(const std::string& str) const

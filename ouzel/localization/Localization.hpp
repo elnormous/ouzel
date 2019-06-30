@@ -27,12 +27,13 @@ namespace ouzel
     {
     public:
         void addLanguage(const std::string& name, const std::vector<uint8_t>& data);
-        void setLanguage(const std::string& language);
+        void removeLanguage(const std::string& name);
+        void setLanguage(const std::string& name);
         std::string getString(const std::string& str) const;
 
     private:
-        std::map<std::string, std::shared_ptr<Language>> languages;
-        std::shared_ptr<Language> currentLanguage;
+        std::map<std::string, std::unique_ptr<Language>> languages;
+        Language* currentLanguage = nullptr;
     };
 }
 
