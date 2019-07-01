@@ -300,7 +300,7 @@ namespace ouzel
                     {
                         std::vector<uint32_t> vertexIndices;
 
-                        std::tuple<uint32_t, uint32_t, uint32_t> i = std::make_tuple(0, 0, 0);
+                        auto i = std::make_tuple<uint32_t, uint32_t, uint32_t>(0, 0, 0);
                         int32_t positionIndex = 0;
                         int32_t texCoordIndex = 0;
                         int32_t normalIndex = 0;

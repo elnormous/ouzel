@@ -721,7 +721,7 @@ namespace ouzel
     {
         eventDispatcher.dispatchEvents();
 
-        std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
+        auto currentTime = std::chrono::steady_clock::now();
         auto diff = currentTime - previousUpdateTime;
 
         if (diff > std::chrono::milliseconds(1)) // at least one millisecond has passed

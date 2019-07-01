@@ -270,7 +270,7 @@ namespace ouzel
                 std::unique_lock<std::mutex> lock(queueMutex);
                 while (running && logQueue.empty()) logCondition.wait(lock);
                 if (!running) break;
-                std::pair<Log::Level, std::string> str = std::move(logQueue.front());
+                auto str = std::move(logQueue.front());
                 logQueue.pop();
                 lock.unlock();
 

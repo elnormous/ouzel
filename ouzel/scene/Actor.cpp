@@ -185,7 +185,7 @@ namespace ouzel
 
                         if (actor->isPickable() && actor->pointOn(position))
                         {
-                            std::pair<Actor*, Vector3F> result = std::make_pair(actor, actor->convertWorldToLocal(Vector3F(position)));
+                            auto result = std::make_pair(actor, actor->convertWorldToLocal(Vector3F(position)));
 
                             auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
                                                                [](const std::pair<Actor*, Vector3F>& a,
