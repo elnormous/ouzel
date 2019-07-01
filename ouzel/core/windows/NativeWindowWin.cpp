@@ -542,8 +542,8 @@ namespace ouzel
     {
         size = newSize;
 
-        UINT width = static_cast<UINT>(newSize.v[0]);
-        UINT height = static_cast<UINT>(newSize.v[1]);
+        auto width = static_cast<UINT>(newSize.v[0]);
+        auto height = static_cast<UINT>(newSize.v[1]);
 
         UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
@@ -813,13 +813,13 @@ namespace ouzel
 
         if (message == WM_MOUSEWHEEL)
         {
-            short param = static_cast<short>(HIWORD(wParam));
+            auto param = static_cast<short>(HIWORD(wParam));
             mouseDevice->handleScroll(Vector2F(0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
                                       engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
         else if (message == WM_MOUSEHWHEEL)
         {
-            short param = static_cast<short>(HIWORD(wParam));
+            auto param = static_cast<short>(HIWORD(wParam));
             mouseDevice->handleScroll(Vector2F(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F),
                                       engine->getWindow()->convertWindowToNormalizedLocation(position));
         }

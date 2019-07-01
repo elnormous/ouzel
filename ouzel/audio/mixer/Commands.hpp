@@ -272,7 +272,7 @@ namespace ouzel
 
                 inline std::unique_ptr<Command> popCommand()
                 {
-                    std::unique_ptr<Command> result = std::move(commands.front());
+                    auto result = std::move(commands.front());
                     commands.pop();
                     return result;
                 }

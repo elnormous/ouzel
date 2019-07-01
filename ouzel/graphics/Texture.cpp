@@ -563,7 +563,7 @@ namespace ouzel
                 if (newWidth < 1) newWidth = 1;
                 if (newHeight < 1) newHeight = 1;
 
-                Size2U mipMapSize = Size2U(newWidth, newHeight);
+                auto mipMapSize = Size2U(newWidth, newHeight);
                 bufferSize = newWidth * newHeight * pixelSize;
 
                 levels.emplace_back(mipMapSize, std::vector<uint8_t>(bufferSize));
@@ -607,7 +607,7 @@ namespace ouzel
                 if (newWidth < 1) newWidth = 1;
                 if (newHeight < 1) newHeight = 1;
 
-                Size2U mipMapSize = Size2U(newWidth, newHeight);
+                auto mipMapSize = Size2U(newWidth, newHeight);
                 bufferSize = newWidth * newHeight * pixelSize;
 
                 switch (pixelFormat)

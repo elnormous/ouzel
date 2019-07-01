@@ -60,12 +60,12 @@ namespace ouzel
             samples.resize(frames);
             std::fill(samples.begin(), samples.end(), 0.0F); // TODO: fill only the needed samples
 
-            const float length = static_cast<SilenceData&>(silenceData).getLength();
+            const auto length = static_cast<SilenceData&>(silenceData).getLength();
 
             if (length > 0.0F)
             {
-                const uint32_t frameCount = static_cast<uint32_t>(length * data.getSampleRate());
-                uint32_t neededSize = frames;
+                const auto frameCount = static_cast<uint32_t>(length * data.getSampleRate());
+                auto neededSize = frames;
 
                 if (neededSize > 0)
                 {

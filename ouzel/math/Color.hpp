@@ -63,7 +63,7 @@ namespace ouzel
                 }
                 else
                 {
-                    uint32_t intValue = static_cast<uint32_t>(std::stoul(color));
+                    auto intValue = static_cast<uint32_t>(std::stoul(color));
                     v[0] = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
                     v[1] = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
                     v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);

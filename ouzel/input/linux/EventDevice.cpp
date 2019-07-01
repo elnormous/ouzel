@@ -555,7 +555,7 @@ namespace ouzel
                                         {
                                             Vector2F position(static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
                                                               static_cast<float>(slot.positionY - touchMinY) / touchRangeY);
-                                            float pressure = static_cast<float>(slot.pressure - touchMinPressure) / touchMaxPressure;
+                                            auto pressure = static_cast<float>(slot.pressure - touchMinPressure) / touchMaxPressure;
 
                                             switch (slot.action)
                                             {
@@ -737,7 +737,7 @@ namespace ouzel
         {
             if (negativeButton == positiveButton)
             {
-                float floatValue = static_cast<float>(newValue - min) / range;
+                auto floatValue = static_cast<float>(newValue - min) / range;
 
                 gamepadDevice->handleButtonValueChange(negativeButton,
                                                        floatValue > 0.0F,

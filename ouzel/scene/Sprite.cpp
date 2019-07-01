@@ -45,11 +45,11 @@ namespace ouzel
             }
             else
             {
-                Vector2F leftTop = Vector2F(frameRectangle.position.v[0] / textureSize.v[0],
-                                            frameRectangle.position.v[1] / textureSize.v[1]);
+                auto leftTop = Vector2F(frameRectangle.position.v[0] / textureSize.v[0],
+                                        frameRectangle.position.v[1] / textureSize.v[1]);
 
-                Vector2F rightBottom = Vector2F((frameRectangle.position.v[0] + frameRectangle.size.v[1]) / textureSize.v[0],
-                                                (frameRectangle.position.v[1] + frameRectangle.size.v[0]) / textureSize.v[1]);
+                auto rightBottom = Vector2F((frameRectangle.position.v[0] + frameRectangle.size.v[1]) / textureSize.v[0],
+                                            (frameRectangle.position.v[1] + frameRectangle.size.v[0]) / textureSize.v[1]);
 
                 textCoords[0] = Vector2F(leftTop.v[0], leftTop.v[1]);
                 textCoords[1] = Vector2F(leftTop.v[0], rightBottom.v[1]);
@@ -226,8 +226,8 @@ namespace ouzel
             Size2F size(static_cast<float>(newTexture->getSize().v[0]),
                               static_cast<float>(newTexture->getSize().v[1]));
 
-            Size2F spriteSize = Size2F(size.v[0] / spritesX,
-                                       size.v[1] / spritesY);
+            auto spriteSize = Size2F(size.v[0] / spritesX,
+                                     size.v[1] / spritesY);
 
             SpriteData::Animation animation;
             animation.frames.reserve(spritesX * spritesY);
@@ -338,7 +338,7 @@ namespace ouzel
                 !currentAnimation->animation->frames.empty() &&
                 material)
             {
-                size_t currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);
+                auto currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);
                 if (currentFrame >= currentAnimation->animation->frames.size()) currentFrame = currentAnimation->animation->frames.size() - 1;
 
                 const Matrix4F modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;

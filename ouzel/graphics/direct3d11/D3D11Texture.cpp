@@ -346,8 +346,8 @@ namespace ouzel
                         else
                         {
                             auto source = levels[level].second.begin();
-                            uint32_t rowSize = static_cast<uint32_t>(levels[level].first.v[0]) * pixelSize;
-                            UINT rows = static_cast<UINT>(levels[level].first.v[1]);
+                            auto rowSize = static_cast<uint32_t>(levels[level].first.v[0]) * pixelSize;
+                            auto rows = static_cast<UINT>(levels[level].first.v[1]);
 
                             for (UINT row = 0; row < rows; ++row)
                             {

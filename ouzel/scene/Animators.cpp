@@ -612,9 +612,9 @@ namespace ouzel
             {
                 float x = length * progress * timeScale;
 
-                uint64_t x1 = static_cast<uint32_t>(x);
-                uint64_t x2 = x1 + 1;
-                float t = x - static_cast<float>(x1);
+                auto x1 = static_cast<uint64_t>(x);
+                auto x2 = x1 + 1;
+                auto t = x - static_cast<float>(x1);
 
                 Vector3F previousPosition;
                 Vector3F nextPosition;

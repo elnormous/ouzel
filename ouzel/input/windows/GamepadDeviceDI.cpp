@@ -421,7 +421,7 @@ namespace ouzel
         {
             if (negativeButton == positiveButton)
             {
-                float floatValue = static_cast<float>(newValue - min) / range;
+                auto floatValue = static_cast<float>(newValue - min) / range;
 
                 handleButtonValueChange(negativeButton,
                                         floatValue > 0.0F,
@@ -429,7 +429,7 @@ namespace ouzel
             }
             else
             {
-                float floatValue = 2.0F * (newValue - min) / range - 1.0F;
+                auto floatValue = 2.0F * (newValue - min) / range - 1.0F;
 
                 if (floatValue > 0.0F)
                 {

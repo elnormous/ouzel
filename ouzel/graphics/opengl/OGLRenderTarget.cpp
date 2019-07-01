@@ -77,7 +77,7 @@ namespace ouzel
                 {
                     if (colorTexture)
                     {
-                        GLenum index = static_cast<GLenum>(colorTextures.size() - 1);
+                        auto index = static_cast<GLenum>(colorTextures.size() - 1);
                         renderDevice.bindFrameBuffer(frameBufferId);
 
                         if (colorTexture->getTextureId())

@@ -79,8 +79,8 @@ namespace ouzel
                     {
                         for (int x = 0; x < width; ++x)
                         {
-                            size_t sourceOffset = static_cast<size_t>(y * height + x);
-                            size_t destinationOffset = static_cast<size_t>((y * height + x) * 4);
+                            auto sourceOffset = static_cast<size_t>(y * height + x);
+                            auto destinationOffset = static_cast<size_t>((y * height + x) * 4);
                             imageData[destinationOffset + 0] = tempData[sourceOffset];
                             imageData[destinationOffset + 1] = tempData[sourceOffset];
                             imageData[destinationOffset + 2] = tempData[sourceOffset];
@@ -101,8 +101,8 @@ namespace ouzel
                     {
                         for (int x = 0; x < width; ++x)
                         {
-                            size_t sourceOffset = static_cast<size_t>((y * height + x) * 2);
-                            size_t destinationOffset = static_cast<size_t>((y * height + x) * 4);
+                            auto sourceOffset = static_cast<size_t>((y * height + x) * 2);
+                            auto destinationOffset = static_cast<size_t>((y * height + x) * 4);
                             imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
                             imageData[destinationOffset + 1] = tempData[sourceOffset + 0];
                             imageData[destinationOffset + 2] = tempData[sourceOffset + 0];
@@ -123,8 +123,8 @@ namespace ouzel
                     {
                         for (int x = 0; x < width; ++x)
                         {
-                            size_t sourceOffset = static_cast<size_t>((y * height + x) * 3);
-                            size_t destinationOffset = static_cast<size_t>((y * height + x) * 4);
+                            auto sourceOffset = static_cast<size_t>((y * height + x) * 3);
+                            auto destinationOffset = static_cast<size_t>((y * height + x) * 4);
                             imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
                             imageData[destinationOffset + 1] = tempData[sourceOffset + 1];
                             imageData[destinationOffset + 2] = tempData[sourceOffset + 2];

@@ -45,8 +45,8 @@ namespace ouzel
         {
             if (!data.empty())
             {
-                LONG width = static_cast<LONG>(size.v[0]);
-                LONG height = static_cast<LONG>(size.v[1]);
+                auto width = static_cast<LONG>(size.v[0]);
+                auto height = static_cast<LONG>(size.v[1]);
 
                 BITMAPV5HEADER bitmapHeader = {};
                 bitmapHeader.bV5Size = sizeof(BITMAPV5HEADER);

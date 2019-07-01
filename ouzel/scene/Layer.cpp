@@ -90,7 +90,7 @@ namespace ouzel
 
                 if (renderTargets || !camera->getRenderTarget())
                 {
-                    Vector2F worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
+                    auto worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
 
                     auto actors = findActors(worldPosition);
                     if (!actors.empty()) return actors.front();
@@ -110,7 +110,7 @@ namespace ouzel
 
                 if (renderTargets || !camera->getRenderTarget())
                 {
-                    Vector2F worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
+                    auto worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
 
                     auto actors = findActors(worldPosition);
                     result.insert(result.end(), actors.begin(), actors.end());

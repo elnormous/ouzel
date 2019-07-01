@@ -61,7 +61,7 @@ InputSample::InputSample():
     {
         mouse->setCursor(&cursor);
 
-        Vector2F worldLocation = Vector2F(camera.convertNormalizedToWorld(mouse->getPosition()));
+        auto worldLocation = Vector2F(camera.convertNormalizedToWorld(mouse->getPosition()));
         flame.setPosition(worldLocation);
     }
 }
@@ -103,7 +103,7 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
                 break;
         }
 
-        Vector2F worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
+        auto worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
 
         flame.setPosition(worldLocation);
     }
@@ -129,7 +129,7 @@ bool InputSample::handleMouse(const MouseEvent& event)
     {
         case Event::Type::MOUSE_MOVE:
         {
-            Vector2F worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
+            auto worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
             flame.setPosition(worldLocation);
             break;
         }
@@ -144,7 +144,7 @@ bool InputSample::handleTouch(const TouchEvent& event)
 {
     if (event.touchpad->isScreen())
     {
-        Vector2F worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
+        auto worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
         flame.setPosition(worldLocation);
     }
 
@@ -186,7 +186,7 @@ bool InputSample::handleGamepad(const GamepadEvent& event)
                 break;
         }
 
-        Vector2F worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
+        auto worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
         flame.setPosition(worldLocation);
     }
 

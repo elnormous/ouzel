@@ -185,7 +185,7 @@ namespace ouzel
 
                         if (actor->isPickable() && actor->pointOn(position))
                         {
-                            std::pair<Actor*, Vector3F> result = std::make_pair(actor, actor->convertWorldToLocal(Vector3F(position)));
+                            auto result = std::make_pair(actor, actor->convertWorldToLocal(Vector3F(position)));
 
                             auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
                                                                [](const std::pair<Actor*, Vector3F>& a,
@@ -387,7 +387,7 @@ namespace ouzel
 
         bool Actor::pointOn(const Vector2F& worldPosition) const
         {
-            Vector2F localPosition = Vector2F(convertWorldToLocal(Vector3F(worldPosition)));
+            auto localPosition = Vector2F(convertWorldToLocal(Vector3F(worldPosition)));
 
             for (Component* component : components)
             {
@@ -406,7 +406,7 @@ namespace ouzel
 
             for (const Vector2F& edge : edges)
             {
-                Vector3F transformedEdge = Vector3F(edge);
+                auto transformedEdge = Vector3F(edge);
 
                 inverse.transformPoint(transformedEdge);
 
@@ -474,9 +474,9 @@ namespace ouzel
 
             localTransform *= rotationMatrix;
 
-            Vector3F finalScale = Vector3F{scale.v[0] * (flipX ? -1.0F : 1.0F),
-                                           scale.v[1] * (flipY ? -1.0F : 1.0F),
-                                           scale.v[2]};
+            auto finalScale = Vector3F{scale.v[0] * (flipX ? -1.0F : 1.0F),
+                                       scale.v[1] * (flipY ? -1.0F : 1.0F),
+                                       scale.v[2]};
 
             Matrix4F scaleMatrix;
             scaleMatrix.setScale(finalScale);

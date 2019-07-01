@@ -189,9 +189,9 @@ namespace ouzel
         Vector3F Camera::convertNormalizedToWorld(const Vector2F& normalizedPosition) const
         {
             // convert window normalized to viewport clip position
-            Vector3F result = Vector3F{((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5F) * 2.0F,
-                                       (((1.0F - normalizedPosition.v[1]) - viewport.position.v[1]) / viewport.size.v[1] - 0.5F) * 2.0F,
-                                       0.0F};
+            auto result = Vector3F{((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5F) * 2.0F,
+                                   (((1.0F - normalizedPosition.v[1]) - viewport.position.v[1]) / viewport.size.v[1] - 0.5F) * 2.0F,
+                                   0.0F};
 
             getInverseViewProjection().transformPoint(result);
 
@@ -213,7 +213,7 @@ namespace ouzel
             if (projectionMode == ProjectionMode::ORTHOGRAPHIC)
             {
                 // calculate center point of the box
-                const Vector2F diff = Vector2F(box.max - box.min);
+                const auto diff = Vector2F(box.max - box.min);
 
                 // offset the center point, so that it is relative to 0,0
                 Vector3F v3p(box.min.v[0] + diff.v[0] / 2.0F, box.min.v[1] + diff.v[1] / 2.0F, 0.0F);

@@ -175,8 +175,8 @@ namespace ouzel
                 frameBufferWidth = surfaceWidth;
                 frameBufferHeight = surfaceHeight;
 
-                Size2U backBufferSize = Size2U(static_cast<uint32_t>(frameBufferWidth),
-                                            static_cast<uint32_t>(frameBufferHeight));
+                auto backBufferSize = Size2U(static_cast<uint32_t>(frameBufferWidth),
+                                             static_cast<uint32_t>(frameBufferHeight));
 
                 RenderDevice::init(newWindow,
                                    backBufferSize,

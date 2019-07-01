@@ -43,22 +43,22 @@ namespace ouzel
             {
                 if (sourceFrames != frames)
                 {
-                    float sourceIncrement = static_cast<float>(sourceFrames - 1) / static_cast<float>(frames - 1);
-                    float sourcePosition = 0.0F;
+                    auto sourceIncrement = static_cast<float>(sourceFrames - 1) / static_cast<float>(frames - 1);
+                    auto sourcePosition = 0.0F;
 
                     samples.resize(frames * channels);
 
                     for (uint32_t frame = 0; frame < frames - 1; ++frame)
                     {
-                        uint32_t sourceCurrentFrame = static_cast<uint32_t>(sourcePosition);
-                        float fraction = sourcePosition - sourceCurrentFrame;
+                        auto sourceCurrentFrame = static_cast<uint32_t>(sourcePosition);
+                        auto fraction = sourcePosition - sourceCurrentFrame;
 
                         uint32_t sourceNextFrame = sourceCurrentFrame + 1;
 
                         for (uint32_t channel = 0; channel < channels; ++channel)
                         {
-                            const float* sourceChannel = &sourceSamples[channel * sourceFrames];
-                            float* outputChannel = &samples[channel * frames];
+                            const auto sourceChannel = &sourceSamples[channel * sourceFrames];
+                            auto outputChannel = &samples[channel * frames];
 
                             outputChannel[frame] = ouzel::lerp(sourceChannel[sourceCurrentFrame],
                                                                sourceChannel[sourceNextFrame],
@@ -71,8 +71,8 @@ namespace ouzel
                     // fill the last frame of the destination with the last frame of the source
                     for (uint32_t channel = 0; channel < channels; ++channel)
                     {
-                        const float* sourceChannel = &sourceSamples[channel * sourceFrames];
-                        float* outputChannel = &samples[channel * frames];
+                        const auto sourceChannel = &sourceSamples[channel * sourceFrames];
+                        auto outputChannel = &samples[channel * frames];
                         outputChannel[frames - 1] = sourceChannel[sourceFrames - 1];
                     }
                 }

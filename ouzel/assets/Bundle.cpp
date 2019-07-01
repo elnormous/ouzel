@@ -161,8 +161,8 @@ namespace ouzel
 
                 if (newSpriteData.texture)
                 {
-                    Size2F spriteSize = Size2F(textureSize.v[0] / spritesX,
-                                               textureSize.v[1] / spritesY);
+                    auto spriteSize = Size2F(textureSize.v[0] / spritesX,
+                                             textureSize.v[1] / spritesY);
 
                     scene::SpriteData::Animation animation;
                     animation.frames.reserve(spritesX * spritesY);

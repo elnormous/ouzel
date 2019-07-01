@@ -55,8 +55,8 @@ namespace ouzel
 
             if (!data.empty())
             {
-                int width = static_cast<int>(size.v[0]);
-                int height = static_cast<int>(size.v[1]);
+                auto width = static_cast<int>(size.v[0]);
+                auto height = static_cast<int>(size.v[1]);
 
                 XcursorImage* cursorImage = XcursorImageCreate(width, height);
 
@@ -67,7 +67,7 @@ namespace ouzel
                 cursorImage->yhot = height - static_cast<int>(hotSpot.v[1]) - 1;
                 cursorImage->delay = 0;
 
-                unsigned char* target = reinterpret_cast<unsigned char*>(cursorImage->pixels);
+                auto target = reinterpret_cast<unsigned char*>(cursorImage->pixels);
 
                 for (int i = 0; i < width * height; ++i)
                 {

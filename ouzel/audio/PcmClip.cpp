@@ -64,7 +64,7 @@ namespace ouzel
             PcmData& pcmData = static_cast<PcmData&>(data);
             const std::vector<float>& data = pcmData.getSamples();
 
-            uint32_t sourceFrames = static_cast<uint32_t>(data.size() / pcmData.getChannels());
+            auto sourceFrames = static_cast<uint32_t>(data.size() / pcmData.getChannels());
 
             uint32_t copyFrames = frames;
             if (copyFrames > sourceFrames - position)

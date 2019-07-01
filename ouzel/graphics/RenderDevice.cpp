@@ -63,7 +63,7 @@ namespace ouzel
             event.type = Event::Type::FRAME;
             callback(event);
 
-            std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
+            auto currentTime = std::chrono::steady_clock::now();
             auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
             previousFrameTime = currentTime;
 
