@@ -45,7 +45,7 @@ namespace ouzel
                 result = true;
             }
 
-            auto ownedIterator = std::find_if(ownedScenes.begin(), ownedScenes.end(), [scene](const std::unique_ptr<Scene>& other) {
+            auto ownedIterator = std::find_if(ownedScenes.begin(), ownedScenes.end(), [scene](const auto& other) {
                 return other.get() == scene;
             });
 

@@ -96,7 +96,7 @@ namespace ouzel
                 result = true;
             }
 
-            auto ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const std::unique_ptr<Layer>& other) {
+            auto ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const auto& other) {
                 return other.get() == layer;
             });
 

@@ -58,7 +58,7 @@ namespace ouzel
                 result = true;
             }
 
-            auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const std::unique_ptr<Actor>& ownedChild){
+            auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const auto& ownedChild){
                 return actor == ownedChild.get();
             });
             if (ownedChildIterator != ownedChildren.end())
@@ -71,7 +71,7 @@ namespace ouzel
         {
             std::unique_ptr<Actor> result;
 
-            auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const std::unique_ptr<Actor>& ownedChild){
+            auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const auto& ownedChild){
                 return actor == ownedChild.get();
             });
 
@@ -536,7 +536,7 @@ namespace ouzel
                 result = true;
             }
 
-            auto ownedComponentIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const std::unique_ptr<Component>& ownedComponent){
+            auto ownedComponentIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const auto& ownedComponent){
                 return component == ownedComponent.get();
             });
             if (ownedComponentIterator != ownedComponents.end())
