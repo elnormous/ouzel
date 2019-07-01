@@ -104,28 +104,32 @@ namespace ouzel
             std::map<std::string, std::string> values;
         };
 
-        constexpr bool isWhitespace(uint32_t c)
+        template <class T>
+        constexpr bool isWhitespace(T c)
         {
             return c == ' ' || c == '\t';
         }
 
-        inline std::vector<uint32_t>& ltrimUtf32(std::vector<uint32_t>& s)
+        template <class T>
+        inline std::vector<uint32_t>& leftTrim(T& s)
         {
             s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-                                            std::not1(std::ptr_fun<uint32_t, bool>(isWhitespace))));
+                                            [](auto c) {return !isWhitespace(c);}));
             return s;
         }
 
-        inline std::vector<uint32_t>& rtrimUtf32(std::vector<uint32_t>& s)
+        template <class T>
+        inline std::vector<uint32_t>& rightTrim(T& s)
         {
             s.erase(std::find_if(s.rbegin(), s.rend(),
-                                 std::not1(std::ptr_fun<uint32_t, bool>(isWhitespace))).base(), s.end());
+                                 [](auto c) {return !isWhitespace(c);}).base(), s.end());
             return s;
         }
 
-        inline std::vector<uint32_t>& trimUtf32(std::vector<uint32_t>& s)
+        template <class T>
+        inline std::vector<uint32_t>& trim(T& s)
         {
-            return ltrimUtf32(rtrimUtf32(s));
+            return leftTrim(rightTrim(s));
         }
 
         class Data final
@@ -274,7 +278,7 @@ namespace ouzel
                             ++iterator;
                         }
 
-                        trimUtf32(sectionUtf32);
+                        trim(sectionUtf32);
 
                         if (sectionUtf32.empty())
                             throw std::runtime_error("Invalid section name");
@@ -348,8 +352,8 @@ namespace ouzel
                         if (keyUtf32.empty())
                             throw std::runtime_error("Invalid key name");
 
-                        keyUtf32 = trimUtf32(keyUtf32);
-                        valueUtf32 = trimUtf32(valueUtf32);
+                        keyUtf32 = trim(keyUtf32);
+                        valueUtf32 = trim(valueUtf32);
 
                         std::string key = utf8::fromUtf32(keyUtf32);
                         std::string value = utf8::fromUtf32(valueUtf32);
