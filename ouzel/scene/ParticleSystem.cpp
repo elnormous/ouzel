@@ -106,7 +106,7 @@ namespace ouzel
                             emitCounter = 0.0F;
                     }
 
-                    uint32_t emitCount = static_cast<uint32_t>(std::min(static_cast<float>(particleSystemData.maxParticles - particleCount), emitCounter / rate));
+                    auto emitCount = static_cast<uint32_t>(std::min(static_cast<float>(particleSystemData.maxParticles - particleCount), emitCounter / rate));
                     emitParticles(emitCount);
                     emitCounter -= rate * emitCount;
 
@@ -222,7 +222,7 @@ namespace ouzel
 
                         for (uint32_t i = 0; i < particleCount; ++i)
                         {
-                            Vector3F position = Vector3F(particles[i].position);
+                            auto position = Vector3F(particles[i].position);
                             inverseTransform.transformPoint(position);
                             boundingBox.insertPoint(position);
                         }

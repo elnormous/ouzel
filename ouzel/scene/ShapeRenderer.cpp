@@ -88,7 +88,7 @@ namespace ouzel
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
-            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
+            auto startVertex = static_cast<uint16_t>(vertices.size());
 
             if (thickness == 0.0F)
             {
@@ -158,7 +158,7 @@ namespace ouzel
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
-            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
+            auto startVertex = static_cast<uint16_t>(vertices.size());
 
             if (fill)
             {
@@ -266,7 +266,7 @@ namespace ouzel
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
-            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
+            auto startVertex = static_cast<uint16_t>(vertices.size());
 
             if (fill)
             {
@@ -414,7 +414,7 @@ namespace ouzel
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
-            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
+            auto startVertex = static_cast<uint16_t>(vertices.size());
 
             if (fill)
             {
@@ -486,7 +486,7 @@ namespace ouzel
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
-            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
+            auto startVertex = static_cast<uint16_t>(vertices.size());
 
             if (thickness == 0.0F)
             {
@@ -509,7 +509,7 @@ namespace ouzel
 
                     for (uint32_t segment = 0; segment < segments; ++segment)
                     {
-                        float t = static_cast<float>(segment) / static_cast<float>(segments - 1);
+                        auto t = static_cast<float>(segment) / static_cast<float>(segments - 1);
                         Vector2F position;
 
                         for (uint16_t n = 0; n < controlPoints.size(); ++n)

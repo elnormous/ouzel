@@ -85,8 +85,8 @@ namespace ouzel
             {
                 fragmentShaderId = renderDevice.glCreateShaderProc(GL_FRAGMENT_SHADER);
 
-                const GLchar* fragmentShaderBuffer = reinterpret_cast<const GLchar*>(fragmentShaderData.data());
-                GLint fragmentShaderSize = static_cast<GLint>(fragmentShaderData.size());
+                auto fragmentShaderBuffer = reinterpret_cast<const GLchar*>(fragmentShaderData.data());
+                auto fragmentShaderSize = static_cast<GLint>(fragmentShaderData.size());
 
                 renderDevice.glShaderSourceProc(fragmentShaderId, 1, &fragmentShaderBuffer, &fragmentShaderSize);
                 renderDevice.glCompileShaderProc(fragmentShaderId);
@@ -103,8 +103,8 @@ namespace ouzel
 
                 vertexShaderId = renderDevice.glCreateShaderProc(GL_VERTEX_SHADER);
 
-                const GLchar* vertexShaderBuffer = reinterpret_cast<const GLchar*>(vertexShaderData.data());
-                GLint vertexShaderSize = static_cast<GLint>(vertexShaderData.size());
+                auto vertexShaderBuffer = reinterpret_cast<const GLchar*>(vertexShaderData.data());
+                auto vertexShaderSize = static_cast<GLint>(vertexShaderData.size());
 
                 renderDevice.glShaderSourceProc(vertexShaderId, 1, &vertexShaderBuffer, &vertexShaderSize);
                 renderDevice.glCompileShaderProc(vertexShaderId);

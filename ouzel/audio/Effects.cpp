@@ -22,8 +22,8 @@ namespace ouzel
             void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) final
             {
-                const uint32_t delayFrames = static_cast<uint32_t>(delay * sampleRate);
-                const uint32_t bufferFrames = frames + delayFrames;
+                const auto delayFrames = static_cast<uint32_t>(delay * sampleRate);
+                const auto bufferFrames = frames + delayFrames;
 
                 buffer.resize(bufferFrames * channels);
 
@@ -355,8 +355,8 @@ namespace ouzel
             void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) final
             {
-                const uint32_t delayFrames = static_cast<uint32_t>(delay * sampleRate);
-                const uint32_t bufferFrames = frames + delayFrames;
+                const auto delayFrames = static_cast<uint32_t>(delay * sampleRate);
+                const auto bufferFrames = frames + delayFrames;
 
                 buffers.resize(channels);
 

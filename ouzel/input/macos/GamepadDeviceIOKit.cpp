@@ -27,7 +27,7 @@ namespace ouzel
             if ((ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone)) != kIOReturnSuccess)
                 throw std::system_error(ret, ioKitErrorCategory, "Failed to open HID device");
 
-            CFStringRef productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
+            auto productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
             if (productName)
             {
                 if (const char* deviceName = CFStringGetCStringPtr(productName, kCFStringEncodingUTF8))
@@ -43,14 +43,14 @@ namespace ouzel
             }
 
             int32_t vendorId;
-            CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
+            auto vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (!vendor)
                 throw std::runtime_error("Failed to get vendor ID");
 
             CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
 
             int32_t productId;
-            CFNumberRef product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
+            auto product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
             if (!product)
                 throw std::runtime_error("Failed to get product ID");
 
@@ -72,7 +72,7 @@ namespace ouzel
 
             for (CFIndex i = 0; i < count; ++i)
             {
-                IOHIDElementRef element = static_cast<IOHIDElementRef>(const_cast<void*>(CFArrayGetValueAtIndex(elementArray, i)));
+                auto element = static_cast<IOHIDElementRef>(const_cast<void*>(CFArrayGetValueAtIndex(elementArray, i)));
                 IOHIDElementType type = IOHIDElementGetType(element);
                 uint32_t usagePage = IOHIDElementGetUsagePage(element);
                 uint32_t usage = IOHIDElementGetUsage(element);
@@ -151,7 +151,7 @@ namespace ouzel
 
             if (element == hatElement)
             {
-                uint32_t oldHatValue = static_cast<uint32_t>(hatValue);
+                auto oldHatValue = static_cast<uint32_t>(hatValue);
                 uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                     (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
 
@@ -215,7 +215,7 @@ namespace ouzel
         {
             if (negativeButton == positiveButton)
             {
-                float floatValue = static_cast<float>(newValue - min) / range;
+                auto floatValue = static_cast<float>(newValue - min) / range;
 
                 handleButtonValueChange(negativeButton,
                                         floatValue > 0.0F,
@@ -223,7 +223,7 @@ namespace ouzel
             }
             else
             {
-                float floatValue = 2.0F * (newValue - min) / range - 1.0F;
+                auto floatValue = 2.0F * (newValue - min) / range - 1.0F;
 
                 if (floatValue > 0.0F)
                 {

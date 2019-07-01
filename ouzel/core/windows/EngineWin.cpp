@@ -201,7 +201,7 @@ namespace ouzel
 
         // Result of the ShellExecuteW can be cast only to an int (https://docs.microsoft.com/en-us/windows/desktop/api/shellapi/nf-shellapi-shellexecutew)
         // Cast to intptr_t and then to int to avoid warnings 4311 and 4302
-        int result = static_cast<int>(reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", buffer.data(), nullptr, nullptr, SW_SHOWNORMAL)));
+        auto result = static_cast<int>(reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", buffer.data(), nullptr, nullptr, SW_SHOWNORMAL)));
         if (result <= 32)
             throw std::system_error(result, shellExecuteErrorCategory, "Failed to execute open");
     }

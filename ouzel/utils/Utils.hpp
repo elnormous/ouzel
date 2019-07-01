@@ -23,7 +23,7 @@ namespace ouzel
     template <class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T decodeBigEndian(const void* buffer)
     {
-        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
+        auto bytes = static_cast<const uint8_t*>(buffer);
         T result = 0;
 
         for (uintptr_t i = 0; i < sizeof(T); ++i)
@@ -35,7 +35,7 @@ namespace ouzel
     template <class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T decodeLittleEndian(const void* buffer)
     {
-        const uint8_t* bytes = static_cast<const uint8_t*>(buffer);
+        auto bytes = static_cast<const uint8_t*>(buffer);
         T result = 0;
 
         for (uintptr_t i = 0; i < sizeof(T); ++i)
@@ -68,7 +68,7 @@ namespace ouzel
         static constexpr const char* digits = "0123456789ABCDEF";
         if (len == 0)
         {
-            uint64_t t = static_cast<uint64_t>(n);
+            auto t = static_cast<uint64_t>(n);
             do
             {
                 t >>= 4;

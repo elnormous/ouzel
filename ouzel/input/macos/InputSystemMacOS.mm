@@ -270,14 +270,14 @@ namespace ouzel
                 {
                     IOHIDServiceClientRef service = reinterpret_cast<IOHIDServiceClientRef (*)(id, SEL)>(&objc_msgSend)([hidServices firstObject], sel_getUid("service"));
 
-                    CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDVendorIDKey)));
+                    auto vendor = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDVendorIDKey)));
                     if (vendor)
                     {
                         CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
                         CFRelease(vendor);
                     }
 
-                    CFNumberRef product = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDProductIDKey)));
+                    auto product = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDProductIDKey)));
                     if (product)
                     {
                         CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
@@ -310,11 +310,11 @@ namespace ouzel
             int32_t vendorId = 0;
             int32_t productId = 0;
 
-            CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
+            auto vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (vendor)
                 CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
 
-            CFNumberRef product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
+            auto product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
             if (product)
                 CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
 

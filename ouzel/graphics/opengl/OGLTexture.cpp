@@ -638,7 +638,7 @@ namespace ouzel
                         throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
                 }
 
-                GLint finalMaxAnisotropy = static_cast<GLint>((maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy);
+                auto finalMaxAnisotropy = static_cast<GLint>((maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy);
 
                 if (finalMaxAnisotropy > 1 && renderDevice.isAnisotropicFilteringSupported())
                 {

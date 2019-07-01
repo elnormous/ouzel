@@ -43,10 +43,10 @@ namespace ouzel
 
                 offset += 4;
 
-                uint32_t length = static_cast<uint32_t>(data[offset + 0] |
-                                                        (data[offset + 1] << 8) |
-                                                        (data[offset + 2] << 16) |
-                                                        (data[offset + 3] << 24));
+                auto length = static_cast<uint32_t>(data[offset + 0] |
+                                                    (data[offset + 1] << 8) |
+                                                    (data[offset + 2] << 16) |
+                                                    (data[offset + 3] << 24));
 
                 offset += 4;
 
@@ -79,10 +79,10 @@ namespace ouzel
 
                     offset += 4;
 
-                    uint32_t chunkSize = static_cast<uint32_t>(data[offset + 0] |
-                                                               (data[offset + 1] << 8) |
-                                                               (data[offset + 2] << 16) |
-                                                               (data[offset + 3] << 24));
+                    auto chunkSize = static_cast<uint32_t>(data[offset + 0] |
+                                                           (data[offset + 1] << 8) |
+                                                           (data[offset + 2] << 16) |
+                                                           (data[offset + 3] << 24));
                     offset += 4;
 
                     if (data.size() < offset + chunkSize)
@@ -143,8 +143,8 @@ namespace ouzel
                 if (data.empty())
                     throw std::runtime_error("Failed to load sound file, failed to find a data chunk");
 
-                uint32_t sampleCount = static_cast<uint32_t>(soundData.size() / (bitsPerSample / 8));
-                uint32_t frames = sampleCount / channels;
+                auto sampleCount = static_cast<uint32_t>(soundData.size() / (bitsPerSample / 8));
+                auto frames = sampleCount / channels;
                 std::vector<float> samples(sampleCount);
 
                 if (formatTag == PCM)

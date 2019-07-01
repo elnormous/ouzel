@@ -45,8 +45,8 @@ namespace ouzel
                 NSInteger bytesPerPixel = graphics::getPixelSize(pixelFormat);
                 NSInteger channelSize = graphics::getChannelSize(pixelFormat);
                 NSInteger channelCount = graphics::getChannelCount(pixelFormat);
-                NSInteger width = static_cast<NSInteger>(size.v[0]);
-                NSInteger height = static_cast<NSInteger>(size.v[1]);
+                auto width = static_cast<NSInteger>(size.v[0]);
+                auto height = static_cast<NSInteger>(size.v[1]);
 
                 unsigned char* rgba = data.data();
 

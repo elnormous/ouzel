@@ -68,7 +68,7 @@ namespace ouzel
         {
             for (uint32_t i = 0; i < frames; ++i)
             {
-                float t = static_cast<float>(offset) * frameLength;
+                auto t = static_cast<float>(offset) * frameLength;
 
                 switch (type)
                 {
@@ -98,13 +98,13 @@ namespace ouzel
 
             samples.resize(frames);
 
-            const uint32_t sampleRate = data.getSampleRate();
-            const float length = static_cast<OscillatorData&>(data).getLength();
+            const auto sampleRate = data.getSampleRate();
+            const auto length = static_cast<OscillatorData&>(data).getLength();
 
             if (length > 0.0F)
             {
-                const uint32_t frameCount = static_cast<uint32_t>(length * sampleRate);
-                uint32_t neededSize = frames;
+                const auto frameCount = static_cast<uint32_t>(length * sampleRate);
+                auto neededSize = frames;
                 uint32_t totalSize = 0;
 
                 if (neededSize > 0)

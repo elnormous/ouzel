@@ -187,7 +187,7 @@ namespace ouzel
             if (*iterator != '"' && *iterator != '\'')
                 throw std::runtime_error("Expected quotes");
 
-            char quotes = static_cast<char>(*iterator);
+            auto quotes = static_cast<char>(*iterator);
 
             ++iterator;
 
