@@ -75,7 +75,7 @@ namespace ouzel
                     std::vector<char> logMessage(static_cast<size_t>(logLength));
                     renderDevice.glGetProgramInfoLogProc(programId, logLength, nullptr, logMessage.data());
 
-                    return std::string("Shader linking error: " + std::string(logMessage.data()));
+                    return std::string("Shader linking error: ") + logMessage.data();
                 }
 
                 return std::string();
