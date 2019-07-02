@@ -91,7 +91,7 @@ namespace ouzel
                 return std::error_code(static_cast<int>(e), errorCategory);
             }
 
-            constexpr GLenum getIndexType(uint32_t indexSize)
+            static GLenum getIndexType(uint32_t indexSize)
             {
                 switch (indexSize)
                 {
@@ -102,7 +102,7 @@ namespace ouzel
                 }
             }
 
-            constexpr GLenum getVertexType(DataType dataType)
+            static GLenum getVertexType(DataType dataType)
             {
                 switch (dataType)
                 {
@@ -171,7 +171,7 @@ namespace ouzel
                 }
             }
 
-            constexpr GLint getArraySize(DataType dataType)
+            static GLint getArraySize(DataType dataType)
             {
                 switch (dataType)
                 {
@@ -238,7 +238,7 @@ namespace ouzel
                 }
             }
 
-            constexpr GLboolean isNormalized(DataType dataType)
+            static GLboolean isNormalized(DataType dataType)
             {
                 switch (dataType)
                 {
@@ -264,7 +264,7 @@ namespace ouzel
                 }
             }
 
-            constexpr GLenum getDrawMode(DrawMode drawMode)
+            static GLenum getDrawMode(DrawMode drawMode)
             {
                 switch (drawMode)
                 {
@@ -277,7 +277,7 @@ namespace ouzel
                 }
             }
 
-            constexpr GLenum getCullFace(CullMode cullMode)
+            static GLenum getCullFace(CullMode cullMode)
             {
                 switch (cullMode)
                 {
@@ -289,7 +289,7 @@ namespace ouzel
             }
 
 #if !OUZEL_OPENGLES
-            constexpr GLenum getFillMode(FillMode fillMode)
+            static GLenum getFillMode(FillMode fillMode)
             {
                 switch (fillMode)
                 {
