@@ -49,8 +49,8 @@ namespace smb
     static constexpr unsigned long MAX_FRAME_LENGTH = 8192;
 
     // Use own implementation because std::complex has a poor performance
-    template<class T>
-    struct Complex
+    template <class T>
+    struct Complex final
     {
         inline Complex<T> operator+(const Complex& other) const
         {
@@ -94,6 +94,11 @@ namespace smb
             return *this;
         }
 
+        inline T magnitude() const
+        {
+            return sqrt(real * real + imag * imag);
+        }
+
         T real;
         T imag;
     };
@@ -116,12 +121,12 @@ namespace smb
                 std::swap(fftBuffer[i], fftBuffer[j]);
         }
 
-        // Iterative form of DanielsonLanczos lemma
+        // Iterative form of Danielson-Lanczos lemma
         unsigned long step = 2;
         for (unsigned long i = 1; i < fftFrameSize; i <<= 1, step <<= 1)
         {
-            unsigned long step2 = step >> 1;
-            float arg = PI / step2;
+            const unsigned long step2 = step >> 1;
+            const float arg = PI / step2;
 
             Complex<float> w{std::cos(arg), std::sin(arg) * sign};
             Complex<float> u{1.0F, 0.0F};
@@ -129,7 +134,7 @@ namespace smb
             {
                 for (unsigned long k = j; k < fftFrameSize; k += step)
                 {
-                    Complex<float> temp = fftBuffer[k + step2] * u;
+                    const Complex<float> temp = fftBuffer[k + step2] * u;
                     fftBuffer[k + step2] = fftBuffer[k] - temp;
                     fftBuffer[k] += temp;
                 }
@@ -139,7 +144,7 @@ namespace smb
         }
     }
 
-    class PitchShift
+    class PitchShift final
     {
     public:
         /*
@@ -152,11 +157,11 @@ namespace smb
                      unsigned long oversamp, float sampleRate, float* indata, float* outdata)
         {
             // set up some handy variables
-            unsigned long fftFrameSizeHalf = fftFrameSize / 2;
-            unsigned long stepSize = fftFrameSize / oversamp;
-            float freqPerBin = sampleRate / static_cast<float>(fftFrameSize);
-            float expected = 2.0F * PI * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
-            unsigned long inFifoLatency = fftFrameSize - stepSize;
+            const unsigned long fftFrameSizeHalf = fftFrameSize / 2;
+            const unsigned long stepSize = fftFrameSize / oversamp;
+            const float freqPerBin = sampleRate / static_cast<float>(fftFrameSize);
+            const float expected = 2.0F * PI * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
+            const unsigned long inFifoLatency = fftFrameSize - stepSize;
             if (rover == 0) rover = inFifoLatency;
 
             // main processing loop
@@ -172,7 +177,7 @@ namespace smb
                 {
                     rover = inFifoLatency;
 
-                    // do windowing and re,im interleave
+                    // do windowing
                     for (unsigned long k = 0; k < fftFrameSize; k++)
                     {
                         float window = -0.5F * std::cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
@@ -187,18 +192,15 @@ namespace smb
                     // this is the analysis step
                     for (unsigned long k = 0; k <= fftFrameSizeHalf; k++)
                     {
-                        // de-interlace FFT buffer
-                        float real = fftWorksp[k].real;
-                        float imag = fftWorksp[k].imag;
+                        const Complex<float>& current = fftWorksp[k];
 
                         // compute magnitude and phase
-                        float magn = 2.0F * sqrtf(real * real + imag * imag);
-
+                        const float magn = 2.0F * current.magnitude();
+                        const float signx = (current.imag > 0.0F) ? 1.0F : -1.0F;
                         float phase;
-                        float signx = (imag > 0.0F) ? 1.0F : -1.0F;
-                        if (imag == 0.0F) phase = 0.0F;
-                        else if (real == 0.0F) phase = signx * PI / 2.0F;
-                        else phase = std::atan2(imag, real);
+                        if (current.imag == 0.0F) phase = 0.0F;
+                        else if (current.real == 0.0F) phase = signx * PI / 2.0F;
+                        else phase = std::atan2(current.imag, current.real);
 
                         // compute phase difference
                         float tmp = phase - lastPhase[k];
@@ -230,7 +232,7 @@ namespace smb
                     std::fill(std::begin(synFreq), std::begin(synFreq) + fftFrameSize, 0.0F);
                     for (unsigned long k = 0; k <= fftFrameSizeHalf; k++)
                     {
-                        unsigned long index = static_cast<unsigned long>(k * pitchShift);
+                        const unsigned long index = static_cast<unsigned long>(k * pitchShift);
                         if (index > fftFrameSizeHalf) break;
                         synMagn[index] += anaMagn[k];
                         synFreq[index] = anaFreq[k] * pitchShift;
@@ -241,7 +243,7 @@ namespace smb
                     for (unsigned long k = 0; k <= fftFrameSizeHalf; k++)
                     {
                         // get magnitude and true frequency from synthesis arrays
-                        float magn = synMagn[k];
+                        const float magn = synMagn[k];
                         float tmp = synFreq[k];
 
                         // subtract bin mid frequency
@@ -258,7 +260,7 @@ namespace smb
 
                         // accumulate delta phase to get bin phase
                         sumPhase[k] += tmp;
-                        float phase = sumPhase[k];
+                        const float phase = sumPhase[k];
 
                         // get real and imag part and re-interleave
                         fftWorksp[k].real = magn * std::cos(phase);
