@@ -13,7 +13,7 @@ namespace ouzel
     {
         namespace opengl
         {
-            static GLenum getFunction(CompareFunction compareFunction)
+            constexpr GLenum getFunction(CompareFunction compareFunction)
             {
                 switch (compareFunction)
                 {
@@ -29,7 +29,7 @@ namespace ouzel
                 }
             }
 
-            static GLenum getOperation(StencilOperation stencilOperation)
+            constexpr GLenum getOperation(StencilOperation stencilOperation)
             {
                 switch (stencilOperation)
                 {

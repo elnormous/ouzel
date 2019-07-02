@@ -14,7 +14,7 @@ namespace ouzel
     {
         namespace d3d11
         {
-            static DXGI_FORMAT getPixelFormat(PixelFormat pixelFormat)
+            constexpr DXGI_FORMAT getPixelFormat(PixelFormat pixelFormat)
             {
                 switch (pixelFormat)
                 {
@@ -54,7 +54,7 @@ namespace ouzel
                 }
             }
 
-            static D3D11_SRV_DIMENSION getShaderViewDimension(TextureType type, bool multisample)
+            constexpr D3D11_SRV_DIMENSION getShaderViewDimension(TextureType type, bool multisample)
             {
                 if (multisample)
                 {
@@ -77,7 +77,7 @@ namespace ouzel
                 }
             }
 
-            static D3D11_TEXTURECUBE_FACE getCubeFace(CubeFace face)
+            constexpr D3D11_TEXTURECUBE_FACE getCubeFace(CubeFace face)
             {
                 switch (face)
                 {

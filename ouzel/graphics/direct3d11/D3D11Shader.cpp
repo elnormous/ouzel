@@ -14,7 +14,7 @@ namespace ouzel
     {
         namespace d3d11
         {
-            static DXGI_FORMAT getVertexFormat(DataType dataType)
+            constexpr DXGI_FORMAT getVertexFormat(DataType dataType)
             {
                 switch (dataType)
                 {

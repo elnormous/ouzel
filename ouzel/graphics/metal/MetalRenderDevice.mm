@@ -27,7 +27,7 @@ namespace ouzel
     {
         namespace metal
         {
-            static MTLIndexType getIndexType(uint32_t indexSize)
+            constexpr MTLIndexType getIndexType(uint32_t indexSize)
             {
                 switch (indexSize)
                 {
@@ -37,7 +37,7 @@ namespace ouzel
                 }
             }
 
-            static MTLPrimitiveType getPrimitiveType(DrawMode drawMode)
+            constexpr MTLPrimitiveType getPrimitiveType(DrawMode drawMode)
             {
                 switch (drawMode)
                 {
@@ -50,7 +50,7 @@ namespace ouzel
                 }
             }
 
-            static MTLCullMode getCullMode(CullMode cullMode)
+            constexpr MTLCullMode getCullMode(CullMode cullMode)
             {
                 switch (cullMode)
                 {
@@ -61,7 +61,7 @@ namespace ouzel
                 }
             }
 
-            static MTLTriangleFillMode getFillMode(FillMode fillMode)
+            constexpr MTLTriangleFillMode getFillMode(FillMode fillMode)
             {
                 switch (fillMode)
                 {
@@ -71,7 +71,7 @@ namespace ouzel
                 }
             }
 
-            static MTLSamplerAddressMode getSamplerAddressMode(SamplerAddressMode address)
+            constexpr MTLSamplerAddressMode getSamplerAddressMode(SamplerAddressMode address)
             {
                 switch (address)
                 {

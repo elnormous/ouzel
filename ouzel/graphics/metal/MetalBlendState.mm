@@ -13,7 +13,7 @@ namespace ouzel
     {
         namespace metal
         {
-            static MTLBlendFactor getBlendFactor(BlendFactor blendFactor)
+            constexpr MTLBlendFactor getBlendFactor(BlendFactor blendFactor)
             {
                 switch (blendFactor)
                 {
@@ -35,7 +35,7 @@ namespace ouzel
                 return MTLBlendFactorZero;
             }
 
-            static MTLBlendOperation getBlendOperation(BlendOperation blendOperation)
+            constexpr MTLBlendOperation getBlendOperation(BlendOperation blendOperation)
             {
                 switch (blendOperation)
                 {

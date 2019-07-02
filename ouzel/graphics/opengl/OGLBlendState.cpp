@@ -13,7 +13,7 @@ namespace ouzel
     {
         namespace opengl
         {
-            static GLenum getBlendFactor(BlendFactor blendFactor)
+            constexpr GLenum getBlendFactor(BlendFactor blendFactor)
             {
                 switch (blendFactor)
                 {
@@ -35,7 +35,7 @@ namespace ouzel
                 }
             }
 
-            static GLenum getBlendOperation(BlendOperation blendOperation)
+            constexpr GLenum getBlendOperation(BlendOperation blendOperation)
             {
                 switch (blendOperation)
                 {
