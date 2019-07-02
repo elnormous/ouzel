@@ -15,7 +15,7 @@ namespace ouzel
     {
         namespace metal
         {
-            constexpr MTLPixelFormat getMetalPixelFormat(PixelFormat pixelFormat)
+            static MTLPixelFormat getMetalPixelFormat(PixelFormat pixelFormat)
             {
                 switch (pixelFormat)
                 {
@@ -55,7 +55,7 @@ namespace ouzel
                 }
             }
 
-            constexpr MTLTextureType getTextureType(TextureType type, bool multisample)
+            static MTLTextureType getTextureType(TextureType type, bool multisample)
             {
                 if (multisample)
                 {
@@ -78,7 +78,7 @@ namespace ouzel
                 }
             }
 
-            constexpr NSUInteger getCubeFace(CubeFace face)
+            static NSUInteger getCubeFace(CubeFace face)
             {
                 switch (face)
                 {

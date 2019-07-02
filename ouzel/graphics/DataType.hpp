@@ -73,7 +73,7 @@ namespace ouzel
             FLOAT_MATRIX4
         };
 
-        constexpr uint32_t getDataTypeSize(DataType dataType)
+        inline uint32_t getDataTypeSize(DataType dataType)
         {
             switch (dataType)
             {

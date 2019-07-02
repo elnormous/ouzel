@@ -13,7 +13,7 @@ namespace ouzel
     {
         namespace d3d11
         {
-            constexpr D3D11_COMPARISON_FUNC getCompareFunction(CompareFunction compareFunction)
+            static D3D11_COMPARISON_FUNC getCompareFunction(CompareFunction compareFunction)
             {
                 switch (compareFunction)
                 {
@@ -29,7 +29,7 @@ namespace ouzel
                 }
             }
 
-            constexpr D3D11_STENCIL_OP getStencilOperation(StencilOperation stencilOperation)
+            static D3D11_STENCIL_OP getStencilOperation(StencilOperation stencilOperation)
             {
                 switch (stencilOperation)
                 {

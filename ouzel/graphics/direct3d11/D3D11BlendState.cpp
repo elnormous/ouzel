@@ -13,7 +13,7 @@ namespace ouzel
     {
         namespace d3d11
         {
-            constexpr D3D11_BLEND getBlendFactor(BlendFactor blendFactor)
+            static D3D11_BLEND getBlendFactor(BlendFactor blendFactor)
             {
                 switch (blendFactor)
                 {
@@ -34,7 +34,7 @@ namespace ouzel
                 }
             }
 
-            constexpr D3D11_BLEND_OP getBlendOperation(BlendOperation blendOperation)
+            static D3D11_BLEND_OP getBlendOperation(BlendOperation blendOperation)
             {
                 switch (blendOperation)
                 {

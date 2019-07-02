@@ -14,7 +14,7 @@ namespace ouzel
     {
         namespace opengl
         {
-            constexpr GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
+            static GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
             {
 #if OUZEL_OPENGLES
                 if (openGLVersion >= 3)
@@ -110,7 +110,7 @@ namespace ouzel
 #endif
             }
 
-            constexpr GLenum getOpenGlPixelFormat(PixelFormat pixelFormat)
+            static GLenum getOpenGlPixelFormat(PixelFormat pixelFormat)
             {
                 switch (pixelFormat)
                 {
@@ -160,7 +160,7 @@ namespace ouzel
                 }
             }
 
-            constexpr GLenum getOpenGlPixelType(PixelFormat pixelFormat)
+            static GLenum getOpenGlPixelType(PixelFormat pixelFormat)
             {
                 switch (pixelFormat)
                 {
@@ -207,7 +207,7 @@ namespace ouzel
                 }
             }
 
-            constexpr GLint getWrapMode(SamplerAddressMode address)
+            static GLint getWrapMode(SamplerAddressMode address)
             {
                 switch (address)
                 {
@@ -228,7 +228,7 @@ namespace ouzel
                 }
             }
 
-            constexpr GLenum getTextureTarget(TextureType type)
+            static GLenum getTextureTarget(TextureType type)
             {
                 switch (type)
                 {
@@ -242,7 +242,7 @@ namespace ouzel
                 }
             }
 
-            constexpr GLenum getCubeFace(CubeFace face)
+            static GLenum getCubeFace(CubeFace face)
             {
                 switch (face)
                 {

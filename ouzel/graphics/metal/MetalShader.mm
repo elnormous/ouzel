@@ -15,7 +15,7 @@ namespace ouzel
     {
         namespace metal
         {
-            constexpr MTLVertexFormat getVertexFormat(DataType dataType)
+            static MTLVertexFormat getVertexFormat(DataType dataType)
             {
                 switch (dataType)
                 {

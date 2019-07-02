@@ -27,7 +27,7 @@ namespace ouzel
         {
             const ErrorCategory errorCategory {};
 
-            constexpr DXGI_FORMAT getIndexFormat(uint32_t indexSize)
+            static DXGI_FORMAT getIndexFormat(uint32_t indexSize)
             {
                 switch (indexSize)
                 {
@@ -37,7 +37,7 @@ namespace ouzel
                 }
             }
 
-            constexpr D3D_PRIMITIVE_TOPOLOGY getPrimitiveTopology(DrawMode drawMode)
+            static D3D_PRIMITIVE_TOPOLOGY getPrimitiveTopology(DrawMode drawMode)
             {
                 switch (drawMode)
                 {
@@ -50,7 +50,7 @@ namespace ouzel
                 }
             }
 
-            constexpr D3D11_TEXTURE_ADDRESS_MODE getTextureAddressMode(SamplerAddressMode address)
+            static D3D11_TEXTURE_ADDRESS_MODE getTextureAddressMode(SamplerAddressMode address)
             {
                 switch (address)
                 {
