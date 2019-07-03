@@ -646,7 +646,7 @@ namespace ouzel
         }
 
         Texture::Texture(Renderer& initRenderer):
-            renderer(initRenderer),
+            renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource())
         {
         }
@@ -657,7 +657,7 @@ namespace ouzel
                          uint32_t initMipmaps,
                          uint32_t initSampleCount,
                          PixelFormat initPixelFormat):
-            renderer(initRenderer),
+            renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
             size(initSize),
             flags(initFlags),
@@ -688,7 +688,7 @@ namespace ouzel
                          uint32_t initFlags,
                          uint32_t initMipmaps,
                          PixelFormat initPixelFormat):
-            renderer(initRenderer),
+            renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
             size(initSize),
             flags(initFlags),
@@ -718,7 +718,7 @@ namespace ouzel
                          const Size2U& initSize,
                          uint32_t initFlags,
                          PixelFormat initPixelFormat):
-            renderer(initRenderer),
+            renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
             size(initSize),
             flags(initFlags),
@@ -754,9 +754,9 @@ namespace ouzel
             std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
             if (resource)
-                renderer.addCommand(std::make_unique<SetTextureDataCommand>(resource,
-                                                                            levels,
-                                                                            face));
+                renderer->addCommand(std::make_unique<SetTextureDataCommand>(resource,
+                                                                             levels,
+                                                                             face));
         }
 
         void Texture::setFilter(SamplerFilter newFilter)
@@ -764,13 +764,13 @@ namespace ouzel
             filter = newFilter;
 
             if (resource)
-                renderer.addCommand(std::make_unique<SetTextureParametersCommand>(resource,
-                                                                                  filter,
-                                                                                  addressX,
-                                                                                  addressY,
-                                                                                  addressZ,
-                                                                                  borderColor,
-                                                                                  maxAnisotropy));
+                renderer->addCommand(std::make_unique<SetTextureParametersCommand>(resource,
+                                                                                   filter,
+                                                                                   addressX,
+                                                                                   addressY,
+                                                                                   addressZ,
+                                                                                   borderColor,
+                                                                                   maxAnisotropy));
         }
 
         void Texture::setAddressX(SamplerAddressMode newAddressX)
@@ -778,13 +778,13 @@ namespace ouzel
             addressX = newAddressX;
 
             if (resource)
-                renderer.addCommand(std::make_unique<SetTextureParametersCommand>(resource,
-                                                                                  filter,
-                                                                                  addressX,
-                                                                                  addressY,
-                                                                                  addressZ,
-                                                                                  borderColor,
-                                                                                  maxAnisotropy));
+                renderer->addCommand(std::make_unique<SetTextureParametersCommand>(resource,
+                                                                                   filter,
+                                                                                   addressX,
+                                                                                   addressY,
+                                                                                   addressZ,
+                                                                                   borderColor,
+                                                                                   maxAnisotropy));
         }
 
         void Texture::setAddressY(SamplerAddressMode newAddressY)
@@ -792,13 +792,13 @@ namespace ouzel
             addressY = newAddressY;
 
             if (resource)
-                renderer.addCommand(std::make_unique<SetTextureParametersCommand>(resource,
-                                                                                  filter,
-                                                                                  addressX,
-                                                                                  addressY,
-                                                                                  addressZ,
-                                                                                  borderColor,
-                                                                                  maxAnisotropy));
+                renderer->addCommand(std::make_unique<SetTextureParametersCommand>(resource,
+                                                                                   filter,
+                                                                                   addressX,
+                                                                                   addressY,
+                                                                                   addressZ,
+                                                                                   borderColor,
+                                                                                   maxAnisotropy));
         }
 
         void Texture::setAddressZ(SamplerAddressMode newAddressZ)
@@ -806,13 +806,13 @@ namespace ouzel
             addressZ = newAddressZ;
 
             if (resource)
-                renderer.addCommand(std::make_unique<SetTextureParametersCommand>(resource,
-                                                                                  filter,
-                                                                                  addressX,
-                                                                                  addressY,
-                                                                                  addressZ,
-                                                                                  borderColor,
-                                                                                  maxAnisotropy));
+                renderer->addCommand(std::make_unique<SetTextureParametersCommand>(resource,
+                                                                                   filter,
+                                                                                   addressX,
+                                                                                   addressY,
+                                                                                   addressZ,
+                                                                                   borderColor,
+                                                                                   maxAnisotropy));
         }
 
         void Texture::setBorderColor(Color newBorderColor)
@@ -820,13 +820,13 @@ namespace ouzel
             borderColor = newBorderColor;
 
             if (resource)
-                renderer.addCommand(std::make_unique<SetTextureParametersCommand>(resource,
-                                                                                  filter,
-                                                                                  addressX,
-                                                                                  addressY,
-                                                                                  addressZ,
-                                                                                  borderColor,
-                                                                                  maxAnisotropy));
+                renderer->addCommand(std::make_unique<SetTextureParametersCommand>(resource,
+                                                                                   filter,
+                                                                                   addressX,
+                                                                                   addressY,
+                                                                                   addressZ,
+                                                                                   borderColor,
+                                                                                   maxAnisotropy));
         }
 
         void Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
@@ -834,13 +834,13 @@ namespace ouzel
             maxAnisotropy = newMaxAnisotropy;
 
             if (resource)
-                renderer.addCommand(std::make_unique<SetTextureParametersCommand>(resource,
-                                                                                  filter,
-                                                                                  addressX,
-                                                                                  addressY,
-                                                                                  addressZ,
-                                                                                  borderColor,
-                                                                                  maxAnisotropy));
+                renderer->addCommand(std::make_unique<SetTextureParametersCommand>(resource,
+                                                                                   filter,
+                                                                                   addressX,
+                                                                                   addressY,
+                                                                                   addressZ,
+                                                                                   borderColor,
+                                                                                   maxAnisotropy));
         }
     } // namespace graphics
 } // namespace ouzel

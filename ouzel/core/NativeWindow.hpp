@@ -34,13 +34,8 @@ namespace ouzel
             explicit Command(Type initType): type(initType) {}
 
             Type type;
-
-            union
-            {
-                Size2U size;
-                bool fullscreen;
-            };
-
+            Size2U size;
+            bool fullscreen;
             std::string title;
         };
 

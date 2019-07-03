@@ -9,7 +9,7 @@ namespace ouzel
     namespace graphics
     {
         Buffer::Buffer(Renderer& initRenderer):
-            renderer(initRenderer),
+            renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource())
         {
         }
@@ -18,7 +18,7 @@ namespace ouzel
                        BufferType initType,
                        uint32_t initFlags,
                        uint32_t initSize):
-            renderer(initRenderer),
+            renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
             type(initType),
             flags(initFlags),
@@ -36,7 +36,7 @@ namespace ouzel
                        uint32_t initFlags,
                        const void* initData,
                        uint32_t initSize):
-            renderer(initRenderer),
+            renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
             type(initType),
             flags(initFlags),
@@ -55,7 +55,7 @@ namespace ouzel
                        uint32_t initFlags,
                        const std::vector<uint8_t>& initData,
                        uint32_t initSize):
-            renderer(initRenderer),
+            renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
             type(initType),
             flags(initFlags),
@@ -74,9 +74,9 @@ namespace ouzel
         void Buffer::setData(const void* newData, uint32_t newSize)
         {
             if (resource)
-                renderer.addCommand(std::make_unique<SetBufferDataCommand>(resource,
-                                                                           std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
-                                                                                                static_cast<const uint8_t*>(newData) + newSize)));
+                renderer->addCommand(std::make_unique<SetBufferDataCommand>(resource,
+                                                                            std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
+                                                                                                 static_cast<const uint8_t*>(newData) + newSize)));
         }
 
         void Buffer::setData(const std::vector<uint8_t>& newData)
@@ -90,7 +90,7 @@ namespace ouzel
             if (newData.size() > size) size = static_cast<uint32_t>(newData.size());
 
             if (resource)
-                renderer.addCommand(std::make_unique<SetBufferDataCommand>(resource, newData));
+                renderer->addCommand(std::make_unique<SetBufferDataCommand>(resource, newData));
         }
     } // namespace graphics
 } // namespace ouzel
