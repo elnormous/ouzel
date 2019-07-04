@@ -77,7 +77,7 @@ namespace ouzel
             inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
         private:
-            Renderer& renderer;
+            Renderer* renderer = nullptr;
             RenderDevice::Resource resource;
 
             TextureType type = TextureType::TWO_DIMENSIONAL;

@@ -45,7 +45,7 @@ namespace ouzel
             inline uint32_t getSize() const { return size; }
 
         private:
-            Renderer& renderer;
+            Renderer* renderer = nullptr;
             RenderDevice::Resource resource;
 
             BufferType type;
