@@ -155,15 +155,15 @@ namespace ouzel
                                          bool newDebugRenderer)
             {
                 graphics::RenderDevice::init(newWindow,
-                                                    newSize,
-                                                    newSampleCount,
-                                                    newTextureFilter,
-                                                    newMaxAnisotropy,
-                                                    newSrgb,
-                                                    newVerticalSync,
-                                                    newDepth,
-                                                    newStencil,
-                                                    newDebugRenderer);
+                                             newSize,
+                                             newSampleCount,
+                                             newTextureFilter,
+                                             newMaxAnisotropy,
+                                             newSrgb,
+                                             newVerticalSync,
+                                             newDepth,
+                                             newStencil,
+                                             newDebugRenderer);
 
                 npotTexturesSupported = true;
                 anisotropicFilteringSupported = true;
