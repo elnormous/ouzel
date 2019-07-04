@@ -78,6 +78,7 @@ namespace ouzel
                     case SamplerAddressMode::CLAMP_TO_EDGE:
                         return MTLSamplerAddressModeClampToEdge;
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
+                    // MTLSamplerAddressModeClampToBorderColor is not defined in macOS SDK older than 10.12
                     case SamplerAddressMode::CLAMP_TO_BORDER:
                         return MTLSamplerAddressModeClampToBorderColor;
 #endif
@@ -180,6 +181,7 @@ namespace ouzel
                     engine->log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
 
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
+                // MTLFeatureSet_macOS_GPUFamily1_v2 is not defined in macOS SDK older than 10.12
                 if ([device supportsFeatureSet:MTLFeatureSet_macOS_GPUFamily1_v2])
                     clampToBorderSupported = true;
 #endif
