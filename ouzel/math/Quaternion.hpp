@@ -189,7 +189,7 @@ namespace ouzel
 
         inline T getNorm() const
         {
-            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            const T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (n == T(1)) // already normalized
                 return 1;
 
@@ -270,9 +270,7 @@ namespace ouzel
 
         void setEulerAngles(const Vector<3, T>& angles)
         {
-            T angle;
-
-            angle = angles.v[0] / T(2);
+            T angle = angles.v[0] / T(2);
             const T sr = sin(angle);
             const T cr = cos(angle);
 
@@ -302,8 +300,8 @@ namespace ouzel
 
         inline Vector<3, T> rotateVector(const Vector<3, T>& vector) const
         {
-            Vector<3, T> q(v[0], v[1], v[2]);
-            Vector<3, T> t = T(2) * q.cross(vector);
+            const Vector<3, T> q(v[0], v[1], v[2]);
+            const Vector<3, T> t = T(2) * q.cross(vector);
             return vector + (v[3] * t) + q.cross(t);
         }
 

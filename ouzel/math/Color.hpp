@@ -36,8 +36,8 @@ namespace ouzel
                 {
                     std::string newValue(color.begin() + 1, color.end());
 
-                    size_t componentSize = (newValue.length() + 2) / 3; // get the size of component rounded up
-                    size_t newSize = componentSize * 3;
+                    const size_t componentSize = (newValue.length() + 2) / 3; // get the size of component rounded up
+                    const size_t newSize = componentSize * 3;
                     newValue.resize(newSize);
 
                     for (size_t component = 0; component < 3; ++component)

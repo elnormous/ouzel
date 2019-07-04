@@ -671,7 +671,7 @@ namespace ouzel
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         Quaternion<T> getRotation() const
         {
-            Vector<3, T> scale = getScale();
+            const Vector<3, T> scale = getScale();
 
             const T m11 = m[0] / scale.v[0];
             const T m21 = m[1] / scale.v[0];
