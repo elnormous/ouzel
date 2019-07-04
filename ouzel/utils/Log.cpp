@@ -43,31 +43,28 @@ namespace ouzel
         int priority = 0;
         switch (level)
         {
-            case Log::Level::OFF: return;
             case Log::Level::ERR: priority = ANDROID_LOG_ERROR; break;
             case Log::Level::WARN: priority = ANDROID_LOG_WARN; break;
             case Log::Level::INFO: priority = ANDROID_LOG_INFO; break;
             case Log::Level::ALL: priority = ANDROID_LOG_DEBUG; break;
-            default: break;
+            default: return;
         }
         __android_log_print(priority, "Ouzel", "%s", str.c_str());
 #elif TARGET_OS_IOS || TARGET_OS_TV
         int priority = 0;
         switch (level)
         {
-            case Log::Level::OFF: return;
             case Log::Level::ERR: priority = LOG_ERR; break;
             case Log::Level::WARN: priority = LOG_WARNING; break;
             case Log::Level::INFO: priority = LOG_INFO; break;
             case Log::Level::ALL: priority = LOG_DEBUG; break;
-            default: break;
+            default: return;
         }
         syslog(priority, "%s", str.c_str());
 #elif TARGET_OS_MAC || defined(__linux__)
         int fd = 0;
         switch (level)
         {
-            case Log::Level::OFF: return;
             case Log::Level::ERR:
             case Log::Level::WARN:
                 fd = STDERR_FILENO;
@@ -76,7 +73,7 @@ namespace ouzel
             case Log::Level::ALL:
                 fd = STDOUT_FILENO;
                 break;
-            default: break;
+            default: return;
         }
 
         std::vector<char> output(str.begin(), str.end());
@@ -106,10 +103,9 @@ namespace ouzel
 
         OutputDebugStringW(buffer.data());
 #  if DEBUG
-        HANDLE handle = 0;
+        HANDLE handle;
         switch (level)
         {
-            case Log::Level::OFF: return;
             case Log::Level::ERR:
             case Log::Level::WARN:
                 handle = GetStdHandle(STD_ERROR_HANDLE);
@@ -118,20 +114,27 @@ namespace ouzel
             case Log::Level::ALL:
                 handle = GetStdHandle(STD_OUTPUT_HANDLE);
                 break;
-            default: break;
+            default: return;
         }
 
-        if (handle)
-        {
-            DWORD bytesWritten;
-            WriteConsoleW(handle, buffer.data(), static_cast<DWORD>(wcslen(buffer.data())), &bytesWritten, nullptr);
-        }
+        DWORD bytesWritten;
+        WriteConsoleW(handle, buffer.data(), static_cast<DWORD>(wcslen(buffer.data())), &bytesWritten, nullptr);
 #  endif
 #elif defined(__EMSCRIPTEN__)
         int flags = EM_LOG_CONSOLE;
-        if (level == Log::Level::ERR) flags |= EM_LOG_ERROR;
-        else if (level == Log::Level::WARN) flags |= EM_LOG_WARN;
-        else return;
+        switch (level)
+        {
+            case Log::Level::ERR:
+                flags |= EM_LOG_ERROR;
+                break;
+            case Log::Level::WARN:
+                flags |= EM_LOG_WARN;
+                break;
+            case Log::Level::INFO:
+            case Log::Level::ALL:
+                break;
+            default: return;
+        }
         emscripten_log(flags, "%s", str.c_str());
 #endif
     }
