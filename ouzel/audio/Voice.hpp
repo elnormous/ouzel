@@ -25,8 +25,19 @@ namespace ouzel
 
             Voice(const Voice&) = delete;
             Voice& operator=(const Voice&) = delete;
-            Voice(Voice&&) = delete;
-            Voice& operator=(Voice&&) = delete;
+            Voice(Voice&& other):
+                Node(other.audio),
+                audio(other.audio)
+            {
+
+            }
+
+            Voice& operator=(Voice&& other)
+            {
+                if (this == &other) return *this;
+
+                return *this;
+            }
 
             inline const std::shared_ptr<Sound>& getSound() const { return sound; }
 
