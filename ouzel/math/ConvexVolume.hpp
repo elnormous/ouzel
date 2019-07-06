@@ -20,7 +20,7 @@ namespace ouzel
         {
         }
 
-        bool isPointInside(const Vector<4, T>& position) const
+        inline auto isPointInside(const Vector<4, T>& position) const
         {
             for (const Plane<T>& plane : planes)
                 if (plane.dot(position) < T(0))
@@ -29,7 +29,7 @@ namespace ouzel
             return true;
         }
 
-        bool isSphereInside(const Vector<4, T>& position, T radius) const
+        inline auto isSphereInside(const Vector<4, T>& position, T radius) const
         {
             for (const Plane<T>& plane : planes)
                 if (plane.dot(position) < -radius)
@@ -38,7 +38,7 @@ namespace ouzel
             return true;
         }
 
-        bool isBoxInside(const Box<3, T>& box) const
+        auto isBoxInside(const Box<3, T>& box) const
         {
             const Vector<4, T> leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2], 1);
             const Vector<4, T> leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2], 1);

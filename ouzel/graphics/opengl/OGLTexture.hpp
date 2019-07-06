@@ -57,22 +57,22 @@ namespace ouzel
                 void setAddressZ(SamplerAddressMode newAddressZ);
                 void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
-                inline uint32_t getFlags() const { return flags; }
-                inline uint32_t getMipmaps() const { return mipmaps; }
+                inline auto getFlags() const { return flags; }
+                inline auto getMipmaps() const { return mipmaps; }
 
-                inline SamplerFilter getFilter() const { return filter; }
-                inline SamplerAddressMode getAddressX() const { return addressX; }
-                inline SamplerAddressMode getAddressY() const { return addressY; }
-                inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
-                inline uint32_t getSampleCount() const { return sampleCount; }
+                inline auto getFilter() const { return filter; }
+                inline auto getAddressX() const { return addressX; }
+                inline auto getAddressY() const { return addressY; }
+                inline auto getMaxAnisotropy() const { return maxAnisotropy; }
+                inline auto getSampleCount() const { return sampleCount; }
 
-                inline GLuint getTextureId() const { return textureId; }
-                inline GLuint getBufferId() const { return bufferId; }
+                inline auto getTextureId() const { return textureId; }
+                inline auto getBufferId() const { return bufferId; }
 
-                inline GLsizei getWidth() const { return width; }
-                inline GLsizei getHeight() const { return height; }
+                inline auto getWidth() const { return width; }
+                inline auto getHeight() const { return height; }
 
-                inline GLenum getPixelFormat() const { return pixelFormat; }
+                inline auto getPixelFormat() const { return pixelFormat; }
 
             private:
                 void createTexture();

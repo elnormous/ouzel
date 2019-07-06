@@ -66,7 +66,7 @@ namespace ouzel
                 inline const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
                 inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
-                inline GLuint getProgramId() const { return programId; }
+                inline auto getProgramId() const { return programId; }
 
             private:
                 void compileShader();

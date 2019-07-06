@@ -24,7 +24,7 @@ constexpr size_t bitsToLongs(size_t n)
     return (n + BITS_PER_LONG - 1) / BITS_PER_LONG; // rounded up
 }
 
-inline bool isBitSet(const unsigned long* array, int bit)
+inline auto isBitSet(const unsigned long* array, int bit)
 {
     return (array[bit / BITS_PER_LONG] & (1LL << (bit % BITS_PER_LONG))) != 0;
 }

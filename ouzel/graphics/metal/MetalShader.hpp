@@ -59,19 +59,19 @@ namespace ouzel
 
                 inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
 
-                inline uint32_t getFragmentShaderAlignment() const { return fragmentShaderAlignment; }
-                inline uint32_t getVertexShaderAlignment() const { return vertexShaderAlignment; }
+                inline auto getFragmentShaderAlignment() const { return fragmentShaderAlignment; }
+                inline auto getVertexShaderAlignment() const { return vertexShaderAlignment; }
 
                 inline const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
                 inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
-                inline MTLFunctionPtr getFragmentShader() const { return fragmentShader; }
-                inline MTLFunctionPtr getVertexShader() const { return vertexShader; }
+                inline auto getFragmentShader() const { return fragmentShader; }
+                inline auto getVertexShader() const { return vertexShader; }
 
-                inline MTLVertexDescriptorPtr getVertexDescriptor() const { return vertexDescriptor; }
+                inline auto getVertexDescriptor() const { return vertexDescriptor; }
 
-                inline uint32_t getFragmentShaderConstantBufferSize() const { return fragmentShaderConstantSize; }
-                inline uint32_t getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
+                inline auto getFragmentShaderConstantBufferSize() const { return fragmentShaderConstantSize; }
+                inline auto getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
 
             private:
                 std::set<Vertex::Attribute::Usage> vertexAttributes;

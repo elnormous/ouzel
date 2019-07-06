@@ -46,7 +46,7 @@
 #include "stb_image_write.h"
 
 template <typename T>
-inline T getCoreProcAddress(const char* name)
+inline auto getCoreProcAddress(const char* name)
 {
 #if OUZEL_OPENGL_INTERFACE_GLX
     return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
@@ -58,7 +58,7 @@ inline T getCoreProcAddress(const char* name)
 }
 
 template <typename T>
-inline T getExtProcAddress(const char* name)
+inline auto getExtProcAddress(const char* name)
 {
 #if OUZEL_OPENGL_INTERFACE_EGL
     return reinterpret_cast<T>(eglGetProcAddress(name));
@@ -71,7 +71,7 @@ inline T getExtProcAddress(const char* name)
 #endif
 }
 
-constexpr bool isVersionGreaterOrEqual(uint16_t majorVersion, uint16_t minorVersion,
+constexpr auto isVersionGreaterOrEqual(uint16_t majorVersion, uint16_t minorVersion,
                                        uint16_t checkMajorVersion, uint16_t checkMinorVersion)
 {
     return (majorVersion == checkMajorVersion) ?

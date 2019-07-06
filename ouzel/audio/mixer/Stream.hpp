@@ -39,7 +39,7 @@ namespace ouzel
                     if (output) output->addInput(this);
                 }
 
-                inline bool isPlaying() const { return playing; }
+                inline auto isPlaying() const { return playing; }
                 void play() { playing = true; }
 
                 void stop(bool shouldReset)

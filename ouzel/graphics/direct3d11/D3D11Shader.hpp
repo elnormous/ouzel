@@ -53,12 +53,12 @@ namespace ouzel
                 const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
                 const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
-                inline ID3D11PixelShader* getFragmentShader() const { return fragmentShader; }
-                inline ID3D11VertexShader* getVertexShader() const { return vertexShader; }
+                inline auto getFragmentShader() const { return fragmentShader; }
+                inline auto getVertexShader() const { return vertexShader; }
 
-                inline ID3D11Buffer* getFragmentShaderConstantBuffer() const { return fragmentShaderConstantBuffer; }
-                inline ID3D11Buffer* getVertexShaderConstantBuffer() const { return vertexShaderConstantBuffer; }
-                inline ID3D11InputLayout* getInputLayout() const { return inputLayout; }
+                inline auto getFragmentShaderConstantBuffer() const { return fragmentShaderConstantBuffer; }
+                inline auto getVertexShaderConstantBuffer() const { return vertexShaderConstantBuffer; }
+                inline auto getInputLayout() const { return inputLayout; }
 
             private:
                 std::set<Vertex::Attribute::Usage> vertexAttributes;

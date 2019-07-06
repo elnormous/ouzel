@@ -33,11 +33,11 @@ namespace ouzel
 
             void setEnabled(bool newEnabled) override;
 
-            inline scene::Sprite* getNormalSprite() const { return normalSprite.get(); }
-            inline scene::Sprite* getSelectedSprite() const { return selectedSprite.get(); }
-            inline scene::Sprite* getPressedSprite() const { return pressedSprite.get(); }
-            inline scene::Sprite* getDisabledSprite() const { return disabledSprite.get(); }
-            inline scene::TextRenderer* getLabelDrawable() const { return labelDrawable.get(); }
+            inline auto getNormalSprite() const { return normalSprite.get(); }
+            inline auto getSelectedSprite() const { return selectedSprite.get(); }
+            inline auto getPressedSprite() const { return pressedSprite.get(); }
+            inline auto getDisabledSprite() const { return disabledSprite.get(); }
+            inline auto getLabelDrawable() const { return labelDrawable.get(); }
 
         private:
             void setSelected(bool newSelected) override;
@@ -77,10 +77,10 @@ namespace ouzel
             virtual void setChecked(bool newChecked);
             virtual bool isChecked() const { return checked; }
 
-            inline scene::Sprite* getNormalSprite() const { return normalSprite.get(); }
-            inline scene::Sprite* getSelectedSprite() const { return selectedSprite.get(); }
-            inline scene::Sprite* getPressedSprite() const { return pressedSprite.get(); }
-            inline scene::Sprite* getDisabledSprite() const { return disabledSprite.get(); }
+            inline auto getNormalSprite() const { return normalSprite.get(); }
+            inline auto getSelectedSprite() const { return selectedSprite.get(); }
+            inline auto getPressedSprite() const { return pressedSprite.get(); }
+            inline auto getDisabledSprite() const { return disabledSprite.get(); }
 
         private:
             bool handleUI(const UIEvent& event);
@@ -174,7 +174,7 @@ namespace ouzel
             void setEnabled(bool newEnabled) override;
 
             void setChecked(bool newChecked);
-            inline bool isChecked() const { return checked; }
+            inline auto isChecked() const { return checked; }
 
         private:
             bool pointerOver = false;

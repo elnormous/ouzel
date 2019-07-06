@@ -48,7 +48,7 @@ namespace ouzel
             static Driver getDriver(const std::string& driver);
             static std::set<Driver> getAvailableRenderDrivers();
 
-            inline RenderDevice* getDevice() const { return device.get(); }
+            inline auto getDevice() const { return device.get(); }
 
             inline const Size2U& getSize() const { return size; }
 

@@ -35,9 +35,9 @@ namespace ouzel
 
         void executeCommand(const Command& command) final;
 
-        inline UIWindowPtr getNativeWindow() const { return window; }
-        inline UIViewPtr getNativeView() const { return view; }
-        inline UITextFieldPtr getTextField() const { return textField; }
+        inline auto getNativeWindow() const { return window; }
+        inline auto getNativeView() const { return view; }
+        inline auto getTextField() const { return textField; }
 
         void handleResize(const Size2U& newSize);
 

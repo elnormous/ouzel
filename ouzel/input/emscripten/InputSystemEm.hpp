@@ -24,9 +24,9 @@ namespace ouzel
 
             void executeCommand(const Command& command) final;
 
-            inline KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
-            inline MouseDeviceEm* getMouseDevice() const { return mouseDevice.get(); }
-            inline TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
+            inline auto getKeyboardDevice() const { return keyboardDevice.get(); }
+            inline auto getMouseDevice() const { return mouseDevice.get(); }
+            inline auto getTouchpadDevice() const { return touchpadDevice.get(); }
 
             void update();
 

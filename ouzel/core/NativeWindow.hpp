@@ -91,10 +91,10 @@ namespace ouzel
 
         inline const Size2U& getSize() const { return size; }
         inline const Size2U& getResolution() const { return resolution; }
-        inline float getContentScale() const { return contentScale; }
-        inline bool isResizable() const { return resizable; }
-        inline bool isFullscreen() const { return fullscreen; }
-        inline bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
+        inline auto getContentScale() const { return contentScale; }
+        inline auto isResizable() const { return resizable; }
+        inline auto isFullscreen() const { return fullscreen; }
+        inline auto isExclusiveFullscreen() const { return exclusiveFullscreen; }
         inline const std::string& getTitle() const { return title; }
 
     protected:

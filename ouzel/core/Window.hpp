@@ -43,7 +43,7 @@ namespace ouzel
         Window(Window&&) = delete;
         Window& operator=(Window&&) = delete;
 
-        inline NativeWindow* getNativeWindow() const { return nativeWindow.get(); }
+        inline auto getNativeWindow() const { return nativeWindow.get(); }
 
         void close();
         void update();
@@ -53,12 +53,12 @@ namespace ouzel
 
         inline const Size2U& getResolution() const { return resolution; }
 
-        inline bool isResizable() const { return resizable; }
+        inline auto isResizable() const { return resizable; }
 
         void setFullscreen(bool newFullscreen);
-        inline bool isFullscreen() const { return fullscreen; }
+        inline auto isFullscreen() const { return fullscreen; }
 
-        inline bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
+        inline auto isExclusiveFullscreen() const { return exclusiveFullscreen; }
 
         inline const std::string& getTitle() const { return title; }
         void setTitle(const std::string& newTitle);
@@ -69,22 +69,15 @@ namespace ouzel
         void maximize();
         void restore();
 
-        inline bool isVisible() const
-        {
-            return visible;
-        }
+        inline auto isVisible() const { return visible; }
+        inline auto isMinimized() const { return minimized; }
 
-        inline bool isMinimized() const
-        {
-            return minimized;
-        }
-
-        inline Vector2F convertWindowToNormalizedLocation(const Vector2F& position) const
+        inline auto convertWindowToNormalizedLocation(const Vector2F& position) const
         {
             return Vector2F(position.v[0] / size.v[0], position.v[1] / size.v[1]);
         }
 
-        inline Vector2F convertNormalizedToWindowLocation(const Vector2F& position) const
+        inline auto convertNormalizedToWindowLocation(const Vector2F& position) const
         {
             return Vector2F(position.v[0] * size.v[0], position.v[1] * size.v[1]);
         }

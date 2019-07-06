@@ -24,7 +24,7 @@ namespace ouzel
             {
             }
 
-            inline PixelFormat getPixelFormat() const { return pixelFormat; }
+            inline auto getPixelFormat() const { return pixelFormat; }
             inline const Size2U& getSize() const { return size; }
             inline const std::vector<uint8_t>& getData() const { return data; }
 

@@ -30,16 +30,16 @@ namespace ouzel
 
             inline const RenderDevice::Resource& getResource() const { return resource; }
 
-            inline bool isBlendingEnabled() const { return enableBlending; }
+            inline auto isBlendingEnabled() const { return enableBlending; }
 
-            inline BlendFactor getColorBlendSource() const { return colorBlendSource; }
-            inline BlendFactor getColorBlendDest() const { return colorBlendDest; }
-            inline BlendOperation getColorOperation() const { return colorOperation; }
-            inline BlendFactor getAlphaBlendSource() const { return alphaBlendSource; }
-            inline BlendFactor getAlphaBlendDest() const { return alphaBlendDest; }
-            inline BlendOperation getAlphaOperation() const { return alphaOperation; }
+            inline auto getColorBlendSource() const { return colorBlendSource; }
+            inline auto getColorBlendDest() const { return colorBlendDest; }
+            inline auto getColorOperation() const { return colorOperation; }
+            inline auto getAlphaBlendSource() const { return alphaBlendSource; }
+            inline auto getAlphaBlendDest() const { return alphaBlendDest; }
+            inline auto getAlphaOperation() const { return alphaOperation; }
 
-            inline uint8_t getColorMask() const { return colorMask; }
+            inline auto getColorMask() const { return colorMask; }
 
         private:
             RenderDevice::Resource resource;

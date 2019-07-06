@@ -25,11 +25,7 @@ namespace ouzel
 
         void setScreenSaverEnabled(bool newScreenSaverEnabled) final;
 
-#if OUZEL_SUPPORTS_X11
-        inline Display* getDisplay() const { return display; }
-#elif OUZEL_SUPPORTS_DISPMANX
-        inline DISPMANX_DISPLAY_HANDLE_T getDisplay() const { return display; }
-#endif
+        inline auto getDisplay() const { return display; }
 
     private:
         void runOnMainThread(const std::function<void()>& func) final;

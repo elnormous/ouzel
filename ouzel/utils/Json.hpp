@@ -370,7 +370,7 @@ namespace ouzel
                 return *this;
             }
 
-            inline Type getType() const { return type; }
+            inline auto getType() const { return type; }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             const std::string& as() const
@@ -456,13 +456,13 @@ namespace ouzel
                 return arrayValue.end();
             }
 
-            inline bool isNull() const
+            inline auto isNull() const
             {
                 assert(type == Type::OBJECT);
                 return nullValue;
             }
 
-            inline bool hasMember(const std::string& member) const
+            inline auto hasMember(const std::string& member) const
             {
                 assert(type == Type::OBJECT);
                 return objectValue.find(member) != objectValue.end();
@@ -499,7 +499,7 @@ namespace ouzel
                 else return Value();
             }
 
-            inline size_t getSize() const
+            inline auto getSize() const
             {
                 assert(type == Type::ARRAY);
                 return arrayValue.size();

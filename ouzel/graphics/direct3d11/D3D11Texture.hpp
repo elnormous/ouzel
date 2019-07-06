@@ -60,20 +60,20 @@ namespace ouzel
 
                 void resolve();
 
-                inline uint32_t getFlags() const { return flags; }
-                inline uint32_t getMipmaps() const { return mipmaps; }
-                inline uint32_t getSampleCount() const { return sampleCount; }
-                inline DXGI_FORMAT getPixelFormat() const { return pixelFormat; }
+                inline auto getFlags() const { return flags; }
+                inline auto getMipmaps() const { return mipmaps; }
+                inline auto getSampleCount() const { return sampleCount; }
+                inline auto getPixelFormat() const { return pixelFormat; }
 
-                inline ID3D11Texture2D* getTexture() const { return texture; }
-                inline ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
-                inline ID3D11SamplerState* getSamplerState() const { return samplerState; }
+                inline auto getTexture() const { return texture; }
+                inline auto getResourceView() const { return resourceView; }
+                inline auto getSamplerState() const { return samplerState; }
 
-                inline ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
-                inline ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
+                inline auto getRenderTargetView() const { return renderTargetView; }
+                inline auto getDepthStencilView() const { return depthStencilView; }
 
-                inline UINT getWidth() const { return width; }
-                inline UINT getHeight() const { return height; }
+                inline auto getWidth() const { return width; }
+                inline auto getHeight() const { return height; }
 
             private:
                 void updateSamplerState();

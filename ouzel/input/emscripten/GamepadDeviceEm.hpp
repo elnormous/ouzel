@@ -19,7 +19,7 @@ namespace ouzel
 
             void update();
 
-            inline long getIndex() const { return index; }
+            inline auto getIndex() const { return index; }
 
         private:
             void handleThumbAxisChange(double oldValue, double newValue,

@@ -51,30 +51,30 @@ namespace ouzel
 
             void setData(const std::vector<uint8_t>& newData, CubeFace face = CubeFace::POSITIVE_X);
 
-            inline uint32_t getFlags() const { return flags; }
-            inline uint32_t getMipmaps() const { return mipmaps; }
+            inline auto getFlags() const { return flags; }
+            inline auto getMipmaps() const { return mipmaps; }
 
-            inline SamplerFilter getFilter() const { return filter; }
+            inline auto getFilter() const { return filter; }
             void setFilter(SamplerFilter newFilter);
 
-            inline SamplerAddressMode getAddressX() const { return addressX; }
+            inline auto getAddressX() const { return addressX; }
             void setAddressX(SamplerAddressMode newAddressX);
 
-            inline SamplerAddressMode getAddressY() const { return addressY; }
+            inline auto getAddressY() const { return addressY; }
             void setAddressY(SamplerAddressMode newAddressY);
 
-            inline SamplerAddressMode getAddressZ() const { return addressZ; }
+            inline auto getAddressZ() const { return addressZ; }
             void setAddressZ(SamplerAddressMode newAddressZ);
 
-            inline Color getBorderColor() const { return borderColor; }
+            inline auto getBorderColor() const { return borderColor; }
             void setBorderColor(Color newBorderColor);
 
-            inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
+            inline auto getMaxAnisotropy() const { return maxAnisotropy; }
             void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
-            inline uint32_t getSampleCount() const { return sampleCount; }
+            inline auto getSampleCount() const { return sampleCount; }
 
-            inline PixelFormat getPixelFormat() const { return pixelFormat; }
+            inline auto getPixelFormat() const { return pixelFormat; }
 
         private:
             Renderer* renderer = nullptr;

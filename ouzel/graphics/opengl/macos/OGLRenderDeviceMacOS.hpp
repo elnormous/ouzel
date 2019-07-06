@@ -41,7 +41,7 @@ namespace ouzel
 
                 std::vector<Size2U> getSupportedResolutions() const final;
 
-                inline NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
+                inline auto getOpenGLContext() const { return openGLContext; }
 
                 void renderCallback();
 

@@ -47,7 +47,7 @@ namespace ouzel
                 void setClearColor(Color color);
                 void setClearDepth(float newClearDepth);
 
-                inline GLuint getFrameBufferId() const { return frameBufferId; }
+                inline auto getFrameBufferId() const { return frameBufferId; }
 
             private:
                 void createFrameBuffer();

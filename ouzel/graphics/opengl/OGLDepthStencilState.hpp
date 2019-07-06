@@ -52,21 +52,21 @@ namespace ouzel
 
                 void reload() final {}
 
-                inline bool getDepthTest() const { return depthTest; }
-                inline GLboolean getDepthMask() const { return depthMask; }
-                inline GLenum getCompareFunction() const { return compareFunction; }
+                inline auto getDepthTest() const { return depthTest; }
+                inline auto getDepthMask() const { return depthMask; }
+                inline auto getCompareFunction() const { return compareFunction; }
 
-                inline bool getStencilTest() const { return stencilTest; }
-                inline GLuint getStencilReadMask() const { return stencilReadMask; }
-                inline GLuint getStencilWriteMask() const { return stencilWriteMask; }
-                inline GLenum getFrontFaceFail() const { return frontFaceFail; }
-                inline GLenum getFrontFaceDepthFail() const { return frontFaceDepthFail; }
-                inline GLenum getFrontFacePass() const { return frontFacePass; }
-                inline GLenum getFrontFaceFunction() const { return frontFaceFunction; }
-                inline GLenum getBackFaceFail() const { return backFaceFail; }
-                inline GLenum getBackFaceDepthFail() const { return backFaceDepthFail; }
-                inline GLenum getBackFacePass() const { return backFacePass; }
-                inline GLenum getBackFaceFunction() const { return backFaceFunction; }
+                inline auto getStencilTest() const { return stencilTest; }
+                inline auto getStencilReadMask() const { return stencilReadMask; }
+                inline auto getStencilWriteMask() const { return stencilWriteMask; }
+                inline auto getFrontFaceFail() const { return frontFaceFail; }
+                inline auto getFrontFaceDepthFail() const { return frontFaceDepthFail; }
+                inline auto getFrontFacePass() const { return frontFacePass; }
+                inline auto getFrontFaceFunction() const { return frontFaceFunction; }
+                inline auto getBackFaceFail() const { return backFaceFail; }
+                inline auto getBackFaceDepthFail() const { return backFaceDepthFail; }
+                inline auto getBackFacePass() const { return backFacePass; }
+                inline auto getBackFaceFunction() const { return backFaceFunction; }
 
             private:
                 bool depthTest = false;

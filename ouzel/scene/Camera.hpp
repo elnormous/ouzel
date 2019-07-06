@@ -42,16 +42,16 @@ namespace ouzel
             explicit Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
             ~Camera() override;
 
-            inline ProjectionMode getProjectionMode() const { return projectionMode; }
+            inline auto getProjectionMode() const { return projectionMode; }
             inline void setProjectionMode(ProjectionMode newProjectionMode) { projectionMode = newProjectionMode; }
 
-            inline float getFOV() const { return fov; }
+            inline auto getFOV() const { return fov; }
             inline void setFOV(float newFOV) { fov = newFOV; }
 
-            inline float getNearPlane() const { return nearPlane; }
+            inline auto getNearPlane() const { return nearPlane; }
             inline void setNearPlane(float newNearPlane) { nearPlane = newNearPlane; }
 
-            inline float getFarPlane() const { return farPlane; }
+            inline auto getFarPlane() const { return farPlane; }
             inline void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
 
             inline const Matrix4F& getProjection() const { return projection; }
@@ -70,7 +70,7 @@ namespace ouzel
             inline const RectF& getRenderViewport() const { return renderViewport; }
             void setViewport(const RectF& newViewport);
 
-            inline ScaleMode getScaleMode() const { return scaleMode; }
+            inline auto getScaleMode() const { return scaleMode; }
             void setScaleMode(ScaleMode newScaleMode);
 
             inline const Size2F& getTargetContentSize() const { return targetContentSize; }
@@ -83,32 +83,32 @@ namespace ouzel
             inline const std::shared_ptr<graphics::RenderTarget>& getRenderTarget() const { return renderTarget; }
             void setRenderTarget(const std::shared_ptr<graphics::RenderTarget>& newRenderTarget);
 
-            inline bool getDepthTest() const { return depthTest; }
+            inline auto getDepthTest() const { return depthTest; }
             void setDepthTest(bool newDepthTest);
             inline const std::shared_ptr<graphics::DepthStencilState>& getDepthStencilState() const { return depthStencilState; }
 
-            inline uint32_t getStencilReferenceValue() const { return stencilReferenceValue; }
+            inline auto getStencilReferenceValue() const { return stencilReferenceValue; }
             inline void setStencilReferenceValue(uint32_t newStencilReferenceValue) { stencilReferenceValue = newStencilReferenceValue; }
 
-            inline bool getWireframe() const { return wireframe; }
+            inline auto getWireframe() const { return wireframe; }
             inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
-            inline bool getClearColorBuffer() const { return clearColorBuffer; }
+            inline auto getClearColorBuffer() const { return clearColorBuffer; }
             inline void setClearColorBuffer(bool clear) { clearColorBuffer = clear; }
 
-            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            inline auto getClearDepthBuffer() const { return clearDepthBuffer; }
             inline void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
 
-            inline bool getClearStencilBuffer() const { return clearStencilBuffer; }
+            inline auto getClearStencilBuffer() const { return clearStencilBuffer; }
             inline void setClearStencilBuffer(bool clear) { clearStencilBuffer = clear; }
 
-            inline Color getClearColor() const { return clearColor; }
+            inline auto getClearColor() const { return clearColor; }
             inline void setClearColor(Color color) { clearColor = color; }
 
-            inline float getClearDepth() const { return clearDepth; }
+            inline auto getClearDepth() const { return clearDepth; }
             inline void setClearDepth(float depth) { clearDepth = depth; }
 
-            inline uint32_t getClearStencil() const { return clearStencil; }
+            inline auto getClearStencil() const { return clearStencil; }
             inline void setClearDepth(uint32_t stencil) { clearStencil = stencil; }
 
         private:

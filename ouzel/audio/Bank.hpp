@@ -49,6 +49,12 @@ namespace ouzel
             std::vector<SubmixDefinition> submixDefinitions;
         };
 
+        class Cue
+        {
+        public:
+            uintptr_t busId;
+        };
+
         class Bank
         {
         public:
@@ -65,28 +71,7 @@ namespace ouzel
                 // TODO: create command buffer
 
                 for (const SubmixDefinition& submixDefinition : bankDefinition.submixDefinitions)
-                {
-                    for (const SubmixDefinition& inputDefinition : submixDefinition.inputDefinitions)
-                    {
-
-                    }
-
-                    for (const FilterDefinition& filterDefinition : submixDefinition.filterDefinitions)
-                    {
-
-                    }
-
-                    for (const AttributeDefinition& attributeDefinition : submixDefinition.attributeDefinitions)
-                    {
-
-                    }
-
-                    for (const CueDefinition& cueDefinition : submixDefinition.cueDefinitions)
-                    {
-
-                    }
-                    // TODO: add create bus commands to buffer
-                }
+                    parseSubmixDefinition(submixDefinition);
             }
 
             Voice createVoice()
@@ -96,6 +81,29 @@ namespace ouzel
             }
 
         private:
+            void parseSubmixDefinition(const SubmixDefinition& submixDefinition)
+            {
+                // TODO: add create bus commands to buffer
+
+                for (const SubmixDefinition& inputDefinition : submixDefinition.inputDefinitions)
+                    parseSubmixDefinition(inputDefinition);
+
+                for (const FilterDefinition& filterDefinition : submixDefinition.filterDefinitions)
+                {
+
+                }
+
+                for (const AttributeDefinition& attributeDefinition : submixDefinition.attributeDefinitions)
+                {
+
+                }
+
+                for (const CueDefinition& cueDefinition : submixDefinition.cueDefinitions)
+                {
+
+                }
+            }
+
             Audio& audio;
             BankDefinition definition;
         };

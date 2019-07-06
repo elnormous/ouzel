@@ -62,13 +62,13 @@ namespace ouzel
         inline T w() const { return v[3]; }
 
         template <size_t X = N, typename std::enable_if<(X == 2)>::type* = nullptr>
-        inline T getAngle() const
+        inline auto getAngle() const
         {
             return atan2(v[1], v[0]);
         }
 
         template <size_t X = N, typename std::enable_if<(X == 3)>::type* = nullptr>
-        inline T getAngle(const Vector& axis) const
+        inline auto getAngle(const Vector& axis) const
         {
             const T dx = axis.v[0] - v[0] - v[1] * axis.v[2] + v[2] * axis.v[1];
             const T dy = axis.v[1] - v[1] - v[2] * axis.v[0] + v[0] * axis.v[2];
@@ -78,7 +78,7 @@ namespace ouzel
         }
 
         template <size_t X = N, typename std::enable_if<(X == 4)>::type* = nullptr>
-        inline T getAngle(const Vector& axis) const
+        inline auto getAngle(const Vector& axis) const
         {
             const T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
             const T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
@@ -148,7 +148,7 @@ namespace ouzel
                 c = -c;
         }
 
-        inline bool isNormalized(T tolerance = std::numeric_limits<T>::min()) const
+        inline auto isNormalized(T tolerance = std::numeric_limits<T>::min()) const
         {
             return abs(T(1) - lengthSquared()) < tolerance;
         }
@@ -182,7 +182,7 @@ namespace ouzel
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
-        inline T getMin() const
+        inline auto getMin() const
         {
             T result = v[0];
 
@@ -193,7 +193,7 @@ namespace ouzel
             return result;
         }
 
-        inline T getMax() const
+        inline auto getMax() const
         {
             T result = v[0];
 
@@ -297,7 +297,7 @@ namespace ouzel
             return false;
         }
 
-        inline bool isZero() const
+        inline auto isZero() const
         {
             for (const T& c : v)
                 if (c != T(0)) return false;

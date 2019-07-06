@@ -42,14 +42,14 @@ namespace ouzel
                            BlendOperation alphaOperation,
                            uint8_t colorMask);
 
-                inline MTLBlendOperation getRgbBlendOperation() const { return rgbBlendOperation; }
-                inline MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }
-                inline MTLBlendFactor getSourceRgbBlendFactor() const { return sourceRgbBlendFactor; }
-                inline MTLBlendFactor getDestinationRgbBlendFactor() const { return destinationRgbBlendFactor; }
-                inline MTLBlendFactor getSourceAlphaBlendFactor() const { return sourceAlphaBlendFactor; }
-                inline MTLBlendFactor getDestinationAlphaBlendFactor() const { return destinationAlphaBlendFactor; }
-                inline MTLColorWriteMask getColorWriteMask() const { return colorWriteMask; }
-                inline bool isBlendingEnabled() const { return blendingEnabled; }
+                inline auto getRgbBlendOperation() const { return rgbBlendOperation; }
+                inline auto getAlphaBlendOperation() const { return alphaBlendOperation; }
+                inline auto getSourceRgbBlendFactor() const { return sourceRgbBlendFactor; }
+                inline auto getDestinationRgbBlendFactor() const { return destinationRgbBlendFactor; }
+                inline auto getSourceAlphaBlendFactor() const { return sourceAlphaBlendFactor; }
+                inline auto getDestinationAlphaBlendFactor() const { return destinationAlphaBlendFactor; }
+                inline auto getColorWriteMask() const { return colorWriteMask; }
+                inline auto isBlendingEnabled() const { return blendingEnabled; }
 
             private:
                 MTLBlendOperation rgbBlendOperation;

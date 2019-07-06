@@ -32,12 +32,12 @@ namespace ouzel
             InputManager& operator=(InputManager&&) = delete;
 
             void update();
-            inline InputSystem* getInputSystem() const { return inputSystem.get(); }
+            inline auto getInputSystem() const { return inputSystem.get(); }
 
             inline const std::vector<Controller*>& getControllers() const { return controllers; }
-            inline Keyboard* getKeyboard() const { return keyboard; }
-            inline Mouse* getMouse() const { return mouse; }
-            inline Touchpad* getTouchpad() const { return touchpad; }
+            inline auto getKeyboard() const { return keyboard; }
+            inline auto getMouse() const { return mouse; }
+            inline auto getTouchpad() const { return touchpad; }
 
             void startDeviceDiscovery();
             void stopDeviceDiscovery();

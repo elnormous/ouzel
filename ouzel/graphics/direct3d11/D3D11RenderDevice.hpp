@@ -62,14 +62,14 @@ namespace ouzel
 
                 std::vector<Size2U> getSupportedResolutions() const final;
 
-                inline ID3D11Device* getDevice() const { return device; }
-                inline ID3D11DeviceContext* getContext() const { return context; }
+                inline auto getDevice() const { return device; }
+                inline auto getContext() const { return context; }
 
                 ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
                 void setFullscreen(bool newFullscreen);
 
                 template <class T>
-                inline T* getResource(uintptr_t id) const
+                inline auto getResource(uintptr_t id) const
                 {
                     return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
                 }

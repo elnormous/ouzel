@@ -67,12 +67,12 @@ namespace ouzel
 
                 ~RenderDevice();
 
-                inline MTLDevicePtr getDevice() const { return device; }
+                inline auto getDevice() const { return device; }
 
                 MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
                 template <class T>
-                inline T* getResource(uintptr_t id) const
+                inline auto getResource(uintptr_t id) const
                 {
                     return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
                 }

@@ -21,11 +21,11 @@ namespace ouzel
             }
 
             void setPosition(const Vector2F& position);
-            inline bool isCursorVisible() const { return cursorVisible; }
+            inline auto isCursorVisible() const { return cursorVisible; }
             void setCursorVisible(bool visible);
             void setCursorLocked(bool locked);
 
-            inline CursorLinux* getCursor() const { return cursor; }
+            inline auto getCursor() const { return cursor; }
             void setCursor(CursorLinux* newCursor);
 
         private:

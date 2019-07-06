@@ -105,7 +105,7 @@ namespace ouzel
         };
 
         template <class T>
-        constexpr bool isWhitespace(T c)
+        constexpr auto isWhitespace(T c)
         {
             return c == ' ' || c == '\t';
         }

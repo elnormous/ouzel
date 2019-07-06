@@ -81,12 +81,12 @@ namespace ouzel
             Gamepad(Gamepad&&) = delete;
             Gamepad& operator=(Gamepad&&) = delete;
 
-            inline bool isAttached() const { return attached; }
+            inline auto isAttached() const { return attached; }
 
-            inline bool isAbsoluteDPadValues() const { return absoluteDPadValues; }
+            inline auto isAbsoluteDPadValues() const { return absoluteDPadValues; }
             void setAbsoluteDPadValues(bool newAbsoluteDPadValues);
 
-            inline int32_t getPlayerIndex() const { return playerIndex; }
+            inline auto getPlayerIndex() const { return playerIndex; }
             void setPlayerIndex(int32_t newPlayerIndex);
 
             inline const ButtonState& getButtonState(Button button) const
@@ -94,7 +94,7 @@ namespace ouzel
                 return buttonStates[static_cast<uint32_t>(button)];
             }
 
-            inline float getVibration(Motor motor) { return vibration[static_cast<uint32_t>(motor)]; }
+            inline auto getVibration(Motor motor) { return vibration[static_cast<uint32_t>(motor)]; }
             void setVibration(Motor motor, float speed);
 
         protected:

@@ -132,7 +132,7 @@ namespace ouzel
             void addCommand(const Command& command);
             virtual void executeCommand(const Command&) {}
 
-            uintptr_t getResourceId()
+            auto getResourceId()
             {
                 auto i = deletedResourceIds.begin();
 

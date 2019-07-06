@@ -40,7 +40,7 @@ namespace ouzel
 
             bool removeScene(Scene* scene);
 
-            inline Scene* getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
+            inline auto getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
 
         private:
             std::vector<Scene*> scenes;

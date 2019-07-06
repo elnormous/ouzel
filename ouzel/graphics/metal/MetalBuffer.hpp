@@ -38,11 +38,11 @@ namespace ouzel
 
                 void setData(const std::vector<uint8_t>& data);
 
-                inline uint32_t getFlags() const { return flags; }
-                inline BufferType getType() const { return type; }
-                inline NSUInteger getSize() const { return size; }
+                inline auto getFlags() const { return flags; }
+                inline auto getType() const { return type; }
+                inline auto getSize() const { return size; }
 
-                inline MTLBufferPtr getBuffer() const { return buffer; }
+                inline auto getBuffer() const { return buffer; }
 
             private:
                 void createBuffer(NSUInteger newSize);

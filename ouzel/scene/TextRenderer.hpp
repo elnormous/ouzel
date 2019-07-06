@@ -34,7 +34,7 @@ namespace ouzel
 
             void setFont(const std::string& fontFile);
 
-            inline float getFontSize() const { return fontSize; }
+            inline auto getFontSize() const { return fontSize; }
             void setFontSize(float newFontSize);
 
             inline const Vector2F& getTextAnchor() const { return textAnchor; }
@@ -43,7 +43,7 @@ namespace ouzel
             inline const std::string& getText() const { return text; }
             void setText(const std::string& newText);
 
-            inline Color getColor() const { return color; }
+            inline auto getColor() const { return color; }
             void setColor(Color newColor);
 
             inline const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }

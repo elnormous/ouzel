@@ -51,7 +51,7 @@ namespace ouzel
             void pause();
             void stop();
 
-            inline bool isPlaying() const { return playing; }
+            inline auto isPlaying() const { return playing; }
 
             void setOutput(Mix* newOutput);
 

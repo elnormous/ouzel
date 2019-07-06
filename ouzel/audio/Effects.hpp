@@ -24,7 +24,7 @@ namespace ouzel
             Delay(Delay&&) = delete;
             Delay& operator=(Delay&&) = delete;
 
-            inline float getDelay() const { return delay; }
+            inline auto getDelay() const { return delay; }
             void setDelay(float newDelay);
 
             inline const std::pair<float, float>& getDelayRandom() const { return delayRandom; }
@@ -46,7 +46,7 @@ namespace ouzel
             Gain(Gain&&) = delete;
             Gain& operator=(Gain&&) = delete;
 
-            inline float getGain() const { return gain; }
+            inline auto getGain() const { return gain; }
             void setGain(float newGain);
 
             inline const std::pair<float, float>& getGainRandom() const { return gainRandom; }
@@ -71,13 +71,13 @@ namespace ouzel
             inline const Vector3F& getPosition() const { return position; }
             void setPosition(const Vector3F& newPosition);
 
-            inline float getRolloffFactor() const { return rolloffFactor; }
+            inline auto getRolloffFactor() const { return rolloffFactor; }
             void setRolloffFactor(float newRolloffFactor);
 
-            inline float getMinDistance() const { return minDistance; }
+            inline auto getMinDistance() const { return minDistance; }
             void setMinDistance(float newMinDistance);
 
-            inline float getMaxDistance() const { return maxDistance; }
+            inline auto getMaxDistance() const { return maxDistance; }
             void setMaxDistance(float newMaxDistance);
 
         private:
@@ -100,7 +100,7 @@ namespace ouzel
             PitchScale(PitchScale&&) = delete;
             PitchScale& operator=(PitchScale&&) = delete;
 
-            inline float getScale() const { return scale; }
+            inline auto getScale() const { return scale; }
             void setScale(float newScale);
 
             inline const std::pair<float, float>& getScaleRandom() const { return scaleRandom; }
@@ -122,7 +122,7 @@ namespace ouzel
             PitchShift(PitchShift&&) = delete;
             PitchShift& operator=(PitchShift&&) = delete;
 
-            inline float getShift() const { return shift; }
+            inline auto getShift() const { return shift; }
             void setShift(float newShift);
 
             inline const std::pair<float, float>& getShiftRandom() const { return shiftRandom; }
@@ -144,8 +144,8 @@ namespace ouzel
             Reverb(Reverb&&) = delete;
             Reverb& operator=(Reverb&&) = delete;
 
-            inline float getDelay() const { return delay; }
-            inline float getDecay() const { return decay; }
+            inline auto getDelay() const { return delay; }
+            inline auto getDecay() const { return decay; }
 
         private:
             float delay;

@@ -36,7 +36,7 @@ namespace ouzel
         {
         }
 
-        inline bool isEmpty() const
+        inline auto isEmpty() const
         {
             return size.isZero();
         }

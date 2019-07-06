@@ -32,12 +32,12 @@ namespace ouzel
 
             inline const Vector2F& getPosition() const { return position; }
             void setPosition(const Vector2F& newPosition);
-            inline bool isButtonDown(Button button) const { return buttonStates[static_cast<uint32_t>(button)]; }
-            inline bool isCursorVisible() const { return cursorVisible; }
+            inline auto isButtonDown(Button button) const { return buttonStates[static_cast<uint32_t>(button)]; }
+            inline auto isCursorVisible() const { return cursorVisible; }
             void setCursorVisible(bool visible);
-            inline bool isCursorLocked() const { return cursorLocked; }
+            inline auto isCursorLocked() const { return cursorLocked; }
             void setCursorLocked(bool locked);
-            inline const Cursor* getCursor() const { return cursor; }
+            inline auto getCursor() const { return cursor; }
             void setCursor(const Cursor* newCursor);
 
         protected:

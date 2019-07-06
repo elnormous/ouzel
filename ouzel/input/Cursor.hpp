@@ -37,7 +37,7 @@ namespace ouzel
                       graphics::PixelFormat pixelFormat,
                       const Vector2F& hotSpot);
 
-            inline uintptr_t getCursorResource() const { return cursorResource; }
+            inline auto getCursorResource() const { return cursorResource; }
 
         private:
             InputManager& inputManager;

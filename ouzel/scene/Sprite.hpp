@@ -53,7 +53,7 @@ namespace ouzel
                 inline const std::string& getName() const { return name; }
 
                 inline const Box2F& getBoundingBox() const { return boundingBox; }
-                uint32_t getIndexCount() const { return indexCount; }
+                inline auto getIndexCount() const { return indexCount; }
                 inline const std::shared_ptr<graphics::Buffer>& getIndexBuffer() const { return indexBuffer; }
                 inline const std::shared_ptr<graphics::Buffer>& getVertexBuffer() const { return vertexBuffer; }
 
@@ -112,7 +112,7 @@ namespace ouzel
             void play();
             void stop(bool resetAnimation = true);
             void reset();
-            inline bool isPlaying() const { return playing; }
+            inline auto isPlaying() const { return playing; }
 
             inline const std::map<std::string, SpriteData::Animation>& getAnimations() const { return animations; }
             inline const SpriteData::Animation* getAnimation() const { return currentAnimation->animation; }

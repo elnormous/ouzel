@@ -15,7 +15,7 @@ namespace ouzel
     extern std::mt19937 randomEngine;
 
     template <typename T>
-    inline size_t getVectorSize(const typename std::vector<T>& vec)
+    inline auto getVectorSize(const typename std::vector<T>& vec)
     {
         return sizeof(T) * vec.size();
     }

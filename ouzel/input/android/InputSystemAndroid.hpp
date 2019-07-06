@@ -20,9 +20,9 @@ namespace ouzel
 
             void executeCommand(const Command& command) final;
 
-            inline KeyboardDevice* getKeyboardDevice() const { return keyboardDevice.get(); }
-            inline MouseDevice* getMouseDevice() const { return mouseDevice.get(); }
-            inline TouchpadDevice* getTouchpadDevice() const { return touchpadDevice.get(); }
+            inline auto getKeyboardDevice() const { return keyboardDevice.get(); }
+            inline auto getMouseDevice() const { return mouseDevice.get(); }
+            inline auto getTouchpadDevice() const { return touchpadDevice.get(); }
 
             jboolean handleTouchEvent(jobject event);
             jboolean handleGenericMotionEvent(jobject event);

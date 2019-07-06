@@ -33,12 +33,12 @@ namespace ouzel
 
     extern AnrdoidNeonChecker isSimdAvailable;
 #  else
-    constexpr bool isSimdAvailable = true;
+    constexpr auto isSimdAvailable = true;
 #  endif
 #elif defined(__SSE__)
-    constexpr bool isSimdAvailable = true;
+    constexpr auto isSimdAvailable = true;
 #else
-    constexpr bool isSimdAvailable = false;
+    constexpr auto isSimdAvailable = false;
 #endif
 
     template <typename T> constexpr T tau = T(6.28318530717958647692);
@@ -55,7 +55,7 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    constexpr bool isPowerOfTwo(T x)
+    constexpr auto isPowerOfTwo(T x)
     {
         return (x != T(0)) && (((x - T(1)) & x) == 0);
     }
@@ -103,7 +103,7 @@ namespace ouzel
     }
 
     template <class T>
-    inline bool isNearlyEqual(T a, T b, T tolerance = std::numeric_limits<T>::min())
+    inline auto isNearlyEqual(T a, T b, T tolerance = std::numeric_limits<T>::min())
     {
         return fabs(a - b) <= tolerance;
     }

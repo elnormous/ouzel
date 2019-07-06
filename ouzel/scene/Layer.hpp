@@ -35,10 +35,10 @@ namespace ouzel
             std::vector<std::pair<Actor*, Vector3F>> pickActors(const Vector2F& position, bool renderTargets = false) const;
             std::vector<Actor*> pickActors(const std::vector<Vector2F>& edges, bool renderTargets = false) const;
 
-            inline int32_t getOrder() const { return order; }
+            inline auto getOrder() const { return order; }
             void setOrder(int32_t newOrder);
 
-            inline Scene* getScene() const { return scene; }
+            inline auto getScene() const { return scene; }
             void removeFromScene();
 
         protected:

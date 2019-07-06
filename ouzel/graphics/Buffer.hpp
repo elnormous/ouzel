@@ -40,9 +40,9 @@ namespace ouzel
 
             inline const RenderDevice::Resource& getResource() const { return resource; }
 
-            inline BufferType getType() const { return type; }
-            inline uint32_t getFlags() const { return flags; }
-            inline uint32_t getSize() const { return size; }
+            inline auto getType() const { return type; }
+            inline auto getFlags() const { return flags; }
+            inline auto getSize() const { return size; }
 
         private:
             Renderer* renderer = nullptr;

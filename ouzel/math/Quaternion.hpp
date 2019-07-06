@@ -187,7 +187,7 @@ namespace ouzel
             v[3] = v[3] / n2;
         }
 
-        inline T getNorm() const
+        inline auto getNorm() const
         {
             const T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (n == T(1)) // already normalized
@@ -253,17 +253,17 @@ namespace ouzel
             return result;
         }
 
-        inline T getEulerAngleX() const
+        inline auto getEulerAngleX() const
         {
             return atan2(T(2) * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
         }
 
-        inline T getEulerAngleY() const
+        inline auto getEulerAngleY() const
         {
             return asin(T(-2) * (v[0] * v[2] - v[3] * v[1]));
         }
 
-        inline T getEulerAngleZ() const
+        inline auto getEulerAngleZ() const
         {
             return atan2(T(2) * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }

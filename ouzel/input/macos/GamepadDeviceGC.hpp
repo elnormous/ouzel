@@ -31,7 +31,7 @@ namespace ouzel
             int32_t getPlayerIndex() const;
             void setPlayerIndex(int32_t playerIndex) final;
 
-            inline GCControllerPtr getController() const { return controller; }
+            inline auto getController() const { return controller; }
 
         private:
             GCControllerPtr controller;

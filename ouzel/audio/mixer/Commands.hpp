@@ -263,7 +263,7 @@ namespace ouzel
 
                 inline const std::string& getName() const { return name; }
 
-                inline bool isEmpty() const { return commands.empty(); }
+                inline auto isEmpty() const { return commands.empty(); }
 
                 inline void pushCommand(std::unique_ptr<Command> command)
                 {

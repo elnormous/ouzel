@@ -74,7 +74,7 @@ namespace ouzel
                 v = std::numeric_limits<T>::lowest();
         }
 
-        inline bool isEmpty() const
+        inline auto isEmpty() const
         {
             for (size_t i = 0; i < N; ++i)
                 if (min.v[i] > max.v[i])

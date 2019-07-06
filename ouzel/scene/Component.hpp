@@ -46,7 +46,7 @@ namespace ouzel
             Component(Component&&) = delete;
             Component& operator=(Component&&) = delete;
 
-            inline uint32_t getClass() const { return cls; }
+            inline auto getClass() const { return cls; }
 
             virtual void draw(const Matrix4F& transformMatrix,
                               float opacity,
@@ -59,10 +59,10 @@ namespace ouzel
             virtual bool pointOn(const Vector2F& position) const;
             virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
 
-            inline bool isHidden() const { return hidden; }
+            inline auto isHidden() const { return hidden; }
             inline void setHidden(bool newHidden) { hidden = newHidden; }
 
-            inline Actor* getActor() const { return actor; }
+            inline auto getActor() const { return actor; }
             void removeFromActor();
 
         protected:

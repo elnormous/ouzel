@@ -17,12 +17,12 @@ namespace ouzel
         public:
             Widget() = default;
 
-            inline Menu* getMenu() const { return menu; }
+            inline auto getMenu() const { return menu; }
 
             virtual void setEnabled(bool newEnabled);
-            inline bool isEnabled() const { return enabled; }
+            inline auto isEnabled() const { return enabled; }
 
-            inline bool isSelected() const { return selected; }
+            inline auto isSelected() const { return selected; }
 
         protected:
             virtual void setSelected(bool newSelected);

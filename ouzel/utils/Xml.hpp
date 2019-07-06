@@ -15,12 +15,12 @@ namespace ouzel
     {
         static const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
 
-        constexpr bool isWhitespace(uint32_t c)
+        constexpr auto isWhitespace(uint32_t c)
         {
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
         }
 
-        constexpr bool isNameStartChar(uint32_t c)
+        constexpr auto isNameStartChar(uint32_t c)
         {
             return (c >= 'a' && c <= 'z') ||
                 (c >= 'A' && c <= 'Z') ||
@@ -34,7 +34,7 @@ namespace ouzel
                 (c >= 0x2070 && c <= 0x218F);
         }
 
-        constexpr bool isNameChar(uint32_t c)
+        constexpr auto isNameChar(uint32_t c)
         {
             return isNameStartChar(c) ||
                 c == '-' || c == '.' ||
@@ -280,7 +280,7 @@ namespace ouzel
                 return *this;
             }
 
-            inline Type getType() const { return type; }
+            inline auto getType() const { return type; }
 
             inline const std::string& getValue() const { return value; }
             inline void setValue(const std::string& newValue) { value = newValue; }

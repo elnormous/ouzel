@@ -44,7 +44,7 @@ namespace ouzel
             virtual bool hasChild(Actor* actor, bool recursive = false) const;
             virtual const std::vector<Actor*>& getChildren() const { return children; }
 
-            inline Layer* getLayer() const { return layer; }
+            inline auto getLayer() const { return layer; }
 
             std::vector<std::pair<Actor*, Vector3F>> findActors(const Vector2F& position) const;
             std::vector<Actor*> findActors(const std::vector<Vector2F>& edges) const;
@@ -82,7 +82,7 @@ namespace ouzel
             virtual void setPosition(const Vector2F& newPosition);
             virtual void setPosition(const Vector3F& newPosition);
 
-            inline int32_t getOrder() const { return order; }
+            inline auto getOrder() const { return order; }
             inline void setOrder(int32_t newOrder) { order = newOrder; }
 
             virtual const QuaternionF& getRotation() const { return rotation; }
@@ -111,7 +111,7 @@ namespace ouzel
 
             virtual bool isHidden() const { return hidden; }
             virtual void setHidden(bool newHidden);
-            inline bool isWorldHidden() const { return worldHidden; }
+            inline auto isWorldHidden() const { return worldHidden; }
 
             virtual bool pointOn(const Vector2F& worldPosition) const;
             virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
@@ -143,7 +143,7 @@ namespace ouzel
             Vector3F convertWorldToLocal(const Vector3F& worldPosition) const;
             Vector3F convertLocalToWorld(const Vector3F& localPosition) const;
 
-            inline ActorContainer* getParent() const { return parent; }
+            inline auto getParent() const { return parent; }
             void removeFromParent();
 
             void addChild(Actor* actor) override;

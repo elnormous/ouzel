@@ -47,19 +47,19 @@ namespace ouzel
 
                 void reload() final {}
 
-                inline GLenum getModeRGB() const { return modeRGB; }
-                inline GLenum getModeAlpha() const { return modeAlpha; }
+                inline auto getModeRGB() const { return modeRGB; }
+                inline auto getModeAlpha() const { return modeAlpha; }
 
-                inline GLenum getSourceFactorRGB() const { return sourceFactorRGB; }
-                inline GLenum getDestFactorRGB() const { return destFactorRGB; }
-                inline GLenum getSourceFactorAlpha() const { return sourceFactorAlpha; }
-                inline GLenum getDestFactorAlpha() const { return destFactorAlpha; }
-                inline bool isBlendEnabled() const { return blendEnabled; }
+                inline auto getSourceFactorRGB() const { return sourceFactorRGB; }
+                inline auto getDestFactorRGB() const { return destFactorRGB; }
+                inline auto getSourceFactorAlpha() const { return sourceFactorAlpha; }
+                inline auto getDestFactorAlpha() const { return destFactorAlpha; }
+                inline auto isBlendEnabled() const { return blendEnabled; }
 
-                inline GLboolean getRedMask() const { return redMask; }
-                inline GLboolean getGreenMask() const { return greenMask; }
-                inline GLboolean getBlueMask() const { return blueMask; }
-                inline GLboolean getAlphaMask() const { return alphaMask; }
+                inline auto getRedMask() const { return redMask; }
+                inline auto getGreenMask() const { return greenMask; }
+                inline auto getBlueMask() const { return blueMask; }
+                inline auto getAlphaMask() const { return alphaMask; }
 
             private:
                 GLenum modeRGB = GL_NONE;

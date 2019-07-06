@@ -31,11 +31,11 @@ namespace ouzel
 
                 void setData(const std::vector<uint8_t>& data);
 
-                inline uint32_t getFlags() const { return flags; }
-                inline BufferType getType() const { return type; }
-                inline UINT getSize() const { return size; }
+                inline auto getFlags() const { return flags; }
+                inline auto getType() const { return type; }
+                inline auto getSize() const { return size; }
 
-                inline ID3D11Buffer* getBuffer() const { return buffer; }
+                inline auto getBuffer() const { return buffer; }
 
             private:
                 void createBuffer(UINT newSize, const std::vector<uint8_t>& data);

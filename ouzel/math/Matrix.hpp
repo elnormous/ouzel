@@ -475,51 +475,39 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline void getUpVector(Vector<3, T>& dst) const
+        inline auto getUpVector() const
         {
-            dst.v[0] = m[4];
-            dst.v[1] = m[5];
-            dst.v[2] = m[6];
+            return Vector<3, T>(m[4], m[5], m[6]);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline void getDownVector(Vector<3, T>& dst) const
+        inline auto getDownVector() const
         {
-            dst.v[0] = -m[4];
-            dst.v[1] = -m[5];
-            dst.v[2] = -m[6];
+            return Vector<3, T>(-m[4], -m[5], -m[6]);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline void getLeftVector(Vector<3, T>& dst) const
+        inline auto getLeftVector() const
         {
-            dst.v[0] = -m[0];
-            dst.v[1] = -m[1];
-            dst.v[2] = -m[2];
+            return Vector<3, T>(-m[0], -m[1], -m[2]);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline void getRightVector(Vector<3, T>& dst) const
+        inline auto getRightVector() const
         {
-            dst.v[0] = m[0];
-            dst.v[1] = m[1];
-            dst.v[2] = m[2];
+            return Vector<3, T>(m[0], m[1], m[2]);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline void getForwardVector(Vector<3, T>& dst) const
+        inline auto getForwardVector() const
         {
-            dst.v[0] = -m[8];
-            dst.v[1] = -m[9];
-            dst.v[2] = -m[10];
+            return Vector<3, T>(-m[8], -m[9], -m[10]);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline void getBackVector(Vector<3, T>& dst) const
+        inline auto getBackVector() const
         {
-            dst.v[0] = m[8];
-            dst.v[1] = m[9];
-            dst.v[2] = m[10];
+            return Vector<3, T>(m[8], m[9], m[10]);
         }
 
         void invert()
@@ -530,7 +518,7 @@ namespace ouzel
         void invert(Matrix& dst) const;
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == Y)>::type* = nullptr>
-        inline bool isIdentity() const
+        inline auto isIdentity() const
         {
             for (size_t r = 0; r < R; ++r)
                 for (size_t c = 0; c < C; ++c)

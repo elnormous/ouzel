@@ -36,8 +36,8 @@ namespace ouzel
 
                 void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
-                inline SLEngineItf getEngine() const { return engine; }
-                inline SLObjectItf getOutputMix() const { return outputMixObject; }
+                inline auto getEngine() const { return engine; }
+                inline auto getOutputMix() const { return outputMixObject; }
 
             private:
                 SLObjectItf engineObject = nullptr;

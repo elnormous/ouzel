@@ -75,7 +75,7 @@ namespace ouzel
         inline storage::FileSystem& getFileSystem() { return fileSystem; }
         inline EventDispatcher& getEventDispatcher() { return eventDispatcher; }
         inline assets::Cache& getCache() { return cache; }
-        inline Window* getWindow() { return window.get(); }
+        inline auto getWindow() { return window.get(); }
         inline graphics::Renderer* getRenderer() const { return renderer.get(); }
         inline audio::Audio* getAudio() const { return audio.get(); }
         inline scene::SceneManager& getSceneManager() { return sceneManager; }
@@ -100,8 +100,8 @@ namespace ouzel
 
         virtual void openURL(const std::string& url);
 
-        virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
         inline bool isScreenSaverEnabled() const { return screenSaverEnabled; }
+        virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
 
         inline bool isOneUpdatePerFrame() const { return oneUpdatePerFrame; }
         inline void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }

@@ -136,7 +136,7 @@ namespace ouzel
                 return *this;
             }
 
-            inline bool isOpen() const
+            inline auto isOpen() const
             {
 #if defined(_WIN32)
                 return file != INVALID_HANDLE_VALUE;
@@ -253,7 +253,7 @@ namespace ouzel
 #endif
             }
 
-            uint32_t getOffset() const
+            auto getOffset() const
             {
 #if defined(_WIN32)
                 DWORD ret = SetFilePointer(file, 0, nullptr, FILE_CURRENT);

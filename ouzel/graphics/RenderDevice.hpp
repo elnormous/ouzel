@@ -49,13 +49,13 @@ namespace ouzel
             RenderDevice(RenderDevice&&) = delete;
             RenderDevice& operator=(RenderDevice&&) = delete;
 
-            inline Driver getDriver() const { return driver; }
+            inline auto getDriver() const { return driver; }
 
             virtual void process();
 
-            inline uint32_t getSampleCount() const { return sampleCount; }
-            inline SamplerFilter getTextureFilter() const { return textureFilter; }
-            inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
+            inline auto getSampleCount() const { return sampleCount; }
+            inline auto getTextureFilter() const { return textureFilter; }
+            inline auto getMaxAnisotropy() const { return maxAnisotropy; }
 
             virtual std::vector<Size2U> getSupportedResolutions() const;
 
@@ -67,14 +67,14 @@ namespace ouzel
                 commandQueueCondition.notify_all();
             }
 
-            inline uint32_t getDrawCallCount() const { return drawCallCount; }
+            inline auto getDrawCallCount() const { return drawCallCount; }
 
-            inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
-            inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
+            inline auto getAPIMajorVersion() const { return apiMajorVersion; }
+            inline auto getAPIMinorVersion() const { return apiMinorVersion; }
 
-            inline bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
-            inline bool isAnisotropicFilteringSupported() const { return anisotropicFilteringSupported; }
-            inline bool isRenderTargetsSupported() const { return renderTargetsSupported; }
+            inline auto isNPOTTexturesSupported() const { return npotTexturesSupported; }
+            inline auto isAnisotropicFilteringSupported() const { return anisotropicFilteringSupported; }
+            inline auto isRenderTargetsSupported() const { return renderTargetsSupported; }
 
             const Matrix4F& getProjectionTransform(bool renderTarget) const
             {

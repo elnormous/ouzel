@@ -27,22 +27,22 @@ namespace ouzel
             explicit Light(Type initType);
             ~Light() override;
 
-            inline Type getType() const { return type; }
+            inline auto getType() const { return type; }
             inline void setType(Type newType) { type = newType; }
 
-            inline Color getColor() const { return color; }
+            inline auto getColor() const { return color; }
             inline void setColor(Color newColor) { color = newColor; }
 
             inline const QuaternionF& getDirection() const { return direction; }
             inline void setDirection(const QuaternionF& newDirection) { direction = newDirection; }
 
-            inline float getAngle() const { return angle; }
+            inline auto getAngle() const { return angle; }
             inline void setAngle(float newAngle) { angle = newAngle; }
 
-            inline float getRange() const { return range; }
+            inline auto getRange() const { return range; }
             inline void setRange(float newRange) { range = newRange; }
 
-            inline float getIntensity() const { return intensity; }
+            inline auto getIntensity() const { return intensity; }
             inline void setIntensity(float newIntensity) { intensity = newIntensity; }
 
         protected:

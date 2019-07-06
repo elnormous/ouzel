@@ -26,9 +26,9 @@ namespace ouzel
             Effect(Effect&&) = delete;
             Effect& operator=(Effect&&) = delete;
 
-            inline uintptr_t getProcessorId() const { return processorId; }
+            inline auto getProcessorId() const { return processorId; }
 
-            inline bool isEnabled() const { return enabled; }
+            inline auto isEnabled() const { return enabled; }
             void setEnabled(bool newEnabled);
 
         protected:
