@@ -28,35 +28,33 @@ namespace ouzel
         {
         }
 
+        constexpr uint8_t hexCharToString(char c)
+        {
+            return (c >= '0' && c <= '9') ? c - '0' :
+                (c >= 'a' && c <= 'f') ? c - 'a' + 10 :
+                (c >= 'A' && c <= 'F') ? c - 'A' + 10 :
+                0;
+        }
+
         Color(const std::string& color)
         {
             if (!color.empty())
             {
                 if (color.front() == '#')
                 {
-                    std::string newValue(color.begin() + 1, color.end());
+                    assert(color.length() == 4 || color.length() == 7);
 
-                    const size_t componentSize = (newValue.length() + 2) / 3; // get the size of component rounded up
-                    const size_t newSize = componentSize * 3;
-                    newValue.resize(newSize);
+                    const size_t componentSize = (color.length() - 1) / 3; // exclude the #
 
                     for (size_t component = 0; component < 3; ++component)
                     {
-                        std::string currentValue;
+                        v[component] = 0;
 
-                        for (size_t byte = 0; byte < ((componentSize < 2) ? componentSize : 2); ++byte)
+                        for (size_t byte = 0; byte < 2; ++byte)
                         {
-                            char c = newValue[component * componentSize + byte];
-
-                            if ((c >= '0' && c <= '9') ||
-                                (c >= 'a' && c <= 'f') ||
-                                (c >= 'A' && c <= 'F'))
-                                currentValue += c;
-                            else
-                                currentValue += "0";
+                            char c = (byte < componentSize) ? color[component * componentSize + byte + 1] : color[component * componentSize + 1];
+                            v[component] = static_cast<uint8_t>((v[component] << 4) | hexCharToString(c));
                         }
-
-                        v[component] = static_cast<uint8_t>(std::stoul(currentValue, nullptr, 16));
                     }
 
                     v[3] = 0xFF; // alpha
