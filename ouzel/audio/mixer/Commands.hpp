@@ -42,7 +42,7 @@ namespace ouzel
 
                 explicit Command(Type initType): type(initType) {}
 
-                Type type;
+                const Type type;
             };
 
             class InitObjectCommand final: public Command
@@ -53,7 +53,7 @@ namespace ouzel
                     objectId(initObjectId)
                 {}
 
-                uintptr_t objectId;
+                const uintptr_t objectId;
             };
 
             class DeleteObjectCommand final: public Command
@@ -64,7 +64,7 @@ namespace ouzel
                     objectId(initObjectId)
                 {}
 
-                uintptr_t objectId;
+                const uintptr_t objectId;
             };
 
             class AddChildCommand final: public Command
@@ -76,8 +76,8 @@ namespace ouzel
                     childId(initChildId)
                 {}
 
-                uintptr_t objectId;
-                uintptr_t childId;
+                const uintptr_t objectId;
+                const uintptr_t childId;
             };
 
             class RemoveChildCommand final: public Command
@@ -89,8 +89,8 @@ namespace ouzel
                     childId(initChildId)
                 {}
 
-                uintptr_t objectId;
-                uintptr_t childId;
+                const uintptr_t objectId;
+                const uintptr_t childId;
             };
 
             class InitBusCommand final: public Command
@@ -101,7 +101,7 @@ namespace ouzel
                     busId(initBusId)
                 {}
 
-                uintptr_t busId;
+                const uintptr_t busId;
             };
 
             class SetBusOutputCommand final: public Command
@@ -114,8 +114,8 @@ namespace ouzel
                     outputBusId(initOutputBusId)
                 {}
 
-                uintptr_t busId;
-                uintptr_t outputBusId;
+                const uintptr_t busId;
+                const uintptr_t outputBusId;
             };
 
             class AddProcessorCommand final: public Command
@@ -128,8 +128,8 @@ namespace ouzel
                     processorId(initProcessorId)
                 {}
 
-                uintptr_t busId;
-                uintptr_t processorId;
+                const uintptr_t busId;
+                const uintptr_t processorId;
             };
 
             class RemoveProcessorCommand final: public Command
@@ -142,8 +142,8 @@ namespace ouzel
                     processorId(initProcessorId)
                 {}
 
-                uintptr_t busId;
-                uintptr_t processorId;
+                const uintptr_t busId;
+                const uintptr_t processorId;
             };
 
             class SetMasterBusCommand final: public Command
@@ -154,7 +154,7 @@ namespace ouzel
                     busId(initBusId)
                 {}
 
-                uintptr_t busId;
+                const uintptr_t busId;
             };
 
             class InitStreamCommand final: public Command
@@ -167,8 +167,8 @@ namespace ouzel
                     dataId(initDataId)
                 {}
 
-                uintptr_t streamId;
-                uintptr_t dataId;
+                const uintptr_t streamId;
+                const uintptr_t dataId;
             };
 
             class PlayStreamCommand final: public Command
@@ -179,7 +179,7 @@ namespace ouzel
                     streamId(initStreamId)
                 {}
 
-                uintptr_t streamId;
+                const uintptr_t streamId;
             };
 
             class StopStreamCommand final: public Command
@@ -192,8 +192,8 @@ namespace ouzel
                     reset(initReset)
                 {}
 
-                uintptr_t streamId;
-                bool reset;
+                const uintptr_t streamId;
+                const bool reset;
             };
 
             class SetStreamOutputCommand final: public Command
@@ -206,8 +206,8 @@ namespace ouzel
                     busId(initBusId)
                 {}
 
-                uintptr_t streamId;
-                uintptr_t busId;
+                const uintptr_t streamId;
+                const uintptr_t busId;
             };
 
             class InitDataCommand final: public Command
@@ -220,7 +220,7 @@ namespace ouzel
                     data(std::move(initData))
                 {}
 
-                uintptr_t dataId;
+                const uintptr_t dataId;
                 std::unique_ptr<Data> data;
             };
 
@@ -234,7 +234,7 @@ namespace ouzel
                     processor(std::move(initProcessor))
                 {}
 
-                uintptr_t processorId;
+                const uintptr_t processorId;
                 std::unique_ptr<Processor> processor;
             };
 
@@ -248,8 +248,8 @@ namespace ouzel
                     updateFunction(initUpdateFunction)
                 {}
 
-                uintptr_t processorId;
-                std::function<void(Processor*)> updateFunction;
+                const uintptr_t processorId;
+                const std::function<void(Processor*)> updateFunction;
             };
 
             class CommandBuffer final

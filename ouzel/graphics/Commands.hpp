@@ -84,7 +84,7 @@ namespace ouzel
                 size(initSize)
             {}
 
-            Size2U size;
+            const Size2U size;
         };
 
         class PresentCommand final: public Command
@@ -101,7 +101,7 @@ namespace ouzel
                 resource(initResource)
             {}
 
-            uintptr_t resource;
+            const uintptr_t resource;
         };
 
         class InitRenderTargetCommand final: public Command
@@ -117,9 +117,9 @@ namespace ouzel
             {
             }
 
-            uintptr_t renderTarget;
-            std::set<uintptr_t> colorTextures;
-            uintptr_t depthTexture;
+            const uintptr_t renderTarget;
+            const std::set<uintptr_t> colorTextures;
+            const uintptr_t depthTexture;
         };
 
         class SetRenderTargetCommand final: public Command
@@ -131,7 +131,7 @@ namespace ouzel
             {
             }
 
-            uintptr_t renderTarget;
+            const uintptr_t renderTarget;
         };
 
         class ClearRenderTargetCommand final: public Command
@@ -153,12 +153,12 @@ namespace ouzel
             {
             }
 
-            bool clearColorBuffer;
-            bool clearDepthBuffer;
-            bool clearStencilBuffer;
-            Color clearColor;
-            float clearDepth;
-            uint32_t clearStencil;
+            const bool clearColorBuffer;
+            const bool clearDepthBuffer;
+            const bool clearStencilBuffer;
+            const Color clearColor;
+            const float clearDepth;
+            const uint32_t clearStencil;
         };
 
         // TODO: implement
@@ -189,16 +189,16 @@ namespace ouzel
             {
             }
 
-            uintptr_t sourceTexture;
-            uint32_t sourceLevel;
-            uint32_t sourceX;
-            uint32_t sourceY;
-            uint32_t sourceWidth;
-            uint32_t sourceHeight;
-            uintptr_t destinationTexture;
-            uint32_t destinationLevel;
-            uint32_t destinationX;
-            uint32_t destinationY;
+            const uintptr_t sourceTexture;
+            const uint32_t sourceLevel;
+            const uint32_t sourceX;
+            const uint32_t sourceY;
+            const uint32_t sourceWidth;
+            const uint32_t sourceHeight;
+            const uintptr_t destinationTexture;
+            const uint32_t destinationLevel;
+            const uint32_t destinationX;
+            const uint32_t destinationY;
         };
 
         // TODO: implement
@@ -211,7 +211,7 @@ namespace ouzel
             {
             }
 
-            uintptr_t shader;
+            const uintptr_t shader;
         };
 
         class SetScissorTestCommand final: public Command
@@ -225,8 +225,8 @@ namespace ouzel
             {
             }
 
-            bool enabled;
-            RectF rectangle;
+            const bool enabled;
+            const RectF rectangle;
         };
 
         class SetViewportCommand final: public Command
@@ -238,7 +238,7 @@ namespace ouzel
             {
             }
 
-            RectF viewport;
+            const RectF viewport;
         };
 
         class InitDepthStencilStateCommand final: public Command
@@ -278,21 +278,21 @@ namespace ouzel
             {
             }
 
-            uintptr_t depthStencilState;
-            bool depthTest;
-            bool depthWrite;
-            CompareFunction compareFunction;
-            bool stencilEnabled;
-            uint32_t stencilReadMask;
-            uint32_t stencilWriteMask;
-            StencilOperation frontFaceStencilFailureOperation;
-            StencilOperation frontFaceStencilDepthFailureOperation;
-            StencilOperation frontFaceStencilPassOperation;
-            CompareFunction frontFaceStencilCompareFunction;
-            StencilOperation backFaceStencilFailureOperation;
-            StencilOperation backFaceStencilDepthFailureOperation;
-            StencilOperation backFaceStencilPassOperation;
-            CompareFunction backFaceStencilCompareFunction;
+            const uintptr_t depthStencilState;
+            const bool depthTest;
+            const bool depthWrite;
+            const CompareFunction compareFunction;
+            const bool stencilEnabled;
+            const uint32_t stencilReadMask;
+            const uint32_t stencilWriteMask;
+            const StencilOperation frontFaceStencilFailureOperation;
+            const StencilOperation frontFaceStencilDepthFailureOperation;
+            const StencilOperation frontFaceStencilPassOperation;
+            const CompareFunction frontFaceStencilCompareFunction;
+            const StencilOperation backFaceStencilFailureOperation;
+            const StencilOperation backFaceStencilDepthFailureOperation;
+            const StencilOperation backFaceStencilPassOperation;
+            const CompareFunction backFaceStencilCompareFunction;
         };
 
         class SetDepthStencilStateCommand final: public Command
@@ -306,8 +306,8 @@ namespace ouzel
             {
             }
 
-            uintptr_t depthStencilState;
-            uint32_t stencilReferenceValue;
+            const uintptr_t depthStencilState;
+            const uint32_t stencilReferenceValue;
         };
 
         class SetPipelineStateCommand final: public Command
@@ -325,10 +325,10 @@ namespace ouzel
             {
             }
 
-            uintptr_t blendState;
-            uintptr_t shader;
-            CullMode cullMode;
-            FillMode fillMode;
+            const uintptr_t blendState;
+            const uintptr_t shader;
+            const CullMode cullMode;
+            const FillMode fillMode;
         };
 
         class DrawCommand final: public Command
@@ -350,12 +350,12 @@ namespace ouzel
             {
             }
 
-            uintptr_t indexBuffer;
-            uint32_t indexCount;
-            uint32_t indexSize;
-            uintptr_t vertexBuffer;
-            DrawMode drawMode;
-            uint32_t startIndex;
+            const uintptr_t indexBuffer;
+            const uint32_t indexCount;
+            const uint32_t indexSize;
+            const uintptr_t vertexBuffer;
+            const DrawMode drawMode;
+            const uint32_t startIndex;
         };
 
         class PushDebugMarkerCommand final: public Command
@@ -367,7 +367,7 @@ namespace ouzel
             {
             }
 
-            std::string name;
+            const std::string name;
         };
 
         class PopDebugMarkerCommand final: public Command
@@ -404,15 +404,15 @@ namespace ouzel
             {
             }
 
-            uintptr_t blendState;
-            bool enableBlending;
-            BlendFactor colorBlendSource;
-            BlendFactor colorBlendDest;
-            BlendOperation colorOperation;
-            BlendFactor alphaBlendSource;
-            BlendFactor alphaBlendDest;
-            BlendOperation alphaOperation;
-            uint8_t colorMask;
+            const uintptr_t blendState;
+            const bool enableBlending;
+            const BlendFactor colorBlendSource;
+            const BlendFactor colorBlendDest;
+            const BlendOperation colorOperation;
+            const BlendFactor alphaBlendSource;
+            const BlendFactor alphaBlendDest;
+            const BlendOperation alphaOperation;
+            const uint8_t colorMask;
         };
 
         class InitBufferCommand final: public Command
@@ -432,11 +432,11 @@ namespace ouzel
             {
             }
 
-            uintptr_t buffer;
-            BufferType bufferType;
-            uint32_t flags;
-            std::vector<uint8_t> data;
-            uint32_t size;
+            const uintptr_t buffer;
+            const BufferType bufferType;
+            const uint32_t flags;
+            const std::vector<uint8_t> data;
+            const uint32_t size;
         };
 
         class SetBufferDataCommand final: public Command
@@ -450,8 +450,8 @@ namespace ouzel
             {
             }
 
-            uintptr_t buffer;
-            std::vector<uint8_t> data;
+            const uintptr_t buffer;
+            const std::vector<uint8_t> data;
         };
 
         class InitShaderCommand final: public Command
@@ -481,16 +481,16 @@ namespace ouzel
             {
             }
 
-            uintptr_t shader;
-            std::vector<uint8_t> fragmentShader;
-            std::vector<uint8_t> vertexShader;
-            std::set<Vertex::Attribute::Usage> vertexAttributes;
-            std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
-            std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
-            uint32_t fragmentShaderDataAlignment;
-            uint32_t vertexShaderDataAlignment;
-            std::string fragmentShaderFunction;
-            std::string vertexShaderFunction;
+            const uintptr_t shader;
+            const std::vector<uint8_t> fragmentShader;
+            const std::vector<uint8_t> vertexShader;
+            const std::set<Vertex::Attribute::Usage> vertexAttributes;
+            const std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
+            const std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
+            const uint32_t fragmentShaderDataAlignment;
+            const uint32_t vertexShaderDataAlignment;
+            const std::string fragmentShaderFunction;
+            const std::string vertexShaderFunction;
         };
 
         class SetShaderConstantsCommand final: public Command
@@ -504,8 +504,8 @@ namespace ouzel
             {
             }
 
-            std::vector<std::vector<float>> fragmentShaderConstants;
-            std::vector<std::vector<float>> vertexShaderConstants;
+            const std::vector<std::vector<float>> fragmentShaderConstants;
+            const std::vector<std::vector<float>> vertexShaderConstants;
         };
 
         class InitTextureCommand final: public Command
@@ -527,12 +527,12 @@ namespace ouzel
             {
             }
 
-            uintptr_t texture;
-            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels;
-            TextureType textureType;
-            uint32_t flags;
-            uint32_t sampleCount;
-            PixelFormat pixelFormat;
+            const uintptr_t texture;
+            const std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels;
+            const TextureType textureType;
+            const uint32_t flags;
+            const uint32_t sampleCount;
+            const PixelFormat pixelFormat;
         };
 
         class SetTextureDataCommand final: public Command
@@ -542,7 +542,8 @@ namespace ouzel
                                   const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels):
                 Command(Command::Type::SET_TEXTURE_DATA),
                 texture(initTexture),
-                levels(initLevels)
+                levels(initLevels),
+                face(CubeFace::POSITIVE_X)
             {
             }
 
@@ -556,9 +557,9 @@ namespace ouzel
             {
             }
 
-            uintptr_t texture;
-            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels;
-            CubeFace face;
+            const uintptr_t texture;
+            const std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels;
+            const CubeFace face;
         };
 
         class SetTextureParametersCommand final: public Command
@@ -582,13 +583,13 @@ namespace ouzel
             {
             }
 
-            uintptr_t texture;
-            SamplerFilter filter;
-            SamplerAddressMode addressX;
-            SamplerAddressMode addressY;
-            SamplerAddressMode addressZ;
-            Color borderColor;
-            uint32_t maxAnisotropy;
+            const uintptr_t texture;
+            const SamplerFilter filter;
+            const SamplerAddressMode addressX;
+            const SamplerAddressMode addressY;
+            const SamplerAddressMode addressZ;
+            const Color borderColor;
+            const uint32_t maxAnisotropy;
         };
 
         class SetTexturesCommand final: public Command
@@ -600,7 +601,7 @@ namespace ouzel
             {
             }
 
-            std::vector<uintptr_t> textures;
+            const std::vector<uintptr_t> textures;
         };
 
         class CommandBuffer final
