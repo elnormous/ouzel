@@ -411,14 +411,14 @@ namespace ouzel
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         ConvexVolume<T> getFrustum() const
         {
-            ConvexVolume<T> frustum;
-            frustum.planes.push_back(getFrustumLeftPlane());
-            frustum.planes.push_back(getFrustumRightPlane());
-            frustum.planes.push_back(getFrustumBottomPlane());
-            frustum.planes.push_back(getFrustumTopPlane());
-            frustum.planes.push_back(getFrustumNearPlane());
-            frustum.planes.push_back(getFrustumFarPlane());
-            return frustum;
+            return ConvexVolume<T>({
+                getFrustumLeftPlane(),
+                getFrustumRightPlane(),
+                getFrustumBottomPlane(),
+                getFrustumTopPlane(),
+                getFrustumNearPlane(),
+                getFrustumFarPlane()
+            });
         }
 
         void add(T scalar)
