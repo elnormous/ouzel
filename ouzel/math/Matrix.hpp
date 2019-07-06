@@ -23,16 +23,16 @@ namespace ouzel
 #endif
         T m[C * R]{0};
 
-        constexpr Matrix() {}
+        constexpr Matrix() noexcept {}
 
         template <typename ...A>
-        constexpr Matrix(A... args):
+        constexpr Matrix(A... args) noexcept:
             m{static_cast<T>(args)...}
         {
         }
 
-        T& operator[](size_t index) { return m[index]; }
-        T operator[](size_t index) const { return m[index]; }
+        constexpr T& operator[](size_t index) noexcept { return m[index]; }
+        constexpr T operator[](size_t index) const noexcept { return m[index]; }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         static constexpr Matrix identity()

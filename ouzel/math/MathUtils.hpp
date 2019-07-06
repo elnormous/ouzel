@@ -44,24 +44,24 @@ namespace ouzel
     template <typename T> constexpr T tau = T(6.28318530717958647692);
     template <typename T> constexpr T pi = T(3.14159265358979323846);
 
-    template <typename T> constexpr T lerp(T v0, T v1, T t)
+    template <typename T> constexpr T lerp(T v0, T v1, T t) noexcept
     {
         return (T(1) - t) * v0 + t * v1;
     }
 
-    template <typename T> constexpr T smoothStep(T a, T b, T t)
+    template <typename T> constexpr T smoothStep(T a, T b, T t) noexcept
     {
         return lerp(a, b, t * t * (T(3) - T(2) * t));
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    constexpr auto isPowerOfTwo(T x)
+    constexpr auto isPowerOfTwo(T x) noexcept
     {
         return (x != T(0)) && (((x - T(1)) & x) == 0);
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline T nextPowerOfTwo(T x)
+    inline T nextPowerOfTwo(T x) noexcept
     {
         if (x != 0)
         {
@@ -72,17 +72,17 @@ namespace ouzel
         return ++x;
     }
 
-    template <typename T> constexpr T degToRad(T x)
+    template <typename T> constexpr T degToRad(T x) noexcept
     {
         return static_cast<T>(x * 0.01745329251994329576);
     }
 
-    template <typename T> constexpr T radToDeg(T x)
+    template <typename T> constexpr T radToDeg(T x) noexcept
     {
         return static_cast<T>(x * 57.2957795130823208767);
     }
 
-    template <typename T> constexpr T clamp(T x, T lo, T hi)
+    template <typename T> constexpr T clamp(T x, T lo, T hi) noexcept
     {
         return (x < lo) ? lo : ((x > hi) ? hi : x);
     }

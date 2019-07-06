@@ -15,29 +15,29 @@ namespace ouzel
     public:
         T v[4]{0};
 
-        constexpr Quaternion() {}
+        constexpr Quaternion() noexcept {}
 
-        constexpr Quaternion(T x, T y, T z, T w):
+        constexpr Quaternion(T x, T y, T z, T w) noexcept:
             v{x, y, z, w}
         {
         }
 
-        inline T& operator[](size_t index) { return v[index]; }
-        inline T operator[](size_t index) const { return v[index]; }
+        constexpr T& operator[](size_t index) noexcept { return v[index]; }
+        constexpr T operator[](size_t index) const noexcept { return v[index]; }
 
-        inline T& x() { return v[0]; }
-        inline T x() const { return v[0]; }
+        constexpr T& x() noexcept { return v[0]; }
+        constexpr T x() const noexcept { return v[0]; }
 
-        inline T& y() { return v[1]; }
-        inline T y() const { return v[1]; }
+        constexpr T& y() noexcept { return v[1]; }
+        constexpr T y() const noexcept { return v[1]; }
 
-        inline T& z() { return v[2]; }
-        inline T z() const { return v[2]; }
+        constexpr T& z() noexcept { return v[2]; }
+        constexpr T z() const noexcept { return v[2]; }
 
-        inline T& w() { return v[3]; }
-        inline T w() const { return v[3]; }
+        constexpr T& w() noexcept { return v[3]; }
+        constexpr T w() const noexcept { return v[3]; }
 
-        static constexpr Quaternion identity()
+        static constexpr Quaternion identity() noexcept
         {
             return Quaternion(0, 0, 0, 1);
         }

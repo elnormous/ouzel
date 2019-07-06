@@ -17,43 +17,43 @@ namespace ouzel
         constexpr Size() {}
 
         template <typename ...A>
-        constexpr Size(A... args):
+        constexpr Size(A... args) noexcept:
             v{static_cast<T>(args)...}
         {
         }
 
         template <size_t X = N, size_t N2, typename std::enable_if<(X != N2)>::type* = nullptr>
-        explicit Size(const Size<N2, T>& size)
+        explicit Size(const Size<N2, T>& size) noexcept
         {
             for (size_t i = 0; i < N && i < N2; ++i)
                 v[i] = size.v[i];
         }
 
-        explicit Size(const Vector<N, T>& vec):
+        explicit Size(const Vector<N, T>& vec) noexcept:
             v(vec.v)
         {
         }
 
-        inline T& operator[](size_t index) { return v[index]; }
-        inline T operator[](size_t index) const { return v[index]; }
+        constexpr T& operator[](size_t index) noexcept { return v[index]; }
+        constexpr T operator[](size_t index) const noexcept { return v[index]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
-        inline T& width() { return v[0]; }
+        constexpr T& width() noexcept { return v[0]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
-        inline T width() const { return v[0]; }
+        constexpr T width() const noexcept { return v[0]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
-        inline T& height() { return v[1]; }
+        constexpr T& height() noexcept { return v[1]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
-        inline T height() const { return v[1]; }
+        constexpr T height() const noexcept { return v[1]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
-        inline T& depth() { return v[2]; }
+        constexpr T& depth() noexcept { return v[2]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
-        inline T depth() const { return v[2]; }
+        constexpr T depth() const noexcept { return v[2]; }
 
         inline void scale(const Vector<N, T>& scale)
         {

@@ -19,47 +19,47 @@ namespace ouzel
 #endif
         T v[N]{0};
 
-        constexpr Vector() {}
+        constexpr Vector() noexcept {}
 
         template <typename ...A>
-        constexpr Vector(A... args):
+        constexpr Vector(A... args) noexcept:
             v{static_cast<T>(args)...}
         {
         }
 
         template <size_t X = N, size_t N2, typename std::enable_if<(X != N2)>::type* = nullptr>
-        explicit Vector(const Vector<N2, T>& vec)
+        explicit Vector(const Vector<N2, T>& vec) noexcept
         {
             for (size_t i = 0; i < N && i < N2; ++i)
                 v[i] = vec.v[i];
         }
 
-        inline T& operator[](size_t index) { return v[index]; }
-        inline T operator[](size_t index) const { return v[index]; }
+        constexpr T& operator[](size_t index) noexcept { return v[index]; }
+        constexpr T operator[](size_t index) const noexcept { return v[index]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
-        inline T& x() { return v[0]; }
+        constexpr T& x() noexcept { return v[0]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
-        inline T x() const { return v[0]; }
+        constexpr T x() const noexcept { return v[0]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
-        inline T& y() { return v[1]; }
+        constexpr T& y() noexcept { return v[1]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
-        inline T y() const { return v[1]; }
+        constexpr T y() const noexcept { return v[1]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
-        inline T& z() { return v[2]; }
+        constexpr T& z() noexcept { return v[2]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
-        inline T z() const { return v[2]; }
+        constexpr T z() const noexcept { return v[2]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 4)>::type* = nullptr>
-        inline T& w() { return v[3]; }
+        constexpr T& w() noexcept { return v[3]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 4)>::type* = nullptr>
-        inline T w() const { return v[3]; }
+        constexpr T w() const noexcept { return v[3]; }
 
         template <size_t X = N, typename std::enable_if<(X == 2)>::type* = nullptr>
         inline auto getAngle() const
