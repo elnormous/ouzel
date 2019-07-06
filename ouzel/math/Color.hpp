@@ -125,19 +125,19 @@ namespace ouzel
         static constexpr Color white() { return Color(255, 255, 255, 255); }
         static constexpr Color gray() { return Color(128, 128, 128, 255); }
 
-        constexpr uint8_t& operator[](size_t index) { return v[index]; }
-        constexpr uint8_t operator[](size_t index) const { return v[index]; }
+        uint8_t& operator[](size_t index) noexcept { return v[index]; }
+        constexpr uint8_t operator[](size_t index) const noexcept { return v[index]; }
 
-        constexpr uint8_t& r() noexcept { return v[0]; }
+        uint8_t& r() noexcept { return v[0]; }
         constexpr uint8_t r() const noexcept { return v[0]; }
 
-        constexpr uint8_t& g() noexcept { return v[1]; }
+        uint8_t& g() noexcept { return v[1]; }
         constexpr uint8_t g() const noexcept { return v[1]; }
 
-        constexpr uint8_t& b() noexcept { return v[2]; }
+        uint8_t& b() noexcept { return v[2]; }
         constexpr uint8_t b() const noexcept { return v[2]; }
 
-        constexpr uint8_t& a() noexcept { return v[3]; }
+        uint8_t& a() noexcept { return v[3]; }
         constexpr uint8_t a() const noexcept { return v[3]; }
 
         inline std::array<float, 4> norm() const
@@ -149,7 +149,7 @@ namespace ouzel
         constexpr float normB() const noexcept { return v[2] / 255.0F; }
         constexpr float normA() const noexcept { return v[3] / 255.0F; }
 
-        inline auto getIntValue() const noexcept
+        constexpr auto getIntValue() const noexcept
         {
             return (static_cast<uint32_t>(v[0]) << 24) |
                    (static_cast<uint32_t>(v[1]) << 16) |

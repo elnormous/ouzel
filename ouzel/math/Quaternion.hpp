@@ -22,19 +22,19 @@ namespace ouzel
         {
         }
 
-        constexpr T& operator[](size_t index) noexcept { return v[index]; }
+        T& operator[](size_t index) noexcept { return v[index]; }
         constexpr T operator[](size_t index) const noexcept { return v[index]; }
 
-        constexpr T& x() noexcept { return v[0]; }
+        T& x() noexcept { return v[0]; }
         constexpr T x() const noexcept { return v[0]; }
 
-        constexpr T& y() noexcept { return v[1]; }
+        T& y() noexcept { return v[1]; }
         constexpr T y() const noexcept { return v[1]; }
 
-        constexpr T& z() noexcept { return v[2]; }
+        T& z() noexcept { return v[2]; }
         constexpr T z() const noexcept { return v[2]; }
 
-        constexpr T& w() noexcept { return v[3]; }
+        T& w() noexcept { return v[3]; }
         constexpr T w() const noexcept { return v[3]; }
 
         static constexpr Quaternion identity() noexcept

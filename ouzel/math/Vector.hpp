@@ -34,29 +34,29 @@ namespace ouzel
                 v[i] = vec.v[i];
         }
 
-        constexpr T& operator[](size_t index) noexcept { return v[index]; }
+        T& operator[](size_t index) noexcept { return v[index]; }
         constexpr T operator[](size_t index) const noexcept { return v[index]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
-        constexpr T& x() noexcept { return v[0]; }
+        T& x() noexcept { return v[0]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
         constexpr T x() const noexcept { return v[0]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
-        constexpr T& y() noexcept { return v[1]; }
+        T& y() noexcept { return v[1]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
         constexpr T y() const noexcept { return v[1]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
-        constexpr T& z() noexcept { return v[2]; }
+        T& z() noexcept { return v[2]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         constexpr T z() const noexcept { return v[2]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 4)>::type* = nullptr>
-        constexpr T& w() noexcept { return v[3]; }
+        T& w() noexcept { return v[3]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 4)>::type* = nullptr>
         constexpr T w() const noexcept { return v[3]; }

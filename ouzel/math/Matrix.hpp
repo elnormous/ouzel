@@ -31,7 +31,7 @@ namespace ouzel
         {
         }
 
-        constexpr T& operator[](size_t index) noexcept { return m[index]; }
+        T& operator[](size_t index) noexcept { return m[index]; }
         constexpr T operator[](size_t index) const noexcept { return m[index]; }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
