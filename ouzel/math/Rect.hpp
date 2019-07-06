@@ -14,14 +14,14 @@ namespace ouzel
         Vector<2, T> position;
         Size<2, T> size;
 
-        Rect() {}
+        constexpr Rect() noexcept {}
 
-        Rect(T width, T height):
+        constexpr Rect(T width, T height) noexcept:
             size(width, height)
         {
         }
 
-        Rect(T x, T y, T width, T height):
+        constexpr Rect(T x, T y, T width, T height) noexcept:
             position(x, y), size(width, height)
         {
         }
@@ -41,7 +41,7 @@ namespace ouzel
             return size.isZero();
         }
 
-        inline void setPosition(T x, T y)
+        inline void setPosition(T x, T y) noexcept
         {
             position.v[0] = x;
             position.v[1] = y;
