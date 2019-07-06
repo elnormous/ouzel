@@ -204,10 +204,10 @@ namespace ouzel
                 return *this;
             }
 
-            inline auto getType() const { return type; }
-            inline auto isIntType() const { return type == Type::INT; }
-            inline auto isFloatType() const { return type == Type::FLOAT || type == Type::DOUBLE; }
-            inline auto isStringType() const { return type == Type::STRING; }
+            inline auto getType() const noexcept { return type; }
+            inline auto isIntType() const noexcept { return type == Type::INT; }
+            inline auto isFloatType() const noexcept { return type == Type::FLOAT || type == Type::DOUBLE; }
+            inline auto isStringType() const noexcept { return type == Type::STRING; }
 
             uint32_t decode(const std::vector<uint8_t>& buffer, uint32_t offset = 0);
             uint32_t encode(std::vector<uint8_t>& buffer) const;
@@ -340,7 +340,7 @@ namespace ouzel
                 return arrayValue.end();
             }
 
-            inline auto getSize() const
+            inline auto getSize() const noexcept
             {
                 assert(type == Type::ARRAY);
                 return static_cast<uint32_t>(arrayValue.size());

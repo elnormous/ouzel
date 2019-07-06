@@ -154,7 +154,7 @@ namespace ouzel
             return false;
         }
 
-        inline auto isZero() const
+        inline auto isZero() const noexcept
         {
             for (const T& c : v)
                 if (c != T(0)) return false;

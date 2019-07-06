@@ -19,8 +19,8 @@ namespace ouzel
             public:
                 virtual std::unique_ptr<Stream> createStream() = 0;
 
-                inline auto getChannels() const { return channels; }
-                inline auto getSampleRate() const { return sampleRate; }
+                inline auto getChannels() const noexcept { return channels; }
+                inline auto getSampleRate() const noexcept { return sampleRate; }
 
                 /*virtual void getData(uint32_t frames,
                                      uint16_t channels,

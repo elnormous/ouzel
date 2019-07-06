@@ -60,20 +60,20 @@ namespace ouzel
 
                 void resolve();
 
-                inline auto getFlags() const { return flags; }
-                inline auto getMipmaps() const { return mipmaps; }
-                inline auto getSampleCount() const { return sampleCount; }
-                inline auto getPixelFormat() const { return pixelFormat; }
+                inline auto getFlags() const noexcept { return flags; }
+                inline auto getMipmaps() const noexcept { return mipmaps; }
+                inline auto getSampleCount() const noexcept { return sampleCount; }
+                inline auto getPixelFormat() const noexcept { return pixelFormat; }
 
-                inline auto getTexture() const { return texture; }
-                inline auto getResourceView() const { return resourceView; }
-                inline auto getSamplerState() const { return samplerState; }
+                inline auto getTexture() const noexcept { return texture; }
+                inline auto getResourceView() const noexcept { return resourceView; }
+                inline auto getSamplerState() const noexcept { return samplerState; }
 
-                inline auto getRenderTargetView() const { return renderTargetView; }
-                inline auto getDepthStencilView() const { return depthStencilView; }
+                inline auto getRenderTargetView() const noexcept { return renderTargetView; }
+                inline auto getDepthStencilView() const noexcept { return depthStencilView; }
 
-                inline auto getWidth() const { return width; }
-                inline auto getHeight() const { return height; }
+                inline auto getWidth() const noexcept { return width; }
+                inline auto getHeight() const noexcept { return height; }
 
             private:
                 void updateSamplerState();

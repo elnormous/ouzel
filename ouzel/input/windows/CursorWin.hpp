@@ -39,7 +39,7 @@ namespace ouzel
             CursorWin(CursorWin&&) = delete;
             CursorWin& operator=(CursorWin&&) = delete;
 
-            inline auto getCursor() const { return cursor; }
+            inline auto getCursor() const noexcept { return cursor; }
 
         private:
             HCURSOR cursor = nullptr;

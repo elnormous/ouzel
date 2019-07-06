@@ -81,12 +81,12 @@ namespace ouzel
             Gamepad(Gamepad&&) = delete;
             Gamepad& operator=(Gamepad&&) = delete;
 
-            inline auto isAttached() const { return attached; }
+            inline auto isAttached() const noexcept { return attached; }
 
-            inline auto isAbsoluteDPadValues() const { return absoluteDPadValues; }
+            inline auto isAbsoluteDPadValues() const noexcept { return absoluteDPadValues; }
             void setAbsoluteDPadValues(bool newAbsoluteDPadValues);
 
-            inline auto getPlayerIndex() const { return playerIndex; }
+            inline auto getPlayerIndex() const noexcept { return playerIndex; }
             void setPlayerIndex(int32_t newPlayerIndex);
 
             inline const ButtonState& getButtonState(Button button) const

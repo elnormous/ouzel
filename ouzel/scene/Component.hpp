@@ -46,23 +46,23 @@ namespace ouzel
             Component(Component&&) = delete;
             Component& operator=(Component&&) = delete;
 
-            inline auto getClass() const { return cls; }
+            inline auto getClass() const noexcept { return cls; }
 
             virtual void draw(const Matrix4F& transformMatrix,
                               float opacity,
                               const Matrix4F& renderViewProjection,
                               bool wireframe);
 
-            virtual const Box3F& getBoundingBox() const { return boundingBox; }
+            virtual const Box3F& getBoundingBox() const noexcept { return boundingBox; }
             virtual void setBoundingBox(const Box3F& newBoundingBox) { boundingBox = newBoundingBox; }
 
             virtual bool pointOn(const Vector2F& position) const;
             virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
 
-            inline auto isHidden() const { return hidden; }
+            inline auto isHidden() const noexcept { return hidden; }
             inline void setHidden(bool newHidden) { hidden = newHidden; }
 
-            inline auto getActor() const { return actor; }
+            inline auto getActor() const noexcept { return actor; }
             void removeFromActor();
 
         protected:

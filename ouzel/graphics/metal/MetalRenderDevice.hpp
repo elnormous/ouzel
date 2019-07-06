@@ -67,7 +67,7 @@ namespace ouzel
 
                 ~RenderDevice();
 
-                inline auto getDevice() const { return device; }
+                inline auto getDevice() const noexcept { return device; }
 
                 MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 

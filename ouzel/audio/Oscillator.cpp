@@ -41,10 +41,10 @@ namespace ouzel
                 sampleRate = 44100;
             }
 
-            inline auto getFrequency() const { return frequency; }
-            inline auto getType() const { return type; }
-            inline auto getAmplitude() const { return amplitude; }
-            inline auto getLength() const { return length; }
+            inline auto getFrequency() const noexcept { return frequency; }
+            inline auto getType() const noexcept { return type; }
+            inline auto getAmplitude() const noexcept { return amplitude; }
+            inline auto getLength() const noexcept { return length; }
 
             std::unique_ptr<mixer::Stream> createStream() final
             {

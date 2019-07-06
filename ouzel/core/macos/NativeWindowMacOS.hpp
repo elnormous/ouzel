@@ -63,10 +63,10 @@ namespace ouzel
         void handleBecomeKeyChange();
         void handleResignKeyChange();
 
-        inline auto getNativeWindow() const { return window; }
-        inline auto getNativeView() const { return view; }
-        inline auto getScreen() const { return screen; }
-        inline auto getDisplayId() const { return displayId; }
+        inline auto getNativeWindow() const noexcept { return window; }
+        inline auto getNativeView() const noexcept { return view; }
+        inline auto getScreen() const noexcept { return screen; }
+        inline auto getDisplayId() const noexcept { return displayId; }
 
     private:
         NSWindowPtr window = nil;

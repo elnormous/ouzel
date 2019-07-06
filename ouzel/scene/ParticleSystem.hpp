@@ -134,10 +134,10 @@ namespace ouzel
             void stop();
             void reset();
 
-            inline auto isRunning() const { return running; }
-            inline auto isActive() const { return active; }
+            inline auto isRunning() const noexcept { return running; }
+            inline auto isActive() const noexcept { return active; }
 
-            inline auto getPositionType() const { return particleSystemData.positionType; }
+            inline auto getPositionType() const noexcept { return particleSystemData.positionType; }
             inline void setPositionType(ParticleSystemData::PositionType newPositionType) { particleSystemData.positionType = newPositionType; }
 
         private:

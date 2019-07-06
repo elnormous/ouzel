@@ -56,7 +56,7 @@ namespace ouzel
                 stb_vorbis_close(vorbisStream);
             }
 
-            const std::vector<uint8_t>& getData() const { return data; }
+            const std::vector<uint8_t>& getData() const noexcept { return data; }
 
             std::unique_ptr<mixer::Stream> createStream() final
             {

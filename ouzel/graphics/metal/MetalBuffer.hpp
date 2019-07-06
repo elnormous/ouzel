@@ -38,11 +38,11 @@ namespace ouzel
 
                 void setData(const std::vector<uint8_t>& data);
 
-                inline auto getFlags() const { return flags; }
-                inline auto getType() const { return type; }
-                inline auto getSize() const { return size; }
+                inline auto getFlags() const noexcept { return flags; }
+                inline auto getType() const noexcept { return type; }
+                inline auto getSize() const noexcept { return size; }
 
-                inline auto getBuffer() const { return buffer; }
+                inline auto getBuffer() const noexcept { return buffer; }
 
             private:
                 void createBuffer(NSUInteger newSize);

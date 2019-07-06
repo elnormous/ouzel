@@ -38,7 +38,7 @@ namespace ouzel
             Loader(Loader&&) = delete;
             Loader& operator=(Loader&&) = delete;
 
-            inline auto getType() const { return type; }
+            inline auto getType() const noexcept { return type; }
 
             virtual bool loadAsset(Bundle& bundle,
                                    const std::string& name,

@@ -38,7 +38,7 @@ namespace ouzel
             static Driver getDriver(const std::string& driver);
             static std::set<Driver> getAvailableAudioDrivers();
 
-            inline AudioDevice* getDevice() const { return device.get(); }
+            inline AudioDevice* getDevice() const noexcept { return device.get(); }
             inline mixer::Mixer& getMixer() { return mixer; }
             inline Mix& getMasterMix() { return masterMix; }
 

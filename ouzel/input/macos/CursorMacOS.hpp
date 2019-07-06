@@ -36,7 +36,7 @@ namespace ouzel
             CursorMacOS(CursorMacOS&&) = delete;
             CursorMacOS& operator=(CursorMacOS&&) = delete;
 
-            inline auto getCursor() const { return cursor; }
+            inline auto getCursor() const noexcept { return cursor; }
 
         private:
             NSCursorPtr cursor = nil;

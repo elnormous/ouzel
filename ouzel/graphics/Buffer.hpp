@@ -38,11 +38,11 @@ namespace ouzel
             void setData(const void* newData, uint32_t newSize);
             void setData(const std::vector<uint8_t>& newData);
 
-            inline const RenderDevice::Resource& getResource() const { return resource; }
+            inline const RenderDevice::Resource& getResource() const noexcept { return resource; }
 
-            inline auto getType() const { return type; }
-            inline auto getFlags() const { return flags; }
-            inline auto getSize() const { return size; }
+            inline auto getType() const noexcept { return type; }
+            inline auto getFlags() const noexcept { return flags; }
+            inline auto getSize() const noexcept { return size; }
 
         private:
             Renderer* renderer = nullptr;

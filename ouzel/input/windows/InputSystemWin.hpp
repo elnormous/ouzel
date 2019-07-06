@@ -85,7 +85,7 @@ namespace ouzel
 
             void update();
 
-            inline auto getDirectInput() const { return directInput; }
+            inline auto getDirectInput() const noexcept { return directInput; }
             void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
 
             void updateCursor() const;

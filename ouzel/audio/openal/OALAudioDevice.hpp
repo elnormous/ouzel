@@ -43,8 +43,8 @@ namespace ouzel
                 void stop() final;
                 void process();
 
-                inline auto getDevice() const { return device; }
-                inline auto getContext() const { return context; }
+                inline auto getDevice() const noexcept { return device; }
+                inline auto getContext() const noexcept { return context; }
 
             private:
                 void run();

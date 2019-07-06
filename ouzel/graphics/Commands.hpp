@@ -613,7 +613,7 @@ namespace ouzel
             {
             }
 
-            inline const std::string& getName() const { return name; }
+            inline const std::string& getName() const noexcept { return name; }
 
             inline auto isEmpty() const { return commands.empty(); }
 

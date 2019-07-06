@@ -42,19 +42,19 @@ namespace ouzel
             explicit Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
             ~Camera() override;
 
-            inline auto getProjectionMode() const { return projectionMode; }
+            inline auto getProjectionMode() const noexcept { return projectionMode; }
             inline void setProjectionMode(ProjectionMode newProjectionMode) { projectionMode = newProjectionMode; }
 
-            inline auto getFOV() const { return fov; }
+            inline auto getFOV() const noexcept { return fov; }
             inline void setFOV(float newFOV) { fov = newFOV; }
 
-            inline auto getNearPlane() const { return nearPlane; }
+            inline auto getNearPlane() const noexcept { return nearPlane; }
             inline void setNearPlane(float newNearPlane) { nearPlane = newNearPlane; }
 
-            inline auto getFarPlane() const { return farPlane; }
+            inline auto getFarPlane() const noexcept { return farPlane; }
             inline void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
 
-            inline const Matrix4F& getProjection() const { return projection; }
+            inline const Matrix4F& getProjection() const noexcept { return projection; }
             void recalculateProjection();
 
             const Matrix4F& getViewProjection() const;
@@ -66,49 +66,49 @@ namespace ouzel
 
             bool checkVisibility(const Matrix4F& boxTransform, const Box3F& box) const;
 
-            inline const RectF& getViewport() const { return viewport; }
-            inline const RectF& getRenderViewport() const { return renderViewport; }
+            inline const RectF& getViewport() const noexcept { return viewport; }
+            inline const RectF& getRenderViewport() const noexcept { return renderViewport; }
             void setViewport(const RectF& newViewport);
 
-            inline auto getScaleMode() const { return scaleMode; }
+            inline auto getScaleMode() const noexcept { return scaleMode; }
             void setScaleMode(ScaleMode newScaleMode);
 
-            inline const Size2F& getTargetContentSize() const { return targetContentSize; }
+            inline const Size2F& getTargetContentSize() const noexcept { return targetContentSize; }
             void setTargetContentSize(const Size2F& newTargetContentSize);
 
-            inline const Size2F& getContentSize() const { return contentSize; }
-            inline const Vector2F& getContentScale() const { return contentScale; }
-            inline const Vector2F& getContentPosition() const { return contentPosition; }
+            inline const Size2F& getContentSize() const noexcept { return contentSize; }
+            inline const Vector2F& getContentScale() const noexcept { return contentScale; }
+            inline const Vector2F& getContentPosition() const noexcept { return contentPosition; }
 
-            inline const std::shared_ptr<graphics::RenderTarget>& getRenderTarget() const { return renderTarget; }
+            inline const std::shared_ptr<graphics::RenderTarget>& getRenderTarget() const noexcept { return renderTarget; }
             void setRenderTarget(const std::shared_ptr<graphics::RenderTarget>& newRenderTarget);
 
-            inline auto getDepthTest() const { return depthTest; }
+            inline auto getDepthTest() const noexcept { return depthTest; }
             void setDepthTest(bool newDepthTest);
-            inline const std::shared_ptr<graphics::DepthStencilState>& getDepthStencilState() const { return depthStencilState; }
+            inline const std::shared_ptr<graphics::DepthStencilState>& getDepthStencilState() const noexcept { return depthStencilState; }
 
-            inline auto getStencilReferenceValue() const { return stencilReferenceValue; }
+            inline auto getStencilReferenceValue() const noexcept { return stencilReferenceValue; }
             inline void setStencilReferenceValue(uint32_t newStencilReferenceValue) { stencilReferenceValue = newStencilReferenceValue; }
 
-            inline auto getWireframe() const { return wireframe; }
+            inline auto getWireframe() const noexcept { return wireframe; }
             inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
-            inline auto getClearColorBuffer() const { return clearColorBuffer; }
+            inline auto getClearColorBuffer() const noexcept { return clearColorBuffer; }
             inline void setClearColorBuffer(bool clear) { clearColorBuffer = clear; }
 
-            inline auto getClearDepthBuffer() const { return clearDepthBuffer; }
+            inline auto getClearDepthBuffer() const noexcept { return clearDepthBuffer; }
             inline void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
 
-            inline auto getClearStencilBuffer() const { return clearStencilBuffer; }
+            inline auto getClearStencilBuffer() const noexcept { return clearStencilBuffer; }
             inline void setClearStencilBuffer(bool clear) { clearStencilBuffer = clear; }
 
-            inline auto getClearColor() const { return clearColor; }
+            inline auto getClearColor() const noexcept { return clearColor; }
             inline void setClearColor(Color color) { clearColor = color; }
 
-            inline auto getClearDepth() const { return clearDepth; }
+            inline auto getClearDepth() const noexcept { return clearDepth; }
             inline void setClearDepth(float depth) { clearDepth = depth; }
 
-            inline auto getClearStencil() const { return clearStencil; }
+            inline auto getClearStencil() const noexcept { return clearStencil; }
             inline void setClearDepth(uint32_t stencil) { clearStencil = stencil; }
 
         private:

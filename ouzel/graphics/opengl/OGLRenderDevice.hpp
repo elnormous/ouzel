@@ -197,8 +197,8 @@ namespace ouzel
                 explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
                 virtual ~RenderDevice();
 
-                inline auto isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
-                inline auto isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }
+                inline auto isTextureBaseLevelSupported() const noexcept { return textureBaseLevelSupported; }
+                inline auto isTextureMaxLevelSupported() const noexcept { return textureMaxLevelSupported; }
 
                 inline void setFrontFace(GLenum mode)
                 {

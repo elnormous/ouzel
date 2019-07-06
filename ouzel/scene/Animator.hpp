@@ -28,23 +28,23 @@ namespace ouzel
             virtual void stop(bool resetAnimation = false);
             virtual void reset();
 
-            inline auto isRunning() const { return running; }
-            inline auto isDone() const { return done; }
+            inline auto isRunning() const noexcept { return running; }
+            inline auto isDone() const noexcept { return done; }
 
-            inline auto getLength() const { return length; }
-            inline auto getCurrentTime() const { return currentTime; }
+            inline auto getLength() const noexcept { return length; }
+            inline auto getCurrentTime() const noexcept { return currentTime; }
 
-            inline auto getProgress() const { return progress; }
+            inline auto getProgress() const noexcept { return progress; }
             virtual void setProgress(float newProgress);
 
-            inline auto getTargetActor() const { return targetActor; }
+            inline auto getTargetActor() const noexcept { return targetActor; }
 
             void addAnimator(std::unique_ptr<Animator> animator);
             void addAnimator(Animator* animator);
             bool removeAnimator(Animator* animator);
             void removeAllAnimators();
 
-            inline auto getParent() const { return parent; }
+            inline auto getParent() const noexcept { return parent; }
             void removeFromParent();
 
         protected:

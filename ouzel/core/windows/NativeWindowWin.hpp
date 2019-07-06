@@ -62,11 +62,11 @@ namespace ouzel
         void handleMouseWheel(UINT message, WPARAM wParam, LPARAM lParam);
         void handleTouch(WPARAM wParam, LPARAM lParam);
 
-        inline auto getNativeWindow() const { return window; }
+        inline auto getNativeWindow() const noexcept { return window; }
         void addAccelerator(HACCEL accelerator);
         void removeAccelerator(HACCEL accelerator);
 
-        inline auto getMonitor() const { return monitor; }
+        inline auto getMonitor() const noexcept { return monitor; }
 
     private:
         void switchFullscreen(bool newFullscreen);

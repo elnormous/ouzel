@@ -39,19 +39,19 @@ namespace ouzel
                 return *this;
             }
 
-            inline const std::shared_ptr<Sound>& getSound() const { return sound; }
+            inline const std::shared_ptr<Sound>& getSound() const noexcept { return sound; }
 
-            inline const Vector3F& getPosition() const { return position; }
+            inline const Vector3F& getPosition() const noexcept { return position; }
             inline void setPosition(const Vector3F& newPosition) { position = newPosition; }
 
-            inline const Vector3F& getVelocity() const { return velocity; }
+            inline const Vector3F& getVelocity() const noexcept { return velocity; }
             inline void setVelocity(const Vector3F& newVelocity) { velocity = newVelocity; }
 
             void play();
             void pause();
             void stop();
 
-            inline auto isPlaying() const { return playing; }
+            inline auto isPlaying() const noexcept { return playing; }
 
             void setOutput(Mix* newOutput);
 

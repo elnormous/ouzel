@@ -57,21 +57,21 @@ namespace ouzel
                     uint32_t size;
                 };
 
-                inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
+                inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const noexcept { return vertexAttributes; }
 
-                inline auto getFragmentShaderAlignment() const { return fragmentShaderAlignment; }
-                inline auto getVertexShaderAlignment() const { return vertexShaderAlignment; }
+                inline auto getFragmentShaderAlignment() const noexcept { return fragmentShaderAlignment; }
+                inline auto getVertexShaderAlignment() const noexcept { return vertexShaderAlignment; }
 
-                inline const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
-                inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
+                inline const std::vector<Location>& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
+                inline const std::vector<Location>& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
 
-                inline auto getFragmentShader() const { return fragmentShader; }
-                inline auto getVertexShader() const { return vertexShader; }
+                inline auto getFragmentShader() const noexcept { return fragmentShader; }
+                inline auto getVertexShader() const noexcept { return vertexShader; }
 
-                inline auto getVertexDescriptor() const { return vertexDescriptor; }
+                inline auto getVertexDescriptor() const noexcept { return vertexDescriptor; }
 
-                inline auto getFragmentShaderConstantBufferSize() const { return fragmentShaderConstantSize; }
-                inline auto getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
+                inline auto getFragmentShaderConstantBufferSize() const noexcept { return fragmentShaderConstantSize; }
+                inline auto getVertexShaderConstantBufferSize() const noexcept { return vertexShaderConstantSize; }
 
             private:
                 std::set<Vertex::Attribute::Usage> vertexAttributes;

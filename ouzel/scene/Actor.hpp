@@ -42,9 +42,9 @@ namespace ouzel
             bool moveChildToFront(Actor* actor);
             virtual void removeAllChildren();
             virtual bool hasChild(Actor* actor, bool recursive = false) const;
-            virtual const std::vector<Actor*>& getChildren() const { return children; }
+            virtual const std::vector<Actor*>& getChildren() const noexcept { return children; }
 
-            inline auto getLayer() const { return layer; }
+            inline auto getLayer() const noexcept { return layer; }
 
             std::vector<std::pair<Actor*, Vector3F>> findActors(const Vector2F& position) const;
             std::vector<Actor*> findActors(const std::vector<Vector2F>& edges) const;
@@ -78,40 +78,40 @@ namespace ouzel
                                bool parentHidden);
             virtual void draw(Camera* camera, bool wireframe);
 
-            virtual const Vector3F& getPosition() const { return position; }
+            virtual const Vector3F& getPosition() const noexcept { return position; }
             virtual void setPosition(const Vector2F& newPosition);
             virtual void setPosition(const Vector3F& newPosition);
 
-            inline auto getOrder() const { return order; }
+            inline auto getOrder() const noexcept { return order; }
             inline void setOrder(int32_t newOrder) { order = newOrder; }
 
-            virtual const QuaternionF& getRotation() const { return rotation; }
+            virtual const QuaternionF& getRotation() const noexcept { return rotation; }
             virtual void setRotation(const QuaternionF& newRotation);
             virtual void setRotation(const Vector3F& newRotation);
             virtual void setRotation(float newRotation);
 
-            virtual const Vector3F& getScale() const { return scale; }
+            virtual const Vector3F& getScale() const noexcept { return scale; }
             virtual void setScale(const Vector2F& newScale);
             virtual void setScale(const Vector3F& newScale);
 
-            virtual float getOpacity() const { return opacity; }
+            virtual float getOpacity() const noexcept { return opacity; }
             virtual void setOpacity(float newOpacity);
 
-            virtual bool getFlipX() const { return flipX; }
+            virtual bool getFlipX() const noexcept { return flipX; }
             virtual void setFlipX(bool newFlipX);
 
-            virtual bool getFlipY() const { return flipY; }
+            virtual bool getFlipY() const noexcept { return flipY; }
             virtual void setFlipY(bool newFlipY);
 
-            virtual bool isPickable() const { return pickable; }
+            virtual bool isPickable() const noexcept { return pickable; }
             virtual void setPickable(bool newPickable) { pickable = newPickable; }
 
-            virtual bool isCullDisabled() const { return cullDisabled; }
+            virtual bool isCullDisabled() const noexcept { return cullDisabled; }
             virtual void setCullDisabled(bool newCullDisabled) { cullDisabled = newCullDisabled; }
 
-            virtual bool isHidden() const { return hidden; }
+            virtual bool isHidden() const noexcept { return hidden; }
             virtual void setHidden(bool newHidden);
-            inline auto isWorldHidden() const { return worldHidden; }
+            inline auto isWorldHidden() const noexcept { return worldHidden; }
 
             virtual bool pointOn(const Vector2F& worldPosition) const;
             virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
@@ -143,7 +143,7 @@ namespace ouzel
             Vector3F convertWorldToLocal(const Vector3F& worldPosition) const;
             Vector3F convertLocalToWorld(const Vector3F& localPosition) const;
 
-            inline auto getParent() const { return parent; }
+            inline auto getParent() const noexcept { return parent; }
             void removeFromParent();
 
             void addChild(Actor* actor) override;
@@ -153,7 +153,7 @@ namespace ouzel
             bool removeComponent(Component* component);
 
             void removeAllComponents();
-            inline const std::vector<Component*>& getComponents() const { return components; }
+            inline const std::vector<Component*>& getComponents() const noexcept { return components; }
             std::vector<Component*> getComponents(uint32_t cls) const;
 
             Box3F getBoundingBox() const;

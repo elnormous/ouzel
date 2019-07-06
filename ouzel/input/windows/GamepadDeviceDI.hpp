@@ -37,7 +37,7 @@ namespace ouzel
             ~GamepadDeviceDI();
             void update();
 
-            inline auto getInstance() const { return instance; }
+            inline auto getInstance() const noexcept { return instance; }
 
         private:
             void checkInputBuffered();

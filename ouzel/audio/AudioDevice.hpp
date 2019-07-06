@@ -30,14 +30,14 @@ namespace ouzel
             AudioDevice(AudioDevice&&) = delete;
             AudioDevice& operator=(AudioDevice&&) = delete;
 
-            inline auto getDriver() const { return driver; }
+            inline auto getDriver() const noexcept { return driver; }
 
-            inline auto getAPIMajorVersion() const { return apiMajorVersion; }
-            inline auto getAPIMinorVersion() const { return apiMinorVersion; }
+            inline auto getAPIMajorVersion() const noexcept { return apiMajorVersion; }
+            inline auto getAPIMinorVersion() const noexcept { return apiMinorVersion; }
 
-            inline auto getBufferSize() const { return bufferSize; }
-            inline auto getSampleRate() const { return sampleRate; }
-            inline auto getChannels() const { return channels; }
+            inline auto getBufferSize() const noexcept { return bufferSize; }
+            inline auto getSampleRate() const noexcept { return sampleRate; }
+            inline auto getChannels() const noexcept { return channels; }
 
             virtual void start() = 0;
             virtual void stop() = 0;

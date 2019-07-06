@@ -44,15 +44,15 @@ namespace ouzel
                              Texture* initDepthTexture);
                 ~RenderTarget();
 
-                inline const std::set<Texture*>& getColorTextures() const { return colorTextures; }
+                inline const std::set<Texture*>& getColorTextures() const noexcept { return colorTextures; }
                 inline auto getDepthTexture() const { return depthTexture; }
 
-                inline auto getSampleCount() const { return sampleCount; }
-                inline const std::vector<MTLPixelFormat>& getColorFormats() const { return colorFormats; }
-                inline auto getDepthFormat() const { return depthFormat; }
-                inline auto getStencilFormat() const { return stencilFormat; }
+                inline auto getSampleCount() const noexcept { return sampleCount; }
+                inline const std::vector<MTLPixelFormat>& getColorFormats() const noexcept { return colorFormats; }
+                inline auto getDepthFormat() const noexcept { return depthFormat; }
+                inline auto getStencilFormat() const noexcept { return stencilFormat; }
 
-                inline auto getRenderPassDescriptor() const { return renderPassDescriptor; }
+                inline auto getRenderPassDescriptor() const noexcept { return renderPassDescriptor; }
 
             private:
                 std::set<Texture*> colorTextures;

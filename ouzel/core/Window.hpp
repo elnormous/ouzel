@@ -48,19 +48,19 @@ namespace ouzel
         void close();
         void update();
 
-        inline const Size2U& getSize() const { return size; }
+        inline const Size2U& getSize() const noexcept { return size; }
         void setSize(const Size2U& newSize);
 
-        inline const Size2U& getResolution() const { return resolution; }
+        inline const Size2U& getResolution() const noexcept { return resolution; }
 
-        inline auto isResizable() const { return resizable; }
+        inline auto isResizable() const noexcept { return resizable; }
 
         void setFullscreen(bool newFullscreen);
-        inline auto isFullscreen() const { return fullscreen; }
+        inline auto isFullscreen() const noexcept { return fullscreen; }
 
-        inline auto isExclusiveFullscreen() const { return exclusiveFullscreen; }
+        inline auto isExclusiveFullscreen() const noexcept { return exclusiveFullscreen; }
 
-        inline const std::string& getTitle() const { return title; }
+        inline const std::string& getTitle() const noexcept { return title; }
         void setTitle(const std::string& newTitle);
         void bringToFront();
         void show();
@@ -69,8 +69,8 @@ namespace ouzel
         void maximize();
         void restore();
 
-        inline auto isVisible() const { return visible; }
-        inline auto isMinimized() const { return minimized; }
+        inline auto isVisible() const noexcept { return visible; }
+        inline auto isMinimized() const noexcept { return minimized; }
 
         inline auto convertWindowToNormalizedLocation(const Vector2F& position) const
         {

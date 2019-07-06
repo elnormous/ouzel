@@ -45,36 +45,36 @@ namespace ouzel
                     uint32_t initFlags = 0,
                     PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            inline const RenderDevice::Resource& getResource() const { return resource; }
+            inline const RenderDevice::Resource& getResource() const noexcept { return resource; }
 
-            inline const Size2U& getSize() const { return size; }
+            inline const Size2U& getSize() const noexcept { return size; }
 
             void setData(const std::vector<uint8_t>& newData, CubeFace face = CubeFace::POSITIVE_X);
 
-            inline auto getFlags() const { return flags; }
-            inline auto getMipmaps() const { return mipmaps; }
+            inline auto getFlags() const noexcept { return flags; }
+            inline auto getMipmaps() const noexcept { return mipmaps; }
 
-            inline auto getFilter() const { return filter; }
+            inline auto getFilter() const noexcept { return filter; }
             void setFilter(SamplerFilter newFilter);
 
-            inline auto getAddressX() const { return addressX; }
+            inline auto getAddressX() const noexcept { return addressX; }
             void setAddressX(SamplerAddressMode newAddressX);
 
-            inline auto getAddressY() const { return addressY; }
+            inline auto getAddressY() const noexcept { return addressY; }
             void setAddressY(SamplerAddressMode newAddressY);
 
-            inline auto getAddressZ() const { return addressZ; }
+            inline auto getAddressZ() const noexcept { return addressZ; }
             void setAddressZ(SamplerAddressMode newAddressZ);
 
-            inline auto getBorderColor() const { return borderColor; }
+            inline auto getBorderColor() const noexcept { return borderColor; }
             void setBorderColor(Color newBorderColor);
 
-            inline auto getMaxAnisotropy() const { return maxAnisotropy; }
+            inline auto getMaxAnisotropy() const noexcept { return maxAnisotropy; }
             void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
-            inline auto getSampleCount() const { return sampleCount; }
+            inline auto getSampleCount() const noexcept { return sampleCount; }
 
-            inline auto getPixelFormat() const { return pixelFormat; }
+            inline auto getPixelFormat() const noexcept { return pixelFormat; }
 
         private:
             Renderer* renderer = nullptr;

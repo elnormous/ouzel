@@ -45,7 +45,7 @@ namespace ouzel
                 void start() final;
                 void stop() final;
 
-                inline auto getDirectSound() const { return directSound; }
+                inline auto getDirectSound() const noexcept { return directSound; }
 
             private:
                 void run();

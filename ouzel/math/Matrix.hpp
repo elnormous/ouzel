@@ -373,37 +373,37 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        Plane<T> getFrustumLeftPlane() const
+        inline auto getFrustumLeftPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12]);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline Plane<T> getFrustumRightPlane() const
+        inline auto getFrustumRightPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12]);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline Plane<T> getFrustumBottomPlane() const
+        inline auto getFrustumBottomPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13]);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline Plane<T> getFrustumTopPlane() const
+        inline auto getFrustumTopPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13]);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline Plane<T> getFrustumNearPlane() const
+        inline auto getFrustumNearPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14]);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline Plane<T> getFrustumFarPlane() const
+        inline auto getFrustumFarPlane() const
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14]);
         }
@@ -518,7 +518,7 @@ namespace ouzel
         void invert(Matrix& dst) const;
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == Y)>::type* = nullptr>
-        inline auto isIdentity() const
+        inline auto isIdentity() const noexcept
         {
             for (size_t r = 0; r < R; ++r)
                 for (size_t c = 0; c < C; ++c)

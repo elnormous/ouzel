@@ -23,8 +23,8 @@ namespace ouzel
             InputDevice(InputDevice&&) = delete;
             InputDevice& operator=(InputDevice&&) = delete;
 
-            inline auto getId() const { return id; }
-            inline auto getType() const { return type; }
+            inline auto getId() const noexcept { return id; }
+            inline auto getType() const noexcept { return type; }
 
         protected:
             InputSystem& inputSystem;

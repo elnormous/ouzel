@@ -50,12 +50,12 @@ namespace ouzel
                       const Vector2F& sourceOffset,
                       const Vector2F& pivot);
 
-                inline const std::string& getName() const { return name; }
+                inline const std::string& getName() const noexcept { return name; }
 
-                inline const Box2F& getBoundingBox() const { return boundingBox; }
-                inline auto getIndexCount() const { return indexCount; }
-                inline const std::shared_ptr<graphics::Buffer>& getIndexBuffer() const { return indexBuffer; }
-                inline const std::shared_ptr<graphics::Buffer>& getVertexBuffer() const { return vertexBuffer; }
+                inline const Box2F& getBoundingBox() const noexcept { return boundingBox; }
+                inline auto getIndexCount() const noexcept { return indexCount; }
+                inline const std::shared_ptr<graphics::Buffer>& getIndexBuffer() const noexcept { return indexBuffer; }
+                inline const std::shared_ptr<graphics::Buffer>& getVertexBuffer() const noexcept { return vertexBuffer; }
 
             private:
                 std::string name;
@@ -103,20 +103,20 @@ namespace ouzel
                       const Matrix4F& renderViewProjection,
                       bool wireframe) override;
 
-            inline const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
+            inline const std::shared_ptr<graphics::Material>& getMaterial() const noexcept { return material; }
             inline void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
-            inline const Vector2F& getOffset() const { return offset; }
+            inline const Vector2F& getOffset() const noexcept { return offset; }
             void setOffset(const Vector2F& newOffset);
 
             void play();
             void stop(bool resetAnimation = true);
             void reset();
-            inline auto isPlaying() const { return playing; }
+            inline auto isPlaying() const noexcept { return playing; }
 
-            inline const std::map<std::string, SpriteData::Animation>& getAnimations() const { return animations; }
-            inline const SpriteData::Animation* getAnimation() const { return currentAnimation->animation; }
-            inline const std::string& getAnimationName() const { return currentAnimation->animation->name; }
+            inline const std::map<std::string, SpriteData::Animation>& getAnimations() const noexcept { return animations; }
+            inline const SpriteData::Animation* getAnimation() const noexcept { return currentAnimation->animation; }
+            inline const std::string& getAnimationName() const noexcept { return currentAnimation->animation->name; }
             bool hasAnimation(const std::string& animation) const;
             void setAnimation(const std::string& newAnimation, bool repeat = true);
             void addAnimation(const std::string& newAnimation, bool repeat = true);

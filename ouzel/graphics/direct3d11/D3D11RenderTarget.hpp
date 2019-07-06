@@ -32,8 +32,8 @@ namespace ouzel
 
                 void resolve();
 
-                inline const std::vector<ID3D11RenderTargetView*>& getRenderTargetViews() const { return renderTargetViews; }
-                inline auto getDepthStencilView() const { return depthStencilView; }
+                inline const std::vector<ID3D11RenderTargetView*>& getRenderTargetViews() const noexcept { return renderTargetViews; }
+                inline auto getDepthStencilView() const noexcept { return depthStencilView; }
 
             private:
                 std::set<Texture*> colorTextures;

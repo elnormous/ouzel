@@ -47,19 +47,19 @@ namespace ouzel
 
                 void reload() final {}
 
-                inline auto getModeRGB() const { return modeRGB; }
-                inline auto getModeAlpha() const { return modeAlpha; }
+                inline auto getModeRGB() const noexcept { return modeRGB; }
+                inline auto getModeAlpha() const noexcept { return modeAlpha; }
 
-                inline auto getSourceFactorRGB() const { return sourceFactorRGB; }
-                inline auto getDestFactorRGB() const { return destFactorRGB; }
-                inline auto getSourceFactorAlpha() const { return sourceFactorAlpha; }
-                inline auto getDestFactorAlpha() const { return destFactorAlpha; }
-                inline auto isBlendEnabled() const { return blendEnabled; }
+                inline auto getSourceFactorRGB() const noexcept { return sourceFactorRGB; }
+                inline auto getDestFactorRGB() const noexcept { return destFactorRGB; }
+                inline auto getSourceFactorAlpha() const noexcept { return sourceFactorAlpha; }
+                inline auto getDestFactorAlpha() const noexcept { return destFactorAlpha; }
+                inline auto isBlendEnabled() const noexcept { return blendEnabled; }
 
-                inline auto getRedMask() const { return redMask; }
-                inline auto getGreenMask() const { return greenMask; }
-                inline auto getBlueMask() const { return blueMask; }
-                inline auto getAlphaMask() const { return alphaMask; }
+                inline auto getRedMask() const noexcept { return redMask; }
+                inline auto getGreenMask() const noexcept { return greenMask; }
+                inline auto getBlueMask() const noexcept { return blueMask; }
+                inline auto getAlphaMask() const noexcept { return alphaMask; }
 
             private:
                 GLenum modeRGB = GL_NONE;

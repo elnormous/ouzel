@@ -136,7 +136,7 @@ namespace ouzel
                 return *this;
             }
 
-            inline auto isOpen() const
+            inline auto isOpen() const noexcept
             {
 #if defined(_WIN32)
                 return file != INVALID_HANDLE_VALUE;

@@ -30,7 +30,7 @@ namespace ouzel
                     if (output) output->removeInput(this);
                 }
 
-                const Data& getData() const { return data; }
+                const Data& getData() const noexcept { return data; }
 
                 void setOutput(Bus* newOutput)
                 {
@@ -39,7 +39,7 @@ namespace ouzel
                     if (output) output->addInput(this);
                 }
 
-                inline auto isPlaying() const { return playing; }
+                inline auto isPlaying() const noexcept { return playing; }
                 void play() { playing = true; }
 
                 void stop(bool shouldReset)

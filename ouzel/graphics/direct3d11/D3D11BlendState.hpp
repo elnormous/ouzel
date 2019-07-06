@@ -35,7 +35,7 @@ namespace ouzel
                            uint8_t colorMask);
                 ~BlendState();
 
-                inline auto getBlendState() const { return blendState; }
+                inline auto getBlendState() const noexcept { return blendState; }
 
             private:
                 ID3D11BlendState* blendState = nullptr;

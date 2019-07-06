@@ -31,7 +31,7 @@ namespace ouzel
                 virtual void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                                      std::vector<float>& samples) = 0;
 
-                inline auto isEnabled() const { return enabled; }
+                inline auto isEnabled() const noexcept { return enabled; }
                 inline void setEnabled(bool newEnabled) { enabled = newEnabled; }
 
             private:

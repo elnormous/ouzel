@@ -35,9 +35,9 @@ namespace ouzel
 
         void executeCommand(const Command& command) final;
 
-        inline auto getNativeWindow() const { return window; }
-        inline auto getNativeView() const { return view; }
-        inline auto getTextField() const { return textField; }
+        inline auto getNativeWindow() const noexcept { return window; }
+        inline auto getNativeView() const noexcept { return view; }
+        inline auto getTextField() const noexcept { return textField; }
 
         void handleResize(const Size2U& newSize);
 

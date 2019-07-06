@@ -149,7 +149,7 @@ namespace ouzel
         inline float normB() const { return v[2] / 255.0F; }
         inline float normA() const { return v[3] / 255.0F; }
 
-        inline auto getIntValue() const
+        inline auto getIntValue() const noexcept
         {
             return (static_cast<uint32_t>(v[0]) << 24) |
                    (static_cast<uint32_t>(v[1]) << 16) |
@@ -184,7 +184,7 @@ namespace ouzel
                 v[3] != c.v[3];
         }
 
-        inline auto isZero() const
+        inline auto isZero() const noexcept
         {
             return v[0] == 0 &&
                 v[1] == 0 &&

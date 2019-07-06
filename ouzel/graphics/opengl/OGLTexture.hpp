@@ -57,22 +57,22 @@ namespace ouzel
                 void setAddressZ(SamplerAddressMode newAddressZ);
                 void setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
-                inline auto getFlags() const { return flags; }
-                inline auto getMipmaps() const { return mipmaps; }
+                inline auto getFlags() const noexcept { return flags; }
+                inline auto getMipmaps() const noexcept { return mipmaps; }
 
-                inline auto getFilter() const { return filter; }
-                inline auto getAddressX() const { return addressX; }
-                inline auto getAddressY() const { return addressY; }
-                inline auto getMaxAnisotropy() const { return maxAnisotropy; }
-                inline auto getSampleCount() const { return sampleCount; }
+                inline auto getFilter() const noexcept { return filter; }
+                inline auto getAddressX() const noexcept { return addressX; }
+                inline auto getAddressY() const noexcept { return addressY; }
+                inline auto getMaxAnisotropy() const noexcept { return maxAnisotropy; }
+                inline auto getSampleCount() const noexcept { return sampleCount; }
 
-                inline auto getTextureId() const { return textureId; }
-                inline auto getBufferId() const { return bufferId; }
+                inline auto getTextureId() const noexcept { return textureId; }
+                inline auto getBufferId() const noexcept { return bufferId; }
 
-                inline auto getWidth() const { return width; }
-                inline auto getHeight() const { return height; }
+                inline auto getWidth() const noexcept { return width; }
+                inline auto getHeight() const noexcept { return height; }
 
-                inline auto getPixelFormat() const { return pixelFormat; }
+                inline auto getPixelFormat() const noexcept { return pixelFormat; }
 
             private:
                 void createTexture();

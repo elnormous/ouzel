@@ -370,7 +370,7 @@ namespace ouzel
                 return *this;
             }
 
-            inline auto getType() const { return type; }
+            inline auto getType() const noexcept { return type; }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             const std::string& as() const
@@ -456,7 +456,7 @@ namespace ouzel
                 return arrayValue.end();
             }
 
-            inline auto isNull() const
+            inline auto isNull() const noexcept
             {
                 assert(type == Type::OBJECT);
                 return nullValue;

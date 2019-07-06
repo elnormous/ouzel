@@ -48,17 +48,17 @@ namespace ouzel
                     uint32_t size;
                 };
 
-                inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
+                inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const noexcept { return vertexAttributes; }
 
-                const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
-                const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
+                const std::vector<Location>& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
+                const std::vector<Location>& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
 
-                inline auto getFragmentShader() const { return fragmentShader; }
-                inline auto getVertexShader() const { return vertexShader; }
+                inline auto getFragmentShader() const noexcept { return fragmentShader; }
+                inline auto getVertexShader() const noexcept { return vertexShader; }
 
-                inline auto getFragmentShaderConstantBuffer() const { return fragmentShaderConstantBuffer; }
-                inline auto getVertexShaderConstantBuffer() const { return vertexShaderConstantBuffer; }
-                inline auto getInputLayout() const { return inputLayout; }
+                inline auto getFragmentShaderConstantBuffer() const noexcept { return fragmentShaderConstantBuffer; }
+                inline auto getVertexShaderConstantBuffer() const noexcept { return vertexShaderConstantBuffer; }
+                inline auto getInputLayout() const noexcept { return inputLayout; }
 
             private:
                 std::set<Vertex::Attribute::Usage> vertexAttributes;

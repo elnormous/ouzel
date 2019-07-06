@@ -54,12 +54,12 @@ namespace ouzel
         void restore();
 
 #if OUZEL_SUPPORTS_X11
-        inline auto getNativeWindow() const { return window; }
-        inline auto getVisualInfo() const { return visualInfo; }
-        inline auto getProtocolsAtom() const { return protocolsAtom; }
-        inline auto getDeleteAtom() const { return deleteAtom; }
+        inline auto getNativeWindow() const noexcept { return window; }
+        inline auto getVisualInfo() const noexcept { return visualInfo; }
+        inline auto getProtocolsAtom() const noexcept { return protocolsAtom; }
+        inline auto getDeleteAtom() const noexcept { return deleteAtom; }
 #elif OUZEL_SUPPORTS_DISPMANX
-        const EGL_DISPMANX_WINDOW_T& getNativeWindow() const { return window; }
+        const EGL_DISPMANX_WINDOW_T& getNativeWindow() const noexcept { return window; }
 #endif
 
     private:
