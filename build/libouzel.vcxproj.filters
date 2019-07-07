@@ -274,9 +274,6 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11RenderTarget.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\network\Socket.cpp">
-      <Filter>ouzel\network</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\assets\Bundle.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>

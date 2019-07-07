@@ -560,9 +560,6 @@
 		307934D922C58CFE005A6804 /* Bank.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307934D322C58CFE005A6804 /* Bank.hpp */; };
 		307F9FFE1F1E9CA000BA73CB /* GamepadDeviceGC.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */; };
 		307F9FFF1F1E9CA000BA73CB /* GamepadDeviceGC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */; };
-		3085DA20211A4A5500F4C2D0 /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3085DA1E211A4A5500F4C2D0 /* Socket.cpp */; };
-		3085DA21211A4A5500F4C2D0 /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3085DA1E211A4A5500F4C2D0 /* Socket.cpp */; };
-		3085DA22211A4A5500F4C2D0 /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3085DA1E211A4A5500F4C2D0 /* Socket.cpp */; };
 		3085DA23211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
 		3085DA24211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
 		3085DA25211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
@@ -1015,7 +1012,6 @@
 		307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceGC.mm; sourceTree = "<group>"; };
 		3082C3461D94A8D90090FC9D /* PixelFormat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
 		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
-		3085DA1E211A4A5500F4C2D0 /* Socket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Socket.cpp; sourceTree = "<group>"; };
 		3085DA1F211A4A5500F4C2D0 /* Socket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Socket.hpp; sourceTree = "<group>"; };
 		3098A5531EA01C8A00528A54 /* GamepadDeviceIOKit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceIOKit.hpp; sourceTree = "<group>"; };
 		3098A5541EA01C8A00528A54 /* GamepadDeviceIOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadDeviceIOKit.cpp; sourceTree = "<group>"; };
@@ -1636,7 +1632,6 @@
 				304F92A41F4D89C50063EEC0 /* Network.hpp */,
 				30231FFD22184518007E0AAD /* Server.cpp */,
 				30231FFE22184518007E0AAD /* Server.hpp */,
-				3085DA1E211A4A5500F4C2D0 /* Socket.cpp */,
 				3085DA1F211A4A5500F4C2D0 /* Socket.hpp */,
 			);
 			path = network;
@@ -2480,7 +2475,6 @@
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				30FFBE372158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
 				304F92A51F4D89C50063EEC0 /* Network.cpp in Sources */,
-				3085DA20211A4A5500F4C2D0 /* Socket.cpp in Sources */,
 				3009341D1C88698500CC50D3 /* Window.cpp in Sources */,
 				30216B631ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
 				30AEFA3420C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */,
@@ -2603,7 +2597,6 @@
 				30FFBE392158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
 				303B04C61E207B7800011CBE /* OGLRenderDeviceTVOS.mm in Sources */,
 				3009341E1C88698500CC50D3 /* Window.cpp in Sources */,
-				3085DA22211A4A5500F4C2D0 /* Socket.cpp in Sources */,
 				304F92A71F4D89C50063EEC0 /* Network.cpp in Sources */,
 				30AEFA3620C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */,
 				3098A5601EA01CA900528A54 /* GamepadDeviceTVOS.mm in Sources */,
@@ -2677,7 +2670,6 @@
 				303820871D816C9E00677CAB /* NativeWindowMacOS.mm in Sources */,
 				30216B641ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
 				30FFBE3B2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
-				3085DA21211A4A5500F4C2D0 /* Socket.cpp in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				C6DBB72E22920078009F8DF9 /* Node.cpp in Sources */,
 				C6C9102B21B54EE000B5FCB7 /* Oscillator.cpp in Sources */,

@@ -123,7 +123,6 @@
     <ClCompile Include="..\ouzel\network\Client.cpp" />
     <ClCompile Include="..\ouzel\network\Network.cpp" />
     <ClCompile Include="..\ouzel\network\Server.cpp" />
-    <ClCompile Include="..\ouzel\network\Socket.cpp" />
     <ClCompile Include="..\ouzel\scene\Actor.cpp" />
     <ClCompile Include="..\ouzel\scene\Animator.cpp" />
     <ClCompile Include="..\ouzel\scene\Animators.cpp" />

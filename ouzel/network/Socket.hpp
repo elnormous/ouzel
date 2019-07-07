@@ -3,6 +3,9 @@
 #ifndef OUZEL_NETWORK_SOCKET_HPP
 #define OUZEL_NETWORK_SOCKET_HPP
 
+#include <stdexcept>
+#include <system_error>
+
 #ifdef _WIN32
 #  pragma push_macro("WIN32_LEAN_AND_MEAN")
 #  pragma push_macro("NOMINMAX")
@@ -12,50 +15,106 @@
 #  ifndef NOMINMAX
 #    define NOMINMAX
 #  endif
-#  include <winsock.h>
+#  include <winsock2.h>
+#  include <ws2tcpip.h>
 #  pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #  pragma pop_macro("NOMINMAX")
+#else
+#  include <sys/socket.h>
+#  include <netinet/in.h>
+#  include <netdb.h>
+#  include <unistd.h>
+#  include <errno.h>
 #endif
 
 namespace ouzel
 {
     namespace network
     {
+        inline int getLastError()
+        {
+#ifdef _WIN32
+            return WSAGetLastError();
+#else
+            return errno;
+#endif
+        }
+
+        enum class InternetProtocol: uint8_t
+        {
+            V4,
+            V6
+        };
+
+        constexpr int getAddressFamily(InternetProtocol internetProtocol)
+        {
+            return (internetProtocol == InternetProtocol::V4) ? AF_INET :
+            (internetProtocol == InternetProtocol::V6) ? AF_INET6 :
+            throw std::runtime_error("Unsupported protocol");
+        }
+
         class Socket final
         {
         public:
-            Socket();
 #ifdef _WIN32
-            Socket(SOCKET s):
-                endpoint(s)
-            {
-            }
+            using Type = SOCKET;
+            static constexpr Type INVALID = INVALID_SOCKET;
 #else
-            Socket(int s):
+            using Type = int;
+            static constexpr Type INVALID = -1;
+#endif
+
+            Socket(InternetProtocol internetProtocol = InternetProtocol::V4):
+                endpoint(socket(getAddressFamily(internetProtocol), SOCK_STREAM, IPPROTO_TCP))
+            {
+                if (endpoint == INVALID)
+                    throw std::system_error(getLastError(), std::system_category(), "Failed to create socket");
+            }
+
+            Socket(Type s) noexcept:
                 endpoint(s)
             {
             }
-#endif
-            ~Socket();
+
+            ~Socket()
+            {
+                if (endpoint != INVALID) close();
+            }
 
             Socket(const Socket&) = delete;
             Socket& operator=(const Socket&) = delete;
 
-            Socket(Socket&& other);
-            Socket& operator=(Socket&& other);
+            Socket(Socket&& other) noexcept:
+            endpoint(other.endpoint)
+            {
+                other.endpoint = INVALID;
+            }
 
-#ifdef _WIN32
-            operator SOCKET() const { return endpoint; }
-#else
-            operator int() const { return endpoint; }
-#endif
+            Socket& operator=(Socket&& other) noexcept
+            {
+                if (&other != this)
+                {
+                    if (endpoint != INVALID) close();
+                    endpoint = other.endpoint;
+                    other.endpoint = INVALID;
+                }
+
+                return *this;
+            }
+
+            inline operator Type() const noexcept { return endpoint; }
 
         private:
+            inline void close() noexcept
+            {
 #ifdef _WIN32
-            SOCKET endpoint = INVALID_SOCKET;
+                closesocket(endpoint);
 #else
-            int endpoint = -1;
+                ::close(endpoint);
 #endif
+            }
+
+            Type endpoint = INVALID;
         };
     } // namespace network
 } // namespace ouzel
