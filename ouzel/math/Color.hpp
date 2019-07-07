@@ -11,6 +11,14 @@
 
 namespace ouzel
 {
+    constexpr uint8_t hexToInt(char c)
+    {
+        return (c >= '0' && c <= '9') ? static_cast<uint8_t>(c - '0') :
+            (c >= 'a' && c <= 'f') ? static_cast<uint8_t>(c - 'a' + 10) :
+            (c >= 'A' && c <= 'F') ? static_cast<uint8_t>(c - 'A' + 10) :
+            throw std::out_of_range("Invalid hex digit");
+    }
+
     class Color final
     {
     public:
@@ -26,14 +34,6 @@ namespace ouzel
                 static_cast<uint8_t>(color & 0x000000FF)
             }
         {
-        }
-
-        constexpr uint8_t hexToInt(char c)
-        {
-            return (c >= '0' && c <= '9') ? static_cast<uint8_t>(c - '0') :
-                (c >= 'a' && c <= 'f') ? static_cast<uint8_t>(c - 'a' + 10) :
-                (c >= 'A' && c <= 'F') ? static_cast<uint8_t>(c - 'A' + 10) :
-                throw std::out_of_range("Invalid hex digit");
         }
 
         Color(const std::string& color)
