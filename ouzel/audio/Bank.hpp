@@ -3,6 +3,7 @@
 #ifndef OUZEL_AUDIO_BANK_HPP
 #define OUZEL_AUDIO_BANK_HPP
 
+#include <queue>
 #include <string>
 #include <vector>
 #include "Voice.hpp"

@@ -26,7 +26,8 @@ namespace ouzel
                 MATERIAL,
                 PARTICLE_SYSTEM,
                 SPRITE,
-                SOUND
+                SOUND,
+                BANK
             };
 
             Loader(Cache& initCache, uint32_t initType);

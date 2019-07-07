@@ -6,6 +6,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include "audio/Bank.hpp"
 #include "audio/Sound.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/DepthStencilState.hpp"
@@ -96,9 +97,13 @@ namespace ouzel
             void setFont(const std::string& name, const std::shared_ptr<gui::Font>& font);
             void releaseFonts();
 
+            std::shared_ptr<audio::Bank> getBank(const std::string& name) const;
+            void setBank(const std::string& name, const std::shared_ptr<audio::Bank>& newBank);
+            void releaseBanks();
+
             std::shared_ptr<audio::Sound> getSound(const std::string& name) const;
             void setSound(const std::string& name, const std::shared_ptr<audio::Sound>& newSound);
-            void releaseSound();
+            void releaseSounds();
 
             std::shared_ptr<graphics::Material> getMaterial(const std::string& name) const;
             void setMaterial(const std::string& name, const std::shared_ptr<graphics::Material>& material);
@@ -123,6 +128,7 @@ namespace ouzel
             std::map<std::string, std::shared_ptr<graphics::DepthStencilState>> depthStencilStates;
             std::map<std::string, scene::SpriteData> spriteData;
             std::map<std::string, std::shared_ptr<gui::Font>> fonts;
+            std::map<std::string, std::shared_ptr<audio::Bank>> banks;
             std::map<std::string, std::shared_ptr<audio::Sound>> sounds;
             std::map<std::string, std::shared_ptr<graphics::Material>> materials;
             std::map<std::string, scene::SkinnedMeshData> skinnedMeshData;

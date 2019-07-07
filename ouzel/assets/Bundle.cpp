@@ -249,6 +249,26 @@ namespace ouzel
             fonts.clear();
         }
 
+        std::shared_ptr<audio::Bank> Bundle::getBank(const std::string& name) const
+        {
+            auto i = banks.find(name);
+
+            if (i != banks.end())
+                return i->second;
+
+            return nullptr;
+        }
+
+        void Bundle::setBank(const std::string& name, const std::shared_ptr<audio::Bank>& newBank)
+        {
+            banks[name] = newBank;
+        }
+
+        void Bundle::releaseBanks()
+        {
+            banks.clear();
+        }
+
         std::shared_ptr<audio::Sound> Bundle::getSound(const std::string& name) const
         {
             auto i = sounds.find(name);
@@ -264,7 +284,7 @@ namespace ouzel
             sounds[name] = newSound;
         }
 
-        void Bundle::releaseSound()
+        void Bundle::releaseSounds()
         {
             sounds.clear();
         }

@@ -101,6 +101,15 @@ namespace ouzel
             return nullptr;
         }
 
+        std::shared_ptr<audio::Bank> Cache::getBank(const std::string& name) const
+        {
+            for (Bundle* bundle : bundles)
+                if (auto bank = bundle->getBank(name))
+                    return bank;
+
+            return nullptr;
+        }
+
         std::shared_ptr<audio::Sound> Cache::getSound(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
