@@ -70,8 +70,34 @@ namespace ouzel
             {
                 // TODO: create command buffer
 
+                std::queue<const SubmixDefinition*> submixDefinitions;
+
                 for (const SubmixDefinition& submixDefinition : bankDefinition.submixDefinitions)
-                    parseSubmixDefinition(submixDefinition);
+                    submixDefinitions.push(&submixDefinition);
+
+                while (!submixDefinitions.empty())
+                {
+                    const SubmixDefinition* submixDefinition = submixDefinitions.front();
+                    submixDefinitions.pop();
+
+                    for (const SubmixDefinition& inputDefinition : submixDefinition->inputDefinitions)
+                        submixDefinitions.push(&inputDefinition);
+
+                    for (const FilterDefinition& filterDefinition : submixDefinition->filterDefinitions)
+                    {
+
+                    }
+
+                    for (const AttributeDefinition& attributeDefinition : submixDefinition->attributeDefinitions)
+                    {
+
+                    }
+
+                    for (const CueDefinition& cueDefinition : submixDefinition->cueDefinitions)
+                    {
+
+                    }
+                }
             }
 
             Voice createVoice()
@@ -81,29 +107,6 @@ namespace ouzel
             }
 
         private:
-            void parseSubmixDefinition(const SubmixDefinition& submixDefinition)
-            {
-                // TODO: add create bus commands to buffer
-
-                for (const SubmixDefinition& inputDefinition : submixDefinition.inputDefinitions)
-                    parseSubmixDefinition(inputDefinition);
-
-                for (const FilterDefinition& filterDefinition : submixDefinition.filterDefinitions)
-                {
-
-                }
-
-                for (const AttributeDefinition& attributeDefinition : submixDefinition.attributeDefinitions)
-                {
-
-                }
-
-                for (const CueDefinition& cueDefinition : submixDefinition.cueDefinitions)
-                {
-
-                }
-            }
-
             Audio& audio;
             BankDefinition definition;
         };
