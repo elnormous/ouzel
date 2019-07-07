@@ -7,7 +7,18 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
+#pragma push_macro("WIN32_LEAN_AND_MEAN")
+#pragma push_macro("NOMINMAX")
+#ifndef WIN32_LEAN_AND_MEAN
+#  define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
 #include <d3d11.h>
+#pragma pop_macro("WIN32_LEAN_AND_MEAN")
+#pragma pop_macro("NOMINMAX")
+
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
 #include "graphics/CompareFunction.hpp"
 #include "graphics/StencilOperation.hpp"

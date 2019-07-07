@@ -13,7 +13,19 @@
 #include <system_error>
 #include <thread>
 #include <vector>
+
+#pragma push_macro("WIN32_LEAN_AND_MEAN")
+#pragma push_macro("NOMINMAX")
+#ifndef WIN32_LEAN_AND_MEAN
+#  define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
 #include <d3d11.h>
+#pragma pop_macro("WIN32_LEAN_AND_MEAN")
+#pragma pop_macro("NOMINMAX")
+
 #include "graphics/RenderDevice.hpp"
 #include "graphics/direct3d11/D3D11Texture.hpp"
 
