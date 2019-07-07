@@ -1,7 +1,7 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIO_FILTERS_HPP
-#define OUZEL_AUDIO_FILTERS_HPP
+#ifndef OUZEL_AUDIO_EFFECTS_HPP
+#define OUZEL_AUDIO_EFFECTS_HPP
 
 #include <cfloat>
 #include <utility>
@@ -178,4 +178,4 @@ namespace ouzel
     } // namespace audio
 } // namespace ouzel
 
-#endif // OUZEL_AUDIO_FILTERS_HPP
+#endif // OUZEL_AUDIO_EFFECTS_HPP
