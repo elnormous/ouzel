@@ -12,7 +12,7 @@
 #  ifndef NOMINMAX
 #    define NOMINMAX
 #  endif
-#  include <winsock.h>
+#  include <winsock2.h>
 #  pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #  pragma pop_macro("NOMINMAX")
 #endif
