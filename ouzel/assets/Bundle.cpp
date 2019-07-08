@@ -27,7 +27,7 @@ namespace ouzel
         {
             std::vector<uint8_t> data = fileSystem.readFile(filename);
 
-            auto loaders = cache.getLoaders();
+            const auto& loaders = cache.getLoaders();
 
             for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
             {
