@@ -42,7 +42,7 @@ namespace ouzel
             return Quaternion(0, 0, 0, 1);
         }
 
-        inline const Quaternion operator*(const Quaternion& q) const
+        constexpr const Quaternion operator*(const Quaternion& q) const noexcept
         {
             return Quaternion(v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0],
                               -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1],
@@ -50,7 +50,7 @@ namespace ouzel
                               -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3]);
         }
 
-        inline Quaternion& operator*=(const Quaternion& q)
+        inline Quaternion& operator*=(const Quaternion& q) noexcept
         {
             const T tempX = v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0];
             const T tempY = -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1];
@@ -65,7 +65,7 @@ namespace ouzel
             return *this;
         }
 
-        inline const Quaternion operator*(T scalar) const
+        constexpr const Quaternion operator*(T scalar) const noexcept
         {
             return Quaternion(v[0] * scalar,
                               v[1] * scalar,
@@ -73,7 +73,7 @@ namespace ouzel
                               v[3] * scalar);
         }
 
-        inline Quaternion& operator*=(T scalar)
+        inline Quaternion& operator*=(T scalar) noexcept
         {
             v[0] *= scalar;
             v[1] *= scalar;
@@ -83,7 +83,7 @@ namespace ouzel
             return *this;
         }
 
-        inline const Quaternion operator/(T scalar) const
+        constexpr const Quaternion operator/(T scalar) const noexcept
         {
             return Quaternion(v[0] / scalar,
                               v[1] / scalar,
@@ -91,7 +91,7 @@ namespace ouzel
                               v[3] / scalar);
         }
 
-        inline Quaternion& operator/=(T scalar)
+        inline Quaternion& operator/=(T scalar) noexcept
         {
             v[0] /= scalar;
             v[1] /= scalar;
@@ -101,23 +101,20 @@ namespace ouzel
             return *this;
         }
 
-        inline const Quaternion operator-() const
+        constexpr const Quaternion operator-() const noexcept
         {
             return Quaternion(-v[0], -v[1], -v[2], -v[3]);
         }
 
-        inline const Quaternion operator+(const Quaternion& q) const
+        constexpr const Quaternion operator+(const Quaternion& q) const noexcept
         {
-            Quaternion result(*this);
-            result.v[0] += q.v[0];
-            result.v[1] += q.v[1];
-            result.v[2] += q.v[2];
-            result.v[3] += q.v[3];
-
-            return result;
+            return Quaternion(v[0] + q.v[0],
+                              v[1] + q.v[1],
+                              v[2] + q.v[2],
+                              v[3] + q.v[3]);
         }
 
-        inline Quaternion& operator+=(const Quaternion& q)
+        inline Quaternion& operator+=(const Quaternion& q) noexcept
         {
             v[0] += q.v[0];
             v[1] += q.v[1];
@@ -127,18 +124,15 @@ namespace ouzel
             return *this;
         }
 
-        inline const Quaternion operator-(const Quaternion& q) const
+        constexpr const Quaternion operator-(const Quaternion& q) const noexcept
         {
-            Quaternion result(*this);
-            result.v[0] -= q.v[0];
-            result.v[1] -= q.v[1];
-            result.v[2] -= q.v[2];
-            result.v[3] -= q.v[3];
-
-            return result;
+            return Quaternion(v[0] - q.v[0],
+                              v[1] - q.v[1],
+                              v[2] - q.v[2],
+                              v[3] - q.v[3]);
         }
 
-        inline Quaternion& operator-=(const Quaternion& q)
+        inline Quaternion& operator-=(const Quaternion& q) noexcept
         {
             v[0] -= q.v[0];
             v[1] -= q.v[1];
@@ -148,17 +142,17 @@ namespace ouzel
             return *this;
         }
 
-        inline bool operator==(const Quaternion& q) const
+        constexpr bool operator==(const Quaternion& q) const noexcept
         {
             return v[0] == q.v[0] && v[1] == q.v[1] && v[2] == q.v[2] && v[3] == q.v[3];
         }
 
-        inline bool operator!=(const Quaternion& q) const
+        constexpr bool operator!=(const Quaternion& q) const noexcept
         {
             return v[0] != q.v[0] || v[1] != q.v[1] || v[2] != q.v[2] || v[3] != q.v[3];
         }
 
-        inline void negate()
+        inline void negate() noexcept
         {
             v[0] = -v[0];
             v[1] = -v[1];
@@ -166,14 +160,14 @@ namespace ouzel
             v[3] = -v[3];
         }
 
-        inline void conjugate()
+        inline void conjugate() noexcept
         {
             v[0] = -v[0];
             v[1] = -v[1];
             v[2] = -v[2];
         }
 
-        inline void invert()
+        inline void invert() noexcept
         {
             const T n2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
 
@@ -320,10 +314,9 @@ namespace ouzel
             return rotateVector(Vector<3, T>(0, 0, 1));
         }
 
-        inline Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, T t)
+        inline Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept
         {
-            const T scale = T(1) - t;
-            *this = (q1 * scale) + (q2 * t);
+            *this = (q1 * (T(1) - t)) + (q2 * t);
             return *this;
         }
     };

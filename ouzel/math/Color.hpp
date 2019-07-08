@@ -138,7 +138,7 @@ namespace ouzel
         uint8_t& a() noexcept { return v[3]; }
         constexpr uint8_t a() const noexcept { return v[3]; }
 
-        inline std::array<float, 4> norm() const
+        constexpr std::array<float, 4> norm() const noexcept
         {
             return {{v[0] / 255.0F, v[1] / 255.0F, v[2] / 255.0F, v[3] / 255.0F}};
         }
@@ -155,7 +155,7 @@ namespace ouzel
                    static_cast<uint32_t>(v[3]);
         }
 
-        inline bool operator<(const Color& c) const
+        inline bool operator<(const Color& c) const noexcept
         {
             for (size_t i = 0; i < 4; ++i)
             {
@@ -166,7 +166,7 @@ namespace ouzel
             return false;
         }
         
-        inline bool operator==(const Color& c) const
+        constexpr bool operator==(const Color& c) const noexcept
         {
             return v[0] == c.v[0] &&
                 v[1] == c.v[1] &&
@@ -174,7 +174,7 @@ namespace ouzel
                 v[3] == c.v[3];
         }
 
-        inline bool operator!=(const Color& c) const
+        constexpr bool operator!=(const Color& c) const noexcept
         {
             return v[0] != c.v[0] ||
                 v[1] != c.v[1] ||
@@ -182,7 +182,7 @@ namespace ouzel
                 v[3] != c.v[3];
         }
 
-        inline auto isZero() const noexcept
+        constexpr auto isZero() const noexcept
         {
             return v[0] == 0 &&
                 v[1] == 0 &&

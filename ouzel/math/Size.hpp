@@ -55,13 +55,13 @@ namespace ouzel
         template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         constexpr T depth() const noexcept { return v[2]; }
 
-        inline void scale(const Vector<N, T>& scale)
+        inline void scale(const Vector<N, T>& scale) noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 v[i] *= scale.v[i];
         }
 
-        inline const Size operator+(const Size& size) const
+        inline const Size operator+(const Size& size) const noexcept
         {
             Size result = *this;
             for (size_t i = 0; i < N; ++i)
@@ -69,14 +69,14 @@ namespace ouzel
             return result;
         }
 
-        inline Size& operator+=(const Size& size)
+        inline Size& operator+=(const Size& size) noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 v[i] += size.v[i];
             return *this;
         }
 
-        inline const Size operator-(const Size& size) const
+        inline const Size operator-(const Size& size) const noexcept
         {
             Size result = *this;
             for (size_t i = 0; i < N; ++i)
@@ -84,14 +84,14 @@ namespace ouzel
             return result;
         }
 
-        inline Size& operator-=(const Size& size)
+        inline Size& operator-=(const Size& size) noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 v[i] -= size.v[i];
             return *this;
         }
 
-        inline const Size operator-() const
+        inline const Size operator-() const noexcept
         {
             Size result = *this;
             for (T& c : result.v)
@@ -99,7 +99,7 @@ namespace ouzel
             return result;
         }
 
-        inline const Size operator*(T scalar) const
+        inline const Size operator*(T scalar) const noexcept
         {
             Size result(*this);
             for (T& c : result.v)
@@ -107,14 +107,14 @@ namespace ouzel
             return result;
         }
 
-        inline Size& operator*=(T scalar)
+        inline Size& operator*=(T scalar) noexcept
         {
             for (T& c : v)
                 c *= scalar;
             return *this;
         }
 
-        inline const Size operator/(T scalar) const
+        inline const Size operator/(T scalar) const noexcept
         {
             Size result(*this);
             for (T& c : result.v)
@@ -122,14 +122,14 @@ namespace ouzel
             return result;
         }
 
-        inline Size& operator/=(T scalar)
+        inline Size& operator/=(T scalar) noexcept
         {
             for (T& c : v)
                 c /= scalar;
             return *this;
         }
 
-        inline bool operator<(const Size& size) const
+        inline bool operator<(const Size& size) const noexcept
         {
             for (size_t i = 0; i < N; ++i)
             {
@@ -140,14 +140,14 @@ namespace ouzel
             return false;
         }
 
-        inline bool operator==(const Size& size) const
+        inline bool operator==(const Size& size) const noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 if (v[i] != size.v[i]) return false;
             return true;
         }
 
-        inline bool operator!=(const Size& size) const
+        inline bool operator!=(const Size& size) const noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 if (v[i] != size.v[i]) return true;
@@ -161,7 +161,7 @@ namespace ouzel
             return true;
         }
 
-        inline T volume() const
+        inline T volume() const noexcept
         {
             T result = 0;
             for (const T& c : v)
@@ -172,7 +172,7 @@ namespace ouzel
     };
 
     template <size_t N, class T>
-    inline const Size<N, T> operator*(const Size<N, T>& size, const Vector<N, T>& v)
+    inline const Size<N, T> operator*(const Size<N, T>& size, const Vector<N, T>& v) noexcept
     {
         Size<N, T> result = size;
         for (size_t i = 0; i < N; ++i)
@@ -181,7 +181,7 @@ namespace ouzel
     }
 
     template <size_t N, class T>
-    inline const Size<N, T> operator/(const Size<N, T>& size, const Vector<N, T>& v)
+    inline const Size<N, T> operator/(const Size<N, T>& size, const Vector<N, T>& v) noexcept
     {
         Size<N, T> result = size;
         for (size_t i = 0; i < N; ++i)

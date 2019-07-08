@@ -87,7 +87,7 @@ namespace ouzel
             return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
-        void clamp(const Vector& min, const Vector& max)
+        void clamp(const Vector& min, const Vector& max) noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 if (v[i] < min.v[i]) v[i] = min.v[i];
@@ -95,7 +95,7 @@ namespace ouzel
         }
 
         template <size_t X = N, typename std::enable_if<(X == 3)>::type* = nullptr>
-        Vector cross(const Vector& vec) const
+        constexpr Vector cross(const Vector& vec) const noexcept
         {
             return Vector((v[1] * vec.v[2]) - (v[2] * vec.v[1]),
                           (v[2] * vec.v[0]) - (v[0] * vec.v[2]),
@@ -110,7 +110,7 @@ namespace ouzel
             return sqrt(d);
         }
 
-        inline T distanceSquared(const Vector& vec) const
+        inline T distanceSquared(const Vector& vec) const noexcept
         {
             T d = 0;
             for (size_t i = 0; i < N; ++i)
@@ -118,7 +118,7 @@ namespace ouzel
             return d;
         }
 
-        inline T dot(const Vector& vec) const
+        inline T dot(const Vector& vec) const noexcept
         {
             T d = 0;
             for (size_t i = 0; i < N; ++i)
@@ -134,7 +134,7 @@ namespace ouzel
             return sqrt(l);
         }
 
-        inline T lengthSquared() const
+        inline T lengthSquared() const noexcept
         {
             T l = 0;
             for (const T& c : v)
@@ -142,7 +142,7 @@ namespace ouzel
             return l;
         }
 
-        inline void negate()
+        inline void negate() noexcept
         {
             for (T& c : v)
                 c = -c;
@@ -170,19 +170,19 @@ namespace ouzel
                 c /= n;
         }
 
-        inline void scale(const Vector& scale)
+        inline void scale(const Vector& scale) noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 v[i] *= scale.v[i];
         }
 
-        inline void smooth(const Vector& target, T elapsedTime, T responseTime)
+        inline void smooth(const Vector& target, T elapsedTime, T responseTime) noexcept
         {
             if (elapsedTime > T(0))
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
-        inline auto getMin() const
+        inline auto getMin() const noexcept
         {
             T result = v[0];
 
@@ -193,7 +193,7 @@ namespace ouzel
             return result;
         }
 
-        inline auto getMax() const
+        inline auto getMax() const noexcept
         {
             T result = v[0];
 
@@ -204,7 +204,7 @@ namespace ouzel
             return result;
         }
 
-        inline const Vector operator+(const Vector& vec) const
+        inline const Vector operator+(const Vector& vec) const noexcept
         {
             Vector result = *this;
             for (size_t i = 0; i < N; ++i)
@@ -212,14 +212,14 @@ namespace ouzel
             return result;
         }
 
-        inline Vector& operator+=(const Vector& vec)
+        inline Vector& operator+=(const Vector& vec) noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 v[i] += vec.v[i];
             return *this;
         }
 
-        inline const Vector operator-(const Vector& vec) const
+        inline const Vector operator-(const Vector& vec) const noexcept
         {
             Vector result = *this;
             for (size_t i = 0; i < N; ++i)
@@ -227,14 +227,14 @@ namespace ouzel
             return result;
         }
 
-        inline Vector& operator-=(const Vector& vec)
+        inline Vector& operator-=(const Vector& vec) noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 v[i] -= vec.v[i];
             return *this;
         }
 
-        inline const Vector operator-() const
+        inline const Vector operator-() const noexcept
         {
             Vector result = *this;
             for (T& c : result.v)
@@ -242,7 +242,7 @@ namespace ouzel
             return result;
         }
 
-        inline const Vector operator*(T scalar) const
+        inline const Vector operator*(T scalar) const noexcept
         {
             Vector result(*this);
             for (T& c : result.v)
@@ -250,14 +250,14 @@ namespace ouzel
             return result;
         }
 
-        inline Vector& operator*=(T scalar)
+        inline Vector& operator*=(T scalar) noexcept
         {
             for (T& c : v)
                 c *= scalar;
             return *this;
         }
 
-        inline const Vector operator/(T scalar) const
+        inline const Vector operator/(T scalar) const noexcept
         {
             Vector result(*this);
             for (T& c : result.v)
@@ -265,14 +265,14 @@ namespace ouzel
             return result;
         }
 
-        inline Vector& operator/=(T scalar)
+        inline Vector& operator/=(T scalar) noexcept
         {
             for (T& c : v)
                 c /= scalar;
             return *this;
         }
 
-        inline bool operator<(const Vector& vec) const
+        inline bool operator<(const Vector& vec) const noexcept
         {
             for (size_t i = 0; i < N; ++i)
             {
@@ -283,21 +283,21 @@ namespace ouzel
             return false;
         }
 
-        inline bool operator==(const Vector& vec) const
+        inline bool operator==(const Vector& vec) const noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 if (v[i] != vec.v[i]) return false;
             return true;
         }
 
-        inline bool operator!=(const Vector& vec) const
+        inline bool operator!=(const Vector& vec) const noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 if (v[i] != vec.v[i]) return true;
             return false;
         }
 
-        inline auto isZero() const
+        inline auto isZero() const noexcept
         {
             for (const T& c : v)
                 if (c != T(0)) return false;
@@ -306,7 +306,7 @@ namespace ouzel
     };
 
     template <size_t N, class T>
-    inline const Vector<N, T> operator*(T scalar, const Vector<N, T>& vec)
+    inline const Vector<N, T> operator*(T scalar, const Vector<N, T>& vec) noexcept
     {
         Vector<N, T> result = vec;
         result *= scalar;

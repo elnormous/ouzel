@@ -46,7 +46,7 @@ namespace ouzel
             v[3] = -v[3];
         }
 
-        inline T dot(const Vector<4, T>& vec) const
+        constexpr T dot(const Vector<4, T>& vec) const noexcept
         {
             return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];
         }
@@ -68,12 +68,12 @@ namespace ouzel
             v[3] *= n;
         }
 
-        inline bool operator==(const Plane& plane) const
+        constexpr bool operator==(const Plane& plane) const noexcept
         {
             return v[0] == plane.v[0] && v[1] == plane.v[1] && v[2] == plane.v[2] && v[3] == plane.v[3];
         }
 
-        inline bool operator!=(const Plane& plane) const
+        constexpr bool operator!=(const Plane& plane) const noexcept
         {
             return v[0] != plane.v[0] || v[1] != plane.v[1] || v[2] != plane.v[2] || v[3] != plane.v[3];
         }
