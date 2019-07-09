@@ -60,7 +60,6 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="..\ouzel\assets\Cache.cpp" />
-    <ClCompile Include="..\ouzel\assets\Loader.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
     <ClCompile Include="..\ouzel\core\System.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />

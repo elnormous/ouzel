@@ -83,18 +83,7 @@ namespace ouzel
 
     Engine::Engine():
         fileSystem(*this),
-        assetBundle(cache, fileSystem),
-        loaderBMF(cache),
-        loaderCollada(cache),
-        loaderGLTF(cache),
-        loaderImage(cache),
-        loaderMTL(cache),
-        loaderOBJ(cache),
-        loaderParticleSystem(cache),
-        loaderSprite(cache),
-        loaderTTF(cache),
-        loaderVorbis(cache),
-        loaderWave(cache)
+        assetBundle(cache, fileSystem)
     {
         engine = this;
     }

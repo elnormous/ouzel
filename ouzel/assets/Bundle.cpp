@@ -31,7 +31,7 @@ namespace ouzel
 
             for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
             {
-                Loader* loader = *i;
+                Loader* loader = i->get();
                 if (loader->getType() == loaderType &&
                     loader->loadAsset(*this, name, data, mipmaps))
                     return;

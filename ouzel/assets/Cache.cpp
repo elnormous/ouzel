@@ -2,6 +2,17 @@
 
 #include <algorithm>
 #include "Cache.hpp"
+#include "BmfLoader.hpp"
+#include "ColladaLoader.hpp"
+#include "GltfLoader.hpp"
+#include "ImageLoader.hpp"
+#include "MtlLoader.hpp"
+#include "ObjLoader.hpp"
+#include "ParticleSystemLoader.hpp"
+#include "SpriteLoader.hpp"
+#include "TtfLoader.hpp"
+#include "VorbisLoader.hpp"
+#include "WaveLoader.hpp"
 #include "graphics/Renderer.hpp"
 #include "gui/BMFont.hpp"
 #include "gui/TTFont.hpp"
@@ -10,6 +21,21 @@ namespace ouzel
 {
     namespace assets
     {
+        Cache::Cache()
+        {
+            addLoader(std::make_unique<BmfLoader>(*this));
+            addLoader(std::make_unique<ColladaLoader>(*this));
+            addLoader(std::make_unique<GltfLoader>(*this));
+            addLoader(std::make_unique<ImageLoader>(*this));
+            addLoader(std::make_unique<MtlLoader>(*this));
+            addLoader(std::make_unique<ObjLoader>(*this));
+            addLoader(std::make_unique<ParticleSystemLoader>(*this));
+            addLoader(std::make_unique<SpriteLoader>(*this));
+            addLoader(std::make_unique<TtfLoader>(*this));
+            addLoader(std::make_unique<VorbisLoader>(*this));
+            addLoader(std::make_unique<WaveLoader>(*this));
+        }
+
         void Cache::addBundle(Bundle* bundle)
         {
             auto i = std::find(bundles.begin(), bundles.end(), bundle);
@@ -24,16 +50,18 @@ namespace ouzel
                 bundles.erase(i);
         }
 
-        void Cache::addLoader(Loader* loader)
+        void Cache::addLoader(std::unique_ptr<Loader> loader)
         {
             auto i = std::find(loaders.begin(), loaders.end(), loader);
             if (i == loaders.end())
-                loaders.push_back(loader);
+                loaders.push_back(std::move(loader));
         }
 
         void Cache::removeLoader(Loader* loader)
         {
-            auto i = std::find(loaders.begin(), loaders.end(), loader);
+            auto i = std::find_if(loaders.begin(), loaders.end(), [loader](const auto& ownedLoader){
+                return loader == ownedLoader.get();
+            });
             if (i != loaders.end())
                 loaders.erase(i);
         }

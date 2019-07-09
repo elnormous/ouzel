@@ -226,9 +226,6 @@
     <ClCompile Include="..\ouzel\assets\Cache.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\Loader.cpp">
-      <Filter>ouzel\assets</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\assets\BmfLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>

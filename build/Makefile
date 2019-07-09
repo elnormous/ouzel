@@ -57,7 +57,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/ColladaLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/GltfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/ImageLoader.cpp \
-	$(ROOT_DIR)/../ouzel/assets/Loader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/MtlLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/ObjLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/ParticleSystemLoader.cpp \

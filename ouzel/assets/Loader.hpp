@@ -30,8 +30,12 @@ namespace ouzel
                 BANK
             };
 
-            Loader(Cache& initCache, uint32_t initType);
-            virtual ~Loader();
+            Loader(Cache& initCache, uint32_t initType):
+                cache(initCache), type(initType)
+            {
+            }
+
+            virtual ~Loader() {}
 
             Loader(const Loader&) = delete;
             Loader& operator=(const Loader&) = delete;

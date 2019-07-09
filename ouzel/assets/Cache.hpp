@@ -17,9 +17,8 @@ namespace ouzel
         class Cache final
         {
             friend Bundle;
-            friend Loader;
         public:
-            Cache() = default;
+            Cache();
 
             Cache(const Cache&) = delete;
             Cache& operator=(const Cache&) = delete;
@@ -28,7 +27,7 @@ namespace ouzel
             Cache& operator=(Cache&&) = delete;
 
             const std::vector<Bundle*>& getBundles() const { return bundles; }
-            const std::vector<Loader*>& getLoaders() const { return loaders; }
+            const std::vector<std::unique_ptr<Loader>>& getLoaders() const { return loaders; }
 
             std::shared_ptr<graphics::Texture> getTexture(const std::string& name) const;
             std::shared_ptr<graphics::Shader> getShader(const std::string& name) const;
@@ -47,11 +46,11 @@ namespace ouzel
             void addBundle(Bundle* bundle);
             void removeBundle(Bundle* bundle);
 
-            void addLoader(Loader* loader);
+            void addLoader(std::unique_ptr<Loader> loader);
             void removeLoader(Loader* loader);
 
             std::vector<Bundle*> bundles;
-            std::vector<Loader*> loaders;
+            std::vector<std::unique_ptr<Loader>> loaders;
         };
     } // namespace assets
 } // namespace ouzel

@@ -24,7 +24,6 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/assets/ColladaLoader.cpp \
 	../../ouzel/assets/GltfLoader.cpp \
     ../../ouzel/assets/ImageLoader.cpp \
-	../../ouzel/assets/Loader.cpp \
     ../../ouzel/assets/MtlLoader.cpp \
     ../../ouzel/assets/ObjLoader.cpp \
     ../../ouzel/assets/ParticleSystemLoader.cpp \

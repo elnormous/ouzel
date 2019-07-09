@@ -403,9 +403,6 @@
 		30519CAF1F9B4E3E00AF3DC4 /* Loader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CAB1F9B4E3E00AF3DC4 /* Loader.hpp */; };
 		30519CB01F9B4E3E00AF3DC4 /* Loader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CAB1F9B4E3E00AF3DC4 /* Loader.hpp */; };
 		30519CB11F9B4E3E00AF3DC4 /* Loader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CAB1F9B4E3E00AF3DC4 /* Loader.hpp */; };
-		30519CB31F9B506F00AF3DC4 /* Loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519CB21F9B506F00AF3DC4 /* Loader.cpp */; };
-		30519CB41F9B506F00AF3DC4 /* Loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519CB21F9B506F00AF3DC4 /* Loader.cpp */; };
-		30519CB51F9B506F00AF3DC4 /* Loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519CB21F9B506F00AF3DC4 /* Loader.cpp */; };
 		30519CB81F9B53AB00AF3DC4 /* WaveLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519CB61F9B53AB00AF3DC4 /* WaveLoader.cpp */; };
 		30519CB91F9B53AB00AF3DC4 /* WaveLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519CB61F9B53AB00AF3DC4 /* WaveLoader.cpp */; };
 		30519CBA1F9B53AB00AF3DC4 /* WaveLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519CB61F9B53AB00AF3DC4 /* WaveLoader.cpp */; };
@@ -951,7 +948,6 @@
 		304F92A31F4D89C50063EEC0 /* Network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Network.cpp; sourceTree = "<group>"; };
 		304F92A41F4D89C50063EEC0 /* Network.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Network.hpp; sourceTree = "<group>"; };
 		30519CAB1F9B4E3E00AF3DC4 /* Loader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Loader.hpp; sourceTree = "<group>"; };
-		30519CB21F9B506F00AF3DC4 /* Loader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Loader.cpp; sourceTree = "<group>"; };
 		30519CB61F9B53AB00AF3DC4 /* WaveLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaveLoader.cpp; sourceTree = "<group>"; };
 		30519CB71F9B53AB00AF3DC4 /* WaveLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WaveLoader.hpp; sourceTree = "<group>"; };
 		30519CBE1F9B53B700AF3DC4 /* BmfLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BmfLoader.cpp; sourceTree = "<group>"; };
@@ -1654,7 +1650,6 @@
 				30AEFA0B20C0A90400CDFD33 /* GltfLoader.hpp */,
 				30519CCE1F9B53CB00AF3DC4 /* ImageLoader.cpp */,
 				30519CCF1F9B53CB00AF3DC4 /* ImageLoader.hpp */,
-				30519CB21F9B506F00AF3DC4 /* Loader.cpp */,
 				30519CAB1F9B4E3E00AF3DC4 /* Loader.hpp */,
 				30519CE61F9B53F500AF3DC4 /* MtlLoader.cpp */,
 				30519CE71F9B53F500AF3DC4 /* MtlLoader.hpp */,
@@ -2481,7 +2476,6 @@
 				30216B631ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
 				30AEFA3420C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */,
 				3067D7A5209B450F008DF6AF /* InputSystem.cpp in Sources */,
-				30519CB31F9B506F00AF3DC4 /* Loader.cpp in Sources */,
 				30381F8B1D80A3EC00677CAB /* OGLTexture.cpp in Sources */,
 				30519CE81F9B53F500AF3DC4 /* MtlLoader.cpp in Sources */,
 				30381F4F1D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,
@@ -2605,7 +2599,6 @@
 				30216B651ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
 				3067D7A7209B450F008DF6AF /* InputSystem.cpp in Sources */,
 				30CEB37A21A6404B00525637 /* SystemTVOS.cpp in Sources */,
-				30519CB51F9B506F00AF3DC4 /* Loader.cpp in Sources */,
 				30381F8D1D80A3EC00677CAB /* OGLTexture.cpp in Sources */,
 				30519CEA1F9B53F500AF3DC4 /* MtlLoader.cpp in Sources */,
 				302B728621BDE302006EBC59 /* SilenceSound.cpp in Sources */,
@@ -2728,7 +2721,6 @@
 				30A3821121B4BDBC0043568A /* Mix.cpp in Sources */,
 				30381F8C1D80A3EC00677CAB /* OGLTexture.cpp in Sources */,
 				30C758B61F4A0309008499DC /* RenderDevice.cpp in Sources */,
-				30519CB41F9B506F00AF3DC4 /* Loader.cpp in Sources */,
 				30519CE91F9B53F500AF3DC4 /* MtlLoader.cpp in Sources */,
 				C6AC8A8C215BD7D500F14D75 /* MouseDeviceMacOS.mm in Sources */,
 				30381F501D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,
