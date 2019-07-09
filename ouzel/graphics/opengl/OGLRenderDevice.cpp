@@ -301,7 +301,7 @@ namespace ouzel
 #endif
 
             RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-                graphics::RenderDevice(Driver::OPENGL, initCallback),
+                graphics::RenderDevice(Driver::OpenGL, initCallback),
                 textureBaseLevelSupported(false),
                 textureMaxLevelSupported(false),
                 uintElementIndexSupported(false)

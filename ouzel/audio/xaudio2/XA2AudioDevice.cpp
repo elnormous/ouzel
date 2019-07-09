@@ -55,7 +55,7 @@ namespace ouzel
                                                               uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter,
                                      bool debugAudio):
-                audio::AudioDevice(Driver::XAUDIO2, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::XAudio2, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
                 xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 

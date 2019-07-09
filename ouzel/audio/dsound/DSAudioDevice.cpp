@@ -81,7 +81,7 @@ namespace ouzel
                                                               uint16_t channels,
                                                               uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
-                audio::AudioDevice(Driver::DIRECTSOUND, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::DirectSound, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
                 HRESULT hr;
                 if (FAILED(hr = DirectSoundEnumerateW(enumCallback, this)))

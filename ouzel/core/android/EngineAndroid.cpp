@@ -160,7 +160,7 @@ namespace ouzel
             if (renderer)
             {
                 graphics::RenderDevice* renderDevice = renderer->getDevice();
-                if (renderDevice->getDriver() == graphics::Driver::OPENGL)
+                if (renderDevice->getDriver() == graphics::Driver::OpenGL)
                 {
                     graphics::opengl::RenderDeviceAndroid* renderDeviceOGLAndroid = static_cast<graphics::opengl::RenderDeviceAndroid*>(renderDevice);
                     renderDeviceOGLAndroid->reload();
@@ -225,7 +225,7 @@ namespace ouzel
             if (renderer)
             {
                 graphics::RenderDevice* renderDevice = renderer->getDevice();
-                if (renderDevice->getDriver() == graphics::Driver::OPENGL)
+                if (renderDevice->getDriver() == graphics::Driver::OpenGL)
                 {
                     graphics::opengl::RenderDeviceAndroid* renderDeviceOGLAndroid = static_cast<graphics::opengl::RenderDeviceAndroid*>(renderDevice);
                     renderDeviceOGLAndroid->destroy();

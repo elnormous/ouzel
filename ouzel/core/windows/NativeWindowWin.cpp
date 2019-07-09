@@ -329,7 +329,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
         case WM_ERASEBKGND:
         {
             // Erase background only for the Empty renderer
-            //if (ouzel::engine->getRenderer()->getDevice()->getDriver() != ouzel::graphics::Driver::EMPTY)
+            //if (ouzel::engine->getRenderer()->getDevice()->getDriver() != ouzel::graphics::Driver::Empty)
             //    return TRUE;
 
             break;
@@ -621,7 +621,7 @@ namespace ouzel
     {
         if (exclusiveFullscreen)
         {
-            if (engine->getRenderer()->getDevice()->getDriver() == graphics::Driver::DIRECT3D11)
+            if (engine->getRenderer()->getDevice()->getDriver() == graphics::Driver::Direct3D11)
             {
                 graphics::d3d11::RenderDevice* renderDevice = static_cast<graphics::d3d11::RenderDevice*>(engine->getRenderer()->getDevice());
                 renderDevice->setFullscreen(newFullscreen);

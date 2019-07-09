@@ -171,17 +171,17 @@ namespace ouzel
 
         switch (graphicsDriver)
         {
-            case graphics::Driver::EMPTY:
+            case graphics::Driver::Empty:
                 view = [[ViewMacOS alloc] initWithFrame:windowFrame];
                 break;
 #if OUZEL_COMPILE_OPENGL
-            case graphics::Driver::OPENGL:
+            case graphics::Driver::OpenGL:
                 view = [[OpenGLView alloc] initWithFrame:windowFrame];
                 [view setWantsBestResolutionOpenGLSurface:highDpi ? YES : NO];
                 break;
 #endif
 #if OUZEL_COMPILE_METAL
-            case graphics::Driver::METAL:
+            case graphics::Driver::Metal:
                 view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;
 #endif

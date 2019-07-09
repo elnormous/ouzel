@@ -48,23 +48,23 @@ namespace ouzel
             {
                 auto availableDrivers = getAvailableRenderDrivers();
 
-                if (availableDrivers.find(Driver::METAL) != availableDrivers.end())
-                    return Driver::METAL;
-                else if (availableDrivers.find(Driver::DIRECT3D11) != availableDrivers.end())
-                    return Driver::DIRECT3D11;
-                else if (availableDrivers.find(Driver::OPENGL) != availableDrivers.end())
-                    return Driver::OPENGL;
+                if (availableDrivers.find(Driver::Metal) != availableDrivers.end())
+                    return Driver::Metal;
+                else if (availableDrivers.find(Driver::Direct3D11) != availableDrivers.end())
+                    return Driver::Direct3D11;
+                else if (availableDrivers.find(Driver::OpenGL) != availableDrivers.end())
+                    return Driver::OpenGL;
                 else
-                    return Driver::EMPTY;
+                    return Driver::Empty;
             }
             else if (driver == "empty")
-                return Driver::EMPTY;
+                return Driver::Empty;
             else if (driver == "opengl")
-                return Driver::OPENGL;
+                return Driver::OpenGL;
             else if (driver == "direct3d11")
-                return Driver::DIRECT3D11;
+                return Driver::Direct3D11;
             else if (driver == "metal")
-                return Driver::METAL;
+                return Driver::Metal;
             else
                 throw std::runtime_error("Invalid graphics driver");
         }
@@ -75,17 +75,17 @@ namespace ouzel
 
             if (availableDrivers.empty())
             {
-                availableDrivers.insert(Driver::EMPTY);
+                availableDrivers.insert(Driver::Empty);
 
 #if OUZEL_COMPILE_OPENGL
-                availableDrivers.insert(Driver::OPENGL);
+                availableDrivers.insert(Driver::OpenGL);
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
-                availableDrivers.insert(Driver::DIRECT3D11);
+                availableDrivers.insert(Driver::Direct3D11);
 #endif
 #if OUZEL_COMPILE_METAL
                 if (metal::RenderDevice::available())
-                    availableDrivers.insert(Driver::METAL);
+                    availableDrivers.insert(Driver::Metal);
 #endif
             }
 
@@ -107,7 +107,7 @@ namespace ouzel
             switch (driver)
             {
 #if OUZEL_COMPILE_OPENGL
-                case Driver::OPENGL:
+                case Driver::OpenGL:
                     engine->log(Log::Level::INFO) << "Using OpenGL render driver";
 #  if TARGET_OS_IOS
                     device = std::make_unique<opengl::RenderDeviceIOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
@@ -129,13 +129,13 @@ namespace ouzel
                     break;
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
-                case Driver::DIRECT3D11:
+                case Driver::Direct3D11:
                     engine->log(Log::Level::INFO) << "Using Direct3D 11 render driver";
                     device = std::make_unique<d3d11::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
                     break;
 #endif
 #if OUZEL_COMPILE_METAL
-                case Driver::METAL:
+                case Driver::Metal:
                     engine->log(Log::Level::INFO) << "Using Metal render driver";
 #  if TARGET_OS_IOS
                     device = std::make_unique<metal::RenderDeviceIOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));

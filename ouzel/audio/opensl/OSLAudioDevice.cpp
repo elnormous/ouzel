@@ -76,7 +76,7 @@ namespace ouzel
                                                               uint16_t channels,
                                                               uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
-                audio::AudioDevice(Driver::OPENSL, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::OpenSL, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
                 SLresult result;
                 constexpr SLuint32 engineMixIIDCount = 1;

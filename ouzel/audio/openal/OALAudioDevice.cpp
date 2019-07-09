@@ -86,7 +86,7 @@ namespace ouzel
                                                               uint16_t channels,
                                                               uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
-                audio::AudioDevice(Driver::OPENAL, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::OpenAL, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
 #if TARGET_OS_IOS || TARGET_OS_TV
                 id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));

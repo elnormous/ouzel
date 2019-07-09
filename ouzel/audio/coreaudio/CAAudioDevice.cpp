@@ -86,7 +86,7 @@ namespace ouzel
                                                               uint16_t channels,
                                                               uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
-                audio::AudioDevice(Driver::COREAUDIO, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::CoreAudio, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
                 OSStatus result;
 

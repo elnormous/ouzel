@@ -105,7 +105,7 @@ namespace ouzel
             }
 
             RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-                graphics::RenderDevice(Driver::METAL, initCallback),
+                graphics::RenderDevice(Driver::Metal, initCallback),
                 colorFormat(MTLPixelFormatInvalid),
                 depthFormat(MTLPixelFormatInvalid),
                 stencilFormat(MTLPixelFormatInvalid)

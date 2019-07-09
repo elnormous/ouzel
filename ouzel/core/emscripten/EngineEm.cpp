@@ -64,7 +64,7 @@ namespace ouzel
                 log(Log::Level::ERR) << e.what();
             }
 
-            if (audio->getDevice()->getDriver() == audio::Driver::OPENAL)
+            if (audio->getDevice()->getDriver() == audio::Driver::OpenAL)
             {
                 audio::OALAudioDevice* audioDevice = static_cast<audio::OALAudioDevice*>(audio->getDevice());
                 try
