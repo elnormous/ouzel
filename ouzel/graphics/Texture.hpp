@@ -80,7 +80,7 @@ namespace ouzel
             Renderer* renderer = nullptr;
             RenderDevice::Resource resource;
 
-            TextureType type = TextureType::TWO_DIMENSIONAL;
+            TextureType type = TextureType::TwoDimensional;
             Size2U size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;

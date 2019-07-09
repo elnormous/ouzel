@@ -233,11 +233,11 @@ namespace ouzel
                 switch (type)
                 {
 #if !OUZEL_OPENGLES
-                    case TextureType::ONE_DIMENSIONAL: return GL_TEXTURE_1D;
+                    case TextureType::OneDimensional: return GL_TEXTURE_1D;
 #endif
-                    case TextureType::TWO_DIMENSIONAL: return GL_TEXTURE_2D;
-                    case TextureType::THREE_DIMENSIONAL: return GL_TEXTURE_3D;
-                    case TextureType::CUBE: return GL_TEXTURE_CUBE_MAP;
+                    case TextureType::TwoDimensional: return GL_TEXTURE_2D;
+                    case TextureType::ThreeDimensional: return GL_TEXTURE_3D;
+                    case TextureType::Cube: return GL_TEXTURE_CUBE_MAP;
                     default: throw std::runtime_error("Invalid texture type");
                 }
             }

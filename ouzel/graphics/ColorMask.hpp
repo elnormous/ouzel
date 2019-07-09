@@ -9,11 +9,11 @@ namespace ouzel
     {
         enum ColorMask
         {
-            COLOR_MASK_RED = 0x01,
-            COLOR_MASK_GREEN = 0x02,
-            COLOR_MASK_BLUE = 0x04,
-            COLOR_MASK_ALPHA = 0x08,
-            COLOR_MASK_ALL = COLOR_MASK_RED | COLOR_MASK_GREEN | COLOR_MASK_BLUE | COLOR_MASK_ALPHA
+            Red = 0x01,
+            Green = 0x02,
+            Blue = 0x04,
+            Alpha = 0x08,
+            All = Red | Green | Blue | Alpha
         };
     } // namespace graphics
 } // namespace ouzel

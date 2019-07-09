@@ -61,7 +61,7 @@ namespace ouzel
                 {
                     switch (type)
                     {
-                        case TextureType::TWO_DIMENSIONAL: return MTLTextureType2DMultisample;
+                        case TextureType::TwoDimensional: return MTLTextureType2DMultisample;
                         default: throw std::runtime_error("Invalid multisample texture type");
                     }
                 }
@@ -69,10 +69,10 @@ namespace ouzel
                 {
                     switch (type)
                     {
-                        case TextureType::ONE_DIMENSIONAL: return MTLTextureType1D;
-                        case TextureType::TWO_DIMENSIONAL: return MTLTextureType2D;
-                        case TextureType::THREE_DIMENSIONAL: return MTLTextureType3D;
-                        case TextureType::CUBE: return MTLTextureTypeCube;
+                        case TextureType::OneDimensional: return MTLTextureType1D;
+                        case TextureType::TwoDimensional: return MTLTextureType2D;
+                        case TextureType::ThreeDimensional: return MTLTextureType3D;
+                        case TextureType::Cube: return MTLTextureTypeCube;
                         default: throw std::runtime_error("Invalid texture type");
                     }
                 }

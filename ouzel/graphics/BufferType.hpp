@@ -9,8 +9,8 @@ namespace ouzel
     {
         enum class BufferType
         {
-            INDEX,
-            VERTEX
+            Index,
+            Vertex
         };
     } // namespace graphics
 } // namespace ouzel

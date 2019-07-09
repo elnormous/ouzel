@@ -60,7 +60,7 @@ namespace ouzel
                 {
                     switch (type)
                     {
-                        case TextureType::TWO_DIMENSIONAL: return D3D11_SRV_DIMENSION_TEXTURE2DMS;
+                        case TextureType::TwoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2DMS;
                         default: throw std::runtime_error("Invalid multisample texture type");
                     }
                 }
@@ -68,10 +68,10 @@ namespace ouzel
                 {
                     switch (type)
                     {
-                        case TextureType::ONE_DIMENSIONAL: return D3D11_SRV_DIMENSION_TEXTURE1D;
-                        case TextureType::TWO_DIMENSIONAL: return D3D11_SRV_DIMENSION_TEXTURE2D;
-                        case TextureType::THREE_DIMENSIONAL: return D3D11_SRV_DIMENSION_TEXTURE3D;
-                        case TextureType::CUBE: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                        case TextureType::OneDimensional: return D3D11_SRV_DIMENSION_TEXTURE1D;
+                        case TextureType::TwoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2D;
+                        case TextureType::ThreeDimensional: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                        case TextureType::Cube: return D3D11_SRV_DIMENSION_TEXTURE3D;
                         default: throw std::runtime_error("Invalid texture type");
                     }
                 }

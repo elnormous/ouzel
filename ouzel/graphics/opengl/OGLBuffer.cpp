@@ -122,10 +122,10 @@ namespace ouzel
 
                 switch (type)
                 {
-                    case BufferType::INDEX:
+                    case BufferType::Index:
                         bufferType = GL_ELEMENT_ARRAY_BUFFER;
                         break;
-                    case BufferType::VERTEX:
+                    case BufferType::Vertex:
                         bufferType = GL_ARRAY_BUFFER;
                         break;
                     default:

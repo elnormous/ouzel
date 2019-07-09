@@ -19,11 +19,11 @@ namespace ouzel
             blendState = engine->getCache().getBlendState(BLEND_ALPHA);
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                             graphics::BufferType::INDEX,
+                                                             graphics::BufferType::Index,
                                                              graphics::Flags::DYNAMIC);
 
             vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                              graphics::BufferType::VERTEX,
+                                                              graphics::BufferType::Vertex,
                                                               graphics::Flags::DYNAMIC);
         }
 

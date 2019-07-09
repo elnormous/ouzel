@@ -68,10 +68,10 @@ namespace ouzel
                 blendingEnabled(enableBlending)
             {
                 colorWriteMask = MTLColorWriteMaskNone;
-                if (colorMask & ColorMask::COLOR_MASK_RED) colorWriteMask |= MTLColorWriteMaskRed;
-                if (colorMask & ColorMask::COLOR_MASK_GREEN) colorWriteMask |= MTLColorWriteMaskGreen;
-                if (colorMask & ColorMask::COLOR_MASK_BLUE) colorWriteMask |= MTLColorWriteMaskBlue;
-                if (colorMask & ColorMask::COLOR_MASK_ALPHA) colorWriteMask |= MTLColorWriteMaskAlpha;
+                if (colorMask & ColorMask::Red) colorWriteMask |= MTLColorWriteMaskRed;
+                if (colorMask & ColorMask::Green) colorWriteMask |= MTLColorWriteMaskGreen;
+                if (colorMask & ColorMask::Blue) colorWriteMask |= MTLColorWriteMaskBlue;
+                if (colorMask & ColorMask::Alpha) colorWriteMask |= MTLColorWriteMaskAlpha;
             }
         } // namespace metal
     } // namespace graphics
