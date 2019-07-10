@@ -23,7 +23,7 @@ static void renderCallback(void* userInfo)
     }
     catch (const std::exception& e)
     {
-        ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
+        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
     }
 }
 
@@ -84,7 +84,7 @@ namespace ouzel
                 {
                     apiMajorVersion = 3;
                     apiMinorVersion = 0;
-                    engine->log(Log::Level::INFO) << "EAGL OpenGL ES 3 context created";
+                    engine->log(Log::Level::Info) << "EAGL OpenGL ES 3 context created";
                 }
                 else
                 {
@@ -95,7 +95,7 @@ namespace ouzel
 
                     apiMajorVersion = 2;
                     apiMinorVersion = 0;
-                    engine->log(Log::Level::INFO) << "EAGL OpenGL ES 2 context created";
+                    engine->log(Log::Level::Info) << "EAGL OpenGL ES 2 context created";
                 }
 
                 if (![EAGLContext setCurrentContext:context])

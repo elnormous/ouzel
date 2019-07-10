@@ -336,7 +336,7 @@ namespace ouzel
                     }
                     catch (const std::exception& e)
                     {
-                        engine->log(Log::Level::ERR) << e.what();
+                        engine->log(Log::Level::Error) << e.what();
                     }
                 }
             }

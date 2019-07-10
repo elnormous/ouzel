@@ -31,7 +31,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     }
     catch (const std::exception& e)
     {
-        ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
+        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
         return kCVReturnError;
     }
 

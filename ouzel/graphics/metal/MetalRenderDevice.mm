@@ -178,7 +178,7 @@ namespace ouzel
                     throw std::runtime_error("Failed to create Metal device");
 
                 if (device.name)
-                    engine->log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
+                    engine->log(Log::Level::Info) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
 
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
                 // MTLFeatureSet_macOS_GPUFamily1_v2 is not defined in macOS SDK older than 10.12

@@ -316,10 +316,10 @@ namespace ouzel
                 XISelectEvents(display, windowLinux->getNativeWindow(), &eventMask, 1);
             }
             else
-                log(Log::Level::WARN) << "XInput2 not supported";
+                log(Log::Level::Warning) << "XInput2 not supported";
         }
         else
-            log(Log::Level::WARN) << "XInput not supported";
+            log(Log::Level::Warning) << "XInput not supported";
 
         executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
 

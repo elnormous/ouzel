@@ -151,7 +151,7 @@ namespace ouzel
                     {
                         apiMajorVersion = version;
                         apiMinorVersion = 0;
-                        engine->log(Log::Level::INFO) << "EGL OpenGL ES " << version << " context created";
+                        engine->log(Log::Level::Info) << "EGL OpenGL ES " << version << " context created";
                         break;
                     }
                 }
@@ -259,7 +259,7 @@ namespace ouzel
                     {
                         apiMajorVersion = version;
                         apiMinorVersion = 0;
-                        engine->log(Log::Level::INFO) << "EGL OpenGL ES " << version << " context created";
+                        engine->log(Log::Level::Info) << "EGL OpenGL ES " << version << " context created";
                         break;
                     }
                 }
@@ -320,10 +320,10 @@ namespace ouzel
                 if (context)
                 {
                     if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                        engine->log(Log::Level::ERR) << "Failed to unset EGL context";
+                        engine->log(Log::Level::Error) << "Failed to unset EGL context";
 
                     if (!eglDestroyContext(display, context))
-                        engine->log(Log::Level::ERR) << "Failed to destroy EGL context";
+                        engine->log(Log::Level::Error) << "Failed to destroy EGL context";
 
                     context = nullptr;
                 }
@@ -331,7 +331,7 @@ namespace ouzel
                 if (surface)
                 {
                     if (!eglDestroySurface(display, surface))
-                        engine->log(Log::Level::ERR) << "Failed to destroy EGL surface";
+                        engine->log(Log::Level::Error) << "Failed to destroy EGL surface";
 
                     surface = nullptr;
                 }
@@ -361,7 +361,7 @@ namespace ouzel
                     }
                     catch (const std::exception& e)
                     {
-                        engine->log(Log::Level::ERR) << e.what();
+                        engine->log(Log::Level::Error) << e.what();
                     }
                 }
             }

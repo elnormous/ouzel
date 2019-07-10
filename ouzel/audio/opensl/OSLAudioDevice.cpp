@@ -19,7 +19,7 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
     }
     catch (const std::exception& e)
     {
-        ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
+        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
     }
 }
 

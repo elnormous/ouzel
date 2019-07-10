@@ -385,9 +385,9 @@ namespace ouzel
                 GLenum error;
 
                 if ((error = glGetErrorProc()) != GL_NO_ERROR || !deviceName)
-                    engine->log(Log::Level::WARN) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
+                    engine->log(Log::Level::Warning) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
                 else
-                    engine->log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
+                    engine->log(Log::Level::Info) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
 
                 glEnableProc = getCoreProcAddress<PFNGLENABLEPROC>("glEnable");
                 glDisableProc = getCoreProcAddress<PFNGLDISABLEPROC>("glDisable");
@@ -501,7 +501,7 @@ namespace ouzel
                     glGetIntegervProc(GL_NUM_EXTENSIONS, &extensionCount);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                        engine->log(Log::Level::WARN) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
+                        engine->log(Log::Level::Warning) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
                     else
                         for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
                             extensions.emplace_back(reinterpret_cast<const char*>(glGetStringiProc(GL_EXTENSIONS, i)));
@@ -511,12 +511,12 @@ namespace ouzel
                     const GLubyte* extensionsPtr = glGetStringProc(GL_EXTENSIONS);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionsPtr)
-                        engine->log(Log::Level::WARN) << "Failed to get OpenGL extensions";
+                        engine->log(Log::Level::Warning) << "Failed to get OpenGL extensions";
                     else
                         extensions = explodeString(std::string(reinterpret_cast<const char*>(extensionsPtr)), ' ');
                 }
 
-                engine->log(Log::Level::ALL) << "Supported OpenGL extensions: " << extensions;
+                engine->log(Log::Level::All) << "Supported OpenGL extensions: " << extensions;
 
                 textureBaseLevelSupported = false;
                 textureMaxLevelSupported = false;
@@ -1112,7 +1112,7 @@ namespace ouzel
 
 #if OUZEL_OPENGLES
                                 if (setPipelineStateCommand->fillMode != FillMode::SOLID)
-                                    engine->log(Log::Level::WARN) << "Unsupported fill mode";
+                                    engine->log(Log::Level::Warning) << "Unsupported fill mode";
 #else
                                 setPolygonFillMode(getFillMode(setPipelineStateCommand->fillMode));
 #endif

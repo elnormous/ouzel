@@ -59,7 +59,7 @@ namespace ouzel
 
         inline const std::vector<std::string>& getArgs() const noexcept { return args; }
 
-        inline Log log(Log::Level level = Log::Level::INFO) const { return logger.log(level); }
+        inline Log log(Log::Level level = Log::Level::Info) const { return logger.log(level); }
         inline Logger& getLogger() { return logger; }
 
         inline storage::FileSystem& getFileSystem() { return fileSystem; }

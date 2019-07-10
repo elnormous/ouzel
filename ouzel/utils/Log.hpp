@@ -25,14 +25,14 @@ namespace ouzel
     public:
         enum class Level
         {
-            OFF,
-            ERR,
-            WARN,
-            INFO,
-            ALL
+            Off,
+            Error,
+            Warning,
+            Info,
+            All
         };
 
-        explicit Log(const Logger& initLogger, Level initLevel = Level::INFO):
+        explicit Log(const Logger& initLogger, Level initLevel = Level::Info):
             logger(initLogger), level(initLevel)
         {
         }
@@ -49,7 +49,7 @@ namespace ouzel
             level(other.level),
             s(std::move(other.s))
         {
-            other.level = Level::INFO;
+            other.level = Level::Info;
         }
 
         Log& operator=(const Log& other)
@@ -67,7 +67,7 @@ namespace ouzel
             if (&other == this) return *this;
 
             level = other.level;
-            other.level = Level::INFO;
+            other.level = Level::Info;
             s = std::move(other.s);
 
             return *this;
@@ -202,14 +202,14 @@ namespace ouzel
 
     private:
         const Logger& logger;
-        Level level = Level::INFO;
+        Level level = Level::Info;
         std::string s;
     };
 
     class Logger final
     {
     public:
-        explicit Logger(Log::Level initThreshold = Log::Level::ALL):
+        explicit Logger(Log::Level initThreshold = Log::Level::All):
             threshold(initThreshold)
         {
 #if !defined(__EMSCRIPTEN__)
@@ -233,12 +233,12 @@ namespace ouzel
 #endif
         }
 
-        Log log(Log::Level level = Log::Level::INFO) const
+        Log log(Log::Level level = Log::Level::Info) const
         {
             return Log(*this, level);
         }
 
-        void log(const std::string& str, Log::Level level = Log::Level::INFO) const
+        void log(const std::string& str, Log::Level level = Log::Level::Info) const
         {
             if (level <= threshold)
             {
@@ -254,12 +254,12 @@ namespace ouzel
         }
 
     private:
-        static void logString(const std::string& str, Log::Level level = Log::Level::INFO);
+        static void logString(const std::string& str, Log::Level level = Log::Level::Info);
 
 #ifdef DEBUG
-        std::atomic<Log::Level> threshold{Log::Level::ALL};
+        std::atomic<Log::Level> threshold{Log::Level::All};
 #else
-        std::atomic<Log::Level> threshold{Log::Level::INFO};
+        std::atomic<Log::Level> threshold{Log::Level::Info};
 #endif
 
 #if !defined(__EMSCRIPTEN__)

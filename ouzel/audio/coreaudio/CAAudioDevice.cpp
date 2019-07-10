@@ -40,7 +40,7 @@ static OSStatus outputCallback(void* inRefCon,
     }
     catch (const std::exception& e)
     {
-        ouzel::engine->log(ouzel::Log::Level::ERR) << e.what();
+        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
         return -1;
     }
 
@@ -170,7 +170,7 @@ namespace ouzel
                     }
                     CFRelease(tempStringRef);
 
-                    engine->log(Log::Level::INFO) << "Using " << name << " for audio";
+                    engine->log(Log::Level::Info) << "Using " << name << " for audio";
                 }
 #endif
 
@@ -233,7 +233,7 @@ namespace ouzel
                                                    kAudioUnitProperty_StreamFormat,
                                                    kAudioUnitScope_Input, bus, &streamDescription, sizeof(streamDescription))) != noErr)
                 {
-                    engine->log(Log::Level::WARN) << "Failed to set CoreAudio unit stream format to float, error: " << result;
+                    engine->log(Log::Level::Warning) << "Failed to set CoreAudio unit stream format to float, error: " << result;
 
                     streamDescription.mFormatFlags = kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger;
                     streamDescription.mBitsPerChannel = sizeof(int16_t) * 8;

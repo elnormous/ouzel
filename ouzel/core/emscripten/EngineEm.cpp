@@ -42,7 +42,7 @@ namespace ouzel
             }
             catch (const std::exception& e)
             {
-                log(Log::Level::ERR) << e.what();
+                log(Log::Level::Error) << e.what();
                 exit();
             }
 
@@ -52,7 +52,7 @@ namespace ouzel
             }
             catch (const std::exception& e)
             {
-                log(Log::Level::ERR) << e.what();
+                log(Log::Level::Error) << e.what();
             }
 
             try
@@ -61,7 +61,7 @@ namespace ouzel
             }
             catch (const std::exception& e)
             {
-                log(Log::Level::ERR) << e.what();
+                log(Log::Level::Error) << e.what();
             }
 
             if (audio->getDevice()->getDriver() == audio::Driver::OpenAL)
@@ -73,7 +73,7 @@ namespace ouzel
                 }
                 catch (const std::exception& e)
                 {
-                    log(Log::Level::ERR) << e.what();
+                    log(Log::Level::Error) << e.what();
                 }
             }
 
@@ -83,7 +83,7 @@ namespace ouzel
             }
             catch (const std::exception& e)
             {
-                log(Log::Level::ERR) << e.what();
+                log(Log::Level::Error) << e.what();
             }
         }
         else

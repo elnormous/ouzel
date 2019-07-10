@@ -85,7 +85,7 @@ namespace ouzel
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
             appPath = getDirectoryPart(appFilename.data());
-            engine.log(Log::Level::INFO) << "Application directory: " << appPath;
+            engine.log(Log::Level::Info) << "Application directory: " << appPath;
 
 #elif defined(__APPLE__)
             CFBundleRef bundle = CFBundleGetMainBundle();
@@ -110,7 +110,7 @@ namespace ouzel
                 throw std::runtime_error("Failed to get current directory");
 
             appPath = resourceDirectory.data();
-            engine.log(Log::Level::INFO) << "Application directory: " << appPath;
+            engine.log(Log::Level::Info) << "Application directory: " << appPath;
 
 #elif defined(__ANDROID__)
             // not available for Android
@@ -124,7 +124,7 @@ namespace ouzel
 
             executableDirectory[length] = '\0';
             appPath = getDirectoryPart(executableDirectory);
-            engine.log(Log::Level::INFO) << "Application directory: " << appPath;
+            engine.log(Log::Level::Info) << "Application directory: " << appPath;
 #endif
         }
 
