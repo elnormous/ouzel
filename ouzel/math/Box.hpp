@@ -24,7 +24,7 @@ namespace ouzel
                 v = std::numeric_limits<T>::lowest();
         }
 
-        Box(const Vector<N, T>& initMin, const Vector<N, T>& initMax):
+        constexpr Box(const Vector<N, T>& initMin, const Vector<N, T>& initMax):
             min(initMin), max(initMax)
         {
         }
@@ -90,12 +90,9 @@ namespace ouzel
                 if (point.v[i] > max.v[i]) max.v[i] = point.v[i];
         }
 
-        inline const Box operator+(const Vector<N, T>& v) const
+        constexpr const Box operator+(const Vector<N, T>& v) const
         {
-            Box result(*this);
-            result.min += v;
-            result.max += v;
-            return result;
+            return Box(min + v, max + v);
         }
 
         inline Box& operator+=(const Vector<N, T>& v)
@@ -105,12 +102,9 @@ namespace ouzel
             return *this;
         }
 
-        inline const Box operator-(const Vector<N, T>& v) const
+        constexpr const Box operator-(const Vector<N, T>& v) const
         {
-            Box result(*this);
-            result.min -= v;
-            result.max -= v;
-            return result;
+            return Box(min - v, max - v);
         }
 
         inline Box& operator-=(const Vector<N, T>& v)
