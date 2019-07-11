@@ -9,7 +9,7 @@ namespace ouzel
     {
         enum class CullMode
         {
-            None,
+            NoCull,
             Front,
             Back
         };

@@ -281,7 +281,7 @@ namespace ouzel
             {
                 switch (cullMode)
                 {
-                    case CullMode::None: return GL_NONE;
+                    case CullMode::NoCull: return GL_NONE;
                     case CullMode::Front: return GL_FRONT;
                     case CullMode::Back: return GL_BACK;
                     default: throw std::runtime_error("Invalid cull mode");

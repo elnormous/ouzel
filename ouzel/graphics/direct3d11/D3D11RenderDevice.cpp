@@ -608,7 +608,7 @@ namespace ouzel
 
                                 switch (setPipelineStateCommand->cullMode)
                                 {
-                                    case CullMode::None: cullModeIndex = 0; break;
+                                    case CullMode::NoCull: cullModeIndex = 0; break;
                                     case CullMode::Front: cullModeIndex = 1; break;
                                     case CullMode::Back: cullModeIndex = 2; break;
                                     default: throw std::runtime_error("Invalid cull mode");

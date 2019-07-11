@@ -54,7 +54,7 @@ namespace ouzel
             {
                 switch (cullMode)
                 {
-                    case CullMode::None: return MTLCullModeNone;
+                    case CullMode::NoCull: return MTLCullModeNone;
                     case CullMode::Front: return MTLCullModeFront;
                     case CullMode::Back: return MTLCullModeBack;
                     default: throw std::runtime_error("Invalid cull mode");
