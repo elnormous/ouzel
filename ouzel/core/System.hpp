@@ -13,8 +13,8 @@ namespace ouzel
         public:
             enum class Type
             {
-                SET_SCREENSAVER_ENABLED,
-                OPEN_URL
+                SetScreensaverEnabled,
+                OpenUrl
             };
         };
 
@@ -23,10 +23,10 @@ namespace ouzel
         public:
             enum class Type
             {
-                LAUNCH,
-                DEVICE_ORIENTATION_CHANGE,
-                LOW_MEMORY,
-                OPEN_FILE
+                Launch,
+                DeviceOrientationChange,
+                LowMemory,
+                OpenFile
             };
 
         };

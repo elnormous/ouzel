@@ -71,11 +71,11 @@ namespace ouzel
         size = newSize;
         resolution = size;
 
-        Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
+        Event sizeChangeEvent(Event::Type::SizeChange);
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+        Event resolutionChangeEvent(Event::Type::ResolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }

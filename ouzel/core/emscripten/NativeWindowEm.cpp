@@ -146,17 +146,17 @@ namespace ouzel
         bool oldFullscreen = fullscreen;
         fullscreen = static_cast<bool>(isFullscreen);
 
-        Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
+        Event sizeChangeEvent(Event::Type::SizeChange);
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+        Event resolutionChangeEvent(Event::Type::ResolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
 
         if (fullscreen != oldFullscreen)
         {
-            Event fullscreenChangeEvent(Event::Type::FULLSCREEN_CHANGE);
+            Event fullscreenChangeEvent(Event::Type::FullscreenChange);
             fullscreenChangeEvent.fullscreen = fullscreen;
             sendEvent(fullscreenChangeEvent);
         }

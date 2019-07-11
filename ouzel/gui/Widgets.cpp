@@ -111,23 +111,23 @@ namespace ouzel
 
             if (event.actor == this)
             {
-                if (event.type == Event::Type::ACTOR_ENTER)
+                if (event.type == Event::Type::ActorEnter)
                 {
                     pointerOver = true;
                     updateSprite();
                 }
-                else if (event.type == Event::Type::ACTOR_LEAVE)
+                else if (event.type == Event::Type::ActorLeave)
                 {
                     pointerOver = false;
                     updateSprite();
                 }
-                else if (event.type == Event::Type::ACTOR_PRESS)
+                else if (event.type == Event::Type::ActorPress)
                 {
                     pressed = true;
                     updateSprite();
                 }
-                else if (event.type == Event::Type::ACTOR_RELEASE ||
-                         event.type == Event::Type::ACTOR_CLICK)
+                else if (event.type == Event::Type::ActorRelease ||
+                         event.type == Event::Type::ActorClick)
                 {
                     if (pressed)
                     {
@@ -252,22 +252,22 @@ namespace ouzel
 
             if (event.actor == this)
             {
-                if (event.type == Event::Type::ACTOR_ENTER)
+                if (event.type == Event::Type::ActorEnter)
                 {
                     pointerOver = true;
                     updateSprite();
                 }
-                else if (event.type == Event::Type::ACTOR_LEAVE)
+                else if (event.type == Event::Type::ActorLeave)
                 {
                     pointerOver = false;
                     updateSprite();
                 }
-                else if (event.type == Event::Type::ACTOR_PRESS)
+                else if (event.type == Event::Type::ActorPress)
                 {
                     pressed = true;
                     updateSprite();
                 }
-                else if (event.type == Event::Type::ACTOR_RELEASE)
+                else if (event.type == Event::Type::ActorRelease)
                 {
                     if (pressed)
                     {
@@ -275,14 +275,14 @@ namespace ouzel
                         updateSprite();
                     }
                 }
-                else if (event.type == Event::Type::ACTOR_CLICK)
+                else if (event.type == Event::Type::ActorClick)
                 {
                     pressed = false;
                     checked = !checked;
                     updateSprite();
 
                     auto changeEvent = std::make_unique<UIEvent>();
-                    changeEvent->type = Event::Type::WIDGET_CHANGE;
+                    changeEvent->type = Event::Type::WidgetChange;
                     changeEvent->actor = event.actor;
                     engine->getEventDispatcher().dispatchEvent(std::move(changeEvent));
                 }
@@ -495,7 +495,7 @@ namespace ouzel
         {
             if (!enabled) return false;
 
-            if (event.type == Event::Type::KEY_PRESS && !widgets.empty())
+            if (event.type == Event::Type::KeyPress && !widgets.empty())
             {
                 switch (event.key)
                 {
@@ -514,7 +514,7 @@ namespace ouzel
                         if (selectedWidget)
                         {
                             auto clickEvent = std::make_unique<UIEvent>();
-                            clickEvent->type = Event::Type::ACTOR_CLICK;
+                            clickEvent->type = Event::Type::ActorClick;
                             clickEvent->actor = selectedWidget;
                             clickEvent->position = Vector2F(selectedWidget->getPosition());
                             engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
@@ -533,7 +533,7 @@ namespace ouzel
         {
             if (!enabled) return false;
 
-            if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+            if (event.type == Event::Type::GamepadButtonChange)
             {
                 if (event.button == input::Gamepad::Button::DPAD_LEFT ||
                     event.button == input::Gamepad::Button::DPAD_UP)
@@ -561,7 +561,7 @@ namespace ouzel
                     if (!event.previousPressed && event.pressed && selectedWidget)
                     {
                         auto clickEvent = std::make_unique<UIEvent>();
-                        clickEvent->type = Event::Type::ACTOR_CLICK;
+                        clickEvent->type = Event::Type::ActorClick;
                         clickEvent->actor = selectedWidget;
                         clickEvent->position = Vector2F(selectedWidget->getPosition());
                         engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
@@ -577,7 +577,7 @@ namespace ouzel
         {
             if (!enabled) return false;
 
-            if (event.type == Event::Type::ACTOR_ENTER)
+            if (event.type == Event::Type::ActorEnter)
                 if (std::find(widgets.begin(), widgets.end(), event.actor) != widgets.end())
                     selectWidget(static_cast<Widget*>(event.actor));
 

@@ -27,9 +27,9 @@ namespace ouzel
 
         enum class Mode
         {
-            WINDOWED,
-            WINDOWED_FULLSCREEN,
-            FULLSCREEN
+            Windowed,
+            WindowedFullscreen,
+            Fullscreen
         };
 
         Window(Engine& initEngine,

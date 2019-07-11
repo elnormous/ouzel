@@ -11,7 +11,7 @@ namespace ouzel
             InputDevice(initInputSystem, initId, Controller::Type::KEYBOARD)
         {
             InputSystem::Event deviceConnectEvent;
-            deviceConnectEvent.type = InputSystem::Event::Type::DEVICE_CONNECT;
+            deviceConnectEvent.type = InputSystem::Event::Type::DeviceConnect;
             deviceConnectEvent.deviceId = id;
             deviceConnectEvent.deviceType = type;
             inputSystem.sendEvent(deviceConnectEvent);
@@ -20,7 +20,7 @@ namespace ouzel
         KeyboardDevice::~KeyboardDevice()
         {
             InputSystem::Event deviceDisconnectEvent;
-            deviceDisconnectEvent.type = InputSystem::Event::Type::DEVICE_DISCONNECT;
+            deviceDisconnectEvent.type = InputSystem::Event::Type::DeviceDisconnect;
             deviceDisconnectEvent.deviceId = id;
             deviceDisconnectEvent.deviceType = type;
             inputSystem.sendEvent(deviceDisconnectEvent);
@@ -28,7 +28,7 @@ namespace ouzel
 
         std::future<bool> KeyboardDevice::handleKeyPress(Keyboard::Key key)
         {
-            InputSystem::Event event(InputSystem::Event::Type::KEY_PRESS);
+            InputSystem::Event event(InputSystem::Event::Type::KeyPress);
             event.deviceId = id;
             event.keyboardKey = key;
             return inputSystem.sendEvent(event);
@@ -36,7 +36,7 @@ namespace ouzel
 
         std::future<bool> KeyboardDevice::handleKeyRelease(Keyboard::Key key)
         {
-            InputSystem::Event event(InputSystem::Event::Type::KEY_RELEASE);
+            InputSystem::Event event(InputSystem::Event::Type::KeyRelease);
             event.deviceId = id;
             event.keyboardKey = key;
             return inputSystem.sendEvent(event);

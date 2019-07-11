@@ -51,7 +51,7 @@
     if (ouzel::engine)
     {
         auto event = std::make_unique<ouzel::SystemEvent>();
-        event->type = ouzel::Event::Type::LOW_MEMORY;
+        event->type = ouzel::Event::Type::LowMemory;
 
         ouzel::engine->getEventDispatcher().postEvent(std::move(event));
     }

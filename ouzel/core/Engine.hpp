@@ -102,9 +102,9 @@ namespace ouzel
         public:
             enum class Type
             {
-                EXECUTE,
-                OPEN_URL,
-                SET_SCREENSAVER_ENABLED
+                Execute,
+                OpenUrl,
+                SetScreensaverEnabled
             };
 
             std::function<void()> func;

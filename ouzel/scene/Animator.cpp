@@ -41,7 +41,7 @@ namespace ouzel
                     currentTime = length;
 
                     auto finishEvent = std::make_unique<AnimationEvent>();
-                    finishEvent->type = Event::Type::ANIMATION_FINISH;
+                    finishEvent->type = Event::Type::AnimationFinish;
                     finishEvent->component = this;
                     engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
                 }
@@ -69,7 +69,7 @@ namespace ouzel
             play();
 
             auto startEvent = std::make_unique<AnimationEvent>();
-            startEvent->type = Event::Type::ANIMATION_START;
+            startEvent->type = Event::Type::AnimationStart;
             startEvent->component = this;
             engine->getEventDispatcher().dispatchEvent(std::move(startEvent));
         }

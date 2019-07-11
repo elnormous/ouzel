@@ -87,7 +87,7 @@ namespace ouzel
         {
             switch (event.type)
             {
-                case InputSystem::Event::Type::DEVICE_CONNECT:
+                case InputSystem::Event::Type::DeviceConnect:
                 {
                     switch (event.deviceType)
                     {
@@ -97,7 +97,7 @@ namespace ouzel
                             controllers.push_back(controller.get());
 
                             auto connectEvent = std::make_unique<GamepadEvent>();
-                            connectEvent->type = Event::Type::GAMEPAD_CONNECT;
+                            connectEvent->type = Event::Type::GamepadConnect;
                             connectEvent->gamepad = controller.get();
 
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
@@ -110,7 +110,7 @@ namespace ouzel
                             if (!keyboard) keyboard = controller.get();
 
                             auto connectEvent = std::make_unique<KeyboardEvent>();
-                            connectEvent->type = Event::Type::KEYBOARD_CONNECT;
+                            connectEvent->type = Event::Type::KeyboardConnect;
                             connectEvent->keyboard = controller.get();
 
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
@@ -123,7 +123,7 @@ namespace ouzel
                             if (!mouse) mouse = controller.get();
 
                             auto connectEvent = std::make_unique<MouseEvent>();
-                            connectEvent->type = Event::Type::MOUSE_CONNECT;
+                            connectEvent->type = Event::Type::MouseConnect;
                             connectEvent->mouse = controller.get();
 
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
@@ -136,7 +136,7 @@ namespace ouzel
                             if (!touchpad) touchpad = controller.get();
 
                             auto connectEvent = std::make_unique<TouchEvent>();
-                            connectEvent->type = Event::Type::TOUCHPAD_CONNECT;
+                            connectEvent->type = Event::Type::TouchpadConnect;
                             connectEvent->touchpad = controller.get();
 
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
@@ -146,7 +146,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::DEVICE_DISCONNECT:
+                case InputSystem::Event::Type::DeviceDisconnect:
                 {
                     bool handled = false;
 
@@ -162,7 +162,7 @@ namespace ouzel
                             case Controller::Type::GAMEPAD:
                             {
                                 auto disconnectEvent = std::make_unique<GamepadEvent>();
-                                disconnectEvent->type = Event::Type::GAMEPAD_DISCONNECT;
+                                disconnectEvent->type = Event::Type::GamepadDisconnect;
                                 disconnectEvent->gamepad = static_cast<Gamepad*>(i->second.get());
                                 handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
                                 break;
@@ -170,7 +170,7 @@ namespace ouzel
                             case Controller::Type::KEYBOARD:
                             {
                                 auto disconnectEvent = std::make_unique<KeyboardEvent>();
-                                disconnectEvent->type = Event::Type::KEYBOARD_DISCONNECT;
+                                disconnectEvent->type = Event::Type::KeyboardDisconnect;
                                 disconnectEvent->keyboard = static_cast<Keyboard*>(i->second.get());
                                 keyboard = nullptr;
                                 for (Controller* controller : controllers)
@@ -182,7 +182,7 @@ namespace ouzel
                             case Controller::Type::MOUSE:
                             {
                                 auto disconnectEvent = std::make_unique<MouseEvent>();
-                                disconnectEvent->type = Event::Type::MOUSE_DISCONNECT;
+                                disconnectEvent->type = Event::Type::MouseDisconnect;
                                 disconnectEvent->mouse = static_cast<Mouse*>(i->second.get());
                                 mouse = nullptr;
                                 for (Controller* controller : controllers)
@@ -194,7 +194,7 @@ namespace ouzel
                             case Controller::Type::TOUCHPAD:
                             {
                                 auto disconnectEvent = std::make_unique<TouchEvent>();
-                                disconnectEvent->type = Event::Type::TOUCHPAD_DISCONNECT;
+                                disconnectEvent->type = Event::Type::TouchpadDisconnect;
                                 disconnectEvent->touchpad = static_cast<Touchpad*>(i->second.get());
                                 touchpad = nullptr;
                                 for (Controller* controller : controllers)
@@ -211,12 +211,12 @@ namespace ouzel
 
                     return handled;
                 }
-                case InputSystem::Event::Type::DEVICE_DISCOVERY_COMPLETE:
+                case InputSystem::Event::Type::DeviceDiscoveryComplete:
                 {
                     discovering = false;
                     return true;
                 }
-                case InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE:
+                case InputSystem::Event::Type::GamepadButtonChange:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -226,7 +226,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::KEY_PRESS:
+                case InputSystem::Event::Type::KeyPress:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -236,7 +236,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::KEY_RELEASE:
+                case InputSystem::Event::Type::KeyRelease:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -246,7 +246,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MOUSE_PRESS:
+                case InputSystem::Event::Type::MousePress:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -256,7 +256,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MOUSE_RELEASE:
+                case InputSystem::Event::Type::MouseRelease:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -266,7 +266,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MOUSE_SCROLL:
+                case InputSystem::Event::Type::MouseScroll:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -276,7 +276,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MOUSE_MOVE:
+                case InputSystem::Event::Type::MouseMove:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -286,7 +286,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MOUSE_RELATIVE_MOVE:
+                case InputSystem::Event::Type::MouseRelativeMove:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -296,7 +296,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MOUSE_LOCK_CHANGED:
+                case InputSystem::Event::Type::MouseLockChanged:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -306,7 +306,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::TOUCH_BEGIN:
+                case InputSystem::Event::Type::TouchBegin:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -316,7 +316,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::TOUCH_MOVE:
+                case InputSystem::Event::Type::TouchMove:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -326,7 +326,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::TOUCH_END:
+                case InputSystem::Event::Type::TouchEnd:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -336,7 +336,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::TOUCH_CANCEL:
+                case InputSystem::Event::Type::TouchCancel:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())

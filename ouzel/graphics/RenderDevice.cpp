@@ -60,7 +60,7 @@ namespace ouzel
         void RenderDevice::process()
         {
             Event event;
-            event.type = Event::Type::FRAME;
+            event.type = Event::Type::Frame;
             callback(event);
 
             auto currentTime = std::chrono::steady_clock::now();

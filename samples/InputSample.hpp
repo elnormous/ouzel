@@ -20,7 +20,7 @@ public:
     {
         if (actor)
         {
-            if (event.type == ouzel::Event::Type::KEY_PRESS)
+            if (event.type == ouzel::Event::Type::KeyPress)
             {
                 ouzel::Vector2F position = ouzel::Vector2F(actor->getPosition());
 

@@ -18,9 +18,9 @@ namespace ouzel
 
             enum class Type
             {
-                POINT,
-                SPOT,
-                DIRECTIONAL
+                Point,
+                Spot,
+                Directional
             };
 
             Light();
@@ -49,7 +49,7 @@ namespace ouzel
             void setLayer(Layer* newLayer) override;
 
         private:
-            Type type = Type::POINT;
+            Type type = Type::Point;
             Color color;
             QuaternionF direction = QuaternionF::identity(); // for spot and directional ligt
             float angle = 0.0F; // for spot light

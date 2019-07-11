@@ -37,7 +37,7 @@ namespace ouzel
             playing = true;
 
             auto startEvent = std::make_unique<SoundEvent>();
-            startEvent->type = Event::Type::SOUND_START;
+            startEvent->type = Event::Type::SoundStart;
             startEvent->voice = this;
             engine->getEventDispatcher().postEvent(std::move(startEvent));
         }
@@ -60,7 +60,7 @@ namespace ouzel
         /*void Voice::onReset()
         {
             auto event = std::make_unique<SoundEvent>();
-            event->type = Event::Type::SOUND_RESET;
+            event->type = Event::Type::SoundReset;
             event->voice = this;
             engine->getEventDispatcher().postEvent(std::move(event));
         }
@@ -71,7 +71,7 @@ namespace ouzel
             playing = false;
 
             auto event = std::make_unique<SoundEvent>();
-            event->type = Event::Type::SOUND_FINISH;
+            event->type = Event::Type::SoundFinish;
             event->voice = this;
             engine->getEventDispatcher().postEvent(std::move(event));
         }*/

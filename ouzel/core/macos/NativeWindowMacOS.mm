@@ -304,7 +304,7 @@ namespace ouzel
             [window setFrame:newFrame display:YES animate:NO];
             resolution = size * static_cast<uint32_t>(contentScale);
 
-            Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+            Event resolutionChangeEvent(Event::Type::ResolutionChange);
             resolutionChangeEvent.size = resolution;
             sendEvent(resolutionChangeEvent);
         }
@@ -404,35 +404,35 @@ namespace ouzel
                       static_cast<uint32_t>(frame.size.height));
         resolution = size * static_cast<uint32_t>(contentScale);
 
-        Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
+        Event sizeChangeEvent(Event::Type::SizeChange);
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+        Event resolutionChangeEvent(Event::Type::ResolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
 
     void NativeWindowMacOS::handleClose()
     {
-        sendEvent(Event(Event::Type::CLOSE));
+        sendEvent(Event(Event::Type::Close));
     }
 
     void NativeWindowMacOS::handleMinituarize()
     {
-        sendEvent(Event(Event::Type::MINIMIZE));
+        sendEvent(Event(Event::Type::Minimize));
     }
 
     void NativeWindowMacOS::handleDeminituarize()
     {
-        sendEvent(Event(Event::Type::RESTORE));
+        sendEvent(Event(Event::Type::Restore));
     }
 
     void NativeWindowMacOS::handleFullscreenChange(bool newFullscreen)
     {
         fullscreen = newFullscreen;
 
-        Event fullscreenChangeEvent(Event::Type::FULLSCREEN_CHANGE);
+        Event fullscreenChangeEvent(Event::Type::FullscreenChange);
         fullscreenChangeEvent.fullscreen = fullscreen;
         sendEvent(fullscreenChangeEvent);
     }
@@ -444,7 +444,7 @@ namespace ouzel
             contentScale = static_cast<float>(window.backingScaleFactor);
             resolution = size * static_cast<uint32_t>(contentScale);
 
-            Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+            Event resolutionChangeEvent(Event::Type::ResolutionChange);
             resolutionChangeEvent.size = resolution;
             sendEvent(resolutionChangeEvent);
         }
@@ -455,21 +455,21 @@ namespace ouzel
         screen = [window screen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
-        Event screenChangeEvent(Event::Type::SCREEN_CHANGE);
+        Event screenChangeEvent(Event::Type::ScreenChange);
         screenChangeEvent.displayId = displayId;
         sendEvent(screenChangeEvent);
     }
 
     void NativeWindowMacOS::handleBecomeKeyChange()
     {
-        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        Event focusChangeEvent(Event::Type::FocusChange);
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
     }
 
     void NativeWindowMacOS::handleResignKeyChange()
     {
-        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        Event focusChangeEvent(Event::Type::FocusChange);
         focusChangeEvent.focus = false;
         sendEvent(focusChangeEvent);
     }

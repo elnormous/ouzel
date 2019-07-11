@@ -226,7 +226,7 @@ namespace ouzel
                 streamDescription.mBytesPerPacket = streamDescription.mBytesPerFrame * streamDescription.mFramesPerPacket;
                 streamDescription.mReserved = 0;
 
-                sampleFormat = SampleFormat::FLOAT32;
+                sampleFormat = SampleFormat::Float32;
                 sampleSize = sizeof(float);
 
                 if ((result = AudioUnitSetProperty(audioUnit,
@@ -245,7 +245,7 @@ namespace ouzel
                                                        kAudioUnitScope_Input, bus, &streamDescription, sizeof(streamDescription))) != noErr)
                         throw std::system_error(result, errorCategory, "Failed to set CoreAudio unit stream format");
 
-                    sampleFormat = SampleFormat::SINT16;
+                    sampleFormat = SampleFormat::SInt16;
                     sampleSize = sizeof(int16_t);
                 }
 

@@ -137,7 +137,7 @@ namespace ouzel
                         throw std::system_error(hr, errorCategory, "Failed to create source voice");
                 }
 
-                sampleFormat = SampleFormat::FLOAT32;
+                sampleFormat = SampleFormat::Float32;
             }
 
             AudioDevice::~AudioDevice()

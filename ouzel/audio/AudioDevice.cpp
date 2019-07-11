@@ -32,7 +32,7 @@ namespace ouzel
 
             switch (sampleFormat)
             {
-                case SampleFormat::SINT16:
+                case SampleFormat::SInt16:
                 {
                     result.resize(frames * channels * sizeof(int16_t));
                     int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
@@ -46,7 +46,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case SampleFormat::FLOAT32:
+                case SampleFormat::Float32:
                 {
                     result.resize(frames * channels * sizeof(float));
                     float* resultPtr = reinterpret_cast<float*>(result.data());

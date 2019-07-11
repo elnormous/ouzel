@@ -68,7 +68,7 @@ InputSample::InputSample():
 
 bool InputSample::handleKeyboard(const KeyboardEvent& event)
 {
-    if (event.type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KeyPress)
     {
         Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
@@ -107,7 +107,7 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
 
         flame.setPosition(worldLocation);
     }
-    else if (event.type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KeyRelease)
     {
         switch (event.key)
         {
@@ -127,7 +127,7 @@ bool InputSample::handleMouse(const MouseEvent& event)
 {
     switch (event.type)
     {
-        case Event::Type::MOUSE_MOVE:
+        case Event::Type::MouseMove:
         {
             auto worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
             flame.setPosition(worldLocation);
@@ -153,7 +153,7 @@ bool InputSample::handleTouch(const TouchEvent& event)
 
 bool InputSample::handleGamepad(const GamepadEvent& event)
 {
-    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GamepadButtonChange)
     {
         Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
@@ -195,7 +195,7 @@ bool InputSample::handleGamepad(const GamepadEvent& event)
 
 bool InputSample::handleUI(const UIEvent& event) const
 {
-    if (event.type == Event::Type::ACTOR_CLICK)
+    if (event.type == Event::Type::ActorClick)
     {
         if (event.actor == &backButton)
         {

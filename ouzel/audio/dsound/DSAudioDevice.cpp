@@ -113,7 +113,7 @@ namespace ouzel
                 waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
                 waveFormat.cbSize = 0;
 
-                sampleFormat = SampleFormat::FLOAT32;
+                sampleFormat = SampleFormat::Float32;
                 sampleSize = sizeof(float);
 
                 if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
@@ -126,7 +126,7 @@ namespace ouzel
                     if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
                         throw std::system_error(hr, directSoundErrorCategory, "Failed to set DirectSound buffer format");
 
-                    sampleFormat = SampleFormat::SINT16;
+                    sampleFormat = SampleFormat::SInt16;
                     sampleSize = sizeof(int16_t);
                 }
 

@@ -70,7 +70,7 @@ GUISample::GUISample():
 
 bool GUISample::handleGamepad(const GamepadEvent& event)
 {
-    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GamepadButtonChange)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
@@ -82,7 +82,7 @@ bool GUISample::handleGamepad(const GamepadEvent& event)
 
 bool GUISample::handleUI(const UIEvent& event)
 {
-    if (event.type == Event::Type::ACTOR_CLICK)
+    if (event.type == Event::Type::ActorClick)
     {
         if (event.actor == &backButton)
             engine->getSceneManager().setScene(std::make_unique<MainMenu>());
@@ -108,7 +108,7 @@ bool GUISample::handleUI(const UIEvent& event)
 
 bool GUISample::handleKeyboard(const KeyboardEvent& event) const
 {
-    if (event.type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KeyPress)
     {
         switch (event.key)
         {
@@ -121,7 +121,7 @@ bool GUISample::handleKeyboard(const KeyboardEvent& event) const
                 break;
         }
     }
-    else if (event.type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KeyRelease)
     {
         switch (event.key)
         {

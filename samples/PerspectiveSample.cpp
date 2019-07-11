@@ -97,7 +97,7 @@ PerspectiveSample::PerspectiveSample():
 
 bool PerspectiveSample::handleUI(const ouzel::UIEvent& event)
 {
-    if (event.type == Event::Type::ACTOR_CLICK)
+    if (event.type == Event::Type::ActorClick)
     {
         if (event.actor == &backButton)
             engine->getSceneManager().setScene(std::make_unique<MainMenu>());
@@ -108,7 +108,7 @@ bool PerspectiveSample::handleUI(const ouzel::UIEvent& event)
 
 bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
 {
-    if (event.type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KeyPress)
     {
         switch (event.key)
         {
@@ -144,7 +144,7 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
 
         cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
     }
-    else if (event.type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KeyRelease)
     {
         switch (event.key)
         {
@@ -162,7 +162,7 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
 
 bool PerspectiveSample::handleMouse(const ouzel::MouseEvent& event)
 {
-    if (event.type == Event::Type::MOUSE_MOVE &&
+    if (event.type == Event::Type::MouseMove &&
         event.mouse->isButtonDown(Mouse::Button::LEFT))
     {
         cameraRotation.x() -= event.difference.y();
@@ -180,7 +180,7 @@ bool PerspectiveSample::handleMouse(const ouzel::MouseEvent& event)
 bool PerspectiveSample::handleTouch(const ouzel::TouchEvent& event)
 {
     if (event.touchpad->isScreen() &&
-        event.type == Event::Type::TOUCH_MOVE)
+        event.type == Event::Type::TouchMove)
     {
         cameraRotation.x() -= event.difference.y();
         cameraRotation.y() -= event.difference.x();
@@ -196,7 +196,7 @@ bool PerspectiveSample::handleTouch(const ouzel::TouchEvent& event)
 
 bool PerspectiveSample::handleGamepad(const GamepadEvent& event)
 {
-    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GamepadButtonChange)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)

@@ -37,7 +37,7 @@ namespace ouzel
         bool Gamepad::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
         {
             auto event = std::make_unique<GamepadEvent>();
-            event->type = Event::Type::GAMEPAD_BUTTON_CHANGE;
+            event->type = Event::Type::GamepadButtonChange;
             event->gamepad = this;
             event->button = button;
             event->previousPressed = buttonStates[static_cast<uint32_t>(button)].pressed;

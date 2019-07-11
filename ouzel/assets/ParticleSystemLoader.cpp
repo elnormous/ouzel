@@ -37,8 +37,8 @@ namespace ouzel
             {
                 switch (d["emitterType"].as<uint32_t>())
                 {
-                    case 0: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::GRAVITY; break;
-                    case 1: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::RADIUS; break;
+                    case 0: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::Gravity; break;
+                    case 1: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::Radius; break;
                     default: return false;
                 }
             }

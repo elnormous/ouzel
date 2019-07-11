@@ -56,7 +56,7 @@
     if (ouzel::engine)
     {
         auto event = std::make_unique<ouzel::SystemEvent>();
-        event->type = ouzel::Event::Type::LOW_MEMORY;
+        event->type = ouzel::Event::Type::LowMemory;
 
         ouzel::engine->getEventDispatcher().postEvent(std::move(event));
     }
@@ -68,30 +68,30 @@
     UIDeviceOrientation orientation = device.orientation;
 
     auto event = std::make_unique<ouzel::SystemEvent>();
-    event->type = ouzel::Event::Type::ORIENTATION_CHANGE;
+    event->type = ouzel::Event::Type::OrientationChange;
 
     switch (orientation)
     {
         case UIDeviceOrientationPortrait:
-            event->orientation = ouzel::SystemEvent::Orientation::PORTRAIT;
+            event->orientation = ouzel::SystemEvent::Portrait;
             break;
         case UIDeviceOrientationPortraitUpsideDown:
-            event->orientation = ouzel::SystemEvent::Orientation::PORTRAIT_REVERSE;
+            event->orientation = ouzel::SystemEvent::PortraitReverse;
             break;
         case UIDeviceOrientationLandscapeLeft:
-            event->orientation = ouzel::SystemEvent::Orientation::LANDSCAPE;
+            event->orientation = ouzel::SystemEvent::Landscape;
             break;
         case UIDeviceOrientationLandscapeRight:
-            event->orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_REVERSE;
+            event->orientation = ouzel::SystemEvent::LandscapeReverse;
             break;
         case UIDeviceOrientationFaceUp:
-            event->orientation = ouzel::SystemEvent::Orientation::FACE_UP;
+            event->orientation = ouzel::SystemEvent::FaceUp;
             break;
         case UIDeviceOrientationFaceDown:
-            event->orientation = ouzel::SystemEvent::Orientation::FACE_DOWN;
+            event->orientation = ouzel::SystemEvent::FaceDown;
             break;
         default:
-            event->orientation = ouzel::SystemEvent::Orientation::UNKNOWN;
+            event->orientation = ouzel::SystemEvent::Unknown;
             break;
     }
 

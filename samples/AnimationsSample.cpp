@@ -111,7 +111,7 @@ AnimationsSample::AnimationsSample():
 
 bool AnimationsSample::handleGamepad(const GamepadEvent& event)
 {
-    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GamepadButtonChange)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
@@ -123,7 +123,7 @@ bool AnimationsSample::handleGamepad(const GamepadEvent& event)
 
 bool AnimationsSample::handleUI(const UIEvent& event) const
 {
-    if (event.type == Event::Type::ACTOR_CLICK && event.actor == &backButton)
+    if (event.type == Event::Type::ActorClick && event.actor == &backButton)
         engine->getSceneManager().setScene(std::make_unique<MainMenu>());
 
     return false;
@@ -131,7 +131,7 @@ bool AnimationsSample::handleUI(const UIEvent& event) const
 
 bool AnimationsSample::handleKeyboard(const KeyboardEvent& event) const
 {
-    if (event.type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KeyPress)
     {
         switch (event.key)
         {
@@ -144,7 +144,7 @@ bool AnimationsSample::handleKeyboard(const KeyboardEvent& event) const
                 break;
         }
     }
-    else if (event.type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KeyRelease)
     {
         switch (event.key)
         {

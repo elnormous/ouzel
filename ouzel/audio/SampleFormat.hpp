@@ -11,8 +11,8 @@ namespace ouzel
     {
         enum class SampleFormat
         {
-            SINT16,
-            FLOAT32
+            SInt16,
+            Float32
         };
     } // namespace audio
 } // namespace ouzel

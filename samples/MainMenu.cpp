@@ -64,7 +64,7 @@ MainMenu::MainMenu():
 
 bool MainMenu::handleKeyboard(const KeyboardEvent& event)
 {
-    if (event.type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KeyPress)
     {
         switch (event.key)
         {
@@ -78,7 +78,7 @@ bool MainMenu::handleKeyboard(const KeyboardEvent& event)
                 break;
         }
     }
-    else if (event.type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KeyRelease)
     {
         switch (event.key)
         {
@@ -96,7 +96,7 @@ bool MainMenu::handleKeyboard(const KeyboardEvent& event)
 
 bool MainMenu::handleUI(const UIEvent& event)
 {
-    if (event.type == Event::Type::ACTOR_CLICK)
+    if (event.type == Event::Type::ActorClick)
     {
         if (event.actor == &gitHubButton)
             engine->openURL("https://github.com/elnormous/ouzel");

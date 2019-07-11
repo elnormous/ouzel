@@ -16,14 +16,14 @@ namespace ouzel
         public:
             enum class Type
             {
-                SINE,
-                SQUARE,
-                SAWTOOTH,
-                TRIANGLE
+                Sine,
+                Square,
+                Sawtooth,
+                Triangle
             };
 
             Oscillator(Audio& initAudio, float initFrequency,
-                       Type initType = Type::SINE,
+                       Type initType = Type::Sine,
                        float initAmplitude = 0.5F, float initLength = 0.0F);
 
         private:

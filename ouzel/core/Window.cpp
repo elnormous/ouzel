@@ -116,7 +116,7 @@ namespace ouzel
 
     void Window::eventCallback(const NativeWindow::Event& event)
     {
-        if (event.type == NativeWindow::Event::Type::FOCUS_CHANGE)
+        if (event.type == NativeWindow::Event::Type::FocusChange)
         {
             if (event.focus)
                 engine.resume();
@@ -134,68 +134,68 @@ namespace ouzel
     {
         switch (event.type)
         {
-            case NativeWindow::Event::Type::SIZE_CHANGE:
+            case NativeWindow::Event::Type::SizeChange:
             {
                 size = event.size;
 
                 auto sizeChangeEvent = std::make_unique<WindowEvent>();
-                sizeChangeEvent->type = Event::Type::WINDOW_SIZE_CHANGE;
+                sizeChangeEvent->type = Event::Type::WindowSizeChange;
                 sizeChangeEvent->window = this;
                 sizeChangeEvent->size = event.size;
                 engine.getEventDispatcher().dispatchEvent(std::move(sizeChangeEvent));
                 break;
             }
-            case NativeWindow::Event::Type::RESOLUTION_CHANGE:
+            case NativeWindow::Event::Type::ResolutionChange:
             {
                 resolution = event.size;
 
                 engine.getRenderer()->setSize(resolution);
 
                 auto resolutionChangeEvent = std::make_unique<WindowEvent>();
-                resolutionChangeEvent->type = Event::Type::RESOLUTION_CHANGE;
+                resolutionChangeEvent->type = Event::Type::ResolutionChange;
                 resolutionChangeEvent->window = this;
                 resolutionChangeEvent->size = event.size;
                 engine.getEventDispatcher().dispatchEvent(std::move(resolutionChangeEvent));
                 break;
             }
-            case NativeWindow::Event::Type::FULLSCREEN_CHANGE:
+            case NativeWindow::Event::Type::FullscreenChange:
             {
                 fullscreen = event.fullscreen;
 
                 auto fullscreenChangeEvent = std::make_unique<WindowEvent>();
-                fullscreenChangeEvent->type = Event::Type::FULLSCREEN_CHANGE;
+                fullscreenChangeEvent->type = Event::Type::FullscreenChange;
                 fullscreenChangeEvent->window = this;
                 fullscreenChangeEvent->fullscreen = event.fullscreen;
                 engine.getEventDispatcher().dispatchEvent(std::move(fullscreenChangeEvent));
                 break;
             }
-            case NativeWindow::Event::Type::SCREEN_CHANGE:
+            case NativeWindow::Event::Type::ScreenChange:
             {
                 displayId = event.displayId;
 
                 auto screenChangeEvent = std::make_unique<WindowEvent>();
-                screenChangeEvent->type = Event::Type::SCREEN_CHANGE;
+                screenChangeEvent->type = Event::Type::ScreenChange;
                 screenChangeEvent->window = this;
                 screenChangeEvent->screenId = event.displayId;
                 engine.getEventDispatcher().dispatchEvent(std::move(screenChangeEvent));
                 break;
             }
-            case NativeWindow::Event::Type::CLOSE:
+            case NativeWindow::Event::Type::Close:
                 engine.exit();
                 break;
 
-            case NativeWindow::Event::Type::SHOW:
+            case NativeWindow::Event::Type::Show:
                 visible = true;
                 break;
-            case NativeWindow::Event::Type::HIDE:
+            case NativeWindow::Event::Type::Hide:
                 visible = false;
                 break;
-            case NativeWindow::Event::Type::MINIMIZE:
+            case NativeWindow::Event::Type::Minimize:
                 minimized = true;
                 break;
-            case NativeWindow::Event::Type::MAXIMIZE:
+            case NativeWindow::Event::Type::Maximize:
                 break;
-            case NativeWindow::Event::Type::RESTORE:
+            case NativeWindow::Event::Type::Restore:
                 minimized = false;
                 break;
             default:
@@ -220,7 +220,7 @@ namespace ouzel
             nativeWindow->addCommand(command);
 
             auto event = std::make_unique<WindowEvent>();
-            event->type = Event::Type::WINDOW_SIZE_CHANGE;
+            event->type = Event::Type::WindowSizeChange;
             event->window = this;
             event->size = size;
             event->title = title;
@@ -240,7 +240,7 @@ namespace ouzel
             nativeWindow->addCommand(command);
 
             auto event = std::make_unique<WindowEvent>();
-            event->type = Event::Type::FULLSCREEN_CHANGE;
+            event->type = Event::Type::FullscreenChange;
             event->window = this;
             event->size = size;
             event->title = title;
@@ -260,7 +260,7 @@ namespace ouzel
             nativeWindow->addCommand(command);
 
             auto event = std::make_unique<WindowEvent>();
-            event->type = Event::Type::WINDOW_TITLE_CHANGE;
+            event->type = Event::Type::WindowTitleChange;
             event->window = this;
             event->size = size;
             event->title = title;

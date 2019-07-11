@@ -93,7 +93,7 @@ namespace ouzel
         if (active)
         {
             auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::ENGINE_STOP;
+            event->type = Event::Type::EngineStop;
             eventDispatcher.postEvent(std::move(event));
         }
 
@@ -639,7 +639,7 @@ namespace ouzel
         if (!active)
         {
             auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::ENGINE_START;
+            event->type = Event::Type::EngineStart;
             eventDispatcher.postEvent(std::move(event));
 
             active = true;
@@ -658,7 +658,7 @@ namespace ouzel
         if (active && !paused)
         {
             auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::ENGINE_PAUSE;
+            event->type = Event::Type::EnginePause;
             eventDispatcher.postEvent(std::move(event));
 
             paused = true;
@@ -670,7 +670,7 @@ namespace ouzel
         if (active && paused)
         {
             auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::ENGINE_RESUME;
+            event->type = Event::Type::EngineResume;
             eventDispatcher.postEvent(std::move(event));
 
             paused = false;
@@ -688,7 +688,7 @@ namespace ouzel
         if (active)
         {
             auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::ENGINE_STOP;
+            event->type = Event::Type::EngineStop;
             eventDispatcher.postEvent(std::move(event));
 
             active = false;
@@ -721,7 +721,7 @@ namespace ouzel
             float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
 
             auto updateEvent = std::make_unique<UpdateEvent>();
-            updateEvent->type = Event::Type::UPDATE;
+            updateEvent->type = Event::Type::Update;
             updateEvent->delta = delta;
             eventDispatcher.dispatchEvent(std::move(updateEvent));
         }

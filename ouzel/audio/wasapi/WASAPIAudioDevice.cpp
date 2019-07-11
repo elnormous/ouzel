@@ -198,7 +198,7 @@ namespace ouzel
                 waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
                 waveFormat.cbSize = 0;
 
-                sampleFormat = SampleFormat::FLOAT32;
+                sampleFormat = SampleFormat::Float32;
                 sampleSize = sizeof(float);
 
                 DWORD streamFlags = AUDCLNT_STREAMFLAGS_EVENTCALLBACK;
@@ -231,7 +231,7 @@ namespace ouzel
                                                             nullptr)))
                         throw std::system_error(hr, errorCategory, "Failed to initialize audio client");
 
-                    sampleFormat = SampleFormat::SINT16;
+                    sampleFormat = SampleFormat::SInt16;
                     sampleSize = sizeof(int16_t);
                 }
 

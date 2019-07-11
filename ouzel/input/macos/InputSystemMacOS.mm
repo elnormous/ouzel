@@ -254,7 +254,7 @@ namespace ouzel
 
         void InputSystemMacOS::handleGamepadDiscoveryCompleted()
         {
-            sendEvent(Event(Event::Type::DEVICE_DISCOVERY_COMPLETE));
+            sendEvent(Event(Event::Type::DeviceDiscoveryComplete));
         }
 
         void InputSystemMacOS::handleGamepadConnected(GCControllerPtr controller)

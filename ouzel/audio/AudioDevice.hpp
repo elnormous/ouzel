@@ -51,7 +51,7 @@ namespace ouzel
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
 
-            SampleFormat sampleFormat = SampleFormat::SINT16;
+            SampleFormat sampleFormat = SampleFormat::SInt16;
             uint32_t bufferSize; // in frames
             uint32_t sampleRate;
             uint16_t channels;

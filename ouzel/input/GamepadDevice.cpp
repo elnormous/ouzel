@@ -11,7 +11,7 @@ namespace ouzel
             InputDevice(initInputSystem, initId, Controller::Type::GAMEPAD)
         {
             InputSystem::Event deviceConnectEvent;
-            deviceConnectEvent.type = InputSystem::Event::Type::DEVICE_CONNECT;
+            deviceConnectEvent.type = InputSystem::Event::Type::DeviceConnect;
             deviceConnectEvent.deviceId = id;
             deviceConnectEvent.deviceType = type;
             inputSystem.sendEvent(deviceConnectEvent);
@@ -20,7 +20,7 @@ namespace ouzel
         GamepadDevice::~GamepadDevice()
         {
             InputSystem::Event deviceDisconnectEvent;
-            deviceDisconnectEvent.type = InputSystem::Event::Type::DEVICE_DISCONNECT;
+            deviceDisconnectEvent.type = InputSystem::Event::Type::DeviceDisconnect;
             deviceDisconnectEvent.deviceId = id;
             deviceDisconnectEvent.deviceType = type;
             inputSystem.sendEvent(deviceDisconnectEvent);
@@ -28,7 +28,7 @@ namespace ouzel
 
         std::future<bool> GamepadDevice::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
         {
-            InputSystem::Event event(InputSystem::Event::Type::GAMEPAD_BUTTON_CHANGE);
+            InputSystem::Event event(InputSystem::Event::Type::GamepadButtonChange);
             event.deviceId = id;
             event.gamepadButton = button;
             event.pressed = pressed;

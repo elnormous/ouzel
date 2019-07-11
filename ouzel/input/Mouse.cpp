@@ -62,7 +62,7 @@ namespace ouzel
             buttonStates[static_cast<uint32_t>(button)] = true;
 
             auto event = std::make_unique<MouseEvent>();
-            event->type = Event::Type::MOUSE_PRESS;
+            event->type = Event::Type::MousePress;
             event->mouse = this;
             event->button = button;
             event->position = pos;
@@ -75,7 +75,7 @@ namespace ouzel
             buttonStates[static_cast<uint32_t>(button)] = false;
 
             auto event = std::make_unique<MouseEvent>();
-            event->type = Event::Type::MOUSE_RELEASE;
+            event->type = Event::Type::MouseRelease;
             event->mouse = this;
             event->button = button;
             event->position = pos;
@@ -86,7 +86,7 @@ namespace ouzel
         bool Mouse::handleMove(const Vector2F& pos)
         {
             auto event = std::make_unique<MouseEvent>();
-            event->type = Event::Type::MOUSE_MOVE;
+            event->type = Event::Type::MouseMove;
             event->mouse = this;
             event->difference = pos - position;
             event->position = pos;
@@ -109,7 +109,7 @@ namespace ouzel
         bool Mouse::handleScroll(const Vector2F& scroll, const Vector2F& pos)
         {
             auto event = std::make_unique<MouseEvent>();
-            event->type = Event::Type::MOUSE_SCROLL;
+            event->type = Event::Type::MouseScroll;
             event->mouse = this;
             event->position = pos;
             event->scroll = scroll;
@@ -122,7 +122,7 @@ namespace ouzel
             cursorLocked = locked;
 
             auto event = std::make_unique<MouseEvent>();
-            event->type = Event::Type::MOUSE_CURSOR_LOCK_CHANGE;
+            event->type = Event::Type::MouseCursorLockChange;
             event->mouse = this;
             event->locked = cursorLocked;
 

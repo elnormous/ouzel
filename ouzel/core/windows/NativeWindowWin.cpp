@@ -556,7 +556,7 @@ namespace ouzel
 
         resolution = size;
 
-        Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+        Event resolutionChangeEvent(Event::Type::ResolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
@@ -671,11 +671,11 @@ namespace ouzel
         size = newSize;
         resolution = size;
 
-        Event sizeChangeEvent(Event::Type::SIZE_CHANGE);
+        Event sizeChangeEvent(Event::Type::SizeChange);
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::RESOLUTION_CHANGE);
+        Event resolutionChangeEvent(Event::Type::ResolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
@@ -687,7 +687,7 @@ namespace ouzel
 
     void NativeWindowWin::handleActivate(WPARAM wParam)
     {
-        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        Event focusChangeEvent(Event::Type::FocusChange);
         focusChangeEvent.focus = wParam != 0;
         sendEvent(focusChangeEvent);
 
@@ -708,26 +708,26 @@ namespace ouzel
 
     void NativeWindowWin::handleShowWindow(BOOL shown)
     {
-        sendEvent(Event(shown ? Event::Type::SHOW : Event::Type::HIDE));
+        sendEvent(Event(shown ? Event::Type::Show : Event::Type::Hide));
     }
 
     void NativeWindowWin::handleMinimize()
     {
-        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        Event focusChangeEvent(Event::Type::FocusChange);
         focusChangeEvent.focus = false;
         sendEvent(focusChangeEvent);
 
-        sendEvent(Event(Event::Type::MINIMIZE));
+        sendEvent(Event(Event::Type::Minimize));
     }
 
     void NativeWindowWin::handleMaximize()
     {
-        sendEvent(Event(Event::Type::MAXIMIZE));
+        sendEvent(Event(Event::Type::Maximize));
     }
 
     void NativeWindowWin::handleRestore()
     {
-        Event focusChangeEvent(Event::Type::FOCUS_CHANGE);
+        Event focusChangeEvent(Event::Type::FocusChange);
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
 
@@ -742,7 +742,7 @@ namespace ouzel
                           static_cast<float>(cursorPos.y));
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
 
-        sendEvent(Event(Event::Type::RESTORE));
+        sendEvent(Event(Event::Type::Restore));
     }
 
     void NativeWindowWin::handleKey(UINT message, WPARAM wParam, LPARAM lParam)

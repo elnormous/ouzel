@@ -129,7 +129,7 @@ namespace ouzel
 
         void InputSystemTVOS::handleGamepadDiscoveryCompleted()
         {
-            sendEvent(Event(Event::Type::DEVICE_DISCOVERY_COMPLETE));
+            sendEvent(Event(Event::Type::DeviceDiscoveryComplete));
         }
 
         void InputSystemTVOS::handleGamepadConnected(GCControllerPtr controller)

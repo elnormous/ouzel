@@ -139,7 +139,7 @@ namespace ouzel
                 if ((result = (*engine)->CreateAudioPlayer(engine, &playerObject, &dataSource, &dataSink, playerIIDCount, playerIIDs, playerReqs)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to create OpenSL player object");
 
-                sampleFormat = SampleFormat::SINT16;
+                sampleFormat = SampleFormat::SInt16;
 
                 if ((result = (*playerObject)->Realize(playerObject, SL_BOOLEAN_FALSE)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to create OpenSL player object");

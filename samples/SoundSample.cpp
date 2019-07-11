@@ -23,7 +23,7 @@ SoundSample::SoundSample():
     jumpReverb(*engine->getAudio()),
     ambientVoice(*engine->getAudio(), engine->getCache().getSound("ambient.wav")),
     music(*engine->getAudio(), engine->getCache().getSound("music.ogg")),
-    tone(std::make_shared<Oscillator>(*engine->getAudio(), 200.0F, Oscillator::Type::SINE, 0.5F, 1.0F)),
+    tone(std::make_shared<Oscillator>(*engine->getAudio(), 200.0F, Oscillator::Type::Sine, 0.5F, 1.0F)),
     toneVoice(*engine->getAudio(), tone),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
     test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
@@ -100,7 +100,7 @@ SoundSample::SoundSample():
 
 bool SoundSample::handleGamepad(const GamepadEvent& event)
 {
-    if (event.type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    if (event.type == Event::Type::GamepadButtonChange)
     {
         if (event.pressed &&
             event.button == Gamepad::Button::FACE_RIGHT)
@@ -112,7 +112,7 @@ bool SoundSample::handleGamepad(const GamepadEvent& event)
 
 bool SoundSample::handleUI(const UIEvent& event)
 {
-    if (event.type == Event::Type::ACTOR_CLICK)
+    if (event.type == Event::Type::ActorClick)
     {
         if (event.actor == &backButton)
             engine->getSceneManager().setScene(std::make_unique<MainMenu>());
@@ -135,7 +135,7 @@ bool SoundSample::handleUI(const UIEvent& event)
 
 bool SoundSample::handleKeyboard(const KeyboardEvent& event) const
 {
-    if (event.type == Event::Type::KEY_PRESS)
+    if (event.type == Event::Type::KeyPress)
     {
         switch (event.key)
         {
@@ -148,7 +148,7 @@ bool SoundSample::handleKeyboard(const KeyboardEvent& event) const
                 break;
         }
     }
-    else if (event.type == Event::Type::KEY_RELEASE)
+    else if (event.type == Event::Type::KeyRelease)
     {
         switch (event.key)
         {

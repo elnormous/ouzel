@@ -55,10 +55,10 @@ namespace ouzel
                 }
 
                 const Matrix4F transform =
-                    (particleSystemData.positionType == ParticleSystemData::PositionType::FREE ||
-                     particleSystemData.positionType == ParticleSystemData::PositionType::PARENT) ?
+                    (particleSystemData.positionType == ParticleSystemData::PositionType::Free ||
+                     particleSystemData.positionType == ParticleSystemData::PositionType::Parent) ?
                     renderViewProjection :
-                    (particleSystemData.positionType == ParticleSystemData::PositionType::GROUPED) ?
+                    (particleSystemData.positionType == ParticleSystemData::PositionType::Grouped) ?
                     renderViewProjection * transformMatrix : Matrix4F::identity();
 
                 const float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
@@ -125,7 +125,7 @@ namespace ouzel
                     updateHandler.remove();
 
                     auto finishEvent = std::make_unique<AnimationEvent>();
-                    finishEvent->type = Event::Type::ANIMATION_FINISH;
+                    finishEvent->type = Event::Type::AnimationFinish;
                     finishEvent->component = this;
                     engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
 
@@ -142,7 +142,7 @@ namespace ouzel
 
                         if (particles[i].life >= 0.0F)
                         {
-                            if (particleSystemData.emitterType == ParticleSystemData::EmitterType::GRAVITY)
+                            if (particleSystemData.emitterType == ParticleSystemData::EmitterType::Gravity)
                             {
                                 Vector2F tmp;
                                 Vector2F radial;
@@ -213,8 +213,8 @@ namespace ouzel
                 // Update bounding box
                 boundingBox.reset();
 
-                if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE ||
-                    particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
+                if (particleSystemData.positionType == ParticleSystemData::PositionType::Free ||
+                    particleSystemData.positionType == ParticleSystemData::PositionType::Parent)
                 {
                     if (actor)
                     {
@@ -228,7 +228,7 @@ namespace ouzel
                         }
                     }
                 }
-                else if (particleSystemData.positionType == ParticleSystemData::PositionType::GROUPED)
+                else if (particleSystemData.positionType == ParticleSystemData::PositionType::Grouped)
                 {
                     for (uint32_t i = 0; i < particleCount; ++i)
                         boundingBox.insertPoint(Vector3F(particles[i].position));
@@ -271,7 +271,7 @@ namespace ouzel
                 if (particleCount == 0)
                 {
                     auto startEvent = std::make_unique<AnimationEvent>();
-                    startEvent->type = Event::Type::ANIMATION_START;
+                    startEvent->type = Event::Type::AnimationStart;
                     startEvent->component = this;
                     engine->getEventDispatcher().dispatchEvent(std::move(startEvent));
                 }
@@ -340,9 +340,9 @@ namespace ouzel
 
                     Vector2F position;
 
-                    if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
+                    if (particleSystemData.positionType == ParticleSystemData::PositionType::Free)
                         position = particles[i].position;
-                    else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
+                    else if (particleSystemData.positionType == ParticleSystemData::PositionType::Parent)
                         position = Vector2F(actor->getPosition()) + particles[i].position;
 
                     float size_2 = particles[i].size / 2.0F;
@@ -389,14 +389,14 @@ namespace ouzel
             {
                 Vector2F position;
 
-                if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
+                if (particleSystemData.positionType == ParticleSystemData::PositionType::Free)
                     position = Vector2F(actor->convertLocalToWorld(Vector3F()));
-                else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
+                else if (particleSystemData.positionType == ParticleSystemData::PositionType::Parent)
                     position = Vector2F(actor->convertLocalToWorld(Vector3F()) - actor->getPosition());
 
                 for (uint32_t i = particleCount; i < particleCount + count; ++i)
                 {
-                    if (particleSystemData.emitterType == ParticleSystemData::EmitterType::GRAVITY)
+                    if (particleSystemData.emitterType == ParticleSystemData::EmitterType::Gravity)
                     {
                         particles[i].life = std::max(particleSystemData.particleLifespan + particleSystemData.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
 

@@ -44,17 +44,17 @@ namespace ouzel
         public:
             enum class Type
             {
-                SIZE_CHANGE,
-                RESOLUTION_CHANGE,
-                FULLSCREEN_CHANGE,
-                SCREEN_CHANGE,
-                FOCUS_CHANGE,
-                CLOSE,
-                SHOW,
-                HIDE,
-                MINIMIZE,
-                MAXIMIZE,
-                RESTORE
+                SizeChange,
+                ResolutionChange,
+                FullscreenChange,
+                ScreenChange,
+                FocusChange,
+                Close,
+                Show,
+                Hide,
+                Minimize,
+                Maximize,
+                Restore
             };
 
             Event() = default;

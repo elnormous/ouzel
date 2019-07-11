@@ -45,14 +45,14 @@ namespace ouzel
                     if ((result = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_FLOAT_LE)) < 0)
                         throw std::system_error(result, std::system_category(), "Failed to set sample format");
 
-                    sampleFormat = SampleFormat::FLOAT32;
+                    sampleFormat = SampleFormat::Float32;
                 }
                 else if (snd_pcm_hw_params_test_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE) == 0)
                 {
                     if ((result = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE)) < 0)
                         throw std::system_error(result, std::system_category(), "Failed to set sample format");
 
-                    sampleFormat = SampleFormat::SINT16;
+                    sampleFormat = SampleFormat::SInt16;
                 }
                 else
                     throw std::runtime_error("No supported format");

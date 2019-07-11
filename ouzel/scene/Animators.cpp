@@ -451,7 +451,7 @@ namespace ouzel
                     animators.front()->setProgress(remainingTime / animators.front()->getLength());
 
                     auto resetEvent = std::make_unique<AnimationEvent>();
-                    resetEvent->type = Event::Type::ANIMATION_RESET;
+                    resetEvent->type = Event::Type::AnimationReset;
                     resetEvent->component = this;
                     engine->getEventDispatcher().dispatchEvent(std::move(resetEvent));
                 }
@@ -463,7 +463,7 @@ namespace ouzel
                     progress = 1.0F;
 
                     auto finishEvent = std::make_unique<AnimationEvent>();
-                    finishEvent->type = Event::Type::ANIMATION_FINISH;
+                    finishEvent->type = Event::Type::AnimationFinish;
                     finishEvent->component = this;
                     engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
                 }

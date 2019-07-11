@@ -195,7 +195,7 @@ namespace ouzel
 
         bool Scene::handleWindow(const WindowEvent& event)
         {
-            if (event.type == Event::Type::RESOLUTION_CHANGE)
+            if (event.type == Event::Type::ResolutionChange)
                 recalculateProjection();
 
             return false;
@@ -205,19 +205,19 @@ namespace ouzel
         {
             switch (event.type)
             {
-                case Event::Type::MOUSE_PRESS:
+                case Event::Type::MousePress:
                 {
                     std::pair<Actor*, Vector3F> actor = pickActor(event.position);
                     pointerDownOnActor(0, actor.first, event.position, actor.second);
                     break;
                 }
-                case Event::Type::MOUSE_RELEASE:
+                case Event::Type::MouseRelease:
                 {
                     std::pair<Actor*, Vector3F> actor = pickActor(event.position);
                     pointerUpOnActor(0, actor.first, event.position);
                     break;
                 }
-                case Event::Type::MOUSE_MOVE:
+                case Event::Type::MouseMove:
                 {
                     std::pair<Actor*, Vector3F> previousActor = pickActor(event.position - event.difference);
                     pointerLeaveActor(0, previousActor.first, event.position);
@@ -244,19 +244,19 @@ namespace ouzel
             {
                 switch (event.type)
                 {
-                    case Event::Type::TOUCH_BEGIN:
+                    case Event::Type::TouchBegin:
                     {
                         std::pair<Actor*, Vector3F> actor = pickActor(event.position);
                         pointerDownOnActor(event.touchId, actor.first, event.position, actor.second);
                         break;
                     }
-                    case Event::Type::TOUCH_END:
+                    case Event::Type::TouchEnd:
                     {
                         std::pair<Actor*, Vector3F> actor = pickActor(event.position);
                         pointerUpOnActor(event.touchId, actor.first, event.position);
                         break;
                     }
-                    case Event::Type::TOUCH_MOVE:
+                    case Event::Type::TouchMove:
                     {
                         std::pair<Actor*, Vector3F> previousActor = pickActor(event.position - event.difference);
                         pointerLeaveActor(0, previousActor.first, event.position);
@@ -270,7 +270,7 @@ namespace ouzel
                             pointerDragActor(event.touchId, i->second.first, event.position, event.difference, i->second.second);
                         break;
                     }
-                    case Event::Type::TOUCH_CANCEL:
+                    case Event::Type::TouchCancel:
                     {
                         std::pair<Actor*, Vector3F> actor = pickActor(event.position);
                         pointerUpOnActor(event.touchId, actor.first, event.position);
@@ -289,7 +289,7 @@ namespace ouzel
             if (actor)
             {
                 auto event = std::make_unique<UIEvent>();
-                event->type = Event::Type::ACTOR_ENTER;
+                event->type = Event::Type::ActorEnter;
                 event->actor = actor;
                 event->touchId = pointerId;
                 event->position = position;
@@ -302,7 +302,7 @@ namespace ouzel
             if (actor)
             {
                 auto event = std::make_unique<UIEvent>();
-                event->type = Event::Type::ACTOR_LEAVE;
+                event->type = Event::Type::ActorLeave;
                 event->actor = actor;
                 event->touchId = pointerId;
                 event->position = position;
@@ -317,7 +317,7 @@ namespace ouzel
                 pointerDownOnActors[pointerId] = std::make_pair(actor, localPosition);
 
                 auto event = std::make_unique<UIEvent>();
-                event->type = Event::Type::ACTOR_PRESS;
+                event->type = Event::Type::ActorPress;
                 event->actor = actor;
                 event->touchId = pointerId;
                 event->position = position;
@@ -337,7 +337,7 @@ namespace ouzel
                 if (pointerDownOnActor.first)
                 {
                     auto releaseEvent = std::make_unique<UIEvent>();
-                    releaseEvent->type = Event::Type::ACTOR_RELEASE;
+                    releaseEvent->type = Event::Type::ActorRelease;
                     releaseEvent->actor = pointerDownOnActor.first;
                     releaseEvent->touchId = pointerId;
                     releaseEvent->position = position;
@@ -348,7 +348,7 @@ namespace ouzel
                     if (pointerDownOnActor.first == actor)
                     {
                         auto clickEvent = std::make_unique<UIEvent>();
-                        clickEvent->type = Event::Type::ACTOR_CLICK;
+                        clickEvent->type = Event::Type::ActorClick;
                         clickEvent->actor = actor;
                         clickEvent->touchId = pointerId;
                         clickEvent->position = position;
@@ -367,7 +367,7 @@ namespace ouzel
             if (actor)
             {
                 auto event = std::make_unique<UIEvent>();
-                event->type = Event::Type::ACTOR_DRAG;
+                event->type = Event::Type::ActorDrag;
                 event->actor = actor;
                 event->touchId = pointerId;
                 event->difference = difference;

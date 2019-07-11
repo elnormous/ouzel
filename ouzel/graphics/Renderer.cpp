@@ -168,7 +168,7 @@ namespace ouzel
 
         void Renderer::handleEvent(const RenderDevice::Event& event)
         {
-            if (event.type == RenderDevice::Event::Type::FRAME)
+            if (event.type == RenderDevice::Event::Type::Frame)
             {
                 std::unique_lock<std::mutex> lock(frameMutex);
                 newFrame = true;

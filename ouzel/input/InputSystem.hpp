@@ -79,26 +79,26 @@ namespace ouzel
             public:
                 enum class Type
                 {
-                    DEVICE_CONNECT,
-                    DEVICE_DISCONNECT,
-                    DEVICE_DISCOVERY_COMPLETE,
+                    DeviceConnect,
+                    DeviceDisconnect,
+                    DeviceDiscoveryComplete,
 
-                    GAMEPAD_BUTTON_CHANGE,
+                    GamepadButtonChange,
 
-                    KEY_PRESS,
-                    KEY_RELEASE,
+                    KeyPress,
+                    KeyRelease,
 
-                    MOUSE_PRESS,
-                    MOUSE_RELEASE,
-                    MOUSE_SCROLL,
-                    MOUSE_MOVE,
-                    MOUSE_RELATIVE_MOVE,
-                    MOUSE_LOCK_CHANGED,
+                    MousePress,
+                    MouseRelease,
+                    MouseScroll,
+                    MouseMove,
+                    MouseRelativeMove,
+                    MouseLockChanged,
 
-                    TOUCH_BEGIN,
-                    TOUCH_MOVE,
-                    TOUCH_END,
-                    TOUCH_CANCEL
+                    TouchBegin,
+                    TouchMove,
+                    TouchEnd,
+                    TouchCancel
                 };
 
                 Event() = default;

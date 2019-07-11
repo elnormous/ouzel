@@ -34,7 +34,7 @@ namespace ouzel
             {
                 enum class Type
                 {
-                    FRAME
+                    Frame
                 };
 
                 Type type;
