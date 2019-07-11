@@ -851,7 +851,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::INIT_RENDER_TARGET:
+                            case Command::Type::INIT_RENDER_TARGET:
                             {
                                 auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
 

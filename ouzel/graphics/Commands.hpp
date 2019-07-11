@@ -30,7 +30,7 @@ namespace ouzel
         class Command
         {
         public:
-            enum Type
+            enum class Type
             {
                 STOP,
                 RESIZE,
