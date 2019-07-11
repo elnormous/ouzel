@@ -17,14 +17,14 @@ namespace ouzel
             {
                 switch (compareFunction)
                 {
-                    case CompareFunction::NEVER: return MTLCompareFunctionNever;
-                    case CompareFunction::LESS: return MTLCompareFunctionLess;
-                    case CompareFunction::EQUAL: return MTLCompareFunctionEqual;
-                    case CompareFunction::LESS_EQUAL: return MTLCompareFunctionLessEqual;
-                    case CompareFunction::GREATER: return MTLCompareFunctionGreater;
-                    case CompareFunction::NOT_EQUAL: return MTLCompareFunctionNotEqual;
-                    case CompareFunction::GREATER_EQUAL: return MTLCompareFunctionGreaterEqual;
-                    case CompareFunction::ALWAYS: return MTLCompareFunctionAlways;
+                    case CompareFunction::Never: return MTLCompareFunctionNever;
+                    case CompareFunction::Less: return MTLCompareFunctionLess;
+                    case CompareFunction::Equal: return MTLCompareFunctionEqual;
+                    case CompareFunction::LessEqual: return MTLCompareFunctionLessEqual;
+                    case CompareFunction::Greater: return MTLCompareFunctionGreater;
+                    case CompareFunction::NotEqual: return MTLCompareFunctionNotEqual;
+                    case CompareFunction::GreaterEqual: return MTLCompareFunctionGreaterEqual;
+                    case CompareFunction::Always: return MTLCompareFunctionAlways;
                     default: return MTLCompareFunctionNever;
                 }
             }
@@ -33,14 +33,14 @@ namespace ouzel
             {
                 switch (stencilOperation)
                 {
-                    case StencilOperation::KEEP: return MTLStencilOperationKeep;
-                    case StencilOperation::ZERO: return MTLStencilOperationZero;
-                    case StencilOperation::REPLACE: return MTLStencilOperationReplace;
-                    case StencilOperation::INCREMENT_CLAMP: return MTLStencilOperationIncrementClamp;
-                    case StencilOperation::DECREMENT_CLAMP: return MTLStencilOperationDecrementClamp;
-                    case StencilOperation::INVERT: return MTLStencilOperationInvert;
-                    case StencilOperation::INCREMENT_WRAP: return MTLStencilOperationIncrementWrap;
-                    case StencilOperation::DECREMENT_WRAP: return MTLStencilOperationDecrementWrap;
+                    case StencilOperation::Keep: return MTLStencilOperationKeep;
+                    case StencilOperation::Zero: return MTLStencilOperationZero;
+                    case StencilOperation::Replace: return MTLStencilOperationReplace;
+                    case StencilOperation::IncrementClamp: return MTLStencilOperationIncrementClamp;
+                    case StencilOperation::DecrementClamp: return MTLStencilOperationDecrementClamp;
+                    case StencilOperation::Invert: return MTLStencilOperationInvert;
+                    case StencilOperation::IncrementWrap: return MTLStencilOperationIncrementWrap;
+                    case StencilOperation::DecrementWrap: return MTLStencilOperationDecrementWrap;
                     default: return MTLStencilOperationKeep;
                 }
             }

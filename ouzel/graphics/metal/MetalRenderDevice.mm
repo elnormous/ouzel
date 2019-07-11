@@ -75,16 +75,16 @@ namespace ouzel
             {
                 switch (address)
                 {
-                    case SamplerAddressMode::CLAMP_TO_EDGE:
+                    case SamplerAddressMode::ClampToEdge:
                         return MTLSamplerAddressModeClampToEdge;
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
                     // MTLSamplerAddressModeClampToBorderColor is not defined in macOS SDK older than 10.12
-                    case SamplerAddressMode::CLAMP_TO_BORDER:
+                    case SamplerAddressMode::ClampToBorder:
                         return MTLSamplerAddressModeClampToBorderColor;
 #endif
-                    case SamplerAddressMode::REPEAT:
+                    case SamplerAddressMode::Repeat:
                         return MTLSamplerAddressModeRepeat;
-                    case SamplerAddressMode::MIRROR_REPEAT:
+                    case SamplerAddressMode::MirrorRepeat:
                         return MTLSamplerAddressModeMirrorRepeat;
                     default:
                         throw std::runtime_error("Invalid address mode");
@@ -342,7 +342,7 @@ namespace ouzel
 
                         switch (command->type)
                         {
-                            case Command::Type::RESIZE:
+                            case Command::Type::Resize:
                             {
                                 auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
                                 CGSize drawableSize = CGSizeMake(resizeCommand->size.v[0],
@@ -351,7 +351,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::PRESENT:
+                            case Command::Type::Present:
                             {
                                 if (currentRenderCommandEncoder)
                                     [currentRenderCommandEncoder endEncoding];
@@ -364,14 +364,14 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::DELETE_RESOURCE:
+                            case Command::Type::DeleteResource:
                             {
                                 auto deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
                                 resources[deleteResourceCommand->resource - 1].reset();
                                 break;
                             }
 
-                            case Command::Type::INIT_RENDER_TARGET:
+                            case Command::Type::InitRenderTarget:
                             {
                                 auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
 
@@ -389,7 +389,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_RENDER_TARGET:
+                            case Command::Type::SetRenderTarget:
                             {
                                 auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
@@ -435,7 +435,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::CLEAR_RENDER_TARGET:
+                            case Command::Type::ClearRenderTarget:
                             {
                                 auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
@@ -471,14 +471,14 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::BLIT:
+                            case Command::Type::Blit:
                             {
                                 //auto blitCommand = static_cast<const BlitCommand*>(command.get());
                                 //MTLBlitCommandEncoder
                                 break;
                             }
 
-                            case Command::Type::SET_SCISSOR_TEST:
+                            case Command::Type::SetScissorTest:
                             {
                                 auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
@@ -500,7 +500,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_VIEWPORT:
+                            case Command::Type::SetViewport:
                             {
                                 auto setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
 
@@ -520,7 +520,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::INIT_DEPTH_STENCIL_STATE:
+                            case Command::Type::InitDepthStencilState:
                             {
                                 auto initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
                                 auto depthStencilState = std::make_unique<DepthStencilState>(*this,
@@ -546,7 +546,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_DEPTH_STENCIL_STATE:
+                            case Command::Type::SetDepthStencilState:
                             {
                                 auto setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
 
@@ -567,7 +567,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_PIPELINE_STATE:
+                            case Command::Type::SetPipelineState:
                             {
                                 auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
@@ -590,7 +590,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::DRAW:
+                            case Command::Type::Draw:
                             {
                                 auto drawCommand = static_cast<const DrawCommand*>(command.get());
 
@@ -622,7 +622,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::PUSH_DEBUG_MARKER:
+                            case Command::Type::PushDebugMarker:
                             {
                                 auto pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
 
@@ -633,7 +633,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::POP_DEBUG_MARKER:
+                            case Command::Type::PopDebugMarker:
                             {
                                 //auto popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
 
@@ -644,7 +644,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::INIT_BLEND_STATE:
+                            case Command::Type::InitBlendState:
                             {
                                 auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
@@ -664,7 +664,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::INIT_BUFFER:
+                            case Command::Type::InitBuffer:
                             {
                                 auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
@@ -680,7 +680,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_BUFFER_DATA:
+                            case Command::Type::SetBufferData:
                             {
                                 auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
@@ -689,7 +689,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::INIT_SHADER:
+                            case Command::Type::InitShader:
                             {
                                 auto initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
@@ -710,7 +710,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_SHADER_CONSTANTS:
+                            case Command::Type::SetShaderConstants:
                             {
                                 auto setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
@@ -825,7 +825,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::INIT_TEXTURE:
+                            case Command::Type::InitTexture:
                             {
                                 auto initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
@@ -842,7 +842,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_TEXTURE_DATA:
+                            case Command::Type::SetTextureData:
                             {
                                 auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
@@ -852,12 +852,12 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_TEXTURE_PARAMETERS:
+                            case Command::Type::SetTextureParameters:
                             {
                                 auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
                                 Texture* texture = getResource<Texture>(setTextureParametersCommand->texture);
-                                texture->setFilter(setTextureParametersCommand->filter == SamplerFilter::DEFAULT ? textureFilter : setTextureParametersCommand->filter);
+                                texture->setFilter(setTextureParametersCommand->filter == SamplerFilter::Default ? textureFilter : setTextureParametersCommand->filter);
                                 texture->setAddressX(setTextureParametersCommand->addressX);
                                 texture->setAddressY(setTextureParametersCommand->addressY);
                                 texture->setAddressZ(setTextureParametersCommand->addressZ);
@@ -866,7 +866,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_TEXTURES:
+                            case Command::Type::SetTextures:
                             {
                                 auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
@@ -893,7 +893,7 @@ namespace ouzel
                             default: throw std::runtime_error("Invalid command");
                         }
 
-                        if (command->type == Command::Type::PRESENT) return;
+                        if (command->type == Command::Type::Present) return;
                     }
                 }
             }
@@ -1000,23 +1000,23 @@ namespace ouzel
                     MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
                     switch (descriptor.filter)
                     {
-                        case SamplerFilter::DEFAULT:
-                        case SamplerFilter::POINT:
+                        case SamplerFilter::Default:
+                        case SamplerFilter::Point:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case SamplerFilter::LINEAR:
+                        case SamplerFilter::Linear:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case SamplerFilter::BILINEAR:
+                        case SamplerFilter::Bilinear:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case SamplerFilter::TRILINEAR:
+                        case SamplerFilter::Trilinear:
                             samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;

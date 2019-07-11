@@ -117,7 +117,7 @@ namespace ouzel
 
         Size2U size;
         uint32_t sampleCount = 1; // MSAA sample count
-        graphics::SamplerFilter textureFilter = graphics::SamplerFilter::POINT;
+        graphics::SamplerFilter textureFilter = graphics::SamplerFilter::Point;
         uint32_t maxAnisotropy = 1;
         bool resizable = false;
         bool fullscreen = false;
@@ -158,13 +158,13 @@ namespace ouzel
         if (!textureFilterValue.empty())
         {
             if (textureFilterValue == "point")
-                textureFilter = graphics::SamplerFilter::POINT;
+                textureFilter = graphics::SamplerFilter::Point;
             else if (textureFilterValue == "linear")
-                textureFilter = graphics::SamplerFilter::LINEAR;
+                textureFilter = graphics::SamplerFilter::Linear;
             else if (textureFilterValue == "bilinear")
-                textureFilter = graphics::SamplerFilter::BILINEAR;
+                textureFilter = graphics::SamplerFilter::Bilinear;
             else if (textureFilterValue == "trilinear")
-                textureFilter = graphics::SamplerFilter::TRILINEAR;
+                textureFilter = graphics::SamplerFilter::Trilinear;
             else
                 throw std::runtime_error("Invalid texture filter specified");
         }
@@ -251,15 +251,15 @@ namespace ouzel
                                                                            std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl),
                                                                                                 std::end(TextureVSGLES2_glsl)),
                                                                            std::set<graphics::Vertex::Attribute::Usage>{
-                                                                               graphics::Vertex::Attribute::Usage::POSITION,
-                                                                               graphics::Vertex::Attribute::Usage::COLOR,
-                                                                               graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                               graphics::Vertex::Attribute::Usage::Position,
+                                                                               graphics::Vertex::Attribute::Usage::Color,
+                                                                               graphics::Vertex::Attribute::Usage::TextureCoordinates0
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"color",graphics::DataType::FLOAT_VECTOR4}
+                                                                               {"color",graphics::DataType::FloatVector4}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                               {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                            });
                         break;
                     case 3:
@@ -269,15 +269,15 @@ namespace ouzel
                                                                            std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl),
                                                                                                 std::end(TextureVSGLES3_glsl)),
                                                                            std::set<graphics::Vertex::Attribute::Usage>{
-                                                                               graphics::Vertex::Attribute::Usage::POSITION,
-                                                                               graphics::Vertex::Attribute::Usage::COLOR,
-                                                                               graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                               graphics::Vertex::Attribute::Usage::Position,
+                                                                               graphics::Vertex::Attribute::Usage::Color,
+                                                                               graphics::Vertex::Attribute::Usage::TextureCoordinates0
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                               {"color", graphics::DataType::FloatVector4}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                               {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                            });
                         break;
 #  else
@@ -288,15 +288,15 @@ namespace ouzel
                                                                            std::vector<uint8_t>(std::begin(TextureVSGL2_glsl),
                                                                                                 std::end(TextureVSGL2_glsl)),
                                                                            std::set<graphics::Vertex::Attribute::Usage>{
-                                                                               graphics::Vertex::Attribute::Usage::POSITION,
-                                                                               graphics::Vertex::Attribute::Usage::COLOR,
-                                                                               graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                               graphics::Vertex::Attribute::Usage::Position,
+                                                                               graphics::Vertex::Attribute::Usage::Color,
+                                                                               graphics::Vertex::Attribute::Usage::TextureCoordinates0
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                               {"color", graphics::DataType::FloatVector4}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                               {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                            });
                         break;
                     case 3:
@@ -306,15 +306,15 @@ namespace ouzel
                                                                            std::vector<uint8_t>(std::begin(TextureVSGL3_glsl),
                                                                                                 std::end(TextureVSGL3_glsl)),
                                                                            std::set<graphics::Vertex::Attribute::Usage>{
-                                                                               graphics::Vertex::Attribute::Usage::POSITION,
-                                                                               graphics::Vertex::Attribute::Usage::COLOR,
-                                                                               graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                               graphics::Vertex::Attribute::Usage::Position,
+                                                                               graphics::Vertex::Attribute::Usage::Color,
+                                                                               graphics::Vertex::Attribute::Usage::TextureCoordinates0
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                               {"color", graphics::DataType::FloatVector4}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                               {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                            });
                         break;
                     case 4:
@@ -324,15 +324,15 @@ namespace ouzel
                                                                            std::vector<uint8_t>(std::begin(TextureVSGL4_glsl),
                                                                                                 std::end(TextureVSGL4_glsl)),
                                                                            std::set<graphics::Vertex::Attribute::Usage>{
-                                                                               graphics::Vertex::Attribute::Usage::POSITION,
-                                                                               graphics::Vertex::Attribute::Usage::COLOR,
-                                                                               graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                               graphics::Vertex::Attribute::Usage::Position,
+                                                                               graphics::Vertex::Attribute::Usage::Color,
+                                                                               graphics::Vertex::Attribute::Usage::TextureCoordinates0
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                               {"color", graphics::DataType::FloatVector4}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                               {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                            });
                         break;
 #  endif
@@ -354,14 +354,14 @@ namespace ouzel
                                                                          std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl),
                                                                                               std::end(ColorVSGLES2_glsl)),
                                                                          std::set<graphics::Vertex::Attribute::Usage>{
-                                                                             graphics::Vertex::Attribute::Usage::POSITION,
-                                                                             graphics::Vertex::Attribute::Usage::COLOR
+                                                                             graphics::Vertex::Attribute::Usage::Position,
+                                                                             graphics::Vertex::Attribute::Usage::Color
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                             {"color", graphics::DataType::FloatVector4}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                          });
 
                         break;
@@ -372,14 +372,14 @@ namespace ouzel
                                                                          std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl),
                                                                                               std::end(ColorVSGLES3_glsl)),
                                                                          std::set<graphics::Vertex::Attribute::Usage>{
-                                                                             graphics::Vertex::Attribute::Usage::POSITION,
-                                                                             graphics::Vertex::Attribute::Usage::COLOR
+                                                                             graphics::Vertex::Attribute::Usage::Position,
+                                                                             graphics::Vertex::Attribute::Usage::Color
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                             {"color", graphics::DataType::FloatVector4}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                          });
                         break;
 #  else
@@ -390,14 +390,14 @@ namespace ouzel
                                                                          std::vector<uint8_t>(std::begin(ColorVSGL2_glsl),
                                                                                               std::end(ColorVSGL2_glsl)),
                                                                          std::set<graphics::Vertex::Attribute::Usage>{
-                                                                             graphics::Vertex::Attribute::Usage::POSITION,
-                                                                             graphics::Vertex::Attribute::Usage::COLOR
+                                                                             graphics::Vertex::Attribute::Usage::Position,
+                                                                             graphics::Vertex::Attribute::Usage::Color
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                             {"color", graphics::DataType::FloatVector4}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                          });
                         break;
                     case 3:
@@ -407,14 +407,14 @@ namespace ouzel
                                                                          std::vector<uint8_t>(std::begin(ColorVSGL3_glsl),
                                                                                               std::end(ColorVSGL3_glsl)),
                                                                          std::set<graphics::Vertex::Attribute::Usage>{
-                                                                             graphics::Vertex::Attribute::Usage::POSITION,
-                                                                             graphics::Vertex::Attribute::Usage::COLOR
+                                                                             graphics::Vertex::Attribute::Usage::Position,
+                                                                             graphics::Vertex::Attribute::Usage::Color
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                             {"color", graphics::DataType::FloatVector4}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                          });
                         break;
                     case 4:
@@ -424,14 +424,14 @@ namespace ouzel
                                                                          std::vector<uint8_t>(std::begin(ColorVSGL4_glsl),
                                                                                               std::end(ColorVSGL4_glsl)),
                                                                          std::set<graphics::Vertex::Attribute::Usage>{
-                                                                             graphics::Vertex::Attribute::Usage::POSITION,
-                                                                             graphics::Vertex::Attribute::Usage::COLOR
+                                                                             graphics::Vertex::Attribute::Usage::Position,
+                                                                             graphics::Vertex::Attribute::Usage::Color
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                             {"color", graphics::DataType::FloatVector4}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                          });
                         break;
 #  endif
@@ -453,15 +453,15 @@ namespace ouzel
                                                                         std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11),
                                                                                              std::end(TEXTURE_VERTEX_SHADER_D3D11)),
                                                                         std::set<graphics::Vertex::Attribute::Usage>{
-                                                                            graphics::Vertex::Attribute::Usage::POSITION,
-                                                                            graphics::Vertex::Attribute::Usage::COLOR,
-                                                                            graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                            graphics::Vertex::Attribute::Usage::Position,
+                                                                            graphics::Vertex::Attribute::Usage::Color,
+                                                                            graphics::Vertex::Attribute::Usage::TextureCoordinates0
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                            {"color", graphics::DataType::FloatVector4}
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                            {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                         });
 
                 assetBundle.setShader(SHADER_TEXTURE, textureShader);
@@ -472,14 +472,14 @@ namespace ouzel
                                                                       std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11),
                                                                                            std::end(COLOR_VERTEX_SHADER_D3D11)),
                                                                       std::set<graphics::Vertex::Attribute::Usage>{
-                                                                          graphics::Vertex::Attribute::Usage::POSITION,
-                                                                          graphics::Vertex::Attribute::Usage::COLOR
+                                                                          graphics::Vertex::Attribute::Usage::Position,
+                                                                          graphics::Vertex::Attribute::Usage::Color
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                          {"color", graphics::DataType::FloatVector4}
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                          {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                       });
 
                 assetBundle.setShader(SHADER_COLOR, colorShader);
@@ -496,15 +496,15 @@ namespace ouzel
                                                                         std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL),
                                                                                              std::end(TEXTURE_VERTEX_SHADER_METAL)),
                                                                         std::set<graphics::Vertex::Attribute::Usage>{
-                                                                            graphics::Vertex::Attribute::Usage::POSITION,
-                                                                            graphics::Vertex::Attribute::Usage::COLOR,
-                                                                            graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                            graphics::Vertex::Attribute::Usage::Position,
+                                                                            graphics::Vertex::Attribute::Usage::Color,
+                                                                            graphics::Vertex::Attribute::Usage::TextureCoordinates0
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                            {"color", graphics::DataType::FloatVector4}
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                            {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                         },
                                                                         256, 256,
                                                                         "mainPS", "mainVS");
@@ -517,14 +517,14 @@ namespace ouzel
                                                                       std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL),
                                                                                            std::end(COLOR_VERTEX_SHADER_METAL)),
                                                                       std::set<graphics::Vertex::Attribute::Usage>{
-                                                                          graphics::Vertex::Attribute::Usage::POSITION,
-                                                                          graphics::Vertex::Attribute::Usage::COLOR
+                                                                          graphics::Vertex::Attribute::Usage::Position,
+                                                                          graphics::Vertex::Attribute::Usage::Color
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                          {"color", graphics::DataType::FloatVector4}
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                          {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                       },
                                                                       256, 256,
                                                                       "mainPS", "mainVS");
@@ -540,15 +540,15 @@ namespace ouzel
                                                                         std::vector<uint8_t>(),
                                                                         std::vector<uint8_t>(),
                                                                         std::set<graphics::Vertex::Attribute::Usage>{
-                                                                            graphics::Vertex::Attribute::Usage::POSITION,
-                                                                            graphics::Vertex::Attribute::Usage::COLOR,
-                                                                            graphics::Vertex::Attribute::Usage::TEXTURE_COORDINATES0
+                                                                            graphics::Vertex::Attribute::Usage::Position,
+                                                                            graphics::Vertex::Attribute::Usage::Color,
+                                                                            graphics::Vertex::Attribute::Usage::TextureCoordinates0
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                            {"color", graphics::DataType::FloatVector4}
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                            {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                         });
 
                 assetBundle.setShader(SHADER_TEXTURE, textureShader);
@@ -557,14 +557,14 @@ namespace ouzel
                                                                       std::vector<uint8_t>(),
                                                                       std::vector<uint8_t>(),
                                                                       std::set<graphics::Vertex::Attribute::Usage>{
-                                                                          graphics::Vertex::Attribute::Usage::POSITION,
-                                                                          graphics::Vertex::Attribute::Usage::COLOR
+                                                                          graphics::Vertex::Attribute::Usage::Position,
+                                                                          graphics::Vertex::Attribute::Usage::Color
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"color", graphics::DataType::FLOAT_VECTOR4}
+                                                                          {"color", graphics::DataType::FloatVector4}
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"modelViewProj", graphics::DataType::FLOAT_MATRIX4}
+                                                                          {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                       });
 
                 assetBundle.setShader(SHADER_COLOR, colorShader);
@@ -574,56 +574,56 @@ namespace ouzel
 
         auto noBlendState = std::make_shared<graphics::BlendState>(*renderer,
                                                                    false,
-                                                                   graphics::BlendFactor::ONE,
-                                                                   graphics::BlendFactor::ZERO,
-                                                                   graphics::BlendOperation::ADD,
-                                                                   graphics::BlendFactor::ONE,
-                                                                   graphics::BlendFactor::ZERO,
-                                                                   graphics::BlendOperation::ADD);
+                                                                   graphics::BlendFactor::One,
+                                                                   graphics::BlendFactor::Zero,
+                                                                   graphics::BlendOperation::Add,
+                                                                   graphics::BlendFactor::One,
+                                                                   graphics::BlendFactor::Zero,
+                                                                   graphics::BlendOperation::Add);
 
         assetBundle.setBlendState(BLEND_NO_BLEND, noBlendState);
 
         auto addBlendState = std::make_shared<graphics::BlendState>(*renderer,
                                                                     true,
-                                                                    graphics::BlendFactor::ONE,
-                                                                    graphics::BlendFactor::ONE,
-                                                                    graphics::BlendOperation::ADD,
-                                                                    graphics::BlendFactor::ONE,
-                                                                    graphics::BlendFactor::ONE,
-                                                                    graphics::BlendOperation::ADD);
+                                                                    graphics::BlendFactor::One,
+                                                                    graphics::BlendFactor::One,
+                                                                    graphics::BlendOperation::Add,
+                                                                    graphics::BlendFactor::One,
+                                                                    graphics::BlendFactor::One,
+                                                                    graphics::BlendOperation::Add);
 
         assetBundle.setBlendState(BLEND_ADD, addBlendState);
 
         auto multiplyBlendState = std::make_shared<graphics::BlendState>(*renderer,
                                                                          true,
-                                                                         graphics::BlendFactor::DEST_COLOR,
-                                                                         graphics::BlendFactor::ZERO,
-                                                                         graphics::BlendOperation::ADD,
-                                                                         graphics::BlendFactor::ONE,
-                                                                         graphics::BlendFactor::ONE,
-                                                                         graphics::BlendOperation::ADD);
+                                                                         graphics::BlendFactor::DestColor,
+                                                                         graphics::BlendFactor::Zero,
+                                                                         graphics::BlendOperation::Add,
+                                                                         graphics::BlendFactor::One,
+                                                                         graphics::BlendFactor::One,
+                                                                         graphics::BlendOperation::Add);
 
         assetBundle.setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
         auto alphaBlendState = std::make_shared<graphics::BlendState>(*renderer,
                                                                       true,
-                                                                      graphics::BlendFactor::SRC_ALPHA,
-                                                                      graphics::BlendFactor::INV_SRC_ALPHA,
-                                                                      graphics::BlendOperation::ADD,
-                                                                      graphics::BlendFactor::ONE,
-                                                                      graphics::BlendFactor::ONE,
-                                                                      graphics::BlendOperation::ADD);
+                                                                      graphics::BlendFactor::SrcAlpha,
+                                                                      graphics::BlendFactor::InvSrcAlpha,
+                                                                      graphics::BlendOperation::Add,
+                                                                      graphics::BlendFactor::One,
+                                                                      graphics::BlendFactor::One,
+                                                                      graphics::BlendOperation::Add);
 
         assetBundle.setBlendState(BLEND_ALPHA, alphaBlendState);
 
         auto screenBlendState = std::make_shared<graphics::BlendState>(*renderer,
                                                                        true,
-                                                                       graphics::BlendFactor::ONE,
-                                                                       graphics::BlendFactor::INV_SRC_COLOR,
-                                                                       graphics::BlendOperation::ADD,
-                                                                       graphics::BlendFactor::ONE,
-                                                                       graphics::BlendFactor::ONE,
-                                                                       graphics::BlendOperation::ADD);
+                                                                       graphics::BlendFactor::One,
+                                                                       graphics::BlendFactor::InvSrcAlpha,
+                                                                       graphics::BlendOperation::Add,
+                                                                       graphics::BlendFactor::One,
+                                                                       graphics::BlendFactor::One,
+                                                                       graphics::BlendOperation::Add);
 
         assetBundle.setBlendState(BLEND_SCREEN, screenBlendState);
 

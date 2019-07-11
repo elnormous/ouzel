@@ -17,19 +17,19 @@ namespace ouzel
             {
                 switch (blendFactor)
                 {
-                    case BlendFactor::ZERO: return MTLBlendFactorZero;
-                    case BlendFactor::ONE: return MTLBlendFactorOne;
-                    case BlendFactor::SRC_COLOR: return MTLBlendFactorSourceColor;
-                    case BlendFactor::INV_SRC_COLOR: return MTLBlendFactorOneMinusSourceColor;
-                    case BlendFactor::SRC_ALPHA: return MTLBlendFactorSourceAlpha;
-                    case BlendFactor::INV_SRC_ALPHA: return MTLBlendFactorOneMinusSourceAlpha;
-                    case BlendFactor::DEST_ALPHA: return MTLBlendFactorDestinationAlpha;
-                    case BlendFactor::INV_DEST_ALPHA: return MTLBlendFactorOneMinusDestinationAlpha;
-                    case BlendFactor::DEST_COLOR: return MTLBlendFactorDestinationColor;
-                    case BlendFactor::INV_DEST_COLOR: return MTLBlendFactorOneMinusDestinationColor;
-                    case BlendFactor::SRC_ALPHA_SAT: return MTLBlendFactorSourceAlphaSaturated;
-                    case BlendFactor::BLEND_FACTOR: return MTLBlendFactorBlendColor;
-                    case BlendFactor::INV_BLEND_FACTOR: return MTLBlendFactorOneMinusBlendColor;
+                    case BlendFactor::Zero: return MTLBlendFactorZero;
+                    case BlendFactor::One: return MTLBlendFactorOne;
+                    case BlendFactor::SrcColor: return MTLBlendFactorSourceColor;
+                    case BlendFactor::InvSrcColor: return MTLBlendFactorOneMinusSourceColor;
+                    case BlendFactor::SrcAlpha: return MTLBlendFactorSourceAlpha;
+                    case BlendFactor::InvSrcAlpha: return MTLBlendFactorOneMinusSourceAlpha;
+                    case BlendFactor::DestAlpha: return MTLBlendFactorDestinationAlpha;
+                    case BlendFactor::InvDestAlpha: return MTLBlendFactorOneMinusDestinationAlpha;
+                    case BlendFactor::DestColor: return MTLBlendFactorDestinationColor;
+                    case BlendFactor::InvDestColor: return MTLBlendFactorOneMinusDestinationColor;
+                    case BlendFactor::SrcAlphaSat: return MTLBlendFactorSourceAlphaSaturated;
+                    case BlendFactor::BlendFactor: return MTLBlendFactorBlendColor;
+                    case BlendFactor::InvBlendFactor: return MTLBlendFactorOneMinusBlendColor;
                 }
 
                 return MTLBlendFactorZero;
@@ -39,11 +39,11 @@ namespace ouzel
             {
                 switch (blendOperation)
                 {
-                    case BlendOperation::ADD: return MTLBlendOperationAdd;
-                    case BlendOperation::SUBTRACT: return MTLBlendOperationSubtract;
-                    case BlendOperation::REV_SUBTRACT: return MTLBlendOperationReverseSubtract;
-                    case BlendOperation::MIN: return MTLBlendOperationMin;
-                    case BlendOperation::MAX: return MTLBlendOperationMax;
+                    case BlendOperation::Add: return MTLBlendOperationAdd;
+                    case BlendOperation::Subtract: return MTLBlendOperationSubtract;
+                    case BlendOperation::RevSubtract: return MTLBlendOperationReverseSubtract;
+                    case BlendOperation::Min: return MTLBlendOperationMin;
+                    case BlendOperation::Max: return MTLBlendOperationMax;
                 }
 
                 return MTLBlendOperationAdd;

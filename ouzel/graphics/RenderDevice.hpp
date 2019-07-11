@@ -174,7 +174,7 @@ namespace ouzel
             uint16_t apiMinorVersion = 0;
 
             uint32_t sampleCount = 1; // MSAA sample count
-            SamplerFilter textureFilter = SamplerFilter::POINT;
+            SamplerFilter textureFilter = SamplerFilter::Point;
             uint32_t maxAnisotropy = 1;
 
             bool verticalSync = true;

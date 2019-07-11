@@ -125,26 +125,26 @@ namespace ouzel
     {
         switch (command.type)
         {
-            case Command::Type::CHANGE_SIZE:
+            case Command::Type::ChangeSize:
                 break;
-            case Command::Type::CHANGE_FULLSCREEN:
+            case Command::Type::ChangeFullscreen:
                 // TODO: implement (hide status bar)
                 break;
-            case Command::Type::CLOSE:
+            case Command::Type::Close:
                 break;
-            case Command::Type::SET_TITLE:
+            case Command::Type::SetTitle:
                 break;
-            case Command::Type::BRING_TO_FRONT:
+            case Command::Type::BringToFront:
                 break;
-            case Command::Type::SHOW:
+            case Command::Type::Show:
                 break;
-            case Command::Type::HIDE:
+            case Command::Type::Hide:
                 break;
-            case Command::Type::MINIMIZE:
+            case Command::Type::Minimize:
                 break;
-            case Command::Type::MAXIMIZE:
+            case Command::Type::Maximize:
                 break;
-            case Command::Type::RESTORE:
+            case Command::Type::Restore:
                 break;
             default:
                 throw std::runtime_error("Invalid command");

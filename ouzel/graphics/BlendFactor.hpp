@@ -9,19 +9,19 @@ namespace ouzel
     {
         enum class BlendFactor
         {
-            ZERO,
-            ONE,
-            SRC_COLOR,
-            INV_SRC_COLOR,
-            SRC_ALPHA,
-            INV_SRC_ALPHA,
-            DEST_ALPHA,
-            INV_DEST_ALPHA,
-            DEST_COLOR,
-            INV_DEST_COLOR,
-            SRC_ALPHA_SAT,
-            BLEND_FACTOR,
-            INV_BLEND_FACTOR
+            Zero,
+            One,
+            SrcColor,
+            InvSrcColor,
+            SrcAlpha,
+            InvSrcAlpha,
+            DestAlpha,
+            InvDestAlpha,
+            DestColor,
+            InvDestColor,
+            SrcAlphaSat,
+            BlendFactor,
+            InvBlendFactor
         };
     } // namespace graphics
 } // namespace ouzel

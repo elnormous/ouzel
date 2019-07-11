@@ -63,7 +63,7 @@ namespace ouzel
                         TextureType type,
                         uint32_t initFlags = 0,
                         uint32_t initSampleCount = 1,
-                        PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
+                        PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
                 ~Texture();
 
                 void setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels);

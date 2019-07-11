@@ -17,14 +17,14 @@ namespace ouzel
             {
                 switch (compareFunction)
                 {
-                    case CompareFunction::NEVER: return GL_NEVER;
-                    case CompareFunction::LESS: return GL_LESS;
-                    case CompareFunction::EQUAL: return GL_EQUAL;
-                    case CompareFunction::LESS_EQUAL: return GL_LEQUAL;
-                    case CompareFunction::GREATER: return GL_GREATER;
-                    case CompareFunction::NOT_EQUAL: return GL_NOTEQUAL;
-                    case CompareFunction::GREATER_EQUAL: return GL_GEQUAL;
-                    case CompareFunction::ALWAYS: return GL_ALWAYS;
+                    case CompareFunction::Never: return GL_NEVER;
+                    case CompareFunction::Less: return GL_LESS;
+                    case CompareFunction::Equal: return GL_EQUAL;
+                    case CompareFunction::LessEqual: return GL_LEQUAL;
+                    case CompareFunction::Greater: return GL_GREATER;
+                    case CompareFunction::NotEqual: return GL_NOTEQUAL;
+                    case CompareFunction::GreaterEqual: return GL_GEQUAL;
+                    case CompareFunction::Always: return GL_ALWAYS;
                     default: return GL_NEVER;
                 }
             }
@@ -33,14 +33,14 @@ namespace ouzel
             {
                 switch (stencilOperation)
                 {
-                    case StencilOperation::KEEP: return GL_KEEP;
-                    case StencilOperation::ZERO: return GL_ZERO;
-                    case StencilOperation::REPLACE: return GL_REPLACE;
-                    case StencilOperation::INCREMENT_CLAMP: return GL_INCR;
-                    case StencilOperation::DECREMENT_CLAMP: return GL_DECR;
-                    case StencilOperation::INVERT: return GL_INVERT;
-                    case StencilOperation::INCREMENT_WRAP: return GL_INCR_WRAP;
-                    case StencilOperation::DECREMENT_WRAP: return GL_DECR_WRAP;
+                    case StencilOperation::Keep: return GL_KEEP;
+                    case StencilOperation::Zero: return GL_ZERO;
+                    case StencilOperation::Replace: return GL_REPLACE;
+                    case StencilOperation::IncrementClamp: return GL_INCR;
+                    case StencilOperation::DecrementClamp: return GL_DECR;
+                    case StencilOperation::Invert: return GL_INVERT;
+                    case StencilOperation::IncrementWrap: return GL_INCR_WRAP;
+                    case StencilOperation::DecrementWrap: return GL_DECR_WRAP;
                     default: return GL_KEEP;
                 }
             }

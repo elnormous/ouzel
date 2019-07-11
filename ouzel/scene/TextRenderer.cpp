@@ -28,11 +28,11 @@ namespace ouzel
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::BufferType::Index,
-                                                             graphics::Flags::DYNAMIC);
+                                                             graphics::Flags::Dynamic);
 
             vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
                                                               graphics::BufferType::Vertex,
-                                                              graphics::Flags::DYNAMIC);
+                                                              graphics::Flags::Dynamic);
 
             font = engine->getCache().getFont(fontFile);
 

@@ -34,19 +34,19 @@ namespace ouzel
             public:
                 enum class Type
                 {
-                    START_DEVICE_DISCOVERY,
-                    STOP_DEVICE_DISCOVERY,
-                    SET_ABSOLUTE_DPAD_VALUES,
-                    SET_PLAYER_INDEX,
-                    SET_VIBRATION,
-                    SET_POSITION,
-                    INIT_CURSOR,
-                    DESTROY_CURSOR,
-                    SET_CURSOR,
-                    SET_CURSOR_VISIBLE,
-                    SET_CURSOR_LOCKED,
-                    SHOW_VIRTUAL_KEYBOARD,
-                    HIDE_VIRTUAL_KEYBOARD
+                    StartDeviceDiscovery,
+                    StopDeviceDiscovery,
+                    SetAbsoluteDpad_VALUES,
+                    SetPlayerIndex,
+                    SetVibration,
+                    SetPosition,
+                    InitCursor,
+                    DestroyCursor,
+                    SetCursor,
+                    SetCursorVisible,
+                    SetCursorLocked,
+                    ShowVirtualKeyboard,
+                    HideVirtualKeyboard
                 };
 
                 Command() = default;

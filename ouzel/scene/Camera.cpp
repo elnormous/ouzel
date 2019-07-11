@@ -294,18 +294,18 @@ namespace ouzel
             if (depthTest)
                 depthStencilState = std::make_shared<graphics::DepthStencilState>(*engine->getRenderer(),
                                                                                   true, true,
-                                                                                  graphics::CompareFunction::LESS_EQUAL,
+                                                                                  graphics::CompareFunction::LessEqual,
                                                                                   false,
                                                                                   0xFFFFFFFF,
                                                                                   0xFFFFFFFF,
-                                                                                  graphics::StencilOperation::KEEP,
-                                                                                  graphics::StencilOperation::KEEP,
-                                                                                  graphics::StencilOperation::KEEP,
-                                                                                  graphics::CompareFunction::ALWAYS,
-                                                                                  graphics::StencilOperation::KEEP,
-                                                                                  graphics::StencilOperation::KEEP,
-                                                                                  graphics::StencilOperation::KEEP,
-                                                                                  graphics::CompareFunction::ALWAYS);
+                                                                                  graphics::StencilOperation::Keep,
+                                                                                  graphics::StencilOperation::Keep,
+                                                                                  graphics::StencilOperation::Keep,
+                                                                                  graphics::CompareFunction::Always,
+                                                                                  graphics::StencilOperation::Keep,
+                                                                                  graphics::StencilOperation::Keep,
+                                                                                  graphics::StencilOperation::Keep,
+                                                                                  graphics::CompareFunction::Always);
             else
                 depthStencilState.reset();
         }

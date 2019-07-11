@@ -17,14 +17,14 @@ namespace ouzel
             {
                 switch (compareFunction)
                 {
-                    case CompareFunction::NEVER: return D3D11_COMPARISON_NEVER;
-                    case CompareFunction::LESS: return D3D11_COMPARISON_LESS;
-                    case CompareFunction::EQUAL: return D3D11_COMPARISON_EQUAL;
-                    case CompareFunction::LESS_EQUAL: return D3D11_COMPARISON_LESS_EQUAL;
-                    case CompareFunction::GREATER: return D3D11_COMPARISON_GREATER;
-                    case CompareFunction::NOT_EQUAL: return D3D11_COMPARISON_NOT_EQUAL;
-                    case CompareFunction::GREATER_EQUAL: return D3D11_COMPARISON_GREATER_EQUAL;
-                    case CompareFunction::ALWAYS: return D3D11_COMPARISON_ALWAYS;
+                    case CompareFunction::Never: return D3D11_COMPARISON_NEVER;
+                    case CompareFunction::Less: return D3D11_COMPARISON_LESS;
+                    case CompareFunction::Equal: return D3D11_COMPARISON_EQUAL;
+                    case CompareFunction::LessEqual: return D3D11_COMPARISON_LESS_EQUAL;
+                    case CompareFunction::Greater: return D3D11_COMPARISON_GREATER;
+                    case CompareFunction::NotEqual: return D3D11_COMPARISON_NOT_EQUAL;
+                    case CompareFunction::GreaterEqual: return D3D11_COMPARISON_GREATER_EQUAL;
+                    case CompareFunction::Always: return D3D11_COMPARISON_ALWAYS;
                     default: return D3D11_COMPARISON_NEVER;
                 }
             }
@@ -33,14 +33,14 @@ namespace ouzel
             {
                 switch (stencilOperation)
                 {
-                    case StencilOperation::KEEP: return D3D11_STENCIL_OP_KEEP;
-                    case StencilOperation::ZERO: return D3D11_STENCIL_OP_ZERO;
-                    case StencilOperation::REPLACE: return D3D11_STENCIL_OP_REPLACE;
-                    case StencilOperation::INCREMENT_CLAMP: return D3D11_STENCIL_OP_INCR_SAT;
-                    case StencilOperation::DECREMENT_CLAMP: return D3D11_STENCIL_OP_DECR_SAT;
-                    case StencilOperation::INVERT: return D3D11_STENCIL_OP_INVERT;
-                    case StencilOperation::INCREMENT_WRAP: return D3D11_STENCIL_OP_INCR;
-                    case StencilOperation::DECREMENT_WRAP: return D3D11_STENCIL_OP_DECR;
+                    case StencilOperation::Keep: return D3D11_STENCIL_OP_KEEP;
+                    case StencilOperation::Zero: return D3D11_STENCIL_OP_ZERO;
+                    case StencilOperation::Replace: return D3D11_STENCIL_OP_REPLACE;
+                    case StencilOperation::IncrementClamp: return D3D11_STENCIL_OP_INCR_SAT;
+                    case StencilOperation::DecrementClamp: return D3D11_STENCIL_OP_DECR_SAT;
+                    case StencilOperation::Invert: return D3D11_STENCIL_OP_INVERT;
+                    case StencilOperation::IncrementWrap: return D3D11_STENCIL_OP_INCR;
+                    case StencilOperation::DecrementWrap: return D3D11_STENCIL_OP_DECR;
                     default: return D3D11_STENCIL_OP_KEEP;
                 }
             }

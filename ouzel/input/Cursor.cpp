@@ -32,7 +32,7 @@ namespace ouzel
         {
             if (cursorResource)
             {
-                InputSystem::Command command(InputSystem::Command::Type::DESTROY_CURSOR);
+                InputSystem::Command command(InputSystem::Command::Type::DestroyCursor);
                 command.cursorResource = cursorResource;
                 inputManager.getInputSystem()->addCommand(command);
 
@@ -42,7 +42,7 @@ namespace ouzel
 
         void Cursor::init(SystemCursor systemCursor)
         {
-            InputSystem::Command command(InputSystem::Command::Type::INIT_CURSOR);
+            InputSystem::Command command(InputSystem::Command::Type::InitCursor);
             command.cursorResource = cursorResource;
             command.systemCursor = systemCursor;
             inputManager.getInputSystem()->addCommand(command);
@@ -70,7 +70,7 @@ namespace ouzel
             {
                 case STBI_grey:
                 {
-                    pixelFormat = graphics::PixelFormat::RGBA8_UNORM;
+                    pixelFormat = graphics::PixelFormat::RGBA8UNorm;
                     pixelSize = 4;
 
                     imageData.resize(static_cast<size_t>(width * height * 4));
@@ -92,7 +92,7 @@ namespace ouzel
                 }
                 case STBI_grey_alpha:
                 {
-                    pixelFormat = graphics::PixelFormat::RGBA8_UNORM;
+                    pixelFormat = graphics::PixelFormat::RGBA8UNorm;
                     pixelSize = 4;
 
                     imageData.resize(static_cast<size_t>(width * height * 4));
@@ -114,7 +114,7 @@ namespace ouzel
                 }
                 case STBI_rgb:
                 {
-                    pixelFormat = graphics::PixelFormat::RGBA8_UNORM;
+                    pixelFormat = graphics::PixelFormat::RGBA8UNorm;
                     pixelSize = 4;
 
                     imageData.resize(static_cast<size_t>(width * height * 4));
@@ -136,7 +136,7 @@ namespace ouzel
                 }
                 case STBI_rgb_alpha:
                 {
-                    pixelFormat = graphics::PixelFormat::RGBA8_UNORM;
+                    pixelFormat = graphics::PixelFormat::RGBA8UNorm;
                     pixelSize = 4;
                     imageData.assign(tempData,
                                      tempData + static_cast<size_t>(width * height) * pixelSize);
@@ -159,7 +159,7 @@ namespace ouzel
                           graphics::PixelFormat pixelFormat,
                           const Vector2F& hotSpot)
         {
-            InputSystem::Command command(InputSystem::Command::Type::INIT_CURSOR);
+            InputSystem::Command command(InputSystem::Command::Type::InitCursor);
             command.cursorResource = cursorResource;
             command.data = data;
             command.size = size;

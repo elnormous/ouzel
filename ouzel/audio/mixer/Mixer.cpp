@@ -56,13 +56,13 @@ namespace ouzel
 
                         switch (command->type)
                         {
-                            case Command::Type::DELETE_OBJECT:
+                            case Command::Type::DeleteObject:
                             {
                                 auto deleteObjectCommand = static_cast<const DeleteObjectCommand*>(command.get());
                                 objects[deleteObjectCommand->objectId - 1].reset();
                                 break;
                             }
-                            case Command::Type::ADD_CHILD:
+                            case Command::Type::AddChild:
                             {
                                 auto addChildCommand = static_cast<const AddChildCommand*>(command.get());
                                 Object* object = objects[addChildCommand->objectId - 1].get();
@@ -70,7 +70,7 @@ namespace ouzel
                                 object->addChild(*child);
                                 break;
                             }
-                            case Command::Type::REMOVE_CHILD:
+                            case Command::Type::RemoveChild:
                             {
                                 auto removeChildCommand = static_cast<const RemoveChildCommand*>(command.get());
                                 Object* object = objects[removeChildCommand->objectId - 1].get();
@@ -78,7 +78,7 @@ namespace ouzel
                                 object->removeChild(*child);
                                 break;
                             }
-                            case Command::Type::INIT_BUS:
+                            case Command::Type::InitBus:
                             {
                                 auto initBusCommand = static_cast<const InitBusCommand*>(command.get());
 
@@ -88,7 +88,7 @@ namespace ouzel
                                 objects[initBusCommand->busId - 1] = std::make_unique<Bus>();
                                 break;
                             }
-                            case Command::Type::SET_BUS_OUTPUT:
+                            case Command::Type::SetBusOutput:
                             {
                                 auto setBusOutputCommand = static_cast<const SetBusOutputCommand*>(command.get());
 
@@ -96,7 +96,7 @@ namespace ouzel
                                 bus->setOutput(setBusOutputCommand->outputBusId ? static_cast<Bus*>(objects[setBusOutputCommand->outputBusId - 1].get()) : nullptr);
                                 break;
                             }
-                            case Command::Type::ADD_PROCESSOR:
+                            case Command::Type::AddProcessor:
                             {
                                 auto addProcessorCommand = static_cast<const AddProcessorCommand*>(command.get());
 
@@ -105,7 +105,7 @@ namespace ouzel
                                 bus->addProcessor(processor);
                                 break;
                             }
-                            case Command::Type::REMOVE_PROCESSOR:
+                            case Command::Type::RemoveProcessor:
                             {
                                 auto removeProcessorCommand = static_cast<const RemoveProcessorCommand*>(command.get());
 
@@ -114,14 +114,14 @@ namespace ouzel
                                 bus->removeProcessor(processor);
                                 break;
                             }
-                            case Command::Type::SET_MASTER_BUS:
+                            case Command::Type::SetMasterBus:
                             {
                                 auto setMasterBusCommand = static_cast<const SetMasterBusCommand*>(command.get());
 
                                 masterBus = setMasterBusCommand->busId ? static_cast<Bus*>(objects[setMasterBusCommand->busId - 1].get()) : nullptr;
                                 break;
                             }
-                            case Command::Type::INIT_STREAM:
+                            case Command::Type::InitStream:
                             {
                                 auto initStreamCommand = static_cast<const InitStreamCommand*>(command.get());
 
@@ -132,7 +132,7 @@ namespace ouzel
                                 objects[initStreamCommand->streamId - 1] = data->createStream();
                                 break;
                             }
-                            case Command::Type::PLAY_STREAM:
+                            case Command::Type::PlayStream:
                             {
                                 auto playStreamCommand = static_cast<const PlayStreamCommand*>(command.get());
 
@@ -140,7 +140,7 @@ namespace ouzel
                                 stream->play();
                                 break;
                             }
-                            case Command::Type::STOP_STREAM:
+                            case Command::Type::StopStream:
                             {
                                 auto stopStreamCommand = static_cast<const StopStreamCommand*>(command.get());
 
@@ -148,7 +148,7 @@ namespace ouzel
                                 stream->stop(stopStreamCommand->reset);
                                 break;
                             }
-                            case Command::Type::SET_STREAM_OUTPUT:
+                            case Command::Type::SetStreamOutput:
                             {
                                 auto setStreamOutputCommand = static_cast<const SetStreamOutputCommand*>(command.get());
 
@@ -156,7 +156,7 @@ namespace ouzel
                                 stream->setOutput(setStreamOutputCommand->busId ? static_cast<Bus*>(objects[setStreamOutputCommand->busId - 1].get()) : nullptr);
                                 break;
                             }
-                            case Command::Type::INIT_DATA:
+                            case Command::Type::InitData:
                             {
                                 auto initDataCommand = static_cast<InitDataCommand*>(command.get());
 
@@ -166,7 +166,7 @@ namespace ouzel
                                 objects[initDataCommand->dataId - 1] = std::move(initDataCommand->data);
                                 break;
                             }
-                            case Command::Type::INIT_PROCESSOR:
+                            case Command::Type::InitProcessor:
                             {
                                 auto initProcessorCommand = static_cast<InitProcessorCommand*>(command.get());
 
@@ -176,7 +176,7 @@ namespace ouzel
                                 objects[initProcessorCommand->processorId - 1] = std::move(initProcessorCommand->processor);
                                 break;
                             }
-                            case Command::Type::UPDATE_PROCESSOR:
+                            case Command::Type::UpdateProcessor:
                             {
                                 auto updateProcessorCommand = static_cast<const UpdateProcessorCommand*>(command.get());
 

@@ -21,38 +21,38 @@ namespace ouzel
                 {
                     switch (pixelFormat)
                     {
-                        case PixelFormat::A8_UNORM: return GL_ALPHA8_OES;
-                        case PixelFormat::R8_UNORM: return GL_R8;
-                        case PixelFormat::R8_SNORM: return GL_R8_SNORM;
-                        case PixelFormat::R8_UINT: return GL_R8UI;
-                        case PixelFormat::R8_SINT: return GL_R8I;
-                        case PixelFormat::R16_UNORM: return GL_NONE;
-                        case PixelFormat::R16_SNORM: return GL_NONE;
-                        case PixelFormat::R16_UINT: return GL_R16UI;
-                        case PixelFormat::R16_SINT: return GL_R16I;
-                        case PixelFormat::R16_FLOAT: return GL_R16F;
-                        case PixelFormat::R32_UINT: return GL_R32UI;
-                        case PixelFormat::R32_SINT: return GL_R32I;
-                        case PixelFormat::R32_FLOAT: return GL_R32F;
-                        case PixelFormat::RG8_UNORM: return GL_RG8;
-                        case PixelFormat::RG8_SNORM: return GL_RG8_SNORM;
-                        case PixelFormat::RG8_UINT: return GL_RG8UI;
-                        case PixelFormat::RG8_SINT: return GL_RG8I;
-                        case PixelFormat::RGBA8_UNORM: return GL_RGBA8;
-                        case PixelFormat::RGBA8_UNORM_SRGB: return GL_SRGB8_ALPHA8;
-                        case PixelFormat::RGBA8_SNORM: return GL_RGBA8_SNORM;
-                        case PixelFormat::RGBA8_UINT: return GL_RGBA8UI;
-                        case PixelFormat::RGBA8_SINT: return GL_RGBA8I;
-                        case PixelFormat::RGBA16_UNORM: return GL_NONE;
-                        case PixelFormat::RGBA16_SNORM: return GL_NONE;
-                        case PixelFormat::RGBA16_UINT: return GL_RGBA16UI;
-                        case PixelFormat::RGBA16_SINT: return GL_RGBA16I;
-                        case PixelFormat::RGBA16_FLOAT: return GL_RGBA16F;
-                        case PixelFormat::RGBA32_UINT: return GL_RGBA32UI;
-                        case PixelFormat::RGBA32_SINT: return GL_RGBA32I;
-                        case PixelFormat::RGBA32_FLOAT: return GL_RGBA32F;
-                        case PixelFormat::DEPTH: return GL_DEPTH_COMPONENT24;
-                        case PixelFormat::DEPTH_STENCIL: return GL_DEPTH24_STENCIL8;
+                        case PixelFormat::A8UNorm: return GL_ALPHA8_OES;
+                        case PixelFormat::R8UNorm: return GL_R8;
+                        case PixelFormat::R8SNorm: return GL_R8_SNORM;
+                        case PixelFormat::R8UInt: return GL_R8UI;
+                        case PixelFormat::R8SInt: return GL_R8I;
+                        case PixelFormat::R16UNorm: return GL_NONE;
+                        case PixelFormat::R16SNorm: return GL_NONE;
+                        case PixelFormat::R16UInt: return GL_R16UI;
+                        case PixelFormat::R16SInt: return GL_R16I;
+                        case PixelFormat::R16Float: return GL_R16F;
+                        case PixelFormat::R32UInt: return GL_R32UI;
+                        case PixelFormat::R32SInt: return GL_R32I;
+                        case PixelFormat::R32Float: return GL_R32F;
+                        case PixelFormat::RG8UNorm: return GL_RG8;
+                        case PixelFormat::RG8SNorm: return GL_RG8_SNORM;
+                        case PixelFormat::RG8UInt: return GL_RG8UI;
+                        case PixelFormat::RG8SInt: return GL_RG8I;
+                        case PixelFormat::RGBA8UNorm: return GL_RGBA8;
+                        case PixelFormat::RGBA8UNormSRGB: return GL_SRGB8_ALPHA8;
+                        case PixelFormat::RGBA8SNorm: return GL_RGBA8_SNORM;
+                        case PixelFormat::RGBA8UInt: return GL_RGBA8UI;
+                        case PixelFormat::RGBA8SInt: return GL_RGBA8I;
+                        case PixelFormat::RGBA16UNorm: return GL_NONE;
+                        case PixelFormat::RGBA16SNorm: return GL_NONE;
+                        case PixelFormat::RGBA16UInt: return GL_RGBA16UI;
+                        case PixelFormat::RGBA16SInt: return GL_RGBA16I;
+                        case PixelFormat::RGBA16Float: return GL_RGBA16F;
+                        case PixelFormat::RGBA32UInt: return GL_RGBA32UI;
+                        case PixelFormat::RGBA32SInt: return GL_RGBA32I;
+                        case PixelFormat::RGBA32Float: return GL_RGBA32F;
+                        case PixelFormat::Depth: return GL_DEPTH_COMPONENT24;
+                        case PixelFormat::DepthStencil: return GL_DEPTH24_STENCIL8;
                         default: return GL_NONE;
                     }
                 }
@@ -60,10 +60,10 @@ namespace ouzel
                 {
                     switch (pixelFormat)
                     {
-                        case PixelFormat::A8_UNORM: return GL_ALPHA;
-                        case PixelFormat::RGBA8_UNORM: return GL_RGBA;
-                        case PixelFormat::DEPTH: return GL_DEPTH_COMPONENT24;
-                        case PixelFormat::DEPTH_STENCIL: return GL_DEPTH24_STENCIL8;
+                        case PixelFormat::A8UNorm: return GL_ALPHA;
+                        case PixelFormat::RGBA8UNorm: return GL_RGBA;
+                        case PixelFormat::Depth: return GL_DEPTH_COMPONENT24;
+                        case PixelFormat::DepthStencil: return GL_DEPTH24_STENCIL8;
                         default: return GL_NONE;
                     }
                 }
@@ -72,39 +72,39 @@ namespace ouzel
 
                 switch (pixelFormat)
                 {
-                    case PixelFormat::A8_UNORM: return GL_ALPHA8_EXT;
+                    case PixelFormat::A8UNorm: return GL_ALPHA8_EXT;
 
-                    case PixelFormat::R8_UNORM: return GL_R8;
-                    case PixelFormat::R8_SNORM: return GL_R8_SNORM;
-                    case PixelFormat::R8_UINT: return GL_R8UI;
-                    case PixelFormat::R8_SINT: return GL_R8I;
-                    case PixelFormat::R16_UNORM: return GL_R16;
-                    case PixelFormat::R16_SNORM: return GL_R16_SNORM;
-                    case PixelFormat::R16_UINT: return GL_R16UI;
-                    case PixelFormat::R16_SINT: return GL_R16I;
-                    case PixelFormat::R16_FLOAT: return GL_R16F;
-                    case PixelFormat::R32_UINT: return GL_R32UI;
-                    case PixelFormat::R32_SINT: return GL_R32I;
-                    case PixelFormat::R32_FLOAT: return GL_R32F;
-                    case PixelFormat::RG8_UNORM: return GL_RG8;
-                    case PixelFormat::RG8_SNORM: return GL_RG8_SNORM;
-                    case PixelFormat::RG8_UINT: return GL_RG8UI;
-                    case PixelFormat::RG8_SINT: return GL_RG8I;
-                    case PixelFormat::RGBA8_UNORM: return GL_RGBA8;
-                    case PixelFormat::RGBA8_UNORM_SRGB: return GL_SRGB8_ALPHA8;
-                    case PixelFormat::RGBA8_SNORM: return GL_RGBA8_SNORM;
-                    case PixelFormat::RGBA8_UINT: return GL_RGBA8UI;
-                    case PixelFormat::RGBA8_SINT: return GL_RGBA8I;
-                    case PixelFormat::RGBA16_UNORM: return GL_RGBA16;
-                    case PixelFormat::RGBA16_SNORM: return GL_RGBA16_SNORM;
-                    case PixelFormat::RGBA16_UINT: return GL_RGBA16UI;
-                    case PixelFormat::RGBA16_SINT: return GL_RGBA16I;
-                    case PixelFormat::RGBA16_FLOAT: return GL_RGBA16F;
-                    case PixelFormat::RGBA32_UINT: return GL_RGBA32UI;
-                    case PixelFormat::RGBA32_SINT: return GL_RGBA32I;
-                    case PixelFormat::RGBA32_FLOAT: return GL_RGBA32F;
-                    case PixelFormat::DEPTH: return GL_DEPTH_COMPONENT24;
-                    case PixelFormat::DEPTH_STENCIL: return GL_DEPTH24_STENCIL8;
+                    case PixelFormat::R8UNorm: return GL_R8;
+                    case PixelFormat::R8SNorm: return GL_R8_SNORM;
+                    case PixelFormat::R8UInt: return GL_R8UI;
+                    case PixelFormat::R8SInt: return GL_R8I;
+                    case PixelFormat::R16UNorm: return GL_R16;
+                    case PixelFormat::R16SNorm: return GL_R16_SNORM;
+                    case PixelFormat::R16UInt: return GL_R16UI;
+                    case PixelFormat::R16SInt: return GL_R16I;
+                    case PixelFormat::R16Float: return GL_R16F;
+                    case PixelFormat::R32UInt: return GL_R32UI;
+                    case PixelFormat::R32SInt: return GL_R32I;
+                    case PixelFormat::R32Float: return GL_R32F;
+                    case PixelFormat::RG8UNorm: return GL_RG8;
+                    case PixelFormat::RG8SNorm: return GL_RG8_SNORM;
+                    case PixelFormat::RG8UInt: return GL_RG8UI;
+                    case PixelFormat::RG8SInt: return GL_RG8I;
+                    case PixelFormat::RGBA8UNorm: return GL_RGBA8;
+                    case PixelFormat::RGBA8UNormSRGB: return GL_SRGB8_ALPHA8;
+                    case PixelFormat::RGBA8SNorm: return GL_RGBA8_SNORM;
+                    case PixelFormat::RGBA8UInt: return GL_RGBA8UI;
+                    case PixelFormat::RGBA8SInt: return GL_RGBA8I;
+                    case PixelFormat::RGBA16UNorm: return GL_RGBA16;
+                    case PixelFormat::RGBA16SNorm: return GL_RGBA16_SNORM;
+                    case PixelFormat::RGBA16UInt: return GL_RGBA16UI;
+                    case PixelFormat::RGBA16SInt: return GL_RGBA16I;
+                    case PixelFormat::RGBA16Float: return GL_RGBA16F;
+                    case PixelFormat::RGBA32UInt: return GL_RGBA32UI;
+                    case PixelFormat::RGBA32SInt: return GL_RGBA32I;
+                    case PixelFormat::RGBA32Float: return GL_RGBA32F;
+                    case PixelFormat::Depth: return GL_DEPTH_COMPONENT24;
+                    case PixelFormat::DepthStencil: return GL_DEPTH24_STENCIL8;
                     default: return GL_NONE;
                 }
 #endif
@@ -114,46 +114,46 @@ namespace ouzel
             {
                 switch (pixelFormat)
                 {
-                    case PixelFormat::A8_UNORM:
+                    case PixelFormat::A8UNorm:
                         return GL_ALPHA;
-                    case PixelFormat::R8_UNORM:
-                    case PixelFormat::R8_SNORM:
-                    case PixelFormat::R16_UNORM:
-                    case PixelFormat::R16_SNORM:
-                    case PixelFormat::R16_FLOAT:
-                    case PixelFormat::R32_FLOAT:
+                    case PixelFormat::R8UNorm:
+                    case PixelFormat::R8SNorm:
+                    case PixelFormat::R16UNorm:
+                    case PixelFormat::R16SNorm:
+                    case PixelFormat::R16Float:
+                    case PixelFormat::R32Float:
                         return GL_RED;
-                    case PixelFormat::R8_UINT:
-                    case PixelFormat::R8_SINT:
-                    case PixelFormat::R16_UINT:
-                    case PixelFormat::R16_SINT:
-                    case PixelFormat::R32_UINT:
-                    case PixelFormat::R32_SINT:
+                    case PixelFormat::R8UInt:
+                    case PixelFormat::R8SInt:
+                    case PixelFormat::R16UInt:
+                    case PixelFormat::R16SInt:
+                    case PixelFormat::R32UInt:
+                    case PixelFormat::R32SInt:
                         return GL_RED_INTEGER;
-                    case PixelFormat::RG8_UNORM:
-                    case PixelFormat::RG8_SNORM:
+                    case PixelFormat::RG8UNorm:
+                    case PixelFormat::RG8SNorm:
                         return GL_RG;
-                    case PixelFormat::RG8_UINT:
-                    case PixelFormat::RG8_SINT:
+                    case PixelFormat::RG8UInt:
+                    case PixelFormat::RG8SInt:
                         return GL_RG_INTEGER;
-                    case PixelFormat::RGBA8_UNORM:
-                    case PixelFormat::RGBA8_UNORM_SRGB:
-                    case PixelFormat::RGBA8_SNORM:
-                    case PixelFormat::RGBA16_UNORM:
-                    case PixelFormat::RGBA16_SNORM:
-                    case PixelFormat::RGBA16_FLOAT:
-                    case PixelFormat::RGBA32_FLOAT:
+                    case PixelFormat::RGBA8UNorm:
+                    case PixelFormat::RGBA8UNormSRGB:
+                    case PixelFormat::RGBA8SNorm:
+                    case PixelFormat::RGBA16UNorm:
+                    case PixelFormat::RGBA16SNorm:
+                    case PixelFormat::RGBA16Float:
+                    case PixelFormat::RGBA32Float:
                         return GL_RGBA;
-                    case PixelFormat::RGBA8_UINT:
-                    case PixelFormat::RGBA8_SINT:
-                    case PixelFormat::RGBA16_UINT:
-                    case PixelFormat::RGBA16_SINT:
-                    case PixelFormat::RGBA32_UINT:
-                    case PixelFormat::RGBA32_SINT:
+                    case PixelFormat::RGBA8UInt:
+                    case PixelFormat::RGBA8SInt:
+                    case PixelFormat::RGBA16UInt:
+                    case PixelFormat::RGBA16SInt:
+                    case PixelFormat::RGBA32UInt:
+                    case PixelFormat::RGBA32SInt:
                         return GL_RGBA_INTEGER;
-                    case PixelFormat::DEPTH:
+                    case PixelFormat::Depth:
                         return GL_DEPTH_COMPONENT;
-                    case PixelFormat::DEPTH_STENCIL:
+                    case PixelFormat::DepthStencil:
                         return GL_DEPTH_STENCIL;
                     default:
                         return 0;
@@ -164,43 +164,43 @@ namespace ouzel
             {
                 switch (pixelFormat)
                 {
-                    case PixelFormat::A8_UNORM:
-                    case PixelFormat::R8_UNORM:
-                    case PixelFormat::R16_UNORM:
-                    case PixelFormat::RG8_UNORM:
-                    case PixelFormat::RGBA8_UNORM:
-                    case PixelFormat::RGBA8_UNORM_SRGB:
-                    case PixelFormat::RGBA16_UNORM:
+                    case PixelFormat::A8UNorm:
+                    case PixelFormat::R8UNorm:
+                    case PixelFormat::R16UNorm:
+                    case PixelFormat::RG8UNorm:
+                    case PixelFormat::RGBA8UNorm:
+                    case PixelFormat::RGBA8UNormSRGB:
+                    case PixelFormat::RGBA16UNorm:
                         return GL_UNSIGNED_BYTE;
-                    case PixelFormat::R8_SNORM:
-                    case PixelFormat::R16_SNORM:
-                    case PixelFormat::RG8_SNORM:
-                    case PixelFormat::RGBA8_SNORM:
-                    case PixelFormat::RGBA16_SNORM:
+                    case PixelFormat::R8SNorm:
+                    case PixelFormat::R16SNorm:
+                    case PixelFormat::RG8SNorm:
+                    case PixelFormat::RGBA8SNorm:
+                    case PixelFormat::RGBA16SNorm:
                         return GL_BYTE;
-                    case PixelFormat::R8_UINT:
-                    case PixelFormat::R16_UINT:
-                    case PixelFormat::R32_UINT:
-                    case PixelFormat::RG8_UINT:
-                    case PixelFormat::RGBA8_UINT:
-                    case PixelFormat::RGBA16_UINT:
-                    case PixelFormat::RGBA32_UINT:
+                    case PixelFormat::R8UInt:
+                    case PixelFormat::R16UInt:
+                    case PixelFormat::R32UInt:
+                    case PixelFormat::RG8UInt:
+                    case PixelFormat::RGBA8UInt:
+                    case PixelFormat::RGBA16UInt:
+                    case PixelFormat::RGBA32UInt:
                         return GL_UNSIGNED_INT;
-                    case PixelFormat::R8_SINT:
-                    case PixelFormat::R16_SINT:
-                    case PixelFormat::R32_SINT:
-                    case PixelFormat::RG8_SINT:
-                    case PixelFormat::RGBA8_SINT:
-                    case PixelFormat::RGBA16_SINT:
-                    case PixelFormat::RGBA32_SINT:
+                    case PixelFormat::R8SInt:
+                    case PixelFormat::R16SInt:
+                    case PixelFormat::R32SInt:
+                    case PixelFormat::RG8SInt:
+                    case PixelFormat::RGBA8SInt:
+                    case PixelFormat::RGBA16SInt:
+                    case PixelFormat::RGBA32SInt:
                         return GL_INT;
-                    case PixelFormat::R16_FLOAT:
-                    case PixelFormat::R32_FLOAT:
-                    case PixelFormat::RGBA16_FLOAT:
-                    case PixelFormat::RGBA32_FLOAT:
-                    case PixelFormat::DEPTH:
+                    case PixelFormat::R16Float:
+                    case PixelFormat::R32Float:
+                    case PixelFormat::RGBA16Float:
+                    case PixelFormat::RGBA32Float:
+                    case PixelFormat::Depth:
                         return GL_UNSIGNED_INT;
-                    case PixelFormat::DEPTH_STENCIL:
+                    case PixelFormat::DepthStencil:
                         return GL_UNSIGNED_INT_24_8;
                     default:
                         return 0;
@@ -211,17 +211,17 @@ namespace ouzel
             {
                 switch (address)
                 {
-                    case SamplerAddressMode::CLAMP_TO_EDGE:
+                    case SamplerAddressMode::ClampToEdge:
                         return GL_CLAMP_TO_EDGE;
-                    case SamplerAddressMode::CLAMP_TO_BORDER:
+                    case SamplerAddressMode::ClampToBorder:
 #if OUZEL_OPENGLES
                         return GL_CLAMP_TO_BORDER_EXT;
 #else
                         return GL_CLAMP_TO_BORDER;
 #endif
-                    case SamplerAddressMode::REPEAT:
+                    case SamplerAddressMode::Repeat:
                         return GL_REPEAT;
-                    case SamplerAddressMode::MIRROR_REPEAT:
+                    case SamplerAddressMode::MirrorRepeat:
                         return GL_MIRRORED_REPEAT;
                     default:
                         throw std::runtime_error("Invalid texture address mode");
@@ -272,7 +272,7 @@ namespace ouzel
                 pixelFormat(getOpenGlPixelFormat(initPixelFormat)),
                 pixelType(getOpenGlPixelType(initPixelFormat))
             {
-                if ((flags & Flags::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
                     throw std::runtime_error("Invalid mip map count");
 
                 if (internalPixelFormat == GL_NONE)
@@ -288,7 +288,7 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                if (!(flags & Flags::BIND_RENDER_TARGET))
+                if (!(flags & Flags::BindRenderTarget))
                 {
                     if (!levels.empty())
                     {
@@ -340,7 +340,7 @@ namespace ouzel
 
                 createTexture();
 
-                if (!(flags & Flags::BIND_RENDER_TARGET))
+                if (!(flags & Flags::BindRenderTarget))
                 {
                     renderDevice.bindTexture(textureTarget, 0, textureId);
 
@@ -380,7 +380,7 @@ namespace ouzel
 
             void Texture::setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& newLevels)
             {
-                if (!(flags & Flags::DYNAMIC) || flags & Flags::BIND_RENDER_TARGET)
+                if (!(flags & Flags::Dynamic) || flags & Flags::BindRenderTarget)
                     throw std::runtime_error("Texture is not dynamic");
 
                 levels = newLevels;
@@ -415,23 +415,23 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                SamplerFilter finalFilter = (filter == SamplerFilter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                SamplerFilter finalFilter = (filter == SamplerFilter::Default) ? renderDevice.getTextureFilter() : filter;
 
                 switch (finalFilter)
                 {
-                    case SamplerFilter::POINT:
+                    case SamplerFilter::Point:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case SamplerFilter::LINEAR:
+                    case SamplerFilter::Linear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case SamplerFilter::BILINEAR:
+                    case SamplerFilter::Bilinear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
-                    case SamplerFilter::TRILINEAR:
+                    case SamplerFilter::Trilinear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
@@ -518,9 +518,9 @@ namespace ouzel
                 width = static_cast<GLsizei>(levels.front().first.v[0]);
                 height = static_cast<GLsizei>(levels.front().first.v[1]);
 
-                if ((flags & Flags::BIND_RENDER_TARGET) && renderDevice.isRenderTargetsSupported())
+                if ((flags & Flags::BindRenderTarget) && renderDevice.isRenderTargetsSupported())
                 {
-                    if (flags & Flags::BIND_SHADER)
+                    if (flags & Flags::BindShader)
                     {
                         renderDevice.glGenTexturesProc(1, &textureId);
 
@@ -590,24 +590,24 @@ namespace ouzel
             {
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                SamplerFilter finalFilter = (filter == SamplerFilter::DEFAULT) ? renderDevice.getTextureFilter() : filter;
+                SamplerFilter finalFilter = (filter == SamplerFilter::Default) ? renderDevice.getTextureFilter() : filter;
 
                 switch (finalFilter)
                 {
-                    case SamplerFilter::DEFAULT:
-                    case SamplerFilter::POINT:
+                    case SamplerFilter::Default:
+                    case SamplerFilter::Point:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case SamplerFilter::LINEAR:
+                    case SamplerFilter::Linear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case SamplerFilter::BILINEAR:
+                    case SamplerFilter::Bilinear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
-                    case SamplerFilter::TRILINEAR:
+                    case SamplerFilter::Trilinear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;

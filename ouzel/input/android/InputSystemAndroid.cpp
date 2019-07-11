@@ -52,21 +52,21 @@ namespace ouzel
         {
             switch (command.type)
             {
-            case Command::Type::START_DEVICE_DISCOVERY:
+            case Command::Type::StartDeviceDiscovery:
                 break;
-            case Command::Type::STOP_DEVICE_DISCOVERY:
+            case Command::Type::StopDeviceDiscovery:
                 break;
-            case Command::Type::SET_PLAYER_INDEX:
+            case Command::Type::SetPlayerIndex:
             {
                 break;
             }
-            case Command::Type::SET_VIBRATION:
+            case Command::Type::SetVibration:
             {
                 break;
             }
-            case Command::Type::SHOW_VIRTUAL_KEYBOARD:
+            case Command::Type::ShowVirtualKeyboard:
                 break;
-            case Command::Type::HIDE_VIRTUAL_KEYBOARD:
+            case Command::Type::HideVirtualKeyboard:
                 break;
             default:
                 break;

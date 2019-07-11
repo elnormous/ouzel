@@ -357,7 +357,7 @@ namespace ouzel
         {
             discovering = true;
 
-            InputSystem::Command command(InputSystem::Command::Type::START_DEVICE_DISCOVERY);
+            InputSystem::Command command(InputSystem::Command::Type::StartDeviceDiscovery);
             inputSystem->addCommand(command);
         }
 
@@ -365,19 +365,19 @@ namespace ouzel
         {
             discovering = false;
 
-            InputSystem::Command command(InputSystem::Command::Type::STOP_DEVICE_DISCOVERY);
+            InputSystem::Command command(InputSystem::Command::Type::StopDeviceDiscovery);
             inputSystem->addCommand(command);
         }
 
         void InputManager::showVirtualKeyboard()
         {
-            InputSystem::Command command(InputSystem::Command::Type::SHOW_VIRTUAL_KEYBOARD);
+            InputSystem::Command command(InputSystem::Command::Type::ShowVirtualKeyboard);
             inputSystem->addCommand(command);
         }
 
         void InputManager::hideVirtualKeyboard()
         {
-            InputSystem::Command command(InputSystem::Command::Type::HIDE_VIRTUAL_KEYBOARD);
+            InputSystem::Command command(InputSystem::Command::Type::HideVirtualKeyboard);
             inputSystem->addCommand(command);
         }
     } // namespace input

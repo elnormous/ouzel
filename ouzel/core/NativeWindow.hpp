@@ -18,16 +18,16 @@ namespace ouzel
         public:
             enum class Type
             {
-                CHANGE_SIZE,
-                CHANGE_FULLSCREEN,
-                CLOSE,
-                SET_TITLE,
-                BRING_TO_FRONT,
-                SHOW,
-                HIDE,
-                MINIMIZE,
-                MAXIMIZE,
-                RESTORE
+                ChangeSize,
+                ChangeFullscreen,
+                Close,
+                SetTitle,
+                BringToFront,
+                Show,
+                Hide,
+                Minimize,
+                Maximize,
+                Restore
             };
 
             Command() = default;

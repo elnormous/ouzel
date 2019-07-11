@@ -77,13 +77,13 @@ namespace ouzel
         {
             switch (command.type)
             {
-                case Command::Type::START_DEVICE_DISCOVERY:
+                case Command::Type::StartDeviceDiscovery:
                     startGamepadDiscovery();
                     break;
-                case Command::Type::STOP_DEVICE_DISCOVERY:
+                case Command::Type::StopDeviceDiscovery:
                     stopGamepadDiscovery();
                     break;
-                case Command::Type::SET_ABSOLUTE_DPAD_VALUES:
+                case Command::Type::SetAbsoluteDpad_VALUES:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
@@ -92,7 +92,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::SET_PLAYER_INDEX:
+                case Command::Type::SetPlayerIndex:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
@@ -101,14 +101,14 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::SET_VIBRATION:
+                case Command::Type::SetVibration:
                 {
                     break;
                 }
-                case Command::Type::SHOW_VIRTUAL_KEYBOARD:
+                case Command::Type::ShowVirtualKeyboard:
                     showVirtualKeyboard();
                     break;
-                case Command::Type::HIDE_VIRTUAL_KEYBOARD:
+                case Command::Type::HideVirtualKeyboard:
                     hideVirtualKeyboard();
                     break;
                 default:

@@ -11,141 +11,136 @@ namespace ouzel
     {
         enum class DataType
         {
-            NONE,
+            Byte,
+            ByteNorm,
+            UnsignedByte,
+            UnsignedByteNorm,
 
-            BYTE,
-            BYTE_NORM,
-            UNSIGNED_BYTE,
-            UNSIGNED_BYTE_NORM,
+            ByteVector2,
+            ByteVector2Norm,
+            UnsignedByteVector2,
+            UnsignedByteVector2Norm,
 
-            BYTE_VECTOR2,
-            BYTE_VECTOR2_NORM,
-            UNSIGNED_BYTE_VECTOR2,
-            UNSIGNED_BYTE_VECTOR2_NORM,
+            ByteVector3,
+            ByteVector3Norm,
+            UnsignedByteVector3,
+            UnsignedByteVector3Norm,
 
-            BYTE_VECTOR3,
-            BYTE_VECTOR3_NORM,
-            UNSIGNED_BYTE_VECTOR3,
-            UNSIGNED_BYTE_VECTOR3_NORM,
+            ByteVector4,
+            ByteVector4Norm,
+            UnsignedByteVector4,
+            UnsignedByteVector4Norm,
 
-            BYTE_VECTOR4,
-            BYTE_VECTOR4_NORM,
-            UNSIGNED_BYTE_VECTOR4,
-            UNSIGNED_BYTE_VECTOR4_NORM,
+            Short,
+            ShortNorm,
+            UnsignedShort,
+            UnsignedShortNorm,
 
-            SHORT,
-            SHORT_NORM,
-            UNSIGNED_SHORT,
-            UNSIGNED_SHORT_NORM,
+            ShortVector2,
+            ShortVector2Norm,
+            UnsignedShortVector2,
+            UnsignedShortVector2Norm,
 
-            SHORT_VECTOR2,
-            SHORT_VECTOR2_NORM,
-            UNSIGNED_SHORT_VECTOR2,
-            UNSIGNED_SHORT_VECTOR2_NORM,
+            ShortVector3,
+            ShortVector3Norm,
+            UnsignedShortVector3,
+            UnsignedShortVector3Norm,
 
-            SHORT_VECTOR3,
-            SHORT_VECTOR3_NORM,
-            UNSIGNED_SHORT_VECTOR3,
-            UNSIGNED_SHORT_VECTOR3_NORM,
+            ShortVector4,
+            ShortVector4Norm,
+            UnsignedShortVector4,
+            UnsignedShortVector4Norm,
 
-            SHORT_VECTOR4,
-            SHORT_VECTOR4_NORM,
-            UNSIGNED_SHORT_VECTOR4,
-            UNSIGNED_SHORT_VECTOR4_NORM,
+            Integer,
+            UnsignedInteger,
 
-            INTEGER,
-            UNSIGNED_INTEGER,
+            IntegerVector2,
+            UnsignedIntegerVector2,
 
-            INTEGER_VECTOR2,
-            UNSIGNED_INTEGER_VECTOR2,
+            IntegerVector3,
+            UnsignedIntegerVector3,
 
-            INTEGER_VECTOR3,
-            UNSIGNED_INTEGER_VECTOR3,
+            IntegerVector4,
+            UnsignedIntegerVector4,
 
-            INTEGER_VECTOR4,
-            UNSIGNED_INTEGER_VECTOR4,
-
-            FLOAT,
-            FLOAT_VECTOR2,
-            FLOAT_VECTOR3,
-            FLOAT_VECTOR4,
-            FLOAT_MATRIX3,
-            FLOAT_MATRIX4
+            Float,
+            FloatVector2,
+            FloatVector3,
+            FloatVector4,
+            FloatMatrix3,
+            FloatMatrix4
         };
 
         inline uint32_t getDataTypeSize(DataType dataType)
         {
             switch (dataType)
             {
-                case DataType::NONE:
-                    return 0;
-
-                case DataType::BYTE:
-                case DataType::BYTE_NORM:
-                case DataType::UNSIGNED_BYTE:
-                case DataType::UNSIGNED_BYTE_NORM:
+                case DataType::Byte:
+                case DataType::ByteNorm:
+                case DataType::UnsignedByte:
+                case DataType::UnsignedByteNorm:
                     return sizeof(uint8_t);
-                case DataType::BYTE_VECTOR2:
-                case DataType::BYTE_VECTOR2_NORM:
-                case DataType::UNSIGNED_BYTE_VECTOR2:
-                case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
+                case DataType::ByteVector2:
+                case DataType::ByteVector2Norm:
+                case DataType::UnsignedByteVector2:
+                case DataType::UnsignedByteVector2Norm:
                     return 2 * sizeof(uint8_t);
-                case DataType::BYTE_VECTOR3:
-                case DataType::BYTE_VECTOR3_NORM:
-                case DataType::UNSIGNED_BYTE_VECTOR3:
-                case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
+                case DataType::ByteVector3:
+                case DataType::ByteVector3Norm:
+                case DataType::UnsignedByteVector3:
+                case DataType::UnsignedByteVector3Norm:
                     return 3 * sizeof(uint8_t);
-                case DataType::BYTE_VECTOR4:
-                case DataType::BYTE_VECTOR4_NORM:
-                case DataType::UNSIGNED_BYTE_VECTOR4:
-                case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
+                case DataType::ByteVector4:
+                case DataType::ByteVector4Norm:
+                case DataType::UnsignedByteVector4:
+                case DataType::UnsignedByteVector4Norm:
                     return 4 * sizeof(uint8_t);
 
-                case DataType::SHORT:
-                case DataType::SHORT_NORM:
-                case DataType::UNSIGNED_SHORT:
-                case DataType::UNSIGNED_SHORT_NORM:
+                case DataType::Short:
+                case DataType::ShortNorm:
+                case DataType::UnsignedShort:
+                case DataType::UnsignedShortNorm:
                     return sizeof(uint16_t);
-                case DataType::SHORT_VECTOR2:
-                case DataType::SHORT_VECTOR2_NORM:
-                case DataType::UNSIGNED_SHORT_VECTOR2:
-                case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
+                case DataType::ShortVector2:
+                case DataType::ShortVector2Norm:
+                case DataType::UnsignedShortVector2:
+                case DataType::UnsignedShortVector2Norm:
                     return 2 * sizeof(uint16_t);
-                case DataType::SHORT_VECTOR3:
-                case DataType::SHORT_VECTOR3_NORM:
-                case DataType::UNSIGNED_SHORT_VECTOR3:
-                case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
+                case DataType::ShortVector3:
+                case DataType::ShortVector3Norm:
+                case DataType::UnsignedShortVector3:
+                case DataType::UnsignedShortVector3Norm:
                     return 3 * sizeof(uint16_t);
-                case DataType::SHORT_VECTOR4:
-                case DataType::SHORT_VECTOR4_NORM:
-                case DataType::UNSIGNED_SHORT_VECTOR4:
-                case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
+                case DataType::ShortVector4:
+                case DataType::ShortVector4Norm:
+                case DataType::UnsignedShortVector4:
+                case DataType::UnsignedShortVector4Norm:
                     return 4 * sizeof(uint16_t);
 
-                case DataType::INTEGER:
-                case DataType::UNSIGNED_INTEGER:
+                case DataType::Integer:
+                case DataType::UnsignedInteger:
                     return sizeof(uint32_t);
-                case DataType::INTEGER_VECTOR2:
-                case DataType::UNSIGNED_INTEGER_VECTOR2:
+                case DataType::IntegerVector2:
+                case DataType::UnsignedIntegerVector2:
                     return 2 * sizeof(uint32_t);
-                case DataType::INTEGER_VECTOR3:
-                case DataType::UNSIGNED_INTEGER_VECTOR3:
+                case DataType::IntegerVector3:
+                case DataType::UnsignedIntegerVector3:
                     return 3 * sizeof(uint32_t);
-                case DataType::INTEGER_VECTOR4:
-                case DataType::UNSIGNED_INTEGER_VECTOR4:
+                case DataType::IntegerVector4:
+                case DataType::UnsignedIntegerVector4:
                     return 4 * sizeof(uint32_t);
 
-                case DataType::FLOAT:
+                case DataType::Float:
                     return sizeof(float);
-                case DataType::FLOAT_VECTOR2:
+                case DataType::FloatVector2:
                     return 2 * sizeof(float);
-                case DataType::FLOAT_VECTOR3:
+                case DataType::FloatVector3:
                     return 3 * sizeof(float);
-                case DataType::FLOAT_VECTOR4:
+                case DataType::FloatVector4:
                     return 4 * sizeof(float);
-                case DataType::FLOAT_MATRIX3:
+                case DataType::FloatMatrix3:
                     return 9 * sizeof(float);
-                case DataType::FLOAT_MATRIX4:
+                case DataType::FloatMatrix4:
                     return 16 * sizeof(float);
                 default:
                     return 0;

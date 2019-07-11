@@ -19,24 +19,23 @@ namespace ouzel
             public:
                 enum class Usage
                 {
-                    NONE,
-                    BINORMAL,
-                    BLEND_INDICES,
-                    BLEND_WEIGHT,
-                    COLOR,
-                    NORMAL,
-                    POSITION,
-                    POSITION_TRANSFORMED,
-                    POINT_SIZE,
-                    TANGENT,
-                    TEXTURE_COORDINATES0,
-                    TEXTURE_COORDINATES1
+                    Binormal,
+                    BlendIndices,
+                    BlendWeight,
+                    Color,
+                    Normal,
+                    Position,
+                    PositionTransformed,
+                    PointSize,
+                    Tangent,
+                    TextureCoordinates0,
+                    TextureCoordinates1
                 };
 
                 Attribute(Usage initUsage, DataType initDataType):
                     usage(initUsage), dataType(initDataType) {}
-                Usage usage = Usage::NONE;
-                DataType dataType = DataType::NONE;
+                Usage usage;
+                DataType dataType;
             };
 
             Vertex() = default;

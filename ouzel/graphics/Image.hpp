@@ -29,7 +29,7 @@ namespace ouzel
             inline const std::vector<uint8_t>& getData() const noexcept { return data; }
 
         private:
-            PixelFormat pixelFormat = PixelFormat::DEFAULT;
+            PixelFormat pixelFormat = PixelFormat::Default;
             Size2U size;
             std::vector<uint8_t> data;
         };

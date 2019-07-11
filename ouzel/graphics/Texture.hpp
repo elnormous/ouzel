@@ -32,18 +32,18 @@ namespace ouzel
                     uint32_t initFlags = 0,
                     uint32_t initMipmaps = 0,
                     uint32_t initSampleCount = 1,
-                    PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
+                    PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
             Texture(Renderer& initRenderer,
                     const std::vector<uint8_t>& initData,
                     const Size2U& initSize,
                     uint32_t initFlags = 0,
                     uint32_t initMipmaps = 0,
-                    PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
+                    PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
             Texture(Renderer& initRenderer,
                     const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
                     const Size2U& initSize,
                     uint32_t initFlags = 0,
-                    PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
+                    PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
 
             inline const RenderDevice::Resource& getResource() const noexcept { return resource; }
 
@@ -85,11 +85,11 @@ namespace ouzel
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
             uint32_t sampleCount = 1;
-            PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
-            SamplerFilter filter = SamplerFilter::DEFAULT;
-            SamplerAddressMode addressX = SamplerAddressMode::CLAMP_TO_EDGE;
-            SamplerAddressMode addressY = SamplerAddressMode::CLAMP_TO_EDGE;
-            SamplerAddressMode addressZ = SamplerAddressMode::CLAMP_TO_EDGE;
+            PixelFormat pixelFormat = PixelFormat::RGBA8UNorm;
+            SamplerFilter filter = SamplerFilter::Default;
+            SamplerAddressMode addressX = SamplerAddressMode::ClampToEdge;
+            SamplerAddressMode addressY = SamplerAddressMode::ClampToEdge;
+            SamplerAddressMode addressZ = SamplerAddressMode::ClampToEdge;
             Color borderColor;
             uint32_t maxAnisotropy = 0;
         };

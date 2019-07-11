@@ -106,64 +106,64 @@ namespace ouzel
             {
                 switch (dataType)
                 {
-                    case DataType::BYTE:
-                    case DataType::BYTE_NORM:
-                    case DataType::BYTE_VECTOR2:
-                    case DataType::BYTE_VECTOR2_NORM:
-                    case DataType::BYTE_VECTOR3:
-                    case DataType::BYTE_VECTOR3_NORM:
-                    case DataType::BYTE_VECTOR4:
-                    case DataType::BYTE_VECTOR4_NORM:
+                    case DataType::Byte:
+                    case DataType::ByteNorm:
+                    case DataType::ByteVector2:
+                    case DataType::ByteVector2Norm:
+                    case DataType::ByteVector3:
+                    case DataType::ByteVector3Norm:
+                    case DataType::ByteVector4:
+                    case DataType::ByteVector4Norm:
                         return GL_BYTE;
 
-                    case DataType::UNSIGNED_BYTE:
-                    case DataType::UNSIGNED_BYTE_NORM:
-                    case DataType::UNSIGNED_BYTE_VECTOR2:
-                    case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
-                    case DataType::UNSIGNED_BYTE_VECTOR3:
-                    case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
-                    case DataType::UNSIGNED_BYTE_VECTOR4:
-                    case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
+                    case DataType::UnsignedByte:
+                    case DataType::UnsignedByteNorm:
+                    case DataType::UnsignedByteVector2:
+                    case DataType::UnsignedByteVector2Norm:
+                    case DataType::UnsignedByteVector3:
+                    case DataType::UnsignedByteVector3Norm:
+                    case DataType::UnsignedByteVector4:
+                    case DataType::UnsignedByteVector4Norm:
                         return GL_UNSIGNED_BYTE;
 
-                    case DataType::SHORT:
-                    case DataType::SHORT_NORM:
-                    case DataType::SHORT_VECTOR2:
-                    case DataType::SHORT_VECTOR2_NORM:
-                    case DataType::SHORT_VECTOR3:
-                    case DataType::SHORT_VECTOR3_NORM:
-                    case DataType::SHORT_VECTOR4:
-                    case DataType::SHORT_VECTOR4_NORM:
+                    case DataType::Short:
+                    case DataType::ShortNorm:
+                    case DataType::ShortVector2:
+                    case DataType::ShortVector2Norm:
+                    case DataType::ShortVector3:
+                    case DataType::ShortVector3Norm:
+                    case DataType::ShortVector4:
+                    case DataType::ShortVector4Norm:
                         return GL_SHORT;
 
-                    case DataType::UNSIGNED_SHORT:
-                    case DataType::UNSIGNED_SHORT_NORM:
-                    case DataType::UNSIGNED_SHORT_VECTOR2:
-                    case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
-                    case DataType::UNSIGNED_SHORT_VECTOR3:
-                    case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
-                    case DataType::UNSIGNED_SHORT_VECTOR4:
-                    case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
+                    case DataType::UnsignedShort:
+                    case DataType::UnsignedShortNorm:
+                    case DataType::UnsignedShortVector2:
+                    case DataType::UnsignedShortVector2Norm:
+                    case DataType::UnsignedShortVector3:
+                    case DataType::UnsignedShortVector3Norm:
+                    case DataType::UnsignedShortVector4:
+                    case DataType::UnsignedShortVector4Norm:
                         return GL_UNSIGNED_SHORT;
 
-                    case DataType::INTEGER:
-                    case DataType::INTEGER_VECTOR2:
-                    case DataType::INTEGER_VECTOR3:
-                    case DataType::INTEGER_VECTOR4:
+                    case DataType::Integer:
+                    case DataType::IntegerVector2:
+                    case DataType::IntegerVector3:
+                    case DataType::IntegerVector4:
                         return GL_INT;
 
-                    case DataType::UNSIGNED_INTEGER:
-                    case DataType::UNSIGNED_INTEGER_VECTOR2:
-                    case DataType::UNSIGNED_INTEGER_VECTOR3:
-                    case DataType::UNSIGNED_INTEGER_VECTOR4:
+                    case DataType::UnsignedInteger:
+                    case DataType::UnsignedIntegerVector2:
+                    case DataType::UnsignedIntegerVector3:
+                    case DataType::UnsignedIntegerVector4:
                         return GL_UNSIGNED_INT;
 
-                    case DataType::FLOAT:
-                    case DataType::FLOAT_VECTOR2:
-                    case DataType::FLOAT_VECTOR3:
-                    case DataType::FLOAT_VECTOR4:
-                    case DataType::FLOAT_MATRIX3:
-                    case DataType::FLOAT_MATRIX4:
+                    case DataType::Float:
+                    case DataType::FloatVector2:
+                    case DataType::FloatVector3:
+                    case DataType::FloatVector4:
+                    case DataType::FloatMatrix3:
+                    case DataType::FloatMatrix4:
                         return GL_FLOAT;
 
                     default:
@@ -175,62 +175,62 @@ namespace ouzel
             {
                 switch (dataType)
                 {
-                    case DataType::BYTE:
-                    case DataType::BYTE_NORM:
-                    case DataType::UNSIGNED_BYTE:
-                    case DataType::UNSIGNED_BYTE_NORM:
-                    case DataType::SHORT:
-                    case DataType::SHORT_NORM:
-                    case DataType::UNSIGNED_SHORT:
-                    case DataType::UNSIGNED_SHORT_NORM:
-                    case DataType::INTEGER:
-                    case DataType::UNSIGNED_INTEGER:
-                    case DataType::FLOAT:
+                    case DataType::Byte:
+                    case DataType::ByteNorm:
+                    case DataType::UnsignedByte:
+                    case DataType::UnsignedByteNorm:
+                    case DataType::Short:
+                    case DataType::ShortNorm:
+                    case DataType::UnsignedShort:
+                    case DataType::UnsignedShortNorm:
+                    case DataType::Integer:
+                    case DataType::UnsignedInteger:
+                    case DataType::Float:
                         return 1;
 
-                    case DataType::BYTE_VECTOR2:
-                    case DataType::BYTE_VECTOR2_NORM:
-                    case DataType::UNSIGNED_BYTE_VECTOR2:
-                    case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
-                    case DataType::SHORT_VECTOR2:
-                    case DataType::SHORT_VECTOR2_NORM:
-                    case DataType::UNSIGNED_SHORT_VECTOR2:
-                    case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
-                    case DataType::INTEGER_VECTOR2:
-                    case DataType::UNSIGNED_INTEGER_VECTOR2:
-                    case DataType::FLOAT_VECTOR2:
+                    case DataType::ByteVector2:
+                    case DataType::ByteVector2Norm:
+                    case DataType::UnsignedByteVector2:
+                    case DataType::UnsignedByteVector2Norm:
+                    case DataType::ShortVector2:
+                    case DataType::ShortVector2Norm:
+                    case DataType::UnsignedShortVector2:
+                    case DataType::UnsignedShortVector2Norm:
+                    case DataType::IntegerVector2:
+                    case DataType::UnsignedIntegerVector2:
+                    case DataType::FloatVector2:
                         return 2;
 
-                    case DataType::BYTE_VECTOR3:
-                    case DataType::BYTE_VECTOR3_NORM:
-                    case DataType::UNSIGNED_BYTE_VECTOR3:
-                    case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
-                    case DataType::SHORT_VECTOR3:
-                    case DataType::SHORT_VECTOR3_NORM:
-                    case DataType::UNSIGNED_SHORT_VECTOR3:
-                    case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
-                    case DataType::INTEGER_VECTOR3:
-                    case DataType::UNSIGNED_INTEGER_VECTOR3:
-                    case DataType::FLOAT_VECTOR3:
+                    case DataType::ByteVector3:
+                    case DataType::ByteVector3Norm:
+                    case DataType::UnsignedByteVector3:
+                    case DataType::UnsignedByteVector3Norm:
+                    case DataType::ShortVector3:
+                    case DataType::ShortVector3Norm:
+                    case DataType::UnsignedShortVector3:
+                    case DataType::UnsignedShortVector3Norm:
+                    case DataType::IntegerVector3:
+                    case DataType::UnsignedIntegerVector3:
+                    case DataType::FloatVector3:
                         return 3;
 
-                    case DataType::BYTE_VECTOR4:
-                    case DataType::BYTE_VECTOR4_NORM:
-                    case DataType::UNSIGNED_BYTE_VECTOR4:
-                    case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
-                    case DataType::SHORT_VECTOR4:
-                    case DataType::SHORT_VECTOR4_NORM:
-                    case DataType::UNSIGNED_SHORT_VECTOR4:
-                    case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
-                    case DataType::INTEGER_VECTOR4:
-                    case DataType::UNSIGNED_INTEGER_VECTOR4:
-                    case DataType::FLOAT_VECTOR4:
+                    case DataType::ByteVector4:
+                    case DataType::ByteVector4Norm:
+                    case DataType::UnsignedByteVector4:
+                    case DataType::UnsignedByteVector4Norm:
+                    case DataType::ShortVector4:
+                    case DataType::ShortVector4Norm:
+                    case DataType::UnsignedShortVector4:
+                    case DataType::UnsignedShortVector4Norm:
+                    case DataType::IntegerVector4:
+                    case DataType::UnsignedIntegerVector4:
+                    case DataType::FloatVector4:
                         return 4;
 
-                    case DataType::FLOAT_MATRIX3:
+                    case DataType::FloatMatrix3:
                         return 3 * 3;
 
-                    case DataType::FLOAT_MATRIX4:
+                    case DataType::FloatMatrix4:
                         return 4 * 4;
 
                     default:
@@ -242,22 +242,22 @@ namespace ouzel
             {
                 switch (dataType)
                 {
-                    case DataType::BYTE_NORM:
-                    case DataType::BYTE_VECTOR2_NORM:
-                    case DataType::BYTE_VECTOR3_NORM:
-                    case DataType::BYTE_VECTOR4_NORM:
-                    case DataType::UNSIGNED_BYTE_NORM:
-                    case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
-                    case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
-                    case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
-                    case DataType::SHORT_NORM:
-                    case DataType::SHORT_VECTOR2_NORM:
-                    case DataType::SHORT_VECTOR3_NORM:
-                    case DataType::SHORT_VECTOR4_NORM:
-                    case DataType::UNSIGNED_SHORT_NORM:
-                    case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
-                    case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
-                    case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
+                    case DataType::ByteNorm:
+                    case DataType::ByteVector2Norm:
+                    case DataType::ByteVector3Norm:
+                    case DataType::ByteVector4Norm:
+                    case DataType::UnsignedByteNorm:
+                    case DataType::UnsignedByteVector2Norm:
+                    case DataType::UnsignedByteVector3Norm:
+                    case DataType::UnsignedByteVector4Norm:
+                    case DataType::ShortNorm:
+                    case DataType::ShortVector2Norm:
+                    case DataType::ShortVector3Norm:
+                    case DataType::ShortVector4Norm:
+                    case DataType::UnsignedShortNorm:
+                    case DataType::UnsignedShortVector2Norm:
+                    case DataType::UnsignedShortVector3Norm:
+                    case DataType::UnsignedShortVector4Norm:
                         return GL_TRUE;
                     default:
                         return GL_FALSE;
@@ -753,50 +753,50 @@ namespace ouzel
             {
                 switch (dataType)
                 {
-                    case DataType::INTEGER:
+                    case DataType::Integer:
                         glUniform1ivProc(location, 1, static_cast<const GLint*>(data));
                         break;
-                    case DataType::UNSIGNED_INTEGER:
+                    case DataType::UnsignedInteger:
                         if (!glUniform1uivProc) throw std::runtime_error("Unsupported uniform size");
                         glUniform1uivProc(location, 1, static_cast<const GLuint*>(data));
                         break;
-                    case DataType::INTEGER_VECTOR2:
+                    case DataType::IntegerVector2:
                         glUniform2ivProc(location, 1, static_cast<const GLint*>(data));
                         break;
-                    case DataType::UNSIGNED_INTEGER_VECTOR2:
+                    case DataType::UnsignedIntegerVector2:
                         if (!glUniform2uivProc) throw std::runtime_error("Unsupported uniform size");
                         glUniform2uivProc(location, 1, static_cast<const GLuint*>(data));
                         break;
-                    case DataType::INTEGER_VECTOR3:
+                    case DataType::IntegerVector3:
                         glUniform3ivProc(location, 1, static_cast<const GLint*>(data));
                         break;
-                    case DataType::UNSIGNED_INTEGER_VECTOR3:
+                    case DataType::UnsignedIntegerVector3:
                         if (!glUniform3uivProc) throw std::runtime_error("Unsupported uniform size");
                         glUniform3uivProc(location, 1, static_cast<const GLuint*>(data));
                         break;
-                    case DataType::INTEGER_VECTOR4:
+                    case DataType::IntegerVector4:
                         glUniform4ivProc(location, 1, static_cast<const GLint*>(data));
                         break;
-                    case DataType::UNSIGNED_INTEGER_VECTOR4:
+                    case DataType::UnsignedIntegerVector4:
                         if (!glUniform4uivProc) throw std::runtime_error("Unsupported uniform size");
                         glUniform4uivProc(location, 1, static_cast<const GLuint*>(data));
                         break;
-                    case DataType::FLOAT:
+                    case DataType::Float:
                         glUniform1fvProc(location, 1, static_cast<const GLfloat*>(data));
                         break;
-                    case DataType::FLOAT_VECTOR2:
+                    case DataType::FloatVector2:
                         glUniform2fvProc(location, 1, static_cast<const GLfloat*>(data));
                         break;
-                    case DataType::FLOAT_VECTOR3:
+                    case DataType::FloatVector3:
                         glUniform3fvProc(location, 1, static_cast<const GLfloat*>(data));
                         break;
-                    case DataType::FLOAT_VECTOR4:
+                    case DataType::FloatVector4:
                         glUniform4fvProc(location, 1, static_cast<const GLfloat*>(data));
                         break;
-                    case DataType::FLOAT_MATRIX3:
+                    case DataType::FloatMatrix3:
                         glUniformMatrix3fvProc(location, 1, GL_FALSE, static_cast<const GLfloat*>(data));
                         break;
-                    case DataType::FLOAT_MATRIX4:
+                    case DataType::FloatMatrix4:
                         glUniformMatrix4fvProc(location, 1, GL_FALSE, static_cast<const GLfloat*>(data));
                         break;
                     default:
@@ -829,7 +829,7 @@ namespace ouzel
 
                         switch (command->type)
                         {
-                            case Command::Type::RESIZE:
+                            case Command::Type::Resize:
                             {
                                 auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
                                 frameBufferWidth = static_cast<GLsizei>(resizeCommand->size.v[0]);
@@ -838,20 +838,20 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::PRESENT:
+                            case Command::Type::Present:
                             {
                                 present();
                                 break;
                             }
 
-                            case Command::Type::DELETE_RESOURCE:
+                            case Command::Type::DeleteResource:
                             {
                                 auto deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
                                 resources[deleteResourceCommand->resource - 1].reset();
                                 break;
                             }
 
-                            case Command::Type::INIT_RENDER_TARGET:
+                            case Command::Type::InitRenderTarget:
                             {
                                 auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
 
@@ -869,7 +869,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_RENDER_TARGET:
+                            case Command::Type::SetRenderTarget:
                             {
                                 auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
@@ -890,7 +890,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::CLEAR_RENDER_TARGET:
+                            case Command::Type::ClearRenderTarget:
                             {
                                 auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
@@ -945,7 +945,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::BLIT:
+                            case Command::Type::Blit:
                             {
 #if !OUZEL_OPENGLES
                                 auto blitCommand = static_cast<const BlitCommand*>(command.get());
@@ -974,7 +974,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_SCISSOR_TEST:
+                            case Command::Type::SetScissorTest:
                             {
                                 auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
@@ -987,7 +987,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_VIEWPORT:
+                            case Command::Type::SetViewport:
                             {
                                 auto setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
 
@@ -999,7 +999,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::INIT_DEPTH_STENCIL_STATE:
+                            case Command::Type::InitDepthStencilState:
                             {
                                 auto initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
                                 auto depthStencilState = std::make_unique<DepthStencilState>(*this,
@@ -1024,7 +1024,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_DEPTH_STENCIL_STATE:
+                            case Command::Type::SetDepthStencilState:
                             {
                                 auto setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
 
@@ -1070,7 +1070,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_PIPELINE_STATE:
+                            case Command::Type::SetPipelineState:
                             {
                                 auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
@@ -1120,7 +1120,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::DRAW:
+                            case Command::Type::Draw:
                             {
                                 auto drawCommand = static_cast<const DrawCommand*>(command.get());
 
@@ -1173,20 +1173,20 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::PUSH_DEBUG_MARKER:
+                            case Command::Type::PushDebugMarker:
                             {
                                 auto pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
                                 if (glPushGroupMarkerEXTProc) glPushGroupMarkerEXTProc(0, pushDebugMarkerCommand->name.c_str());
                                 break;
                             }
 
-                            case Command::Type::POP_DEBUG_MARKER:
+                            case Command::Type::PopDebugMarker:
                             {
                                 if (glPopGroupMarkerEXTProc) glPopGroupMarkerEXTProc();
                                 break;
                             }
 
-                            case Command::Type::INIT_BLEND_STATE:
+                            case Command::Type::InitBlendState:
                             {
                                 auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
@@ -1206,7 +1206,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::INIT_BUFFER:
+                            case Command::Type::InitBuffer:
                             {
                                 auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
@@ -1222,7 +1222,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_BUFFER_DATA:
+                            case Command::Type::SetBufferData:
                             {
                                 auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
@@ -1231,7 +1231,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::INIT_SHADER:
+                            case Command::Type::InitShader:
                             {
                                 auto initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
@@ -1252,7 +1252,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_SHADER_CONSTANTS:
+                            case Command::Type::SetShaderConstants:
                             {
                                 auto setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
@@ -1294,7 +1294,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::INIT_TEXTURE:
+                            case Command::Type::InitTexture:
                             {
                                 auto initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
@@ -1311,7 +1311,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_TEXTURE_DATA:
+                            case Command::Type::SetTextureData:
                             {
                                 auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
@@ -1321,12 +1321,12 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_TEXTURE_PARAMETERS:
+                            case Command::Type::SetTextureParameters:
                             {
                                 auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
                                 Texture* texture = getResource<Texture>(setTextureParametersCommand->texture);
-                                texture->setFilter(setTextureParametersCommand->filter == SamplerFilter::DEFAULT ? textureFilter : setTextureParametersCommand->filter);
+                                texture->setFilter(setTextureParametersCommand->filter == SamplerFilter::Default ? textureFilter : setTextureParametersCommand->filter);
                                 texture->setAddressX(setTextureParametersCommand->addressX);
                                 texture->setAddressY(setTextureParametersCommand->addressY);
                                 texture->setAddressZ(setTextureParametersCommand->addressZ);
@@ -1334,7 +1334,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SET_TEXTURES:
+                            case Command::Type::SetTextures:
                             {
                                 auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
@@ -1353,7 +1353,7 @@ namespace ouzel
                                 throw std::runtime_error("Invalid command");
                         }
 
-                        if (command->type == Command::Type::PRESENT) return;
+                        if (command->type == Command::Type::Present) return;
                     }
                 }
             }

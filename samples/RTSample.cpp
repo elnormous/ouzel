@@ -19,14 +19,14 @@ RTSample::RTSample():
 
     auto renderTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
                                                              Size2U(256, 256),
-                                                             graphics::Flags::BIND_RENDER_TARGET |
-                                                             graphics::Flags::BIND_SHADER, 1, 1);
+                                                             graphics::Flags::BindRenderTarget |
+                                                             graphics::Flags::BindShader, 1, 1);
 
     auto depthTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
                                                             Size2U(256, 256),
-                                                            graphics::Flags::BIND_RENDER_TARGET |
-                                                            graphics::Flags::BIND_SHADER, 1, 1,
-                                                            graphics::PixelFormat::DEPTH);
+                                                            graphics::Flags::BindRenderTarget |
+                                                            graphics::Flags::BindShader, 1, 1,
+                                                            graphics::PixelFormat::Depth);
 
     auto renderTarget = std::make_shared<graphics::RenderTarget>(*engine->getRenderer(),
                                                                  std::vector<std::shared_ptr<graphics::Texture>>{renderTexture},

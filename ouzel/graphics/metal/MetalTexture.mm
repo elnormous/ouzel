@@ -19,38 +19,38 @@ namespace ouzel
             {
                 switch (pixelFormat)
                 {
-                    case PixelFormat::A8_UNORM: return MTLPixelFormatA8Unorm;
-                    case PixelFormat::R8_UNORM: return MTLPixelFormatR8Unorm;
-                    case PixelFormat::R8_SNORM: return MTLPixelFormatR8Snorm;
-                    case PixelFormat::R8_UINT: return MTLPixelFormatR8Uint;
-                    case PixelFormat::R8_SINT: return MTLPixelFormatR8Sint;
-                    case PixelFormat::R16_UNORM: return MTLPixelFormatR16Unorm;
-                    case PixelFormat::R16_SNORM: return MTLPixelFormatR16Snorm;
-                    case PixelFormat::R16_UINT: return MTLPixelFormatR16Uint;
-                    case PixelFormat::R16_SINT: return MTLPixelFormatR16Sint;
-                    case PixelFormat::R16_FLOAT: return MTLPixelFormatR16Float;
-                    case PixelFormat::R32_UINT: return MTLPixelFormatR32Uint;
-                    case PixelFormat::R32_SINT: return MTLPixelFormatR32Sint;
-                    case PixelFormat::R32_FLOAT: return MTLPixelFormatR32Float;
-                    case PixelFormat::RG8_UNORM: return MTLPixelFormatRG8Unorm;
-                    case PixelFormat::RG8_SNORM: return MTLPixelFormatRG8Snorm;
-                    case PixelFormat::RG8_UINT: return MTLPixelFormatRG8Uint;
-                    case PixelFormat::RG8_SINT: return MTLPixelFormatRG8Sint;
-                    case PixelFormat::RGBA8_UNORM: return MTLPixelFormatRGBA8Unorm;
-                    case PixelFormat::RGBA8_UNORM_SRGB: return MTLPixelFormatRGBA8Unorm_sRGB;
-                    case PixelFormat::RGBA8_SNORM: return MTLPixelFormatRGBA8Snorm;
-                    case PixelFormat::RGBA8_UINT: return MTLPixelFormatRGBA8Uint;
-                    case PixelFormat::RGBA8_SINT: return MTLPixelFormatRGBA8Sint;
-                    case PixelFormat::RGBA16_UNORM: return MTLPixelFormatRGBA16Unorm;
-                    case PixelFormat::RGBA16_SNORM: return MTLPixelFormatRGBA16Snorm;
-                    case PixelFormat::RGBA16_UINT: return MTLPixelFormatRGBA16Uint;
-                    case PixelFormat::RGBA16_SINT: return MTLPixelFormatRGBA16Sint;
-                    case PixelFormat::RGBA16_FLOAT: return MTLPixelFormatRGBA16Float;
-                    case PixelFormat::RGBA32_UINT: return MTLPixelFormatRGBA32Uint;
-                    case PixelFormat::RGBA32_SINT: return MTLPixelFormatRGBA32Sint;
-                    case PixelFormat::RGBA32_FLOAT: return MTLPixelFormatRGBA32Float;
-                    case PixelFormat::DEPTH: return MTLPixelFormatDepth32Float;
-                    case PixelFormat::DEPTH_STENCIL: return MTLPixelFormatDepth32Float_Stencil8; // MTLPixelFormatDepth24Unorm_Stencil8 is only available on macOS
+                    case PixelFormat::A8UNorm: return MTLPixelFormatA8Unorm;
+                    case PixelFormat::R8UNorm: return MTLPixelFormatR8Unorm;
+                    case PixelFormat::R8SNorm: return MTLPixelFormatR8Snorm;
+                    case PixelFormat::R8UInt: return MTLPixelFormatR8Uint;
+                    case PixelFormat::R8SInt: return MTLPixelFormatR8Sint;
+                    case PixelFormat::R16UNorm: return MTLPixelFormatR16Unorm;
+                    case PixelFormat::R16SNorm: return MTLPixelFormatR16Snorm;
+                    case PixelFormat::R16UInt: return MTLPixelFormatR16Uint;
+                    case PixelFormat::R16SInt: return MTLPixelFormatR16Sint;
+                    case PixelFormat::R16Float: return MTLPixelFormatR16Float;
+                    case PixelFormat::R32UInt: return MTLPixelFormatR32Uint;
+                    case PixelFormat::R32SInt: return MTLPixelFormatR32Sint;
+                    case PixelFormat::R32Float: return MTLPixelFormatR32Float;
+                    case PixelFormat::RG8UNorm: return MTLPixelFormatRG8Unorm;
+                    case PixelFormat::RG8SNorm: return MTLPixelFormatRG8Snorm;
+                    case PixelFormat::RG8UInt: return MTLPixelFormatRG8Uint;
+                    case PixelFormat::RG8SInt: return MTLPixelFormatRG8Sint;
+                    case PixelFormat::RGBA8UNorm: return MTLPixelFormatRGBA8Unorm;
+                    case PixelFormat::RGBA8UNormSRGB: return MTLPixelFormatRGBA8Unorm_sRGB;
+                    case PixelFormat::RGBA8SNorm: return MTLPixelFormatRGBA8Snorm;
+                    case PixelFormat::RGBA8UInt: return MTLPixelFormatRGBA8Uint;
+                    case PixelFormat::RGBA8SInt: return MTLPixelFormatRGBA8Sint;
+                    case PixelFormat::RGBA16UNorm: return MTLPixelFormatRGBA16Unorm;
+                    case PixelFormat::RGBA16SNorm: return MTLPixelFormatRGBA16Snorm;
+                    case PixelFormat::RGBA16UInt: return MTLPixelFormatRGBA16Uint;
+                    case PixelFormat::RGBA16SInt: return MTLPixelFormatRGBA16Sint;
+                    case PixelFormat::RGBA16Float: return MTLPixelFormatRGBA16Float;
+                    case PixelFormat::RGBA32UInt: return MTLPixelFormatRGBA32Uint;
+                    case PixelFormat::RGBA32SInt: return MTLPixelFormatRGBA32Sint;
+                    case PixelFormat::RGBA32Float: return MTLPixelFormatRGBA32Float;
+                    case PixelFormat::Depth: return MTLPixelFormatDepth32Float;
+                    case PixelFormat::DepthStencil: return MTLPixelFormatDepth32Float_Stencil8; // MTLPixelFormatDepth24Unorm_Stencil8 is only available on macOS
                     default: return MTLPixelFormatInvalid;
                 }
             }
@@ -104,9 +104,9 @@ namespace ouzel
                 sampleCount(initSampleCount),
                 pixelFormat(getMetalPixelFormat(initPixelFormat)),
                 pixelSize(getPixelSize(initPixelFormat)),
-                stencilBuffer(initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                stencilBuffer(initPixelFormat == PixelFormat::DepthStencil)
             {
-                if ((flags & Flags::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
                     throw std::runtime_error("Invalid mip map count");
 
                 if (pixelFormat == MTLPixelFormatInvalid)
@@ -127,15 +127,15 @@ namespace ouzel
                 textureDescriptor.sampleCount = 1;
                 textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
 
-                if (initPixelFormat == PixelFormat::DEPTH ||
-                    initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                if (initPixelFormat == PixelFormat::Depth ||
+                    initPixelFormat == PixelFormat::DepthStencil)
                     textureDescriptor.storageMode = MTLStorageModePrivate;
 
-                if (flags & Flags::BIND_RENDER_TARGET)
+                if (flags & Flags::BindRenderTarget)
                 {
                     textureDescriptor.usage = MTLTextureUsageRenderTarget;
-                    if (flags & Flags::BIND_SHADER &&
-                        !(flags & Flags::BIND_SHADER_MSAA))
+                    if (flags & Flags::BindShader &&
+                        !(flags & Flags::BindShaderMsaa))
                         textureDescriptor.usage |= MTLTextureUsageShaderRead;
                 }
                 else
@@ -146,7 +146,7 @@ namespace ouzel
                 if (!texture)
                     throw std::runtime_error("Failed to create Metal texture");
 
-                if (flags & Flags::BIND_RENDER_TARGET)
+                if (flags & Flags::BindRenderTarget)
                 {
                     if (sampleCount > 1)
                     {
@@ -160,7 +160,7 @@ namespace ouzel
                         msaaTextureDescriptor.mipmapLevelCount = 1;
                         msaaTextureDescriptor.usage = MTLTextureUsageRenderTarget;
 
-                        if (flags & Flags::BIND_SHADER_MSAA)
+                        if (flags & Flags::BindShaderMsaa)
                             msaaTextureDescriptor.usage |= MTLTextureUsageShaderRead;
 
                         msaaTexture = [renderDevice.getDevice() newTextureWithDescriptor:msaaTextureDescriptor];
@@ -184,9 +184,9 @@ namespace ouzel
                 }
 
                 samplerDescriptor.filter = renderDevice.getTextureFilter();
-                samplerDescriptor.addressX = SamplerAddressMode::CLAMP_TO_EDGE;
-                samplerDescriptor.addressY = SamplerAddressMode::CLAMP_TO_EDGE;
-                samplerDescriptor.addressZ = SamplerAddressMode::CLAMP_TO_EDGE;
+                samplerDescriptor.addressX = SamplerAddressMode::ClampToEdge;
+                samplerDescriptor.addressY = SamplerAddressMode::ClampToEdge;
+                samplerDescriptor.addressZ = SamplerAddressMode::ClampToEdge;
                 samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
 
                 updateSamplerState();
@@ -206,8 +206,8 @@ namespace ouzel
 
             void Texture::setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels)
             {
-                if (!(flags & Flags::DYNAMIC) ||
-                    flags & Flags::BIND_RENDER_TARGET)
+                if (!(flags & Flags::Dynamic) ||
+                    flags & Flags::BindRenderTarget)
                     throw std::runtime_error("Texture is not dynamic");
 
                 for (size_t level = 0; level < levels.size(); ++level)

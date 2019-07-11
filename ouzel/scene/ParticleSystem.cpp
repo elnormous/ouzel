@@ -323,7 +323,7 @@ namespace ouzel
 
             vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
                                                               graphics::BufferType::Vertex,
-                                                              graphics::Flags::DYNAMIC,
+                                                              graphics::Flags::Dynamic,
                                                               vertices.data(),
                                                               static_cast<uint32_t>(getVectorSize(vertices)));
 

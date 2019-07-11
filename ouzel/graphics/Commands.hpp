@@ -32,32 +32,32 @@ namespace ouzel
         public:
             enum class Type
             {
-                STOP,
-                RESIZE,
-                PRESENT,
-                DELETE_RESOURCE,
-                INIT_RENDER_TARGET,
-                SET_RENDER_TARGET,
-                CLEAR_RENDER_TARGET,
-                BLIT,
-                COMPUTE,
-                SET_SCISSOR_TEST,
-                SET_VIEWPORT,
-                INIT_DEPTH_STENCIL_STATE,
-                SET_DEPTH_STENCIL_STATE,
-                SET_PIPELINE_STATE,
-                DRAW,
-                PUSH_DEBUG_MARKER,
-                POP_DEBUG_MARKER,
-                INIT_BLEND_STATE,
-                INIT_BUFFER,
-                SET_BUFFER_DATA,
-                INIT_SHADER,
-                SET_SHADER_CONSTANTS,
-                INIT_TEXTURE,
-                SET_TEXTURE_DATA,
-                SET_TEXTURE_PARAMETERS,
-                SET_TEXTURES
+                Stop,
+                Resize,
+                Present,
+                DeleteResource,
+                InitRenderTarget,
+                SetRenderTarget,
+                ClearRenderTarget,
+                Blit,
+                Compute,
+                SetScissorTest,
+                SetViewport,
+                InitDepthStencilState,
+                SetDepthStencilState,
+                SetPipelineState,
+                Draw,
+                PushDebugMarker,
+                PopDebugMarker,
+                InitBlendState,
+                InitBuffer,
+                SetBufferData,
+                InitShader,
+                SetShaderConstants,
+                InitTexture,
+                SetTextureData,
+                SetTextureParameters,
+                SetTextures
             };
 
             explicit Command(Type initType):
@@ -73,14 +73,14 @@ namespace ouzel
         class StopCommand final: public Command
         {
         public:
-            StopCommand(): Command(Command::Type::STOP) {}
+            StopCommand(): Command(Command::Type::Stop) {}
         };
 
         class ResizeCommand final: public Command
         {
         public:
             explicit ResizeCommand(const Size2U& initSize):
-                Command(Command::Type::RESIZE),
+                Command(Command::Type::Resize),
                 size(initSize)
             {}
 
@@ -90,14 +90,14 @@ namespace ouzel
         class PresentCommand final: public Command
         {
         public:
-            PresentCommand(): Command(Command::Type::PRESENT) {}
+            PresentCommand(): Command(Command::Type::Present) {}
         };
 
         class DeleteResourceCommand final: public Command
         {
         public:
             explicit DeleteResourceCommand(uintptr_t initResource):
-                Command(Command::Type::DELETE_RESOURCE),
+                Command(Command::Type::DeleteResource),
                 resource(initResource)
             {}
 
@@ -110,7 +110,7 @@ namespace ouzel
             InitRenderTargetCommand(uintptr_t initRenderTarget,
                                     const std::set<uintptr_t>& initColorTextures,
                                     uintptr_t initDepthTexture):
-                Command(Command::Type::INIT_RENDER_TARGET),
+                Command(Command::Type::InitRenderTarget),
                 renderTarget(initRenderTarget),
                 colorTextures(initColorTextures),
                 depthTexture(initDepthTexture)
@@ -126,7 +126,7 @@ namespace ouzel
         {
         public:
             explicit SetRenderTargetCommand(uintptr_t initRenderTarget):
-                Command(Command::Type::SET_RENDER_TARGET),
+                Command(Command::Type::SetRenderTarget),
                 renderTarget(initRenderTarget)
             {
             }
@@ -143,7 +143,7 @@ namespace ouzel
                                      Color initClearColor,
                                      float initClearDepth,
                                      uint32_t initClearStencil):
-                Command(Command::Type::CLEAR_RENDER_TARGET),
+                Command(Command::Type::ClearRenderTarget),
                 clearColorBuffer(initClearColorBuffer),
                 clearDepthBuffer(initClearDepthBuffer),
                 clearStencilBuffer(initClearStencilBuffer),
@@ -175,7 +175,7 @@ namespace ouzel
                         uint32_t initDestinationLevel,
                         uint32_t initDestinationX,
                         uint32_t initDestinationY):
-                Command(Command::Type::BLIT),
+                Command(Command::Type::Blit),
                 sourceTexture(initSourceTexture),
                 sourceLevel(initSourceLevel),
                 sourceX(initSourceX),
@@ -206,7 +206,7 @@ namespace ouzel
         {
         public:
             explicit ComputeCommand(uintptr_t initShader):
-                Command(Command::Type::COMPUTE),
+                Command(Command::Type::Compute),
                 shader(initShader)
             {
             }
@@ -219,7 +219,7 @@ namespace ouzel
         public:
             SetScissorTestCommand(bool initEnabled,
                                   const RectF& initRectangle):
-                Command(Command::Type::SET_SCISSOR_TEST),
+                Command(Command::Type::SetScissorTest),
                 enabled(initEnabled),
                 rectangle(initRectangle)
             {
@@ -233,7 +233,7 @@ namespace ouzel
         {
         public:
             explicit SetViewportCommand(const RectF& initViewport):
-                Command(Command::Type::SET_VIEWPORT),
+                Command(Command::Type::SetViewport),
                 viewport(initViewport)
             {
             }
@@ -259,7 +259,7 @@ namespace ouzel
                                          StencilOperation initBackFaceStencilDepthFailureOperation,
                                          StencilOperation initBackFaceStencilPassOperation,
                                          CompareFunction initBackFaceStencilCompareFunction):
-                Command(Command::Type::INIT_DEPTH_STENCIL_STATE),
+                Command(Command::Type::InitDepthStencilState),
                 depthStencilState(initDepthStencilState),
                 depthTest(initDepthTest),
                 depthWrite(initDepthWrite),
@@ -300,7 +300,7 @@ namespace ouzel
         public:
             SetDepthStencilStateCommand(uintptr_t initDepthStencilState,
                                         uint32_t initStencilReferenceValue):
-                Command(Command::Type::SET_DEPTH_STENCIL_STATE),
+                Command(Command::Type::SetDepthStencilState),
                 depthStencilState(initDepthStencilState),
                 stencilReferenceValue(initStencilReferenceValue)
             {
@@ -317,7 +317,7 @@ namespace ouzel
                                     uintptr_t initShader,
                                     CullMode initCullMode,
                                     FillMode initFillMode):
-                Command(Command::Type::SET_PIPELINE_STATE),
+                Command(Command::Type::SetPipelineState),
                 blendState(initBlendState),
                 shader(initShader),
                 cullMode(initCullMode),
@@ -340,7 +340,7 @@ namespace ouzel
                         uintptr_t initVertexBuffer,
                         DrawMode initDrawMode,
                         uint32_t initStartIndex):
-                Command(Command::Type::DRAW),
+                Command(Command::Type::Draw),
                 indexBuffer(initIndexBuffer),
                 indexCount(initIndexCount),
                 indexSize(initIndexSize),
@@ -362,7 +362,7 @@ namespace ouzel
         {
         public:
             explicit PushDebugMarkerCommand(const std::string& initName):
-                Command(Command::Type::PUSH_DEBUG_MARKER),
+                Command(Command::Type::PushDebugMarker),
                 name(initName)
             {
             }
@@ -374,7 +374,7 @@ namespace ouzel
         {
         public:
             PopDebugMarkerCommand():
-                Command(Command::Type::POP_DEBUG_MARKER)
+                Command(Command::Type::PopDebugMarker)
             {
             }
         };
@@ -391,7 +391,7 @@ namespace ouzel
                                   BlendFactor initAlphaBlendDest,
                                   BlendOperation initAlphaOperation,
                                   uint8_t initColorMask):
-                Command(Command::Type::INIT_BLEND_STATE),
+                Command(Command::Type::InitBlendState),
                 blendState(initBlendState),
                 enableBlending(initEnableBlending),
                 colorBlendSource(initColorBlendSource),
@@ -423,7 +423,7 @@ namespace ouzel
                               uint32_t initFlags,
                               const std::vector<uint8_t>& initData,
                               uint32_t initSize):
-                Command(Command::Type::INIT_BUFFER),
+                Command(Command::Type::InitBuffer),
                 buffer(initBuffer),
                 bufferType(initBufferType),
                 flags(initFlags),
@@ -444,7 +444,7 @@ namespace ouzel
         public:
             SetBufferDataCommand(uintptr_t initBuffer,
                                  const std::vector<uint8_t>& initData):
-                Command(Command::Type::SET_BUFFER_DATA),
+                Command(Command::Type::SetBufferData),
                 buffer(initBuffer),
                 data(initData)
             {
@@ -467,7 +467,7 @@ namespace ouzel
                               uint32_t initVertexShaderDataAlignment,
                               const std::string& initFragmentShaderFunction,
                               const std::string& initVertexShaderFunction):
-                Command(Command::Type::INIT_SHADER),
+                Command(Command::Type::InitShader),
                 shader(initShader),
                 fragmentShader(initFragmentShader),
                 vertexShader(initVertexShader),
@@ -498,7 +498,7 @@ namespace ouzel
         public:
             SetShaderConstantsCommand(std::vector<std::vector<float>> initFragmentShaderConstants,
                                       std::vector<std::vector<float>> initVertexShaderConstants):
-                Command(Command::Type::SET_SHADER_CONSTANTS),
+                Command(Command::Type::SetShaderConstants),
                 fragmentShaderConstants(initFragmentShaderConstants),
                 vertexShaderConstants(initVertexShaderConstants)
             {
@@ -517,7 +517,7 @@ namespace ouzel
                                uint32_t initFlags,
                                uint32_t initSampleCount,
                                PixelFormat initPixelFormat):
-                Command(Command::Type::INIT_TEXTURE),
+                Command(Command::Type::InitTexture),
                 texture(initTexture),
                 levels(initLevels),
                 textureType(initTextureType),
@@ -540,7 +540,7 @@ namespace ouzel
         public:
             SetTextureDataCommand(uintptr_t initTexture,
                                   const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels):
-                Command(Command::Type::SET_TEXTURE_DATA),
+                Command(Command::Type::SetTextureData),
                 texture(initTexture),
                 levels(initLevels),
                 face(CubeFace::PositiveX)
@@ -550,7 +550,7 @@ namespace ouzel
             SetTextureDataCommand(uintptr_t initTexture,
                                   const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
                                   CubeFace initFace):
-                Command(Command::Type::SET_TEXTURE_DATA),
+                Command(Command::Type::SetTextureData),
                 texture(initTexture),
                 levels(initLevels),
                 face(initFace)
@@ -572,7 +572,7 @@ namespace ouzel
                                         SamplerAddressMode initAddressZ,
                                         Color initBorderColor,
                                         uint32_t initMaxAnisotropy):
-                Command(Command::Type::SET_TEXTURE_PARAMETERS),
+                Command(Command::Type::SetTextureParameters),
                 texture(initTexture),
                 filter(initFilter),
                 addressX(initAddressX),
@@ -596,7 +596,7 @@ namespace ouzel
         {
         public:
             explicit SetTexturesCommand(const std::vector<uintptr_t>& initTextures):
-                Command(Command::Type::SET_TEXTURES),
+                Command(Command::Type::SetTextures),
                 textures(initTextures)
             {
             }

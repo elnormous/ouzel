@@ -221,34 +221,34 @@ namespace ouzel
     {
         switch (command.type)
         {
-            case Command::Type::CHANGE_SIZE:
+            case Command::Type::ChangeSize:
                 setSize(command.size);
                 break;
-            case Command::Type::CHANGE_FULLSCREEN:
+            case Command::Type::ChangeFullscreen:
                 setFullscreen(command.fullscreen);
                 break;
-            case Command::Type::CLOSE:
+            case Command::Type::Close:
                 close();
                 break;
-            case Command::Type::SET_TITLE:
+            case Command::Type::SetTitle:
                 setTitle(command.title);
                 break;
-            case Command::Type::BRING_TO_FRONT:
+            case Command::Type::BringToFront:
                 bringToFront();
                 break;
-            case Command::Type::SHOW:
+            case Command::Type::Show:
                 show();
                 break;
-            case Command::Type::HIDE:
+            case Command::Type::Hide:
                 hide();
                 break;
-            case Command::Type::MINIMIZE:
+            case Command::Type::Minimize:
                 minimize();
                 break;
-            case Command::Type::MAXIMIZE:
+            case Command::Type::Maximize:
                 maximize();
                 break;
-            case Command::Type::RESTORE:
+            case Command::Type::Restore:
                 restore();
                 break;
             default:

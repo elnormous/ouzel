@@ -49,7 +49,7 @@ namespace ouzel
             {
                 case STBI_grey:
                 {
-                    pixelFormat = graphics::PixelFormat::RGBA8_UNORM;
+                    pixelFormat = graphics::PixelFormat::RGBA8UNorm;
                     pixelSize = 4;
 
                     imageData.resize(static_cast<size_t>(width * height * 4));
@@ -71,7 +71,7 @@ namespace ouzel
                 }
                 case STBI_grey_alpha:
                 {
-                    pixelFormat = graphics::PixelFormat::RGBA8_UNORM;
+                    pixelFormat = graphics::PixelFormat::RGBA8UNorm;
                     pixelSize = 4;
 
                     imageData.resize(static_cast<size_t>(width * height * 4));
@@ -93,7 +93,7 @@ namespace ouzel
                 }
                 case STBI_rgb:
                 {
-                    pixelFormat = graphics::PixelFormat::RGBA8_UNORM;
+                    pixelFormat = graphics::PixelFormat::RGBA8UNorm;
                     pixelSize = 4;
 
                     imageData.resize(static_cast<size_t>(width * height * 4));
@@ -115,7 +115,7 @@ namespace ouzel
                 }
                 case STBI_rgb_alpha:
                 {
-                    pixelFormat = graphics::PixelFormat::RGBA8_UNORM;
+                    pixelFormat = graphics::PixelFormat::RGBA8UNorm;
                     pixelSize = 4;
                     imageData.assign(tempData,
                                      tempData + static_cast<size_t>(width * height) * pixelSize);

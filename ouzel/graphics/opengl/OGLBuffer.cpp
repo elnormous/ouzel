@@ -32,10 +32,10 @@ namespace ouzel
 
                     if (data.empty())
                         renderDevice.glBufferDataProc(bufferType, size, nullptr,
-                                                      (flags & Flags::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                                                      (flags & Flags::Dynamic) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
                     else
                         renderDevice.glBufferDataProc(bufferType, size, data.data(),
-                                                      (flags & Flags::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                                                      (flags & Flags::Dynamic) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                     GLenum error;
 
@@ -62,10 +62,10 @@ namespace ouzel
 
                     if (data.empty())
                         renderDevice.glBufferDataProc(bufferType, size, nullptr,
-                                                      (flags & Flags::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                                                      (flags & Flags::Dynamic) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
                     else
                         renderDevice.glBufferDataProc(bufferType, size, data.data(),
-                                                      (flags & Flags::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                                                      (flags & Flags::Dynamic) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                     GLenum error;
 
@@ -76,7 +76,7 @@ namespace ouzel
 
             void Buffer::setData(const std::vector<uint8_t>& newData)
             {
-                if (!(flags & Flags::DYNAMIC))
+                if (!(flags & Flags::Dynamic))
                     throw std::runtime_error("Buffer is not dynamic");
 
                 if (newData.empty())

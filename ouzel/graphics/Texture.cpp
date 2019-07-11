@@ -417,8 +417,8 @@ namespace ouzel
 
             switch (pixelFormat)
             {
-                case PixelFormat::RGBA8_UNORM:
-                case PixelFormat::RGBA8_UNORM_SRGB:
+                case PixelFormat::RGBA8UNorm:
+                case PixelFormat::RGBA8UNormSRGB:
                     for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
                         const uint8_t* pixel = src;
@@ -432,7 +432,7 @@ namespace ouzel
                     }
                     break;
 
-                case PixelFormat::RG8_UNORM:
+                case PixelFormat::RG8UNorm:
                     for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
                         const uint8_t* pixel = src;
@@ -444,7 +444,7 @@ namespace ouzel
                     }
                     break;
 
-                case PixelFormat::R8_UNORM:
+                case PixelFormat::R8UNorm:
                     for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
                         const uint8_t* pixel = src;
@@ -455,7 +455,7 @@ namespace ouzel
                     }
                     break;
 
-                case PixelFormat::A8_UNORM:
+                case PixelFormat::A8UNorm:
                     for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
                         const uint8_t* pixel = src;
@@ -484,8 +484,8 @@ namespace ouzel
 
             switch (pixelFormat)
             {
-                case PixelFormat::RGBA8_UNORM:
-                case PixelFormat::RGBA8_UNORM_SRGB:
+                case PixelFormat::RGBA8UNorm:
+                case PixelFormat::RGBA8UNormSRGB:
                     for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
                         const float* pixel = src;
@@ -499,7 +499,7 @@ namespace ouzel
                     }
                     break;
 
-                case PixelFormat::RG8_UNORM:
+                case PixelFormat::RG8UNorm:
                     for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
                         const float* pixel = src;
@@ -511,7 +511,7 @@ namespace ouzel
                     }
                     break;
 
-                case PixelFormat::R8_UNORM:
+                case PixelFormat::R8UNorm:
                     for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
                         const float* pixel = src;
@@ -522,7 +522,7 @@ namespace ouzel
                     }
                     break;
 
-                case PixelFormat::A8_UNORM:
+                case PixelFormat::A8UNorm:
                     for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
                         const float* pixel = src;
@@ -612,20 +612,20 @@ namespace ouzel
 
                 switch (pixelFormat)
                 {
-                    case PixelFormat::RGBA8_UNORM:
-                    case PixelFormat::RGBA8_UNORM_SRGB:
+                    case PixelFormat::RGBA8UNorm:
+                    case PixelFormat::RGBA8UNormSRGB:
                         downsample2x2Rgba8(previousWidth, previousHeight, previousData, newData);
                         break;
 
-                    case PixelFormat::RG8_UNORM:
+                    case PixelFormat::RG8UNorm:
                         downsample2x2Rg8(previousWidth, previousHeight, previousData, newData);
                         break;
 
-                    case PixelFormat::R8_UNORM:
+                    case PixelFormat::R8UNorm:
                         downsample2x2R8(previousWidth, previousHeight, previousData, newData);
                         break;
 
-                    case PixelFormat::A8_UNORM:
+                    case PixelFormat::A8UNorm:
                         downsample2x2A8(previousWidth, previousHeight, previousData, newData);
                         break;
 
@@ -665,7 +665,7 @@ namespace ouzel
             sampleCount(initSampleCount),
             pixelFormat(initPixelFormat)
         {
-            if ((flags & BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+            if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
             if (!initRenderer.getDevice()->isNPOTTexturesSupported() &&
@@ -696,7 +696,7 @@ namespace ouzel
             sampleCount(1),
             pixelFormat(initPixelFormat)
         {
-            if ((flags & BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+            if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
             if (!initRenderer.getDevice()->isNPOTTexturesSupported() &&
@@ -726,7 +726,7 @@ namespace ouzel
             sampleCount(1),
             pixelFormat(initPixelFormat)
         {
-            if ((flags & BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+            if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
             std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = initLevels;
@@ -748,7 +748,7 @@ namespace ouzel
 
         void Texture::setData(const std::vector<uint8_t>& newData, CubeFace face)
         {
-            if (!(flags & Flags::DYNAMIC) || flags & Flags::BIND_RENDER_TARGET)
+            if (!(flags & Flags::Dynamic) || flags & Flags::BindRenderTarget)
                 throw std::runtime_error("Texture is not dynamic");
 
             std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);

@@ -8,11 +8,11 @@ namespace ouzel
     namespace graphics
     {
         const std::array<Vertex::Attribute, 5> RenderDevice::VERTEX_ATTRIBUTES{
-            Vertex::Attribute{Vertex::Attribute::Usage::POSITION, DataType::FLOAT_VECTOR3},
-            Vertex::Attribute{Vertex::Attribute::Usage::COLOR, DataType::UNSIGNED_BYTE_VECTOR4_NORM},
-            Vertex::Attribute{Vertex::Attribute::Usage::TEXTURE_COORDINATES0, DataType::FLOAT_VECTOR2},
-            Vertex::Attribute{Vertex::Attribute::Usage::TEXTURE_COORDINATES1, DataType::FLOAT_VECTOR2},
-            Vertex::Attribute{Vertex::Attribute::Usage::NORMAL, DataType::FLOAT_VECTOR3}
+            Vertex::Attribute{Vertex::Attribute::Usage::Position, DataType::FloatVector3},
+            Vertex::Attribute{Vertex::Attribute::Usage::Color, DataType::UnsignedByteVector4Norm},
+            Vertex::Attribute{Vertex::Attribute::Usage::TextureCoordinates0, DataType::FloatVector2},
+            Vertex::Attribute{Vertex::Attribute::Usage::TextureCoordinates1, DataType::FloatVector2},
+            Vertex::Attribute{Vertex::Attribute::Usage::Normal, DataType::FloatVector3}
         };
 
         RenderDevice::RenderDevice(Driver initDriver,

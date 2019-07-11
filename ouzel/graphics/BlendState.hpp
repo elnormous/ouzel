@@ -44,12 +44,12 @@ namespace ouzel
         private:
             RenderDevice::Resource resource;
 
-            BlendFactor colorBlendSource = BlendFactor::ONE;
-            BlendFactor colorBlendDest = BlendFactor::ZERO;
-            BlendOperation colorOperation = BlendOperation::ADD;
-            BlendFactor alphaBlendSource = BlendFactor::ONE;
-            BlendFactor alphaBlendDest = BlendFactor::ZERO;
-            BlendOperation alphaOperation = BlendOperation::ADD;
+            BlendFactor colorBlendSource = BlendFactor::One;
+            BlendFactor colorBlendDest = BlendFactor::Zero;
+            BlendOperation colorOperation = BlendOperation::Add;
+            BlendFactor alphaBlendSource = BlendFactor::One;
+            BlendFactor alphaBlendDest = BlendFactor::Zero;
+            BlendOperation alphaOperation = BlendOperation::Add;
             uint8_t colorMask = ColorMask::All;
             bool enableBlending = false;
         };

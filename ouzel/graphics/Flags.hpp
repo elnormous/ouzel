@@ -11,10 +11,10 @@ namespace ouzel
     {
         enum Flags
         {
-            DYNAMIC = 0x01,
-            BIND_RENDER_TARGET = 0x02,
-            BIND_SHADER = 0x04,
-            BIND_SHADER_MSAA = 0x08
+            Dynamic = 0x01,
+            BindRenderTarget = 0x02,
+            BindShader = 0x04,
+            BindShaderMsaa = 0x08
         };
     } // namespace graphics
 } // namespace ouzel

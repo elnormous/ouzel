@@ -22,7 +22,7 @@ namespace ouzel
 
             initRenderer.addCommand(std::make_unique<InitRenderTargetCommand>(resource,
                                                                               colorTextureIds,
-                                                                              depthTexture ? depthTexture->getResource() : 0));
+                                                                              depthTexture ? depthTexture->getResource() : uintptr_t(0)));
         }
     } // namespace graphics
 } // namespace ouzel

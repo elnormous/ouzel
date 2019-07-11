@@ -18,38 +18,38 @@ namespace ouzel
             {
                 switch (pixelFormat)
                 {
-                    case PixelFormat::A8_UNORM: return DXGI_FORMAT_A8_UNORM;
-                    case PixelFormat::R8_UNORM: return DXGI_FORMAT_R8_UNORM;
-                    case PixelFormat::R8_SNORM: return DXGI_FORMAT_R8_SNORM;
-                    case PixelFormat::R8_UINT: return DXGI_FORMAT_R8_UINT;
-                    case PixelFormat::R8_SINT: return DXGI_FORMAT_R8_SINT;
-                    case PixelFormat::R16_UNORM: return DXGI_FORMAT_R16_UNORM;
-                    case PixelFormat::R16_SNORM: return DXGI_FORMAT_R16_SNORM;
-                    case PixelFormat::R16_UINT: return DXGI_FORMAT_R16_UINT;
-                    case PixelFormat::R16_SINT: return DXGI_FORMAT_R16_SINT;
-                    case PixelFormat::R16_FLOAT: return DXGI_FORMAT_R16_FLOAT;
-                    case PixelFormat::R32_UINT: return DXGI_FORMAT_R32_UINT;
-                    case PixelFormat::R32_SINT: return DXGI_FORMAT_R32_SINT;
-                    case PixelFormat::R32_FLOAT: return DXGI_FORMAT_R32_FLOAT;
-                    case PixelFormat::RG8_UNORM: return DXGI_FORMAT_R8G8_UNORM;
-                    case PixelFormat::RG8_SNORM: return DXGI_FORMAT_R8G8_SNORM;
-                    case PixelFormat::RG8_UINT: return DXGI_FORMAT_R8G8_UINT;
-                    case PixelFormat::RG8_SINT: return DXGI_FORMAT_R8G8_SINT;
-                    case PixelFormat::RGBA8_UNORM: return DXGI_FORMAT_R8G8B8A8_UNORM;
-                    case PixelFormat::RGBA8_UNORM_SRGB: return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-                    case PixelFormat::RGBA8_SNORM: return DXGI_FORMAT_R8G8B8A8_SNORM;
-                    case PixelFormat::RGBA8_UINT: return DXGI_FORMAT_R8G8B8A8_UINT;
-                    case PixelFormat::RGBA8_SINT: return DXGI_FORMAT_R8G8B8A8_SINT;
-                    case PixelFormat::RGBA16_UNORM: return DXGI_FORMAT_R16G16B16A16_UNORM;
-                    case PixelFormat::RGBA16_SNORM: return DXGI_FORMAT_R16G16B16A16_SNORM;
-                    case PixelFormat::RGBA16_UINT: return DXGI_FORMAT_R16G16B16A16_UINT;
-                    case PixelFormat::RGBA16_SINT: return DXGI_FORMAT_R16G16B16A16_SINT;
-                    case PixelFormat::RGBA16_FLOAT: return DXGI_FORMAT_R16G16B16A16_FLOAT;
-                    case PixelFormat::RGBA32_UINT: return DXGI_FORMAT_R32G32B32A32_UINT;
-                    case PixelFormat::RGBA32_SINT: return DXGI_FORMAT_R32G32B32A32_SINT;
-                    case PixelFormat::RGBA32_FLOAT: return DXGI_FORMAT_R32G32B32A32_FLOAT;
-                    case PixelFormat::DEPTH: return DXGI_FORMAT_D32_FLOAT;
-                    case PixelFormat::DEPTH_STENCIL: return DXGI_FORMAT_D24_UNORM_S8_UINT;
+                    case PixelFormat::A8UNorm: return DXGI_FORMAT_A8_UNORM;
+                    case PixelFormat::R8UNorm: return DXGI_FORMAT_R8_UNORM;
+                    case PixelFormat::R8SNorm: return DXGI_FORMAT_R8_SNORM;
+                    case PixelFormat::R8UInt: return DXGI_FORMAT_R8_UINT;
+                    case PixelFormat::R8SInt: return DXGI_FORMAT_R8_SINT;
+                    case PixelFormat::R16UNorm: return DXGI_FORMAT_R16_UNORM;
+                    case PixelFormat::R16SNorm: return DXGI_FORMAT_R16_SNORM;
+                    case PixelFormat::R16UInt: return DXGI_FORMAT_R16_UINT;
+                    case PixelFormat::R16SInt: return DXGI_FORMAT_R16_SINT;
+                    case PixelFormat::R16Float: return DXGI_FORMAT_R16_FLOAT;
+                    case PixelFormat::R32UInt: return DXGI_FORMAT_R32_UINT;
+                    case PixelFormat::R32SInt: return DXGI_FORMAT_R32_SINT;
+                    case PixelFormat::R32Float: return DXGI_FORMAT_R32_FLOAT;
+                    case PixelFormat::RG8UNorm: return DXGI_FORMAT_R8G8_UNORM;
+                    case PixelFormat::RG8SNorm: return DXGI_FORMAT_R8G8_SNORM;
+                    case PixelFormat::RG8UInt: return DXGI_FORMAT_R8G8_UINT;
+                    case PixelFormat::RG8SInt: return DXGI_FORMAT_R8G8_SINT;
+                    case PixelFormat::RGBA8UNorm: return DXGI_FORMAT_R8G8B8A8_UNORM;
+                    case PixelFormat::RGBA8UNormSRGB: return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+                    case PixelFormat::RGBA8SNorm: return DXGI_FORMAT_R8G8B8A8_SNORM;
+                    case PixelFormat::RGBA8UInt: return DXGI_FORMAT_R8G8B8A8_UINT;
+                    case PixelFormat::RGBA8SInt: return DXGI_FORMAT_R8G8B8A8_SINT;
+                    case PixelFormat::RGBA16UNorm: return DXGI_FORMAT_R16G16B16A16_UNORM;
+                    case PixelFormat::RGBA16SNorm: return DXGI_FORMAT_R16G16B16A16_SNORM;
+                    case PixelFormat::RGBA16UInt: return DXGI_FORMAT_R16G16B16A16_UINT;
+                    case PixelFormat::RGBA16SInt: return DXGI_FORMAT_R16G16B16A16_SINT;
+                    case PixelFormat::RGBA16Float: return DXGI_FORMAT_R16G16B16A16_FLOAT;
+                    case PixelFormat::RGBA32UInt: return DXGI_FORMAT_R32G32B32A32_UINT;
+                    case PixelFormat::RGBA32SInt: return DXGI_FORMAT_R32G32B32A32_SINT;
+                    case PixelFormat::RGBA32Float: return DXGI_FORMAT_R32G32B32A32_FLOAT;
+                    case PixelFormat::Depth: return DXGI_FORMAT_D32_FLOAT;
+                    case PixelFormat::DepthStencil: return DXGI_FORMAT_D24_UNORM_S8_UINT;
                     default: return DXGI_FORMAT_UNKNOWN;
                 }
             }
@@ -104,7 +104,7 @@ namespace ouzel
                 pixelFormat(d3d11::getPixelFormat(initPixelFormat)),
                 pixelSize(getPixelSize(initPixelFormat))
             {
-                if ((flags & Flags::BIND_RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
                     throw std::runtime_error("Invalid mip map count");
 
                 if (pixelFormat == DXGI_FORMAT_UNKNOWN)
@@ -113,14 +113,14 @@ namespace ouzel
                 DXGI_FORMAT texturePixelFormat = pixelFormat;
                 DXGI_FORMAT shaderViewPixelFormat = pixelFormat;
 
-                if (flags & Flags::BIND_SHADER || flags & Flags::BIND_SHADER_MSAA)
+                if (flags & Flags::BindShader || flags & Flags::BindShaderMsaa)
                 {
-                    if (initPixelFormat == PixelFormat::DEPTH)
+                    if (initPixelFormat == PixelFormat::Depth)
                     {
                         texturePixelFormat = DXGI_FORMAT_R32_TYPELESS;
                         shaderViewPixelFormat = DXGI_FORMAT_R32_FLOAT;
                     }
-                    else if (initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                    else if (initPixelFormat == PixelFormat::DepthStencil)
                     {
                         texturePixelFormat = DXGI_FORMAT_R24G8_TYPELESS;
                         shaderViewPixelFormat = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
@@ -141,28 +141,28 @@ namespace ouzel
                 textureDescriptor.Format = texturePixelFormat;
                 textureDescriptor.SampleDesc.Count = 1;
                 textureDescriptor.SampleDesc.Quality = 0;
-                if (flags & Flags::BIND_RENDER_TARGET) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
-                else if (flags & Flags::DYNAMIC) textureDescriptor.Usage = D3D11_USAGE_DYNAMIC;
+                if (flags & Flags::BindRenderTarget) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
+                else if (flags & Flags::Dynamic) textureDescriptor.Usage = D3D11_USAGE_DYNAMIC;
                 else textureDescriptor.Usage = D3D11_USAGE_IMMUTABLE;
 
-                if (flags & Flags::BIND_RENDER_TARGET)
+                if (flags & Flags::BindRenderTarget)
                 {
-                    if (initPixelFormat == PixelFormat::DEPTH || initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                    if (initPixelFormat == PixelFormat::Depth || initPixelFormat == PixelFormat::DepthStencil)
                         textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_DEPTH_STENCIL : 0;
                     else
                         textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_RENDER_TARGET : 0;
 
-                    if (flags & Flags::BIND_SHADER &&
-                        !(flags & Flags::BIND_SHADER_MSAA))
+                    if (flags & Flags::BindShader &&
+                        !(flags & Flags::BindShaderMsaa))
                         textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
                 }
                 else
                     textureDescriptor.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
-                textureDescriptor.CPUAccessFlags = (flags & Flags::DYNAMIC && !(flags & Flags::BIND_RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
+                textureDescriptor.CPUAccessFlags = (flags & Flags::Dynamic && !(flags & Flags::BindRenderTarget)) ? D3D11_CPU_ACCESS_WRITE : 0;
                 textureDescriptor.MiscFlags = 0;
 
-                if (levels.empty() || flags & Flags::BIND_RENDER_TARGET)
+                if (levels.empty() || flags & Flags::BindRenderTarget)
                 {
                     HRESULT hr;
                     if (FAILED(hr = renderDevice.getDevice()->CreateTexture2D(&textureDescriptor, nullptr, &texture)))
@@ -184,7 +184,7 @@ namespace ouzel
                         throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 texture");
                 }
 
-                if (flags & Flags::BIND_RENDER_TARGET)
+                if (flags & Flags::BindRenderTarget)
                 {
                     if (sampleCount > 1)
                     {
@@ -197,11 +197,11 @@ namespace ouzel
                         msaaTextureDescriptor.SampleDesc.Count = sampleCount;
                         msaaTextureDescriptor.SampleDesc.Quality = 0;
                         msaaTextureDescriptor.Usage = D3D11_USAGE_DEFAULT;
-                        if (initPixelFormat == PixelFormat::DEPTH || initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                        if (initPixelFormat == PixelFormat::Depth || initPixelFormat == PixelFormat::DepthStencil)
                             msaaTextureDescriptor.BindFlags = D3D11_BIND_DEPTH_STENCIL;
                         else
                             msaaTextureDescriptor.BindFlags = D3D11_BIND_RENDER_TARGET;
-                        if (flags & Flags::BIND_SHADER_MSAA)
+                        if (flags & Flags::BindShaderMsaa)
                             msaaTextureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
                         msaaTextureDescriptor.CPUAccessFlags = 0;
                         msaaTextureDescriptor.MiscFlags = 0;
@@ -210,7 +210,7 @@ namespace ouzel
                         if (FAILED(hr = renderDevice.getDevice()->CreateTexture2D(&msaaTextureDescriptor, nullptr, &msaaTexture)))
                             throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 texture");
 
-                        if (initPixelFormat == PixelFormat::DEPTH || initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                        if (initPixelFormat == PixelFormat::Depth || initPixelFormat == PixelFormat::DepthStencil)
                         {
                             D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
                             depthStencilViewDesc.Format = pixelFormat;
@@ -234,7 +234,7 @@ namespace ouzel
                     }
                     else
                     {
-                        if (initPixelFormat == PixelFormat::DEPTH || initPixelFormat == PixelFormat::DEPTH_STENCIL)
+                        if (initPixelFormat == PixelFormat::Depth || initPixelFormat == PixelFormat::DepthStencil)
                         {
                             D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
                             depthStencilViewDesc.Format = pixelFormat;
@@ -259,11 +259,11 @@ namespace ouzel
                         }
                     }
 
-                    if (flags & Flags::BIND_SHADER || flags & Flags::BIND_SHADER_MSAA)
+                    if (flags & Flags::BindShader || flags & Flags::BindShaderMsaa)
                     {
                         D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
                         resourceViewDesc.Format = shaderViewPixelFormat;
-                        resourceViewDesc.ViewDimension = getShaderViewDimension(type, (flags & Flags::BIND_SHADER_MSAA) != 0);
+                        resourceViewDesc.ViewDimension = getShaderViewDimension(type, (flags & Flags::BindShaderMsaa) != 0);
                         resourceViewDesc.Texture2D.MostDetailedMip = 0;
                         resourceViewDesc.Texture2D.MipLevels = 1;
 
@@ -286,9 +286,9 @@ namespace ouzel
                 }
 
                 samplerDescriptor.filter = renderDevice.getTextureFilter();
-                samplerDescriptor.addressX = SamplerAddressMode::CLAMP_TO_EDGE;
-                samplerDescriptor.addressY = SamplerAddressMode::CLAMP_TO_EDGE;
-                samplerDescriptor.addressZ = SamplerAddressMode::CLAMP_TO_EDGE;
+                samplerDescriptor.addressX = SamplerAddressMode::ClampToEdge;
+                samplerDescriptor.addressY = SamplerAddressMode::ClampToEdge;
+                samplerDescriptor.addressZ = SamplerAddressMode::ClampToEdge;
                 samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
 
                 updateSamplerState();
@@ -317,7 +317,7 @@ namespace ouzel
 
             void Texture::setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels)
             {
-                if (!(flags & Flags::DYNAMIC) || flags & Flags::BIND_RENDER_TARGET)
+                if (!(flags & Flags::Dynamic) || flags & Flags::BindRenderTarget)
                     throw std::runtime_error("Texture is not dynamic");
 
                 for (size_t level = 0; level < levels.size(); ++level)

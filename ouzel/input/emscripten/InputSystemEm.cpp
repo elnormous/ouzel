@@ -336,23 +336,23 @@ namespace ouzel
         {
             switch (command.type)
             {
-                case Command::Type::SET_PLAYER_INDEX:
+                case Command::Type::SetPlayerIndex:
                 {
                     break;
                 }
-                case Command::Type::SET_VIBRATION:
+                case Command::Type::SetVibration:
                 {
                     break;
                 }
-                case Command::Type::SET_POSITION:
+                case Command::Type::SetPosition:
                 {
                     break;
                 }
-                case Command::Type::SET_CURSOR:
+                case Command::Type::SetCursor:
                 {
                     break;
                 }
-                case Command::Type::SET_CURSOR_VISIBLE:
+                case Command::Type::SetCursorVisible:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
@@ -361,7 +361,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::SET_CURSOR_LOCKED:
+                case Command::Type::SetCursorLocked:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
@@ -370,9 +370,9 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::SHOW_VIRTUAL_KEYBOARD:
+                case Command::Type::ShowVirtualKeyboard:
                     break;
-                case Command::Type::HIDE_VIRTUAL_KEYBOARD:
+                case Command::Type::HideVirtualKeyboard:
                     break;
                 default:
                     break;

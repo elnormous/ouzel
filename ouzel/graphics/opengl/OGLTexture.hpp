@@ -45,7 +45,7 @@ namespace ouzel
                         TextureType type,
                         uint32_t initFlags = 0,
                         uint32_t initSampleCount = 1,
-                        PixelFormat initPixelFormat = PixelFormat::RGBA8_UNORM);
+                        PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
                 ~Texture();
 
                 void reload() final;
@@ -82,10 +82,10 @@ namespace ouzel
                 uint32_t flags = 0;
                 uint32_t mipmaps = 0;
                 uint32_t sampleCount = 1;
-                SamplerFilter filter = SamplerFilter::DEFAULT;
-                SamplerAddressMode addressX = SamplerAddressMode::CLAMP_TO_EDGE;
-                SamplerAddressMode addressY = SamplerAddressMode::CLAMP_TO_EDGE;
-                SamplerAddressMode addressZ = SamplerAddressMode::CLAMP_TO_EDGE;
+                SamplerFilter filter = SamplerFilter::Default;
+                SamplerAddressMode addressX = SamplerAddressMode::ClampToEdge;
+                SamplerAddressMode addressY = SamplerAddressMode::ClampToEdge;
+                SamplerAddressMode addressZ = SamplerAddressMode::ClampToEdge;
                 uint32_t maxAnisotropy = 0;
 
                 GLenum textureTarget = 0;
