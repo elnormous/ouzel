@@ -89,8 +89,8 @@ namespace ouzel
 
             engine->getRenderer()->setPipelineState(blendState->getResource(),
                                                     shader->getResource(),
-                                                    graphics::CullMode::NONE,
-                                                    wireframe ? graphics::FillMode::WIREFRAME : graphics::FillMode::SOLID);
+                                                    graphics::CullMode::None,
+                                                    wireframe ? graphics::FillMode::Wireframe : graphics::FillMode::Solid);
             engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
             engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
@@ -98,7 +98,7 @@ namespace ouzel
                                         static_cast<uint32_t>(indices.size()),
                                         sizeof(uint16_t),
                                         vertexBuffer->getResource(),
-                                        graphics::DrawMode::TRIANGLE_LIST,
+                                        graphics::DrawMode::TriangleList,
                                         0);
         }
 

@@ -57,8 +57,8 @@ namespace ouzel
 
                 engine->getRenderer()->setPipelineState(blendState->getResource(),
                                                         shader->getResource(),
-                                                        graphics::CullMode::NONE,
-                                                        wireframe ? graphics::FillMode::WIREFRAME : graphics::FillMode::SOLID);
+                                                        graphics::CullMode::None,
+                                                        wireframe ? graphics::FillMode::Wireframe : graphics::FillMode::Solid);
                 engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                           vertexShaderConstants);
                 engine->getRenderer()->draw(indexBuffer->getResource(),
@@ -92,7 +92,7 @@ namespace ouzel
 
             if (thickness == 0.0F)
             {
-                command.mode = graphics::DrawMode::LINE_LIST;
+                command.mode = graphics::DrawMode::LineList;
 
                 vertices.emplace_back(Vector3F(start), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
                 vertices.emplace_back(Vector3F(finish), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
@@ -107,7 +107,7 @@ namespace ouzel
             }
             else
             {
-                command.mode = graphics::DrawMode::TRIANGLE_LIST;
+                command.mode = graphics::DrawMode::TriangleList;
 
                 Vector2F tangent = finish - start;
                 tangent.normalize();
@@ -162,7 +162,7 @@ namespace ouzel
 
             if (fill)
             {
-                command.mode = graphics::DrawMode::TRIANGLE_STRIP;
+                command.mode = graphics::DrawMode::TriangleStrip;
 
                 vertices.emplace_back(Vector3F(position), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F}); // center
 
@@ -187,7 +187,7 @@ namespace ouzel
             {
                 if (thickness == 0.0F)
                 {
-                    command.mode = graphics::DrawMode::LINE_STRIP;
+                    command.mode = graphics::DrawMode::LineStrip;
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
@@ -207,7 +207,7 @@ namespace ouzel
                 }
                 else
                 {
-                    command.mode = graphics::DrawMode::TRIANGLE_STRIP;
+                    command.mode = graphics::DrawMode::TriangleStrip;
 
                     float halfThickness = thickness / 2.0F;
 
@@ -270,7 +270,7 @@ namespace ouzel
 
             if (fill)
             {
-                command.mode = graphics::DrawMode::TRIANGLE_LIST;
+                command.mode = graphics::DrawMode::TriangleList;
 
                 vertices.emplace_back(Vector3F{rectangle.left(), rectangle.bottom(), 0.0F},
                                       color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
@@ -297,7 +297,7 @@ namespace ouzel
             {
                 if (thickness == 0.0F)
                 {
-                    command.mode = graphics::DrawMode::LINE_STRIP;
+                    command.mode = graphics::DrawMode::LineStrip;
 
                     // left bottom
                     vertices.emplace_back(Vector3F(rectangle.left(), rectangle.bottom(), 0.0F),
@@ -328,7 +328,7 @@ namespace ouzel
                 }
                 else
                 {
-                    command.mode = graphics::DrawMode::TRIANGLE_LIST;
+                    command.mode = graphics::DrawMode::TriangleList;
 
                     float halfThickness = thickness / 2.0F;
 
@@ -418,7 +418,7 @@ namespace ouzel
 
             if (fill)
             {
-                command.mode = graphics::DrawMode::TRIANGLE_LIST;
+                command.mode = graphics::DrawMode::TriangleList;
 
                 for (uint16_t i = 0; i < edges.size(); ++i)
                     vertices.emplace_back(Vector3F(edges[i]), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
@@ -439,7 +439,7 @@ namespace ouzel
             {
                 if (thickness == 0.0F)
                 {
-                    command.mode = graphics::DrawMode::LINE_STRIP;
+                    command.mode = graphics::DrawMode::LineStrip;
 
                     for (uint16_t i = 0; i < edges.size(); ++i)
                         vertices.emplace_back(Vector3F(edges[i]), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
@@ -490,7 +490,7 @@ namespace ouzel
 
             if (thickness == 0.0F)
             {
-                command.mode = graphics::DrawMode::LINE_STRIP;
+                command.mode = graphics::DrawMode::LineStrip;
                 command.indexCount = 0;
 
                 if (controlPoints.size() == 2)

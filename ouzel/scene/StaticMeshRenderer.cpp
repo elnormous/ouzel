@@ -104,7 +104,7 @@ namespace ouzel
             engine->getRenderer()->setPipelineState(material->blendState->getResource(),
                                                     material->shader->getResource(),
                                                     material->cullMode,
-                                                    wireframe ? graphics::FillMode::WIREFRAME : graphics::FillMode::SOLID);
+                                                    wireframe ? graphics::FillMode::Wireframe : graphics::FillMode::Solid);
             engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
             engine->getRenderer()->setTextures(textures);
@@ -112,7 +112,7 @@ namespace ouzel
                                         indexCount,
                                         indexSize,
                                         vertexBuffer->getResource(),
-                                        graphics::DrawMode::TRIANGLE_LIST,
+                                        graphics::DrawMode::TriangleList,
                                         0);
         }
     } // namespace scene

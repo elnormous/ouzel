@@ -49,7 +49,7 @@ namespace ouzel
 
             inline const Size2U& getSize() const noexcept { return size; }
 
-            void setData(const std::vector<uint8_t>& newData, CubeFace face = CubeFace::POSITIVE_X);
+            void setData(const std::vector<uint8_t>& newData, CubeFace face = CubeFace::PositiveX);
 
             inline auto getFlags() const noexcept { return flags; }
             inline auto getMipmaps() const noexcept { return mipmaps; }

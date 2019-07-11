@@ -41,11 +41,11 @@ namespace ouzel
             {
                 switch (drawMode)
                 {
-                    case DrawMode::POINT_LIST: return MTLPrimitiveTypePoint;
-                    case DrawMode::LINE_LIST: return MTLPrimitiveTypeLine;
-                    case DrawMode::LINE_STRIP: return MTLPrimitiveTypeLineStrip;
-                    case DrawMode::TRIANGLE_LIST: return MTLPrimitiveTypeTriangle;
-                    case DrawMode::TRIANGLE_STRIP: return MTLPrimitiveTypeTriangleStrip;
+                    case DrawMode::PointList: return MTLPrimitiveTypePoint;
+                    case DrawMode::LineList: return MTLPrimitiveTypeLine;
+                    case DrawMode::LineStrip: return MTLPrimitiveTypeLineStrip;
+                    case DrawMode::TriangleList: return MTLPrimitiveTypeTriangle;
+                    case DrawMode::TriangleStrip: return MTLPrimitiveTypeTriangleStrip;
                     default: throw std::runtime_error("Invalid draw mode");
                 }
             }
@@ -54,9 +54,9 @@ namespace ouzel
             {
                 switch (cullMode)
                 {
-                    case CullMode::NONE: return MTLCullModeNone;
-                    case CullMode::FRONT: return MTLCullModeFront;
-                    case CullMode::BACK: return MTLCullModeBack;
+                    case CullMode::None: return MTLCullModeNone;
+                    case CullMode::Front: return MTLCullModeFront;
+                    case CullMode::Back: return MTLCullModeBack;
                     default: throw std::runtime_error("Invalid cull mode");
                 }
             }
@@ -65,8 +65,8 @@ namespace ouzel
             {
                 switch (fillMode)
                 {
-                    case FillMode::SOLID: return MTLTriangleFillModeFill;
-                    case FillMode::WIREFRAME: return MTLTriangleFillModeLines;
+                    case FillMode::Solid: return MTLTriangleFillModeFill;
+                    case FillMode::Wireframe: return MTLTriangleFillModeLines;
                     default: throw std::runtime_error("Invalid fill mode");
                 }
             }

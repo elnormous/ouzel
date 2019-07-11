@@ -163,7 +163,7 @@ namespace ouzel
         void Sprite::init(const SpriteData& spriteData)
         {
             material = std::make_shared<graphics::Material>();
-            material->cullMode = graphics::CullMode::NONE;
+            material->cullMode = graphics::CullMode::None;
             material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache().getBlendState(BLEND_ALPHA);
             material->shader = spriteData.shader ? spriteData.shader : engine->getCache().getShader(SHADER_TEXTURE);
             material->textures[0] = spriteData.texture;
@@ -180,7 +180,7 @@ namespace ouzel
         void Sprite::init(const std::string& filename)
         {
             material = std::make_shared<graphics::Material>();
-            material->cullMode = graphics::CullMode::NONE;
+            material->cullMode = graphics::CullMode::None;
             material->shader = engine->getCache().getShader(SHADER_TEXTURE);
             material->blendState = engine->getCache().getBlendState(BLEND_ALPHA);
 
@@ -217,7 +217,7 @@ namespace ouzel
                           const Vector2F& pivot)
         {
             material = std::make_shared<graphics::Material>();
-            material->cullMode = graphics::CullMode::NONE;
+            material->cullMode = graphics::CullMode::None;
             material->shader = engine->getCache().getShader(SHADER_TEXTURE);
             material->blendState = engine->getCache().getBlendState(BLEND_ALPHA);
             material->textures[0] = newTexture;
@@ -362,8 +362,8 @@ namespace ouzel
 
                 engine->getRenderer()->setPipelineState(material->blendState->getResource(),
                                                         material->shader->getResource(),
-                                                        graphics::CullMode::NONE,
-                                                        wireframe ? graphics::FillMode::WIREFRAME : graphics::FillMode::SOLID);
+                                                        graphics::CullMode::None,
+                                                        wireframe ? graphics::FillMode::Wireframe : graphics::FillMode::Solid);
                 engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                           vertexShaderConstants);
                 engine->getRenderer()->setTextures(textures);
@@ -374,7 +374,7 @@ namespace ouzel
                                             frame.getIndexCount(),
                                             sizeof(uint16_t),
                                             frame.getVertexBuffer()->getResource(),
-                                            graphics::DrawMode::TRIANGLE_LIST,
+                                            graphics::DrawMode::TriangleList,
                                             0);
             }
         }

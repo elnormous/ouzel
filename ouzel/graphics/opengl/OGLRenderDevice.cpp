@@ -268,11 +268,11 @@ namespace ouzel
             {
                 switch (drawMode)
                 {
-                    case DrawMode::POINT_LIST: return GL_POINTS;
-                    case DrawMode::LINE_LIST: return GL_LINES;
-                    case DrawMode::LINE_STRIP: return GL_LINE_STRIP;
-                    case DrawMode::TRIANGLE_LIST: return GL_TRIANGLES;
-                    case DrawMode::TRIANGLE_STRIP: return GL_TRIANGLE_STRIP;
+                    case DrawMode::PointList: return GL_POINTS;
+                    case DrawMode::LineList: return GL_LINES;
+                    case DrawMode::LineStrip: return GL_LINE_STRIP;
+                    case DrawMode::TriangleList: return GL_TRIANGLES;
+                    case DrawMode::TriangleStrip: return GL_TRIANGLE_STRIP;
                     default: throw std::runtime_error("Invalid draw mode");
                 }
             }
@@ -281,9 +281,9 @@ namespace ouzel
             {
                 switch (cullMode)
                 {
-                    case CullMode::NONE: return GL_NONE;
-                    case CullMode::FRONT: return GL_FRONT;
-                    case CullMode::BACK: return GL_BACK;
+                    case CullMode::None: return GL_NONE;
+                    case CullMode::Front: return GL_FRONT;
+                    case CullMode::Back: return GL_BACK;
                     default: throw std::runtime_error("Invalid cull mode");
                 }
             }
@@ -293,8 +293,8 @@ namespace ouzel
             {
                 switch (fillMode)
                 {
-                    case FillMode::SOLID: return GL_FILL;
-                    case FillMode::WIREFRAME: return GL_LINE;
+                    case FillMode::Solid: return GL_FILL;
+                    case FillMode::Wireframe: return GL_LINE;
                     default: throw std::runtime_error("Invalid fill mode");
                 }
             }
@@ -1111,7 +1111,7 @@ namespace ouzel
                                 setCullFace(cullFace != GL_NONE, cullFace);
 
 #if OUZEL_OPENGLES
-                                if (setPipelineStateCommand->fillMode != FillMode::SOLID)
+                                if (setPipelineStateCommand->fillMode != FillMode::Solid)
                                     engine->log(Log::Level::Warning) << "Unsupported fill mode";
 #else
                                 setPolygonFillMode(getFillMode(setPipelineStateCommand->fillMode));

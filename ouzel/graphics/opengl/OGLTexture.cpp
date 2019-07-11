@@ -246,12 +246,12 @@ namespace ouzel
             {
                 switch (face)
                 {
-                    case CubeFace::POSITIVE_X: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
-                    case CubeFace::NEGATIVE_X: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
-                    case CubeFace::POSITIVE_Y: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
-                    case CubeFace::NEGATIVE_Y: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
-                    case CubeFace::POSITIVE_Z: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
-                    case CubeFace::NEGATIVE_Z: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+                    case CubeFace::PositiveX: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+                    case CubeFace::NegativeX: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+                    case CubeFace::PositiveY: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+                    case CubeFace::NegativeY: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+                    case CubeFace::PositiveZ: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+                    case CubeFace::NegativeZ: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
                     default: throw std::runtime_error("Invalid cube face");
                 }
             }

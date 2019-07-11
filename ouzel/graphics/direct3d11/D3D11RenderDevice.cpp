@@ -41,11 +41,11 @@ namespace ouzel
             {
                 switch (drawMode)
                 {
-                    case DrawMode::POINT_LIST: return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
-                    case DrawMode::LINE_LIST: return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
-                    case DrawMode::LINE_STRIP: return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
-                    case DrawMode::TRIANGLE_LIST: return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-                    case DrawMode::TRIANGLE_STRIP: return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+                    case DrawMode::PointList: return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
+                    case DrawMode::LineList: return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
+                    case DrawMode::LineStrip: return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
+                    case DrawMode::TriangleList: return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+                    case DrawMode::TriangleStrip: return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
                     default: throw std::runtime_error("Invalid draw mode");
                 }
             }
@@ -608,16 +608,16 @@ namespace ouzel
 
                                 switch (setPipelineStateCommand->cullMode)
                                 {
-                                    case CullMode::NONE: cullModeIndex = 0; break;
-                                    case CullMode::FRONT: cullModeIndex = 1; break;
-                                    case CullMode::BACK: cullModeIndex = 2; break;
+                                    case CullMode::None: cullModeIndex = 0; break;
+                                    case CullMode::Front: cullModeIndex = 1; break;
+                                    case CullMode::Back: cullModeIndex = 2; break;
                                     default: throw std::runtime_error("Invalid cull mode");
                                 }
 
                                 switch (setPipelineStateCommand->fillMode)
                                 {
-                                    case FillMode::SOLID: fillModeIndex = 0; break;
-                                    case FillMode::WIREFRAME: fillModeIndex = 1; break;
+                                    case FillMode::Solid: fillModeIndex = 0; break;
+                                    case FillMode::Wireframe: fillModeIndex = 1; break;
                                     default: throw std::runtime_error("Invalid fill mode");
                                 }
 

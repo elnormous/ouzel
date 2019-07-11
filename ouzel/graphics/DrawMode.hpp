@@ -9,11 +9,11 @@ namespace ouzel
     {
         enum class DrawMode
         {
-            POINT_LIST,
-            LINE_LIST,
-            LINE_STRIP,
-            TRIANGLE_LIST,
-            TRIANGLE_STRIP
+            PointList,
+            LineList,
+            LineStrip,
+            TriangleList,
+            TriangleStrip
         };
     } // namespace graphics
 } // namespace ouzel

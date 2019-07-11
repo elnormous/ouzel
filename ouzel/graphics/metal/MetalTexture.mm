@@ -82,12 +82,12 @@ namespace ouzel
             {
                 switch (face)
                 {
-                    case CubeFace::POSITIVE_X: return 0;
-                    case CubeFace::NEGATIVE_X: return 1;
-                    case CubeFace::POSITIVE_Y: return 2;
-                    case CubeFace::NEGATIVE_Y: return 3;
-                    case CubeFace::POSITIVE_Z: return 4;
-                    case CubeFace::NEGATIVE_Z: return 5;
+                    case CubeFace::PositiveX: return 0;
+                    case CubeFace::NegativeX: return 1;
+                    case CubeFace::PositiveY: return 2;
+                    case CubeFace::NegativeY: return 3;
+                    case CubeFace::PositiveZ: return 4;
+                    case CubeFace::NegativeZ: return 5;
                     default: throw std::runtime_error("Invalid cube face");
                 }
             }

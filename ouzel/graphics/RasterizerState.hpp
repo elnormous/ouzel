@@ -9,21 +9,21 @@ namespace ouzel
     {
         enum class CullMode
         {
-            NONE,
-            FRONT,
-            BACK
+            None,
+            Front,
+            Back
         };
 
         enum class FillMode
         {
-            SOLID,
-            WIREFRAME
+            Solid,
+            Wireframe
         };
 
         enum class Face
         {
-            CLOCK_WISE,
-            COUNTER_CLOCK_WISE
+            ClockWise,
+            CounterClockWise
         };
     } // namespace graphics
 } // namespace ouzel
