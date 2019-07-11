@@ -56,7 +56,7 @@ PerspectiveSample::PerspectiveSample():
     characterSprite.setAnimation("", true);
     characterSprite.play();
     characterSprite.getMaterial()->textures[0]->setMaxAnisotropy(4);
-    characterSprite.getMaterial()->cullMode = graphics::CullMode::None;
+    characterSprite.getMaterial()->cullMode = graphics::CullMode::NoCull;
 
     character.addComponent(&characterSprite);
     layer.addChild(&character);
