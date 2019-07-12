@@ -39,12 +39,12 @@ RTSample::RTSample():
     rtLayer.addChild(&rtCameraActor);
 
     camera1.setClearColorBuffer(true);
-    camera1.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera1.setScaleMode(scene::Camera::ScaleMode::ShowAll);
     camera1.setTargetContentSize(Size2F(400.0F, 600.0F));
     camera1.setViewport(RectF(0.0F, 0.0F, 0.5F, 1.0F));
     camera1Actor.addComponent(&camera1);
 
-    camera2.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera2.setScaleMode(scene::Camera::ScaleMode::ShowAll);
     camera2.setTargetContentSize(Size2F(400.0F, 600.0F));
     camera2.setViewport(RectF(0.5F, 0.0F, 0.5F, 1.0F));
     camera2Actor.addComponent(&camera2);
@@ -62,7 +62,7 @@ RTSample::RTSample():
     rtActor.addComponent(&rtSprite);
     layer.addChild(&rtActor);
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::ShowAll);
     guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);

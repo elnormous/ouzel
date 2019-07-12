@@ -12,7 +12,7 @@ namespace ouzel
         class WaveLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::SOUND;
+            static constexpr uint32_t TYPE = Loader::Sound;
 
             explicit WaveLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle,

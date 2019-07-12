@@ -35,7 +35,7 @@ PerspectiveSample::PerspectiveSample():
     camera.setClearDepthBuffer(true);
     camera.setDepthTest(true);
 
-    camera.setProjectionMode(scene::Camera::ProjectionMode::PERSPECTIVE);
+    camera.setProjectionMode(scene::Camera::ProjectionMode::Perspective);
     camera.setFarPlane(1000.0F);
     cameraActor.setPosition(Vector3F(0.0F, 0.0F, -400.0F));
     cameraActor.addComponent(&camera);
@@ -83,7 +83,7 @@ PerspectiveSample::PerspectiveSample():
     box.setPosition(Vector3F(-160.0F, 0.0F, -50.0F));
     layer.addChild(&box);
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::ShowAll);
     guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);

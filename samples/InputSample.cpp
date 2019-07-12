@@ -24,7 +24,7 @@ InputSample::InputSample():
 
     camera.setClearColorBuffer(true);
     camera.setClearColor(ouzel::Color(64, 0, 0));
-    camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera.setScaleMode(scene::Camera::ScaleMode::ShowAll);
     camera.setTargetContentSize(Size2F(800.0F, 600.0F));
     cameraActor.addComponent(&camera);
 
@@ -40,7 +40,7 @@ InputSample::InputSample():
     flame.setPickable(false);
     layer.addChild(&flame);
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::ShowAll);
     guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);

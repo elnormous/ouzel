@@ -100,7 +100,7 @@ namespace ouzel
                           const std::vector<float>& samples):
             Sound(initAudio,
                   initAudio.initData(std::unique_ptr<mixer::Data>(data = new PcmData(channels, sampleRate, samples))),
-                  Sound::Format::PCM)
+                  Sound::Format::Pcm)
         {
         }
     } // namespace audio

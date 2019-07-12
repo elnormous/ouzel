@@ -153,7 +153,7 @@ namespace ouzel
                                Type initType, float initAmplitude, float initLength):
             Sound(initAudio,
                   initAudio.initData(std::unique_ptr<mixer::Data>(data = new OscillatorData(initFrequency, initType, initAmplitude, initLength))),
-                  Sound::Format::PCM),
+                  Sound::Format::Pcm),
             type(initType),
             frequency(initFrequency),
             amplitude(initAmplitude),

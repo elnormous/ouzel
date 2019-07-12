@@ -12,7 +12,7 @@ namespace ouzel
         class ParticleSystemLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::PARTICLE_SYSTEM;
+            static constexpr uint32_t TYPE = Loader::ParticleSystem;
 
             explicit ParticleSystemLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle,

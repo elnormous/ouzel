@@ -20,8 +20,8 @@ namespace ouzel
         public:
             enum class Format
             {
-                PCM,
-                VORBIS
+                Pcm,
+                Vorbis
             };
 
             Sound(Audio& initAudio, uintptr_t initSourceId, Format initFormat);

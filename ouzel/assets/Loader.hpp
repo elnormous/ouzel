@@ -18,16 +18,15 @@ namespace ouzel
         public:
             enum Type
             {
-                NONE,
-                FONT,
-                STATIC_MESH,
-                SKINNED_MESH,
-                IMAGE,
-                MATERIAL,
-                PARTICLE_SYSTEM,
-                SPRITE,
-                SOUND,
-                BANK
+                Font,
+                StaticMesh,
+                SkinnedMesh,
+                Image,
+                Material,
+                ParticleSystem,
+                Sprite,
+                Sound,
+                Bank
             };
 
             Loader(Cache& initCache, uint32_t initType):
@@ -52,7 +51,7 @@ namespace ouzel
 
         protected:
             Cache& cache;
-            uint32_t type = Type::NONE;
+            uint32_t type;
         };
     } // namespace assets
 } // namespace ouzel

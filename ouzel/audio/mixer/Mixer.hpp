@@ -51,10 +51,10 @@ namespace ouzel
                 public:
                     enum class Type
                     {
-                        STREAM_STARTED,
-                        STREAM_RESET,
-                        STREAM_STOPPED,
-                        STARVATION
+                        StreamStarted,
+                        StreamReset,
+                        StreamStopped,
+                        Starvation
                     };
 
                     Event() = default;

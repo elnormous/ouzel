@@ -222,7 +222,7 @@ namespace ouzel
 
                         //if (!cache.getMaterial(filename))
                         // TODO don't load material lib every time
-                        bundle.loadAsset(Loader::MATERIAL, value, value, mipmaps);
+                        bundle.loadAsset(Loader::Material, value, value, mipmaps);
                     }
                     else if (keyword == "usemtl")
                     {

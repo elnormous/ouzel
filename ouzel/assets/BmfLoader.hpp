@@ -12,7 +12,7 @@ namespace ouzel
         class BmfLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::FONT;
+            static constexpr uint32_t TYPE = Loader::Font;
 
             explicit BmfLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle,

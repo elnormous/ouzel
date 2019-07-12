@@ -12,7 +12,7 @@ namespace ouzel
         class SpriteLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::SPRITE;
+            static constexpr uint32_t TYPE = Loader::Sprite;
 
             explicit SpriteLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle,

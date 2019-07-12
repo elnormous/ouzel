@@ -186,7 +186,7 @@ namespace ouzel
                 }
             }
             else
-                loadAsset(Loader::SPRITE, filename, filename, mipmaps);
+                loadAsset(Loader::Sprite, filename, filename, mipmaps);
         }
 
         const scene::SpriteData* Bundle::getSpriteData(const std::string& name) const

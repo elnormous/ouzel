@@ -115,7 +115,7 @@ namespace ouzel
 
                 if (!particleSystemData.texture)
                 {
-                    bundle.loadAsset(Loader::IMAGE, textureFileName, textureFileName, mipmaps);
+                    bundle.loadAsset(Loader::Image, textureFileName, textureFileName, mipmaps);
                     particleSystemData.texture = cache.getTexture(textureFileName);
                 }
             }

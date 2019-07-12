@@ -18,7 +18,7 @@ SpritesSample::SpritesSample():
 
     camera.setClearColorBuffer(true);
     camera.setClearColor(ouzel::Color(64, 64, 64));
-    camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera.setScaleMode(scene::Camera::ScaleMode::ShowAll);
     camera.setTargetContentSize(Size2F(800.0F, 600.0F));
     cameraActor.addComponent(&camera);
     layer.addChild(&cameraActor);
@@ -54,7 +54,7 @@ SpritesSample::SpritesSample():
     triangleActor.setPosition(Vector2F(100.0F, -140.0F));
     layer.addChild(&triangleActor);
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::ShowAll);
     guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);

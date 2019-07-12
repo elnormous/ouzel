@@ -50,7 +50,6 @@ namespace ouzel
         {
             enum class Type
             {
-                NONE,
                 LITERAL_INTEGER, // integer
                 LITERAL_FLOAT, // float
                 LITERAL_STRING, // string
@@ -65,7 +64,7 @@ namespace ouzel
                 COLON // :
             };
 
-            Type type = Type::NONE;
+            Type type;
             std::vector<uint32_t> value;
         };
         
@@ -259,7 +258,6 @@ namespace ouzel
 
             enum class Type
             {
-                NONE,
                 INTEGER,
                 FLOAT,
                 STRING,
@@ -732,7 +730,7 @@ namespace ouzel
             }
 
         private:
-            Type type = Type::NONE;
+            Type type = Type::OBJECT;
             union
             {
                 bool boolValue = false;

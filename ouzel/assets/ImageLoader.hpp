@@ -12,7 +12,7 @@ namespace ouzel
         class ImageLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::IMAGE;
+            static constexpr uint32_t TYPE = Loader::Image;
 
             explicit ImageLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle,

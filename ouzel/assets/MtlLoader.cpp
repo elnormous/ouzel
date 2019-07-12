@@ -212,7 +212,7 @@ namespace ouzel
 
                         if (!diffuseTexture)
                         {
-                            bundle.loadAsset(Loader::IMAGE, value, value, mipmaps);
+                            bundle.loadAsset(Loader::Image, value, value, mipmaps);
                             diffuseTexture = cache.getTexture(value);
                         }
                     }

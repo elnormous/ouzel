@@ -12,7 +12,7 @@ namespace ouzel
         class TtfLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::FONT;
+            static constexpr uint32_t TYPE = Loader::Font;
 
             explicit TtfLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle,

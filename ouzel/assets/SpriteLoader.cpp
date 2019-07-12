@@ -35,7 +35,7 @@ namespace ouzel
             spriteData.texture = cache.getTexture(imageFilename);
             if (!spriteData.texture)
             {
-                bundle.loadAsset(Loader::IMAGE, imageFilename, imageFilename, mipmaps);
+                bundle.loadAsset(Loader::Image, imageFilename, imageFilename, mipmaps);
                 spriteData.texture = cache.getTexture(imageFilename);
             }
 

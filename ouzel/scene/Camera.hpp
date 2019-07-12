@@ -24,21 +24,21 @@ namespace ouzel
 
             enum class ProjectionMode
             {
-                CUSTOM,
-                ORTHOGRAPHIC,
-                PERSPECTIVE
+                Custom,
+                Orthographic,
+                Perspective
             };
 
             enum class ScaleMode
             {
-                NONE,
-                EXACT_FIT,
-                NO_BORDER,
-                SHOW_ALL
+                NoScale,
+                ExactFit,
+                NoBorder,
+                ShowAll
             };
 
             explicit Camera(const Matrix4F& initProjection);
-            explicit Camera(const Size2F& initTargetContentSize = Size2F(), ScaleMode initScaleMode = ScaleMode::NONE);
+            explicit Camera(const Size2F& initTargetContentSize = Size2F(), ScaleMode initScaleMode = ScaleMode::NoScale);
             explicit Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
             ~Camera() override;
 
@@ -129,7 +129,7 @@ namespace ouzel
             RectF renderViewport;
             Size2F targetContentSize;
 
-            ScaleMode scaleMode = ScaleMode::NONE;
+            ScaleMode scaleMode = ScaleMode::NoScale;
             Size2F contentSize;
             Vector2F contentScale;
             Vector2F contentPosition;
