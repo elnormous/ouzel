@@ -9,14 +9,14 @@ namespace ouzel
     {
         enum class CompareFunction
         {
-            Never,
-            Less,
-            Equal,
-            LessEqual,
-            Greater,
-            NotEqual,
-            GreaterEqual,
-            Always
+            NeverPass,
+            PassIfLess,
+            PassIfEqual,
+            PassIfLessEqual,
+            PassIfGreater,
+            PassIfNotEqual,
+            PassIfGreaterEqual,
+            AlwaysPass
         };
     } // namespace graphics
 } // namespace ouzel

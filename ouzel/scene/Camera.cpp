@@ -301,11 +301,11 @@ namespace ouzel
                                                                                   graphics::StencilOperation::Keep,
                                                                                   graphics::StencilOperation::Keep,
                                                                                   graphics::StencilOperation::Keep,
-                                                                                  graphics::CompareFunction::Always,
+                                                                                  graphics::CompareFunction::AlwaysPass,
                                                                                   graphics::StencilOperation::Keep,
                                                                                   graphics::StencilOperation::Keep,
                                                                                   graphics::StencilOperation::Keep,
-                                                                                  graphics::CompareFunction::Always);
+                                                                                  graphics::CompareFunction::AlwaysPass);
             else
                 depthStencilState.reset();
         }
