@@ -20,7 +20,7 @@ namespace ouzel
                     case CompareFunction::NeverPass: return D3D11_COMPARISON_NEVER;
                     case CompareFunction::PassIfLess: return D3D11_COMPARISON_LESS;
                     case CompareFunction::PassIfEqual: return D3D11_COMPARISON_EQUAL;
-                    case CompareFunction::LessEqual: return D3D11_COMPARISON_LESS_EQUAL;
+                    case CompareFunction::PassIfLessEqual: return D3D11_COMPARISON_LESS_EQUAL;
                     case CompareFunction::PassIfPassIfGreater: return D3D11_COMPARISON_GREATER;
                     case CompareFunction::PassIfNotEqual: return D3D11_COMPARISON_NOT_EQUAL;
                     case CompareFunction::PassIfGreaterEqual: return D3D11_COMPARISON_GREATER_EQUAL;
