@@ -194,8 +194,8 @@ namespace ouzel
                 case ORIENTATION_LANDSCAPE:
                     event->orientation = SystemEvent::Orientation::Landscape;
                     break;
-                default:
-                    event->orientation = SystemEvent::Orientation::Unknown;
+                default: // unsupported orientation, assume portrait
+                    event->orientation = SystemEvent::Orientation::Portrait;
                     break;
             }
 
