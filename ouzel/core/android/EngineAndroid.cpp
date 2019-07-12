@@ -189,13 +189,13 @@ namespace ouzel
             switch (orientation)
             {
                 case ORIENTATION_PORTRAIT:
-                    event->orientation = SystemEvent::Portrait;
+                    event->orientation = SystemEvent::Orientation::Portrait;
                     break;
                 case ORIENTATION_LANDSCAPE:
-                    event->orientation = SystemEvent::Landscape;
+                    event->orientation = SystemEvent::Orientation::Landscape;
                     break;
                 default:
-                    event->orientation = SystemEvent::Unknown;
+                    event->orientation = SystemEvent::Orientation::Unknown;
                     break;
             }
 

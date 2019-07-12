@@ -73,25 +73,25 @@
     switch (orientation)
     {
         case UIDeviceOrientationPortrait:
-            event->orientation = ouzel::SystemEvent::Portrait;
+            event->orientation = ouzel::SystemEvent::Orientation::Portrait;
             break;
         case UIDeviceOrientationPortraitUpsideDown:
-            event->orientation = ouzel::SystemEvent::PortraitReverse;
+            event->orientation = ouzel::SystemEvent::Orientation::PortraitReverse;
             break;
         case UIDeviceOrientationLandscapeLeft:
-            event->orientation = ouzel::SystemEvent::Landscape;
+            event->orientation = ouzel::SystemEvent::Orientation::Landscape;
             break;
         case UIDeviceOrientationLandscapeRight:
-            event->orientation = ouzel::SystemEvent::LandscapeReverse;
+            event->orientation = ouzel::SystemEvent::Orientation::LandscapeReverse;
             break;
         case UIDeviceOrientationFaceUp:
-            event->orientation = ouzel::SystemEvent::FaceUp;
+            event->orientation = ouzel::SystemEvent::Orientation::FaceUp;
             break;
         case UIDeviceOrientationFaceDown:
-            event->orientation = ouzel::SystemEvent::FaceDown;
+            event->orientation = ouzel::SystemEvent::Orientation::FaceDown;
             break;
-        default:
-            event->orientation = ouzel::SystemEvent::Unknown;
+        default: // unsupported orientation, assume portrait
+            event->orientation = ouzel::SystemEvent::Orientation::Portrait;
             break;
     }
 
