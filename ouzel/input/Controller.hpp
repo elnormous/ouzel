@@ -14,10 +14,10 @@ namespace ouzel
         public:
             enum class Type
             {
-                KEYBOARD,
-                MOUSE,
-                TOUCHPAD,
-                GAMEPAD
+                Keyboard,
+                Mouse,
+                Touchpad,
+                Gamepad
             };
 
             Controller(InputManager& initInputManager, Type initType, uint32_t initDeviceId):

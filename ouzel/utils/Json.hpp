@@ -50,18 +50,18 @@ namespace ouzel
         {
             enum class Type
             {
-                LITERAL_INTEGER, // integer
-                LITERAL_FLOAT, // float
-                LITERAL_STRING, // string
-                KEYWORD_TRUE, // true
-                KEYWORD_FALSE, // false
-                KEYWORD_NULL, // null
-                LEFT_BRACE, // {
-                RIGHT_BRACE, // }
-                LEFT_BRACKET, // [
-                RIGHT_BRACKET, // ]
-                COMMA, // ,
-                COLON // :
+                LiteralInteger, // integer
+                LiteralFloat, // float
+                LiteralString, // string
+                KeywordTrue, // true
+                KeywordFalse, // false
+                KeywordNull, // null
+                LeftBrace, // {
+                RightBrace, // }
+                LeftBracket, // [
+                RightBracket, // ]
+                Comma, // ,
+                Colon // :
             };
 
             Type type;
@@ -73,9 +73,9 @@ namespace ouzel
             std::vector<Token> tokens;
 
             static const std::map<std::vector<uint32_t>, Token::Type> keywordMap{
-                {{'t', 'r', 'u', 'e'}, Token::Type::KEYWORD_TRUE},
-                {{'f', 'a', 'l', 's', 'e'}, Token::Type::KEYWORD_FALSE},
-                {{'n', 'u', 'l', 'l'}, Token::Type::KEYWORD_NULL}
+                {{'t', 'r', 'u', 'e'}, Token::Type::KeywordTrue},
+                {{'f', 'a', 'l', 's', 'e'}, Token::Type::KeywordFalse},
+                {{'n', 'u', 'l', 'l'}, Token::Type::KeywordNull}
             };
 
             // tokenize
@@ -87,19 +87,19 @@ namespace ouzel
                     *iterator == '[' || *iterator == ']' ||
                     *iterator == ',' || *iterator == ':') // punctuation
                 {
-                    if (*iterator == '{') token.type = Token::Type::LEFT_BRACE;
-                    if (*iterator == '}') token.type = Token::Type::RIGHT_BRACE;
-                    if (*iterator == '[') token.type = Token::Type::LEFT_BRACKET;
-                    if (*iterator == ']') token.type = Token::Type::RIGHT_BRACKET;
-                    if (*iterator == ',') token.type = Token::Type::COMMA;
-                    if (*iterator == ':') token.type = Token::Type::COLON;
+                    if (*iterator == '{') token.type = Token::Type::LeftBrace;
+                    if (*iterator == '}') token.type = Token::Type::RightBrace;
+                    if (*iterator == '[') token.type = Token::Type::LeftBracket;
+                    if (*iterator == ']') token.type = Token::Type::RightBracket;
+                    if (*iterator == ',') token.type = Token::Type::Comma;
+                    if (*iterator == ':') token.type = Token::Type::Colon;
 
                     ++iterator;
                 }
                 else if (*iterator == '-' ||
                          (*iterator >= '0' && *iterator <= '9'))
                 {
-                    token.type = Token::Type::LITERAL_INTEGER;
+                    token.type = Token::Type::LiteralInteger;
 
                     if (*iterator == '-')
                     {
@@ -118,7 +118,7 @@ namespace ouzel
 
                     if (iterator != str.cend() && *iterator == '.')
                     {
-                        token.type = Token::Type::LITERAL_FLOAT;
+                        token.type = Token::Type::LiteralFloat;
 
                         token.value.push_back(*iterator);
                         ++iterator;
@@ -156,7 +156,7 @@ namespace ouzel
                 }
                 else if (*iterator == '"') // string literal
                 {
-                    token.type = Token::Type::LITERAL_STRING;
+                    token.type = Token::Type::LiteralString;
 
                     for (;;)
                     {
@@ -258,12 +258,12 @@ namespace ouzel
 
             enum class Type
             {
-                INTEGER,
-                FLOAT,
-                STRING,
-                OBJECT,
-                ARRAY,
-                BOOLEAN
+                Integer,
+                Float,
+                String,
+                Object,
+                Array,
+                Boolean
             };
 
             Value() = default;
@@ -272,28 +272,28 @@ namespace ouzel
             Value(T initType): type(initType) {}
 
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
-            Value(T value): type(Type::FLOAT), doubleValue(static_cast<double>(value)) {}
+            Value(T value): type(Type::Float), doubleValue(static_cast<double>(value)) {}
 
             template <typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-            Value(T value): type(Type::INTEGER), intValue(static_cast<int64_t>(value)) {}
+            Value(T value): type(Type::Integer), intValue(static_cast<int64_t>(value)) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            Value(const T& value): type(Type::STRING), stringValue(value) {}
+            Value(const T& value): type(Type::String), stringValue(value) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, char>::value>::type* = nullptr>
-            Value(const T* value): type(Type::STRING), stringValue(value) {}
+            Value(const T* value): type(Type::String), stringValue(value) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
-            Value(T value): type(Type::BOOLEAN), boolValue(value) {}
+            Value(T value): type(Type::Boolean), boolValue(value) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, std::nullptr_t>::value>::type* = nullptr>
-            Value(T): type(Type::OBJECT), nullValue(true) {}
+            Value(T): type(Type::Object), nullValue(true) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
-            Value(const T& value): type(Type::ARRAY), arrayValue(value) {}
+            Value(const T& value): type(Type::Array), arrayValue(value) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
-            Value(const T& value): type(Type::OBJECT), objectValue(value) {}
+            Value(const T& value): type(Type::Object), objectValue(value) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, Type>::value>::type* = nullptr>
             inline Value& operator=(T newType)
@@ -305,7 +305,7 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
             inline Value& operator=(T value)
             {
-                type = Type::FLOAT;
+                type = Type::Float;
                 doubleValue = static_cast<double>(value);
                 return *this;
             }
@@ -313,7 +313,7 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
             inline Value& operator=(T value)
             {
-                type = Type::INTEGER;
+                type = Type::Integer;
                 intValue = static_cast<int64_t>(value);
                 return *this;
             }
@@ -321,7 +321,7 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             inline Value& operator=(const T& value)
             {
-                type = Type::STRING;
+                type = Type::String;
                 stringValue = value;
                 return *this;
             }
@@ -329,7 +329,7 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, char>::value>::type* = nullptr>
             inline Value& operator=(const T* value)
             {
-                type = Type::STRING;
+                type = Type::String;
                 stringValue = value;
                 return *this;
             }
@@ -337,7 +337,7 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
             inline Value& operator=(T value)
             {
-                type = Type::BOOLEAN;
+                type = Type::Boolean;
                 boolValue = value;
                 return *this;
             }
@@ -345,7 +345,7 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, std::nullptr_t>::value>::type* = nullptr>
             inline Value& operator=(T)
             {
-                type = Type::OBJECT;
+                type = Type::Object;
                 nullValue = true;
                 objectValue.clear();
                 return *this;
@@ -354,7 +354,7 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             inline Value& operator=(const T& value)
             {
-                type = Type::ARRAY;
+                type = Type::Array;
                 arrayValue = value;
                 return *this;
             }
@@ -362,7 +362,7 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
             inline Value& operator=(const T& value)
             {
-                type = Type::OBJECT;
+                type = Type::Object;
                 objectValue = value;
                 nullValue = false;
                 return *this;
@@ -373,109 +373,109 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             const std::string& as() const
             {
-                assert(type == Type::STRING);
+                assert(type == Type::String);
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, const char*>::value>::type* = nullptr>
             const char* as() const
             {
-                assert(type == Type::STRING);
+                assert(type == Type::String);
                 return stringValue.c_str();
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::BOOLEAN || type == Type::INTEGER || type == Type::FLOAT);
-                if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::INTEGER) return intValue != 0;
+                assert(type == Type::Boolean || type == Type::Integer || type == Type::Float);
+                if (type == Type::Boolean) return boolValue;
+                else if (type == Type::Integer) return intValue != 0;
                 else return doubleValue != 0.0;
             }
 
             template <typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::BOOLEAN || type == Type::INTEGER || type == Type::FLOAT);
-                if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::INTEGER) return static_cast<T>(intValue);
+                assert(type == Type::Boolean || type == Type::Integer || type == Type::Float);
+                if (type == Type::Boolean) return boolValue;
+                else if (type == Type::Integer) return static_cast<T>(intValue);
                 else return static_cast<T>(doubleValue);
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
             inline Object& as()
             {
-                type = Type::OBJECT;
+                type = Type::Object;
                 return objectValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
             inline const Object& as() const
             {
-                assert(type == Type::OBJECT);
+                assert(type == Type::Object);
                 return objectValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             inline Array& as()
             {
-                type = Type::ARRAY;
+                type = Type::Array;
                 return arrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             inline const Array& as() const
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return arrayValue;
             }
 
             Array::iterator begin()
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return arrayValue.begin();
             }
 
             Array::iterator end()
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return arrayValue.end();
             }
 
             Array::const_iterator begin() const
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return arrayValue.begin();
             }
 
             Array::const_iterator end() const
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return arrayValue.end();
             }
 
             inline auto isNull() const noexcept
             {
-                assert(type == Type::OBJECT);
+                assert(type == Type::Object);
                 return nullValue;
             }
 
             inline auto hasMember(const std::string& member) const
             {
-                assert(type == Type::OBJECT);
+                assert(type == Type::Object);
                 return objectValue.find(member) != objectValue.end();
             }
 
             inline Value& operator[](const std::string& member)
             {
-                type = Type::OBJECT;
+                type = Type::Object;
                 nullValue = false;
                 return objectValue[member];
             }
 
             inline Value operator[](const std::string& member) const
             {
-                assert(type == Type::OBJECT);
+                assert(type == Type::Object);
 
                 auto i = objectValue.find(member);
                 if (i != objectValue.end()) return i->second;
@@ -484,14 +484,14 @@ namespace ouzel
 
             inline Value& operator[](size_t index)
             {
-                type = Type::ARRAY;
+                type = Type::Array;
                 if (index >= arrayValue.size()) arrayValue.resize(index + 1);
                 return arrayValue[index];
             }
 
             inline Value operator[](size_t index) const
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
 
                 if (index < arrayValue.size()) return arrayValue[index];
                 else return Value();
@@ -499,7 +499,7 @@ namespace ouzel
 
             inline auto getSize() const
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return arrayValue.size();
             }
 
@@ -511,38 +511,38 @@ namespace ouzel
                 if (iterator == end)
                     throw std::runtime_error("Unexpected end of data");
 
-                if (iterator->type == Token::Type::LEFT_BRACE)
+                if (iterator->type == Token::Type::LeftBrace)
                     return parseObject(iterator, end);
-                else if (iterator->type == Token::Type::LEFT_BRACKET)
+                else if (iterator->type == Token::Type::LeftBracket)
                     return parseArray(iterator, end);
-                else if (iterator->type == Token::Type::LITERAL_INTEGER)
+                else if (iterator->type == Token::Type::LiteralInteger)
                 {
-                    type = Type::INTEGER;
+                    type = Type::Integer;
                     intValue = std::stoll(utf8::fromUtf32(iterator->value));
                     ++iterator;
                 }
-                else if (iterator->type == Token::Type::LITERAL_FLOAT)
+                else if (iterator->type == Token::Type::LiteralFloat)
                 {
-                    type = Type::FLOAT;
+                    type = Type::Float;
                     doubleValue = std::stod(utf8::fromUtf32(iterator->value));
                     ++iterator;
                 }
-                else if (iterator->type == Token::Type::LITERAL_STRING)
+                else if (iterator->type == Token::Type::LiteralString)
                 {
-                    type = Type::STRING;
+                    type = Type::String;
                     stringValue = utf8::fromUtf32(iterator->value);
                     ++iterator;
                 }
-                else if (iterator->type == Token::Type::KEYWORD_TRUE ||
-                         iterator->type == Token::Type::KEYWORD_FALSE)
+                else if (iterator->type == Token::Type::KeywordTrue ||
+                         iterator->type == Token::Type::KeywordFalse)
                 {
-                    type = Type::BOOLEAN;
-                    boolValue = (iterator->type == Token::Type::KEYWORD_TRUE);
+                    type = Type::Boolean;
+                    boolValue = (iterator->type == Token::Type::KeywordTrue);
                     ++iterator;
                 }
-                else if (iterator->type == Token::Type::KEYWORD_NULL)
+                else if (iterator->type == Token::Type::KeywordNull)
                 {
-                    type = Type::OBJECT;
+                    type = Type::Object;
                     nullValue = true;
                     ++iterator;
                 }
@@ -557,7 +557,7 @@ namespace ouzel
                 if (iterator == end)
                     throw std::runtime_error("Unexpected end of data");
 
-                if (iterator->type != Token::Type::LEFT_BRACE)
+                if (iterator->type != Token::Type::LeftBrace)
                     throw std::runtime_error("Expected a left brace");
 
                 ++iterator; // skip the left brace
@@ -569,7 +569,7 @@ namespace ouzel
                     if (iterator == end)
                         throw std::runtime_error("Unexpected end of data");
 
-                    if (iterator->type == Token::Type::RIGHT_BRACE)
+                    if (iterator->type == Token::Type::RightBrace)
                     {
                         ++iterator;// skip the right brace
                         break;
@@ -579,14 +579,14 @@ namespace ouzel
                         first = false;
                     else
                     {
-                        if (iterator->type != Token::Type::COMMA)
+                        if (iterator->type != Token::Type::Comma)
                             throw std::runtime_error("Expected a comma");
 
                         if (++iterator == end)
                             throw std::runtime_error("Unexpected end of data");
                     }
 
-                    if (iterator->type != Token::Type::LITERAL_STRING)
+                    if (iterator->type != Token::Type::LiteralString)
                         throw std::runtime_error("Expected a string literal");
 
                     std::string key = utf8::fromUtf32(iterator->value);
@@ -597,7 +597,7 @@ namespace ouzel
                     if (++iterator == end)
                         throw std::runtime_error("Unexpected end of data");
 
-                    if (iterator->type != Token::Type::COLON)
+                    if (iterator->type != Token::Type::Colon)
                         throw std::runtime_error("Expected a colon");
 
                     if (++iterator == end)
@@ -609,7 +609,7 @@ namespace ouzel
                     objectValue[key] = value;
                 }
 
-                type = Type::OBJECT;
+                type = Type::Object;
             }
 
             template <class TokenIterator>
@@ -619,7 +619,7 @@ namespace ouzel
                 if (iterator == end)
                     throw std::runtime_error("Unexpected end of data");
 
-                if (iterator->type != Token::Type::LEFT_BRACKET)
+                if (iterator->type != Token::Type::LeftBracket)
                     throw std::runtime_error("Expected a left bracket");
 
                 ++iterator; // skip the left bracket
@@ -631,7 +631,7 @@ namespace ouzel
                     if (iterator == end)
                         throw std::runtime_error("Unexpected end of data");
 
-                    if (iterator->type == Token::Type::RIGHT_BRACKET)
+                    if (iterator->type == Token::Type::RightBracket)
                     {
                         ++iterator;// skip the right bracket
                         break;
@@ -641,7 +641,7 @@ namespace ouzel
                         first = false;
                     else
                     {
-                        if (iterator->type != Token::Type::COMMA)
+                        if (iterator->type != Token::Type::Comma)
                             throw std::runtime_error("Expected a comma");
 
                         if (++iterator == end)
@@ -654,31 +654,31 @@ namespace ouzel
                     arrayValue.push_back(value);
                 }
 
-                type = Type::ARRAY;
+                type = Type::Array;
             }
 
             void encodeValue(std::vector<uint8_t>& data) const
             {
                 switch (type)
                 {
-                    case Type::INTEGER:
+                    case Type::Integer:
                     {
                         std::string value = std::to_string(intValue);
                         data.insert(data.end(), value.begin(), value.end());
                         break;
                     }
-                    case Type::FLOAT:
+                    case Type::Float:
                     {
                         std::string value = std::to_string(doubleValue);
                         data.insert(data.end(), value.begin(), value.end());
                         break;
                     }
-                    case Type::STRING:
+                    case Type::String:
                         data.push_back('"');
                         encodeString(data, utf8::toUtf32(stringValue));
                         data.push_back('"');
                         break;
-                    case Type::OBJECT:
+                    case Type::Object:
                     {
                         if (nullValue)
                             data.insert(data.end(), {'n', 'u', 'l', 'l'});
@@ -703,7 +703,7 @@ namespace ouzel
                         }
                         break;
                     }
-                    case Type::ARRAY:
+                    case Type::Array:
                     {
                         data.push_back('[');
 
@@ -720,7 +720,7 @@ namespace ouzel
                         data.push_back(']');
                         break;
                     }
-                    case Type::BOOLEAN:
+                    case Type::Boolean:
                         if (boolValue) data.insert(data.end(), {'t', 'r', 'u', 'e'});
                         else data.insert(data.end(), {'f', 'a', 'l', 's', 'e'});
                         break;
@@ -730,7 +730,7 @@ namespace ouzel
             }
 
         private:
-            Type type = Type::OBJECT;
+            Type type = Type::Object;
             union
             {
                 bool boolValue = false;
@@ -746,7 +746,7 @@ namespace ouzel
         class Data final: public Value
         {
         public:
-            Data(): Value(Value::Type::OBJECT)
+            Data(): Value(Value::Type::Object)
             {
             }
 

@@ -254,18 +254,17 @@ namespace ouzel
         public:
             enum class Type
             {
-                NONE,
-                COMMENT,
-                CDATA,
-                TYPE_DECLARATION,
-                PROCESSING_INSTRUCTION,
-                TAG,
-                TEXT
+                Comment,
+                CData,
+                TypeDeclaration,
+                ProcessingInstruction,
+                Tag,
+                Text
             };
 
             Node() = default;
             Node(Type initType): type(initType) {}
-            Node(const std::string& val): type(Type::TEXT), value(val) {}
+            Node(const std::string& val): type(Type::Text), value(val) {}
 
             inline Node& operator=(Type newType)
             {
@@ -275,7 +274,7 @@ namespace ouzel
 
             inline Node& operator=(const std::string& val)
             {
-                type = Type::TEXT;
+                type = Type::Text;
                 value = val;
                 return *this;
             }
@@ -345,7 +344,7 @@ namespace ouzel
                                 value += utf8::fromUtf32(*iterator);
                             }
 
-                            type = Type::COMMENT;
+                            type = Type::Comment;
                         }
                         else if (*iterator == '[') // <![
                         {
@@ -378,7 +377,7 @@ namespace ouzel
                                 value += utf8::fromUtf32(*iterator);
                             }
 
-                            type = Type::CDATA;
+                            type = Type::CData;
                         }
                         else
                             throw std::runtime_error("Type declarations are not supported");
@@ -423,7 +422,7 @@ namespace ouzel
                             attributes[attribute] = parseString(iterator, end);
                         }
 
-                        type = Type::PROCESSING_INSTRUCTION;
+                        type = Type::ProcessingInstruction;
                     }
                     else // <
                     {
@@ -510,14 +509,14 @@ namespace ouzel
                                     Node node;
                                     node.parse(iterator, end, preserveWhitespaces, preserveComments, preserveProcessingInstructions);
 
-                                    if ((preserveComments || node.getType() != Type::COMMENT) &&
-                                        (preserveProcessingInstructions || node.getType() != Type::PROCESSING_INSTRUCTION))
+                                    if ((preserveComments || node.getType() != Type::Comment) &&
+                                        (preserveProcessingInstructions || node.getType() != Type::ProcessingInstruction))
                                         children.push_back(node);
                                 }
                             }
                         }
 
-                        type = Type::TAG;
+                        type = Type::Tag;
                     }
                 }
                 else
@@ -539,7 +538,7 @@ namespace ouzel
                         }
                     }
 
-                    type = Type::TEXT;
+                    type = Type::Text;
                 }
             }
 
@@ -547,19 +546,19 @@ namespace ouzel
             {
                 switch (type)
                 {
-                    case Node::Type::COMMENT:
+                    case Node::Type::Comment:
                         data.insert(data.end(), {'<', '!', '-', '-'});
                         data.insert(data.end(), value.begin(), value.end());
                         data.insert(data.end(), {'-', '-', '>'});
                         break;
-                    case Node::Type::CDATA:
+                    case Node::Type::CData:
                         data.insert(data.end(), {'<', '!', '[', 'C', 'D', 'A', 'T', 'A', '['});
                         data.insert(data.end(), value.begin(), value.end());
                         data.insert(data.end(), {']', ']', '>'});
                         break;
-                    case Node::Type::TYPE_DECLARATION:
+                    case Node::Type::TypeDeclaration:
                         throw std::runtime_error("Type declarations are not supported");
-                    case Node::Type::PROCESSING_INSTRUCTION:
+                    case Node::Type::ProcessingInstruction:
                         data.insert(data.end(), {'<', '?'});
                         data.insert(data.end(), value.begin(), value.end());
 
@@ -578,7 +577,7 @@ namespace ouzel
 
                         data.insert(data.end(), {'?', '>'});
                         break;
-                    case Node::Type::TAG:
+                    case Node::Type::Tag:
                         data.insert(data.end(), '<');
                         data.insert(data.end(), value.begin(), value.end());
 
@@ -609,7 +608,7 @@ namespace ouzel
                             data.insert(data.end(), '>');
                         }
                         break;
-                    case Node::Type::TEXT:
+                    case Node::Type::Text:
                         encodeString(data, utf8::toUtf32(value));
                         break;
                     default:
@@ -621,7 +620,7 @@ namespace ouzel
             }
 
         private:
-            Type type = Type::NONE;
+            Type type;
 
             std::string value;
             std::map<std::string, std::string> attributes;
@@ -671,12 +670,12 @@ namespace ouzel
                                preserveComments,
                                preserveProcessingInstructions);
 
-                    if ((preserveComments || node.getType() != Node::Type::COMMENT) &&
-                        (preserveProcessingInstructions || node.getType() != Node::Type::PROCESSING_INSTRUCTION))
+                    if ((preserveComments || node.getType() != Node::Type::Comment) &&
+                        (preserveProcessingInstructions || node.getType() != Node::Type::ProcessingInstruction))
                     {
                         children.push_back(node);
 
-                        if (node.getType() == Node::Type::TAG)
+                        if (node.getType() == Node::Type::Tag)
                         {
                             if (rootTagFound)
                                 throw std::runtime_error("Multiple root tags found");

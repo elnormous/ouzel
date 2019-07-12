@@ -11,23 +11,23 @@ namespace ouzel
         {
             switch (systemCursor)
             {
-                case SystemCursor::DEFAULT:
-                case SystemCursor::ARROW:
+                case SystemCursor::Default:
+                case SystemCursor::Arrow:
                     cursor = LoadCursor(nullptr, IDC_ARROW);
                     break;
-                case SystemCursor::HAND:
+                case SystemCursor::Hand:
                     cursor = LoadCursor(nullptr, IDC_HAND);
                     break;
-                case SystemCursor::HORIZONTAL_RESIZE:
+                case SystemCursor::HorizontalResize:
                     cursor = LoadCursor(nullptr, IDC_SIZEWE);
                     break;
-                case SystemCursor::VERTICAL_RESIZE:
+                case SystemCursor::VerticalResize:
                     cursor = LoadCursor(nullptr, IDC_SIZENS);
                     break;
-                case SystemCursor::CROSS:
+                case SystemCursor::Cross:
                     cursor = LoadCursor(nullptr, IDC_CROSS);
                     break;
-                case SystemCursor::I_BEAM:
+                case SystemCursor::IBeam:
                     cursor = LoadCursor(nullptr, IDC_IBEAM);
                     break;
                 default:

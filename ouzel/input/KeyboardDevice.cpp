@@ -8,7 +8,7 @@ namespace ouzel
     namespace input
     {
         KeyboardDevice::KeyboardDevice(InputSystem& initInputSystem, uint32_t initId):
-            InputDevice(initInputSystem, initId, Controller::Type::KEYBOARD)
+            InputDevice(initInputSystem, initId, Controller::Type::Keyboard)
         {
             InputSystem::Event deviceConnectEvent;
             deviceConnectEvent.type = InputSystem::Event::Type::DeviceConnect;

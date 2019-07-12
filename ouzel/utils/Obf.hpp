@@ -24,62 +24,60 @@ namespace ouzel
 
             enum class Marker: uint8_t
             {
-                NONE,
-                INT8,
-                INT16,
-                INT32,
-                INT64,
-                FLOAT,
-                DOUBLE,
-                STRING,
-                LONG_STRING,
-                BYTE_ARRAY,
-                OBJECT,
-                ARRAY,
-                DICTIONARY
+                Int8 = 1,
+                Int16 = 2,
+                Int32 = 3,
+                Int64 = 4,
+                Float = 5,
+                Double = 6,
+                String = 7,
+                LongString = 8,
+                ByteArray = 9,
+                Object = 10,
+                Array = 11,
+                Dictionary = 12
             };
 
             enum class Type
             {
-                NONE,
-                INT,
-                FLOAT,
-                DOUBLE,
-                STRING,
-                BYTE_ARRAY,
-                OBJECT,
-                ARRAY,
-                DICTIONARY
+                Int,
+                Float,
+                Double,
+                String,
+                ByteArray,
+                Object,
+                Array,
+                Dictionary
             };
 
             Value() = default;
             Value(Type initType): type(initType) {}
             Value(uint8_t value):
-                type(Type::INT), intValue(value)
+                type(Type::Int), intValue(value)
             {
             }
             Value(uint16_t value):
-                type(Type::INT), intValue(value)
+                type(Type::Int), intValue(value)
             {
             }
             Value(uint32_t value):
-                type(Type::INT), intValue(value)
+                type(Type::Int), intValue(value)
             {
             }
             Value(uint64_t value):
-                type(Type::INT), intValue(value)
+                type(Type::Int), intValue(value)
             {
             }
-            Value(float value): type(Type::FLOAT), doubleValue(value) {}
-            Value(double value): type(Type::DOUBLE), doubleValue(value) {}
+            Value(float value): type(Type::Float), doubleValue(value) {}
+            Value(double value): type(Type::Double), doubleValue(value) {}
             Value(const std::string& value):
-                type(Type::STRING), stringValue(value)
+                type(Type::String), stringValue(value)
             {
             }
-            Value(const ByteArray& value): type(Type::BYTE_ARRAY), byteArrayValue(value) {}
-            Value(const Object& value): type(Type::OBJECT), objectValue(value) {}
-            Value(const Array& value): type(Type::ARRAY), arrayValue(value) {}
-            Value(const Dictionary& value): type(Type::DICTIONARY), dictionaryValue(value) {}
+            Value(const ByteArray& value): type(Type::ByteArray), byteArrayValue(value) {}
+            Value(const Object& value): type(Type::Object), objectValue(value) {}
+            Value(const Array& value): type(Type::Array), arrayValue(value) {}
+            Value(const Dictionary& value): type(Type::Dictionary), dictionaryValue(value) {}
 
             inline Value& operator=(Type newType)
             {
@@ -87,26 +85,26 @@ namespace ouzel
 
                 switch (type)
                 {
-                    case Type::INT:
+                    case Type::Int:
                         intValue = 0;
                         break;
-                    case Type::FLOAT:
-                    case Type::DOUBLE:
+                    case Type::Float:
+                    case Type::Double:
                         doubleValue = 0.0;
                         break;
-                    case Type::STRING:
+                    case Type::String:
                         stringValue.clear();
                         break;
-                    case Type::BYTE_ARRAY:
+                    case Type::ByteArray:
                         byteArrayValue.clear();
                         break;
-                    case Type::OBJECT:
+                    case Type::Object:
                         objectValue.clear();
                         break;
-                    case Type::ARRAY:
+                    case Type::Array:
                         arrayValue.clear();
                         break;
-                    case Type::DICTIONARY:
+                    case Type::Dictionary:
                         dictionaryValue.clear();
                         break;
                     default:
@@ -118,7 +116,7 @@ namespace ouzel
 
             inline Value& operator=(uint8_t value)
             {
-                type = Type::INT;
+                type = Type::Int;
                 intValue = value;
 
                 return *this;
@@ -126,7 +124,7 @@ namespace ouzel
 
             inline Value& operator=(uint16_t value)
             {
-                type = Type::INT;
+                type = Type::Int;
                 intValue = value;
 
                 return *this;
@@ -134,7 +132,7 @@ namespace ouzel
 
             inline Value& operator=(uint32_t value)
             {
-                type = Type::INT;
+                type = Type::Int;
                 intValue = value;
 
                 return *this;
@@ -142,7 +140,7 @@ namespace ouzel
 
             inline Value& operator=(uint64_t value)
             {
-                type = Type::INT;
+                type = Type::Int;
                 intValue = value;
 
                 return *this;
@@ -150,7 +148,7 @@ namespace ouzel
 
             inline Value& operator=(float value)
             {
-                type = Type::FLOAT;
+                type = Type::Float;
                 doubleValue = value;
 
                 return *this;
@@ -158,7 +156,7 @@ namespace ouzel
 
             inline Value& operator=(double value)
             {
-                type = Type::DOUBLE;
+                type = Type::Double;
                 doubleValue = value;
 
                 return *this;
@@ -166,7 +164,7 @@ namespace ouzel
 
             inline Value& operator=(const std::string& value)
             {
-                type = Type::STRING;
+                type = Type::String;
                 stringValue = value;
 
                 return *this;
@@ -174,7 +172,7 @@ namespace ouzel
 
             inline Value& operator=(const ByteArray& value)
             {
-                type = Type::BYTE_ARRAY;
+                type = Type::ByteArray;
                 byteArrayValue = value;
 
                 return *this;
@@ -182,7 +180,7 @@ namespace ouzel
 
             inline Value& operator=(const Object& value)
             {
-                type = Type::OBJECT;
+                type = Type::Object;
                 objectValue = value;
 
                 return *this;
@@ -190,7 +188,7 @@ namespace ouzel
 
             inline Value& operator=(const Array& value)
             {
-                type = Type::ARRAY;
+                type = Type::Array;
                 arrayValue = value;
 
                 return *this;
@@ -198,16 +196,16 @@ namespace ouzel
 
             inline Value& operator=(const Dictionary& value)
             {
-                type = Type::DICTIONARY;
+                type = Type::Dictionary;
                 dictionaryValue = value;
 
                 return *this;
             }
 
             inline auto getType() const noexcept { return type; }
-            inline auto isIntType() const noexcept { return type == Type::INT; }
-            inline auto isFloatType() const noexcept { return type == Type::FLOAT || type == Type::DOUBLE; }
-            inline auto isStringType() const noexcept { return type == Type::STRING; }
+            inline auto isIntType() const noexcept { return type == Type::Int; }
+            inline auto isFloatType() const noexcept { return type == Type::Float || type == Type::Double; }
+            inline auto isStringType() const noexcept { return type == Type::String; }
 
             uint32_t decode(const std::vector<uint8_t>& buffer, uint32_t offset = 0);
             uint32_t encode(std::vector<uint8_t>& buffer) const;
@@ -216,16 +214,16 @@ namespace ouzel
             {
                 switch (type)
                 {
-                    case Type::INT:
+                    case Type::Int:
                         return intValue == 0;
-                    case Type::FLOAT:
-                    case Type::DOUBLE:
+                    case Type::Float:
+                    case Type::Double:
                         return doubleValue == 0.0;
-                    case Type::STRING:
-                    case Type::BYTE_ARRAY:
-                    case Type::OBJECT:
-                    case Type::ARRAY:
-                    case Type::DICTIONARY:
+                    case Type::String:
+                    case Type::ByteArray:
+                    case Type::Object:
+                    case Type::Array:
+                    case Type::Dictionary:
                         return false;
                     default:
                         return true;
@@ -235,129 +233,129 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             const std::string& as() const
             {
-                assert(type == Type::STRING);
+                assert(type == Type::String);
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, const char*>::value>::type* = nullptr>
             const char* as() const
             {
-                assert(type == Type::STRING);
+                assert(type == Type::String);
                 return stringValue.c_str();
             }
 
             template <typename T, typename std::enable_if<std::is_integral<T>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::INT);
+                assert(type == Type::Int);
                 return static_cast<T>(intValue);
             }
 
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::FLOAT || type == Type::DOUBLE);
+                assert(type == Type::Float || type == Type::Double);
                 return static_cast<T>(doubleValue);
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, ByteArray>::value>::type* = nullptr>
             inline ByteArray& as()
             {
-                type = Type::BYTE_ARRAY;
+                type = Type::ByteArray;
                 return byteArrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, ByteArray>::value>::type* = nullptr>
             inline const ByteArray& as() const
             {
-                assert(type == Type::BYTE_ARRAY);
+                assert(type == Type::ByteArray);
                 return byteArrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
             inline Object& as()
             {
-                type = Type::OBJECT;
+                type = Type::Object;
                 return objectValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
             inline const Object& as() const
             {
-                assert(type == Type::OBJECT);
+                assert(type == Type::Object);
                 return objectValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             inline Array& as()
             {
-                type = Type::ARRAY;
+                type = Type::Array;
                 return arrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             inline const Array& as() const
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return arrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
             inline Dictionary& as()
             {
-                type = Type::DICTIONARY;
+                type = Type::Dictionary;
                 return dictionaryValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
             inline const Dictionary& as() const
             {
-                assert(type == Type::DICTIONARY);
+                assert(type == Type::Dictionary);
                 return dictionaryValue;
             }
 
             inline Array::iterator begin()
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return arrayValue.begin();
             }
 
             inline Array::const_iterator begin() const
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return arrayValue.begin();
             }
 
             inline Array::iterator end()
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return arrayValue.end();
             }
 
             inline Array::const_iterator end() const
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return arrayValue.end();
             }
 
             inline auto getSize() const noexcept
             {
-                assert(type == Type::ARRAY);
+                assert(type == Type::Array);
                 return static_cast<uint32_t>(arrayValue.size());
             }
 
             inline Value operator[](uint32_t key) const
             {
-                assert(type == Type::OBJECT || type == Type::ARRAY);
+                assert(type == Type::Object || type == Type::Array);
 
-                if (type == Type::OBJECT)
+                if (type == Type::Object)
                 {
                     auto i = objectValue.find(key);
 
                     if (i != objectValue.end())
                         return i->second;
                 }
-                else if (type == Type::ARRAY)
+                else if (type == Type::Array)
                 {
                     if (key < arrayValue.size())
                         return arrayValue[key];
@@ -368,20 +366,20 @@ namespace ouzel
 
             inline Value& operator[](uint32_t key)
             {
-                assert(type == Type::OBJECT || type == Type::ARRAY);
+                assert(type == Type::Object || type == Type::Array);
 
-                if (type == Type::OBJECT)
+                if (type == Type::Object)
                     return objectValue[key];
                 else
                 {
-                    type = Type::ARRAY;
+                    type = Type::Array;
                     return arrayValue[key];
                 }
             }
 
             inline Value operator[](const std::string& key) const
             {
-                assert(type == Type::DICTIONARY);
+                assert(type == Type::Dictionary);
 
                 auto i = dictionaryValue.find(key);
 
@@ -393,18 +391,18 @@ namespace ouzel
 
             inline Value& operator[](const std::string& key)
             {
-                assert(type == Type::DICTIONARY);
+                assert(type == Type::Dictionary);
 
                 return dictionaryValue[key];
             }
 
             inline bool hasElement(uint32_t key) const
             {
-                assert(type == Type::OBJECT || type == Type::ARRAY);
+                assert(type == Type::Object || type == Type::Array);
 
-                if (type == Type::OBJECT)
+                if (type == Type::Object)
                     return objectValue.find(key) != objectValue.end();
-                else if (type == Type::ARRAY)
+                else if (type == Type::Array)
                     return key < arrayValue.size();
                 else
                     return false;
@@ -412,7 +410,7 @@ namespace ouzel
 
             inline bool hasElement(const std::string& key) const
             {
-                assert(type == Type::DICTIONARY);
+                assert(type == Type::Dictionary);
 
                 return dictionaryValue.find(key) != dictionaryValue.end();
             }
@@ -423,7 +421,7 @@ namespace ouzel
             }
 
         private:
-            Type type = Type::NONE;
+            Type type = Type::Object;
             union
             {
                 uint64_t intValue = 0;
