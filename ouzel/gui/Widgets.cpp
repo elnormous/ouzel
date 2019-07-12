@@ -495,7 +495,7 @@ namespace ouzel
         {
             if (!enabled) return false;
 
-            if (event.type == Event::Type::KeyPress && !widgets.empty())
+            if (event.type == Event::Type::KeyboardKeyPress && !widgets.empty())
             {
                 switch (event.key)
                 {

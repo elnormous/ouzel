@@ -226,7 +226,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::KeyPress:
+                case InputSystem::Event::Type::KeyboardKeyPress:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -236,7 +236,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::KeyRelease:
+                case InputSystem::Event::Type::KeyboardKeyRelease:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())

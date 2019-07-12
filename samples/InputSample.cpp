@@ -68,7 +68,7 @@ InputSample::InputSample():
 
 bool InputSample::handleKeyboard(const KeyboardEvent& event)
 {
-    if (event.type == Event::Type::KeyPress)
+    if (event.type == Event::Type::KeyboardKeyPress)
     {
         Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
@@ -107,7 +107,7 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
 
         flame.setPosition(worldLocation);
     }
-    else if (event.type == Event::Type::KeyRelease)
+    else if (event.type == Event::Type::KeyboardKeyRelease)
     {
         switch (event.key)
         {

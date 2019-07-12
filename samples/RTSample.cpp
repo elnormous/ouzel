@@ -96,7 +96,7 @@ bool RTSample::handleUI(const UIEvent& event) const
 
 bool RTSample::handleKeyboard(const KeyboardEvent& event) const
 {
-    if (event.type == Event::Type::KeyPress)
+    if (event.type == Event::Type::KeyboardKeyPress)
     {
         switch (event.key)
         {
@@ -109,7 +109,7 @@ bool RTSample::handleKeyboard(const KeyboardEvent& event) const
                 break;
         }
     }
-    else if (event.type == Event::Type::KeyRelease)
+    else if (event.type == Event::Type::KeyboardKeyRelease)
     {
         switch (event.key)
         {

@@ -108,7 +108,7 @@ bool PerspectiveSample::handleUI(const ouzel::UIEvent& event)
 
 bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
 {
-    if (event.type == Event::Type::KeyPress)
+    if (event.type == Event::Type::KeyboardKeyPress)
     {
         switch (event.key)
         {
@@ -144,7 +144,7 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
 
         cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
     }
-    else if (event.type == Event::Type::KeyRelease)
+    else if (event.type == Event::Type::KeyboardKeyRelease)
     {
         switch (event.key)
         {

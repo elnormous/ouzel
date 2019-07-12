@@ -85,8 +85,8 @@ namespace ouzel
 
                     GamepadButtonChange,
 
-                    KeyPress,
-                    KeyRelease,
+                    KeyboardKeyPress,
+                    KeyboardKeyRelease,
 
                     MousePress,
                     MouseRelease,

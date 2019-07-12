@@ -29,8 +29,8 @@ namespace ouzel
             // keyboard events
             KeyboardConnect,
             KeyboardDisconnect,
-            KeyPress,
-            KeyRelease,
+            KeyboardKeyPress,
+            KeyboardKeyRelease,
 
             // mouse events
             MouseConnect,

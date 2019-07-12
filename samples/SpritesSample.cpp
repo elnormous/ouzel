@@ -101,7 +101,7 @@ bool SpritesSample::handleUI(const UIEvent& event)
 
 bool SpritesSample::handleKeyboard(const KeyboardEvent& event) const
 {
-    if (event.type == Event::Type::KeyPress)
+    if (event.type == Event::Type::KeyboardKeyPress)
     {
         switch (event.key)
         {
@@ -114,7 +114,7 @@ bool SpritesSample::handleKeyboard(const KeyboardEvent& event) const
                 break;
         }
     }
-    else if (event.type == Event::Type::KeyRelease)
+    else if (event.type == Event::Type::KeyboardKeyRelease)
     {
         switch (event.key)
         {

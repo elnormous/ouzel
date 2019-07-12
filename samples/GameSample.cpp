@@ -26,7 +26,7 @@ GameSample::GameSample()
 
 bool GameSample::handleKeyboard(const KeyboardEvent& event)
 {
-    if (event.type == Event::Type::KeyPress)
+    if (event.type == Event::Type::KeyboardKeyPress)
     {
         switch (event.key)
         {
@@ -39,7 +39,7 @@ bool GameSample::handleKeyboard(const KeyboardEvent& event)
                 break;
         }
     }
-    else if (event.type == Event::Type::KeyRelease)
+    else if (event.type == Event::Type::KeyboardKeyRelease)
     {
         switch (event.key)
         {
