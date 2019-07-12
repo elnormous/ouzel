@@ -18,11 +18,11 @@ namespace ouzel
     public:
         enum Flags
         {
-            RESIZABLE = 0x01,
-            FULLSCREEN = 0x02,
-            EXCLUSIVE_FULLSCREEN = 0x04,
-            HIGH_DPI = 0x08,
-            DEPTH = 0x10
+            Resizable = 0x01,
+            Fullscreen = 0x02,
+            ExclusiveFullscreen = 0x04,
+            HighDpi = 0x08,
+            Depth = 0x10
         };
 
         enum class Mode

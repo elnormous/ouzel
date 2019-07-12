@@ -204,11 +204,11 @@ namespace ouzel
         graphics::Driver graphicsDriver = graphics::Renderer::getDriver(graphicsDriverValue);
 
         uint32_t windowFlags = 0;
-        if (resizable) windowFlags |= Window::RESIZABLE;
-        if (fullscreen) windowFlags |= Window::FULLSCREEN;
-        if (exclusiveFullscreen) windowFlags |= Window::EXCLUSIVE_FULLSCREEN;
-        if (highDpi) windowFlags |= Window::HIGH_DPI;
-        if (depth) windowFlags |= Window::DEPTH;
+        if (resizable) windowFlags |= Window::Flags::Resizable;
+        if (fullscreen) windowFlags |= Window::Flags::Fullscreen;
+        if (exclusiveFullscreen) windowFlags |= Window::Flags::ExclusiveFullscreen;
+        if (highDpi) windowFlags |= Window::Flags::HighDpi;
+        if (depth) windowFlags |= Window::Flags::Depth;
 
         window = std::make_unique<Window>(*this,
                                           size,
