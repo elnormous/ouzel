@@ -85,7 +85,7 @@ AnimationsSample::AnimationsSample():
 
     ballDelay = std::make_unique<scene::Animator>(1.0F);
     ballMove = std::make_unique<scene::Move>(2.0F, Vector3F(0.0F, -240.0F, 0.0F), false);
-    ballEase = std::make_unique<scene::Ease>(*ballMove, scene::Ease::Mode::EASE_OUT, scene::Ease::Func::BOUNCE);
+    ballEase = std::make_unique<scene::Ease>(*ballMove, scene::Ease::Mode::EaseOut, scene::Ease::Func::Bounce);
 
     std::vector<scene::Animator*> sequence2 = {
         ballDelay.get(),

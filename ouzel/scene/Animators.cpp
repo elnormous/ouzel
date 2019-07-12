@@ -267,58 +267,58 @@ namespace ouzel
 
             switch (mode)
             {
-                case Mode::EASE_IN:
+                case Mode::EaseIn:
                 {
                     switch (func)
                     {
-                        case Func::SINE: progress = sineIn(progress); break;
-                        case Func::QUAD: progress = quadIn(progress); break;
-                        case Func::CUBIC: progress = cubicIn(progress); break;
-                        case Func::QUART: progress = quartIn(progress); break;
-                        case Func::QUINT: progress = quintIn(progress); break;
-                        case Func::EXPO: progress = expoIn(progress); break;
-                        case Func::CIRC: progress = circIn(progress); break;
-                        case Func::BACK: progress = backIn(progress); break;
-                        case Func::ELASTIC: progress = elasticIn(progress); break;
-                        case Func::BOUNCE: progress = bounceIn(progress); break;
+                        case Func::Sine: progress = sineIn(progress); break;
+                        case Func::Quad: progress = quadIn(progress); break;
+                        case Func::Cubic: progress = cubicIn(progress); break;
+                        case Func::Quart: progress = quartIn(progress); break;
+                        case Func::Quint: progress = quintIn(progress); break;
+                        case Func::Expo: progress = expoIn(progress); break;
+                        case Func::Circ: progress = circIn(progress); break;
+                        case Func::Back: progress = backIn(progress); break;
+                        case Func::Elastic: progress = elasticIn(progress); break;
+                        case Func::Bounce: progress = bounceIn(progress); break;
                         default: return;
                     }
                     break;
                 }
 
-                case Mode::EASE_OUT:
+                case Mode::EaseOut:
                 {
                     switch (func)
                     {
-                        case Func::SINE: progress = sineOut(progress); break;
-                        case Func::QUAD: progress = quadOut(progress); break;
-                        case Func::CUBIC: progress = cubicOut(progress); break;
-                        case Func::QUART: progress = quartOut(progress); break;
-                        case Func::QUINT: progress = quintOut(progress); break;
-                        case Func::EXPO: progress = expoOut(progress); break;
-                        case Func::CIRC: progress = circOut(progress); break;
-                        case Func::BACK: progress = backOut(progress); break;
-                        case Func::ELASTIC: progress = elasticOut(progress); break;
-                        case Func::BOUNCE: progress = bounceOut(progress); break;
+                        case Func::Sine: progress = sineOut(progress); break;
+                        case Func::Quad: progress = quadOut(progress); break;
+                        case Func::Cubic: progress = cubicOut(progress); break;
+                        case Func::Quart: progress = quartOut(progress); break;
+                        case Func::Quint: progress = quintOut(progress); break;
+                        case Func::Expo: progress = expoOut(progress); break;
+                        case Func::Circ: progress = circOut(progress); break;
+                        case Func::Back: progress = backOut(progress); break;
+                        case Func::Elastic: progress = elasticOut(progress); break;
+                        case Func::Bounce: progress = bounceOut(progress); break;
                         default: return;
                     }
                     break;
                 }
 
-                case Mode::EASE_INOUT:
+                case Mode::EaseInOut:
                 {
                     switch (func)
                     {
-                        case Func::SINE: progress = sineInOut(progress); break;
-                        case Func::QUAD: progress = quadInOut(progress); break;
-                        case Func::CUBIC: progress = cubicInOut(progress); break;
-                        case Func::QUART: progress = quartInOut(progress); break;
-                        case Func::QUINT: progress = quintInOut(progress); break;
-                        case Func::EXPO: progress = expoInOut(progress); break;
-                        case Func::CIRC: progress = circInOut(progress); break;
-                        case Func::BACK: progress = backInOut(progress); break;
-                        case Func::ELASTIC: progress = elasticInOut(progress); break;
-                        case Func::BOUNCE: progress = bounceInOut(progress); break;
+                        case Func::Sine: progress = sineInOut(progress); break;
+                        case Func::Quad: progress = quadInOut(progress); break;
+                        case Func::Cubic: progress = cubicInOut(progress); break;
+                        case Func::Quart: progress = quartInOut(progress); break;
+                        case Func::Quint: progress = quintInOut(progress); break;
+                        case Func::Expo: progress = expoInOut(progress); break;
+                        case Func::Circ: progress = circInOut(progress); break;
+                        case Func::Back: progress = backInOut(progress); break;
+                        case Func::Elastic: progress = elasticInOut(progress); break;
+                        case Func::Bounce: progress = bounceInOut(progress); break;
                         default: return;
                     }
                     break;

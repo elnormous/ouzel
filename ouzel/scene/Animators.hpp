@@ -22,23 +22,23 @@ namespace ouzel
         public:
             enum class Mode
             {
-                EASE_IN,
-                EASE_OUT,
-                EASE_INOUT
+                EaseIn,
+                EaseOut,
+                EaseInOut
             };
 
             enum class Func
             {
-                SINE,
-                QUAD,
-                CUBIC,
-                QUART,
-                QUINT,
-                EXPO,
-                CIRC,
-                BACK,
-                ELASTIC,
-                BOUNCE
+                Sine,
+                Quad,
+                Cubic,
+                Quart,
+                Quint,
+                Expo,
+                Circ,
+                Back,
+                Elastic,
+                Bounce
             };
 
             Ease(Animator& animator, Mode initModee, Func initFunc);
