@@ -12,7 +12,6 @@ namespace ouzel
     namespace audio
     {
         Listener::Listener(Audio& initAudio):
-            scene::Component(scene::Component::LISTENER),
             audio(initAudio)
         {
         }

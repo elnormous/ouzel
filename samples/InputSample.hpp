@@ -8,8 +8,7 @@
 class Mover: public ouzel::scene::Component
 {
 public:
-    Mover():
-        ouzel::scene::Component(10)
+    Mover()
     {
         handler.keyboardHandler = std::bind(&Mover::handleKeyboard, this, std::placeholders::_1);
 

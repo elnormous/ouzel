@@ -132,8 +132,7 @@ namespace ouzel
                                                               static_cast<uint32_t>(getVectorSize(vertices)));
         }
 
-        Sprite::Sprite():
-            Component(CLASS)
+        Sprite::Sprite()
         {
             updateHandler.updateHandler = std::bind(&Sprite::handleUpdate, this, std::placeholders::_1);
 

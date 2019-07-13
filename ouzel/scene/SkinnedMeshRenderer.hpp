@@ -36,8 +36,6 @@ namespace ouzel
         class SkinnedMeshRenderer: public Component
         {
         public:
-            static constexpr uint32_t CLASS = Component::MODEL_RENDERER;
-
             SkinnedMeshRenderer();
             explicit SkinnedMeshRenderer(const SkinnedMeshData& meshData);
 

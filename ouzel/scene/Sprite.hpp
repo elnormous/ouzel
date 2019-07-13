@@ -81,8 +81,6 @@ namespace ouzel
         class Sprite: public Component
         {
         public:
-            static constexpr uint32_t CLASS = Component::SPRITE;
-
             Sprite();
             explicit Sprite(const SpriteData& spriteData);
             explicit Sprite(const std::string& filename);

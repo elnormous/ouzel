@@ -52,13 +52,7 @@ namespace ouzel
                                                               static_cast<uint32_t>(getVectorSize(vertices)));
         }
 
-        StaticMeshRenderer::StaticMeshRenderer():
-            Component(CLASS)
-        {
-        }
-
-        StaticMeshRenderer::StaticMeshRenderer(const StaticMeshData& meshData):
-            Component(CLASS)
+        StaticMeshRenderer::StaticMeshRenderer(const StaticMeshData& meshData)
         {
             init(meshData);
         }

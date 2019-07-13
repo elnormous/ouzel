@@ -22,22 +22,7 @@ namespace ouzel
         {
             friend Actor;
         public:
-            enum Class
-            {
-                NONE = 0,
-                CAMERA = 1,
-                ANIMATOR = 2,
-                MODEL_RENDERER = 3,
-                PARTICLE_SYSTEM = 4,
-                SHAPE_RENDERER = 5,
-                LISTENER = 6,
-                SOUND = 7,
-                SPRITE = 8,
-                TEXT_RENDERER = 9,
-                LIGHT = 10
-            };
-
-            explicit Component(uint32_t initClass);
+            Component() = default;
             virtual ~Component();
 
             Component(const Component&) = delete;
@@ -45,8 +30,6 @@ namespace ouzel
 
             Component(Component&&) = delete;
             Component& operator=(Component&&) = delete;
-
-            inline auto getClass() const noexcept { return cls; }
 
             virtual void draw(const Matrix4F& transformMatrix,
                               float opacity,
@@ -69,8 +52,6 @@ namespace ouzel
             virtual void setActor(Actor* newActor);
             virtual void setLayer(Layer* newLayer);
             virtual void updateTransform();
-
-            uint32_t cls;
 
             Box3F boundingBox;
             bool hidden = false;

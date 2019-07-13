@@ -179,8 +179,7 @@ namespace ouzel
 
         Panner::Panner(Audio& initAudio):
             Effect(initAudio,
-                   initAudio.initProcessor(std::make_unique<PannerProcessor>())),
-            scene::Component(scene::Component::SOUND)
+                   initAudio.initProcessor(std::make_unique<PannerProcessor>()))
         {
         }
 

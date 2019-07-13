@@ -118,8 +118,6 @@ namespace ouzel
         class ParticleSystem: public Component
         {
         public:
-            static constexpr uint32_t CLASS = Component::PARTICLE_SYSTEM;
-
             ParticleSystem();
             explicit ParticleSystem(const ParticleSystemData& initParticleSystemData);
 

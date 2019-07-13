@@ -11,7 +11,7 @@ namespace ouzel
     namespace scene
     {
         Animator::Animator(float initLength):
-            Component(Component::ANIMATOR), length(initLength)
+            length(initLength)
         {
             updateHandler.updateHandler = std::bind(&Animator::handleUpdate, this, std::placeholders::_1);
         }

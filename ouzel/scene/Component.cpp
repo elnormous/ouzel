@@ -8,11 +8,6 @@ namespace ouzel
 {
     namespace scene
     {
-        Component::Component(uint32_t initClass):
-            cls(initClass)
-        {
-        }
-
         Component::~Component()
         {
             if (actor) actor->removeComponent(this);

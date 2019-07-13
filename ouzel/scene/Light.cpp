@@ -8,13 +8,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Light::Light():
-            Component(CLASS)
-        {
-        }
-
         Light::Light(Type initType):
-            Component(CLASS), type(initType)
+            type(initType)
         {
         }
 

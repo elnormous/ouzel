@@ -14,8 +14,6 @@ namespace ouzel
         class Light: public Component
         {
         public:
-            static constexpr uint32_t CLASS = Component::LIGHT;
-
             enum class Type
             {
                 Point,
@@ -23,7 +21,7 @@ namespace ouzel
                 Directional
             };
 
-            Light();
+            Light() = default;
             explicit Light(Type initType);
             ~Light() override;
 

@@ -18,8 +18,6 @@ namespace ouzel
         class ShapeRenderer: public Component
         {
         public:
-            static constexpr uint32_t CLASS = Component::SHAPE_RENDERER;
-
             ShapeRenderer();
 
             void draw(const Matrix4F& transformMatrix,

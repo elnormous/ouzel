@@ -562,19 +562,6 @@ namespace ouzel
                 component->setLayer(newLayer);
         }
 
-        std::vector<Component*> Actor::getComponents(uint32_t cls) const
-        {
-            std::vector<Component*> result;
-
-            for (Component* component : components)
-            {
-                if (component->getClass() == cls)
-                    result.push_back(component);
-            }
-
-            return result;
-        }
-
         Box3F Actor::getBoundingBox() const
         {
             Box3F boundingBox;

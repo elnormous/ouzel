@@ -33,9 +33,7 @@ namespace ouzel
         class StaticMeshRenderer: public Component
         {
         public:
-            static constexpr uint32_t CLASS = Component::MODEL_RENDERER;
-
-            StaticMeshRenderer();
+            StaticMeshRenderer() = default;
             explicit StaticMeshRenderer(const StaticMeshData& meshData);
 
             void init(const StaticMeshData& meshData);
