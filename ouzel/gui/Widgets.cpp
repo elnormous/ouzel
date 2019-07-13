@@ -111,29 +111,38 @@ namespace ouzel
 
             if (event.actor == this)
             {
-                if (event.type == Event::Type::ActorEnter)
+                switch (event.type)
                 {
-                    pointerOver = true;
-                    updateSprite();
-                }
-                else if (event.type == Event::Type::ActorLeave)
-                {
-                    pointerOver = false;
-                    updateSprite();
-                }
-                else if (event.type == Event::Type::ActorPress)
-                {
-                    pressed = true;
-                    updateSprite();
-                }
-                else if (event.type == Event::Type::ActorRelease ||
-                         event.type == Event::Type::ActorClick)
-                {
-                    if (pressed)
+                    case Event::Type::ActorEnter:
                     {
-                        pressed = false;
+                        pointerOver = true;
                         updateSprite();
+                        break;
                     }
+                    case Event::Type::ActorLeave:
+                    {
+                        pointerOver = false;
+                        updateSprite();
+                        break;
+                    }
+                    case Event::Type::ActorPress:
+                    {
+                        pressed = true;
+                        updateSprite();
+                        break;
+                    }
+                    case Event::Type::ActorRelease:
+                    case Event::Type::ActorClick:
+                    {
+                        if (pressed)
+                        {
+                            pressed = false;
+                            updateSprite();
+                        }
+                        break;
+                    }
+                    default:
+                        return false;
                 }
             }
 
@@ -252,39 +261,49 @@ namespace ouzel
 
             if (event.actor == this)
             {
-                if (event.type == Event::Type::ActorEnter)
+                switch (event.type)
                 {
-                    pointerOver = true;
-                    updateSprite();
-                }
-                else if (event.type == Event::Type::ActorLeave)
-                {
-                    pointerOver = false;
-                    updateSprite();
-                }
-                else if (event.type == Event::Type::ActorPress)
-                {
-                    pressed = true;
-                    updateSprite();
-                }
-                else if (event.type == Event::Type::ActorRelease)
-                {
-                    if (pressed)
+                    case Event::Type::ActorEnter:
+                    {
+                        pointerOver = true;
+                        updateSprite();
+                        break;
+                    }
+                    case Event::Type::ActorLeave:
+                    {
+                        pointerOver = false;
+                        updateSprite();
+                        break;
+                    }
+                    case Event::Type::ActorPress:
+                    {
+                        pressed = true;
+                        updateSprite();
+                        break;
+                    }
+                    case Event::Type::ActorRelease:
+                    {
+                        if (pressed)
+                        {
+                            pressed = false;
+                            updateSprite();
+                        }
+                        break;
+                    }
+                    case Event::Type::ActorClick:
                     {
                         pressed = false;
+                        checked = !checked;
                         updateSprite();
-                    }
-                }
-                else if (event.type == Event::Type::ActorClick)
-                {
-                    pressed = false;
-                    checked = !checked;
-                    updateSprite();
 
-                    auto changeEvent = std::make_unique<UIEvent>();
-                    changeEvent->type = Event::Type::WidgetChange;
-                    changeEvent->actor = event.actor;
-                    engine->getEventDispatcher().dispatchEvent(std::move(changeEvent));
+                        auto changeEvent = std::make_unique<UIEvent>();
+                        changeEvent->type = Event::Type::WidgetChange;
+                        changeEvent->actor = event.actor;
+                        engine->getEventDispatcher().dispatchEvent(std::move(changeEvent));
+                        break;
+                    }
+                    default:
+                        return false;
                 }
             }
 

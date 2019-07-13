@@ -22,7 +22,7 @@ namespace ouzel
 
             explicit Archive(const std::string& path)
             {
-                file = File(path, File::READ);
+                file = File(path, File::Mode::Read);
 
                 for (;;)
                 {
@@ -50,8 +50,8 @@ namespace ouzel
                     if (compression != 0x00)
                         throw std::runtime_error("Unsupported compression");
 
-                    file.seek(4, File::CURRENT); // skip modification time
-                    file.seek(4, File::CURRENT); // skip CRC-32
+                    file.seek(4, File::Seek::Current); // skip modification time
+                    file.seek(4, File::Seek::Current); // skip CRC-32
 
                     uint32_t compressedSize;
                     file.read(&compressedSize, sizeof(compressedSize), true);
@@ -74,11 +74,11 @@ namespace ouzel
                     Entry& entry = entries[name.data()];
                     entry.size = decodeLittleEndian<uint32_t>(&uncompressedSize);
 
-                    file.seek(decodeLittleEndian<uint16_t>(&extraFieldLength), File::CURRENT); // skip extra field
+                    file.seek(decodeLittleEndian<uint16_t>(&extraFieldLength), File::Seek::Current); // skip extra field
 
                     entry.offset = file.getOffset();
 
-                    file.seek(static_cast<int32_t>(decodeLittleEndian<uint32_t>(&uncompressedSize)), File::CURRENT); // skip uncompressed size
+                    file.seek(static_cast<int32_t>(decodeLittleEndian<uint32_t>(&uncompressedSize)), File::Seek::Current); // skip uncompressed size
                 }
             }
 
@@ -91,7 +91,7 @@ namespace ouzel
                 if (i == entries.end())
                     throw std::runtime_error("File " + filename + " does not exist");
 
-                file.seek(static_cast<int32_t>(i->second.offset), File::BEGIN);
+                file.seek(static_cast<int32_t>(i->second.offset), File::Seek::Begin);
 
                 data.resize(i->second.size);
 

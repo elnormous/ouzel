@@ -370,7 +370,7 @@ namespace ouzel
             if (path.empty())
                 throw std::runtime_error("Failed to find file " + filename);
 
-            File file(path, File::Mode::READ);
+            File file(path, File::Mode::Read);
 
             while (uint32_t size = file.read(buffer, sizeof(buffer)))
                 data.insert(data.end(), buffer, buffer + size);
@@ -380,7 +380,7 @@ namespace ouzel
 
         void FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
         {
-            File file(filename, File::Mode::WRITE | File::Mode::CREATE | File::Mode::TRUNCATE);
+            File file(filename, File::Mode::Write | File::Mode::Create | File::Mode::Truncate);
 
             uint32_t offset = 0;
 

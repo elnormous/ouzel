@@ -149,66 +149,73 @@ namespace ouzel
 
                 if (formatTag == PCM)
                 {
-                    if (bitsPerSample == 8)
+                    switch (bitsPerSample)
                     {
-                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        case 8:
                         {
-                            float* outputChannel = &samples[channel * frames];
-
-                            for (uint32_t frame = 0; frame < frames; ++frame)
+                            for (uint32_t channel = 0; channel < channels; ++channel)
                             {
-                                uint8_t* sourceData = &soundData[frame * channels + channel];
-                                outputChannel[frame] = 2.0F * sourceData[0] / 255.0F - 1.0F;
+                                float* outputChannel = &samples[channel * frames];
+
+                                for (uint32_t frame = 0; frame < frames; ++frame)
+                                {
+                                    uint8_t* sourceData = &soundData[frame * channels + channel];
+                                    outputChannel[frame] = 2.0F * sourceData[0] / 255.0F - 1.0F;
+                                }
                             }
+                            break;
                         }
-                    }
-                    else if (bitsPerSample == 16)
-                    {
-                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        case 16:
                         {
-                            float* outputChannel = &samples[channel * frames];
-
-                            for (uint32_t frame = 0; frame < frames; ++frame)
+                            for (uint32_t channel = 0; channel < channels; ++channel)
                             {
-                                uint8_t* sourceData = &soundData[(frame * channels + channel) * 2];
-                                outputChannel[frame] = static_cast<int16_t>(sourceData[0] |
-                                                                            (sourceData[1] << 8)) / 32767.0F;
+                                float* outputChannel = &samples[channel * frames];
+
+                                for (uint32_t frame = 0; frame < frames; ++frame)
+                                {
+                                    uint8_t* sourceData = &soundData[(frame * channels + channel) * 2];
+                                    outputChannel[frame] = static_cast<int16_t>(sourceData[0] |
+                                                                                (sourceData[1] << 8)) / 32767.0F;
+                                }
                             }
+                            break;
                         }
-                    }
-                    else if (bitsPerSample == 24)
-                    {
-                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        case 24:
                         {
-                            float* outputChannel = &samples[channel * frames];
-
-                            for (uint32_t frame = 0; frame < frames; ++frame)
+                            for (uint32_t channel = 0; channel < channels; ++channel)
                             {
-                                uint8_t* sourceData = &soundData[(frame * channels + channel) * 3];
-                                outputChannel[frame] = static_cast<float>(static_cast<int32_t>((sourceData[0] << 8) |
-                                                                                               (sourceData[1] << 16) |
-                                                                                               (sourceData[2] << 24)) / 2147483648.0);
+                                float* outputChannel = &samples[channel * frames];
+
+                                for (uint32_t frame = 0; frame < frames; ++frame)
+                                {
+                                    uint8_t* sourceData = &soundData[(frame * channels + channel) * 3];
+                                    outputChannel[frame] = static_cast<float>(static_cast<int32_t>((sourceData[0] << 8) |
+                                                                                                   (sourceData[1] << 16) |
+                                                                                                   (sourceData[2] << 24)) / 2147483648.0);
+                                }
                             }
+                            break;
                         }
-                    }
-                    else if (bitsPerSample == 32)
-                    {
-                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        case 32:
                         {
-                            float* outputChannel = &samples[channel * frames];
-
-                            for (uint32_t frame = 0; frame < frames; ++frame)
+                            for (uint32_t channel = 0; channel < channels; ++channel)
                             {
-                                uint8_t* sourceData = &soundData[(frame * channels + channel) * 4];
-                                outputChannel[frame] = static_cast<float>(static_cast<int32_t>(sourceData[0] |
-                                                                                               (sourceData[1] << 8) |
-                                                                                               (sourceData[2] << 16) |
-                                                                                               (sourceData[3] << 24)) / 2147483648.0);
+                                float* outputChannel = &samples[channel * frames];
+
+                                for (uint32_t frame = 0; frame < frames; ++frame)
+                                {
+                                    uint8_t* sourceData = &soundData[(frame * channels + channel) * 4];
+                                    outputChannel[frame] = static_cast<float>(static_cast<int32_t>(sourceData[0] |
+                                                                                                   (sourceData[1] << 8) |
+                                                                                                   (sourceData[2] << 16) |
+                                                                                                   (sourceData[3] << 24)) / 2147483648.0);
+                                }
                             }
+                            break;
                         }
+                        default:
+                            throw std::runtime_error("Failed to load sound file, unsupported bit depth");
                     }
-                    else
-                        throw std::runtime_error("Failed to load sound file, unsupported bit depth");
                 }
                 else if (formatTag == IEEE_FLOAT)
                 {
