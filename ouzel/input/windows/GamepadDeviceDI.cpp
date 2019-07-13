@@ -113,7 +113,7 @@ namespace ouzel
                                 axis.negativeButton = Gamepad::Button::LeftThumbLeft;
                                 axis.positiveButton = Gamepad::Button::LeftThumbRight;
                                 break;
-                            case Gamepad::Axis::LeftThumb_Y:
+                            case Gamepad::Axis::LeftThumbY:
                                 axis.negativeButton = Gamepad::Button::LeftThumbUp;
                                 axis.positiveButton = Gamepad::Button::LeftThumbDown;
                                 break;
