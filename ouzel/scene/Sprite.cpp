@@ -23,20 +23,20 @@ namespace ouzel
                                  const Vector2F& pivot):
             name(frameName)
         {
-            std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
+            const std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
             indexCount = static_cast<uint32_t>(indices.size());
 
             Vector2F textCoords[4];
-            Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
-                                 -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
+            const Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
+                                       -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
 
             if (!rotated)
             {
-                Vector2F leftTop(frameRectangle.position.v[0] / textureSize.v[0],
-                                 frameRectangle.position.v[1] / textureSize.v[1]);
+                const Vector2F leftTop(frameRectangle.position.v[0] / textureSize.v[0],
+                                       frameRectangle.position.v[1] / textureSize.v[1]);
 
-                Vector2F rightBottom((frameRectangle.position.v[0] + frameRectangle.size.v[0]) / textureSize.v[0],
-                                     (frameRectangle.position.v[1] + frameRectangle.size.v[1]) / textureSize.v[1]);
+                const Vector2F rightBottom((frameRectangle.position.v[0] + frameRectangle.size.v[0]) / textureSize.v[0],
+                                           (frameRectangle.position.v[1] + frameRectangle.size.v[1]) / textureSize.v[1]);
 
                 textCoords[0] = Vector2F(leftTop.v[0], rightBottom.v[1]);
                 textCoords[1] = Vector2F(rightBottom.v[0], rightBottom.v[1]);
@@ -45,11 +45,11 @@ namespace ouzel
             }
             else
             {
-                auto leftTop = Vector2F(frameRectangle.position.v[0] / textureSize.v[0],
-                                        frameRectangle.position.v[1] / textureSize.v[1]);
+                const auto leftTop = Vector2F(frameRectangle.position.v[0] / textureSize.v[0],
+                                              frameRectangle.position.v[1] / textureSize.v[1]);
 
-                auto rightBottom = Vector2F((frameRectangle.position.v[0] + frameRectangle.size.v[1]) / textureSize.v[0],
-                                            (frameRectangle.position.v[1] + frameRectangle.size.v[0]) / textureSize.v[1]);
+                const auto rightBottom = Vector2F((frameRectangle.position.v[0] + frameRectangle.size.v[1]) / textureSize.v[0],
+                                                  (frameRectangle.position.v[1] + frameRectangle.size.v[0]) / textureSize.v[1]);
 
                 textCoords[0] = Vector2F(leftTop.v[0], leftTop.v[1]);
                 textCoords[1] = Vector2F(leftTop.v[0], rightBottom.v[1]);
@@ -57,7 +57,7 @@ namespace ouzel
                 textCoords[3] = Vector2F(rightBottom.v[0], rightBottom.v[1]);
             }
 
-            std::vector<graphics::Vertex> vertices{
+            const std::vector<graphics::Vertex> vertices{
                 graphics::Vertex(Vector3F{finalOffset.v[0], finalOffset.v[1], 0.0F}, Color::white(),
                                  textCoords[0], Vector3F{0.0F, 0.0F, -1.0F}),
                 graphics::Vertex(Vector3F{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, Color::white(),
@@ -118,8 +118,8 @@ namespace ouzel
                 boundingBox.insertPoint(Vector2F(vertex.position));
 
             // TODO: fix
-            Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
-                                 -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
+            const Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
+                                       -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::BufferType::Index, 0,
@@ -196,10 +196,10 @@ namespace ouzel
 
                 SpriteData::Animation animation;
 
-                Size2F size(static_cast<float>(texture->getSize().v[0]),
+                const Size2F size(static_cast<float>(texture->getSize().v[0]),
                                   static_cast<float>(texture->getSize().v[1]));
 
-                RectF rectangle(0.0F, 0.0F, size.v[0], size.v[1]);
+                const RectF rectangle(0.0F, 0.0F, size.v[0], size.v[1]);
                 animation.frames.emplace_back("", size, rectangle, false, size, Vector2F(), Vector2F{0.5F, 0.5F});
 
                 animations[""] = std::move(animation);
@@ -223,7 +223,7 @@ namespace ouzel
             material->textures[0] = newTexture;
             animations.clear();
 
-            Size2F size(static_cast<float>(newTexture->getSize().v[0]),
+            const Size2F size(static_cast<float>(newTexture->getSize().v[0]),
                               static_cast<float>(newTexture->getSize().v[1]));
 
             auto spriteSize = Size2F(size.v[0] / spritesX,
@@ -236,7 +236,7 @@ namespace ouzel
             {
                 for (uint32_t y = 0; y < spritesY; ++y)
                 {
-                    RectF rectangle(spriteSize.v[0] * x,
+                    const RectF rectangle(spriteSize.v[0] * x,
                                           spriteSize.v[1] * y,
                                           spriteSize.v[0],
                                           spriteSize.v[1]);
@@ -261,7 +261,7 @@ namespace ouzel
 
                 for (; currentAnimation != animationQueue.end(); ++currentAnimation)
                 {
-                    float length = currentAnimation->animation->frames.size() * currentAnimation->animation->frameInterval;
+                    const float length = currentAnimation->animation->frames.size() * currentAnimation->animation->frameInterval;
 
                     if (length > 0.0F)
                     {

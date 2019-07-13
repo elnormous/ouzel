@@ -111,9 +111,9 @@ namespace ouzel
 
                 Vector2F tangent = finish - start;
                 tangent.normalize();
-                Vector2F normal(-tangent.v[1], tangent.v[0]);
+                const Vector2F normal(-tangent.v[1], tangent.v[0]);
 
-                float halfThickness = thickness / 2.0F;
+                const float halfThickness = thickness / 2.0F;
 
                 vertices.emplace_back(Vector3F{start - tangent * halfThickness - normal * halfThickness},
                                       color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
@@ -158,7 +158,7 @@ namespace ouzel
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
-            auto startVertex = static_cast<uint16_t>(vertices.size());
+            const auto startVertex = static_cast<uint16_t>(vertices.size());
 
             if (fill)
             {
@@ -209,7 +209,7 @@ namespace ouzel
                 {
                     command.mode = graphics::DrawMode::TriangleStrip;
 
-                    float halfThickness = thickness / 2.0F;
+                    const float halfThickness = thickness / 2.0F;
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
@@ -266,7 +266,7 @@ namespace ouzel
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
-            auto startVertex = static_cast<uint16_t>(vertices.size());
+            const auto startVertex = static_cast<uint16_t>(vertices.size());
 
             if (fill)
             {
@@ -330,7 +330,7 @@ namespace ouzel
                 {
                     command.mode = graphics::DrawMode::TriangleList;
 
-                    float halfThickness = thickness / 2.0F;
+                    const float halfThickness = thickness / 2.0F;
 
                     // left bottom
                     vertices.emplace_back(Vector3F{rectangle.left() - halfThickness, rectangle.bottom() - halfThickness, 0.0F},
@@ -414,7 +414,7 @@ namespace ouzel
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
-            auto startVertex = static_cast<uint16_t>(vertices.size());
+            const auto startVertex = static_cast<uint16_t>(vertices.size());
 
             if (fill)
             {
@@ -486,7 +486,7 @@ namespace ouzel
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
-            auto startVertex = static_cast<uint16_t>(vertices.size());
+            const auto startVertex = static_cast<uint16_t>(vertices.size());
 
             if (thickness == 0.0F)
             {

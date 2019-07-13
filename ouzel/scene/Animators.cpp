@@ -412,7 +412,7 @@ namespace ouzel
 
             for (Animator* animator : animators)
             {
-                float animationLength = animator->getLength();
+                const float animationLength = animator->getLength();
 
                 if (animationLength <= 0.0F || currentTime > animationLength)
                     animator->setProgress(1.0F);
@@ -447,7 +447,7 @@ namespace ouzel
                     done = false;
                     running = true;
 
-                    float remainingTime = currentTime - animators.front()->getLength() * static_cast<float>(currentCount);
+                    const float remainingTime = currentTime - animators.front()->getLength() * static_cast<float>(currentCount);
                     animators.front()->setProgress(remainingTime / animators.front()->getLength());
 
                     auto resetEvent = std::make_unique<AnimationEvent>();
@@ -610,11 +610,11 @@ namespace ouzel
 
             if (targetActor)
             {
-                float x = length * progress * timeScale;
+                const float x = length * progress * timeScale;
 
-                auto x1 = static_cast<uint64_t>(x);
-                auto x2 = x1 + 1;
-                auto t = x - static_cast<float>(x1);
+                const auto x1 = static_cast<uint64_t>(x);
+                const auto x2 = x1 + 1;
+                const auto t = x - static_cast<float>(x1);
 
                 Vector3F previousPosition;
                 Vector3F nextPosition;
@@ -633,7 +633,7 @@ namespace ouzel
                     nextPosition.v[2] = (2.0F * (static_cast<float>(fnvHash(seedZ | (x2 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0F) * distance.v[2];
                 }
 
-                Vector3F noise(smoothStep(previousPosition.v[0], nextPosition.v[0], t),
+                const Vector3F noise(smoothStep(previousPosition.v[0], nextPosition.v[0], t),
                                      smoothStep(previousPosition.v[1], nextPosition.v[1], t),
                                      smoothStep(previousPosition.v[2], nextPosition.v[2], t));
 

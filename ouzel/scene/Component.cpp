@@ -78,7 +78,7 @@ namespace ouzel
 
         bool Component::shapeOverlaps(const std::vector<Vector2F>& edges) const
         {
-            std::vector<Vector2F> boundingBoxEdges = {
+            const std::vector<Vector2F> boundingBoxEdges = {
                 Vector2F(boundingBox.min),
                 Vector2F(boundingBox.max.v[0], boundingBox.min.v[1]),
                 Vector2F(boundingBox.max),

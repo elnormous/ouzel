@@ -135,7 +135,7 @@ namespace ouzel
         {
             for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                Layer* layer = *i;
+                const Layer* layer = *i;
                 std::pair<Actor*, Vector3F> result = layer->pickActor(position, renderTargets);
 
                 if (result.first) return result;
