@@ -104,32 +104,32 @@ namespace ouzel
 
                         switch (gamepadConfig.axisMap[index])
                         {
-                            case Gamepad::Axis::NONE:
+                            case Gamepad::Axis::Unknown:
                                 break;
-                            case Gamepad::Axis::LEFT_THUMB_X:
-                                axis.negativeButton = Gamepad::Button::LEFT_THUMB_LEFT;
-                                axis.positiveButton = Gamepad::Button::LEFT_THUMB_RIGHT;
+                            case Gamepad::Axis::LeftThumbX:
+                                axis.negativeButton = Gamepad::Button::LeftThumbLeft;
+                                axis.positiveButton = Gamepad::Button::LeftThumbRight;
                                 break;
-                            case Gamepad::Axis::LEFT_THUMB_Y:
-                                axis.negativeButton = Gamepad::Button::LEFT_THUMB_UP;
-                                axis.positiveButton = Gamepad::Button::LEFT_THUMB_DOWN;
+                            case Gamepad::Axis::LeftThumbY:
+                                axis.negativeButton = Gamepad::Button::LeftThumbUp;
+                                axis.positiveButton = Gamepad::Button::LeftThumbDown;
                                 break;
-                            case Gamepad::Axis::RIGHT_THUMB_X:
-                                axis.negativeButton = Gamepad::Button::RIGHT_THUMB_LEFT;
-                                axis.positiveButton = Gamepad::Button::RIGHT_THUMB_RIGHT;
+                            case Gamepad::Axis::RightThumbX:
+                                axis.negativeButton = Gamepad::Button::RightThumbLeft;
+                                axis.positiveButton = Gamepad::Button::RightThumbRight;
                                 break;
-                            case Gamepad::Axis::RIGHT_THUMB_Y:
-                                axis.negativeButton = Gamepad::Button::RIGHT_THUMB_UP;
-                                axis.positiveButton = Gamepad::Button::RIGHT_THUMB_DOWN;
+                            case Gamepad::Axis::RightThumbY:
+                                axis.negativeButton = Gamepad::Button::RightThumbUp;
+                                axis.positiveButton = Gamepad::Button::RightThumbDown;
                                 break;
-                            case Gamepad::Axis::LEFT_TRIGGER:
-                                axis.negativeButton = Gamepad::Button::LEFT_TRIGGER;
-                                axis.positiveButton = Gamepad::Button::LEFT_TRIGGER;
+                            case Gamepad::Axis::LeftTrigger:
+                                axis.negativeButton = Gamepad::Button::LeftTrigger;
+                                axis.positiveButton = Gamepad::Button::LeftTrigger;
                                 hasLeftTrigger = true;
                                 break;
-                            case Gamepad::Axis::RIGHT_TRIGGER:
-                                axis.negativeButton = Gamepad::Button::RIGHT_TRIGGER;
-                                axis.positiveButton = Gamepad::Button::RIGHT_TRIGGER;
+                            case Gamepad::Axis::RightTrigger:
+                                axis.negativeButton = Gamepad::Button::RightTrigger;
+                                axis.positiveButton = Gamepad::Button::RightTrigger;
                                 hasRightTrigger = true;
                                 break;
                         }
@@ -159,19 +159,19 @@ namespace ouzel
                 (1 << (newValue / 2 + newValue % 2)) % 4; // second bit
 
                 if ((oldBitmask & 0x01) != (newBitmask & 0x01))
-                    handleButtonValueChange(Gamepad::Button::DPAD_UP,
+                    handleButtonValueChange(Gamepad::Button::DpadUp,
                                             (newBitmask & 0x01) > 0,
                                             (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
                 if ((oldBitmask & 0x02) != (newBitmask & 0x02))
-                    handleButtonValueChange(Gamepad::Button::DPAD_RIGHT,
+                    handleButtonValueChange(Gamepad::Button::DpadRight,
                                             (newBitmask & 0x02) > 0,
                                             (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
                 if ((oldBitmask & 0x04) != (newBitmask & 0x04))
-                    handleButtonValueChange(Gamepad::Button::DPAD_DOWN,
+                    handleButtonValueChange(Gamepad::Button::DpadDown,
                                             (newBitmask & 0x04) > 0,
                                             (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
                 if ((oldBitmask & 0x08) != (newBitmask & 0x08))
-                    handleButtonValueChange(Gamepad::Button::DPAD_LEFT,
+                    handleButtonValueChange(Gamepad::Button::DpadLeft,
                                             (newBitmask & 0x08) > 0,
                                             (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
 
@@ -184,8 +184,8 @@ namespace ouzel
             {
                 Button& button = buttonIterator->second;
 
-                if ((button.button != Gamepad::Button::LEFT_TRIGGER || !hasLeftTrigger) &&
-                    (button.button != Gamepad::Button::RIGHT_TRIGGER || !hasRightTrigger))
+                if ((button.button != Gamepad::Button::LeftTrigger || !hasLeftTrigger) &&
+                    (button.button != Gamepad::Button::RightTrigger || !hasRightTrigger))
                 {
                     handleButtonValueChange(button.button, newValue > 0, (newValue > 0) ? 1.0F : 0.0F);
                 }

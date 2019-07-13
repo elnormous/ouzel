@@ -95,13 +95,13 @@ namespace ouzel
     struct KeyboardEvent final: Event
     {
         input::Keyboard* keyboard = nullptr;
-        input::Keyboard::Key key = input::Keyboard::Key::NONE;
+        input::Keyboard::Key key = input::Keyboard::Key::Unknown;
     };
 
     struct MouseEvent final: Event
     {
         input::Mouse* mouse = nullptr;
-        input::Mouse::Button button = input::Mouse::Button::NONE;
+        input::Mouse::Button button = input::Mouse::Button::Unknown;
         Vector2F difference;
         Vector2F position;
         Vector2F scroll;
@@ -120,7 +120,7 @@ namespace ouzel
     struct GamepadEvent final: Event
     {
         input::Gamepad* gamepad = nullptr;
-        input::Gamepad::Button button = input::Gamepad::Button::NONE;
+        input::Gamepad::Button button = input::Gamepad::Button::Unknown;
         bool pressed = false;
         bool previousPressed = false;
         float value = 0.0F;

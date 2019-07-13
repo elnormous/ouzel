@@ -25,64 +25,64 @@ static ouzel::input::Keyboard::Key convertKeyCode(KeySym keyCode)
 {
     switch (keyCode)
     {
-        case XK_BackSpace: return ouzel::input::Keyboard::Key::BACKSPACE;
-        case XK_Tab: return ouzel::input::Keyboard::Key::TAB;
-        case XK_ISO_Left_Tab: return ouzel::input::Keyboard::Key::TAB;
-        case XK_Linefeed: return ouzel::input::Keyboard::Key::NONE; // ?
-        case XK_Clear: return ouzel::input::Keyboard::Key::CLEAR;
-        case XK_Return: return ouzel::input::Keyboard::Key::ENTER;
-        case XK_Pause: return ouzel::input::Keyboard::Key::PAUSE;
-        case XK_Scroll_Lock: return ouzel::input::Keyboard::Key::SCROLL_LOCK;
-        case XK_Sys_Req: return ouzel::input::Keyboard::Key::NONE; // ?
-        case XK_Escape: return ouzel::input::Keyboard::Key::ESCAPE;
-        case XK_Insert: return ouzel::input::Keyboard::Key::INSERT;
-        case XK_Delete: return ouzel::input::Keyboard::Key::DEL;
-        case XK_Home: return ouzel::input::Keyboard::Key::HOME;
-        case XK_Left: return ouzel::input::Keyboard::Key::LEFT;
-        case XK_Up: return ouzel::input::Keyboard::Key::UP;
-        case XK_Right: return ouzel::input::Keyboard::Key::RIGHT;
-        case XK_Down: return ouzel::input::Keyboard::Key::DOWN;
-        case XK_Prior: return ouzel::input::Keyboard::Key::PAGE_UP; // also XK_Page_Up
-        case XK_Next: return ouzel::input::Keyboard::Key::PAGE_DOWN; // also XK_Page_Down
-        case XK_End: return ouzel::input::Keyboard::Key::END;
-        case XK_Begin: return ouzel::input::Keyboard::Key::HOME;
-        case XK_Num_Lock: return ouzel::input::Keyboard::Key::NUM_LOCK;
-        case XK_KP_Space: return ouzel::input::Keyboard::Key::SPACE;
-        case XK_KP_Tab: return ouzel::input::Keyboard::Key::TAB;
-        case XK_KP_Enter: return ouzel::input::Keyboard::Key::NUMPAD_ENTER;
+        case XK_BackSpace: return ouzel::input::Keyboard::Key::Backspace;
+        case XK_Tab: return ouzel::input::Keyboard::Key::Tab;
+        case XK_ISO_Left_Tab: return ouzel::input::Keyboard::Key::Tab;
+        case XK_Linefeed: return ouzel::input::Keyboard::Key::Unknown; // ?
+        case XK_Clear: return ouzel::input::Keyboard::Key::Clear;
+        case XK_Return: return ouzel::input::Keyboard::Key::Enter;
+        case XK_Pause: return ouzel::input::Keyboard::Key::Pause;
+        case XK_Scroll_Lock: return ouzel::input::Keyboard::Key::ScrollLock;
+        case XK_Sys_Req: return ouzel::input::Keyboard::Key::Unknown; // ?
+        case XK_Escape: return ouzel::input::Keyboard::Key::Escape;
+        case XK_Insert: return ouzel::input::Keyboard::Key::Insert;
+        case XK_Delete: return ouzel::input::Keyboard::Key::Del;
+        case XK_Home: return ouzel::input::Keyboard::Key::Home;
+        case XK_Left: return ouzel::input::Keyboard::Key::Left;
+        case XK_Up: return ouzel::input::Keyboard::Key::Up;
+        case XK_Right: return ouzel::input::Keyboard::Key::Right;
+        case XK_Down: return ouzel::input::Keyboard::Key::Down;
+        case XK_Prior: return ouzel::input::Keyboard::Key::PageUp; // also XK_Page_Up
+        case XK_Next: return ouzel::input::Keyboard::Key::PageDown; // also XK_Page_Down
+        case XK_End: return ouzel::input::Keyboard::Key::End;
+        case XK_Begin: return ouzel::input::Keyboard::Key::Home;
+        case XK_Num_Lock: return ouzel::input::Keyboard::Key::NumLock;
+        case XK_KP_Space: return ouzel::input::Keyboard::Key::Space;
+        case XK_KP_Tab: return ouzel::input::Keyboard::Key::Tab;
+        case XK_KP_Enter: return ouzel::input::Keyboard::Key::NumpadEnter;
         case XK_KP_F1: return ouzel::input::Keyboard::Key::F1;
         case XK_KP_F2: return ouzel::input::Keyboard::Key::F2;
         case XK_KP_F3: return ouzel::input::Keyboard::Key::F3;
         case XK_KP_F4: return ouzel::input::Keyboard::Key::F4;
-        case XK_KP_Home: return ouzel::input::Keyboard::Key::NUMPAD_7;
-        case XK_KP_Left: return ouzel::input::Keyboard::Key::NUMPAD_4;
-        case XK_KP_Up: return ouzel::input::Keyboard::Key::NUMPAD_8;
-        case XK_KP_Right: return ouzel::input::Keyboard::Key::NUMPAD_6;
-        case XK_KP_Down: return ouzel::input::Keyboard::Key::NUMPAD_2;
-        case XK_Print: return ouzel::input::Keyboard::Key::PRINT_SCREEN;
-        case XK_KP_Prior: return ouzel::input::Keyboard::Key::NUMPAD_9; // also XK_KP_Page_Up
-        case XK_KP_Next: return ouzel::input::Keyboard::Key::NUMPAD_3; // also XK_KP_Page_Down
-        case XK_KP_End: return ouzel::input::Keyboard::Key::NUMPAD_1;
-        case XK_KP_Begin: return ouzel::input::Keyboard::Key::NUMPAD_5;
-        case XK_KP_Insert: return ouzel::input::Keyboard::Key::NUMPAD_0;
-        case XK_KP_Delete: return ouzel::input::Keyboard::Key::NUMPAD_DECIMAL;
-        case XK_KP_Equal: return ouzel::input::Keyboard::Key::NUMPAD_EQUAL;
-        case XK_KP_Multiply: return ouzel::input::Keyboard::Key::NUMPAD_MULTIPLY;
-        case XK_KP_Add: return ouzel::input::Keyboard::Key::NUMPAD_PLUS;
-        case XK_KP_Separator: return ouzel::input::Keyboard::Key::NUMPAD_SEPARATOR;
-        case XK_KP_Subtract: return ouzel::input::Keyboard::Key::NUMPAD_MINUS;
-        case XK_KP_Decimal: return ouzel::input::Keyboard::Key::NUMPAD_DECIMAL;
-        case XK_KP_Divide: return ouzel::input::Keyboard::Key::NUMPAD_DIVIDE;
-        case XK_KP_0: return ouzel::input::Keyboard::Key::NUMPAD_0;
-        case XK_KP_1: return ouzel::input::Keyboard::Key::NUMPAD_1;
-        case XK_KP_2: return ouzel::input::Keyboard::Key::NUMPAD_2;
-        case XK_KP_3: return ouzel::input::Keyboard::Key::NUMPAD_3;
-        case XK_KP_4: return ouzel::input::Keyboard::Key::NUMPAD_4;
-        case XK_KP_5: return ouzel::input::Keyboard::Key::NUMPAD_5;
-        case XK_KP_6: return ouzel::input::Keyboard::Key::NUMPAD_6;
-        case XK_KP_7: return ouzel::input::Keyboard::Key::NUMPAD_7;
-        case XK_KP_8: return ouzel::input::Keyboard::Key::NUMPAD_8;
-        case XK_KP_9: return ouzel::input::Keyboard::Key::NUMPAD_9;
+        case XK_KP_Home: return ouzel::input::Keyboard::Key::Numpad7;
+        case XK_KP_Left: return ouzel::input::Keyboard::Key::Numpad4;
+        case XK_KP_Up: return ouzel::input::Keyboard::Key::Numpad8;
+        case XK_KP_Right: return ouzel::input::Keyboard::Key::Numpad6;
+        case XK_KP_Down: return ouzel::input::Keyboard::Key::Numpad2;
+        case XK_Print: return ouzel::input::Keyboard::Key::PrintScreen;
+        case XK_KP_Prior: return ouzel::input::Keyboard::Key::Numpad9; // also XK_KP_Page_Up
+        case XK_KP_Next: return ouzel::input::Keyboard::Key::Numpad3; // also XK_KP_Page_Down
+        case XK_KP_End: return ouzel::input::Keyboard::Key::Numpad1;
+        case XK_KP_Begin: return ouzel::input::Keyboard::Key::Numpad5;
+        case XK_KP_Insert: return ouzel::input::Keyboard::Key::Numpad0;
+        case XK_KP_Delete: return ouzel::input::Keyboard::Key::NumpadDecimal;
+        case XK_KP_Equal: return ouzel::input::Keyboard::Key::NumpadEqual;
+        case XK_KP_Multiply: return ouzel::input::Keyboard::Key::NumpadMultiply;
+        case XK_KP_Add: return ouzel::input::Keyboard::Key::NumpadPlus;
+        case XK_KP_Separator: return ouzel::input::Keyboard::Key::NumpadSeparator;
+        case XK_KP_Subtract: return ouzel::input::Keyboard::Key::NumpadMinus;
+        case XK_KP_Decimal: return ouzel::input::Keyboard::Key::NumpadDecimal;
+        case XK_KP_Divide: return ouzel::input::Keyboard::Key::NumpadDivide;
+        case XK_KP_0: return ouzel::input::Keyboard::Key::Numpad0;
+        case XK_KP_1: return ouzel::input::Keyboard::Key::Numpad1;
+        case XK_KP_2: return ouzel::input::Keyboard::Key::Numpad2;
+        case XK_KP_3: return ouzel::input::Keyboard::Key::Numpad3;
+        case XK_KP_4: return ouzel::input::Keyboard::Key::Numpad4;
+        case XK_KP_5: return ouzel::input::Keyboard::Key::Numpad5;
+        case XK_KP_6: return ouzel::input::Keyboard::Key::Numpad6;
+        case XK_KP_7: return ouzel::input::Keyboard::Key::Numpad7;
+        case XK_KP_8: return ouzel::input::Keyboard::Key::Numpad8;
+        case XK_KP_9: return ouzel::input::Keyboard::Key::Numpad9;
         case XK_F1: return ouzel::input::Keyboard::Key::F1;
         case XK_F2: return ouzel::input::Keyboard::Key::F2;
         case XK_F3: return ouzel::input::Keyboard::Key::F3;
@@ -95,56 +95,56 @@ static ouzel::input::Keyboard::Key convertKeyCode(KeySym keyCode)
         case XK_F10: return ouzel::input::Keyboard::Key::F10;
         case XK_F11: return ouzel::input::Keyboard::Key::F11;
         case XK_F12: return ouzel::input::Keyboard::Key::F12;
-        case XK_Shift_L: return ouzel::input::Keyboard::Key::LEFT_SHIFT;
-        case XK_Shift_R: return ouzel::input::Keyboard::Key::RIGHT_SHIFT;
-        case XK_Control_L: return ouzel::input::Keyboard::Key::LEFT_CONTROL;
-        case XK_Control_R: return ouzel::input::Keyboard::Key::RIGHT_CONTROL;
-        case XK_Caps_Lock: return ouzel::input::Keyboard::Key::CAPS_LOCK;
-        case XK_Shift_Lock: return ouzel::input::Keyboard::Key::CAPS_LOCK;
-        case XK_Meta_L: return ouzel::input::Keyboard::Key::LEFT_SUPER;
-        case XK_Meta_R: return ouzel::input::Keyboard::Key::RIGHT_SUPER;
-        case XK_Hyper_L: return ouzel::input::Keyboard::Key::LEFT_SUPER;
-        case XK_Hyper_R: return ouzel::input::Keyboard::Key::RIGHT_SUPER;
-        case XK_Alt_L: return ouzel::input::Keyboard::Key::LEFT_ALT;
-        case XK_Alt_R: return ouzel::input::Keyboard::Key::RIGHT_ALT;
-        case XK_ISO_Level3_Shift: return ouzel::input::Keyboard::Key::RIGHT_ALT;
-        case XK_Menu: return ouzel::input::Keyboard::Key::MENU;
-        case XK_space: return ouzel::input::Keyboard::Key::SPACE;
-        case XK_exclam: return ouzel::input::Keyboard::Key::NUM_1;
-        case XK_quotedbl: return ouzel::input::Keyboard::Key::NUM_2;
-        case XK_section: return ouzel::input::Keyboard::Key::NONE; // ?
-        case XK_numbersign: return ouzel::input::Keyboard::Key::SLASH;
-        case XK_dollar: return ouzel::input::Keyboard::Key::NUM_4;
-        case XK_percent: return ouzel::input::Keyboard::Key::NUM_5;
-        case XK_ampersand: return ouzel::input::Keyboard::Key::NUM_7;
-        case XK_apostrophe: return ouzel::input::Keyboard::Key::QUOTE;
-        case XK_parenleft: return ouzel::input::Keyboard::Key::NUM_9;
-        case XK_parenright: return ouzel::input::Keyboard::Key::NUM_0;
-        case XK_asterisk: return ouzel::input::Keyboard::Key::NUM_8;
-        case XK_plus: return ouzel::input::Keyboard::Key::PLUS;
-        case XK_comma: return ouzel::input::Keyboard::Key::COMMA;
-        case XK_minus: return ouzel::input::Keyboard::Key::MINUS;
-        case XK_period: return ouzel::input::Keyboard::Key::PERIOD;
-        case XK_slash: return ouzel::input::Keyboard::Key::SLASH;
-        case XK_0: return ouzel::input::Keyboard::Key::NUM_0;
-        case XK_1: return ouzel::input::Keyboard::Key::NUM_1;
-        case XK_2: return ouzel::input::Keyboard::Key::NUM_2;
-        case XK_3: return ouzel::input::Keyboard::Key::NUM_3;
-        case XK_4: return ouzel::input::Keyboard::Key::NUM_4;
-        case XK_5: return ouzel::input::Keyboard::Key::NUM_5;
-        case XK_6: return ouzel::input::Keyboard::Key::NUM_6;
-        case XK_7: return ouzel::input::Keyboard::Key::NUM_7;
-        case XK_8: return ouzel::input::Keyboard::Key::NUM_8;
-        case XK_9: return ouzel::input::Keyboard::Key::NUM_9;
-        case XK_colon: return ouzel::input::Keyboard::Key::SEMICOLON;
-        case XK_semicolon: return ouzel::input::Keyboard::Key::SEMICOLON;
-        case XK_less: return ouzel::input::Keyboard::Key::COMMA;
-        case XK_equal: return ouzel::input::Keyboard::Key::EQUAL;
-        case XK_greater: return ouzel::input::Keyboard::Key::PERIOD;
-        case XK_question: return ouzel::input::Keyboard::Key::SLASH;
-        case XK_at: return ouzel::input::Keyboard::Key::NUM_2; // ?
-        case XK_mu: return ouzel::input::Keyboard::Key::NONE; // ?
-        case XK_EuroSign: return ouzel::input::Keyboard::Key::NONE; // ?
+        case XK_Shift_L: return ouzel::input::Keyboard::Key::LeftShift;
+        case XK_Shift_R: return ouzel::input::Keyboard::Key::RightShift;
+        case XK_Control_L: return ouzel::input::Keyboard::Key::LeftControl;
+        case XK_Control_R: return ouzel::input::Keyboard::Key::RightControl;
+        case XK_Caps_Lock: return ouzel::input::Keyboard::Key::CapsLock;
+        case XK_Shift_Lock: return ouzel::input::Keyboard::Key::CapsLock;
+        case XK_Meta_L: return ouzel::input::Keyboard::Key::LeftSuper;
+        case XK_Meta_R: return ouzel::input::Keyboard::Key::RightSuper;
+        case XK_Hyper_L: return ouzel::input::Keyboard::Key::LeftSuper;
+        case XK_Hyper_R: return ouzel::input::Keyboard::Key::RightSuper;
+        case XK_Alt_L: return ouzel::input::Keyboard::Key::LeftAlt;
+        case XK_Alt_R: return ouzel::input::Keyboard::Key::RightAlt;
+        case XK_ISO_Level3_Shift: return ouzel::input::Keyboard::Key::RightAlt;
+        case XK_Menu: return ouzel::input::Keyboard::Key::Menu;
+        case XK_space: return ouzel::input::Keyboard::Key::Space;
+        case XK_exclam: return ouzel::input::Keyboard::Key::Num1;
+        case XK_quotedbl: return ouzel::input::Keyboard::Key::Num2;
+        case XK_section: return ouzel::input::Keyboard::Key::Unknown; // ?
+        case XK_numbersign: return ouzel::input::Keyboard::Key::Slash;
+        case XK_dollar: return ouzel::input::Keyboard::Key::Num4;
+        case XK_percent: return ouzel::input::Keyboard::Key::Num5;
+        case XK_ampersand: return ouzel::input::Keyboard::Key::Num7;
+        case XK_apostrophe: return ouzel::input::Keyboard::Key::Quote;
+        case XK_parenleft: return ouzel::input::Keyboard::Key::Num9;
+        case XK_parenright: return ouzel::input::Keyboard::Key::Num0;
+        case XK_asterisk: return ouzel::input::Keyboard::Key::Num8;
+        case XK_plus: return ouzel::input::Keyboard::Key::Plus;
+        case XK_comma: return ouzel::input::Keyboard::Key::Comma;
+        case XK_minus: return ouzel::input::Keyboard::Key::Minus;
+        case XK_period: return ouzel::input::Keyboard::Key::Period;
+        case XK_slash: return ouzel::input::Keyboard::Key::Slash;
+        case XK_0: return ouzel::input::Keyboard::Key::Num0;
+        case XK_1: return ouzel::input::Keyboard::Key::Num1;
+        case XK_2: return ouzel::input::Keyboard::Key::Num2;
+        case XK_3: return ouzel::input::Keyboard::Key::Num3;
+        case XK_4: return ouzel::input::Keyboard::Key::Num4;
+        case XK_5: return ouzel::input::Keyboard::Key::Num5;
+        case XK_6: return ouzel::input::Keyboard::Key::Num6;
+        case XK_7: return ouzel::input::Keyboard::Key::Num7;
+        case XK_8: return ouzel::input::Keyboard::Key::Num8;
+        case XK_9: return ouzel::input::Keyboard::Key::Num9;
+        case XK_colon: return ouzel::input::Keyboard::Key::Semicolon;
+        case XK_semicolon: return ouzel::input::Keyboard::Key::Semicolon;
+        case XK_less: return ouzel::input::Keyboard::Key::Comma;
+        case XK_equal: return ouzel::input::Keyboard::Key::Equal;
+        case XK_greater: return ouzel::input::Keyboard::Key::Period;
+        case XK_question: return ouzel::input::Keyboard::Key::Slash;
+        case XK_at: return ouzel::input::Keyboard::Key::Num2; // ?
+        case XK_mu: return ouzel::input::Keyboard::Key::Unknown; // ?
+        case XK_EuroSign: return ouzel::input::Keyboard::Key::Unknown; // ?
         case XK_A: return ouzel::input::Keyboard::Key::A;
         case XK_B: return ouzel::input::Keyboard::Key::B;
         case XK_C: return ouzel::input::Keyboard::Key::C;
@@ -171,17 +171,17 @@ static ouzel::input::Keyboard::Key convertKeyCode(KeySym keyCode)
         case XK_X: return ouzel::input::Keyboard::Key::X;
         case XK_Y: return ouzel::input::Keyboard::Key::Y;
         case XK_Z: return ouzel::input::Keyboard::Key::Z;
-        case XK_bracketleft: return ouzel::input::Keyboard::Key::LEFT_BRACKET;
-        case XK_backslash: return ouzel::input::Keyboard::Key::BACKSLASH;
-        case XK_bracketright: return ouzel::input::Keyboard::Key::RIGHT_BRACKET;
-        case XK_asciicircum: return ouzel::input::Keyboard::Key::BACKSLASH;
-        case XK_dead_circumflex: return ouzel::input::Keyboard::Key::BACKSLASH;
-        case XK_degree: return ouzel::input::Keyboard::Key::NONE; // ?
-        case XK_underscore: return ouzel::input::Keyboard::Key::MINUS;
-        case XK_grave: return ouzel::input::Keyboard::Key::GRAVE;
-        case XK_dead_grave: return ouzel::input::Keyboard::Key::GRAVE;
-        case XK_acute: return ouzel::input::Keyboard::Key::RIGHT_BRACKET;
-        case XK_dead_acute: return ouzel::input::Keyboard::Key::RIGHT_BRACKET;
+        case XK_bracketleft: return ouzel::input::Keyboard::Key::LeftBracket;
+        case XK_backslash: return ouzel::input::Keyboard::Key::Backslash;
+        case XK_bracketright: return ouzel::input::Keyboard::Key::RightBracket;
+        case XK_asciicircum: return ouzel::input::Keyboard::Key::Backslash;
+        case XK_dead_circumflex: return ouzel::input::Keyboard::Key::Backslash;
+        case XK_degree: return ouzel::input::Keyboard::Key::Unknown; // ?
+        case XK_underscore: return ouzel::input::Keyboard::Key::Minus;
+        case XK_grave: return ouzel::input::Keyboard::Key::Grave;
+        case XK_dead_grave: return ouzel::input::Keyboard::Key::Grave;
+        case XK_acute: return ouzel::input::Keyboard::Key::RightBracket;
+        case XK_dead_acute: return ouzel::input::Keyboard::Key::RightBracket;
         case XK_a: return ouzel::input::Keyboard::Key::A;
         case XK_b: return ouzel::input::Keyboard::Key::B;
         case XK_c: return ouzel::input::Keyboard::Key::C;
@@ -208,23 +208,23 @@ static ouzel::input::Keyboard::Key convertKeyCode(KeySym keyCode)
         case XK_x: return ouzel::input::Keyboard::Key::X;
         case XK_y: return ouzel::input::Keyboard::Key::Y;
         case XK_z: return ouzel::input::Keyboard::Key::Z;
-        case XK_ssharp: return ouzel::input::Keyboard::Key::LEFT_BRACKET;
-        case XK_adiaeresis: return ouzel::input::Keyboard::Key::QUOTE;
-        case XK_odiaeresis: return ouzel::input::Keyboard::Key::GRAVE;
-        case XK_udiaeresis: return ouzel::input::Keyboard::Key::SEMICOLON;
-        case XK_Super_L: return ouzel::input::Keyboard::Key::LEFT_SUPER;
-        case XK_Super_R: return ouzel::input::Keyboard::Key::RIGHT_SUPER;
-        case XK_Mode_switch: return ouzel::input::Keyboard::Key::MODE_CHANGE;
-        case XK_Help: return ouzel::input::Keyboard::Key::HELP;
-        case XK_yen: return ouzel::input::Keyboard::Key::YEN;
-        case XK_Kanji: return ouzel::input::Keyboard::Key::KANJI;
-        case XK_Muhenkan: return ouzel::input::Keyboard::Key::MUHENKAN;
-        case XK_Henkan: return ouzel::input::Keyboard::Key::HENKAN;
-        case XK_Romaji: return ouzel::input::Keyboard::Key::RO;
-        case XK_Hiragana: return ouzel::input::Keyboard::Key::HIRAGANA;
-        case XK_Katakana: return ouzel::input::Keyboard::Key::KATAKANA;
-        case XK_Hiragana_Katakana: return ouzel::input::Keyboard::Key::KATAKANA_HIRAGANA;
-        default: return ouzel::input::Keyboard::Key::NONE;
+        case XK_ssharp: return ouzel::input::Keyboard::Key::LeftBracket;
+        case XK_adiaeresis: return ouzel::input::Keyboard::Key::Quote;
+        case XK_odiaeresis: return ouzel::input::Keyboard::Key::Grave;
+        case XK_udiaeresis: return ouzel::input::Keyboard::Key::Semicolon;
+        case XK_Super_L: return ouzel::input::Keyboard::Key::LeftSuper;
+        case XK_Super_R: return ouzel::input::Keyboard::Key::RightSuper;
+        case XK_Mode_switch: return ouzel::input::Keyboard::Key::ModeChange;
+        case XK_Help: return ouzel::input::Keyboard::Key::Help;
+        case XK_yen: return ouzel::input::Keyboard::Key::Yen;
+        case XK_Kanji: return ouzel::input::Keyboard::Key::Kanji;
+        case XK_Muhenkan: return ouzel::input::Keyboard::Key::Muhenkan;
+        case XK_Henkan: return ouzel::input::Keyboard::Key::Henkan;
+        case XK_Romaji: return ouzel::input::Keyboard::Key::Ro;
+        case XK_Hiragana: return ouzel::input::Keyboard::Key::Hiragana;
+        case XK_Katakana: return ouzel::input::Keyboard::Key::Katakana;
+        case XK_Hiragana_Katakana: return ouzel::input::Keyboard::Key::KatakanaHiragana;
+        default: return ouzel::input::Keyboard::Key::Unknown;
     }
 }
 
@@ -232,12 +232,12 @@ static ouzel::input::Mouse::Button convertButtonCode(unsigned int buttonCode)
 {
     switch (buttonCode)
     {
-        case Button1: return ouzel::input::Mouse::Button::LEFT;
-        case Button2: return ouzel::input::Mouse::Button::MIDDLE;
-        case Button3: return ouzel::input::Mouse::Button::RIGHT;
+        case Button1: return ouzel::input::Mouse::Button::Left;
+        case Button2: return ouzel::input::Mouse::Button::Middle;
+        case Button3: return ouzel::input::Mouse::Button::Right;
         case 8: return ouzel::input::Mouse::Button::X1;
         case 9: return ouzel::input::Mouse::Button::X2;
-        default: return ouzel::input::Mouse::Button::NONE;
+        default: return ouzel::input::Mouse::Button::Unknown;
     }
 }
 #endif

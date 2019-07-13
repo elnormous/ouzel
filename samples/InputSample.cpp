@@ -74,27 +74,27 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
 
         switch (event.key)
         {
-            case Keyboard::Key::UP:
+            case Keyboard::Key::Up:
                 flamePosition.y() += 0.01F;
                 break;
-            case Keyboard::Key::DOWN:
+            case Keyboard::Key::Down:
                 flamePosition.y() -= 0.01F;
                 break;
-            case Keyboard::Key::LEFT:
+            case Keyboard::Key::Left:
                 flamePosition.x() -= 0.01F;
                 break;
-            case Keyboard::Key::RIGHT:
+            case Keyboard::Key::Right:
                 flamePosition.x() += 0.01F;
                 break;
             case Keyboard::Key::R:
                 engine->getWindow()->setSize(Size2U(640, 480));
                 break;
-            case Keyboard::Key::TAB:
+            case Keyboard::Key::Tab:
                 hideButton.setEnabled(!hideButton.isEnabled());
                 break;
-            case Keyboard::Key::ESCAPE:
-            case Keyboard::Key::MENU:
-            case Keyboard::Key::BACK:
+            case Keyboard::Key::Escape:
+            case Keyboard::Key::Menu:
+            case Keyboard::Key::Back:
                 if (Mouse* mouse = engine->getInputManager()->getMouse())
                     mouse->setCursorVisible(true);
                 engine->getSceneManager().setScene(std::make_unique<MainMenu>());
@@ -111,9 +111,9 @@ bool InputSample::handleKeyboard(const KeyboardEvent& event)
     {
         switch (event.key)
         {
-            case Keyboard::Key::ESCAPE:
-            case Keyboard::Key::MENU:
-            case Keyboard::Key::BACK:
+            case Keyboard::Key::Escape:
+            case Keyboard::Key::Menu:
+            case Keyboard::Key::Back:
                 return true;
             default:
                 break;
@@ -159,27 +159,27 @@ bool InputSample::handleGamepad(const GamepadEvent& event)
 
         switch (event.button)
         {
-            case Gamepad::Button::FACE_RIGHT:
+            case Gamepad::Button::FaceRight:
                 if (event.pressed) engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                 return false;
-            case Gamepad::Button::DPAD_UP:
-            case Gamepad::Button::LEFT_THUMB_UP:
-            case Gamepad::Button::RIGHT_THUMB_UP:
+            case Gamepad::Button::DpadUp:
+            case Gamepad::Button::LeftThumbUp:
+            case Gamepad::Button::RightThumbUp:
                 flamePosition.y() = event.value / 2.0F + 0.5F;
                 break;
-            case Gamepad::Button::DPAD_DOWN:
-            case Gamepad::Button::LEFT_THUMB_DOWN:
-            case Gamepad::Button::RIGHT_THUMB_DOWN:
+            case Gamepad::Button::DpadDown:
+            case Gamepad::Button::LeftThumbDown:
+            case Gamepad::Button::RightThumbDown:
                 flamePosition.y() = -event.value / 2.0F + 0.5F;
                 break;
-            case Gamepad::Button::DPAD_LEFT:
-            case Gamepad::Button::LEFT_THUMB_LEFT:
-            case Gamepad::Button::RIGHT_THUMB_LEFT:
+            case Gamepad::Button::DpadLeft:
+            case Gamepad::Button::LeftThumbLeft:
+            case Gamepad::Button::RightThumbLeft:
                 flamePosition.x() = -event.value / 2.0F + 0.5F;
                 break;
-            case Gamepad::Button::DPAD_RIGHT:
-            case Gamepad::Button::LEFT_THUMB_RIGHT:
-            case Gamepad::Button::RIGHT_THUMB_RIGHT:
+            case Gamepad::Button::DpadRight:
+            case Gamepad::Button::LeftThumbRight:
+            case Gamepad::Button::RightThumbRight:
                 flamePosition.x() = event.value / 2.0F + 0.5F;
                 break;
             default:

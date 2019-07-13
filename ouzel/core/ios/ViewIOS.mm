@@ -85,14 +85,14 @@ static ouzel::input::Keyboard::Key convertKeyCode(NSInteger keyCode)
 {
     switch (keyCode)
     {
-        case UIPressTypeUpArrow: return ouzel::input::Keyboard::Key::UP;
-        case UIPressTypeDownArrow: return ouzel::input::Keyboard::Key::DOWN;
-        case UIPressTypeLeftArrow: return ouzel::input::Keyboard::Key::LEFT;
-        case UIPressTypeRightArrow: return ouzel::input::Keyboard::Key::RIGHT;
-        case UIPressTypeSelect: return ouzel::input::Keyboard::Key::SELECT;
-        case UIPressTypeMenu: return ouzel::input::Keyboard::Key::MENU;
-        case UIPressTypePlayPause: return ouzel::input::Keyboard::Key::PAUSE;
-        default: return ouzel::input::Keyboard::Key::NONE;
+        case UIPressTypeUpArrow: return ouzel::input::Keyboard::Key::Up;
+        case UIPressTypeDownArrow: return ouzel::input::Keyboard::Key::Down;
+        case UIPressTypeLeftArrow: return ouzel::input::Keyboard::Key::Left;
+        case UIPressTypeRightArrow: return ouzel::input::Keyboard::Key::Right;
+        case UIPressTypeSelect: return ouzel::input::Keyboard::Key::Select;
+        case UIPressTypeMenu: return ouzel::input::Keyboard::Key::Menu;
+        case UIPressTypePlayPause: return ouzel::input::Keyboard::Key::Pause;
+        default: return ouzel::input::Keyboard::Key::Unknown;
     }
 }
 

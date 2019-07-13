@@ -58,10 +58,10 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 {
     switch (keyCode)
     {
-        case kVK_UpArrow: return ouzel::input::Keyboard::Key::UP;
-        case kVK_DownArrow: return ouzel::input::Keyboard::Key::DOWN;
-        case kVK_LeftArrow: return ouzel::input::Keyboard::Key::LEFT;
-        case kVK_RightArrow: return ouzel::input::Keyboard::Key::RIGHT;
+        case kVK_UpArrow: return ouzel::input::Keyboard::Key::Up;
+        case kVK_DownArrow: return ouzel::input::Keyboard::Key::Down;
+        case kVK_LeftArrow: return ouzel::input::Keyboard::Key::Left;
+        case kVK_RightArrow: return ouzel::input::Keyboard::Key::Right;
         case kVK_F1: return ouzel::input::Keyboard::Key::F1;
         case kVK_F2: return ouzel::input::Keyboard::Key::F2;
         case kVK_F3: return ouzel::input::Keyboard::Key::F3;
@@ -82,30 +82,30 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
         case kVK_F18: return ouzel::input::Keyboard::Key::F18;
         case kVK_F19: return ouzel::input::Keyboard::Key::F19;
         case kVK_F20: return ouzel::input::Keyboard::Key::F20;
-        case kVK_Home: return ouzel::input::Keyboard::Key::HOME;
-        case kVK_End: return ouzel::input::Keyboard::Key::END;
-        case NSInsertFunctionKey: return ouzel::input::Keyboard::Key::INSERT;
-        case kVK_ForwardDelete: return ouzel::input::Keyboard::Key::DEL;
-        case kVK_Help: return ouzel::input::Keyboard::Key::HELP;
-        case NSSelectFunctionKey: return ouzel::input::Keyboard::Key::SELECT;
-        case NSPrintFunctionKey: return ouzel::input::Keyboard::Key::PRINT;
-        case NSExecuteFunctionKey: return ouzel::input::Keyboard::Key::EXECUTE;
-        case NSPrintScreenFunctionKey: return ouzel::input::Keyboard::Key::PRINT_SCREEN;
-        case NSPauseFunctionKey: return ouzel::input::Keyboard::Key::PAUSE;
-        case NSScrollLockFunctionKey: return ouzel::input::Keyboard::Key::SCROLL_LOCK;
-        case kVK_Delete: return ouzel::input::Keyboard::Key::BACKSPACE;
-        case kVK_Tab: return ouzel::input::Keyboard::Key::TAB;
-        case kVK_Return: return ouzel::input::Keyboard::Key::ENTER;
-        case kVK_Escape: return ouzel::input::Keyboard::Key::ESCAPE;
-        case kVK_Control: return ouzel::input::Keyboard::Key::LEFT_CONTROL;
-        case kVK_RightControl: return ouzel::input::Keyboard::Key::RIGHT_CONTROL;
-        case kVK_Command: return ouzel::input::Keyboard::Key::LEFT_SUPER;
-        case kVK_RightCommand: return ouzel::input::Keyboard::Key::RIGHT_SUPER;
-        case kVK_Shift: return ouzel::input::Keyboard::Key::LEFT_SHIFT;
-        case kVK_RightShift: return ouzel::input::Keyboard::Key::RIGHT_SHIFT;
-        case kVK_Option: return ouzel::input::Keyboard::Key::LEFT_ALT;
-        case kVK_RightOption: return ouzel::input::Keyboard::Key::RIGHT_ALT;
-        case kVK_Space: return ouzel::input::Keyboard::Key::SPACE;
+        case kVK_Home: return ouzel::input::Keyboard::Key::Home;
+        case kVK_End: return ouzel::input::Keyboard::Key::End;
+        case NSInsertFunctionKey: return ouzel::input::Keyboard::Key::Insert;
+        case kVK_ForwardDelete: return ouzel::input::Keyboard::Key::Del;
+        case kVK_Help: return ouzel::input::Keyboard::Key::Help;
+        case NSSelectFunctionKey: return ouzel::input::Keyboard::Key::Select;
+        case NSPrintFunctionKey: return ouzel::input::Keyboard::Key::Print;
+        case NSExecuteFunctionKey: return ouzel::input::Keyboard::Key::Execute;
+        case NSPrintScreenFunctionKey: return ouzel::input::Keyboard::Key::PrintScreen;
+        case NSPauseFunctionKey: return ouzel::input::Keyboard::Key::Pause;
+        case NSScrollLockFunctionKey: return ouzel::input::Keyboard::Key::ScrollLock;
+        case kVK_Delete: return ouzel::input::Keyboard::Key::Backspace;
+        case kVK_Tab: return ouzel::input::Keyboard::Key::Tab;
+        case kVK_Return: return ouzel::input::Keyboard::Key::Enter;
+        case kVK_Escape: return ouzel::input::Keyboard::Key::Escape;
+        case kVK_Control: return ouzel::input::Keyboard::Key::LeftControl;
+        case kVK_RightControl: return ouzel::input::Keyboard::Key::RightControl;
+        case kVK_Command: return ouzel::input::Keyboard::Key::LeftSuper;
+        case kVK_RightCommand: return ouzel::input::Keyboard::Key::RightSuper;
+        case kVK_Shift: return ouzel::input::Keyboard::Key::LeftShift;
+        case kVK_RightShift: return ouzel::input::Keyboard::Key::RightShift;
+        case kVK_Option: return ouzel::input::Keyboard::Key::LeftAlt;
+        case kVK_RightOption: return ouzel::input::Keyboard::Key::RightAlt;
+        case kVK_Space: return ouzel::input::Keyboard::Key::Space;
 
         case kVK_ANSI_A: return ouzel::input::Keyboard::Key::A;
         case kVK_ANSI_B: return ouzel::input::Keyboard::Key::B;
@@ -134,58 +134,58 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
         case kVK_ANSI_Y: return ouzel::input::Keyboard::Key::Y;
         case kVK_ANSI_Z: return ouzel::input::Keyboard::Key::Z;
 
-        case kVK_ANSI_0: return ouzel::input::Keyboard::Key::NUM_0;
-        case kVK_ANSI_1: return ouzel::input::Keyboard::Key::NUM_1;
-        case kVK_ANSI_2: return ouzel::input::Keyboard::Key::NUM_2;
-        case kVK_ANSI_3: return ouzel::input::Keyboard::Key::NUM_3;
-        case kVK_ANSI_4: return ouzel::input::Keyboard::Key::NUM_4;
-        case kVK_ANSI_5: return ouzel::input::Keyboard::Key::NUM_5;
-        case kVK_ANSI_6: return ouzel::input::Keyboard::Key::NUM_6;
-        case kVK_ANSI_7: return ouzel::input::Keyboard::Key::NUM_7;
-        case kVK_ANSI_8: return ouzel::input::Keyboard::Key::NUM_8;
-        case kVK_ANSI_9: return ouzel::input::Keyboard::Key::NUM_9;
+        case kVK_ANSI_0: return ouzel::input::Keyboard::Key::Num0;
+        case kVK_ANSI_1: return ouzel::input::Keyboard::Key::Num1;
+        case kVK_ANSI_2: return ouzel::input::Keyboard::Key::Num2;
+        case kVK_ANSI_3: return ouzel::input::Keyboard::Key::Num3;
+        case kVK_ANSI_4: return ouzel::input::Keyboard::Key::Num4;
+        case kVK_ANSI_5: return ouzel::input::Keyboard::Key::Num5;
+        case kVK_ANSI_6: return ouzel::input::Keyboard::Key::Num6;
+        case kVK_ANSI_7: return ouzel::input::Keyboard::Key::Num7;
+        case kVK_ANSI_8: return ouzel::input::Keyboard::Key::Num8;
+        case kVK_ANSI_9: return ouzel::input::Keyboard::Key::Num9;
 
-        case kVK_ANSI_Comma: return ouzel::input::Keyboard::Key::COMMA;
-        case kVK_ANSI_Period: return ouzel::input::Keyboard::Key::PERIOD;
-        case kVK_PageUp: return ouzel::input::Keyboard::Key::PAGE_UP;
-        case kVK_PageDown: return ouzel::input::Keyboard::Key::PAGE_DOWN;
+        case kVK_ANSI_Comma: return ouzel::input::Keyboard::Key::Comma;
+        case kVK_ANSI_Period: return ouzel::input::Keyboard::Key::Period;
+        case kVK_PageUp: return ouzel::input::Keyboard::Key::PageUp;
+        case kVK_PageDown: return ouzel::input::Keyboard::Key::PageDown;
 
-        case kVK_ANSI_Keypad0: return ouzel::input::Keyboard::Key::NUMPAD_0;
-        case kVK_ANSI_Keypad1: return ouzel::input::Keyboard::Key::NUMPAD_1;
-        case kVK_ANSI_Keypad2: return ouzel::input::Keyboard::Key::NUMPAD_2;
-        case kVK_ANSI_Keypad3: return ouzel::input::Keyboard::Key::NUMPAD_3;
-        case kVK_ANSI_Keypad4: return ouzel::input::Keyboard::Key::NUMPAD_4;
-        case kVK_ANSI_Keypad5: return ouzel::input::Keyboard::Key::NUMPAD_5;
-        case kVK_ANSI_Keypad6: return ouzel::input::Keyboard::Key::NUMPAD_6;
-        case kVK_ANSI_Keypad7: return ouzel::input::Keyboard::Key::NUMPAD_7;
-        case kVK_ANSI_Keypad8: return ouzel::input::Keyboard::Key::NUMPAD_8;
-        case kVK_ANSI_Keypad9: return ouzel::input::Keyboard::Key::NUMPAD_9;
+        case kVK_ANSI_Keypad0: return ouzel::input::Keyboard::Key::Numpad0;
+        case kVK_ANSI_Keypad1: return ouzel::input::Keyboard::Key::Numpad1;
+        case kVK_ANSI_Keypad2: return ouzel::input::Keyboard::Key::Numpad2;
+        case kVK_ANSI_Keypad3: return ouzel::input::Keyboard::Key::Numpad3;
+        case kVK_ANSI_Keypad4: return ouzel::input::Keyboard::Key::Numpad4;
+        case kVK_ANSI_Keypad5: return ouzel::input::Keyboard::Key::Numpad5;
+        case kVK_ANSI_Keypad6: return ouzel::input::Keyboard::Key::Numpad6;
+        case kVK_ANSI_Keypad7: return ouzel::input::Keyboard::Key::Numpad7;
+        case kVK_ANSI_Keypad8: return ouzel::input::Keyboard::Key::Numpad8;
+        case kVK_ANSI_Keypad9: return ouzel::input::Keyboard::Key::Numpad9;
 
-        case kVK_ANSI_KeypadDecimal: return ouzel::input::Keyboard::Key::NUMPAD_DECIMAL;
-        case kVK_ANSI_KeypadMultiply: return ouzel::input::Keyboard::Key::NUMPAD_MULTIPLY;
-        case kVK_ANSI_KeypadPlus: return ouzel::input::Keyboard::Key::NUMPAD_PLUS;
-        case kVK_ANSI_KeypadClear: return ouzel::input::Keyboard::Key::NUM_LOCK;
-        case kVK_ANSI_KeypadDivide: return ouzel::input::Keyboard::Key::NUMPAD_DIVIDE;
-        case kVK_ANSI_KeypadEnter: return ouzel::input::Keyboard::Key::NUMPAD_ENTER;
-        case kVK_ANSI_KeypadMinus: return ouzel::input::Keyboard::Key::NUMPAD_MINUS;
+        case kVK_ANSI_KeypadDecimal: return ouzel::input::Keyboard::Key::NumpadDecimal;
+        case kVK_ANSI_KeypadMultiply: return ouzel::input::Keyboard::Key::NumpadMultiply;
+        case kVK_ANSI_KeypadPlus: return ouzel::input::Keyboard::Key::NumpadPlus;
+        case kVK_ANSI_KeypadClear: return ouzel::input::Keyboard::Key::NumLock;
+        case kVK_ANSI_KeypadDivide: return ouzel::input::Keyboard::Key::NumpadDivide;
+        case kVK_ANSI_KeypadEnter: return ouzel::input::Keyboard::Key::NumpadEnter;
+        case kVK_ANSI_KeypadMinus: return ouzel::input::Keyboard::Key::NumpadMinus;
 
-        case kVK_ANSI_Semicolon: return ouzel::input::Keyboard::Key::SEMICOLON;
-        case kVK_ANSI_Slash: return ouzel::input::Keyboard::Key::SLASH;
-        case kVK_ANSI_Grave: return ouzel::input::Keyboard::Key::GRAVE;
-        case kVK_ANSI_LeftBracket: return ouzel::input::Keyboard::Key::LEFT_BRACKET;
-        case kVK_ANSI_Backslash: return ouzel::input::Keyboard::Key::BACKSLASH;
-        case kVK_ANSI_RightBracket: return ouzel::input::Keyboard::Key::RIGHT_BRACKET;
-        case 0x6E: return ouzel::input::Keyboard::Key::MENU;
-        case 0x7F: return ouzel::input::Keyboard::Key::POWER;
+        case kVK_ANSI_Semicolon: return ouzel::input::Keyboard::Key::Semicolon;
+        case kVK_ANSI_Slash: return ouzel::input::Keyboard::Key::Slash;
+        case kVK_ANSI_Grave: return ouzel::input::Keyboard::Key::Grave;
+        case kVK_ANSI_LeftBracket: return ouzel::input::Keyboard::Key::LeftBracket;
+        case kVK_ANSI_Backslash: return ouzel::input::Keyboard::Key::Backslash;
+        case kVK_ANSI_RightBracket: return ouzel::input::Keyboard::Key::RightBracket;
+        case 0x6E: return ouzel::input::Keyboard::Key::Menu;
+        case 0x7F: return ouzel::input::Keyboard::Key::Power;
 
-        case kVK_JIS_Yen: return ouzel::input::Keyboard::Key::YEN;
-        case kVK_JIS_KeypadComma: return ouzel::input::Keyboard::Key::NUMPAD_JPCOMMA;
-        case kVK_JIS_Kana: return ouzel::input::Keyboard::Key::KANA;
+        case kVK_JIS_Yen: return ouzel::input::Keyboard::Key::Yen;
+        case kVK_JIS_KeypadComma: return ouzel::input::Keyboard::Key::NumpadJpcomma;
+        case kVK_JIS_Kana: return ouzel::input::Keyboard::Key::Kana;
 
-        case kVK_VolumeUp: return ouzel::input::Keyboard::Key::VOLUME_UP;
-        case kVK_VolumeDown: return ouzel::input::Keyboard::Key::VOLUME_DOWN;
-        case kVK_Mute: return ouzel::input::Keyboard::Key::MUTE;
-        default: return ouzel::input::Keyboard::Key::NONE;
+        case kVK_VolumeUp: return ouzel::input::Keyboard::Key::VolumeUp;
+        case kVK_VolumeDown: return ouzel::input::Keyboard::Key::VolumeDown;
+        case kVK_Mute: return ouzel::input::Keyboard::Key::Mute;
+        default: return ouzel::input::Keyboard::Key::Unknown;
     }
 }
 
@@ -242,7 +242,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::LEFT,
+    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::Left,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                  static_cast<float>(location.y))));
 }
@@ -253,7 +253,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::LEFT,
+    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::Left,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                    static_cast<float>(location.y))));
 }
@@ -264,7 +264,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::RIGHT,
+    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::Right,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                  static_cast<float>(location.y))));
 }
@@ -275,7 +275,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::RIGHT,
+    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::Right,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                    static_cast<float>(location.y))));
 }
@@ -286,7 +286,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::MIDDLE,
+    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::Middle,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                  static_cast<float>(location.y))));
 }
@@ -297,7 +297,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::MIDDLE,
+    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::Middle,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                    static_cast<float>(location.y))));
 }

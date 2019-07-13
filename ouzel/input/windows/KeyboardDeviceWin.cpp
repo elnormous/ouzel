@@ -19,8 +19,8 @@ namespace ouzel
     {
         std::future<bool> KeyboardDeviceWin::handleKeyPress(Keyboard::Key key)
         {
-            if (key == Keyboard::Key::LEFT_SHIFT) leftShiftDown = true;
-            if (key == Keyboard::Key::RIGHT_SHIFT) rightShiftDown = true;
+            if (key == Keyboard::Key::LeftShift) leftShiftDown = true;
+            if (key == Keyboard::Key::RightShift) rightShiftDown = true;
 
             return KeyboardDevice::handleKeyPress(key);
         }
@@ -30,13 +30,13 @@ namespace ouzel
             if (leftShiftDown && (GetKeyState(VK_LSHIFT) & 0x8000) == 0)
             {
                 leftShiftDown = false;
-                handleKeyRelease(Keyboard::Key::LEFT_SHIFT);
+                handleKeyRelease(Keyboard::Key::LeftShift);
             }
 
             if (rightShiftDown && (GetKeyState(VK_RSHIFT) & 0x8000) == 0)
             {
                 rightShiftDown = false;
-                handleKeyRelease(Keyboard::Key::RIGHT_SHIFT);
+                handleKeyRelease(Keyboard::Key::RightShift);
             }
         }
     } // namespace input

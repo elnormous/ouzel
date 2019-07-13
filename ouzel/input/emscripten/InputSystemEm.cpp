@@ -8,42 +8,42 @@
 #include "utils/Log.hpp"
 
 static std::map<std::string, ouzel::input::Keyboard::Key> keyMap = {
-    {"Backspace", ouzel::input::Keyboard::Key::BACKSPACE},
-    {"Tab", ouzel::input::Keyboard::Key::TAB},
-    {"Enter", ouzel::input::Keyboard::Key::ENTER},
-    {"ShiftLeft", ouzel::input::Keyboard::Key::LEFT_SHIFT},
-    {"ShiftRight", ouzel::input::Keyboard::Key::RIGHT_SHIFT},
-    {"ControlLeft", ouzel::input::Keyboard::Key::LEFT_CONTROL},
-    {"ControlRight", ouzel::input::Keyboard::Key::RIGHT_CONTROL},
-    {"AltLeft", ouzel::input::Keyboard::Key::LEFT_ALT},
-    {"AltRight", ouzel::input::Keyboard::Key::RIGHT_ALT},
-    {"MetaLeft", ouzel::input::Keyboard::Key::LEFT_SUPER},
-    {"MetaRight", ouzel::input::Keyboard::Key::RIGHT_SUPER},
-    {"Pause", ouzel::input::Keyboard::Key::PAUSE},
-    {"CapsLock", ouzel::input::Keyboard::Key::CAPS_LOCK},
-    {"Escape", ouzel::input::Keyboard::Key::ESCAPE},
-    {"PageUp", ouzel::input::Keyboard::Key::PAGE_UP},
-    {"PageDown", ouzel::input::Keyboard::Key::PAGE_DOWN},
-    {"ContextMenu", ouzel::input::Keyboard::Key::MENU},
-    {"Help", ouzel::input::Keyboard::Key::HELP},
-    {"Home", ouzel::input::Keyboard::Key::HOME},
-    {"End", ouzel::input::Keyboard::Key::END},
-    {"ArrowLeft", ouzel::input::Keyboard::Key::LEFT},
-    {"ArrowUp", ouzel::input::Keyboard::Key::UP},
-    {"ArrowRight", ouzel::input::Keyboard::Key::RIGHT},
-    {"ArrowDown", ouzel::input::Keyboard::Key::DOWN},
-    {"Insert", ouzel::input::Keyboard::Key::INSERT},
-    {"Delete", ouzel::input::Keyboard::Key::DEL},
-    {"Digit0", ouzel::input::Keyboard::Key::NUM_0},
-    {"Digit1", ouzel::input::Keyboard::Key::NUM_1},
-    {"Digit2", ouzel::input::Keyboard::Key::NUM_2},
-    {"Digit3", ouzel::input::Keyboard::Key::NUM_3},
-    {"Digit4", ouzel::input::Keyboard::Key::NUM_4},
-    {"Digit5", ouzel::input::Keyboard::Key::NUM_5},
-    {"Digit6", ouzel::input::Keyboard::Key::NUM_6},
-    {"Digit7", ouzel::input::Keyboard::Key::NUM_7},
-    {"Digit8", ouzel::input::Keyboard::Key::NUM_8},
-    {"Digit9", ouzel::input::Keyboard::Key::NUM_9},
+    {"Backspace", ouzel::input::Keyboard::Key::Backspace},
+    {"Tab", ouzel::input::Keyboard::Key::Tab},
+    {"Enter", ouzel::input::Keyboard::Key::Enter},
+    {"ShiftLeft", ouzel::input::Keyboard::Key::LeftShift},
+    {"ShiftRight", ouzel::input::Keyboard::Key::RightShift},
+    {"ControlLeft", ouzel::input::Keyboard::Key::LeftControl},
+    {"ControlRight", ouzel::input::Keyboard::Key::RightControl},
+    {"AltLeft", ouzel::input::Keyboard::Key::LeftAlt},
+    {"AltRight", ouzel::input::Keyboard::Key::RightAlt},
+    {"MetaLeft", ouzel::input::Keyboard::Key::LeftSuper},
+    {"MetaRight", ouzel::input::Keyboard::Key::RightSuper},
+    {"Pause", ouzel::input::Keyboard::Key::Pause},
+    {"CapsLock", ouzel::input::Keyboard::Key::CapsLock},
+    {"Escape", ouzel::input::Keyboard::Key::Escape},
+    {"PageUp", ouzel::input::Keyboard::Key::PageUp},
+    {"PageDown", ouzel::input::Keyboard::Key::PageDown},
+    {"ContextMenu", ouzel::input::Keyboard::Key::Menu},
+    {"Help", ouzel::input::Keyboard::Key::Help},
+    {"Home", ouzel::input::Keyboard::Key::Home},
+    {"End", ouzel::input::Keyboard::Key::End},
+    {"ArrowLeft", ouzel::input::Keyboard::Key::Left},
+    {"ArrowUp", ouzel::input::Keyboard::Key::Up},
+    {"ArrowRight", ouzel::input::Keyboard::Key::Right},
+    {"ArrowDown", ouzel::input::Keyboard::Key::Down},
+    {"Insert", ouzel::input::Keyboard::Key::Insert},
+    {"Delete", ouzel::input::Keyboard::Key::Del},
+    {"Digit0", ouzel::input::Keyboard::Key::Num0},
+    {"Digit1", ouzel::input::Keyboard::Key::Num1},
+    {"Digit2", ouzel::input::Keyboard::Key::Num2},
+    {"Digit3", ouzel::input::Keyboard::Key::Num3},
+    {"Digit4", ouzel::input::Keyboard::Key::Num4},
+    {"Digit5", ouzel::input::Keyboard::Key::Num5},
+    {"Digit6", ouzel::input::Keyboard::Key::Num6},
+    {"Digit7", ouzel::input::Keyboard::Key::Num7},
+    {"Digit8", ouzel::input::Keyboard::Key::Num8},
+    {"Digit9", ouzel::input::Keyboard::Key::Num9},
     {"KeyA", ouzel::input::Keyboard::Key::A},
     {"KeyB", ouzel::input::Keyboard::Key::B},
     {"KeyC", ouzel::input::Keyboard::Key::C},
@@ -70,28 +70,28 @@ static std::map<std::string, ouzel::input::Keyboard::Key> keyMap = {
     {"KeyX", ouzel::input::Keyboard::Key::X},
     {"KeyY", ouzel::input::Keyboard::Key::Y},
     {"KeyZ", ouzel::input::Keyboard::Key::Z},
-    {"OSLeft", ouzel::input::Keyboard::Key::LEFT_SUPER},
-    {"OSRight", ouzel::input::Keyboard::Key::RIGHT_SUPER},
-    {"Delete", ouzel::input::Keyboard::Key::DEL},
-    {"NumLock", ouzel::input::Keyboard::Key::NUM_LOCK},
-    {"NumpadEnter", ouzel::input::Keyboard::Key::NUMPAD_ENTER},
-    {"Numpad0", ouzel::input::Keyboard::Key::NUMPAD_0},
-    {"Numpad1", ouzel::input::Keyboard::Key::NUMPAD_1},
-    {"Numpad2", ouzel::input::Keyboard::Key::NUMPAD_2},
-    {"Numpad3", ouzel::input::Keyboard::Key::NUMPAD_3},
-    {"Numpad4", ouzel::input::Keyboard::Key::NUMPAD_4},
-    {"Numpad5", ouzel::input::Keyboard::Key::NUMPAD_5},
-    {"Numpad6", ouzel::input::Keyboard::Key::NUMPAD_6},
-    {"Numpad7", ouzel::input::Keyboard::Key::NUMPAD_7},
-    {"Numpad8", ouzel::input::Keyboard::Key::NUMPAD_8},
-    {"Numpad9", ouzel::input::Keyboard::Key::NUMPAD_9},
-    {"NumpadMultiply", ouzel::input::Keyboard::Key::NUMPAD_MULTIPLY},
-    {"NumpadAdd", ouzel::input::Keyboard::Key::NUMPAD_PLUS},
-    {"NumpadSubtract", ouzel::input::Keyboard::Key::NUMPAD_MINUS},
-    {"NumpadComma", ouzel::input::Keyboard::Key::NUMPAD_SEPARATOR},
-    {"NumpadDecimal", ouzel::input::Keyboard::Key::NUMPAD_DECIMAL},
-    {"NumpadDivide", ouzel::input::Keyboard::Key::NUMPAD_DIVIDE},
-    {"NumpadEqual", ouzel::input::Keyboard::Key::NUMPAD_EQUAL},
+    {"OSLeft", ouzel::input::Keyboard::Key::LeftSuper},
+    {"OSRight", ouzel::input::Keyboard::Key::RightSuper},
+    {"Delete", ouzel::input::Keyboard::Key::Del},
+    {"NumLock", ouzel::input::Keyboard::Key::NumLock},
+    {"NumpadEnter", ouzel::input::Keyboard::Key::NumpadEnter},
+    {"Numpad0", ouzel::input::Keyboard::Key::Numpad0},
+    {"Numpad1", ouzel::input::Keyboard::Key::Numpad1},
+    {"Numpad2", ouzel::input::Keyboard::Key::Numpad2},
+    {"Numpad3", ouzel::input::Keyboard::Key::Numpad3},
+    {"Numpad4", ouzel::input::Keyboard::Key::Numpad4},
+    {"Numpad5", ouzel::input::Keyboard::Key::Numpad5},
+    {"Numpad6", ouzel::input::Keyboard::Key::Numpad6},
+    {"Numpad7", ouzel::input::Keyboard::Key::Numpad7},
+    {"Numpad8", ouzel::input::Keyboard::Key::Numpad8},
+    {"Numpad9", ouzel::input::Keyboard::Key::Numpad9},
+    {"NumpadMultiply", ouzel::input::Keyboard::Key::NumpadMultiply},
+    {"NumpadAdd", ouzel::input::Keyboard::Key::NumpadPlus},
+    {"NumpadSubtract", ouzel::input::Keyboard::Key::NumpadMinus},
+    {"NumpadComma", ouzel::input::Keyboard::Key::NumpadSeparator},
+    {"NumpadDecimal", ouzel::input::Keyboard::Key::NumpadDecimal},
+    {"NumpadDivide", ouzel::input::Keyboard::Key::NumpadDivide},
+    {"NumpadEqual", ouzel::input::Keyboard::Key::NumpadEqual},
     {"F1", ouzel::input::Keyboard::Key::F1},
     {"F2", ouzel::input::Keyboard::Key::F2},
     {"F3", ouzel::input::Keyboard::Key::F3},
@@ -116,22 +116,22 @@ static std::map<std::string, ouzel::input::Keyboard::Key> keyMap = {
     {"F22", ouzel::input::Keyboard::Key::F22},
     {"F23", ouzel::input::Keyboard::Key::F23},
     {"F24", ouzel::input::Keyboard::Key::F24},
-    {"ScrollLock", ouzel::input::Keyboard::Key::SCROLL_LOCK},
-    {"Semicolon", ouzel::input::Keyboard::Key::SEMICOLON},
-    {"Equal", ouzel::input::Keyboard::Key::EQUAL},
-    {"Comma", ouzel::input::Keyboard::Key::COMMA},
-    {"Minus", ouzel::input::Keyboard::Key::MINUS},
-    {"Period", ouzel::input::Keyboard::Key::PERIOD},
-    {"Slash", ouzel::input::Keyboard::Key::SLASH},
-    {"Backquote", ouzel::input::Keyboard::Key::GRAVE},
-    {"BracketLeft", ouzel::input::Keyboard::Key::LEFT_BRACKET},
-    {"Backslash", ouzel::input::Keyboard::Key::BACKSLASH},
-    {"BracketRight", ouzel::input::Keyboard::Key::RIGHT_BRACKET},
-    {"Quote", ouzel::input::Keyboard::Key::QUOTE},
-    {"IntlBackslash", ouzel::input::Keyboard::Key::INTL_BACKSLASH},
-    {"PrintScreen", ouzel::input::Keyboard::Key::PRINT_SCREEN},
-    {"IntlRo", ouzel::input::Keyboard::Key::RO},
-    {"IntlYen", ouzel::input::Keyboard::Key::YEN}
+    {"ScrollLock", ouzel::input::Keyboard::Key::ScrollLock},
+    {"Semicolon", ouzel::input::Keyboard::Key::Semicolon},
+    {"Equal", ouzel::input::Keyboard::Key::Equal},
+    {"Comma", ouzel::input::Keyboard::Key::Comma},
+    {"Minus", ouzel::input::Keyboard::Key::Minus},
+    {"Period", ouzel::input::Keyboard::Key::Period},
+    {"Slash", ouzel::input::Keyboard::Key::Slash},
+    {"Backquote", ouzel::input::Keyboard::Key::Grave},
+    {"BracketLeft", ouzel::input::Keyboard::Key::LeftBracket},
+    {"Backslash", ouzel::input::Keyboard::Key::Backslash},
+    {"BracketRight", ouzel::input::Keyboard::Key::RightBracket},
+    {"Quote", ouzel::input::Keyboard::Key::Quote},
+    {"IntlBackslash", ouzel::input::Keyboard::Key::IntlBackslash},
+    {"PrintScreen", ouzel::input::Keyboard::Key::PrintScreen},
+    {"IntlRo", ouzel::input::Keyboard::Key::Ro},
+    {"IntlYen", ouzel::input::Keyboard::Key::Yen}
 };
 
 static ouzel::input::Keyboard::Key convertKeyCode(const EM_UTF8 key[32])
@@ -141,7 +141,7 @@ static ouzel::input::Keyboard::Key convertKeyCode(const EM_UTF8 key[32])
     if (i != keyMap.end())
         return i->second;
     else
-        return ouzel::input::Keyboard::Key::NONE;
+        return ouzel::input::Keyboard::Key::Unknown;
 }
 
 static EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
@@ -170,16 +170,16 @@ static EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseE
     switch (mouseEvent->button)
     {
         case 0:
-            button = ouzel::input::Mouse::Button::LEFT;
+            button = ouzel::input::Mouse::Button::Left;
             break;
         case 1:
-            button = ouzel::input::Mouse::Button::MIDDLE;
+            button = ouzel::input::Mouse::Button::Middle;
             break;
         case 2:
-            button = ouzel::input::Mouse::Button::RIGHT;
+            button = ouzel::input::Mouse::Button::Right;
             break;
         default:
-            button = ouzel::input::Mouse::Button::NONE;
+            button = ouzel::input::Mouse::Button::Unknown;
             break;
     }
 

@@ -19,13 +19,13 @@ namespace ouzel
         public:
             enum class Button
             {
-                NONE,
-                LEFT, // Left mouse button
-                RIGHT, // Right mouse button
-                MIDDLE, // Middle mouse button (three-button mouse)
+                Unknown,
+                Left, // Left mouse button
+                Right, // Right mouse button
+                Middle, // Middle mouse button (three-button mouse)
                 X1, // First extra mouse button
                 X2, // Second extra mouse button
-                COUNT
+                Count
             };
 
             Mouse(InputManager& initInputManager, uint32_t initDeviceId);
@@ -53,7 +53,7 @@ namespace ouzel
 
         private:
             Vector2F position;
-            bool buttonStates[static_cast<uint32_t>(Button::COUNT)]{false};
+            bool buttonStates[static_cast<uint32_t>(Button::Count)]{false};
             bool cursorVisible = true;
             bool cursorLocked = false;
             const Cursor* cursor = nullptr;

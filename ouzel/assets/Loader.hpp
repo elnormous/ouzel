@@ -18,6 +18,7 @@ namespace ouzel
         public:
             enum Type
             {
+                Bank,
                 Font,
                 StaticMesh,
                 SkinnedMesh,
@@ -25,8 +26,7 @@ namespace ouzel
                 Material,
                 ParticleSystem,
                 Sprite,
-                Sound,
-                Bank
+                Sound
             };
 
             Loader(Cache& initCache, uint32_t initType):

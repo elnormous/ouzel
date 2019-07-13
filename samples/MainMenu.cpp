@@ -68,11 +68,11 @@ bool MainMenu::handleKeyboard(const KeyboardEvent& event)
     {
         switch (event.key)
         {
-            case Keyboard::Key::ESCAPE:
+            case Keyboard::Key::Escape:
                 engine->exit();
                 break;
-            case Keyboard::Key::MENU:
-            case Keyboard::Key::BACK:
+            case Keyboard::Key::Menu:
+            case Keyboard::Key::Back:
                 return false;
             default:
                 break;
@@ -82,9 +82,9 @@ bool MainMenu::handleKeyboard(const KeyboardEvent& event)
     {
         switch (event.key)
         {
-            case Keyboard::Key::ESCAPE:
-            case Keyboard::Key::MENU:
-            case Keyboard::Key::BACK:
+            case Keyboard::Key::Escape:
+            case Keyboard::Key::Menu:
+            case Keyboard::Key::Back:
                 return false;
             default:
                 break;

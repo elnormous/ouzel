@@ -54,7 +54,7 @@ namespace ouzel
 
             struct Button final
             {
-                Gamepad::Button button = Gamepad::Button::NONE;
+                Gamepad::Button button = Gamepad::Button::Unknown;
                 BYTE value = 0;
             };
 
@@ -62,13 +62,13 @@ namespace ouzel
 
             struct Axis final
             {
-                Gamepad::Axis axis = Gamepad::Axis::NONE;
+                Gamepad::Axis axis = Gamepad::Axis::Unknown;
                 LONG min = 0;
                 LONG max = 0;
                 LONG range = 0;
                 LONG value = 0;
-                Gamepad::Button negativeButton = Gamepad::Button::NONE;
-                Gamepad::Button positiveButton = Gamepad::Button::NONE;
+                Gamepad::Button negativeButton = Gamepad::Button::Unknown;
+                Gamepad::Button positiveButton = Gamepad::Button::Unknown;
             };
 
             std::unordered_map<DWORD, Axis> axes;

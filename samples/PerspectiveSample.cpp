@@ -112,24 +112,24 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
     {
         switch (event.key)
         {
-            case Keyboard::Key::UP:
+            case Keyboard::Key::Up:
                 cameraRotation.x() -= tau<float> / 100.0F;
                 break;
-            case Keyboard::Key::DOWN:
+            case Keyboard::Key::Down:
                 cameraRotation.x() += tau<float> / 100.0F;
                 break;
-            case Keyboard::Key::LEFT:
+            case Keyboard::Key::Left:
                 cameraRotation.y() -= tau<float> / 100.0F;
                 break;
-            case Keyboard::Key::RIGHT:
+            case Keyboard::Key::Right:
                 cameraRotation.y() += tau<float> / 100.0F;
                 break;
-            case Keyboard::Key::ESCAPE:
-            case Keyboard::Key::MENU:
-            case Keyboard::Key::BACK:
+            case Keyboard::Key::Escape:
+            case Keyboard::Key::Menu:
+            case Keyboard::Key::Back:
                 engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                 return true;
-            case Keyboard::Key::TAB:
+            case Keyboard::Key::Tab:
                 jumpVoice.play();
                 break;
             case Keyboard::Key::S:
@@ -148,9 +148,9 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
     {
         switch (event.key)
         {
-            case Keyboard::Key::ESCAPE:
-            case Keyboard::Key::MENU:
-            case Keyboard::Key::BACK:
+            case Keyboard::Key::Escape:
+            case Keyboard::Key::Menu:
+            case Keyboard::Key::Back:
                 return true;
             default:
                 break;
@@ -163,7 +163,7 @@ bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
 bool PerspectiveSample::handleMouse(const ouzel::MouseEvent& event)
 {
     if (event.type == Event::Type::MouseMove &&
-        event.mouse->isButtonDown(Mouse::Button::LEFT))
+        event.mouse->isButtonDown(Mouse::Button::Left))
     {
         cameraRotation.x() -= event.difference.y();
         cameraRotation.y() -= event.difference.x();
@@ -199,7 +199,7 @@ bool PerspectiveSample::handleGamepad(const GamepadEvent& event)
     if (event.type == Event::Type::GamepadButtonChange)
     {
         if (event.pressed &&
-            event.button == Gamepad::Button::FACE_RIGHT)
+            event.button == Gamepad::Button::FaceRight)
             engine->getSceneManager().setScene(std::make_unique<MainMenu>());
     }
 
