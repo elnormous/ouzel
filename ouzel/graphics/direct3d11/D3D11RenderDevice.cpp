@@ -880,15 +880,13 @@ namespace ouzel
                 if (!monitor)
                     throw std::runtime_error("Window is not on any monitor");
 
-                UINT i = 0;
+                
                 IDXGIOutput* output;
-                DXGI_OUTPUT_DESC outputDesc;
                 HRESULT hr;
-
-                while ((hr = adapter->EnumOutputs(i, &output)) != DXGI_ERROR_NOT_FOUND)
-                {
+                for (UINT i = 0; (hr = adapter->EnumOutputs(i, &output)) != DXGI_ERROR_NOT_FOUND; ++i)
                     if (SUCCEEDED(hr))
                     {
+                        DXGI_OUTPUT_DESC outputDesc;
                         hr = output->GetDesc(&outputDesc);
 
                         if (SUCCEEDED(hr) && outputDesc.Monitor == monitor)
@@ -896,9 +894,6 @@ namespace ouzel
 
                         output->Release();
                     }
-
-                    ++i;
-                }
 
                 return nullptr;
             }
