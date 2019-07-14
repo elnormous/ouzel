@@ -22,7 +22,7 @@ namespace ouzel
         {
             scene::ParticleSystemData particleSystemData;
 
-            json::Data d(data);
+            const json::Data d(data);
 
             if (!d.hasMember("textureFileName") ||
                 !d.hasMember("configName"))

@@ -19,10 +19,10 @@ namespace ouzel
                                    const std::vector<uint8_t>& data,
                                    bool mipmaps)
         {
-            json::Data d(data);
+            const json::Data d(data);
 
-            json::Value& nodesValue = d["nodes"];
-            json::Value& meshesValue = d["meshes"];
+            const json::Value& nodesValue = d["nodes"];
+            const json::Value& meshesValue = d["meshes"];
 
             scene::SkinnedMeshData skinnedMeshData;
             bundle.setSkinnedMeshData(name, skinnedMeshData);

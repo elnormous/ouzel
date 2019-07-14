@@ -42,7 +42,7 @@ namespace ouzel
 
         void Bundle::loadAssets(const std::string& filename)
         {
-            json::Data data(fileSystem.readFile(filename));
+            const json::Data data(fileSystem.readFile(filename));
 
             for (const json::Value& asset : data["assets"])
             {

@@ -258,6 +258,7 @@ namespace ouzel
 
             enum class Type
             {
+                Null,
                 Integer,
                 Float,
                 String,
@@ -287,7 +288,7 @@ namespace ouzel
             Value(T value): type(Type::Boolean), boolValue(value) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, std::nullptr_t>::value>::type* = nullptr>
-            Value(T): type(Type::Object), nullValue(true) {}
+            Value(T): type(Type::Null) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             Value(const T& value): type(Type::Array), arrayValue(value) {}
@@ -345,8 +346,7 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, std::nullptr_t>::value>::type* = nullptr>
             inline Value& operator=(T)
             {
-                type = Type::Object;
-                nullValue = true;
+                type = Type::Null;
                 objectValue.clear();
                 return *this;
             }
@@ -364,7 +364,6 @@ namespace ouzel
             {
                 type = Type::Object;
                 objectValue = value;
-                nullValue = false;
                 return *this;
             }
 
@@ -456,8 +455,7 @@ namespace ouzel
 
             inline auto isNull() const noexcept
             {
-                assert(type == Type::Object);
-                return nullValue;
+                return type == Type::Null;
             }
 
             inline auto hasMember(const std::string& member) const
@@ -469,17 +467,18 @@ namespace ouzel
             inline Value& operator[](const std::string& member)
             {
                 type = Type::Object;
-                nullValue = false;
                 return objectValue[member];
             }
 
-            inline Value operator[](const std::string& member) const
+            inline const Value& operator[](const std::string& member) const
             {
                 assert(type == Type::Object);
 
                 auto i = objectValue.find(member);
-                if (i != objectValue.end()) return i->second;
-                else return Value();
+                if (i != objectValue.end())
+                    return i->second;
+                else
+                    throw std::runtime_error("Member does not exist");
             }
 
             inline Value& operator[](size_t index)
@@ -489,12 +488,14 @@ namespace ouzel
                 return arrayValue[index];
             }
 
-            inline Value operator[](size_t index) const
+            inline const Value& operator[](size_t index) const
             {
                 assert(type == Type::Array);
 
-                if (index < arrayValue.size()) return arrayValue[index];
-                else return Value();
+                if (index < arrayValue.size())
+                    return arrayValue[index];
+                else
+                    throw std::runtime_error("Index out of range");
             }
 
             inline auto getSize() const
@@ -542,8 +543,7 @@ namespace ouzel
                 }
                 else if (iterator->type == Token::Type::KeywordNull)
                 {
-                    type = Type::Object;
-                    nullValue = true;
+                    type = Type::Null;
                     ++iterator;
                 }
                 else
@@ -661,6 +661,11 @@ namespace ouzel
             {
                 switch (type)
                 {
+                    case Type::Null:
+                    {
+                        data.insert(data.end(), {'n', 'u', 'l', 'l'});
+                        break;
+                    }
                     case Type::Integer:
                     {
                         std::string value = std::to_string(intValue);
@@ -680,27 +685,22 @@ namespace ouzel
                         break;
                     case Type::Object:
                     {
-                        if (nullValue)
-                            data.insert(data.end(), {'n', 'u', 'l', 'l'});
-                        else
+                        data.push_back('{');
+
+                        bool first = true;
+
+                        for (const auto& value : objectValue)
                         {
-                            data.push_back('{');
+                            if (first) first = false;
+                            else data.push_back(',');
 
-                            bool first = true;
-
-                            for (const auto& value : objectValue)
-                            {
-                                if (first) first = false;
-                                else data.push_back(',');
-
-                                data.push_back('"');
-                                encodeString(data, utf8::toUtf32(value.first));
-                                data.insert(data.end(), {'"', ':'});
-                                value.second.encodeValue(data);
-                            }
-
-                            data.push_back('}');
+                            data.push_back('"');
+                            encodeString(data, utf8::toUtf32(value.first));
+                            data.insert(data.end(), {'"', ':'});
+                            value.second.encodeValue(data);
                         }
+
+                        data.push_back('}');
                         break;
                     }
                     case Type::Array:
@@ -734,7 +734,6 @@ namespace ouzel
             union
             {
                 bool boolValue = false;
-                bool nullValue;
                 int64_t intValue;
                 double doubleValue;
             };
