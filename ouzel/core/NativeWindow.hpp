@@ -31,7 +31,7 @@ namespace ouzel
             };
 
             Command() = default;
-            explicit Command(Type initType): type(initType) {}
+            explicit Command(Type initType) noexcept: type(initType) {}
 
             Type type;
             Size2U size;
@@ -58,7 +58,7 @@ namespace ouzel
             };
 
             Event() = default;
-            explicit Event(Type initType): type(initType) {}
+            explicit Event(Type initType) noexcept: type(initType) {}
 
             Type type;
 

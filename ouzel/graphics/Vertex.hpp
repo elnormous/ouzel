@@ -32,15 +32,15 @@ namespace ouzel
                     TextureCoordinates1
                 };
 
-                Attribute(Usage initUsage, DataType initDataType):
+                Attribute(Usage initUsage, DataType initDataType) noexcept:
                     usage(initUsage), dataType(initDataType) {}
                 Usage usage;
                 DataType dataType;
             };
 
-            Vertex() = default;
+            Vertex() noexcept = default;
             Vertex(const Vector3F& initPosition, Color initColor,
-                   const Vector2F& initTexCoord, const Vector3F& initNormal):
+                   const Vector2F& initTexCoord, const Vector3F& initNormal) noexcept:
                 position(initPosition), color(initColor), normal(initNormal)
             {
                 texCoords[0] = initTexCoord;

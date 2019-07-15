@@ -57,8 +57,8 @@ namespace ouzel
                         Starvation
                     };
 
-                    Event() = default;
-                    explicit Event(Type initType): type(initType) {}
+                    Event() noexcept = default;
+                    explicit Event(Type initType) noexcept: type(initType) {}
 
                     Type type;
                     uintptr_t objectId;

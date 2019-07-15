@@ -8,8 +8,8 @@ namespace ouzel
     class Timer final
     {
     public:
-        Timer() = default;
-        ~Timer() = default;
+        Timer() noexcept = default;
+        ~Timer() noexcept = default;
 
         Timer(const Timer&) = delete;
         Timer& operator=(const Timer&) = delete;

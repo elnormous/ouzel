@@ -16,7 +16,7 @@ namespace ouzel
             {
                 friend Bus;
             public:
-                Processor() = default;
+                Processor() noexcept = default;
                 ~Processor()
                 {
                     if (bus) bus->removeProcessor(this);

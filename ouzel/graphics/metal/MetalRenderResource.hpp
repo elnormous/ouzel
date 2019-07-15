@@ -18,7 +18,7 @@ namespace ouzel
             class RenderResource
             {
             public:
-                explicit RenderResource(RenderDevice& initRenderDevice):
+                explicit RenderResource(RenderDevice& initRenderDevice) noexcept:
                     renderDevice(initRenderDevice)
                 {
                 }

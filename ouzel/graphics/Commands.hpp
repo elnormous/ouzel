@@ -60,7 +60,7 @@ namespace ouzel
                 SetTextures
             };
 
-            explicit Command(Type initType):
+            explicit Command(Type initType) noexcept:
                 type(initType)
             {
             }
@@ -73,13 +73,13 @@ namespace ouzel
         class StopCommand final: public Command
         {
         public:
-            StopCommand(): Command(Command::Type::Stop) {}
+            StopCommand() noexcept: Command(Command::Type::Stop) {}
         };
 
         class ResizeCommand final: public Command
         {
         public:
-            explicit ResizeCommand(const Size2U& initSize):
+            explicit ResizeCommand(const Size2U& initSize) noexcept:
                 Command(Command::Type::Resize),
                 size(initSize)
             {}
@@ -90,13 +90,13 @@ namespace ouzel
         class PresentCommand final: public Command
         {
         public:
-            PresentCommand(): Command(Command::Type::Present) {}
+            PresentCommand() noexcept: Command(Command::Type::Present) {}
         };
 
         class DeleteResourceCommand final: public Command
         {
         public:
-            explicit DeleteResourceCommand(uintptr_t initResource):
+            explicit DeleteResourceCommand(uintptr_t initResource) noexcept:
                 Command(Command::Type::DeleteResource),
                 resource(initResource)
             {}
@@ -125,7 +125,7 @@ namespace ouzel
         class SetRenderTargetCommand final: public Command
         {
         public:
-            explicit SetRenderTargetCommand(uintptr_t initRenderTarget):
+            explicit SetRenderTargetCommand(uintptr_t initRenderTarget) noexcept:
                 Command(Command::Type::SetRenderTarget),
                 renderTarget(initRenderTarget)
             {
@@ -142,7 +142,7 @@ namespace ouzel
                                      bool initClearStencilBuffer,
                                      Color initClearColor,
                                      float initClearDepth,
-                                     uint32_t initClearStencil):
+                                     uint32_t initClearStencil) noexcept:
                 Command(Command::Type::ClearRenderTarget),
                 clearColorBuffer(initClearColorBuffer),
                 clearDepthBuffer(initClearDepthBuffer),
@@ -174,7 +174,7 @@ namespace ouzel
                         uintptr_t initDestinationTexture,
                         uint32_t initDestinationLevel,
                         uint32_t initDestinationX,
-                        uint32_t initDestinationY):
+                        uint32_t initDestinationY) noexcept:
                 Command(Command::Type::Blit),
                 sourceTexture(initSourceTexture),
                 sourceLevel(initSourceLevel),
@@ -205,7 +205,7 @@ namespace ouzel
         class ComputeCommand final: public Command
         {
         public:
-            explicit ComputeCommand(uintptr_t initShader):
+            explicit ComputeCommand(uintptr_t initShader) noexcept:
                 Command(Command::Type::Compute),
                 shader(initShader)
             {
@@ -218,7 +218,7 @@ namespace ouzel
         {
         public:
             SetScissorTestCommand(bool initEnabled,
-                                  const RectF& initRectangle):
+                                  const RectF& initRectangle) noexcept:
                 Command(Command::Type::SetScissorTest),
                 enabled(initEnabled),
                 rectangle(initRectangle)
@@ -232,7 +232,7 @@ namespace ouzel
         class SetViewportCommand final: public Command
         {
         public:
-            explicit SetViewportCommand(const RectF& initViewport):
+            explicit SetViewportCommand(const RectF& initViewport) noexcept:
                 Command(Command::Type::SetViewport),
                 viewport(initViewport)
             {
@@ -258,7 +258,7 @@ namespace ouzel
                                          StencilOperation initBackFaceStencilFailureOperation,
                                          StencilOperation initBackFaceStencilDepthFailureOperation,
                                          StencilOperation initBackFaceStencilPassOperation,
-                                         CompareFunction initBackFaceStencilCompareFunction):
+                                         CompareFunction initBackFaceStencilCompareFunction) noexcept:
                 Command(Command::Type::InitDepthStencilState),
                 depthStencilState(initDepthStencilState),
                 depthTest(initDepthTest),
@@ -299,7 +299,7 @@ namespace ouzel
         {
         public:
             SetDepthStencilStateCommand(uintptr_t initDepthStencilState,
-                                        uint32_t initStencilReferenceValue):
+                                        uint32_t initStencilReferenceValue) noexcept:
                 Command(Command::Type::SetDepthStencilState),
                 depthStencilState(initDepthStencilState),
                 stencilReferenceValue(initStencilReferenceValue)
@@ -316,7 +316,7 @@ namespace ouzel
             SetPipelineStateCommand(uintptr_t initBlendState,
                                     uintptr_t initShader,
                                     CullMode initCullMode,
-                                    FillMode initFillMode):
+                                    FillMode initFillMode) noexcept:
                 Command(Command::Type::SetPipelineState),
                 blendState(initBlendState),
                 shader(initShader),
@@ -339,7 +339,7 @@ namespace ouzel
                         uint32_t initIndexSize,
                         uintptr_t initVertexBuffer,
                         DrawMode initDrawMode,
-                        uint32_t initStartIndex):
+                        uint32_t initStartIndex) noexcept:
                 Command(Command::Type::Draw),
                 indexBuffer(initIndexBuffer),
                 indexCount(initIndexCount),
@@ -373,7 +373,7 @@ namespace ouzel
         class PopDebugMarkerCommand final: public Command
         {
         public:
-            PopDebugMarkerCommand():
+            PopDebugMarkerCommand() noexcept:
                 Command(Command::Type::PopDebugMarker)
             {
             }
@@ -390,7 +390,7 @@ namespace ouzel
                                   BlendFactor initAlphaBlendSource,
                                   BlendFactor initAlphaBlendDest,
                                   BlendOperation initAlphaOperation,
-                                  uint8_t initColorMask):
+                                  uint8_t initColorMask) noexcept:
                 Command(Command::Type::InitBlendState),
                 blendState(initBlendState),
                 enableBlending(initEnableBlending),
@@ -571,7 +571,7 @@ namespace ouzel
                                         SamplerAddressMode initAddressY,
                                         SamplerAddressMode initAddressZ,
                                         Color initBorderColor,
-                                        uint32_t initMaxAnisotropy):
+                                        uint32_t initMaxAnisotropy) noexcept:
                 Command(Command::Type::SetTextureParameters),
                 texture(initTexture),
                 filter(initFilter),
