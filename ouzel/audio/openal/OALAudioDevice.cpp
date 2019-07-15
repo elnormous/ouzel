@@ -15,7 +15,6 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #include "OALAudioDevice.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
-#include "utils/Utils.hpp"
 
 #ifndef AL_FORMAT_MONO_FLOAT32
 #  define AL_FORMAT_MONO_FLOAT32 0x10010
@@ -238,7 +237,7 @@ namespace ouzel
             {
 #if !defined(__EMSCRIPTEN__)
                 running = false;
-                if (audioThread.joinable()) audioThread.join();
+                if (audioThread.isJoinable()) audioThread.join();
 #endif
 
                 if (sourceId)
@@ -299,7 +298,7 @@ namespace ouzel
 
 #if !defined(__EMSCRIPTEN__)
                 running = true;
-                audioThread = std::thread(&AudioDevice::run, this);
+                audioThread = Thread(&AudioDevice::run, this);
 #endif
             }
 
@@ -307,7 +306,7 @@ namespace ouzel
             {
 #if !defined(__EMSCRIPTEN__)
                 running = false;
-                if (audioThread.joinable()) audioThread.join();
+                if (audioThread.isJoinable()) audioThread.join();
 #endif
 
                 alSourceStop(sourceId);
@@ -372,7 +371,7 @@ namespace ouzel
 
             void AudioDevice::run()
             {
-                setCurrentThreadName("Audio");
+                Thread::setCurrentThreadName("Audio");
 
 #if !defined(__EMSCRIPTEN__)
                 while (running)

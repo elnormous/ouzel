@@ -27,6 +27,7 @@
 #include "network/Network.hpp"
 #include "utils/Ini.hpp"
 #include "utils/Log.hpp"
+#include "utils/Thread.hpp"
 
 namespace ouzel
 {
@@ -132,7 +133,7 @@ namespace ouzel
         ini::Data userSettings;
 
 #if !defined(__EMSCRIPTEN__)
-        std::thread updateThread;
+        Thread updateThread;
         std::mutex updateMutex;
         std::condition_variable updateCondition;
 #endif

@@ -100,9 +100,6 @@ namespace ouzel
             result.push_back(str.substr(initialPos, str.size() - initialPos + 1));
         return result;
     }
-
-    void setCurrentThreadName(const std::string& name);
-    void setThreadPriority(std::thread& t, float priority, bool realtime);
 }
 
 #endif // OUZEL_UTILS_UTILS_HPP

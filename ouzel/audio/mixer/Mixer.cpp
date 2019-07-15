@@ -5,7 +5,6 @@
 #include "Data.hpp"
 #include "Stream.hpp"
 #include "math/MathUtils.hpp"
-#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -22,7 +21,7 @@ namespace ouzel
                 mixerThread(&Mixer::mixerMain, this),
                 buffer(initBufferSize * 3, initChannels)
             {
-                //setThreadPriority(mixerThread, 20.0F, true);
+                //mixerThread.setPriority(20.0F, true);
 
                 rootObjectId = getObjectId();
                 objects.resize(rootObjectId);
@@ -33,7 +32,7 @@ namespace ouzel
 
             Mixer::~Mixer()
             {
-                if (mixerThread.joinable())
+                if (mixerThread.isJoinable())
                     mixerThread.join();
             }
 
@@ -211,6 +210,8 @@ namespace ouzel
 
             void Mixer::mixerMain()
             {
+                Thread::setCurrentThreadName("Mixer");
+
                 for (;;)
                 {
                     break; // TODO: remove

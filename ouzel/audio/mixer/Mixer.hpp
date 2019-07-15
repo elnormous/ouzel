@@ -14,6 +14,7 @@
 #include "audio/mixer/Commands.hpp"
 #include "audio/mixer/Object.hpp"
 #include "audio/mixer/Processor.hpp"
+#include "utils/Thread.hpp"
 
 namespace ouzel
 {
@@ -148,7 +149,7 @@ namespace ouzel
                     std::vector<float> buffer;
                 };
 
-                std::thread mixerThread;
+                Thread mixerThread;
                 std::mutex bufferMutex;
                 std::condition_variable bufferCondition;
                 Buffer buffer;

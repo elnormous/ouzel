@@ -6,7 +6,6 @@
 
 #include "WASAPIAudioDevice.hpp"
 #include "core/Engine.hpp"
-#include "utils/Utils.hpp"
 
 const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
 const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
@@ -256,7 +255,7 @@ namespace ouzel
                 running = false;
                 if (notifyEvent) SetEvent(notifyEvent);
 
-                if (audioThread.joinable()) audioThread.join();
+                if (audioThread.isJoinable()) audioThread.join();
 
                 if (notifyEvent) CloseHandle(notifyEvent);
 
@@ -279,13 +278,13 @@ namespace ouzel
 
                 started = true;
                 running = true;
-                audioThread = std::thread(&AudioDevice::run, this);
+                audioThread = Thread(&AudioDevice::run, this);
             }
 
             void AudioDevice::stop()
             {
                 running = false;
-                if (audioThread.joinable()) audioThread.join();
+                if (audioThread.isJoinable()) audioThread.join();
 
                 if (started)
                 {
@@ -299,7 +298,7 @@ namespace ouzel
 
             void AudioDevice::run()
             {
-                setCurrentThreadName("Audio");
+                Thread::setCurrentThreadName("Audio");
 
                 while (running)
                 {

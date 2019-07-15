@@ -12,6 +12,7 @@
 #include "EGL/egl.h"
 #include "EGL/eglext.h"
 #include "graphics/opengl/OGLRenderDevice.hpp"
+#include "utils/Thread.hpp"
 
 namespace ouzel
 {
@@ -49,7 +50,7 @@ namespace ouzel
                 EGLContext context = 0;
 
                 std::atomic_bool running{false};
-                std::thread renderThread;
+                Thread renderThread;
             };
         } // namespace opengl
     } // namespace graphics

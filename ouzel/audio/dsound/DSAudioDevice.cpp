@@ -8,7 +8,6 @@
 #include "DSAudioDevice.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
-#include "utils/Utils.hpp"
 
 #ifndef WAVE_FORMAT_IEEE_FLOAT
 #  define WAVE_FORMAT_IEEE_FLOAT 0x0003
@@ -195,7 +194,7 @@ namespace ouzel
                 for (HANDLE notifyEvent : notifyEvents)
                     if (notifyEvent) SetEvent(notifyEvent);
 
-                if (audioThread.joinable()) audioThread.join();
+                if (audioThread.isJoinable()) audioThread.join();
 
                 for (HANDLE notifyEvent : notifyEvents)
                     if (notifyEvent) CloseHandle(notifyEvent);
@@ -213,13 +212,13 @@ namespace ouzel
                     throw std::system_error(hr, directSoundErrorCategory, "Failed to play DirectSound buffer");
 
                 running = true;
-                audioThread = std::thread(&AudioDevice::run, this);
+                audioThread = Thread(&AudioDevice::run, this);
             }
 
             void AudioDevice::stop()
             {
                 running = false;
-                if (audioThread.joinable()) audioThread.join();
+                if (audioThread.isJoinable()) audioThread.join();
 
                 HRESULT hr;
                 if (FAILED(hr = buffer->Stop()))
@@ -228,7 +227,7 @@ namespace ouzel
 
             void AudioDevice::run()
             {
-                setCurrentThreadName("Audio");
+                Thread::setCurrentThreadName("Audio");
 
                 while (running)
                 {

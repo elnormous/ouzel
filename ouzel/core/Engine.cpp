@@ -7,7 +7,6 @@
 #include <stdexcept>
 #include "Setup.h"
 #include "Engine.hpp"
-#include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "graphics/Renderer.hpp"
 #include "audio/Audio.hpp"
@@ -101,7 +100,7 @@ namespace ouzel
         active = false;
 
 #if !defined(__EMSCRIPTEN__)
-        if (updateThread.joinable())
+        if (updateThread.isJoinable())
         {
             std::unique_lock<std::mutex> lock(updateMutex);
             updateCondition.notify_all();
@@ -113,7 +112,7 @@ namespace ouzel
 
     void Engine::init()
     {
-        setCurrentThreadName("Main");
+        Thread::setCurrentThreadName("Main");
 
         Size2U size;
         uint32_t sampleCount = 1; // MSAA sample count
@@ -646,7 +645,7 @@ namespace ouzel
             paused = false;
 
 #if !defined(__EMSCRIPTEN__)
-            updateThread = std::thread(&Engine::engineMain, this);
+            updateThread = Thread(&Engine::engineMain, this);
 #else
             main();
 #endif
@@ -695,8 +694,8 @@ namespace ouzel
         }
 
 #if !defined(__EMSCRIPTEN__)
-        if (updateThread.joinable() &&
-            updateThread.get_id() != std::this_thread::get_id())
+        if (updateThread.isJoinable() &&
+            updateThread.getId() != std::this_thread::get_id())
         {
             std::unique_lock<std::mutex> lock(updateMutex);
             updateCondition.notify_all();
@@ -743,7 +742,7 @@ namespace ouzel
 
     void Engine::engineMain()
     {
-        setCurrentThreadName("Application");
+        Thread::setCurrentThreadName("Application");
 
         try
         {

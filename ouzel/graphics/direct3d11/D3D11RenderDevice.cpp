@@ -16,7 +16,6 @@
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Log.hpp"
-#include "utils/Utils.hpp"
 #include "stb_image_write.h"
 
 namespace ouzel
@@ -81,7 +80,7 @@ namespace ouzel
                 commandBuffer.pushCommand(std::make_unique<PresentCommand>());
                 submitCommandBuffer(std::move(commandBuffer));
 
-                if (renderThread.joinable()) renderThread.join();
+                if (renderThread.isJoinable()) renderThread.join();
 
                 resources.clear();
 
@@ -324,7 +323,7 @@ namespace ouzel
                     throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 depth stencil state");
 
                 running = true;
-                renderThread = std::thread(&RenderDevice::renderMain, this);
+                renderThread = Thread(&RenderDevice::renderMain, this);
             }
 
             void RenderDevice::setFullscreen(bool newFullscreen)
@@ -1145,7 +1144,7 @@ namespace ouzel
 
             void RenderDevice::renderMain()
             {
-                setCurrentThreadName("Render");
+                Thread::setCurrentThreadName("Render");
 
                 while (running)
                 {

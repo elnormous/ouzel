@@ -15,6 +15,7 @@
 #include "math/Quaternion.hpp"
 #include "math/Size.hpp"
 #include "math/Vector.hpp"
+#include "utils/Thread.hpp"
 
 namespace ouzel
 {
@@ -213,7 +214,7 @@ namespace ouzel
             threshold(initThreshold)
         {
 #if !defined(__EMSCRIPTEN__)
-            logThread = std::thread(&Logger::logLoop, this);
+            logThread = Thread(&Logger::logLoop, this);
 #endif
         }
 
@@ -229,7 +230,7 @@ namespace ouzel
             running = false;
             lock.unlock();
             logCondition.notify_all();
-            if (logThread.joinable()) logThread.join();
+            if (logThread.isJoinable()) logThread.join();
 #endif
         }
 
@@ -281,7 +282,7 @@ namespace ouzel
         mutable std::condition_variable logCondition;
         mutable std::mutex queueMutex;
         mutable std::queue<std::pair<Log::Level, std::string>> logQueue;
-        std::thread logThread;
+        Thread logThread;
         bool running = true;
 #endif
     };

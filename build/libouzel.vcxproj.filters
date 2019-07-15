@@ -519,6 +519,9 @@
     <ClInclude Include="..\ouzel\utils\Obf.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\utils\Thread.hpp">
+      <Filter>ouzel\utils</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\utils\Utf8.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>

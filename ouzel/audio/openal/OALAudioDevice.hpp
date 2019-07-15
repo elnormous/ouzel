@@ -19,6 +19,7 @@
 #endif
 
 #include "audio/AudioDevice.hpp"
+#include "utils/Thread.hpp"
 
 namespace ouzel
 {
@@ -66,7 +67,7 @@ namespace ouzel
 
 #if !defined(__EMSCRIPTEN__)
                 std::atomic_bool running{false};
-                std::thread audioThread;
+                Thread audioThread;
 #endif
             };
         } // namespace openal

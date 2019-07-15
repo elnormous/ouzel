@@ -28,6 +28,7 @@
 
 #include "graphics/RenderDevice.hpp"
 #include "graphics/direct3d11/D3D11Texture.hpp"
+#include "utils/Thread.hpp"
 
 namespace ouzel
 {
@@ -124,7 +125,7 @@ namespace ouzel
                 UINT swapInterval = 0;
 
                 std::atomic_bool running{false};
-                std::thread renderThread;
+                Thread renderThread;
 
                 std::vector<std::unique_ptr<RenderResource>> resources;
             };

@@ -22,6 +22,7 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "graphics/opengl/OGLRenderDevice.hpp"
+#include "utils/Thread.hpp"
 
 namespace ouzel
 {
@@ -55,7 +56,7 @@ namespace ouzel
                 HGLRC renderContext = 0;
 
                 std::atomic_bool running{false};
-                std::thread renderThread;
+                Thread renderThread;
             };
         } // namespace opengl
     } // namespace graphics

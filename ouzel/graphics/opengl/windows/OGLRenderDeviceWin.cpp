@@ -13,7 +13,6 @@
 #include "core/Window.hpp"
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Log.hpp"
-#include "utils/Utils.hpp"
 
 static constexpr LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
 
@@ -148,7 +147,7 @@ namespace ouzel
                 commandBuffer.pushCommand(std::make_unique<PresentCommand>());
                 submitCommandBuffer(std::move(commandBuffer));
 
-                if (renderThread.joinable()) renderThread.join();
+                if (renderThread.isJoinable()) renderThread.join();
 
                 if (renderContext)
                 {
@@ -316,7 +315,7 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL context");
 
                 running = true;
-                renderThread = std::thread(&RenderDeviceWin::renderMain, this);
+                renderThread = Thread(&RenderDeviceWin::renderMain, this);
             }
 
             void RenderDeviceWin::present()
@@ -327,7 +326,7 @@ namespace ouzel
 
             void RenderDeviceWin::renderMain()
             {
-                setCurrentThreadName("Render");
+                Thread::setCurrentThreadName("Render");
 
                 if (!wglMakeCurrent(deviceContext, renderContext))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to set current OpenGL context");

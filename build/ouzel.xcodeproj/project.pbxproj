@@ -1001,6 +1001,7 @@
 		30724D811F353A0800D915ED /* ViewIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewIOS.h; sourceTree = "<group>"; };
 		30724D841F353A1800D915ED /* ViewTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewTVOS.mm; sourceTree = "<group>"; };
 		30724D851F353A1800D915ED /* ViewTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewTVOS.h; sourceTree = "<group>"; };
+		30769B7B22DBFB17000F4EC2 /* Thread.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Thread.hpp; sourceTree = "<group>"; };
 		307726CE2187F2880050F94C /* SystemCursor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SystemCursor.hpp; sourceTree = "<group>"; };
 		307934D222C58CFE005A6804 /* Bank.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bank.cpp; sourceTree = "<group>"; };
 		307934D322C58CFE005A6804 /* Bank.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bank.hpp; sourceTree = "<group>"; };
@@ -1769,6 +1770,7 @@
 				3030D5011DAEF1FA007CC8EB /* Log.hpp */,
 				304AA8BC1E1190E4006FA70E /* Obf.cpp */,
 				304AA8BD1E1190E4006FA70E /* Obf.hpp */,
+				30769B7B22DBFB17000F4EC2 /* Thread.hpp */,
 				C6C9100B21AEB47E00B5FCB7 /* Utf8.hpp */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,
 				304A8E491C237C70008B1151 /* Utils.hpp */,

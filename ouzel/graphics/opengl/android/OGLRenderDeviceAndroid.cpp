@@ -9,7 +9,6 @@
 #include "core/Window.hpp"
 #include "core/android/NativeWindowAndroid.hpp"
 #include "utils/Log.hpp"
-#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -62,7 +61,7 @@ namespace ouzel
                 commandBuffer.pushCommand(std::make_unique<PresentCommand>());
                 submitCommandBuffer(std::move(commandBuffer));
 
-                if (renderThread.joinable()) renderThread.join();
+                if (renderThread.isJoinable()) renderThread.join();
 
                 if (context)
                 {
@@ -193,7 +192,7 @@ namespace ouzel
                     throw std::runtime_error("Failed to unset EGL context");
 
                 running = true;
-                renderThread = std::thread(&RenderDeviceAndroid::renderMain, this);
+                renderThread = Thread(&RenderDeviceAndroid::renderMain, this);
             }
 
             void RenderDeviceAndroid::reload()
@@ -203,7 +202,7 @@ namespace ouzel
                 commandBuffer.pushCommand(std::make_unique<PresentCommand>());
                 submitCommandBuffer(std::move(commandBuffer));
 
-                if (renderThread.joinable()) renderThread.join();
+                if (renderThread.isJoinable()) renderThread.join();
 
                 const EGLint attributeList[] =
                 {
@@ -305,7 +304,7 @@ namespace ouzel
                     throw std::runtime_error("Failed to unset EGL context");
 
                 running = true;
-                renderThread = std::thread(&RenderDeviceAndroid::renderMain, this);
+                renderThread = Thread(&RenderDeviceAndroid::renderMain, this);
             }
 
             void RenderDeviceAndroid::destroy()
@@ -315,7 +314,7 @@ namespace ouzel
                 commandBuffer.pushCommand(std::make_unique<PresentCommand>());
                 submitCommandBuffer(std::move(commandBuffer));
 
-                if (renderThread.joinable()) renderThread.join();
+                if (renderThread.isJoinable()) renderThread.join();
 
                 if (context)
                 {
@@ -345,7 +344,7 @@ namespace ouzel
 
             void RenderDeviceAndroid::renderMain()
             {
-                setCurrentThreadName("Render");
+                Thread::setCurrentThreadName("Render");
 
                 if (!eglMakeCurrent(display, surface, surface, context))
                     throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set current EGL context");
