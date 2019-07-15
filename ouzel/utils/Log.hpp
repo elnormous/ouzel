@@ -227,10 +227,9 @@ namespace ouzel
         {
 #if !defined(__EMSCRIPTEN__)
             std::unique_lock<std::mutex> lock(queueMutex);
-            running = false;
+            commandQueue.push(Command(Command::Type::Quit));
             lock.unlock();
-            logCondition.notify_all();
-            if (logThread.isJoinable()) logThread.join();
+            queueCondition.notify_all();
 #endif
         }
 
@@ -247,9 +246,9 @@ namespace ouzel
                 logString(str, level);
 #else
                 std::unique_lock<std::mutex> lock(queueMutex);
-                logQueue.push(std::make_pair(level, str));
+                commandQueue.push(Command(Command::Type::LogString, level, str));
                 lock.unlock();
-                logCondition.notify_all();
+                queueCondition.notify_all();
 #endif
             }
         }
@@ -264,26 +263,53 @@ namespace ouzel
 #endif
 
 #if !defined(__EMSCRIPTEN__)
+        class Command
+        {
+        public:
+            enum class Type
+            {
+                LogString,
+                Quit
+            };
+
+            Command(Type initType):
+                type(initType)
+            {
+            }
+
+            Command(Type initType, Log::Level initLevel, const std::string& initString):
+                type(initType),
+                level(initLevel),
+                str(initString)
+            {
+            }
+
+            Type type;
+            Log::Level level;
+            std::string str;
+        };
+
         void logLoop()
         {
             for (;;)
             {
                 std::unique_lock<std::mutex> lock(queueMutex);
-                while (running && logQueue.empty()) logCondition.wait(lock);
-                if (!running) break;
-                auto str = std::move(logQueue.front());
-                logQueue.pop();
+                while (commandQueue.empty()) queueCondition.wait(lock);
+                auto command = std::move(commandQueue.front());
+                commandQueue.pop();
                 lock.unlock();
 
-                logString(str.second, str.first);
+                if (command.type == Command::Type::LogString)
+                    logString(command.str, command.level);
+                else if (command.type == Command::Type::Quit)
+                    break;
             }
         }
 
-        mutable std::condition_variable logCondition;
+        mutable std::condition_variable queueCondition;
         mutable std::mutex queueMutex;
-        mutable std::queue<std::pair<Log::Level, std::string>> logQueue;
+        mutable std::queue<Command> commandQueue;
         Thread logThread;
-        bool running = true;
 #endif
     };
 }
