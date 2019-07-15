@@ -755,9 +755,8 @@ namespace ouzel
 
                 // BOM
                 if (data.size() >= 3 &&
-                    data[0] == UTF8_BOM[0] &&
-                    data[1] == UTF8_BOM[1] &&
-                    data[2] == UTF8_BOM[2])
+                    std::equal(data.begin(), data.begin() + 3,
+                               UTF8_BOM.begin(), UTF8_BOM.end()))
                 {
                     bom = true;
                     str = utf8::toUtf32(data.begin() + 3, data.end());
