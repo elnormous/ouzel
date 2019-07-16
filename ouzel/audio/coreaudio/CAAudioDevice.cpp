@@ -216,8 +216,9 @@ namespace ouzel
                 streamDescription.mFormatID = kAudioFormatLinearPCM;
                 streamDescription.mFormatFlags = kLinearPCMFormatFlagIsFloat;
 #if TARGET_OS_IOS
-                // TODO: get speaker count
-                channels = 1;
+                // iPhone does not support more than 2 channels
+                if (channels > 2)
+                    channels = 2;
 #endif
                 streamDescription.mChannelsPerFrame = channels;
                 streamDescription.mFramesPerPacket = 1;
