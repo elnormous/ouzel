@@ -11,6 +11,7 @@
 
 #if TARGET_OS_IOS || TARGET_OS_TV
 #  include <objc/message.h>
+#  include <objc/NSObjCRuntime.h>
 extern "C" id const AVAudioSessionCategoryAmbient;
 #elif TARGET_OS_MAC
 static OSStatus deviceListChanged(AudioObjectID, UInt32, const AudioObjectPropertyAddress*, void*)
@@ -91,8 +92,26 @@ namespace ouzel
                 OSStatus result;
 
 #if TARGET_OS_IOS || TARGET_OS_TV
-                id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));
-                reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil);
+                id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance")); // [AVAudioSession sharedInstance]
+                if (!reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil)) // [audioSession setCategory:AVAudioSessionCategoryAmbient error:nil]
+                    throw std::runtime_error("Failed to set audio session category");
+
+                id currentRoute = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(audioSession, sel_getUid("currentRoute")); // [audioSession currentRoute]
+                id outputs = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(currentRoute, sel_getUid("outputs")); // [currentRoute outputs]
+                NSUInteger count = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(outputs, sel_getUid("count")); // [outputs count]
+
+                NSUInteger maxChannelCount = 0;
+                for (NSUInteger outputIndex = 0; outputIndex < count; ++outputIndex)
+                {
+                    id output = reinterpret_cast<id (*)(id, SEL, NSUInteger)>(&objc_msgSend)(outputs, sel_getUid("objectAtIndex:"), outputIndex); // [outputs objectAtIndex:outputIndex]
+                    id channels = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(output, sel_getUid("channels")); // [output channels]
+                    NSUInteger channelCount = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(channels, sel_getUid("count")); // [channels count]
+                    if (channelCount > maxChannelCount)
+                        maxChannelCount = channelCount;
+                }
+
+                if (channels > maxChannelCount)
+                    channels = static_cast<uint16_t>(maxChannelCount);
 #elif TARGET_OS_MAC
                 static constexpr AudioObjectPropertyAddress deviceListAddress = {
                     kAudioHardwarePropertyDevices,
@@ -215,11 +234,6 @@ namespace ouzel
                 streamDescription.mSampleRate = sampleRate;
                 streamDescription.mFormatID = kAudioFormatLinearPCM;
                 streamDescription.mFormatFlags = kLinearPCMFormatFlagIsFloat;
-#if TARGET_OS_IOS
-                // iPhone does not support more than 2 channels
-                if (channels > 2)
-                    channels = 2;
-#endif
                 streamDescription.mChannelsPerFrame = channels;
                 streamDescription.mFramesPerPacket = 1;
                 streamDescription.mBitsPerChannel = sizeof(float) * 8;
