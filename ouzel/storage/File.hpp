@@ -108,7 +108,7 @@ namespace ouzel
             File(const File&) = delete;
             File& operator=(const File&) = delete;
 
-            File(File&& other)
+            File(File&& other) noexcept
             {
 #if defined(_WIN32)
                 file = other.file;
@@ -119,7 +119,7 @@ namespace ouzel
 #endif
             }
 
-            File& operator=(File&& other)
+            File& operator=(File&& other) noexcept
             {
                 if (&other == this) return *this;
 

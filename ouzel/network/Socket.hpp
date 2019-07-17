@@ -31,7 +31,7 @@ namespace ouzel
 {
     namespace network
     {
-        inline int getLastError()
+        inline int getLastError() noexcept
         {
 #ifdef _WIN32
             return WSAGetLastError();
