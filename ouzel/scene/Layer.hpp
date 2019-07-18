@@ -29,7 +29,7 @@ namespace ouzel
 
             void addChild(Actor* actor) override;
 
-            inline const auto& getCameras() const noexcept { return cameras; }
+            inline auto& getCameras() const noexcept { return cameras; }
 
             std::pair<Actor*, Vector3F> pickActor(const Vector2F& position, bool renderTargets = false) const;
             std::vector<std::pair<Actor*, Vector3F>> pickActors(const Vector2F& position, bool renderTargets = false) const;

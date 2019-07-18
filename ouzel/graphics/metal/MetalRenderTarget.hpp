@@ -44,11 +44,11 @@ namespace ouzel
                              Texture* initDepthTexture);
                 ~RenderTarget();
 
-                inline const auto& getColorTextures() const noexcept { return colorTextures; }
+                inline auto& getColorTextures() const noexcept { return colorTextures; }
                 inline auto getDepthTexture() const { return depthTexture; }
 
                 inline auto getSampleCount() const noexcept { return sampleCount; }
-                inline const auto& getColorFormats() const noexcept { return colorFormats; }
+                inline auto& getColorFormats() const noexcept { return colorFormats; }
                 inline auto getDepthFormat() const noexcept { return depthFormat; }
                 inline auto getStencilFormat() const noexcept { return stencilFormat; }
 

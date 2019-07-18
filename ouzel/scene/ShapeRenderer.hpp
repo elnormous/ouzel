@@ -54,10 +54,10 @@ namespace ouzel
                        uint32_t segments = 16,
                        float thickness = 0.0F);
 
-            inline const auto& getShader() const noexcept { return shader; }
+            inline auto& getShader() const noexcept { return shader; }
             inline void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
 
-            inline const auto& getBlendState() const noexcept { return blendState; }
+            inline auto& getBlendState() const noexcept { return blendState; }
             inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState) { blendState = newBlendState; }
 
         private:

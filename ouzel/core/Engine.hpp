@@ -58,7 +58,7 @@ namespace ouzel
 
         void init();
 
-        inline const auto& getArgs() const noexcept { return args; }
+        inline auto& getArgs() const noexcept { return args; }
 
         inline Log log(Log::Level level = Log::Level::Info) const { return logger.log(level); }
         inline Logger& getLogger() { return logger; }
@@ -67,15 +67,15 @@ namespace ouzel
         inline EventDispatcher& getEventDispatcher() { return eventDispatcher; }
         inline assets::Cache& getCache() { return cache; }
         inline auto getWindow() { return window.get(); }
-        inline graphics::Renderer* getRenderer() const { return renderer.get(); }
-        inline audio::Audio* getAudio() const { return audio.get(); }
+        inline auto getRenderer() const { return renderer.get(); }
+        inline auto getAudio() const { return audio.get(); }
         inline scene::SceneManager& getSceneManager() { return sceneManager; }
-        inline input::InputManager* getInputManager() const { return inputManager.get(); }
+        inline auto getInputManager() const { return inputManager.get(); }
         inline Localization& getLocalization() { return localization; }
         inline network::Network& getNetwork() { return network; }
 
-        inline const auto& getDefaultSettings() const { return defaultSettings; }
-        inline const auto& getUserSettings() const { return userSettings; }
+        inline auto& getDefaultSettings() const { return defaultSettings; }
+        inline auto& getUserSettings() const { return userSettings; }
 
         void start();
         void pause();

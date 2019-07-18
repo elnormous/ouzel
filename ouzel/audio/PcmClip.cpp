@@ -40,7 +40,7 @@ namespace ouzel
                 sampleRate = initSampleRate;
             }
 
-            const auto& getSamples() const noexcept { return samples; }
+            auto& getSamples() const noexcept { return samples; }
 
             std::unique_ptr<mixer::Stream> createStream() final
             {

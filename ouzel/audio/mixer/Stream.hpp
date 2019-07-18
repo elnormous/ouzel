@@ -30,7 +30,7 @@ namespace ouzel
                     if (output) output->removeInput(this);
                 }
 
-                const auto& getData() const noexcept { return data; }
+                auto& getData() const noexcept { return data; }
 
                 void setOutput(Bus* newOutput)
                 {

@@ -50,7 +50,7 @@ namespace ouzel
 
             inline auto getDevice() const { return device.get(); }
 
-            inline const auto& getSize() const noexcept { return size; }
+            inline auto& getSize() const noexcept { return size; }
 
             void saveScreenshot(const std::string& filename);
 

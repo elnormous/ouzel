@@ -30,7 +30,7 @@ namespace ouzel
 
             Mouse(InputManager& initInputManager, uint32_t initDeviceId);
 
-            inline const auto& getPosition() const noexcept { return position; }
+            inline auto& getPosition() const noexcept { return position; }
             void setPosition(const Vector2F& newPosition);
             inline auto isButtonDown(Button button) const
             {

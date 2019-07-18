@@ -38,7 +38,7 @@ namespace ouzel
             static Driver getDriver(const std::string& driver);
             static std::set<Driver> getAvailableAudioDrivers();
 
-            inline AudioDevice* getDevice() const noexcept { return device.get(); }
+            inline auto getDevice() const noexcept { return device.get(); }
             inline mixer::Mixer& getMixer() { return mixer; }
             inline Mix& getMasterMix() { return masterMix; }
 
@@ -56,7 +56,7 @@ namespace ouzel
             uintptr_t initProcessor(std::unique_ptr<mixer::Processor> processor);
             void updateProcessor(uintptr_t processorId, const std::function<void(mixer::Processor*)>& updateFunction);
 
-            Node& getRootNode() { return rootNode; }
+            auto& getRootNode() { return rootNode; }
 
         private:
             void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);

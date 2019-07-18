@@ -50,12 +50,12 @@ namespace ouzel
                       const Vector2F& sourceOffset,
                       const Vector2F& pivot);
 
-                inline const auto& getName() const noexcept { return name; }
+                inline auto& getName() const noexcept { return name; }
 
-                inline const auto& getBoundingBox() const noexcept { return boundingBox; }
+                inline auto& getBoundingBox() const noexcept { return boundingBox; }
                 inline auto getIndexCount() const noexcept { return indexCount; }
-                inline const auto& getIndexBuffer() const noexcept { return indexBuffer; }
-                inline const auto& getVertexBuffer() const noexcept { return vertexBuffer; }
+                inline auto& getIndexBuffer() const noexcept { return indexBuffer; }
+                inline auto& getVertexBuffer() const noexcept { return vertexBuffer; }
 
             private:
                 std::string name;
@@ -101,10 +101,10 @@ namespace ouzel
                       const Matrix4F& renderViewProjection,
                       bool wireframe) override;
 
-            inline const auto& getMaterial() const noexcept { return material; }
+            inline auto& getMaterial() const noexcept { return material; }
             inline void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
-            inline const auto& getOffset() const noexcept { return offset; }
+            inline auto& getOffset() const noexcept { return offset; }
             void setOffset(const Vector2F& newOffset);
 
             void play();
@@ -113,8 +113,8 @@ namespace ouzel
             inline auto isPlaying() const noexcept { return playing; }
 
             inline const std::map<std::string, SpriteData::Animation>& getAnimations() const noexcept { return animations; }
-            inline const SpriteData::Animation* getAnimation() const noexcept { return currentAnimation->animation; }
-            inline const auto& getAnimationName() const noexcept { return currentAnimation->animation->name; }
+            inline auto getAnimation() const noexcept { return currentAnimation->animation; }
+            inline auto& getAnimationName() const noexcept { return currentAnimation->animation->name; }
             bool hasAnimation(const std::string& animation) const;
             void setAnimation(const std::string& newAnimation, bool repeat = true);
             void addAnimation(const std::string& newAnimation, bool repeat = true);

@@ -59,11 +59,9 @@ namespace ouzel
             if (t.joinable()) t.join();
         }
 
-        bool isJoinable() const { return t.joinable(); }
-
-        std::thread::id getId() const noexcept { return t.get_id(); }
-
-        std::thread::native_handle_type getNativeHandle() { return t.native_handle(); }
+        inline auto isJoinable() const { return t.joinable(); }
+        inline auto getId() const noexcept { return t.get_id(); }
+        inline auto getNativeHandle() { return t.native_handle(); }
 
         void join()
         {

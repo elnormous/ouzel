@@ -613,7 +613,7 @@ namespace ouzel
             {
             }
 
-            inline const auto& getName() const noexcept { return name; }
+            inline auto& getName() const noexcept { return name; }
 
             inline auto isEmpty() const { return commands.empty(); }
 
@@ -629,7 +629,7 @@ namespace ouzel
                 return result;
             }
 
-            inline const auto& getCommands() const
+            inline auto& getCommands() const
             {
                 return commands;
             }

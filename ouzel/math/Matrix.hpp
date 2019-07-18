@@ -409,7 +409,7 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        ConvexVolume<T> getFrustum() const
+        auto getFrustum() const
         {
             return ConvexVolume<T>({
                 getFrustumLeftPlane(),
@@ -657,7 +657,7 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        Quaternion<T> getRotation() const
+        auto getRotation() const
         {
             const Vector<3, T> scale = getScale();
 

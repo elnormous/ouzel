@@ -59,7 +59,7 @@ namespace ouzel
         inline auto getProtocolsAtom() const noexcept { return protocolsAtom; }
         inline auto getDeleteAtom() const noexcept { return deleteAtom; }
 #elif OUZEL_SUPPORTS_DISPMANX
-        const auto& getNativeWindow() const noexcept { return window; }
+        auto& getNativeWindow() const noexcept { return window; }
 #endif
 
     private:

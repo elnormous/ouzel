@@ -60,10 +60,10 @@ namespace ouzel
                     uint32_t size;
                 };
 
-                inline const auto& getVertexAttributes() const noexcept { return vertexAttributes; }
+                inline auto& getVertexAttributes() const noexcept { return vertexAttributes; }
 
-                const auto& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
-                const auto& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
+                auto& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
+                auto& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
 
                 inline auto getFragmentShader() const noexcept { return fragmentShader; }
                 inline auto getVertexShader() const noexcept { return vertexShader; }

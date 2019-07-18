@@ -30,13 +30,13 @@ namespace ouzel
 
             void setMix(Mix* newMix);
 
-            inline const auto& getPosition() const noexcept { return position; }
+            inline auto& getPosition() const noexcept { return position; }
             inline void setPosition(const Vector3F& newPosition) { position = newPosition; }
 
-            inline const auto& getVelocity() const noexcept { return velocity; }
+            inline auto& getVelocity() const noexcept { return velocity; }
             inline void setVelocity(const Vector3F& newVelocity) { velocity = newVelocity; }
 
-            inline const auto& getRotation() const noexcept { return rotation; }
+            inline auto& getRotation() const noexcept { return rotation; }
             inline void setRotation(const QuaternionF& newRotation) { rotation = newRotation; }
 
         private:

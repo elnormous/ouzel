@@ -116,21 +116,21 @@ namespace ouzel
             virtual bool pointOn(const Vector2F& worldPosition) const;
             virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
 
-            const auto& getLocalTransform() const
+            auto& getLocalTransform() const
             {
                 if (localTransformDirty) calculateLocalTransform();
 
                 return localTransform;
             }
 
-            const auto& getTransform() const
+            auto& getTransform() const
             {
                 if (transformDirty) calculateTransform();
 
                 return transform;
             }
 
-            const auto& getInverseTransform() const
+            auto& getInverseTransform() const
             {
                 if (inverseTransformDirty) calculateInverseTransform();
 
@@ -153,7 +153,7 @@ namespace ouzel
             bool removeComponent(Component* component);
 
             void removeAllComponents();
-            inline const auto& getComponents() const noexcept { return components; }
+            inline auto& getComponents() const noexcept { return components; }
 
             Box3F getBoundingBox() const;
 

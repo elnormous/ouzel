@@ -34,9 +34,9 @@ namespace ouzel
                    const std::string& fragmentShaderFunction = "",
                    const std::string& vertexShaderFunction = "");
 
-            inline const auto& getResource() const noexcept { return resource; }
+            inline auto& getResource() const noexcept { return resource; }
 
-            inline const auto& getVertexAttributes() const { return vertexAttributes; }
+            inline auto& getVertexAttributes() const { return vertexAttributes; }
 
         private:
             RenderDevice::Resource resource;

@@ -31,7 +31,7 @@ namespace ouzel
             inline auto getColor() const noexcept { return color; }
             inline void setColor(Color newColor) { color = newColor; }
 
-            inline const auto& getDirection() const noexcept { return direction; }
+            inline auto& getDirection() const noexcept { return direction; }
             inline void setDirection(const QuaternionF& newDirection) { direction = newDirection; }
 
             inline auto getAngle() const noexcept { return angle; }

@@ -25,10 +25,10 @@ namespace ouzel
                          const std::vector<std::shared_ptr<Texture>>& initColorTextures,
                          const std::shared_ptr<Texture>& initDepthTexture);
 
-            inline const auto& getResource() const noexcept { return resource; }
+            inline auto& getResource() const noexcept { return resource; }
 
-            inline const auto& getColorTextures() const noexcept { return colorTextures; }
-            inline const auto& getDepthTexture() const noexcept { return depthTexture; }
+            inline auto& getColorTextures() const noexcept { return colorTextures; }
+            inline auto& getDepthTexture() const noexcept { return depthTexture; }
 
         private:
             RenderDevice::Resource resource;
