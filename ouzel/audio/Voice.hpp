@@ -39,12 +39,12 @@ namespace ouzel
                 return *this;
             }
 
-            inline const std::shared_ptr<Sound>& getSound() const noexcept { return sound; }
+            inline const auto& getSound() const noexcept { return sound; }
 
-            inline const Vector3F& getPosition() const noexcept { return position; }
+            inline const auto& getPosition() const noexcept { return position; }
             inline void setPosition(const Vector3F& newPosition) { position = newPosition; }
 
-            inline const Vector3F& getVelocity() const noexcept { return velocity; }
+            inline const auto& getVelocity() const noexcept { return velocity; }
             inline void setVelocity(const Vector3F& newVelocity) { velocity = newVelocity; }
 
             void play();

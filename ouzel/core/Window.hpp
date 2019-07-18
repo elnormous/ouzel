@@ -48,10 +48,10 @@ namespace ouzel
         void close();
         void update();
 
-        inline const Size2U& getSize() const noexcept { return size; }
+        inline const auto& getSize() const noexcept { return size; }
         void setSize(const Size2U& newSize);
 
-        inline const Size2U& getResolution() const noexcept { return resolution; }
+        inline const auto& getResolution() const noexcept { return resolution; }
 
         inline auto isResizable() const noexcept { return resizable; }
 
@@ -60,7 +60,7 @@ namespace ouzel
 
         inline auto isExclusiveFullscreen() const noexcept { return exclusiveFullscreen; }
 
-        inline const std::string& getTitle() const noexcept { return title; }
+        inline const auto& getTitle() const noexcept { return title; }
         void setTitle(const std::string& newTitle);
         void bringToFront();
         void show();

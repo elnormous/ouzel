@@ -243,7 +243,7 @@ namespace ouzel
             }
         };
 
-        inline const GamepadConfig& getGamepadConfig(int32_t vendorId, int32_t productId)
+        inline const auto& getGamepadConfig(int32_t vendorId, int32_t productId)
         {
             if (vendorId == 0x054C && (productId == 0x0268 || productId == 0x02EA)) // Sony Playstation 3 controller
                 return PLAYSTATION_3_CONFIG;

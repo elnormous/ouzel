@@ -36,10 +36,5 @@ namespace ouzel
                                                                         fragmentShaderFunction,
                                                                         vertexShaderFunction));
         }
-
-        const std::set<Vertex::Attribute::Usage>& Shader::getVertexAttributes() const
-        {
-            return vertexAttributes;
-        }
     } // namespace graphics
 } // namespace ouzel

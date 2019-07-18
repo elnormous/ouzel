@@ -28,7 +28,7 @@ namespace ouzel
                        BlendOperation initAlphaOperation,
                        uint8_t initColorMask = ColorMask::All);
 
-            inline const RenderDevice::Resource& getResource() const noexcept { return resource; }
+            inline const auto& getResource() const noexcept { return resource; }
 
             inline auto isBlendingEnabled() const noexcept { return enableBlending; }
 

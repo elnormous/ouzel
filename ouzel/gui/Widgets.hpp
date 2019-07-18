@@ -111,7 +111,7 @@ namespace ouzel
         public:
             EditBox();
 
-            inline const std::string& getValue() const { return value; }
+            inline const auto& getValue() const { return value; }
             void setValue(const std::string& newValue);
 
         private:
@@ -127,10 +127,10 @@ namespace ouzel
                   Color color = Color::white(),
                   const Vector2F& textAnchor = Vector2F{0.5F, 0.5F});
 
-            inline const std::string& getText() const { return text; }
+            inline const auto& getText() const { return text; }
             virtual void setText(const std::string& newText);
 
-            inline const std::shared_ptr<scene::TextRenderer>& getLabelDrawable() const { return labelDrawable; }
+            inline const auto& getLabelDrawable() const { return labelDrawable; }
 
         private:
             std::string text;

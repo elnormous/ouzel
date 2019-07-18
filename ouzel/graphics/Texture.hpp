@@ -45,9 +45,9 @@ namespace ouzel
                     uint32_t initFlags = 0,
                     PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
 
-            inline const RenderDevice::Resource& getResource() const noexcept { return resource; }
+            inline const auto& getResource() const noexcept { return resource; }
 
-            inline const Size2U& getSize() const noexcept { return size; }
+            inline const auto& getSize() const noexcept { return size; }
 
             void setData(const std::vector<uint8_t>& newData, CubeFace face = CubeFace::PositiveX);
 

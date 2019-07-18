@@ -34,7 +34,7 @@ namespace ouzel
             void update();
             inline auto getInputSystem() const { return inputSystem.get(); }
 
-            inline const std::vector<Controller*>& getControllers() const noexcept { return controllers; }
+            inline const auto& getControllers() const noexcept { return controllers; }
             inline auto getKeyboard() const noexcept { return keyboard; }
             inline auto getMouse() const noexcept { return mouse; }
             inline auto getTouchpad() const noexcept { return touchpad; }

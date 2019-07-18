@@ -61,10 +61,10 @@ namespace ouzel
                     DataType dataType;
                 };
 
-                inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const noexcept { return vertexAttributes; }
+                inline const auto& getVertexAttributes() const noexcept { return vertexAttributes; }
 
-                inline const std::vector<Location>& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
-                inline const std::vector<Location>& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
+                inline const auto& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
+                inline const auto& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
 
                 inline auto getProgramId() const noexcept { return programId; }
 

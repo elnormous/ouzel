@@ -613,7 +613,7 @@ namespace ouzel
             {
             }
 
-            inline const std::string& getName() const noexcept { return name; }
+            inline const auto& getName() const noexcept { return name; }
 
             inline auto isEmpty() const { return commands.empty(); }
 
@@ -629,7 +629,7 @@ namespace ouzel
                 return result;
             }
 
-            inline const std::queue<std::unique_ptr<Command>>& getCommands() const
+            inline const auto& getCommands() const
             {
                 return commands;
             }

@@ -35,7 +35,7 @@ namespace ouzel
                               StencilOperation initBackFaceStencilPassOperation,
                               CompareFunction initBackFaceStencilCompareFunction);
 
-            inline const RenderDevice::Resource& getResource() const noexcept { return resource; }
+            inline const auto& getResource() const noexcept { return resource; }
 
         private:
             RenderDevice::Resource resource;

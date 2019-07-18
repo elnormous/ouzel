@@ -32,7 +32,7 @@ namespace ouzel
             {
             }
 
-            inline const std::string& getName() const noexcept { return name; }
+            inline const auto& getName() const noexcept { return name; }
             inline void setName(const std::string& newName) { name = newName; }
 
             inline const std::map<std::string, std::string>& getValues() const noexcept { return values; }
@@ -43,7 +43,7 @@ namespace ouzel
                 return valueIterator != values.end();
             }
 
-            const std::string& getValue(const std::string& key)
+            const auto& getValue(const std::string& key)
             {
                 return values[key];
             }
@@ -57,7 +57,7 @@ namespace ouzel
                 return std::string();
             }
 
-            const std::string& getValue(const std::string& key, const std::string& defaultValue) const
+            const auto& getValue(const std::string& key, const std::string& defaultValue) const
             {
                 auto valueIterator = values.find(key);
 

@@ -89,7 +89,7 @@ namespace ouzel
             inline auto getPlayerIndex() const noexcept { return playerIndex; }
             void setPlayerIndex(int32_t newPlayerIndex);
 
-            inline const ButtonState& getButtonState(Button button) const
+            inline const auto& getButtonState(Button button) const
             {
                 return buttonStates[static_cast<uint32_t>(button)];
             }

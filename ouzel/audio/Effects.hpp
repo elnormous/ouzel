@@ -68,7 +68,7 @@ namespace ouzel
             Panner(Panner&&) = delete;
             Panner& operator=(Panner&&) = delete;
 
-            inline const Vector3F& getPosition() const noexcept { return position; }
+            inline const auto& getPosition() const noexcept { return position; }
             void setPosition(const Vector3F& newPosition);
 
             inline auto getRolloffFactor() const noexcept { return rolloffFactor; }

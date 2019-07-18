@@ -58,7 +58,7 @@ namespace ouzel
 
         void init();
 
-        inline const std::vector<std::string>& getArgs() const noexcept { return args; }
+        inline const auto& getArgs() const noexcept { return args; }
 
         inline Log log(Log::Level level = Log::Level::Info) const { return logger.log(level); }
         inline Logger& getLogger() { return logger; }
@@ -74,8 +74,8 @@ namespace ouzel
         inline Localization& getLocalization() { return localization; }
         inline network::Network& getNetwork() { return network; }
 
-        inline const ini::Data& getDefaultSettings() const { return defaultSettings; }
-        inline const ini::Data& getUserSettings() const { return userSettings; }
+        inline const auto& getDefaultSettings() const { return defaultSettings; }
+        inline const auto& getUserSettings() const { return userSettings; }
 
         void start();
         void pause();

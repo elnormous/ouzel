@@ -25,8 +25,8 @@ namespace ouzel
             }
 
             inline auto getPixelFormat() const noexcept { return pixelFormat; }
-            inline const Size2U& getSize() const noexcept { return size; }
-            inline const std::vector<uint8_t>& getData() const noexcept { return data; }
+            inline const auto& getSize() const noexcept { return size; }
+            inline const auto& getData() const noexcept { return data; }
 
         private:
             PixelFormat pixelFormat = PixelFormat::Default;

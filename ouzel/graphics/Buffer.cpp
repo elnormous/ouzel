@@ -46,7 +46,7 @@ namespace ouzel
                                                                         initType,
                                                                         initFlags,
                                                                         std::vector<uint8_t>(static_cast<const uint8_t*>(initData),
-                                                                                            static_cast<const uint8_t*>(initData) + initSize),
+                                                                                             static_cast<const uint8_t*>(initData) + initSize),
                                                                         initSize));
         }
 

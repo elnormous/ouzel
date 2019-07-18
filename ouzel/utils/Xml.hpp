@@ -281,10 +281,10 @@ namespace ouzel
 
             inline auto getType() const noexcept { return type; }
 
-            inline const std::string& getValue() const noexcept { return value; }
+            inline const auto& getValue() const noexcept { return value; }
             inline void setValue(const std::string& newValue) { value = newValue; }
 
-            inline const std::vector<Node>& getChildren() const noexcept { return children; }
+            inline const auto& getChildren() const noexcept { return children; }
 
             std::vector<Node>::iterator begin() { return children.begin(); }
             std::vector<Node>::iterator end() { return children.end(); }
@@ -703,7 +703,7 @@ namespace ouzel
             inline bool hasBom() const { return bom; }
             inline void setBom(bool newBom) { bom = newBom; }
 
-            inline const std::vector<Node>& getChildren() const noexcept { return children; }
+            inline const auto& getChildren() const noexcept { return children; }
 
         private:
             bool bom = false;

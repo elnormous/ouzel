@@ -76,7 +76,7 @@ namespace ouzel
             inline auto isAnisotropicFilteringSupported() const noexcept { return anisotropicFilteringSupported; }
             inline auto isRenderTargetsSupported() const noexcept { return renderTargetsSupported; }
 
-            const Matrix4F& getProjectionTransform(bool renderTarget) const noexcept
+            const auto& getProjectionTransform(bool renderTarget) const noexcept
             {
                 return renderTarget ? renderTargetProjectionTransform : projectionTransform;
             }

@@ -50,12 +50,12 @@ namespace ouzel
                       const Vector2F& sourceOffset,
                       const Vector2F& pivot);
 
-                inline const std::string& getName() const noexcept { return name; }
+                inline const auto& getName() const noexcept { return name; }
 
-                inline const Box2F& getBoundingBox() const noexcept { return boundingBox; }
+                inline const auto& getBoundingBox() const noexcept { return boundingBox; }
                 inline auto getIndexCount() const noexcept { return indexCount; }
-                inline const std::shared_ptr<graphics::Buffer>& getIndexBuffer() const noexcept { return indexBuffer; }
-                inline const std::shared_ptr<graphics::Buffer>& getVertexBuffer() const noexcept { return vertexBuffer; }
+                inline const auto& getIndexBuffer() const noexcept { return indexBuffer; }
+                inline const auto& getVertexBuffer() const noexcept { return vertexBuffer; }
 
             private:
                 std::string name;
@@ -101,10 +101,10 @@ namespace ouzel
                       const Matrix4F& renderViewProjection,
                       bool wireframe) override;
 
-            inline const std::shared_ptr<graphics::Material>& getMaterial() const noexcept { return material; }
+            inline const auto& getMaterial() const noexcept { return material; }
             inline void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
-            inline const Vector2F& getOffset() const noexcept { return offset; }
+            inline const auto& getOffset() const noexcept { return offset; }
             void setOffset(const Vector2F& newOffset);
 
             void play();
@@ -114,7 +114,7 @@ namespace ouzel
 
             inline const std::map<std::string, SpriteData::Animation>& getAnimations() const noexcept { return animations; }
             inline const SpriteData::Animation* getAnimation() const noexcept { return currentAnimation->animation; }
-            inline const std::string& getAnimationName() const noexcept { return currentAnimation->animation->name; }
+            inline const auto& getAnimationName() const noexcept { return currentAnimation->animation->name; }
             bool hasAnimation(const std::string& animation) const;
             void setAnimation(const std::string& newAnimation, bool repeat = true);
             void addAnimation(const std::string& newAnimation, bool repeat = true);

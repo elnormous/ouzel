@@ -52,7 +52,7 @@ namespace ouzel
             inline auto getFarPlane() const noexcept { return farPlane; }
             inline void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
 
-            inline const Matrix4F& getProjection() const noexcept { return projection; }
+            inline const auto& getProjection() const noexcept { return projection; }
             void recalculateProjection();
 
             const Matrix4F& getViewProjection() const;
@@ -64,26 +64,26 @@ namespace ouzel
 
             bool checkVisibility(const Matrix4F& boxTransform, const Box3F& box) const;
 
-            inline const RectF& getViewport() const noexcept { return viewport; }
-            inline const RectF& getRenderViewport() const noexcept { return renderViewport; }
+            inline const auto& getViewport() const noexcept { return viewport; }
+            inline const auto& getRenderViewport() const noexcept { return renderViewport; }
             void setViewport(const RectF& newViewport);
 
             inline auto getScaleMode() const noexcept { return scaleMode; }
             void setScaleMode(ScaleMode newScaleMode);
 
-            inline const Size2F& getTargetContentSize() const noexcept { return targetContentSize; }
+            inline const auto& getTargetContentSize() const noexcept { return targetContentSize; }
             void setTargetContentSize(const Size2F& newTargetContentSize);
 
-            inline const Size2F& getContentSize() const noexcept { return contentSize; }
-            inline const Vector2F& getContentScale() const noexcept { return contentScale; }
-            inline const Vector2F& getContentPosition() const noexcept { return contentPosition; }
+            inline const auto& getContentSize() const noexcept { return contentSize; }
+            inline const auto& getContentScale() const noexcept { return contentScale; }
+            inline const auto& getContentPosition() const noexcept { return contentPosition; }
 
-            inline const std::shared_ptr<graphics::RenderTarget>& getRenderTarget() const noexcept { return renderTarget; }
+            inline const auto& getRenderTarget() const noexcept { return renderTarget; }
             void setRenderTarget(const std::shared_ptr<graphics::RenderTarget>& newRenderTarget);
 
             inline auto getDepthTest() const noexcept { return depthTest; }
             void setDepthTest(bool newDepthTest);
-            inline const std::shared_ptr<graphics::DepthStencilState>& getDepthStencilState() const noexcept { return depthStencilState; }
+            inline const auto& getDepthStencilState() const noexcept { return depthStencilState; }
 
             inline auto getStencilReferenceValue() const noexcept { return stencilReferenceValue; }
             inline void setStencilReferenceValue(uint32_t newStencilReferenceValue) { stencilReferenceValue = newStencilReferenceValue; }
