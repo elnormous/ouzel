@@ -22,8 +22,8 @@ namespace ouzel
             time += delta * scale;
         }
 
-        inline auto getTime() const noexcept { return time; }
-        inline auto getScale() const noexcept { return scale; }
+        inline constexpr auto getTime() const noexcept { return time; }
+        inline constexpr auto getScale() const noexcept { return scale; }
         inline void setScale(float newScale) { scale = newScale; }
 
     private:
