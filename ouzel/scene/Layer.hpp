@@ -22,6 +22,8 @@ namespace ouzel
             friend Camera;
             friend Light;
         public:
+            using Order = int32_t;
+
             Layer();
             ~Layer() override;
 
@@ -36,7 +38,7 @@ namespace ouzel
             std::vector<Actor*> pickActors(const std::vector<Vector2F>& edges, bool renderTargets = false) const;
 
             inline auto getOrder() const noexcept { return order; }
-            void setOrder(int32_t newOrder);
+            void setOrder(Order newOrder);
 
             inline auto getScene() const noexcept { return scene; }
             void removeFromScene();
@@ -56,7 +58,7 @@ namespace ouzel
             std::vector<Camera*> cameras;
             std::vector<Light*> lights;
 
-            int32_t order = 0;
+            Order order = 0;
         };
     } // namespace scene
 } // namespace ouzel

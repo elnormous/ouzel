@@ -250,7 +250,7 @@ namespace ouzel
                           const Matrix4F& newParentTransform,
                           bool parentTransformDirty,
                           Camera* camera,
-                          int32_t parentOrder,
+                          Order parentOrder,
                           bool parentHidden)
         {
             worldOrder = parentOrder + order;

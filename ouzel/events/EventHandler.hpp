@@ -14,9 +14,10 @@ namespace ouzel
     {
         friend EventDispatcher;
     public:
-        static constexpr int32_t PRIORITY_MAX = 0x1000;
+        using Priority = int32_t;
+        static constexpr Priority PRIORITY_MAX = 0x1000;
 
-        explicit EventHandler(int32_t initPriority = 0): priority(initPriority) {}
+        explicit EventHandler(Priority initPriority = 0): priority(initPriority) {}
         ~EventHandler()
         {
             if (eventDispatcher) eventDispatcher->removeEventHandler(*this);
@@ -49,7 +50,7 @@ namespace ouzel
         std::function<bool(const UserEvent&)> userHandler;
 
     private:
-        int32_t priority;
+        Priority priority;
         EventDispatcher* eventDispatcher = nullptr;
     };
 }

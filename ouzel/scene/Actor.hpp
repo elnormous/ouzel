@@ -67,6 +67,8 @@ namespace ouzel
             friend ActorContainer;
             friend Layer;
         public:
+            using Order = int32_t;
+
             Actor() = default;
             ~Actor() override;
 
@@ -74,7 +76,7 @@ namespace ouzel
                                const Matrix4F& newParentTransform,
                                bool parentTransformDirty,
                                Camera* camera,
-                               int32_t parentOrder,
+                               Order parentOrder,
                                bool parentHidden);
             virtual void draw(Camera* camera, bool wireframe);
 
@@ -83,7 +85,7 @@ namespace ouzel
             virtual void setPosition(const Vector3F& newPosition);
 
             inline auto getOrder() const noexcept { return order; }
-            inline void setOrder(int32_t newOrder) { order = newOrder; }
+            inline void setOrder(Order newOrder) { order = newOrder; }
 
             virtual const QuaternionF& getRotation() const noexcept { return rotation; }
             virtual void setRotation(const QuaternionF& newRotation);
@@ -190,8 +192,8 @@ namespace ouzel
             QuaternionF rotation = QuaternionF::identity();
             Vector3F scale = Vector3F{1.0F, 1.0F, 1.0F};
             float opacity = 1.0F;
-            int32_t order = 0;
-            int32_t worldOrder = 0;
+            Order order = 0;
+            Order worldOrder = 0;
 
             ActorContainer* parent = nullptr;
 
