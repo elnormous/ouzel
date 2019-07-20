@@ -47,15 +47,11 @@ namespace ouzel
         inline void skipWhitespaces(std::vector<uint32_t>::const_iterator& iterator,
                                     std::vector<uint32_t>::const_iterator end)
         {
-            for (;;)
-            {
-                if (iterator == end) break;
-
+            while (iterator != end)
                 if (isWhitespace(*iterator))
                     ++iterator;
                 else
                     break;
-            }
         }
 
         inline std::string parseName(std::vector<uint32_t>::const_iterator& iterator,

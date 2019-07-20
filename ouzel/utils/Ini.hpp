@@ -249,11 +249,9 @@ namespace ouzel
                                 if (!parsedSection)
                                     throw std::runtime_error("Unexpected comment");
 
-                                for (;;)
+                                while (iterator != end)
                                 {
-                                    if (iterator == end)
-                                        break;
-                                    else if (*iterator == '\n' || *iterator == '\r')
+                                    if (*iterator == '\n' || *iterator == '\r')
                                     {
                                         ++iterator; // skip the newline
                                         break;
@@ -303,11 +301,9 @@ namespace ouzel
                         std::vector<uint32_t> valueUtf32;
                         bool parsedKey = false;
 
-                        for (;;)
+                        while (iterator != end)
                         {
-                            if (iterator == end)
-                                break;
-                            else if (*iterator == '\r' || *iterator == '\n')
+                            if (*iterator == '\r' || *iterator == '\n')
                             {
                                 ++iterator; // skip the newline
                                 break;
@@ -323,11 +319,9 @@ namespace ouzel
                             {
                                 ++iterator; // skip the semicolon
 
-                                for (;;)
+                                while (iterator != end)
                                 {
-                                    if (iterator == end)
-                                        break;
-                                    else if (*iterator == '\r' || *iterator == '\n')
+                                    if (*iterator == '\r' || *iterator == '\n')
                                     {
                                         ++iterator; // skip the newline
                                         break;

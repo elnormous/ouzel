@@ -30,24 +30,18 @@ namespace ouzel
         static void skipWhitespaces(const std::vector<uint8_t>& str,
                                     std::vector<uint8_t>::const_iterator& iterator)
         {
-            for (;;)
-            {
-                if (iterator == str.end()) break;
-
+            while (iterator != str.end())
                 if (isWhitespace(*iterator))
                     ++iterator;
                 else
                     break;
-            }
         }
 
         static void skipLine(const std::vector<uint8_t>& str,
                              std::vector<uint8_t>::const_iterator& iterator)
         {
-            for (;;)
+            while (iterator != str.end())
             {
-                if (iterator == str.end()) break;
-
                 if (isNewline(*iterator))
                 {
                     ++iterator;
@@ -61,6 +55,9 @@ namespace ouzel
         static std::string parseString(const std::vector<uint8_t>& str,
                                        std::vector<uint8_t>::const_iterator& iterator)
         {
+            if (iterator == str.end())
+                throw std::runtime_error("Invalid string");
+
             std::string result;
 
             if (*iterator == '"')
@@ -87,10 +84,8 @@ namespace ouzel
             }
             else
             {
-                for (;;)
+                while (iterator != str.end() && !isControlChar(*iterator) && !isWhitespace(*iterator) && *iterator != '=')
                 {
-                    if (iterator == str.end() || isControlChar(*iterator) || isWhitespace(*iterator) || *iterator == '=') break;
-
                     result.push_back(static_cast<char>(*iterator));
 
                     ++iterator;
@@ -116,10 +111,8 @@ namespace ouzel
                 ++iterator;
             }
 
-            for (;;)
+            while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
             {
-                if (iterator == str.end() || *iterator < '0' || *iterator > '9') break;
-
                 result.push_back(static_cast<char>(*iterator));
 
                 ++iterator;
@@ -149,10 +142,8 @@ namespace ouzel
             std::string key;
             std::string value;
 
-            for (;;)
+            while (iterator != data.end())
             {
-                if (iterator == data.end()) break;
-
                 if (isNewline(*iterator))
                 {
                     // skip empty lines
@@ -165,9 +156,9 @@ namespace ouzel
 
                     if (keyword == "page")
                     {
-                        for (;;)
+                        while (iterator != data.end())
                         {
-                            if (iterator == data.end() || isNewline(*iterator)) break;
+                            if (isNewline(*iterator)) break;
 
                             skipWhitespaces(data, iterator);
                             key = parseString(data, iterator);
@@ -181,9 +172,9 @@ namespace ouzel
                     }
                     else if (keyword == "common")
                     {
-                        for (;;)
+                        while (iterator != data.end())
                         {
-                            if (iterator == data.end() || isNewline(*iterator)) break;
+                            if (isNewline(*iterator)) break;
 
                             skipWhitespaces(data, iterator);
                             key = parseString(data, iterator);
@@ -229,9 +220,9 @@ namespace ouzel
                         uint32_t charId = 0;
                         CharDescriptor c;
 
-                        for (;;)
+                        while (iterator != data.end())
                         {
-                            if (iterator == data.end() || isNewline(*iterator)) break;
+                            if (isNewline(*iterator)) break;
 
                             skipWhitespaces(data, iterator);
                             key = parseString(data, iterator);
@@ -291,9 +282,9 @@ namespace ouzel
                     }
                     else if (keyword == "kernings")
                     {
-                        for (;;)
+                        while (iterator != data.end())
                         {
-                            if (iterator == data.end() || isNewline(*iterator)) break;
+                            if (isNewline(*iterator)) break;
 
                             skipWhitespaces(data, iterator);
                             key = parseString(data, iterator);
@@ -315,9 +306,9 @@ namespace ouzel
                         uint32_t first = 0;
                         uint32_t second = 0;
 
-                        for (;;)
+                        while (iterator != data.end())
                         {
-                            if (iterator == data.end() || isNewline(*iterator)) break;
+                            if (isNewline(*iterator)) break;
 
                             skipWhitespaces(data, iterator);
                             key = parseString(data, iterator);

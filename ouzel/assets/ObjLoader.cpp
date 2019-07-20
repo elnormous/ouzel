@@ -32,24 +32,18 @@ namespace ouzel
         static void skipWhitespaces(const std::vector<uint8_t>& str,
                                     std::vector<uint8_t>::const_iterator& iterator)
         {
-            for (;;)
-            {
-                if (iterator == str.end()) break;
-
+            while (iterator != str.end())
                 if (isWhitespace(*iterator))
                     ++iterator;
                 else
                     break;
-            }
         }
 
         static void skipLine(const std::vector<uint8_t>& str,
                              std::vector<uint8_t>::const_iterator& iterator)
         {
-            for (;;)
+            while (iterator != str.end())
             {
-                if (iterator == str.end()) break;
-
                 if (isNewline(*iterator))
                 {
                     ++iterator;
@@ -65,10 +59,8 @@ namespace ouzel
         {
             std::string result;
 
-            for (;;)
+            while (iterator != str.end() && !isControlChar(*iterator) && !isWhitespace(*iterator))
             {
-                if (iterator == str.end() || isControlChar(*iterator) || isWhitespace(*iterator)) break;
-
                 result.push_back(static_cast<char>(*iterator));
 
                 ++iterator;
@@ -94,10 +86,8 @@ namespace ouzel
                 ++iterator;
             }
 
-            for (;;)
+            while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
             {
-                if (iterator == str.end() || *iterator < '0' || *iterator > '9') break;
-
                 value.push_back(static_cast<char>(*iterator));
 
                 ++iterator;
@@ -124,10 +114,8 @@ namespace ouzel
                 ++iterator;
             }
 
-            for (;;)
+            while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
             {
-                if (iterator == str.end() || *iterator < '0' || *iterator > '9') break;
-
                 value.push_back(static_cast<char>(*iterator));
 
                 ++iterator;
@@ -139,10 +127,8 @@ namespace ouzel
                 ++length;
                 ++iterator;
 
-                for (;;)
+                while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
                 {
-                    if (iterator == str.end() || *iterator < '0' || *iterator > '9') break;
-
                     value.push_back(static_cast<char>(*iterator));
 
                     ++iterator;
@@ -194,10 +180,8 @@ namespace ouzel
             std::string keyword;
             std::string value;
 
-            for (;;)
+            while (iterator != data.end())
             {
-                if (iterator == data.end()) break;
-
                 if (isNewline(*iterator))
                 {
                     // skip empty lines
@@ -305,9 +289,9 @@ namespace ouzel
                         int32_t texCoordIndex = 0;
                         int32_t normalIndex = 0;
 
-                        for (;;)
+                        while (iterator != data.end())
                         {
-                            if (iterator == data.end() || isNewline(*iterator)) break;
+                            if (isNewline(*iterator)) break;
 
                             skipWhitespaces(data, iterator);
                             positionIndex = parseInt32(data, iterator);
@@ -377,19 +361,15 @@ namespace ouzel
                         if (vertexIndices.size() < 3)
                             throw std::runtime_error("Invalid face count");
                         else if (vertexIndices.size() == 3)
-                        {
                             for (uint32_t vertexIndex : vertexIndices)
                                 indices.push_back(vertexIndex);
-                        }
                         else
-                        {
                             for (uint32_t index = 0; index < vertexIndices.size() - 2; ++index)
                             {
                                 indices.push_back(vertexIndices[0]);
                                 indices.push_back(vertexIndices[index + 1]);
                                 indices.push_back(vertexIndices[index + 2]);
                             }
-                        }
                     }
                     else
                     {
