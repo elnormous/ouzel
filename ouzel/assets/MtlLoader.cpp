@@ -27,20 +27,20 @@ namespace ouzel
             return c <= 0x1F;
         }
 
-        static void skipWhitespaces(const std::vector<uint8_t>& str,
-                                    std::vector<uint8_t>::const_iterator& iterator)
+        static void skipWhitespaces(std::vector<uint8_t>::const_iterator& iterator,
+                                    std::vector<uint8_t>::const_iterator end)
         {
-            while (iterator != str.end())
+            while (iterator != end)
                 if (isWhitespace(*iterator))
                     ++iterator;
                 else
                     break;
         }
 
-        static void skipLine(const std::vector<uint8_t>& str,
-                             std::vector<uint8_t>::const_iterator& iterator)
+        static void skipLine(std::vector<uint8_t>::const_iterator& iterator,
+                             std::vector<uint8_t>::const_iterator end)
         {
-            while (iterator != str.end())
+            while (iterator != end)
             {
                 if (isNewline(*iterator))
                 {
@@ -52,12 +52,12 @@ namespace ouzel
             }
         }
 
-        static std::string parseString(const std::vector<uint8_t>& str,
-                                       std::vector<uint8_t>::const_iterator& iterator)
+        static std::string parseString(std::vector<uint8_t>::const_iterator& iterator,
+                                       std::vector<uint8_t>::const_iterator end)
         {
             std::string result;
 
-            while (iterator != str.end() && !isControlChar(*iterator) && !isWhitespace(*iterator))
+            while (iterator != end && !isControlChar(*iterator) && !isWhitespace(*iterator))
             {
                 result.push_back(static_cast<char>(*iterator));
 
@@ -70,34 +70,34 @@ namespace ouzel
             return result;
         }
 
-        static float parseFloat(const std::vector<uint8_t>& str,
-                                std::vector<uint8_t>::const_iterator& iterator)
+        static float parseFloat(std::vector<uint8_t>::const_iterator& iterator,
+                                std::vector<uint8_t>::const_iterator end)
         {
             float result;
             std::string value;
             uint32_t length = 1;
 
-            if (iterator != str.end() && *iterator == '-')
+            if (iterator != end && *iterator == '-')
             {
                 value.push_back(static_cast<char>(*iterator));
                 ++length;
                 ++iterator;
             }
 
-            while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
+            while (iterator != end && *iterator >= '0' && *iterator <= '9')
             {
                 value.push_back(static_cast<char>(*iterator));
 
                 ++iterator;
             }
 
-            if (iterator != str.end() && *iterator == '.')
+            if (iterator != end && *iterator == '.')
             {
                 value.push_back(static_cast<char>(*iterator));
                 ++length;
                 ++iterator;
 
-                while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
+                while (iterator != end && *iterator >= '0' && *iterator <= '9')
                 {
                     value.push_back(static_cast<char>(*iterator));
 
@@ -145,12 +145,12 @@ namespace ouzel
                 else if (*iterator == '#')
                 {
                     // skip the comment
-                    skipLine(data, iterator);
+                    skipLine(iterator, data.end());
                 }
                 else
                 {
-                    skipWhitespaces(data, iterator);
-                    keyword = parseString(data, iterator);
+                    skipWhitespaces(iterator, data.end());
+                    keyword = parseString(iterator, data.end());
 
                     if (keyword == "newmtl")
                     {
@@ -168,10 +168,10 @@ namespace ouzel
                             bundle.setMaterial(materialName, material);
                         }
 
-                        skipWhitespaces(data, iterator);
-                        materialName = parseString(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        materialName = parseString(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
 
                         diffuseTexture.reset();
                         ambientTexture.reset();
@@ -180,19 +180,19 @@ namespace ouzel
                     }
                     else if (keyword == "map_Ka") // ambient texture map
                     {
-                        skipWhitespaces(data, iterator);
-                        value = parseString(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        value = parseString(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
 
                         ambientTexture = cache.getTexture(value);
                     }
                     else if (keyword == "map_Kd") // diffuse texture map
                     {
-                        skipWhitespaces(data, iterator);
-                        value = parseString(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        value = parseString(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
 
                         diffuseTexture = cache.getTexture(value);
 
@@ -203,42 +203,42 @@ namespace ouzel
                         }
                     }
                     else if (keyword == "Ka") // ambient color
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
                     else if (keyword == "Kd") // diffuse color
                     {
                         float color[4];
 
-                        skipWhitespaces(data, iterator);
-                        color[0] = parseFloat(data, iterator);
-                        skipWhitespaces(data, iterator);
-                        color[1] = parseFloat(data, iterator);
-                        skipWhitespaces(data, iterator);
-                        color[2] = parseFloat(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        color[0] = parseFloat(iterator, data.end());
+                        skipWhitespaces(iterator, data.end());
+                        color[1] = parseFloat(iterator, data.end());
+                        skipWhitespaces(iterator, data.end());
+                        color[2] = parseFloat(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
 
                         color[3] = 1.0F;
                         diffuseColor = Color(color);
                     }
                     else if (keyword == "Ks") // specular color
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
                     else if (keyword == "Ke") // emissive color
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
                     else if (keyword == "d") // opacity
                     {
-                        skipWhitespaces(data, iterator);
-                        opacity = parseFloat(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        opacity = parseFloat(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
                     }
                     else if (keyword == "Tr") // transparency
                     {
                         float transparency;
 
-                        skipWhitespaces(data, iterator);
-                        transparency = parseFloat(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        transparency = parseFloat(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
 
                         // d = 1 - Tr
                         opacity = 1.0F - transparency;
@@ -246,7 +246,7 @@ namespace ouzel
                     else
                     {
                         // skip all unknown commands
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
                     }
 
                     if (!materialCount) ++materialCount; // if we got at least one attribute, we have an material

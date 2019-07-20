@@ -29,20 +29,20 @@ namespace ouzel
             return c <= 0x1F;
         }
 
-        static void skipWhitespaces(const std::vector<uint8_t>& str,
-                                    std::vector<uint8_t>::const_iterator& iterator)
+        static void skipWhitespaces(std::vector<uint8_t>::const_iterator& iterator,
+                                    std::vector<uint8_t>::const_iterator end)
         {
-            while (iterator != str.end())
+            while (iterator != end)
                 if (isWhitespace(*iterator))
                     ++iterator;
                 else
                     break;
         }
 
-        static void skipLine(const std::vector<uint8_t>& str,
-                             std::vector<uint8_t>::const_iterator& iterator)
+        static void skipLine(std::vector<uint8_t>::const_iterator& iterator,
+                             std::vector<uint8_t>::const_iterator end)
         {
-            while (iterator != str.end())
+            while (iterator != end)
             {
                 if (isNewline(*iterator))
                 {
@@ -54,12 +54,12 @@ namespace ouzel
             }
         }
 
-        static std::string parseString(const std::vector<uint8_t>& str,
-                                       std::vector<uint8_t>::const_iterator& iterator)
+        static std::string parseString(std::vector<uint8_t>::const_iterator& iterator,
+                                       std::vector<uint8_t>::const_iterator end)
         {
             std::string result;
 
-            while (iterator != str.end() && !isControlChar(*iterator) && !isWhitespace(*iterator))
+            while (iterator != end && !isControlChar(*iterator) && !isWhitespace(*iterator))
             {
                 result.push_back(static_cast<char>(*iterator));
 
@@ -72,21 +72,21 @@ namespace ouzel
             return result;
         }
 
-        static int32_t parseInt32(const std::vector<uint8_t>& str,
-                                  std::vector<uint8_t>::const_iterator& iterator)
+        static int32_t parseInt32(std::vector<uint8_t>::const_iterator& iterator,
+                                  std::vector<uint8_t>::const_iterator end)
         {
             int32_t result;
             std::string value;
             uint32_t length = 1;
 
-            if (iterator != str.end() && *iterator == '-')
+            if (iterator != end && *iterator == '-')
             {
                 value.push_back(static_cast<char>(*iterator));
                 ++length;
                 ++iterator;
             }
 
-            while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
+            while (iterator != end && *iterator >= '0' && *iterator <= '9')
             {
                 value.push_back(static_cast<char>(*iterator));
 
@@ -100,34 +100,34 @@ namespace ouzel
             return result;
         }
 
-        static float parseFloat(const std::vector<uint8_t>& str,
-                               std::vector<uint8_t>::const_iterator& iterator)
+        static float parseFloat(std::vector<uint8_t>::const_iterator& iterator,
+                                std::vector<uint8_t>::const_iterator end)
         {
             float result;
             std::string value;
             uint32_t length = 1;
 
-            if (iterator != str.end() && *iterator == '-')
+            if (iterator != end && *iterator == '-')
             {
                 value.push_back(static_cast<char>(*iterator));
                 ++length;
                 ++iterator;
             }
 
-            while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
+            while (iterator != end && *iterator >= '0' && *iterator <= '9')
             {
                 value.push_back(static_cast<char>(*iterator));
 
                 ++iterator;
             }
 
-            if (iterator != str.end() && *iterator == '.')
+            if (iterator != end && *iterator == '.')
             {
                 value.push_back(static_cast<char>(*iterator));
                 ++length;
                 ++iterator;
 
-                while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
+                while (iterator != end && *iterator >= '0' && *iterator <= '9')
                 {
                     value.push_back(static_cast<char>(*iterator));
 
@@ -190,19 +190,19 @@ namespace ouzel
                 else if (*iterator == '#')
                 {
                     // skip the comment
-                    skipLine(data, iterator);
+                    skipLine(iterator, data.end());
                 }
                 else
                 {
-                    skipWhitespaces(data, iterator);
-                    keyword = parseString(data, iterator);
+                    skipWhitespaces(iterator, data.end());
+                    keyword = parseString(iterator, data.end());
 
                     if (keyword == "mtllib")
                     {
-                        skipWhitespaces(data, iterator);
-                        value = parseString(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        value = parseString(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
 
                         //if (!cache.getMaterial(filename))
                         // TODO don't load material lib every time
@@ -210,10 +210,10 @@ namespace ouzel
                     }
                     else if (keyword == "usemtl")
                     {
-                        skipWhitespaces(data, iterator);
-                        value = parseString(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        value = parseString(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
 
                         material = cache.getMaterial(value);
                     }
@@ -225,10 +225,10 @@ namespace ouzel
                             bundle.setStaticMeshData(objectName, meshData);
                         }
 
-                        skipWhitespaces(data, iterator);
-                        objectName = parseString(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        objectName = parseString(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
 
                         material.reset();
                         vertices.clear();
@@ -241,14 +241,14 @@ namespace ouzel
                     {
                         Vector3F position;
 
-                        skipWhitespaces(data, iterator);
-                        position.v[0] = parseFloat(data, iterator);
-                        skipWhitespaces(data, iterator);
-                        position.v[1] = parseFloat(data, iterator);
-                        skipWhitespaces(data, iterator);
-                        position.v[2] = parseFloat(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        position.v[0] = parseFloat(iterator, data.end());
+                        skipWhitespaces(iterator, data.end());
+                        position.v[1] = parseFloat(iterator, data.end());
+                        skipWhitespaces(iterator, data.end());
+                        position.v[2] = parseFloat(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
 
                         positions.push_back(position);
                     }
@@ -256,12 +256,12 @@ namespace ouzel
                     {
                         Vector2F texCoord;
 
-                        skipWhitespaces(data, iterator);
-                        texCoord.v[0] = parseFloat(data, iterator);
-                        skipWhitespaces(data, iterator);
-                        texCoord.v[1] = parseFloat(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        texCoord.v[0] = parseFloat(iterator, data.end());
+                        skipWhitespaces(iterator, data.end());
+                        texCoord.v[1] = parseFloat(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
 
                         texCoords.push_back(texCoord);
                     }
@@ -269,14 +269,14 @@ namespace ouzel
                     {
                         Vector3F normal;
 
-                        skipWhitespaces(data, iterator);
-                        normal.v[0] = parseFloat(data, iterator);
-                        skipWhitespaces(data, iterator);
-                        normal.v[1] = parseFloat(data, iterator);
-                        skipWhitespaces(data, iterator);
-                        normal.v[2] = parseFloat(data, iterator);
+                        skipWhitespaces(iterator, data.end());
+                        normal.v[0] = parseFloat(iterator, data.end());
+                        skipWhitespaces(iterator, data.end());
+                        normal.v[1] = parseFloat(iterator, data.end());
+                        skipWhitespaces(iterator, data.end());
+                        normal.v[2] = parseFloat(iterator, data.end());
 
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
 
                         normals.push_back(normal);
                     }
@@ -293,8 +293,8 @@ namespace ouzel
                         {
                             if (isNewline(*iterator)) break;
 
-                            skipWhitespaces(data, iterator);
-                            positionIndex = parseInt32(data, iterator);
+                            skipWhitespaces(iterator, data.end());
+                            positionIndex = parseInt32(iterator, data.end());
 
                             if (positionIndex < 0)
                                 positionIndex = static_cast<int32_t>(positions.size()) + positionIndex + 1;
@@ -310,7 +310,7 @@ namespace ouzel
                                 // two slashes in a row indicates no texture coordinates
                                 if (iterator != data.end() && *iterator != '/')
                                 {
-                                    texCoordIndex = parseInt32(data, iterator);
+                                    texCoordIndex = parseInt32(iterator, data.end());
 
                                     if (texCoordIndex < 0)
                                         texCoordIndex = static_cast<int32_t>(texCoords.size()) + texCoordIndex + 1;
@@ -324,7 +324,7 @@ namespace ouzel
                                 // has normal
                                 if (parseToken(data, iterator, '/'))
                                 {
-                                    normalIndex = parseInt32(data, iterator);
+                                    normalIndex = parseInt32(iterator, data.end());
 
                                     if (normalIndex < 0)
                                         normalIndex = static_cast<int32_t>(normals.size()) + normalIndex + 1;
@@ -374,7 +374,7 @@ namespace ouzel
                     else
                     {
                         // skip all unknown commands
-                        skipLine(data, iterator);
+                        skipLine(iterator, data.end());
                     }
 
                     if (!objectCount) ++objectCount; // if we got at least one attribute, we have an object
