@@ -44,24 +44,24 @@ namespace ouzel
     template <typename T> constexpr T tau = T(6.28318530717958647692);
     template <typename T> constexpr T pi = T(3.14159265358979323846);
 
-    template <typename T> constexpr T lerp(T v0, T v1, T t) noexcept
+    template <typename T> constexpr T lerp(const T v0, const T v1, const T t) noexcept
     {
         return (T(1) - t) * v0 + t * v1;
     }
 
-    template <typename T> constexpr T smoothStep(T a, T b, T t) noexcept
+    template <typename T> constexpr T smoothStep(const T a, const T b, const T t) noexcept
     {
         return lerp(a, b, t * t * (T(3) - T(2) * t));
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    constexpr auto isPowerOfTwo(T x) noexcept
+    constexpr auto isPowerOfTwo(const T x) noexcept
     {
         return (x != T(0)) && (((x - T(1)) & x) == 0);
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline T nextPowerOfTwo(T x) noexcept
+    inline T nextPowerOfTwo(const T x) noexcept
     {
         if (x != 0)
         {
@@ -72,40 +72,40 @@ namespace ouzel
         return ++x;
     }
 
-    template <typename T> constexpr T degToRad(T x) noexcept
+    template <typename T> constexpr T degToRad(const T x) noexcept
     {
         return static_cast<T>(x * 0.01745329251994329576);
     }
 
-    template <typename T> constexpr T radToDeg(T x) noexcept
+    template <typename T> constexpr T radToDeg(const T x) noexcept
     {
         return static_cast<T>(x * 57.2957795130823208767);
     }
 
-    template <typename T> constexpr T clamp(T x, T lo, T hi) noexcept
+    template <typename T> constexpr T clamp(const T x, const T lo, const T hi) noexcept
     {
         return (x < lo) ? lo : ((x > hi) ? hi : x);
+    }
+
+    template <class T>
+    constexpr auto isNearlyEqual(const T a, const T b, const T tolerance = std::numeric_limits<T>::min())
+    {
+        return (a - b) <= tolerance && (a - b) >= -tolerance;
     }
 
     constexpr uint64_t INITIAL_FNV = 2166136261U;
     constexpr uint64_t FNV_MULTIPLE = 16777619;
 
     // Fowler / Noll / Vo (FNV) hash
-    inline uint64_t fnvHash(uint64_t s) noexcept
+    inline uint64_t fnvHash(const uint64_t s) noexcept
     {
         uint64_t hash = INITIAL_FNV;
         for (uint64_t i = 0; i < sizeof(uint64_t); ++i)
         {
-            hash = hash ^ (reinterpret_cast<uint8_t*>(&s)[i]); // xor the low 8 bits
+            hash = hash ^ static_cast<uint8_t>(s >> (i * 8)); // xor the low 8 bits
             hash = hash * FNV_MULTIPLE; // multiply by the magic number
         }
         return hash;
-    }
-
-    template <class T>
-    inline auto isNearlyEqual(T a, T b, T tolerance = std::numeric_limits<T>::min())
-    {
-        return fabs(a - b) <= tolerance;
     }
 }
 
