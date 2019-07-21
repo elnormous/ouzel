@@ -148,7 +148,7 @@ namespace ouzel
                 c = -c;
         }
 
-        inline auto isNormalized(T tolerance = std::numeric_limits<T>::min()) const
+        inline auto isNormalized(const T tolerance = std::numeric_limits<T>::min()) const
         {
             return abs(T(1) - lengthSquared()) < tolerance;
         }
@@ -170,13 +170,30 @@ namespace ouzel
                 c /= n;
         }
 
+        Vector normalized() const
+        {
+            T n = 0;
+            for (const T& c : v)
+                n += c * c;
+
+            if (n == 1) // already normalized
+                return *this;
+
+            n = sqrt(n);
+            if (n <= std::numeric_limits<T>::min()) // too close to zero
+                return *this;
+
+            n = T(1) / n;
+            return *this * n;
+        }
+
         inline void scale(const Vector& scale) noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 v[i] *= scale.v[i];
         }
 
-        inline void smooth(const Vector& target, T elapsedTime, T responseTime) noexcept
+        inline void smooth(const Vector& target, const T elapsedTime, const T responseTime) noexcept
         {
             if (elapsedTime > T(0))
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
@@ -242,7 +259,7 @@ namespace ouzel
             return result;
         }
 
-        inline const Vector operator*(T scalar) const noexcept
+        inline const Vector operator*(const T scalar) const noexcept
         {
             Vector result(*this);
             for (T& c : result.v)
@@ -250,14 +267,14 @@ namespace ouzel
             return result;
         }
 
-        inline Vector& operator*=(T scalar) noexcept
+        inline Vector& operator*=(const T scalar) noexcept
         {
             for (T& c : v)
                 c *= scalar;
             return *this;
         }
 
-        inline const Vector operator/(T scalar) const noexcept
+        inline const Vector operator/(const T scalar) const noexcept
         {
             Vector result(*this);
             for (T& c : result.v)
@@ -265,7 +282,7 @@ namespace ouzel
             return result;
         }
 
-        inline Vector& operator/=(T scalar) noexcept
+        inline Vector& operator/=(const T scalar) noexcept
         {
             for (T& c : v)
                 c /= scalar;
@@ -306,7 +323,7 @@ namespace ouzel
     };
 
     template <size_t N, class T>
-    inline const Vector<N, T> operator*(T scalar, const Vector<N, T>& vec) noexcept
+    inline const Vector<N, T> operator*(const T scalar, const Vector<N, T>& vec) noexcept
     {
         Vector<N, T> result = vec;
         result *= scalar;

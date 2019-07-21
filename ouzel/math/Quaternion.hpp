@@ -65,7 +65,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr const Quaternion operator*(T scalar) const noexcept
+        constexpr const Quaternion operator*(const T scalar) const noexcept
         {
             return Quaternion(v[0] * scalar,
                               v[1] * scalar,
@@ -73,7 +73,7 @@ namespace ouzel
                               v[3] * scalar);
         }
 
-        inline Quaternion& operator*=(T scalar) noexcept
+        inline Quaternion& operator*=(const T scalar) noexcept
         {
             v[0] *= scalar;
             v[1] *= scalar;
@@ -83,7 +83,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr const Quaternion operator/(T scalar) const noexcept
+        constexpr const Quaternion operator/(const T scalar) const noexcept
         {
             return Quaternion(v[0] / scalar,
                               v[1] / scalar,
@@ -91,7 +91,7 @@ namespace ouzel
                               v[3] / scalar);
         }
 
-        inline Quaternion& operator/=(T scalar) noexcept
+        inline Quaternion& operator/=(const T scalar) noexcept
         {
             v[0] /= scalar;
             v[1] /= scalar;
@@ -207,16 +207,30 @@ namespace ouzel
             v[3] *= n;
         }
 
-        void rotate(T angle, Vector<3, T> axis)
+        Quaternion normalized() const
         {
-            axis.normalize();
+            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (n == T(1)) // already normalized
+                return *this;
+
+            n = sqrt(n);
+            if (n <= std::numeric_limits<T>::min()) // too close to zero
+                return *this;
+
+            n = T(1) / n;
+            return *this * n;
+        }
+
+        void rotate(const T angle, const Vector<3, T>& axis)
+        {
+            const auto normalizedAxis = axis.normalized();
 
             const T cosAngle = cos(angle / T(2));
             const T sinAngle = sin(angle / T(2));
 
-            v[0] = axis.v[0] * sinAngle;
-            v[1] = axis.v[1] * sinAngle;
-            v[2] = axis.v[2] * sinAngle;
+            v[0] = normalizedAxis.v[0] * sinAngle;
+            v[1] = normalizedAxis.v[1] * sinAngle;
+            v[2] = normalizedAxis.v[2] * sinAngle;
             v[3] = cosAngle;
         }
 

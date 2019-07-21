@@ -149,10 +149,8 @@ namespace ouzel
 
                                 // radial acceleration
                                 if (particles[i].position.v[0] == 0.0F || particles[i].position.v[1] == 0.0F)
-                                {
-                                    radial = particles[i].position;
-                                    radial.normalize();
-                                }
+                                    radial = particles[i].position.normalized();
+
                                 tangential = radial;
                                 radial *= particles[i].radialAcceleration;
 

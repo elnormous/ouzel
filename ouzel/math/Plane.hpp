@@ -68,6 +68,20 @@ namespace ouzel
             v[3] *= n;
         }
 
+        Plane normalized() const
+        {
+            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (n == T(1)) // already normalized
+                return *this;
+
+            n = sqrt(n);
+            if (n <= std::numeric_limits<T>::min()) // too close to zero
+                return *this;
+
+            n = T(1) / n;
+            return Plane(v[0] * n, v[1] * n, v[2] * n, v[3] * n);
+        }
+
         constexpr bool operator==(const Plane& plane) const noexcept
         {
             return v[0] == plane.v[0] && v[1] == plane.v[1] && v[2] == plane.v[2] && v[3] == plane.v[3];
@@ -78,7 +92,7 @@ namespace ouzel
             return v[0] != plane.v[0] || v[1] != plane.v[1] || v[2] != plane.v[2] || v[3] != plane.v[3];
         }
 
-        static inline Plane makeFrustumPlane(T a, T b, T c, T d)
+        static inline Plane makeFrustumPlane(const T a, const T b, const T c, const T d)
         {
             T n = sqrt(a * a + b * b + c * c);
             if (n <= std::numeric_limits<T>::min()) // too close to zero

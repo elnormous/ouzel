@@ -99,7 +99,7 @@ namespace ouzel
             return result;
         }
 
-        inline const Size operator*(T scalar) const noexcept
+        inline const Size operator*(const T scalar) const noexcept
         {
             Size result(*this);
             for (T& c : result.v)
@@ -107,14 +107,14 @@ namespace ouzel
             return result;
         }
 
-        inline Size& operator*=(T scalar) noexcept
+        inline Size& operator*=(const T scalar) noexcept
         {
             for (T& c : v)
                 c *= scalar;
             return *this;
         }
 
-        inline const Size operator/(T scalar) const noexcept
+        inline const Size operator/(const T scalar) const noexcept
         {
             Size result(*this);
             for (T& c : result.v)
@@ -122,7 +122,7 @@ namespace ouzel
             return result;
         }
 
-        inline Size& operator/=(T scalar) noexcept
+        inline Size& operator/=(const T scalar) noexcept
         {
             for (T& c : v)
                 c /= scalar;

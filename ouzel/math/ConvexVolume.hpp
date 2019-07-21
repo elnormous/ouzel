@@ -29,7 +29,7 @@ namespace ouzel
             return true;
         }
 
-        inline auto isSphereInside(const Vector<4, T>& position, T radius) const
+        inline auto isSphereInside(const Vector<4, T>& position, const T radius) const
         {
             for (const Plane<T>& plane : planes)
                 if (plane.dot(position) < -radius)
