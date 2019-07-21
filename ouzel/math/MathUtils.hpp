@@ -97,14 +97,13 @@ namespace ouzel
     constexpr uint64_t FNV_MULTIPLE = 16777619;
 
     // Fowler / Noll / Vo (FNV) hash
-    inline uint64_t fnvHash(const uint64_t s) noexcept
+    template <class T>
+    inline uint64_t fnvHash(const T s) noexcept
     {
         uint64_t hash = INITIAL_FNV;
-        for (uint64_t i = 0; i < sizeof(uint64_t); ++i)
-        {
-            hash = hash ^ static_cast<uint8_t>(s >> (i * 8)); // xor the low 8 bits
-            hash = hash * FNV_MULTIPLE; // multiply by the magic number
-        }
+        for (uint64_t i = 0; i < sizeof(T); ++i)
+            hash = (hash ^ static_cast<uint8_t>(s >> (i * 8))) * FNV_MULTIPLE;
+
         return hash;
     }
 }
