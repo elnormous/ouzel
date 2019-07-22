@@ -122,7 +122,7 @@ namespace ouzel
         {
             bool first = true;
 
-            for (uint8_t b : val)
+            for (const uint8_t b : val)
             {
                 if (!first) s += ", ";
                 first = false;
@@ -155,7 +155,7 @@ namespace ouzel
         {
             bool first = true;
 
-            for (T c : val.m)
+            for (const T c : val.m)
             {
                 if (!first) s += ",";
                 first = false;
@@ -178,7 +178,7 @@ namespace ouzel
         {
             bool first = true;
 
-            for (T c : val.v)
+            for (const T c : val.v)
             {
                 if (!first) s += ",";
                 first = false;
@@ -192,7 +192,7 @@ namespace ouzel
         {
             bool first = true;
 
-            for (T c : val.v)
+            for (const T c : val.v)
             {
                 if (!first) s += ",";
                 first = false;

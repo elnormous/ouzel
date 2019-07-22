@@ -361,7 +361,7 @@ namespace ouzel
                         if (vertexIndices.size() < 3)
                             throw std::runtime_error("Invalid face count");
                         else if (vertexIndices.size() == 3)
-                            for (uint32_t vertexIndex : vertexIndices)
+                            for (const uint32_t vertexIndex : vertexIndices)
                                 indices.push_back(vertexIndex);
                         else
                             for (uint32_t index = 0; index < vertexIndices.size() - 2; ++index)

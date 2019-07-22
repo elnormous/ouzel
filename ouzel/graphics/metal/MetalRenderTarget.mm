@@ -29,7 +29,7 @@ namespace ouzel
                 if (!renderPassDescriptor)
                     throw std::runtime_error("Failed to create Metal render pass descriptor");
 
-                for (Texture* colorTexture : colorTextures)
+                for (const Texture* colorTexture : colorTextures)
                 {
                     if (colorTexture)
                     {

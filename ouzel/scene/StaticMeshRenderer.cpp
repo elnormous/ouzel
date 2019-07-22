@@ -20,7 +20,7 @@ namespace ouzel
 
             indexSize = sizeof(uint16_t);
 
-            for (uint32_t index : indices)
+            for (const uint32_t index : indices)
                 if (index > std::numeric_limits<uint16_t>::max())
                 {
                     indexSize = sizeof(uint32_t);
@@ -32,7 +32,7 @@ namespace ouzel
                 std::vector<uint16_t> convertedIndices;
                 convertedIndices.reserve(indices.size());
 
-                for (uint32_t index : indices)
+                for (const uint32_t index : indices)
                     convertedIndices.push_back(static_cast<uint16_t>(index));
 
                 indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),

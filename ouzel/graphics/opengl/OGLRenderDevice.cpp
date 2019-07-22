@@ -363,7 +363,7 @@ namespace ouzel
                 std::string versionParts[2];
                 uint32_t part = 0;
 
-                for (char c : versionStr)
+                for (const char c : versionStr)
                 {
                     if (c == '.')
                     {
@@ -856,7 +856,7 @@ namespace ouzel
                                 auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
 
                                 std::set<Texture*> colorTextures;
-                                for (uintptr_t colorTextureId : initRenderTargetCommand->colorTextures)
+                                for (const uintptr_t colorTextureId : initRenderTargetCommand->colorTextures)
                                     colorTextures.insert(getResource<Texture>(colorTextureId));
 
                                 auto renderTarget = std::make_unique<RenderTarget>(*this,

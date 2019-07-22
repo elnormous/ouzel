@@ -550,7 +550,6 @@ namespace ouzel
                                 case SYN_REPORT:
                                 {
                                     for (Slot& slot : touchSlots)
-                                    {
                                         if (slot.action != Slot::Action::Unknown)
                                         {
                                             Vector2F position(static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
@@ -574,7 +573,6 @@ namespace ouzel
 
                                             slot.action = Slot::Action::Unknown;
                                         }
-                                    }
                                     break;
                                 }
                                 case SYN_DROPPED:

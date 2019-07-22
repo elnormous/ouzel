@@ -20,7 +20,7 @@ namespace ouzel
         inline void encodeString(std::vector<uint8_t>& data,
                                  const std::vector<uint32_t>& str)
         {
-            for (uint32_t c : str)
+            for (const uint32_t c : str)
             {
                 if (c == '"') data.insert(data.end(), {'\\', '"'});
                 else if (c == '\\') data.insert(data.end(), {'\\', '\\'});

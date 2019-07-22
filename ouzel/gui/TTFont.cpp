@@ -58,7 +58,7 @@ namespace ouzel
             std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
 
             std::set<uint32_t> glyphs;
-            for (uint32_t i : utf32Text)
+            for (const uint32_t i : utf32Text)
                 glyphs.insert(i);
 
             uint16_t width = 0;
@@ -69,7 +69,7 @@ namespace ouzel
             int lineGap;
             stbtt_GetFontVMetrics(font.get(), &ascent, &descent, &lineGap);
 
-            for (uint32_t c : glyphs)
+            for (const uint32_t c : glyphs)
             {
                 int w;
                 int h;
@@ -121,9 +121,9 @@ namespace ouzel
                 }
             }
 
-            for (auto& c : chars)
+            for (const auto& c : chars)
             {
-                CharDescriptor& charDesc = c.second;
+                const CharDescriptor& charDesc = c.second;
 
                 for (uint16_t posX = 0; posX < charDesc.width; ++posX)
                 {
