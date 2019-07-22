@@ -38,7 +38,7 @@
     window->handleMinituarize();
 }
 
-- (void)windowDidDeminiaturize:(__unused NSNotification*)notification
+-(void)windowDidDeminiaturize:(__unused NSNotification*)notification
 {
     window->handleDeminituarize();
 }
