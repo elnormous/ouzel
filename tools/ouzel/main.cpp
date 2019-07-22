@@ -41,8 +41,8 @@ int main(int argc, const char* argv[])
     {
         if (std::string(argv[i]) == "--help")
         {
-            std::cout << "Usage:" << std::endl;
-            std::cout << argv[0] << " [--help] [--new-project <name>] [--location <location>]" << std::endl;
+            std::cout << "Usage:\n";
+            std::cout << argv[0] << " [--help] [--new-project <name>] [--location <location>]\n";
             return EXIT_SUCCESS;
         }
         else if (std::string(argv[i]) == "--new-project")
@@ -121,7 +121,7 @@ int main(int argc, const char* argv[])
     }
     catch (const std::exception& e)
     {
-        std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << '\n';
     }
 
     return EXIT_SUCCESS;
