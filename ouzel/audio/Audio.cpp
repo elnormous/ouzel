@@ -140,7 +140,7 @@ namespace ouzel
 #endif
                 default:
                     engine->log(Log::Level::Info) << "Not using audio driver";
-                    (void)debugAudio;
+                    static_cast<void>(debugAudio);
                     return std::make_unique<empty::AudioDevice>(512, 44100, 0, dataGetter);
             }
         }

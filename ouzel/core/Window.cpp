@@ -94,8 +94,8 @@ namespace ouzel
         highDpi(flags & Flags::HighDpi),
         title(newTitle)
     {
-        (void)newSize;
-        (void)graphicsDriver;
+        static_cast<void>(newSize);
+        static_cast<void>(graphicsDriver);
     }
 
     void Window::update()
