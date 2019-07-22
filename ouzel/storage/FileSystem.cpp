@@ -237,7 +237,7 @@ namespace ouzel
             id pathString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(path, sel_getUid("path"));
             return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(pathString, sel_getUid("UTF8String"));
 #elif defined(__ANDROID__)
-            (void)user;
+            static_cast<void>(user);
 
             EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
             return engineAndroid.getFilesDirectory();

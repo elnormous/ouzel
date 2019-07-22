@@ -68,7 +68,7 @@ namespace ouzel
                     }
                 }
 #else
-                (void)openGLVersion;
+                static_cast<void>(openGLVersion);
 
                 switch (pixelFormat)
                 {

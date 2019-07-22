@@ -71,7 +71,7 @@ namespace ouzel
         inline void setPriority(float priority, bool realtime)
         {
 #if defined(_MSC_VER)
-            (void)realtime;
+            static_cast<void>(realtime);
             static const int priorities[] = {
                 THREAD_PRIORITY_IDLE, THREAD_PRIORITY_LOWEST, THREAD_PRIORITY_BELOW_NORMAL, THREAD_PRIORITY_NORMAL,
                 THREAD_PRIORITY_ABOVE_NORMAL, THREAD_PRIORITY_HIGHEST, THREAD_PRIORITY_TIME_CRITICAL
