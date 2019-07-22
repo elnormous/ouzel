@@ -60,7 +60,6 @@ namespace ouzel
             while (iterator != end && !isControlChar(*iterator) && !isWhitespace(*iterator))
             {
                 result.push_back(static_cast<char>(*iterator));
-
                 ++iterator;
             }
 

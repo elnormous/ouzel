@@ -88,8 +88,7 @@ namespace ouzel
                 for (const NSOpenGLPixelFormatAttribute openGLVersion : openGLVersions)
                 {
                     // Create pixel format
-                    std::vector<NSOpenGLPixelFormatAttribute> attributes =
-                    {
+                    std::vector<NSOpenGLPixelFormatAttribute> attributes = {
                         NSOpenGLPFAAccelerated,
                         NSOpenGLPFANoRecovery,
                         NSOpenGLPFADoubleBuffer,
@@ -150,8 +149,8 @@ namespace ouzel
                 [openGLView setOpenGLContext:openGLContext];
                 [openGLContext setView:openGLView];
 
-                GLint swapInt = newVerticalSync ? 1 : 0;
-                [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+                GLint swapInterval = newVerticalSync ? 1 : 0;
+                [openGLContext setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
 
                 RenderDevice::init(newWindow,
                                    newSize,

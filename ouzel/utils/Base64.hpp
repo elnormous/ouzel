@@ -61,7 +61,7 @@ namespace ouzel
                 charArray4[2] = static_cast<uint8_t>(((charArray3[1] & 0x0F) << 2) + ((charArray3[2] & 0xC0) >> 6));
 
                 for (size_t j = 0; j < c + 1; ++j) result += CHARS[charArray4[j]];
-                while (c++ < 3) result += '=';
+                while (++c < 4) result += '=';
             }
 
             return result;
