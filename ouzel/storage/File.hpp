@@ -53,18 +53,17 @@ namespace ouzel
             };
 
             File() noexcept = default;
-            File(const std::string& filename, int mode)
+            File(const std::string& filename, const int mode)
             {
 #if defined(_WIN32)
-                DWORD access = 0;
-                if (mode & Mode::Read) access |= GENERIC_READ;
-                if (mode & Mode::Write) access |= GENERIC_WRITE;
-                if (mode & Mode::Append) access |= FILE_APPEND_DATA;
-                DWORD createDisposition = 0;
-                if (mode & Truncate)
-                    createDisposition = (mode & Mode::Create) ? CREATE_ALWAYS : TRUNCATE_EXISTING;
-                else
-                    createDisposition = (mode & Mode::Create) ? OPEN_ALWAYS : OPEN_EXISTING;
+                const DWORD access =
+                    (mode & Mode::Read ? GENERIC_READ : 0) |
+                    (mode & Mode::Write ? GENERIC_WRITE : 0) |
+                    (mode & Mode::Append ? FILE_APPEND_DATA : 0);
+
+                const DWORD createDisposition = mode & Truncate ?
+                    ((mode & Mode::Create) ? CREATE_ALWAYS : TRUNCATE_EXISTING) :
+                    ((mode & Mode::Create) ? OPEN_ALWAYS : OPEN_EXISTING);
 
                 const int bufferSize = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
                 if (bufferSize == 0)
@@ -82,13 +81,13 @@ namespace ouzel
                 if (file == INVALID_HANDLE_VALUE)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
 #else
-                int access = 0;
-                if ((mode & Mode::Read) && (mode & Mode::Write)) access |= O_RDWR;
-                else if (mode & Mode::Read) access |= O_RDONLY;
-                else if (mode & Mode::Write) access |= O_WRONLY;
-                if (mode & Mode::Create) access |= O_CREAT;
-                if (mode & Mode::Append) access |= O_APPEND;
-                if (mode & Mode::Truncate) access |= O_TRUNC;
+                const int access =
+                    ((mode & Mode::Read) && (mode & Mode::Write) ? O_RDWR :
+                     mode & Mode::Read ? O_RDONLY :
+                     mode & Mode::Write ? O_WRONLY : 0) |
+                    (mode & Mode::Create ? O_CREAT : 0) |
+                    (mode & Mode::Append ? O_APPEND : 0) |
+                    (mode & Mode::Truncate ? O_TRUNC : 0);
 
                 file = open(filename.c_str(), access, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
                 if (file == -1)
@@ -234,32 +233,24 @@ namespace ouzel
                 }
             }
 
-            void seek(int32_t offset, Seek method) const
+            void seek(const int32_t offset, const Seek method) const
             {
 #if defined(_WIN32)
-                DWORD moveMethod = 0;
-                switch (method)
-                {
-                    case Seek::Begin: moveMethod = FILE_BEGIN; break;
-                    case Seek::Current: moveMethod = FILE_CURRENT; break;
-                    case Seek::End: moveMethod = FILE_END; break;
-                    default:
-                        throw std::runtime_error("Unsupported seek method");
+                const DWORD moveMethod =
+                    (method == Seek::Begin) ? FILE_BEGIN :
+                    (method == Seek::Current) ? FILE_CURRENT :
+                    (method == Seek::End) ? FILE_END :
+                    throw std::runtime_error("Unsupported seek method");
 
-                }
                 if (SetFilePointer(file, offset, nullptr, moveMethod) == INVALID_SET_FILE_POINTER)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to seek file");
 #else
-                int whence = 0;
-                switch (method)
-                {
-                    case Seek::Begin: whence = SEEK_SET; break;
-                    case Seek::Current: whence = SEEK_CUR; break;
-                    case Seek::End: whence = SEEK_END; break;
-                    default:
-                        throw std::runtime_error("Unsupported seek method");
+                const int whence =
+                    (method == Seek::Begin) ? SEEK_SET :
+                    (method == Seek::Current) ? SEEK_CUR :
+                    (method == Seek::End) ? SEEK_END :
+                    throw std::runtime_error("Unsupported seek method");
 
-                }
                 if (lseek(file, offset, whence) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to seek file");
 #endif
