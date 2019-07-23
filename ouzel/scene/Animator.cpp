@@ -13,7 +13,10 @@ namespace ouzel
         Animator::Animator(float initLength):
             length(initLength)
         {
-            updateHandler.updateHandler = std::bind(&Animator::handleUpdate, this, std::placeholders::_1);
+            updateHandler.updateHandler = [this](const UpdateEvent& event) {
+                update(event.delta);
+                return false;
+            };
         }
 
         Animator::~Animator()
@@ -55,12 +58,6 @@ namespace ouzel
             }
             else
                 updateHandler.remove();
-        }
-
-        bool Animator::handleUpdate(const UpdateEvent& event)
-        {
-            update(event.delta);
-            return false;
         }
 
         void Animator::start()

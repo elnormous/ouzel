@@ -48,7 +48,6 @@ namespace ouzel
             void removeFromParent();
 
         protected:
-            bool handleUpdate(const UpdateEvent& event);
             virtual void updateProgress() {}
 
             float length = 0.0F;

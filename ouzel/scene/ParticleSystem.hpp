@@ -140,7 +140,6 @@ namespace ouzel
 
         private:
             void update(float delta);
-            bool handleUpdate(const UpdateEvent& event);
 
             void createParticleMesh();
             void updateParticleMesh();

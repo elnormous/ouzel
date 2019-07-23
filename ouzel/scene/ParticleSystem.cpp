@@ -26,7 +26,10 @@ namespace ouzel
             blendState = engine->getCache().getBlendState(BLEND_ALPHA);
             whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
 
-            updateHandler.updateHandler = std::bind(&ParticleSystem::handleUpdate, this, std::placeholders::_1);
+            updateHandler.updateHandler = [this](const UpdateEvent& event) {
+                update(event.delta);
+                return false;
+            };
         }
 
         ParticleSystem::ParticleSystem(const ParticleSystemData& initParticleSystemData):
@@ -231,12 +234,6 @@ namespace ouzel
                         boundingBox.insertPoint(Vector3F(particles[i].position));
                 }
             }
-        }
-
-        bool ParticleSystem::handleUpdate(const UpdateEvent& event)
-        {
-            update(event.delta);
-            return false;
         }
 
         void ParticleSystem::init(const ParticleSystemData& newParticleSystemData)
