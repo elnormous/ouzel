@@ -27,14 +27,14 @@ namespace ouzel
             if ((ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone)) != kIOReturnSuccess)
                 throw std::system_error(ret, ioKitErrorCategory, "Failed to open HID device");
 
-            auto productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
+            const auto productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
             if (productName)
             {
                 if (const char* deviceName = CFStringGetCStringPtr(productName, kCFStringEncodingUTF8))
                     name = deviceName;
                 else
                 {
-                    CFIndex stringLength = CFStringGetLength(productName);
+                    const CFIndex stringLength = CFStringGetLength(productName);
                     std::vector<char> temp(static_cast<size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
                     if (CFStringGetCString(productName, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8))
                         for (auto i = temp.begin(); i != temp.end() && *i; ++i)
@@ -43,14 +43,14 @@ namespace ouzel
             }
 
             int32_t vendorId;
-            auto vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
+            const auto vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (!vendor)
                 throw std::runtime_error("Failed to get vendor ID");
 
             CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
 
             int32_t productId;
-            auto product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
+            const auto product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
             if (!product)
                 throw std::runtime_error("Failed to get product ID");
 
@@ -67,12 +67,12 @@ namespace ouzel
                 {kHIDUsage_GD_Rz, 5}
             };
 
-            CFArrayRef elementArray = IOHIDDeviceCopyMatchingElements(device, nullptr, kIOHIDOptionsTypeNone);
-            CFIndex count = CFArrayGetCount(elementArray);
+            const CFArrayRef elementArray = IOHIDDeviceCopyMatchingElements(device, nullptr, kIOHIDOptionsTypeNone);
+            const CFIndex count = CFArrayGetCount(elementArray);
 
             for (CFIndex i = 0; i < count; ++i)
             {
-                auto element = static_cast<IOHIDElementRef>(const_cast<void*>(CFArrayGetValueAtIndex(elementArray, i)));
+                const auto element = static_cast<IOHIDElementRef>(const_cast<void*>(CFArrayGetValueAtIndex(elementArray, i)));
                 const IOHIDElementType type = IOHIDElementGetType(element);
                 const uint32_t usagePage = IOHIDElementGetUsagePage(element);
                 const uint32_t usage = IOHIDElementGetUsage(element);
