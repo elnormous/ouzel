@@ -57,11 +57,11 @@ namespace ouzel
             {
 #if defined(_WIN32)
                 const DWORD access =
-                    (mode & Mode::Read ? GENERIC_READ : 0) |
-                    (mode & Mode::Write ? GENERIC_WRITE : 0) |
-                    (mode & Mode::Append ? FILE_APPEND_DATA : 0);
+                    ((mode & Mode::Read) ? GENERIC_READ : 0) |
+                    ((mode & Mode::Write) ? GENERIC_WRITE : 0) |
+                    ((mode & Mode::Append) ? FILE_APPEND_DATA : 0);
 
-                const DWORD createDisposition = mode & Truncate ?
+                const DWORD createDisposition = (mode & Truncate) ?
                     ((mode & Mode::Create) ? CREATE_ALWAYS : TRUNCATE_EXISTING) :
                     ((mode & Mode::Create) ? OPEN_ALWAYS : OPEN_EXISTING);
 
@@ -83,11 +83,11 @@ namespace ouzel
 #else
                 const int access =
                     ((mode & Mode::Read) && (mode & Mode::Write) ? O_RDWR :
-                     mode & Mode::Read ? O_RDONLY :
-                     mode & Mode::Write ? O_WRONLY : 0) |
-                    (mode & Mode::Create ? O_CREAT : 0) |
-                    (mode & Mode::Append ? O_APPEND : 0) |
-                    (mode & Mode::Truncate ? O_TRUNC : 0);
+                     (mode & Mode::Read) ? O_RDONLY :
+                     (mode & Mode::Write) ? O_WRONLY : 0) |
+                    ((mode & Mode::Create) ? O_CREAT : 0) |
+                    ((mode & Mode::Append) ? O_APPEND : 0) |
+                    ((mode & Mode::Truncate) ? O_TRUNC : 0);
 
                 file = open(filename.c_str(), access, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
                 if (file == -1)
