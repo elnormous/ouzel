@@ -10,6 +10,13 @@
 static constexpr float THUMB_DEADZONE = 0.2F;
 static constexpr size_t INPUT_QUEUE_SIZE = 32;
 
+// converts the angle to the hat value
+static constexpr uint32_t getHatValue(uint32_t value) noexcept
+{
+    return (value == 0xFFFFFFFF) ?
+        8 : ((value + 4500 / 2) % 36000) / 4500; // round up
+}
+
 namespace ouzel
 {
     namespace input
@@ -229,27 +236,8 @@ namespace ouzel
             {
                 if (events[e].dwOfs == DIJOFS_POV(0))
                 {
-                    const uint32_t oldHatValue = hatValue;
-                    if (oldHatValue == 0xFFFFFFFF)
-                        oldHatValue = 8;
-                    else
-                    {
-                        // round up
-                        oldHatValue += 4500 / 2;
-                        oldHatValue %= 36000;
-                        oldHatValue /= 4500;
-                    }
-
-                    const uint32_t newHatValue = events[e].dwData;
-                    if (newHatValue == 0xFFFFFFFF)
-                        newHatValue = 8;
-                    else
-                    {
-                        // round up
-                        newHatValue += 4500 / 2;
-                        newHatValue %= 36000;
-                        newHatValue /= 4500;
-                    }
+                    const uint32_t oldHatValue = getHatValue(hatValue);
+                    const uint32_t newHatValue = getHatValue(events[e].dwData);
 
                     const uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                         (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
@@ -329,27 +317,8 @@ namespace ouzel
 
             if (hatValue != newDIState.rgdwPOV[0])
             {
-                uint32_t oldHatValue = hatValue;
-                if (oldHatValue == 0xFFFFFFFF)
-                    oldHatValue = 8;
-                else
-                {
-                    // round up
-                    oldHatValue += 4500 / 2;
-                    oldHatValue %= 36000;
-                    oldHatValue /= 4500;
-                }
-
-                uint32_t newHatValue = newDIState.rgdwPOV[0];
-                if (newHatValue == 0xFFFFFFFF)
-                    newHatValue = 8;
-                else
-                {
-                    // round up
-                    newHatValue += 4500 / 2;
-                    newHatValue %= 36000;
-                    newHatValue /= 4500;
-                }
+                const uint32_t oldHatValue = getHatValue(hatValue);
+                const uint32_t newHatValue = getHatValue(newDIState.rgdwPOV[0]);
 
                 uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                     (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
