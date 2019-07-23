@@ -11,12 +11,6 @@ public:
     PerspectiveSample();
 
 private:
-    bool handleUI(const ouzel::UIEvent& event);
-    bool handleKeyboard(const ouzel::KeyboardEvent& event);
-    bool handleMouse(const ouzel::MouseEvent& event);
-    bool handleTouch(const ouzel::TouchEvent& event);
-    bool handleGamepad(const ouzel::GamepadEvent& event);
-
     ouzel::audio::Submix submix;
     ouzel::audio::Listener listener;
 

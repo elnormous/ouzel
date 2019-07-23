@@ -17,9 +17,72 @@ GUISample::GUISample():
     label3("UTF-8 ĀāČč\nNew line", "ArialBlack", 1.0F, Color::white(), Vector2F(0.0F, 0.5F)),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
 {
-    handler.gamepadHandler = std::bind(&GUISample::handleGamepad, this, std::placeholders::_1);
-    handler.uiHandler = std::bind(&GUISample::handleUI, this, std::placeholders::_1);
-    handler.keyboardHandler = std::bind(&GUISample::handleKeyboard, this, std::placeholders::_1);
+    handler.gamepadHandler = [this](const GamepadEvent& event) {
+        if (event.type == Event::Type::GamepadButtonChange)
+        {
+            if (event.pressed &&
+                event.button == Gamepad::Button::FaceRight)
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+        }
+
+        return false;
+    };
+
+    handler.uiHandler = [this](const UIEvent& event) {
+        if (event.type == Event::Type::ActorClick)
+        {
+            if (event.actor == &backButton)
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+            else if (event.actor == &button)
+                checkBox.setChecked(!checkBox.isChecked());
+            else if (event.actor == &fullscreenButton)
+            {
+                bool fullscreen = engine->getWindow()->isFullscreen();
+                engine->getWindow()->setFullscreen(!fullscreen);
+            }
+            else if (event.actor == &minimizeButton)
+            {
+                engine->getWindow()->minimize();
+            }
+            else if (event.actor == &maximizeButton)
+            {
+                engine->getWindow()->maximize();
+            }
+        }
+
+        return false;
+    };
+
+    handler.keyboardHandler = [this](const KeyboardEvent& event) {
+        if (event.type == Event::Type::KeyboardKeyPress)
+        {
+            switch (event.key)
+            {
+                case Keyboard::Key::Escape:
+                case Keyboard::Key::Menu:
+                case Keyboard::Key::Back:
+                    engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+                    return true;
+                default:
+                    break;
+            }
+        }
+        else if (event.type == Event::Type::KeyboardKeyRelease)
+        {
+            switch (event.key)
+            {
+                case Keyboard::Key::Escape:
+                case Keyboard::Key::Menu:
+                case Keyboard::Key::Back:
+                    return true;
+                default:
+                    break;
+            }
+        }
+
+        return false;
+    };
+
     engine->getEventDispatcher().addEventHandler(handler);
 
     camera.setClearColorBuffer(true);
@@ -66,73 +129,4 @@ GUISample::GUISample():
 
     backButton.setPosition(Vector2F(-200.0F, -200.0F));
     menu.addWidget(&backButton);
-}
-
-bool GUISample::handleGamepad(const GamepadEvent& event)
-{
-    if (event.type == Event::Type::GamepadButtonChange)
-    {
-        if (event.pressed &&
-            event.button == Gamepad::Button::FaceRight)
-            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-    }
-
-    return false;
-}
-
-bool GUISample::handleUI(const UIEvent& event)
-{
-    if (event.type == Event::Type::ActorClick)
-    {
-        if (event.actor == &backButton)
-            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-        else if (event.actor == &button)
-            checkBox.setChecked(!checkBox.isChecked());
-        else if (event.actor == &fullscreenButton)
-        {
-            bool fullscreen = engine->getWindow()->isFullscreen();
-            engine->getWindow()->setFullscreen(!fullscreen);
-        }
-        else if (event.actor == &minimizeButton)
-        {
-            engine->getWindow()->minimize();
-        }
-        else if (event.actor == &maximizeButton)
-        {
-            engine->getWindow()->maximize();
-        }
-    }
-
-    return false;
-}
-
-bool GUISample::handleKeyboard(const KeyboardEvent& event) const
-{
-    if (event.type == Event::Type::KeyboardKeyPress)
-    {
-        switch (event.key)
-        {
-            case Keyboard::Key::Escape:
-            case Keyboard::Key::Menu:
-            case Keyboard::Key::Back:
-                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-                return true;
-            default:
-                break;
-        }
-    }
-    else if (event.type == Event::Type::KeyboardKeyRelease)
-    {
-        switch (event.key)
-        {
-            case Keyboard::Key::Escape:
-            case Keyboard::Key::Menu:
-            case Keyboard::Key::Back:
-                return true;
-            default:
-                break;
-        }
-    }
-
-    return false;
 }

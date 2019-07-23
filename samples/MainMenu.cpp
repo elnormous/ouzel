@@ -22,8 +22,61 @@ MainMenu::MainMenu():
     soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", "Arial", 1.0F, Color(20, 0, 0, 255), Color::black(), Color::black()),
     perspectiveButton("button.png", "button_selected.png", "button_down.png", "", "Perspective", "Arial", 1.0F, Color(20, 0, 0, 255), Color::black(), Color::black())
 {
-    handler.uiHandler = std::bind(&MainMenu::handleUI, this, std::placeholders::_1);
-    handler.keyboardHandler = std::bind(&MainMenu::handleKeyboard, this, std::placeholders::_1);
+    handler.uiHandler = [this](const UIEvent& event) {
+        if (event.type == Event::Type::ActorClick)
+        {
+            if (event.actor == &gitHubButton)
+                engine->openURL("https://github.com/elnormous/ouzel");
+            else if (event.actor == &spritesButton)
+                engine->getSceneManager().setScene(std::make_unique<SpritesSample>());
+            else if (event.actor == &guiButton)
+                engine->getSceneManager().setScene(std::make_unique<GUISample>());
+            else if (event.actor == &renderTargetButton)
+                engine->getSceneManager().setScene(std::make_unique<RTSample>());
+            else if (event.actor == &animationsButton)
+                engine->getSceneManager().setScene(std::make_unique<AnimationsSample>());
+            else if (event.actor == &inputButton)
+                engine->getSceneManager().setScene(std::make_unique<InputSample>());
+            else if (event.actor == &soundButton)
+                engine->getSceneManager().setScene(std::make_unique<SoundSample>());
+            else if (event.actor == &perspectiveButton)
+                engine->getSceneManager().setScene(std::make_unique<PerspectiveSample>());
+        }
+
+        return false;
+    };
+
+    handler.keyboardHandler = [this](const KeyboardEvent& event) {
+        if (event.type == Event::Type::KeyboardKeyPress)
+        {
+            switch (event.key)
+            {
+                case Keyboard::Key::Escape:
+                    engine->exit();
+                    break;
+                case Keyboard::Key::Menu:
+                case Keyboard::Key::Back:
+                    return false;
+                default:
+                    break;
+            }
+        }
+        else if (event.type == Event::Type::KeyboardKeyRelease)
+        {
+            switch (event.key)
+            {
+                case Keyboard::Key::Escape:
+                case Keyboard::Key::Menu:
+                case Keyboard::Key::Back:
+                    return false;
+                default:
+                    break;
+            }
+        }
+
+        return true;
+    };
+
     engine->getEventDispatcher().addEventHandler(handler);
 
     addLayer(&layer);
@@ -60,61 +113,4 @@ MainMenu::MainMenu():
 
     perspectiveButton.setPosition(Vector2F(0.0F, -160.0F));
     menu.addWidget(&perspectiveButton);
-}
-
-bool MainMenu::handleKeyboard(const KeyboardEvent& event)
-{
-    if (event.type == Event::Type::KeyboardKeyPress)
-    {
-        switch (event.key)
-        {
-            case Keyboard::Key::Escape:
-                engine->exit();
-                break;
-            case Keyboard::Key::Menu:
-            case Keyboard::Key::Back:
-                return false;
-            default:
-                break;
-        }
-    }
-    else if (event.type == Event::Type::KeyboardKeyRelease)
-    {
-        switch (event.key)
-        {
-            case Keyboard::Key::Escape:
-            case Keyboard::Key::Menu:
-            case Keyboard::Key::Back:
-                return false;
-            default:
-                break;
-        }
-    }
-
-    return true;
-}
-
-bool MainMenu::handleUI(const UIEvent& event)
-{
-    if (event.type == Event::Type::ActorClick)
-    {
-        if (event.actor == &gitHubButton)
-            engine->openURL("https://github.com/elnormous/ouzel");
-        else if (event.actor == &spritesButton)
-            engine->getSceneManager().setScene(std::make_unique<SpritesSample>());
-        else if (event.actor == &guiButton)
-            engine->getSceneManager().setScene(std::make_unique<GUISample>());
-        else if (event.actor == &renderTargetButton)
-            engine->getSceneManager().setScene(std::make_unique<RTSample>());
-        else if (event.actor == &animationsButton)
-            engine->getSceneManager().setScene(std::make_unique<AnimationsSample>());
-        else if (event.actor == &inputButton)
-            engine->getSceneManager().setScene(std::make_unique<InputSample>());
-        else if (event.actor == &soundButton)
-            engine->getSceneManager().setScene(std::make_unique<SoundSample>());
-        else if (event.actor == &perspectiveButton)
-            engine->getSceneManager().setScene(std::make_unique<PerspectiveSample>());
-    }
-
-    return false;
 }

@@ -11,10 +11,6 @@ public:
     SpritesSample();
 
 private:
-    bool handleGamepad(const ouzel::GamepadEvent& event);
-    bool handleUI(const ouzel::UIEvent& event);
-    bool handleKeyboard(const ouzel::KeyboardEvent& event) const;
-
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
     ouzel::scene::Actor cameraActor;

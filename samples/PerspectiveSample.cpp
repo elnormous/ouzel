@@ -22,11 +22,111 @@ PerspectiveSample::PerspectiveSample():
     if (Mouse* mouse = engine->getInputManager()->getMouse())
         mouse->setCursor(&cursor);
 
-    handler.keyboardHandler = std::bind(&PerspectiveSample::handleKeyboard, this, std::placeholders::_1);
-    handler.mouseHandler = std::bind(&PerspectiveSample::handleMouse, this, std::placeholders::_1);
-    handler.touchHandler = std::bind(&PerspectiveSample::handleTouch, this, std::placeholders::_1);
-    handler.gamepadHandler = std::bind(&PerspectiveSample::handleGamepad, this, std::placeholders::_1);
-    handler.uiHandler = std::bind(&PerspectiveSample::handleUI, this, std::placeholders::_1);
+    handler.keyboardHandler = [this](const KeyboardEvent& event) {
+        if (event.type == Event::Type::KeyboardKeyPress)
+        {
+            switch (event.key)
+            {
+                case Keyboard::Key::Up:
+                    cameraRotation.x() -= tau<float> / 100.0F;
+                    break;
+                case Keyboard::Key::Down:
+                    cameraRotation.x() += tau<float> / 100.0F;
+                    break;
+                case Keyboard::Key::Left:
+                    cameraRotation.y() -= tau<float> / 100.0F;
+                    break;
+                case Keyboard::Key::Right:
+                    cameraRotation.y() += tau<float> / 100.0F;
+                    break;
+                case Keyboard::Key::Escape:
+                case Keyboard::Key::Menu:
+                case Keyboard::Key::Back:
+                    engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+                    return true;
+                case Keyboard::Key::Tab:
+                    jumpVoice.play();
+                    break;
+                case Keyboard::Key::S:
+                    engine->getRenderer()->saveScreenshot("test.png");
+                    break;
+                default:
+                    break;
+            }
+
+            if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
+            if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
+
+            cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
+        }
+        else if (event.type == Event::Type::KeyboardKeyRelease)
+        {
+            switch (event.key)
+            {
+                case Keyboard::Key::Escape:
+                case Keyboard::Key::Menu:
+                case Keyboard::Key::Back:
+                    return true;
+                default:
+                    break;
+            }
+        }
+
+        return false;
+    };
+
+    handler.mouseHandler = [this](const ouzel::MouseEvent& event) {
+        if (event.type == Event::Type::MouseMove &&
+            event.mouse->isButtonDown(Mouse::Button::Left))
+        {
+            cameraRotation.x() -= event.difference.y();
+            cameraRotation.y() -= event.difference.x();
+
+            if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
+            if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
+
+            cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
+        }
+
+        return false;
+    };
+
+    handler.touchHandler = [this](const ouzel::TouchEvent& event) {
+        if (event.touchpad->isScreen() &&
+            event.type == Event::Type::TouchMove)
+        {
+            cameraRotation.x() -= event.difference.y();
+            cameraRotation.y() -= event.difference.x();
+
+            if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
+            if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
+
+            cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
+        }
+
+        return false;
+    };
+
+    handler.gamepadHandler = [this](const GamepadEvent& event) {
+        if (event.type == Event::Type::GamepadButtonChange)
+        {
+            if (event.pressed &&
+                event.button == Gamepad::Button::FaceRight)
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+        }
+
+        return false;
+    };
+
+    handler.uiHandler = [this](const UIEvent& event) {
+        if (event.type == Event::Type::ActorClick)
+        {
+            if (event.actor == &backButton)
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+        }
+
+        return false;
+    };
 
     engine->getEventDispatcher().addEventHandler(handler);
 
@@ -93,115 +193,4 @@ PerspectiveSample::PerspectiveSample():
 
     backButton.setPosition(Vector2F(-200.0F, -200.0F));
     menu.addWidget(&backButton);
-}
-
-bool PerspectiveSample::handleUI(const ouzel::UIEvent& event)
-{
-    if (event.type == Event::Type::ActorClick)
-    {
-        if (event.actor == &backButton)
-            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-    }
-
-    return false;
-}
-
-bool PerspectiveSample::handleKeyboard(const ouzel::KeyboardEvent& event)
-{
-    if (event.type == Event::Type::KeyboardKeyPress)
-    {
-        switch (event.key)
-        {
-            case Keyboard::Key::Up:
-                cameraRotation.x() -= tau<float> / 100.0F;
-                break;
-            case Keyboard::Key::Down:
-                cameraRotation.x() += tau<float> / 100.0F;
-                break;
-            case Keyboard::Key::Left:
-                cameraRotation.y() -= tau<float> / 100.0F;
-                break;
-            case Keyboard::Key::Right:
-                cameraRotation.y() += tau<float> / 100.0F;
-                break;
-            case Keyboard::Key::Escape:
-            case Keyboard::Key::Menu:
-            case Keyboard::Key::Back:
-                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-                return true;
-            case Keyboard::Key::Tab:
-                jumpVoice.play();
-                break;
-            case Keyboard::Key::S:
-                engine->getRenderer()->saveScreenshot("test.png");
-                break;
-            default:
-                break;
-        }
-
-        if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
-        if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
-
-        cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
-    }
-    else if (event.type == Event::Type::KeyboardKeyRelease)
-    {
-        switch (event.key)
-        {
-            case Keyboard::Key::Escape:
-            case Keyboard::Key::Menu:
-            case Keyboard::Key::Back:
-                return true;
-            default:
-                break;
-        }
-    }
-
-    return false;
-}
-
-bool PerspectiveSample::handleMouse(const ouzel::MouseEvent& event)
-{
-    if (event.type == Event::Type::MouseMove &&
-        event.mouse->isButtonDown(Mouse::Button::Left))
-    {
-        cameraRotation.x() -= event.difference.y();
-        cameraRotation.y() -= event.difference.x();
-
-        if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
-        if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
-
-        cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
-    }
-
-    return false;
-}
-
-bool PerspectiveSample::handleTouch(const ouzel::TouchEvent& event)
-{
-    if (event.touchpad->isScreen() &&
-        event.type == Event::Type::TouchMove)
-    {
-        cameraRotation.x() -= event.difference.y();
-        cameraRotation.y() -= event.difference.x();
-
-        if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
-        if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
-
-        cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
-    }
-
-    return false;
-}
-
-bool PerspectiveSample::handleGamepad(const GamepadEvent& event)
-{
-    if (event.type == Event::Type::GamepadButtonChange)
-    {
-        if (event.pressed &&
-            event.button == Gamepad::Button::FaceRight)
-            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-    }
-
-    return false;
 }

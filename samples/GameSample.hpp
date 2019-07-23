@@ -11,12 +11,6 @@ public:
     GameSample();
 
 private:
-    bool handleKeyboard(const ouzel::KeyboardEvent& event);
-    bool handleMouse(const ouzel::MouseEvent& event);
-    bool handleTouch(const ouzel::TouchEvent& event);
-    bool handleGamepad(const ouzel::GamepadEvent& event);
-    bool handleUI(const ouzel::UIEvent& event) const;
-
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
     ouzel::scene::Actor cameraActor;

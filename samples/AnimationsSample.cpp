@@ -9,9 +9,54 @@ using namespace input;
 AnimationsSample::AnimationsSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
 {
-    handler.gamepadHandler = std::bind(&AnimationsSample::handleGamepad, this, std::placeholders::_1);
-    handler.uiHandler = std::bind(&AnimationsSample::handleUI, this, std::placeholders::_1);
-    handler.keyboardHandler = std::bind(&AnimationsSample::handleKeyboard, this, std::placeholders::_1);
+    handler.gamepadHandler = [this](const GamepadEvent& event) {
+        if (event.type == Event::Type::GamepadButtonChange)
+        {
+            if (event.pressed &&
+                event.button == Gamepad::Button::FaceRight)
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+        }
+
+        return false;
+    };
+
+    handler.uiHandler = [this](const UIEvent& event) {
+        if (event.type == Event::Type::ActorClick && event.actor == &backButton)
+            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+
+        return false;
+    };
+
+    handler.keyboardHandler = [this](const KeyboardEvent& event) {
+        if (event.type == Event::Type::KeyboardKeyPress)
+        {
+            switch (event.key)
+            {
+                case Keyboard::Key::Escape:
+                case Keyboard::Key::Menu:
+                case Keyboard::Key::Back:
+                    engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+                    return true;
+                default:
+                    break;
+            }
+        }
+        else if (event.type == Event::Type::KeyboardKeyRelease)
+        {
+            switch (event.key)
+            {
+                case Keyboard::Key::Escape:
+                case Keyboard::Key::Menu:
+                case Keyboard::Key::Back:
+                    return true;
+                default:
+                    break;
+            }
+        }
+
+        return false;
+    };
+
     engine->getEventDispatcher().addEventHandler(handler);
 
     camera.setClearColorBuffer(true);
@@ -107,55 +152,4 @@ AnimationsSample::AnimationsSample():
 
     backButton.setPosition(Vector2F(-200.0F, -200.0F));
     menu.addWidget(&backButton);
-}
-
-bool AnimationsSample::handleGamepad(const GamepadEvent& event)
-{
-    if (event.type == Event::Type::GamepadButtonChange)
-    {
-        if (event.pressed &&
-            event.button == Gamepad::Button::FaceRight)
-            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-    }
-
-    return false;
-}
-
-bool AnimationsSample::handleUI(const UIEvent& event) const
-{
-    if (event.type == Event::Type::ActorClick && event.actor == &backButton)
-        engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-
-    return false;
-}
-
-bool AnimationsSample::handleKeyboard(const KeyboardEvent& event) const
-{
-    if (event.type == Event::Type::KeyboardKeyPress)
-    {
-        switch (event.key)
-        {
-            case Keyboard::Key::Escape:
-            case Keyboard::Key::Menu:
-            case Keyboard::Key::Back:
-                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-                return true;
-            default:
-                break;
-        }
-    }
-    else if (event.type == Event::Type::KeyboardKeyRelease)
-    {
-        switch (event.key)
-        {
-            case Keyboard::Key::Escape:
-            case Keyboard::Key::Menu:
-            case Keyboard::Key::Back:
-                return true;
-            default:
-                break;
-        }
-    }
-
-    return false;
 }

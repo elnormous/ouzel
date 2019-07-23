@@ -11,10 +11,6 @@ public:
     SoundSample();
 
 private:
-    bool handleGamepad(const ouzel::GamepadEvent& event);
-    bool handleUI(const ouzel::UIEvent& event);
-    bool handleKeyboard(const ouzel::KeyboardEvent& event) const;
-
     ouzel::audio::Submix submix;
     ouzel::audio::Listener listener;
     ouzel::audio::Gain soundGain;

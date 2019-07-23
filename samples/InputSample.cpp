@@ -14,11 +14,149 @@ InputSample::InputSample():
 {
     cursor.init("cursor.png", Vector2F(0.0F, 63.0F));
 
-    handler.keyboardHandler = std::bind(&InputSample::handleKeyboard, this, std::placeholders::_1);
-    handler.mouseHandler = std::bind(&InputSample::handleMouse, this, std::placeholders::_1);
-    handler.touchHandler = std::bind(&InputSample::handleTouch, this, std::placeholders::_1);
-    handler.gamepadHandler = std::bind(&InputSample::handleGamepad, this, std::placeholders::_1);
-    handler.uiHandler = std::bind(&InputSample::handleUI, this, std::placeholders::_1);
+    handler.keyboardHandler = [this](const KeyboardEvent& event) {
+        if (event.type == Event::Type::KeyboardKeyPress)
+        {
+            Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
+
+            switch (event.key)
+            {
+                case Keyboard::Key::Up:
+                    flamePosition.y() += 0.01F;
+                    break;
+                case Keyboard::Key::Down:
+                    flamePosition.y() -= 0.01F;
+                    break;
+                case Keyboard::Key::Left:
+                    flamePosition.x() -= 0.01F;
+                    break;
+                case Keyboard::Key::Right:
+                    flamePosition.x() += 0.01F;
+                    break;
+                case Keyboard::Key::R:
+                    engine->getWindow()->setSize(Size2U(640, 480));
+                    break;
+                case Keyboard::Key::Tab:
+                    hideButton.setEnabled(!hideButton.isEnabled());
+                    break;
+                case Keyboard::Key::Escape:
+                case Keyboard::Key::Menu:
+                case Keyboard::Key::Back:
+                    if (Mouse* mouse = engine->getInputManager()->getMouse())
+                        mouse->setCursorVisible(true);
+                    engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+                    return true;
+                default:
+                    break;
+            }
+
+            auto worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
+
+            flame.setPosition(worldLocation);
+        }
+        else if (event.type == Event::Type::KeyboardKeyRelease)
+        {
+            switch (event.key)
+            {
+                case Keyboard::Key::Escape:
+                case Keyboard::Key::Menu:
+                case Keyboard::Key::Back:
+                    return true;
+                default:
+                    break;
+            }
+        }
+
+        return false;
+    };
+
+    handler.mouseHandler = [this](const MouseEvent& event) {
+        switch (event.type)
+        {
+            case Event::Type::MouseMove:
+            {
+                auto worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
+                flame.setPosition(worldLocation);
+                break;
+            }
+            default:
+                break;
+        }
+
+        return false;
+    };
+
+    handler.touchHandler = [this](const TouchEvent& event) {
+        if (event.touchpad->isScreen())
+        {
+            auto worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
+            flame.setPosition(worldLocation);
+        }
+
+        return false;
+    };
+
+    handler.gamepadHandler = [this](const GamepadEvent& event) {
+        if (event.type == Event::Type::GamepadButtonChange)
+        {
+            Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
+
+            switch (event.button)
+            {
+                case Gamepad::Button::FaceRight:
+                    if (event.pressed) engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+                    return false;
+                case Gamepad::Button::DpadUp:
+                case Gamepad::Button::LeftThumbUp:
+                case Gamepad::Button::RightThumbUp:
+                    flamePosition.y() = event.value / 2.0F + 0.5F;
+                    break;
+                case Gamepad::Button::DpadDown:
+                case Gamepad::Button::LeftThumbDown:
+                case Gamepad::Button::RightThumbDown:
+                    flamePosition.y() = -event.value / 2.0F + 0.5F;
+                    break;
+                case Gamepad::Button::DpadLeft:
+                case Gamepad::Button::LeftThumbLeft:
+                case Gamepad::Button::RightThumbLeft:
+                    flamePosition.x() = -event.value / 2.0F + 0.5F;
+                    break;
+                case Gamepad::Button::DpadRight:
+                case Gamepad::Button::LeftThumbRight:
+                case Gamepad::Button::RightThumbRight:
+                    flamePosition.x() = event.value / 2.0F + 0.5F;
+                    break;
+                default:
+                    break;
+            }
+
+            auto worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
+            flame.setPosition(worldLocation);
+        }
+
+        return false;
+    };
+
+    handler.uiHandler = [this](const UIEvent& event) {
+        if (event.type == Event::Type::ActorClick)
+        {
+            if (event.actor == &backButton)
+            {
+                if (Mouse* mouse = engine->getInputManager()->getMouse())
+                    mouse->setCursorVisible(true);
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+            }
+            else if (event.actor == &hideButton)
+            {
+                if (Mouse* mouse = engine->getInputManager()->getMouse())
+                    mouse->setCursorVisible(!engine->getInputManager()->getMouse()->isCursorVisible());
+            }
+            else if (event.actor == &discoverButton)
+                engine->getInputManager()->startDeviceDiscovery();
+        }
+
+        return false;
+    };
 
     engine->getEventDispatcher().addEventHandler(handler);
 
@@ -64,153 +202,4 @@ InputSample::InputSample():
         auto worldLocation = Vector2F(camera.convertNormalizedToWorld(mouse->getPosition()));
         flame.setPosition(worldLocation);
     }
-}
-
-bool InputSample::handleKeyboard(const KeyboardEvent& event)
-{
-    if (event.type == Event::Type::KeyboardKeyPress)
-    {
-        Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
-
-        switch (event.key)
-        {
-            case Keyboard::Key::Up:
-                flamePosition.y() += 0.01F;
-                break;
-            case Keyboard::Key::Down:
-                flamePosition.y() -= 0.01F;
-                break;
-            case Keyboard::Key::Left:
-                flamePosition.x() -= 0.01F;
-                break;
-            case Keyboard::Key::Right:
-                flamePosition.x() += 0.01F;
-                break;
-            case Keyboard::Key::R:
-                engine->getWindow()->setSize(Size2U(640, 480));
-                break;
-            case Keyboard::Key::Tab:
-                hideButton.setEnabled(!hideButton.isEnabled());
-                break;
-            case Keyboard::Key::Escape:
-            case Keyboard::Key::Menu:
-            case Keyboard::Key::Back:
-                if (Mouse* mouse = engine->getInputManager()->getMouse())
-                    mouse->setCursorVisible(true);
-                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-                return true;
-            default:
-                break;
-        }
-
-        auto worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
-
-        flame.setPosition(worldLocation);
-    }
-    else if (event.type == Event::Type::KeyboardKeyRelease)
-    {
-        switch (event.key)
-        {
-            case Keyboard::Key::Escape:
-            case Keyboard::Key::Menu:
-            case Keyboard::Key::Back:
-                return true;
-            default:
-                break;
-        }
-    }
-
-    return false;
-}
-
-bool InputSample::handleMouse(const MouseEvent& event)
-{
-    switch (event.type)
-    {
-        case Event::Type::MouseMove:
-        {
-            auto worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
-            flame.setPosition(worldLocation);
-            break;
-        }
-        default:
-            break;
-    }
-
-    return false;
-}
-
-bool InputSample::handleTouch(const TouchEvent& event)
-{
-    if (event.touchpad->isScreen())
-    {
-        auto worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
-        flame.setPosition(worldLocation);
-    }
-
-    return false;
-}
-
-bool InputSample::handleGamepad(const GamepadEvent& event)
-{
-    if (event.type == Event::Type::GamepadButtonChange)
-    {
-        Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
-
-        switch (event.button)
-        {
-            case Gamepad::Button::FaceRight:
-                if (event.pressed) engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-                return false;
-            case Gamepad::Button::DpadUp:
-            case Gamepad::Button::LeftThumbUp:
-            case Gamepad::Button::RightThumbUp:
-                flamePosition.y() = event.value / 2.0F + 0.5F;
-                break;
-            case Gamepad::Button::DpadDown:
-            case Gamepad::Button::LeftThumbDown:
-            case Gamepad::Button::RightThumbDown:
-                flamePosition.y() = -event.value / 2.0F + 0.5F;
-                break;
-            case Gamepad::Button::DpadLeft:
-            case Gamepad::Button::LeftThumbLeft:
-            case Gamepad::Button::RightThumbLeft:
-                flamePosition.x() = -event.value / 2.0F + 0.5F;
-                break;
-            case Gamepad::Button::DpadRight:
-            case Gamepad::Button::LeftThumbRight:
-            case Gamepad::Button::RightThumbRight:
-                flamePosition.x() = event.value / 2.0F + 0.5F;
-                break;
-            default:
-                break;
-        }
-
-        auto worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
-        flame.setPosition(worldLocation);
-    }
-
-    return false;
-}
-
-bool InputSample::handleUI(const UIEvent& event) const
-{
-    if (event.type == Event::Type::ActorClick)
-    {
-        if (event.actor == &backButton)
-        {
-            if (Mouse* mouse = engine->getInputManager()->getMouse())
-                mouse->setCursorVisible(true);
-            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-        }
-        else if (event.actor == &hideButton)
-        {
-            if (Mouse* mouse = engine->getInputManager()->getMouse())
-                mouse->setCursorVisible(!engine->getInputManager()->getMouse()->isCursorVisible());
-        }
-        else if (event.actor == &discoverButton)
-            engine->getInputManager()->startDeviceDiscovery();
-    }
-
-    return false;
 }

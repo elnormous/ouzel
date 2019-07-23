@@ -11,10 +11,6 @@ public:
     GUISample();
 
 private:
-    bool handleGamepad(const ouzel::GamepadEvent& event);
-    bool handleUI(const ouzel::UIEvent& event);
-    bool handleKeyboard(const ouzel::KeyboardEvent& event) const;
-
     ouzel::EventHandler handler;
 
     ouzel::gui::Button button;
