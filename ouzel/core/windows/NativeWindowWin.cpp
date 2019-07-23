@@ -442,12 +442,10 @@ namespace ouzel
         if (!AdjustWindowRectEx(&windowRect, windowStyle, FALSE, windowExStyle))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to adjust window rectangle");
 
-        int width = CW_USEDEFAULT;
-        int height = CW_USEDEFAULT;
-        if (size.v[0] > 0.0F) width = windowRect.right - windowRect.left;
-        if (size.v[1] > 0.0F) height = windowRect.bottom - windowRect.top;
+        const int width = (size.v[0] > 0.0F) ? windowRect.right - windowRect.left : CW_USEDEFAULT;
+        const int height = (size.v[1] > 0.0F) ? windowRect.bottom - windowRect.top : CW_USEDEFAULT;
 
-        int titleBufferSize = MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, nullptr, 0);
+        const int titleBufferSize = MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, nullptr, 0);
         if (titleBufferSize == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 

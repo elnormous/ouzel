@@ -461,7 +461,7 @@ namespace ouzel
 
             for (currentAnimation = animationQueue.begin(); currentAnimation != animationQueue.end(); ++currentAnimation)
             {
-                float length = currentAnimation->animation->frames.size() * currentAnimation->animation->frameInterval;
+                const float length = currentAnimation->animation->frames.size() * currentAnimation->animation->frameInterval;
 
                 if (length > 0.0F)
                 {

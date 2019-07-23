@@ -66,7 +66,7 @@ namespace ouzel
                 else
                     createDisposition = (mode & Mode::Create) ? OPEN_ALWAYS : OPEN_EXISTING;
 
-                int bufferSize = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
+                const int bufferSize = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
                 if (bufferSize == 0)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 

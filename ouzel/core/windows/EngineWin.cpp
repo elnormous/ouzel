@@ -191,7 +191,7 @@ namespace ouzel
 
     void EngineWin::openURL(const std::string& url)
     {
-        int buferSize = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, nullptr, 0);
+        const int buferSize = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, nullptr, 0);
         if (buferSize == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 

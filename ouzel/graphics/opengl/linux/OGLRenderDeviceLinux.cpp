@@ -121,7 +121,7 @@ namespace ouzel
                 engine->log(Log::Level::All) << "GLX version: " << glxMajor << "." << glxMinor;
 
                 Screen* screen = XDefaultScreenOfDisplay(engineLinux->getDisplay());
-                int screenIndex = XScreenNumberOfScreen(screen);
+                const int screenIndex = XScreenNumberOfScreen(screen);
 
                 GLXContext tempContext = glXCreateContext(engineLinux->getDisplay(), windowLinux->getVisualInfo(), None, GL_TRUE);
                 if (!tempContext)

@@ -37,7 +37,7 @@ namespace ouzel
 
                 for (; i != vertList.end(); ++i)
                 {
-                    float d = v.dot(*i);
+                    const float d = v.dot(*i);
                     if (d < outMin) outMin = d;
                     else if (d > outMax) outMax = d;
                 }

@@ -332,7 +332,7 @@ namespace ouzel
 
             if (i != pointerDownOnActors.end())
             {
-                auto pointerDownOnActor = i->second;
+                const auto pointerDownOnActor = i->second;
 
                 if (pointerDownOnActor.first)
                 {

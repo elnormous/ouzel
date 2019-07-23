@@ -89,13 +89,12 @@ namespace ouzel
             offset += static_cast<size_t>(written);
         }
 #elif defined(_WIN32)
-        int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+        const int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
             return;
 
-        ++bufferSize; // for the newline
-        std::vector<WCHAR> buffer(bufferSize);
-        if (MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer.data(), bufferSize) == 0)
+        std::vector<WCHAR> buffer(bufferSize + 1); // +1 for the newline
+        if (MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer.data(), static_cast<int>(buffer.size())) == 0)
             return;
 
         if (FAILED(StringCchCatW(buffer.data(), buffer.size(), L"\n")))

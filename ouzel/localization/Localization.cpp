@@ -24,7 +24,7 @@ namespace ouzel
         if (data.size() < 5 * sizeof(uint32_t))
             throw std::runtime_error("Not enough data");
 
-        uint32_t magic = *reinterpret_cast<const uint32_t*>(data.data() + offset);
+        const uint32_t magic = *reinterpret_cast<const uint32_t*>(data.data() + offset);
         offset += sizeof(magic);
 
         std::function<uint32_t(const uint8_t*)> decodeUInt32;
@@ -46,21 +46,21 @@ namespace ouzel
         else
             throw std::runtime_error("Wrong magic " + std::to_string(magic));
 
-        uint32_t revision = decodeUInt32(data.data() + offset);
+        const uint32_t revision = decodeUInt32(data.data() + offset);
         offset += sizeof(revision);
 
         if (revision != 0)
             throw std::runtime_error("Unsupported revision " + std::to_string(revision));
 
-        uint32_t stringCount = decodeUInt32(data.data() + offset);
+        const uint32_t stringCount = decodeUInt32(data.data() + offset);
         offset += sizeof(stringCount);
 
         std::vector<TranslationInfo> translations(stringCount);
 
-        uint32_t stringsOffset = decodeUInt32(data.data() + offset);
+        const uint32_t stringsOffset = decodeUInt32(data.data() + offset);
         offset += sizeof(stringsOffset);
 
-        uint32_t translationsOffset = decodeUInt32(data.data() + offset);
+        const uint32_t translationsOffset = decodeUInt32(data.data() + offset);
         offset += sizeof(translationsOffset);
 
         offset = stringsOffset;

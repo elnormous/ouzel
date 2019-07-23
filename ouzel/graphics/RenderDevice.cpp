@@ -67,7 +67,7 @@ namespace ouzel
             auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
             previousFrameTime = currentTime;
 
-            float delta = diff.count() / 1000000000.0F;
+            const float delta = diff.count() / 1000000000.0F;
 
             if (delta > 0.0F)
                 currentFPS = 1.0F / delta;

@@ -47,8 +47,8 @@ namespace ouzel
 
         resolution = size;
 
-        int x = XWidthOfScreen(screen) / 2 - static_cast<int>(size.v[0] / 2);
-        int y = XHeightOfScreen(screen) / 2 - static_cast<int>(size.v[1] / 2);
+        const int x = XWidthOfScreen(screen) / 2 - static_cast<int>(size.v[0] / 2);
+        const int y = XHeightOfScreen(screen) / 2 - static_cast<int>(size.v[1] / 2);
 
         switch (graphicsDriver)
         {

@@ -183,7 +183,7 @@ namespace ouzel
                     throw std::system_error(hr, errorCategory, "Failed to get the DXGI adapter description");
                 else
                 {
-                    int bufferSize = WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, nullptr, 0, nullptr, nullptr);
+                    const int bufferSize = WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, nullptr, 0, nullptr, nullptr);
                     if (bufferSize != 0)
                     {
                         std::vector<char> buffer(bufferSize);
@@ -511,7 +511,7 @@ namespace ouzel
 
                                 scissorEnableIndex = (setScissorTestCommand->enabled) ? 1 : 0;
 
-                                uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                                const uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
                                 context->RSSetState(rasterizerStates[rasterizerStateIndex]);
 
                                 break;
@@ -620,7 +620,7 @@ namespace ouzel
                                     default: throw std::runtime_error("Invalid fill mode");
                                 }
 
-                                uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                                const uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
                                 context->RSSetState(rasterizerStates[rasterizerStateIndex]);
                                 break;
                             }

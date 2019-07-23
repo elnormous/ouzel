@@ -58,17 +58,14 @@ namespace ouzel
 
         void PcmStream::getSamples(uint32_t frames, std::vector<float>& samples)
         {
-            uint32_t neededSize = frames * data.getChannels();
+            const uint32_t neededSize = frames * data.getChannels();
             samples.resize(neededSize);
 
             PcmData& pcmData = static_cast<PcmData&>(data);
             const std::vector<float>& data = pcmData.getSamples();
 
-            auto sourceFrames = static_cast<uint32_t>(data.size() / pcmData.getChannels());
-
-            uint32_t copyFrames = frames;
-            if (copyFrames > sourceFrames - position)
-                copyFrames = sourceFrames - position;
+            const auto sourceFrames = static_cast<uint32_t>(data.size() / pcmData.getChannels());
+            const uint32_t copyFrames = (frames > sourceFrames - position) ? sourceFrames - position : frames;
 
             for (uint32_t channel = 0; channel < pcmData.getChannels(); ++channel)
             {

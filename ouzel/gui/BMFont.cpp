@@ -352,7 +352,7 @@ namespace ouzel
         {
             Vector2F position;
 
-            std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
+            const std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
 
             indices.clear();
             vertices.clear();
@@ -410,7 +410,7 @@ namespace ouzel
                 if (*i == static_cast<uint32_t>('\n') || // line feed
                     (i + 1) == utf32Text.end()) // end of string
                 {
-                    float lineWidth = position.v[0];
+                    const float lineWidth = position.v[0];
                     position.v[0] = 0.0F;
                     position.v[1] += lineHeight;
 
@@ -421,7 +421,7 @@ namespace ouzel
                 }
             }
 
-            float textHeight = position.v[1];
+            const float textHeight = position.v[1];
 
             for (size_t c = 0; c < vertices.size(); ++c)
             {
@@ -448,7 +448,7 @@ namespace ouzel
         {
             float total = 0.0F;
 
-            std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
+            const std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
 
             for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
             {

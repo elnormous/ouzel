@@ -20,10 +20,10 @@ namespace ouzel
             GamepadDeviceWin(initInputSystem, initId),
             instance(initInstance)
         {
-            int32_t vendorId = LOWORD(instance->guidProduct.Data1);
-            int32_t productId = HIWORD(instance->guidProduct.Data1);
+            const int32_t vendorId = LOWORD(instance->guidProduct.Data1);
+            const int32_t productId = HIWORD(instance->guidProduct.Data1);
 
-            int bufferSize = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr);
+            const int bufferSize = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr);
             if (bufferSize != 0)
             {
                 std::vector<char> buffer(bufferSize);
@@ -229,7 +229,7 @@ namespace ouzel
             {
                 if (events[e].dwOfs == DIJOFS_POV(0))
                 {
-                    uint32_t oldHatValue = hatValue;
+                    const uint32_t oldHatValue = hatValue;
                     if (oldHatValue == 0xFFFFFFFF)
                         oldHatValue = 8;
                     else
@@ -240,7 +240,7 @@ namespace ouzel
                         oldHatValue /= 4500;
                     }
 
-                    uint32_t newHatValue = events[e].dwData;
+                    const uint32_t newHatValue = events[e].dwData;
                     if (newHatValue == 0xFFFFFFFF)
                         newHatValue = 8;
                     else
@@ -251,10 +251,10 @@ namespace ouzel
                         newHatValue /= 4500;
                     }
 
-                    uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
+                    const uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                         (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
 
-                    uint32_t newBitmask = (newHatValue >= 8) ? 0 : (1 << (newHatValue / 2)) | // first bit
+                    const uint32_t newBitmask = (newHatValue >= 8) ? 0 : (1 << (newHatValue / 2)) | // first bit
                         (1 << (newHatValue / 2 + newHatValue % 2)) % 4; // second bit
 
                     if ((oldBitmask & 0x01) != (newBitmask & 0x01))
@@ -421,7 +421,7 @@ namespace ouzel
         {
             if (negativeButton == positiveButton)
             {
-                auto floatValue = static_cast<float>(newValue - min) / range;
+                const auto floatValue = static_cast<float>(newValue - min) / range;
 
                 handleButtonValueChange(negativeButton,
                                         floatValue > 0.0F,
@@ -429,7 +429,7 @@ namespace ouzel
             }
             else
             {
-                auto floatValue = 2.0F * (newValue - min) / range - 1.0F;
+                const auto floatValue = 2.0F * static_cast<float>(newValue - min) / range - 1.0F;
 
                 if (floatValue > 0.0F)
                 {

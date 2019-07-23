@@ -72,7 +72,7 @@ namespace ouzel
                 for (int i = 0; i < width * height; ++i)
                 {
                     // premultiply alpha
-                    float opacity = data[i * 4 + 3] / 255.0F;
+                    const float opacity = data[i * 4 + 3] / 255.0F;
 
                     target[i * 4 + 0] = static_cast<unsigned char>(data[i * 4 + 2] * opacity);
                     target[i * 4 + 1] = static_cast<unsigned char>(data[i * 4 + 1] * opacity);

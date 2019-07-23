@@ -73,9 +73,9 @@ namespace ouzel
             for (CFIndex i = 0; i < count; ++i)
             {
                 auto element = static_cast<IOHIDElementRef>(const_cast<void*>(CFArrayGetValueAtIndex(elementArray, i)));
-                IOHIDElementType type = IOHIDElementGetType(element);
-                uint32_t usagePage = IOHIDElementGetUsagePage(element);
-                uint32_t usage = IOHIDElementGetUsage(element);
+                const IOHIDElementType type = IOHIDElementGetType(element);
+                const uint32_t usagePage = IOHIDElementGetUsagePage(element);
+                const uint32_t usage = IOHIDElementGetUsage(element);
 
                 if (usage == kHIDUsage_GD_Hatswitch)
                     hatElement = element;
@@ -146,16 +146,16 @@ namespace ouzel
 
         void GamepadDeviceIOKit::handleInput(IOHIDValueRef value)
         {
-            IOHIDElementRef element = IOHIDValueGetElement(value);
-            CFIndex newValue = IOHIDValueGetIntegerValue(value);
+            const IOHIDElementRef element = IOHIDValueGetElement(value);
+            const CFIndex newValue = IOHIDValueGetIntegerValue(value);
 
             if (element == hatElement)
             {
-                auto oldHatValue = static_cast<uint32_t>(hatValue);
-                uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
+                const auto oldHatValue = static_cast<uint32_t>(hatValue);
+                const uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                     (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
 
-                uint32_t newBitmask = (newValue >= 8) ? 0 : (1 << (newValue / 2)) | // first bit
+                const uint32_t newBitmask = (newValue >= 8) ? 0 : (1 << (newValue / 2)) | // first bit
                 (1 << (newValue / 2 + newValue % 2)) % 4; // second bit
 
                 if ((oldBitmask & 0x01) != (newBitmask & 0x01))
@@ -215,7 +215,7 @@ namespace ouzel
         {
             if (negativeButton == positiveButton)
             {
-                auto floatValue = static_cast<float>(newValue - min) / range;
+                const auto floatValue = static_cast<float>(newValue - min) / range;
 
                 handleButtonValueChange(negativeButton,
                                         floatValue > 0.0F,
@@ -223,7 +223,7 @@ namespace ouzel
             }
             else
             {
-                auto floatValue = 2.0F * (newValue - min) / range - 1.0F;
+                const auto floatValue = 2.0F * static_cast<float>(newValue - min) / range - 1.0F;
 
                 if (floatValue > 0.0F)
                 {

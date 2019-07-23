@@ -173,7 +173,7 @@ namespace ouzel
 
                     for (const std::pair<std::string, DataType>& info : fragmentShaderConstantInfo)
                     {
-                        uint32_t size = getDataTypeSize(info.second);
+                        const uint32_t size = getDataTypeSize(info.second);
                         fragmentShaderConstantLocations.emplace_back(fragmentShaderConstantSize, size);
                         fragmentShaderConstantSize += size;
                     }
@@ -204,7 +204,7 @@ namespace ouzel
 
                     for (const std::pair<std::string, DataType>& info : vertexShaderConstantInfo)
                     {
-                        uint32_t size = getDataTypeSize(info.second);
+                        const uint32_t size = getDataTypeSize(info.second);
                         vertexShaderConstantLocations.emplace_back(vertexShaderConstantSize, size);
                         vertexShaderConstantSize += size;
                     }

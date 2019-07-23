@@ -504,7 +504,7 @@ namespace ouzel
                 }
                 else
                 {
-                    std::vector<uint32_t> binomialCoefficients = pascalsTriangleRow(static_cast<uint32_t>(controlPoints.size() - 1));
+                    const std::vector<uint32_t> binomialCoefficients = pascalsTriangleRow(static_cast<uint32_t>(controlPoints.size() - 1));
 
                     for (uint32_t segment = 0; segment < segments; ++segment)
                     {

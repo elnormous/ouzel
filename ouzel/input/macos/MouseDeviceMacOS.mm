@@ -13,10 +13,10 @@ namespace ouzel
         {
             ouzel::Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
-            CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
+            const CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 
             NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
-            CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
+            const CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
 
             CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.v[0],
                                                   screenOrigin.y + windowOrigin.y + windowLocation.v[1]));

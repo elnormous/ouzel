@@ -15,7 +15,7 @@
     ouzel::input::TouchpadDevice* touchpadDevice = inputSystemIOS->getTouchpadDevice();
     for (UITouch* touch in touches)
     {
-        CGPoint location = [touch locationInView:self];
+        const CGPoint location = [touch locationInView:self];
         CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
@@ -33,7 +33,7 @@
     ouzel::input::TouchpadDevice* touchpadDevice = inputSystemIOS->getTouchpadDevice();
     for (UITouch* touch in touches)
     {
-        CGPoint location = [touch locationInView:self];
+        const CGPoint location = [touch locationInView:self];
         CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
@@ -51,7 +51,7 @@
     ouzel::input::TouchpadDevice* touchpadDevice = inputSystemIOS->getTouchpadDevice();
     for (UITouch* touch in touches)
     {
-        CGPoint location = [touch locationInView:self];
+        const CGPoint location = [touch locationInView:self];
         CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
@@ -69,7 +69,7 @@
     ouzel::input::TouchpadDevice* touchpadDevice = inputSystemIOS->getTouchpadDevice();
     for (UITouch* touch in touches)
     {
-        CGPoint location = [touch locationInView:self];
+        const CGPoint location = [touch locationInView:self];
         CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;

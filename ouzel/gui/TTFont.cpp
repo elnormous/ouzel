@@ -16,7 +16,7 @@ namespace ouzel
             data(initData),
             mipmaps(initMipmaps)
         {
-            int offset = stbtt_GetFontOffsetForIndex(data.data(), 0);
+            const int offset = stbtt_GetFontOffsetForIndex(data.data(), 0);
 
             if (offset == -1)
                 throw std::runtime_error("Not a font");
@@ -53,9 +53,9 @@ namespace ouzel
 
             std::unordered_map<uint32_t, CharDescriptor> chars;
 
-            float s = stbtt_ScaleForPixelHeight(font.get(), fontSize);
+            const float s = stbtt_ScaleForPixelHeight(font.get(), fontSize);
 
-            std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
+            const std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
 
             std::set<uint32_t> glyphs;
             for (const uint32_t i : utf32Text)
@@ -76,7 +76,7 @@ namespace ouzel
                 int xoff;
                 int yoff;
 
-                if (int index = stbtt_FindGlyphIndex(font.get(), static_cast<int>(c)))
+                if (const int index = stbtt_FindGlyphIndex(font.get(), static_cast<int>(c)))
                 {
                     int advance;
                     int leftBearing;
@@ -193,9 +193,9 @@ namespace ouzel
 
                     if ((i + 1) != utf32Text.end())
                     {
-                        int kernAdvance = stbtt_GetCodepointKernAdvance(font.get(),
-                                                                        static_cast<int>(*i),
-                                                                        static_cast<int>(*(i + 1)));
+                        const int kernAdvance = stbtt_GetCodepointKernAdvance(font.get(),
+                                                                              static_cast<int>(*i),
+                                                                              static_cast<int>(*(i + 1)));
                         position.v[0] += static_cast<float>(kernAdvance) * s;
                     }
 
@@ -205,7 +205,7 @@ namespace ouzel
                 if (*i == static_cast<uint32_t>('\n') || // line feed
                     (i + 1) == utf32Text.end()) // end of string
                 {
-                    float lineWidth = position.v[0];
+                    const float lineWidth = position.v[0];
                     position.v[0] = 0.0F;
                     position.v[1] += fontSize + lineGap;
 
@@ -216,7 +216,7 @@ namespace ouzel
                 }
             }
 
-            float textHeight = position.v[1];
+            const float textHeight = position.v[1];
 
             for (size_t c = 0; c < vertices.size(); ++c)
                 vertices[c].position.v[1] += textHeight * (1.0F - anchor.v[1]);

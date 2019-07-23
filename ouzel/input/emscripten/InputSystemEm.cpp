@@ -321,7 +321,7 @@ namespace ouzel
             emscripten_set_touchmove_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
             emscripten_set_touchcancel_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
 
-            int result = emscripten_get_num_gamepads();
+            const int result = emscripten_get_num_gamepads();
 
             if (result == EMSCRIPTEN_RESULT_NOT_SUPPORTED)
                 engine->log(Log::Level::Info) << "Gamepads not supported";

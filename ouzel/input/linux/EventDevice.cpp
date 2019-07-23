@@ -343,7 +343,7 @@ namespace ouzel
                 {
                     if (gamepadConfig.axisMap[i] != Gamepad::Axis::Unknown)
                     {
-                        uint32_t usage = axisUsageMap[i];
+                        const uint32_t usage = axisUsageMap[i];
 
                         Axis axis;
                         axis.axis = gamepadConfig.axisMap[i];
@@ -414,7 +414,7 @@ namespace ouzel
             if (bytesRead == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to read from " + filename);
 
-            int count = bytesRead / sizeof(input_event);
+            const int count = bytesRead / sizeof(input_event);
 
             for (int i = 0; i < count; ++i)
             {
@@ -735,7 +735,7 @@ namespace ouzel
         {
             if (negativeButton == positiveButton)
             {
-                auto floatValue = static_cast<float>(newValue - min) / range;
+                const auto floatValue = static_cast<float>(newValue - min) / range;
 
                 gamepadDevice->handleButtonValueChange(negativeButton,
                                                        floatValue > 0.0F,
@@ -743,7 +743,7 @@ namespace ouzel
             }
             else
             {
-                float floatValue = 2.0F * (newValue - min) / range - 1.0F;
+                const auto floatValue = 2.0F * static_cast<float>(newValue - min) / range - 1.0F;
 
                 if (floatValue > 0.0F)
                 {

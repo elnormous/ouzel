@@ -88,7 +88,7 @@ namespace ouzel
                     pixelFormatDesc.dwVisibleMask = 0;
                     pixelFormatDesc.dwDamageMask = 0;
 
-                    int pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
+                    const int pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
 
                     if (!pixelFormat)
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to choose pixel format");
