@@ -14,7 +14,7 @@ namespace ouzel
         Vector<2, T> position;
         Size<2, T> size;
 
-        constexpr Rect() noexcept = default;
+        constexpr Rect() noexcept {}
 
         constexpr Rect(T width, T height) noexcept:
             size(width, height)

@@ -24,7 +24,7 @@ namespace ouzel
 #endif
         T m[C * R]{0};
 
-        constexpr Matrix() noexcept = default;
+        constexpr Matrix() noexcept {}
 
         template <typename ...A>
         constexpr Matrix(A... args) noexcept:

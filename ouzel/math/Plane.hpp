@@ -16,7 +16,7 @@ namespace ouzel
     public:
         T v[4]{0};
 
-        constexpr Plane() noexcept = default;
+        constexpr Plane() noexcept {}
 
         constexpr Plane(T a, T b, T c, T d) noexcept:
             v{a, b, c, d}
