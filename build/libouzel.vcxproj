@@ -288,6 +288,7 @@
     <ClInclude Include="..\ouzel\localization\Localization.hpp" />
     <ClInclude Include="..\ouzel\math\Box.hpp" />
     <ClInclude Include="..\ouzel\math\Color.hpp" />
+    <ClInclude Include="..\ouzel\math\Constants.hpp" />
     <ClInclude Include="..\ouzel\math\ConvexVolume.hpp" />
     <ClInclude Include="..\ouzel\math\MathUtils.hpp" />
     <ClInclude Include="..\ouzel\math\Matrix.hpp" />

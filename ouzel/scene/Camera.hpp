@@ -5,7 +5,7 @@
 
 #include <memory>
 #include "scene/Component.hpp"
-#include "math/MathUtils.hpp"
+#include "math/Constants.hpp"
 #include "math/Rect.hpp"
 #include "graphics/DepthStencilState.hpp"
 #include "graphics/RenderTarget.hpp"

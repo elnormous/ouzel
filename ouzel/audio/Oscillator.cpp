@@ -4,7 +4,7 @@
 #include "Audio.hpp"
 #include "mixer/Data.hpp"
 #include "mixer/Stream.hpp"
-#include "math/MathUtils.hpp"
+#include "math/Constants.hpp"
 
 namespace ouzel
 {

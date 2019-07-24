@@ -41,9 +41,6 @@ namespace ouzel
     constexpr auto isSimdAvailable = false;
 #endif
 
-    template <typename T> constexpr T tau = T(6.28318530717958647692);
-    template <typename T> constexpr T pi = T(3.14159265358979323846);
-
     template <typename T> constexpr T lerp(const T v0, const T v1, const T t) noexcept
     {
         return (T(1) - t) * v0 + t * v1;

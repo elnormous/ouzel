@@ -417,6 +417,9 @@
     <ClInclude Include="..\ouzel\scene\Component.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\math\Constants.hpp">
+      <Filter>ouzel\math</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\math\ConvexVolume.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
