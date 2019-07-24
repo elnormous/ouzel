@@ -36,6 +36,14 @@ namespace ouzel
         class File final
         {
         public:
+#ifdef _WIN32
+            using Type = HANDLE;
+            static constexpr Type INVALID = INVALID_HANDLE_VALUE;
+#else
+            using Type = int;
+            static constexpr Type INVALID = -1;
+#endif
+
             enum Mode
             {
                 Read = 0x01,
@@ -52,7 +60,7 @@ namespace ouzel
                 End
             };
 
-            constexpr File() noexcept = default;
+            File() noexcept = default;
             File(const std::string& filename, const int mode)
             {
 #if defined(_WIN32)
@@ -97,65 +105,58 @@ namespace ouzel
 
             ~File()
             {
+                if (file != INVALID)
 #if defined(_WIN32)
-                if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
+                    CloseHandle(file);
 #else
-                if (file != -1) ::close(file);
+                    ::close(file);
 #endif
             }
 
             File(const File&) = delete;
             File& operator=(const File&) = delete;
 
-            File(File&& other) noexcept
+            File(File&& other) noexcept:
+                file(other.file)
             {
-#if defined(_WIN32)
-                file = other.file;
-                other.file = nullptr;
-#else
-                file = other.file;
-                other.file = -1;
-#endif
+                other.file = INVALID;
             }
 
             File& operator=(File&& other) noexcept
             {
                 if (&other == this) return *this;
 
+                if (file != INVALID)
 #if defined(_WIN32)
-                if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
-                file = other.file;
-                other.file = nullptr;
+                    CloseHandle(file);
 #else
-                if (file != -1) ::close(file);
-                file = other.file;
-                other.file = -1;
+                    ::close(file);
 #endif
+                file = other.file;
+                other.file = INVALID;
 
                 return *this;
             }
 
+            inline operator Type() const noexcept { return file; }
+
             inline auto isOpen() const noexcept
             {
-#if defined(_WIN32)
-                return file != INVALID_HANDLE_VALUE;
-#else
-                return file != -1;
-#endif
+                return file != INVALID;
             }
 
             void close()
             {
+                Type oldFile = file;
+                file = INVALID;
+
+                if (oldFile != INVALID)
 #if defined(_WIN32)
-                HANDLE f = file;
-                file = INVALID_HANDLE_VALUE;
-                if (!CloseHandle(f))
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to close file");
+                    if (!CloseHandle(oldFile))
+                        throw std::system_error(GetLastError(), std::system_category(), "Failed to close file");
 #else
-                int f = file;
-                file = -1;
-                if (::close(f) == -1)
-                    throw std::system_error(errno, std::system_category(), "Failed to close file");
+                    if (::close(oldFile) == -1)
+                        throw std::system_error(errno, std::system_category(), "Failed to close file");
 #endif
             }
 
@@ -272,11 +273,7 @@ namespace ouzel
             }
 
         private:
-#if defined(_WIN32)
-            HANDLE file = INVALID_HANDLE_VALUE;
-#else
-            int file = -1;
-#endif
+            Type file = INVALID;
         };
     } // namespace storage
 } // namespace ouzel

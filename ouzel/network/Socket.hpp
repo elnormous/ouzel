@@ -78,7 +78,12 @@ namespace ouzel
 
             ~Socket()
             {
-                if (endpoint != INVALID) close();
+                if (endpoint != INVALID)
+#ifdef _WIN32
+                    closesocket(endpoint);
+#else
+                    close(endpoint);
+#endif
             }
 
             Socket(const Socket&) = delete;
@@ -94,7 +99,12 @@ namespace ouzel
             {
                 if (&other != this)
                 {
-                    if (endpoint != INVALID) close();
+                    if (endpoint != INVALID)
+#ifdef _WIN32
+                        closesocket(endpoint);
+#else
+                        close(endpoint);
+#endif
                     endpoint = other.endpoint;
                     other.endpoint = INVALID;
                 }
@@ -105,15 +115,6 @@ namespace ouzel
             inline operator Type() const noexcept { return endpoint; }
 
         private:
-            inline void close() noexcept
-            {
-#ifdef _WIN32
-                closesocket(endpoint);
-#else
-                ::close(endpoint);
-#endif
-            }
-
             Type endpoint = INVALID;
         };
     } // namespace network
