@@ -71,7 +71,7 @@ namespace ouzel
                     throw std::system_error(getLastError(), std::system_category(), "Failed to create socket");
             }
 
-            Socket(Type s) noexcept:
+            constexpr Socket(Type s) noexcept:
                 endpoint(s)
             {
             }
@@ -85,7 +85,7 @@ namespace ouzel
             Socket& operator=(const Socket&) = delete;
 
             Socket(Socket&& other) noexcept:
-            endpoint(other.endpoint)
+                endpoint(other.endpoint)
             {
                 other.endpoint = INVALID;
             }

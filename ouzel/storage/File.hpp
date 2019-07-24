@@ -52,7 +52,7 @@ namespace ouzel
                 End
             };
 
-            File() noexcept = default;
+            constexpr File() noexcept = default;
             File(const std::string& filename, const int mode)
             {
 #if defined(_WIN32)
