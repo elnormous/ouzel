@@ -19,7 +19,7 @@ namespace ouzel
 #endif
         T v[N]{0};
 
-        constexpr Vector() noexcept {}
+        constexpr Vector() noexcept = default;
 
         template <typename ...A>
         constexpr Vector(A... args) noexcept:

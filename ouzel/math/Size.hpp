@@ -14,7 +14,7 @@ namespace ouzel
     public:
         T v[N]{0};
 
-        constexpr Size() noexcept {}
+        constexpr Size() noexcept = default;
 
         template <typename ...A>
         constexpr Size(A... args) noexcept:

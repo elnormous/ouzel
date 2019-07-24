@@ -24,7 +24,7 @@ namespace ouzel
     public:
         uint8_t v[4]{0};
 
-        constexpr Color() noexcept {}
+        constexpr Color() noexcept = default;
 
         constexpr Color(uint32_t color) noexcept:
             v{
