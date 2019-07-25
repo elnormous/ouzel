@@ -90,15 +90,15 @@ namespace ouzel
         return (a - b) <= tolerance && (a - b) >= -tolerance;
     }
 
-    constexpr uint64_t INITIAL_FNV = 2166136261U;
-    constexpr uint64_t FNV_MULTIPLE = 16777619;
-
     // Fowler / Noll / Vo (FNV) hash
     template <class T> inline auto fnvHash(const T s) noexcept
     {
-        uint64_t hash = INITIAL_FNV;
+        static constexpr uint64_t initial = 2166136261U;
+        static constexpr uint64_t multiple = 16777619;
+
+        uint64_t hash = initial;
         for (uint64_t i = 0; i < sizeof(T); ++i)
-            hash = (hash ^ static_cast<uint8_t>(s >> (i * 8))) * FNV_MULTIPLE;
+            hash = (hash ^ static_cast<uint8_t>(s >> (i * 8))) * multiple;
         return hash;
     }
 }
