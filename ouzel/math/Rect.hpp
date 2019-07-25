@@ -52,59 +52,59 @@ namespace ouzel
             position = newPosition;
         }
 
-        inline T left() const
+        constexpr T left() const
         {
             return position.v[0];
         }
 
-        inline T bottom() const
+        constexpr T bottom() const
         {
             return position.v[1];
         }
 
-        inline T right() const
+        constexpr T right() const
         {
             return position.v[0] + size.v[0];
         }
 
-        inline T top() const
+        constexpr T top() const
         {
             return position.v[1] + size.v[1];
         }
 
-        Vector<2, T> bottomLeft() const
+        constexpr Vector<2, T> bottomLeft() const
         {
             return position;
         }
 
-        Vector<2, T> topRight() const
+        constexpr Vector<2, T> topRight() const
         {
             return Vector<2, T>(position.v[0] + size.v[0], position.v[1] + size.v[1]);
         }
 
-        inline bool containsPoint(T x, T y) const
+        constexpr bool containsPoint(T x, T y) const
         {
             return x >= position.v[0] && x <= (position.v[0] + size.v[0]) &&
                 y >= position.v[1] && y <= (position.v[1] + size.v[1]);
         }
 
-        inline bool containsPoint(const Vector<2, T>& point) const
+        constexpr bool containsPoint(const Vector<2, T>& point) const
         {
             return point.v[0] >= position.v[0] && point.v[0] <= (position.v[0] + size.v[0]) &&
                 point.v[1] >= position.v[1] && point.v[1] <= (position.v[1] + size.v[1]);
         }
 
-        bool contains(T x, T y, T width, T height) const
+        constexpr bool contains(T x, T y, T width, T height) const
         {
             return containsPoint(x, y) && containsPoint(x + width, y + height);
         }
 
-        bool contains(const Rect& r) const
+        constexpr bool contains(const Rect& r) const
         {
             return contains(r.position.v[0], r.position.v[1], r.size.v[0], r.size.v[1]);
         }
 
-        inline bool intersects(T x, T y, T width, T height) const
+        constexpr bool intersects(T x, T y, T width, T height) const
         {
             T t;
             if ((t = x - position.v[0]) > size.v[0] || -t > width)
@@ -114,7 +114,7 @@ namespace ouzel
             return true;
         }
 
-        bool intersects(const Rect& r) const
+        constexpr bool intersects(const Rect& r) const
         {
             return intersects(r.position.v[0], r.position.v[1], r.size.v[0], r.size.v[1]);
         }
@@ -157,13 +157,13 @@ namespace ouzel
             size.v[1] += verticalAmount * T(2);
         }
 
-        inline bool operator==(const Rect& other) const
+        constexpr bool operator==(const Rect& other) const
         {
             return position.v[0] == other.position.v[0] && size.v[0] == other.size.v[0] &&
                 position.v[1] == other.position.v[1] && size.v[1] == other.size.v[1];
         }
 
-        inline bool operator!=(const Rect& other) const
+        constexpr bool operator!=(const Rect& other) const
         {
             return position.v[0] != other.position.v[0] || size.v[0] != other.size.v[0] ||
                 position.v[1] != other.position.v[1] || size.v[1] != other.size.v[1];

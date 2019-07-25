@@ -34,23 +34,23 @@ namespace ouzel
         {
         }
 
-        T& operator[](size_t index) noexcept { return v[index]; }
+        inline T& operator[](size_t index) noexcept { return v[index]; }
         constexpr T operator[](size_t index) const noexcept { return v[index]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
-        T& width() noexcept { return v[0]; }
+        inline T& width() noexcept { return v[0]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
         constexpr T width() const noexcept { return v[0]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
-        T& height() noexcept { return v[1]; }
+        inline T& height() noexcept { return v[1]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
         constexpr T height() const noexcept { return v[1]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
-        T& depth() noexcept { return v[2]; }
+        inline T& depth() noexcept { return v[2]; }
 
         template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         constexpr T depth() const noexcept { return v[2]; }
