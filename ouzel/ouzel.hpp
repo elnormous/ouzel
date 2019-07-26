@@ -87,6 +87,7 @@
 #include "localization/Localization.hpp"
 #include "math/Box.hpp"
 #include "math/Color.hpp"
+#include "math/Constants.hpp"
 #include "math/ConvexVolume.hpp"
 #include "math/MathUtils.hpp"
 #include "math/Matrix.hpp"
