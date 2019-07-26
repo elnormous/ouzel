@@ -48,13 +48,7 @@ namespace ouzel
         Network::~Network()
         {
 #ifdef _WIN32
-            if (endpoint != INVALID_SOCKET)
-                closesocket(endpoint);
-
             if (wsaStarted) WSACleanup();
-#else
-            if (endpoint != -1)
-                close(endpoint);
 #endif
         }
 

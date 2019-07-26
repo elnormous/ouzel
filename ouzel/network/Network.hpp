@@ -48,9 +48,6 @@ namespace ouzel
         private:
 #ifdef _WIN32
             bool wsaStarted = false;
-            SOCKET endpoint = INVALID_SOCKET;
-#else
-            int endpoint = -1;
 #endif
 
             std::vector<std::unique_ptr<Client>> clients;
