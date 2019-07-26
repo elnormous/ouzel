@@ -90,16 +90,24 @@ namespace ouzel
         return (a - b) <= tolerance && (a - b) >= -tolerance;
     }
 
-    // Fowler / Noll / Vo (FNV) hash
-    template <class T> inline auto fnvHash(const T s) noexcept
+    namespace fnv
     {
-        static constexpr uint64_t initial = 2166136261U;
-        static constexpr uint64_t multiple = 16777619;
+        template <typename T> constexpr T prime;
+        template <typename T> constexpr T offsetBasis;
 
-        uint64_t hash = initial;
-        for (uint64_t i = 0; i < sizeof(T); ++i)
-            hash = (hash ^ static_cast<uint8_t>(s >> (i * 8))) * multiple;
-        return hash;
+        template <> constexpr uint32_t prime<uint32_t> = 16777619u;
+        template <> constexpr uint32_t offsetBasis<uint32_t> = 2166136261u;
+        template <> constexpr uint64_t prime<uint64_t> = 1099511628211u;
+        template <> constexpr uint64_t offsetBasis<uint64_t> = 14695981039346656037u;
+
+        // Fowler / Noll / Vo (FNV) hash
+        template <typename Result, typename Value> inline auto hash(const Value value) noexcept
+        {
+            Result result = offsetBasis<Result>;
+            for (size_t i = 0; i < sizeof(Value); ++i)
+                result = (result ^ static_cast<uint8_t>(value >> (i * 8))) * prime<Result>;
+            return result;
+        }
     }
 }
 
