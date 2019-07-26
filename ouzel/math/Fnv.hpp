@@ -9,8 +9,8 @@ namespace ouzel
 {
     namespace fnv
     {
-        template <typename T> constexpr T prime;
-        template <typename T> constexpr T offsetBasis;
+        template <typename T> T prime;
+        template <typename T> T offsetBasis;
 
         template <> constexpr uint32_t prime<uint32_t> = 16777619u;
         template <> constexpr uint32_t offsetBasis<uint32_t> = 2166136261u;
