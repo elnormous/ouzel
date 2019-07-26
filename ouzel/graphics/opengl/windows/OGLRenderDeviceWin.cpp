@@ -48,16 +48,19 @@ namespace ouzel
                     wc.lpszMenuName = nullptr;
                     wc.lpszClassName = TEMP_WINDOW_CLASS_NAME;
 
-                    if (!(windowClass = RegisterClassW(&wc)))
+                    windowClass = RegisterClassW(&wc);
+                    if (!windowClass)
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to register window class");
 
-                    if (!(window = CreateWindowW(TEMP_WINDOW_CLASS_NAME, L"TempWindow", 0,
-                                                 CW_USEDEFAULT, CW_USEDEFAULT,
-                                                 CW_USEDEFAULT, CW_USEDEFAULT,
-                                                 0, 0, instance, 0)))
+                    window = CreateWindowW(TEMP_WINDOW_CLASS_NAME, L"TempWindow", 0,
+                                           CW_USEDEFAULT, CW_USEDEFAULT,
+                                           CW_USEDEFAULT, CW_USEDEFAULT,
+                                           0, 0, instance, 0);
+                    if (!window)
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to create window");
 
-                    if (!(deviceContext = GetDC(window)))
+                    deviceContext = GetDC(window);
+                    if (!deviceContext)
                         throw std::runtime_error("Failed to get device context");
 
                     PIXELFORMATDESCRIPTOR pixelFormatDesc;
@@ -96,7 +99,8 @@ namespace ouzel
                     if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to set pixel format");
 
-                    if (!(renderContext = wglCreateContext(deviceContext)))
+                    renderContext = wglCreateContext(deviceContext);
+                    if (!renderContext)
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to create OpenGL context");
 
                     if (!wglMakeCurrent(deviceContext, renderContext))
