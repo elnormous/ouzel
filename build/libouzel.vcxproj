@@ -290,6 +290,7 @@
     <ClInclude Include="..\ouzel\math\Color.hpp" />
     <ClInclude Include="..\ouzel\math\Constants.hpp" />
     <ClInclude Include="..\ouzel\math\ConvexVolume.hpp" />
+    <ClInclude Include="..\ouzel\math\Fnv.hpp" />
     <ClInclude Include="..\ouzel\math\MathUtils.hpp" />
     <ClInclude Include="..\ouzel\math\Matrix.hpp" />
     <ClInclude Include="..\ouzel\math\Plane.hpp" />

@@ -1105,6 +1105,7 @@
 		30EEADCF216ECEE200D2F525 /* GamepadDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDevice.hpp; sourceTree = "<group>"; };
 		30EEADD3216ECEFD00D2F525 /* GamepadConfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadConfig.hpp; sourceTree = "<group>"; };
 		30F249ED20A7681E0007D417 /* Commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Commands.hpp; sourceTree = "<group>"; };
+		30FBD22222EBC09D004C945A /* Fnv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Fnv.hpp; sourceTree = "<group>"; };
 		30FE384D1DFDE49E00305B3B /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
 		30FF4D4D21C48DB400153FFF /* Effects.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Effects.hpp; sourceTree = "<group>"; };
 		30FF4D4E21C48DB500153FFF /* Effects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Effects.cpp; sourceTree = "<group>"; };
@@ -1317,6 +1318,7 @@
 				309B48361DEA5EE600A718C5 /* Color.hpp */,
 				3038233522E8FC91006905B7 /* Constants.hpp */,
 				3049DCB31ED8687C0000997A /* ConvexVolume.hpp */,
+				30FBD22222EBC09D004C945A /* Fnv.hpp */,
 				304A8E301C237C70008B1151 /* MathUtils.cpp */,
 				304A8E311C237C70008B1151 /* MathUtils.hpp */,
 				304A8E341C237C70008B1151 /* Matrix.cpp */,

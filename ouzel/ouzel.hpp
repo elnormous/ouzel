@@ -89,6 +89,7 @@
 #include "math/Color.hpp"
 #include "math/Constants.hpp"
 #include "math/ConvexVolume.hpp"
+#include "math/Fnv.hpp"
 #include "math/MathUtils.hpp"
 #include "math/Matrix.hpp"
 #include "math/Plane.hpp"

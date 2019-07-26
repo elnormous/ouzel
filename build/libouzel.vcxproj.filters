@@ -423,6 +423,9 @@
     <ClInclude Include="..\ouzel\math\ConvexVolume.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\math\Fnv.hpp">
+      <Filter>ouzel\math</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\input\Cursor.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>

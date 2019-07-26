@@ -5,6 +5,7 @@
 #include "Animators.hpp"
 #include "Actor.hpp"
 #include "core/Engine.hpp"
+#include "math/Fnv.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
