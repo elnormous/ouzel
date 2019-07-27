@@ -12,186 +12,154 @@ namespace ouzel
 {
     namespace scene
     {
-        static float sineIn(float t)
+        static float sineIn(const float t)
         {
             return 1.0F - cos(t * pi<float> / 2.0F);
         }
 
-        static float sineOut(float t)
+        static float sineOut(const float t)
         {
             return sin(t * pi<float> / 2.0F);
         }
 
-        static float sineInOut(float t)
+        static float sineInOut(const float t)
         {
             return -0.5F * (cos(pi<float> * t) - 1.0F);
         }
 
-        static float quadIn(float t)
+        static constexpr float quadIn(const float t)
         {
             return t * t;
         }
 
-        static float quadOut(float t)
+        static constexpr float quadOut(const float t)
         {
             return t * (2.0F - t);
         }
 
-        static float quadInOut(float t)
+        static constexpr float quadInOut(const float t)
         {
-            if (t < 0.5F)
-                return 2.0F * t * t;
-            else
-                return -1.0F + (4.0F - 2.0F * t) * t;
+            return (t < 0.5F) ?
+                2.0F * t * t :
+                -1.0F + (4.0F - 2.0F * t) * t;
         }
 
-        static float cubicIn(float t)
+        static constexpr float cubicIn(const float t)
         {
             return t * t * t;
         }
 
-        static float cubicOut(float t)
+        static constexpr float cubicOut(const float t)
         {
-            t -= 1.0F;
-            return t * t * t + 1.0F;
+            return (t - 1.0F) * (t - 1.0F) * (t - 1.0F) + 1.0F;
         }
 
-        static float cubicInOut(float t)
+        static constexpr float cubicInOut(const float t)
         {
-            if (t < 0.5F)
-                return 4.0F * t * t * t;
-            else
-                return (t - 1.0F) * (2.0F * t - 2.0F) * (2.0F * t - 2.0F) + 1.0F;
+            return (t < 0.5F) ?
+                4.0F * t * t * t :
+                (t - 1.0F) * (2.0F * t - 2.0F) * (2.0F * t - 2.0F) + 1.0F;
         }
 
-        static float quartIn(float t)
+        static constexpr float quartIn(const float t)
         {
             return t * t * t * t;
         }
 
-        static float quartOut(float t)
+        static constexpr float quartOut(const float t)
         {
-            t -= 1.0F;
-            return 1.0F - t * t * t;
+            return 1.0F - (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
         }
 
-        static float quartInOut(float t)
+        static constexpr float quartInOut(const float t)
         {
-            if (t < 0.5F)
-                return 8.0F * t * t * t * t;
-            else
-            {
-                t -= 1.0F;
-                return 1.0F - 8.0F * t * t * t * t;
-            }
+            return (t < 0.5F) ?
+                8.0F * t * t * t * t :
+                1.0F - 8.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
         }
 
-        static float quintIn(float t)
+        static constexpr float quintIn(const float t)
         {
             return t * t * t * t * t;
         }
 
-        static float quintOut(float t)
+        static constexpr float quintOut(const float t)
         {
-            t -= 1.0F;
-            return 1.0F + t * t * t * t * t;
+            return 1.0F + (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
         }
 
-        static float quintInOut(float t)
+        static constexpr float quintInOut(const float t)
         {
-            if (t < 0.5F)
-                return 16.0F * t * t * t * t * t;
-            else
-            {
-                t -= 1.0F;
-                return 1.0F + 16.0F * t * t * t * t * t;
-            }
+            return (t < 0.5F) ?
+                16.0F * t * t * t * t * t :
+                1.0F + 16.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
         }
 
-        static float expoIn(float t)
+        static float expoIn(const float t)
         {
             return pow(2.0F, 10.0F * (t - 1.0F));
         }
 
-        static float expoOut(float t)
+        static float expoOut(const float t)
         {
             return 1.0F - pow(2.0F, -10.0F * t);
         }
 
-        static float expoInOut(float t)
+        static float expoInOut(const float t)
         {
-            if (t < 0.5F)
-                return 0.5F * pow(2.0F, 10.0F * (2.0F * t - 1.0F));
-            else
-                return 0.5F * (pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
+            return (t < 0.5F) ?
+                0.5F * pow(2.0F, 10.0F * (2.0F * t - 1.0F)) :
+                0.5F * (pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
         }
 
-        static float circIn(float t)
+        static float circIn(const float t)
         {
             return 1.0F - sqrt(1.0F - t * t);
         }
 
-        static float circOut(float t)
+        static float circOut(const float t)
         {
-            t -= 1.0F;
-            return sqrt(1.0F - t * t);
+            return sqrt(1.0F - (t - 1.0F) * (t - 1.0F));
         }
 
-        static float circInOut(float t)
+        static float circInOut(const float t)
         {
-            if (t < 0.5F)
-            {
-                t *= 2.0F;
-                return 0.5F * (-sqrt(1.0F - t * t) + 1.0F);
-            }
-            else
-            {
-                t = t * 2.0F - 2.0F;
-                return 0.5F * (sqrt(1.0F - t * t) + 1.0F);
-            }
+            return (t < 0.5F) ?
+                0.5F * (-sqrt(1.0F - (t * 2.0F) * (t * 2.0F)) + 1.0F) :
+                0.5F * (sqrt(1.0F - (t * 2.0F - 2.0F) * (t * 2.0F - 2.0F)) + 1.0F);
         }
 
-        static float backIn(float t)
+        static float backIn(const float t)
         {
             static constexpr float s = 1.70158F;
             return t * t * ((s + 1.0F) * t - s);
         }
 
-        static float backOut(float t)
+        static float backOut(const float t)
         {
             static constexpr float s = 1.70158F;
-            t -= 1.0F;
-            return t * t * ((s + 1.0F) * t + s) + 1.0F;
+            return (t - 1.0F) * (t - 1.0F) * ((s + 1.0F) * (t - 1.0F) + s) + 1.0F;
         }
 
-        static float backInOut(float t)
+        static float backInOut(const float t)
         {
             static constexpr float s = 1.70158F * 1.525F;
-            if (t < 0.5F)
-            {
-                t *= 2.0F;
-                return 0.5F * (t * t * ((s + 1.0F) * t - s));
-            }
-            else
-            {
-                t = t * 2.0F - 2.0F;
-                return 0.5F * (t * t * ((s + 1.0F) * t + s) + 2.0F);
-            }
+            return (t < 0.5F) ?
+                0.5F * ((t * 2.0F) * (t * 2.0F) * ((s + 1.0F) * (t * 2.0F) - s)):
+                0.5F * ((t * 2.0F - 2.0F) * (t * 2.0F - 2.0F) * ((s + 1.0F) * (t * 2.0F - 2.0F) + s) + 2.0F);
         }
 
-        static float elasticIn(float t)
+        static float elasticIn(const float t)
         {
             if (t == 0.0F) return 0.0F;
             if (t == 1.0F) return 1.0F;
 
             static constexpr float p = 0.3F;
 
-            t -= 1.0F;
-
-            return -pow(2.0F, 10.0F * t) * sin((t - p / 4.0F) * (2.0F * pi<float>) / p);
+            return -pow(2.0F, 10.0F * (t - 1.0F)) * sin(((t - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p);
         }
 
-        static float elasticOut(float t)
+        static float elasticOut(const float t)
         {
             if (t == 0.0F) return 0.0F;
             if (t == 1.0F) return 1.0F;
@@ -201,57 +169,40 @@ namespace ouzel
             return pow(2.0F, -10.0F * t) * sin((t - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
         }
 
-        static float elasticInOut(float t)
+        static float elasticInOut(const float t)
         {
             if (t == 0.0F) return 0.0F;
             if (t == 1.0F) return 1.0F;
 
             static constexpr float p = 0.3F * 1.5F;
 
-            if (t < 0.5F)
-            {
-                t = t * 2.0F - 1.0F;
-                return -0.5F * (pow(2.0F, 10.0F * t) * sin((t - p / 4.0F) * (2.0F * pi<float>) / p));
-            }
-            else
-            {
-                t = t * 2.0F - 1.0F;
-                return 0.5F * pow(2.0F, -10.0F * t) * sin((t - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
-            }
+            return (t < 0.5F) ?
+                -0.5F * pow(2.0F, 10.0F * (t * 2.0F - 1.0F)) * sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) :
+                0.5F * pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) * sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
         }
 
-        static float bounceOut(float t)
+        static float bounceOut(const float t)
         {
-            if (t < (1.0F / 2.75F))
+            if (t < 1.0F / 2.75F)
                 return 7.5625F * t * t;
-            else if (t < (2.0F / 2.75F))
-            {
-                t -= 1.5F / 2.75F;
-                return 7.5625F * t * t + 0.75F;
-            }
-            else if (t < (2.5/2.75))
-            {
-                t -= 2.25F / 2.75F;
-                return 7.5625F * t * t + 0.9375F;
-            }
+            else if (t < 2.0F / 2.75F)
+                return 7.5625F * (t - 1.5F / 2.75F) * (t - 1.5F / 2.75F) + 0.75F;
+            else if (t < 2.5F / 2.75F)
+                return 7.5625F * (t - 2.25F / 2.75F) * (t - 2.25F / 2.75F) + 0.9375F;
             else
-            {
-                t -= 2.625F / 2.75F;
-                return 7.5625F * t * t + 0.984375F;
-            }
+                return 7.5625F * (t - 2.625F / 2.75F) * (t - 2.625F / 2.75F) + 0.984375F;
         }
 
-        static float bounceIn(float t)
+        static float bounceIn(const float t)
         {
             return 1.0F - bounceOut(1.0F - t);
         }
 
-        static float bounceInOut(float t)
+        static float bounceInOut(const float t)
         {
-            if (t < 0.5F)
-                return bounceOut(t * 2.0F) * 0.5F;
-            else
-                return bounceOut(t * 2.0F - 1.0F) * 0.5F + 0.5F;
+            return (t < 0.5F) ?
+                bounceOut(t * 2.0F) * 0.5F :
+                bounceOut(t * 2.0F - 1.0F) * 0.5F + 0.5F;
         }
 
         Ease::Ease(Animator& animator, Mode initMode, Func initFunc):
