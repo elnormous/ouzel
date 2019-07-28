@@ -19,13 +19,13 @@ namespace ouzel
     class AnrdoidNeonChecker final
     {
     public:
-        AnrdoidNeonChecker():
+        AnrdoidNeonChecker() noexcept:
             neonAvailable(android_getCpuFamily() == ANDROID_CPU_FAMILY_ARM &&
                           (android_getCpuFeatures() & ANDROID_CPU_ARM_FEATURE_NEON) != 0)
         {
         }
 
-        operator bool() const { return neonAvailable; }
+        operator bool() const noexcept { return neonAvailable; }
 
     private:
         bool neonAvailable;
@@ -85,7 +85,7 @@ namespace ouzel
     }
 
     template <class T>
-    constexpr auto isNearlyEqual(const T a, const T b, const T tolerance = std::numeric_limits<T>::min())
+    constexpr auto isNearlyEqual(const T a, const T b, const T tolerance = std::numeric_limits<T>::min()) noexcept
     {
         return (a - b) <= tolerance && (a - b) >= -tolerance;
     }

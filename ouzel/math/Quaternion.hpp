@@ -181,7 +181,7 @@ namespace ouzel
             v[3] = v[3] / n2;
         }
 
-        inline auto getNorm() const
+        inline auto getNorm() const noexcept
         {
             const T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (n == T(1)) // already normalized
@@ -190,7 +190,7 @@ namespace ouzel
             return sqrt(n);
         }
 
-        void normalize()
+        void normalize() noexcept
         {
             T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (n == T(1)) // already normalized
@@ -207,7 +207,7 @@ namespace ouzel
             v[3] *= n;
         }
 
-        Quaternion normalized() const
+        Quaternion normalized() const noexcept
         {
             T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (n == T(1)) // already normalized
@@ -221,7 +221,7 @@ namespace ouzel
             return *this * n;
         }
 
-        void rotate(const T angle, const Vector<3, T>& axis)
+        void rotate(const T angle, const Vector<3, T>& axis) noexcept
         {
             const auto normalizedAxis = axis.normalized();
 
@@ -234,7 +234,7 @@ namespace ouzel
             v[3] = cosAngle;
         }
 
-        void getRotation(T& angle, Vector<3, T>& axis) const
+        void getRotation(T& angle, Vector<3, T>& axis) const noexcept
         {
             angle = T(2) * acos(v[3]);
             const T s = sqrt(T(1) - v[3] * v[3]);
@@ -252,7 +252,7 @@ namespace ouzel
             }
         }
 
-        Vector<3, T> getEulerAngles() const
+        Vector<3, T> getEulerAngles() const noexcept
         {
             Vector<3, T> result;
             result.v[0] = atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
@@ -261,22 +261,22 @@ namespace ouzel
             return result;
         }
 
-        inline auto getEulerAngleX() const
+        inline auto getEulerAngleX() const noexcept
         {
             return atan2(T(2) * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
         }
 
-        inline auto getEulerAngleY() const
+        inline auto getEulerAngleY() const noexcept
         {
             return asin(T(-2) * (v[0] * v[2] - v[3] * v[1]));
         }
 
-        inline auto getEulerAngleZ() const
+        inline auto getEulerAngleZ() const noexcept
         {
             return atan2(T(2) * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }
 
-        void setEulerAngles(const Vector<3, T>& angles)
+        void setEulerAngles(const Vector<3, T>& angles) noexcept
         {
             T angle = angles.v[0] / T(2);
             const T sr = sin(angle);
@@ -301,29 +301,29 @@ namespace ouzel
             v[3] = cr * cpcy + sr * spsy;
         }
 
-        inline const Vector<3, T> operator*(const Vector<3, T>& vector) const
+        inline const Vector<3, T> operator*(const Vector<3, T>& vector) const noexcept
         {
             return rotateVector(vector);
         }
 
-        inline Vector<3, T> rotateVector(const Vector<3, T>& vector) const
+        inline Vector<3, T> rotateVector(const Vector<3, T>& vector) const noexcept
         {
             const Vector<3, T> q(v[0], v[1], v[2]);
             const Vector<3, T> t = T(2) * q.cross(vector);
             return vector + (v[3] * t) + q.cross(t);
         }
 
-        inline Vector<3, T> getRightVector() const
+        inline Vector<3, T> getRightVector() const noexcept
         {
             return rotateVector(Vector<3, T>(1, 0, 0));
         }
 
-        inline Vector<3, T> getUpVector() const
+        inline Vector<3, T> getUpVector() const noexcept
         {
             return rotateVector(Vector<3, T>(0, 1, 0));
         }
 
-        inline Vector<3, T> getForwardVector() const
+        inline Vector<3, T> getForwardVector() const noexcept
         {
             return rotateVector(Vector<3, T>(0, 0, 1));
         }

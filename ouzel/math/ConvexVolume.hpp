@@ -13,14 +13,14 @@ namespace ouzel
     template <class T> class ConvexVolume final
     {
     public:
-        ConvexVolume() {}
+        ConvexVolume() noexcept {}
 
-        explicit ConvexVolume(const std::vector<Plane<T>>& initPlanes):
+        explicit ConvexVolume(const std::vector<Plane<T>>& initPlanes) noexcept:
             planes(initPlanes)
         {
         }
 
-        inline auto isPointInside(const Vector<4, T>& position) const
+        inline auto isPointInside(const Vector<4, T>& position) const noexcept
         {
             for (const Plane<T>& plane : planes)
                 if (plane.dot(position) < T(0))
@@ -29,7 +29,7 @@ namespace ouzel
             return true;
         }
 
-        inline auto isSphereInside(const Vector<4, T>& position, const T radius) const
+        inline auto isSphereInside(const Vector<4, T>& position, const T radius) const noexcept
         {
             for (const Plane<T>& plane : planes)
                 if (plane.dot(position) < -radius)
@@ -38,7 +38,7 @@ namespace ouzel
             return true;
         }
 
-        auto isBoxInside(const Box<3, T>& box) const
+        auto isBoxInside(const Box<3, T>& box) const noexcept
         {
             const Vector<4, T> leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2], 1);
             const Vector<4, T> leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2], 1);
