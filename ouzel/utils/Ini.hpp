@@ -105,7 +105,7 @@ namespace ouzel
         };
 
         template <class T>
-        constexpr auto isWhitespace(T c)
+        constexpr auto isWhitespace(T c) noexcept
         {
             return c == ' ' || c == '\t';
         }
@@ -211,8 +211,8 @@ namespace ouzel
                     sections.erase(sectionIterator);
             }
 
-            inline bool hasBom() const { return bom; }
-            inline void setBom(bool newBom) { bom = newBom; }
+            inline bool hasBom() const noexcept { return bom; }
+            inline void setBom(bool newBom) noexcept { bom = newBom; }
 
         private:
             void parse(std::vector<uint32_t>::iterator begin,

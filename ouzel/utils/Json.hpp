@@ -297,14 +297,14 @@ namespace ouzel
             Value(const T& value): type(Type::Object), objectValue(value) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, Type>::value>::type* = nullptr>
-            inline Value& operator=(T newType)
+            inline Value& operator=(T newType) noexcept
             {
                 type = newType;
                 return *this;
             }
 
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
-            inline Value& operator=(T value)
+            inline Value& operator=(T value) noexcept
             {
                 type = Type::Float;
                 doubleValue = static_cast<double>(value);
@@ -312,7 +312,7 @@ namespace ouzel
             }
 
             template <typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-            inline Value& operator=(T value)
+            inline Value& operator=(T value) noexcept
             {
                 type = Type::Integer;
                 intValue = static_cast<int64_t>(value);
@@ -344,7 +344,7 @@ namespace ouzel
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::nullptr_t>::value>::type* = nullptr>
-            inline Value& operator=(T)
+            inline Value& operator=(T) noexcept
             {
                 type = Type::Null;
                 objectValue.clear();
@@ -416,7 +416,7 @@ namespace ouzel
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
-            inline Array& as()
+            inline Array& as() noexcept
             {
                 type = Type::Array;
                 return arrayValue;
@@ -785,8 +785,8 @@ namespace ouzel
                 return result;
             }
 
-            inline bool hasBOM() const { return bom; }
-            inline void setBOM(bool newBOM) { bom = newBOM; }
+            inline bool hasBOM() const noexcept { return bom; }
+            inline void setBOM(bool newBOM) noexcept { bom = newBOM; }
 
         private:
             bool bom = false;
