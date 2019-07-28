@@ -16,20 +16,6 @@ namespace ouzel
         {
         }
 
-        Client::Client(Client&& other):
-            sock(std::move(other.sock))
-        {
-        }
-
-        Client& Client::operator=(Client&& other)
-        {
-            if (&other == this) return *this;
-
-            sock = std::move(other.sock);
-
-            return *this;
-        }
-
         void Client::connect(const std::string& address, uint16_t port)
         {
         }

@@ -45,7 +45,7 @@ namespace ouzel
         {
         }
 
-        Log(Log&& other):
+        Log(Log&& other) noexcept:
             logger(other.logger),
             level(other.level),
             s(std::move(other.s))
@@ -63,7 +63,7 @@ namespace ouzel
             return *this;
         }
 
-        Log& operator=(Log&& other)
+        Log& operator=(Log&& other) noexcept
         {
             if (&other == this) return *this;
 

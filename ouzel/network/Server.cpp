@@ -16,20 +16,6 @@ namespace ouzel
         {
         }
 
-        Server::Server(Server&& other):
-            sock(std::move(other.sock))
-        {
-        }
-
-        Server& Server::operator=(Server&& other)
-        {
-            if (&other == this) return *this;
-
-            sock = std::move(other.sock);
-
-            return *this;
-        }
-
         void Server::listen(const std::string& address, uint16_t port)
         {
         }

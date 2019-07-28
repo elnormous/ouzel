@@ -20,9 +20,6 @@ namespace ouzel
             Client(const Client&) = delete;
             Client& operator=(const Client&) = delete;
 
-            Client(Client&& other);
-            Client& operator=(Client&& other);
-
             void connect(const std::string& address, uint16_t port);
             void disconnect();
 

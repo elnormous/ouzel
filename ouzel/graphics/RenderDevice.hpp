@@ -103,14 +103,14 @@ namespace ouzel
                 Resource(const Resource&) = delete;
                 Resource& operator=(const Resource&) = delete;
 
-                Resource(Resource&& other):
+                Resource(Resource&& other) noexcept:
                     id(other.id),
                     deleter(std::move(other.deleter))
                 {
                     other.id = 0;
                 }
 
-                Resource& operator=(Resource&& other)
+                Resource& operator=(Resource&& other) noexcept
                 {
                     if (&other == this) return *this;
 

@@ -20,9 +20,6 @@ namespace ouzel
             Server(const Server&) = delete;
             Server& operator=(const Server&) = delete;
 
-            Server(Server&& other);
-            Server& operator=(Server&& other);
-
             void listen(const std::string& address, uint16_t port);
             void disconnect();
 

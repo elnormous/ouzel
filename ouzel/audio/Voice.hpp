@@ -25,14 +25,14 @@ namespace ouzel
 
             Voice(const Voice&) = delete;
             Voice& operator=(const Voice&) = delete;
-            Voice(Voice&& other):
+            Voice(Voice&& other) noexcept:
                 Node(other.audio),
                 audio(other.audio)
             {
 
             }
 
-            Voice& operator=(Voice&& other)
+            Voice& operator=(Voice&& other) noexcept
             {
                 if (this == &other) return *this;
 
