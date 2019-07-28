@@ -160,7 +160,7 @@ namespace ouzel
             for (size_t i = 0; i < 4; ++i)
             {
                 if (v[i] < c.v[i]) return true;
-                if (c.v[i] < v[i]) return false;
+                else if (c.v[i] < v[i]) return false;
             }
 
             return false;
