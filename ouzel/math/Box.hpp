@@ -16,7 +16,7 @@ namespace ouzel
         Vector<N, T> min;
         Vector<N, T> max;
 
-        Box()
+        Box() noexcept
         {
             for (T& v : min.v)
                 v = std::numeric_limits<T>::max();
@@ -24,23 +24,23 @@ namespace ouzel
                 v = std::numeric_limits<T>::lowest();
         }
 
-        constexpr Box(const Vector<N, T>& initMin, const Vector<N, T>& initMax):
+        constexpr Box(const Vector<N, T>& initMin, const Vector<N, T>& initMax) noexcept:
             min(initMin), max(initMax)
         {
         }
 
         template <size_t N2>
-        explicit Box(const Box<N2, T>& box):
+        explicit Box(const Box<N2, T>& box) noexcept:
             min(Vector<N, T>(box.min)), max(Vector<N, T>(box.max))
         {
         }
 
-        inline Vector<N, T> getCenter() const
+        inline Vector<N, T> getCenter() const noexcept
         {
             return (min + max) / T(2);
         }
 
-        bool intersects(const Box& aabb) const
+        bool intersects(const Box& aabb) const noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 if (aabb.min.v[0] > max.v[0]) return false;
@@ -49,7 +49,7 @@ namespace ouzel
             return true;
         }
 
-        bool containsPoint(const Vector<N, T>& point) const
+        bool containsPoint(const Vector<N, T>& point) const noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 if (point.v[i] < min.v[i]) return false;
@@ -58,7 +58,7 @@ namespace ouzel
             return true;
         }
 
-        void merge(const Box& box)
+        void merge(const Box& box) noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 min.v[i] = std::min(min.v[i], box.min.v[i]);
@@ -66,7 +66,7 @@ namespace ouzel
                 max.v[i] = std::max(max.v[i], box.max.v[i]);
         }
 
-        inline void reset()
+        inline void reset() noexcept
         {
             for (T& v : min.v)
                 v = std::numeric_limits<T>::max();
@@ -74,7 +74,7 @@ namespace ouzel
                 v = std::numeric_limits<T>::lowest();
         }
 
-        inline auto isEmpty() const
+        inline auto isEmpty() const noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 if (min.v[i] > max.v[i])
@@ -82,7 +82,7 @@ namespace ouzel
             return false;
         }
 
-        inline void insertPoint(const Vector<N, T>& point)
+        inline void insertPoint(const Vector<N, T>& point) noexcept
         {
             for (size_t i = 0; i < N; ++i)
                 if (point.v[i] < min.v[i]) min.v[i] = point.v[i];
@@ -90,31 +90,31 @@ namespace ouzel
                 if (point.v[i] > max.v[i]) max.v[i] = point.v[i];
         }
 
-        constexpr const Box operator+(const Vector<N, T>& v) const
+        constexpr const Box operator+(const Vector<N, T>& v) const noexcept
         {
             return Box(min + v, max + v);
         }
 
-        inline Box& operator+=(const Vector<N, T>& v)
+        inline Box& operator+=(const Vector<N, T>& v) noexcept
         {
             min += v;
             max += v;
             return *this;
         }
 
-        constexpr const Box operator-(const Vector<N, T>& v) const
+        constexpr const Box operator-(const Vector<N, T>& v) const noexcept
         {
             return Box(min - v, max - v);
         }
 
-        inline Box& operator-=(const Vector<N, T>& v)
+        inline Box& operator-=(const Vector<N, T>& v) noexcept
         {
             min -= v;
             max -= v;
             return *this;
         }
 
-        inline Size<N, T> getSize() const
+        inline Size<N, T> getSize() const noexcept
         {
             return Size<N, T>(max - min);
         }
