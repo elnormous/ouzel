@@ -55,6 +55,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/Bundle.cpp \
 	$(ROOT_DIR)/../ouzel/assets/Cache.cpp \
 	$(ROOT_DIR)/../ouzel/assets/ColladaLoader.cpp \
+	$(ROOT_DIR)/../ouzel/assets/CueLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/GltfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/ImageLoader.cpp \
 	$(ROOT_DIR)/../ouzel/assets/MtlLoader.cpp \

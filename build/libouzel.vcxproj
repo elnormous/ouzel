@@ -22,6 +22,7 @@
     <ClCompile Include="..\ouzel\assets\Bundle.cpp" />
     <ClCompile Include="..\ouzel\assets\BmfLoader.cpp" />
     <ClCompile Include="..\ouzel\assets\ColladaLoader.cpp" />
+    <ClCompile Include="..\ouzel\assets\CueLoader.cpp" />
     <ClCompile Include="..\ouzel\assets\GltfLoader.cpp" />
     <ClCompile Include="..\ouzel\assets\ImageLoader.cpp" />
     <ClCompile Include="..\ouzel\assets\MtlLoader.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="..\ouzel\assets\Bundle.hpp" />
     <ClInclude Include="..\ouzel\assets\BmfLoader.hpp" />
     <ClInclude Include="..\ouzel\assets\ColladaLoader.hpp" />
+    <ClInclude Include="..\ouzel\assets\CueLoader.hpp" />
     <ClInclude Include="..\ouzel\assets\GltfLoader.hpp" />
     <ClInclude Include="..\ouzel\assets\ImageLoader.hpp" />
     <ClInclude Include="..\ouzel\assets\MtlLoader.hpp" />

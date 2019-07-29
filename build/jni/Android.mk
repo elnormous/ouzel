@@ -22,6 +22,7 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
 	../../ouzel/assets/Bundle.cpp \
 	../../ouzel/assets/Cache.cpp \
     ../../ouzel/assets/ColladaLoader.cpp \
+    ../../ouzel/assets/CueLoader.cpp \
 	../../ouzel/assets/GltfLoader.cpp \
     ../../ouzel/assets/ImageLoader.cpp \
     ../../ouzel/assets/MtlLoader.cpp \

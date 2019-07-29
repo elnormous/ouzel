@@ -232,6 +232,9 @@
     <ClCompile Include="..\ouzel\assets\ColladaLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\assets\CueLoader.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\assets\ImageLoader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
@@ -685,6 +688,9 @@
       <Filter>ouzel\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\assets\ColladaLoader.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\CueLoader.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\assets\ImageLoader.hpp">

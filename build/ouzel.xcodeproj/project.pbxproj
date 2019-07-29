@@ -560,6 +560,12 @@
 		3085DA23211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
 		3085DA24211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
 		3085DA25211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
+		30898FE322EFA380001C13F2 /* CueLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30898FE122EFA380001C13F2 /* CueLoader.cpp */; };
+		30898FE422EFA380001C13F2 /* CueLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30898FE122EFA380001C13F2 /* CueLoader.cpp */; };
+		30898FE522EFA380001C13F2 /* CueLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30898FE122EFA380001C13F2 /* CueLoader.cpp */; };
+		30898FE622EFA380001C13F2 /* CueLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30898FE222EFA380001C13F2 /* CueLoader.hpp */; };
+		30898FE722EFA380001C13F2 /* CueLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30898FE222EFA380001C13F2 /* CueLoader.hpp */; };
+		30898FE822EFA380001C13F2 /* CueLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30898FE222EFA380001C13F2 /* CueLoader.hpp */; };
 		3098A5571EA01C8A00528A54 /* GamepadDeviceIOKit.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A5531EA01C8A00528A54 /* GamepadDeviceIOKit.hpp */; };
 		3098A5581EA01C8A00528A54 /* GamepadDeviceIOKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098A5541EA01C8A00528A54 /* GamepadDeviceIOKit.cpp */; };
 		3098A55F1EA01CA900528A54 /* GamepadDeviceTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A55B1EA01CA900528A54 /* GamepadDeviceTVOS.hpp */; };
@@ -1012,6 +1018,8 @@
 		30833EF622D224FD00935494 /* Filter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Filter.hpp; sourceTree = "<group>"; };
 		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		3085DA1F211A4A5500F4C2D0 /* Socket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Socket.hpp; sourceTree = "<group>"; };
+		30898FE122EFA380001C13F2 /* CueLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CueLoader.cpp; sourceTree = "<group>"; };
+		30898FE222EFA380001C13F2 /* CueLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CueLoader.hpp; sourceTree = "<group>"; };
 		3098A5531EA01C8A00528A54 /* GamepadDeviceIOKit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceIOKit.hpp; sourceTree = "<group>"; };
 		3098A5541EA01C8A00528A54 /* GamepadDeviceIOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadDeviceIOKit.cpp; sourceTree = "<group>"; };
 		3098A55B1EA01CA900528A54 /* GamepadDeviceTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceTVOS.hpp; sourceTree = "<group>"; };
@@ -1651,6 +1659,8 @@
 				30DADE9B1C5167BC001A63B4 /* Cache.hpp */,
 				3022617F1FDB8C59005279FC /* ColladaLoader.cpp */,
 				302261801FDB8C59005279FC /* ColladaLoader.hpp */,
+				30898FE122EFA380001C13F2 /* CueLoader.cpp */,
+				30898FE222EFA380001C13F2 /* CueLoader.hpp */,
 				30AEFA0A20C0A90400CDFD33 /* GltfLoader.cpp */,
 				30AEFA0B20C0A90400CDFD33 /* GltfLoader.hpp */,
 				30519CCE1F9B53CB00AF3DC4 /* ImageLoader.cpp */,
@@ -1871,6 +1881,7 @@
 				30381FB81D80A3F900677CAB /* OALAudioDevice.hpp in Headers */,
 				30090301219224B100B00BF4 /* DepthStencilState.hpp in Headers */,
 				30519CC31F9B53B700AF3DC4 /* BmfLoader.hpp in Headers */,
+				30898FE622EFA380001C13F2 /* CueLoader.hpp in Headers */,
 				30519CDB1F9B53DB00AF3DC4 /* SpriteLoader.hpp in Headers */,
 				309B483A1DEA5EE600A718C5 /* Color.hpp in Headers */,
 				3011E1C61EFFE6DE00CB1DDC /* Ini.hpp in Headers */,
@@ -2000,6 +2011,7 @@
 				30CEB37921A6404B00525637 /* SystemTVOS.hpp in Headers */,
 				303B76611C355A3B00FEDE92 /* Utils.hpp in Headers */,
 				30381FFF1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */,
+				30898FE822EFA380001C13F2 /* CueLoader.hpp in Headers */,
 				30EEADD6216ECEFE00D2F525 /* GamepadConfig.hpp in Headers */,
 				303B76631C355A3B00FEDE92 /* Engine.hpp in Headers */,
 				3038216E1D81876E00677CAB /* EmptyAudioDevice.hpp in Headers */,
@@ -2163,6 +2175,7 @@
 				303B75811C2B17DC00FEDE92 /* Event.hpp in Headers */,
 				30519CDC1F9B53DB00AF3DC4 /* SpriteLoader.hpp in Headers */,
 				30381F891D80A3EC00677CAB /* OGLShader.hpp in Headers */,
+				30898FE722EFA380001C13F2 /* CueLoader.hpp in Headers */,
 				3031C1381F0C4350002CA717 /* VorbisClip.hpp in Headers */,
 				30381F8F1D80A3EC00677CAB /* OGLTexture.hpp in Headers */,
 				C6C9101321B54A9600B5FCB7 /* Stream.hpp in Headers */,
@@ -2506,6 +2519,7 @@
 				300862D82154720C00D8CC45 /* InputSystemIOS.mm in Sources */,
 				303696CC1E32DD9C007F4211 /* BlendState.cpp in Sources */,
 				30519CC81F9B53C100AF3DC4 /* TtfLoader.cpp in Sources */,
+				30898FE322EFA380001C13F2 /* CueLoader.cpp in Sources */,
 				303B75511C2A3CB700FEDE92 /* Matrix.cpp in Sources */,
 				30575AD91C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
 				3030D5021DAEF1FA007CC8EB /* Log.cpp in Sources */,
@@ -2628,6 +2642,7 @@
 				30519CCA1F9B53C100AF3DC4 /* TtfLoader.cpp in Sources */,
 				30EEADBD21618DAF00D2F525 /* GamepadDevice.cpp in Sources */,
 				30575ADA1C3B48740009C8A7 /* EventDispatcher.cpp in Sources */,
+				30898FE522EFA380001C13F2 /* CueLoader.cpp in Sources */,
 				3030D5041DAEF1FA007CC8EB /* Log.cpp in Sources */,
 				303647161C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
 				30575AA81C39D1FF0009C8A7 /* Layer.cpp in Sources */,
@@ -2680,6 +2695,7 @@
 				303B76081C34A92B00FEDE92 /* InputManager.cpp in Sources */,
 				30519CD11F9B53CB00AF3DC4 /* ImageLoader.cpp in Sources */,
 				30A381FF21B382A20043568A /* Mixer.cpp in Sources */,
+				30898FE422EFA380001C13F2 /* CueLoader.cpp in Sources */,
 				30A381F621B201C20043568A /* Bus.cpp in Sources */,
 				30575AC51C3B17540009C8A7 /* Widgets.cpp in Sources */,
 				304AA8BF1E1190E4006FA70E /* Obf.cpp in Sources */,

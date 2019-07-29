@@ -26,7 +26,8 @@ namespace ouzel
                 Material,
                 ParticleSystem,
                 Sprite,
-                Sound
+                Sound,
+                Cue
             };
 
             Loader(Cache& initCache, uint32_t initType):

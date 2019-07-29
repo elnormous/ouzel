@@ -4,6 +4,7 @@
 #include "Cache.hpp"
 #include "BmfLoader.hpp"
 #include "ColladaLoader.hpp"
+#include "CueLoader.hpp"
 #include "GltfLoader.hpp"
 #include "ImageLoader.hpp"
 #include "MtlLoader.hpp"
@@ -25,6 +26,7 @@ namespace ouzel
         {
             addLoader(std::make_unique<BmfLoader>(*this));
             addLoader(std::make_unique<ColladaLoader>(*this));
+            addLoader(std::make_unique<CueLoader>(*this));
             addLoader(std::make_unique<GltfLoader>(*this));
             addLoader(std::make_unique<ImageLoader>(*this));
             addLoader(std::make_unique<MtlLoader>(*this));
