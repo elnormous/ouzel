@@ -184,8 +184,7 @@ namespace ouzel
                         CFIndex stringLength = CFStringGetLength(tempStringRef);
                         std::vector<char> temp(static_cast<size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
                         if (CFStringGetCString(tempStringRef, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8))
-                            for (auto i = temp.begin(); i != temp.end() && *i; ++i)
-                                name.push_back(*i);
+                            name = temp.data();
                     }
                     CFRelease(tempStringRef);
 
