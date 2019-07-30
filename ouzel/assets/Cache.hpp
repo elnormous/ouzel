@@ -36,7 +36,7 @@ namespace ouzel
             const scene::SpriteData* getSpriteData(const std::string& name) const;
             const scene::ParticleSystemData* getParticleSystemData(const std::string& name) const;
             std::shared_ptr<gui::Font> getFont(const std::string& name) const;
-            std::shared_ptr<audio::Bank> getBank(const std::string& name) const;
+            std::shared_ptr<audio::Cue> getCue(const std::string& name) const;
             std::shared_ptr<audio::Sound> getSound(const std::string& name) const;
             std::shared_ptr<graphics::Material> getMaterial(const std::string& name) const;
             const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& name) const;

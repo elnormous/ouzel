@@ -249,24 +249,24 @@ namespace ouzel
             fonts.clear();
         }
 
-        std::shared_ptr<audio::Bank> Bundle::getBank(const std::string& name) const
+        std::shared_ptr<audio::Cue> Bundle::getCue(const std::string& name) const
         {
-            auto i = banks.find(name);
+            auto i = cues.find(name);
 
-            if (i != banks.end())
+            if (i != cues.end())
                 return i->second;
 
             return nullptr;
         }
 
-        void Bundle::setBank(const std::string& name, const std::shared_ptr<audio::Bank>& newBank)
+        void Bundle::setCue(const std::string& name, const std::shared_ptr<audio::Cue>& newCue)
         {
-            banks[name] = newBank;
+            cues[name] = newCue;
         }
 
-        void Bundle::releaseBanks()
+        void Bundle::releaseCues()
         {
-            banks.clear();
+            cues.clear();
         }
 
         std::shared_ptr<audio::Sound> Bundle::getSound(const std::string& name) const
