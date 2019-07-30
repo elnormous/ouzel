@@ -31,7 +31,7 @@ namespace ouzel
 
             const json::Value& metaObject = d["meta"];
 
-            std::string imageFilename = metaObject["image"].as<std::string>();
+            auto imageFilename = metaObject["image"].as<std::string>();
             spriteData.texture = cache.getTexture(imageFilename);
             if (!spriteData.texture)
             {
@@ -53,7 +53,7 @@ namespace ouzel
 
             for (const json::Value& frameObject : framesArray)
             {
-                std::string filename = frameObject["filename"].as<std::string>();
+                auto filename = frameObject["filename"].as<std::string>();
 
                 const json::Value& frameRectangleObject = frameObject["frame"];
 
@@ -117,7 +117,7 @@ namespace ouzel
                 }
                 else
                 {
-                    bool rotated = frameObject["rotated"].as<bool>();
+                    auto rotated = frameObject["rotated"].as<bool>();
 
                     animation.frames.emplace_back(filename, textureSize, frameRectangle, rotated, sourceSize, sourceOffset, pivot);
                 }

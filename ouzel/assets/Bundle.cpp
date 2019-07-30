@@ -46,9 +46,9 @@ namespace ouzel
 
             for (const json::Value& asset : data["assets"])
             {
-                std::string file = asset["filename"].as<std::string>();
-                std::string name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;
-                bool mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
+                auto file = asset["filename"].as<std::string>();
+                auto name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;
+                auto mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
                 loadAsset(asset["type"].as<uint32_t>(), name, file, mipmaps);
             }
         }
@@ -143,7 +143,7 @@ namespace ouzel
                                        uint32_t spritesX, uint32_t spritesY,
                                        const Vector2F& pivot)
         {
-            std::string extension = storage::FileSystem::getExtensionPart(filename);
+            auto extension = storage::FileSystem::getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
             std::vector<std::string> imageExtensions{"jpg", "jpeg", "png", "bmp", "tga"};
 

@@ -158,7 +158,7 @@ namespace ouzel
 
                 engine->log(Log::Level::All) << "Supported OpenAL extensions: " << extensions;
 
-                bool float32Supported = false;
+                auto float32Supported = false;
                 for (const std::string& extension : extensions)
                 {
                     if (extension == "AL_EXT_float32")

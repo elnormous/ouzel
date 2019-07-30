@@ -110,7 +110,7 @@ namespace ouzel
 
             if (d.hasMember("textureFileName"))
             {
-                std::string textureFileName = d["textureFileName"].as<std::string>();
+                auto textureFileName = d["textureFileName"].as<std::string>();
                 particleSystemData.texture = cache.getTexture(textureFileName);
 
                 if (!particleSystemData.texture)

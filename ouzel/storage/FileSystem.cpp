@@ -364,7 +364,7 @@ namespace ouzel
             }
 #endif
 
-            std::string path = getPath(filename, searchResources);
+            auto path = getPath(filename, searchResources);
 
             // file does not exist
             if (path.empty())
