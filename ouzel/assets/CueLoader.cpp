@@ -2,6 +2,7 @@
 
 #include "CueLoader.hpp"
 #include "Bundle.hpp"
+#include "audio/Cue.hpp"
 #include "utils/Json.hpp"
 
 namespace ouzel
@@ -19,6 +20,10 @@ namespace ouzel
                                   bool)
         {
             const json::Data d(data);
+
+            auto cue = std::make_shared<audio::Cue>();
+
+            bundle.setCue(name, cue);
 
             return true;
         }

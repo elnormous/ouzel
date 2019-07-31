@@ -37,14 +37,6 @@ namespace ouzel
             std::vector<SourceDefinition> sourceDefinitions;
         };
 
-        struct SubmixDefinition final
-        {
-            std::vector<SubmixDefinition> inputDefinitions;
-            std::vector<FilterDefinition> filterDefinitions;
-            std::vector<AttributeDefinition> attributeDefinitions;
-            std::vector<CueDefinition> cueDefinitions;
-        };
-
         class Cue
         {
         public:

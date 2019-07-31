@@ -114,6 +114,9 @@
 		305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305F6DBA1C66C50000B76A03 /* CoreVideo.framework */; };
 		30647D931D7D94EC00DC7E61 /* libouzel_macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492A71CDF81700021E170 /* libouzel_macos.a */; };
 		307F9FF81F1E878D00BA73CB /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
+		3089900622F1154A001C13F2 /* 8-bit.json in Resources */ = {isa = PBXBuildFile; fileRef = 3089900422F1154A001C13F2 /* 8-bit.json */; };
+		3089900722F1154A001C13F2 /* 8-bit.json in Resources */ = {isa = PBXBuildFile; fileRef = 3089900422F1154A001C13F2 /* 8-bit.json */; };
+		3089900822F1154A001C13F2 /* 8-bit.json in Resources */ = {isa = PBXBuildFile; fileRef = 3089900422F1154A001C13F2 /* 8-bit.json */; };
 		3098A5481E9FD54000528A54 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1521CB5DD0400478AA2 /* UIKit.framework */; };
 		3098A5491E9FD56A00528A54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE14C1CB5DCDC00478AA2 /* Foundation.framework */; };
 		3098A5501EA01B4B00528A54 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3098A54F1EA01B4B00528A54 /* IOKit.framework */; };
@@ -260,6 +263,7 @@
 		30575A961C38C90F0009C8A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30575AE71C3C98F50009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		305F6DBA1C66C50000B76A03 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		3089900422F1154A001C13F2 /* 8-bit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "8-bit.json"; sourceTree = "<group>"; };
 		3098A54F1EA01B4B00528A54 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		309BA3191F184198006F2240 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		309BA31B1F1841CB006F2240 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
@@ -425,6 +429,7 @@
 		304A8EB21C2765C4008B1151 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3089900422F1154A001C13F2 /* 8-bit.json */,
 				30A883561E70E004004A033F /* 8-bit.wav */,
 				30A8835D1E70E5B1004A033F /* 24-bit.wav */,
 				30419E641D1F6A7600A63759 /* ambient.wav */,
@@ -653,6 +658,7 @@
 				303B761B1C34CFE300FEDE92 /* run.png in Resources */,
 				30A883571E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */,
+				3089900622F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1431F0C4A3B002CA717 /* music.ogg in Resources */,
 				30E1906920D08AB500C79662 /* gui.zip in Resources */,
 				30B8599B1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
@@ -686,6 +692,7 @@
 				303B769B1C355AA400FEDE92 /* run.png in Resources */,
 				30A883591E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */,
+				3089900822F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1451F0C4A3B002CA717 /* music.ogg in Resources */,
 				30E1906B20D08AB500C79662 /* gui.zip in Resources */,
 				30B8599D1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
@@ -719,6 +726,7 @@
 				303B75EE1C33581700FEDE92 /* run.png in Resources */,
 				30A883581E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A21C418E790024DB5B /* Assets.xcassets in Resources */,
+				3089900722F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1441F0C4A3B002CA717 /* music.ogg in Resources */,
 				30E1906A20D08AB500C79662 /* gui.zip in Resources */,
 				30B8599C1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
