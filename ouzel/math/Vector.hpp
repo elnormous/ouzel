@@ -11,7 +11,7 @@
 
 namespace ouzel
 {
-    template <size_t N, class T> class Vector final
+    template <size_t N, typename T> class Vector final
     {
     public:
 #if defined(__SSE__)
@@ -322,7 +322,7 @@ namespace ouzel
         }
     };
 
-    template <size_t N, class T>
+    template <size_t N, typename T>
     inline const Vector<N, T> operator*(const T scalar, const Vector<N, T>& vec) noexcept
     {
         Vector<N, T> result = vec;

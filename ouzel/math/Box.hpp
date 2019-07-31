@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    template <size_t N, class T> class Box final
+    template <size_t N, typename T> class Box final
     {
     public:
         Vector<N, T> min;

@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    template <size_t N, class T> class Size final
+    template <size_t N, typename T> class Size final
     {
     public:
         T v[N]{0};
@@ -171,7 +171,7 @@ namespace ouzel
         }
     };
 
-    template <size_t N, class T>
+    template <size_t N, typename T>
     inline const Size<N, T> operator*(const Size<N, T>& size, const Vector<N, T>& v) noexcept
     {
         Size<N, T> result = size;
@@ -180,7 +180,7 @@ namespace ouzel
         return result;
     }
 
-    template <size_t N, class T>
+    template <size_t N, typename T>
     inline const Size<N, T> operator/(const Size<N, T>& size, const Vector<N, T>& v) noexcept
     {
         Size<N, T> result = size;

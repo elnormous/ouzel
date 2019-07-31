@@ -16,7 +16,7 @@
 
 namespace ouzel
 {
-    template <size_t C, size_t R, class T> class Matrix final
+    template <size_t C, size_t R, typename T> class Matrix final
     {
     public:
 #if defined(__SSE__)
@@ -771,14 +771,14 @@ namespace ouzel
         }
     };
 
-    template <class T>
+    template <typename T>
     inline Vector<3, T>& operator*=(Vector<3, T>& v, const Matrix<4, 4, T>& m) noexcept
     {
         m.transformVector(v);
         return v;
     }
 
-    template <class T>
+    template <typename T>
     inline Vector<4, T>& operator*=(Vector<4, T>& v, const Matrix<4, 4, T>& m) noexcept
     {
         m.transformVector(v);

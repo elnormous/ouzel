@@ -84,7 +84,7 @@ namespace ouzel
         return (x < lo) ? lo : ((x > hi) ? hi : x);
     }
 
-    template <class T>
+    template <typename T>
     constexpr auto isNearlyEqual(const T a, const T b, const T tolerance = std::numeric_limits<T>::min()) noexcept
     {
         return (a - b) <= tolerance && (a - b) >= -tolerance;

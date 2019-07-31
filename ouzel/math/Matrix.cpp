@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    template <size_t C, size_t R, class T>
+    template <size_t C, size_t R, typename T>
     void Matrix<C, R, T>::add(T scalar, Matrix& dst)
     {
         dst.m[0] = m[0] + scalar;
@@ -105,7 +105,7 @@ namespace ouzel
         }
     }
 
-    template <size_t C, size_t R, class T>
+    template <size_t C, size_t R, typename T>
     void Matrix<C, R, T>::add(const Matrix& m1, const Matrix& m2, Matrix& dst)
     {
         dst.m[0] = m1.m[0] + m2.m[0];
@@ -198,7 +198,7 @@ namespace ouzel
         }
     }
 
-    template <size_t C, size_t R, class T>
+    template <size_t C, size_t R, typename T>
     void Matrix<C, R, T>::invert(Matrix& dst) const
     {
         const T a0 = m[0] * m[5] - m[1] * m[4];
@@ -244,7 +244,7 @@ namespace ouzel
         multiply(inverse, 1 / det, dst);
     }
 
-    template <size_t C, size_t R, class T>
+    template <size_t C, size_t R, typename T>
     void Matrix<C, R, T>::multiply(const Matrix& m, T scalar, Matrix& dst)
     {
         dst.m[0] = m.m[0] * scalar;
@@ -337,7 +337,7 @@ namespace ouzel
         }
     }
 
-    template <size_t C, size_t R, class T>
+    template <size_t C, size_t R, typename T>
     void Matrix<C, R, T>::multiply(const Matrix& m1, const Matrix& m2, Matrix& dst)
     {
         const T product[16] = {
@@ -551,7 +551,7 @@ namespace ouzel
         }
     }
 
-    template <size_t C, size_t R, class T>
+    template <size_t C, size_t R, typename T>
     void Matrix<C, R, T>::negate(Matrix& dst) const
     {
         dst.m[0] = -m[0];
@@ -642,7 +642,7 @@ namespace ouzel
         }
     }
 
-    template <size_t C, size_t R, class T>
+    template <size_t C, size_t R, typename T>
     void Matrix<C, R, T>::subtract(const Matrix& m1, const Matrix& m2, Matrix& dst)
     {
         dst.m[0] = m1.m[0] - m2.m[0];
@@ -735,7 +735,7 @@ namespace ouzel
         }
     }
 
-    template <size_t C, size_t R, class T>
+    template <size_t C, size_t R, typename T>
     void Matrix<C, R, T>::transformVector(const Vector<4, T>& v, Vector<4, T>& dst) const
     {
         assert(&v != &dst);
@@ -810,7 +810,7 @@ namespace ouzel
         }
     }
 
-    template <size_t C, size_t R, class T>
+    template <size_t C, size_t R, typename T>
     void Matrix<C, R, T>::transpose(Matrix& dst) const
     {
         const T t[16] = {
