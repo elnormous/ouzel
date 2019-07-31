@@ -1,7 +1,15 @@
 {
     "sources": [
-    ]
-
-    "filters": [
+        {
+            "type": "sequence",
+            "sources": [
+                {
+                    "type": "player",
+                    "clip": "8-bit.wav"
+                }
+            ],
+            "filters": [
+            ]
+        }
     ]
 }

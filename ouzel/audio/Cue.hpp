@@ -32,17 +32,22 @@ namespace ouzel
             std::vector<AttributeDefinition> attributeDefinitions;
         };
 
-        struct CueDefinition final
-        {
-            std::vector<SourceDefinition> sourceDefinitions;
-        };
-
         class Cue
         {
         public:
-            Voice createVoice();
+            Cue() {}
+            explicit Cue(const std::vector<SourceDefinition>& initSourceDefinitions):
+                sourceDefinitions(initSourceDefinitions)
+            {
+            }
 
-            uintptr_t busId;
+            const std::vector<SourceDefinition>& getSourceDefinitions() const
+            {
+                return sourceDefinitions;
+            }
+
+        private:
+            std::vector<SourceDefinition> sourceDefinitions;
         };
     } // namespace audio
 } // namespace ouzel

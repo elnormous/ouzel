@@ -29,7 +29,6 @@ namespace ouzel
                 Node(other.audio),
                 audio(other.audio)
             {
-
             }
 
             Voice& operator=(Voice&& other) noexcept
