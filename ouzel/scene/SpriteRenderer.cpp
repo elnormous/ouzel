@@ -134,7 +134,10 @@ namespace ouzel
 
         SpriteRenderer::SpriteRenderer()
         {
-            updateHandler.updateHandler = std::bind(&SpriteRenderer::handleUpdate, this, std::placeholders::_1);
+            updateHandler.updateHandler = [this](const UpdateEvent& event){
+                update(event.delta);
+                return false;
+            };
 
             currentAnimation = animationQueue.end();
         }
@@ -314,12 +317,6 @@ namespace ouzel
 
                 updateBoundingBox();
             }
-        }
-
-        bool SpriteRenderer::handleUpdate(const UpdateEvent& event)
-        {
-            update(event.delta);
-            return false;
         }
 
         void SpriteRenderer::draw(const Matrix4F& transformMatrix,

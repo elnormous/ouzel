@@ -122,7 +122,6 @@ namespace ouzel
             void setAnimationTime(float time);
 
         private:
-            bool handleUpdate(const UpdateEvent& event);
             void updateBoundingBox();
 
             std::shared_ptr<graphics::Material> material;
