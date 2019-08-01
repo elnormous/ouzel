@@ -136,7 +136,7 @@
     <ClCompile Include="..\ouzel\scene\Scene.cpp" />
     <ClCompile Include="..\ouzel\scene\SceneManager.cpp" />
     <ClCompile Include="..\ouzel\scene\ShapeRenderer.cpp" />
-    <ClCompile Include="..\ouzel\scene\Sprite.cpp" />
+    <ClCompile Include="..\ouzel\scene\SpriteRenderer.cpp" />
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
     <ClCompile Include="..\ouzel\utils\Log.cpp" />
     <ClCompile Include="..\ouzel\utils\Obf.cpp" />
@@ -318,7 +318,7 @@
     <ClInclude Include="..\ouzel\scene\Scene.hpp" />
     <ClInclude Include="..\ouzel\scene\SceneManager.hpp" />
     <ClInclude Include="..\ouzel\scene\ShapeRenderer.hpp" />
-    <ClInclude Include="..\ouzel\scene\Sprite.hpp" />
+    <ClInclude Include="..\ouzel\scene\SpriteRenderer.hpp" />
     <ClInclude Include="..\ouzel\scene\TextRenderer.hpp" />
     <ClInclude Include="..\ouzel\utils\Base64.hpp" />
     <ClInclude Include="..\ouzel\utils\Ini.hpp" />

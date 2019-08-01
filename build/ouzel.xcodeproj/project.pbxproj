@@ -274,8 +274,8 @@
 		303B75641C2A3CBF00FEDE92 /* ParticleSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E951C26EDFB008B1151 /* ParticleSystem.hpp */; };
 		303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E401C237C70008B1151 /* SceneManager.cpp */; };
 		303B75661C2A3CBF00FEDE92 /* SceneManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E411C237C70008B1151 /* SceneManager.hpp */; };
-		303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* Sprite.cpp */; };
-		303B75681C2A3CBF00FEDE92 /* Sprite.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E451C237C70008B1151 /* Sprite.hpp */; };
+		303B75671C2A3CBF00FEDE92 /* SpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* SpriteRenderer.cpp */; };
+		303B75681C2A3CBF00FEDE92 /* SpriteRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E451C237C70008B1151 /* SpriteRenderer.hpp */; };
 		303B756D1C2A3CCA00FEDE92 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E481C237C70008B1151 /* Utils.cpp */; };
 		303B756E1C2A3CCA00FEDE92 /* Utils.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E491C237C70008B1151 /* Utils.hpp */; };
 		303B75781C2A419F00FEDE92 /* Setup.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E871C248204008B1151 /* Setup.h */; };
@@ -288,7 +288,7 @@
 		303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3E1C237C70008B1151 /* Renderer.cpp */; };
 		303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */; };
 		303B76381C355A3B00FEDE92 /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* InputManager.cpp */; };
-		303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* Sprite.cpp */; };
+		303B76391C355A3B00FEDE92 /* SpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* SpriteRenderer.cpp */; };
 		303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E401C237C70008B1151 /* SceneManager.cpp */; };
 		303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E301C237C70008B1151 /* MathUtils.cpp */; };
 		303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E481C237C70008B1151 /* Utils.cpp */; };
@@ -313,7 +313,7 @@
 		303B76761C355A3B00FEDE92 /* Vertex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EA11C270833008B1151 /* Vertex.hpp */; };
 		303B76771C355A3B00FEDE92 /* Camera.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.hpp */; };
 		303B76781C355A3B00FEDE92 /* Setup.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E871C248204008B1151 /* Setup.h */; };
-		303B76791C355A3B00FEDE92 /* Sprite.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E451C237C70008B1151 /* Sprite.hpp */; };
+		303B76791C355A3B00FEDE92 /* SpriteRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E451C237C70008B1151 /* SpriteRenderer.hpp */; };
 		303B767B1C355A3B00FEDE92 /* ParticleSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E951C26EDFB008B1151 /* ParticleSystem.hpp */; };
 		303B76881C355A5800FEDE92 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76831C355A5800FEDE92 /* main.cpp */; };
 		30419DE11D162BCF00A63759 /* Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30419DDF1D162BCF00A63759 /* Audio.cpp */; };
@@ -371,8 +371,8 @@
 		304A8E651C237C70008B1151 /* Renderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3F1C237C70008B1151 /* Renderer.hpp */; };
 		304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E401C237C70008B1151 /* SceneManager.cpp */; };
 		304A8E671C237C70008B1151 /* SceneManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E411C237C70008B1151 /* SceneManager.hpp */; };
-		304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* Sprite.cpp */; };
-		304A8E6B1C237C70008B1151 /* Sprite.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E451C237C70008B1151 /* Sprite.hpp */; };
+		304A8E6A1C237C70008B1151 /* SpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* SpriteRenderer.cpp */; };
+		304A8E6B1C237C70008B1151 /* SpriteRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E451C237C70008B1151 /* SpriteRenderer.hpp */; };
 		304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E481C237C70008B1151 /* Utils.cpp */; };
 		304A8E6F1C237C70008B1151 /* Utils.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E491C237C70008B1151 /* Utils.hpp */; };
 		304A8E751C237C70008B1151 /* Vector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4F1C237C70008B1151 /* Vector.hpp */; };
@@ -937,8 +937,8 @@
 		304A8E3F1C237C70008B1151 /* Renderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Renderer.hpp; sourceTree = "<group>"; };
 		304A8E401C237C70008B1151 /* SceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManager.cpp; sourceTree = "<group>"; };
 		304A8E411C237C70008B1151 /* SceneManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SceneManager.hpp; sourceTree = "<group>"; };
-		304A8E441C237C70008B1151 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sprite.cpp; sourceTree = "<group>"; };
-		304A8E451C237C70008B1151 /* Sprite.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Sprite.hpp; sourceTree = "<group>"; };
+		304A8E441C237C70008B1151 /* SpriteRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteRenderer.cpp; sourceTree = "<group>"; };
+		304A8E451C237C70008B1151 /* SpriteRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpriteRenderer.hpp; sourceTree = "<group>"; };
 		304A8E481C237C70008B1151 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
 		304A8E491C237C70008B1151 /* Utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utils.hpp; sourceTree = "<group>"; };
 		304A8E4F1C237C70008B1151 /* Vector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
@@ -1309,8 +1309,8 @@
 				306B0E5E1C567D05005C75C1 /* ShapeRenderer.hpp */,
 				C61B49E72174B83900B818F1 /* SkinnedMeshRenderer.cpp */,
 				C61B49E62174B83900B818F1 /* SkinnedMeshRenderer.hpp */,
-				304A8E441C237C70008B1151 /* Sprite.cpp */,
-				304A8E451C237C70008B1151 /* Sprite.hpp */,
+				304A8E441C237C70008B1151 /* SpriteRenderer.cpp */,
+				304A8E451C237C70008B1151 /* SpriteRenderer.hpp */,
 				30216B611ED462B80073E3D5 /* StaticMeshRenderer.cpp */,
 				30216B621ED462B80073E3D5 /* StaticMeshRenderer.hpp */,
 				301EB3A81CCD77F600466E92 /* TextRenderer.cpp */,
@@ -1943,7 +1943,7 @@
 				300C39ED1E51355000330E4F /* PcmClip.hpp in Headers */,
 				30CC89FC203C5DFB00E2C8C3 /* File.hpp in Headers */,
 				3009030921922DEE00B00BF4 /* MetalDepthStencilState.hpp in Headers */,
-				303B75681C2A3CBF00FEDE92 /* Sprite.hpp in Headers */,
+				303B75681C2A3CBF00FEDE92 /* SpriteRenderer.hpp in Headers */,
 				30381F8E1D80A3EC00677CAB /* OGLTexture.hpp in Headers */,
 				C61B49EE2174B83900B818F1 /* SkinnedMeshRenderer.hpp in Headers */,
 				30673DD61F7A694F00EAFAB0 /* NativeWindow.hpp in Headers */,
@@ -2081,7 +2081,7 @@
 				30ADCBBA1E9A9550000DC9AC /* MetalRenderDeviceTVOS.hpp in Headers */,
 				303B76781C355A3B00FEDE92 /* Setup.h in Headers */,
 				30519CDD1F9B53DB00AF3DC4 /* SpriteLoader.hpp in Headers */,
-				303B76791C355A3B00FEDE92 /* Sprite.hpp in Headers */,
+				303B76791C355A3B00FEDE92 /* SpriteRenderer.hpp in Headers */,
 				305B68D81ED1B31D003352A2 /* Timer.hpp in Headers */,
 				300C39EF1E51355000330E4F /* PcmClip.hpp in Headers */,
 				30381F901D80A3EC00677CAB /* OGLTexture.hpp in Headers */,
@@ -2148,7 +2148,7 @@
 				304A8E5D1C237C70008B1151 /* Actor.hpp in Headers */,
 				304A8E971C26EDFB008B1151 /* ParticleSystem.hpp in Headers */,
 				3085DA24211A4A5500F4C2D0 /* Socket.hpp in Headers */,
-				304A8E6B1C237C70008B1151 /* Sprite.hpp in Headers */,
+				304A8E6B1C237C70008B1151 /* SpriteRenderer.hpp in Headers */,
 				304A8E751C237C70008B1151 /* Vector.hpp in Headers */,
 				30519CEC1F9B53F500AF3DC4 /* MtlLoader.hpp in Headers */,
 				3049DCE81EDCD1FA0000997A /* CursorMacOS.hpp in Headers */,
@@ -2454,7 +2454,7 @@
 				3038206D1D816C7700677CAB /* NativeWindowIOS.mm in Sources */,
 				30519CD81F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */,
 				30EEADC321618DD800D2F525 /* MouseDevice.cpp in Sources */,
-				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
+				303B75671C2A3CBF00FEDE92 /* SpriteRenderer.cpp in Sources */,
 				303820641D816C7700677CAB /* EngineIOS.mm in Sources */,
 				30673DD31F7A694F00EAFAB0 /* NativeWindow.cpp in Sources */,
 				303696C41E32DD8F007F4211 /* Texture.cpp in Sources */,
@@ -2575,7 +2575,7 @@
 				C61B49F32174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
 				30519CDA1F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */,
 				30C758C11F4A23BD008499DC /* DisplayLink.mm in Sources */,
-				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
+				303B76391C355A3B00FEDE92 /* SpriteRenderer.cpp in Sources */,
 				30673DD51F7A694F00EAFAB0 /* NativeWindow.cpp in Sources */,
 				303696C61E32DD8F007F4211 /* Texture.cpp in Sources */,
 				303696EE1E32DE08007F4211 /* Shader.cpp in Sources */,
@@ -2723,7 +2723,7 @@
 				3098A5581EA01C8A00528A54 /* GamepadDeviceIOKit.cpp in Sources */,
 				301EB3A21CCD691800466E92 /* Component.cpp in Sources */,
 				30519CF11F9B53FF00AF3DC4 /* ObjLoader.cpp in Sources */,
-				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
+				304A8E6A1C237C70008B1151 /* SpriteRenderer.cpp in Sources */,
 				30519CC11F9B53B700AF3DC4 /* BmfLoader.cpp in Sources */,
 				30C3F287219D0847003FE9ED /* Effect.cpp in Sources */,
 				301EB3AA1CCD77F600466E92 /* TextRenderer.cpp in Sources */,

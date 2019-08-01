@@ -139,7 +139,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SceneManager.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ShapeRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SkinnedMeshRenderer.cpp \
-	$(ROOT_DIR)/../ouzel/scene/Sprite.cpp \
+	$(ROOT_DIR)/../ouzel/scene/SpriteRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/StaticMeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/storage/FileSystem.cpp \

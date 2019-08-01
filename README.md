@@ -77,7 +77,7 @@ private:
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
     ouzel::scene::Actor cameraActor;
-    ouzel::scene::Sprite playerSprite;
+    ouzel::scene::SpriteRenderer playerSprite;
     ouzel::scene::Actor player;
     ouzel::assets::Bundle assets;
 }

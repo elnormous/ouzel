@@ -114,7 +114,7 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/scene/SceneManager.cpp \
     ../../ouzel/scene/ShapeRenderer.cpp \
     ../../ouzel/scene/SkinnedMeshRenderer.cpp \
-    ../../ouzel/scene/Sprite.cpp \
+    ../../ouzel/scene/SpriteRenderer.cpp \
     ../../ouzel/scene/StaticMeshRenderer.cpp \
     ../../ouzel/scene/TextRenderer.cpp \
     ../../ouzel/storage/FileSystem.cpp \

@@ -78,15 +78,15 @@ namespace ouzel
             std::shared_ptr<graphics::Shader> shader;
         };
 
-        class Sprite: public Component
+        class SpriteRenderer: public Component
         {
         public:
-            Sprite();
-            explicit Sprite(const SpriteData& spriteData);
-            explicit Sprite(const std::string& filename);
-            explicit Sprite(std::shared_ptr<graphics::Texture> texture,
-                            uint32_t spritesX = 1, uint32_t spritesY = 1,
-                            const Vector2F& pivot = Vector2F{0.5F, 0.5F});
+            SpriteRenderer();
+            explicit SpriteRenderer(const SpriteData& spriteData);
+            explicit SpriteRenderer(const std::string& filename);
+            explicit SpriteRenderer(std::shared_ptr<graphics::Texture> texture,
+                                    uint32_t spritesX = 1, uint32_t spritesY = 1,
+                                    const Vector2F& pivot = Vector2F{0.5F, 0.5F});
 
             void init(const SpriteData& spriteData);
             void init(const std::string& filename);

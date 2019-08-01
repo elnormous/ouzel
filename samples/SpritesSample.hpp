@@ -15,11 +15,11 @@ private:
     ouzel::scene::Camera camera;
     ouzel::scene::Actor cameraActor;
 
-    ouzel::scene::Sprite characterSprite;
+    ouzel::scene::SpriteRenderer characterSprite;
     ouzel::scene::Actor character;
-    ouzel::scene::Sprite fireSprite;
+    ouzel::scene::SpriteRenderer fireSprite;
     ouzel::scene::Actor fireActor;
-    ouzel::scene::Sprite triangleSprite;
+    ouzel::scene::SpriteRenderer triangleSprite;
     ouzel::scene::Actor triangleActor;
 
     std::unique_ptr<ouzel::scene::Animator> move;

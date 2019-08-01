@@ -5,7 +5,7 @@
 
 #include <functional>
 #include "gui/Widget.hpp"
-#include "scene/Sprite.hpp"
+#include "scene/SpriteRenderer.hpp"
 #include "scene/TextRenderer.hpp"
 #include "events/Event.hpp"
 #include "events/EventHandler.hpp"
@@ -46,10 +46,10 @@ namespace ouzel
 
             void updateSprite();
 
-            std::unique_ptr<scene::Sprite> normalSprite;
-            std::unique_ptr<scene::Sprite> selectedSprite;
-            std::unique_ptr<scene::Sprite> pressedSprite;
-            std::unique_ptr<scene::Sprite> disabledSprite;
+            std::unique_ptr<scene::SpriteRenderer> normalSprite;
+            std::unique_ptr<scene::SpriteRenderer> selectedSprite;
+            std::unique_ptr<scene::SpriteRenderer> pressedSprite;
+            std::unique_ptr<scene::SpriteRenderer> disabledSprite;
             std::unique_ptr<scene::TextRenderer> labelDrawable;
 
             EventHandler eventHandler;
@@ -87,11 +87,11 @@ namespace ouzel
 
             void updateSprite();
 
-            std::unique_ptr<scene::Sprite> normalSprite;
-            std::unique_ptr<scene::Sprite> selectedSprite;
-            std::unique_ptr<scene::Sprite> pressedSprite;
-            std::unique_ptr<scene::Sprite> disabledSprite;
-            std::unique_ptr<scene::Sprite> tickSprite;
+            std::unique_ptr<scene::SpriteRenderer> normalSprite;
+            std::unique_ptr<scene::SpriteRenderer> selectedSprite;
+            std::unique_ptr<scene::SpriteRenderer> pressedSprite;
+            std::unique_ptr<scene::SpriteRenderer> disabledSprite;
+            std::unique_ptr<scene::SpriteRenderer> tickSprite;
 
             EventHandler eventHandler;
 

@@ -20,7 +20,7 @@ private:
 
     std::unique_ptr<ouzel::scene::Shake> shake;
 
-    ouzel::scene::Sprite witchSprite;
+    ouzel::scene::SpriteRenderer witchSprite;
     ouzel::scene::Actor witch;
 
     std::unique_ptr<ouzel::scene::Animator> witchScale;
@@ -30,7 +30,7 @@ private:
     std::unique_ptr<ouzel::scene::Animator> witchParallel;
     std::unique_ptr<ouzel::scene::Animator> witchSequence;
 
-    ouzel::scene::Sprite ballSprite;
+    ouzel::scene::SpriteRenderer ballSprite;
     ouzel::scene::Actor ball;
 
     std::unique_ptr<ouzel::scene::Animator> ballDelay;

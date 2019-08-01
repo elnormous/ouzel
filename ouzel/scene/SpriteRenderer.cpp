@@ -1,6 +1,6 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
-#include "Sprite.hpp"
+#include "SpriteRenderer.hpp"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
 #include "Camera.hpp"
@@ -132,34 +132,34 @@ namespace ouzel
                                                               static_cast<uint32_t>(getVectorSize(vertices)));
         }
 
-        Sprite::Sprite()
+        SpriteRenderer::SpriteRenderer()
         {
-            updateHandler.updateHandler = std::bind(&Sprite::handleUpdate, this, std::placeholders::_1);
+            updateHandler.updateHandler = std::bind(&SpriteRenderer::handleUpdate, this, std::placeholders::_1);
 
             currentAnimation = animationQueue.end();
         }
 
-        Sprite::Sprite(const SpriteData& spriteData):
-            Sprite()
+        SpriteRenderer::SpriteRenderer(const SpriteData& spriteData):
+            SpriteRenderer()
         {
             init(spriteData);
         }
 
-        Sprite::Sprite(const std::string& filename):
-            Sprite()
+        SpriteRenderer::SpriteRenderer(const std::string& filename):
+            SpriteRenderer()
         {
             init(filename);
         }
 
-        Sprite::Sprite(std::shared_ptr<graphics::Texture> texture,
-                       uint32_t spritesX, uint32_t spritesY,
-                       const Vector2F& pivot):
-            Sprite()
+        SpriteRenderer::SpriteRenderer(std::shared_ptr<graphics::Texture> texture,
+                                       uint32_t spritesX, uint32_t spritesY,
+                                       const Vector2F& pivot):
+            SpriteRenderer()
         {
             init(texture, spritesX, spritesY, pivot);
         }
 
-        void Sprite::init(const SpriteData& spriteData)
+        void SpriteRenderer::init(const SpriteData& spriteData)
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::CullMode::NoCull;
@@ -176,7 +176,7 @@ namespace ouzel
             updateBoundingBox();
         }
 
-        void Sprite::init(const std::string& filename)
+        void SpriteRenderer::init(const std::string& filename)
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::CullMode::NoCull;
@@ -211,9 +211,9 @@ namespace ouzel
             updateBoundingBox();
         }
 
-        void Sprite::init(std::shared_ptr<graphics::Texture> newTexture,
-                          uint32_t spritesX, uint32_t spritesY,
-                          const Vector2F& pivot)
+        void SpriteRenderer::init(std::shared_ptr<graphics::Texture> newTexture,
+                                  uint32_t spritesX, uint32_t spritesY,
+                                  const Vector2F& pivot)
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::CullMode::NoCull;
@@ -252,7 +252,7 @@ namespace ouzel
             updateBoundingBox();
         }
 
-        void Sprite::update(float delta)
+        void SpriteRenderer::update(float delta)
         {
             if (playing)
             {
@@ -316,16 +316,16 @@ namespace ouzel
             }
         }
 
-        bool Sprite::handleUpdate(const UpdateEvent& event)
+        bool SpriteRenderer::handleUpdate(const UpdateEvent& event)
         {
             update(event.delta);
             return false;
         }
 
-        void Sprite::draw(const Matrix4F& transformMatrix,
-                          float opacity,
-                          const Matrix4F& renderViewProjection,
-                          bool wireframe)
+        void SpriteRenderer::draw(const Matrix4F& transformMatrix,
+                                  float opacity,
+                                  const Matrix4F& renderViewProjection,
+                                  bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
@@ -378,14 +378,14 @@ namespace ouzel
             }
         }
 
-        void Sprite::setOffset(const Vector2F& newOffset)
+        void SpriteRenderer::setOffset(const Vector2F& newOffset)
         {
             offset = newOffset;
             offsetMatrix.setTranslation(Vector3F(offset));
             updateBoundingBox();
         }
 
-        void Sprite::play()
+        void SpriteRenderer::play()
         {
             if (!playing)
             {
@@ -395,7 +395,7 @@ namespace ouzel
             }
         }
 
-        void Sprite::stop(bool resetAnimation)
+        void SpriteRenderer::stop(bool resetAnimation)
         {
             if (playing)
             {
@@ -407,7 +407,7 @@ namespace ouzel
             if (resetAnimation) reset();
         }
 
-        void Sprite::reset()
+        void SpriteRenderer::reset()
         {
             currentTime = 0.0F;
             running = true;
@@ -415,14 +415,14 @@ namespace ouzel
             updateBoundingBox();
         }
 
-        bool Sprite::hasAnimation(const std::string& animation) const
+        bool SpriteRenderer::hasAnimation(const std::string& animation) const
         {
             auto i = animations.find(animation);
 
             return i != animations.end();
         }
 
-        void Sprite::setAnimation(const std::string& newAnimation, bool repeat)
+        void SpriteRenderer::setAnimation(const std::string& newAnimation, bool repeat)
         {
             animationQueue.clear();
 
@@ -434,14 +434,14 @@ namespace ouzel
             updateBoundingBox();
         }
 
-        void Sprite::addAnimation(const std::string& newAnimation, bool repeat)
+        void SpriteRenderer::addAnimation(const std::string& newAnimation, bool repeat)
         {
             const SpriteData::Animation& animation = animations[newAnimation];
             animationQueue.push_back({&animation, repeat});
             running = true;
         }
 
-        void Sprite::setAnimationProgress(float progress)
+        void SpriteRenderer::setAnimationProgress(float progress)
         {
             float totalTime = 0.0F;
 
@@ -455,7 +455,7 @@ namespace ouzel
             setAnimationTime(totalTime * progress);
         }
 
-        void Sprite::setAnimationTime(float time)
+        void SpriteRenderer::setAnimationTime(float time)
         {
             currentTime = time;
 
@@ -488,7 +488,7 @@ namespace ouzel
             running = true;
         }
 
-        void Sprite::updateBoundingBox()
+        void SpriteRenderer::updateBoundingBox()
         {
             if (currentAnimation != animationQueue.end() &&
                 !currentAnimation->animation->frames.empty())

@@ -142,7 +142,7 @@
     <ClCompile Include="..\ouzel\scene\ShapeRenderer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\Sprite.cpp">
+    <ClCompile Include="..\ouzel\scene\SpriteRenderer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\Voice.cpp">
@@ -567,7 +567,7 @@
     <ClInclude Include="..\ouzel\scene\ShapeRenderer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\Sprite.hpp">
+    <ClInclude Include="..\ouzel\scene\SpriteRenderer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\TextRenderer.hpp">

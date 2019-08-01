@@ -24,10 +24,10 @@ private:
     ouzel::scene::Camera camera2;
     ouzel::scene::Actor camera2Actor;
 
-    ouzel::scene::Sprite characterSprite;
+    ouzel::scene::SpriteRenderer characterSprite;
     ouzel::scene::Actor rtCharacter;
 
-    ouzel::scene::Sprite rtSprite;
+    ouzel::scene::SpriteRenderer rtSprite;
     ouzel::scene::Actor rtActor;
 
     ouzel::EventHandler handler;

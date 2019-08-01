@@ -20,10 +20,10 @@ private:
 
     ouzel::Vector3F cameraRotation;
 
-    ouzel::scene::Sprite floorSprite;
+    ouzel::scene::SpriteRenderer floorSprite;
     ouzel::scene::Actor floor;
 
-    ouzel::scene::Sprite characterSprite;
+    ouzel::scene::SpriteRenderer characterSprite;
     ouzel::scene::Actor character;
     ouzel::audio::Submix jumpSubmix;
     ouzel::audio::Voice jumpVoice;

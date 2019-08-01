@@ -16,7 +16,7 @@
 #include "gui/Font.hpp"
 #include "scene/SkinnedMeshRenderer.hpp"
 #include "scene/StaticMeshRenderer.hpp"
-#include "scene/Sprite.hpp"
+#include "scene/SpriteRenderer.hpp"
 #include "scene/ParticleSystem.hpp"
 #include "storage/FileSystem.hpp"
 

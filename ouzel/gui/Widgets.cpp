@@ -49,28 +49,28 @@ namespace ouzel
 
             if (!normalImage.empty())
             {
-                normalSprite = std::make_unique<scene::Sprite>();
+                normalSprite = std::make_unique<scene::SpriteRenderer>();
                 normalSprite->init(normalImage);
                 addComponent(normalSprite.get());
             }
 
             if (!selectedImage.empty())
             {
-                selectedSprite = std::make_unique<scene::Sprite>();
+                selectedSprite = std::make_unique<scene::SpriteRenderer>();
                 selectedSprite->init(selectedImage);
                 addComponent(selectedSprite.get());
             }
 
             if (!pressedImage.empty())
             {
-                pressedSprite = std::make_unique<scene::Sprite>();
+                pressedSprite = std::make_unique<scene::SpriteRenderer>();
                 pressedSprite->init(pressedImage);
                 addComponent(pressedSprite.get());
             }
 
             if (!disabledImage.empty())
             {
-                disabledSprite = std::make_unique<scene::Sprite>();
+                disabledSprite = std::make_unique<scene::SpriteRenderer>();
                 disabledSprite->init(disabledImage);
                 addComponent(disabledSprite.get());
             }
@@ -199,35 +199,35 @@ namespace ouzel
 
             if (!normalImage.empty())
             {
-                normalSprite = std::make_unique<scene::Sprite>();
+                normalSprite = std::make_unique<scene::SpriteRenderer>();
                 normalSprite->init(normalImage);
                 addComponent(normalSprite.get());
             }
 
             if (!selectedImage.empty())
             {
-                selectedSprite = std::make_unique<scene::Sprite>();
+                selectedSprite = std::make_unique<scene::SpriteRenderer>();
                 selectedSprite->init(selectedImage);
                 addComponent(selectedSprite.get());
             }
 
             if (!pressedImage.empty())
             {
-                pressedSprite = std::make_unique<scene::Sprite>();
+                pressedSprite = std::make_unique<scene::SpriteRenderer>();
                 pressedSprite->init(pressedImage);
                 addComponent(pressedSprite.get());
             }
 
             if (!disabledImage.empty())
             {
-                disabledSprite = std::make_unique<scene::Sprite>();
+                disabledSprite = std::make_unique<scene::SpriteRenderer>();
                 disabledSprite->init(disabledImage);
                 addComponent(disabledSprite.get());
             }
 
             if (!tickImage.empty())
             {
-                tickSprite = std::make_unique<scene::Sprite>();
+                tickSprite = std::make_unique<scene::SpriteRenderer>();
                 tickSprite->init(tickImage);
                 addComponent(tickSprite.get());
             }

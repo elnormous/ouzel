@@ -112,7 +112,7 @@
 #include "scene/Scene.hpp"
 #include "scene/SceneManager.hpp"
 #include "scene/ShapeRenderer.hpp"
-#include "scene/Sprite.hpp"
+#include "scene/SpriteRenderer.hpp"
 #include "scene/SkinnedMeshRenderer.hpp"
 #include "scene/StaticMeshRenderer.hpp"
 #include "scene/TextRenderer.hpp"
