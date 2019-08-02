@@ -63,22 +63,14 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    std::string hexToString(const T n, size_t len = 0)
+    std::string hexToString(const T n, const size_t len = 0)
     {
         static constexpr const char* digits = "0123456789ABCDEF";
-        if (len == 0)
-        {
-            auto t = static_cast<uint64_t>(n);
-            do
-            {
-                t >>= 4;
-                ++len;
-            }
-            while (t);
-        }
 
-        std::string result(len, '0');
-        for (size_t i = 0, j = (len - 1) * 4; i < len; ++i, j -= 4)
+        const size_t count = (len == 0) ? n / 16 + 1 : len;
+
+        std::string result(count, '0');
+        for (size_t i = 0, j = (count - 1) * 4; i < count; ++i, j -= 4)
             result[i] = digits[(n >> j) & 0x0F];
 
         return result;
