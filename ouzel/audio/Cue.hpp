@@ -20,15 +20,38 @@ namespace ouzel
             std::string attribute;
         };
 
-        struct FilterDefinition final
+        struct EffectDefinition final
         {
+            enum class Type
+            {
+                Delay,
+                Gain,
+                PitchScale,
+                PitchShift,
+                Reverb,
+                LowPass,
+                HighPass
+            };
+
+            Type type;
             std::vector<AttributeDefinition> attributeDefinitions;
         };
 
         struct SourceDefinition final
         {
+            enum class Type
+            {
+                Parallel,
+                Random,
+                Sequence,
+                Oscillator,
+                Silence,
+                WavePlayer
+            };
+
+            Type type;
             std::vector<SourceDefinition> sourceDefinitions;
-            std::vector<FilterDefinition> filterDefinitions;
+            std::vector<EffectDefinition> effectDefinitions;
             std::vector<AttributeDefinition> attributeDefinitions;
         };
 

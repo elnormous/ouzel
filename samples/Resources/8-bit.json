@@ -1,14 +1,17 @@
 {
     "sources": [
         {
-            "type": "sequence",
+            "type": "Sequence",
             "sources": [
                 {
-                    "type": "player",
+                    "type": "WavePlayer",
                     "clip": "8-bit.wav"
                 }
             ],
-            "filters": [
+            "effects": [
+                {
+                    "type": "Gain"
+                }
             ]
         }
     ]
