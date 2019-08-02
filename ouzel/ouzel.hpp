@@ -25,7 +25,6 @@
 #include "audio/Driver.hpp"
 #include "audio/Effect.hpp"
 #include "audio/Effects.hpp"
-#include "audio/Filter.hpp"
 #include "audio/Listener.hpp"
 #include "audio/Mix.hpp"
 #include "audio/Node.hpp"

@@ -837,9 +837,6 @@
     <ClInclude Include="..\ouzel\audio\Effects.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Filter.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\core\System.hpp">
       <Filter>ouzel\core</Filter>
     </ClInclude>
