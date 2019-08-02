@@ -55,9 +55,9 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void setLookAt(T eyePositionX, T eyePositionY, T eyePositionZ,
-                       T targetPositionX, T targetPositionY, T targetPositionZ,
-                       T upX, T upY, T upZ) noexcept
+        void setLookAt(const T eyePositionX, const T eyePositionY, const T eyePositionZ,
+                       const T targetPositionX, const T targetPositionY, const T targetPositionZ,
+                       const T upX, const T upY, const T upZ) noexcept
         {
             const Vector<3, T> eye(eyePositionX, eyePositionY, eyePositionZ);
             const Vector<3, T> target(targetPositionX, targetPositionY, targetPositionZ);
@@ -95,7 +95,8 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void setPerspective(T fieldOfView, T aspectRatio, T zNearPlane, T zFarPlane) noexcept
+        void setPerspective(const T fieldOfView, const T aspectRatio,
+                            const T zNearPlane, const T zFarPlane) noexcept
         {
             assert(zFarPlane != zNearPlane);
 
@@ -118,7 +119,8 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void setOrthographicFromSize(T width, T height, T zNearPlane, T zFarPlane) noexcept
+        void setOrthographicFromSize(const T width, const T height,
+                                     const T zNearPlane, const T zFarPlane) noexcept
         {
             const T halfWidth = width / T(2);
             const T halfHeight = height / T(2);
@@ -128,8 +130,9 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void setOrthographicOffCenter(T left, T right, T bottom, T top,
-                                      T zNearPlane, T zFarPlane) noexcept
+        void setOrthographicOffCenter(const T left, const T right,
+                                      const T bottom, const T top,
+                                      const T zNearPlane, const T zFarPlane) noexcept
         {
             assert(right != left);
             assert(top != bottom);
@@ -166,7 +169,7 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
-        void setScale(T x, T y) noexcept
+        void setScale(const T x, const T y) noexcept
         {
             setIdentity();
 
@@ -175,7 +178,7 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void setScale(T x, T y, T z) noexcept
+        void setScale(const T x, const T y, const T z) noexcept
         {
             setIdentity();
 
@@ -185,7 +188,7 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
-        void setRotation(T angle) noexcept
+        void setRotation(const T angle) noexcept
         {
             setIdentity();
 
@@ -294,7 +297,7 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void setRotationX(T angle) noexcept
+        void setRotationX(const T angle) noexcept
         {
             setIdentity();
 
@@ -308,7 +311,7 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void setRotationY(T angle) noexcept
+        void setRotationY(const T angle) noexcept
         {
             setIdentity();
 
@@ -322,7 +325,7 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void setRotationZ(T angle) noexcept
+        void setRotationZ(const T angle) noexcept
         {
             setIdentity();
 
@@ -355,7 +358,7 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
-        void setTranslation(T x, T y) noexcept
+        void setTranslation(const T x, const T y) noexcept
         {
             setIdentity();
 
@@ -364,7 +367,7 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void setTranslation(T x, T y, T z) noexcept
+        void setTranslation(const T x, const T y, const T z) noexcept
         {
             setIdentity();
 
@@ -422,12 +425,12 @@ namespace ouzel
             });
         }
 
-        void add(T scalar) noexcept
+        void add(const T scalar) noexcept
         {
             add(scalar, *this);
         }
 
-        void add(T scalar, Matrix& dst);
+        void add(const T scalar, Matrix& dst);
 
         void add(const Matrix& matrix) noexcept
         {
@@ -528,12 +531,12 @@ namespace ouzel
             return true;
         }
 
-        void multiply(T scalar) noexcept
+        void multiply(const T scalar) noexcept
         {
             multiply(scalar, *this);
         }
 
-        void multiply(T scalar, Matrix& dst) const noexcept
+        void multiply(const T scalar, Matrix& dst) const noexcept
         {
             multiply(*this, scalar, dst);
         }
@@ -602,7 +605,8 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        void transformVector(T x, T y, T z, T w, Vector<3, T>& dst) const noexcept
+        void transformVector(const T x, const T y, const T z, const T w,
+                             Vector<3, T>& dst) const noexcept
         {
             Vector<4, T> t;
             transformVector(Vector<4, T>(x, y, z, w), t);

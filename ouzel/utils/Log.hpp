@@ -77,14 +77,14 @@ namespace ouzel
         ~Log();
 
         template <typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-        Log& operator<<(T val)
+        Log& operator<<(const T val)
         {
             s += std::to_string(val);
             return *this;
         }
 
         template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
-        Log& operator<<(T val)
+        Log& operator<<(const T val)
         {
             s += val ? "true" : "false";
             return *this;
@@ -233,12 +233,12 @@ namespace ouzel
 #endif
         }
 
-        Log log(Log::Level level = Log::Level::Info) const
+        Log log(const Log::Level level = Log::Level::Info) const
         {
             return Log(*this, level);
         }
 
-        void log(const std::string& str, Log::Level level = Log::Level::Info) const
+        void log(const std::string& str, const Log::Level level = Log::Level::Info) const
         {
             if (level <= threshold)
             {
@@ -254,7 +254,7 @@ namespace ouzel
         }
 
     private:
-        static void logString(const std::string& str, Log::Level level = Log::Level::Info);
+        static void logString(const std::string& str, const Log::Level level = Log::Level::Info);
 
 #ifdef DEBUG
         std::atomic<Log::Level> threshold{Log::Level::All};
@@ -272,12 +272,13 @@ namespace ouzel
                 Quit
             };
 
-            Command(Type initType):
+            Command(const Type initType):
                 type(initType)
             {
             }
 
-            Command(Type initType, Log::Level initLevel, const std::string& initString):
+            Command(const Type initType, const Log::Level initLevel,
+                    const std::string& initString):
                 type(initType),
                 level(initLevel),
                 str(initString)

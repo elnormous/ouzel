@@ -16,17 +16,19 @@ namespace ouzel
 
         constexpr Rect() noexcept {}
 
-        constexpr Rect(T width, T height) noexcept:
+        constexpr Rect(const T width, const T height) noexcept:
             size(width, height)
         {
         }
 
-        constexpr Rect(T x, T y, T width, T height) noexcept:
+        constexpr Rect(const T x, const T y,
+                       const T width, const T height) noexcept:
             position(x, y), size(width, height)
         {
         }
 
-        Rect(const Vector<2, T>& initPosition, T width, T height) noexcept:
+        Rect(const Vector<2, T>& initPosition,
+             const T width, const T height) noexcept:
             position(initPosition), size(width, height)
         {
         }
@@ -41,7 +43,7 @@ namespace ouzel
             return size.isZero();
         }
 
-        inline void setPosition(T x, T y) noexcept
+        inline void setPosition(const T x, const T y) noexcept
         {
             position.v[0] = x;
             position.v[1] = y;
@@ -82,7 +84,7 @@ namespace ouzel
             return Vector<2, T>(position.v[0] + size.v[0], position.v[1] + size.v[1]);
         }
 
-        constexpr bool containsPoint(T x, T y) const noexcept
+        constexpr bool containsPoint(const T x, const T y) const noexcept
         {
             return x >= position.v[0] && x <= (position.v[0] + size.v[0]) &&
                 y >= position.v[1] && y <= (position.v[1] + size.v[1]);
@@ -94,7 +96,8 @@ namespace ouzel
                 point.v[1] >= position.v[1] && point.v[1] <= (position.v[1] + size.v[1]);
         }
 
-        constexpr bool contains(T x, T y, T width, T height) const noexcept
+        constexpr bool contains(const T x, const T y,
+                                const T width, const T height) const noexcept
         {
             return containsPoint(x, y) && containsPoint(x + width, y + height);
         }
@@ -104,7 +107,8 @@ namespace ouzel
             return contains(r.position.v[0], r.position.v[1], r.size.v[0], r.size.v[1]);
         }
 
-        constexpr bool intersects(T x, T y, T width, T height) const noexcept
+        constexpr bool intersects(const T x, const T y,
+                                  const T width, const T height) const noexcept
         {
             T t;
             if ((t = x - position.v[0]) > size.v[0] || -t > width)
@@ -149,7 +153,8 @@ namespace ouzel
             dst.size.v[1] = std::max(r1.position.v[1] + r1.size.v[1], r2.position.v[1] + r2.size.v[1]) - dst.position.v[1];
         }
 
-        inline void inflate(T horizontalAmount, T verticalAmount) noexcept
+        inline void inflate(const T horizontalAmount,
+                            const T verticalAmount) noexcept
         {
             position.v[0] -= horizontalAmount;
             position.v[1] -= verticalAmount;
@@ -169,13 +174,13 @@ namespace ouzel
                 position.v[1] != other.position.v[1] || size.v[1] != other.size.v[1];
         }
 
-        inline const Rect operator*(T scalar) const noexcept
+        inline const Rect operator*(const T scalar) const noexcept
         {
             return Rect(position.v[0] * scalar, position.v[1] * scalar,
                         size.v[0] * scalar, size.v[1] * scalar);
         }
 
-        inline Rect& operator*=(T scalar) noexcept
+        inline Rect& operator*=(const T scalar) noexcept
         {
             position.v[0] *= scalar;
             position.v[1] *= scalar;
@@ -184,13 +189,13 @@ namespace ouzel
             return *this;
         }
 
-        inline const Rect operator/(T scalar) const noexcept
+        inline const Rect operator/(const T scalar) const noexcept
         {
             return Rect(position.v[0] / scalar, position.v[1] / scalar,
                         size.v[0] / scalar, size.v[1] / scalar);
         }
 
-        inline Rect& operator/=(T scalar) noexcept
+        inline Rect& operator/=(const T scalar) noexcept
         {
             position.v[0] /= scalar;
             position.v[1] /= scalar;

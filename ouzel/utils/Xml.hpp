@@ -15,12 +15,12 @@ namespace ouzel
     {
         static const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
 
-        constexpr auto isWhitespace(uint32_t c) noexcept
+        constexpr auto isWhitespace(const uint32_t c) noexcept
         {
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
         }
 
-        constexpr auto isNameStartChar(uint32_t c) noexcept
+        constexpr auto isNameStartChar(const uint32_t c) noexcept
         {
             return (c >= 'a' && c <= 'z') ||
                 (c >= 'A' && c <= 'Z') ||
@@ -34,7 +34,7 @@ namespace ouzel
                 (c >= 0x2070 && c <= 0x218F);
         }
 
-        constexpr auto isNameChar(uint32_t c) noexcept
+        constexpr auto isNameChar(const uint32_t c) noexcept
         {
             return isNameStartChar(c) ||
                 c == '-' || c == '.' ||
@@ -697,7 +697,7 @@ namespace ouzel
             }
 
             inline bool hasBom() const noexcept { return bom; }
-            inline void setBom(bool newBom) noexcept { bom = newBom; }
+            inline void setBom(const bool newBom) noexcept { bom = newBom; }
 
             inline auto& getChildren() const noexcept { return children; }
 

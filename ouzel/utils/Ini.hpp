@@ -105,7 +105,7 @@ namespace ouzel
         };
 
         template <class T>
-        constexpr auto isWhitespace(T c) noexcept
+        constexpr auto isWhitespace(const T c) noexcept
         {
             return c == ' ' || c == '\t';
         }
@@ -212,7 +212,7 @@ namespace ouzel
             }
 
             inline bool hasBom() const noexcept { return bom; }
-            inline void setBom(bool newBom) noexcept { bom = newBom; }
+            inline void setBom(const bool newBom) noexcept { bom = newBom; }
 
         private:
             void parse(std::vector<uint32_t>::iterator begin,

@@ -270,13 +270,13 @@ namespace ouzel
             Value() = default;
 
             template <typename T, typename std::enable_if<std::is_same<T, Type>::value>::type* = nullptr>
-            Value(T initType): type(initType) {}
+            Value(const T initType): type(initType) {}
 
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
-            Value(T value): type(Type::Float), doubleValue(static_cast<double>(value)) {}
+            Value(const T value): type(Type::Float), doubleValue(static_cast<double>(value)) {}
 
             template <typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-            Value(T value): type(Type::Integer), intValue(static_cast<int64_t>(value)) {}
+            Value(const T value): type(Type::Integer), intValue(static_cast<int64_t>(value)) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             Value(const T& value): type(Type::String), stringValue(value) {}
@@ -285,10 +285,10 @@ namespace ouzel
             Value(const T* value): type(Type::String), stringValue(value) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
-            Value(T value): type(Type::Boolean), boolValue(value) {}
+            Value(const T value): type(Type::Boolean), boolValue(value) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, std::nullptr_t>::value>::type* = nullptr>
-            Value(T): type(Type::Null) {}
+            Value(const T): type(Type::Null) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             Value(const T& value): type(Type::Array), arrayValue(value) {}
@@ -297,14 +297,14 @@ namespace ouzel
             Value(const T& value): type(Type::Object), objectValue(value) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, Type>::value>::type* = nullptr>
-            inline Value& operator=(T newType) noexcept
+            inline Value& operator=(const T newType) noexcept
             {
                 type = newType;
                 return *this;
             }
 
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
-            inline Value& operator=(T value) noexcept
+            inline Value& operator=(const T value) noexcept
             {
                 type = Type::Float;
                 doubleValue = static_cast<double>(value);
@@ -312,7 +312,7 @@ namespace ouzel
             }
 
             template <typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-            inline Value& operator=(T value) noexcept
+            inline Value& operator=(const T value) noexcept
             {
                 type = Type::Integer;
                 intValue = static_cast<int64_t>(value);
@@ -336,7 +336,7 @@ namespace ouzel
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
-            inline Value& operator=(T value)
+            inline Value& operator=(const T value)
             {
                 type = Type::Boolean;
                 boolValue = value;
@@ -786,7 +786,7 @@ namespace ouzel
             }
 
             inline bool hasBOM() const noexcept { return bom; }
-            inline void setBOM(bool newBOM) noexcept { bom = newBOM; }
+            inline void setBOM(const bool newBOM) noexcept { bom = newBOM; }
 
         private:
             bool bom = false;

@@ -17,7 +17,7 @@ namespace ouzel
 
         constexpr Quaternion() noexcept {}
 
-        constexpr Quaternion(T x, T y, T z, T w) noexcept:
+        constexpr Quaternion(const T x, const T y, const T z, const T w) noexcept:
             v{x, y, z, w}
         {
         }
