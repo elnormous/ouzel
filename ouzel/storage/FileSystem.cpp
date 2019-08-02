@@ -300,7 +300,7 @@ namespace ouzel
             WCHAR buffer[MAX_PATH];
             if (GetTempPathW(MAX_PATH, buffer))
             {
-                int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
+                const int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
                 if (bufferSize == 0)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
@@ -332,13 +332,9 @@ namespace ouzel
         std::vector<uint8_t> FileSystem::readFile(const std::string& filename, bool searchResources) const
         {
             if (searchResources)
-            {
                 for (const auto& archive : archives)
-                {
                     if (archive.second.fileExists(filename))
                         return archive.second.readFile(filename);
-                }
-            }
 
             std::vector<uint8_t> data;
             char buffer[1024];
@@ -364,7 +360,7 @@ namespace ouzel
             }
 #endif
 
-            auto path = getPath(filename, searchResources);
+            const auto path = getPath(filename, searchResources);
 
             // file does not exist
             if (path.empty())
@@ -372,7 +368,7 @@ namespace ouzel
 
             File file(path, File::Mode::Read);
 
-            while (uint32_t size = file.read(buffer, sizeof(buffer)))
+            while (const uint32_t size = file.read(buffer, sizeof(buffer)))
                 data.insert(data.end(), buffer, buffer + size);
 
             return data;
@@ -386,7 +382,7 @@ namespace ouzel
 
             while (offset < data.size())
             {
-                uint32_t written = file.write(data.data() + offset, static_cast<uint32_t>(data.size()) - offset);
+                const uint32_t written = file.write(data.data() + offset, static_cast<uint32_t>(data.size()) - offset);
                 offset += written;
             }
         }
@@ -444,7 +440,7 @@ namespace ouzel
             if (buffer.size() > MAX_PATH)
                 buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
-            DWORD attributes = GetFileAttributesW(buffer.data());
+            const DWORD attributes = GetFileAttributesW(buffer.data());
             if (attributes == INVALID_FILE_ATTRIBUTES)
                 return false;
 
@@ -485,7 +481,7 @@ namespace ouzel
             if (buffer.size() > MAX_PATH)
                 buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
-            DWORD attributes = GetFileAttributesW(buffer.data());
+            const DWORD attributes = GetFileAttributesW(buffer.data());
             if (attributes == INVALID_FILE_ATTRIBUTES)
                 return false;
 
@@ -514,7 +510,6 @@ namespace ouzel
                     return str;
 
                 if (searchResources)
-                {
                     for (const std::string& path : resourcePaths)
                     {
                         if (!pathIsRelative(path)) // if resource path is absolute
@@ -525,7 +520,6 @@ namespace ouzel
                         if (fileExists(str))
                             return str;
                     }
-                }
             }
 
             return "";
@@ -533,7 +527,7 @@ namespace ouzel
 
         void FileSystem::addResourcePath(const std::string& path)
         {
-            auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
+            const auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
 
             if (i == resourcePaths.end())
                 resourcePaths.push_back(path);
@@ -541,7 +535,7 @@ namespace ouzel
 
         void FileSystem::removeResourcePath(const std::string& path)
         {
-            auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
+            const auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
 
             if (i != resourcePaths.end())
                 resourcePaths.erase(i);
@@ -563,7 +557,7 @@ namespace ouzel
 
         std::string FileSystem::getExtensionPart(const std::string& path)
         {
-            size_t pos = path.find_last_of('.');
+            const size_t pos = path.find_last_of('.');
 
             if (pos != std::string::npos)
                 return path.substr(pos + 1);
@@ -573,7 +567,7 @@ namespace ouzel
 
         std::string FileSystem::getFilenamePart(const std::string& path)
         {
-            size_t pos = path.find_last_of("/\\");
+            const size_t pos = path.find_last_of("/\\");
 
             if (pos != std::string::npos)
                 return path.substr(pos + 1);
@@ -583,7 +577,7 @@ namespace ouzel
 
         std::string FileSystem::getDirectoryPart(const std::string& path)
         {
-            size_t pos = path.find_last_of("/\\");
+            const size_t pos = path.find_last_of("/\\");
 
             if (pos != std::string::npos)
                 return path.substr(0, pos);
