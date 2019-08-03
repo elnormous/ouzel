@@ -8,7 +8,19 @@ using namespace input;
 
 RTSample::RTSample():
     characterSprite("run.json"),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
+    renderTexture(std::make_shared<graphics::Texture>(*engine->getRenderer(),
+                                                      Size2U(256, 256),
+                                                      graphics::Flags::BindRenderTarget |
+                                                      graphics::Flags::BindShader, 1, 1)),
+    depthTexture(*engine->getRenderer(),
+                 Size2U(256, 256),
+                 graphics::Flags::BindRenderTarget |
+                 graphics::Flags::BindShader, 1, 1,
+                 graphics::PixelFormat::Depth),
+    renderTarget(*engine->getRenderer(),
+                 {renderTexture.get()},
+                 &depthTexture)
 {
     handler.gamepadHandler = [this](const GamepadEvent& event) {
         if (event.type == Event::Type::GamepadButtonChange)
@@ -62,22 +74,7 @@ RTSample::RTSample():
 
     addLayer(&rtLayer);
 
-    auto renderTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
-                                                             Size2U(256, 256),
-                                                             graphics::Flags::BindRenderTarget |
-                                                             graphics::Flags::BindShader, 1, 1);
-
-    auto depthTexture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
-                                                            Size2U(256, 256),
-                                                            graphics::Flags::BindRenderTarget |
-                                                            graphics::Flags::BindShader, 1, 1,
-                                                            graphics::PixelFormat::Depth);
-
-    auto renderTarget = std::make_unique<graphics::RenderTarget>(*engine->getRenderer(),
-                                                                 std::vector<std::shared_ptr<graphics::Texture>>{renderTexture},
-                                                                 depthTexture);
-
-    rtCamera.setRenderTarget(std::move(renderTarget));
+    rtCamera.setRenderTarget(&renderTarget);
     rtCamera.setClearColorBuffer(true);
     rtCamera.setClearColor(Color(0, 64, 0));
     rtCameraActor.addComponent(&rtCamera);

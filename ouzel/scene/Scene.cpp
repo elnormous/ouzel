@@ -46,7 +46,7 @@ namespace ouzel
                 for (Camera* camera : layer->getCameras())
                 {
                     if ((camera->getClearColorBuffer() || camera->getClearDepthBuffer() || camera->getClearStencilBuffer()) &&
-                        clearedRenderTargets.insert(camera->getRenderTarget().get()).second)
+                        clearedRenderTargets.insert(camera->getRenderTarget()).second)
                     {
                         engine->getRenderer()->setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
                         engine->getRenderer()->clearRenderTarget(camera->getClearColorBuffer(),

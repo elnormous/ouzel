@@ -78,8 +78,8 @@ namespace ouzel
             inline auto& getContentScale() const noexcept { return contentScale; }
             inline auto& getContentPosition() const noexcept { return contentPosition; }
 
-            inline auto& getRenderTarget() const noexcept { return renderTarget; }
-            void setRenderTarget(std::unique_ptr<graphics::RenderTarget> newRenderTarget);
+            inline auto getRenderTarget() const noexcept { return renderTarget; }
+            void setRenderTarget(graphics::RenderTarget* newRenderTarget);
 
             inline auto getDepthTest() const noexcept { return depthTest; }
             void setDepthTest(bool newDepthTest);
@@ -142,7 +142,7 @@ namespace ouzel
             mutable bool inverseViewProjectionDirty = true;
             mutable Matrix4F inverseViewProjection;
 
-            std::unique_ptr<graphics::RenderTarget> renderTarget;
+            graphics::RenderTarget* renderTarget = nullptr;
             std::shared_ptr<graphics::DepthStencilState> depthStencilState;
             uint32_t stencilReferenceValue = 0;
 

@@ -37,6 +37,10 @@ private:
     ouzel::scene::Actor guiCameraActor;
     ouzel::gui::Menu menu;
     ouzel::gui::Button backButton;
+
+    std::shared_ptr<ouzel::graphics::Texture> renderTexture;
+    ouzel::graphics::Texture depthTexture;
+    ouzel::graphics::RenderTarget renderTarget;
 };
 
 #endif // RTSAMPLE_HPP

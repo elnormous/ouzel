@@ -22,19 +22,19 @@ namespace ouzel
             RenderTarget() = default;
 
             RenderTarget(Renderer& initRenderer,
-                         const std::vector<std::shared_ptr<Texture>>& initColorTextures,
-                         const std::shared_ptr<Texture>& initDepthTexture);
+                         const std::vector<Texture*>& initColorTextures,
+                         Texture* initDepthTexture);
 
             inline auto& getResource() const noexcept { return resource; }
 
             inline auto& getColorTextures() const noexcept { return colorTextures; }
-            inline auto& getDepthTexture() const noexcept { return depthTexture; }
+            inline auto getDepthTexture() const noexcept { return depthTexture; }
 
         private:
             RenderDevice::Resource resource;
 
-            std::vector<std::shared_ptr<Texture>> colorTextures;
-            std::shared_ptr<Texture> depthTexture;
+            std::vector<Texture*> colorTextures;
+            Texture* depthTexture = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -278,9 +278,9 @@ namespace ouzel
             recalculateProjection();
         }
 
-        void Camera::setRenderTarget(std::unique_ptr<graphics::RenderTarget> newRenderTarget)
+        void Camera::setRenderTarget(graphics::RenderTarget* newRenderTarget)
         {
-            renderTarget = std::move(newRenderTarget);
+            renderTarget = newRenderTarget;
             recalculateProjection();
         }
 
