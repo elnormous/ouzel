@@ -122,10 +122,10 @@ namespace ouzel
             storage::FileSystem& fileSystem;
 
             std::map<std::string, std::shared_ptr<graphics::Texture>> textures;
-            std::map<std::string, std::shared_ptr<graphics::Shader>> shaders;
+            std::map<std::string, std::unique_ptr<graphics::Shader>> shaders;
             std::map<std::string, scene::ParticleSystemData> particleSystemData;
-            std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
-            std::map<std::string, std::shared_ptr<graphics::DepthStencilState>> depthStencilStates;
+            std::map<std::string, std::unique_ptr<graphics::BlendState>> blendStates;
+            std::map<std::string, std::unique_ptr<graphics::DepthStencilState>> depthStencilStates;
             std::map<std::string, scene::SpriteData> spriteData;
             std::map<std::string, std::unique_ptr<gui::Font>> fonts;
             std::map<std::string, std::unique_ptr<audio::Cue>> cues;
