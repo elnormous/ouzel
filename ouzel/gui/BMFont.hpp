@@ -15,13 +15,10 @@ namespace ouzel
             BMFont() = default;
             explicit BMFont(const std::vector<uint8_t>& data);
 
-            void getVertices(const std::string& text,
-                             Color color,
-                             float fontSize,
-                             const Vector2F& anchor,
-                             std::vector<uint16_t>& indices,
-                             std::vector<graphics::Vertex>& vertices,
-                             std::shared_ptr<graphics::Texture>& texture) const final;
+            RenderData getRenderData(const std::string& text,
+                                     Color color,
+                                     float fontSize,
+                                     const Vector2F& anchor) const final;
 
             float getStringWidth(const std::string& text) const;
 

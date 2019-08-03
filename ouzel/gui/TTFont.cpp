@@ -27,13 +27,10 @@ namespace ouzel
                 throw std::runtime_error("Failed to load font");
         }
 
-        void TTFont::getVertices(const std::string& text,
-                                 Color color,
-                                 float fontSize,
-                                 const Vector2F& anchor,
-                                 std::vector<uint16_t>& indices,
-                                 std::vector<graphics::Vertex>& vertices,
-                                 std::shared_ptr<graphics::Texture>& texture) const
+        Font::RenderData TTFont::getRenderData(const std::string& text,
+                                               Color color,
+                                               float fontSize,
+                                               const Vector2F& anchor) const
         {
             if (!font)
                 throw std::runtime_error("Font not loaded");
@@ -137,16 +134,17 @@ namespace ouzel
                 }
             }
 
-            texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
-                                                          textureData,
-                                                          Size2U(width, height), 0,
-                                                          mipmaps ? 0 : 1);
+            RenderData result;
+
+            auto texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
+                                                               textureData,
+                                                               Size2U(width, height), 0,
+                                                               mipmaps ? 0 : 1);
 
             Vector2F position;
 
-            indices.clear();
-            vertices.clear();
-
+            std::vector<uint16_t> indices;
+            std::vector<graphics::Vertex> vertices;
             indices.reserve(utf32Text.size() * 6);
             vertices.reserve(utf32Text.size() * 4);
 
@@ -218,8 +216,10 @@ namespace ouzel
 
             const float textHeight = position.v[1];
 
-            for (size_t c = 0; c < vertices.size(); ++c)
-                vertices[c].position.v[1] += textHeight * (1.0F - anchor.v[1]);
+            for (graphics::Vertex& vertex : vertices)
+                vertex.position.v[1] += textHeight * (1.0F - anchor.v[1]);
+
+            return std::make_tuple(std::move(indices), std::move(vertices), std::move(texture));
         }
     } // namespace gui
 } // namespace ouzel

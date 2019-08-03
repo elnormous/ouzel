@@ -342,21 +342,17 @@ namespace ouzel
             }
         }
 
-        void BMFont::getVertices(const std::string& text,
-                                 Color color,
-                                 float fontSize,
-                                 const Vector2F& anchor,
-                                 std::vector<uint16_t>& indices,
-                                 std::vector<graphics::Vertex>& vertices,
-                                 std::shared_ptr<graphics::Texture>& texture) const
+        Font::RenderData BMFont::getRenderData(const std::string& text,
+                                               Color color,
+                                               float fontSize,
+                                               const Vector2F& anchor) const
         {
             Vector2F position;
 
             const std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
 
-            indices.clear();
-            vertices.clear();
-
+            std::vector<uint16_t> indices;
+            std::vector<graphics::Vertex> vertices;
             indices.reserve(utf32Text.size() * 6);
             vertices.reserve(utf32Text.size() * 4);
 
@@ -423,15 +419,15 @@ namespace ouzel
 
             const float textHeight = position.v[1];
 
-            for (size_t c = 0; c < vertices.size(); ++c)
+            for (graphics::Vertex& vertex : vertices)
             {
-                vertices[c].position.v[1] += textHeight * (1.0F - anchor.v[1]);
+                vertex.position.v[1] += textHeight * (1.0F - anchor.v[1]);
 
-                vertices[c].position.v[0] *= fontSize;
-                vertices[c].position.v[1] *= fontSize;
+                vertex.position.v[0] *= fontSize;
+                vertex.position.v[1] *= fontSize;
             }
 
-            texture = fontTexture;
+            return std::make_tuple(std::move(indices), std::move(vertices), fontTexture);
         }
 
         int16_t BMFont::getKerningPair(uint32_t first, uint32_t second) const

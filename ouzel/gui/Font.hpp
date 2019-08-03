@@ -30,13 +30,15 @@ namespace ouzel
             Font& operator=(Font&&) = delete;
 
             // TODO: return data in a struct
-            virtual void getVertices(const std::string& text,
-                                     Color color,
-                                     float fontSize,
-                                     const Vector2F& anchor,
-                                     std::vector<uint16_t>& indices,
-                                     std::vector<graphics::Vertex>& vertices,
-                                     std::shared_ptr<graphics::Texture>& texture) const = 0;
+
+            using RenderData = std::tuple<std::vector<uint16_t>,
+                std::vector<graphics::Vertex>,
+                std::shared_ptr<graphics::Texture>>;
+
+            virtual RenderData getRenderData(const std::string& text,
+                                             Color color,
+                                             float fontSize,
+                                             const Vector2F& anchor) const = 0;
         };
     } // namespace gui
 } // namespace ouzel
