@@ -463,7 +463,7 @@ namespace ouzel
                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                         });
 
-                assetBundle.setShader(SHADER_TEXTURE, textureShader);
+                assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
 
                 auto colorShader = std::make_unique<graphics::Shader>(*renderer,
                                                                       std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11),
