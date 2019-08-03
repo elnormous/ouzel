@@ -30,7 +30,7 @@ private:
 
     ouzel::audio::Voice ambientVoice;
     ouzel::audio::Voice music;
-    std::shared_ptr<ouzel::audio::Sound> tone;
+    ouzel::audio::Oscillator tone;
     ouzel::audio::Voice toneVoice;
 
     ouzel::scene::Layer layer;

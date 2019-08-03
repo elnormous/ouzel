@@ -21,8 +21,8 @@ namespace ouzel
         {
             try
             {
-                auto sound = std::make_shared<audio::VorbisClip>(*engine->getAudio(), data);
-                bundle.setSound(name, sound);
+                auto sound = std::make_unique<audio::VorbisClip>(*engine->getAudio(), data);
+                bundle.setSound(name, std::move(sound));
             }
             catch (const std::exception&)
             {

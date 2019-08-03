@@ -93,16 +93,16 @@ namespace ouzel
             void setParticleSystemData(const std::string& name, const scene::ParticleSystemData& newParticleSystemData);
             void releaseParticleSystemData();
 
-            std::shared_ptr<gui::Font> getFont(const std::string& name) const;
-            void setFont(const std::string& name, const std::shared_ptr<gui::Font>& font);
+            const gui::Font* getFont(const std::string& name) const;
+            void setFont(const std::string& name, std::unique_ptr<gui::Font> font);
             void releaseFonts();
 
-            std::shared_ptr<audio::Cue> getCue(const std::string& name) const;
-            void setCue(const std::string& name, const std::shared_ptr<audio::Cue>& newCue);
+            const audio::Cue* getCue(const std::string& name) const;
+            void setCue(const std::string& name, std::unique_ptr<audio::Cue> cue);
             void releaseCues();
 
-            std::shared_ptr<audio::Sound> getSound(const std::string& name) const;
-            void setSound(const std::string& name, const std::shared_ptr<audio::Sound>& newSound);
+            const audio::Sound* getSound(const std::string& name) const;
+            void setSound(const std::string& name, std::unique_ptr<audio::Sound> sound);
             void releaseSounds();
 
             std::shared_ptr<graphics::Material> getMaterial(const std::string& name) const;
@@ -127,9 +127,9 @@ namespace ouzel
             std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
             std::map<std::string, std::shared_ptr<graphics::DepthStencilState>> depthStencilStates;
             std::map<std::string, scene::SpriteData> spriteData;
-            std::map<std::string, std::shared_ptr<gui::Font>> fonts;
-            std::map<std::string, std::shared_ptr<audio::Cue>> cues;
-            std::map<std::string, std::shared_ptr<audio::Sound>> sounds;
+            std::map<std::string, std::unique_ptr<gui::Font>> fonts;
+            std::map<std::string, std::unique_ptr<audio::Cue>> cues;
+            std::map<std::string, std::unique_ptr<audio::Sound>> sounds;
             std::map<std::string, std::shared_ptr<graphics::Material>> materials;
             std::map<std::string, scene::SkinnedMeshData> skinnedMeshData;
             std::map<std::string, scene::StaticMeshData> staticMeshData;

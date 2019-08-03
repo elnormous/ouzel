@@ -74,9 +74,9 @@ namespace ouzel
                 for (const json::Value& sourceValue : d["sources"])
                     sourceDefinitions.push_back(parseSourceDefinition(sourceValue));
 
-            auto cue = std::make_shared<audio::Cue>(sourceDefinitions);
+            auto cue = std::make_unique<audio::Cue>(sourceDefinitions);
 
-            bundle.setCue(name, cue);
+            bundle.setCue(name, std::move(cue));
 
             return true;
         }

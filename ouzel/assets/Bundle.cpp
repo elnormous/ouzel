@@ -229,19 +229,19 @@ namespace ouzel
             particleSystemData.clear();
         }
 
-        std::shared_ptr<gui::Font> Bundle::getFont(const std::string& name) const
+        const gui::Font* Bundle::getFont(const std::string& name) const
         {
             auto i = fonts.find(name);
 
             if (i != fonts.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setFont(const std::string& name, const std::shared_ptr<gui::Font>& font)
+        void Bundle::setFont(const std::string& name, std::unique_ptr<gui::Font> font)
         {
-            fonts[name] = font;
+            fonts[name] = std::move(font);
         }
 
         void Bundle::releaseFonts()
@@ -249,19 +249,19 @@ namespace ouzel
             fonts.clear();
         }
 
-        std::shared_ptr<audio::Cue> Bundle::getCue(const std::string& name) const
+        const audio::Cue* Bundle::getCue(const std::string& name) const
         {
             auto i = cues.find(name);
 
             if (i != cues.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setCue(const std::string& name, const std::shared_ptr<audio::Cue>& newCue)
+        void Bundle::setCue(const std::string& name, std::unique_ptr<audio::Cue> cue)
         {
-            cues[name] = newCue;
+            cues[name] = std::move(cue);
         }
 
         void Bundle::releaseCues()
@@ -269,19 +269,19 @@ namespace ouzel
             cues.clear();
         }
 
-        std::shared_ptr<audio::Sound> Bundle::getSound(const std::string& name) const
+        const audio::Sound* Bundle::getSound(const std::string& name) const
         {
             auto i = sounds.find(name);
 
             if (i != sounds.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setSound(const std::string& name, const std::shared_ptr<audio::Sound>& newSound)
+        void Bundle::setSound(const std::string& name, std::unique_ptr<audio::Sound> sound)
         {
-            sounds[name] = newSound;
+            sounds[name] = std::move(sound);
         }
 
         void Bundle::releaseSounds()

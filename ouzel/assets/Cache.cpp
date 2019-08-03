@@ -122,7 +122,7 @@ namespace ouzel
             return nullptr;
         }
 
-        std::shared_ptr<gui::Font> Cache::getFont(const std::string& name) const
+        const gui::Font* Cache::getFont(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
                 if (auto font = bundle->getFont(name))
@@ -131,7 +131,7 @@ namespace ouzel
             return nullptr;
         }
 
-        std::shared_ptr<audio::Cue> Cache::getCue(const std::string& name) const
+        const audio::Cue* Cache::getCue(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
                 if (auto cue = bundle->getCue(name))
@@ -140,7 +140,7 @@ namespace ouzel
             return nullptr;
         }
 
-        std::shared_ptr<audio::Sound> Cache::getSound(const std::string& name) const
+        const audio::Sound* Cache::getSound(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
                 if (auto sound = bundle->getSound(name))

@@ -22,7 +22,7 @@ namespace ouzel
         public:
             explicit Voice(Audio& initAudio);
             Voice(Audio& initAudio, const Cue& cue);
-            Voice(Audio& initAudio, const std::shared_ptr<Sound>& initSound);
+            Voice(Audio& initAudio, const Sound* initSound);
             ~Voice();
 
             Voice(const Voice&) = delete;
@@ -60,7 +60,7 @@ namespace ouzel
             Audio& audio;
             uintptr_t streamId;
 
-            std::shared_ptr<Sound> sound;
+            const Sound* sound = nullptr;
             Vector3F position;
             Vector3F velocity;
             bool playing = false;

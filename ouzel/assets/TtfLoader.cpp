@@ -22,8 +22,8 @@ namespace ouzel
             try
             {
                 // TODO: move the loader here
-                auto font = std::make_shared<gui::TTFont>(data, mipmaps);
-                bundle.setFont(name, font);
+                auto font = std::make_unique<gui::TTFont>(data, mipmaps);
+                bundle.setFont(name, std::move(font));
             }
             catch (const std::exception&)
             {

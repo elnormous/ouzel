@@ -35,9 +35,9 @@ namespace ouzel
             std::shared_ptr<graphics::DepthStencilState> getDepthStencilState(const std::string& name) const;
             const scene::SpriteData* getSpriteData(const std::string& name) const;
             const scene::ParticleSystemData* getParticleSystemData(const std::string& name) const;
-            std::shared_ptr<gui::Font> getFont(const std::string& name) const;
-            std::shared_ptr<audio::Cue> getCue(const std::string& name) const;
-            std::shared_ptr<audio::Sound> getSound(const std::string& name) const;
+            const gui::Font* getFont(const std::string& name) const;
+            const audio::Cue* getCue(const std::string& name) const;
+            const audio::Sound* getSound(const std::string& name) const;
             std::shared_ptr<graphics::Material> getMaterial(const std::string& name) const;
             const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& name) const;
             const scene::StaticMeshData* getStaticMeshData(const std::string& name) const;
