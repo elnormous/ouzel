@@ -35,7 +35,7 @@ namespace ouzel
                                      const Vector2F& anchor,
                                      std::vector<uint16_t>& indices,
                                      std::vector<graphics::Vertex>& vertices,
-                                     std::shared_ptr<graphics::Texture>& texture) = 0;
+                                     std::shared_ptr<graphics::Texture>& texture) const = 0;
         };
     } // namespace gui
 } // namespace ouzel

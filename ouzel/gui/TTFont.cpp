@@ -33,7 +33,7 @@ namespace ouzel
                                  const Vector2F& anchor,
                                  std::vector<uint16_t>& indices,
                                  std::vector<graphics::Vertex>& vertices,
-                                 std::shared_ptr<graphics::Texture>& texture)
+                                 std::shared_ptr<graphics::Texture>& texture) const
         {
             if (!font)
                 throw std::runtime_error("Font not loaded");

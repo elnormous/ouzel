@@ -23,7 +23,7 @@ namespace ouzel
                              const Vector2F& anchor,
                              std::vector<uint16_t>& indices,
                              std::vector<graphics::Vertex>& vertices,
-                             std::shared_ptr<graphics::Texture>& texture) final;
+                             std::shared_ptr<graphics::Texture>& texture) const final;
 
             float getStringWidth(const std::string& text);
 

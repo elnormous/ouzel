@@ -348,7 +348,7 @@ namespace ouzel
                                  const Vector2F& anchor,
                                  std::vector<uint16_t>& indices,
                                  std::vector<graphics::Vertex>& vertices,
-                                 std::shared_ptr<graphics::Texture>& texture)
+                                 std::shared_ptr<graphics::Texture>& texture) const
         {
             Vector2F position;
 
@@ -434,7 +434,7 @@ namespace ouzel
             texture = fontTexture;
         }
 
-        int16_t BMFont::getKerningPair(uint32_t first, uint32_t second)
+        int16_t BMFont::getKerningPair(uint32_t first, uint32_t second) const
         {
             auto i = kern.find(std::make_pair(first, second));
 
@@ -444,7 +444,7 @@ namespace ouzel
             return 0;
         }
 
-        float BMFont::getStringWidth(const std::string& text)
+        float BMFont::getStringWidth(const std::string& text) const
         {
             float total = 0.0F;
 

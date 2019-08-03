@@ -21,12 +21,12 @@ namespace ouzel
                              const Vector2F& anchor,
                              std::vector<uint16_t>& indices,
                              std::vector<graphics::Vertex>& vertices,
-                             std::shared_ptr<graphics::Texture>& texture) final;
+                             std::shared_ptr<graphics::Texture>& texture) const final;
 
-            float getStringWidth(const std::string& text);
+            float getStringWidth(const std::string& text) const;
 
         private:
-            int16_t getKerningPair(uint32_t, uint32_t);
+            int16_t getKerningPair(uint32_t, uint32_t) const;
 
             struct CharDescriptor final
             {
