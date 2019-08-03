@@ -79,19 +79,19 @@ namespace ouzel
             textures.clear();
         }
 
-        std::shared_ptr<graphics::Shader> Bundle::getShader(const std::string& name) const
+        const graphics::Shader* Bundle::getShader(const std::string& name) const
         {
             auto i = shaders.find(name);
 
             if (i != shaders.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setShader(const std::string& name, const std::shared_ptr<graphics::Shader>& shader)
+        void Bundle::setShader(const std::string& name, std::unique_ptr<graphics::Shader> shader)
         {
-            shaders[name] = shader;
+            shaders[name] = std::move(shader);
         }
 
         void Bundle::releaseShaders()
@@ -99,19 +99,19 @@ namespace ouzel
             shaders.clear();
         }
 
-        std::shared_ptr<graphics::BlendState> Bundle::getBlendState(const std::string& name) const
+        const graphics::BlendState* Bundle::getBlendState(const std::string& name) const
         {
             auto i = blendStates.find(name);
 
             if (i != blendStates.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setBlendState(const std::string& name, const std::shared_ptr<graphics::BlendState>& blendState)
+        void Bundle::setBlendState(const std::string& name, std::unique_ptr<graphics::BlendState> blendState)
         {
-            blendStates[name] = blendState;
+            blendStates[name] = std::move(blendState);
         }
 
         void Bundle::releaseBlendStates()
@@ -119,19 +119,19 @@ namespace ouzel
             blendStates.clear();
         }
 
-        std::shared_ptr<graphics::DepthStencilState> Bundle::getDepthStencilState(const std::string& name) const
+        const graphics::DepthStencilState* Bundle::getDepthStencilState(const std::string& name) const
         {
             auto i = depthStencilStates.find(name);
 
             if (i != depthStencilStates.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setDepthStencilState(const std::string& name, const std::shared_ptr<graphics::DepthStencilState>& depthStencilState)
+        void Bundle::setDepthStencilState(const std::string& name, std::unique_ptr<graphics::DepthStencilState> depthStencilState)
         {
-            depthStencilStates[name] = depthStencilState;
+            depthStencilStates[name] = std::move(depthStencilState);
         }
 
         void Bundle::releaseDepthStencilStates()

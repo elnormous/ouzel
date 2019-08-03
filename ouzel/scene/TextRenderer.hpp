@@ -45,16 +45,22 @@ namespace ouzel
             void setColor(Color newColor);
 
             inline auto& getShader() const noexcept { return shader; }
-            inline void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
+            inline void setShader(const graphics::Shader* newShader)
+            {
+                shader = newShader;
+            }
 
             inline auto& getBlendState() const noexcept { return blendState; }
-            inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState) { blendState = newBlendState; }
+            inline void setBlendState(const graphics::BlendState* newBlendState)
+            {
+                blendState = newBlendState;
+            }
 
         private:
             void updateText();
 
-            std::shared_ptr<graphics::Shader> shader;
-            std::shared_ptr<graphics::BlendState> blendState;
+            const graphics::Shader* shader = nullptr;
+            const graphics::BlendState* blendState = nullptr;
 
             graphics::Buffer indexBuffer;
             graphics::Buffer vertexBuffer;

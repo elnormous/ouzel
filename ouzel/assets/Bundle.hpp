@@ -70,16 +70,16 @@ namespace ouzel
             void setTexture(const std::string& name, const std::shared_ptr<graphics::Texture>& texture);
             void releaseTextures();
 
-            std::shared_ptr<graphics::Shader> getShader(const std::string& shaderName) const;
-            void setShader(const std::string& name, const std::shared_ptr<graphics::Shader>& shader);
+            const graphics::Shader* getShader(const std::string& shaderName) const;
+            void setShader(const std::string& name, std::unique_ptr<graphics::Shader> shader);
             void releaseShaders();
 
-            std::shared_ptr<graphics::BlendState> getBlendState(const std::string& name) const;
-            void setBlendState(const std::string& name, const std::shared_ptr<graphics::BlendState>& blendState);
+            const graphics::BlendState* getBlendState(const std::string& name) const;
+            void setBlendState(const std::string& name, std::unique_ptr<graphics::BlendState> blendState);
             void releaseBlendStates();
 
-            std::shared_ptr<graphics::DepthStencilState> getDepthStencilState(const std::string& name) const;
-            void setDepthStencilState(const std::string& name, const std::shared_ptr<graphics::DepthStencilState>& depthStencilState);
+            const graphics::DepthStencilState* getDepthStencilState(const std::string& name) const;
+            void setDepthStencilState(const std::string& name, std::unique_ptr<graphics::DepthStencilState> depthStencilState);
             void releaseDepthStencilStates();
 
             void preloadSpriteData(const std::string& filename, bool mipmaps = true,

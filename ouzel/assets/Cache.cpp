@@ -77,7 +77,7 @@ namespace ouzel
             return nullptr;
         }
 
-        std::shared_ptr<graphics::Shader> Cache::getShader(const std::string& name) const
+        const graphics::Shader* Cache::getShader(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
                 if (auto shader = bundle->getShader(name))
@@ -86,7 +86,7 @@ namespace ouzel
             return nullptr;
         }
 
-        std::shared_ptr<graphics::BlendState> Cache::getBlendState(const std::string& name) const
+        const graphics::BlendState* Cache::getBlendState(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
                 if (auto blendState = bundle->getBlendState(name))
@@ -95,7 +95,7 @@ namespace ouzel
             return nullptr;
         }
 
-        std::shared_ptr<graphics::DepthStencilState> Cache::getDepthStencilState(const std::string& name) const
+        const graphics::DepthStencilState* Cache::getDepthStencilState(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
                 if (auto depthStencilState = bundle->getDepthStencilState(name))

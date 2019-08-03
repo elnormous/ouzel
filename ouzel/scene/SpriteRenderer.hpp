@@ -74,8 +74,8 @@ namespace ouzel
 
             std::map<std::string, Animation> animations;
             std::shared_ptr<graphics::Texture> texture;
-            std::shared_ptr<graphics::BlendState> blendState;
-            std::shared_ptr<graphics::Shader> shader;
+            const graphics::BlendState* blendState = nullptr;
+            const graphics::Shader* shader = nullptr;
         };
 
         class SpriteRenderer: public Component

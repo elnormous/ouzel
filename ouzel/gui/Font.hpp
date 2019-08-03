@@ -29,6 +29,7 @@ namespace ouzel
             Font(Font&&) = delete;
             Font& operator=(Font&&) = delete;
 
+            // TODO: return data in a struct
             virtual void getVertices(const std::string& text,
                                      Color color,
                                      float fontSize,

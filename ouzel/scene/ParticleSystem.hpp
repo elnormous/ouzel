@@ -155,8 +155,8 @@ namespace ouzel
 
             ParticleSystemData particleSystemData;
 
-            std::shared_ptr<graphics::Shader> shader;
-            std::shared_ptr<graphics::BlendState> blendState;
+            const graphics::Shader* shader = nullptr;
+            const graphics::BlendState* blendState = nullptr;
             std::shared_ptr<graphics::Texture> texture;
             std::shared_ptr<graphics::Texture> whitePixelTexture;
 

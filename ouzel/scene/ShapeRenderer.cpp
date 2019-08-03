@@ -13,6 +13,8 @@ namespace ouzel
     namespace scene
     {
         ShapeRenderer::ShapeRenderer():
+            shader(engine->getCache().getShader(SHADER_COLOR)),
+            blendState(engine->getCache().getBlendState(BLEND_ALPHA)),
             indexBuffer(*engine->getRenderer(),
                         graphics::BufferType::Index,
                         graphics::Flags::Dynamic),
@@ -20,8 +22,6 @@ namespace ouzel
                          graphics::BufferType::Vertex,
                          graphics::Flags::Dynamic)
         {
-            shader = engine->getCache().getShader(SHADER_COLOR);
-            blendState = engine->getCache().getBlendState(BLEND_ALPHA);
         }
 
         void ShapeRenderer::draw(const Matrix4F& transformMatrix,

@@ -20,10 +20,10 @@ namespace ouzel
 {
     namespace scene
     {
-        ParticleSystem::ParticleSystem()
+        ParticleSystem::ParticleSystem():
+            shader(engine->getCache().getShader(SHADER_TEXTURE)),
+            blendState(engine->getCache().getBlendState(BLEND_ALPHA))
         {
-            shader = engine->getCache().getShader(SHADER_TEXTURE);
-            blendState = engine->getCache().getBlendState(BLEND_ALPHA);
             whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
 
             updateHandler.updateHandler = [this](const UpdateEvent& event) {

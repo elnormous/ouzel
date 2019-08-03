@@ -30,9 +30,9 @@ namespace ouzel
             auto& getLoaders() const { return loaders; }
 
             std::shared_ptr<graphics::Texture> getTexture(const std::string& name) const;
-            std::shared_ptr<graphics::Shader> getShader(const std::string& name) const;
-            std::shared_ptr<graphics::BlendState> getBlendState(const std::string& name) const;
-            std::shared_ptr<graphics::DepthStencilState> getDepthStencilState(const std::string& name) const;
+            const graphics::Shader* getShader(const std::string& name) const;
+            const graphics::BlendState* getBlendState(const std::string& name) const;
+            const graphics::DepthStencilState* getDepthStencilState(const std::string& name) const;
             const scene::SpriteData* getSpriteData(const std::string& name) const;
             const scene::ParticleSystemData* getParticleSystemData(const std::string& name) const;
             const gui::Font* getFont(const std::string& name) const;
