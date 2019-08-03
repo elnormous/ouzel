@@ -130,7 +130,7 @@ namespace ouzel
             std::map<std::string, std::unique_ptr<gui::Font>> fonts;
             std::map<std::string, std::unique_ptr<audio::Cue>> cues;
             std::map<std::string, std::unique_ptr<audio::Sound>> sounds;
-            std::map<std::string, std::shared_ptr<graphics::Material>> materials;
+            std::map<std::string, std::unique_ptr<graphics::Material>> materials;
             std::map<std::string, scene::SkinnedMeshData> skinnedMeshData;
             std::map<std::string, scene::StaticMeshData> staticMeshData;
         };
