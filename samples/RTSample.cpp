@@ -73,11 +73,11 @@ RTSample::RTSample():
                                                             graphics::Flags::BindShader, 1, 1,
                                                             graphics::PixelFormat::Depth);
 
-    auto renderTarget = std::make_shared<graphics::RenderTarget>(*engine->getRenderer(),
+    auto renderTarget = std::make_unique<graphics::RenderTarget>(*engine->getRenderer(),
                                                                  std::vector<std::shared_ptr<graphics::Texture>>{renderTexture},
                                                                  depthTexture);
 
-    rtCamera.setRenderTarget(renderTarget);
+    rtCamera.setRenderTarget(std::move(renderTarget));
     rtCamera.setClearColorBuffer(true);
     rtCamera.setClearColor(Color(0, 64, 0));
     rtCameraActor.addComponent(&rtCamera);
