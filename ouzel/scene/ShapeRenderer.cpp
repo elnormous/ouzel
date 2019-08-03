@@ -12,18 +12,16 @@ namespace ouzel
 {
     namespace scene
     {
-        ShapeRenderer::ShapeRenderer()
+        ShapeRenderer::ShapeRenderer():
+            indexBuffer(*engine->getRenderer(),
+                        graphics::BufferType::Index,
+                        graphics::Flags::Dynamic),
+            vertexBuffer(*engine->getRenderer(),
+                         graphics::BufferType::Vertex,
+                         graphics::Flags::Dynamic)
         {
             shader = engine->getCache().getShader(SHADER_COLOR);
             blendState = engine->getCache().getBlendState(BLEND_ALPHA);
-
-            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                             graphics::BufferType::Index,
-                                                             graphics::Flags::Dynamic);
-
-            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                              graphics::BufferType::Vertex,
-                                                              graphics::Flags::Dynamic);
         }
 
         void ShapeRenderer::draw(const Matrix4F& transformMatrix,
@@ -38,8 +36,8 @@ namespace ouzel
 
             if (dirty)
             {
-                if (!indices.empty()) indexBuffer->setData(indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
-                if (!vertices.empty()) vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
+                if (!indices.empty()) indexBuffer.setData(indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
+                if (!vertices.empty()) vertexBuffer.setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
                 dirty = false;
             }
 
@@ -60,10 +58,10 @@ namespace ouzel
                                                         wireframe ? graphics::FillMode::Wireframe : graphics::FillMode::Solid);
                 engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                           vertexShaderConstants);
-                engine->getRenderer()->draw(indexBuffer->getResource(),
+                engine->getRenderer()->draw(indexBuffer.getResource(),
                                             drawCommand.indexCount,
                                             sizeof(uint16_t),
-                                            vertexBuffer->getResource(),
+                                            vertexBuffer.getResource(),
                                             drawCommand.mode,
                                             drawCommand.startIndex);
             }

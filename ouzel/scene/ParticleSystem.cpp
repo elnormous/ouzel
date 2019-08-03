@@ -311,12 +311,12 @@ namespace ouzel
                                       Vector2F{1.0F, 0.0F}, Vector3F{0.0F, 0.0F, -1.0F});
             }
 
-            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+            indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::BufferType::Index, 0,
                                                              indices.data(),
                                                              static_cast<uint32_t>(getVectorSize(indices)));
 
-            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+            vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                               graphics::BufferType::Vertex,
                                                               graphics::Flags::Dynamic,
                                                               vertices.data(),

@@ -56,8 +56,8 @@ namespace ouzel
             std::shared_ptr<graphics::Shader> shader;
             std::shared_ptr<graphics::BlendState> blendState;
 
-            std::shared_ptr<graphics::Buffer> indexBuffer;
-            std::shared_ptr<graphics::Buffer> vertexBuffer;
+            graphics::Buffer indexBuffer;
+            graphics::Buffer vertexBuffer;
 
             std::shared_ptr<graphics::Texture> texture;
             std::shared_ptr<graphics::Texture> whitePixelTexture;

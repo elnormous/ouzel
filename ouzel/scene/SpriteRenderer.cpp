@@ -71,12 +71,12 @@ namespace ouzel
             boundingBox.min = finalOffset;
             boundingBox.max = finalOffset + Vector2F(frameRectangle.size.v[0], frameRectangle.size.v[1]);
 
-            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+            indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::BufferType::Index, 0,
                                                              indices.data(),
                                                              static_cast<uint32_t>(getVectorSize(indices)));
 
-            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+            vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                               graphics::BufferType::Vertex,0,
                                                               vertices.data(),
                                                               static_cast<uint32_t>(getVectorSize(vertices)));
@@ -92,12 +92,12 @@ namespace ouzel
             for (const graphics::Vertex& vertex : vertices)
                 boundingBox.insertPoint(Vector2F(vertex.position));
 
-            indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+            indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::BufferType::Index, 0,
                                                              indices.data(),
                                                              static_cast<uint32_t>(getVectorSize(indices)));
 
-            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+            vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                               graphics::BufferType::Vertex, 0,
                                                               vertices.data(),
                                                               static_cast<uint32_t>(getVectorSize(vertices)));

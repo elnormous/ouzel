@@ -196,8 +196,8 @@ namespace ouzel
 
             std::vector<Particle> particles;
 
-            std::shared_ptr<graphics::Buffer> indexBuffer;
-            std::shared_ptr<graphics::Buffer> vertexBuffer;
+            std::unique_ptr<graphics::Buffer> indexBuffer;
+            std::unique_ptr<graphics::Buffer> vertexBuffer;
 
             std::vector<uint16_t> indices;
             std::vector<graphics::Vertex> vertices;
