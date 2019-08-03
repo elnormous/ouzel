@@ -289,19 +289,19 @@ namespace ouzel
             sounds.clear();
         }
 
-        std::shared_ptr<graphics::Material> Bundle::getMaterial(const std::string& name) const
+        const graphics::Material* Bundle::getMaterial(const std::string& name) const
         {
             auto i = materials.find(name);
 
             if (i != materials.end())
-                return i->second;
+                return i->second.get();
 
             return nullptr;
         }
 
-        void Bundle::setMaterial(const std::string& name, const std::shared_ptr<graphics::Material>& material)
+        void Bundle::setMaterial(const std::string& name, std::unique_ptr<graphics::Material> material)
         {
-            materials[name] = material;
+            materials[name] = std::move(material);
         }
 
         void Bundle::releaseMaterials()

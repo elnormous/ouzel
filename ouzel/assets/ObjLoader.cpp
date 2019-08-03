@@ -164,7 +164,7 @@ namespace ouzel
                                   bool mipmaps)
         {
             std::string objectName = name;
-            std::shared_ptr<graphics::Material> material;
+            const graphics::Material* material = nullptr;
             std::vector<Vector3F> positions;
             std::vector<Vector2F> texCoords;
             std::vector<Vector3F> normals;
@@ -230,7 +230,7 @@ namespace ouzel
 
                         skipLine(iterator, data.end());
 
-                        material.reset();
+                        material = nullptr;
                         vertices.clear();
                         indices.clear();
                         vertexMap.clear();

@@ -20,10 +20,10 @@ namespace ouzel
             StaticMeshData(const Box3F& initBoundingBox,
                            const std::vector<uint32_t> indices,
                            const std::vector<graphics::Vertex>& vertices,
-                           const std::shared_ptr<graphics::Material>& initMaterial);
+                           const graphics::Material* initMaterial);
 
             Box3F boundingBox;
-            std::shared_ptr<graphics::Material> material;
+            const graphics::Material* material = nullptr;
             uint32_t indexCount = 0;
             uint32_t indexSize = 0;
             std::shared_ptr<graphics::Buffer> indexBuffer;
@@ -44,10 +44,13 @@ namespace ouzel
                       bool wireframe) override;
 
             inline auto& getMaterial() const noexcept { return material; }
-            inline void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
+            inline void setMaterial(const graphics::Material* newMaterial)
+            {
+                material = newMaterial;
+            }
 
         private:
-            std::shared_ptr<graphics::Material> material;
+            const graphics::Material* material = nullptr;
             uint32_t indexCount = 0;
             uint32_t indexSize = 0;
             std::shared_ptr<graphics::Buffer> indexBuffer;

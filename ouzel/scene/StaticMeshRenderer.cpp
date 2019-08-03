@@ -12,7 +12,7 @@ namespace ouzel
         StaticMeshData::StaticMeshData(const Box3F& initBoundingBox,
                                        const std::vector<uint32_t> indices,
                                        const std::vector<graphics::Vertex>& vertices,
-                                       const std::shared_ptr<graphics::Material>& initMaterial):
+                                       const graphics::Material* initMaterial):
             boundingBox(initBoundingBox),
             material(initMaterial)
         {

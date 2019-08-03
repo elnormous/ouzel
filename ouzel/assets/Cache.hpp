@@ -38,7 +38,7 @@ namespace ouzel
             const gui::Font* getFont(const std::string& name) const;
             const audio::Cue* getCue(const std::string& name) const;
             const audio::Sound* getSound(const std::string& name) const;
-            std::shared_ptr<graphics::Material> getMaterial(const std::string& name) const;
+            const graphics::Material* getMaterial(const std::string& name) const;
             const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& name) const;
             const scene::StaticMeshData* getStaticMeshData(const std::string& name) const;
 

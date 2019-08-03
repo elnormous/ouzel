@@ -105,8 +105,8 @@ namespace ouzel
             void setSound(const std::string& name, std::unique_ptr<audio::Sound> sound);
             void releaseSounds();
 
-            std::shared_ptr<graphics::Material> getMaterial(const std::string& name) const;
-            void setMaterial(const std::string& name, const std::shared_ptr<graphics::Material>& material);
+            const graphics::Material* getMaterial(const std::string& name) const;
+            void setMaterial(const std::string& name, std::unique_ptr<graphics::Material> material);
             void releaseMaterials();
 
             const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& name) const;

@@ -149,7 +149,7 @@ namespace ouzel
             return nullptr;
         }
 
-        std::shared_ptr<graphics::Material> Cache::getMaterial(const std::string& name) const
+        const graphics::Material* Cache::getMaterial(const std::string& name) const
         {
             for (Bundle* bundle : bundles)
                 if (auto material = bundle->getMaterial(name))

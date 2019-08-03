@@ -155,7 +155,7 @@ namespace ouzel
                     {
                         if (materialCount)
                         {
-                            auto material = std::make_shared<graphics::Material>();
+                            auto material = std::make_unique<graphics::Material>();
                             material->blendState = cache.getBlendState(BLEND_ALPHA);
                             material->shader = cache.getShader(SHADER_TEXTURE);
                             material->textures[0] = diffuseTexture;
@@ -164,7 +164,7 @@ namespace ouzel
                             material->opacity = opacity;
                             material->cullMode = graphics::CullMode::Back;
 
-                            bundle.setMaterial(materialName, material);
+                            bundle.setMaterial(materialName, std::move(material));
                         }
 
                         skipWhitespaces(iterator, data.end());
@@ -254,7 +254,7 @@ namespace ouzel
 
             if (materialCount)
             {
-                auto material = std::make_shared<graphics::Material>();
+                auto material = std::make_unique<graphics::Material>();
                 material->blendState = cache.getBlendState(BLEND_ALPHA);
                 material->shader = cache.getShader(SHADER_TEXTURE);
                 material->textures[0] = diffuseTexture;
@@ -263,7 +263,7 @@ namespace ouzel
                 material->opacity = opacity;
                 material->cullMode = graphics::CullMode::Back;
 
-                bundle.setMaterial(materialName, material);
+                bundle.setMaterial(materialName, std::move(material));
             }
 
             return true;
