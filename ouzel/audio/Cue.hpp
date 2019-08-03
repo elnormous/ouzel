@@ -6,7 +6,6 @@
 #include <queue>
 #include <string>
 #include <vector>
-#include "Voice.hpp"
 
 namespace ouzel
 {

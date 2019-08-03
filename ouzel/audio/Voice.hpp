@@ -4,6 +4,7 @@
 #define OUZEL_AUDIO_VOICE_HPP
 
 #include <memory>
+#include "audio/Cue.hpp"
 #include "audio/Node.hpp"
 #include "math/Vector.hpp"
 
@@ -20,6 +21,7 @@ namespace ouzel
             friend Mix;
         public:
             explicit Voice(Audio& initAudio);
+            Voice(Audio& initAudio, const Cue& cue);
             Voice(Audio& initAudio, const std::shared_ptr<Sound>& initSound);
             ~Voice();
 
