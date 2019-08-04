@@ -19,38 +19,46 @@ namespace ouzel
         {
             audio::SourceDefinition sourceDefinition;
 
-            if (value["type"].as<std::string>() == "Parallel")
+            auto& valueType = value["type"].as<std::string>();
+
+            if (valueType == "Parallel")
                 sourceDefinition.type = audio::SourceDefinition::Type::Parallel;
-            else if (value["type"].as<std::string>() == "Random")
+            else if (valueType == "Random")
                 sourceDefinition.type = audio::SourceDefinition::Type::Random;
-            else if (value["type"].as<std::string>() == "Sequence")
+            else if (valueType == "Sequence")
                 sourceDefinition.type = audio::SourceDefinition::Type::Sequence;
-            else if (value["type"].as<std::string>() == "Oscillator")
+            else if (valueType == "Oscillator")
                 sourceDefinition.type = audio::SourceDefinition::Type::Oscillator;
-            else if (value["type"].as<std::string>() == "Silence")
+            else if (valueType == "Silence")
                 sourceDefinition.type = audio::SourceDefinition::Type::Silence;
-            else if (value["type"].as<std::string>() == "WavePlayer")
+            else if (valueType == "WavePlayer")
                 sourceDefinition.type = audio::SourceDefinition::Type::WavePlayer;
+            else
+                throw std::runtime_error("Invalid source type " + valueType);
 
             if (value.hasMember("effects"))
                 for (const json::Value& effectValue : value["effects"])
                 {
                     audio::EffectDefinition effectDefinition;
 
-                    if (effectValue["type"].as<std::string>() == "Delay")
+                    auto& effectType = effectValue["type"].as<std::string>();
+
+                    if (effectType == "Delay")
                         effectDefinition.type = audio::EffectDefinition::Type::Delay;
-                    else if (effectValue["type"].as<std::string>() == "Gain")
+                    else if (effectType == "Gain")
                         effectDefinition.type = audio::EffectDefinition::Type::Gain;
-                    else if (effectValue["type"].as<std::string>() == "PitchScale")
+                    else if (effectType == "PitchScale")
                         effectDefinition.type = audio::EffectDefinition::Type::PitchScale;
-                    else if (effectValue["type"].as<std::string>() == "PitchShift")
+                    else if (effectType == "PitchShift")
                         effectDefinition.type = audio::EffectDefinition::Type::PitchShift;
-                    else if (effectValue["type"].as<std::string>() == "Reverb")
+                    else if (effectType == "Reverb")
                         effectDefinition.type = audio::EffectDefinition::Type::Reverb;
-                    else if (effectValue["type"].as<std::string>() == "LowPass")
+                    else if (effectType == "LowPass")
                         effectDefinition.type = audio::EffectDefinition::Type::LowPass;
-                    else if (effectValue["type"].as<std::string>() == "HighPass")
+                    else if (effectType == "HighPass")
                         effectDefinition.type = audio::EffectDefinition::Type::HighPass;
+                    else
+                        throw std::runtime_error("Invalid effect type " + effectType);
 
                     sourceDefinition.effectDefinitions.push_back(effectDefinition);
                 }

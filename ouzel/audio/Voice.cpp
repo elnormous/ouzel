@@ -20,7 +20,14 @@ namespace ouzel
             Node(initAudio),
             audio(initAudio)
         {
+            auto& sourceDefinitions = cue.getSourceDefinitions();
 
+            for (auto& sourceDefinition : sourceDefinitions)
+            {
+                // TODO: create sources
+            }
+
+            // TODO: create object on mixer thread
         }
 
         Voice::Voice(Audio& initAudio, const Sound* initSound):
