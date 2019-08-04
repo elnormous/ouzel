@@ -21,7 +21,7 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline T decodeBigEndian(const void* buffer)
+    inline auto decodeBigEndian(const void* buffer)
     {
         auto bytes = static_cast<const uint8_t*>(buffer);
         T result = 0;
@@ -33,7 +33,7 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline T decodeLittleEndian(const void* buffer)
+    inline auto decodeLittleEndian(const void* buffer)
     {
         auto bytes = static_cast<const uint8_t*>(buffer);
         T result = 0;
@@ -54,7 +54,7 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline T encodeLittleEndian(void* buffer, const T value)
+    inline void encodeLittleEndian(void* buffer, const T value)
     {
         uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
@@ -63,7 +63,7 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    std::string hexToString(const T n, const size_t len = 0)
+    auto hexToString(const T n, const size_t len = 0)
     {
         static constexpr const char* digits = "0123456789ABCDEF";
 
@@ -76,10 +76,9 @@ namespace ouzel
         return result;
     }
 
-    template <typename T>
-    std::vector<T> explodeString(const T& str, char delimiter = ' ')
+    inline auto explodeString(const std::string& str, char delimiter = ' ')
     {
-        std::vector<T> result;
+        std::vector<std::string> result;
         size_t pos;
         size_t initialPos = 0;
         while ((pos = str.find(delimiter, initialPos)) != std::string::npos)
