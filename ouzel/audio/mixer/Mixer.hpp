@@ -102,7 +102,7 @@ namespace ouzel
                 void submitCommandBuffer(CommandBuffer&& commandBuffer)
                 {
                     std::unique_lock<std::mutex> lock(commandQueueMutex);
-                    commandQueue.push(std::forward<CommandBuffer>(commandBuffer));
+                    commandQueue.push(std::move(commandBuffer));
                     lock.unlock();
                 }
 
