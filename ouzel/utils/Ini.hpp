@@ -104,7 +104,7 @@ namespace ouzel
             std::map<std::string, std::string> values;
         };
 
-        template <class T>
+        template <typename T>
         constexpr auto isWhitespace(const T c) noexcept
         {
             return c == ' ' || c == '\t';

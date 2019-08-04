@@ -33,7 +33,7 @@ namespace ouzel
 
             void addLayer(Layer* layer);
 
-            template <typename T> void addLayer(std::unique_ptr<T> layer)
+            template <class T> void addLayer(std::unique_ptr<T> layer)
             {
                 addLayer(layer.get());
                 ownedLayers.push_back(std::move(layer));

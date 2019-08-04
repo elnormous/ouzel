@@ -165,7 +165,7 @@ namespace ouzel
             return *this;
         }
 
-        template <class T>
+        template <typename T>
         Log& operator<<(const Quaternion<T>& val)
         {
             s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +

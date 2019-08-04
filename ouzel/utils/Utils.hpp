@@ -20,7 +20,7 @@ namespace ouzel
         return sizeof(T) * vec.size();
     }
 
-    template <class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T decodeBigEndian(const void* buffer)
     {
         auto bytes = static_cast<const uint8_t*>(buffer);
@@ -32,7 +32,7 @@ namespace ouzel
         return result;
     }
 
-    template <class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T decodeLittleEndian(const void* buffer)
     {
         auto bytes = static_cast<const uint8_t*>(buffer);
@@ -44,7 +44,7 @@ namespace ouzel
         return result;
     }
 
-    template <class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline void encodeBigEndian(void* buffer, const T value)
     {
         uint8_t* bytes = static_cast<uint8_t*>(buffer);
@@ -53,7 +53,7 @@ namespace ouzel
             bytes[i] = static_cast<uint8_t>(value >> ((sizeof(T) - i - 1) * 8));
     }
 
-    template <class T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     inline T encodeLittleEndian(void* buffer, const T value)
     {
         uint8_t* bytes = static_cast<uint8_t*>(buffer);

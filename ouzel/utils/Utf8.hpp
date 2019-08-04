@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace utf8
     {
-        template <typename Iterator>
+        template <class Iterator>
         inline std::vector<uint32_t> toUtf32(Iterator begin, Iterator end)
         {
             std::vector<uint32_t> result;
@@ -52,7 +52,7 @@ namespace ouzel
             return result;
         }
 
-        template <typename T>
+        template <class T>
         inline std::vector<uint32_t> toUtf32(const T& text)
         {
             return toUtf32(text.begin(), text.end());
@@ -86,7 +86,7 @@ namespace ouzel
             return result;
         }
 
-        template <typename Iterator>
+        template <class Iterator>
         inline std::string fromUtf32(Iterator begin, Iterator end)
         {
             std::string result;
