@@ -14,10 +14,10 @@ namespace ouzel
 {
     extern std::mt19937 randomEngine;
 
-    template <typename T>
-    inline auto getVectorSize(const typename std::vector<T>& vec)
+    template <class T>
+    inline auto getVectorSize(const T& vec)
     {
-        return sizeof(T) * vec.size();
+        return sizeof(typename T::value_type) * vec.size();
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
