@@ -143,7 +143,7 @@ namespace ouzel
             mutable Matrix4F inverseViewProjection;
 
             graphics::RenderTarget* renderTarget = nullptr;
-            std::shared_ptr<graphics::DepthStencilState> depthStencilState;
+            std::unique_ptr<graphics::DepthStencilState> depthStencilState;
             uint32_t stencilReferenceValue = 0;
 
             bool clearColorBuffer = false;
