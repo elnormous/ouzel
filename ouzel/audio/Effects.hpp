@@ -31,7 +31,7 @@ namespace ouzel
             void setDelayRandom(const std::pair<float, float>& newDelayRandom);
 
         private:
-            float delay;
+            float delay = 0.0F;
             std::pair<float, float> delayRandom{0.0F, 0.0F};
         };
 
@@ -53,7 +53,7 @@ namespace ouzel
             void setGainRandom(const std::pair<float, float>& newGainRandom);
 
         private:
-            float gain; // dB
+            float gain = 0.0F; // dB
             std::pair<float, float> gainRandom{0.0F, 0.0F};
         };
 
@@ -107,7 +107,7 @@ namespace ouzel
             void setScaleRandom(const std::pair<float, float>& newScaleRandom);
 
         private:
-            float scale = 1.0f;
+            float scale = 1.0F;
             std::pair<float, float> scaleRandom{0.0F, 0.0F};
         };
 
@@ -148,8 +148,8 @@ namespace ouzel
             inline auto getDecay() const noexcept { return decay; }
 
         private:
-            float delay;
-            float decay;
+            float delay = 0.1F;
+            float decay = 0.5F;
         };
 
         class LowPass final: public Effect

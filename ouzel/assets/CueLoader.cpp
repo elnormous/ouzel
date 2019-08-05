@@ -60,6 +60,12 @@ namespace ouzel
                     else
                         throw std::runtime_error("Invalid effect type " + effectType);
 
+                    if (effectValue.hasMember("delay")) effectDefinition.delay = effectValue["delay"].as<float>();
+                    if (effectValue.hasMember("gain")) effectDefinition.gain = effectValue["gain"].as<float>();
+                    if (effectValue.hasMember("scale")) effectDefinition.scale = effectValue["scale"].as<float>();
+                    if (effectValue.hasMember("shift")) effectDefinition.shift = effectValue["shift"].as<float>();
+                    if (effectValue.hasMember("decay")) effectDefinition.decay = effectValue["decay"].as<float>();
+
                     sourceDefinition.effectDefinitions.push_back(effectDefinition);
                 }
 

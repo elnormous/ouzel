@@ -34,6 +34,15 @@ namespace ouzel
 
             Type type;
             std::vector<AttributeDefinition> attributeDefinitions;
+            float delay = 0.0F;
+            float gain = 0.0F;
+            float scale = 1.0F;
+            float shift = 1.0f;
+            float decay = 0.0F;
+            std::pair<float, float> delayRandom{0.0F, 0.0F};
+            std::pair<float, float> gainRandom{0.0F, 0.0F};
+            std::pair<float, float> scaleRandom{0.0F, 0.0F};
+            std::pair<float, float> shiftRandom{0.0F, 0.0F};
         };
 
         struct SourceDefinition final
