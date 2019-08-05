@@ -91,6 +91,12 @@ namespace ouzel
             result.push_back(str.substr(initialPos, str.size() - initialPos + 1));
         return result;
     }
+
+    template <class T>
+    constexpr T toLower(T c)
+    {
+        return (c >= 'A' && c <= 'Z') ? c - ('A' - 'a') : c;
+    }
 }
 
 #endif // OUZEL_UTILS_UTILS_HPP
