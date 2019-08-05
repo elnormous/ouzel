@@ -53,7 +53,15 @@ namespace ouzel
                     objectId(initObjectId)
                 {}
 
+                InitObjectCommand(uintptr_t initObjectId,
+                                  std::unique_ptr<Object> initObject):
+                    Command(Command::Type::InitObject),
+                    objectId(initObjectId),
+                    object(std::move(initObject))
+                {}
+
                 const uintptr_t objectId;
+                std::unique_ptr<Object> object;
             };
 
             class DeleteObjectCommand final: public Command
