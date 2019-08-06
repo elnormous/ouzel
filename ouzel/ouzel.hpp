@@ -33,6 +33,7 @@
 #include "audio/SampleFormat.hpp"
 #include "audio/SilenceSound.hpp"
 #include "audio/Sound.hpp"
+#include "audio/Source.hpp"
 #include "audio/Submix.hpp"
 #include "audio/Voice.hpp"
 #include "audio/VorbisClip.hpp"

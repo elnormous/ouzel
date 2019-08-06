@@ -1054,6 +1054,7 @@
 		30AEFA3220C0FD7400CDFD33 /* MetalRenderTarget.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderTarget.mm; sourceTree = "<group>"; };
 		30AEFA3320C0FD7400CDFD33 /* MetalRenderTarget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalRenderTarget.hpp; sourceTree = "<group>"; };
 		30AF9FC32145D6F000F9266B /* OGLRenderResource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLRenderResource.hpp; sourceTree = "<group>"; };
+		30B40E0022F8FC0C0056CD1A /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
 		30B8598A1F3D286600A16952 /* TTFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTFont.cpp; sourceTree = "<group>"; };
 		30B8598B1F3D286600A16952 /* TTFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TTFont.hpp; sourceTree = "<group>"; };
 		30B859931F3D2F3200A16952 /* Font.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Font.hpp; sourceTree = "<group>"; };
@@ -1540,12 +1541,12 @@
 				30419DE01D162BCF00A63759 /* Audio.hpp */,
 				30C758AB1F4A0196008499DC /* AudioDevice.cpp */,
 				30C758AC1F4A0196008499DC /* AudioDevice.hpp */,
-				307934D222C58CFE005A6804 /* Cue.cpp */,
-				307934D322C58CFE005A6804 /* Cue.hpp */,
 				30BA5FB72198E43A0032AC23 /* Channel.hpp */,
 				305B11362250413900EDA4F5 /* Containers.cpp */,
 				305B11372250413900EDA4F5 /* Containers.hpp */,
 				309BA3101F183D3D006F2240 /* coreaudio */,
+				307934D222C58CFE005A6804 /* Cue.cpp */,
+				307934D322C58CFE005A6804 /* Cue.hpp */,
 				30BA5FB52198E2610032AC23 /* Driver.hpp */,
 				30C3F26E219D0846003FE9ED /* Effect.cpp */,
 				30C3F270219D0847003FE9ED /* Effect.hpp */,
@@ -1569,6 +1570,7 @@
 				302B728321BDE302006EBC59 /* SilenceSound.hpp */,
 				30419DEF1D162BEF00A63759 /* Sound.cpp */,
 				30419DF01D162BEF00A63759 /* Sound.hpp */,
+				30B40E0022F8FC0C0056CD1A /* Source.hpp */,
 				30A3821621B4BDC80043568A /* Submix.cpp */,
 				30A3821721B4BDC80043568A /* Submix.hpp */,
 				30419DE71D162BDC00A63759 /* Voice.cpp */,

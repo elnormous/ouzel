@@ -183,6 +183,7 @@
     <ClInclude Include="..\ouzel\audio\Voice.hpp" />
     <ClInclude Include="..\ouzel\audio\SilenceSound.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
+    <ClInclude Include="..\ouzel\audio\Source.hpp" />
     <ClInclude Include="..\ouzel\audio\Node.hpp" />
     <ClInclude Include="..\ouzel\audio\Oscillator.hpp" />
     <ClInclude Include="..\ouzel\audio\VorbisClip.hpp" />

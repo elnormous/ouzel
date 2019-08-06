@@ -4,6 +4,7 @@
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
 #include "Sound.hpp"
+#include "Source.hpp"
 #include "core/Engine.hpp"
 
 namespace ouzel
@@ -16,6 +17,8 @@ namespace ouzel
             void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
             {
             }
+
+            std::vector<Source> sources;
         };
 
         Voice::Voice(Audio& initAudio):
