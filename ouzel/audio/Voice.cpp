@@ -16,6 +16,10 @@ namespace ouzel
         public:
             void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
             {
+                for (auto& source : sources)
+                {
+                    source.getSamples(frames, channels, sampleRate, samples);
+                }
             }
 
             std::vector<Source> sources;

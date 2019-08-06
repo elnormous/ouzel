@@ -14,6 +14,11 @@ namespace ouzel
         class Source
         {
         public:
+            virtual void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
+
+            const auto& getEffects() const { return effects; }
+
+        private:
             std::vector<std::unique_ptr<Effect>> effects;
         };
     } // namespace audio
