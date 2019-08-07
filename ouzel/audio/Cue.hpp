@@ -49,6 +49,7 @@ namespace ouzel
         {
             enum class Type
             {
+                Empty,
                 Parallel,
                 Random,
                 Sequence,

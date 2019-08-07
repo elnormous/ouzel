@@ -3,6 +3,7 @@
 #include "Voice.hpp"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
+#include "Effects.hpp"
 #include "Sound.hpp"
 #include "Source.hpp"
 #include "core/Engine.hpp"
@@ -40,7 +41,53 @@ namespace ouzel
         {
             const auto& sourceDefinition = cue.getSourceDefinition();
 
-            // TODO: create sources
+            switch (sourceDefinition.type)
+            {
+                case SourceDefinition::Type::Empty:
+                    break;
+                case SourceDefinition::Type::Parallel:
+                    break;
+                case SourceDefinition::Type::Random:
+                    break;
+                case SourceDefinition::Type::Sequence:
+                    break;
+                case SourceDefinition::Type::Oscillator:
+                    break;
+                case SourceDefinition::Type::Silence:
+                    break;
+                case SourceDefinition::Type::WavePlayer:
+                    break;
+            }
+
+            std::vector<std::unique_ptr<Effect>> effects;
+
+            for (const auto& effectDefinition : sourceDefinition.effectDefinitions)
+            {
+                switch (effectDefinition.type)
+                {
+                    case EffectDefinition::Type::Delay:
+                        effects.push_back(std::make_unique<Delay>(initAudio, effectDefinition.delay));
+                        break;
+                    case EffectDefinition::Type::Gain:
+                        effects.push_back(std::make_unique<Gain>(initAudio, effectDefinition.gain));
+                        break;
+                    case EffectDefinition::Type::PitchScale:
+                        effects.push_back(std::make_unique<PitchScale>(initAudio, effectDefinition.scale));
+                        break;
+                    case EffectDefinition::Type::PitchShift:
+                        effects.push_back(std::make_unique<PitchShift>(initAudio, effectDefinition.shift));
+                        break;
+                    case EffectDefinition::Type::Reverb:
+                        effects.push_back(std::make_unique<Reverb>(initAudio, effectDefinition.delay, effectDefinition.decay));
+                        break;
+                    case EffectDefinition::Type::LowPass:
+                        effects.push_back(std::make_unique<LowPass>(initAudio));
+                        break;
+                    case EffectDefinition::Type::HighPass:
+                        effects.push_back(std::make_unique<HighPass>(initAudio));
+                        break;
+                }
+            }
 
             std::unique_ptr<mixer::Object> object = std::make_unique<VoiceObject>();
 
