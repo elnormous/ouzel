@@ -81,14 +81,13 @@ namespace ouzel
                                   const std::vector<uint8_t>& data,
                                   bool)
         {
-            std::vector<audio::SourceDefinition> sourceDefinitions;
+            audio::SourceDefinition sourceDefinition;
             const json::Data d(data);
 
-            if (d.hasMember("sources"))
-                for (const json::Value& sourceValue : d["sources"])
-                    sourceDefinitions.push_back(parseSourceDefinition(sourceValue));
+            if (d.hasMember("source"))
+                sourceDefinition = parseSourceDefinition(d["source"]);
 
-            auto cue = std::make_unique<audio::Cue>(sourceDefinitions);
+            auto cue = std::make_unique<audio::Cue>(sourceDefinition);
 
             bundle.setCue(name, std::move(cue));
 

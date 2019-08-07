@@ -67,18 +67,18 @@ namespace ouzel
         {
         public:
             Cue() {}
-            explicit Cue(const std::vector<SourceDefinition>& initSourceDefinitions):
-                sourceDefinitions(initSourceDefinitions)
+            explicit Cue(const SourceDefinition& initSourceDefinition):
+                sourceDefinition(initSourceDefinition)
             {
             }
 
-            const std::vector<SourceDefinition>& getSourceDefinitions() const
+            const SourceDefinition& getSourceDefinition() const
             {
-                return sourceDefinitions;
+                return sourceDefinition;
             }
 
         private:
-            std::vector<SourceDefinition> sourceDefinitions;
+            SourceDefinition sourceDefinition;
         };
     } // namespace audio
 } // namespace ouzel

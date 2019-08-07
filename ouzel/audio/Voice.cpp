@@ -16,13 +16,11 @@ namespace ouzel
         public:
             void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
             {
-                for (auto& source : sources)
-                {
-                    source.getSamples(frames, channels, sampleRate, samples);
-                }
+                if (source)
+                    source->getSamples(frames, channels, sampleRate, samples);
             }
 
-            std::vector<Source> sources;
+            std::unique_ptr<Source> source;
         };
 
         Voice::Voice(Audio& initAudio):
@@ -40,12 +38,9 @@ namespace ouzel
             Node(initAudio),
             audio(initAudio)
         {
-            auto& sourceDefinitions = cue.getSourceDefinitions();
+            const auto& sourceDefinition = cue.getSourceDefinition();
 
-            for (auto& sourceDefinition : sourceDefinitions)
-            {
-                // TODO: create sources
-            }
+            // TODO: create sources
 
             std::unique_ptr<mixer::Object> object = std::make_unique<VoiceObject>();
 
