@@ -107,7 +107,7 @@ namespace ouzel
         template <typename T, typename std::enable_if<!std::is_same<T, char>::value>::type* = nullptr>
         Log& operator<<(const T* val)
         {
-            static constexpr const char* digits = "0123456789ABCDEF";
+            static constexpr char digits[] = "0123456789abcdef";
 
             std::string str(sizeof(val) * 2, '0');
             for (size_t i = 0; i < sizeof(val) * 2; ++i)
@@ -127,7 +127,7 @@ namespace ouzel
                 if (!first) s += ", ";
                 first = false;
 
-                static constexpr const char* digits = "0123456789ABCDEF";
+                static constexpr char digits[] = "0123456789abcdef";
                 s += digits[(b >> 4) & 0x0F];
                 s += digits[b & 0x0F];
             }
