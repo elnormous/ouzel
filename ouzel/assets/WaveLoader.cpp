@@ -30,37 +30,37 @@ namespace ouzel
                 uint16_t channels = 0;
                 uint32_t sampleRate = 0;
 
-                uint32_t offset = 0;
+                const uint32_t formatOffset = 0;
 
                 if (data.size() < 12) // RIFF + size + WAVE
                     throw std::runtime_error("Failed to load sound file, file too small");
 
-                if (data[offset + 0] != 'R' ||
-                    data[offset + 1] != 'I' ||
-                    data[offset + 2] != 'F' ||
-                    data[offset + 3] != 'F')
+                if (data[formatOffset + 0] != 'R' ||
+                    data[formatOffset + 1] != 'I' ||
+                    data[formatOffset + 2] != 'F' ||
+                    data[formatOffset + 3] != 'F')
                     throw std::runtime_error("Failed to load sound file, not a RIFF format");
 
-                offset += 4;
+                const uint32_t lengthOffset = formatOffset + 4;
 
-                auto length = static_cast<uint32_t>(data[offset + 0] |
-                                                    (data[offset + 1] << 8) |
-                                                    (data[offset + 2] << 16) |
-                                                    (data[offset + 3] << 24));
+                auto length = static_cast<uint32_t>(data[lengthOffset + 0] |
+                                                    (data[lengthOffset + 1] << 8) |
+                                                    (data[lengthOffset + 2] << 16) |
+                                                    (data[lengthOffset + 3] << 24));
 
-                offset += 4;
+                const uint32_t typeOffset = lengthOffset + 4;
 
-                if (data.size() < offset + length)
+                if (data.size() < typeOffset + length)
                     throw std::runtime_error("Failed to load sound file, size mismatch");
 
                 if (length < 4 ||
-                    data[offset + 0] != 'W' ||
-                    data[offset + 1] != 'A' ||
-                    data[offset + 2] != 'V' ||
-                    data[offset + 3] != 'E')
+                    data[typeOffset + 0] != 'W' ||
+                    data[typeOffset + 1] != 'A' ||
+                    data[typeOffset + 2] != 'V' ||
+                    data[typeOffset + 3] != 'E')
                     throw std::runtime_error("Failed to load sound file, not a WAVE file");
 
-                offset += 4;
+                uint32_t offset = typeOffset + 4;
 
                 uint16_t bitsPerSample = 0;
                 uint16_t formatTag = 0;
