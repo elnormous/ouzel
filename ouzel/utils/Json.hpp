@@ -3,6 +3,7 @@
 #ifndef OUZEL_UTILS_JSON_HPP
 #define OUZEL_UTILS_JSON_HPP
 
+#include <algorithm>
 #include <cassert>
 #include <map>
 #include <stdexcept>
@@ -756,7 +757,7 @@ namespace ouzel
                 // BOM
                 if (data.size() >= 3 &&
                     std::equal(data.begin(), data.begin() + 3,
-                               UTF8_BOM.begin(), UTF8_BOM.end()))
+                               UTF8_BOM.begin()))
                 {
                     bom = true;
                     str = utf8::toUtf32(data.begin() + 3, data.end());
