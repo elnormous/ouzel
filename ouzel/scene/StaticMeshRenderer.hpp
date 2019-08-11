@@ -26,8 +26,8 @@ namespace ouzel
             const graphics::Material* material = nullptr;
             uint32_t indexCount = 0;
             uint32_t indexSize = 0;
-            std::shared_ptr<graphics::Buffer> indexBuffer;
-            std::shared_ptr<graphics::Buffer> vertexBuffer;
+            graphics::Buffer indexBuffer;
+            graphics::Buffer vertexBuffer;
         };
 
         class StaticMeshRenderer: public Component
@@ -53,8 +53,8 @@ namespace ouzel
             const graphics::Material* material = nullptr;
             uint32_t indexCount = 0;
             uint32_t indexSize = 0;
-            std::shared_ptr<graphics::Buffer> indexBuffer;
-            std::shared_ptr<graphics::Buffer> vertexBuffer;
+            const graphics::Buffer* indexBuffer = nullptr;
+            const graphics::Buffer* vertexBuffer = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

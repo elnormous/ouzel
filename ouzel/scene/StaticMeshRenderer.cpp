@@ -35,21 +35,21 @@ namespace ouzel
                 for (const uint32_t index : indices)
                     convertedIndices.push_back(static_cast<uint16_t>(index));
 
-                indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                                 graphics::BufferType::Index, 0,
-                                                                 convertedIndices.data(),
-                                                                 static_cast<uint32_t>(getVectorSize(convertedIndices)));
+                indexBuffer = graphics::Buffer(*engine->getRenderer(),
+                                               graphics::BufferType::Index, 0,
+                                               convertedIndices.data(),
+                                               static_cast<uint32_t>(getVectorSize(convertedIndices)));
             }
             else if (indexSize == sizeof(uint32_t))
-                indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                                 graphics::BufferType::Index, 0,
-                                                                 indices.data(),
-                                                                 static_cast<uint32_t>(getVectorSize(indices)));
+                indexBuffer = graphics::Buffer(*engine->getRenderer(),
+                                               graphics::BufferType::Index, 0,
+                                               indices.data(),
+                                               static_cast<uint32_t>(getVectorSize(indices)));
 
-            vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                              graphics::BufferType::Vertex, 0,
-                                                              vertices.data(),
-                                                              static_cast<uint32_t>(getVectorSize(vertices)));
+            vertexBuffer = graphics::Buffer(*engine->getRenderer(),
+                                            graphics::BufferType::Vertex, 0,
+                                            vertices.data(),
+                                            static_cast<uint32_t>(getVectorSize(vertices)));
         }
 
         StaticMeshRenderer::StaticMeshRenderer(const StaticMeshData& meshData)
@@ -63,8 +63,8 @@ namespace ouzel
             material = meshData.material;
             indexCount = meshData.indexCount;
             indexSize = meshData.indexSize;
-            indexBuffer = meshData.indexBuffer;
-            vertexBuffer = meshData.vertexBuffer;
+            indexBuffer = &meshData.indexBuffer;
+            vertexBuffer = &meshData.vertexBuffer;
         }
 
         void StaticMeshRenderer::draw(const Matrix4F& transformMatrix,

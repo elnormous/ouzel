@@ -340,9 +340,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setStaticMeshData(const std::string& name, const scene::StaticMeshData& newStaticMeshData)
+        void Bundle::setStaticMeshData(const std::string& name, scene::StaticMeshData&& newStaticMeshData)
         {
-            staticMeshData[name] = newStaticMeshData;
+            staticMeshData[name] = std::move(newStaticMeshData);
         }
 
         void Bundle::releaseStaticMeshData()

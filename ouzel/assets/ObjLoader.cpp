@@ -222,7 +222,7 @@ namespace ouzel
                         if (objectCount)
                         {
                             scene::StaticMeshData meshData(boundingBox, indices, vertices, material);
-                            bundle.setStaticMeshData(objectName, meshData);
+                            bundle.setStaticMeshData(objectName, std::move(meshData));
                         }
 
                         skipWhitespaces(iterator, data.end());
@@ -384,7 +384,7 @@ namespace ouzel
             if (objectCount)
             {
                 scene::StaticMeshData meshData(boundingBox, indices, vertices, material);
-                bundle.setStaticMeshData(objectName, meshData);
+                bundle.setStaticMeshData(objectName, std::move(meshData));
             }
 
             return true;
