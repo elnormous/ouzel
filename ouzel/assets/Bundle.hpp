@@ -110,7 +110,7 @@ namespace ouzel
             void releaseMaterials();
 
             const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& name) const;
-            void setSkinnedMeshData(const std::string& name, const scene::SkinnedMeshData& newSkinnedMeshData);
+            void setSkinnedMeshData(const std::string& name, scene::SkinnedMeshData&& newSkinnedMeshData);
             void releaseSkinnedMeshData();
 
             const scene::StaticMeshData* getStaticMeshData(const std::string& name) const;

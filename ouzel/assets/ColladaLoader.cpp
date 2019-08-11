@@ -34,7 +34,7 @@ namespace ouzel
 
             // TODO: load the model
 
-            bundle.setSkinnedMeshData(name, meshData);
+            bundle.setSkinnedMeshData(name, std::move(meshData));
 
             return true;
         }

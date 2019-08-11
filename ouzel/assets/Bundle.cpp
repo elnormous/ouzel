@@ -320,9 +320,9 @@ namespace ouzel
             return nullptr;
         }
 
-        void Bundle::setSkinnedMeshData(const std::string& name, const scene::SkinnedMeshData& newSkinnedMeshData)
+        void Bundle::setSkinnedMeshData(const std::string& name, scene::SkinnedMeshData&& newSkinnedMeshData)
         {
-            skinnedMeshData[name] = newSkinnedMeshData;
+            skinnedMeshData[name] = std::move(newSkinnedMeshData);
         }
 
         void Bundle::releaseSkinnedMeshData()
