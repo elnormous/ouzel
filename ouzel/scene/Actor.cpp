@@ -261,7 +261,7 @@ namespace ouzel
 
             if (!worldHidden)
             {
-                Box3F boundingBox = getBoundingBox();
+                const Box3F boundingBox = getBoundingBox();
 
                 if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
                 {
@@ -286,15 +286,11 @@ namespace ouzel
                 calculateTransform();
 
             for (Component* component : components)
-            {
                 if (!component->isHidden())
-                {
                     component->draw(transform,
                                     opacity,
                                     camera->getRenderViewProjection(),
                                     wireframe);
-                }
-            }
         }
 
         void Actor::addChild(Actor* actor)
@@ -387,7 +383,7 @@ namespace ouzel
 
         bool Actor::pointOn(const Vector2F& worldPosition) const
         {
-            auto localPosition = Vector2F(convertWorldToLocal(Vector3F(worldPosition)));
+            const auto localPosition = Vector2F(convertWorldToLocal(Vector3F(worldPosition)));
 
             for (Component* component : components)
             {
@@ -400,7 +396,7 @@ namespace ouzel
 
         bool Actor::shapeOverlaps(const std::vector<Vector2F>& edges) const
         {
-            Matrix4F inverse = getInverseTransform();
+            const Matrix4F inverse = getInverseTransform();
 
             std::vector<Vector2F> transformedEdges;
 
@@ -567,10 +563,8 @@ namespace ouzel
             Box3F boundingBox;
 
             for (Component* component : components)
-            {
                 if (!component->isHidden())
                     boundingBox.merge(component->getBoundingBox());
-            }
 
             return boundingBox;
         }
