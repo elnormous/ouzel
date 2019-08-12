@@ -19,9 +19,9 @@ namespace ouzel
         static const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
 
         inline void encodeString(std::vector<uint8_t>& data,
-                                 const std::vector<uint32_t>& str)
+                                 const std::u32string& str)
         {
-            for (const uint32_t c : str)
+            for (const char32_t c : str)
             {
                 if (c == '"') data.insert(data.end(), {'\\', '"'});
                 else if (c == '\\') data.insert(data.end(), {'\\', '\\'});
@@ -66,14 +66,14 @@ namespace ouzel
             };
 
             Type type;
-            std::vector<uint32_t> value;
+            std::u32string value;
         };
         
-        inline std::vector<Token> tokenize(const std::vector<uint32_t>& str)
+        inline std::vector<Token> tokenize(const std::u32string& str)
         {
             std::vector<Token> tokens;
 
-            static const std::map<std::vector<uint32_t>, Token::Type> keywordMap{
+            static const std::map<std::u32string, Token::Type> keywordMap{
                 {{'t', 'r', 'u', 'e'}, Token::Type::KeywordTrue},
                 {{'f', 'a', 'l', 's', 'e'}, Token::Type::KeywordFalse},
                 {{'n', 'u', 'l', 'l'}, Token::Type::KeywordNull}
@@ -187,7 +187,7 @@ namespace ouzel
                                 if (std::distance(++iterator, str.cend()) < 4)
                                     throw std::runtime_error("Unexpected end of data");
 
-                                uint32_t c = 0;
+                                char32_t c = 0;
 
                                 for (uint32_t i = 0; i < 4; ++i, ++iterator)
                                 {
@@ -759,7 +759,7 @@ namespace ouzel
 
             Data(const std::vector<uint8_t>& data)
             {
-                std::vector<uint32_t> str;
+                std::u32string str;
 
                 // BOM
                 if (data.size() >= 3 &&

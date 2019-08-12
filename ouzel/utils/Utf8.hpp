@@ -5,20 +5,19 @@
 
 #include <cstdint>
 #include <string>
-#include <vector>
 
 namespace ouzel
 {
     namespace utf8
     {
         template <class Iterator>
-        inline std::vector<uint32_t> toUtf32(Iterator begin, Iterator end)
+        inline std::u32string toUtf32(Iterator begin, Iterator end)
         {
-            std::vector<uint32_t> result;
+            std::u32string result;
 
             for (auto i = begin; i != end; ++i)
             {
-                uint32_t cp = *i & 0xFF;
+                char32_t cp = *i & 0xFF;
 
                 if (cp <= 0x7F) // length = 1
                 {
@@ -53,12 +52,12 @@ namespace ouzel
         }
 
         template <class T>
-        inline std::vector<uint32_t> toUtf32(const T& text)
+        inline std::u32string toUtf32(const T& text)
         {
             return toUtf32(std::begin(text), std::end(text));
         }
 
-        inline std::string fromUtf32(uint32_t c)
+        inline std::string fromUtf32(char32_t c)
         {
             std::string result;
 

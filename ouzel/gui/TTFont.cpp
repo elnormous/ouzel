@@ -52,10 +52,10 @@ namespace ouzel
 
             const float s = stbtt_ScaleForPixelHeight(font.get(), fontSize);
 
-            const std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
+            const std::u32string utf32Text = utf8::toUtf32(text);
 
-            std::set<uint32_t> glyphs;
-            for (const uint32_t i : utf32Text)
+            std::set<char32_t> glyphs;
+            for (const char32_t i : utf32Text)
                 glyphs.insert(i);
 
             uint16_t width = 0;
@@ -66,7 +66,7 @@ namespace ouzel
             int lineGap;
             stbtt_GetFontVMetrics(font.get(), &ascent, &descent, &lineGap);
 
-            for (const uint32_t c : glyphs)
+            for (const char32_t c : glyphs)
             {
                 int w;
                 int h;

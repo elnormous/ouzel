@@ -23,7 +23,7 @@ namespace ouzel
             float getStringWidth(const std::string& text) const;
 
         private:
-            int16_t getKerningPair(uint32_t, uint32_t) const;
+            int16_t getKerningPair(char32_t, char32_t) const;
 
             struct CharDescriptor final
             {
@@ -44,8 +44,8 @@ namespace ouzel
             uint16_t pages = 0;
             uint16_t outline = 0;
             uint16_t kernCount = 0;
-            std::unordered_map<uint32_t, CharDescriptor> chars;
-            std::map<std::pair<uint32_t, uint32_t>, int16_t> kern;
+            std::unordered_map<char32_t, CharDescriptor> chars;
+            std::map<std::pair<char32_t, char32_t>, int16_t> kern;
             std::shared_ptr<graphics::Texture> fontTexture;
         };
     } // namespace gui

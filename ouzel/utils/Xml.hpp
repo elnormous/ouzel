@@ -15,12 +15,12 @@ namespace ouzel
     {
         static const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
 
-        constexpr auto isWhitespace(const uint32_t c) noexcept
+        constexpr auto isWhitespace(const char32_t c) noexcept
         {
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
         }
 
-        constexpr auto isNameStartChar(const uint32_t c) noexcept
+        constexpr auto isNameStartChar(const char32_t c) noexcept
         {
             return (c >= 'a' && c <= 'z') ||
                 (c >= 'A' && c <= 'Z') ||
@@ -34,7 +34,7 @@ namespace ouzel
                 (c >= 0x2070 && c <= 0x218F);
         }
 
-        constexpr auto isNameChar(const uint32_t c) noexcept
+        constexpr auto isNameChar(const char32_t c) noexcept
         {
             return isNameStartChar(c) ||
                 c == '-' || c == '.' ||
@@ -44,8 +44,8 @@ namespace ouzel
                 (c >= 0x203F && c <= 0x2040);
         }
 
-        inline void skipWhitespaces(std::vector<uint32_t>::const_iterator& iterator,
-                                    std::vector<uint32_t>::const_iterator end)
+        inline void skipWhitespaces(std::u32string::const_iterator& iterator,
+                                    std::u32string::const_iterator end)
         {
             while (iterator != end)
                 if (isWhitespace(*iterator))
@@ -54,8 +54,8 @@ namespace ouzel
                     break;
         }
 
-        inline std::string parseName(std::vector<uint32_t>::const_iterator& iterator,
-                                     std::vector<uint32_t>::const_iterator end)
+        inline std::string parseName(std::u32string::const_iterator& iterator,
+                                     std::u32string::const_iterator end)
         {
             std::string result;
 
@@ -82,8 +82,8 @@ namespace ouzel
             return result;
         }
 
-        inline std::string parseEntity(std::vector<uint32_t>::const_iterator& iterator,
-                                       std::vector<uint32_t>::const_iterator end)
+        inline std::string parseEntity(std::u32string::const_iterator& iterator,
+                                       std::u32string::const_iterator end)
         {
             std::string result;
 
@@ -127,7 +127,7 @@ namespace ouzel
                 if (value.length() < 2)
                     throw std::runtime_error("Invalid entity");
 
-                uint32_t c = 0;
+                char32_t c = 0;
 
                 if (value[1] == 'x') // hex value
                 {
@@ -172,8 +172,8 @@ namespace ouzel
             return result;
         }
 
-        inline std::string parseString(std::vector<uint32_t>::const_iterator& iterator,
-                                       std::vector<uint32_t>::const_iterator end)
+        inline std::string parseString(std::u32string::const_iterator& iterator,
+                                       std::u32string::const_iterator end)
         {
             std::string result;
 
@@ -183,7 +183,7 @@ namespace ouzel
             if (*iterator != '"' && *iterator != '\'')
                 throw std::runtime_error("Expected quotes");
 
-            auto quotes = static_cast<char>(*iterator);
+            auto quotes = *iterator;
 
             ++iterator;
 
@@ -192,7 +192,7 @@ namespace ouzel
                 if (iterator == end)
                     throw std::runtime_error("Unexpected end of data");
 
-                if (*iterator == static_cast<uint32_t>(quotes))
+                if (*iterator == quotes)
                 {
                     ++iterator;
                     break;
@@ -213,9 +213,9 @@ namespace ouzel
         }
 
         inline void encodeString(std::vector<uint8_t>& data,
-                                 const std::vector<uint32_t>& str)
+                                 const std::u32string& str)
         {
-            for (const uint32_t c : str)
+            for (const char32_t c : str)
             {
                 switch (c)
                 {
@@ -289,8 +289,8 @@ namespace ouzel
             std::vector<Node>::const_iterator end() const { return children.end(); }
 
         protected:
-            void parse(std::vector<uint32_t>::const_iterator& iterator,
-                       std::vector<uint32_t>::const_iterator end,
+            void parse(std::u32string::const_iterator& iterator,
+                       std::u32string::const_iterator end,
                        bool preserveWhitespaces = false,
                        bool preserveComments = false,
                        bool preserveProcessingInstructions = false)
@@ -633,7 +633,7 @@ namespace ouzel
                  bool preserveComments = false,
                  bool preserveProcessingInstructions = false)
             {
-                std::vector<uint32_t> str;
+                std::u32string str;
 
                 // BOM
                 if (data.size() >= 3 &&

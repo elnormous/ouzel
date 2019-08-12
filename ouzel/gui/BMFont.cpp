@@ -217,7 +217,7 @@ namespace ouzel
                     }
                     else if (keyword == "char")
                     {
-                        uint32_t charId = 0;
+                        char32_t charId = 0;
                         CharDescriptor c;
 
                         while (iterator != data.end())
@@ -303,8 +303,8 @@ namespace ouzel
                     else if (keyword == "kerning")
                     {
                         int16_t amount = 0;
-                        uint32_t first = 0;
-                        uint32_t second = 0;
+                        char32_t first = 0;
+                        char32_t second = 0;
 
                         while (iterator != data.end())
                         {
@@ -318,12 +318,12 @@ namespace ouzel
                             if (key == "first")
                             {
                                 value = parseInt(data, iterator);
-                                first = static_cast<uint32_t>(std::stoul(value));
+                                first = static_cast<char32_t>(std::stoul(value));
                             }
                             else if (key == "second")
                             {
                                 value = parseInt(data, iterator);
-                                second = static_cast<uint32_t>(std::stoul(value));
+                                second = static_cast<char32_t>(std::stoul(value));
                             }
                             else if (key == "amount")
                             {
@@ -349,7 +349,7 @@ namespace ouzel
         {
             Vector2F position;
 
-            const std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
+            const std::u32string utf32Text = utf8::toUtf32(text);
 
             std::vector<uint16_t> indices;
             std::vector<graphics::Vertex> vertices;
@@ -403,7 +403,7 @@ namespace ouzel
                     position.v[0] += f.xAdvance;
                 }
 
-                if (*i == static_cast<uint32_t>('\n') || // line feed
+                if (*i == '\n' || // line feed
                     (i + 1) == utf32Text.end()) // end of string
                 {
                     const float lineWidth = position.v[0];
@@ -430,7 +430,7 @@ namespace ouzel
             return std::make_tuple(std::move(indices), std::move(vertices), fontTexture);
         }
 
-        int16_t BMFont::getKerningPair(uint32_t first, uint32_t second) const
+        int16_t BMFont::getKerningPair(char32_t first, char32_t second) const
         {
             auto i = kern.find(std::make_pair(first, second));
 
@@ -444,7 +444,7 @@ namespace ouzel
         {
             float total = 0.0F;
 
-            const std::vector<uint32_t> utf32Text = utf8::toUtf32(text);
+            const std::u32string utf32Text = utf8::toUtf32(text);
 
             for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
             {

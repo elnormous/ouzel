@@ -111,7 +111,7 @@ namespace ouzel
         }
 
         template <class T>
-        inline std::vector<uint32_t>& leftTrim(T& s)
+        inline T& leftTrim(T& s)
         {
             s.erase(s.begin(), std::find_if(s.begin(), s.end(),
                                             [](auto c) {return !isWhitespace(c);}));
@@ -119,7 +119,7 @@ namespace ouzel
         }
 
         template <class T>
-        inline std::vector<uint32_t>& rightTrim(T& s)
+        inline T& rightTrim(T& s)
         {
             s.erase(std::find_if(s.rbegin(), s.rend(),
                                  [](auto c) {return !isWhitespace(c);}).base(), s.end());
@@ -127,7 +127,7 @@ namespace ouzel
         }
 
         template <class T>
-        inline std::vector<uint32_t>& trim(T& s)
+        inline T& trim(T& s)
         {
             return leftTrim(rightTrim(s));
         }
@@ -139,7 +139,7 @@ namespace ouzel
 
             Data(const std::vector<uint8_t>& data)
             {
-                std::vector<uint32_t> str;
+                std::u32string str;
 
                 // BOM
                 if (data.size() >= 3 &&
@@ -215,8 +215,8 @@ namespace ouzel
             inline void setBom(const bool newBom) noexcept { bom = newBom; }
 
         private:
-            void parse(std::vector<uint32_t>::iterator begin,
-                       std::vector<uint32_t>::iterator end)
+            void parse(std::u32string::iterator begin,
+                       std::u32string::iterator end)
             {
                 std::map<std::string, Section>::iterator sectionIterator;
                 std::tie(sectionIterator, std::ignore) = sections.insert(std::make_pair("", Section())); // default section
@@ -229,7 +229,7 @@ namespace ouzel
                     {
                         ++iterator; // skip the left bracket
 
-                        std::vector<uint32_t> sectionUtf32;
+                        std::u32string sectionUtf32;
                         bool parsedSection = false;
 
                         for (;;)
@@ -297,8 +297,8 @@ namespace ouzel
                     }
                     else // key, value pair
                     {
-                        std::vector<uint32_t> keyUtf32;
-                        std::vector<uint32_t> valueUtf32;
+                        std::u32string keyUtf32;
+                        std::u32string valueUtf32;
                         bool parsedKey = false;
 
                         while (iterator != end)
