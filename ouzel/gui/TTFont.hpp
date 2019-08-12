@@ -25,8 +25,6 @@ namespace ouzel
             float getStringWidth(const std::string& text);
 
         private:
-            int16_t getKerningPair(uint32_t, uint32_t);
-
             std::unique_ptr<stbtt_fontinfo> font;
             std::vector<uint8_t> data;
             bool mipmaps = true;
