@@ -249,7 +249,7 @@ namespace ouzel
             }
             else
             {
-                Matrix4F modelViewProjection = getViewProjection() * boxTransform;
+                const Matrix4F modelViewProjection = getViewProjection() * boxTransform;
 
                 ConvexVolumeF frustum = modelViewProjection.getFrustum();
                 return frustum.isBoxInside(box);

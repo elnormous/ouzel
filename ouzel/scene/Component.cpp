@@ -51,7 +51,7 @@ namespace ouzel
             auto prev = aVertList.end() - 1;
             for (auto cur = aVertList.begin(); cur != aVertList.end(); ++cur)
             {
-                Vector2F edge = *cur - *prev;
+                const Vector2F edge = *cur - *prev;
                 v.v[0] = edge.v[1];
                 v.v[1] = -edge.v[0];
 
