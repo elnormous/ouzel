@@ -28,11 +28,44 @@ namespace ouzel
             else if (valueType == "Sequence")
                 sourceDefinition.type = audio::SourceDefinition::Type::Sequence;
             else if (valueType == "Oscillator")
+            {
                 sourceDefinition.type = audio::SourceDefinition::Type::Oscillator;
+
+                auto& oscillatorType = value["oscillatorType"].as<std::string>();
+
+                if (oscillatorType == "Sine")
+                    sourceDefinition.oscillatorType = audio::Oscillator::Type::Sine;
+                else if (oscillatorType == "Square")
+                    sourceDefinition.oscillatorType = audio::Oscillator::Type::Square;
+                else if (oscillatorType == "Sawtooth")
+                    sourceDefinition.oscillatorType = audio::Oscillator::Type::Sawtooth;
+                else if (oscillatorType == "Triangle")
+                    sourceDefinition.oscillatorType = audio::Oscillator::Type::Triangle;
+
+
+                if (value.hasMember("frequency"))
+                    sourceDefinition.length = value["frequency"].as<float>();
+
+                if (value.hasMember("amplitude"))
+                    sourceDefinition.length = value["amplitude"].as<float>();
+
+                if (value.hasMember("length"))
+                    sourceDefinition.length = value["length"].as<float>();
+            }
             else if (valueType == "Silence")
+            {
                 sourceDefinition.type = audio::SourceDefinition::Type::Silence;
+
+                if (value.hasMember("length"))
+                    sourceDefinition.length = value["length"].as<float>();
+            }
             else if (valueType == "WavePlayer")
+            {
                 sourceDefinition.type = audio::SourceDefinition::Type::WavePlayer;
+
+                if (value.hasMember("length"))
+                    sourceDefinition.sound = nullptr;
+            }
             else
                 throw std::runtime_error("Invalid source type " + valueType);
 

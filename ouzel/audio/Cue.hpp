@@ -6,12 +6,14 @@
 #include <queue>
 #include <string>
 #include <vector>
+#include "audio/Oscillator.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
         class Audio;
+        class Sound;
 
         struct AttributeDefinition final
         {
@@ -62,6 +64,11 @@ namespace ouzel
             std::vector<SourceDefinition> sourceDefinitions;
             std::vector<EffectDefinition> effectDefinitions;
             std::vector<AttributeDefinition> attributeDefinitions;
+            Oscillator::Type oscillatorType;
+            float frequency = 0.0F;
+            float amplitude = 0.0F;
+            float length = 0.0F;
+            Sound* sound = nullptr;
         };
 
         class Cue
