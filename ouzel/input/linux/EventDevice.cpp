@@ -320,13 +320,13 @@ namespace ouzel
 
                 const GamepadConfig& gamepadConfig = getGamepadConfig(id.vendor, id.product);
 
-                for (size_t i = 0; i < 24; ++i)
+                for (size_t buttonNum = 0; buttonNum < 24; ++buttonNum)
                 {
-                    if (gamepadConfig.buttonMap[i] != Gamepad::Button::Unknown)
+                    if (gamepadConfig.buttonMap[buttonNum] != Gamepad::Button::Unknown)
                     {
                         Button button;
-                        button.button = gamepadConfig.buttonMap[i];
-                        buttons.insert(std::make_pair(BTN_GAMEPAD + i, button));
+                        button.button = gamepadConfig.buttonMap[buttonNum];
+                        buttons.insert(std::make_pair(BTN_GAMEPAD + buttonNum, button));
                     }
                 }
 
@@ -339,14 +339,14 @@ namespace ouzel
                     ABS_RZ
                 };
 
-                for (size_t i = 0; i < 6; ++i)
+                for (size_t axisNum = 0; axisNum < 6; ++axisNum)
                 {
-                    if (gamepadConfig.axisMap[i] != Gamepad::Axis::Unknown)
+                    if (gamepadConfig.axisMap[axisNum] != Gamepad::Axis::Unknown)
                     {
-                        const uint32_t usage = axisUsageMap[i];
+                        const uint32_t usage = axisUsageMap[axisNum];
 
                         Axis axis;
-                        axis.axis = gamepadConfig.axisMap[i];
+                        axis.axis = gamepadConfig.axisMap[axisNum];
 
                         input_absinfo info;
 
@@ -357,7 +357,7 @@ namespace ouzel
                         axis.max = info.maximum;
                         axis.range = info.maximum - info.minimum;
 
-                        switch (gamepadConfig.axisMap[i])
+                        switch (gamepadConfig.axisMap[axisNum])
                         {
                             case Gamepad::Axis::Unknown:
                                 break;
@@ -414,11 +414,11 @@ namespace ouzel
             if (bytesRead == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to read from " + filename);
 
-            const int count = bytesRead / sizeof(input_event);
+            const int eventCount = bytesRead / sizeof(input_event);
 
-            for (int i = 0; i < count; ++i)
+            for (int eventNum = 0; eventNum < eventCount; ++eventNum)
             {
-                input_event& event = events[i];
+                input_event& event = events[eventNum];
 
                 if (keyboardDevice)
                 {
@@ -592,19 +592,19 @@ namespace ouzel
                                     if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
                                         throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
-                                    for (size_t i = 0; i < touchSlots.size(); ++i)
+                                    for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
                                     {
-                                        if (touchSlots[i].trackingId < 0 &&
-                                            request->values[i] >= 0)
+                                        if (touchSlots[touchNum].trackingId < 0 &&
+                                            request->values[touchNum] >= 0)
                                         {
-                                            touchSlots[i].trackingId = request->values[i];
-                                            touchSlots[i].action = Slot::Action::Begin;
+                                            touchSlots[touchNum].trackingId = request->values[touchNum];
+                                            touchSlots[touchNum].action = Slot::Action::Begin;
                                         }
-                                        else if (touchSlots[i].trackingId >= 0 &&
-                                                 request->values[i] < 0)
+                                        else if (touchSlots[touchNum].trackingId >= 0 &&
+                                                 request->values[touchNum] < 0)
                                         {
-                                            touchSlots[i].trackingId = request->values[i];
-                                            touchSlots[i].action = Slot::Action::End;
+                                            touchSlots[touchNum].trackingId = request->values[touchNum];
+                                            touchSlots[touchNum].action = Slot::Action::End;
                                         }
                                     }
 
@@ -612,14 +612,14 @@ namespace ouzel
                                     if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
                                         throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
-                                    for (size_t i = 0; i < touchSlots.size(); ++i)
+                                    for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
                                     {
-                                        if (touchSlots[i].trackingId >= 0 &&
-                                            touchSlots[i].positionX != request->values[i])
+                                        if (touchSlots[touchNum].trackingId >= 0 &&
+                                            touchSlots[touchNum].positionX != request->values[touchNum])
                                         {
-                                            touchSlots[i].positionX = request->values[i];
-                                            if (touchSlots[i].action == Slot::Action::Unknown)
-                                                touchSlots[i].action = Slot::Action::Move;
+                                            touchSlots[touchNum].positionX = request->values[touchNum];
+                                            if (touchSlots[touchNum].action == Slot::Action::Unknown)
+                                                touchSlots[touchNum].action = Slot::Action::Move;
                                         }
                                     }
 
@@ -627,28 +627,28 @@ namespace ouzel
                                     if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
                                         throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
-                                    for (size_t i = 0; i < touchSlots.size(); ++i)
+                                    for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
                                     {
-                                        if (touchSlots[i].trackingId >= 0 &&
-                                            touchSlots[i].positionY != request->values[i])
+                                        if (touchSlots[touchNum].trackingId >= 0 &&
+                                            touchSlots[touchNum].positionY != request->values[touchNum])
                                         {
-                                            touchSlots[i].positionY = request->values[i];
-                                            if (touchSlots[i].action == Slot::Action::Unknown)
-                                                touchSlots[i].action = Slot::Action::Move;
+                                            touchSlots[touchNum].positionY = request->values[touchNum];
+                                            if (touchSlots[touchNum].action == Slot::Action::Unknown)
+                                                touchSlots[touchNum].action = Slot::Action::Move;
                                         }
                                     }
 
                                     request->code = ABS_MT_PRESSURE;
                                     if (ioctl(fd, EVIOCGABS(size), request) != -1)
                                     {
-                                        for (size_t i = 0; i < touchSlots.size(); ++i)
+                                        for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
                                         {
-                                            if (touchSlots[i].trackingId >= 0 &&
-                                                touchSlots[i].pressure != request->values[i])
+                                            if (touchSlots[touchNum].trackingId >= 0 &&
+                                                touchSlots[touchNum].pressure != request->values[touchNum])
                                             {
-                                                touchSlots[i].pressure = request->values[i];
-                                                if (touchSlots[i].action == Slot::Action::Unknown)
-                                                    touchSlots[i].action = Slot::Action::Move;
+                                                touchSlots[touchNum].pressure = request->values[touchNum];
+                                                if (touchSlots[touchNum].action == Slot::Action::Unknown)
+                                                    touchSlots[touchNum].action = Slot::Action::Move;
                                             }
                                         }
                                     }
