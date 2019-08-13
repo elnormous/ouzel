@@ -17,6 +17,7 @@
 #  pragma GCC diagnostic ignored "-Wcomma"
 #  pragma GCC diagnostic ignored "-Wconversion"
 #  pragma GCC diagnostic ignored "-Wmissing-prototypes"
+#  pragma GCC diagnostic ignored "-Wold-style-cast"
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
 #  pragma GCC diagnostic ignored "-Wunused-function"
 #  pragma GCC diagnostic ignored "-Wunused-parameter"
