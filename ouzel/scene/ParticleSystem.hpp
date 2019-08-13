@@ -49,8 +49,8 @@ namespace ouzel
             float speed = 0.0F;
             float speedVariance = 0.0F;
 
-            Vector2F sourcePosition;
-            Vector2F sourcePositionVariance;
+            Vector3F sourcePosition;
+            Vector3F sourcePositionVariance;
 
             PositionType positionType = PositionType::Free;
 
@@ -88,7 +88,7 @@ namespace ouzel
             bool yCoordFlipped = false;
             bool rotationIsDir = false;
 
-            Vector2F gravity;
+            Vector3F gravity;
 
             float startColorRed = 0.0F;
             float startColorGreen = 0.0F;
@@ -164,7 +164,7 @@ namespace ouzel
             {
                 float life = 0.0F;
 
-                Vector2F position;
+                Vector3F position;
 
                 float colorRed = 0.0F;
                 float colorGreen = 0.0F;
@@ -188,7 +188,7 @@ namespace ouzel
                 float radialAcceleration = 0.0F;
                 float tangentialAcceleration = 0.0F;
 
-                Vector2F direction;
+                Vector3F direction;
                 float radius = 0.0F;
                 float degreesPerSecond = 0.0F;
                 float deltaRadius = 0.0F;
