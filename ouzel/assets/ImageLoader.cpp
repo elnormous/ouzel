@@ -12,7 +12,6 @@
 #  pragma warning( push )
 #  pragma warning( disable : 4100 )
 #  pragma warning( disable : 4505 )
-// TODO: disable warnings for Visual Studio
 #elif defined(__GNUC__)
 #  pragma GCC diagnostic push
 #  pragma GCC diagnostic ignored "-Wcomma"
@@ -20,6 +19,7 @@
 #  pragma GCC diagnostic ignored "-Wmissing-prototypes"
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
 #  pragma GCC diagnostic ignored "-Wunused-function"
+#  pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
 
 #define STBI_NO_PSD

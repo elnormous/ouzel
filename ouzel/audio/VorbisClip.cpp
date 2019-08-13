@@ -7,7 +7,29 @@
 #include "mixer/Stream.hpp"
 #include "utils/Utils.hpp"
 
+#if defined(_MSC_VER)
+#  pragma warning( push )
+#  pragma warning( disable : 4100 )
+#  pragma warning( disable : 4244 )
+#  pragma warning( disable : 4456 )
+#  pragma warning( disable : 4457 )
+#elif defined(__GNUC__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wcomma"
+#  pragma GCC diagnostic ignored "-Wconditional-uninitialized"
+#  pragma GCC diagnostic ignored "-Wconversion"
+#  pragma GCC diagnostic ignored "-Wshadow"
+#  pragma GCC diagnostic ignored "-Wsign-conversion"
+#  pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+
 #include "stb_vorbis.c"
+
+#if defined(_MSC_VER)
+#  pragma warning( pop )
+#elif defined(__GNUC__)
+#  pragma GCC diagnostic pop
+#endif
 
 namespace ouzel
 {
