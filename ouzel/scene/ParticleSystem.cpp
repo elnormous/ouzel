@@ -166,8 +166,7 @@ namespace ouzel
                                 // (gravity + radial + tangential) * UPDATE_STEP
                                 tmp.v[0] = radial.v[0] + tangential.v[0] + particleSystemData.gravity.v[0];
                                 tmp.v[1] = radial.v[1] + tangential.v[1] + particleSystemData.gravity.v[1];
-                                tmp.v[0] *= UPDATE_STEP;
-                                tmp.v[1] *= UPDATE_STEP;
+                                tmp *= UPDATE_STEP;
 
                                 particles[i].direction.v[0] += tmp.v[0];
                                 particles[i].direction.v[1] += tmp.v[1];
