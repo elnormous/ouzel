@@ -8,6 +8,20 @@
 #include "graphics/Image.hpp"
 #include "graphics/Texture.hpp"
 
+#if defined(_MSC_VER)
+#  pragma warning( push )
+#  pragma warning( disable : 4100 )
+#  pragma warning( disable : 4505 )
+// TODO: disable warnings for Visual Studio
+#elif defined(__GNUC__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wcomma"
+#  pragma GCC diagnostic ignored "-Wconversion"
+#  pragma GCC diagnostic ignored "-Wmissing-prototypes"
+#  pragma GCC diagnostic ignored "-Wsign-conversion"
+#  pragma GCC diagnostic ignored "-Wunused-function"
+#endif
+
 #define STBI_NO_PSD
 #define STBI_NO_HDR
 #define STBI_NO_PIC
@@ -17,6 +31,12 @@
 #include "stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
+
+#if defined(_MSC_VER)
+#  pragma warning( pop )
+#elif defined(__GNUC__)
+#  pragma GCC diagnostic pop
+#endif
 
 namespace ouzel
 {
