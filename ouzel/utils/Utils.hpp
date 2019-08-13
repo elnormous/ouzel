@@ -95,7 +95,7 @@ namespace ouzel
     template <class T>
     constexpr T toLower(T c)
     {
-        return (c >= 'A' && c <= 'Z') ? c - ('A' - 'a') : c;
+        return (c >= 'A' && c <= 'Z') ? c - T('A' - 'a') : c;
     }
 }
 
