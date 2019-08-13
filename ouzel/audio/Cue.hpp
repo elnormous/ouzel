@@ -68,7 +68,7 @@ namespace ouzel
             float frequency = 0.0F;
             float amplitude = 0.0F;
             float length = 0.0F;
-            Sound* sound = nullptr;
+            const Sound* sound = nullptr;
         };
 
         class Cue

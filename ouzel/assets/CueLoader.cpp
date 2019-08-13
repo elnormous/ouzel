@@ -3,6 +3,7 @@
 #include <stack>
 #include "CueLoader.hpp"
 #include "Bundle.hpp"
+#include "Cache.hpp"
 #include "audio/Cue.hpp"
 #include "utils/Json.hpp"
 
@@ -15,7 +16,7 @@ namespace ouzel
         {
         }
 
-        static audio::SourceDefinition parseSourceDefinition(const json::Value& value)
+        static audio::SourceDefinition parseSourceDefinition(const json::Value& value, Cache& cache)
         {
             audio::SourceDefinition sourceDefinition;
 
@@ -42,7 +43,6 @@ namespace ouzel
                 else if (oscillatorType == "Triangle")
                     sourceDefinition.oscillatorType = audio::Oscillator::Type::Triangle;
 
-
                 if (value.hasMember("frequency"))
                     sourceDefinition.length = value["frequency"].as<float>();
 
@@ -63,8 +63,8 @@ namespace ouzel
             {
                 sourceDefinition.type = audio::SourceDefinition::Type::WavePlayer;
 
-                if (value.hasMember("length"))
-                    sourceDefinition.sound = nullptr;
+                if (value.hasMember("source"))
+                    sourceDefinition.sound = cache.getSound(value["source"].as<std::string>());
             }
             else
                 throw std::runtime_error("Invalid source type " + valueType);
@@ -104,7 +104,7 @@ namespace ouzel
 
             if (value.hasMember("sources"))
                 for (const json::Value& sourceValue : value["sources"])
-                    sourceDefinition.sourceDefinitions.push_back(parseSourceDefinition(sourceValue));
+                    sourceDefinition.sourceDefinitions.push_back(parseSourceDefinition(sourceValue, cache));
 
             return sourceDefinition;
         };
@@ -118,7 +118,7 @@ namespace ouzel
             const json::Data d(data);
 
             if (d.hasMember("source"))
-                sourceDefinition = parseSourceDefinition(d["source"]);
+                sourceDefinition = parseSourceDefinition(d["source"], cache);
 
             auto cue = std::make_unique<audio::Cue>(sourceDefinition);
 
