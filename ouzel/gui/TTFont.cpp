@@ -5,8 +5,18 @@
 #include "TTFont.hpp"
 #include "core/Engine.hpp"
 #include "utils/Utf8.hpp"
+
+#if defined(__GNUC__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wold-style-cast"
+#endif
+
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "stb_truetype.h"
+
+#if defined(__GNUC__)
+#  pragma GCC diagnostic pop
+#endif
 
 namespace ouzel
 {
