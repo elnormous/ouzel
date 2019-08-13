@@ -14,13 +14,15 @@
 #  pragma warning( disable : 4505 )
 #elif defined(__GNUC__)
 #  pragma GCC diagnostic push
-#  pragma GCC diagnostic ignored "-Wcomma"
 #  pragma GCC diagnostic ignored "-Wconversion"
 #  pragma GCC diagnostic ignored "-Wmissing-prototypes"
 #  pragma GCC diagnostic ignored "-Wold-style-cast"
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
 #  pragma GCC diagnostic ignored "-Wunused-function"
 #  pragma GCC diagnostic ignored "-Wunused-parameter"
+#  if defined(__clang__)
+#    pragma GCC diagnostic ignored "-Wcomma"
+#  endif
 #endif
 
 #define STBI_NO_PSD

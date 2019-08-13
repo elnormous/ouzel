@@ -107,7 +107,7 @@ namespace ouzel
                     sourceDefinition.sourceDefinitions.push_back(parseSourceDefinition(sourceValue, cache));
 
             return sourceDefinition;
-        };
+        }
 
         bool CueLoader::loadAsset(Bundle& bundle,
                                   const std::string& name,
