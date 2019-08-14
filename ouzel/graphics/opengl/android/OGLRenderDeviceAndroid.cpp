@@ -354,15 +354,15 @@ namespace ouzel
                     try
                     {
                         process();
-
-                        if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
                     }
                     catch (const std::exception& e)
                     {
                         engine->log(Log::Level::Error) << e.what();
                     }
                 }
+
+                if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+                    throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
             }
         } // namespace opengl
     } // namespace graphics
