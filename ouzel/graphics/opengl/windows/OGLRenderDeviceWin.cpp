@@ -101,17 +101,18 @@ namespace ouzel
 
                     renderContext = wglCreateContext(deviceContext);
                     if (!renderContext)
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to create OpenGL context");
+                        throw std::system_error(GetLastError(), std::system_category(), "Failed to create OpenGL rendering context");
 
                     if (!wglMakeCurrent(deviceContext, renderContext))
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to set current OpenGL context");
+                        throw std::system_error(GetLastError(), std::system_category(), "Failed to set OpenGL rendering context");
                 }
 
                 ~TempContext()
                 {
                     if (renderContext)
                     {
-                        wglMakeCurrent(deviceContext, nullptr);
+                        if (wglGetCurrentContext() == renderContext)
+                            wglMakeCurrent(deviceContext, nullptr);
                         wglDeleteContext(renderContext);
                     }
 
@@ -155,7 +156,8 @@ namespace ouzel
 
                 if (renderContext)
                 {
-                    wglMakeCurrent(deviceContext, nullptr);
+                    if (wglGetCurrentContext() == renderContext)
+                        wglMakeCurrent(deviceContext, nullptr);
                     wglDeleteContext(renderContext);
                 }
 
@@ -299,10 +301,10 @@ namespace ouzel
                     renderContext = wglCreateContext(deviceContext);
 
                 if (!renderContext)
-                    throw std::runtime_error("Failed to create OpenGL context");
+                    throw std::runtime_error("Failed to create OpenGL rendering context");
 
                 if (!wglMakeCurrent(deviceContext, renderContext))
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to set current OpenGL context");
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to set OpenGL rendering context");
 
                 RenderDevice::init(newWindow,
                                    newSize,
@@ -316,7 +318,7 @@ namespace ouzel
                                    newDebugRenderer);
 
                 if (!wglMakeCurrent(deviceContext, nullptr))
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL context");
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");
 
                 running = true;
                 renderThread = Thread(&RenderDeviceWin::renderMain, this);
@@ -333,7 +335,7 @@ namespace ouzel
                 Thread::setCurrentThreadName("Render");
 
                 if (!wglMakeCurrent(deviceContext, renderContext))
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to set current OpenGL context");
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to set OpenGL rendering context");
 
                 while (running)
                 {
@@ -346,6 +348,9 @@ namespace ouzel
                         engine->log(Log::Level::Error) << e.what();
                     }
                 }
+
+                if (!wglMakeCurrent(deviceContext, nullptr))
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");
             }
         } // namespace opengl
     } // namespace graphics
