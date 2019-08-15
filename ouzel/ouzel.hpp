@@ -37,6 +37,7 @@
 #include "audio/Submix.hpp"
 #include "audio/Voice.hpp"
 #include "audio/VorbisClip.hpp"
+#include "audio/WavePlayer.hpp"
 #include "core/Setup.h"
 #include "core/Engine.hpp"
 #include "core/Timer.hpp"

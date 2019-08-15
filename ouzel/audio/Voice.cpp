@@ -4,8 +4,11 @@
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
 #include "Effects.hpp"
+#include "Oscillator.hpp"
+#include "SilenceSound.hpp"
 #include "Sound.hpp"
 #include "Source.hpp"
+#include "WavePlayer.hpp"
 #include "core/Engine.hpp"
 
 namespace ouzel
@@ -30,11 +33,6 @@ namespace ouzel
         {
         }
 
-        static std::unique_ptr<mixer::Stream> createStream(SourceDefinition& sourceDefinition)
-        {
-            return std::unique_ptr<mixer::Stream>();
-        }
-
         Voice::Voice(Audio& initAudio, const Cue& cue):
             Node(initAudio),
             audio(initAudio)
@@ -44,19 +42,41 @@ namespace ouzel
             switch (sourceDefinition.type)
             {
                 case SourceDefinition::Type::Empty:
+                {
                     break;
+                }
                 case SourceDefinition::Type::Parallel:
+                {
                     break;
+                }
                 case SourceDefinition::Type::Random:
+                {
                     break;
+                }
                 case SourceDefinition::Type::Sequence:
+                {
                     break;
+                }
                 case SourceDefinition::Type::Oscillator:
+                {
+                    std::unique_ptr<Oscillator> oscillator = std::make_unique<Oscillator>(initAudio,
+                                                                                          sourceDefinition.frequency,
+                                                                                          sourceDefinition.oscillatorType,
+                                                                                          sourceDefinition.amplitude,
+                                                                                          sourceDefinition.length);
                     break;
+                }
                 case SourceDefinition::Type::Silence:
+                {
+                    std::unique_ptr<SilenceSound> silence = std::make_unique<SilenceSound>(initAudio,
+                                                                                           sourceDefinition.length);
                     break;
+                }
                 case SourceDefinition::Type::WavePlayer:
+                {
+                    std::unique_ptr<WavePlayer> silence = std::make_unique<WavePlayer>(sourceDefinition.sound);
                     break;
+                }
             }
 
             std::vector<std::unique_ptr<Effect>> effects;

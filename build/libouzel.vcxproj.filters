@@ -597,6 +597,9 @@
     <ClInclude Include="..\ouzel\audio\VorbisClip.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\audio\WavePlayer.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\audio\PcmClip.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>

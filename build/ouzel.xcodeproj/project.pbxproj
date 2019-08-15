@@ -1071,6 +1071,7 @@
 		30C3F26E219D0846003FE9ED /* Effect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Effect.cpp; sourceTree = "<group>"; };
 		30C3F270219D0847003FE9ED /* Effect.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Effect.hpp; sourceTree = "<group>"; };
 		30C3F290219D0DD9003FE9ED /* Object.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Object.hpp; sourceTree = "<group>"; };
+		30C6623D2304E1E70082C8E8 /* WavePlayer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WavePlayer.hpp; sourceTree = "<group>"; };
 		30C758AB1F4A0196008499DC /* AudioDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDevice.cpp; sourceTree = "<group>"; };
 		30C758AC1F4A0196008499DC /* AudioDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDevice.hpp; sourceTree = "<group>"; };
 		30C758B31F4A0309008499DC /* RenderDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderDevice.cpp; sourceTree = "<group>"; };
@@ -1577,6 +1578,7 @@
 				30419DE81D162BDC00A63759 /* Voice.hpp */,
 				3031C1321F0C4350002CA717 /* VorbisClip.cpp */,
 				3031C1331F0C4350002CA717 /* VorbisClip.hpp */,
+				30C6623D2304E1E70082C8E8 /* WavePlayer.hpp */,
 			);
 			path = audio;
 			sourceTree = "<group>";
