@@ -328,7 +328,8 @@ namespace ouzel
 
             void RenderDeviceIOS::renderCallback()
             {
-                if (![EAGLContext setCurrentContext:context])
+                if ([EAGLContext currentContext] != context &&
+                    ![EAGLContext setCurrentContext:context])
                     throw std::runtime_error("Failed to set current OpenGL context");
 
                 process();
