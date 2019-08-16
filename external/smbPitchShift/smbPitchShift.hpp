@@ -41,7 +41,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstring>
 
 namespace smb
 {
@@ -52,41 +51,41 @@ namespace smb
     template <class T>
     struct Complex final
     {
-        inline Complex<T> operator+(const Complex& other) const
+        constexpr Complex<T> operator+(const Complex& other) const noexcept
         {
             return Complex{real + other.real, imag + other.imag};
         }
 
-        inline Complex<T>& operator+=(const Complex& other)
+        constexpr Complex<T>& operator+=(const Complex& other)
         {
             real += other.real;
             imag += other.imag;
             return *this;
         }
 
-        inline Complex<T> operator-(const Complex& other) const
+        constexpr Complex<T> operator-(const Complex& other) const noexcept
         {
             return Complex{real - other.real, imag - other.imag};
         }
 
-        inline Complex<T> operator-() const
+        constexpr Complex<T> operator-() const noexcept
         {
             return Complex{-real, -imag};
         }
 
-        inline Complex<T>& operator-=(const Complex& other)
+        constexpr Complex<T>& operator-=(const Complex& other) noexcept
         {
             real -= other.real;
             imag -= other.imag;
             return *this;
         }
 
-        inline Complex<T> operator*(const Complex& other) const
+        constexpr Complex<T> operator*(const Complex& other) const noexcept
         {
             return Complex{real * other.real - imag * other.imag, real * other.imag + imag * other.real};
         }
 
-        inline Complex<T>& operator*=(const Complex& other)
+        constexpr Complex<T>& operator*=(const Complex& other) noexcept
         {
             float tempReal = real;
             real = tempReal * other.real - imag * other.imag;
@@ -94,7 +93,7 @@ namespace smb
             return *this;
         }
 
-        inline T magnitude() const
+        inline T magnitude() const noexcept
         {
             return sqrt(real * real + imag * imag);
         }
@@ -103,7 +102,7 @@ namespace smb
         T imag;
     };
 
-    static void fft(Complex<float>* fftBuffer, unsigned long fftFrameSize, long sign)
+    static void fft(Complex<float>* fftBuffer, const unsigned long fftFrameSize, const long sign) noexcept
     {
         // Bit-reversal permutation applied to a sequence of fftFrameSize items
         for (unsigned long i = 1; i < fftFrameSize - 1; i++)
@@ -128,7 +127,7 @@ namespace smb
             const unsigned long step2 = step >> 1;
             const float arg = PI / step2;
 
-            Complex<float> w{std::cos(arg), std::sin(arg) * sign};
+            const Complex<float> w{std::cos(arg), std::sin(arg) * sign};
             Complex<float> u{1.0F, 0.0F};
             for (unsigned long j = 0; j < step2; j++)
             {
@@ -153,8 +152,9 @@ namespace smb
             Time Fourier Transform.
             Author: (c)1999-2015 Stephan M. Bernsee <s.bernsee [AT] zynaptiq [DOT] com>
         */
-        void process(float pitchShift, unsigned long numSampsToProcess, unsigned long fftFrameSize,
-                     unsigned long oversamp, float sampleRate, float* indata, float* outdata)
+        void process(const float pitchShift, const unsigned long numSampsToProcess,
+                     const unsigned long fftFrameSize, const unsigned long oversamp,
+                     const float sampleRate, const float* indata, float* outdata) noexcept
         {
             // set up some handy variables
             const unsigned long fftFrameSizeHalf = fftFrameSize / 2;
@@ -197,10 +197,9 @@ namespace smb
                         // compute magnitude and phase
                         const float magn = 2.0F * current.magnitude();
                         const float signx = (current.imag > 0.0F) ? 1.0F : -1.0F;
-                        float phase;
-                        if (current.imag == 0.0F) phase = 0.0F;
-                        else if (current.real == 0.0F) phase = signx * PI / 2.0F;
-                        else phase = std::atan2(current.imag, current.real);
+                        const float phase = (current.imag == 0.0F) ? 0.0F :
+                            (current.real == 0.0F) ? signx * PI / 2.0F :
+                            std::atan2(current.imag, current.real);
 
                         // compute phase difference
                         float tmp = phase - lastPhase[k];
