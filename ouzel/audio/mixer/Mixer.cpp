@@ -55,6 +55,12 @@ namespace ouzel
 
                         switch (command->type)
                         {
+                            case Command::Type::InitObject:
+                            {
+                                auto initObjectCommand = static_cast<InitObjectCommand*>(command.get());
+                                objects[initObjectCommand->objectId - 1] = std::move(initObjectCommand->object);
+                                break;
+                            }
                             case Command::Type::DeleteObject:
                             {
                                 auto deleteObjectCommand = static_cast<const DeleteObjectCommand*>(command.get());
