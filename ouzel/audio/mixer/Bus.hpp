@@ -20,7 +20,7 @@ namespace ouzel
                 friend Processor;
                 friend Stream;
             public:
-                Bus();
+                Bus() noexcept {}
                 ~Bus();
                 Bus(const Bus&) = delete;
                 Bus& operator=(const Bus&) = delete;

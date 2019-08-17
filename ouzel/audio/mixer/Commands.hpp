@@ -40,7 +40,7 @@ namespace ouzel
                     UpdateProcessor
                 };
 
-                explicit Command(Type initType): type(initType) {}
+                explicit Command(Type initType) noexcept: type(initType) {}
                 virtual ~Command() = default;
 
                 const Type type;

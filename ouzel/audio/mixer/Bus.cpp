@@ -13,10 +13,6 @@ namespace ouzel
     {
         namespace mixer
         {
-            Bus::Bus()
-            {
-            }
-
             Bus::~Bus()
             {
                 if (output) output->removeInput(this);

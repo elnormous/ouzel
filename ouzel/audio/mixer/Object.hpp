@@ -17,7 +17,7 @@ namespace ouzel
             class Object
             {
             public:
-                Object() = default;
+                Object() noexcept = default;
                 virtual ~Object()
                 {
                     if (parent)

@@ -20,7 +20,7 @@ namespace ouzel
             {
                 friend Bus;
             public:
-                Stream(Data& initData):
+                Stream(Data& initData) noexcept:
                     data(initData)
                 {
                 }
