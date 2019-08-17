@@ -1072,6 +1072,7 @@
 		30C3F270219D0847003FE9ED /* Effect.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Effect.hpp; sourceTree = "<group>"; };
 		30C3F290219D0DD9003FE9ED /* Object.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Object.hpp; sourceTree = "<group>"; };
 		30C6623D2304E1E70082C8E8 /* WavePlayer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WavePlayer.hpp; sourceTree = "<group>"; };
+		30C6623E230792EB0082C8E8 /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
 		30C758AB1F4A0196008499DC /* AudioDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDevice.cpp; sourceTree = "<group>"; };
 		30C758AC1F4A0196008499DC /* AudioDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDevice.hpp; sourceTree = "<group>"; };
 		30C758B31F4A0309008499DC /* RenderDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderDevice.cpp; sourceTree = "<group>"; };
@@ -1815,6 +1816,7 @@
 				30A381FD21B382A20043568A /* Mixer.hpp */,
 				30C3F290219D0DD9003FE9ED /* Object.hpp */,
 				30A3821E21B4C5E90043568A /* Processor.hpp */,
+				30C6623E230792EB0082C8E8 /* Source.hpp */,
 				C6C9100E21B54A9600B5FCB7 /* Stream.hpp */,
 			);
 			path = mixer;
