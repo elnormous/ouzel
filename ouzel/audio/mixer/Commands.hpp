@@ -41,6 +41,7 @@ namespace ouzel
                 };
 
                 explicit Command(Type initType): type(initType) {}
+                virtual ~Command() = default;
 
                 const Type type;
             };
