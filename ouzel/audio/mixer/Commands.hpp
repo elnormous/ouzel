@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "audio/mixer/Processor.hpp"
+#include "audio/mixer/Source.hpp"
 #include "audio/mixer/Stream.hpp"
 #include "audio/mixer/Data.hpp"
 
@@ -55,14 +56,14 @@ namespace ouzel
                 {}
 
                 InitObjectCommand(uintptr_t initObjectId,
-                                  std::unique_ptr<Object> initObject):
+                                  std::unique_ptr<Source> initSource):
                     Command(Command::Type::InitObject),
                     objectId(initObjectId),
-                    object(std::move(initObject))
+                    source(std::move(initSource))
                 {}
 
                 const uintptr_t objectId;
-                std::unique_ptr<Object> object;
+                std::unique_ptr<Source> source;
             };
 
             class DeleteObjectCommand final: public Command

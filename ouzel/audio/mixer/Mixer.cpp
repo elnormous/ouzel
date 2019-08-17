@@ -58,7 +58,7 @@ namespace ouzel
                             case Command::Type::InitObject:
                             {
                                 auto initObjectCommand = static_cast<InitObjectCommand*>(command.get());
-                                objects[initObjectCommand->objectId - 1] = std::move(initObjectCommand->object);
+                                objects[initObjectCommand->objectId - 1] = std::make_unique<Object>(std::move(initObjectCommand->source));
                                 break;
                             }
                             case Command::Type::DeleteObject:

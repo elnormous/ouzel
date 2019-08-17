@@ -15,7 +15,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class VoiceObject: public mixer::Object
+        class VoiceSource: public mixer::Source
         {
         public:
             void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
@@ -109,10 +109,10 @@ namespace ouzel
                 }
             }
 
-            std::unique_ptr<mixer::Object> object = std::make_unique<VoiceObject>();
+            std::unique_ptr<mixer::Source> source = std::make_unique<VoiceSource>();
 
             audio.addCommand(std::make_unique<mixer::InitObjectCommand>(audio.getMixer().getObjectId(),
-                                                                        std::move(object)));
+                                                                        std::move(source)));
         }
 
         Voice::Voice(Audio& initAudio, const Sound* initSound):
