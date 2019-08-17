@@ -4,7 +4,9 @@
 #define OUZEL_AUDIO_MIXER_OBJECT_HPP
 
 #include <cstdint>
+#include <memory>
 #include <vector>
+#include "audio/mixer/Source.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector.hpp"
 
@@ -18,6 +20,11 @@ namespace ouzel
             {
             public:
                 Object() noexcept = default;
+                Object(std::unique_ptr<Source> initSource) noexcept:
+                    source(std::move(initSource))
+                {
+                }
+
                 virtual ~Object()
                 {
                     if (parent)
@@ -59,14 +66,17 @@ namespace ouzel
                     }
                 }
 
-                // TODO: make pure virtual
+                // TODO: make non-virtual
                 virtual void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
                 {
+                    if (source)
+                        source->getSamples(frames, channels, sampleRate, samples);
                 }
 
             protected:
                 Object* parent = nullptr;
                 std::vector<Object*> children;
+                std::unique_ptr<Source> source;
             };
         }
     } // namespace audio
