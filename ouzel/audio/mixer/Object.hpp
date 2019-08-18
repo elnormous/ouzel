@@ -81,6 +81,9 @@ namespace ouzel
                 // TODO: make non-virtual
                 virtual void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
                 {
+                    for (auto child : children)
+                        child->getSamples(frames, channels, sampleRate, samples);
+
                     if (source)
                         source->getSamples(frames, channels, sampleRate, samples);
                 }

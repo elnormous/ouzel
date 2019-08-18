@@ -30,6 +30,12 @@ namespace ouzel
                     if (output) output->removeInput(this);
                 }
 
+                Stream(const Stream&) = delete;
+                Stream& operator=(const Object&) = delete;
+
+                Stream(Stream&&) = delete;
+                Stream& operator=(Stream&&) = delete;
+
                 auto& getData() const noexcept { return data; }
 
                 void setOutput(Bus* newOutput)
