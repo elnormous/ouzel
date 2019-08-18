@@ -121,12 +121,15 @@ namespace ouzel
             class StopCommand final: public Command
             {
             public:
-                constexpr StopCommand(uintptr_t initObjectId) noexcept:
+                constexpr StopCommand(uintptr_t initObjectId,
+                                      bool initReset) noexcept:
                     Command(Command::Type::Stop),
-                    objectId(initObjectId)
+                    objectId(initObjectId),
+                    reset(initReset)
                 {}
 
                 const uintptr_t objectId;
+                const bool reset;
             };
 
             class InitBusCommand final: public Command
@@ -291,7 +294,7 @@ namespace ouzel
             class CommandBuffer final
             {
             public:
-                CommandBuffer() noexcept = default;
+                CommandBuffer() = default;
                 CommandBuffer(const std::string& initName) noexcept:
                     name(initName)
                 {

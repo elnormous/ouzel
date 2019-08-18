@@ -18,13 +18,25 @@ namespace ouzel
         class VoiceSource: public mixer::Source
         {
         public:
+            void play() override
+            {
+                if (source)
+                    source->play();
+            }
+
+            void stop(bool shouldReset) override
+            {
+                if (source)
+                    source->stop(shouldReset);
+            }
+
             void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
             {
                 if (source)
                     source->getSamples(frames, channels, sampleRate, samples);
             }
 
-            std::unique_ptr<Source> source;
+            std::unique_ptr<audio::Source> source;
         };
 
         Voice::Voice(Audio& initAudio):
@@ -139,6 +151,8 @@ namespace ouzel
             startEvent->type = Event::Type::SoundStart;
             startEvent->voice = this;
             engine->getEventDispatcher().postEvent(std::move(startEvent));
+
+            // TODO: send PlayCommand
         }
 
         void Voice::pause()
@@ -146,6 +160,8 @@ namespace ouzel
             audio.addCommand(std::make_unique<mixer::StopStreamCommand>(streamId, false));
 
             playing = false;
+
+            // TODO: send StopCommand
         }
 
         void Voice::stop()
@@ -153,6 +169,8 @@ namespace ouzel
             audio.addCommand(std::make_unique<mixer::StopStreamCommand>(streamId, true));
 
             playing = false;
+
+            // TODO: send StopCommand
         }
 
         // executed on audio thread

@@ -83,6 +83,20 @@ namespace ouzel
                                 object->removeChild(*child);
                                 break;
                             }
+                            case Command::Type::Play:
+                            {
+                                auto playCommand = static_cast<const PlayCommand*>(command.get());
+                                Object* object = objects[playCommand->objectId - 1].get();
+                                object->play();
+                                break;
+                            }
+                            case Command::Type::Stop:
+                            {
+                                auto stopCommand = static_cast<const StopCommand*>(command.get());
+                                Object* object = objects[stopCommand->objectId - 1].get();
+                                object->stop(stopCommand->reset);
+                                break;
+                            }
                             case Command::Type::InitBus:
                             {
                                 auto initBusCommand = static_cast<const InitBusCommand*>(command.get());

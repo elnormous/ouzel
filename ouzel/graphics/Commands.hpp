@@ -611,7 +611,7 @@ namespace ouzel
         class CommandBuffer final
         {
         public:
-            CommandBuffer() noexcept = default;
+            CommandBuffer() = default;
             explicit CommandBuffer(const std::string& initName) noexcept:
                 name(initName)
             {

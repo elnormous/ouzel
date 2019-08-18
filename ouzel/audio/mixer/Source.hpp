@@ -18,6 +18,9 @@ namespace ouzel
                 Source() noexcept = default;
                 virtual ~Source() = default;
 
+                virtual void play() = 0;
+                virtual void stop(bool shouldReset) = 0;
+
                 virtual void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
             };
         }

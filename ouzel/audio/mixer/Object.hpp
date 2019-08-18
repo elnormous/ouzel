@@ -66,6 +66,18 @@ namespace ouzel
                     }
                 }
 
+                void play()
+                {
+                    if (source)
+                        source->play();
+                }
+
+                void stop(bool reset)
+                {
+                    if (source)
+                        source->stop(reset);
+                }
+
                 // TODO: make non-virtual
                 virtual void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
                 {
