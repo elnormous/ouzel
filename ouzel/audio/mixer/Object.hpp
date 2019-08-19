@@ -20,7 +20,7 @@ namespace ouzel
             {
             public:
                 Object() noexcept = default;
-                Object(std::unique_ptr<Source> initSource) noexcept:
+                explicit Object(std::unique_ptr<Source> initSource) noexcept:
                     source(std::move(initSource))
                 {
                 }
