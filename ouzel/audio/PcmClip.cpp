@@ -16,7 +16,7 @@ namespace ouzel
         class PcmStream final: public mixer::Stream
         {
         public:
-            PcmStream(PcmData& pcmData);
+            explicit PcmStream(PcmData& pcmData);
 
             void reset() final
             {

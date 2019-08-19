@@ -14,7 +14,7 @@ namespace ouzel
         class DelayProcessor final: public mixer::Processor
         {
         public:
-            DelayProcessor(float initDelay):
+            explicit DelayProcessor(float initDelay):
                 delay(initDelay)
             {
             }
@@ -87,7 +87,7 @@ namespace ouzel
         class GainProcessor final: public mixer::Processor
         {
         public:
-            GainProcessor(float initGain = 0.0F):
+            explicit GainProcessor(float initGain = 0.0F):
                 gain(initGain),
                 gainFactor(pow(10.0F, initGain / 20.0F))
             {
@@ -238,7 +238,7 @@ namespace ouzel
         class PitchScaleProcessor final: public mixer::Processor
         {
         public:
-            PitchScaleProcessor(float initScale):
+            explicit PitchScaleProcessor(float initScale):
                 scale(clamp(initScale, MIN_PITCH, MAX_PITCH))
             {
             }
@@ -294,7 +294,7 @@ namespace ouzel
         class PitchShiftProcessor final: public mixer::Processor
         {
         public:
-            PitchShiftProcessor(float initShift):
+            explicit PitchShiftProcessor(float initShift):
                 shift(initShift)
             {
             }

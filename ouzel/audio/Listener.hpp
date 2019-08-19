@@ -20,7 +20,7 @@ namespace ouzel
         {
             friend Mix;
         public:
-            Listener(Audio& initAudio);
+            explicit Listener(Audio& initAudio);
             ~Listener();
 
             Listener(const Listener&) = delete;

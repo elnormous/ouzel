@@ -22,7 +22,7 @@ namespace ouzel
             friend Submix;
             friend Voice;
         public:
-            Mix(Audio& initAudio);
+            explicit Mix(Audio& initAudio);
             virtual ~Mix();
 
             Mix(const Mix&) = delete;

@@ -14,7 +14,7 @@ namespace ouzel
         class Server final
         {
         public:
-            Server(Network& initNetwork);
+            explicit Server(Network& initNetwork);
             ~Server();
 
             Server(const Server&) = delete;

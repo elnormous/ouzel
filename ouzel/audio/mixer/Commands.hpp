@@ -52,7 +52,7 @@ namespace ouzel
             class InitObjectCommand final: public Command
             {
             public:
-                constexpr InitObjectCommand(uintptr_t initObjectId) noexcept:
+                explicit constexpr InitObjectCommand(uintptr_t initObjectId) noexcept:
                     Command(Command::Type::InitObject),
                     objectId(initObjectId)
                 {}
@@ -71,7 +71,7 @@ namespace ouzel
             class DeleteObjectCommand final: public Command
             {
             public:
-                constexpr DeleteObjectCommand(uintptr_t initObjectId) noexcept:
+                explicit constexpr DeleteObjectCommand(uintptr_t initObjectId) noexcept:
                     Command(Command::Type::DeleteObject),
                     objectId(initObjectId)
                 {}
@@ -110,7 +110,7 @@ namespace ouzel
             class PlayCommand final: public Command
             {
             public:
-                constexpr PlayCommand(uintptr_t initObjectId) noexcept:
+                explicit constexpr PlayCommand(uintptr_t initObjectId) noexcept:
                     Command(Command::Type::Play),
                     objectId(initObjectId)
                 {}
@@ -135,7 +135,7 @@ namespace ouzel
             class InitBusCommand final: public Command
             {
             public:
-                constexpr InitBusCommand(uintptr_t initBusId) noexcept:
+                explicit constexpr InitBusCommand(uintptr_t initBusId) noexcept:
                     Command(Command::Type::InitBus),
                     busId(initBusId)
                 {}
@@ -188,7 +188,7 @@ namespace ouzel
             class SetMasterBusCommand final: public Command
             {
             public:
-                constexpr SetMasterBusCommand(uintptr_t initBusId) noexcept:
+                explicit constexpr SetMasterBusCommand(uintptr_t initBusId) noexcept:
                     Command(Command::Type::SetMasterBus),
                     busId(initBusId)
                 {}
@@ -213,7 +213,7 @@ namespace ouzel
             class PlayStreamCommand final: public Command
             {
             public:
-                constexpr PlayStreamCommand(uintptr_t initStreamId) noexcept:
+                explicit constexpr PlayStreamCommand(uintptr_t initStreamId) noexcept:
                     Command(Command::Type::PlayStream),
                     streamId(initStreamId)
                 {}
@@ -295,7 +295,7 @@ namespace ouzel
             {
             public:
                 CommandBuffer() = default;
-                CommandBuffer(const std::string& initName) noexcept:
+                explicit CommandBuffer(const std::string& initName) noexcept:
                     name(initName)
                 {
                 }

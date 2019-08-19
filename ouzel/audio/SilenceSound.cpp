@@ -14,7 +14,7 @@ namespace ouzel
         class SilenceStream final: public mixer::Stream
         {
         public:
-            SilenceStream(SilenceData& toneData);
+            explicit SilenceStream(SilenceData& toneData);
 
             void reset() final
             {
@@ -30,7 +30,7 @@ namespace ouzel
         class SilenceData final: public mixer::Data
         {
         public:
-            SilenceData(float initLength):
+            explicit SilenceData(float initLength):
                 length(initLength)
             {
                 channels = 1;

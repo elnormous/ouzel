@@ -15,7 +15,7 @@ namespace ouzel
         class OscillatorStream final: public mixer::Stream
         {
         public:
-            OscillatorStream(OscillatorData& oscillatorData);
+            explicit OscillatorStream(OscillatorData& oscillatorData);
 
             void reset() final
             {

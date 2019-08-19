@@ -13,7 +13,7 @@ namespace ouzel
         {
             friend Mix;
         public:
-            Submix(Audio& initAudio);
+            explicit Submix(Audio& initAudio);
             ~Submix();
 
             Submix(const Submix&) = delete;

@@ -60,7 +60,7 @@ namespace ouzel
         class Panner final: public Effect, public scene::Component
         {
         public:
-            Panner(Audio& initAudio);
+            explicit Panner(Audio& initAudio);
             ~Panner();
 
             Panner(const Panner&) = delete;
@@ -155,7 +155,7 @@ namespace ouzel
         class LowPass final: public Effect
         {
         public:
-            LowPass(Audio& initAudio);
+            explicit LowPass(Audio& initAudio);
             ~LowPass();
 
             LowPass(const LowPass&) = delete;
@@ -167,7 +167,7 @@ namespace ouzel
         class HighPass final: public Effect
         {
         public:
-            HighPass(Audio& initAudio);
+            explicit HighPass(Audio& initAudio);
             ~HighPass();
 
             HighPass(const HighPass&) = delete;

@@ -64,14 +64,14 @@ namespace ouzel
             static constexpr Type INVALID = -1;
 #endif
 
-            Socket(InternetProtocol internetProtocol = InternetProtocol::V4):
+            explicit Socket(InternetProtocol internetProtocol = InternetProtocol::V4):
                 endpoint(socket(getAddressFamily(internetProtocol), SOCK_STREAM, IPPROTO_TCP))
             {
                 if (endpoint == INVALID)
                     throw std::system_error(getLastError(), std::system_category(), "Failed to create socket");
             }
 
-            constexpr Socket(Type s) noexcept:
+            explicit constexpr Socket(Type s) noexcept:
                 endpoint(s)
             {
             }

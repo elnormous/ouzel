@@ -49,7 +49,7 @@ namespace ouzel
         class VorbisStream final: public mixer::Stream
         {
         public:
-            VorbisStream(VorbisData& vorbisData);
+            explicit VorbisStream(VorbisData& vorbisData);
 
             ~VorbisStream()
             {
@@ -71,7 +71,7 @@ namespace ouzel
         class VorbisData final: public mixer::Data
         {
         public:
-            VorbisData(const std::vector<uint8_t>& initData):
+            explicit VorbisData(const std::vector<uint8_t>& initData):
                 data(initData)
             {
                 stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);

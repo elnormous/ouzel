@@ -16,7 +16,7 @@ namespace ouzel
         class Node
         {
         public:
-            Node(Audio& initAudio):
+            explicit Node(Audio& initAudio):
                 audio(initAudio)
             {
             }

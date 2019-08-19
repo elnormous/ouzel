@@ -272,7 +272,7 @@ namespace ouzel
                 Quit
             };
 
-            Command(const Type initType):
+            explicit Command(const Type initType):
                 type(initType)
             {
             }

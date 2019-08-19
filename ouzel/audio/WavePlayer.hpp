@@ -15,7 +15,7 @@ namespace ouzel
         class WavePlayer final: public Source
         {
         public:
-            WavePlayer(const Sound* sound)
+            explicit WavePlayer(const Sound* sound)
             {
             }
 
