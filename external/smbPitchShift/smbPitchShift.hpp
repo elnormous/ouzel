@@ -14,15 +14,14 @@
 * numSampsToProcess-1] should be pitch shifted and moved to outdata[0 ...
 * numSampsToProcess-1]. The two buffers can be identical (ie. it can process the
 * data in-place). fftFrameSize defines the FFT frame size used for the
-* processing. Typical values are 1024, 2048 and 4096. It may be any value <=
-* MAX_FRAME_LENGTH but it MUST be a power of 2. oversamp is the STFT
-* oversampling factor which also determines the overlap between adjacent STFT
-* frames. It should at least be 4 for moderate scaling ratios. A value of 32 is
-* recommended for best quality. sampleRate takes the sample rate for the signal 
-* in unit Hz, ie. 44100 for 44.1 kHz audio. The data passed to the routine in 
-* indata[] should be in the range [-1.0, 1.0), which is also the output range 
-* for the data, make sure you scale the data accordingly (for 16bit signed integers
-* you would have to divide (and multiply) by 32768). 
+* processing. Typical values are 1024, 2048 and 4096. It MUST be a power of 2.
+* oversamp is the STFT oversampling factor which also determines the overlap
+* between adjacent STFT frames. It should at least be 4 for moderate scaling
+* ratios. A value of 32 is recommended for best quality. sampleRate takes the
+* sample rate for the signal in unit Hz, ie. 44100 for 44.1 kHz audio. The data
+* passed to the routine in indata[] should be in the range [-1.0, 1.0), which is
+* also the output range for the data, make sure you scale the data accordingly
+* (for 16bit signed integers you would have to divide (and multiply) by 32768). 
 *
 * COPYRIGHT 1999-2015 Stephan M. Bernsee <s.bernsee [AT] zynaptiq [DOT] com>
 *
@@ -46,7 +45,6 @@
 namespace smb
 {
     static constexpr float PI = 3.14159265358979323846F;
-    static constexpr uint32_t MAX_FRAME_LENGTH = 8192;
 
     // Use own implementation because std::complex has a poor performance
     template <class T>
@@ -145,6 +143,7 @@ namespace smb
         }
     }
 
+    template <uint32_t fftFrameSize, uint32_t oversamp>
     class PitchShift final
     {
     public:
@@ -155,7 +154,6 @@ namespace smb
             Author: (c)1999-2015 Stephan M. Bernsee <s.bernsee [AT] zynaptiq [DOT] com>
         */
         void process(const float pitchShift, const uint32_t numSampsToProcess,
-                     const uint32_t fftFrameSize, const uint32_t oversamp,
                      const float sampleRate, const float* indata, float* outdata) noexcept
         {
             // set up some handy variables
@@ -299,16 +297,16 @@ namespace smb
         }
 
     private:
-        float inFifo[MAX_FRAME_LENGTH]{0.0F};
-        float outFifo[MAX_FRAME_LENGTH]{0.0F};
-        Complex<float> fftWorksp[MAX_FRAME_LENGTH]{{0.0F, 0.0F}};
-        float lastPhase[MAX_FRAME_LENGTH / 2 + 1]{0.0F};
-        float sumPhase[MAX_FRAME_LENGTH / 2 + 1]{0.0F};
-        float outputAccum[2 * MAX_FRAME_LENGTH]{0.0F};
-        float anaFreq[MAX_FRAME_LENGTH]{0.0F};
-        float anaMagn[MAX_FRAME_LENGTH]{0.0F};
-        float synFreq[MAX_FRAME_LENGTH]{0.0F};
-        float synMagn[MAX_FRAME_LENGTH]{0.0F};
+        float inFifo[fftFrameSize]{0.0F};
+        float outFifo[fftFrameSize]{0.0F};
+        Complex<float> fftWorksp[fftFrameSize]{{0.0F, 0.0F}};
+        float lastPhase[fftFrameSize / 2 + 1]{0.0F};
+        float sumPhase[fftFrameSize / 2 + 1]{0.0F};
+        float outputAccum[2 * fftFrameSize]{0.0F};
+        float anaFreq[fftFrameSize]{0.0F};
+        float anaMagn[fftFrameSize]{0.0F};
+        float synFreq[fftFrameSize]{0.0F};
+        float synMagn[fftFrameSize]{0.0F};
         uint32_t rover = 0;
     };
 }

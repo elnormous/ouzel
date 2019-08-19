@@ -249,7 +249,7 @@ namespace ouzel
                 pitchShift.resize(channels);
 
                 for (uint16_t channel = 0; channel < channels; ++channel)
-                    pitchShift[channel].process(scale, frames, 1024, 4, static_cast<float>(sampleRate),
+                    pitchShift[channel].process(scale, frames, static_cast<float>(sampleRate),
                                                 &samples[channel * frames],
                                                 &samples[channel * frames]);
             }
@@ -261,7 +261,7 @@ namespace ouzel
 
         private:
             float scale = 1.0f;
-            std::vector<smb::PitchShift> pitchShift;
+            std::vector<smb::PitchShift<1024, 4>> pitchShift;
         };
 
         PitchScale::PitchScale(Audio& initAudio, float initScale):
