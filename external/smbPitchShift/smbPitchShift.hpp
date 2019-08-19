@@ -21,7 +21,7 @@
 * sample rate for the signal in unit Hz, ie. 44100 for 44.1 kHz audio. The data
 * passed to the routine in indata[] should be in the range [-1.0, 1.0), which is
 * also the output range for the data, make sure you scale the data accordingly
-* (for 16bit signed integers you would have to divide (and multiply) by 32768). 
+* (for 16bit signed integers you would have to divide (and multiply) by 32768).
 *
 * COPYRIGHT 1999-2015 Stephan M. Bernsee <s.bernsee [AT] zynaptiq [DOT] com>
 *
@@ -154,12 +154,12 @@ namespace smb
             Author: (c)1999-2015 Stephan M. Bernsee <s.bernsee [AT] zynaptiq [DOT] com>
         */
         void process(const float pitchShift, const uint32_t numSampsToProcess,
-                     const float sampleRate, const float* indata, float* outdata) noexcept
+                     const uint32_t sampleRate, const float* indata, float* outdata) noexcept
         {
             // set up some handy variables
             const uint32_t fftFrameSizeHalf = fftFrameSize / 2;
             const uint32_t stepSize = fftFrameSize / oversamp;
-            const float freqPerBin = sampleRate / static_cast<float>(fftFrameSize);
+            const float freqPerBin = static_cast<float>(sampleRate) / static_cast<float>(fftFrameSize);
             const float expected = 2.0F * PI * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
             const uint32_t inFifoLatency = fftFrameSize - stepSize;
             if (rover == 0) rover = inFifoLatency;

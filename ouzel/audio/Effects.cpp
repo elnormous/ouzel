@@ -249,7 +249,7 @@ namespace ouzel
                 pitchShift.resize(channels);
 
                 for (uint16_t channel = 0; channel < channels; ++channel)
-                    pitchShift[channel].process(scale, frames, static_cast<float>(sampleRate),
+                    pitchShift[channel].process(scale, frames, sampleRate,
                                                 &samples[channel * frames],
                                                 &samples[channel * frames]);
             }
