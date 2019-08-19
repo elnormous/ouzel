@@ -14,7 +14,7 @@ namespace ouzel
         class Source
         {
         public:
-            virtual ~Source() {}
+            virtual ~Source() = default;
 
             virtual void play() {}
             virtual void stop(bool shouldReset) { (void)shouldReset; }

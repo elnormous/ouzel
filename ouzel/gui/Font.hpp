@@ -21,7 +21,7 @@ namespace ouzel
         {
         public:
             Font() = default;
-            virtual ~Font() {}
+            virtual ~Font() = default;
 
             Font(const Font&) = delete;
             Font& operator=(const Font&) = delete;

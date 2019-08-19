@@ -35,7 +35,7 @@ namespace ouzel
             {
             }
 
-            virtual ~Loader() {}
+            virtual ~Loader() = default;
 
             Loader(const Loader&) = delete;
             Loader& operator=(const Loader&) = delete;
