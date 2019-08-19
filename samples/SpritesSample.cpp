@@ -11,7 +11,7 @@ SpritesSample::SpritesSample():
     wireframeButton("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
 {
-    handler.gamepadHandler = [this](const GamepadEvent& event) {
+    handler.gamepadHandler = [](const GamepadEvent& event) {
         if (event.type == Event::Type::GamepadButtonChange)
         {
             if (event.pressed &&
@@ -36,7 +36,7 @@ SpritesSample::SpritesSample():
         return false;
     };
 
-    handler.keyboardHandler = [this](const KeyboardEvent& event) {
+    handler.keyboardHandler = [](const KeyboardEvent& event) {
         if (event.type == Event::Type::KeyboardKeyPress)
         {
             switch (event.key)

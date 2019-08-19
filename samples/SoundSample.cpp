@@ -33,7 +33,7 @@ SoundSample::SoundSample():
     musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
     toneButton("button.png", "button_selected.png", "button_down.png", "", "Tone", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
 {
-    handler.gamepadHandler = [this](const GamepadEvent& event) {
+    handler.gamepadHandler = [](const GamepadEvent& event) {
         if (event.type == Event::Type::GamepadButtonChange)
         {
             if (event.pressed &&
@@ -66,7 +66,7 @@ SoundSample::SoundSample():
         return false;
     };
 
-    handler.keyboardHandler = [this](const KeyboardEvent& event) {
+    handler.keyboardHandler = [](const KeyboardEvent& event) {
         if (event.type == Event::Type::KeyboardKeyPress)
         {
             switch (event.key)

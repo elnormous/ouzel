@@ -22,7 +22,7 @@ RTSample::RTSample():
                  {renderTexture.get()},
                  &depthTexture)
 {
-    handler.gamepadHandler = [this](const GamepadEvent& event) {
+    handler.gamepadHandler = [](const GamepadEvent& event) {
         if (event.type == Event::Type::GamepadButtonChange)
         {
             if (event.pressed &&
@@ -40,7 +40,7 @@ RTSample::RTSample():
         return false;
     };
 
-    handler.keyboardHandler = [this](const KeyboardEvent& event) {
+    handler.keyboardHandler = [](const KeyboardEvent& event) {
         if (event.type == Event::Type::KeyboardKeyPress)
         {
             switch (event.key)

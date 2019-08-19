@@ -8,7 +8,7 @@ using namespace input;
 
 GameSample::GameSample()
 {
-    handler.keyboardHandler = [this](const KeyboardEvent& event) {
+    handler.keyboardHandler = [](const KeyboardEvent& event) {
         if (event.type == Event::Type::KeyboardKeyPress)
         {
             switch (event.key)
@@ -38,7 +38,7 @@ GameSample::GameSample()
         return false;
     };
 
-    handler.mouseHandler = [this](const MouseEvent& event) {
+    handler.mouseHandler = [](const MouseEvent& event) {
         if (event.type == Event::Type::MousePress)
         {
 
@@ -46,7 +46,7 @@ GameSample::GameSample()
         return false;
     };
 
-    handler.touchHandler = [this](const TouchEvent& event) {
+    handler.touchHandler = [](const TouchEvent& event) {
         if (event.type == Event::Type::TouchBegin)
         {
 
@@ -54,7 +54,7 @@ GameSample::GameSample()
         return false;
     };
 
-    handler.gamepadHandler = [this](const GamepadEvent& event) {
+    handler.gamepadHandler = [](const GamepadEvent& event) {
         if (event.type == Event::Type::GamepadButtonChange)
         {
             if (event.pressed &&
@@ -65,7 +65,7 @@ GameSample::GameSample()
         return false;
     };
 
-    handler.uiHandler = [this](const UIEvent&) {
+    handler.uiHandler = [](const UIEvent&) {
         return false;
     };
 

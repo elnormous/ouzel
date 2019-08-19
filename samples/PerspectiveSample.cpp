@@ -107,7 +107,7 @@ PerspectiveSample::PerspectiveSample():
         return false;
     };
 
-    handler.gamepadHandler = [this](const GamepadEvent& event) {
+    handler.gamepadHandler = [](const GamepadEvent& event) {
         if (event.type == Event::Type::GamepadButtonChange)
         {
             if (event.pressed &&
