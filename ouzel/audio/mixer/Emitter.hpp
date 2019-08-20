@@ -13,23 +13,19 @@ namespace ouzel
     {
         namespace mixer
         {
-            class Mix: public Source
+            class Emitter: public Source
             {
             public:
-                Mix() noexcept = default;
-                virtual ~Mix() = default;
+                Emitter() noexcept = default;
+                virtual ~Emitter() = default;
 
-                Mix(const Mix&) = delete;
-                Mix& operator=(const Mix&) = delete;
+                Emitter(const Emitter&) = delete;
+                Emitter& operator=(const Emitter&) = delete;
 
-                Mix(Mix&&) = delete;
-                Mix& operator=(Mix&&) = delete;
+                Emitter(Emitter&&) = delete;
+                Emitter& operator=(Emitter&&) = delete;
 
                 virtual void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
-
-            private:
-                Object* parent = nullptr;
-                std::vector<Object*> children;
             };
         }
     } // namespace audio

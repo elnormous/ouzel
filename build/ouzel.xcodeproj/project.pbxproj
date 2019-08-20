@@ -825,6 +825,7 @@
 		3023201622220C70007E0AAD /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		302B728221BDE301006EBC59 /* SilenceSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SilenceSound.cpp; sourceTree = "<group>"; };
 		302B728321BDE302006EBC59 /* SilenceSound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SilenceSound.hpp; sourceTree = "<group>"; };
+		302E481D230B71410069ABE8 /* Emitter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Emitter.hpp; sourceTree = "<group>"; };
 		302F5A4A230A1136001200F9 /* Mix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mix.hpp; sourceTree = "<group>"; };
 		3030D5001DAEF1FA007CC8EB /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
 		3030D5011DAEF1FA007CC8EB /* Log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Log.hpp; sourceTree = "<group>"; };
@@ -1813,6 +1814,7 @@
 				30A381F421B201C20043568A /* Bus.hpp */,
 				30A3821F21B5E7B90043568A /* Commands.hpp */,
 				C6C9101921B54B5B00B5FCB7 /* Data.hpp */,
+				302E481D230B71410069ABE8 /* Emitter.hpp */,
 				302F5A4A230A1136001200F9 /* Mix.hpp */,
 				30A381FC21B382A20043568A /* Mixer.cpp */,
 				30A381FD21B382A20043568A /* Mixer.hpp */,

@@ -855,6 +855,9 @@
     <ClInclude Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.hpp">
       <Filter>ouzel\audio\wasapi</Filter>
     </ClInclude>
+      <ClInclude Include="..\ouzel\audio\mixer\Emitter.hpp">
+      <Filter>ouzel\audio\mixer</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
