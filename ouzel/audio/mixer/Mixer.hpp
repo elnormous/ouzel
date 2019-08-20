@@ -30,14 +30,14 @@ namespace ouzel
                     samples.resize(frames * channels);
                     std::fill(samples.begin(), samples.end(), 0.0F);
 
-                    for (Object* child : children)
+                    /*for (Object* child : children)
                     {
                         child->getSamples(frames, channels, sampleRate, buffer);
 
                         for (uint32_t channel = 0; channel < channels; ++channel)
                             for (uint32_t frame = 0; frame < frames; ++frame)
                                 samples[channel * frames + frame] += buffer[channel * frames + frame];
-                    }
+                    }*/
                 }
 
             private:

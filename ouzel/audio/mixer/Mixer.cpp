@@ -55,12 +55,6 @@ namespace ouzel
 
                         switch (command->type)
                         {
-                            case Command::Type::InitObject:
-                            {
-                                auto initObjectCommand = static_cast<InitObjectCommand*>(command.get());
-                                objects[initObjectCommand->objectId - 1] = std::make_unique<Object>(std::move(initObjectCommand->source));
-                                break;
-                            }
                             case Command::Type::DeleteObject:
                             {
                                 auto deleteObjectCommand = static_cast<const DeleteObjectCommand*>(command.get());
@@ -72,7 +66,7 @@ namespace ouzel
                                 auto addChildCommand = static_cast<const AddChildCommand*>(command.get());
                                 Object* object = objects[addChildCommand->objectId - 1].get();
                                 Object* child = objects[addChildCommand->objectId - 1].get();
-                                object->addChild(*child);
+                                //object->addChild(*child);
                                 break;
                             }
                             case Command::Type::RemoveChild:
@@ -80,21 +74,21 @@ namespace ouzel
                                 auto removeChildCommand = static_cast<const RemoveChildCommand*>(command.get());
                                 Object* object = objects[removeChildCommand->objectId - 1].get();
                                 Object* child = objects[removeChildCommand->objectId - 1].get();
-                                object->removeChild(*child);
+                                //object->removeChild(*child);
                                 break;
                             }
                             case Command::Type::Play:
                             {
                                 auto playCommand = static_cast<const PlayCommand*>(command.get());
                                 Object* object = objects[playCommand->objectId - 1].get();
-                                object->play();
+                                //object->play();
                                 break;
                             }
                             case Command::Type::Stop:
                             {
                                 auto stopCommand = static_cast<const StopCommand*>(command.get());
                                 Object* object = objects[stopCommand->objectId - 1].get();
-                                object->stop(stopCommand->reset);
+                                //object->stop(stopCommand->reset);
                                 break;
                             }
                             case Command::Type::InitBus:
@@ -120,8 +114,8 @@ namespace ouzel
                                 auto addProcessorCommand = static_cast<const AddProcessorCommand*>(command.get());
 
                                 Bus* bus = static_cast<Bus*>(objects[addProcessorCommand->busId - 1].get());
-                                Processor* processor = static_cast<Processor*>(objects[addProcessorCommand->processorId - 1].get());
-                                bus->addProcessor(processor);
+                                //Processor* processor = static_cast<Processor*>(objects[addProcessorCommand->processorId - 1].get());
+                                //bus->addProcessor(processor);
                                 break;
                             }
                             case Command::Type::RemoveProcessor:
@@ -129,8 +123,8 @@ namespace ouzel
                                 auto removeProcessorCommand = static_cast<const RemoveProcessorCommand*>(command.get());
 
                                 Bus* bus = static_cast<Bus*>(objects[removeProcessorCommand->busId - 1].get());
-                                Processor* processor = static_cast<Processor*>(objects[removeProcessorCommand->processorId - 1].get());
-                                bus->removeProcessor(processor);
+                                //Processor* processor = static_cast<Processor*>(objects[removeProcessorCommand->processorId - 1].get());
+                                //bus->removeProcessor(processor);
                                 break;
                             }
                             case Command::Type::SetMasterBus:
@@ -192,15 +186,15 @@ namespace ouzel
                                 if (initProcessorCommand->processorId > objects.size())
                                     objects.resize(initProcessorCommand->processorId);
 
-                                objects[initProcessorCommand->processorId - 1] = std::move(initProcessorCommand->processor);
+                                //objects[initProcessorCommand->processorId - 1] = std::move(initProcessorCommand->processor);
                                 break;
                             }
                             case Command::Type::UpdateProcessor:
                             {
                                 auto updateProcessorCommand = static_cast<const UpdateProcessorCommand*>(command.get());
 
-                                Processor* processor = static_cast<Processor*>(objects[updateProcessorCommand->processorId - 1].get());
-                                updateProcessorCommand->updateFunction(processor);
+                                //Processor* processor = static_cast<Processor*>(objects[updateProcessorCommand->processorId - 1].get());
+                                //updateProcessorCommand->updateFunction(processor);
                                 break;
                             }
                             default:

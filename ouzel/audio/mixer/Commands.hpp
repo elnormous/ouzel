@@ -23,7 +23,6 @@ namespace ouzel
             public:
                 enum class Type
                 {
-                    InitObject,
                     DeleteObject,
                     AddChild,
                     RemoveChild,
@@ -47,25 +46,6 @@ namespace ouzel
                 virtual ~Command() = default;
 
                 const Type type;
-            };
-
-            class InitObjectCommand final: public Command
-            {
-            public:
-                explicit constexpr InitObjectCommand(uintptr_t initObjectId) noexcept:
-                    Command(Command::Type::InitObject),
-                    objectId(initObjectId)
-                {}
-
-                InitObjectCommand(uintptr_t initObjectId,
-                                  std::unique_ptr<Source> initSource) noexcept:
-                    Command(Command::Type::InitObject),
-                    objectId(initObjectId),
-                    source(std::move(initSource))
-                {}
-
-                const uintptr_t objectId;
-                std::unique_ptr<Source> source;
             };
 
             class DeleteObjectCommand final: public Command

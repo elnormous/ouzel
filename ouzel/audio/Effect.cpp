@@ -26,10 +26,10 @@ namespace ouzel
         {
             enabled = newEnabled;
 
-            audio.updateProcessor(processorId, [newEnabled](mixer::Object* node) {
+            /*audio.updateProcessor(processorId, [newEnabled](mixer::Object* node) {
                 mixer::Processor* processor = static_cast<mixer::Processor*>(node);
                 processor->setEnabled(newEnabled);
-            });
+            });*/
         }
     } // namespace audio
 } // namespace ouzel

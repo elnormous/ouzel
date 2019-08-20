@@ -12,7 +12,7 @@ namespace ouzel
     {
         namespace mixer
         {
-            class Processor: public Object
+            class Processor
             {
                 friend Bus;
             public:

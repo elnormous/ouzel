@@ -176,7 +176,6 @@
     <ClInclude Include="..\ouzel\audio\mixer\Commands.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Data.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Emitter.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Mix.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Processor.hpp" />

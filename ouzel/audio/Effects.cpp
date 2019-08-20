@@ -72,10 +72,10 @@ namespace ouzel
         {
             delay = newDelay;
 
-            audio.updateProcessor(processorId, [newDelay](mixer::Object* node) {
+            /*audio.updateProcessor(processorId, [newDelay](mixer::Object* node) {
                 DelayProcessor* delayProcessor = static_cast<DelayProcessor*>(node);
                 delayProcessor->setDelay(newDelay);
-            });
+            });*/
         }
 
         void Delay::setDelayRandom(const std::pair<float, float>& newDelayRandom)
@@ -126,10 +126,10 @@ namespace ouzel
         {
             gain = newGain;
 
-            audio.updateProcessor(processorId, [newGain](mixer::Object* node) {
+            /*audio.updateProcessor(processorId, [newGain](mixer::Object* node) {
                 GainProcessor* gainProcessor = static_cast<GainProcessor*>(node);
                 gainProcessor->setGain(newGain);
-            });
+            });*/
         }
 
         void Gain::setGainRandom(const std::pair<float, float>& newGainRandom)
@@ -191,40 +191,40 @@ namespace ouzel
         {
             position = newPosition;
 
-            audio.updateProcessor(processorId, [newPosition](mixer::Object* node) {
+            /*audio.updateProcessor(processorId, [newPosition](mixer::Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setPosition(newPosition);
-            });
+            });*/
         }
 
         void Panner::setRolloffFactor(float newRolloffFactor)
         {
             rolloffFactor = newRolloffFactor;
 
-            audio.updateProcessor(processorId, [newRolloffFactor](mixer::Object* node) {
+            /*audio.updateProcessor(processorId, [newRolloffFactor](mixer::Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setRolloffFactor(newRolloffFactor);
-            });
+            });*/
         }
 
         void Panner::setMinDistance(float newMinDistance)
         {
             minDistance = newMinDistance;
 
-            audio.updateProcessor(processorId, [newMinDistance](mixer::Object* node) {
+            /*audio.updateProcessor(processorId, [newMinDistance](mixer::Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setMinDistance(newMinDistance);
-            });
+            });*/
         }
 
         void Panner::setMaxDistance(float newMaxDistance)
         {
             maxDistance = newMaxDistance;
 
-            audio.updateProcessor(processorId, [newMaxDistance](mixer::Object* node) {
+            /*audio.updateProcessor(processorId, [newMaxDistance](mixer::Object* node) {
                 PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
                 pannerProcessor->setMaxDistance(newMaxDistance);
-            });
+            });*/
         }
 
         void Panner::updateTransform()
@@ -282,10 +282,10 @@ namespace ouzel
         {
             scale = newScale;
 
-            audio.updateProcessor(processorId, [newScale](mixer::Object* node) {
+            /*audio.updateProcessor(processorId, [newScale](mixer::Object* node) {
                 PitchScaleProcessor* pitchScaleProcessor = static_cast<PitchScaleProcessor*>(node);
                 pitchScaleProcessor->setScale(newScale);
-            });
+            });*/
         }
 
         void PitchScale::setScaleRandom(const std::pair<float, float>& newScaleRandom)
@@ -332,10 +332,10 @@ namespace ouzel
         {
             shift = newShift;
 
-            audio.updateProcessor(processorId, [newShift](mixer::Object* node) {
+            /*audio.updateProcessor(processorId, [newShift](mixer::Object* node) {
                 PitchShiftProcessor* pitchShiftProcessor = static_cast<PitchShiftProcessor*>(node);
                 pitchShiftProcessor->setShift(newShift);
-            });
+            });*/
         }
 
         void PitchShift::setShiftRandom(const std::pair<float, float>& newShiftRandom)

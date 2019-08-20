@@ -876,9 +876,6 @@
     <ClInclude Include="..\ouzel\audio\mixer\Emitter.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\mixer\Mix.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp">
       <Filter>ouzel\audio\mixer</Filter>
     </ClInclude>

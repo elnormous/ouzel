@@ -63,6 +63,10 @@ namespace ouzel
                 stb_vorbis_seek_start(vorbisStream);
             }
 
+            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) final
+            {
+            }
+            
             void getSamples(uint32_t frames, std::vector<float>& samples) final;
 
         private:

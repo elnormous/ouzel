@@ -4,8 +4,6 @@
 #define OUZEL_AUDIO_MIXER_EMITTER_HPP
 
 #include <cstdint>
-#include <vector>
-#include "audio/mixer/Source.hpp"
 
 namespace ouzel
 {
@@ -13,7 +11,7 @@ namespace ouzel
     {
         namespace mixer
         {
-            class Emitter: public Source
+            class Emitter
             {
             public:
                 Emitter() noexcept = default;
