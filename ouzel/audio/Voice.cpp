@@ -15,7 +15,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class VoiceSource: public mixer::Source
+        class VoiceEmitter: public mixer::Emitter
         {
         public:
             void play() override
@@ -121,7 +121,7 @@ namespace ouzel
                 }
             }
 
-            std::unique_ptr<mixer::Source> source = std::make_unique<VoiceSource>();
+            std::unique_ptr<mixer::Emitter> emitter = std::make_unique<VoiceEmitter>();
 
             //audio.addCommand(std::make_unique<mixer::InitObjectCommand>(audio.getMixer().getObjectId(),
             //                                                            std::move(source)));

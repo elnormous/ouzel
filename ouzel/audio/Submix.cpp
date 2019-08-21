@@ -12,6 +12,14 @@ namespace ouzel
         {
         }
 
+        Submix::Submix(Audio& initAudio, SubmixDefinition initSubmixDefinition):
+            Mix(initAudio),
+            submixDefinition(initSubmixDefinition)
+        {
+            // TODO: create effects
+            // TODO: send init command
+        }
+
         Submix::~Submix()
         {
             if (output) output->removeInput(this);

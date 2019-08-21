@@ -9,11 +9,16 @@ namespace ouzel
 {
     namespace audio
     {
+        struct SubmixDefinition final
+        {
+        };
+
         class Submix final: public Mix
         {
             friend Mix;
         public:
             explicit Submix(Audio& initAudio);
+            Submix(Audio& initAudio, SubmixDefinition initSubmixDefinition);
             ~Submix();
 
             Submix(const Submix&) = delete;
@@ -24,6 +29,7 @@ namespace ouzel
             void setOutput(Mix* newOutput);
 
         private:
+            SubmixDefinition submixDefinition;
             Mix* output = nullptr;
         };
     } // namespace audio
