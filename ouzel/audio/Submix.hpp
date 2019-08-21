@@ -4,6 +4,7 @@
 #define OUZEL_AUDIO_SUBMIX_HPP
 
 #include "audio/Mix.hpp"
+#include "audio/Effect.hpp"
 
 namespace ouzel
 {
@@ -11,6 +12,7 @@ namespace ouzel
     {
         struct SubmixDefinition final
         {
+            std::vector<EffectDefinition> effectDefinitions;
         };
 
         class Submix final: public Mix
