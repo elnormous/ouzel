@@ -446,9 +446,9 @@ namespace ouzel
 
             const std::u32string utf32Text = utf8::toUtf32(text);
 
-            for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
+            for (auto c : utf32Text)
             {
-                auto iter = chars.find(*i);
+                auto iter = chars.find(c);
 
                 if (iter != chars.end())
                 {

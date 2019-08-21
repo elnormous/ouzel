@@ -442,11 +442,11 @@ namespace ouzel
         {
             float totalTime = 0.0F;
 
-            for (auto i = animationQueue.begin(); i != animationQueue.end(); ++i)
+            for (const auto& queuedAnimation : animationQueue)
             {
-                totalTime += i->animation->frames.size() * i->animation->frameInterval;
+                totalTime += queuedAnimation.animation->frames.size() * queuedAnimation.animation->frameInterval;
 
-                if (i->repeat) break;
+                if (queuedAnimation.repeat) break;
             }
 
             setAnimationTime(totalTime * progress);
