@@ -161,24 +161,6 @@ namespace ouzel
                                 objects[initDataCommand->dataId - 1] = std::move(initDataCommand->data);
                                 break;
                             }
-                            case Command::Type::InitProcessor:
-                            {
-                                auto initProcessorCommand = static_cast<InitProcessorCommand*>(command.get());
-
-                                if (initProcessorCommand->processorId > objects.size())
-                                    objects.resize(initProcessorCommand->processorId);
-
-                                //objects[initProcessorCommand->processorId - 1] = std::move(initProcessorCommand->processor);
-                                break;
-                            }
-                            case Command::Type::UpdateProcessor:
-                            {
-                                auto updateProcessorCommand = static_cast<const UpdateProcessorCommand*>(command.get());
-
-                                //Processor* processor = static_cast<Processor*>(objects[updateProcessorCommand->processorId - 1].get());
-                                //updateProcessorCommand->updateFunction(processor);
-                                break;
-                            }
                             default:
                                 throw std::runtime_error("Invalid command");
                         }

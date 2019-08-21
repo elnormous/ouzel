@@ -35,9 +35,7 @@ namespace ouzel
                     PlayStream,
                     StopStream,
                     SetStreamOutput,
-                    InitData,
-                    InitProcessor,
-                    UpdateProcessor
+                    InitData
                 };
 
                 explicit constexpr Command(Type initType) noexcept: type(initType) {}
@@ -214,34 +212,6 @@ namespace ouzel
 
                 const uintptr_t dataId;
                 std::unique_ptr<Data> data;
-            };
-
-            class InitProcessorCommand final: public Command
-            {
-            public:
-                InitProcessorCommand(uintptr_t initProcessorId,
-                                    std::unique_ptr<Processor> initProcessor) noexcept:
-                    Command(Command::Type::InitProcessor),
-                    processorId(initProcessorId),
-                    processor(std::move(initProcessor))
-                {}
-
-                const uintptr_t processorId;
-                std::unique_ptr<Processor> processor;
-            };
-
-            class UpdateProcessorCommand final: public Command
-            {
-            public:
-                UpdateProcessorCommand(uintptr_t initProcessorId,
-                                       const std::function<void(Processor*)>& initUpdateFunction) noexcept:
-                    Command(Command::Type::UpdateProcessor),
-                    processorId(initProcessorId),
-                    updateFunction(initUpdateFunction)
-                {}
-
-                const uintptr_t processorId;
-                const std::function<void(Processor*)> updateFunction;
             };
 
             class CommandBuffer final
