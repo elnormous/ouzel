@@ -42,7 +42,7 @@ namespace ouzel
             };
 
             RenderDevice(Driver initDriver, const std::function<void(const Event&)>& initCallback);
-            virtual ~RenderDevice();
+            virtual ~RenderDevice() = default;
 
             RenderDevice(const RenderDevice&) = delete;
             RenderDevice& operator=(const RenderDevice&) = delete;

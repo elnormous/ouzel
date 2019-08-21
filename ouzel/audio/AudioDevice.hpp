@@ -23,7 +23,7 @@ namespace ouzel
                                                  uint16_t channels,
                                                  uint32_t sampleRate,
                                                  std::vector<float>& samples)>& initDataGetter);
-            virtual ~AudioDevice();
+            virtual ~AudioDevice() = default;
 
             AudioDevice(const AudioDevice&) = delete;
             AudioDevice& operator=(const AudioDevice&) = delete;

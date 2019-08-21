@@ -22,10 +22,6 @@ namespace ouzel
         {
         }
 
-        AudioDevice::~AudioDevice()
-        {
-        }
-
         void AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
         {
             dataGetter(frames, channels, sampleRate, buffer);

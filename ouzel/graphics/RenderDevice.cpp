@@ -29,10 +29,6 @@ namespace ouzel
         {
         }
 
-        RenderDevice::~RenderDevice()
-        {
-        }
-
         void RenderDevice::init(Window* newWindow,
                                 const Size2U&,
                                 uint32_t newSampleCount,
