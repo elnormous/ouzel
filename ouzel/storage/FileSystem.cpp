@@ -107,7 +107,7 @@ namespace ouzel
             Boolean result = CFStringGetFileSystemRepresentation(path, resourceDirectory.data(), maximumSize);
             CFRelease(path);
             if (!result)
-                throw std::runtime_error("Failed to get current directory");
+                throw std::runtime_error("Failed to get resource directory");
 
             appPath = resourceDirectory.data();
             engine.log(Log::Level::Info) << "Application directory: " << appPath;
