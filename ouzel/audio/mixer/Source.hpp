@@ -18,6 +18,11 @@ namespace ouzel
             {
             public:
                 Source() noexcept = default;
+                explicit Source(std::unique_ptr<Emitter> initEmitter) noexcept:
+                    emitter(std::move(initEmitter))
+                {
+                }
+
                 virtual ~Source() = default;
 
                 virtual void play() = 0;

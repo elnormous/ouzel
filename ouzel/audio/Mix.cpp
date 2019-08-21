@@ -25,38 +25,10 @@ namespace ouzel
             for (Voice* voice : inputVoices)
                 voice->output = nullptr;
 
-            for (Effect* effect : effects)
-                effect->mix = nullptr;
-
             for (Listener* listener : listeners)
                 listener->mix = nullptr;
 
             if (busId) audio.deleteObject(busId);
-        }
-
-        void Mix::addEffect(Effect* effect)
-        {
-            auto i = std::find(effects.begin(), effects.end(), effect);
-            if (i == effects.end())
-            {
-                if (effect->mix) effect->mix->removeEffect(effect);
-                effect->mix = this;
-                effects.push_back(effect);
-
-                audio.addCommand(std::make_unique<mixer::AddProcessorCommand>(busId, effect->getProcessorId()));
-            }
-        }
-
-        void Mix::removeEffect(Effect* effect)
-        {
-            auto i = std::find(effects.begin(), effects.end(), effect);
-            if (i != effects.end())
-            {
-                effect->mix = nullptr;
-                effects.erase(i);
-
-                audio.addCommand(std::make_unique<mixer::RemoveProcessorCommand>(busId, effect->getProcessorId()));
-            }
         }
 
         void Mix::addInput(Submix* submix)

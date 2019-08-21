@@ -30,8 +30,6 @@ namespace ouzel
                     Stop,
                     InitBus,
                     SetBusOutput,
-                    AddProcessor,
-                    RemoveProcessor,
                     SetMasterBus,
                     InitStream,
                     PlayStream,
@@ -115,12 +113,15 @@ namespace ouzel
             class InitBusCommand final: public Command
             {
             public:
-                explicit constexpr InitBusCommand(uintptr_t initBusId) noexcept:
+                explicit InitBusCommand(uintptr_t initBusId,
+                                        std::unique_ptr<Processor> initProcessor) noexcept:
                     Command(Command::Type::InitBus),
-                    busId(initBusId)
+                    busId(initBusId),
+                    processor(std::move(initProcessor))
                 {}
 
                 const uintptr_t busId;
+                std::unique_ptr<Processor> processor;
             };
 
             class SetBusOutputCommand final: public Command
@@ -137,34 +138,6 @@ namespace ouzel
                 const uintptr_t outputBusId;
             };
 
-            class AddProcessorCommand final: public Command
-            {
-            public:
-                constexpr AddProcessorCommand(uintptr_t initBusId,
-                                              uintptr_t initProcessorId) noexcept:
-                    Command(Command::Type::AddProcessor),
-                    busId(initBusId),
-                    processorId(initProcessorId)
-                {}
-
-                const uintptr_t busId;
-                const uintptr_t processorId;
-            };
-
-            class RemoveProcessorCommand final: public Command
-            {
-            public:
-                constexpr RemoveProcessorCommand(uintptr_t initBusId,
-                                                 uintptr_t initProcessorId) noexcept:
-                    Command(Command::Type::RemoveProcessor),
-                    busId(initBusId),
-                    processorId(initProcessorId)
-                {}
-
-                const uintptr_t busId;
-                const uintptr_t processorId;
-            };
-
             class SetMasterBusCommand final: public Command
             {
             public:
@@ -179,15 +152,15 @@ namespace ouzel
             class InitStreamCommand final: public Command
             {
             public:
-                constexpr InitStreamCommand(uintptr_t initStreamId,
-                                            uintptr_t initDataId) noexcept:
+                InitStreamCommand(uintptr_t initStreamId,
+                                  std::unique_ptr<Emitter> initEmitter) noexcept:
                     Command(Command::Type::InitStream),
                     streamId(initStreamId),
-                    dataId(initDataId)
+                    emitter(std::move(initEmitter))
                 {}
 
                 const uintptr_t streamId;
-                const uintptr_t dataId;
+                std::unique_ptr<Emitter> emitter;
             };
 
             class PlayStreamCommand final: public Command

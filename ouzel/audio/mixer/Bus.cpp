@@ -22,9 +22,6 @@ namespace ouzel
 
                 for (Stream* stream : inputStreams)
                     stream->output = nullptr;
-
-                for (Processor* processor : processors)
-                    processor->bus = nullptr;
             }
 
             void Bus::setOutput(Bus* newOutput)
@@ -269,32 +266,8 @@ namespace ouzel
                     }
                 }
 
-                for (Processor* processor : processors)
-                    if (processor->isEnabled())
-                        processor->process(frames, channels, sampleRate, samples);
-            }
-
-            void Bus::addProcessor(Processor* processor)
-            {
-                auto i = std::find(processors.begin(), processors.end(), processor);
-
-                if (i == processors.end())
-                {
-                    if (processor->bus) processor->bus->removeProcessor(processor);
-                    processor->bus = this;
-                    processors.push_back(processor);
-                }
-            }
-
-            void Bus::removeProcessor(Processor* processor)
-            {
-                auto i = std::find(processors.begin(), processors.end(), processor);
-
-                if (i != processors.end())
-                {
-                    processor->bus = nullptr;
-                    processors.erase(i);
-                }
+                if (processor && processor->isEnabled())
+                    processor->process(frames, channels, sampleRate, samples);
             }
 
             void Bus::addInput(Bus* bus)

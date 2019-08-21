@@ -18,7 +18,6 @@ namespace ouzel
 
         Effect::~Effect()
         {
-            if (mix) mix->removeEffect(this);
             if (processorId) audio.deleteObject(processorId);
         }
 

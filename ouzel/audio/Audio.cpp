@@ -181,14 +181,14 @@ namespace ouzel
         uintptr_t Audio::initBus()
         {
             uintptr_t busId = mixer.getObjectId();
-            addCommand(std::make_unique<mixer::InitBusCommand>(busId));
+            //addCommand(std::make_unique<mixer::InitBusCommand>(busId));
             return busId;
         }
 
         uintptr_t Audio::initStream(uintptr_t sourceId)
         {
             uintptr_t streamId = mixer.getObjectId();
-            addCommand(std::make_unique<mixer::InitStreamCommand>(streamId, sourceId));
+            //addCommand(std::make_unique<mixer::InitStreamCommand>(streamId, sourceId));
             return streamId;
         }
 

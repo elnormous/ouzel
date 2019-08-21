@@ -93,12 +93,12 @@ namespace ouzel
                             }
                             case Command::Type::InitBus:
                             {
-                                auto initBusCommand = static_cast<const InitBusCommand*>(command.get());
+                                auto initBusCommand = static_cast<InitBusCommand*>(command.get());
 
                                 if (initBusCommand->busId > objects.size())
                                     objects.resize(initBusCommand->busId);
 
-                                objects[initBusCommand->busId - 1] = std::make_unique<Bus>();
+                                objects[initBusCommand->busId - 1] = std::make_unique<Bus>(std::move(initBusCommand->processor));
                                 break;
                             }
                             case Command::Type::SetBusOutput:
@@ -107,24 +107,6 @@ namespace ouzel
 
                                 Bus* bus = static_cast<Bus*>(objects[setBusOutputCommand->busId - 1].get());
                                 bus->setOutput(setBusOutputCommand->outputBusId ? static_cast<Bus*>(objects[setBusOutputCommand->outputBusId - 1].get()) : nullptr);
-                                break;
-                            }
-                            case Command::Type::AddProcessor:
-                            {
-                                auto addProcessorCommand = static_cast<const AddProcessorCommand*>(command.get());
-
-                                Bus* bus = static_cast<Bus*>(objects[addProcessorCommand->busId - 1].get());
-                                //Processor* processor = static_cast<Processor*>(objects[addProcessorCommand->processorId - 1].get());
-                                //bus->addProcessor(processor);
-                                break;
-                            }
-                            case Command::Type::RemoveProcessor:
-                            {
-                                auto removeProcessorCommand = static_cast<const RemoveProcessorCommand*>(command.get());
-
-                                Bus* bus = static_cast<Bus*>(objects[removeProcessorCommand->busId - 1].get());
-                                //Processor* processor = static_cast<Processor*>(objects[removeProcessorCommand->processorId - 1].get());
-                                //bus->removeProcessor(processor);
                                 break;
                             }
                             case Command::Type::SetMasterBus:
@@ -141,8 +123,8 @@ namespace ouzel
                                 if (initStreamCommand->streamId > objects.size())
                                     objects.resize(initStreamCommand->streamId);
 
-                                Data* data = static_cast<Data*>(objects[initStreamCommand->dataId - 1].get());
-                                objects[initStreamCommand->streamId - 1] = data->createStream();
+                                //Data* data = static_cast<Data*>(objects[initStreamCommand->dataId - 1].get());
+                                //objects[initStreamCommand->streamId - 1] = data->createStream();
                                 break;
                             }
                             case Command::Type::PlayStream:

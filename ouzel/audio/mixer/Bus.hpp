@@ -5,6 +5,7 @@
 
 #include <vector>
 #include "audio/mixer/Object.hpp"
+#include "audio/mixer/Processor.hpp"
 
 namespace ouzel
 {
@@ -12,15 +13,17 @@ namespace ouzel
     {
         namespace mixer
         {
-            class Processor;
             class Stream;
 
             class Bus final: public Object
             {
-                friend Processor;
                 friend Stream;
             public:
                 Bus() noexcept {}
+                explicit Bus(std::unique_ptr<Processor> initProcessor) noexcept:
+                    processor(std::move(initProcessor))
+                {
+                }
                 ~Bus();
                 Bus(const Bus&) = delete;
                 Bus& operator=(const Bus&) = delete;
@@ -32,14 +35,13 @@ namespace ouzel
 
                 void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) final
                 {
+                    //if (processor)
+                    //    processor->process();
                 }
 
                 void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                                 const Vector3F& listenerPosition, const QuaternionF& listenerRotation,
                                 std::vector<float>& samples);
-
-                void addProcessor(Processor* processor);
-                void removeProcessor(Processor* processor);
 
             private:
                 void addInput(Bus* bus);
@@ -47,10 +49,11 @@ namespace ouzel
                 void addInput(Stream* stream);
                 void removeInput(Stream* stream);
 
+                std::unique_ptr<Processor> processor;
+
                 Bus* output = nullptr;
                 std::vector<Bus*> inputBuses;
                 std::vector<Stream*> inputStreams;
-                std::vector<Processor*> processors;
 
                 std::vector<float> resampleBuffer;
                 std::vector<float> mixBuffer;

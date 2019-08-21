@@ -4,7 +4,6 @@
 #define OUZEL_AUDIO_MIXER_PROCESSOR_HPP
 
 #include "audio/mixer/Object.hpp"
-#include "audio/mixer/Bus.hpp"
 
 namespace ouzel
 {
@@ -14,13 +13,9 @@ namespace ouzel
         {
             class Processor
             {
-                friend Bus;
             public:
                 Processor() noexcept = default;
-                ~Processor()
-                {
-                    if (bus) bus->removeProcessor(this);
-                }
+                virtual ~Processor() = default;
 
                 Processor(const Processor&) = delete;
                 Processor& operator=(const Processor&) = delete;
@@ -35,7 +30,6 @@ namespace ouzel
                 inline void setEnabled(bool newEnabled) { enabled = newEnabled; }
 
             private:
-                Bus* bus = nullptr;
                 bool enabled = true;
             };
         }
