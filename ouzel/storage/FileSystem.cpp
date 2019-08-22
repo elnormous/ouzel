@@ -128,7 +128,7 @@ namespace ouzel
 #endif
         }
 
-        std::string FileSystem::getStorageDirectory(bool user) const
+        std::string FileSystem::getStorageDirectory(const bool user) const
         {
 #if defined(_WIN32)
             WCHAR appDataPath[MAX_PATH];
@@ -244,7 +244,7 @@ namespace ouzel
 #elif defined(__linux__)
             std::string path;
 
-            char* homeDirectory = getenv("XDG_DATA_HOME");
+            const char* homeDirectory = getenv("XDG_DATA_HOME");
 
             if (homeDirectory)
                 path = homeDirectory;
@@ -329,7 +329,7 @@ namespace ouzel
 #endif
         }
 
-        std::vector<uint8_t> FileSystem::readFile(const std::string& filename, bool searchResources) const
+        std::vector<uint8_t> FileSystem::readFile(const std::string& filename, const bool searchResources) const
         {
             if (searchResources)
                 for (const auto& archive : archives)
@@ -421,7 +421,7 @@ namespace ouzel
             EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
             AAssetDir* assetDir = AAssetManager_openDir(engineAndroid.getAssetManager(), dirname.c_str());
-            bool exists = AAssetDir_getNextFileName(assetDir) != nullptr;
+            const bool exists = AAssetDir_getNextFileName(assetDir) != nullptr;
             AAssetDir_close(assetDir);
 
             if (exists) return true;
@@ -495,7 +495,7 @@ namespace ouzel
 #endif
         }
 
-        std::string FileSystem::getPath(const std::string& filename, bool searchResources) const
+        std::string FileSystem::getPath(const std::string& filename, const bool searchResources) const
         {
             if (!pathIsRelative(filename))
             {

@@ -26,14 +26,14 @@ namespace ouzel
             FileSystem(FileSystem&&) = delete;
             FileSystem& operator=(FileSystem&&) = delete;
 
-            std::string getStorageDirectory(bool user = true) const;
+            std::string getStorageDirectory(const bool user = true) const;
             std::string getTempDirectory() const;
 
-            std::vector<uint8_t> readFile(const std::string& filename, bool searchResources = true) const;
+            std::vector<uint8_t> readFile(const std::string& filename, const bool searchResources = true) const;
             void writeFile(const std::string& filename, const std::vector<uint8_t>& data) const;
 
             bool resourceFileExists(const std::string& filename) const;
-            std::string getPath(const std::string& filename, bool searchResources = true) const;
+            std::string getPath(const std::string& filename, const bool searchResources = true) const;
             void addResourcePath(const std::string& path);
             void removeResourcePath(const std::string& path);
             void addArchive(const std::string& name, Archive&& archive);
