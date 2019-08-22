@@ -43,13 +43,13 @@ namespace ouzel
             const scene::StaticMeshData* getStaticMeshData(const std::string& name) const;
 
         private:
-            void addBundle(Bundle* bundle);
-            void removeBundle(Bundle* bundle);
+            void addBundle(const Bundle* bundle);
+            void removeBundle(const Bundle* bundle);
 
             void addLoader(std::unique_ptr<Loader> loader);
-            void removeLoader(Loader* loader);
+            void removeLoader(const Loader* loader);
 
-            std::vector<Bundle*> bundles;
+            std::vector<const Bundle*> bundles;
             std::vector<std::unique_ptr<Loader>> loaders;
         };
     } // namespace assets
