@@ -39,10 +39,10 @@ namespace ouzel
                 ownedLayers.push_back(std::move(layer));
             }
 
-            bool removeLayer(Layer* layer);
+            bool removeLayer(const Layer* layer);
 
             void removeAllLayers();
-            bool hasLayer(Layer* layer) const;
+            bool hasLayer(const Layer* layer) const;
             inline auto& getLayers() const noexcept { return layers; }
 
             virtual void recalculateProjection();

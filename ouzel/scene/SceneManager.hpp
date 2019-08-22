@@ -38,7 +38,7 @@ namespace ouzel
                 ownedScenes.push_back(std::move(scene));
             }
 
-            bool removeScene(Scene* scene);
+            bool removeScene(const Scene* scene);
 
             inline auto getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
 

@@ -35,13 +35,13 @@ namespace ouzel
 
             void addChild(std::unique_ptr<Actor> actor);
             virtual void addChild(Actor* actor);
-            virtual bool removeChild(Actor* actor);
-            std::unique_ptr<Actor> releaseChild(Actor* actor);
+            virtual bool removeChild(const Actor* actor);
+            std::unique_ptr<Actor> releaseChild(const Actor* actor);
 
             bool moveChildToBack(Actor* actor);
             bool moveChildToFront(Actor* actor);
             virtual void removeAllChildren();
-            virtual bool hasChild(Actor* actor, bool recursive = false) const;
+            virtual bool hasChild(const Actor* actor, bool recursive = false) const;
             virtual const std::vector<Actor*>& getChildren() const noexcept { return children; }
 
             inline auto getLayer() const noexcept { return layer; }

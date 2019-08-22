@@ -78,7 +78,7 @@ namespace ouzel
             }
         }
 
-        bool Scene::removeLayer(Layer* layer)
+        bool Scene::removeLayer(const Layer* layer)
         {
             bool result = false;
 
@@ -86,12 +86,14 @@ namespace ouzel
 
             if (layerIterator != layers.end())
             {
+                Layer* child = *layerIterator;
+
                 if (entered)
-                    layer->leave();
+                    child->leave();
+
+                child->scene = nullptr;
 
                 layers.erase(layerIterator);
-
-                layer->scene = nullptr;
 
                 result = true;
             }
@@ -118,7 +120,7 @@ namespace ouzel
             ownedLayers.clear();
         }
 
-        bool Scene::hasLayer(Layer* layer) const
+        bool Scene::hasLayer(const Layer* layer) const
         {
             auto i = std::find(layers.cbegin(), layers.cend(), layer);
 

@@ -138,7 +138,7 @@ namespace ouzel
             animators.push_back(animator);
         }
 
-        bool Animator::removeAnimator(Animator* animator)
+        bool Animator::removeAnimator(const Animator* animator)
         {
             assert(animator);
 
@@ -148,7 +148,9 @@ namespace ouzel
 
             if (animatorIterator != animators.end())
             {
-                animator->parent = nullptr;
+                Animator* child = *animatorIterator;
+
+                child->parent = nullptr;
                 animators.erase(animatorIterator);
                 result = true;
             }

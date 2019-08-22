@@ -30,7 +30,7 @@ namespace ouzel
             scenes.push_back(scene);
         }
 
-        bool SceneManager::removeScene(Scene* scene)
+        bool SceneManager::removeScene(const Scene* scene)
         {
             bool result = false;
 
@@ -38,8 +38,10 @@ namespace ouzel
 
             if (sceneIterator != scenes.end())
             {
-                if (scene->entered) scene->leave();
-                scene->sceneManger = nullptr;
+                Scene* child = *sceneIterator;
+
+                if (child->entered) child->leave();
+                child->sceneManger = nullptr;
                 scenes.erase(sceneIterator);
 
                 result = true;

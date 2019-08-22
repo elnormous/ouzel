@@ -421,16 +421,16 @@ namespace ouzel
             }
         }
 
-        bool Menu::removeChild(Actor* actor)
+        bool Menu::removeChild(const Actor* actor)
         {
             auto i = std::find(widgets.begin(), widgets.end(), actor);
 
             if (i != widgets.end())
             {
-                widgets.erase(i);
-
-                Widget* widget = static_cast<Widget*>(actor);
+                Widget* widget = *i;
                 widget->menu = nullptr;
+                
+                widgets.erase(i);
             }
 
             if (selectedWidget == actor)

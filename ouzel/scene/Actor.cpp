@@ -42,7 +42,7 @@ namespace ouzel
             children.push_back(actor);
         }
 
-        bool ActorContainer::removeChild(Actor* actor)
+        bool ActorContainer::removeChild(const Actor* actor)
         {
             bool result = false;
 
@@ -50,9 +50,11 @@ namespace ouzel
 
             if (childIterator != children.end())
             {
-                if (entered) actor->leave();
-                actor->parent = nullptr;
-                actor->setLayer(nullptr);
+                Actor* child = *childIterator;
+
+                if (entered) child->leave();
+                child->parent = nullptr;
+                child->setLayer(nullptr);
                 children.erase(childIterator);
 
                 result = true;
@@ -67,7 +69,7 @@ namespace ouzel
             return result;
         }
 
-        std::unique_ptr<Actor> ActorContainer::releaseChild(Actor* actor)
+        std::unique_ptr<Actor> ActorContainer::releaseChild(const Actor* actor)
         {
             std::unique_ptr<Actor> result;
 
@@ -126,7 +128,7 @@ namespace ouzel
             ownedChildren.clear();
         }
 
-        bool ActorContainer::hasChild(Actor* actor, bool recursive) const
+        bool ActorContainer::hasChild(const Actor* actor, bool recursive) const
         {
             for (auto i = children.cbegin(); i != children.cend(); ++i)
             {

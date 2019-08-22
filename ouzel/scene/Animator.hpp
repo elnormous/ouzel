@@ -41,7 +41,7 @@ namespace ouzel
 
             void addAnimator(std::unique_ptr<Animator> animator);
             void addAnimator(Animator* animator);
-            bool removeAnimator(Animator* animator);
+            bool removeAnimator(const Animator* animator);
             void removeAllAnimators();
 
             inline auto getParent() const noexcept { return parent; }

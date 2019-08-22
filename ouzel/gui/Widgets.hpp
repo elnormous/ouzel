@@ -144,7 +144,7 @@ namespace ouzel
 
             void setEnabled(bool newEnabled) override;
 
-            bool removeChild(Actor* actor) override;
+            bool removeChild(const Actor* actor) override;
 
             void addWidget(Widget* widget);
 
