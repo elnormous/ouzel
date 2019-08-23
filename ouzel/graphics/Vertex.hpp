@@ -42,7 +42,7 @@ namespace ouzel
             Vertex(const Vector3F& initPosition, Color initColor,
                    const Vector2F& initTexCoord, const Vector3F& initNormal) noexcept:
                 position(initPosition), color(initColor),
-                normal(initNormal), texCoords{initTexCoord}
+                texCoords{initTexCoord}, normal(initNormal)
             {
             }
 
