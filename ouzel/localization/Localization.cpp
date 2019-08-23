@@ -119,15 +119,9 @@ namespace ouzel
         auto i = languages.find(name);
 
         if (i != languages.end())
-        {
-            bool isCurrent = (currentLanguage == i->second.get());
-
-            i->second = std::make_unique<Language>(data);
-
-            if (isCurrent) currentLanguage = i->second.get();
-        }
+            i->second = Language(data);
         else
-            languages.insert(std::make_pair(name, std::make_unique<Language>(data)));
+            languages.insert(std::make_pair(name, Language(data)));
     }
 
     void Localization::removeLanguage(const std::string& name)
@@ -136,8 +130,8 @@ namespace ouzel
 
         if (i != languages.end())
         {
-            if (currentLanguage == i->second.get())
-                currentLanguage = nullptr;
+            if (currentLanguage == i)
+                currentLanguage = languages.end();
 
             languages.erase(i);
         }
@@ -148,15 +142,15 @@ namespace ouzel
         auto i = languages.find(name);
 
         if (i != languages.end())
-            currentLanguage = i->second.get();
+            currentLanguage = i;
         else
-            currentLanguage = nullptr;
+            currentLanguage = languages.end();
     }
 
     std::string Localization::getString(const std::string& str) const
     {
-        if (currentLanguage)
-            return currentLanguage->getString(str);
+        if (currentLanguage != languages.end())
+            return currentLanguage->second.getString(str);
         else
             return str;
     }

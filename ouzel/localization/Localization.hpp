@@ -32,8 +32,8 @@ namespace ouzel
         std::string getString(const std::string& str) const;
 
     private:
-        std::map<std::string, std::unique_ptr<Language>> languages;
-        Language* currentLanguage = nullptr;
+        std::map<std::string, Language> languages;
+        std::map<std::string, Language>::iterator currentLanguage = languages.end();
     };
 }
 
