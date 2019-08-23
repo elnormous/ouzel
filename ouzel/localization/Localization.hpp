@@ -4,7 +4,6 @@
 #define OUZEL_LOCALIZATION_LOCALIZATION_HPP
 
 #include <cstdint>
-#include <memory>
 #include <map>
 #include <string>
 #include <vector>
