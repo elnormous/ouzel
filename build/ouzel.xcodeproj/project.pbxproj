@@ -907,6 +907,10 @@
 		303B76071C34A92B00FEDE92 /* InputManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManager.hpp; sourceTree = "<group>"; };
 		303B76801C355A3B00FEDE92 /* libouzel_tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_tvos.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B76831C355A5800FEDE92 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		30412797231174B40054E7ED /* VisualStudioProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VisualStudioProject.hpp; sourceTree = "<group>"; };
+		30412798231174C00054E7ED /* XcodeProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = XcodeProject.hpp; sourceTree = "<group>"; };
+		30412799231174CC0054E7ED /* MakefileProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MakefileProject.hpp; sourceTree = "<group>"; };
+		3041279A231174DE0054E7ED /* Project.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
 		30419DDF1D162BCF00A63759 /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Audio.cpp; sourceTree = "<group>"; };
 		30419DE01D162BCF00A63759 /* Audio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Audio.hpp; sourceTree = "<group>"; };
 		30419DE71D162BDC00A63759 /* Voice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Voice.cpp; sourceTree = "<group>"; };
@@ -1187,6 +1191,10 @@
 			isa = PBXGroup;
 			children = (
 				3023201622220C70007E0AAD /* main.cpp */,
+				30412799231174CC0054E7ED /* MakefileProject.hpp */,
+				3041279A231174DE0054E7ED /* Project.hpp */,
+				30412797231174B40054E7ED /* VisualStudioProject.hpp */,
+				30412798231174C00054E7ED /* XcodeProject.hpp */,
 			);
 			path = ouzel;
 			sourceTree = "<group>";

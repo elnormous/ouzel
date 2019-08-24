@@ -144,6 +144,12 @@
   <ItemGroup>
     <ClCompile Include="..\tools\ouzel\main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\tools\MakefileProject.hpp" />
+    <ClInclude Include="..\tools\Project.hpp" />
+    <ClInclude Include="..\tools\VisualStudioProject.hpp" />
+    <ClInclude Include="..\tools\XcodeProject.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

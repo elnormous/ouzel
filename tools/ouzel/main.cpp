@@ -1,6 +1,12 @@
+// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
+
 #include <cstdlib>
 #include <iostream>
+#include <set>
 #include <stdexcept>
+#include "MakefileProject.hpp"
+#include "VisualStudioProject.hpp"
+#include "XcodeProject.hpp"
 
 int main(int argc, const char* argv[])
 {
@@ -13,36 +19,34 @@ int main(int argc, const char* argv[])
 
     enum class Project
     {
-        ALL,
-        VISUAL_STUDIO,
-        XCODE,
-        MAKEFILE
+        Makefile,
+        VisualStudio,
+        Xcode
     };
 
     enum class Platform
     {
-        ALL,
-        WINDOWS,
-        MACOS,
-        LINUX,
+        Windows,
+        MacOS,
+        Linux,
         IOS,
-        TVOS,
-        ANDROID,
-        EMSCRIPTEN
+        TvOS,
+        Android,
+        Emscripten
     };
 
     Action action = Action::NONE;
     std::string path;
     std::string name;
-    Project project = Project::ALL;
-    Platform platform = Platform::ALL;
+    std::set<Project> projects;
+    std::set<Platform> platforms;
 
     for (int i = 1; i < argc; ++i)
     {
         if (std::string(argv[i]) == "--help")
         {
             std::cout << "Usage:\n";
-            std::cout << argv[0] << " [--help] [--new-project <name>] [--location <location>]\n";
+            std::cout << argv[0] << " [--help] [--new-project <name>] [--generate <path>] [--project <all|makefile|visualstudio|xcode>] [--location <location>]\n";
             return EXIT_SUCCESS;
         }
         else if (std::string(argv[i]) == "--new-project")
@@ -72,34 +76,46 @@ int main(int argc, const char* argv[])
         else if (std::string(argv[i]) == "--project")
         {
             if (std::string(argv[i]) == "all")
-                project = Project::ALL;
-            else if (std::string(argv[i]) == "visualstudio")
-                project = Project::VISUAL_STUDIO;
-            else if (std::string(argv[i]) == "xcode")
-                project = Project::XCODE;
+            {
+                projects.insert(Project::Makefile);
+                projects.insert(Project::VisualStudio);
+                projects.insert(Project::Xcode);
+            }
             else if (std::string(argv[i]) == "makefile")
-                project = Project::MAKEFILE;
+                projects.insert(Project::Makefile);
+            else if (std::string(argv[i]) == "visualstudio")
+                projects.insert(Project::VisualStudio);
+            else if (std::string(argv[i]) == "xcode")
+                projects.insert(Project::Xcode);
             else
                 throw std::runtime_error("Invalid project");
         }
         else if (std::string(argv[i]) == "--platform")
         {
             if (std::string(argv[i]) == "all")
-                platform = Platform::ALL;
+            {
+                platforms.insert(Platform::Windows);
+                platforms.insert(Platform::MacOS);
+                platforms.insert(Platform::Linux);
+                platforms.insert(Platform::IOS);
+                platforms.insert(Platform::TvOS);
+                platforms.insert(Platform::Android);
+                platforms.insert(Platform::Emscripten);
+            }
             else if (std::string(argv[i]) == "windows")
-                platform = Platform::WINDOWS;
+                platforms.insert(Platform::Windows);
             else if (std::string(argv[i]) == "macos")
-                platform = Platform::MACOS;
+                platforms.insert(Platform::MacOS);
             else if (std::string(argv[i]) == "linux")
-                platform = Platform::LINUX;
+                platforms.insert(Platform::Linux);
             else if (std::string(argv[i]) == "ios")
-                platform = Platform::IOS;
+                platforms.insert(Platform::IOS);
             else if (std::string(argv[i]) == "tvos")
-                platform = Platform::TVOS;
+                platforms.insert(Platform::TvOS);
             else if (std::string(argv[i]) == "android")
-                platform = Platform::ANDROID;
+                platforms.insert(Platform::Android);
             else if (std::string(argv[i]) == "emscripten")
-                platform = Platform::EMSCRIPTEN;
+                platforms.insert(Platform::Emscripten);
             else
                 throw std::runtime_error("Invalid platform");
         }
