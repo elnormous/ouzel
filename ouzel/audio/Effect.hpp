@@ -50,11 +50,15 @@ namespace ouzel
             friend Mix;
         public:
             Effect(Audio& initAudio);
+            virtual ~Effect() {}
 
             Effect(const Effect&) = delete;
             Effect& operator=(const Effect&) = delete;
             Effect(Effect&&) = delete;
             Effect& operator=(Effect&&) = delete;
+
+            virtual void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                                 std::vector<float>& samples) = 0;
 
             inline auto isEnabled() const noexcept { return enabled; }
             void setEnabled(bool newEnabled);

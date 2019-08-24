@@ -11,52 +11,6 @@ namespace ouzel
 {
     namespace audio
     {
-        class DelayProcessor final: public mixer::Processor
-        {
-        public:
-            explicit DelayProcessor(float initDelay):
-                delay(initDelay)
-            {
-            }
-
-            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
-                         std::vector<float>& samples) final
-            {
-                const auto delayFrames = static_cast<uint32_t>(delay * sampleRate);
-                const auto bufferFrames = frames + delayFrames;
-
-                buffer.resize(bufferFrames * channels);
-
-                for (uint32_t channel = 0; channel < channels; ++channel)
-                {
-                    float* bufferChannel = &buffer[channel * bufferFrames];
-                    float* outputChannel = &samples[channel * frames];
-
-                    for (uint32_t frame = 0; frame < frames; ++frame)
-                        bufferChannel[frame + delayFrames] += outputChannel[frame];
-
-                    for (uint32_t frame = 0; frame < frames; ++frame)
-                        outputChannel[frame] = bufferChannel[frame];
-
-                    // erase frames from beginning
-                    for (uint32_t frame = 0; frame < bufferFrames - frames; ++frame)
-                        bufferChannel[frame] = bufferChannel[frame + frames];
-
-                    for (uint32_t frame = bufferFrames - frames; frame < bufferFrames; ++frame)
-                        bufferChannel[frame] = 0.0F;
-                }
-            }
-
-            void setDelay(float newDelay)
-            {
-                delay = newDelay;
-            }
-
-        private:
-            float delay = 0.0F;
-            std::vector<float> buffer;
-        };
-
         Delay::Delay(Audio& initAudio, float initDelay):
             Effect(initAudio),
             delay(initDelay)
@@ -65,6 +19,34 @@ namespace ouzel
 
         Delay::~Delay()
         {
+        }
+
+        void Delay::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                            std::vector<float>& samples)
+        {
+            const auto delayFrames = static_cast<uint32_t>(delay * sampleRate);
+            const auto bufferFrames = frames + delayFrames;
+
+            buffer.resize(bufferFrames * channels);
+
+            for (uint16_t channel = 0; channel < channels; ++channel)
+            {
+                float* bufferChannel = &buffer[channel * bufferFrames];
+                float* outputChannel = &samples[channel * frames];
+
+                for (uint32_t frame = 0; frame < frames; ++frame)
+                    bufferChannel[frame + delayFrames] += outputChannel[frame];
+
+                    for (uint32_t frame = 0; frame < frames; ++frame)
+                        outputChannel[frame] = bufferChannel[frame];
+
+                        // erase frames from beginning
+                        for (uint32_t frame = 0; frame < bufferFrames - frames; ++frame)
+                            bufferChannel[frame] = bufferChannel[frame + frames];
+
+                            for (uint32_t frame = bufferFrames - frames; frame < bufferFrames; ++frame)
+                                bufferChannel[frame] = 0.0F;
+            }
         }
 
         void Delay::setDelay(float newDelay)
@@ -78,33 +60,6 @@ namespace ouzel
             // TODO: pass to processor
         }
 
-        class GainProcessor final: public mixer::Processor
-        {
-        public:
-            explicit GainProcessor(float initGain = 0.0F):
-                gain(initGain),
-                gainFactor(std::pow(10.0F, initGain / 20.0F))
-            {
-            }
-
-            void process(uint32_t, uint32_t, uint32_t,
-                         std::vector<float>& samples) final
-            {
-                for (float& sample : samples)
-                    sample *= gainFactor;
-            }
-
-            void setGain(float newGain)
-            {
-                gain = newGain;
-                gainFactor = std::pow(10.0F, gain / 20.0F);
-            }
-
-        private:
-            float gain = 0.0F;
-            float gainFactor = 1.0F;
-        };
-
         Gain::Gain(Audio& initAudio, float initGain):
             Effect(initAudio),
             gain(initGain)
@@ -115,9 +70,17 @@ namespace ouzel
         {
         }
 
+        void Gain::process(uint32_t, uint16_t, uint32_t,
+                     std::vector<float>& samples)
+        {
+            for (float& sample : samples)
+                sample *= gainFactor;
+        }
+
         void Gain::setGain(float newGain)
         {
             gain = newGain;
+            gainFactor = pow(10.0F, gain / 20.0F);
         }
 
         void Gain::setGainRandom(const std::pair<float, float>& newGainRandom)
@@ -126,51 +89,17 @@ namespace ouzel
             // TODO: pass to processor
         }
 
-        class PannerProcessor final: public mixer::Processor
-        {
-        public:
-            PannerProcessor()
-            {
-            }
-
-            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
-                         std::vector<float>& samples) final
-            {
-            }
-
-            void setPosition(const Vector3F& newPosition)
-            {
-                position = newPosition;
-            }
-
-            void setRolloffFactor(float newRolloffFactor)
-            {
-                rolloffFactor = newRolloffFactor;
-            }
-
-            void setMinDistance(float newMinDistance)
-            {
-                minDistance = newMinDistance;
-            }
-
-            void setMaxDistance(float newMaxDistance)
-            {
-                maxDistance = newMaxDistance;
-            }
-
-        private:
-            Vector3F position;
-            float rolloffFactor = 1.0F;
-            float minDistance = 1.0F;
-            float maxDistance = FLT_MAX;
-        };
-
         Panner::Panner(Audio& initAudio):
             Effect(initAudio)
         {
         }
 
         Panner::~Panner()
+        {
+        }
+
+        void Panner::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                             std::vector<float>& samples)
         {
         }
 
@@ -205,35 +134,6 @@ namespace ouzel
             constexpr float MAX_PITCH = 2.0F;
         }
 
-        class PitchScaleProcessor final: public mixer::Processor
-        {
-        public:
-            explicit PitchScaleProcessor(float initScale):
-                scale(clamp(initScale, MIN_PITCH, MAX_PITCH))
-            {
-            }
-
-            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
-                         std::vector<float>& samples) final
-            {
-                pitchShift.resize(channels);
-
-                for (uint32_t channel = 0; channel < channels; ++channel)
-                    pitchShift[channel].process(scale, frames, sampleRate,
-                                                &samples[channel * frames],
-                                                &samples[channel * frames]);
-            }
-
-            void setScale(float newScale)
-            {
-                scale = clamp(newScale, MIN_PITCH, MAX_PITCH);
-            }
-
-        private:
-            float scale = 1.0f;
-            std::vector<smb::PitchShift<1024, 4>> pitchShift;
-        };
-
         PitchScale::PitchScale(Audio& initAudio, float initScale):
             Effect(initAudio),
             scale(initScale)
@@ -244,9 +144,20 @@ namespace ouzel
         {
         }
 
+        void PitchScale::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                                 std::vector<float>& samples)
+        {
+            pitchShift.resize(channels);
+
+            for (uint16_t channel = 0; channel < channels; ++channel)
+                pitchShift[channel].process(scale, frames, sampleRate,
+                                            &samples[channel * frames],
+                                            &samples[channel * frames]);
+        }
+
         void PitchScale::setScale(float newScale)
         {
-            scale = newScale;
+            scale = clamp(newScale, MIN_PITCH, MAX_PITCH);
         }
 
         void PitchScale::setScaleRandom(const std::pair<float, float>& newScaleRandom)
@@ -254,29 +165,6 @@ namespace ouzel
             scaleRandom = newScaleRandom;
             // TODO: pass to processor
         }
-
-        class PitchShiftProcessor final: public mixer::Processor
-        {
-        public:
-            explicit PitchShiftProcessor(float initShift):
-                shift(initShift)
-            {
-            }
-
-            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
-                         std::vector<float>& samples) final
-            {
-                // TODO: implement
-            }
-
-            void setShift(float newShift)
-            {
-                shift = newShift;
-            }
-
-        private:
-            float shift = 1.0f;
-        };
 
         PitchShift::PitchShift(Audio& initAudio, float initShift):
             Effect(initAudio),
@@ -286,6 +174,12 @@ namespace ouzel
 
         PitchShift::~PitchShift()
         {
+        }
+
+        void PitchShift::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                                 std::vector<float>& samples)
+        {
+            // TODO: implement
         }
 
         void PitchShift::setShift(float newShift)
@@ -299,49 +193,6 @@ namespace ouzel
             // TODO: pass to processor
         }
 
-        class ReverbProcessor final: public mixer::Processor
-        {
-        public:
-            ReverbProcessor(float initDelay, float initDecay):
-                delay(initDelay), decay(initDecay)
-            {
-            }
-
-            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
-                         std::vector<float>& samples) final
-            {
-                const auto delayFrames = static_cast<uint32_t>(delay * sampleRate);
-                const auto bufferFrames = frames + delayFrames;
-
-                buffers.resize(channels);
-
-                for (uint32_t channel = 0; channel < channels; ++channel)
-                {
-                    std::vector<float>& buffer = buffers[channel];
-                    buffer.resize(bufferFrames);
-
-                    float* outputChannel = &samples[channel * frames];
-
-                    for (uint32_t frame = 0; frame < frames; ++frame)
-                        buffer[frame] += outputChannel[frame];
-
-                    for (uint32_t frame = 0; frame < frames; ++frame)
-                        buffer[frame + delayFrames] += buffer[frame] * decay;
-
-                    for (uint32_t frame = 0; frame < frames; ++frame)
-                        outputChannel[frame] = buffer[frame];
-
-                    // erase frames from beginning
-                    buffer.erase(buffer.begin(), buffer.begin() + frames);
-                }
-            }
-
-        private:
-            float delay = 0.1F;
-            float decay = 0.5F;
-            std::vector<std::vector<float>> buffers;
-        };
-
         Reverb::Reverb(Audio& initAudio, float initDelay, float initDecay):
             Effect(initAudio),
             delay(initDelay),
@@ -353,6 +204,35 @@ namespace ouzel
         {
         }
 
+        void Reverb::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                             std::vector<float>& samples)
+        {
+            const auto delayFrames = static_cast<uint32_t>(delay * sampleRate);
+            const auto bufferFrames = frames + delayFrames;
+
+            buffers.resize(channels);
+
+            for (uint16_t channel = 0; channel < channels; ++channel)
+            {
+                std::vector<float>& buffer = buffers[channel];
+                buffer.resize(bufferFrames);
+
+                float* outputChannel = &samples[channel * frames];
+
+                for (uint32_t frame = 0; frame < frames; ++frame)
+                    buffer[frame] += outputChannel[frame];
+
+                    for (uint32_t frame = 0; frame < frames; ++frame)
+                        buffer[frame + delayFrames] += buffer[frame] * decay;
+
+                        for (uint32_t frame = 0; frame < frames; ++frame)
+                            outputChannel[frame] = buffer[frame];
+
+                            // erase frames from beginning
+                            buffer.erase(buffer.begin(), buffer.begin() + frames);
+            }
+        }
+
         LowPass::LowPass(Audio& initAudio):
             Effect(initAudio)
         {
@@ -362,12 +242,22 @@ namespace ouzel
         {
         }
 
+        void LowPass::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                              std::vector<float>& samples)
+        {
+        }
+
         HighPass::HighPass(Audio& initAudio):
             Effect(initAudio)
         {
         }
 
         HighPass::~HighPass()
+        {
+        }
+
+        void HighPass::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                               std::vector<float>& samples)
         {
         }
     } // namespace audio
