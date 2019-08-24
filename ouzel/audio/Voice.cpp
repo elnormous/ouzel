@@ -10,6 +10,7 @@
 #include "Source.hpp"
 #include "WavePlayer.hpp"
 #include "core/Engine.hpp"
+#include "smbPitchShift.hpp"
 
 namespace ouzel
 {

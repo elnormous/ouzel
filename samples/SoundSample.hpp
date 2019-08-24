@@ -17,11 +17,11 @@ private:
 
     ouzel::audio::Submix test8BitSubmix;
     ouzel::audio::Voice test8BitVoice;
-    ouzel::audio::PitchScale test8BitPitch;
+    //ouzel::audio::PitchScale test8BitPitch;
 
     ouzel::audio::Submix test24BitSubmix;
     ouzel::audio::Voice test24BitVoice;
-    ouzel::audio::PitchScale test24BitPitch;
+    //ouzel::audio::PitchScale test24BitPitch;
 
     ouzel::audio::Submix jumpSubmix;
     ouzel::audio::Voice jumpVoice;

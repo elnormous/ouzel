@@ -13,10 +13,10 @@ SoundSample::SoundSample():
     soundGain(*engine->getAudio()),
     test8BitSubmix(*engine->getAudio()),
     test8BitVoice(*engine->getAudio(), engine->getCache().getSound("8-bit.wav")),
-    test8BitPitch(*engine->getAudio()),
+    //test8BitPitch(*engine->getAudio()),
     test24BitSubmix(*engine->getAudio()),
     test24BitVoice(*engine->getAudio(), engine->getCache().getSound("24-bit.wav")),
-    test24BitPitch(*engine->getAudio()),
+    //test24BitPitch(*engine->getAudio()),
     jumpSubmix(*engine->getAudio()),
     jumpVoice(*engine->getAudio(), engine->getCache().getSound("jump.wav")),
     jumpPanner(*engine->getAudio()),
@@ -104,12 +104,12 @@ SoundSample::SoundSample():
     //submix.addEffect(&soundGain);
     soundGain.setGain(1.0F);
 
-    test8BitPitch.setScale(2.0F);
+    //test8BitPitch.setScale(2.0F);
     test8BitVoice.setOutput(&test8BitSubmix);
     //test8BitSubmix.addEffect(&test8BitPitch);
     test8BitSubmix.setOutput(&submix);
 
-    test24BitPitch.setScale(0.5F);
+    //test24BitPitch.setScale(0.5F);
     test24BitVoice.setOutput(&test24BitSubmix);
     //test24BitSubmix.addEffect(&test24BitPitch);
     test24BitSubmix.setOutput(&submix);
