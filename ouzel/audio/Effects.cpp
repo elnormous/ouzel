@@ -17,10 +17,6 @@ namespace ouzel
         {
         }
 
-        Delay::~Delay()
-        {
-        }
-
         void Delay::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                             std::vector<float>& samples)
         {
@@ -66,10 +62,6 @@ namespace ouzel
         {
         }
 
-        Gain::~Gain()
-        {
-        }
-
         void Gain::process(uint32_t, uint16_t, uint32_t,
                      std::vector<float>& samples)
         {
@@ -91,10 +83,6 @@ namespace ouzel
 
         Panner::Panner(Audio& initAudio):
             Effect(initAudio)
-        {
-        }
-
-        Panner::~Panner()
         {
         }
 
@@ -140,10 +128,6 @@ namespace ouzel
         {
         }
 
-        PitchScale::~PitchScale()
-        {
-        }
-
         void PitchScale::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                                  std::vector<float>& samples)
         {
@@ -172,10 +156,6 @@ namespace ouzel
         {
         }
 
-        PitchShift::~PitchShift()
-        {
-        }
-
         void PitchShift::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                                  std::vector<float>& samples)
         {
@@ -197,10 +177,6 @@ namespace ouzel
             Effect(initAudio),
             delay(initDelay),
             decay(initDecay)
-        {
-        }
-
-        Reverb::~Reverb()
         {
         }
 
@@ -238,10 +214,6 @@ namespace ouzel
         {
         }
 
-        LowPass::~LowPass()
-        {
-        }
-
         void LowPass::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                               std::vector<float>& samples)
         {
@@ -249,10 +221,6 @@ namespace ouzel
 
         HighPass::HighPass(Audio& initAudio):
             Effect(initAudio)
-        {
-        }
-
-        HighPass::~HighPass()
         {
         }
 

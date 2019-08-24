@@ -50,7 +50,7 @@ namespace ouzel
             friend Mix;
         public:
             Effect(Audio& initAudio);
-            virtual ~Effect() {}
+            virtual ~Effect() = default;
 
             Effect(const Effect&) = delete;
             Effect& operator=(const Effect&) = delete;
