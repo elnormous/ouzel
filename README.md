@@ -124,7 +124,7 @@ $ sudo ln -s /opt/vc/lib/libGLESv2.so /opt/vc/lib/libbrcmGLESv2.so
 ## System requirements
 * Windows 7+ with Visual Studio 2017 or newer
 * macOS 10.10+ with Xcode 7.2+
-* Any reasonable new Linux distro (x86 and ARM are supported) with gcc 5+ or clang 3.4+
+* Any reasonable new Linux distro (x86 and ARM are supported) with gcc 6+ or clang 3.4+
 
 ## Getting help
 

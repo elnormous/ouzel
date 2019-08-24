@@ -16,7 +16,6 @@
 #  pragma warning( disable : 4457 )
 #elif defined(__GNUC__)
 #  pragma GCC diagnostic push
-#  pragma GCC diagnostic ignored "-Wconditional-uninitialized"
 #  pragma GCC diagnostic ignored "-Wconversion"
 #  pragma GCC diagnostic ignored "-Wold-style-cast"
 #  pragma GCC diagnostic ignored "-Wshadow"
@@ -27,6 +26,7 @@
 #  pragma GCC diagnostic ignored "-Wunused-value"
 #  if defined(__clang__)
 #    pragma GCC diagnostic ignored "-Wcomma"
+#    pragma GCC diagnostic ignored "-Wconditional-uninitialized"
 #  else
 #    pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 #  endif

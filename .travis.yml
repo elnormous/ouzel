@@ -4,25 +4,7 @@ git:
   depth: false
 matrix:
   include:
-    - name: Linux GCC 5
-      compiler: gcc
-      os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      before_install:
-        - sudo apt-get install -y libopenal-dev
-        - sudo apt-get install -y libasound2-dev
-        - sudo apt-get install -y libxi-dev
-        - sudo apt-get install -y libxcursor-dev
-      before_script:
-        - export CXX=g++-5
-      script:
-        - make -j2 -f samples/Makefile
-    - name: Linux GCC 6
+    - name: Linux GCC
       compiler: gcc
       os: linux
       addons:
