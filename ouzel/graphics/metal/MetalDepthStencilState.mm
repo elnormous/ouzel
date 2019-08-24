@@ -13,7 +13,7 @@ namespace ouzel
     {
         namespace metal
         {
-            static MTLCompareFunction getCompareFunction(CompareFunction compareFunction)
+            static constexpr MTLCompareFunction getCompareFunction(CompareFunction compareFunction)
             {
                 switch (compareFunction)
                 {
@@ -29,7 +29,7 @@ namespace ouzel
                 }
             }
 
-            static MTLStencilOperation getStencilOperation(StencilOperation stencilOperation)
+            static constexpr MTLStencilOperation getStencilOperation(StencilOperation stencilOperation)
             {
                 switch (stencilOperation)
                 {

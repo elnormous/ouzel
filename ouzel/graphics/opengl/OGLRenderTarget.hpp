@@ -42,11 +42,6 @@ namespace ouzel
 
                 void reload() final;
 
-                void setClearColorBuffer(bool clear);
-                void setClearDepthBuffer(bool clear);
-                void setClearColor(Color color);
-                void setClearDepth(float newClearDepth);
-
                 inline auto getFrameBufferId() const noexcept { return frameBufferId; }
 
             private:
