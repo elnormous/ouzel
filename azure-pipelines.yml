@@ -5,6 +5,9 @@ jobs:
 - job: Linux
   pool:
     vmImage: 'Ubuntu-16.04'
+  variables:
+    CC: gcc-6
+    CXX: g++-6
   steps:
   - script: sudo apt-get update --fix-missing
   - script: sudo apt-get install -y libopenal-dev
