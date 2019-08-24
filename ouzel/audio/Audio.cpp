@@ -199,13 +199,6 @@ namespace ouzel
             return dataId;
         }
 
-        uintptr_t Audio::initProcessor(std::unique_ptr<mixer::Processor> processor)
-        {
-            uintptr_t processorId = mixer.getObjectId();
-            //addCommand(std::make_unique<mixer::InitProcessorCommand>(processorId, std::move(processor)));
-            return processorId;
-        }
-
         void Audio::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
             mixer.getSamples(frames, channels, sampleRate, samples);

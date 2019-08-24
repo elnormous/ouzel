@@ -53,7 +53,6 @@ namespace ouzel
             uintptr_t initBus();
             uintptr_t initStream(uintptr_t sourceId);
             uintptr_t initData(std::unique_ptr<mixer::Data> data);
-            uintptr_t initProcessor(std::unique_ptr<mixer::Processor> processor);
 
             auto& getRootNode() { return rootNode; }
 

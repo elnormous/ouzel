@@ -58,8 +58,7 @@ namespace ouzel
         };
 
         Delay::Delay(Audio& initAudio, float initDelay):
-            Effect(initAudio,
-                   initAudio.initProcessor(std::make_unique<DelayProcessor>(initDelay))),
+            Effect(initAudio),
             delay(initDelay)
         {
         }
@@ -71,11 +70,6 @@ namespace ouzel
         void Delay::setDelay(float newDelay)
         {
             delay = newDelay;
-
-            /*audio.updateProcessor(processorId, [newDelay](mixer::Object* node) {
-                DelayProcessor* delayProcessor = static_cast<DelayProcessor*>(node);
-                delayProcessor->setDelay(newDelay);
-            });*/
         }
 
         void Delay::setDelayRandom(const std::pair<float, float>& newDelayRandom)
@@ -112,8 +106,7 @@ namespace ouzel
         };
 
         Gain::Gain(Audio& initAudio, float initGain):
-            Effect(initAudio,
-                   initAudio.initProcessor(std::make_unique<GainProcessor>(initGain))),
+            Effect(initAudio),
             gain(initGain)
         {
         }
@@ -125,11 +118,6 @@ namespace ouzel
         void Gain::setGain(float newGain)
         {
             gain = newGain;
-
-            /*audio.updateProcessor(processorId, [newGain](mixer::Object* node) {
-                GainProcessor* gainProcessor = static_cast<GainProcessor*>(node);
-                gainProcessor->setGain(newGain);
-            });*/
         }
 
         void Gain::setGainRandom(const std::pair<float, float>& newGainRandom)
@@ -178,8 +166,7 @@ namespace ouzel
         };
 
         Panner::Panner(Audio& initAudio):
-            Effect(initAudio,
-                   initAudio.initProcessor(std::make_unique<PannerProcessor>()))
+            Effect(initAudio)
         {
         }
 
@@ -190,41 +177,21 @@ namespace ouzel
         void Panner::setPosition(const Vector3F& newPosition)
         {
             position = newPosition;
-
-            /*audio.updateProcessor(processorId, [newPosition](mixer::Object* node) {
-                PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
-                pannerProcessor->setPosition(newPosition);
-            });*/
         }
 
         void Panner::setRolloffFactor(float newRolloffFactor)
         {
             rolloffFactor = newRolloffFactor;
-
-            /*audio.updateProcessor(processorId, [newRolloffFactor](mixer::Object* node) {
-                PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
-                pannerProcessor->setRolloffFactor(newRolloffFactor);
-            });*/
         }
 
         void Panner::setMinDistance(float newMinDistance)
         {
             minDistance = newMinDistance;
-
-            /*audio.updateProcessor(processorId, [newMinDistance](mixer::Object* node) {
-                PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
-                pannerProcessor->setMinDistance(newMinDistance);
-            });*/
         }
 
         void Panner::setMaxDistance(float newMaxDistance)
         {
             maxDistance = newMaxDistance;
-
-            /*audio.updateProcessor(processorId, [newMaxDistance](mixer::Object* node) {
-                PannerProcessor* pannerProcessor = static_cast<PannerProcessor*>(node);
-                pannerProcessor->setMaxDistance(newMaxDistance);
-            });*/
         }
 
         void Panner::updateTransform()
@@ -268,8 +235,7 @@ namespace ouzel
         };
 
         PitchScale::PitchScale(Audio& initAudio, float initScale):
-            Effect(initAudio,
-                   initAudio.initProcessor(std::make_unique<PitchScaleProcessor>(initScale))),
+            Effect(initAudio),
             scale(initScale)
         {
         }
@@ -281,11 +247,6 @@ namespace ouzel
         void PitchScale::setScale(float newScale)
         {
             scale = newScale;
-
-            /*audio.updateProcessor(processorId, [newScale](mixer::Object* node) {
-                PitchScaleProcessor* pitchScaleProcessor = static_cast<PitchScaleProcessor*>(node);
-                pitchScaleProcessor->setScale(newScale);
-            });*/
         }
 
         void PitchScale::setScaleRandom(const std::pair<float, float>& newScaleRandom)
@@ -318,8 +279,7 @@ namespace ouzel
         };
 
         PitchShift::PitchShift(Audio& initAudio, float initShift):
-            Effect(initAudio,
-                   initAudio.initProcessor(std::make_unique<PitchShiftProcessor>(initShift))),
+            Effect(initAudio),
             shift(initShift)
         {
         }
@@ -331,11 +291,6 @@ namespace ouzel
         void PitchShift::setShift(float newShift)
         {
             shift = newShift;
-
-            /*audio.updateProcessor(processorId, [newShift](mixer::Object* node) {
-                PitchShiftProcessor* pitchShiftProcessor = static_cast<PitchShiftProcessor*>(node);
-                pitchShiftProcessor->setShift(newShift);
-            });*/
         }
 
         void PitchShift::setShiftRandom(const std::pair<float, float>& newShiftRandom)
@@ -388,8 +343,7 @@ namespace ouzel
         };
 
         Reverb::Reverb(Audio& initAudio, float initDelay, float initDecay):
-            Effect(initAudio,
-                   initAudio.initProcessor(std::make_unique<ReverbProcessor>(initDelay, initDecay))),
+            Effect(initAudio),
             delay(initDelay),
             decay(initDecay)
         {
@@ -400,8 +354,7 @@ namespace ouzel
         }
 
         LowPass::LowPass(Audio& initAudio):
-            Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>()))
+            Effect(initAudio)
         {
         }
 
@@ -410,8 +363,7 @@ namespace ouzel
         }
 
         HighPass::HighPass(Audio& initAudio):
-            Effect(initAudio,
-                   initAudio.initProcessor(std::unique_ptr<mixer::Processor>()))
+            Effect(initAudio)
         {
         }
 

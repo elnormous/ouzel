@@ -45,27 +45,22 @@ namespace ouzel
             std::pair<float, float> shiftRandom{0.0F, 0.0F};
         };
         
-        class Effect: public Node
+        class Effect
         {
             friend Mix;
         public:
-            Effect(Audio& initAudio,
-                   uintptr_t initProcessorId);
-            virtual ~Effect();
+            Effect(Audio& initAudio);
 
             Effect(const Effect&) = delete;
             Effect& operator=(const Effect&) = delete;
             Effect(Effect&&) = delete;
             Effect& operator=(Effect&&) = delete;
 
-            inline auto getProcessorId() const noexcept { return processorId; }
-
             inline auto isEnabled() const noexcept { return enabled; }
             void setEnabled(bool newEnabled);
 
         protected:
             Audio& audio;
-            uintptr_t processorId = 0;
             Mix* mix = nullptr;
             bool enabled = true;
         };
