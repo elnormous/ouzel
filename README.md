@@ -63,7 +63,7 @@ public:
         assets(ouzel::engine->getCache(),
                ouzel::engine->getFileSystem())
     {
-        assets->loadAsset(ouzel::assets::Loader::Image, "player", "player.png");
+        assets.loadAsset(ouzel::assets::Loader::Image, "player", "player.png");
         ouzel::engine->getSceneManager().setScene(&scene);
         scene.addLayer(&layer);
         cameraActor.addComponent(&camera);
