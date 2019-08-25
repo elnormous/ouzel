@@ -60,14 +60,15 @@ class Example: public ouzel::Application
 {
 public:
     Example():
-        assets(ouzel::engine->getCache())
+        assets(ouzel::engine->getCache(),
+               ouzel::engine->getFileSystem())
     {
-        assets->loadAsset(ouzel::assets::Loader::IMAGE, "player.png");
+        assets->loadAsset(ouzel::assets::Loader::Image, "player", "player.png");
         ouzel::engine->getSceneManager().setScene(&scene);
         scene.addLayer(&layer);
         cameraActor.addComponent(&camera);
         layer.addChild(&cameraActor);
-        playerSprite.init("player.png");
+        playerSprite.init("player");
         player.addComponent(&playerSprite);
         layer.addChild(&player);
     }
@@ -80,7 +81,7 @@ private:
     ouzel::scene::SpriteRenderer playerSprite;
     ouzel::scene::Actor player;
     ouzel::assets::Bundle assets;
-}
+};
 
 std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& args)
 {
