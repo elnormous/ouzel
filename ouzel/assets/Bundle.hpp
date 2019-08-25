@@ -64,8 +64,6 @@ namespace ouzel
             void loadAssets(const std::string& filename);
             void loadAssets(const std::vector<Asset>& assets);
 
-            void clear();
-
             std::shared_ptr<graphics::Texture> getTexture(const std::string& name) const;
             void setTexture(const std::string& name, const std::shared_ptr<graphics::Texture>& texture);
             void releaseTextures();
