@@ -1,16 +1,12 @@
 {
-    "sources": [
-        {
-            "type": "Sequence",
-            "source": {
-                "type": "WavePlayer",
-                "clip": "8-bit.wav",
-                "effects": [
-                    {
-                        "type": "Gain"
-                    }
-                ]
+    "source": {
+        "type": "WavePlayer",
+        "clip": "8-bit.wav",
+        "effects": [
+            {
+                "type": "PitchScale",
+                "scale": 2.0
             }
-        }
-    ]
+        ]
+    }
 }

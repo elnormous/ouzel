@@ -12,7 +12,7 @@ SoundSample::SoundSample():
     listener(*engine->getAudio()),
     soundGain(*engine->getAudio()),
     test8BitSubmix(*engine->getAudio()),
-    test8BitVoice(*engine->getAudio(), *engine->getCache().getSound("8-bit.wav")),
+    test8BitVoice(*engine->getAudio(), *engine->getCache().getCue("8-bit.json")),
     //test8BitPitch(*engine->getAudio()),
     test24BitSubmix(*engine->getAudio()),
     test24BitVoice(*engine->getAudio(), *engine->getCache().getSound("24-bit.wav")),
@@ -104,9 +104,7 @@ SoundSample::SoundSample():
     //submix.addEffect(&soundGain);
     soundGain.setGain(1.0F);
 
-    //test8BitPitch.setScale(2.0F);
     test8BitVoice.setOutput(&test8BitSubmix);
-    //test8BitSubmix.addEffect(&test8BitPitch);
     test8BitSubmix.setOutput(&submix);
 
     //test24BitPitch.setScale(0.5F);

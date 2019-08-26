@@ -146,6 +146,11 @@
             "type": 4,
             "filename": "witch.png",
             "mipmaps": true
+        },
+        {
+            "type": 9,
+            "filename": "8-bit.json",
+            "mipmaps": true
         }
     ]
 }
