@@ -22,7 +22,7 @@ namespace ouzel
         public:
             explicit Voice(Audio& initAudio);
             Voice(Audio& initAudio, const Cue& cue);
-            Voice(Audio& initAudio, const Sound* initSound);
+            Voice(Audio& initAudio, const Sound& initSound);
             ~Voice();
 
             Voice(const Voice&) = delete;

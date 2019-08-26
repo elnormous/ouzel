@@ -128,12 +128,12 @@ namespace ouzel
             //                                                            std::move(source)));
         }
 
-        Voice::Voice(Audio& initAudio, const Sound* initSound):
+        Voice::Voice(Audio& initAudio, const Sound& initSound):
             Node(initAudio),
             audio(initAudio),
-            streamId(audio.initStream(initSound->getSourceId()))
+            streamId(audio.initStream(initSound.getSourceId()))
         {
-            sound = initSound;
+            sound = &initSound;
         }
 
         Voice::~Voice()

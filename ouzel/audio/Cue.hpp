@@ -40,7 +40,7 @@ namespace ouzel
             const Sound* sound = nullptr;
         };
 
-        class Cue
+        class Cue final
         {
         public:
             Cue() {}
