@@ -43,10 +43,9 @@ namespace ouzel
             inline auto getIntensity() const noexcept { return intensity; }
             inline void setIntensity(float newIntensity) { intensity = newIntensity; }
 
-        protected:
+        private:
             void setLayer(Layer* newLayer) override;
 
-        private:
             Type type = Type::Point;
             Color color;
             QuaternionF direction = QuaternionF::identity(); // for spot and directional ligt
