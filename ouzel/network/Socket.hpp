@@ -49,8 +49,8 @@ namespace ouzel
         constexpr int getAddressFamily(InternetProtocol internetProtocol)
         {
             return (internetProtocol == InternetProtocol::V4) ? AF_INET :
-            (internetProtocol == InternetProtocol::V6) ? AF_INET6 :
-            throw std::runtime_error("Unsupported protocol");
+                (internetProtocol == InternetProtocol::V6) ? AF_INET6 :
+                throw std::runtime_error("Unsupported protocol");
         }
 
         class Socket final
@@ -58,16 +58,16 @@ namespace ouzel
         public:
 #ifdef _WIN32
             using Type = SOCKET;
-            static constexpr Type INVALID = INVALID_SOCKET;
+            static constexpr Type Invalid = INVALID_SOCKET;
 #else
             using Type = int;
-            static constexpr Type INVALID = -1;
+            static constexpr Type Invalid = -1;
 #endif
 
             explicit Socket(InternetProtocol internetProtocol = InternetProtocol::V4):
                 endpoint(socket(getAddressFamily(internetProtocol), SOCK_STREAM, IPPROTO_TCP))
             {
-                if (endpoint == INVALID)
+                if (endpoint == Invalid)
                     throw std::system_error(getLastError(), std::system_category(), "Failed to create socket");
             }
 
@@ -78,7 +78,7 @@ namespace ouzel
 
             ~Socket()
             {
-                if (endpoint != INVALID)
+                if (endpoint != Invalid)
 #ifdef _WIN32
                     closesocket(endpoint);
 #else
@@ -92,21 +92,21 @@ namespace ouzel
             Socket(Socket&& other) noexcept:
                 endpoint(other.endpoint)
             {
-                other.endpoint = INVALID;
+                other.endpoint = Invalid;
             }
 
             Socket& operator=(Socket&& other) noexcept
             {
                 if (&other != this)
                 {
-                    if (endpoint != INVALID)
+                    if (endpoint != Invalid)
 #ifdef _WIN32
                         closesocket(endpoint);
 #else
                         close(endpoint);
 #endif
                     endpoint = other.endpoint;
-                    other.endpoint = INVALID;
+                    other.endpoint = Invalid;
                 }
 
                 return *this;
@@ -115,7 +115,7 @@ namespace ouzel
             inline operator Type() const noexcept { return endpoint; }
 
         private:
-            Type endpoint = INVALID;
+            Type endpoint = Invalid;
         };
     } // namespace network
 } // namespace ouzel
