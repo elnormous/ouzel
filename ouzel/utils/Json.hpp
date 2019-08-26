@@ -753,9 +753,7 @@ namespace ouzel
         class Data final: public Value
         {
         public:
-            Data(): Value(Value::Type::Object)
-            {
-            }
+            Data() = default;
 
             Data(const std::vector<uint8_t>& data)
             {
