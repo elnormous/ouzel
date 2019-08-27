@@ -1,14 +1,16 @@
 *.o
 *.d
 *.a
-build/ouzel.xcodeproj/xcuserdata
 build/ouzel.xcodeproj/project.xcworkspace
+build/ouzel.xcodeproj/xcshareddata
+build/ouzel.xcodeproj/xcuserdata
 build/.vs/
 build/obj
 build/Win32/
 build/x64/
 build/ipch/
 samples/samples.xcodeproj/project.xcworkspace
+samples/samples.xcodeproj/xcshareddata
 samples/samples.xcodeproj/xcuserdata
 samples/Win32/
 samples/x64/
