@@ -128,34 +128,17 @@ namespace ouzel
             return *this;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, std::vector<uint8_t>>::value>::type* = nullptr>
-        Log& operator<<(const T& val)
+        template <typename T>
+        Log& operator<<(const std::vector<T>& val)
         {
             bool first = true;
 
-            for (const uint8_t b : val)
+            for (const auto& i : val)
             {
                 if (!first) s += ", ";
                 first = false;
 
-                static constexpr char digits[] = "0123456789abcdef";
-                s += digits[(b >> 4) & 0x0F];
-                s += digits[b & 0x0F];
-            }
-
-            return *this;
-        }
-
-        template <typename T, typename std::enable_if<std::is_same<T, std::vector<std::string>>::value>::type* = nullptr>
-        Log& operator<<(const T& val)
-        {
-            bool first = true;
-
-            for (const std::string& str : val)
-            {
-                if (!first) s += ", ";
-                first = false;
-                s += str;
+                operator<<(i);
             }
 
             return *this;
