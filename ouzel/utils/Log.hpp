@@ -76,17 +76,30 @@ namespace ouzel
 
         ~Log();
 
-        template <typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-        Log& operator<<(const T val)
-        {
-            s += std::to_string(val);
-            return *this;
-        }
-
         template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
         Log& operator<<(const T val)
         {
             s += val ? "true" : "false";
+            return *this;
+        }
+
+        template <typename T, typename std::enable_if<std::is_same<T, uint8_t>::value>::type* = nullptr>
+        Log& operator<<(const T val)
+        {
+            static constexpr char digits[] = "0123456789abcdef";
+
+            for (uint32_t p = 0; p < 2; ++p)
+                s.push_back(digits[(val >> (4 - p * 4)) & 0x0F]);
+
+            return *this;
+        }
+
+        template <typename T, typename std::enable_if<std::is_arithmetic<T>::value &&
+            !std::is_same<T, bool>::value &&
+            !std::is_same<T, uint8_t>::value>::type* = nullptr>
+        Log& operator<<(const T val)
+        {
+            s += std::to_string(val);
             return *this;
         }
 
@@ -109,11 +122,9 @@ namespace ouzel
         {
             static constexpr char digits[] = "0123456789abcdef";
 
-            std::string str(sizeof(val) * 2, '0');
             for (size_t i = 0; i < sizeof(val) * 2; ++i)
-                str[i] = digits[(reinterpret_cast<uintptr_t>(val) >> (sizeof(val) * 2 - i - 1) * 4) & 0x0F];
+                s.push_back(digits[(reinterpret_cast<uintptr_t>(val) >> (sizeof(val) * 2 - i - 1) * 4) & 0x0F]);
 
-            s += str;
             return *this;
         }
 
