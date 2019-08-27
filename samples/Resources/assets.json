@@ -153,6 +153,10 @@
         },
         {
             "type": 9,
+            "filename": "24-bit.json"
+        },
+        {
+            "type": 9,
             "filename": "tone.json"
         }
     ]

@@ -153,6 +153,9 @@
 		C6ABA09723157BE8006D527E /* tone.json in Resources */ = {isa = PBXBuildFile; fileRef = C6ABA09523157BE8006D527E /* tone.json */; };
 		C6ABA09823157BE8006D527E /* tone.json in Resources */ = {isa = PBXBuildFile; fileRef = C6ABA09523157BE8006D527E /* tone.json */; };
 		C6ABA09923157BE8006D527E /* tone.json in Resources */ = {isa = PBXBuildFile; fileRef = C6ABA09523157BE8006D527E /* tone.json */; };
+		C6ABA09B231583E2006D527E /* 24-bit.json in Resources */ = {isa = PBXBuildFile; fileRef = C6ABA09A231583E2006D527E /* 24-bit.json */; };
+		C6ABA09C231583E2006D527E /* 24-bit.json in Resources */ = {isa = PBXBuildFile; fileRef = C6ABA09A231583E2006D527E /* 24-bit.json */; };
+		C6ABA09D231583E2006D527E /* 24-bit.json in Resources */ = {isa = PBXBuildFile; fileRef = C6ABA09A231583E2006D527E /* 24-bit.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -294,6 +297,7 @@
 		30C2C3421F817E5100B3AAC2 /* cube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube.png; sourceTree = "<group>"; };
 		30E1906820D08AB400C79662 /* gui.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = gui.zip; sourceTree = "<group>"; };
 		C6ABA09523157BE8006D527E /* tone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tone.json; sourceTree = "<group>"; };
+		C6ABA09A231583E2006D527E /* 24-bit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "24-bit.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -435,6 +439,7 @@
 			children = (
 				3089900422F1154A001C13F2 /* 8-bit.json */,
 				30A883561E70E004004A033F /* 8-bit.wav */,
+				C6ABA09A231583E2006D527E /* 24-bit.json */,
 				30A8835D1E70E5B1004A033F /* 24-bit.wav */,
 				30419E641D1F6A7600A63759 /* ambient.wav */,
 				30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */,
@@ -651,6 +656,7 @@
 				3049DCEF1EDF865B0000997A /* cursor.png in Resources */,
 				30519D091F9D766E00AF3DC4 /* cube.png in Resources */,
 				303B76161C34CFE300FEDE92 /* flame.png in Resources */,
+				C6ABA09B231583E2006D527E /* 24-bit.json in Resources */,
 				30324D9E1CAFB20900601A64 /* lv.mo in Resources */,
 				30519D051F9D525B00AF3DC4 /* cube.obj in Resources */,
 				30C246FB211E0B98001E8DA6 /* assets.json in Resources */,
@@ -686,6 +692,7 @@
 				3049DCF11EDF865B0000997A /* cursor.png in Resources */,
 				30519D0B1F9D766F00AF3DC4 /* cube.png in Resources */,
 				303B76961C355AA400FEDE92 /* flame.png in Resources */,
+				C6ABA09D231583E2006D527E /* 24-bit.json in Resources */,
 				30324D9F1CAFB20900601A64 /* lv.mo in Resources */,
 				30519D071F9D525B00AF3DC4 /* cube.obj in Resources */,
 				30C246FE211E0CD1001E8DA6 /* assets.json in Resources */,
@@ -721,6 +728,7 @@
 				3049DCF01EDF865B0000997A /* cursor.png in Resources */,
 				30519D0A1F9D766F00AF3DC4 /* cube.png in Resources */,
 				303B76041C349CA800FEDE92 /* flame.png in Resources */,
+				C6ABA09C231583E2006D527E /* 24-bit.json in Resources */,
 				30324D9D1CAFB20900601A64 /* lv.mo in Resources */,
 				30519D061F9D525B00AF3DC4 /* cube.obj in Resources */,
 				30C246FD211E0CD1001E8DA6 /* assets.json in Resources */,

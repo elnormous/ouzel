@@ -1,0 +1,12 @@
+{
+    "source": {
+        "type": "WavePlayer",
+        "clip": "24-bit.wav",
+        "effects": [
+            {
+                "type": "PitchScale",
+                "scale": 0.5
+            }
+        ]
+    }
+}

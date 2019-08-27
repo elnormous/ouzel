@@ -11,20 +11,15 @@ SoundSample::SoundSample():
     submix(*engine->getAudio()),
     listener(*engine->getAudio()),
     soundGain(*engine->getAudio()),
-    test8BitSubmix(*engine->getAudio()),
     test8BitVoice(*engine->getAudio(), *engine->getCache().getCue("8-bit.json")),
-    //test8BitPitch(*engine->getAudio()),
-    test24BitSubmix(*engine->getAudio()),
-    test24BitVoice(*engine->getAudio(), *engine->getCache().getSound("24-bit.wav")),
-    //test24BitPitch(*engine->getAudio()),
+    test24BitVoice(*engine->getAudio(), *engine->getCache().getCue("24-bit.json")),
     jumpSubmix(*engine->getAudio()),
     jumpVoice(*engine->getAudio(), *engine->getCache().getSound("jump.wav")),
     jumpPanner(*engine->getAudio()),
     jumpReverb(*engine->getAudio()),
     ambientVoice(*engine->getAudio(), *engine->getCache().getSound("ambient.wav")),
     music(*engine->getAudio(), *engine->getCache().getSound("music.ogg")),
-    tone(*engine->getAudio(), 200.0F, Oscillator::Type::Sine, 0.5F, 1.0F),
-    toneVoice(*engine->getAudio(), tone),
+    toneVoice(*engine->getAudio(), *engine->getCache().getCue("tone.json")),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
     test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
     test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
@@ -104,13 +99,8 @@ SoundSample::SoundSample():
     //submix.addEffect(&soundGain);
     soundGain.setGain(1.0F);
 
-    test8BitVoice.setOutput(&test8BitSubmix);
-    test8BitSubmix.setOutput(&submix);
-
-    //test24BitPitch.setScale(0.5F);
-    test24BitVoice.setOutput(&test24BitSubmix);
-    //test24BitSubmix.addEffect(&test24BitPitch);
-    test24BitSubmix.setOutput(&submix);
+    test8BitVoice.setOutput(&submix);
+    test24BitVoice.setOutput(&submix);
 
     layer.addChild(&soundActor);
     soundActor.addComponent(&jumpPanner);
