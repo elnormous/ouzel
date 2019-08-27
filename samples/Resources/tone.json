@@ -1,0 +1,9 @@
+{
+    "source": {
+        "type": "Oscillator",
+        "frequency": 200.0,
+        "oscillatorType": "Sine",
+        "amplitude": 0.5,
+        "length": 1.0
+    }
+}

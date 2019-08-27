@@ -150,6 +150,9 @@
 		30E1906920D08AB500C79662 /* gui.zip in Resources */ = {isa = PBXBuildFile; fileRef = 30E1906820D08AB400C79662 /* gui.zip */; };
 		30E1906A20D08AB500C79662 /* gui.zip in Resources */ = {isa = PBXBuildFile; fileRef = 30E1906820D08AB400C79662 /* gui.zip */; };
 		30E1906B20D08AB500C79662 /* gui.zip in Resources */ = {isa = PBXBuildFile; fileRef = 30E1906820D08AB400C79662 /* gui.zip */; };
+		C6ABA09723157BE8006D527E /* tone.json in Resources */ = {isa = PBXBuildFile; fileRef = C6ABA09523157BE8006D527E /* tone.json */; };
+		C6ABA09823157BE8006D527E /* tone.json in Resources */ = {isa = PBXBuildFile; fileRef = C6ABA09523157BE8006D527E /* tone.json */; };
+		C6ABA09923157BE8006D527E /* tone.json in Resources */ = {isa = PBXBuildFile; fileRef = C6ABA09523157BE8006D527E /* tone.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -290,6 +293,7 @@
 		30C2C3411F817E5100B3AAC2 /* cube.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = cube.mtl; sourceTree = "<group>"; };
 		30C2C3421F817E5100B3AAC2 /* cube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube.png; sourceTree = "<group>"; };
 		30E1906820D08AB400C79662 /* gui.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = gui.zip; sourceTree = "<group>"; };
+		C6ABA09523157BE8006D527E /* tone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tone.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -452,6 +456,7 @@
 				303B75EB1C33581700FEDE92 /* run.json */,
 				303B75EC1C33581700FEDE92 /* run.png */,
 				3011E1C91F00444500CB1DDC /* settings.ini */,
+				C6ABA09523157BE8006D527E /* tone.json */,
 				30224DED1D78F4DB0067DE35 /* triangle.json */,
 				30224DEE1D78F4DB0067DE35 /* triangle.png */,
 				303B75081C286F8D00FEDE92 /* witch.png */,
@@ -661,6 +666,7 @@
 				3089900622F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1431F0C4A3B002CA717 /* music.ogg in Resources */,
 				30E1906920D08AB500C79662 /* gui.zip in Resources */,
+				C6ABA09723157BE8006D527E /* tone.json in Resources */,
 				30B8599B1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
 				30419E661D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF31D78F4DB0067DE35 /* triangle.png in Resources */,
@@ -695,6 +701,7 @@
 				3089900822F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1451F0C4A3B002CA717 /* music.ogg in Resources */,
 				30E1906B20D08AB500C79662 /* gui.zip in Resources */,
+				C6ABA09923157BE8006D527E /* tone.json in Resources */,
 				30B8599D1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
 				30419E671D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF41D78F4DB0067DE35 /* triangle.png in Resources */,
@@ -729,6 +736,7 @@
 				3089900722F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1441F0C4A3B002CA717 /* music.ogg in Resources */,
 				30E1906A20D08AB500C79662 /* gui.zip in Resources */,
+				C6ABA09823157BE8006D527E /* tone.json in Resources */,
 				30B8599C1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
 				30419E651D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF21D78F4DB0067DE35 /* triangle.png in Resources */,

@@ -24,17 +24,11 @@ namespace ouzel
 
                 auto& valueType = value["type"].as<std::string>();
 
-                if (valueType == "Parallel")
-                    sourceDefinition.type = audio::SourceDefinition::Type::Parallel;
-                else if (valueType == "Random")
-                    sourceDefinition.type = audio::SourceDefinition::Type::Random;
-                else if (valueType == "Sequence")
-                    sourceDefinition.type = audio::SourceDefinition::Type::Sequence;
-                else if (valueType == "Oscillator")
-                {
-                    sourceDefinition.type = audio::SourceDefinition::Type::Oscillator;
+                if (value.hasMember("frequency"))
+                    sourceDefinition.frequency = value["frequency"].as<float>();
 
-                    auto& oscillatorType = value["oscillatorType"].as<std::string>();
+                if (value.hasMember("amplitude"))
+                    sourceDefinition.amplitude = value["amplitude"].as<float>();
 
                     if (oscillatorType == "Sine")
                         sourceDefinition.oscillatorType = audio::Oscillator::Type::Sine;
