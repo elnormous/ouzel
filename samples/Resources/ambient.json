@@ -1,0 +1,6 @@
+{
+    "source": {
+        "type": "WavePlayer",
+        "clip": "ambient.wav"
+    }
+}

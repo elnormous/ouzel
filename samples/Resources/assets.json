@@ -157,6 +157,18 @@
         },
         {
             "type": 9,
+            "filename": "ambient.json"
+        },
+        {
+            "type": 9,
+            "filename": "jump.json"
+        },
+        {
+            "type": 9,
+            "filename": "music.json"
+        },
+        {
+            "type": 9,
             "filename": "tone.json"
         }
     ]

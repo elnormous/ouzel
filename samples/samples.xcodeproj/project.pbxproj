@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		300445522315F66C00BA764A /* ambient.json in Resources */ = {isa = PBXBuildFile; fileRef = 300445502315F66C00BA764A /* ambient.json */; };
+		300445532315F66C00BA764A /* ambient.json in Resources */ = {isa = PBXBuildFile; fileRef = 300445502315F66C00BA764A /* ambient.json */; };
+		300445542315F66C00BA764A /* ambient.json in Resources */ = {isa = PBXBuildFile; fileRef = 300445502315F66C00BA764A /* ambient.json */; };
+		300445562315F69A00BA764A /* jump.json in Resources */ = {isa = PBXBuildFile; fileRef = 300445552315F69A00BA764A /* jump.json */; };
+		300445572315F69A00BA764A /* jump.json in Resources */ = {isa = PBXBuildFile; fileRef = 300445552315F69A00BA764A /* jump.json */; };
+		300445582315F69A00BA764A /* jump.json in Resources */ = {isa = PBXBuildFile; fileRef = 300445552315F69A00BA764A /* jump.json */; };
+		3004455A2315F82F00BA764A /* music.json in Resources */ = {isa = PBXBuildFile; fileRef = 300445592315F82F00BA764A /* music.json */; };
+		3004455B2315F82F00BA764A /* music.json in Resources */ = {isa = PBXBuildFile; fileRef = 300445592315F82F00BA764A /* music.json */; };
+		3004455C2315F82F00BA764A /* music.json in Resources */ = {isa = PBXBuildFile; fileRef = 300445592315F82F00BA764A /* music.json */; };
 		3011E1CA1F00444500CB1DDC /* settings.ini in Resources */ = {isa = PBXBuildFile; fileRef = 3011E1C91F00444500CB1DDC /* settings.ini */; };
 		3011E1CB1F00444500CB1DDC /* settings.ini in Resources */ = {isa = PBXBuildFile; fileRef = 3011E1C91F00444500CB1DDC /* settings.ini */; };
 		3011E1CC1F00444500CB1DDC /* settings.ini in Resources */ = {isa = PBXBuildFile; fileRef = 3011E1C91F00444500CB1DDC /* settings.ini */; };
@@ -211,6 +220,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		300445502315F66C00BA764A /* ambient.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ambient.json; sourceTree = "<group>"; };
+		300445552315F69A00BA764A /* jump.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jump.json; sourceTree = "<group>"; };
+		300445592315F82F00BA764A /* music.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = music.json; sourceTree = "<group>"; };
 		3011E1C91F00444500CB1DDC /* settings.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = settings.ini; sourceTree = SOURCE_ROOT; };
 		3013FAAD1DDD20AC0069E2BD /* GameSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSample.cpp; sourceTree = "<group>"; };
 		3013FAAE1DDD20AC0069E2BD /* GameSample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameSample.hpp; sourceTree = "<group>"; };
@@ -441,6 +453,7 @@
 				30A883561E70E004004A033F /* 8-bit.wav */,
 				C6ABA09A231583E2006D527E /* 24-bit.json */,
 				30A8835D1E70E5B1004A033F /* 24-bit.wav */,
+				300445502315F66C00BA764A /* ambient.json */,
 				30419E641D1F6A7600A63759 /* ambient.wav */,
 				30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */,
 				30C246FA211E0B98001E8DA6 /* assets.json */,
@@ -455,8 +468,10 @@
 				303B76021C349CA800FEDE92 /* flame.png */,
 				304736D31E0AE4CE009BC562 /* floor.jpg */,
 				30E1906820D08AB400C79662 /* gui.zip */,
+				300445552315F69A00BA764A /* jump.json */,
 				30419E5E1D1D541900A63759 /* jump.wav */,
 				30324D9C1CAFB20900601A64 /* lv.mo */,
+				300445592315F82F00BA764A /* music.json */,
 				3031C1421F0C4A3B002CA717 /* music.ogg */,
 				303B75EB1C33581700FEDE92 /* run.json */,
 				303B75EC1C33581700FEDE92 /* run.png */,
@@ -671,6 +686,7 @@
 				303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */,
 				3089900622F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1431F0C4A3B002CA717 /* music.ogg in Resources */,
+				3004455A2315F82F00BA764A /* music.json in Resources */,
 				30E1906920D08AB500C79662 /* gui.zip in Resources */,
 				C6ABA09723157BE8006D527E /* tone.json in Resources */,
 				30B8599B1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
@@ -679,7 +695,9 @@
 				304736D41E0AE4CE009BC562 /* floor.jpg in Resources */,
 				303B761C1C34CFE300FEDE92 /* fire.png in Resources */,
 				3045F0DC1D0F575F00125436 /* ball.png in Resources */,
+				300445562315F69A00BA764A /* jump.json in Resources */,
 				30A8835E1E70E5B1004A033F /* 24-bit.wav in Resources */,
+				300445522315F66C00BA764A /* ambient.json in Resources */,
 				30519CFF1F9D525700AF3DC4 /* cube.mtl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -707,6 +725,7 @@
 				303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */,
 				3089900822F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1451F0C4A3B002CA717 /* music.ogg in Resources */,
+				3004455C2315F82F00BA764A /* music.json in Resources */,
 				30E1906B20D08AB500C79662 /* gui.zip in Resources */,
 				C6ABA09923157BE8006D527E /* tone.json in Resources */,
 				30B8599D1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
@@ -715,7 +734,9 @@
 				304736D61E0AE4CE009BC562 /* floor.jpg in Resources */,
 				303B769C1C355AA400FEDE92 /* fire.png in Resources */,
 				3045F0DD1D0F575F00125436 /* ball.png in Resources */,
+				300445582315F69A00BA764A /* jump.json in Resources */,
 				30A883601E70E5B1004A033F /* 24-bit.wav in Resources */,
+				300445542315F66C00BA764A /* ambient.json in Resources */,
 				30519D041F9D525800AF3DC4 /* cube.mtl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -743,6 +764,7 @@
 				303647A21C418E790024DB5B /* Assets.xcassets in Resources */,
 				3089900722F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1441F0C4A3B002CA717 /* music.ogg in Resources */,
+				3004455B2315F82F00BA764A /* music.json in Resources */,
 				30E1906A20D08AB500C79662 /* gui.zip in Resources */,
 				C6ABA09823157BE8006D527E /* tone.json in Resources */,
 				30B8599C1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
@@ -751,7 +773,9 @@
 				304736D51E0AE4CE009BC562 /* floor.jpg in Resources */,
 				303B75F81C33756100FEDE92 /* fire.png in Resources */,
 				3045F0DB1D0F575F00125436 /* ball.png in Resources */,
+				300445572315F69A00BA764A /* jump.json in Resources */,
 				30A8835F1E70E5B1004A033F /* 24-bit.wav in Resources */,
+				300445532315F66C00BA764A /* ambient.json in Resources */,
 				30519D031F9D525700AF3DC4 /* cube.mtl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

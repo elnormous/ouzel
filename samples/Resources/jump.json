@@ -1,0 +1,13 @@
+{
+    "source": {
+        "type": "WavePlayer",
+        "clip": "jump.wav",
+        "effects": [
+            {
+                "type": "Reverb",
+                "delay": 0.1,
+                "decay": 0.5
+            }
+        ]
+    }
+}

@@ -15,17 +15,12 @@ private:
     ouzel::audio::Listener listener;
     ouzel::audio::Gain soundGain;
 
-    ouzel::audio::Voice test8BitVoice;
-    ouzel::audio::Voice test24BitVoice;
-
-    ouzel::audio::Submix jumpSubmix;
-    ouzel::audio::Voice jumpVoice;
-    ouzel::audio::Panner jumpPanner;
-    ouzel::audio::Reverb jumpReverb;
-
-    ouzel::audio::Voice ambientVoice;
+    ouzel::audio::Voice test8Bit;
+    ouzel::audio::Voice test24Bit;
+    ouzel::audio::Voice jump;
+    ouzel::audio::Voice ambient;
     ouzel::audio::Voice music;
-    ouzel::audio::Voice toneVoice;
+    ouzel::audio::Voice tone;
 
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;

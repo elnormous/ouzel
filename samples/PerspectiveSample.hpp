@@ -25,9 +25,7 @@ private:
 
     ouzel::scene::SpriteRenderer characterSprite;
     ouzel::scene::Actor character;
-    ouzel::audio::Submix jumpSubmix;
-    ouzel::audio::Voice jumpVoice;
-    ouzel::audio::Panner jumpPanner;
+    ouzel::audio::Voice jump;
 
     ouzel::scene::StaticMeshRenderer boxModel;
     ouzel::scene::Actor box;

@@ -11,9 +11,7 @@ using namespace input;
 PerspectiveSample::PerspectiveSample():
     submix(*engine->getAudio()),
     listener(*engine->getAudio()),
-    jumpSubmix(*engine->getAudio()),
-    jumpVoice(*engine->getAudio(), *engine->getCache().getSound("jump.wav")),
-    jumpPanner(*engine->getAudio()),
+    jump(*engine->getAudio(), *engine->getCache().getCue("jump.json")),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
     cursor(*engine->getInputManager())
 {
@@ -45,7 +43,7 @@ PerspectiveSample::PerspectiveSample():
                     engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                     return true;
                 case Keyboard::Key::Tab:
-                    jumpVoice.play();
+                    jump.play();
                     break;
                 case Keyboard::Key::S:
                     engine->getRenderer()->saveScreenshot("test.png");
@@ -168,11 +166,9 @@ PerspectiveSample::PerspectiveSample():
     listener.setMix(&submix);
     submix.setOutput(&engine->getAudio()->getMasterMix());
 
-    jumpSubmix.setOutput(&submix);
-    jumpVoice.setOutput(&jumpSubmix);
-    //jumpSubmix.addEffect(&jumpPanner);
-    jumpPanner.setRolloffFactor(0.01F);
-    character.addComponent(&jumpPanner);
+    jump.setOutput(&submix);
+    //jump.setRolloffFactor(0.01F);
+    //character.addComponent(&jump);
 
     rotate = std::make_unique<scene::Rotate>(10.0F, Vector3F(0.0F, tau<float>, 0.0F));
     character.addComponent(rotate.get());
