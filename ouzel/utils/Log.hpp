@@ -3,10 +3,14 @@
 #ifndef OUZEL_UTILS_LOG_HPP
 #define OUZEL_UTILS_LOG_HPP
 
+#include <array>
 #include <atomic>
 #include <condition_variable>
+#include <initializer_list>
+#include <list>
 #include <mutex>
 #include <queue>
+#include <set>
 #include <string>
 #include <thread>
 #include <type_traits>
@@ -128,8 +132,15 @@ namespace ouzel
             return *this;
         }
 
-        template <typename T>
-        Log& operator<<(const std::vector<T>& val)
+        template <typename T> struct isContainer: public std::false_type{};
+        template <typename T, std::size_t N> struct isContainer<std::array<T, N>>: public std::true_type{};
+        template <typename... Args> struct isContainer<std::initializer_list<Args...>>: public std::true_type{};
+        template <typename... Args> struct isContainer<std::list<Args...>>: public std::true_type{};
+        template <typename... Args> struct isContainer<std::set<Args...>>: public std::true_type{};
+        template <typename... Args> struct isContainer<std::vector<Args...>>: public std::true_type{};
+
+        template <typename T, typename std::enable_if<isContainer<T>::value>::type* = nullptr>
+        Log& operator<<(const T& val)
         {
             bool first = true;
 
