@@ -178,10 +178,11 @@ namespace ouzel
             addCommand(std::make_unique<mixer::DeleteObjectCommand>(objectId));
         }
 
-        uintptr_t Audio::initBus()
+        uintptr_t Audio::initBus(std::unique_ptr<mixer::Processor> processor)
         {
             uintptr_t busId = mixer.getObjectId();
-            //addCommand(std::make_unique<mixer::InitBusCommand>(busId));
+            addCommand(std::make_unique<mixer::InitBusCommand>(busId,
+                                                               std::move(processor)));
             return busId;
         }
 

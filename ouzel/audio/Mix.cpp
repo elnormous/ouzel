@@ -11,9 +11,18 @@ namespace ouzel
 {
     namespace audio
     {
+        class MixProcessor: public mixer::Processor
+        {
+        public:
+            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                         std::vector<float>& samples) override
+            {
+            }
+        };
+
         Mix::Mix(Audio& initAudio):
             audio(initAudio),
-            busId(audio.initBus())
+            busId(audio.initBus(std::make_unique<MixProcessor>()))
         {
         }
 

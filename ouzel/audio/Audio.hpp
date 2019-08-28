@@ -50,7 +50,7 @@ namespace ouzel
             }
 
             void deleteObject(uintptr_t objectId);
-            uintptr_t initBus();
+            uintptr_t initBus(std::unique_ptr<mixer::Processor> processor);
             uintptr_t initStream(uintptr_t sourceId);
             uintptr_t initData(std::unique_ptr<mixer::Data> data);
 
