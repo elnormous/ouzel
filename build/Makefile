@@ -26,27 +26,27 @@ CC=emcc
 CXX=em++
 AR=emar
 endif
-CFLAGS=-Wall -Wpedantic -Wextra -Wshadow \
+CFLAGS=-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion \
 	-I"$(ROOT_DIR)/../ouzel" \
 	-I"$(ROOT_DIR)/../external/khronos" \
 	-I"$(ROOT_DIR)/../external/smbPitchShift" \
 	-I"$(ROOT_DIR)/../external/stb"
 CXXFLAGS=-std=c++14 \
-	-Wall -Wpedantic -Wextra -Wshadow -Wold-style-cast \
+	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast \
 	-I"$(ROOT_DIR)/../ouzel" \
 	-I"$(ROOT_DIR)/../shaders" \
 	-I"$(ROOT_DIR)/../external/khronos" \
 	-I"$(ROOT_DIR)/../external/smbPitchShift" \
 	-I"$(ROOT_DIR)/../external/stb"
 OBJCFLAGS=-fno-objc-arc \
-	-Wall -Wpedantic -Wextra -Wshadow \
+	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion \
 	-I"$(ROOT_DIR)/../ouzel" \
 	-I"$(ROOT_DIR)/../external/khronos" \
 	-I"$(ROOT_DIR)/../external/smbPitchShift" \
 	-I"$(ROOT_DIR)/../external/stb"
 OBJCXXFLAGS=-std=c++14 \
 	-fno-objc-arc \
-	-Wall -Wpedantic -Wextra -Wshadow -Wold-style-cast \
+	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast \
 	-I"$(ROOT_DIR)/../ouzel" \
 	-I"$(ROOT_DIR)/../external/khronos" \
 	-I"$(ROOT_DIR)/../external/smbPitchShift" \

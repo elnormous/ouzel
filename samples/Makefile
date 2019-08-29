@@ -16,8 +16,8 @@ ifeq ($(PLATFORM),emscripten)
 CC=emcc
 CXX=em++
 endif
-CXXFLAGS=-c -std=c++14 -Wall -O2 -I$(ROOT_DIR)/../ouzel
-LDFLAGS=-O2 -L$(ROOT_DIR)/../build -louzel
+CXXFLAGS=-c -std=c++14 -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast -O3 -I$(ROOT_DIR)/../ouzel
+LDFLAGS=-O3 -L$(ROOT_DIR)/../build -louzel
 ifeq ($(PLATFORM),windows)
 LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -ldinput8 -luser32 -lgdi32 -lshell32 -lole32 -loleaut32 -ldsound -luuid -lws2_32
 else ifeq ($(PLATFORM),linux)
