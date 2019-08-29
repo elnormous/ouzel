@@ -20,7 +20,7 @@ namespace ouzel
                                uint32_t initId,
                                IOHIDDeviceRef initDevice);
 
-            inline auto getDevice() const { return device; }
+            inline auto getDevice() const noexcept { return device; }
 
             void handleInput(IOHIDValueRef value);
 

@@ -43,7 +43,7 @@ namespace ouzel
         Window(Window&&) = delete;
         Window& operator=(Window&&) = delete;
 
-        inline auto getNativeWindow() const { return nativeWindow.get(); }
+        inline auto getNativeWindow() const noexcept { return nativeWindow.get(); }
 
         void close();
         void update();

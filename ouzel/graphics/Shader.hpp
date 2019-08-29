@@ -36,7 +36,7 @@ namespace ouzel
 
             inline auto& getResource() const noexcept { return resource; }
 
-            inline auto& getVertexAttributes() const { return vertexAttributes; }
+            inline auto& getVertexAttributes() const noexcept { return vertexAttributes; }
 
         private:
             RenderDevice::Resource resource;

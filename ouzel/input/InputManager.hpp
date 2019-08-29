@@ -32,7 +32,7 @@ namespace ouzel
             InputManager& operator=(InputManager&&) = delete;
 
             void update();
-            inline auto getInputSystem() const { return inputSystem.get(); }
+            inline auto getInputSystem() const noexcept { return inputSystem.get(); }
 
             inline auto& getControllers() const noexcept { return controllers; }
             inline auto getKeyboard() const noexcept { return keyboard; }

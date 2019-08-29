@@ -67,23 +67,23 @@ namespace ouzel
         inline EventDispatcher& getEventDispatcher() { return eventDispatcher; }
         inline assets::Cache& getCache() { return cache; }
         inline auto getWindow() { return window.get(); }
-        inline auto getRenderer() const { return renderer.get(); }
-        inline auto getAudio() const { return audio.get(); }
+        inline auto getRenderer() const noexcept { return renderer.get(); }
+        inline auto getAudio() const noexcept { return audio.get(); }
         inline scene::SceneManager& getSceneManager() { return sceneManager; }
-        inline auto getInputManager() const { return inputManager.get(); }
+        inline auto getInputManager() const noexcept { return inputManager.get(); }
         inline Localization& getLocalization() { return localization; }
         inline network::Network& getNetwork() { return network; }
 
-        inline auto& getDefaultSettings() const { return defaultSettings; }
-        inline auto& getUserSettings() const { return userSettings; }
+        inline auto& getDefaultSettings() const noexcept { return defaultSettings; }
+        inline auto& getUserSettings() const noexcept { return userSettings; }
 
         void start();
         void pause();
         void resume();
         void exit();
 
-        inline bool isPaused() const { return paused; }
-        inline bool isActive() const { return active; }
+        inline bool isPaused() const noexcept { return paused; }
+        inline bool isActive() const noexcept { return active; }
 
         void update();
 
@@ -91,10 +91,10 @@ namespace ouzel
 
         virtual void openURL(const std::string& url);
 
-        inline bool isScreenSaverEnabled() const { return screenSaverEnabled; }
+        inline bool isScreenSaverEnabled() const noexcept { return screenSaverEnabled; }
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
 
-        inline bool isOneUpdatePerFrame() const { return oneUpdatePerFrame; }
+        inline bool isOneUpdatePerFrame() const noexcept { return oneUpdatePerFrame; }
         inline void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
 
     protected:

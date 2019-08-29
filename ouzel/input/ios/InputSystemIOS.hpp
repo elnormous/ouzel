@@ -30,8 +30,8 @@ namespace ouzel
 
             void executeCommand(const Command& command) final;
 
-            inline auto getKeyboardDevice() const { return keyboardDevice.get(); }
-            inline auto getTouchpadDevice() const { return touchpadDevice.get(); }
+            inline auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
+            inline auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
 
             void handleGamepadDiscoveryCompleted();
             void handleGamepadConnected(GCControllerPtr controller);

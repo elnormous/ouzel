@@ -619,7 +619,7 @@ namespace ouzel
 
             inline auto& getName() const noexcept { return name; }
 
-            inline auto isEmpty() const { return commands.empty(); }
+            inline auto isEmpty() const noexcept { return commands.empty(); }
 
             inline void pushCommand(std::unique_ptr<Command> command)
             {

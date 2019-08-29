@@ -51,7 +51,7 @@ namespace ouzel
                                   CompareFunction initBackFaceStencilCompareFunction);
                 ~DepthStencilState();
 
-                inline auto getDepthStencilState() const { return depthStencilState; }
+                inline auto getDepthStencilState() const noexcept { return depthStencilState; }
 
             private:
                 ID3D11DepthStencilState* depthStencilState = nullptr;

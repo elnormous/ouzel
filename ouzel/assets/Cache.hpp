@@ -26,8 +26,8 @@ namespace ouzel
             Cache(Cache&&) = delete;
             Cache& operator=(Cache&&) = delete;
 
-            auto& getBundles() const { return bundles; }
-            auto& getLoaders() const { return loaders; }
+            auto& getBundles() const noexcept { return bundles; }
+            auto& getLoaders() const noexcept { return loaders; }
 
             std::shared_ptr<graphics::Texture> getTexture(const std::string& name) const;
             const graphics::Shader* getShader(const std::string& name) const;

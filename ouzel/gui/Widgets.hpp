@@ -33,11 +33,11 @@ namespace ouzel
 
             void setEnabled(bool newEnabled) override;
 
-            inline auto getNormalSprite() const { return normalSprite.get(); }
-            inline auto getSelectedSprite() const { return selectedSprite.get(); }
-            inline auto getPressedSprite() const { return pressedSprite.get(); }
-            inline auto getDisabledSprite() const { return disabledSprite.get(); }
-            inline auto getLabelDrawable() const { return labelDrawable.get(); }
+            inline auto getNormalSprite() const noexcept { return normalSprite.get(); }
+            inline auto getSelectedSprite() const noexcept { return selectedSprite.get(); }
+            inline auto getPressedSprite() const noexcept { return pressedSprite.get(); }
+            inline auto getDisabledSprite() const noexcept { return disabledSprite.get(); }
+            inline auto getLabelDrawable() const noexcept { return labelDrawable.get(); }
 
         private:
             void setSelected(bool newSelected) override;
@@ -75,12 +75,12 @@ namespace ouzel
             void setEnabled(bool newEnabled) override;
 
             virtual void setChecked(bool newChecked);
-            virtual bool isChecked() const { return checked; }
+            virtual bool isChecked() const noexcept { return checked; }
 
-            inline auto getNormalSprite() const { return normalSprite.get(); }
-            inline auto getSelectedSprite() const { return selectedSprite.get(); }
-            inline auto getPressedSprite() const { return pressedSprite.get(); }
-            inline auto getDisabledSprite() const { return disabledSprite.get(); }
+            inline auto getNormalSprite() const noexcept { return normalSprite.get(); }
+            inline auto getSelectedSprite() const noexcept { return selectedSprite.get(); }
+            inline auto getPressedSprite() const noexcept { return pressedSprite.get(); }
+            inline auto getDisabledSprite() const noexcept { return disabledSprite.get(); }
 
         private:
             bool handleUI(const UIEvent& event);
@@ -111,7 +111,7 @@ namespace ouzel
         public:
             EditBox();
 
-            inline auto& getValue() const { return value; }
+            inline auto& getValue() const noexcept { return value; }
             void setValue(const std::string& newValue);
 
         private:
@@ -127,10 +127,10 @@ namespace ouzel
                   Color color = Color::white(),
                   const Vector2F& textAnchor = Vector2F{0.5F, 0.5F});
 
-            inline auto& getText() const { return text; }
+            inline auto& getText() const noexcept { return text; }
             virtual void setText(const std::string& newText);
 
-            inline auto& getLabelDrawable() const { return labelDrawable; }
+            inline auto& getLabelDrawable() const noexcept { return labelDrawable; }
 
         private:
             std::string text;
@@ -174,7 +174,7 @@ namespace ouzel
             void setEnabled(bool newEnabled) override;
 
             void setChecked(bool newChecked);
-            inline auto isChecked() const { return checked; }
+            inline auto isChecked() const noexcept { return checked; }
 
         private:
             bool pointerOver = false;

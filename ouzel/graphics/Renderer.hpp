@@ -48,7 +48,7 @@ namespace ouzel
             static Driver getDriver(const std::string& driver);
             static std::set<Driver> getAvailableRenderDrivers();
 
-            inline auto getDevice() const { return device.get(); }
+            inline auto getDevice() const noexcept { return device.get(); }
 
             inline auto& getSize() const noexcept { return size; }
 
@@ -88,7 +88,7 @@ namespace ouzel
             void present();
 
             void waitForNextFrame();
-            inline bool getRefillQueue() const { return refillQueue; }
+            inline bool getRefillQueue() const noexcept { return refillQueue; }
 
             Vector2F convertScreenToNormalizedLocation(const Vector2F& position)
             {

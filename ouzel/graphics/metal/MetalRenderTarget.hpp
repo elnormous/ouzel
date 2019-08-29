@@ -45,7 +45,7 @@ namespace ouzel
                 ~RenderTarget();
 
                 inline auto& getColorTextures() const noexcept { return colorTextures; }
-                inline auto getDepthTexture() const { return depthTexture; }
+                inline auto getDepthTexture() const noexcept { return depthTexture; }
 
                 inline auto getSampleCount() const noexcept { return sampleCount; }
                 inline auto& getColorFormats() const noexcept { return colorFormats; }
