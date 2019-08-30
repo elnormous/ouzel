@@ -20,10 +20,9 @@ namespace ouzel
         public:
             Archive() = default;
 
-            explicit Archive(const std::string& path)
+            explicit Archive(const std::string& path):
+                file{File(path, File::Mode::Read)}
             {
-                file = File(path, File::Mode::Read);
-
                 for (;;)
                 {
                     uint32_t signature;
