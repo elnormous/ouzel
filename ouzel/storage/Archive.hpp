@@ -23,16 +23,19 @@ namespace ouzel
             explicit Archive(const std::string& path):
                 file{File(path, File::Mode::Read)}
             {
+                static constexpr uint32_t CENTRAL_DIRECTORY = 0x02014B50;
+                static constexpr uint32_t HEADER_SIGNATURE = 0x04034B50;
+
                 for (;;)
                 {
                     uint32_t signature;
 
                     file.read(&signature, sizeof(signature), true);
 
-                    if (decodeLittleEndian<uint32_t>(&signature) == 0x02014B50) // central directory
+                    if (decodeLittleEndian<uint32_t>(&signature) == CENTRAL_DIRECTORY)
                         break;
 
-                    if (decodeLittleEndian<uint32_t>(&signature) != 0x04034B50)
+                    if (decodeLittleEndian<uint32_t>(&signature) != HEADER_SIGNATURE)
                         throw std::runtime_error("Bad signature");
 
                     uint8_t version[2];
@@ -77,7 +80,8 @@ namespace ouzel
 
                     entry.offset = file.getOffset();
 
-                    file.seek(static_cast<int32_t>(decodeLittleEndian<uint32_t>(&uncompressedSize)), File::Seek::Current); // skip uncompressed size
+                    file.seek(static_cast<int32_t>(decodeLittleEndian<uint32_t>(&uncompressedSize)),
+                              File::Seek::Current); // skip uncompressed size
                 }
             }
 
