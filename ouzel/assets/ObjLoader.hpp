@@ -12,8 +12,6 @@ namespace ouzel
         class ObjLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::StaticMesh;
-
             explicit ObjLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle,
                            const std::string& name,

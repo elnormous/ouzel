@@ -12,7 +12,7 @@ namespace ouzel
     namespace assets
     {
         CueLoader::CueLoader(Cache& initCache):
-            Loader(initCache, TYPE)
+            Loader(initCache, Loader::Cue)
         {
         }
 

@@ -12,7 +12,7 @@ namespace ouzel
     namespace assets
     {
         SpriteLoader::SpriteLoader(Cache& initCache):
-            Loader(initCache, TYPE)
+            Loader(initCache, Loader::Sprite)
         {
         }
 

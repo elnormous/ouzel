@@ -12,8 +12,6 @@ namespace ouzel
         class CueLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::Cue;
-
             explicit CueLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle,
                            const std::string& name,

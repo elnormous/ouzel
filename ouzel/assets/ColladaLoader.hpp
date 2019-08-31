@@ -12,8 +12,6 @@ namespace ouzel
         class ColladaLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::SkinnedMesh;
-
             explicit ColladaLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle,
                            const std::string& name,

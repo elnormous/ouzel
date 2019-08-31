@@ -11,7 +11,7 @@ namespace ouzel
     namespace assets
     {
         ColladaLoader::ColladaLoader(Cache& initCache):
-            Loader(initCache, TYPE)
+            Loader(initCache, Loader::SkinnedMesh)
         {
         }
 

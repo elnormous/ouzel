@@ -10,7 +10,7 @@ namespace ouzel
     namespace assets
     {
         GltfLoader::GltfLoader(Cache& initCache):
-            Loader(initCache, TYPE)
+            Loader(initCache, Loader::SkinnedMesh)
         {
         }
 

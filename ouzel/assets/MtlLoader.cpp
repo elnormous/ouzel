@@ -112,7 +112,7 @@ namespace ouzel
         }
 
         MtlLoader::MtlLoader(Cache& initCache):
-            Loader(initCache, TYPE)
+            Loader(initCache, Loader::Material)
         {
         }
 

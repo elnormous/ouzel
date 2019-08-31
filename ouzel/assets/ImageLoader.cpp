@@ -46,7 +46,7 @@ namespace ouzel
     namespace assets
     {
         ImageLoader::ImageLoader(Cache& initCache):
-            Loader(initCache, TYPE)
+            Loader(initCache, Loader::Image)
         {
         }
 

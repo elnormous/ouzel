@@ -12,8 +12,6 @@ namespace ouzel
         class GltfLoader final: public Loader
         {
         public:
-            static constexpr uint32_t TYPE = Loader::SkinnedMesh;
-
             explicit GltfLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle,
                            const std::string& name,

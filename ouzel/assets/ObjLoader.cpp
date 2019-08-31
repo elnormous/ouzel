@@ -154,7 +154,7 @@ namespace ouzel
         }
 
         ObjLoader::ObjLoader(Cache& initCache):
-            Loader(initCache, TYPE)
+            Loader(initCache, Loader::StaticMesh)
         {
         }
 

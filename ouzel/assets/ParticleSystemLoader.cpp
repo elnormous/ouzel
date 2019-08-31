@@ -11,7 +11,7 @@ namespace ouzel
     namespace assets
     {
         ParticleSystemLoader::ParticleSystemLoader(Cache& initCache):
-            Loader(initCache, TYPE)
+            Loader(initCache, Loader::ParticleSystem)
         {
         }
 

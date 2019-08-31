@@ -10,7 +10,7 @@ namespace ouzel
     namespace assets
     {
         TtfLoader::TtfLoader(Cache& initCache):
-            Loader(initCache, TYPE)
+            Loader(initCache, Loader::Font)
         {
         }
 
