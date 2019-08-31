@@ -17,14 +17,14 @@ namespace ouzel
         Timer(Timer&&) = delete;
         Timer& operator=(Timer&&) = delete;
 
-        void update(float delta)
+        void update(const float delta)
         {
             time += delta * scale;
         }
 
         inline constexpr auto getTime() const noexcept { return time; }
         inline constexpr auto getScale() const noexcept { return scale; }
-        inline void setScale(float newScale) { scale = newScale; }
+        inline void setScale(const float newScale) { scale = newScale; }
 
     private:
         float time = 0.0F;
