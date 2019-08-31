@@ -26,6 +26,7 @@ namespace ouzel
         private:
             Network* network = nullptr;
             Socket sock;
+            bool connected = false;
         };
     } // namespace network
 } // namespace ouzel
