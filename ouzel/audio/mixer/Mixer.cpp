@@ -61,36 +61,6 @@ namespace ouzel
                                 objects[deleteObjectCommand->objectId - 1].reset();
                                 break;
                             }
-                            case Command::Type::AddChild:
-                            {
-                                auto addChildCommand = static_cast<const AddChildCommand*>(command.get());
-                                Object* object = objects[addChildCommand->objectId - 1].get();
-                                Object* child = objects[addChildCommand->objectId - 1].get();
-                                //object->addChild(*child);
-                                break;
-                            }
-                            case Command::Type::RemoveChild:
-                            {
-                                auto removeChildCommand = static_cast<const RemoveChildCommand*>(command.get());
-                                Object* object = objects[removeChildCommand->objectId - 1].get();
-                                Object* child = objects[removeChildCommand->objectId - 1].get();
-                                //object->removeChild(*child);
-                                break;
-                            }
-                            case Command::Type::Play:
-                            {
-                                auto playCommand = static_cast<const PlayCommand*>(command.get());
-                                Object* object = objects[playCommand->objectId - 1].get();
-                                //object->play();
-                                break;
-                            }
-                            case Command::Type::Stop:
-                            {
-                                auto stopCommand = static_cast<const StopCommand*>(command.get());
-                                Object* object = objects[stopCommand->objectId - 1].get();
-                                //object->stop(stopCommand->reset);
-                                break;
-                            }
                             case Command::Type::InitBus:
                             {
                                 auto initBusCommand = static_cast<InitBusCommand*>(command.get());

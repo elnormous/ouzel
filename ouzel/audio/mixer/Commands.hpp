@@ -23,10 +23,6 @@ namespace ouzel
                 enum class Type
                 {
                     DeleteObject,
-                    AddChild,
-                    RemoveChild,
-                    Play,
-                    Stop,
                     InitBus,
                     SetBusOutput,
                     SetMasterBus,
@@ -52,59 +48,6 @@ namespace ouzel
                 {}
 
                 const uintptr_t objectId;
-            };
-
-            class AddChildCommand final: public Command
-            {
-            public:
-                constexpr AddChildCommand(uintptr_t initObjectId,
-                                          uintptr_t initChildId) noexcept:
-                    Command(Command::Type::AddChild),
-                    objectId(initObjectId),
-                    childId(initChildId)
-                {}
-
-                const uintptr_t objectId;
-                const uintptr_t childId;
-            };
-
-            class RemoveChildCommand final: public Command
-            {
-            public:
-                constexpr RemoveChildCommand(uintptr_t initObjectId,
-                                             uintptr_t initChildId) noexcept:
-                    Command(Command::Type::RemoveChild),
-                    objectId(initObjectId),
-                    childId(initChildId)
-                {}
-
-                const uintptr_t objectId;
-                const uintptr_t childId;
-            };
-
-            class PlayCommand final: public Command
-            {
-            public:
-                explicit constexpr PlayCommand(uintptr_t initObjectId) noexcept:
-                    Command(Command::Type::Play),
-                    objectId(initObjectId)
-                {}
-
-                const uintptr_t objectId;
-            };
-
-            class StopCommand final: public Command
-            {
-            public:
-                constexpr StopCommand(uintptr_t initObjectId,
-                                      bool initReset) noexcept:
-                    Command(Command::Type::Stop),
-                    objectId(initObjectId),
-                    reset(initReset)
-                {}
-
-                const uintptr_t objectId;
-                const bool reset;
             };
 
             class InitBusCommand final: public Command
