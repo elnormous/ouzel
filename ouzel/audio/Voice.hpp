@@ -5,7 +5,6 @@
 
 #include <memory>
 #include "audio/Cue.hpp"
-#include "audio/Node.hpp"
 #include "math/Vector.hpp"
 
 namespace ouzel
@@ -16,7 +15,7 @@ namespace ouzel
         class Mix;
         class Sound;
 
-        class Voice final: public Node
+        class Voice final
         {
             friend Mix;
         public:
@@ -28,7 +27,6 @@ namespace ouzel
             Voice(const Voice&) = delete;
             Voice& operator=(const Voice&) = delete;
             Voice(Voice&& other) noexcept:
-                Node(other.audio),
                 audio(other.audio)
             {
             }

@@ -10,7 +10,6 @@
 #include <vector>
 #include "audio/Driver.hpp"
 #include "audio/Mix.hpp"
-#include "audio/Node.hpp"
 #include "audio/mixer/Emitter.hpp"
 #include "audio/mixer/Commands.hpp"
 #include "audio/mixer/Processor.hpp"
@@ -55,8 +54,6 @@ namespace ouzel
             uintptr_t initSource(std::unique_ptr<mixer::Emitter> emitter);
             uintptr_t initData(std::unique_ptr<mixer::Data> data);
 
-            auto& getRootNode() { return rootNode; }
-
         private:
             void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples);
             void eventCallback(const mixer::Mixer::Event& event);
@@ -65,7 +62,6 @@ namespace ouzel
             mixer::Mixer mixer;
             mixer::CommandBuffer commandBuffer;
             Mix masterMix;
-            Node rootNode;
         };
     } // namespace audio
 } // namespace ouzel

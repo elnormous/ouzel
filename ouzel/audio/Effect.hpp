@@ -4,7 +4,6 @@
 #define OUZEL_AUDIO_EFFECT_HPP
 
 #include <cstdint>
-#include "audio/Node.hpp"
 
 namespace ouzel
 {

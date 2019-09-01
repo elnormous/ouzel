@@ -27,7 +27,6 @@
 #include "audio/Effects.hpp"
 #include "audio/Listener.hpp"
 #include "audio/Mix.hpp"
-#include "audio/Node.hpp"
 #include "audio/Oscillator.hpp"
 #include "audio/PcmClip.hpp"
 #include "audio/SampleFormat.hpp"

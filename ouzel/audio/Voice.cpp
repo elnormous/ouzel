@@ -41,13 +41,11 @@ namespace ouzel
         };
 
         Voice::Voice(Audio& initAudio):
-            Node(initAudio),
             audio(initAudio)
         {
         }
 
         Voice::Voice(Audio& initAudio, const Cue& cue):
-            Node(initAudio),
             audio(initAudio)
         {
             const auto& sourceDefinition = cue.getSourceDefinition();
@@ -127,7 +125,6 @@ namespace ouzel
         }
 
         Voice::Voice(Audio& initAudio, const Sound& initSound):
-            Node(initAudio),
             audio(initAudio),
             sourceId(audio.initSource(std::make_unique<VoiceEmitter>()))
         {

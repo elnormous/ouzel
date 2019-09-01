@@ -763,9 +763,6 @@
 		C6C9102D21B54EE000B5FCB7 /* Oscillator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */; };
 		C6C9102E21B54EE000B5FCB7 /* Oscillator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */; };
 		C6C9102F21B54EE000B5FCB7 /* Oscillator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */; };
-		C6DBB72D22920078009F8DF9 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6DBB72C22920078009F8DF9 /* Node.cpp */; };
-		C6DBB72E22920078009F8DF9 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6DBB72C22920078009F8DF9 /* Node.cpp */; };
-		C6DBB72F22920078009F8DF9 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6DBB72C22920078009F8DF9 /* Node.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -809,7 +806,6 @@
 		301EB3A11CCD691800466E92 /* Component.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
 		301EB3A81CCD77F600466E92 /* TextRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextRenderer.cpp; sourceTree = "<group>"; };
 		301EB3A91CCD77F600466E92 /* TextRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextRenderer.hpp; sourceTree = "<group>"; };
-		3020D274228E40E20056FA47 /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
 		30216B611ED462B80073E3D5 /* StaticMeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticMeshRenderer.cpp; sourceTree = "<group>"; };
 		30216B621ED462B80073E3D5 /* StaticMeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StaticMeshRenderer.hpp; sourceTree = "<group>"; };
 		30216B721ED464730073E3D5 /* Material.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
@@ -1139,7 +1135,6 @@
 		C6C9101921B54B5B00B5FCB7 /* Data.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Data.hpp; sourceTree = "<group>"; };
 		C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Oscillator.cpp; sourceTree = "<group>"; };
 		C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Oscillator.hpp; sourceTree = "<group>"; };
-		C6DBB72C22920078009F8DF9 /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1565,8 +1560,6 @@
 				30A3820E21B4BDBC0043568A /* Mix.cpp */,
 				30A3820F21B4BDBC0043568A /* Mix.hpp */,
 				C6C9101621B54AD600B5FCB7 /* mixer */,
-				C6DBB72C22920078009F8DF9 /* Node.cpp */,
-				3020D274228E40E20056FA47 /* Node.hpp */,
 				30419E6C1D20254100A63759 /* openal */,
 				C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */,
 				C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */,
@@ -2510,7 +2503,6 @@
 				30381F4F1D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,
 				302B728421BDE302006EBC59 /* SilenceSound.cpp in Sources */,
 				303B04B61E207B6100011CBE /* OGLRenderDeviceIOS.mm in Sources */,
-				C6DBB72D22920078009F8DF9 /* Node.cpp in Sources */,
 				3031C1341F0C4350002CA717 /* VorbisClip.cpp in Sources */,
 				30419DF21D162BEF00A63759 /* Sound.cpp in Sources */,
 				303820F81D817F4900677CAB /* GamepadDeviceIOS.mm in Sources */,
@@ -2632,7 +2624,6 @@
 				30519CEA1F9B53F500AF3DC4 /* MtlLoader.cpp in Sources */,
 				302B728621BDE302006EBC59 /* SilenceSound.cpp in Sources */,
 				30381F511D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,
-				C6DBB72F22920078009F8DF9 /* Node.cpp in Sources */,
 				30EA71211D52783000AE8C3E /* EngineTVOS.mm in Sources */,
 				30419DF31D162BEF00A63759 /* Sound.cpp in Sources */,
 				3031C1361F0C4350002CA717 /* VorbisClip.cpp in Sources */,
@@ -2696,7 +2687,6 @@
 				30216B641ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
 				30FFBE3B2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
-				C6DBB72E22920078009F8DF9 /* Node.cpp in Sources */,
 				C6C9102B21B54EE000B5FCB7 /* Oscillator.cpp in Sources */,
 				30419DE91D162BDC00A63759 /* Voice.cpp in Sources */,
 				302B728521BDE302006EBC59 /* SilenceSound.cpp in Sources */,
