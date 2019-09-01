@@ -123,28 +123,26 @@ namespace ouzel
             }
 
             std::unique_ptr<mixer::Emitter> emitter = std::make_unique<VoiceEmitter>();
-
-            //audio.addCommand(std::make_unique<mixer::InitObjectCommand>(audio.getMixer().getObjectId(),
-            //                                                            std::move(source)));
+            sourceId = audio.initSource(std::move(emitter));
         }
 
         Voice::Voice(Audio& initAudio, const Sound& initSound):
             Node(initAudio),
             audio(initAudio),
-            streamId(audio.initStream(initSound.getSourceId()))
+            sourceId(audio.initSource(std::make_unique<VoiceEmitter>()))
         {
             sound = &initSound;
         }
 
         Voice::~Voice()
         {
-            if (streamId)
-                audio.deleteObject(streamId);
+            if (sourceId)
+                audio.deleteObject(sourceId);
         }
 
         void Voice::play()
         {
-            audio.addCommand(std::make_unique<mixer::PlayStreamCommand>(streamId));
+            audio.addCommand(std::make_unique<mixer::PlaySourceCommand>(sourceId));
 
             playing = true;
 
@@ -158,7 +156,7 @@ namespace ouzel
 
         void Voice::pause()
         {
-            audio.addCommand(std::make_unique<mixer::StopStreamCommand>(streamId, false));
+            audio.addCommand(std::make_unique<mixer::StopSourceCommand>(sourceId, false));
 
             playing = false;
 
@@ -167,7 +165,7 @@ namespace ouzel
 
         void Voice::stop()
         {
-            audio.addCommand(std::make_unique<mixer::StopStreamCommand>(streamId, true));
+            audio.addCommand(std::make_unique<mixer::StopSourceCommand>(sourceId, true));
 
             playing = false;
 
@@ -200,7 +198,7 @@ namespace ouzel
             output = newOutput;
             if (output) output->addInput(this);
 
-            audio.addCommand(std::make_unique<mixer::SetStreamOutputCommand>(streamId,
+            audio.addCommand(std::make_unique<mixer::SetSourceOutputCommand>(sourceId,
                                                                              output ? output->getBusId() : 0));
         }
     } // namespace audio

@@ -4,7 +4,6 @@
 #define OUZEL_AUDIO_MIXER_OBJECT_HPP
 
 #include <cstdint>
-#include <memory>
 #include <vector>
 #include "math/Quaternion.hpp"
 #include "math/Vector.hpp"

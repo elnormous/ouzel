@@ -58,7 +58,7 @@ namespace ouzel
 
         private:
             Audio& audio;
-            uintptr_t streamId;
+            uintptr_t sourceId;
 
             const Sound* sound = nullptr;
             Vector3F position;

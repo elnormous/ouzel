@@ -3,7 +3,7 @@
 #include "Mixer.hpp"
 #include "Bus.hpp"
 #include "Data.hpp"
-#include "Stream.hpp"
+#include "Source.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -116,39 +116,38 @@ namespace ouzel
                                 masterBus = setMasterBusCommand->busId ? static_cast<Bus*>(objects[setMasterBusCommand->busId - 1].get()) : nullptr;
                                 break;
                             }
-                            case Command::Type::InitStream:
+                            case Command::Type::InitSource:
                             {
-                                auto initStreamCommand = static_cast<const InitStreamCommand*>(command.get());
+                                auto initSourceCommand = static_cast<InitSourceCommand*>(command.get());
 
-                                if (initStreamCommand->streamId > objects.size())
-                                    objects.resize(initStreamCommand->streamId);
+                                if (initSourceCommand->sourceId > objects.size())
+                                    objects.resize(initSourceCommand->sourceId);
 
-                                //Data* data = static_cast<Data*>(objects[initStreamCommand->dataId - 1].get());
-                                //objects[initStreamCommand->streamId - 1] = data->createStream();
+                                objects[initSourceCommand->sourceId - 1] = std::make_unique<Source>(std::move(initSourceCommand->emitter));
                                 break;
                             }
-                            case Command::Type::PlayStream:
+                            case Command::Type::PlaySource:
                             {
-                                auto playStreamCommand = static_cast<const PlayStreamCommand*>(command.get());
+                                auto playSourceCommand = static_cast<const PlaySourceCommand*>(command.get());
 
-                                Stream* stream = static_cast<Stream*>(objects[playStreamCommand->streamId - 1].get());
-                                stream->play();
+                                Source* source = static_cast<Source*>(objects[playSourceCommand->sourceId - 1].get());
+                                source->play();
                                 break;
                             }
-                            case Command::Type::StopStream:
+                            case Command::Type::StopSource:
                             {
-                                auto stopStreamCommand = static_cast<const StopStreamCommand*>(command.get());
+                                auto stopSourceCommand = static_cast<const StopSourceCommand*>(command.get());
 
-                                Stream* stream = static_cast<Stream*>(objects[stopStreamCommand->streamId - 1].get());
-                                stream->stop(stopStreamCommand->reset);
+                                Source* source = static_cast<Source*>(objects[stopSourceCommand->sourceId - 1].get());
+                                source->stop(stopSourceCommand->reset);
                                 break;
                             }
-                            case Command::Type::SetStreamOutput:
+                            case Command::Type::SetSourceOutput:
                             {
-                                auto setStreamOutputCommand = static_cast<const SetStreamOutputCommand*>(command.get());
+                                auto setSourceOutputCommand = static_cast<const SetSourceOutputCommand*>(command.get());
 
-                                Stream* stream = static_cast<Stream*>(objects[setStreamOutputCommand->streamId - 1].get());
-                                stream->setOutput(setStreamOutputCommand->busId ? static_cast<Bus*>(objects[setStreamOutputCommand->busId - 1].get()) : nullptr);
+                                Source* source = static_cast<Source*>(objects[setSourceOutputCommand->sourceId - 1].get());
+                                //source->setOutput(setSourceOutputCommand->busId ? static_cast<Bus*>(objects[setSourceOutputCommand->busId - 1].get()) : nullptr);
                                 break;
                             }
                             case Command::Type::InitData:

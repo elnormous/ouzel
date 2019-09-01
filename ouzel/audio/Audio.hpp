@@ -11,6 +11,7 @@
 #include "audio/Driver.hpp"
 #include "audio/Mix.hpp"
 #include "audio/Node.hpp"
+#include "audio/mixer/Emitter.hpp"
 #include "audio/mixer/Commands.hpp"
 #include "audio/mixer/Processor.hpp"
 #include "audio/mixer/Mixer.hpp"
@@ -51,7 +52,7 @@ namespace ouzel
 
             void deleteObject(uintptr_t objectId);
             uintptr_t initBus(std::unique_ptr<mixer::Processor> processor);
-            uintptr_t initStream(uintptr_t sourceId);
+            uintptr_t initSource(std::unique_ptr<mixer::Emitter> emitter);
             uintptr_t initData(std::unique_ptr<mixer::Data> data);
 
             auto& getRootNode() { return rootNode; }

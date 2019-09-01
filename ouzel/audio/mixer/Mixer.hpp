@@ -11,6 +11,7 @@
 #include <set>
 #include <thread>
 #include <vector>
+#include "audio/mixer/Bus.hpp"
 #include "audio/mixer/Commands.hpp"
 #include "audio/mixer/Object.hpp"
 #include "audio/mixer/Processor.hpp"
@@ -52,9 +53,9 @@ namespace ouzel
                 public:
                     enum class Type
                     {
-                        StreamStarted,
-                        StreamReset,
-                        StreamStopped,
+                        SourceStarted,
+                        SourceReset,
+                        SourceStopped,
                         Starvation
                     };
 

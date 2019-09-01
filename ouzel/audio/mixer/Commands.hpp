@@ -9,7 +9,6 @@
 
 #include "audio/mixer/Processor.hpp"
 #include "audio/mixer/Source.hpp"
-#include "audio/mixer/Stream.hpp"
 #include "audio/mixer/Data.hpp"
 
 namespace ouzel
@@ -31,10 +30,10 @@ namespace ouzel
                     InitBus,
                     SetBusOutput,
                     SetMasterBus,
-                    InitStream,
-                    PlayStream,
-                    StopStream,
-                    SetStreamOutput,
+                    InitSource,
+                    PlaySource,
+                    StopSource,
+                    SetSourceOutput,
                     InitData
                 };
 
@@ -147,56 +146,56 @@ namespace ouzel
                 const uintptr_t busId;
             };
 
-            class InitStreamCommand final: public Command
+            class InitSourceCommand final: public Command
             {
             public:
-                InitStreamCommand(uintptr_t initStreamId,
+                InitSourceCommand(uintptr_t initSourceId,
                                   std::unique_ptr<Emitter> initEmitter) noexcept:
-                    Command(Command::Type::InitStream),
-                    streamId(initStreamId),
+                    Command(Command::Type::InitSource),
+                    sourceId(initSourceId),
                     emitter(std::move(initEmitter))
                 {}
 
-                const uintptr_t streamId;
+                const uintptr_t sourceId;
                 std::unique_ptr<Emitter> emitter;
             };
 
-            class PlayStreamCommand final: public Command
+            class PlaySourceCommand final: public Command
             {
             public:
-                explicit constexpr PlayStreamCommand(uintptr_t initStreamId) noexcept:
-                    Command(Command::Type::PlayStream),
-                    streamId(initStreamId)
+                explicit constexpr PlaySourceCommand(uintptr_t initSourceId) noexcept:
+                    Command(Command::Type::PlaySource),
+                    sourceId(initSourceId)
                 {}
 
-                const uintptr_t streamId;
+                const uintptr_t sourceId;
             };
 
-            class StopStreamCommand final: public Command
+            class StopSourceCommand final: public Command
             {
             public:
-                constexpr StopStreamCommand(uintptr_t initStreamId,
+                constexpr StopSourceCommand(uintptr_t initSourceId,
                                             bool initReset) noexcept:
-                    Command(Command::Type::StopStream),
-                    streamId(initStreamId),
+                    Command(Command::Type::StopSource),
+                    sourceId(initSourceId),
                     reset(initReset)
                 {}
 
-                const uintptr_t streamId;
+                const uintptr_t sourceId;
                 const bool reset;
             };
 
-            class SetStreamOutputCommand final: public Command
+            class SetSourceOutputCommand final: public Command
             {
             public:
-                constexpr SetStreamOutputCommand(uintptr_t initStreamId,
+                constexpr SetSourceOutputCommand(uintptr_t initSourceId,
                                                  uintptr_t initBusId) noexcept:
-                    Command(Command::Type::SetStreamOutput),
-                    streamId(initStreamId),
+                    Command(Command::Type::SetSourceOutput),
+                    sourceId(initSourceId),
                     busId(initBusId)
                 {}
 
-                const uintptr_t streamId;
+                const uintptr_t sourceId;
                 const uintptr_t busId;
             };
 

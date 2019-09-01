@@ -25,10 +25,19 @@ namespace ouzel
 
                 virtual ~Source() = default;
 
-                virtual void play() = 0;
-                virtual void stop(bool shouldReset) = 0;
+                void play()
+                {
+                }
 
-                virtual void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
+                void stop(bool shouldReset)
+                {
+                }
+
+                void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
+                {
+                    if (emitter)
+                        emitter->getSamples(frames, channels, sampleRate, samples);
+                }
 
             private:
                 std::unique_ptr<Emitter> emitter;
