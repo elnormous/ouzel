@@ -175,12 +175,7 @@ namespace ouzel
                 samples.resize(frames * channels);
 
                 if (masterBus)
-                {
-                    Vector3F listenerPosition;
-                    QuaternionF listenerRotation;
-
-                    masterBus->getSamples(frames, channels, sampleRate, listenerPosition, listenerRotation, samples);
-                }
+                    masterBus->getSamples(frames, channels, sampleRate, samples);
 
                 for (float& sample : samples)
                     sample = clamp(sample, -1.0F, 1.0F);

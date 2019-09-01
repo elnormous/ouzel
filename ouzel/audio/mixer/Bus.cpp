@@ -225,8 +225,7 @@ namespace ouzel
                     samples = sourceSamples;
             }
 
-            void Bus::getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate,
-                                 const Vector3F& listenerPosition, const QuaternionF& listenerRotation,
+            void Bus::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                                  std::vector<float>& samples)
             {
                 samples.resize(frames * channels);
@@ -234,7 +233,7 @@ namespace ouzel
 
                 for (Bus* bus : inputBuses)
                 {
-                    bus->getSamples(frames, channels, sampleRate, listenerPosition, listenerRotation, buffer);
+                    bus->getSamples(frames, channels, sampleRate, buffer);
 
                     for (size_t s = 0; s < samples.size(); ++s)
                         samples[s] += buffer[s];

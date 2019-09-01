@@ -33,15 +33,8 @@ namespace ouzel
 
                 void setOutput(Bus* newOutput);
 
-                void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) final
-                {
-                    //if (processor)
-                    //    processor->process();
-                }
-
                 void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate,
-                                const Vector3F& listenerPosition, const QuaternionF& listenerRotation,
-                                std::vector<float>& samples);
+                                std::vector<float>& samples) final;
 
             private:
                 void addInput(Bus* bus);
