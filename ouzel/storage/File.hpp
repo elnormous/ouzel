@@ -64,15 +64,6 @@ namespace ouzel
             File(const std::string& filename, const int mode)
             {
 #if defined(_WIN32)
-                const DWORD access =
-                    ((mode & Mode::Read) ? GENERIC_READ : 0) |
-                    ((mode & Mode::Write) ? GENERIC_WRITE : 0) |
-                    ((mode & Mode::Append) ? FILE_APPEND_DATA : 0);
-
-                const DWORD createDisposition = (mode & Truncate) ?
-                    ((mode & Mode::Create) ? CREATE_ALWAYS : TRUNCATE_EXISTING) :
-                    ((mode & Mode::Create) ? OPEN_ALWAYS : OPEN_EXISTING);
-
                 const int bufferSize = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
                 if (bufferSize == 0)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
@@ -84,6 +75,15 @@ namespace ouzel
                 // relative paths longer than MAX_PATH are not supported
                 if (buffer.size() > MAX_PATH)
                     buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
+
+                const DWORD access =
+                    ((mode & Mode::Read) ? GENERIC_READ : 0) |
+                    ((mode & Mode::Write) ? GENERIC_WRITE : 0) |
+                    ((mode & Mode::Append) ? FILE_APPEND_DATA : 0);
+
+                const DWORD createDisposition = (mode & Truncate) ?
+                    ((mode & Mode::Create) ? CREATE_ALWAYS : TRUNCATE_EXISTING) :
+                    ((mode & Mode::Create) ? OPEN_ALWAYS : OPEN_EXISTING);
 
                 file = CreateFileW(buffer.data(), access, 0, nullptr, createDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
                 if (file == INVALID_HANDLE_VALUE)
@@ -147,17 +147,16 @@ namespace ouzel
 
             void close()
             {
-                Type oldFile = file;
-                file = INVALID;
-
-                if (oldFile != INVALID)
+                if (file != INVALID)
 #if defined(_WIN32)
-                    if (!CloseHandle(oldFile))
+                    if (!CloseHandle(file))
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to close file");
 #else
-                    if (::close(oldFile) == -1)
+                    if (::close(file) == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to close file");
 #endif
+
+                file = INVALID;
             }
 
             uint32_t read(void* buffer, uint32_t size, bool all = false) const
