@@ -39,71 +39,18 @@ namespace ouzel
             }
         }
 
-        class OscillatorData;
-
-        class OscillatorStream final: public mixer::Stream
-        {
-        public:
-            explicit OscillatorStream(OscillatorData& oscillatorData);
-
-            void reset() final
-            {
-                position = 0;
-            }
-
-            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) final
-            {
-            }
-
-            void getSamples(uint32_t frames, std::vector<float>& samples) final;
-
-        private:
-            uint32_t position = 0;
-        };
-
-        class OscillatorData final: public mixer::Data
-        {
-        public:
-            OscillatorData(float initFrequency, Oscillator::Type initType, float initAmplitude, float initLength):
-                frequency(initFrequency),
-                type(initType),
-                amplitude(initAmplitude),
-                length(initLength)
-            {
-                channels = 1;
-                sampleRate = 44100;
-            }
-
-            inline auto getFrequency() const noexcept { return frequency; }
-            inline auto getType() const noexcept { return type; }
-            inline auto getAmplitude() const noexcept { return amplitude; }
-            inline auto getLength() const noexcept { return length; }
-
-            std::unique_ptr<mixer::Stream> createStream() final
-            {
-                return std::make_unique<OscillatorStream>(*this);
-            }
-
-        private:
-            float frequency;
-            Oscillator::Type type;
-            float amplitude;
-            float length;
-        };
-
-        OscillatorStream::OscillatorStream(OscillatorData& oscillatorData):
-            Stream(oscillatorData)
+        Oscillator::Oscillator(float initFrequency, Type initType,
+                               float initAmplitude, float initLength):
+            type(initType),
+            frequency(initFrequency),
+            amplitude(initAmplitude),
+            length(initLength)
         {
         }
 
-        void OscillatorStream::getSamples(uint32_t frames, std::vector<float>& samples)
+        void Oscillator::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
-            OscillatorData& oscillatorData = static_cast<OscillatorData&>(data);
-
             samples.resize(frames);
-
-            const auto sampleRate = data.getSampleRate();
-            const auto length = static_cast<OscillatorData&>(data).getLength();
 
             if (length > 0.0F)
             {
@@ -115,9 +62,9 @@ namespace ouzel
                 {
                     if (frameCount - position < neededSize)
                     {
-                        generateWave(oscillatorData.getType(), frameCount - position, position,
-                                     oscillatorData.getFrequency() / static_cast<float>(sampleRate),
-                                     oscillatorData.getAmplitude(), samples.data() + totalSize);
+                        generateWave(type, frameCount - position, position,
+                                     frequency / static_cast<float>(sampleRate),
+                                     amplitude, samples.data() + totalSize);
 
                         totalSize += frameCount - position;
                         neededSize -= frameCount - position;
@@ -125,9 +72,9 @@ namespace ouzel
                     }
                     else
                     {
-                        generateWave(oscillatorData.getType(), neededSize, position,
-                                     oscillatorData.getFrequency() / static_cast<float>(sampleRate),
-                                     oscillatorData.getAmplitude(), samples.data() + totalSize);
+                        generateWave(type, neededSize, position,
+                                     frequency / static_cast<float>(sampleRate),
+                                     amplitude, samples.data() + totalSize);
 
                         totalSize += neededSize;
                         position += neededSize;
@@ -137,33 +84,20 @@ namespace ouzel
 
                 if ((frameCount - position) == 0)
                 {
-                    playing = false; // TODO: fire event
-                    reset();
+                    //playing = false; // TODO: fire event
+                    //reset();
                 }
 
                 std::fill(samples.begin() + totalSize, samples.end(), 0.0F); // TODO: remove
             }
             else
             {
-                generateWave(oscillatorData.getType(), frames, position,
-                             oscillatorData.getFrequency() / static_cast<float>(sampleRate),
-                             oscillatorData.getAmplitude(), samples.data());
+                generateWave(type, frames, position,
+                             frequency / static_cast<float>(sampleRate),
+                             amplitude, samples.data());
 
                 position += frames;
             }
-        }
-
-        Oscillator::Oscillator(Audio& initAudio, float initFrequency,
-                               Type initType, float initAmplitude, float initLength):
-            type(initType),
-            frequency(initFrequency),
-            amplitude(initAmplitude),
-            length(initLength)
-        {
-        }
-
-        void Oscillator::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
-        {
         }
     } // namespace audio
 } // namespace ouzel

@@ -77,8 +77,7 @@ namespace ouzel
                 }
                 case SourceDefinition::Type::Oscillator:
                 {
-                    result = std::make_unique<Oscillator>(audio,
-                                                          sourceDefinition.frequency,
+                    result = std::make_unique<Oscillator>(sourceDefinition.frequency,
                                                           sourceDefinition.oscillatorType,
                                                           sourceDefinition.amplitude,
                                                           sourceDefinition.length);

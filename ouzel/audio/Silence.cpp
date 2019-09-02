@@ -40,7 +40,7 @@ namespace ouzel
 
                 if ((frameCount - position) == 0)
                 {
-                    playing = false; // TODO: fire event
+                    //playing = false; // TODO: fire event
                     //reset();
                 }
             }

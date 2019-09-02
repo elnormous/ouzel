@@ -20,8 +20,7 @@ namespace ouzel
                 Triangle
             };
 
-            Oscillator(Audio& initAudio, float initFrequency,
-                       Type initType = Type::Sine,
+            Oscillator(float initFrequency, Type initType = Type::Sine,
                        float initAmplitude = 0.5F, float initLength = 0.0F);
 
             void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
@@ -31,6 +30,7 @@ namespace ouzel
             float frequency;
             float amplitude;
             float length;
+            uint32_t position = 0;
         };
     } // namespace audio
 } // namespace ouzel

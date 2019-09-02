@@ -19,7 +19,6 @@ namespace ouzel
         private:
             float length;
             uint32_t position = 0;
-            bool playing = false;
         };
     } // namespace audio
 } // namespace ouzel
