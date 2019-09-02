@@ -4,6 +4,7 @@
 #define OUZEL_NETWORK_SERVER_HPP
 
 #include "network/Socket.hpp"
+#include "utils/Thread.hpp"
 
 namespace ouzel
 {
@@ -26,6 +27,8 @@ namespace ouzel
         private:
             Network* network = nullptr;
             Socket sock;
+            Thread readThread;
+            Thread writeThread;
             bool connected = false;
         };
     } // namespace network
