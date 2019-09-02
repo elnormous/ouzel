@@ -30,7 +30,7 @@
 #include "audio/Oscillator.hpp"
 #include "audio/PcmClip.hpp"
 #include "audio/SampleFormat.hpp"
-#include "audio/SilenceSound.hpp"
+#include "audio/Silence.hpp"
 #include "audio/Sound.hpp"
 #include "audio/Source.hpp"
 #include "audio/Submix.hpp"

@@ -78,7 +78,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/assets/BmfLoader.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Mix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Oscillator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/PcmClip.cpp \
-	$(ROOT_DIR)/../ouzel/audio/SilenceSound.cpp \
+	$(ROOT_DIR)/../ouzel/audio/Silence.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Submix.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Voice.cpp \

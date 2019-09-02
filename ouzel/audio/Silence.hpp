@@ -3,22 +3,23 @@
 #ifndef OUZEL_AUDIO_SILENCESOUND_HPP
 #define OUZEL_AUDIO_SILENCESOUND_HPP
 
-#include "audio/Sound.hpp"
+#include "audio/Source.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class SilenceData;
-
-        class SilenceSound final: public Sound
+        class Silence final: public Source
         {
         public:
-            SilenceSound(Audio& initAudio, float initLength = 0.0F);
+            Silence(float initLength = 0.0F);
+
+            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override;
 
         private:
-            SilenceData* data;
             float length;
+            uint32_t position = 0;
+            bool playing = false;
         };
     } // namespace audio
 } // namespace ouzel

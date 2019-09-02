@@ -5,7 +5,7 @@
 #include "AudioDevice.hpp"
 #include "Effects.hpp"
 #include "Oscillator.hpp"
-#include "SilenceSound.hpp"
+#include "Silence.hpp"
 #include "Sound.hpp"
 #include "Source.hpp"
 #include "WavePlayer.hpp"
@@ -19,6 +19,12 @@ namespace ouzel
         class VoiceEmitter: public mixer::Emitter
         {
         public:
+            VoiceEmitter() = default;
+            VoiceEmitter(std::unique_ptr<audio::Source> initSource):
+                source(std::move(initSource))
+            {
+            }
+
             void play() override
             {
                 if (source)
@@ -37,6 +43,7 @@ namespace ouzel
                     source->getSamples(frames, channels, sampleRate, samples);
             }
 
+        private:
             std::unique_ptr<audio::Source> source;
         };
 
@@ -45,10 +52,10 @@ namespace ouzel
         {
         }
 
-        Voice::Voice(Audio& initAudio, const Cue& cue):
-            audio(initAudio)
+        static std::unique_ptr<Source> createSource(Audio& audio,
+                                                    const SourceDefinition& sourceDefinition)
         {
-            const auto& sourceDefinition = cue.getSourceDefinition();
+            std::unique_ptr<Source> result;
 
             switch (sourceDefinition.type)
             {
@@ -70,22 +77,21 @@ namespace ouzel
                 }
                 case SourceDefinition::Type::Oscillator:
                 {
-                    std::unique_ptr<Oscillator> oscillator = std::make_unique<Oscillator>(initAudio,
-                                                                                          sourceDefinition.frequency,
-                                                                                          sourceDefinition.oscillatorType,
-                                                                                          sourceDefinition.amplitude,
-                                                                                          sourceDefinition.length);
+                    result = std::make_unique<Oscillator>(audio,
+                                                          sourceDefinition.frequency,
+                                                          sourceDefinition.oscillatorType,
+                                                          sourceDefinition.amplitude,
+                                                          sourceDefinition.length);
                     break;
                 }
                 case SourceDefinition::Type::Silence:
                 {
-                    std::unique_ptr<SilenceSound> silence = std::make_unique<SilenceSound>(initAudio,
-                                                                                           sourceDefinition.length);
+                    result = std::make_unique<Silence>(sourceDefinition.length);
                     break;
                 }
                 case SourceDefinition::Type::WavePlayer:
                 {
-                    std::unique_ptr<WavePlayer> silence = std::make_unique<WavePlayer>(sourceDefinition.sound);
+                    //result = std::make_unique<WavePlayer>(sourceDefinition.sound);
                     break;
                 }
             }
@@ -97,30 +103,39 @@ namespace ouzel
                 switch (effectDefinition.type)
                 {
                     case EffectDefinition::Type::Delay:
-                        effects.push_back(std::make_unique<Delay>(initAudio, effectDefinition.delay));
+                        effects.push_back(std::make_unique<Delay>(audio, effectDefinition.delay));
                         break;
                     case EffectDefinition::Type::Gain:
-                        effects.push_back(std::make_unique<Gain>(initAudio, effectDefinition.gain));
+                        effects.push_back(std::make_unique<Gain>(audio, effectDefinition.gain));
                         break;
                     case EffectDefinition::Type::PitchScale:
-                        effects.push_back(std::make_unique<PitchScale>(initAudio, effectDefinition.scale));
+                        effects.push_back(std::make_unique<PitchScale>(audio, effectDefinition.scale));
                         break;
                     case EffectDefinition::Type::PitchShift:
-                        effects.push_back(std::make_unique<PitchShift>(initAudio, effectDefinition.shift));
+                        effects.push_back(std::make_unique<PitchShift>(audio, effectDefinition.shift));
                         break;
                     case EffectDefinition::Type::Reverb:
-                        effects.push_back(std::make_unique<Reverb>(initAudio, effectDefinition.delay, effectDefinition.decay));
+                        effects.push_back(std::make_unique<Reverb>(audio, effectDefinition.delay, effectDefinition.decay));
                         break;
                     case EffectDefinition::Type::LowPass:
-                        effects.push_back(std::make_unique<LowPass>(initAudio));
+                        effects.push_back(std::make_unique<LowPass>(audio));
                         break;
                     case EffectDefinition::Type::HighPass:
-                        effects.push_back(std::make_unique<HighPass>(initAudio));
+                        effects.push_back(std::make_unique<HighPass>(audio));
                         break;
                 }
             }
 
-            std::unique_ptr<mixer::Emitter> emitter = std::make_unique<VoiceEmitter>();
+            return result;
+        }
+
+        Voice::Voice(Audio& initAudio, const Cue& cue):
+            audio(initAudio)
+        {
+            const auto& sourceDefinition = cue.getSourceDefinition();
+
+            auto emitter = std::make_unique<VoiceEmitter>(createSource(initAudio,
+                                                                       sourceDefinition));
             sourceId = audio.initSource(std::move(emitter));
         }
 

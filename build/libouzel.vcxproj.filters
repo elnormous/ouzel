@@ -148,7 +148,7 @@
     <ClCompile Include="..\ouzel\audio\Voice.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\SilenceSound.cpp">
+    <ClCompile Include="..\ouzel\audio\Silence.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\Sound.cpp">
@@ -576,7 +576,7 @@
     <ClInclude Include="..\ouzel\audio\Voice.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\SilenceSound.hpp">
+    <ClInclude Include="..\ouzel\audio\Silence.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Sound.hpp">

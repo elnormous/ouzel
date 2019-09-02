@@ -46,7 +46,7 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
 	../../ouzel/audio/Mix.cpp \
     ../../ouzel/audio/Oscillator.cpp \
     ../../ouzel/audio/PcmClip.cpp \
-	../../ouzel/audio/SilenceSound.cpp \
+	../../ouzel/audio/Silence.cpp \
     ../../ouzel/audio/Sound.cpp \
     ../../ouzel/audio/Submix.cpp \
 	../../ouzel/audio/Voice.cpp \

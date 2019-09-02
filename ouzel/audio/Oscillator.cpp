@@ -39,65 +39,6 @@ namespace ouzel
             }
         }
 
-        class OscillatorEmitter final: public mixer::Emitter
-        {
-        public:
-            void play() override {}
-            void stop(bool shouldReset) override {}
-
-            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
-            {
-                /*samples.resize(frames);
-
-                if (length > 0.0F)
-                {
-                    const auto frameCount = static_cast<uint32_t>(length * sampleRate);
-                    auto neededSize = frames;
-                    uint32_t totalSize = 0;
-
-                    if (neededSize > 0)
-                    {
-                        if (frameCount - position < neededSize)
-                        {
-                            generateWave(oscillatorData.getType(), frameCount - position, position,
-                                         oscillatorData.getFrequency() / static_cast<float>(sampleRate),
-                                         oscillatorData.getAmplitude(), samples.data() + totalSize);
-
-                            totalSize += frameCount - position;
-                            neededSize -= frameCount - position;
-                            position = frameCount;
-                        }
-                        else
-                        {
-                            generateWave(oscillatorData.getType(), neededSize, position,
-                                         oscillatorData.getFrequency() / static_cast<float>(sampleRate),
-                                         oscillatorData.getAmplitude(), samples.data() + totalSize);
-
-                            totalSize += neededSize;
-                            position += neededSize;
-                            neededSize = 0;
-                        }
-                    }
-
-                    if ((frameCount - position) == 0)
-                    {
-                        playing = false; // TODO: fire event
-                        reset();
-                    }
-
-                    std::fill(samples.begin() + totalSize, samples.end(), 0.0F); // TODO: remove
-                }
-                else
-                {
-                    generateWave(oscillatorData.getType(), frames, position,
-                                 oscillatorData.getFrequency() / static_cast<float>(sampleRate),
-                                 oscillatorData.getAmplitude(), samples.data());
-
-                    position += frames;
-                }*/
-            }
-        };
-
         class OscillatorData;
 
         class OscillatorStream final: public mixer::Stream
@@ -214,13 +155,14 @@ namespace ouzel
 
         Oscillator::Oscillator(Audio& initAudio, float initFrequency,
                                Type initType, float initAmplitude, float initLength):
-            Sound(initAudio,
-                  initAudio.initData(std::unique_ptr<mixer::Data>(data = new OscillatorData(initFrequency, initType, initAmplitude, initLength))),
-                  Sound::Format::Pcm),
             type(initType),
             frequency(initFrequency),
             amplitude(initAmplitude),
             length(initLength)
+        {
+        }
+
+        void Oscillator::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
         }
     } // namespace audio
