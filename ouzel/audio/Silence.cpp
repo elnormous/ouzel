@@ -16,7 +16,6 @@ namespace ouzel
 
         void Silence::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
-            samples.resize(frames);
             std::fill(samples.begin(), samples.end(), 0.0F); // TODO: fill only the needed samples
 
             if (length > 0.0F)

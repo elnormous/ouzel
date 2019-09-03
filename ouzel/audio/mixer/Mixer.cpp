@@ -75,8 +75,9 @@ namespace ouzel
                             {
                                 auto setBusOutputCommand = static_cast<const SetBusOutputCommand*>(command.get());
 
+                                Bus* outputBus = setBusOutputCommand->outputBusId ? static_cast<Bus*>(objects[setBusOutputCommand->outputBusId - 1].get()) : nullptr;
                                 Bus* bus = static_cast<Bus*>(objects[setBusOutputCommand->busId - 1].get());
-                                bus->setOutput(setBusOutputCommand->outputBusId ? static_cast<Bus*>(objects[setBusOutputCommand->outputBusId - 1].get()) : nullptr);
+                                if (outputBus) outputBus->addInput(bus);
                                 break;
                             }
                             case Command::Type::SetMasterBus:
@@ -116,8 +117,9 @@ namespace ouzel
                             {
                                 auto setSourceOutputCommand = static_cast<const SetSourceOutputCommand*>(command.get());
 
+                                Bus* outputBus = setSourceOutputCommand->busId ? static_cast<Bus*>(objects[setSourceOutputCommand->busId - 1].get()) : nullptr;
                                 Source* source = static_cast<Source*>(objects[setSourceOutputCommand->sourceId - 1].get());
-                                //source->setOutput(setSourceOutputCommand->busId ? static_cast<Bus*>(objects[setSourceOutputCommand->busId - 1].get()) : nullptr);
+                                if (outputBus) outputBus->addInput(source);
                                 break;
                             }
                             case Command::Type::InitData:

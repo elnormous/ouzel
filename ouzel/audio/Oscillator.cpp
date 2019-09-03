@@ -50,8 +50,6 @@ namespace ouzel
 
         void Oscillator::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
-            samples.resize(frames);
-
             if (length > 0.0F)
             {
                 const auto frameCount = static_cast<uint32_t>(length * sampleRate);

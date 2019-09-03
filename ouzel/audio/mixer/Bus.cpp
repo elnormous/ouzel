@@ -4,7 +4,7 @@
 #include "Bus.hpp"
 #include "Data.hpp"
 #include "Processor.hpp"
-#include "Stream.hpp"
+#include "Source.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -13,22 +13,28 @@ namespace ouzel
     {
         namespace mixer
         {
-            Bus::~Bus()
+            void Bus::addInput(Bus* bus)
             {
-                if (output) output->removeInput(this);
-
-                for (Bus* inputBus : inputBuses)
-                    inputBus->output = nullptr;
-
-                for (Stream* stream : inputStreams)
-                    stream->output = nullptr;
+                auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
+                if (i == inputBuses.end()) inputBuses.push_back(bus);
             }
 
-            void Bus::setOutput(Bus* newOutput)
+            void Bus::removeInput(Bus* bus)
             {
-                if (output) output->removeInput(this);
-                output = newOutput;
-                if (output) output->addInput(this);
+                auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
+                if (i != inputBuses.end()) inputBuses.erase(i);
+            }
+
+            void Bus::addInput(Source* source)
+            {
+                auto i = std::find(inputSources.begin(), inputSources.end(), source);
+                if (i == inputSources.end()) inputSources.push_back(source);
+            }
+
+            void Bus::removeInput(Source* source)
+            {
+                auto i = std::find(inputSources.begin(), inputSources.end(), source);
+                if (i != inputSources.end()) inputSources.erase(i);
             }
 
             static void resample(uint32_t channels, uint32_t sourceFrames, const std::vector<float>& sourceSamples,
@@ -239,21 +245,26 @@ namespace ouzel
                         samples[s] += buffer[s];
                 }
 
-                for (Stream* stream : inputStreams)
+                for (Source* source : inputSources)
                 {
-                    if (stream->isPlaying())
+                    source->getSamples(frames, channels, sampleRate, buffer);
+
+                    for (size_t s = 0; s < samples.size(); ++s)
+                        samples[s] += buffer[s];
+
+                    /*if (source->isPlaying())
                     {
-                        const uint32_t sourceSampleRate = stream->getData().getSampleRate();
-                        const uint32_t sourceChannels = stream->getData().getChannels();
+                        const uint32_t sourceSampleRate = source->getData().getSampleRate();
+                        const uint16_t sourceChannels = source->getData().getChannels();
 
                         if (sourceSampleRate != sampleRate)
                         {
                             uint32_t sourceFrames = (frames * sourceSampleRate + sampleRate - 1) / sampleRate; // round up
-                            stream->getSamples(sourceFrames, resampleBuffer);
+                            source->getSamples(sourceFrames, resampleBuffer);
                             resample(sourceChannels, sourceFrames, resampleBuffer, frames, mixBuffer);
                         }
                         else
-                            stream->getSamples(frames, mixBuffer);
+                            source->getSamples(frames, mixBuffer);
 
                         if (sourceChannels != channels)
                             convert(frames, sourceChannels, mixBuffer, channels, buffer);
@@ -262,35 +273,11 @@ namespace ouzel
 
                         for (size_t s = 0; s < samples.size(); ++s)
                             samples[s] += buffer[s];
-                    }
+                    }*/
                 }
 
                 if (processor && processor->isEnabled())
                     processor->process(frames, channels, sampleRate, samples);
-            }
-
-            void Bus::addInput(Bus* bus)
-            {
-                auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
-                if (i == inputBuses.end()) inputBuses.push_back(bus);
-            }
-
-            void Bus::removeInput(Bus* bus)
-            {
-                auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
-                if (i != inputBuses.end()) inputBuses.erase(i);
-            }
-
-            void Bus::addInput(Stream* stream)
-            {
-                auto i = std::find(inputStreams.begin(), inputStreams.end(), stream);
-                if (i == inputStreams.end()) inputStreams.push_back(stream);
-            }
-
-            void Bus::removeInput(Stream* stream)
-            {
-                auto i = std::find(inputStreams.begin(), inputStreams.end(), stream);
-                if (i != inputStreams.end()) inputStreams.erase(i);
             }
         }
     } // namespace audio

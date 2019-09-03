@@ -25,11 +25,6 @@ namespace ouzel
                 {
                 }
 
-                ~Stream()
-                {
-                    if (output) output->removeInput(this);
-                }
-
                 Stream(const Stream&) = delete;
                 Stream& operator=(const Object&) = delete;
 
@@ -37,13 +32,6 @@ namespace ouzel
                 Stream& operator=(Stream&&) = delete;
 
                 auto& getData() const noexcept { return data; }
-
-                void setOutput(Bus* newOutput)
-                {
-                    if (output) output->removeInput(this);
-                    output = newOutput;
-                    if (output) output->addInput(this);
-                }
 
                 inline auto isPlaying() const noexcept { return playing; }
                 void play() { playing = true; }

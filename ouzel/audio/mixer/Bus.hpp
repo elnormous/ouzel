@@ -13,40 +13,36 @@ namespace ouzel
     {
         namespace mixer
         {
-            class Stream;
+            class Source;
 
             class Bus final: public Object
             {
-                friend Stream;
             public:
                 Bus() noexcept {}
                 explicit Bus(std::unique_ptr<Processor> initProcessor) noexcept:
                     processor(std::move(initProcessor))
                 {
                 }
-                ~Bus();
                 Bus(const Bus&) = delete;
                 Bus& operator=(const Bus&) = delete;
 
                 Bus(Bus&&) = delete;
                 Bus& operator=(Bus&&) = delete;
 
-                void setOutput(Bus* newOutput);
+                void addInput(Bus* bus);
+                void removeInput(Bus* bus);
+                void addInput(Source* stream);
+                void removeInput(Source* stream);
 
                 void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate,
                                 std::vector<float>& samples) final;
 
             private:
-                void addInput(Bus* bus);
-                void removeInput(Bus* bus);
-                void addInput(Stream* stream);
-                void removeInput(Stream* stream);
-
                 std::unique_ptr<Processor> processor;
 
                 Bus* output = nullptr;
                 std::vector<Bus*> inputBuses;
-                std::vector<Stream*> inputStreams;
+                std::vector<Source*> inputSources;
 
                 std::vector<float> resampleBuffer;
                 std::vector<float> mixBuffer;

@@ -24,7 +24,7 @@ namespace ouzel
                 }
 
                 virtual ~Source() = default;
-
+                
                 void play()
                 {
                 }
