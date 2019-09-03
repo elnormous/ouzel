@@ -751,9 +751,6 @@
 		C67DDC3522B3F16E009408A8 /* CubeFace.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C67DDC3422B3F16E009408A8 /* CubeFace.hpp */; };
 		C6AC8A8C215BD7D500F14D75 /* MouseDeviceMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = C6AC8A8A215BD7D500F14D75 /* MouseDeviceMacOS.mm */; };
 		C6AC8A8D215BD7D500F14D75 /* MouseDeviceMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6AC8A8B215BD7D500F14D75 /* MouseDeviceMacOS.hpp */; };
-		C6C9101221B54A9600B5FCB7 /* Stream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Stream.hpp */; };
-		C6C9101321B54A9600B5FCB7 /* Stream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Stream.hpp */; };
-		C6C9101421B54A9600B5FCB7 /* Stream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9100E21B54A9600B5FCB7 /* Stream.hpp */; };
 		C6C9101D21B54B5B00B5FCB7 /* Data.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Data.hpp */; };
 		C6C9101E21B54B5B00B5FCB7 /* Data.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Data.hpp */; };
 		C6C9101F21B54B5B00B5FCB7 /* Data.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C6C9101921B54B5B00B5FCB7 /* Data.hpp */; };
@@ -1131,7 +1128,6 @@
 		C6AC8A8A215BD7D500F14D75 /* MouseDeviceMacOS.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MouseDeviceMacOS.mm; sourceTree = "<group>"; };
 		C6AC8A8B215BD7D500F14D75 /* MouseDeviceMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MouseDeviceMacOS.hpp; sourceTree = "<group>"; };
 		C6C9100B21AEB47E00B5FCB7 /* Utf8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utf8.hpp; sourceTree = "<group>"; };
-		C6C9100E21B54A9600B5FCB7 /* Stream.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Stream.hpp; sourceTree = "<group>"; };
 		C6C9101921B54B5B00B5FCB7 /* Data.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Data.hpp; sourceTree = "<group>"; };
 		C6C9102821B54EE000B5FCB7 /* Oscillator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Oscillator.cpp; sourceTree = "<group>"; };
 		C6C9102921B54EE000B5FCB7 /* Oscillator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Oscillator.hpp; sourceTree = "<group>"; };
@@ -1817,7 +1813,6 @@
 				30C3F290219D0DD9003FE9ED /* Object.hpp */,
 				30A3821E21B4C5E90043568A /* Processor.hpp */,
 				30C6623E230792EB0082C8E8 /* Source.hpp */,
-				C6C9100E21B54A9600B5FCB7 /* Stream.hpp */,
 			);
 			path = mixer;
 			sourceTree = "<group>";
@@ -1906,7 +1901,6 @@
 				30C3F294219D0DD9003FE9ED /* Object.hpp in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Actor.hpp in Headers */,
 				30A3821B21B4BDC80043568A /* Submix.hpp in Headers */,
-				C6C9101221B54A9600B5FCB7 /* Stream.hpp in Headers */,
 				303696EF1E32DE08007F4211 /* Shader.hpp in Headers */,
 				C6C9102D21B54EE000B5FCB7 /* Oscillator.hpp in Headers */,
 				3072370D1FAFDAB8002EA399 /* Json.hpp in Headers */,
@@ -2006,7 +2000,6 @@
 				30519CD51F9B53CB00AF3DC4 /* ImageLoader.hpp in Headers */,
 				30A3821521B4BDBC0043568A /* Mix.hpp in Headers */,
 				30381F8A1D80A3EC00677CAB /* OGLShader.hpp in Headers */,
-				C6C9101421B54A9600B5FCB7 /* Stream.hpp in Headers */,
 				3030D5071DAEF1FA007CC8EB /* Log.hpp in Headers */,
 				30575AAB1C39D1FF0009C8A7 /* Layer.hpp in Headers */,
 				30519CFD1F9B54E300AF3DC4 /* VorbisLoader.hpp in Headers */,
@@ -2182,7 +2175,6 @@
 				30898FE722EFA380001C13F2 /* CueLoader.hpp in Headers */,
 				3031C1381F0C4350002CA717 /* VorbisClip.hpp in Headers */,
 				30381F8F1D80A3EC00677CAB /* OGLTexture.hpp in Headers */,
-				C6C9101321B54A9600B5FCB7 /* Stream.hpp in Headers */,
 				3009031221922E1300B00BF4 /* OGLDepthStencilState.hpp in Headers */,
 				30AEFA1820C0FB2E00CDFD33 /* RenderTarget.hpp in Headers */,
 				3038202F1D80A55700677CAB /* MetalBuffer.hpp in Headers */,

@@ -12,13 +12,9 @@ namespace ouzel
     {
         namespace mixer
         {
-            class Stream;
-
             class Data: public Object
             {
             public:
-                virtual std::unique_ptr<Stream> createStream() = 0;
-
                 inline auto getChannels() const noexcept { return channels; }
                 inline auto getSampleRate() const noexcept { return sampleRate; }
 

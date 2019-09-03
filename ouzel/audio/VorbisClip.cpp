@@ -4,7 +4,6 @@
 #include "VorbisClip.hpp"
 #include "Audio.hpp"
 #include "mixer/Data.hpp"
-#include "mixer/Stream.hpp"
 #include "utils/Utils.hpp"
 
 #if defined(_MSC_VER)
@@ -47,7 +46,7 @@ namespace ouzel
     {
         class VorbisData;
 
-        class VorbisStream final: public mixer::Stream
+        /*class VorbisStream final: public mixer::Stream
         {
         public:
             explicit VorbisStream(VorbisData& vorbisData);
@@ -165,12 +164,13 @@ namespace ouzel
             for (uint32_t channel = 0; channel < data.getChannels(); ++channel)
                 for (uint32_t frame = static_cast<uint32_t>(resultFrames); frame < frames; ++frame)
                     samples[channel * frames + frame] = 0.0F;
+        }*/
+
+        VorbisClip::VorbisClip(const std::vector<uint8_t>& initData)
+        {
         }
 
-        VorbisClip::VorbisClip(Audio& initAudio, const std::vector<uint8_t>& initData):
-            Sound(initAudio,
-                  initAudio.initData(std::unique_ptr<mixer::Data>(data = new VorbisData(initData))),
-                  Sound::Format::Vorbis)
+        void VorbisClip::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
         }
     } // namespace audio

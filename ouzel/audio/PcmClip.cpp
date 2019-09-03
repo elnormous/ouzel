@@ -5,13 +5,12 @@
 #include "PcmClip.hpp"
 #include "Audio.hpp"
 #include "mixer/Data.hpp"
-#include "mixer/Stream.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class PcmData;
+        /*class PcmData;
 
         class PcmStream final: public mixer::Stream
         {
@@ -95,13 +94,14 @@ namespace ouzel
                 playing = false; // TODO: fire event
                 reset();
             }
+        }*/
+
+        PcmClip::PcmClip(uint16_t channels, uint32_t sampleRate,
+                          const std::vector<float>& samples)
+        {
         }
 
-        PcmClip::PcmClip(Audio& initAudio, uint32_t channels, uint32_t sampleRate,
-                          const std::vector<float>& samples):
-            Sound(initAudio,
-                  initAudio.initData(std::unique_ptr<mixer::Data>(data = new PcmData(channels, sampleRate, samples))),
-                  Sound::Format::Pcm)
+        void PcmClip::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
         }
     } // namespace audio

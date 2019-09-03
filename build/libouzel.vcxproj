@@ -179,7 +179,6 @@
     <ClInclude Include="..\ouzel\audio\mixer\Object.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Processor.hpp" />
     <ClInclude Include="..\ouzel\audio\mixer\Source.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Stream.hpp" />
     <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
     <ClInclude Include="..\ouzel\audio\Voice.hpp" />

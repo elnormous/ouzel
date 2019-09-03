@@ -5,7 +5,7 @@
 
 #include <cstdint>
 #include <vector>
-#include "audio/Sound.hpp"
+#include "audio/Source.hpp"
 
 namespace ouzel
 {
@@ -13,10 +13,12 @@ namespace ouzel
     {
         class VorbisData;
 
-        class VorbisClip final: public Sound
+        class VorbisClip final: public Source
         {
         public:
-            VorbisClip(Audio& initAudio, const std::vector<uint8_t>& initData);
+            VorbisClip(const std::vector<uint8_t>& initData);
+
+            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override;
 
         private:
             VorbisData* data;
