@@ -13,6 +13,11 @@ namespace ouzel
         {
         }
 
+        void Silence::reset()
+        {
+            position = 0;
+        }
+
         void Silence::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
             std::fill(samples.begin(), samples.end(), 0.0F); // TODO: fill only the needed samples
@@ -37,10 +42,7 @@ namespace ouzel
                 }
 
                 if ((frameCount - position) == 0)
-                {
-                    //playing = false; // TODO: fire event
-                    //reset();
-                }
+                    stop(true);
             }
             else
             {

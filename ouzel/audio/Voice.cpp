@@ -39,10 +39,7 @@ namespace ouzel
 
             void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) override
             {
-                samples.resize(frames * channels);
-                std::fill(samples.begin(), samples.end(), 0.0F); // TODO: fill only the needed samples
-
-                if (source)
+                if (source && source->isPlaying())
                     source->getSamples(frames, channels, sampleRate, samples);
             }
 

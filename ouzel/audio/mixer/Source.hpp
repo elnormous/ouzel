@@ -22,19 +22,24 @@ namespace ouzel
                     emitter(std::move(initEmitter))
                 {
                 }
-
-                virtual ~Source() = default;
                 
                 void play()
                 {
+                    if (emitter)
+                        emitter->play();
                 }
 
                 void stop(bool shouldReset)
                 {
+                    if (emitter)
+                        emitter->stop(shouldReset);
                 }
 
                 void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
                 {
+                    samples.resize(frames * channels);
+                    std::fill(samples.begin(), samples.end(), 0.0F); // TODO: fill only the needed samples
+
                     if (emitter)
                         emitter->getSamples(frames, channels, sampleRate, samples);
                 }

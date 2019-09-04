@@ -47,6 +47,11 @@ namespace ouzel
         {
         }
 
+        void Oscillator::reset()
+        {
+            position = 0;
+        }
+
         void Oscillator::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
             if (length > 0.0F)
@@ -80,10 +85,7 @@ namespace ouzel
                 }
 
                 if ((frameCount - position) == 0)
-                {
-                    //playing = false; // TODO: fire event
-                    //reset();
-                }
+                    stop(true);
 
                 std::fill(samples.begin() + totalSize, samples.end(), 0.0F); // TODO: remove
             }

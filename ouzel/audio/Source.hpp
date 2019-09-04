@@ -16,14 +16,29 @@ namespace ouzel
         public:
             virtual ~Source() = default;
 
-            virtual void play() {}
-            virtual void stop(bool shouldReset) { (void)shouldReset; }
-            virtual void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
+            void play()
+            {
+                playing = true;
+            }
 
             auto& getEffects() const noexcept { return effects; }
+            void stop(bool shouldReset)
+            {
+                playing = false;
+
+                if (shouldReset)
+                    reset();
+            }
+
+            virtual void reset() = 0;
+            virtual void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
+
+            const auto& getEffects() const noexcept { return effects; }
+            bool isPlaying() const noexcept { return playing; }
 
         private:
             std::vector<std::unique_ptr<Effect>> effects;
+            bool playing = false;
         };
     } // namespace audio
 } // namespace ouzel

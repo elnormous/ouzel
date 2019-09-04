@@ -23,6 +23,7 @@ namespace ouzel
             Oscillator(float initFrequency, Type initType = Type::Sine,
                        float initAmplitude = 0.5F, float initLength = 0.0F);
 
+            void reset() override;
             void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
 
         private:
