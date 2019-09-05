@@ -227,6 +227,9 @@
 		3038216C1D81876E00677CAB /* EmptyAudioDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* EmptyAudioDevice.hpp */; };
 		3038216D1D81876E00677CAB /* EmptyAudioDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* EmptyAudioDevice.hpp */; };
 		3038216E1D81876E00677CAB /* EmptyAudioDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* EmptyAudioDevice.hpp */; };
+		303917DC23208BCD00D8BA56 /* WavePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303917DB23208BCD00D8BA56 /* WavePlayer.cpp */; };
+		303917DD23208BD200D8BA56 /* WavePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303917DB23208BCD00D8BA56 /* WavePlayer.cpp */; };
+		303917DE23208BD200D8BA56 /* WavePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303917DB23208BCD00D8BA56 /* WavePlayer.cpp */; };
 		303B04A51E207B1000011CBE /* MetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B04A31E207B1000011CBE /* MetalView.h */; };
 		303B04A61E207B1000011CBE /* MetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 303B04A41E207B1000011CBE /* MetalView.m */; };
 		303B04A91E207B1D00011CBE /* MetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 303B04A71E207B1D00011CBE /* MetalView.h */; };
@@ -868,6 +871,7 @@
 		303821631D81876E00677CAB /* EmptyAudioDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EmptyAudioDevice.cpp; sourceTree = "<group>"; };
 		303821641D81876E00677CAB /* EmptyAudioDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EmptyAudioDevice.hpp; sourceTree = "<group>"; };
 		3038233522E8FC91006905B7 /* Constants.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Constants.hpp; sourceTree = "<group>"; };
+		303917DB23208BCD00D8BA56 /* WavePlayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WavePlayer.cpp; sourceTree = "<group>"; };
 		303B04A31E207B1000011CBE /* MetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalView.h; sourceTree = "<group>"; };
 		303B04A41E207B1000011CBE /* MetalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalView.m; sourceTree = "<group>"; };
 		303B04A71E207B1D00011CBE /* MetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalView.h; sourceTree = "<group>"; };
@@ -1574,6 +1578,7 @@
 				3031C1321F0C4350002CA717 /* VorbisClip.cpp */,
 				3031C1331F0C4350002CA717 /* VorbisClip.hpp */,
 				30C6623D2304E1E70082C8E8 /* WavePlayer.hpp */,
+				303917DB23208BCD00D8BA56 /* WavePlayer.cpp */,
 			);
 			path = audio;
 			sourceTree = "<group>";
@@ -2487,6 +2492,7 @@
 				30FFBE372158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
 				304F92A51F4D89C50063EEC0 /* Network.cpp in Sources */,
 				3009341D1C88698500CC50D3 /* Window.cpp in Sources */,
+				303917DC23208BCD00D8BA56 /* WavePlayer.cpp in Sources */,
 				30216B631ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
 				30AEFA3420C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */,
 				3067D7A5209B450F008DF6AF /* InputSystem.cpp in Sources */,
@@ -2608,6 +2614,7 @@
 				3009341E1C88698500CC50D3 /* Window.cpp in Sources */,
 				304F92A71F4D89C50063EEC0 /* Network.cpp in Sources */,
 				30AEFA3620C0FD7400CDFD33 /* MetalRenderTarget.mm in Sources */,
+				303917DE23208BD200D8BA56 /* WavePlayer.cpp in Sources */,
 				3098A5601EA01CA900528A54 /* GamepadDeviceTVOS.mm in Sources */,
 				30216B651ED462B80073E3D5 /* StaticMeshRenderer.cpp in Sources */,
 				3067D7A7209B450F008DF6AF /* InputSystem.cpp in Sources */,
@@ -2682,6 +2689,7 @@
 				C6C9102B21B54EE000B5FCB7 /* Oscillator.cpp in Sources */,
 				30419DE91D162BDC00A63759 /* Voice.cpp in Sources */,
 				302B728521BDE302006EBC59 /* Silence.cpp in Sources */,
+				303917DD23208BD200D8BA56 /* WavePlayer.cpp in Sources */,
 				306792F3211F98070006FF79 /* Bundle.cpp in Sources */,
 				303B76081C34A92B00FEDE92 /* InputManager.cpp in Sources */,
 				30519CD11F9B53CB00AF3DC4 /* ImageLoader.cpp in Sources */,

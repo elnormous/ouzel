@@ -157,6 +157,9 @@
     <ClCompile Include="..\ouzel\audio\VorbisClip.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\WavePlayer.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\audio\PcmClip.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>

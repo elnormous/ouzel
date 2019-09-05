@@ -14,25 +14,25 @@ namespace ouzel
         class Parallel final: public Source
         {
         public:
-            void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) override
-            {
-            }
+            void reset() override;
+
+            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override;
         };
 
         class Random final: public Source
         {
         public:
-            void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) override
-            {
-            }
+            void reset() override;
+
+            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override;
         };
 
         class Sequence final: public Source
         {
         public:
-            void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) override
-            {
-            }
+            void reset() override;
+
+            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override;
         };
     } // namespace audio
 } // namespace ouzel

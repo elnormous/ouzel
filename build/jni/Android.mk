@@ -51,6 +51,7 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
     ../../ouzel/audio/Submix.cpp \
 	../../ouzel/audio/Voice.cpp \
     ../../ouzel/audio/VorbisClip.cpp \
+    ../../ouzel/audio/WavePlayer.cpp \
     ../../ouzel/core/android/EngineAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
     ../../ouzel/core/android/NativeWindowAndroid.cpp \
