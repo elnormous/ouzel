@@ -166,11 +166,8 @@ namespace ouzel
                     samples[channel * frames + frame] = 0.0F;
         }*/
 
-        VorbisClip::VorbisClip(const std::vector<uint8_t>& initData)
-        {
-        }
-
-        void VorbisClip::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
+        VorbisClip::VorbisClip(Audio& initAudio, const std::vector<uint8_t>& initData):
+            Sound(initAudio, 0, Sound::Format::Vorbis)
         {
         }
     } // namespace audio

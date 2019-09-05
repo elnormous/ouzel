@@ -90,7 +90,7 @@ namespace ouzel
                 }
                 case SourceDefinition::Type::WavePlayer:
                 {
-                    //result = std::make_unique<WavePlayer>(sourceDefinition.sound);
+                    result = std::make_unique<WavePlayer>(sourceDefinition.sound);
                     break;
                 }
             }

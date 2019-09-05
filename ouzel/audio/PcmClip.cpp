@@ -96,12 +96,9 @@ namespace ouzel
             }
         }*/
 
-        PcmClip::PcmClip(uint16_t channels, uint32_t sampleRate,
-                          const std::vector<float>& samples)
-        {
-        }
-
-        void PcmClip::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
+        PcmClip::PcmClip(Audio& initAudio, uint16_t channels, uint32_t sampleRate,
+                         const std::vector<float>& samples):
+            Sound(initAudio, 0, Sound::Format::Pcm)
         {
         }
     } // namespace audio

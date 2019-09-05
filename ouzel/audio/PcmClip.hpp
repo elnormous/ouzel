@@ -5,7 +5,7 @@
 
 #include <cstdint>
 #include <vector>
-#include "audio/Source.hpp"
+#include "audio/Sound.hpp"
 
 namespace ouzel
 {
@@ -13,13 +13,11 @@ namespace ouzel
     {
         class PcmData;
 
-        class PcmClip final: public Source
+        class PcmClip final: public Sound
         {
         public:
-            PcmClip(uint16_t channels, uint32_t sampleRate,
+            PcmClip(Audio& initAudio, uint16_t channels, uint32_t sampleRate,
                     const std::vector<float>& samples);
-
-            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override;
 
         private:
             PcmData* data;
