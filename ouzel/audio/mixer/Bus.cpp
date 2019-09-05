@@ -247,14 +247,9 @@ namespace ouzel
 
                 for (Source* source : inputSources)
                 {
-                    source->getSamples(frames, channels, sampleRate, buffer);
-
-                    for (size_t s = 0; s < samples.size(); ++s)
-                        samples[s] += buffer[s];
-
-                    /*if (source->isPlaying())
+                    if (source->isPlaying())
                     {
-                        const uint32_t sourceSampleRate = source->getData().getSampleRate();
+                        /*const uint32_t sourceSampleRate = source->getData().getSampleRate();
                         const uint16_t sourceChannels = source->getData().getChannels();
 
                         if (sourceSampleRate != sampleRate)
@@ -269,11 +264,13 @@ namespace ouzel
                         if (sourceChannels != channels)
                             convert(frames, sourceChannels, mixBuffer, channels, buffer);
                         else
-                            buffer = mixBuffer;
+                            buffer = mixBuffer;*/
+
+                        source->getSamples(frames, channels, sampleRate, buffer);
 
                         for (size_t s = 0; s < samples.size(); ++s)
                             samples[s] += buffer[s];
-                    }*/
+                    }
                 }
 
                 if (processor && processor->isEnabled())

@@ -15,7 +15,8 @@ namespace ouzel
             Silence(float initLength = 0.0F);
 
             void reset() override;
-            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override;
+            void getSamples(uint32_t frames, uint16_t channels,
+                            uint32_t sampleRate, std::vector<float>& samples) override;
 
         private:
             float length;

@@ -26,14 +26,21 @@ namespace ouzel
                 void play()
                 {
                     if (emitter)
+                    {
+                        playing = true;
                         emitter->play();
+                    }
                 }
 
                 void stop(bool shouldReset)
                 {
+                    playing = false;
+
                     if (emitter)
                         emitter->stop(shouldReset);
                 }
+
+                inline bool isPlaying() const { return playing; }
 
                 void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
                 {
@@ -46,6 +53,7 @@ namespace ouzel
 
             private:
                 std::unique_ptr<Emitter> emitter;
+                bool playing = false;
             };
         }
     } // namespace audio
