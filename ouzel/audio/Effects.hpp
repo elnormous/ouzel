@@ -68,7 +68,7 @@ namespace ouzel
             std::pair<float, float> gainRandom{0.0F, 0.0F};
         };
 
-        class Panner final: public Effect, public scene::Component
+        class Panner final: public Effect
         {
         public:
             explicit Panner(Audio& initAudio);
@@ -84,22 +84,8 @@ namespace ouzel
             inline auto& getPosition() const noexcept { return position; }
             void setPosition(const Vector3F& newPosition);
 
-            inline auto getRolloffFactor() const noexcept { return rolloffFactor; }
-            void setRolloffFactor(float newRolloffFactor);
-
-            inline auto getMinDistance() const noexcept { return minDistance; }
-            void setMinDistance(float newMinDistance);
-
-            inline auto getMaxDistance() const noexcept { return maxDistance; }
-            void setMaxDistance(float newMaxDistance);
-
         private:
-            void updateTransform() final;
-
             Vector3F position;
-            float rolloffFactor = 1.0F;
-            float minDistance = 1.0F;
-            float maxDistance = FLT_MAX;
         };
 
         class PitchScale final: public Effect

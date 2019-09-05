@@ -96,31 +96,8 @@ namespace ouzel
             position = newPosition;
         }
 
-        void Panner::setRolloffFactor(float newRolloffFactor)
-        {
-            rolloffFactor = newRolloffFactor;
-        }
-
-        void Panner::setMinDistance(float newMinDistance)
-        {
-            minDistance = newMinDistance;
-        }
-
-        void Panner::setMaxDistance(float newMaxDistance)
-        {
-            maxDistance = newMaxDistance;
-        }
-
-        void Panner::updateTransform()
-        {
-            setPosition(actor->getWorldPosition());
-        }
-
-        namespace
-        {
-            constexpr float MIN_PITCH = 0.5F;
-            constexpr float MAX_PITCH = 2.0F;
-        }
+        static constexpr float MIN_PITCH = 0.5F;
+        static constexpr float MAX_PITCH = 2.0F;
 
         PitchScale::PitchScale(Audio& initAudio, float initScale):
             Effect(initAudio),

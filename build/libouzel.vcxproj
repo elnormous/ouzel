@@ -48,7 +48,7 @@
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
     <ClCompile Include="..\ouzel\audio\Oscillator.cpp" />
     <ClCompile Include="..\ouzel\audio\VorbisClip.cpp" />
-    <ClInclude Include="..\ouzel\audio\WavePlayer.cpp" />
+    <ClCompile Include="..\ouzel\audio\WavePlayer.cpp" />
     <ClCompile Include="..\ouzel\audio\PcmClip.cpp" />
     <ClCompile Include="..\ouzel\audio\Mix.cpp" />
     <ClCompile Include="..\ouzel\audio\Submix.cpp" />
