@@ -101,8 +101,8 @@ namespace smb
         T imag;
     };
 
-    template <int32_t sign>
-    static void fft(Complex<float>* fftBuffer, const uint32_t fftFrameSize) noexcept
+    template <int32_t sign, uint32_t fftFrameSize>
+    static void fft(Complex<float>* fftBuffer) noexcept
     {
         // Bit-reversal permutation applied to a sequence of fftFrameSize items
         for (uint32_t i = 1; i < fftFrameSize - 1; i++)
@@ -187,7 +187,7 @@ namespace smb
 
                     // ***************** ANALYSIS *******************
                     // do transform
-                    fft<-1>(fftWorksp, fftFrameSize);
+                    fft<-1, fftFrameSize>(fftWorksp);
 
                     // this is the analysis step
                     for (uint32_t k = 0; k <= fftFrameSizeHalf; k++)
@@ -271,7 +271,7 @@ namespace smb
                         fftWorksp[k] = {0.0F, 0.0F};
 
                     // do inverse transform
-                    fft<1>(fftWorksp, fftFrameSize);
+                    fft<1, fftFrameSize>(fftWorksp);
 
                     // do windowing and add to output accumulator
                     for (uint32_t k = 0; k < fftFrameSize; k++)
