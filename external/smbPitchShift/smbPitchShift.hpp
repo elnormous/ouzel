@@ -147,6 +147,12 @@ namespace smb
     class PitchShift final
     {
     public:
+        PitchShift()
+        {
+            for (uint32_t k = 0; k < fftFrameSize; k++)
+                window[k] = -0.5F * std::cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
+        }
+
         /*
             Routine process(). See top of file for explanation
             Purpose: doing pitch shifting while maintaining duration using the Short
@@ -180,8 +186,7 @@ namespace smb
                     // do windowing
                     for (uint32_t k = 0; k < fftFrameSize; k++)
                     {
-                        float window = -0.5F * std::cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
-                        fftWorksp[k].real = inFifo[k] * window;
+                        fftWorksp[k].real = inFifo[k] * window[k];
                         fftWorksp[k].imag = 0.0F;
                     }
 
@@ -275,10 +280,8 @@ namespace smb
 
                     // do windowing and add to output accumulator
                     for (uint32_t k = 0; k < fftFrameSize; k++)
-                    {
-                        const float window = -0.5F * cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
-                        outputAccum[k] += 2.0F * window * fftWorksp[k].real / (fftFrameSizeHalf * oversamp);
-                    }
+                        outputAccum[k] += 2.0F * window[k] * fftWorksp[k].real / (fftFrameSizeHalf * oversamp);
+
                     uint32_t k;
                     for (k = 0 ; k < stepSize; k++)
                         outFifo[k] = outputAccum[k];
@@ -297,6 +300,7 @@ namespace smb
         }
 
     private:
+        float window[fftFrameSize]; // the windowing function
         float inFifo[fftFrameSize]{0.0F};
         float outFifo[fftFrameSize]{0.0F};
         Complex<float> fftWorksp[fftFrameSize]{{0.0F, 0.0F}};
