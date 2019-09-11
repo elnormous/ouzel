@@ -149,8 +149,9 @@ namespace smb
     public:
         PitchShift()
         {
+            // Hann window
             for (uint32_t k = 0; k < fftFrameSize; k++)
-                window[k] = -0.5F * std::cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)) + 0.5F;
+                window[k] = 0.5F * (1.0F + std::cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)));
         }
 
         /*
