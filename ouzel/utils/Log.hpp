@@ -132,12 +132,12 @@ namespace ouzel
             return *this;
         }
 
-        template <typename T> struct isContainer: public std::false_type{};
-        template <typename T, std::size_t N> struct isContainer<std::array<T, N>>: public std::true_type{};
-        template <typename... Args> struct isContainer<std::initializer_list<Args...>>: public std::true_type{};
-        template <typename... Args> struct isContainer<std::list<Args...>>: public std::true_type{};
-        template <typename... Args> struct isContainer<std::set<Args...>>: public std::true_type{};
-        template <typename... Args> struct isContainer<std::vector<Args...>>: public std::true_type{};
+        template <typename T> struct isContainer: std::false_type{};
+        template <typename T, std::size_t N> struct isContainer<std::array<T, N>>: std::true_type{};
+        template <typename... Args> struct isContainer<std::initializer_list<Args...>>: std::true_type{};
+        template <typename... Args> struct isContainer<std::list<Args...>>: std::true_type{};
+        template <typename... Args> struct isContainer<std::set<Args...>>: std::true_type{};
+        template <typename... Args> struct isContainer<std::vector<Args...>>: std::true_type{};
 
         template <typename T, typename std::enable_if<isContainer<T>::value>::type* = nullptr>
         Log& operator<<(const T& val)
