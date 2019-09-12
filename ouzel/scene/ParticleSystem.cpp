@@ -62,7 +62,7 @@ namespace ouzel
                     renderViewProjection :
                     (particleSystemData.positionType == ParticleSystemData::PositionType::Grouped) ?
                     renderViewProjection * transformMatrix :
-                    throw std::runtime_error("Invalid position type");;
+                    throw std::runtime_error("Invalid position type");
 
                 const float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
 
