@@ -184,9 +184,6 @@
     <ClCompile Include="..\ouzel\graphics\opengl\windows\OGLRenderDeviceWin.cpp">
       <Filter>ouzel\graphics\opengl\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\EmptyRenderDevice.cpp">
-      <Filter>ouzel\graphics\empty</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11Shader.cpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClCompile>

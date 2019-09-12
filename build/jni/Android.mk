@@ -61,7 +61,6 @@ LOCAL_SRC_FILES := ../../ouzel/assets/BmfLoader.cpp \
 	../../ouzel/core/System.cpp \
     ../../ouzel/core/Window.cpp \
     ../../ouzel/events/EventDispatcher.cpp \
-    ../../ouzel/graphics/empty/EmptyRenderDevice.cpp \
     ../../ouzel/graphics/opengl/android/OGLRenderDeviceAndroid.cpp \
     ../../ouzel/graphics/opengl/OGLBlendState.cpp \
     ../../ouzel/graphics/opengl/OGLBuffer.cpp \

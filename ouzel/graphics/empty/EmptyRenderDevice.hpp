@@ -14,10 +14,13 @@ namespace ouzel
             class RenderDevice final: public graphics::RenderDevice
             {
             public:
-                explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+                explicit RenderDevice(const std::function<void(const Event&)>& initCallback):
+                    graphics::RenderDevice(Driver::Empty, initCallback)
+                {
+                }
 
             private:
-                void process() final;
+                void process() final {}
             };
         } // namespace empty
     } // namespace graphics

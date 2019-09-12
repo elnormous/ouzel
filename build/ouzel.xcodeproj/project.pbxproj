@@ -218,9 +218,6 @@
 		303820871D816C9E00677CAB /* NativeWindowMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3038207A1D816C9E00677CAB /* NativeWindowMacOS.mm */; };
 		303820F51D817F4900677CAB /* GamepadDeviceIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820F11D817F4900677CAB /* GamepadDeviceIOS.hpp */; };
 		303820F81D817F4900677CAB /* GamepadDeviceIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F21D817F4900677CAB /* GamepadDeviceIOS.mm */; };
-		303821451D81876E00677CAB /* EmptyRenderDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821291D81876E00677CAB /* EmptyRenderDevice.cpp */; };
-		303821461D81876E00677CAB /* EmptyRenderDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821291D81876E00677CAB /* EmptyRenderDevice.cpp */; };
-		303821471D81876E00677CAB /* EmptyRenderDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821291D81876E00677CAB /* EmptyRenderDevice.cpp */; };
 		303821481D81876E00677CAB /* EmptyRenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3038212A1D81876E00677CAB /* EmptyRenderDevice.hpp */; };
 		303821491D81876E00677CAB /* EmptyRenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3038212A1D81876E00677CAB /* EmptyRenderDevice.hpp */; };
 		3038214A1D81876E00677CAB /* EmptyRenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3038212A1D81876E00677CAB /* EmptyRenderDevice.hpp */; };
@@ -875,7 +872,6 @@
 		3038207A1D816C9E00677CAB /* NativeWindowMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeWindowMacOS.mm; sourceTree = "<group>"; };
 		303820F11D817F4900677CAB /* GamepadDeviceIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceIOS.hpp; sourceTree = "<group>"; };
 		303820F21D817F4900677CAB /* GamepadDeviceIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceIOS.mm; sourceTree = "<group>"; };
-		303821291D81876E00677CAB /* EmptyRenderDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EmptyRenderDevice.cpp; sourceTree = "<group>"; };
 		3038212A1D81876E00677CAB /* EmptyRenderDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EmptyRenderDevice.hpp; sourceTree = "<group>"; };
 		303821631D81876E00677CAB /* EmptyAudioDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EmptyAudioDevice.cpp; sourceTree = "<group>"; };
 		303821641D81876E00677CAB /* EmptyAudioDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EmptyAudioDevice.hpp; sourceTree = "<group>"; };
@@ -1202,7 +1198,6 @@
 		303820881D816EAB00677CAB /* empty */ = {
 			isa = PBXGroup;
 			children = (
-				303821291D81876E00677CAB /* EmptyRenderDevice.cpp */,
 				3038212A1D81876E00677CAB /* EmptyRenderDevice.hpp */,
 			);
 			path = empty;
@@ -2503,7 +2498,6 @@
 				30A3821821B4BDC80043568A /* Submix.cpp in Sources */,
 				3009030E21922E1300B00BF4 /* OGLDepthStencilState.cpp in Sources */,
 				30C3F286219D0847003FE9ED /* Effect.cpp in Sources */,
-				303821451D81876E00677CAB /* EmptyRenderDevice.cpp in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				30FFBE372158FD8D004B0BD3 /* Keyboard.cpp in Sources */,
 				304F92A51F4D89C50063EEC0 /* Network.cpp in Sources */,
@@ -2621,7 +2615,6 @@
 				30ADCBBB1E9A9550000DC9AC /* MetalRenderDeviceTVOS.mm in Sources */,
 				300862DC2154725500D8CC45 /* InputSystemTVOS.mm in Sources */,
 				303B04A61E207B1000011CBE /* MetalView.m in Sources */,
-				303821471D81876E00677CAB /* EmptyRenderDevice.cpp in Sources */,
 				3009031021922E1300B00BF4 /* OGLDepthStencilState.cpp in Sources */,
 				30A3821A21B4BDC80043568A /* Submix.cpp in Sources */,
 				30C3F288219D0847003FE9ED /* Effect.cpp in Sources */,
@@ -2752,7 +2745,6 @@
 				30B8598D1F3D286600A16952 /* TTFont.cpp in Sources */,
 				303B04AA1E207B1D00011CBE /* MetalView.m in Sources */,
 				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
-				303821461D81876E00677CAB /* EmptyRenderDevice.cpp in Sources */,
 				304F92A61F4D89C50063EEC0 /* Network.cpp in Sources */,
 				300862D32154712E00D8CC45 /* InputSystemMacOS.mm in Sources */,
 				30AEFA1520C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
