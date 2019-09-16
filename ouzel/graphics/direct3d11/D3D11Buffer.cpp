@@ -52,7 +52,7 @@ namespace ouzel
 
                         HRESULT hr;
                         if (FAILED(hr = renderDevice.getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource)))
-                            throw std::system_error(hr, errorCategory, "Failed to lock Direct3D 11 buffer");
+                            throw std::system_error(hr, getErrorCategory(), "Failed to lock Direct3D 11 buffer");
 
                         std::copy(data.begin(), data.end(), static_cast<uint8_t*>(mappedSubresource.pData));
 
@@ -98,7 +98,7 @@ namespace ouzel
                     if (data.empty())
                     {
                         if (FAILED(hr = renderDevice.getDevice()->CreateBuffer(&bufferDesc, nullptr, &buffer)))
-                            throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 buffer");
+                            throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 buffer");
                     }
                     else
                     {
@@ -108,7 +108,7 @@ namespace ouzel
                         bufferResourceData.SysMemSlicePitch = 0;
 
                         if (FAILED(hr = renderDevice.getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer)))
-                            throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 buffer");
+                            throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 buffer");
                     }
                 }
             }

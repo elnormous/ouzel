@@ -166,7 +166,7 @@ namespace ouzel
                 {
                     HRESULT hr;
                     if (FAILED(hr = renderDevice.getDevice()->CreateTexture2D(&textureDescriptor, nullptr, &texture)))
-                        throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 texture");
+                        throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 texture");
                 }
                 else
                 {
@@ -181,7 +181,7 @@ namespace ouzel
 
                     HRESULT hr;
                     if (FAILED(hr = renderDevice.getDevice()->CreateTexture2D(&textureDescriptor, subresourceData.data(), &texture)))
-                        throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 texture");
+                        throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 texture");
                 }
 
                 if (flags & Flags::BindRenderTarget)
@@ -208,7 +208,7 @@ namespace ouzel
 
                         HRESULT hr;
                         if (FAILED(hr = renderDevice.getDevice()->CreateTexture2D(&msaaTextureDescriptor, nullptr, &msaaTexture)))
-                            throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 texture");
+                            throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 texture");
 
                         if (initPixelFormat == PixelFormat::Depth || initPixelFormat == PixelFormat::DepthStencil)
                         {
@@ -219,7 +219,7 @@ namespace ouzel
                             depthStencilViewDesc.Flags = 0;
 
                             if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(msaaTexture, &depthStencilViewDesc, &depthStencilView)))
-                                throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 depth stencil view");
+                                throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 depth stencil view");
                         }
                         else
                         {
@@ -229,7 +229,7 @@ namespace ouzel
                             renderTargetViewDesc.Texture2D.MipSlice = 0;
 
                             if (FAILED(hr = renderDevice.getDevice()->CreateRenderTargetView(msaaTexture, &renderTargetViewDesc, &renderTargetView)))
-                                throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 render target view");
+                                throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 render target view");
                         }
                     }
                     else
@@ -244,7 +244,7 @@ namespace ouzel
 
                             HRESULT hr;
                             if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilView(texture, &depthStencilViewDesc, &depthStencilView)))
-                                throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 depth stencil view");
+                                throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 depth stencil view");
                         }
                         else
                         {
@@ -255,7 +255,7 @@ namespace ouzel
 
                             HRESULT hr;
                             if (FAILED(hr = renderDevice.getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView)))
-                                throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 render target view");
+                                throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 render target view");
                         }
                     }
 
@@ -269,7 +269,7 @@ namespace ouzel
 
                         HRESULT hr;
                         if (FAILED(hr = renderDevice.getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView)))
-                            throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 shader resource view");
+                            throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 shader resource view");
                     }
                 }
                 else
@@ -282,7 +282,7 @@ namespace ouzel
 
                     HRESULT hr;
                     if (FAILED(hr = renderDevice.getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView)))
-                        throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 shader resource view");
+                        throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 shader resource view");
                 }
 
                 samplerDescriptor.filter = renderDevice.getTextureFilter();
@@ -333,7 +333,7 @@ namespace ouzel
                         if (FAILED(hr = renderDevice.getContext()->Map(texture, static_cast<UINT>(level),
                                                                        (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
                                                                        0, &mappedSubresource)))
-                            throw std::system_error(hr, errorCategory, "Failed to map Direct3D 11 texture");
+                            throw std::system_error(hr, getErrorCategory(), "Failed to map Direct3D 11 texture");
 
                         uint8_t* destination = static_cast<uint8_t*>(mappedSubresource.pData);
 

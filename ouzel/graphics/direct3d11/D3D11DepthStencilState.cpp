@@ -80,7 +80,7 @@ namespace ouzel
 
                 HRESULT hr;
                 if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilState)))
-                    throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 depth stencil state");
+                    throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 depth stencil state");
             }
 
             DepthStencilState::~DepthStencilState()

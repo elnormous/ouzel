@@ -81,7 +81,7 @@ namespace ouzel
 
                 HRESULT hr;
                 if (FAILED(hr = renderDevice.getDevice()->CreateBlendState(&blendStateDesc, &blendState)))
-                    throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 blend state");
+                    throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 blend state");
             }
 
             BlendState::~BlendState()
