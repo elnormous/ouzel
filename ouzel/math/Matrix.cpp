@@ -9,27 +9,6 @@
 
 namespace ouzel
 {
-    template <size_t C, size_t R, typename T>
-    void Matrix<C, R, T>::add(T scalar, Matrix& dst)
-    {
-        dst.m[0] = m[0] + scalar;
-        dst.m[1] = m[1] + scalar;
-        dst.m[2] = m[2] + scalar;
-        dst.m[3] = m[3] + scalar;
-        dst.m[4] = m[4] + scalar;
-        dst.m[5] = m[5] + scalar;
-        dst.m[6] = m[6] + scalar;
-        dst.m[7] = m[7] + scalar;
-        dst.m[8] = m[8] + scalar;
-        dst.m[9] = m[9] + scalar;
-        dst.m[10] = m[10] + scalar;
-        dst.m[11] = m[11] + scalar;
-        dst.m[12] = m[12] + scalar;
-        dst.m[13] = m[13] + scalar;
-        dst.m[14] = m[14] + scalar;
-        dst.m[15] = m[15] + scalar;
-    }
-
     template <>
     void Matrix<4, 4, float>::add(float scalar, Matrix& dst)
     {
@@ -103,27 +82,6 @@ namespace ouzel
             dst.m[14] = m[14] + scalar;
             dst.m[15] = m[15] + scalar;
         }
-    }
-
-    template <size_t C, size_t R, typename T>
-    void Matrix<C, R, T>::add(const Matrix& m1, const Matrix& m2, Matrix& dst)
-    {
-        dst.m[0] = m1.m[0] + m2.m[0];
-        dst.m[1] = m1.m[1] + m2.m[1];
-        dst.m[2] = m1.m[2] + m2.m[2];
-        dst.m[3] = m1.m[3] + m2.m[3];
-        dst.m[4] = m1.m[4] + m2.m[4];
-        dst.m[5] = m1.m[5] + m2.m[5];
-        dst.m[6] = m1.m[6] + m2.m[6];
-        dst.m[7] = m1.m[7] + m2.m[7];
-        dst.m[8] = m1.m[8] + m2.m[8];
-        dst.m[9] = m1.m[9] + m2.m[9];
-        dst.m[10] = m1.m[10] + m2.m[10];
-        dst.m[11] = m1.m[11] + m2.m[11];
-        dst.m[12] = m1.m[12] + m2.m[12];
-        dst.m[13] = m1.m[13] + m2.m[13];
-        dst.m[14] = m1.m[14] + m2.m[14];
-        dst.m[15] = m1.m[15] + m2.m[15];
     }
 
     template <>
@@ -244,27 +202,6 @@ namespace ouzel
         multiply(inverse, 1 / det, dst);
     }
 
-    template <size_t C, size_t R, typename T>
-    void Matrix<C, R, T>::multiply(const Matrix& m, T scalar, Matrix& dst)
-    {
-        dst.m[0] = m.m[0] * scalar;
-        dst.m[1] = m.m[1] * scalar;
-        dst.m[2] = m.m[2] * scalar;
-        dst.m[3] = m.m[3] * scalar;
-        dst.m[4] = m.m[4] * scalar;
-        dst.m[5] = m.m[5] * scalar;
-        dst.m[6] = m.m[6] * scalar;
-        dst.m[7] = m.m[7] * scalar;
-        dst.m[8] = m.m[8] * scalar;
-        dst.m[9] = m.m[9] * scalar;
-        dst.m[10] = m.m[10] * scalar;
-        dst.m[11] = m.m[11] * scalar;
-        dst.m[12] = m.m[12] * scalar;
-        dst.m[13] = m.m[13] * scalar;
-        dst.m[14] = m.m[14] * scalar;
-        dst.m[15] = m.m[15] * scalar;
-    }
-
     template <>
     void Matrix<4, 4, float>::multiply(const Matrix& m, float scalar, Matrix& dst)
     {
@@ -335,34 +272,6 @@ namespace ouzel
             dst.m[14] = m.m[14] * scalar;
             dst.m[15] = m.m[15] * scalar;
         }
-    }
-
-    template <size_t C, size_t R, typename T>
-    void Matrix<C, R, T>::multiply(const Matrix& m1, const Matrix& m2, Matrix& dst)
-    {
-        const T product[16] = {
-            m1.m[0] * m2.m[0] + m1.m[4] * m2.m[1] + m1.m[8] * m2.m[2] + m1.m[12] * m2.m[3],
-            m1.m[1] * m2.m[0] + m1.m[5] * m2.m[1] + m1.m[9] * m2.m[2] + m1.m[13] * m2.m[3],
-            m1.m[2] * m2.m[0] + m1.m[6] * m2.m[1] + m1.m[10] * m2.m[2] + m1.m[14] * m2.m[3],
-            m1.m[3] * m2.m[0] + m1.m[7] * m2.m[1] + m1.m[11] * m2.m[2] + m1.m[15] * m2.m[3],
-
-            m1.m[0] * m2.m[4] + m1.m[4] * m2.m[5] + m1.m[8] * m2.m[6] + m1.m[12] * m2.m[7],
-            m1.m[1] * m2.m[4] + m1.m[5] * m2.m[5] + m1.m[9] * m2.m[6] + m1.m[13] * m2.m[7],
-            m1.m[2] * m2.m[4] + m1.m[6] * m2.m[5] + m1.m[10] * m2.m[6] + m1.m[14] * m2.m[7],
-            m1.m[3] * m2.m[4] + m1.m[7] * m2.m[5] + m1.m[11] * m2.m[6] + m1.m[15] * m2.m[7],
-
-            m1.m[0] * m2.m[8] + m1.m[4] * m2.m[9] + m1.m[8] * m2.m[10] + m1.m[12] * m2.m[11],
-            m1.m[1] * m2.m[8] + m1.m[5] * m2.m[9] + m1.m[9] * m2.m[10] + m1.m[13] * m2.m[11],
-            m1.m[2] * m2.m[8] + m1.m[6] * m2.m[9] + m1.m[10] * m2.m[10] + m1.m[14] * m2.m[11],
-            m1.m[3] * m2.m[8] + m1.m[7] * m2.m[9] + m1.m[11] * m2.m[10] + m1.m[15] * m2.m[11],
-
-            m1.m[0] * m2.m[12] + m1.m[4] * m2.m[13] + m1.m[8] * m2.m[14] + m1.m[12] * m2.m[15],
-            m1.m[1] * m2.m[12] + m1.m[5] * m2.m[13] + m1.m[9] * m2.m[14] + m1.m[13] * m2.m[15],
-            m1.m[2] * m2.m[12] + m1.m[6] * m2.m[13] + m1.m[10] * m2.m[14] + m1.m[14] * m2.m[15],
-            m1.m[3] * m2.m[12] + m1.m[7] * m2.m[13] + m1.m[11] * m2.m[14] + m1.m[15] * m2.m[15]
-        };
-
-        std::copy(std::begin(product), std::end(product), dst.m);
     }
 
     template <>
@@ -551,27 +460,6 @@ namespace ouzel
         }
     }
 
-    template <size_t C, size_t R, typename T>
-    void Matrix<C, R, T>::negate(Matrix& dst) const
-    {
-        dst.m[0] = -m[0];
-        dst.m[1] = -m[1];
-        dst.m[2] = -m[2];
-        dst.m[3] = -m[3];
-        dst.m[4] = -m[4];
-        dst.m[5] = -m[5];
-        dst.m[6] = -m[6];
-        dst.m[7] = -m[7];
-        dst.m[8] = -m[8];
-        dst.m[9] = -m[9];
-        dst.m[10] = -m[10];
-        dst.m[11] = -m[11];
-        dst.m[12] = -m[12];
-        dst.m[13] = -m[13];
-        dst.m[14] = -m[14];
-        dst.m[15] = -m[15];
-    }
-
     template <>
     void Matrix<4, 4, float>::negate(Matrix& dst) const
     {
@@ -733,16 +621,6 @@ namespace ouzel
             dst.m[14] = m1.m[14] - m2.m[14];
             dst.m[15] = m1.m[15] - m2.m[15];
         }
-    }
-
-    template <size_t C, size_t R, typename T>
-    void Matrix<C, R, T>::transformVector(const Vector<4, T>& v, Vector<4, T>& dst) const
-    {
-        assert(&v != &dst);
-        dst.v[0] = v.v[0] * m[0] + v.v[1] * m[4] + v.v[2] * m[8] + v.v[3] * m[12];
-        dst.v[1] = v.v[0] * m[1] + v.v[1] * m[5] + v.v[2] * m[9] + v.v[3] * m[13];
-        dst.v[2] = v.v[0] * m[2] + v.v[1] * m[6] + v.v[2] * m[10] + v.v[3] * m[14];
-        dst.v[3] = v.v[0] * m[3] + v.v[1] * m[7] + v.v[2] * m[11] + v.v[3] * m[15];
     }
 
     template <>
