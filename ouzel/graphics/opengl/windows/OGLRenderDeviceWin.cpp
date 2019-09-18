@@ -28,120 +28,120 @@ namespace ouzel
                 {
                     return DefWindowProc(window, msg, wParam, lParam);
                 }
+
+                class TempContext final
+                {
+                public:
+                    TempContext()
+                    {
+                        HINSTANCE instance = GetModuleHandleW(nullptr);
+                        if (!instance)
+                            throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
+
+                        WNDCLASSW wc;
+                        wc.style = CS_OWNDC;
+                        wc.lpfnWndProc = windowProc;
+                        wc.cbClsExtra = 0;
+                        wc.cbWndExtra = 0;
+                        wc.hInstance = instance;
+                        wc.hIcon = 0;
+                        wc.hCursor = 0;
+                        wc.hbrBackground = 0;
+                        wc.lpszMenuName = nullptr;
+                        wc.lpszClassName = TEMP_WINDOW_CLASS_NAME;
+
+                        windowClass = RegisterClassW(&wc);
+                        if (!windowClass)
+                            throw std::system_error(GetLastError(), std::system_category(), "Failed to register window class");
+
+                        window = CreateWindowW(TEMP_WINDOW_CLASS_NAME, L"TempWindow", 0,
+                                            CW_USEDEFAULT, CW_USEDEFAULT,
+                                            CW_USEDEFAULT, CW_USEDEFAULT,
+                                            0, 0, instance, 0);
+                        if (!window)
+                            throw std::system_error(GetLastError(), std::system_category(), "Failed to create window");
+
+                        deviceContext = GetDC(window);
+                        if (!deviceContext)
+                            throw std::runtime_error("Failed to get device context");
+
+                        PIXELFORMATDESCRIPTOR pixelFormatDesc;
+                        pixelFormatDesc.nSize = sizeof(pixelFormatDesc);
+                        pixelFormatDesc.nVersion = 1;
+                        pixelFormatDesc.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+                        pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
+                        pixelFormatDesc.cColorBits = 24;
+                        pixelFormatDesc.cRedBits = 0;
+                        pixelFormatDesc.cRedShift = 0;
+                        pixelFormatDesc.cGreenBits = 0;
+                        pixelFormatDesc.cGreenShift = 0;
+                        pixelFormatDesc.cBlueBits = 0;
+                        pixelFormatDesc.cBlueShift = 0;
+                        pixelFormatDesc.cAlphaBits = 0;
+                        pixelFormatDesc.cAlphaShift = 0;
+                        pixelFormatDesc.cAccumBits = 0;
+                        pixelFormatDesc.cAccumRedBits = 0;
+                        pixelFormatDesc.cAccumGreenBits = 0;
+                        pixelFormatDesc.cAccumBlueBits = 0;
+                        pixelFormatDesc.cAccumAlphaBits = 0;
+                        pixelFormatDesc.cDepthBits = 0;
+                        pixelFormatDesc.cStencilBits = 0;
+                        pixelFormatDesc.cAuxBuffers = 0;
+                        pixelFormatDesc.iLayerType = PFD_MAIN_PLANE;
+                        pixelFormatDesc.bReserved = 0;
+                        pixelFormatDesc.dwLayerMask = 0;
+                        pixelFormatDesc.dwVisibleMask = 0;
+                        pixelFormatDesc.dwDamageMask = 0;
+
+                        const int pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
+
+                        if (!pixelFormat)
+                            throw std::system_error(GetLastError(), std::system_category(), "Failed to choose pixel format");
+
+                        if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
+                            throw std::system_error(GetLastError(), std::system_category(), "Failed to set pixel format");
+
+                        renderContext = wglCreateContext(deviceContext);
+                        if (!renderContext)
+                            throw std::system_error(GetLastError(), std::system_category(), "Failed to create OpenGL rendering context");
+
+                        if (!wglMakeCurrent(deviceContext, renderContext))
+                            throw std::system_error(GetLastError(), std::system_category(), "Failed to set OpenGL rendering context");
+                    }
+
+                    ~TempContext()
+                    {
+                        if (renderContext)
+                        {
+                            if (wglGetCurrentContext() == renderContext)
+                                wglMakeCurrent(deviceContext, nullptr);
+                            wglDeleteContext(renderContext);
+                        }
+
+                        if (window)
+                        {
+                            if (deviceContext)
+                                ReleaseDC(window, deviceContext);
+
+                            DestroyWindow(window);
+                        }
+
+                        if (windowClass)
+                            UnregisterClassW(TEMP_WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
+                    }
+
+                    TempContext(const TempContext&) = delete;
+                    TempContext& operator=(const TempContext&) = delete;
+                    TempContext(TempContext&&) = delete;
+                    TempContext& operator=(TempContext&&) = delete;
+
+                private:
+                    ATOM windowClass = 0;
+                    HWND window = 0;
+                    HDC deviceContext = 0;
+                    HGLRC renderContext = 0;
+                };
             }
-
-            class TempContext final
-            {
-            public:
-                TempContext()
-                {
-                    HINSTANCE instance = GetModuleHandleW(nullptr);
-                    if (!instance)
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
-
-                    WNDCLASSW wc;
-                    wc.style = CS_OWNDC;
-                    wc.lpfnWndProc = windowProc;
-                    wc.cbClsExtra = 0;
-                    wc.cbWndExtra = 0;
-                    wc.hInstance = instance;
-                    wc.hIcon = 0;
-                    wc.hCursor = 0;
-                    wc.hbrBackground = 0;
-                    wc.lpszMenuName = nullptr;
-                    wc.lpszClassName = TEMP_WINDOW_CLASS_NAME;
-
-                    windowClass = RegisterClassW(&wc);
-                    if (!windowClass)
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to register window class");
-
-                    window = CreateWindowW(TEMP_WINDOW_CLASS_NAME, L"TempWindow", 0,
-                                           CW_USEDEFAULT, CW_USEDEFAULT,
-                                           CW_USEDEFAULT, CW_USEDEFAULT,
-                                           0, 0, instance, 0);
-                    if (!window)
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to create window");
-
-                    deviceContext = GetDC(window);
-                    if (!deviceContext)
-                        throw std::runtime_error("Failed to get device context");
-
-                    PIXELFORMATDESCRIPTOR pixelFormatDesc;
-                    pixelFormatDesc.nSize = sizeof(pixelFormatDesc);
-                    pixelFormatDesc.nVersion = 1;
-                    pixelFormatDesc.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-                    pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
-                    pixelFormatDesc.cColorBits = 24;
-                    pixelFormatDesc.cRedBits = 0;
-                    pixelFormatDesc.cRedShift = 0;
-                    pixelFormatDesc.cGreenBits = 0;
-                    pixelFormatDesc.cGreenShift = 0;
-                    pixelFormatDesc.cBlueBits = 0;
-                    pixelFormatDesc.cBlueShift = 0;
-                    pixelFormatDesc.cAlphaBits = 0;
-                    pixelFormatDesc.cAlphaShift = 0;
-                    pixelFormatDesc.cAccumBits = 0;
-                    pixelFormatDesc.cAccumRedBits = 0;
-                    pixelFormatDesc.cAccumGreenBits = 0;
-                    pixelFormatDesc.cAccumBlueBits = 0;
-                    pixelFormatDesc.cAccumAlphaBits = 0;
-                    pixelFormatDesc.cDepthBits = 0;
-                    pixelFormatDesc.cStencilBits = 0;
-                    pixelFormatDesc.cAuxBuffers = 0;
-                    pixelFormatDesc.iLayerType = PFD_MAIN_PLANE;
-                    pixelFormatDesc.bReserved = 0;
-                    pixelFormatDesc.dwLayerMask = 0;
-                    pixelFormatDesc.dwVisibleMask = 0;
-                    pixelFormatDesc.dwDamageMask = 0;
-
-                    const int pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
-
-                    if (!pixelFormat)
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to choose pixel format");
-
-                    if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to set pixel format");
-
-                    renderContext = wglCreateContext(deviceContext);
-                    if (!renderContext)
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to create OpenGL rendering context");
-
-                    if (!wglMakeCurrent(deviceContext, renderContext))
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to set OpenGL rendering context");
-                }
-
-                ~TempContext()
-                {
-                    if (renderContext)
-                    {
-                        if (wglGetCurrentContext() == renderContext)
-                            wglMakeCurrent(deviceContext, nullptr);
-                        wglDeleteContext(renderContext);
-                    }
-
-                    if (window)
-                    {
-                        if (deviceContext)
-                            ReleaseDC(window, deviceContext);
-
-                        DestroyWindow(window);
-                    }
-
-                    if (windowClass)
-                        UnregisterClassW(TEMP_WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
-                }
-
-                TempContext(const TempContext&) = delete;
-                TempContext& operator=(const TempContext&) = delete;
-                TempContext(TempContext&&) = delete;
-                TempContext& operator=(TempContext&&) = delete;
-
-            private:
-                ATOM windowClass = 0;
-                HWND window = 0;
-                HDC deviceContext = 0;
-                HGLRC renderContext = 0;
-            };
 
             RenderDeviceWin::RenderDeviceWin(const std::function<void(const Event&)>& initCallback):
                 RenderDevice(initCallback)

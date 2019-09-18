@@ -12,89 +12,78 @@ namespace ouzel
 {
     namespace assets
     {
-        constexpr auto isWhitespace(uint8_t c)
+        namespace
         {
-            return c == ' ' || c == '\t';
-        }
-
-        constexpr auto isNewline(uint8_t c)
-        {
-            return c == '\r' || c == '\n';
-        }
-
-        constexpr auto isControlChar(uint8_t c)
-        {
-            return c <= 0x1F;
-        }
-
-        static void skipWhitespaces(std::vector<uint8_t>::const_iterator& iterator,
-                                    std::vector<uint8_t>::const_iterator end)
-        {
-            while (iterator != end)
-                if (isWhitespace(*iterator))
-                    ++iterator;
-                else
-                    break;
-        }
-
-        static void skipLine(std::vector<uint8_t>::const_iterator& iterator,
-                             std::vector<uint8_t>::const_iterator end)
-        {
-            while (iterator != end)
+            constexpr auto isWhitespace(uint8_t c)
             {
-                if (isNewline(*iterator))
+                return c == ' ' || c == '\t';
+            }
+
+            constexpr auto isNewline(uint8_t c)
+            {
+                return c == '\r' || c == '\n';
+            }
+
+            constexpr auto isControlChar(uint8_t c)
+            {
+                return c <= 0x1F;
+            }
+
+            void skipWhitespaces(std::vector<uint8_t>::const_iterator& iterator,
+                                 std::vector<uint8_t>::const_iterator end)
+            {
+                while (iterator != end)
+                    if (isWhitespace(*iterator))
+                        ++iterator;
+                    else
+                        break;
+            }
+
+            void skipLine(std::vector<uint8_t>::const_iterator& iterator,
+                          std::vector<uint8_t>::const_iterator end)
+            {
+                while (iterator != end)
                 {
+                    if (isNewline(*iterator))
+                    {
+                        ++iterator;
+                        break;
+                    }
+
                     ++iterator;
-                    break;
+                }
+            }
+
+            std::string parseString(std::vector<uint8_t>::const_iterator& iterator,
+                                    std::vector<uint8_t>::const_iterator end)
+            {
+                std::string result;
+
+                while (iterator != end && !isControlChar(*iterator) && !isWhitespace(*iterator))
+                {
+                    result.push_back(static_cast<char>(*iterator));
+                    ++iterator;
                 }
 
-                ++iterator;
-            }
-        }
+                if (result.empty())
+                    throw std::runtime_error("Invalid string");
 
-        static std::string parseString(std::vector<uint8_t>::const_iterator& iterator,
-                                       std::vector<uint8_t>::const_iterator end)
-        {
-            std::string result;
-
-            while (iterator != end && !isControlChar(*iterator) && !isWhitespace(*iterator))
-            {
-                result.push_back(static_cast<char>(*iterator));
-                ++iterator;
+                return result;
             }
 
-            if (result.empty())
-                throw std::runtime_error("Invalid string");
-
-            return result;
-        }
-
-        static float parseFloat(std::vector<uint8_t>::const_iterator& iterator,
-                                std::vector<uint8_t>::const_iterator end)
-        {
-            float result;
-            std::string value;
-            uint32_t length = 1;
-
-            if (iterator != end && *iterator == '-')
+            float parseFloat(std::vector<uint8_t>::const_iterator& iterator,
+                             std::vector<uint8_t>::const_iterator end)
             {
-                value.push_back(static_cast<char>(*iterator));
-                ++length;
-                ++iterator;
-            }
+                float result;
+                std::string value;
+                uint32_t length = 1;
 
-            while (iterator != end && *iterator >= '0' && *iterator <= '9')
-            {
-                value.push_back(static_cast<char>(*iterator));
-
-                ++iterator;
-            }
-
-            if (iterator != end && *iterator == '.')
-            {
-                value.push_back(static_cast<char>(*iterator));
-                ++length;
-                ++iterator;
+                if (iterator != end && *iterator == '-')
+                {
+                    value.push_back(static_cast<char>(*iterator));
+                    ++length;
+                    ++iterator;
+                }
 
                 while (iterator != end && *iterator >= '0' && *iterator <= '9')
                 {
@@ -102,13 +91,27 @@ namespace ouzel
 
                     ++iterator;
                 }
+
+                if (iterator != end && *iterator == '.')
+                {
+                    value.push_back(static_cast<char>(*iterator));
+                    ++length;
+                    ++iterator;
+
+                    while (iterator != end && *iterator >= '0' && *iterator <= '9')
+                    {
+                        value.push_back(static_cast<char>(*iterator));
+
+                        ++iterator;
+                    }
+                }
+
+                if (value.length() < length) return false;
+
+                result = std::stof(value);
+
+                return result;
             }
-
-            if (value.length() < length) return false;
-
-            result = std::stof(value);
-
-            return result;
         }
 
         MtlLoader::MtlLoader(Cache& initCache):

@@ -23,7 +23,7 @@ namespace ouzel
 
             jint result;
             if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-                throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+                throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
 
             inputDeviceClass = jniEnv->FindClass("android/view/InputDevice");
             inputDeviceClass = static_cast<jclass>(jniEnv->NewGlobalRef(inputDeviceClass));
@@ -79,7 +79,7 @@ namespace ouzel
 
             jint result;
             if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-                throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+                throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
 
             const jint action = jniEnv->CallIntMethod(event, getActionMethod);
 
@@ -226,7 +226,7 @@ namespace ouzel
 
             jint result;
             if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-                throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+                throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
 
             const jint action = jniEnv->CallIntMethod(event, getActionMethod);
             const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);

@@ -8,26 +8,54 @@
 #include "events/EventDispatcher.hpp"
 #include "graphics/opengl/android/OGLRenderDeviceAndroid.hpp"
 
-static int looperCallback(int fd, int events, void* data)
-{
-    if (events & ALOOPER_EVENT_INPUT)
-    {
-        char command;
-        if (read(fd, &command, sizeof(command)) == -1)
-            throw std::system_error(errno, std::system_category(), "Failed to read from pipe");
-
-        ouzel::EngineAndroid* engineAndroid = static_cast<ouzel::EngineAndroid*>(data);
-
-        if (command == 1)
-            engineAndroid->executeAll();
-    }
-
-    return 1;
-}
-
 namespace ouzel
 {
-    const JNIErrorCategory jniErrorCategory {};
+    namespace
+    {
+        class ErrorCategory final: public std::error_category
+        {
+        public:
+            const char* name() const noexcept final
+            {
+                return "JNI";
+            }
+
+            std::string message(int condition) const final
+            {
+                switch (condition)
+                {
+                    case JNI_ERR: return "JNI_ERR";
+                    case JNI_EDETACHED: return "JNI_EDETACHED";
+                    case JNI_EVERSION: return "JNI_EVERSION";
+                    default: return "Unknown error (" + std::to_string(condition) + ")";
+                }
+            }
+        };
+
+        const ErrorCategory errorCategory {};
+
+        int looperCallback(int fd, int events, void* data)
+        {
+            if (events & ALOOPER_EVENT_INPUT)
+            {
+                char command;
+                if (read(fd, &command, sizeof(command)) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to read from pipe");
+
+                EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(data);
+
+                if (command == 1)
+                    engineAndroid->executeAll();
+            }
+
+            return 1;
+        }
+    }
+
+    const std::error_category& getErrorCategory() noexcept
+    {
+        return errorCategory;
+    }
 
     EngineAndroid::EngineAndroid(JavaVM* initJavaVM):
         javaVM(initJavaVM)
@@ -36,7 +64,7 @@ namespace ouzel
 
         jint result;
         if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+            throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
         uriClass = jniEnv->FindClass("android/net/Uri");
         uriClass = static_cast<jclass>(jniEnv->NewGlobalRef(uriClass));
@@ -72,7 +100,7 @@ namespace ouzel
 
         jint result;
         if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+            throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
         mainActivity = jniEnv->NewGlobalRef(initMainActivity);
 
@@ -147,7 +175,7 @@ namespace ouzel
 
         jint result;
         if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+            throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
         if (surface) jniEnv->DeleteGlobalRef(surface);
         surface = jniEnv->NewGlobalRef(newSurface);
@@ -175,7 +203,7 @@ namespace ouzel
 
         jint result;
         if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+            throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
         jint newOrientation = jniEnv->GetIntField(newConfig, orientationField);
 
@@ -209,7 +237,7 @@ namespace ouzel
 
         jint result;
         if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+            throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
         if (surface)
         {
@@ -258,7 +286,7 @@ namespace ouzel
 
             jint result;
             if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-                throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+                throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
             jstring actionString = jniEnv->NewStringUTF("android.intent.action.VIEW");
             jstring urlString = jniEnv->NewStringUTF(url.c_str());
@@ -289,7 +317,7 @@ namespace ouzel
 
             jint result;
             if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-                throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+                throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
             if (newScreenSaverEnabled)
                 jniEnv->CallVoidMethod(androidWindow, clearFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
@@ -325,11 +353,11 @@ namespace ouzel
 
         jint result;
         if ((result = javaVM->AttachCurrentThread(&jniEnv, &attachArgs)) != JNI_OK)
-            throw std::system_error(result, jniErrorCategory, "Failed to attach current thread to Java VM");
+            throw std::system_error(result, errorCategory, "Failed to attach current thread to Java VM");
 
         Engine::engineMain();
 
         if ((result = javaVM->DetachCurrentThread()) != JNI_OK)
-            throw std::system_error(result, jniErrorCategory, "Failed to detach current thread from Java VM");
+            throw std::system_error(result, errorCategory, "Failed to detach current thread from Java VM");
     }
 }

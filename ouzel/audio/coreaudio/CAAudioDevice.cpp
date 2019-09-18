@@ -13,40 +13,7 @@
 #  include <objc/message.h>
 #  include <objc/NSObjCRuntime.h>
 extern "C" id const AVAudioSessionCategoryAmbient;
-#elif TARGET_OS_MAC
-static OSStatus deviceListChanged(AudioObjectID, UInt32, const AudioObjectPropertyAddress*, void*)
-{
-    // TODO: implement
-    return 0;
-}
-
-static OSStatus deviceUnplugged(AudioObjectID, UInt32, const AudioObjectPropertyAddress*, void*)
-{
-    // TODO: implement
-    return noErr;
-}
 #endif
-
-static OSStatus outputCallback(void* inRefCon,
-                               AudioUnitRenderActionFlags*,
-                               const AudioTimeStamp*,
-                               UInt32, UInt32,
-                               AudioBufferList* ioData)
-{
-    ouzel::audio::coreaudio::AudioDevice* audioDevice = static_cast<ouzel::audio::coreaudio::AudioDevice*>(inRefCon);
-
-    try
-    {
-        audioDevice->outputCallback(ioData);
-    }
-    catch (const std::exception& e)
-    {
-        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
-        return -1;
-    }
-
-    return noErr;
-}
 
 namespace ouzel
 {
@@ -54,31 +21,69 @@ namespace ouzel
     {
         namespace coreaudio
         {
-            class ErrorCategory final: public std::error_category
+            namespace
             {
-            public:
-                const char* name() const noexcept final
+                class ErrorCategory final: public std::error_category
                 {
-                    return "CoreAudio";
-                }
-
-                std::string message(int condition) const final
-                {
-                    switch (condition)
+                public:
+                    const char* name() const noexcept final
                     {
-                        case kAudio_UnimplementedError: return "kAudio_UnimplementedError";
-                        case kAudio_FileNotFoundError: return "kAudio_FileNotFoundError";
-                        case kAudio_FilePermissionError: return "kAudio_FilePermissionError";
-                        case kAudio_TooManyFilesOpenError: return "kAudio_TooManyFilesOpenError";
-                        case kAudio_BadFilePathError: return "kAudio_BadFilePathError";
-                        case kAudio_ParamError: return "kAudio_ParamError";
-                        case kAudio_MemFullError: return "kAudio_MemFullError";
-                        default: return "Unknown error (" + std::to_string(condition) + ")";
+                        return "CoreAudio";
                     }
-                }
-            };
 
-            const ErrorCategory errorCategory {};
+                    std::string message(int condition) const final
+                    {
+                        switch (condition)
+                        {
+                            case kAudio_UnimplementedError: return "kAudio_UnimplementedError";
+                            case kAudio_FileNotFoundError: return "kAudio_FileNotFoundError";
+                            case kAudio_FilePermissionError: return "kAudio_FilePermissionError";
+                            case kAudio_TooManyFilesOpenError: return "kAudio_TooManyFilesOpenError";
+                            case kAudio_BadFilePathError: return "kAudio_BadFilePathError";
+                            case kAudio_ParamError: return "kAudio_ParamError";
+                            case kAudio_MemFullError: return "kAudio_MemFullError";
+                            default: return "Unknown error (" + std::to_string(condition) + ")";
+                        }
+                    }
+                };
+
+                const ErrorCategory errorCategory {};
+
+#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
+                OSStatus deviceListChanged(AudioObjectID, UInt32, const AudioObjectPropertyAddress*, void*)
+                {
+                    // TODO: implement
+                    return 0;
+                }
+
+                OSStatus deviceUnplugged(AudioObjectID, UInt32, const AudioObjectPropertyAddress*, void*)
+                {
+                    // TODO: implement
+                    return noErr;
+                }
+#endif
+
+                OSStatus outputCallback(void* inRefCon,
+                                        AudioUnitRenderActionFlags*,
+                                        const AudioTimeStamp*,
+                                        UInt32, UInt32,
+                                        AudioBufferList* ioData)
+                {
+                    ouzel::audio::coreaudio::AudioDevice* audioDevice = static_cast<ouzel::audio::coreaudio::AudioDevice*>(inRefCon);
+
+                    try
+                    {
+                        audioDevice->outputCallback(ioData);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
+                        return -1;
+                    }
+
+                    return noErr;
+                }
+            }
 
             AudioDevice::AudioDevice(uint32_t initBufferSize,
                                      uint32_t initSampleRate,
@@ -113,16 +118,19 @@ namespace ouzel
                 if (channels > maxChannelCount)
                     channels = static_cast<uint16_t>(maxChannelCount);
 #elif TARGET_OS_MAC
-                static constexpr AudioObjectPropertyAddress deviceListAddress = {
+                constexpr AudioObjectPropertyAddress deviceListAddress = {
                     kAudioHardwarePropertyDevices,
                     kAudioObjectPropertyScopeGlobal,
                     kAudioObjectPropertyElementMaster
                 };
 
-                if ((result = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &deviceListAddress, deviceListChanged, this)) != noErr)
+                if ((result = AudioObjectAddPropertyListener(kAudioObjectSystemObject,
+                                                             &deviceListAddress,
+                                                             deviceListChanged,
+                                                             this)) != noErr)
                     throw std::system_error(result, errorCategory, "Failed to add CoreAudio property listener");
 
-                static constexpr AudioObjectPropertyAddress defaultDeviceAddress = {
+                constexpr AudioObjectPropertyAddress defaultDeviceAddress = {
                     kAudioHardwarePropertyDefaultOutputDevice,
                     kAudioObjectPropertyScopeGlobal,
                     kAudioObjectPropertyElementMaster
@@ -133,7 +141,7 @@ namespace ouzel
                                                          0, nullptr, &size, &deviceId)) != noErr)
                     throw std::system_error(result, errorCategory, "Failed to get CoreAudio output device");
 
-                static constexpr AudioObjectPropertyAddress aliveAddress = {
+                constexpr AudioObjectPropertyAddress aliveAddress = {
                     kAudioDevicePropertyDeviceIsAlive,
                     kAudioDevicePropertyScopeOutput,
                     kAudioObjectPropertyElementMaster
@@ -147,7 +155,7 @@ namespace ouzel
                 if (!alive)
                     throw std::system_error(result, errorCategory, "Requested CoreAudio device is not alive");
 
-                static constexpr AudioObjectPropertyAddress hogModeAddress = {
+                constexpr AudioObjectPropertyAddress hogModeAddress = {
                     kAudioDevicePropertyHogMode,
                     kAudioDevicePropertyScopeOutput,
                     kAudioObjectPropertyElementMaster
@@ -161,7 +169,7 @@ namespace ouzel
                 if (pid != -1)
                     throw std::runtime_error("Requested CoreAudio device is being hogged");
 
-                static constexpr AudioObjectPropertyAddress nameAddress = {
+                constexpr AudioObjectPropertyAddress nameAddress = {
                     kAudioObjectPropertyName,
                     kAudioDevicePropertyScopeOutput,
                     kAudioObjectPropertyElementMaster
@@ -264,7 +272,7 @@ namespace ouzel
                 }
 
                 AURenderCallbackStruct callback;
-                callback.inputProc = ::outputCallback;
+                callback.inputProc = coreaudio::outputCallback;
                 callback.inputProcRefCon = this;
                 if ((result = AudioUnitSetProperty(audioUnit,
                                                    kAudioUnitProperty_SetRenderCallback,
@@ -305,7 +313,7 @@ namespace ouzel
                 }
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
-                static constexpr AudioObjectPropertyAddress deviceListAddress = {
+                constexpr AudioObjectPropertyAddress deviceListAddress = {
                     kAudioHardwarePropertyDevices,
                     kAudioObjectPropertyScopeGlobal,
                     kAudioObjectPropertyElementMaster
@@ -315,7 +323,7 @@ namespace ouzel
 
                 if (deviceId)
                 {
-                    static constexpr AudioObjectPropertyAddress aliveAddress = {
+                    constexpr AudioObjectPropertyAddress aliveAddress = {
                         kAudioDevicePropertyDeviceIsAlive,
                         kAudioDevicePropertyScopeOutput,
                         kAudioObjectPropertyElementMaster

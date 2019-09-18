@@ -22,7 +22,7 @@ namespace ouzel
 
         jint result;
         if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+            throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
 
         window = ANativeWindow_fromSurface(jniEnv, engineAndroid->getSurface());
 
@@ -88,7 +88,7 @@ namespace ouzel
 
         jint result;
         if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, jniErrorCategory, "Failed to get JNI environment");
+            throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
 
         if (window) ANativeWindow_release(window);
         window = ANativeWindow_fromSurface(jniEnv, surface);

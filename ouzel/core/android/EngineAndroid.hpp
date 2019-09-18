@@ -12,27 +12,7 @@
 
 namespace ouzel
 {
-    class JNIErrorCategory final: public std::error_category
-    {
-    public:
-        const char* name() const noexcept final
-        {
-            return "JNI";
-        }
-
-        std::string message(int condition) const final
-        {
-            switch (condition)
-            {
-                case JNI_ERR: return "JNI_ERR";
-                case JNI_EDETACHED: return "JNI_EDETACHED";
-                case JNI_EVERSION: return "JNI_EVERSION";
-                default: return "Unknown error (" + std::to_string(condition) + ")";
-            }
-        }
-    };
-
-    extern const JNIErrorCategory jniErrorCategory;
+    const std::error_category& getErrorCategory() noexcept;
 
     class EngineAndroid final: public Engine
     {

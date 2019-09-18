@@ -21,28 +21,31 @@ namespace ouzel
     {
         namespace xaudio2
         {
-            class ErrorCategory final: public std::error_category
+            namespace
             {
-            public:
-                const char* name() const noexcept final
+                class ErrorCategory final: public std::error_category
                 {
-                    return "XAudio2";
-                }
-
-                std::string message(int condition) const final
-                {
-                    switch (condition)
+                public:
+                    const char* name() const noexcept final
                     {
-                        case XAUDIO2_E_INVALID_CALL: return "XAUDIO2_E_INVALID_CALL";
-                        case XAUDIO2_E_XMA_DECODER_ERROR: return "XAUDIO2_E_XMA_DECODER_ERROR";
-                        case XAUDIO2_E_XAPO_CREATION_FAILED: return "XAUDIO2_E_XAPO_CREATION_FAILED";
-                        case XAUDIO2_E_DEVICE_INVALIDATED: return "XAUDIO2_E_DEVICE_INVALIDATED";
-                        default: return "Unknown error (" + std::to_string(condition) + ")";
+                        return "XAudio2";
                     }
-                }
-            };
 
-            const ErrorCategory errorCategory {};
+                    std::string message(int condition) const final
+                    {
+                        switch (condition)
+                        {
+                            case XAUDIO2_E_INVALID_CALL: return "XAUDIO2_E_INVALID_CALL";
+                            case XAUDIO2_E_XMA_DECODER_ERROR: return "XAUDIO2_E_XMA_DECODER_ERROR";
+                            case XAUDIO2_E_XAPO_CREATION_FAILED: return "XAUDIO2_E_XAPO_CREATION_FAILED";
+                            case XAUDIO2_E_DEVICE_INVALIDATED: return "XAUDIO2_E_DEVICE_INVALIDATED";
+                            default: return "Unknown error (" + std::to_string(condition) + ")";
+                        }
+                    }
+                };
+
+                const ErrorCategory errorCategory {};
+            }
 
             AudioDevice::AudioDevice(uint32_t initBufferSize,
                                      uint32_t initSampleRate,
