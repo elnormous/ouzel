@@ -26,10 +26,58 @@ namespace ouzel
 {
     namespace input
     {
-        const DirectInputErrorCategory directInputErrorCategory {};
-
         namespace
         {
+            class ErrorCategory final: public std::error_category
+            {
+            public:
+                const char* name() const noexcept final
+                {
+                    return "DirectInput";
+                }
+
+                std::string message(int condition) const final
+                {
+                    switch (condition)
+                    {
+                        case DIERR_ACQUIRED: return "DIERR_ACQUIRED";
+                        case DIERR_ALREADYINITIALIZED: return "DIERR_ALREADYINITIALIZED";
+                        case DIERR_BADDRIVERVER: return "DIERR_BADDRIVERVER";
+                        case DIERR_BETADIRECTINPUTVERSION: return "DIERR_BETADIRECTINPUTVERSION";
+                        case DIERR_DEVICEFULL: return "DIERR_DEVICEFULL";
+                        case DIERR_DEVICENOTREG: return "DIERR_DEVICENOTREG";
+                        case DIERR_EFFECTPLAYING: return "DIERR_EFFECTPLAYING";
+                        case DIERR_GENERIC: return "DIERR_GENERIC";
+                        case DIERR_HANDLEEXISTS: return "DIERR_HANDLEEXISTS";
+                        case DIERR_HASEFFECTS: return "DIERR_HASEFFECTS";
+                        case DIERR_INCOMPLETEEFFECT: return "DIERR_INCOMPLETEEFFECT";
+                        case DIERR_INPUTLOST: return "DIERR_INPUTLOST";
+                        case DIERR_INVALIDPARAM: return "DIERR_INVALIDPARAM";
+                        case DIERR_MAPFILEFAIL: return "DIERR_MAPFILEFAIL";
+                        case DIERR_MOREDATA: return "DIERR_MOREDATA";
+                        case DIERR_NOAGGREGATION: return "DIERR_NOAGGREGATION";
+                        case DIERR_NOINTERFACE: return "DIERR_NOINTERFACE";
+                        case DIERR_NOTACQUIRED: return "DIERR_NOTACQUIRED";
+                        case DIERR_NOTBUFFERED: return "DIERR_NOTBUFFERED";
+                        case DIERR_NOTDOWNLOADED: return "DIERR_NOTDOWNLOADED";
+                        case DIERR_NOTEXCLUSIVEACQUIRED: return "DIERR_NOTEXCLUSIVEACQUIRED";
+                        case DIERR_NOTFOUND: return "DIERR_NOTFOUND";
+                        case DIERR_NOTINITIALIZED: return "DIERR_NOTINITIALIZED";
+                        case DIERR_OLDDIRECTINPUTVERSION: return "DIERR_OLDDIRECTINPUTVERSION";
+                        case DIERR_OUTOFMEMORY: return "DIERR_OUTOFMEMORY";
+                        case DIERR_REPORTFULL: return "DIERR_REPORTFULL";
+                        case DIERR_UNPLUGGED: return "DIERR_UNPLUGGED";
+                        case DIERR_UNSUPPORTED: return "DIERR_UNSUPPORTED";
+                        case E_HANDLE: return "E_HANDLE";
+                        case E_PENDING: return "E_PENDING";
+                        case E_POINTER: return "E_POINTER";
+                        default: return "Unknown error (" + std::to_string(condition) + ")";
+                    }
+                }
+            };
+
+            const ErrorCategory errorCategory {};
+
             BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
             {
                 InputSystemWin* inputWin = static_cast<InputSystemWin*>(context);
@@ -37,6 +85,11 @@ namespace ouzel
 
                 return DIENUM_CONTINUE;
             }
+        }
+
+        const std::error_category& getErrorCategory() noexcept
+        {
+            return errorCategory;
         }
 
         InputSystemWin::InputSystemWin(const std::function<std::future<bool>(const Event&)>& initCallback):
@@ -53,7 +106,7 @@ namespace ouzel
 
             HRESULT hr;
             if (FAILED(hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
-                throw std::system_error(hr, directInputErrorCategory, "Failed to initialize DirectInput");
+                throw std::system_error(hr, errorCategory, "Failed to initialize DirectInput");
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
@@ -67,7 +120,7 @@ namespace ouzel
             }
 
             if (FAILED(hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)))
-                throw std::system_error(hr, directInputErrorCategory, "Failed to enumerate devices");
+                throw std::system_error(hr, errorCategory, "Failed to enumerate devices");
         }
 
         InputSystemWin::~InputSystemWin()
@@ -222,7 +275,7 @@ namespace ouzel
 
                 HRESULT hr;
                 if (FAILED(hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)))
-                    throw std::system_error(hr, directInputErrorCategory, "Failed to enumerate devices");
+                    throw std::system_error(hr, errorCategory, "Failed to enumerate devices");
             }
         }
 
@@ -235,7 +288,7 @@ namespace ouzel
 
             if (FAILED(hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
                                              __uuidof(IWbemLocator), reinterpret_cast<LPVOID*>(&wbemLocator))))
-                throw std::system_error(hr, directInputErrorCategory, "Failed to create WMI locator instance");
+                throw std::system_error(hr, errorCategory, "Failed to create WMI locator instance");
 
             BSTR namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
             BSTR className = SysAllocString(L"Win32_PNPEntity");
@@ -247,15 +300,15 @@ namespace ouzel
 
                 if (FAILED(hr = wbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
                                                            0L, nullptr, nullptr, &wbemServices)))
-                    throw std::system_error(hr, directInputErrorCategory, "Failed to create a connection to the WMI namespace");
+                    throw std::system_error(hr, errorCategory, "Failed to create a connection to the WMI namespace");
 
                 if (FAILED(hr = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
                                                   RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE)))
-                    throw std::system_error(hr, directInputErrorCategory, "Failed to set authentication information");
+                    throw std::system_error(hr, errorCategory, "Failed to set authentication information");
 
                 IEnumWbemClassObject* enumDevices = nullptr;
                 if (FAILED(hr = wbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices)))
-                    throw std::system_error(hr, directInputErrorCategory, "Failed to create the device enumerator");
+                    throw std::system_error(hr, errorCategory, "Failed to create the device enumerator");
 
                 // Get 20 at a time
                 ULONG returned = 0;

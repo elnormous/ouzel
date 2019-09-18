@@ -31,53 +31,56 @@ namespace ouzel
     {
         namespace openal
         {
-            class ALCErrorCategory final: public std::error_category
+            namespace
             {
-            public:
-                const char* name() const noexcept final
+                class ALCErrorCategory final: public std::error_category
                 {
-                    return "ALC";
-                }
-
-                std::string message(int condition) const final
-                {
-                    switch (condition)
+                public:
+                    const char* name() const noexcept final
                     {
-                        case ALC_INVALID_DEVICE: return "ALC_INVALID_DEVICE";
-                        case ALC_INVALID_CONTEXT: return "ALC_INVALID_CONTEXT";
-                        case ALC_INVALID_ENUM: return "ALC_INVALID_ENUM";
-                        case ALC_INVALID_VALUE: return "ALC_INVALID_VALUE";
-                        case ALC_OUT_OF_MEMORY: return "ALC_OUT_OF_MEMORY";
-                        default: return "Unknown error (" + std::to_string(condition) + ")";
+                        return "ALC";
                     }
-                }
-            };
 
-            const ALCErrorCategory alcErrorCategory {};
-
-            class OpenALErrorCategory final: public std::error_category
-            {
-            public:
-                const char* name() const noexcept final
-                {
-                    return "OpenAL";
-                }
-
-                std::string message(int condition) const final
-                {
-                    switch (condition)
+                    std::string message(int condition) const final
                     {
-                        case AL_INVALID_NAME: return "AL_INVALID_NAME";
-                        case AL_INVALID_ENUM: return "AL_INVALID_ENUM";
-                        case AL_INVALID_VALUE: return "AL_INVALID_VALUE";
-                        case AL_INVALID_OPERATION: return "AL_INVALID_OPERATION";
-                        case AL_OUT_OF_MEMORY: return "AL_OUT_OF_MEMORY";
-                        default: return "Unknown error (" + std::to_string(condition) + ")";
+                        switch (condition)
+                        {
+                            case ALC_INVALID_DEVICE: return "ALC_INVALID_DEVICE";
+                            case ALC_INVALID_CONTEXT: return "ALC_INVALID_CONTEXT";
+                            case ALC_INVALID_ENUM: return "ALC_INVALID_ENUM";
+                            case ALC_INVALID_VALUE: return "ALC_INVALID_VALUE";
+                            case ALC_OUT_OF_MEMORY: return "ALC_OUT_OF_MEMORY";
+                            default: return "Unknown error (" + std::to_string(condition) + ")";
+                        }
                     }
-                }
-            };
+                };
 
-            const OpenALErrorCategory openALErrorCategory{};
+                const ALCErrorCategory alcErrorCategory {};
+
+                class OpenALErrorCategory final: public std::error_category
+                {
+                public:
+                    const char* name() const noexcept final
+                    {
+                        return "OpenAL";
+                    }
+
+                    std::string message(int condition) const final
+                    {
+                        switch (condition)
+                        {
+                            case AL_INVALID_NAME: return "AL_INVALID_NAME";
+                            case AL_INVALID_ENUM: return "AL_INVALID_ENUM";
+                            case AL_INVALID_VALUE: return "AL_INVALID_VALUE";
+                            case AL_INVALID_OPERATION: return "AL_INVALID_OPERATION";
+                            case AL_OUT_OF_MEMORY: return "AL_OUT_OF_MEMORY";
+                            default: return "Unknown error (" + std::to_string(condition) + ")";
+                        }
+                    }
+                };
+
+                const OpenALErrorCategory openALErrorCategory{};
+            }
 
             AudioDevice::AudioDevice(uint32_t initBufferSize,
                                      uint32_t initSampleRate,

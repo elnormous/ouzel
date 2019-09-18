@@ -43,14 +43,14 @@ namespace ouzel
 
             HRESULT hr;
             if (FAILED(hr = directInput->CreateDevice(instance->guidInstance, &device, nullptr)))
-                throw std::system_error(hr, directInputErrorCategory, "Failed to create DirectInput device");
+                throw std::system_error(hr, getErrorCategory(), "Failed to create DirectInput device");
 
             // Exclusive access is needed for force feedback
             if (FAILED(hr = device->SetCooperativeLevel(window, DISCL_BACKGROUND | DISCL_EXCLUSIVE)))
-                throw std::system_error(hr, directInputErrorCategory, "Failed to set DirectInput device format");
+                throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device format");
 
             if (FAILED(hr = device->SetDataFormat(&c_dfDIJoystick)))
-                throw std::system_error(hr, directInputErrorCategory, "Failed to set DirectInput device format");
+                throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device format");
 
             const GamepadConfig& gamepadConfig = getGamepadConfig(vendorId, productId);
 
@@ -109,7 +109,7 @@ namespace ouzel
                         propertyAxisRange.diph.dwHow = DIPH_BYOFFSET;
 
                         if (FAILED(hr = device->GetProperty(DIPROP_RANGE, &propertyAxisRange.diph)))
-                            throw std::system_error(hr, directInputErrorCategory, "Failed to get DirectInput device axis range property");
+                            throw std::system_error(hr, getErrorCategory(), "Failed to get DirectInput device axis range property");
 
                         axis.min = propertyAxisRange.lMin;
                         axis.max = propertyAxisRange.lMax;
@@ -155,18 +155,18 @@ namespace ouzel
             DIDEVCAPS capabilities;
             capabilities.dwSize = sizeof(capabilities);
             if (FAILED(hr = device->GetCapabilities(&capabilities)))
-                throw std::system_error(hr, directInputErrorCategory, "Failed to get DirectInput device capabilities");
+                throw std::system_error(hr, getErrorCategory(), "Failed to get DirectInput device capabilities");
 
             if (capabilities.dwFlags & DIDC_FORCEFEEDBACK)
             {
                 if (FAILED(hr = device->Acquire()))
-                    throw std::system_error(hr, directInputErrorCategory, "Failed to acquire DirectInput device");
+                    throw std::system_error(hr, getErrorCategory(), "Failed to acquire DirectInput device");
 
                 if (FAILED(hr = device->SendForceFeedbackCommand(DISFFC_RESET)))
-                    throw std::system_error(hr, directInputErrorCategory, "Failed to set DirectInput device force feedback command");
+                    throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device force feedback command");
 
                 if (FAILED(hr = device->Unacquire()))
-                    throw std::system_error(hr, directInputErrorCategory, "Failed to unacquire DirectInput device");
+                    throw std::system_error(hr, getErrorCategory(), "Failed to unacquire DirectInput device");
 
                 DIPROPDWORD propertyAutoCenter;
                 propertyAutoCenter.diph.dwSize = sizeof(propertyAutoCenter);
@@ -187,7 +187,7 @@ namespace ouzel
             propertyBufferSize.dwData = INPUT_QUEUE_SIZE;
 
             if (FAILED(hr = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph)))
-                throw std::system_error(hr, directInputErrorCategory, "Failed to set DirectInput device buffer size property");
+                throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device buffer size property");
 
             buffered = (hr != DI_POLLEDDEVICE);
         }
@@ -208,10 +208,10 @@ namespace ouzel
             if (hr == DIERR_NOTACQUIRED)
             {
                 if (FAILED(hr = device->Acquire()))
-                    throw std::system_error(hr, directInputErrorCategory, "Failed to acquire DirectInput device");
+                    throw std::system_error(hr, getErrorCategory(), "Failed to acquire DirectInput device");
 
                 if (FAILED(hr = device->Poll()))
-                    throw std::system_error(hr, directInputErrorCategory, "Failed to poll DirectInput device");
+                    throw std::system_error(hr, getErrorCategory(), "Failed to poll DirectInput device");
             }
 
             return buffered ? checkInputBuffered() : checkInputPolled();
@@ -227,13 +227,13 @@ namespace ouzel
             if (hr == DIERR_NOTACQUIRED)
             {
                 if (FAILED(hr = device->Acquire()))
-                    throw std::system_error(hr, directInputErrorCategory, "Failed to acquire DirectInput device");
+                    throw std::system_error(hr, getErrorCategory(), "Failed to acquire DirectInput device");
 
                 hr = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
             }
 
             if (FAILED(hr))
-                throw std::system_error(hr, directInputErrorCategory, "Failed to get DirectInput device state");
+                throw std::system_error(hr, getErrorCategory(), "Failed to get DirectInput device state");
 
             for (DWORD e = 0; e < eventCount; ++e)
             {
@@ -310,13 +310,13 @@ namespace ouzel
             if (hr == DIERR_NOTACQUIRED)
             {
                 if (FAILED(hr = device->Acquire()))
-                    throw std::system_error(hr, directInputErrorCategory, "Failed to acquire DirectInput device");
+                    throw std::system_error(hr, getErrorCategory(), "Failed to acquire DirectInput device");
 
                 hr = device->GetDeviceState(sizeof(newDIState), &newDIState);
             }
 
             if (FAILED(hr))
-                throw std::system_error(hr, directInputErrorCategory, "Failed to get DirectInput device state");
+                throw std::system_error(hr, getErrorCategory(), "Failed to get DirectInput device state");
 
             if (hatValue != newDIState.rgdwPOV[0])
             {

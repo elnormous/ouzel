@@ -28,7 +28,7 @@ namespace ouzel
         {
             IOReturn ret;
             if ((ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone)) != kIOReturnSuccess)
-                throw std::system_error(ret, ioKitErrorCategory, "Failed to open HID device");
+                throw std::system_error(ret, getErrorCategory(), "Failed to open HID device");
 
             const auto productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
             if (productName)

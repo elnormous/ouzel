@@ -31,47 +31,50 @@ namespace ouzel
     {
         namespace directsound
         {
-            class DirectSoundErrorCategory final: public std::error_category
+            namespace
             {
-            public:
-                const char* name() const noexcept final
+                class ErrorCategory final: public std::error_category
                 {
-                    return "DirectSound";
-                }
-
-                std::string message(int condition) const final
-                {
-                    switch (condition)
+                public:
+                    const char* name() const noexcept final
                     {
-                        case DSERR_ACCESSDENIED: return "DSERR_ACCESSDENIED";
-                        case DSERR_ALLOCATED: return "DSERR_ALLOCATED";
-                        case DSERR_ALREADYINITIALIZED: return "DSERR_ALREADYINITIALIZED";
-                        case DSERR_BADFORMAT: return "DSERR_BADFORMAT";
-                        case DSERR_BADSENDBUFFERGUID: return "DSERR_BADSENDBUFFERGUID";
-                        case DSERR_BUFFERLOST: return "DSERR_BUFFERLOST";
-                        case DSERR_BUFFERTOOSMALL: return "DSERR_BUFFERTOOSMALL";
-                        case DSERR_CONTROLUNAVAIL: return "DSERR_CONTROLUNAVAIL";
-                        case DSERR_DS8_REQUIRED: return "DSERR_DS8_REQUIRED";
-                        case DSERR_FXUNAVAILABLE: return "DSERR_FXUNAVAILABLE";
-                        case DSERR_GENERIC: return "DSERR_GENERIC";
-                        case DSERR_INVALIDCALL: return "DSERR_INVALIDCALL";
-                        case DSERR_INVALIDPARAM: return "DSERR_INVALIDPARAM";
-                        case DSERR_NOAGGREGATION: return "DSERR_NOAGGREGATION";
-                        case DSERR_NODRIVER: return "DSERR_NODRIVER";
-                        case DSERR_NOINTERFACE: return "DSERR_NOINTERFACE";
-                        case DSERR_OBJECTNOTFOUND: return "DSERR_OBJECTNOTFOUND";
-                        case DSERR_OTHERAPPHASPRIO: return "DSERR_OTHERAPPHASPRIO";
-                        case DSERR_OUTOFMEMORY: return "DSERR_OUTOFMEMORY";
-                        case DSERR_PRIOLEVELNEEDED: return "DSERR_PRIOLEVELNEEDED";
-                        case DSERR_SENDLOOP: return "DSERR_SENDLOOP";
-                        case DSERR_UNINITIALIZED: return "DSERR_UNINITIALIZED";
-                        case DSERR_UNSUPPORTED: return "DSERR_UNSUPPORTED";
-                        default: return "Unknown error (" + std::to_string(condition) + ")";
+                        return "DirectSound";
                     }
-                }
-            };
 
-            const DirectSoundErrorCategory directSoundErrorCategory {};
+                    std::string message(int condition) const final
+                    {
+                        switch (condition)
+                        {
+                            case DSERR_ACCESSDENIED: return "DSERR_ACCESSDENIED";
+                            case DSERR_ALLOCATED: return "DSERR_ALLOCATED";
+                            case DSERR_ALREADYINITIALIZED: return "DSERR_ALREADYINITIALIZED";
+                            case DSERR_BADFORMAT: return "DSERR_BADFORMAT";
+                            case DSERR_BADSENDBUFFERGUID: return "DSERR_BADSENDBUFFERGUID";
+                            case DSERR_BUFFERLOST: return "DSERR_BUFFERLOST";
+                            case DSERR_BUFFERTOOSMALL: return "DSERR_BUFFERTOOSMALL";
+                            case DSERR_CONTROLUNAVAIL: return "DSERR_CONTROLUNAVAIL";
+                            case DSERR_DS8_REQUIRED: return "DSERR_DS8_REQUIRED";
+                            case DSERR_FXUNAVAILABLE: return "DSERR_FXUNAVAILABLE";
+                            case DSERR_GENERIC: return "DSERR_GENERIC";
+                            case DSERR_INVALIDCALL: return "DSERR_INVALIDCALL";
+                            case DSERR_INVALIDPARAM: return "DSERR_INVALIDPARAM";
+                            case DSERR_NOAGGREGATION: return "DSERR_NOAGGREGATION";
+                            case DSERR_NODRIVER: return "DSERR_NODRIVER";
+                            case DSERR_NOINTERFACE: return "DSERR_NOINTERFACE";
+                            case DSERR_OBJECTNOTFOUND: return "DSERR_OBJECTNOTFOUND";
+                            case DSERR_OTHERAPPHASPRIO: return "DSERR_OTHERAPPHASPRIO";
+                            case DSERR_OUTOFMEMORY: return "DSERR_OUTOFMEMORY";
+                            case DSERR_PRIOLEVELNEEDED: return "DSERR_PRIOLEVELNEEDED";
+                            case DSERR_SENDLOOP: return "DSERR_SENDLOOP";
+                            case DSERR_UNINITIALIZED: return "DSERR_UNINITIALIZED";
+                            case DSERR_UNSUPPORTED: return "DSERR_UNSUPPORTED";
+                            default: return "Unknown error (" + std::to_string(condition) + ")";
+                        }
+                    }
+                };
+
+                const ErrorCategory errorCategory {};
+            }
 
             AudioDevice::AudioDevice(uint32_t initBufferSize,
                                      uint32_t initSampleRate,
@@ -84,13 +87,13 @@ namespace ouzel
             {
                 HRESULT hr;
                 if (FAILED(hr = DirectSoundEnumerateW(enumCallback, this)))
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to enumerate DirectSound 8 devices");
+                    throw std::system_error(hr, errorCategory, "Failed to enumerate DirectSound 8 devices");
 
                 if (FAILED(hr = DirectSoundCreate8(&DSDEVID_DefaultPlayback, &directSound, nullptr)))
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to create DirectSound 8 instance");
+                    throw std::system_error(hr, errorCategory, "Failed to create DirectSound 8 instance");
 
                 if (FAILED(hr = directSound->SetCooperativeLevel(GetDesktopWindow(), DSSCL_PRIORITY)))
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to set cooperative level for DirectSound 8");
+                    throw std::system_error(hr, errorCategory, "Failed to set cooperative level for DirectSound 8");
 
                 DSBUFFERDESC primaryBufferDesc;
                 primaryBufferDesc.dwSize = sizeof(primaryBufferDesc);
@@ -101,7 +104,7 @@ namespace ouzel
                 primaryBufferDesc.guid3DAlgorithm = GUID_NULL;
 
                 if (FAILED(hr = directSound->CreateSoundBuffer(&primaryBufferDesc, &primaryBuffer, nullptr)))
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to create DirectSound buffer");
+                    throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
 
                 WAVEFORMATEX waveFormat;
                 waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
@@ -123,7 +126,7 @@ namespace ouzel
                     waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
 
                     if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
-                        throw std::system_error(hr, directSoundErrorCategory, "Failed to set DirectSound buffer format");
+                        throw std::system_error(hr, errorCategory, "Failed to set DirectSound buffer format");
 
                     sampleFormat = SampleFormat::SInt16;
                     sampleSize = sizeof(int16_t);
@@ -140,18 +143,18 @@ namespace ouzel
                 bufferDesc.guid3DAlgorithm = GUID_NULL;
 
                 if (FAILED(hr = directSound->CreateSoundBuffer(&bufferDesc, &tempBuffer, nullptr)))
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to create DirectSound buffer");
+                    throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
 
                 if (FAILED(hr = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, reinterpret_cast<void**>(&buffer))))
                 {
                     tempBuffer->Release();
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to create DirectSound buffer");
+                    throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
                 }
 
                 if (FAILED(hr = tempBuffer->QueryInterface(IID_IDirectSoundNotify, reinterpret_cast<void**>(&notify))))
                 {
                     tempBuffer->Release();
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to get DirectSound notify interface");
+                    throw std::system_error(hr, errorCategory, "Failed to get DirectSound notify interface");
                 }
 
                 tempBuffer->Release();
@@ -159,13 +162,13 @@ namespace ouzel
                 uint8_t* bufferPointer;
                 DWORD lockedBufferSize;
                 if (FAILED(hr = buffer->Lock(0, bufferDesc.dwBufferBytes, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0)))
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to lock DirectSound buffer");
+                    throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
 
                 getData(lockedBufferSize / (channels * sizeof(int16_t)), data);
                 std::copy(data.begin(), data.end(), bufferPointer);
 
                 if (FAILED(hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0)))
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to unlock DirectSound buffer");
+                    throw std::system_error(hr, errorCategory, "Failed to unlock DirectSound buffer");
 
                 nextBuffer = 0;
 
@@ -185,7 +188,7 @@ namespace ouzel
                 positionNotifyEvents[1].hEventNotify = notifyEvents[1];
 
                 if (FAILED(hr = notify->SetNotificationPositions(2, positionNotifyEvents)))
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to set DirectSound notification positions");
+                    throw std::system_error(hr, errorCategory, "Failed to set DirectSound notification positions");
             }
 
             AudioDevice::~AudioDevice()
@@ -209,7 +212,7 @@ namespace ouzel
             {
                 HRESULT hr;
                 if (FAILED(hr = buffer->Play(0, 0, DSBPLAY_LOOPING)))
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to play DirectSound buffer");
+                    throw std::system_error(hr, errorCategory, "Failed to play DirectSound buffer");
 
                 running = true;
                 audioThread = Thread(&AudioDevice::run, this);
@@ -222,7 +225,7 @@ namespace ouzel
 
                 HRESULT hr;
                 if (FAILED(hr = buffer->Stop()))
-                    throw std::system_error(hr, directSoundErrorCategory, "Failed to stop DirectSound buffer");
+                    throw std::system_error(hr, errorCategory, "Failed to stop DirectSound buffer");
             }
 
             void AudioDevice::run()
@@ -245,14 +248,14 @@ namespace ouzel
                             DWORD lockedBufferSize;
                             HRESULT hr;
                             if (FAILED(hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0)))
-                                throw std::system_error(hr, directSoundErrorCategory, "Failed to lock DirectSound buffer");
+                                throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
 
                             getData(lockedBufferSize / (sampleSize * channels), data);
 
                             std::copy(data.begin(), data.end(), bufferPointer);
 
                             if (FAILED(hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0)))
-                                throw std::system_error(hr, directSoundErrorCategory, "Failed to unlock DirectSound buffer");
+                                throw std::system_error(hr, errorCategory, "Failed to unlock DirectSound buffer");
 
                             nextBuffer = (nextBuffer + 1) % 2;
                         }
