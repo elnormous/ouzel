@@ -9,20 +9,6 @@
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
-static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* context)
-{
-    try
-    {
-        ouzel::audio::opensl::AudioDevice* audioDevice = reinterpret_cast<ouzel::audio::opensl::AudioDevice*>(context);
-
-        audioDevice->enqueue(bufferQueue);
-    }
-    catch (const std::exception& e)
-    {
-        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
-    }
-}
-
 namespace ouzel
 {
     namespace audio
@@ -64,9 +50,26 @@ namespace ouzel
 
             const ErrorCategory errorCategory {};
 
-            static std::error_code makeErrorCode(SLresult e)
+            namespace
             {
-                return std::error_code(static_cast<int>(e), errorCategory);
+                std::error_code makeErrorCode(SLresult e)
+                {
+                    return std::error_code(static_cast<int>(e), errorCategory);
+                }
+
+                void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* context)
+                {
+                    try
+                    {
+                        AudioDevice* audioDevice = reinterpret_cast<AudioDevice*>(context);
+
+                        audioDevice->enqueue(bufferQueue);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        engine->log(Log::Level::Error) << e.what();
+                    }
+                }
             }
 
             AudioDevice::AudioDevice(uint32_t initBufferSize,

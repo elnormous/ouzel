@@ -11,7 +11,10 @@
 #include "input/android/InputSystemAndroid.hpp"
 #include "utils/Log.hpp"
 
-static std::unique_ptr<ouzel::EngineAndroid> engine;
+namespace
+{
+    std::unique_ptr<ouzel::EngineAndroid> engine;
+}
 
 extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVM, void*)
 {

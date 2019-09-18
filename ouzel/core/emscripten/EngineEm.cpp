@@ -9,13 +9,16 @@
 #include "input/emscripten/InputSystemEm.hpp"
 #include "utils/Log.hpp"
 
-static void loop(void* arg)
-{
-    static_cast<ouzel::EngineEm*>(arg)->step();
-}
-
 namespace ouzel
 {
+    namespace
+    {
+        void loop(void* arg)
+        {
+            static_cast<ouzel::EngineEm*>(arg)->step();
+        }
+    }
+
     EngineEm::EngineEm(int argc, char* argv[])
     {
         for (int i = 0; i < argc; ++i)

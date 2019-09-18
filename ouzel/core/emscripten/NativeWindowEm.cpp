@@ -5,32 +5,35 @@
 #include <emscripten/html5.h>
 #include "NativeWindowEm.hpp"
 
-static EM_BOOL emResizeCallback(int eventType, const EmscriptenUiEvent* uiEvent, void* userData)
-{
-    if (eventType == EMSCRIPTEN_EVENT_RESIZE)
-    {
-        ouzel::NativeWindowEm* nativeWindowEm = static_cast<ouzel::NativeWindowEm*>(userData);
-        nativeWindowEm->handleResize();
-        return true;
-    }
-
-    return false;
-}
-
-static EM_BOOL emFullscreenCallback(int eventType, const void*, void* userData)
-{
-    if (eventType == EMSCRIPTEN_EVENT_CANVASRESIZED)
-    {
-        ouzel::NativeWindowEm* nativeWindowEm = static_cast<ouzel::NativeWindowEm*>(userData);
-        nativeWindowEm->handleResize();
-        return true;
-    }
-
-    return false;
-}
-
 namespace ouzel
 {
+    namespace
+    {
+        EM_BOOL emResizeCallback(int eventType, const EmscriptenUiEvent* uiEvent, void* userData)
+        {
+            if (eventType == EMSCRIPTEN_EVENT_RESIZE)
+            {
+                NativeWindowEm* nativeWindowEm = static_cast<NativeWindowEm*>(userData);
+                nativeWindowEm->handleResize();
+                return true;
+            }
+
+            return false;
+        }
+
+        EM_BOOL emFullscreenCallback(int eventType, const void*, void* userData)
+        {
+            if (eventType == EMSCRIPTEN_EVENT_CANVASRESIZED)
+            {
+                NativeWindowEm* nativeWindowEm = static_cast<NativeWindowEm*>(userData);
+                nativeWindowEm->handleResize();
+                return true;
+            }
+
+            return false;
+        }
+    }
+
     NativeWindowEm::NativeWindowEm(const std::function<void(const Event&)>& initCallback,
                                    const Size2U& newSize,
                                    bool newFullscreen,

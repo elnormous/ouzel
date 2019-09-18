@@ -15,9 +15,6 @@
 #  define XAUDIO2_DEBUG_ENGINE 0x0001 // Used in XAudio2Create on Windows only
 #endif
 
-static constexpr char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
-static constexpr char* XAUDIO2_DLL_27 = "xaudio2_7.dll";
-
 namespace ouzel
 {
     namespace audio
@@ -57,6 +54,9 @@ namespace ouzel
                                      bool debugAudio):
                 audio::AudioDevice(Driver::XAudio2, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
+                constexpr char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
+                constexpr char* XAUDIO2_DLL_27 = "xaudio2_7.dll";
+
                 xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 
                 if (xAudio2Library)
