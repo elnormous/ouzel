@@ -13,35 +13,38 @@ namespace ouzel
     {
         namespace d3d11
         {
-            static constexpr D3D11_COMPARISON_FUNC getCompareFunction(CompareFunction compareFunction)
+            namespace
             {
-                switch (compareFunction)
+                constexpr D3D11_COMPARISON_FUNC getCompareFunction(CompareFunction compareFunction)
                 {
-                    case CompareFunction::NeverPass: return D3D11_COMPARISON_NEVER;
-                    case CompareFunction::PassIfLess: return D3D11_COMPARISON_LESS;
-                    case CompareFunction::PassIfEqual: return D3D11_COMPARISON_EQUAL;
-                    case CompareFunction::PassIfLessEqual: return D3D11_COMPARISON_LESS_EQUAL;
-                    case CompareFunction::PassIfGreater: return D3D11_COMPARISON_GREATER;
-                    case CompareFunction::PassIfNotEqual: return D3D11_COMPARISON_NOT_EQUAL;
-                    case CompareFunction::PassIfGreaterEqual: return D3D11_COMPARISON_GREATER_EQUAL;
-                    case CompareFunction::AlwaysPass: return D3D11_COMPARISON_ALWAYS;
-                    default: return D3D11_COMPARISON_NEVER;
+                    switch (compareFunction)
+                    {
+                        case CompareFunction::NeverPass: return D3D11_COMPARISON_NEVER;
+                        case CompareFunction::PassIfLess: return D3D11_COMPARISON_LESS;
+                        case CompareFunction::PassIfEqual: return D3D11_COMPARISON_EQUAL;
+                        case CompareFunction::PassIfLessEqual: return D3D11_COMPARISON_LESS_EQUAL;
+                        case CompareFunction::PassIfGreater: return D3D11_COMPARISON_GREATER;
+                        case CompareFunction::PassIfNotEqual: return D3D11_COMPARISON_NOT_EQUAL;
+                        case CompareFunction::PassIfGreaterEqual: return D3D11_COMPARISON_GREATER_EQUAL;
+                        case CompareFunction::AlwaysPass: return D3D11_COMPARISON_ALWAYS;
+                        default: return D3D11_COMPARISON_NEVER;
+                    }
                 }
-            }
 
-            static constexpr D3D11_STENCIL_OP getStencilOperation(StencilOperation stencilOperation)
-            {
-                switch (stencilOperation)
+                constexpr D3D11_STENCIL_OP getStencilOperation(StencilOperation stencilOperation)
                 {
-                    case StencilOperation::Keep: return D3D11_STENCIL_OP_KEEP;
-                    case StencilOperation::Zero: return D3D11_STENCIL_OP_ZERO;
-                    case StencilOperation::Replace: return D3D11_STENCIL_OP_REPLACE;
-                    case StencilOperation::IncrementClamp: return D3D11_STENCIL_OP_INCR_SAT;
-                    case StencilOperation::DecrementClamp: return D3D11_STENCIL_OP_DECR_SAT;
-                    case StencilOperation::Invert: return D3D11_STENCIL_OP_INVERT;
-                    case StencilOperation::IncrementWrap: return D3D11_STENCIL_OP_INCR;
-                    case StencilOperation::DecrementWrap: return D3D11_STENCIL_OP_DECR;
-                    default: return D3D11_STENCIL_OP_KEEP;
+                    switch (stencilOperation)
+                    {
+                        case StencilOperation::Keep: return D3D11_STENCIL_OP_KEEP;
+                        case StencilOperation::Zero: return D3D11_STENCIL_OP_ZERO;
+                        case StencilOperation::Replace: return D3D11_STENCIL_OP_REPLACE;
+                        case StencilOperation::IncrementClamp: return D3D11_STENCIL_OP_INCR_SAT;
+                        case StencilOperation::DecrementClamp: return D3D11_STENCIL_OP_DECR_SAT;
+                        case StencilOperation::Invert: return D3D11_STENCIL_OP_INVERT;
+                        case StencilOperation::IncrementWrap: return D3D11_STENCIL_OP_INCR;
+                        case StencilOperation::DecrementWrap: return D3D11_STENCIL_OP_DECR;
+                        default: return D3D11_STENCIL_OP_KEEP;
+                    }
                 }
             }
 

@@ -14,80 +14,83 @@ namespace ouzel
     {
         namespace d3d11
         {
-            static constexpr DXGI_FORMAT getPixelFormat(PixelFormat pixelFormat)
+            namespace
             {
-                switch (pixelFormat)
+                constexpr DXGI_FORMAT getPixelFormat(PixelFormat pixelFormat)
                 {
-                    case PixelFormat::A8UNorm: return DXGI_FORMAT_A8_UNORM;
-                    case PixelFormat::R8UNorm: return DXGI_FORMAT_R8_UNORM;
-                    case PixelFormat::R8SNorm: return DXGI_FORMAT_R8_SNORM;
-                    case PixelFormat::R8UInt: return DXGI_FORMAT_R8_UINT;
-                    case PixelFormat::R8SInt: return DXGI_FORMAT_R8_SINT;
-                    case PixelFormat::R16UNorm: return DXGI_FORMAT_R16_UNORM;
-                    case PixelFormat::R16SNorm: return DXGI_FORMAT_R16_SNORM;
-                    case PixelFormat::R16UInt: return DXGI_FORMAT_R16_UINT;
-                    case PixelFormat::R16SInt: return DXGI_FORMAT_R16_SINT;
-                    case PixelFormat::R16Float: return DXGI_FORMAT_R16_FLOAT;
-                    case PixelFormat::R32UInt: return DXGI_FORMAT_R32_UINT;
-                    case PixelFormat::R32SInt: return DXGI_FORMAT_R32_SINT;
-                    case PixelFormat::R32Float: return DXGI_FORMAT_R32_FLOAT;
-                    case PixelFormat::RG8UNorm: return DXGI_FORMAT_R8G8_UNORM;
-                    case PixelFormat::RG8SNorm: return DXGI_FORMAT_R8G8_SNORM;
-                    case PixelFormat::RG8UInt: return DXGI_FORMAT_R8G8_UINT;
-                    case PixelFormat::RG8SInt: return DXGI_FORMAT_R8G8_SINT;
-                    case PixelFormat::RGBA8UNorm: return DXGI_FORMAT_R8G8B8A8_UNORM;
-                    case PixelFormat::RGBA8UNormSRGB: return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-                    case PixelFormat::RGBA8SNorm: return DXGI_FORMAT_R8G8B8A8_SNORM;
-                    case PixelFormat::RGBA8UInt: return DXGI_FORMAT_R8G8B8A8_UINT;
-                    case PixelFormat::RGBA8SInt: return DXGI_FORMAT_R8G8B8A8_SINT;
-                    case PixelFormat::RGBA16UNorm: return DXGI_FORMAT_R16G16B16A16_UNORM;
-                    case PixelFormat::RGBA16SNorm: return DXGI_FORMAT_R16G16B16A16_SNORM;
-                    case PixelFormat::RGBA16UInt: return DXGI_FORMAT_R16G16B16A16_UINT;
-                    case PixelFormat::RGBA16SInt: return DXGI_FORMAT_R16G16B16A16_SINT;
-                    case PixelFormat::RGBA16Float: return DXGI_FORMAT_R16G16B16A16_FLOAT;
-                    case PixelFormat::RGBA32UInt: return DXGI_FORMAT_R32G32B32A32_UINT;
-                    case PixelFormat::RGBA32SInt: return DXGI_FORMAT_R32G32B32A32_SINT;
-                    case PixelFormat::RGBA32Float: return DXGI_FORMAT_R32G32B32A32_FLOAT;
-                    case PixelFormat::Depth: return DXGI_FORMAT_D32_FLOAT;
-                    case PixelFormat::DepthStencil: return DXGI_FORMAT_D24_UNORM_S8_UINT;
-                    default: return DXGI_FORMAT_UNKNOWN;
-                }
-            }
-
-            static constexpr D3D11_SRV_DIMENSION getShaderViewDimension(TextureType type, bool multisample)
-            {
-                if (multisample)
-                {
-                    switch (type)
+                    switch (pixelFormat)
                     {
-                        case TextureType::TwoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2DMS;
-                        default: throw std::runtime_error("Invalid multisample texture type");
+                        case PixelFormat::A8UNorm: return DXGI_FORMAT_A8_UNORM;
+                        case PixelFormat::R8UNorm: return DXGI_FORMAT_R8_UNORM;
+                        case PixelFormat::R8SNorm: return DXGI_FORMAT_R8_SNORM;
+                        case PixelFormat::R8UInt: return DXGI_FORMAT_R8_UINT;
+                        case PixelFormat::R8SInt: return DXGI_FORMAT_R8_SINT;
+                        case PixelFormat::R16UNorm: return DXGI_FORMAT_R16_UNORM;
+                        case PixelFormat::R16SNorm: return DXGI_FORMAT_R16_SNORM;
+                        case PixelFormat::R16UInt: return DXGI_FORMAT_R16_UINT;
+                        case PixelFormat::R16SInt: return DXGI_FORMAT_R16_SINT;
+                        case PixelFormat::R16Float: return DXGI_FORMAT_R16_FLOAT;
+                        case PixelFormat::R32UInt: return DXGI_FORMAT_R32_UINT;
+                        case PixelFormat::R32SInt: return DXGI_FORMAT_R32_SINT;
+                        case PixelFormat::R32Float: return DXGI_FORMAT_R32_FLOAT;
+                        case PixelFormat::RG8UNorm: return DXGI_FORMAT_R8G8_UNORM;
+                        case PixelFormat::RG8SNorm: return DXGI_FORMAT_R8G8_SNORM;
+                        case PixelFormat::RG8UInt: return DXGI_FORMAT_R8G8_UINT;
+                        case PixelFormat::RG8SInt: return DXGI_FORMAT_R8G8_SINT;
+                        case PixelFormat::RGBA8UNorm: return DXGI_FORMAT_R8G8B8A8_UNORM;
+                        case PixelFormat::RGBA8UNormSRGB: return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+                        case PixelFormat::RGBA8SNorm: return DXGI_FORMAT_R8G8B8A8_SNORM;
+                        case PixelFormat::RGBA8UInt: return DXGI_FORMAT_R8G8B8A8_UINT;
+                        case PixelFormat::RGBA8SInt: return DXGI_FORMAT_R8G8B8A8_SINT;
+                        case PixelFormat::RGBA16UNorm: return DXGI_FORMAT_R16G16B16A16_UNORM;
+                        case PixelFormat::RGBA16SNorm: return DXGI_FORMAT_R16G16B16A16_SNORM;
+                        case PixelFormat::RGBA16UInt: return DXGI_FORMAT_R16G16B16A16_UINT;
+                        case PixelFormat::RGBA16SInt: return DXGI_FORMAT_R16G16B16A16_SINT;
+                        case PixelFormat::RGBA16Float: return DXGI_FORMAT_R16G16B16A16_FLOAT;
+                        case PixelFormat::RGBA32UInt: return DXGI_FORMAT_R32G32B32A32_UINT;
+                        case PixelFormat::RGBA32SInt: return DXGI_FORMAT_R32G32B32A32_SINT;
+                        case PixelFormat::RGBA32Float: return DXGI_FORMAT_R32G32B32A32_FLOAT;
+                        case PixelFormat::Depth: return DXGI_FORMAT_D32_FLOAT;
+                        case PixelFormat::DepthStencil: return DXGI_FORMAT_D24_UNORM_S8_UINT;
+                        default: return DXGI_FORMAT_UNKNOWN;
                     }
                 }
-                else
+
+                constexpr D3D11_SRV_DIMENSION getShaderViewDimension(TextureType type, bool multisample)
                 {
-                    switch (type)
+                    if (multisample)
                     {
-                        case TextureType::OneDimensional: return D3D11_SRV_DIMENSION_TEXTURE1D;
-                        case TextureType::TwoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2D;
-                        case TextureType::ThreeDimensional: return D3D11_SRV_DIMENSION_TEXTURE3D;
-                        case TextureType::Cube: return D3D11_SRV_DIMENSION_TEXTURE3D;
-                        default: throw std::runtime_error("Invalid texture type");
+                        switch (type)
+                        {
+                            case TextureType::TwoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2DMS;
+                            default: throw std::runtime_error("Invalid multisample texture type");
+                        }
+                    }
+                    else
+                    {
+                        switch (type)
+                        {
+                            case TextureType::OneDimensional: return D3D11_SRV_DIMENSION_TEXTURE1D;
+                            case TextureType::TwoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2D;
+                            case TextureType::ThreeDimensional: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                            case TextureType::Cube: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                            default: throw std::runtime_error("Invalid texture type");
+                        }
                     }
                 }
-            }
 
-            static constexpr D3D11_TEXTURECUBE_FACE getCubeFace(CubeFace face)
-            {
-                switch (face)
+                constexpr D3D11_TEXTURECUBE_FACE getCubeFace(CubeFace face)
                 {
-                    case CubeFace::PositiveX: return D3D11_TEXTURECUBE_FACE_POSITIVE_X;
-                    case CubeFace::NegativeX: return D3D11_TEXTURECUBE_FACE_NEGATIVE_X;
-                    case CubeFace::PositiveY: return D3D11_TEXTURECUBE_FACE_POSITIVE_Y;
-                    case CubeFace::NegativeY: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Y;
-                    case CubeFace::PositiveZ: return D3D11_TEXTURECUBE_FACE_POSITIVE_Z;
-                    case CubeFace::NegativeZ: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Z;
-                    default: throw std::runtime_error("Invalid cube face");
+                    switch (face)
+                    {
+                        case CubeFace::PositiveX: return D3D11_TEXTURECUBE_FACE_POSITIVE_X;
+                        case CubeFace::NegativeX: return D3D11_TEXTURECUBE_FACE_NEGATIVE_X;
+                        case CubeFace::PositiveY: return D3D11_TEXTURECUBE_FACE_POSITIVE_Y;
+                        case CubeFace::NegativeY: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Y;
+                        case CubeFace::PositiveZ: return D3D11_TEXTURECUBE_FACE_POSITIVE_Z;
+                        case CubeFace::NegativeZ: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Z;
+                        default: throw std::runtime_error("Invalid cube face");
+                    }
                 }
             }
 

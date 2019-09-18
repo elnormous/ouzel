@@ -13,35 +13,38 @@ namespace ouzel
     {
         namespace metal
         {
-            static constexpr MTLCompareFunction getCompareFunction(CompareFunction compareFunction)
+            namespace
             {
-                switch (compareFunction)
+                constexpr MTLCompareFunction getCompareFunction(CompareFunction compareFunction)
                 {
-                    case CompareFunction::NeverPass: return MTLCompareFunctionNever;
-                    case CompareFunction::PassIfLess: return MTLCompareFunctionLess;
-                    case CompareFunction::PassIfEqual: return MTLCompareFunctionEqual;
-                    case CompareFunction::PassIfLessEqual: return MTLCompareFunctionLessEqual;
-                    case CompareFunction::PassIfGreater: return MTLCompareFunctionGreater;
-                    case CompareFunction::PassIfNotEqual: return MTLCompareFunctionNotEqual;
-                    case CompareFunction::PassIfGreaterEqual: return MTLCompareFunctionGreaterEqual;
-                    case CompareFunction::AlwaysPass: return MTLCompareFunctionAlways;
-                    default: return MTLCompareFunctionNever;
+                    switch (compareFunction)
+                    {
+                        case CompareFunction::NeverPass: return MTLCompareFunctionNever;
+                        case CompareFunction::PassIfLess: return MTLCompareFunctionLess;
+                        case CompareFunction::PassIfEqual: return MTLCompareFunctionEqual;
+                        case CompareFunction::PassIfLessEqual: return MTLCompareFunctionLessEqual;
+                        case CompareFunction::PassIfGreater: return MTLCompareFunctionGreater;
+                        case CompareFunction::PassIfNotEqual: return MTLCompareFunctionNotEqual;
+                        case CompareFunction::PassIfGreaterEqual: return MTLCompareFunctionGreaterEqual;
+                        case CompareFunction::AlwaysPass: return MTLCompareFunctionAlways;
+                        default: return MTLCompareFunctionNever;
+                    }
                 }
-            }
 
-            static constexpr MTLStencilOperation getStencilOperation(StencilOperation stencilOperation)
-            {
-                switch (stencilOperation)
+                constexpr MTLStencilOperation getStencilOperation(StencilOperation stencilOperation)
                 {
-                    case StencilOperation::Keep: return MTLStencilOperationKeep;
-                    case StencilOperation::Zero: return MTLStencilOperationZero;
-                    case StencilOperation::Replace: return MTLStencilOperationReplace;
-                    case StencilOperation::IncrementClamp: return MTLStencilOperationIncrementClamp;
-                    case StencilOperation::DecrementClamp: return MTLStencilOperationDecrementClamp;
-                    case StencilOperation::Invert: return MTLStencilOperationInvert;
-                    case StencilOperation::IncrementWrap: return MTLStencilOperationIncrementWrap;
-                    case StencilOperation::DecrementWrap: return MTLStencilOperationDecrementWrap;
-                    default: return MTLStencilOperationKeep;
+                    switch (stencilOperation)
+                    {
+                        case StencilOperation::Keep: return MTLStencilOperationKeep;
+                        case StencilOperation::Zero: return MTLStencilOperationZero;
+                        case StencilOperation::Replace: return MTLStencilOperationReplace;
+                        case StencilOperation::IncrementClamp: return MTLStencilOperationIncrementClamp;
+                        case StencilOperation::DecrementClamp: return MTLStencilOperationDecrementClamp;
+                        case StencilOperation::Invert: return MTLStencilOperationInvert;
+                        case StencilOperation::IncrementWrap: return MTLStencilOperationIncrementWrap;
+                        case StencilOperation::DecrementWrap: return MTLStencilOperationDecrementWrap;
+                        default: return MTLStencilOperationKeep;
+                    }
                 }
             }
 

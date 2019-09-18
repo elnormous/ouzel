@@ -59,43 +59,46 @@ namespace ouzel
                 return errorCategory;
             }
 
-            static constexpr DXGI_FORMAT getIndexFormat(uint32_t indexSize)
+            namespace
             {
-                switch (indexSize)
+                constexpr DXGI_FORMAT getIndexFormat(uint32_t indexSize)
                 {
-                    case 2: return DXGI_FORMAT_R16_UINT;
-                    case 4: return DXGI_FORMAT_R32_UINT;
-                    default: throw std::runtime_error("Invalid index size");
+                    switch (indexSize)
+                    {
+                        case 2: return DXGI_FORMAT_R16_UINT;
+                        case 4: return DXGI_FORMAT_R32_UINT;
+                        default: throw std::runtime_error("Invalid index size");
+                    }
                 }
-            }
 
-            static constexpr D3D_PRIMITIVE_TOPOLOGY getPrimitiveTopology(DrawMode drawMode)
-            {
-                switch (drawMode)
+                constexpr D3D_PRIMITIVE_TOPOLOGY getPrimitiveTopology(DrawMode drawMode)
                 {
-                    case DrawMode::PointList: return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
-                    case DrawMode::LineList: return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
-                    case DrawMode::LineStrip: return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
-                    case DrawMode::TriangleList: return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-                    case DrawMode::TriangleStrip: return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
-                    default: throw std::runtime_error("Invalid draw mode");
+                    switch (drawMode)
+                    {
+                        case DrawMode::PointList: return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
+                        case DrawMode::LineList: return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
+                        case DrawMode::LineStrip: return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
+                        case DrawMode::TriangleList: return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+                        case DrawMode::TriangleStrip: return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+                        default: throw std::runtime_error("Invalid draw mode");
+                    }
                 }
-            }
 
-            static constexpr D3D11_TEXTURE_ADDRESS_MODE getTextureAddressMode(SamplerAddressMode address)
-            {
-                switch (address)
+                constexpr D3D11_TEXTURE_ADDRESS_MODE getTextureAddressMode(SamplerAddressMode address)
                 {
-                    case SamplerAddressMode::ClampToEdge:
-                        return D3D11_TEXTURE_ADDRESS_CLAMP;
-                    case SamplerAddressMode::ClampToBorder:
-                        return D3D11_TEXTURE_ADDRESS_BORDER;
-                    case SamplerAddressMode::Repeat:
-                        return D3D11_TEXTURE_ADDRESS_WRAP;
-                    case SamplerAddressMode::MirrorRepeat:
-                        return D3D11_TEXTURE_ADDRESS_MIRROR;
-                    default:
-                        throw std::runtime_error("Invalid address mode");
+                    switch (address)
+                    {
+                        case SamplerAddressMode::ClampToEdge:
+                            return D3D11_TEXTURE_ADDRESS_CLAMP;
+                        case SamplerAddressMode::ClampToBorder:
+                            return D3D11_TEXTURE_ADDRESS_BORDER;
+                        case SamplerAddressMode::Repeat:
+                            return D3D11_TEXTURE_ADDRESS_WRAP;
+                        case SamplerAddressMode::MirrorRepeat:
+                            return D3D11_TEXTURE_ADDRESS_MIRROR;
+                        default:
+                            throw std::runtime_error("Invalid address mode");
+                    }
                 }
             }
 

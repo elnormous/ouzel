@@ -23,8 +23,8 @@ namespace ouzel
             explicit Archive(const std::string& path):
                 file{File(path, File::Mode::Read)}
             {
-                static constexpr uint32_t CENTRAL_DIRECTORY = 0x02014B50;
-                static constexpr uint32_t HEADER_SIGNATURE = 0x04034B50;
+                constexpr uint32_t CENTRAL_DIRECTORY = 0x02014B50;
+                constexpr uint32_t HEADER_SIGNATURE = 0x04034B50;
 
                 for (;;)
                 {

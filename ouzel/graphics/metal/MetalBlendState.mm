@@ -13,40 +13,43 @@ namespace ouzel
     {
         namespace metal
         {
-            static constexpr MTLBlendFactor getBlendFactor(BlendFactor blendFactor)
+            namespace
             {
-                switch (blendFactor)
+                constexpr MTLBlendFactor getBlendFactor(BlendFactor blendFactor)
                 {
-                    case BlendFactor::Zero: return MTLBlendFactorZero;
-                    case BlendFactor::One: return MTLBlendFactorOne;
-                    case BlendFactor::SrcColor: return MTLBlendFactorSourceColor;
-                    case BlendFactor::InvSrcColor: return MTLBlendFactorOneMinusSourceColor;
-                    case BlendFactor::SrcAlpha: return MTLBlendFactorSourceAlpha;
-                    case BlendFactor::InvSrcAlpha: return MTLBlendFactorOneMinusSourceAlpha;
-                    case BlendFactor::DestAlpha: return MTLBlendFactorDestinationAlpha;
-                    case BlendFactor::InvDestAlpha: return MTLBlendFactorOneMinusDestinationAlpha;
-                    case BlendFactor::DestColor: return MTLBlendFactorDestinationColor;
-                    case BlendFactor::InvDestColor: return MTLBlendFactorOneMinusDestinationColor;
-                    case BlendFactor::SrcAlphaSat: return MTLBlendFactorSourceAlphaSaturated;
-                    case BlendFactor::BlendFactor: return MTLBlendFactorBlendColor;
-                    case BlendFactor::InvBlendFactor: return MTLBlendFactorOneMinusBlendColor;
+                    switch (blendFactor)
+                    {
+                        case BlendFactor::Zero: return MTLBlendFactorZero;
+                        case BlendFactor::One: return MTLBlendFactorOne;
+                        case BlendFactor::SrcColor: return MTLBlendFactorSourceColor;
+                        case BlendFactor::InvSrcColor: return MTLBlendFactorOneMinusSourceColor;
+                        case BlendFactor::SrcAlpha: return MTLBlendFactorSourceAlpha;
+                        case BlendFactor::InvSrcAlpha: return MTLBlendFactorOneMinusSourceAlpha;
+                        case BlendFactor::DestAlpha: return MTLBlendFactorDestinationAlpha;
+                        case BlendFactor::InvDestAlpha: return MTLBlendFactorOneMinusDestinationAlpha;
+                        case BlendFactor::DestColor: return MTLBlendFactorDestinationColor;
+                        case BlendFactor::InvDestColor: return MTLBlendFactorOneMinusDestinationColor;
+                        case BlendFactor::SrcAlphaSat: return MTLBlendFactorSourceAlphaSaturated;
+                        case BlendFactor::BlendFactor: return MTLBlendFactorBlendColor;
+                        case BlendFactor::InvBlendFactor: return MTLBlendFactorOneMinusBlendColor;
+                    }
+
+                    return MTLBlendFactorZero;
                 }
 
-                return MTLBlendFactorZero;
-            }
-
-            static constexpr MTLBlendOperation getBlendOperation(BlendOperation blendOperation)
-            {
-                switch (blendOperation)
+                constexpr MTLBlendOperation getBlendOperation(BlendOperation blendOperation)
                 {
-                    case BlendOperation::Add: return MTLBlendOperationAdd;
-                    case BlendOperation::Subtract: return MTLBlendOperationSubtract;
-                    case BlendOperation::RevSubtract: return MTLBlendOperationReverseSubtract;
-                    case BlendOperation::Min: return MTLBlendOperationMin;
-                    case BlendOperation::Max: return MTLBlendOperationMax;
-                }
+                    switch (blendOperation)
+                    {
+                        case BlendOperation::Add: return MTLBlendOperationAdd;
+                        case BlendOperation::Subtract: return MTLBlendOperationSubtract;
+                        case BlendOperation::RevSubtract: return MTLBlendOperationReverseSubtract;
+                        case BlendOperation::Min: return MTLBlendOperationMin;
+                        case BlendOperation::Max: return MTLBlendOperationMax;
+                    }
 
-                return MTLBlendOperationAdd;
+                    return MTLBlendOperationAdd;
+                }
             }
 
             BlendState::BlendState(RenderDevice& initRenderDevice,

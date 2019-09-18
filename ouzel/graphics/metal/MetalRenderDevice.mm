@@ -27,67 +27,70 @@ namespace ouzel
     {
         namespace metal
         {
-            static constexpr MTLIndexType getIndexType(uint32_t indexSize)
+            namespace
             {
-                switch (indexSize)
+                constexpr MTLIndexType getIndexType(uint32_t indexSize)
                 {
-                    case 2: return MTLIndexTypeUInt16;
-                    case 4: return MTLIndexTypeUInt32;
-                    default: throw std::runtime_error("Invalid index size");
+                    switch (indexSize)
+                    {
+                        case 2: return MTLIndexTypeUInt16;
+                        case 4: return MTLIndexTypeUInt32;
+                        default: throw std::runtime_error("Invalid index size");
+                    }
                 }
-            }
 
-            static constexpr MTLPrimitiveType getPrimitiveType(DrawMode drawMode)
-            {
-                switch (drawMode)
+                constexpr MTLPrimitiveType getPrimitiveType(DrawMode drawMode)
                 {
-                    case DrawMode::PointList: return MTLPrimitiveTypePoint;
-                    case DrawMode::LineList: return MTLPrimitiveTypeLine;
-                    case DrawMode::LineStrip: return MTLPrimitiveTypeLineStrip;
-                    case DrawMode::TriangleList: return MTLPrimitiveTypeTriangle;
-                    case DrawMode::TriangleStrip: return MTLPrimitiveTypeTriangleStrip;
-                    default: throw std::runtime_error("Invalid draw mode");
+                    switch (drawMode)
+                    {
+                        case DrawMode::PointList: return MTLPrimitiveTypePoint;
+                        case DrawMode::LineList: return MTLPrimitiveTypeLine;
+                        case DrawMode::LineStrip: return MTLPrimitiveTypeLineStrip;
+                        case DrawMode::TriangleList: return MTLPrimitiveTypeTriangle;
+                        case DrawMode::TriangleStrip: return MTLPrimitiveTypeTriangleStrip;
+                        default: throw std::runtime_error("Invalid draw mode");
+                    }
                 }
-            }
 
-            static constexpr MTLCullMode getCullMode(CullMode cullMode)
-            {
-                switch (cullMode)
+                constexpr MTLCullMode getCullMode(CullMode cullMode)
                 {
-                    case CullMode::NoCull: return MTLCullModeNone;
-                    case CullMode::Front: return MTLCullModeFront;
-                    case CullMode::Back: return MTLCullModeBack;
-                    default: throw std::runtime_error("Invalid cull mode");
+                    switch (cullMode)
+                    {
+                        case CullMode::NoCull: return MTLCullModeNone;
+                        case CullMode::Front: return MTLCullModeFront;
+                        case CullMode::Back: return MTLCullModeBack;
+                        default: throw std::runtime_error("Invalid cull mode");
+                    }
                 }
-            }
 
-            static constexpr MTLTriangleFillMode getFillMode(FillMode fillMode)
-            {
-                switch (fillMode)
+                constexpr MTLTriangleFillMode getFillMode(FillMode fillMode)
                 {
-                    case FillMode::Solid: return MTLTriangleFillModeFill;
-                    case FillMode::Wireframe: return MTLTriangleFillModeLines;
-                    default: throw std::runtime_error("Invalid fill mode");
+                    switch (fillMode)
+                    {
+                        case FillMode::Solid: return MTLTriangleFillModeFill;
+                        case FillMode::Wireframe: return MTLTriangleFillModeLines;
+                        default: throw std::runtime_error("Invalid fill mode");
+                    }
                 }
-            }
 
-            static constexpr MTLSamplerAddressMode getSamplerAddressMode(SamplerAddressMode address)
-            {
-                switch (address)
+                constexpr MTLSamplerAddressMode getSamplerAddressMode(SamplerAddressMode address)
                 {
-                    case SamplerAddressMode::ClampToEdge:
-                        return MTLSamplerAddressModeClampToEdge;
+                    switch (address)
+                    {
+                        case SamplerAddressMode::ClampToEdge:
+                            return MTLSamplerAddressModeClampToEdge;
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
-                    // MTLSamplerAddressModeClampToBorderColor is not defined in macOS SDK older than 10.12
-                    case SamplerAddressMode::ClampToBorder:
-                        return MTLSamplerAddressModeClampToBorderColor;
+                        // MTLSamplerAddressModeClampToBorderColor is not defined in macOS SDK older than 10.12
+                        case SamplerAddressMode::ClampToBorder:
+                            return MTLSamplerAddressModeClampToBorderColor;
 #endif
-                    case SamplerAddressMode::Repeat:
-                        return MTLSamplerAddressModeRepeat;
-                    case SamplerAddressMode::MirrorRepeat:
-                        return MTLSamplerAddressModeMirrorRepeat;
-                    default:
-                        throw std::runtime_error("Invalid address mode");
+                        case SamplerAddressMode::Repeat:
+                            return MTLSamplerAddressModeRepeat;
+                        case SamplerAddressMode::MirrorRepeat:
+                            return MTLSamplerAddressModeMirrorRepeat;
+                        default:
+                            throw std::runtime_error("Invalid address mode");
+                    }
                 }
             }
 

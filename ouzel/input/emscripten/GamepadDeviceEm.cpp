@@ -5,12 +5,12 @@
 #include <emscripten/html5.h>
 #include "GamepadDeviceEm.hpp"
 
-static constexpr float THUMB_DEADZONE = 0.2F;
-
 namespace ouzel
 {
     namespace input
     {
+        static constexpr float THUMB_DEADZONE = 0.2F;
+
         // based on https://w3c.github.io/gamepad/#remapping
         static Gamepad::Button buttonMap[17] = {
             Gamepad::Button::FaceBottom, // 0

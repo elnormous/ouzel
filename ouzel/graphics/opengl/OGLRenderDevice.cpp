@@ -119,214 +119,217 @@ namespace ouzel
                 return std::error_code(static_cast<int>(e), errorCategory);
             }
 
-            static constexpr GLenum getIndexType(uint32_t indexSize)
+            namespace
             {
-                switch (indexSize)
+                constexpr GLenum getIndexType(uint32_t indexSize)
                 {
-                    case 1: return GL_UNSIGNED_BYTE;
-                    case 2: return GL_UNSIGNED_SHORT;
-                    case 4: return GL_UNSIGNED_INT; // Supported on OpenGL and OpenGL ES 3 and above
-                    default: throw std::runtime_error("Invalid index size");
+                    switch (indexSize)
+                    {
+                        case 1: return GL_UNSIGNED_BYTE;
+                        case 2: return GL_UNSIGNED_SHORT;
+                        case 4: return GL_UNSIGNED_INT; // Supported on OpenGL and OpenGL ES 3 and above
+                        default: throw std::runtime_error("Invalid index size");
+                    }
                 }
-            }
 
-            static constexpr GLenum getVertexType(DataType dataType)
-            {
-                switch (dataType)
+                constexpr GLenum getVertexType(DataType dataType)
                 {
-                    case DataType::Byte:
-                    case DataType::ByteNorm:
-                    case DataType::ByteVector2:
-                    case DataType::ByteVector2Norm:
-                    case DataType::ByteVector3:
-                    case DataType::ByteVector3Norm:
-                    case DataType::ByteVector4:
-                    case DataType::ByteVector4Norm:
-                        return GL_BYTE;
+                    switch (dataType)
+                    {
+                        case DataType::Byte:
+                        case DataType::ByteNorm:
+                        case DataType::ByteVector2:
+                        case DataType::ByteVector2Norm:
+                        case DataType::ByteVector3:
+                        case DataType::ByteVector3Norm:
+                        case DataType::ByteVector4:
+                        case DataType::ByteVector4Norm:
+                            return GL_BYTE;
 
-                    case DataType::UnsignedByte:
-                    case DataType::UnsignedByteNorm:
-                    case DataType::UnsignedByteVector2:
-                    case DataType::UnsignedByteVector2Norm:
-                    case DataType::UnsignedByteVector3:
-                    case DataType::UnsignedByteVector3Norm:
-                    case DataType::UnsignedByteVector4:
-                    case DataType::UnsignedByteVector4Norm:
-                        return GL_UNSIGNED_BYTE;
+                        case DataType::UnsignedByte:
+                        case DataType::UnsignedByteNorm:
+                        case DataType::UnsignedByteVector2:
+                        case DataType::UnsignedByteVector2Norm:
+                        case DataType::UnsignedByteVector3:
+                        case DataType::UnsignedByteVector3Norm:
+                        case DataType::UnsignedByteVector4:
+                        case DataType::UnsignedByteVector4Norm:
+                            return GL_UNSIGNED_BYTE;
 
-                    case DataType::Short:
-                    case DataType::ShortNorm:
-                    case DataType::ShortVector2:
-                    case DataType::ShortVector2Norm:
-                    case DataType::ShortVector3:
-                    case DataType::ShortVector3Norm:
-                    case DataType::ShortVector4:
-                    case DataType::ShortVector4Norm:
-                        return GL_SHORT;
+                        case DataType::Short:
+                        case DataType::ShortNorm:
+                        case DataType::ShortVector2:
+                        case DataType::ShortVector2Norm:
+                        case DataType::ShortVector3:
+                        case DataType::ShortVector3Norm:
+                        case DataType::ShortVector4:
+                        case DataType::ShortVector4Norm:
+                            return GL_SHORT;
 
-                    case DataType::UnsignedShort:
-                    case DataType::UnsignedShortNorm:
-                    case DataType::UnsignedShortVector2:
-                    case DataType::UnsignedShortVector2Norm:
-                    case DataType::UnsignedShortVector3:
-                    case DataType::UnsignedShortVector3Norm:
-                    case DataType::UnsignedShortVector4:
-                    case DataType::UnsignedShortVector4Norm:
-                        return GL_UNSIGNED_SHORT;
+                        case DataType::UnsignedShort:
+                        case DataType::UnsignedShortNorm:
+                        case DataType::UnsignedShortVector2:
+                        case DataType::UnsignedShortVector2Norm:
+                        case DataType::UnsignedShortVector3:
+                        case DataType::UnsignedShortVector3Norm:
+                        case DataType::UnsignedShortVector4:
+                        case DataType::UnsignedShortVector4Norm:
+                            return GL_UNSIGNED_SHORT;
 
-                    case DataType::Integer:
-                    case DataType::IntegerVector2:
-                    case DataType::IntegerVector3:
-                    case DataType::IntegerVector4:
-                        return GL_INT;
+                        case DataType::Integer:
+                        case DataType::IntegerVector2:
+                        case DataType::IntegerVector3:
+                        case DataType::IntegerVector4:
+                            return GL_INT;
 
-                    case DataType::UnsignedInteger:
-                    case DataType::UnsignedIntegerVector2:
-                    case DataType::UnsignedIntegerVector3:
-                    case DataType::UnsignedIntegerVector4:
-                        return GL_UNSIGNED_INT;
+                        case DataType::UnsignedInteger:
+                        case DataType::UnsignedIntegerVector2:
+                        case DataType::UnsignedIntegerVector3:
+                        case DataType::UnsignedIntegerVector4:
+                            return GL_UNSIGNED_INT;
 
-                    case DataType::Float:
-                    case DataType::FloatVector2:
-                    case DataType::FloatVector3:
-                    case DataType::FloatVector4:
-                    case DataType::FloatMatrix3:
-                    case DataType::FloatMatrix4:
-                        return GL_FLOAT;
+                        case DataType::Float:
+                        case DataType::FloatVector2:
+                        case DataType::FloatVector3:
+                        case DataType::FloatVector4:
+                        case DataType::FloatMatrix3:
+                        case DataType::FloatMatrix4:
+                            return GL_FLOAT;
 
-                    default:
-                        throw std::runtime_error("Invalid data type");
+                        default:
+                            throw std::runtime_error("Invalid data type");
+                    }
                 }
-            }
 
-            static constexpr GLint getArraySize(DataType dataType)
-            {
-                switch (dataType)
+                constexpr GLint getArraySize(DataType dataType)
                 {
-                    case DataType::Byte:
-                    case DataType::ByteNorm:
-                    case DataType::UnsignedByte:
-                    case DataType::UnsignedByteNorm:
-                    case DataType::Short:
-                    case DataType::ShortNorm:
-                    case DataType::UnsignedShort:
-                    case DataType::UnsignedShortNorm:
-                    case DataType::Integer:
-                    case DataType::UnsignedInteger:
-                    case DataType::Float:
-                        return 1;
+                    switch (dataType)
+                    {
+                        case DataType::Byte:
+                        case DataType::ByteNorm:
+                        case DataType::UnsignedByte:
+                        case DataType::UnsignedByteNorm:
+                        case DataType::Short:
+                        case DataType::ShortNorm:
+                        case DataType::UnsignedShort:
+                        case DataType::UnsignedShortNorm:
+                        case DataType::Integer:
+                        case DataType::UnsignedInteger:
+                        case DataType::Float:
+                            return 1;
 
-                    case DataType::ByteVector2:
-                    case DataType::ByteVector2Norm:
-                    case DataType::UnsignedByteVector2:
-                    case DataType::UnsignedByteVector2Norm:
-                    case DataType::ShortVector2:
-                    case DataType::ShortVector2Norm:
-                    case DataType::UnsignedShortVector2:
-                    case DataType::UnsignedShortVector2Norm:
-                    case DataType::IntegerVector2:
-                    case DataType::UnsignedIntegerVector2:
-                    case DataType::FloatVector2:
-                        return 2;
+                        case DataType::ByteVector2:
+                        case DataType::ByteVector2Norm:
+                        case DataType::UnsignedByteVector2:
+                        case DataType::UnsignedByteVector2Norm:
+                        case DataType::ShortVector2:
+                        case DataType::ShortVector2Norm:
+                        case DataType::UnsignedShortVector2:
+                        case DataType::UnsignedShortVector2Norm:
+                        case DataType::IntegerVector2:
+                        case DataType::UnsignedIntegerVector2:
+                        case DataType::FloatVector2:
+                            return 2;
 
-                    case DataType::ByteVector3:
-                    case DataType::ByteVector3Norm:
-                    case DataType::UnsignedByteVector3:
-                    case DataType::UnsignedByteVector3Norm:
-                    case DataType::ShortVector3:
-                    case DataType::ShortVector3Norm:
-                    case DataType::UnsignedShortVector3:
-                    case DataType::UnsignedShortVector3Norm:
-                    case DataType::IntegerVector3:
-                    case DataType::UnsignedIntegerVector3:
-                    case DataType::FloatVector3:
-                        return 3;
+                        case DataType::ByteVector3:
+                        case DataType::ByteVector3Norm:
+                        case DataType::UnsignedByteVector3:
+                        case DataType::UnsignedByteVector3Norm:
+                        case DataType::ShortVector3:
+                        case DataType::ShortVector3Norm:
+                        case DataType::UnsignedShortVector3:
+                        case DataType::UnsignedShortVector3Norm:
+                        case DataType::IntegerVector3:
+                        case DataType::UnsignedIntegerVector3:
+                        case DataType::FloatVector3:
+                            return 3;
 
-                    case DataType::ByteVector4:
-                    case DataType::ByteVector4Norm:
-                    case DataType::UnsignedByteVector4:
-                    case DataType::UnsignedByteVector4Norm:
-                    case DataType::ShortVector4:
-                    case DataType::ShortVector4Norm:
-                    case DataType::UnsignedShortVector4:
-                    case DataType::UnsignedShortVector4Norm:
-                    case DataType::IntegerVector4:
-                    case DataType::UnsignedIntegerVector4:
-                    case DataType::FloatVector4:
-                        return 4;
+                        case DataType::ByteVector4:
+                        case DataType::ByteVector4Norm:
+                        case DataType::UnsignedByteVector4:
+                        case DataType::UnsignedByteVector4Norm:
+                        case DataType::ShortVector4:
+                        case DataType::ShortVector4Norm:
+                        case DataType::UnsignedShortVector4:
+                        case DataType::UnsignedShortVector4Norm:
+                        case DataType::IntegerVector4:
+                        case DataType::UnsignedIntegerVector4:
+                        case DataType::FloatVector4:
+                            return 4;
 
-                    case DataType::FloatMatrix3:
-                        return 3 * 3;
+                        case DataType::FloatMatrix3:
+                            return 3 * 3;
 
-                    case DataType::FloatMatrix4:
-                        return 4 * 4;
+                        case DataType::FloatMatrix4:
+                            return 4 * 4;
 
-                    default:
-                        throw std::runtime_error("Invalid data type");
+                        default:
+                            throw std::runtime_error("Invalid data type");
+                    }
                 }
-            }
 
-            static constexpr GLboolean isNormalized(DataType dataType)
-            {
-                switch (dataType)
+                constexpr GLboolean isNormalized(DataType dataType)
                 {
-                    case DataType::ByteNorm:
-                    case DataType::ByteVector2Norm:
-                    case DataType::ByteVector3Norm:
-                    case DataType::ByteVector4Norm:
-                    case DataType::UnsignedByteNorm:
-                    case DataType::UnsignedByteVector2Norm:
-                    case DataType::UnsignedByteVector3Norm:
-                    case DataType::UnsignedByteVector4Norm:
-                    case DataType::ShortNorm:
-                    case DataType::ShortVector2Norm:
-                    case DataType::ShortVector3Norm:
-                    case DataType::ShortVector4Norm:
-                    case DataType::UnsignedShortNorm:
-                    case DataType::UnsignedShortVector2Norm:
-                    case DataType::UnsignedShortVector3Norm:
-                    case DataType::UnsignedShortVector4Norm:
-                        return GL_TRUE;
-                    default:
-                        return GL_FALSE;
+                    switch (dataType)
+                    {
+                        case DataType::ByteNorm:
+                        case DataType::ByteVector2Norm:
+                        case DataType::ByteVector3Norm:
+                        case DataType::ByteVector4Norm:
+                        case DataType::UnsignedByteNorm:
+                        case DataType::UnsignedByteVector2Norm:
+                        case DataType::UnsignedByteVector3Norm:
+                        case DataType::UnsignedByteVector4Norm:
+                        case DataType::ShortNorm:
+                        case DataType::ShortVector2Norm:
+                        case DataType::ShortVector3Norm:
+                        case DataType::ShortVector4Norm:
+                        case DataType::UnsignedShortNorm:
+                        case DataType::UnsignedShortVector2Norm:
+                        case DataType::UnsignedShortVector3Norm:
+                        case DataType::UnsignedShortVector4Norm:
+                            return GL_TRUE;
+                        default:
+                            return GL_FALSE;
+                    }
                 }
-            }
 
-            static constexpr GLenum getDrawMode(DrawMode drawMode)
-            {
-                switch (drawMode)
+                constexpr GLenum getDrawMode(DrawMode drawMode)
                 {
-                    case DrawMode::PointList: return GL_POINTS;
-                    case DrawMode::LineList: return GL_LINES;
-                    case DrawMode::LineStrip: return GL_LINE_STRIP;
-                    case DrawMode::TriangleList: return GL_TRIANGLES;
-                    case DrawMode::TriangleStrip: return GL_TRIANGLE_STRIP;
-                    default: throw std::runtime_error("Invalid draw mode");
+                    switch (drawMode)
+                    {
+                        case DrawMode::PointList: return GL_POINTS;
+                        case DrawMode::LineList: return GL_LINES;
+                        case DrawMode::LineStrip: return GL_LINE_STRIP;
+                        case DrawMode::TriangleList: return GL_TRIANGLES;
+                        case DrawMode::TriangleStrip: return GL_TRIANGLE_STRIP;
+                        default: throw std::runtime_error("Invalid draw mode");
+                    }
                 }
-            }
 
-            static constexpr GLenum getCullFace(CullMode cullMode)
-            {
-                switch (cullMode)
+                constexpr GLenum getCullFace(CullMode cullMode)
                 {
-                    case CullMode::NoCull: return GL_NONE;
-                    case CullMode::Front: return GL_FRONT;
-                    case CullMode::Back: return GL_BACK;
-                    default: throw std::runtime_error("Invalid cull mode");
+                    switch (cullMode)
+                    {
+                        case CullMode::NoCull: return GL_NONE;
+                        case CullMode::Front: return GL_FRONT;
+                        case CullMode::Back: return GL_BACK;
+                        default: throw std::runtime_error("Invalid cull mode");
+                    }
                 }
-            }
 
 #if !OUZEL_OPENGLES
-            static constexpr GLenum getFillMode(FillMode fillMode)
-            {
-                switch (fillMode)
+                constexpr GLenum getFillMode(FillMode fillMode)
                 {
-                    case FillMode::Solid: return GL_FILL;
-                    case FillMode::Wireframe: return GL_LINE;
-                    default: throw std::runtime_error("Invalid fill mode");
+                    switch (fillMode)
+                    {
+                        case FillMode::Solid: return GL_FILL;
+                        case FillMode::Wireframe: return GL_LINE;
+                        default: throw std::runtime_error("Invalid fill mode");
+                    }
                 }
-            }
 #endif
+            }
 
             RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
                 graphics::RenderDevice(Driver::OpenGL, initCallback),

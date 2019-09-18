@@ -25,8 +25,11 @@
 #include "graphics/direct3d11/D3D11RenderDevice.hpp"
 #include "utils/Log.hpp"
 
-static constexpr LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
-static constexpr LONG_PTR MOUSEEVENTF_FROMTOUCH = 0x0FF515700;
+namespace
+{
+    constexpr LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
+    constexpr LONG_PTR MOUSEEVENTF_FROMTOUCH = 0x0FF515700;
+}
 
 static ouzel::input::Keyboard::Key convertKeyCode(LPARAM lParam, WPARAM wParam)
 {
@@ -368,7 +371,10 @@ static LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPA
     return DefWindowProcW(window, message, wParam, lParam);
 }
 
-static constexpr LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
+namespace
+{
+    constexpr LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
+}
 
 namespace ouzel
 {
@@ -396,7 +402,7 @@ namespace ouzel
                 using SetProcessDpiAwarenessProc = HRESULT(STDAPICALLTYPE *)(int value);
                 SetProcessDpiAwarenessProc setProcessDpiAwarenessProc = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcoreModule, "SetProcessDpiAwareness"));
 
-                static constexpr int PROCESS_PER_MONITOR_DPI_AWARE = 2;
+                constexpr int PROCESS_PER_MONITOR_DPI_AWARE = 2;
                 if (setProcessDpiAwarenessProc)
                     setProcessDpiAwarenessProc(PROCESS_PER_MONITOR_DPI_AWARE);
             }

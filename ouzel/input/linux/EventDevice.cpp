@@ -330,7 +330,7 @@ namespace ouzel
                     }
                 }
 
-                static constexpr std::array<uint32_t, 6> axisUsageMap = {
+                constexpr std::array<uint32_t, 6> axisUsageMap = {
                     ABS_X,
                     ABS_Y,
                     ABS_Z,

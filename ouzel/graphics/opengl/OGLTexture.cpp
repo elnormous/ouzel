@@ -14,20 +14,74 @@ namespace ouzel
     {
         namespace opengl
         {
-            static constexpr GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
+            namespace
             {
-#if OUZEL_OPENGLES
-                if (openGLVersion >= 3)
+                constexpr GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
                 {
+#if OUZEL_OPENGLES
+                    if (openGLVersion >= 3)
+                    {
+                        switch (pixelFormat)
+                        {
+                            case PixelFormat::A8UNorm: return GL_ALPHA8_OES;
+                            case PixelFormat::R8UNorm: return GL_R8;
+                            case PixelFormat::R8SNorm: return GL_R8_SNORM;
+                            case PixelFormat::R8UInt: return GL_R8UI;
+                            case PixelFormat::R8SInt: return GL_R8I;
+                            case PixelFormat::R16UNorm: return GL_NONE;
+                            case PixelFormat::R16SNorm: return GL_NONE;
+                            case PixelFormat::R16UInt: return GL_R16UI;
+                            case PixelFormat::R16SInt: return GL_R16I;
+                            case PixelFormat::R16Float: return GL_R16F;
+                            case PixelFormat::R32UInt: return GL_R32UI;
+                            case PixelFormat::R32SInt: return GL_R32I;
+                            case PixelFormat::R32Float: return GL_R32F;
+                            case PixelFormat::RG8UNorm: return GL_RG8;
+                            case PixelFormat::RG8SNorm: return GL_RG8_SNORM;
+                            case PixelFormat::RG8UInt: return GL_RG8UI;
+                            case PixelFormat::RG8SInt: return GL_RG8I;
+                            case PixelFormat::RGBA8UNorm: return GL_RGBA8;
+                            case PixelFormat::RGBA8UNormSRGB: return GL_SRGB8_ALPHA8;
+                            case PixelFormat::RGBA8SNorm: return GL_RGBA8_SNORM;
+                            case PixelFormat::RGBA8UInt: return GL_RGBA8UI;
+                            case PixelFormat::RGBA8SInt: return GL_RGBA8I;
+                            case PixelFormat::RGBA16UNorm: return GL_NONE;
+                            case PixelFormat::RGBA16SNorm: return GL_NONE;
+                            case PixelFormat::RGBA16UInt: return GL_RGBA16UI;
+                            case PixelFormat::RGBA16SInt: return GL_RGBA16I;
+                            case PixelFormat::RGBA16Float: return GL_RGBA16F;
+                            case PixelFormat::RGBA32UInt: return GL_RGBA32UI;
+                            case PixelFormat::RGBA32SInt: return GL_RGBA32I;
+                            case PixelFormat::RGBA32Float: return GL_RGBA32F;
+                            case PixelFormat::Depth: return GL_DEPTH_COMPONENT24;
+                            case PixelFormat::DepthStencil: return GL_DEPTH24_STENCIL8;
+                            default: return GL_NONE;
+                        }
+                    }
+                    else
+                    {
+                        switch (pixelFormat)
+                        {
+                            case PixelFormat::A8UNorm: return GL_ALPHA;
+                            case PixelFormat::RGBA8UNorm: return GL_RGBA;
+                            case PixelFormat::Depth: return GL_DEPTH_COMPONENT24;
+                            case PixelFormat::DepthStencil: return GL_DEPTH24_STENCIL8;
+                            default: return GL_NONE;
+                        }
+                    }
+#else
+                    static_cast<void>(openGLVersion);
+
                     switch (pixelFormat)
                     {
-                        case PixelFormat::A8UNorm: return GL_ALPHA8_OES;
+                        case PixelFormat::A8UNorm: return GL_ALPHA8_EXT;
+
                         case PixelFormat::R8UNorm: return GL_R8;
                         case PixelFormat::R8SNorm: return GL_R8_SNORM;
                         case PixelFormat::R8UInt: return GL_R8UI;
                         case PixelFormat::R8SInt: return GL_R8I;
-                        case PixelFormat::R16UNorm: return GL_NONE;
-                        case PixelFormat::R16SNorm: return GL_NONE;
+                        case PixelFormat::R16UNorm: return GL_R16;
+                        case PixelFormat::R16SNorm: return GL_R16_SNORM;
                         case PixelFormat::R16UInt: return GL_R16UI;
                         case PixelFormat::R16SInt: return GL_R16I;
                         case PixelFormat::R16Float: return GL_R16F;
@@ -43,8 +97,8 @@ namespace ouzel
                         case PixelFormat::RGBA8SNorm: return GL_RGBA8_SNORM;
                         case PixelFormat::RGBA8UInt: return GL_RGBA8UI;
                         case PixelFormat::RGBA8SInt: return GL_RGBA8I;
-                        case PixelFormat::RGBA16UNorm: return GL_NONE;
-                        case PixelFormat::RGBA16SNorm: return GL_NONE;
+                        case PixelFormat::RGBA16UNorm: return GL_RGBA16;
+                        case PixelFormat::RGBA16SNorm: return GL_RGBA16_SNORM;
                         case PixelFormat::RGBA16UInt: return GL_RGBA16UI;
                         case PixelFormat::RGBA16SInt: return GL_RGBA16I;
                         case PixelFormat::RGBA16Float: return GL_RGBA16F;
@@ -55,204 +109,153 @@ namespace ouzel
                         case PixelFormat::DepthStencil: return GL_DEPTH24_STENCIL8;
                         default: return GL_NONE;
                     }
+#endif
                 }
-                else
+
+                constexpr GLenum getOpenGlPixelFormat(PixelFormat pixelFormat)
                 {
                     switch (pixelFormat)
                     {
-                        case PixelFormat::A8UNorm: return GL_ALPHA;
-                        case PixelFormat::RGBA8UNorm: return GL_RGBA;
-                        case PixelFormat::Depth: return GL_DEPTH_COMPONENT24;
-                        case PixelFormat::DepthStencil: return GL_DEPTH24_STENCIL8;
-                        default: return GL_NONE;
+                        case PixelFormat::A8UNorm:
+                            return GL_ALPHA;
+                        case PixelFormat::R8UNorm:
+                        case PixelFormat::R8SNorm:
+                        case PixelFormat::R16UNorm:
+                        case PixelFormat::R16SNorm:
+                        case PixelFormat::R16Float:
+                        case PixelFormat::R32Float:
+                            return GL_RED;
+                        case PixelFormat::R8UInt:
+                        case PixelFormat::R8SInt:
+                        case PixelFormat::R16UInt:
+                        case PixelFormat::R16SInt:
+                        case PixelFormat::R32UInt:
+                        case PixelFormat::R32SInt:
+                            return GL_RED_INTEGER;
+                        case PixelFormat::RG8UNorm:
+                        case PixelFormat::RG8SNorm:
+                            return GL_RG;
+                        case PixelFormat::RG8UInt:
+                        case PixelFormat::RG8SInt:
+                            return GL_RG_INTEGER;
+                        case PixelFormat::RGBA8UNorm:
+                        case PixelFormat::RGBA8UNormSRGB:
+                        case PixelFormat::RGBA8SNorm:
+                        case PixelFormat::RGBA16UNorm:
+                        case PixelFormat::RGBA16SNorm:
+                        case PixelFormat::RGBA16Float:
+                        case PixelFormat::RGBA32Float:
+                            return GL_RGBA;
+                        case PixelFormat::RGBA8UInt:
+                        case PixelFormat::RGBA8SInt:
+                        case PixelFormat::RGBA16UInt:
+                        case PixelFormat::RGBA16SInt:
+                        case PixelFormat::RGBA32UInt:
+                        case PixelFormat::RGBA32SInt:
+                            return GL_RGBA_INTEGER;
+                        case PixelFormat::Depth:
+                            return GL_DEPTH_COMPONENT;
+                        case PixelFormat::DepthStencil:
+                            return GL_DEPTH_STENCIL;
+                        default:
+                            return 0;
                     }
                 }
-#else
-                static_cast<void>(openGLVersion);
 
-                switch (pixelFormat)
+                constexpr GLenum getOpenGlPixelType(PixelFormat pixelFormat)
                 {
-                    case PixelFormat::A8UNorm: return GL_ALPHA8_EXT;
-
-                    case PixelFormat::R8UNorm: return GL_R8;
-                    case PixelFormat::R8SNorm: return GL_R8_SNORM;
-                    case PixelFormat::R8UInt: return GL_R8UI;
-                    case PixelFormat::R8SInt: return GL_R8I;
-                    case PixelFormat::R16UNorm: return GL_R16;
-                    case PixelFormat::R16SNorm: return GL_R16_SNORM;
-                    case PixelFormat::R16UInt: return GL_R16UI;
-                    case PixelFormat::R16SInt: return GL_R16I;
-                    case PixelFormat::R16Float: return GL_R16F;
-                    case PixelFormat::R32UInt: return GL_R32UI;
-                    case PixelFormat::R32SInt: return GL_R32I;
-                    case PixelFormat::R32Float: return GL_R32F;
-                    case PixelFormat::RG8UNorm: return GL_RG8;
-                    case PixelFormat::RG8SNorm: return GL_RG8_SNORM;
-                    case PixelFormat::RG8UInt: return GL_RG8UI;
-                    case PixelFormat::RG8SInt: return GL_RG8I;
-                    case PixelFormat::RGBA8UNorm: return GL_RGBA8;
-                    case PixelFormat::RGBA8UNormSRGB: return GL_SRGB8_ALPHA8;
-                    case PixelFormat::RGBA8SNorm: return GL_RGBA8_SNORM;
-                    case PixelFormat::RGBA8UInt: return GL_RGBA8UI;
-                    case PixelFormat::RGBA8SInt: return GL_RGBA8I;
-                    case PixelFormat::RGBA16UNorm: return GL_RGBA16;
-                    case PixelFormat::RGBA16SNorm: return GL_RGBA16_SNORM;
-                    case PixelFormat::RGBA16UInt: return GL_RGBA16UI;
-                    case PixelFormat::RGBA16SInt: return GL_RGBA16I;
-                    case PixelFormat::RGBA16Float: return GL_RGBA16F;
-                    case PixelFormat::RGBA32UInt: return GL_RGBA32UI;
-                    case PixelFormat::RGBA32SInt: return GL_RGBA32I;
-                    case PixelFormat::RGBA32Float: return GL_RGBA32F;
-                    case PixelFormat::Depth: return GL_DEPTH_COMPONENT24;
-                    case PixelFormat::DepthStencil: return GL_DEPTH24_STENCIL8;
-                    default: return GL_NONE;
+                    switch (pixelFormat)
+                    {
+                        case PixelFormat::A8UNorm:
+                        case PixelFormat::R8UNorm:
+                        case PixelFormat::R16UNorm:
+                        case PixelFormat::RG8UNorm:
+                        case PixelFormat::RGBA8UNorm:
+                        case PixelFormat::RGBA8UNormSRGB:
+                        case PixelFormat::RGBA16UNorm:
+                            return GL_UNSIGNED_BYTE;
+                        case PixelFormat::R8SNorm:
+                        case PixelFormat::R16SNorm:
+                        case PixelFormat::RG8SNorm:
+                        case PixelFormat::RGBA8SNorm:
+                        case PixelFormat::RGBA16SNorm:
+                            return GL_BYTE;
+                        case PixelFormat::R8UInt:
+                        case PixelFormat::R16UInt:
+                        case PixelFormat::R32UInt:
+                        case PixelFormat::RG8UInt:
+                        case PixelFormat::RGBA8UInt:
+                        case PixelFormat::RGBA16UInt:
+                        case PixelFormat::RGBA32UInt:
+                            return GL_UNSIGNED_INT;
+                        case PixelFormat::R8SInt:
+                        case PixelFormat::R16SInt:
+                        case PixelFormat::R32SInt:
+                        case PixelFormat::RG8SInt:
+                        case PixelFormat::RGBA8SInt:
+                        case PixelFormat::RGBA16SInt:
+                        case PixelFormat::RGBA32SInt:
+                            return GL_INT;
+                        case PixelFormat::R16Float:
+                        case PixelFormat::R32Float:
+                        case PixelFormat::RGBA16Float:
+                        case PixelFormat::RGBA32Float:
+                        case PixelFormat::Depth:
+                            return GL_UNSIGNED_INT;
+                        case PixelFormat::DepthStencil:
+                            return GL_UNSIGNED_INT_24_8;
+                        default:
+                            return 0;
+                    }
                 }
-#endif
-            }
 
-            static constexpr GLenum getOpenGlPixelFormat(PixelFormat pixelFormat)
-            {
-                switch (pixelFormat)
+                constexpr GLint getWrapMode(SamplerAddressMode address)
                 {
-                    case PixelFormat::A8UNorm:
-                        return GL_ALPHA;
-                    case PixelFormat::R8UNorm:
-                    case PixelFormat::R8SNorm:
-                    case PixelFormat::R16UNorm:
-                    case PixelFormat::R16SNorm:
-                    case PixelFormat::R16Float:
-                    case PixelFormat::R32Float:
-                        return GL_RED;
-                    case PixelFormat::R8UInt:
-                    case PixelFormat::R8SInt:
-                    case PixelFormat::R16UInt:
-                    case PixelFormat::R16SInt:
-                    case PixelFormat::R32UInt:
-                    case PixelFormat::R32SInt:
-                        return GL_RED_INTEGER;
-                    case PixelFormat::RG8UNorm:
-                    case PixelFormat::RG8SNorm:
-                        return GL_RG;
-                    case PixelFormat::RG8UInt:
-                    case PixelFormat::RG8SInt:
-                        return GL_RG_INTEGER;
-                    case PixelFormat::RGBA8UNorm:
-                    case PixelFormat::RGBA8UNormSRGB:
-                    case PixelFormat::RGBA8SNorm:
-                    case PixelFormat::RGBA16UNorm:
-                    case PixelFormat::RGBA16SNorm:
-                    case PixelFormat::RGBA16Float:
-                    case PixelFormat::RGBA32Float:
-                        return GL_RGBA;
-                    case PixelFormat::RGBA8UInt:
-                    case PixelFormat::RGBA8SInt:
-                    case PixelFormat::RGBA16UInt:
-                    case PixelFormat::RGBA16SInt:
-                    case PixelFormat::RGBA32UInt:
-                    case PixelFormat::RGBA32SInt:
-                        return GL_RGBA_INTEGER;
-                    case PixelFormat::Depth:
-                        return GL_DEPTH_COMPONENT;
-                    case PixelFormat::DepthStencil:
-                        return GL_DEPTH_STENCIL;
-                    default:
-                        return 0;
-                }
-            }
-
-            static constexpr GLenum getOpenGlPixelType(PixelFormat pixelFormat)
-            {
-                switch (pixelFormat)
-                {
-                    case PixelFormat::A8UNorm:
-                    case PixelFormat::R8UNorm:
-                    case PixelFormat::R16UNorm:
-                    case PixelFormat::RG8UNorm:
-                    case PixelFormat::RGBA8UNorm:
-                    case PixelFormat::RGBA8UNormSRGB:
-                    case PixelFormat::RGBA16UNorm:
-                        return GL_UNSIGNED_BYTE;
-                    case PixelFormat::R8SNorm:
-                    case PixelFormat::R16SNorm:
-                    case PixelFormat::RG8SNorm:
-                    case PixelFormat::RGBA8SNorm:
-                    case PixelFormat::RGBA16SNorm:
-                        return GL_BYTE;
-                    case PixelFormat::R8UInt:
-                    case PixelFormat::R16UInt:
-                    case PixelFormat::R32UInt:
-                    case PixelFormat::RG8UInt:
-                    case PixelFormat::RGBA8UInt:
-                    case PixelFormat::RGBA16UInt:
-                    case PixelFormat::RGBA32UInt:
-                        return GL_UNSIGNED_INT;
-                    case PixelFormat::R8SInt:
-                    case PixelFormat::R16SInt:
-                    case PixelFormat::R32SInt:
-                    case PixelFormat::RG8SInt:
-                    case PixelFormat::RGBA8SInt:
-                    case PixelFormat::RGBA16SInt:
-                    case PixelFormat::RGBA32SInt:
-                        return GL_INT;
-                    case PixelFormat::R16Float:
-                    case PixelFormat::R32Float:
-                    case PixelFormat::RGBA16Float:
-                    case PixelFormat::RGBA32Float:
-                    case PixelFormat::Depth:
-                        return GL_UNSIGNED_INT;
-                    case PixelFormat::DepthStencil:
-                        return GL_UNSIGNED_INT_24_8;
-                    default:
-                        return 0;
-                }
-            }
-
-            static constexpr GLint getWrapMode(SamplerAddressMode address)
-            {
-                switch (address)
-                {
-                    case SamplerAddressMode::ClampToEdge:
-                        return GL_CLAMP_TO_EDGE;
-                    case SamplerAddressMode::ClampToBorder:
+                    switch (address)
+                    {
+                        case SamplerAddressMode::ClampToEdge:
+                            return GL_CLAMP_TO_EDGE;
+                        case SamplerAddressMode::ClampToBorder:
 #if OUZEL_OPENGLES
-                        return GL_CLAMP_TO_BORDER_EXT;
+                            return GL_CLAMP_TO_BORDER_EXT;
 #else
-                        return GL_CLAMP_TO_BORDER;
+                            return GL_CLAMP_TO_BORDER;
 #endif
-                    case SamplerAddressMode::Repeat:
-                        return GL_REPEAT;
-                    case SamplerAddressMode::MirrorRepeat:
-                        return GL_MIRRORED_REPEAT;
-                    default:
-                        throw std::runtime_error("Invalid texture address mode");
+                        case SamplerAddressMode::Repeat:
+                            return GL_REPEAT;
+                        case SamplerAddressMode::MirrorRepeat:
+                            return GL_MIRRORED_REPEAT;
+                        default:
+                            throw std::runtime_error("Invalid texture address mode");
+                    }
                 }
-            }
 
-            static constexpr GLenum getTextureTarget(TextureType type)
-            {
-                switch (type)
+                constexpr GLenum getTextureTarget(TextureType type)
                 {
+                    switch (type)
+                    {
 #if !OUZEL_OPENGLES
-                    case TextureType::OneDimensional: return GL_TEXTURE_1D;
+                        case TextureType::OneDimensional: return GL_TEXTURE_1D;
 #endif
-                    case TextureType::TwoDimensional: return GL_TEXTURE_2D;
-                    case TextureType::ThreeDimensional: return GL_TEXTURE_3D;
-                    case TextureType::Cube: return GL_TEXTURE_CUBE_MAP;
-                    default: throw std::runtime_error("Invalid texture type");
+                        case TextureType::TwoDimensional: return GL_TEXTURE_2D;
+                        case TextureType::ThreeDimensional: return GL_TEXTURE_3D;
+                        case TextureType::Cube: return GL_TEXTURE_CUBE_MAP;
+                        default: throw std::runtime_error("Invalid texture type");
+                    }
                 }
-            }
 
-            static constexpr GLenum getCubeFace(CubeFace face)
-            {
-                switch (face)
+                constexpr GLenum getCubeFace(CubeFace face)
                 {
-                    case CubeFace::PositiveX: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
-                    case CubeFace::NegativeX: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
-                    case CubeFace::PositiveY: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
-                    case CubeFace::NegativeY: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
-                    case CubeFace::PositiveZ: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
-                    case CubeFace::NegativeZ: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
-                    default: throw std::runtime_error("Invalid cube face");
+                    switch (face)
+                    {
+                        case CubeFace::PositiveX: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+                        case CubeFace::NegativeX: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+                        case CubeFace::PositiveY: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+                        case CubeFace::NegativeY: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+                        case CubeFace::PositiveZ: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+                        case CubeFace::NegativeZ: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+                        default: throw std::runtime_error("Invalid cube face");
+                    }
                 }
             }
 

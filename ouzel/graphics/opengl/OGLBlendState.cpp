@@ -13,41 +13,44 @@ namespace ouzel
     {
         namespace opengl
         {
-            static constexpr GLenum getBlendFactor(BlendFactor blendFactor)
+            namespace
             {
-                switch (blendFactor)
+                constexpr GLenum getBlendFactor(BlendFactor blendFactor)
                 {
-                    case BlendFactor::Zero: return GL_ZERO;
-                    case BlendFactor::One: return GL_ONE;
-                    case BlendFactor::SrcColor: return GL_SRC_COLOR;
-                    case BlendFactor::InvSrcColor: return GL_ONE_MINUS_SRC_COLOR;
-                    case BlendFactor::SrcAlpha: return GL_SRC_ALPHA;
-                    case BlendFactor::InvSrcAlpha: return GL_ONE_MINUS_SRC_ALPHA;
-                    case BlendFactor::DestAlpha: return GL_DST_ALPHA;
-                    case BlendFactor::InvDestAlpha: return GL_ONE_MINUS_DST_ALPHA;
-                    case BlendFactor::DestColor: return GL_DST_COLOR;
-                    case BlendFactor::InvDestColor: return GL_ONE_MINUS_DST_COLOR;
-                    case BlendFactor::SrcAlphaSat: return GL_SRC_ALPHA_SATURATE;
-                    case BlendFactor::BlendFactor: return GL_CONSTANT_COLOR;
-                    case BlendFactor::InvBlendFactor: return GL_ONE_MINUS_CONSTANT_COLOR;
-                    default:
-                        return GL_NONE;
+                    switch (blendFactor)
+                    {
+                        case BlendFactor::Zero: return GL_ZERO;
+                        case BlendFactor::One: return GL_ONE;
+                        case BlendFactor::SrcColor: return GL_SRC_COLOR;
+                        case BlendFactor::InvSrcColor: return GL_ONE_MINUS_SRC_COLOR;
+                        case BlendFactor::SrcAlpha: return GL_SRC_ALPHA;
+                        case BlendFactor::InvSrcAlpha: return GL_ONE_MINUS_SRC_ALPHA;
+                        case BlendFactor::DestAlpha: return GL_DST_ALPHA;
+                        case BlendFactor::InvDestAlpha: return GL_ONE_MINUS_DST_ALPHA;
+                        case BlendFactor::DestColor: return GL_DST_COLOR;
+                        case BlendFactor::InvDestColor: return GL_ONE_MINUS_DST_COLOR;
+                        case BlendFactor::SrcAlphaSat: return GL_SRC_ALPHA_SATURATE;
+                        case BlendFactor::BlendFactor: return GL_CONSTANT_COLOR;
+                        case BlendFactor::InvBlendFactor: return GL_ONE_MINUS_CONSTANT_COLOR;
+                        default:
+                            return GL_NONE;
+                    }
                 }
-            }
 
-            static constexpr GLenum getBlendOperation(BlendOperation blendOperation)
-            {
-                switch (blendOperation)
+                constexpr GLenum getBlendOperation(BlendOperation blendOperation)
                 {
-                    case BlendOperation::Add: return GL_FUNC_ADD;
-                    case BlendOperation::Subtract: return GL_FUNC_SUBTRACT;
-                    case BlendOperation::RevSubtract: return GL_FUNC_REVERSE_SUBTRACT;
+                    switch (blendOperation)
+                    {
+                        case BlendOperation::Add: return GL_FUNC_ADD;
+                        case BlendOperation::Subtract: return GL_FUNC_SUBTRACT;
+                        case BlendOperation::RevSubtract: return GL_FUNC_REVERSE_SUBTRACT;
 #if !OUZEL_OPENGLES
-                    case BlendOperation::Min: return GL_MIN;
-                    case BlendOperation::Max: return GL_MAX;
+                        case BlendOperation::Min: return GL_MIN;
+                        case BlendOperation::Max: return GL_MAX;
 #endif
-                    default:
-                        return GL_NONE;
+                        default:
+                            return GL_NONE;
+                    }
                 }
             }
 

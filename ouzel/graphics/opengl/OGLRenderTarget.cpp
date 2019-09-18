@@ -15,26 +15,29 @@ namespace ouzel
     {
         namespace opengl
         {
-            static std::string statusToString(GLenum status)
+            namespace
             {
-                switch (status)
+                std::string statusToString(GLenum status)
                 {
-                    case GL_FRAMEBUFFER_COMPLETE:
-                        return "GL_FRAMEBUFFER_COMPLETE";
-                    case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-                        return "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
+                    switch (status)
+                    {
+                        case GL_FRAMEBUFFER_COMPLETE:
+                            return "GL_FRAMEBUFFER_COMPLETE";
+                        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+                            return "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
 #ifdef OUZEL_OPENGLES
-                    case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+                        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
 #else
-                    case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
+                        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
 #endif
-                        return "GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS";
-                    case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-                        return "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
-                    case GL_FRAMEBUFFER_UNSUPPORTED:
-                        return "GL_FRAMEBUFFER_UNSUPPORTED";
-                    default:
-                        return std::to_string(status);
+                            return "GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS";
+                        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+                            return "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
+                        case GL_FRAMEBUFFER_UNSUPPORTED:
+                            return "GL_FRAMEBUFFER_UNSUPPORTED";
+                        default:
+                            return std::to_string(status);
+                    }
                 }
             }
 

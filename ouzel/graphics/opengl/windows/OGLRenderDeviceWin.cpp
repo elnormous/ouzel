@@ -14,19 +14,22 @@
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Log.hpp"
 
-static constexpr LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
-
-static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    return DefWindowProc(window, msg, wParam, lParam);
-}
-
 namespace ouzel
 {
     namespace graphics
     {
         namespace opengl
         {
+            namespace
+            {
+                constexpr LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
+
+                LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
+                {
+                    return DefWindowProc(window, msg, wParam, lParam);
+                }
+            }
+
             class TempContext final
             {
             public:

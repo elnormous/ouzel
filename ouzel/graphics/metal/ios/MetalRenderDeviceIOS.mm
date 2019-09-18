@@ -15,28 +15,31 @@
 #include "core/ios/NativeWindowIOS.hpp"
 #include "utils/Log.hpp"
 
-static void renderCallback(void* userInfo)
-{
-    try
-    {
-        ouzel::graphics::metal::RenderDeviceIOS* renderDevice = static_cast<ouzel::graphics::metal::RenderDeviceIOS*>(userInfo);
-        renderDevice->renderCallback();
-    }
-    catch (const std::exception& e)
-    {
-        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
-    }
-}
-
 namespace ouzel
 {
     namespace graphics
     {
         namespace metal
         {
+            namespace
+            {
+                void renderCallback(void* userInfo)
+                {
+                    try
+                    {
+                        RenderDeviceIOS* renderDevice = static_cast<RenderDeviceIOS*>(userInfo);
+                        renderDevice->renderCallback();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        engine->log(Log::Level::Error) << e.what();
+                    }
+                }
+            }
+
             RenderDeviceIOS::RenderDeviceIOS(const std::function<void(const Event&)>& initCallback):
                 RenderDevice(initCallback),
-                displayLink(::renderCallback, this)
+                displayLink(metal::renderCallback, this)
             {
             }
 

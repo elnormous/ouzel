@@ -12,9 +12,12 @@
 #include "graphics/RenderDevice.hpp"
 
 #if OUZEL_SUPPORTS_X11
-static constexpr long _NET_WM_STATE_REMOVE = 0L;
-static constexpr long _NET_WM_STATE_ADD = 1L;
-static constexpr long _NET_WM_STATE_TOGGLE = 2L;
+namespace
+{
+    constexpr long _NET_WM_STATE_REMOVE = 0L;
+    constexpr long _NET_WM_STATE_ADD = 1L;
+    constexpr long _NET_WM_STATE_TOGGLE = 2L;
+}
 #endif
 
 namespace ouzel

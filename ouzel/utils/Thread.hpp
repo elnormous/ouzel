@@ -103,7 +103,7 @@ namespace ouzel
         static inline void setCurrentThreadName(const std::string& name)
         {
 #if defined(_MSC_VER)
-            static constexpr DWORD MS_VC_EXCEPTION = 0x406D1388;
+            constexpr DWORD MS_VC_EXCEPTION = 0x406D1388;
 #  pragma pack(push,8)
             typedef struct tagTHREADNAME_INFO
             {

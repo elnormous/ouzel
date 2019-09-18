@@ -90,7 +90,7 @@ namespace ouzel
         template <typename T, typename std::enable_if<std::is_same<T, uint8_t>::value>::type* = nullptr>
         Log& operator<<(const T val)
         {
-            static constexpr char digits[] = "0123456789abcdef";
+            constexpr char digits[] = "0123456789abcdef";
 
             for (uint32_t p = 0; p < 2; ++p)
                 s.push_back(digits[(val >> (4 - p * 4)) & 0x0F]);
@@ -124,7 +124,7 @@ namespace ouzel
         template <typename T, typename std::enable_if<!std::is_same<T, char>::value>::type* = nullptr>
         Log& operator<<(const T* val)
         {
-            static constexpr char digits[] = "0123456789abcdef";
+            constexpr char digits[] = "0123456789abcdef";
 
             for (size_t i = 0; i < sizeof(val) * 2; ++i)
                 s.push_back(digits[(reinterpret_cast<uintptr_t>(val) >> (sizeof(val) * 2 - i - 1) * 4) & 0x0F]);

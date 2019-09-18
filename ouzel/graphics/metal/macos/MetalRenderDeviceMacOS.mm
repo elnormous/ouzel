@@ -15,37 +15,40 @@
 #include "core/macos/NativeWindowMacOS.hpp"
 #include "utils/Log.hpp"
 
-static CVReturn renderCallback(CVDisplayLinkRef,
-                               const CVTimeStamp*,
-                               const CVTimeStamp*,
-                               CVOptionFlags,
-                               CVOptionFlags*,
-                               void* userInfo)
-{
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-
-    try
-    {
-        ouzel::graphics::metal::RenderDeviceMacOS* renderDevice = static_cast<ouzel::graphics::metal::RenderDeviceMacOS*>(userInfo);
-        renderDevice->renderCallback();
-    }
-    catch (const std::exception& e)
-    {
-        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
-        return kCVReturnError;
-    }
-
-    [pool release];
-
-    return kCVReturnSuccess;
-}
-
 namespace ouzel
 {
     namespace graphics
     {
         namespace metal
         {
+            namespace
+            {
+                CVReturn renderCallback(CVDisplayLinkRef,
+                                        const CVTimeStamp*,
+                                        const CVTimeStamp*,
+                                        CVOptionFlags,
+                                        CVOptionFlags*,
+                                        void* userInfo)
+                {
+                    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+
+                    try
+                    {
+                        RenderDeviceMacOS* renderDevice = static_cast<RenderDeviceMacOS*>(userInfo);
+                        renderDevice->renderCallback();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        engine->log(Log::Level::Error) << e.what();
+                        return kCVReturnError;
+                    }
+
+                    [pool release];
+
+                    return kCVReturnSuccess;
+                }
+            }
+
             RenderDeviceMacOS::RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback):
                 RenderDevice(initCallback)
             {
@@ -105,7 +108,7 @@ namespace ouzel
                 if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
                     throw std::runtime_error("Failed to create display link");
 
-                if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
+                if (CVDisplayLinkSetOutputCallback(displayLink, metal::renderCallback, this) != kCVReturnSuccess)
                     throw std::runtime_error("Failed to set output callback for the display link");
 
                 running = true;
@@ -157,7 +160,7 @@ namespace ouzel
                         if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
                             throw std::runtime_error("Failed to create display link");
 
-                        if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
+                        if (CVDisplayLinkSetOutputCallback(displayLink, metal::renderCallback, this) != kCVReturnSuccess)
                             throw std::runtime_error("Failed to set output callback for the display link");
 
                         running = true;

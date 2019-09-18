@@ -36,7 +36,7 @@ namespace ouzel
                 {
                     data.insert(data.end(), {'\\', 'u'});
 
-                    static constexpr char digits[] = "0123456789abcdef";
+                    constexpr char digits[] = "0123456789abcdef";
                     for (uint32_t p = 0; p < 4; ++p)
                         data.push_back(static_cast<uint8_t>(digits[(c >> (12 - p * 4)) & 0x0F]));
                 }

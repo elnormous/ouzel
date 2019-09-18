@@ -7,8 +7,11 @@ namespace ouzel
 {
     namespace input
     {
-        static constexpr int32_t MAX_THUMB_VALUE = 32767;
-        static constexpr int32_t MIN_THUMB_VALUE = -32768;
+        namespace
+        {
+            constexpr int32_t MAX_THUMB_VALUE = 32767;
+            constexpr int32_t MIN_THUMB_VALUE = -32768;
+        }
 
         GamepadDeviceXI::GamepadDeviceXI(InputSystem& initInputSystem,
                                          uint32_t initId,

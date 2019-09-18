@@ -16,8 +16,8 @@ namespace ouzel
 
     Language::Language(const std::vector<uint8_t>& data)
     {
-        static constexpr uint32_t MAGIC_BIG = 0xDE120495;
-        static constexpr uint32_t MAGIC_LITTLE = 0x950412DE;
+        constexpr uint32_t MAGIC_BIG = 0xDE120495;
+        constexpr uint32_t MAGIC_LITTLE = 0x950412DE;
 
         uint32_t offset = 0;
 

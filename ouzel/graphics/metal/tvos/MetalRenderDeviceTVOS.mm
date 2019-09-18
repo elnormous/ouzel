@@ -11,28 +11,31 @@
 #include "core/tvos/NativeWindowTVOS.hpp"
 #include "utils/Log.hpp"
 
-static void renderCallback(void* userInfo)
-{
-    try
-    {
-        ouzel::graphics::metal::RenderDeviceTVOS* renderDevice = static_cast<ouzel::graphics::metal::RenderDeviceTVOS*>(userInfo);
-        renderDevice->renderCallback();
-    }
-    catch (const std::exception& e)
-    {
-        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
-    }
-}
-
 namespace ouzel
 {
     namespace graphics
     {
         namespace metal
         {
+            namespace
+            {
+                void renderCallback(void* userInfo)
+                {
+                    try
+                    {
+                        RenderDeviceTVOS* renderDevice = static_cast<RenderDeviceTVOS*>(userInfo);
+                        renderDevice->renderCallback();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        engine->log(Log::Level::Error) << e.what();
+                    }
+                }
+            }
+
             RenderDeviceTVOS::RenderDeviceTVOS(const std::function<void(const Event&)>& initCallback):
                 RenderDevice(initCallback),
-                displayLink(::renderCallback, this)
+                displayLink(metal::renderCallback, this)
             {
             }
 

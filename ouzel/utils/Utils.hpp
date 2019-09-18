@@ -64,7 +64,7 @@ namespace ouzel
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     auto hexToString(const T n, const size_t len = 0)
     {
-        static constexpr char digits[] = "0123456789abcdef";
+        constexpr char digits[] = "0123456789abcdef";
 
         const size_t count = (len == 0) ? n / 16 + 1 : len;
 
