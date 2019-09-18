@@ -7,20 +7,23 @@
 #include "input/GamepadConfig.hpp"
 #include "utils/Log.hpp"
 
-static constexpr float THUMB_DEADZONE = 0.2F;
-static constexpr size_t INPUT_QUEUE_SIZE = 32;
-
-// converts the angle to the hat value
-static constexpr uint32_t getHatValue(uint32_t value) noexcept
-{
-    return (value == 0xFFFFFFFF) ?
-        8 : ((value + 4500 / 2) % 36000) / 4500; // round up
-}
-
 namespace ouzel
 {
     namespace input
     {
+        namespace
+        {
+            constexpr float THUMB_DEADZONE = 0.2F;
+            constexpr size_t INPUT_QUEUE_SIZE = 32;
+
+            // converts the angle to the hat value
+            constexpr uint32_t getHatValue(uint32_t value) noexcept
+            {
+                return (value == 0xFFFFFFFF) ?
+                    8 : ((value + 4500 / 2) % 36000) / 4500; // round up
+            }
+        }
+
         GamepadDeviceDI::GamepadDeviceDI(InputSystem& initInputSystem,
                                          uint32_t initId,
                                          const DIDEVICEINSTANCEW* initInstance, IDirectInput8W* directInput, HWND window):

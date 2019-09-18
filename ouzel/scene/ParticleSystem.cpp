@@ -14,12 +14,15 @@
 #include "utils/Utils.hpp"
 #include "math/MathUtils.hpp"
 
-static constexpr float UPDATE_STEP = 1.0F / 60.0F;
-
 namespace ouzel
 {
     namespace scene
     {
+        namespace
+        {
+            constexpr float UPDATE_STEP = 1.0F / 60.0F;
+        }
+
         ParticleSystem::ParticleSystem():
             shader(engine->getCache().getShader(SHADER_TEXTURE)),
             blendState(engine->getCache().getBlendState(BLEND_ALPHA))

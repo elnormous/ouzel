@@ -5,18 +5,21 @@
 #include "InputSystemMacOS.hpp"
 #include "input/GamepadConfig.hpp"
 
-static constexpr float THUMB_DEADZONE = 0.2F;
-
-static void deviceInput(void* ctx, IOReturn, void*, IOHIDValueRef value)
-{
-    ouzel::input::GamepadDeviceIOKit* gamepadDevice = static_cast<ouzel::input::GamepadDeviceIOKit*>(ctx);
-    gamepadDevice->handleInput(value);
-}
-
 namespace ouzel
 {
     namespace input
     {
+        namespace
+        {
+            constexpr float THUMB_DEADZONE = 0.2F;
+
+            void deviceInput(void* ctx, IOReturn, void*, IOHIDValueRef value)
+            {
+                GamepadDeviceIOKit* gamepadDevice = static_cast<GamepadDeviceIOKit*>(ctx);
+                gamepadDevice->handleInput(value);
+            }
+        }
+
         GamepadDeviceIOKit::GamepadDeviceIOKit(InputSystem& initInputSystem,
                                                uint32_t initId,
                                                IOHIDDeviceRef initDevice):

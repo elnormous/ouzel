@@ -22,19 +22,22 @@
 #include "core/windows/NativeWindowWin.hpp"
 #include "utils/Log.hpp"
 
-static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
-{
-    ouzel::input::InputSystemWin* inputWin = static_cast<ouzel::input::InputSystemWin*>(context);
-    inputWin->handleDeviceConnect(didInstance);
-
-    return DIENUM_CONTINUE;
-}
-
 namespace ouzel
 {
     namespace input
     {
         const DirectInputErrorCategory directInputErrorCategory {};
+
+        namespace
+        {
+            BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
+            {
+                InputSystemWin* inputWin = static_cast<InputSystemWin*>(context);
+                inputWin->handleDeviceConnect(didInstance);
+
+                return DIENUM_CONTINUE;
+            }
+        }
 
         InputSystemWin::InputSystemWin(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),

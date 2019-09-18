@@ -41,22 +41,25 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
 }
 @end
 
-static void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
-{
-    ouzel::input::InputSystemMacOS* inputMacOS = reinterpret_cast<ouzel::input::InputSystemMacOS*>(ctx);
-    inputMacOS->handleGamepadConnected(device);
-}
-
-static void deviceRemoved(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
-{
-    ouzel::input::InputSystemMacOS* inputMacOS = reinterpret_cast<ouzel::input::InputSystemMacOS*>(ctx);
-    inputMacOS->handleGamepadDisconnected(device);
-}
-
 namespace ouzel
 {
     namespace input
     {
+        namespace
+        {
+            void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
+            {
+                InputSystemMacOS* inputMacOS = reinterpret_cast<InputSystemMacOS*>(ctx);
+                inputMacOS->handleGamepadConnected(device);
+            }
+
+            void deviceRemoved(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
+            {
+                InputSystemMacOS* inputMacOS = reinterpret_cast<InputSystemMacOS*>(ctx);
+                inputMacOS->handleGamepadDisconnected(device);
+            }
+        }
+
         const IOKitErrorCategory ioKitErrorCategory {};
 
         InputSystemMacOS::InputSystemMacOS(const std::function<std::future<bool>(const Event&)>& initCallback):
