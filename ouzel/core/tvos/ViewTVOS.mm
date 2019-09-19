@@ -26,18 +26,21 @@
     return YES;
 }
 
-static ouzel::input::Keyboard::Key convertKeyCode(NSInteger keyCode)
+namespace
 {
-    switch (keyCode)
+    ouzel::input::Keyboard::Key convertKeyCode(NSInteger keyCode)
     {
-        case UIPressTypeUpArrow: return ouzel::input::Keyboard::Key::Up;
-        case UIPressTypeDownArrow: return ouzel::input::Keyboard::Key::Down;
-        case UIPressTypeLeftArrow: return ouzel::input::Keyboard::Key::Left;
-        case UIPressTypeRightArrow: return ouzel::input::Keyboard::Key::Right;
-        case UIPressTypeSelect: return ouzel::input::Keyboard::Key::Select;
-        case UIPressTypeMenu: return ouzel::input::Keyboard::Key::Menu;
-        case UIPressTypePlayPause: return ouzel::input::Keyboard::Key::Pause;
-        default: return ouzel::input::Keyboard::Key::Unknown;
+        switch (keyCode)
+        {
+            case UIPressTypeUpArrow: return ouzel::input::Keyboard::Key::Up;
+            case UIPressTypeDownArrow: return ouzel::input::Keyboard::Key::Down;
+            case UIPressTypeLeftArrow: return ouzel::input::Keyboard::Key::Left;
+            case UIPressTypeRightArrow: return ouzel::input::Keyboard::Key::Right;
+            case UIPressTypeSelect: return ouzel::input::Keyboard::Key::Select;
+            case UIPressTypeMenu: return ouzel::input::Keyboard::Key::Menu;
+            case UIPressTypePlayPause: return ouzel::input::Keyboard::Key::Pause;
+            default: return ouzel::input::Keyboard::Key::Unknown;
+        }
     }
 }
 
