@@ -1,5 +1,6 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
+#include <array>
 #include "GamepadDeviceDI.hpp"
 #include "InputSystemWin.hpp"
 #include "core/Engine.hpp"
@@ -64,7 +65,7 @@ namespace ouzel
                 }
             }
 
-            static const std::array<std::pair<USAGE, DWORD>, 6> axisUsageMap = {
+            constexpr std::array<std::pair<USAGE, DWORD>, 6> axisUsageMap = {
                 std::make_pair(HID_USAGE_GENERIC_X, DIJOFS_X),
                 std::make_pair(HID_USAGE_GENERIC_Y, DIJOFS_Y),
                 std::make_pair(HID_USAGE_GENERIC_Z, DIJOFS_Z),
