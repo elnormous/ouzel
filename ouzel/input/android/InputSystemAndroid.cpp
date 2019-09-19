@@ -1,5 +1,6 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
+#include <array>
 #include <stdexcept>
 #include <android/input.h>
 #include "InputSystemAndroid.hpp"
@@ -266,13 +267,13 @@ namespace ouzel
         {
             bool result = false;
 
-            static const std::vector<std::pair<jint, Mouse::Button>> buttons = {
+            constexpr std::array<std::pair<jint, Mouse::Button>, 5> buttons = {{
                 {AMOTION_EVENT_BUTTON_PRIMARY, Mouse::Button::Left},
                 {AMOTION_EVENT_BUTTON_SECONDARY, Mouse::Button::Right},
                 {AMOTION_EVENT_BUTTON_TERTIARY, Mouse::Button::Middle},
                 {AMOTION_EVENT_BUTTON_BACK, Mouse::Button::X1},
                 {AMOTION_EVENT_BUTTON_FORWARD, Mouse::Button::X2}
-            };
+            }};
 
             for (const auto& button : buttons)
             {
