@@ -65,7 +65,7 @@ namespace ouzel
                 }
             }
 
-            constexpr std::array<std::pair<USAGE, DWORD>, 6> axisUsageMap = {{
+            const std::array<std::pair<USAGE, DWORD>, 6> axisUsageMap = {{
                 {HID_USAGE_GENERIC_X, DIJOFS_X},
                 {HID_USAGE_GENERIC_Y, DIJOFS_Y},
                 {HID_USAGE_GENERIC_Z, DIJOFS_Z},
