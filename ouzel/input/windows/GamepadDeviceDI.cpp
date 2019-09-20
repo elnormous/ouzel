@@ -66,12 +66,12 @@ namespace ouzel
             }
 
             constexpr std::array<std::pair<USAGE, DWORD>, 6> axisUsageMap = {{
-                std::make_pair(HID_USAGE_GENERIC_X, DIJOFS_X),
-                std::make_pair(HID_USAGE_GENERIC_Y, DIJOFS_Y),
-                std::make_pair(HID_USAGE_GENERIC_Z, DIJOFS_Z),
-                std::make_pair(HID_USAGE_GENERIC_RX, DIJOFS_RX),
-                std::make_pair(HID_USAGE_GENERIC_RY, DIJOFS_RY),
-                std::make_pair(HID_USAGE_GENERIC_RZ, DIJOFS_RZ)
+                {HID_USAGE_GENERIC_X, DIJOFS_X},
+                {HID_USAGE_GENERIC_Y, DIJOFS_Y},
+                {HID_USAGE_GENERIC_Z, DIJOFS_Z},
+                {HID_USAGE_GENERIC_RX, DIJOFS_RX},
+                {HID_USAGE_GENERIC_RY, DIJOFS_RY},
+                {HID_USAGE_GENERIC_RZ, DIJOFS_RZ}
             }};
 
             for (size_t i = 0; i < 6; ++i)
