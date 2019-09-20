@@ -10,10 +10,10 @@
 #include <cstring>
 #include <array>
 #include <atomic>
-#include <map>
 #include <memory>
 #include <queue>
 #include <system_error>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -632,7 +632,7 @@ namespace ouzel
                         GLuint textureId[16]{0};
                     };
 
-                    std::map<GLenum, Textures> textures{
+                    std::unordered_map<GLenum, Textures> textures{
 #if !OUZEL_OPENGLES
                         {GL_TEXTURE_1D, Textures{}},
 #endif
@@ -643,7 +643,7 @@ namespace ouzel
                     GLuint programId = 0;
                     GLuint frameBufferId = 0;
 
-                    std::map<GLenum, GLuint> bufferId{
+                    std::unordered_map<GLenum, GLuint> bufferId{
                         {GL_ELEMENT_ARRAY_BUFFER, 0},
                         {GL_ARRAY_BUFFER, 0}
                     };
