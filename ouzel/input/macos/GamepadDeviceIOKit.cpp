@@ -74,7 +74,8 @@ namespace ouzel
 
             for (CFIndex i = 0; i < count; ++i)
             {
-                const auto element = static_cast<IOHIDElementRef>(const_cast<void*>(CFArrayGetValueAtIndex(elementArray, i)));
+                //Cast the CFArrayGetValueAtIndex to return the needed type to avoid const_cast
+                const auto element = reinterpret_cast<IOHIDElementRef (*)(CFArrayRef, CFIndex)>(&CFArrayGetValueAtIndex)(elementArray, i);
                 const IOHIDElementType type = IOHIDElementGetType(element);
                 const uint32_t usagePage = IOHIDElementGetUsagePage(element);
                 const uint32_t usage = IOHIDElementGetUsage(element);
