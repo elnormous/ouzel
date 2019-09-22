@@ -227,8 +227,8 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < frames; ++frame)
                             {
-                                float* floatData = reinterpret_cast<float*>(soundData.data());
-                                outputChannel[frame] = floatData[frame * channels + channel];
+                                uint8_t* sourceData = &soundData[(frame * channels + channel) * 4];
+                                memcpy(&outputChannel[frame], sourceData, sizeof(float));
                             }
                         }
                     }
