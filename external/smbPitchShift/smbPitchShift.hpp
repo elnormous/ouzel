@@ -199,7 +199,7 @@ namespace smb
                     fft<-1, fftFrameSize>(fftWorksp);
 
                     // this is the analysis step
-                    for (uint32_t k = 0; k <= fftFrameSizeHalf; k++)
+                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; k++)
                     {
                         const Complex<float>& current = fftWorksp[k];
 
@@ -238,7 +238,7 @@ namespace smb
                     // this does the actual pitch shifting
                     std::fill(std::begin(synMagn), std::begin(synMagn) + fftFrameSize, 0.0F);
                     std::fill(std::begin(synFreq), std::begin(synFreq) + fftFrameSize, 0.0F);
-                    for (uint32_t k = 0; k <= fftFrameSizeHalf; k++)
+                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; k++)
                     {
                         const uint32_t index = static_cast<uint32_t>(k * pitchShift);
                         if (index > fftFrameSizeHalf) break;
@@ -248,7 +248,7 @@ namespace smb
 
                     // ***************** SYNTHESIS *******************
                     // this is the synthesis step
-                    for (uint32_t k = 0; k <= fftFrameSizeHalf; k++)
+                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; k++)
                     {
                         // get magnitude and true frequency from synthesis arrays
                         const float magn = synMagn[k];
