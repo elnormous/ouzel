@@ -107,13 +107,13 @@ namespace smb
         void fft(Complex<float>* fftBuffer) noexcept
         {
             // Bit-reversal permutation applied to a sequence of fftFrameSize items
-            for (uint32_t i = 1; i < fftFrameSize - 1; i++)
+            for (uint32_t i = 1; i < fftFrameSize - 1; ++i)
             {
                 uint32_t j = 0;
 
                 for (uint32_t bitm = 1; bitm < fftFrameSize; bitm <<= 1)
                 {
-                    if (i & bitm) j++;
+                    if (i & bitm) ++j;
                     j <<= 1;
                 }
                 j >>= 1;
@@ -131,7 +131,7 @@ namespace smb
 
                 const Complex<float> w{std::cos(arg), std::sin(arg) * sign};
                 Complex<float> u{1.0F, 0.0F};
-                for (uint32_t j = 0; j < step2; j++)
+                for (uint32_t j = 0; j < step2; ++j)
                 {
                     for (uint32_t k = j; k < fftFrameSize; k += step)
                     {
@@ -153,7 +153,7 @@ namespace smb
         PitchShift()
         {
             // Hann window
-            for (uint32_t k = 0; k < fftFrameSize; k++)
+            for (uint32_t k = 0; k < fftFrameSize; ++k)
                 window[k] = 0.5F * (1.0F + std::cos(2.0F * pi * static_cast<float>(k) / static_cast<float>(fftFrameSize)));
         }
 
@@ -175,12 +175,12 @@ namespace smb
             if (rover == 0) rover = inFifoLatency;
 
             // main processing loop
-            for (uint32_t i = 0; i < numSampsToProcess; i++)
+            for (uint32_t i = 0; i < numSampsToProcess; ++i)
             {
                 // As long as we have not yet collected enough data just read in
                 inFifo[rover] = indata[i];
                 outdata[i] = outFifo[rover - inFifoLatency];
-                rover++;
+                ++rover;
 
                 // now we have enough data for processing
                 if (rover >= fftFrameSize)
@@ -188,18 +188,15 @@ namespace smb
                     rover = inFifoLatency;
 
                     // do windowing
-                    for (uint32_t k = 0; k < fftFrameSize; k++)
-                    {
-                        fftWorksp[k].real = inFifo[k] * window[k];
-                        fftWorksp[k].imag = 0.0F;
-                    }
+                    for (uint32_t k = 0; k < fftFrameSize; ++k)
+                        fftWorksp[k] = { inFifo[k] * window[k], 0.0F };
 
                     // ***************** ANALYSIS *******************
                     // do transform
                     fft<-1, fftFrameSize>(fftWorksp);
 
                     // this is the analysis step
-                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; k++)
+                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
                     {
                         const Complex<float>& current = fftWorksp[k];
 
@@ -238,7 +235,7 @@ namespace smb
                     // this does the actual pitch shifting
                     std::fill(std::begin(synMagn), std::begin(synMagn) + fftFrameSize, 0.0F);
                     std::fill(std::begin(synFreq), std::begin(synFreq) + fftFrameSize, 0.0F);
-                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; k++)
+                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
                     {
                         const uint32_t index = static_cast<uint32_t>(k * pitchShift);
                         if (index > fftFrameSizeHalf) break;
@@ -248,7 +245,7 @@ namespace smb
 
                     // ***************** SYNTHESIS *******************
                     // this is the synthesis step
-                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; k++)
+                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
                     {
                         // get magnitude and true frequency from synthesis arrays
                         const float magn = synMagn[k];
@@ -271,33 +268,32 @@ namespace smb
                         const float phase = sumPhase[k];
 
                         // get real and imag part and re-interleave
-                        fftWorksp[k].real = magn * std::cos(phase);
-                        fftWorksp[k].imag = magn * std::sin(phase);
+                        fftWorksp[k] = { magn * std::cos(phase), magn * std::sin(phase) };
                     }
 
                     // zero negative frequencies
-                    for (uint32_t k = fftFrameSize + 1; k < fftFrameSize; k++)
+                    for (uint32_t k = fftFrameSize + 1; k < fftFrameSize; ++k)
                         fftWorksp[k] = {0.0F, 0.0F};
 
                     // do inverse transform
                     fft<1, fftFrameSize>(fftWorksp);
 
                     // do windowing and add to output accumulator
-                    for (uint32_t k = 0; k < fftFrameSize; k++)
+                    for (uint32_t k = 0; k < fftFrameSize; ++k)
                         outputAccum[k] += 2.0F * window[k] * fftWorksp[k].real / (fftFrameSizeHalf * oversamp);
 
                     uint32_t k;
-                    for (k = 0 ; k < stepSize; k++)
+                    for (k = 0 ; k < stepSize; ++k)
                         outFifo[k] = outputAccum[k];
                     // shift accumulator
                     uint32_t j;
-                    for (j = 0; k < fftFrameSize; k++, j++)
+                    for (j = 0; k < fftFrameSize; ++k, ++j)
                         outputAccum[j] = outputAccum[k];
-                    for (; j < fftFrameSize; j++)
+                    for (; j < fftFrameSize; ++j)
                         outputAccum[j] = 0.0;
 
                     // move input FIFO
-                    for (k = 0; k < inFifoLatency; k++)
+                    for (k = 0; k < inFifoLatency; ++k)
                         inFifo[k] = inFifo[k + stepSize];
                 }
             }
