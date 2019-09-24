@@ -44,101 +44,104 @@
 
 namespace smb
 {
-    static constexpr float PI = 3.14159265358979323846F;
-
-    // Use own implementation because std::complex has a poor performance
-    template <class T>
-    struct Complex final
+    namespace
     {
-        constexpr Complex<T> operator+(const Complex& other) const noexcept
+        constexpr float pi = 3.14159265358979323846F;
+
+        // Use own implementation because std::complex has a poor performance
+        template <class T>
+        struct Complex final
         {
-            return Complex{real + other.real, imag + other.imag};
-        }
-
-        constexpr Complex<T>& operator+=(const Complex& other)
-        {
-            real += other.real;
-            imag += other.imag;
-            return *this;
-        }
-
-        constexpr Complex<T> operator-(const Complex& other) const noexcept
-        {
-            return Complex{real - other.real, imag - other.imag};
-        }
-
-        constexpr Complex<T> operator-() const noexcept
-        {
-            return Complex{-real, -imag};
-        }
-
-        constexpr Complex<T>& operator-=(const Complex& other) noexcept
-        {
-            real -= other.real;
-            imag -= other.imag;
-            return *this;
-        }
-
-        constexpr Complex<T> operator*(const Complex& other) const noexcept
-        {
-            return Complex{real * other.real - imag * other.imag, real * other.imag + imag * other.real};
-        }
-
-        constexpr Complex<T>& operator*=(const Complex& other) noexcept
-        {
-            float tempReal = real;
-            real = tempReal * other.real - imag * other.imag;
-            imag = tempReal * other.imag + imag * other.real;
-            return *this;
-        }
-
-        inline T magnitude() const noexcept
-        {
-            return sqrt(real * real + imag * imag);
-        }
-
-        T real;
-        T imag;
-    };
-
-    template <int32_t sign, uint32_t fftFrameSize>
-    static void fft(Complex<float>* fftBuffer) noexcept
-    {
-        // Bit-reversal permutation applied to a sequence of fftFrameSize items
-        for (uint32_t i = 1; i < fftFrameSize - 1; i++)
-        {
-            uint32_t j = 0;
-
-            for (uint32_t bitm = 1; bitm < fftFrameSize; bitm <<= 1)
+            constexpr Complex<T> operator+(const Complex& other) const noexcept
             {
-                if (i & bitm) j++;
-                j <<= 1;
+                return Complex{real + other.real, imag + other.imag};
             }
-            j >>= 1;
 
-            if (i < j)
-                std::swap(fftBuffer[i], fftBuffer[j]);
-        }
-
-        // Iterative form of Danielson-Lanczos lemma
-        uint32_t step = 2;
-        for (uint32_t i = 1; i < fftFrameSize; i <<= 1, step <<= 1)
-        {
-            const uint32_t step2 = step >> 1;
-            const float arg = PI / step2;
-
-            const Complex<float> w{std::cos(arg), std::sin(arg) * sign};
-            Complex<float> u{1.0F, 0.0F};
-            for (uint32_t j = 0; j < step2; j++)
+            constexpr Complex<T>& operator+=(const Complex& other)
             {
-                for (uint32_t k = j; k < fftFrameSize; k += step)
-                {
-                    const Complex<float> temp = fftBuffer[k + step2] * u;
-                    fftBuffer[k + step2] = fftBuffer[k] - temp;
-                    fftBuffer[k] += temp;
-                }
+                real += other.real;
+                imag += other.imag;
+                return *this;
+            }
 
-                u *= w;
+            constexpr Complex<T> operator-(const Complex& other) const noexcept
+            {
+                return Complex{real - other.real, imag - other.imag};
+            }
+
+            constexpr Complex<T> operator-() const noexcept
+            {
+                return Complex{-real, -imag};
+            }
+
+            constexpr Complex<T>& operator-=(const Complex& other) noexcept
+            {
+                real -= other.real;
+                imag -= other.imag;
+                return *this;
+            }
+
+            constexpr Complex<T> operator*(const Complex& other) const noexcept
+            {
+                return Complex{real * other.real - imag * other.imag, real * other.imag + imag * other.real};
+            }
+
+            constexpr Complex<T>& operator*=(const Complex& other) noexcept
+            {
+                float tempReal = real;
+                real = tempReal * other.real - imag * other.imag;
+                imag = tempReal * other.imag + imag * other.real;
+                return *this;
+            }
+
+            inline T magnitude() const noexcept
+            {
+                return sqrt(real * real + imag * imag);
+            }
+
+            T real;
+            T imag;
+        };
+
+        template <int32_t sign, uint32_t fftFrameSize>
+        void fft(Complex<float>* fftBuffer) noexcept
+        {
+            // Bit-reversal permutation applied to a sequence of fftFrameSize items
+            for (uint32_t i = 1; i < fftFrameSize - 1; i++)
+            {
+                uint32_t j = 0;
+
+                for (uint32_t bitm = 1; bitm < fftFrameSize; bitm <<= 1)
+                {
+                    if (i & bitm) j++;
+                    j <<= 1;
+                }
+                j >>= 1;
+
+                if (i < j)
+                    std::swap(fftBuffer[i], fftBuffer[j]);
+            }
+
+            // Iterative form of Danielson-Lanczos lemma
+            uint32_t step = 2;
+            for (uint32_t i = 1; i < fftFrameSize; i <<= 1, step <<= 1)
+            {
+                const uint32_t step2 = step >> 1;
+                const float arg = pi / step2;
+
+                const Complex<float> w{std::cos(arg), std::sin(arg) * sign};
+                Complex<float> u{1.0F, 0.0F};
+                for (uint32_t j = 0; j < step2; j++)
+                {
+                    for (uint32_t k = j; k < fftFrameSize; k += step)
+                    {
+                        const Complex<float> temp = fftBuffer[k + step2] * u;
+                        fftBuffer[k + step2] = fftBuffer[k] - temp;
+                        fftBuffer[k] += temp;
+                    }
+
+                    u *= w;
+                }
             }
         }
     }
@@ -151,7 +154,7 @@ namespace smb
         {
             // Hann window
             for (uint32_t k = 0; k < fftFrameSize; k++)
-                window[k] = 0.5F * (1.0F + std::cos(2.0F * PI * static_cast<float>(k) / static_cast<float>(fftFrameSize)));
+                window[k] = 0.5F * (1.0F + std::cos(2.0F * pi * static_cast<float>(k) / static_cast<float>(fftFrameSize)));
         }
 
         /*
@@ -167,7 +170,7 @@ namespace smb
             const uint32_t fftFrameSizeHalf = fftFrameSize / 2;
             const uint32_t stepSize = fftFrameSize / oversamp;
             const float freqPerBin = static_cast<float>(sampleRate) / static_cast<float>(fftFrameSize);
-            const float expected = 2.0F * PI * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
+            const float expected = 2.0F * pi * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
             const uint32_t inFifoLatency = fftFrameSize - stepSize;
             if (rover == 0) rover = inFifoLatency;
 
@@ -204,7 +207,7 @@ namespace smb
                         const float magn = 2.0F * current.magnitude();
                         const float signx = (current.imag > 0.0F) ? 1.0F : -1.0F;
                         const float phase = (current.imag == 0.0F) ? 0.0F :
-                            (current.real == 0.0F) ? signx * PI / 2.0F :
+                            (current.real == 0.0F) ? signx * pi / 2.0F :
                             std::atan2(current.imag, current.real);
 
                         // compute phase difference
@@ -215,13 +218,13 @@ namespace smb
                         tmp -= static_cast<float>(k) * expected;
 
                         // map delta phase into +/- Pi interval
-                        int32_t qpd = static_cast<int32_t>(tmp / PI);
+                        int32_t qpd = static_cast<int32_t>(tmp / pi);
                         if (qpd >= 0) qpd += qpd & 1;
                         else qpd -= qpd & 1;
-                        tmp -= PI * static_cast<float>(qpd);
+                        tmp -= pi * static_cast<float>(qpd);
 
                         // get deviation from bin frequency from the +/- Pi interval
-                        tmp = oversamp * tmp / (2.0F * PI);
+                        tmp = oversamp * tmp / (2.0F * pi);
 
                         // compute the k-th partials' true frequency
                         tmp = static_cast<float>(k) * freqPerBin + tmp * freqPerBin;
@@ -258,7 +261,7 @@ namespace smb
                         tmp /= freqPerBin;
 
                         // take oversampling factor into account
-                        tmp = 2.0F * PI * tmp / oversamp;
+                        tmp = 2.0F * pi * tmp / oversamp;
 
                         // add the overlap phase advance back in
                         tmp += static_cast<float>(k) * expected;
