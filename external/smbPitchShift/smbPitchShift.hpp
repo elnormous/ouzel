@@ -167,11 +167,11 @@ namespace smb
                      const uint32_t sampleRate, const float* indata, float* outdata) noexcept
         {
             // set up some handy variables
-            const uint32_t fftFrameSizeHalf = fftFrameSize / 2;
-            const uint32_t stepSize = fftFrameSize / oversamp;
+            constexpr uint32_t fftFrameSizeHalf = fftFrameSize / 2;
+            constexpr uint32_t stepSize = fftFrameSize / oversamp;
+            constexpr uint32_t inFifoLatency = fftFrameSize - stepSize;
             const float freqPerBin = static_cast<float>(sampleRate) / static_cast<float>(fftFrameSize);
             const float expected = 2.0F * pi * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
-            const uint32_t inFifoLatency = fftFrameSize - stepSize;
             if (rover == 0) rover = inFifoLatency;
 
             // main processing loop
