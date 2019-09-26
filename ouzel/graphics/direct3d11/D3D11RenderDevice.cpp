@@ -433,7 +433,7 @@ namespace ouzel
                                 auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
 
                                 std::set<Texture*> colorTextures;
-                                for (uintptr_t colorTextureId : initRenderTargetCommand->colorTextures)
+                                for (const uintptr_t colorTextureId : initRenderTargetCommand->colorTextures)
                                     colorTextures.insert(getResource<Texture>(colorTextureId));
 
                                 auto renderTarget = std::make_unique<RenderTarget>(*this,
@@ -879,7 +879,7 @@ namespace ouzel
                                 currentResourceViews.clear();
                                 currentSamplerStates.clear();
 
-                                for (uintptr_t resource : setTexturesCommand->textures)
+                                for (const uintptr_t resource : setTexturesCommand->textures)
                                     if (Texture* texture = getResource<Texture>(resource))
                                     {
                                         currentResourceViews.push_back(texture->getResourceView());
