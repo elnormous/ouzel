@@ -150,7 +150,7 @@ namespace smb
     class PitchShift final
     {
     public:
-        PitchShift()
+        PitchShift() noexcept
         {
             // Hann window
             for (uint32_t k = 0; k < fftFrameSize; ++k)
