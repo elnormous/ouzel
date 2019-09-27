@@ -129,7 +129,7 @@ namespace smb
                 const uint32_t step2 = step >> 1;
                 const float arg = pi / step2;
 
-                const Complex<float> w{std::cos(arg), std::sin(arg) * sign};
+                const Complex<float> w{cos(arg), sin(arg) * sign};
                 Complex<float> u{1.0F, 0.0F};
                 for (uint32_t j = 0; j < step2; ++j)
                 {
@@ -154,7 +154,7 @@ namespace smb
         {
             // Hann window
             for (uint32_t k = 0; k < fftFrameSize; ++k)
-                window[k] = 0.5F * (1.0F + std::cos(2.0F * pi * static_cast<float>(k) / static_cast<float>(fftFrameSize)));
+                window[k] = 0.5F * (1.0F + cos(2.0F * pi * static_cast<float>(k) / static_cast<float>(fftFrameSize)));
         }
 
         /*
@@ -205,7 +205,7 @@ namespace smb
                         const float signx = (current.imag > 0.0F) ? 1.0F : -1.0F;
                         const float phase = (current.imag == 0.0F) ? 0.0F :
                             (current.real == 0.0F) ? signx * pi / 2.0F :
-                            std::atan2(current.imag, current.real);
+                            atan2(current.imag, current.real);
 
                         // compute phase difference
                         float tmp = phase - lastPhase[k];
@@ -268,7 +268,7 @@ namespace smb
                         const float phase = sumPhase[k];
 
                         // get real and imag part and re-interleave
-                        fftWorksp[k] = { magn * std::cos(phase), magn * std::sin(phase) };
+                        fftWorksp[k] = { magn * cos(phase), magn * sin(phase) };
                     }
 
                     // zero negative frequencies
