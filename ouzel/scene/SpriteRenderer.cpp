@@ -273,7 +273,7 @@ namespace ouzel
                         {
                             if (currentAnimation->repeat)
                             {
-                                currentTime = fmod(currentTime, length);
+                                currentTime = std::fmod(currentTime, length);
 
                                 auto resetEvent = std::make_unique<AnimationEvent>();
                                 resetEvent->type = Event::Type::AnimationReset;
@@ -468,7 +468,7 @@ namespace ouzel
                     {
                         if (currentAnimation->repeat)
                         {
-                            currentTime = fmod(currentTime, length);
+                            currentTime = std::fmod(currentTime, length);
                             break;
                         }
                         else if (std::next(currentAnimation) == animationQueue.end())

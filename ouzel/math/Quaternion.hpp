@@ -187,7 +187,7 @@ namespace ouzel
             if (n == T(1)) // already normalized
                 return 1;
 
-            return sqrt(n);
+            return std::sqrt(n);
         }
 
         void normalize() noexcept
@@ -196,7 +196,7 @@ namespace ouzel
             if (n == T(1)) // already normalized
                 return;
 
-            n = sqrt(n);
+            n = std::sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
@@ -213,7 +213,7 @@ namespace ouzel
             if (n == T(1)) // already normalized
                 return *this;
 
-            n = sqrt(n);
+            n = std::sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 
@@ -225,8 +225,8 @@ namespace ouzel
         {
             const auto normalizedAxis = axis.normalized();
 
-            const T cosAngle = cos(angle / T(2));
-            const T sinAngle = sin(angle / T(2));
+            const T cosAngle = std::cos(angle / T(2));
+            const T sinAngle = std::sin(angle / T(2));
 
             v[0] = normalizedAxis.v[0] * sinAngle;
             v[1] = normalizedAxis.v[1] * sinAngle;
@@ -236,8 +236,8 @@ namespace ouzel
 
         void getRotation(T& angle, Vector<3, T>& axis) const noexcept
         {
-            angle = T(2) * acos(v[3]);
-            const T s = sqrt(T(1) - v[3] * v[3]);
+            angle = T(2) * std::acos(v[3]);
+            const T s = std::sqrt(T(1) - v[3] * v[3]);
             if (s <= std::numeric_limits<T>::min()) // too close to zero
             {
                 axis.v[0] = v[0];
@@ -255,40 +255,40 @@ namespace ouzel
         Vector<3, T> getEulerAngles() const noexcept
         {
             Vector<3, T> result;
-            result.v[0] = atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
-            result.v[1] = asin(-2 * (v[0] * v[2] - v[3] * v[1]));
-            result.v[2] = atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
+            result.v[0] = std::atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
+            result.v[1] = std::asin(-2 * (v[0] * v[2] - v[3] * v[1]));
+            result.v[2] = std::atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
             return result;
         }
 
         inline auto getEulerAngleX() const noexcept
         {
-            return atan2(T(2) * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
+            return std::atan2(T(2) * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
         }
 
         inline auto getEulerAngleY() const noexcept
         {
-            return asin(T(-2) * (v[0] * v[2] - v[3] * v[1]));
+            return std::asin(T(-2) * (v[0] * v[2] - v[3] * v[1]));
         }
 
         inline auto getEulerAngleZ() const noexcept
         {
-            return atan2(T(2) * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
+            return std::atan2(T(2) * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }
 
         void setEulerAngles(const Vector<3, T>& angles) noexcept
         {
             T angle = angles.v[0] / T(2);
-            const T sr = sin(angle);
-            const T cr = cos(angle);
+            const T sr = std::sin(angle);
+            const T cr = std::cos(angle);
 
             angle = angles.v[1] / T(2);
-            const T sp = sin(angle);
-            const T cp = cos(angle);
+            const T sp = std::sin(angle);
+            const T cp = std::cos(angle);
 
             angle = angles.v[2] / T(2);
-            const T sy = sin(angle);
-            const T cy = cos(angle);
+            const T sy = std::sin(angle);
+            const T cy = std::cos(angle);
 
             const T cpcy = cp * cy;
             const T spcy = sp * cy;

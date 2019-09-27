@@ -164,7 +164,7 @@ namespace ouzel
                 vertices.emplace_back(Vector3F(position), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F}); // center
 
                 for (uint32_t i = 0; i <= segments; ++i)
-                    vertices.emplace_back(Vector3F{position.v[0] + radius * cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + radius * sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
+                    vertices.emplace_back(Vector3F{position.v[0] + radius * std::cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + radius * std::sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
                                           color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
 
                 command.indexCount = segments * 2 + 1;
@@ -188,7 +188,7 @@ namespace ouzel
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
-                        vertices.emplace_back(Vector3F{position.v[0] + radius * cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + radius * sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
+                        vertices.emplace_back(Vector3F{position.v[0] + radius * std::cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + radius * std::sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
                                               color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
                     }
 
@@ -210,10 +210,10 @@ namespace ouzel
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
-                        vertices.emplace_back(Vector3F{position.v[0] + (radius - halfThickness) * cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + (radius - halfThickness) * sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
+                        vertices.emplace_back(Vector3F{position.v[0] + (radius - halfThickness) * std::cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + (radius - halfThickness) * std::sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
                                               color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
 
-                        vertices.emplace_back(Vector3F{position.v[0] + (radius + halfThickness) * cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + (radius + halfThickness) * sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
+                        vertices.emplace_back(Vector3F{position.v[0] + (radius + halfThickness) * std::cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + (radius + halfThickness) * std::sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
                                               color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
                     }
 

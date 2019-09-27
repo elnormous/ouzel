@@ -176,7 +176,7 @@ namespace ouzel
         const T det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
         // Close to zero, can't invert
-        if (fabs(det) <= std::numeric_limits<T>::min()) return;
+        if (std::fabs(det) <= std::numeric_limits<T>::min()) return;
 
         Matrix inverse;
         inverse.m[0] = m[5] * b5 - m[6] * b4 + m[7] * b3;

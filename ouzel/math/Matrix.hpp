@@ -101,7 +101,7 @@ namespace ouzel
             assert(zFarPlane != zNearPlane);
 
             const T theta = fieldOfView / T(2);
-            if (fabs(fmod(theta, pi<T> / T(2))) <= std::numeric_limits<T>::min())
+            if (std::fabs(std::fmod(theta, pi<T> / T(2))) <= std::numeric_limits<T>::min())
                 return;
 
             const T divisor = tan(theta);
@@ -192,8 +192,8 @@ namespace ouzel
         {
             setIdentity();
 
-            const T c = cos(angle);
-            const T s = sin(angle);
+            const T c = std::cos(angle);
+            const T s = std::sin(angle);
 
             m[0] = c;
             m[3] = -s;
@@ -213,7 +213,7 @@ namespace ouzel
             if (n != T(1))
             {
                 // Not normalized
-                n = sqrt(n);
+                n = std::sqrt(n);
                 // Prevent divide too close to zero
                 if (n > std::numeric_limits<T>::min())
                 {
@@ -224,8 +224,8 @@ namespace ouzel
                 }
             }
 
-            const T c = cos(angle);
-            const T s = sin(angle);
+            const T c = std::cos(angle);
+            const T s = std::sin(angle);
 
             const T t = T(1) - c;
             const T tx = t * x;
@@ -301,8 +301,8 @@ namespace ouzel
         {
             setIdentity();
 
-            const T c = cos(angle);
-            const T s = sin(angle);
+            const T c = std::cos(angle);
+            const T s = std::sin(angle);
 
             m[5] = c;
             m[9] = -s;
@@ -315,8 +315,8 @@ namespace ouzel
         {
             setIdentity();
 
-            const T c = cos(angle);
-            const T s = sin(angle);
+            const T c = std::cos(angle);
+            const T s = std::sin(angle);
 
             m[0] = c;
             m[8] = s;
@@ -329,8 +329,8 @@ namespace ouzel
         {
             setIdentity();
 
-            const T c = cos(angle);
-            const T s = sin(angle);
+            const T c = std::cos(angle);
+            const T s = std::sin(angle);
 
             m[0] = c;
             m[4] = -s;
@@ -783,15 +783,15 @@ namespace ouzel
             const T m33 = m[10] / scale.v[2];
 
             Quaternion<T> result;
-            result.v[0] = sqrt(std::max(static_cast<T>(0), T(1) + m11 - m22 - m33)) / T(2);
-            result.v[1] = sqrt(std::max(static_cast<T>(0), T(1) - m11 + m22 - m33)) / T(2);
-            result.v[2] = sqrt(std::max(static_cast<T>(0), T(1) - m11 - m22 + m33)) / T(2);
-            result.v[3] = sqrt(std::max(static_cast<T>(0), T(1) + m11 + m22 + m33)) / T(2);
+            result.v[0] = std::sqrt(std::max(static_cast<T>(0), T(1) + m11 - m22 - m33)) / T(2);
+            result.v[1] = std::sqrt(std::max(static_cast<T>(0), T(1) - m11 + m22 - m33)) / T(2);
+            result.v[2] = std::sqrt(std::max(static_cast<T>(0), T(1) - m11 - m22 + m33)) / T(2);
+            result.v[3] = std::sqrt(std::max(static_cast<T>(0), T(1) + m11 + m22 + m33)) / T(2);
 
             // The problem with using copysign: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/paul.htm
-            result.v[0] = copysign(result.v[0], m32 - m23);
-            result.v[1] = copysign(result.v[1], m13 - m31);
-            result.v[2] = copysign(result.v[2], m21 - m12);
+            result.v[0] = std::copysign(result.v[0], m32 - m23);
+            result.v[1] = std::copysign(result.v[1], m13 - m31);
+            result.v[2] = std::copysign(result.v[2], m21 - m12);
 
             result.normalize();
 

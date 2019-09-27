@@ -104,15 +104,15 @@ namespace ouzel
         }
         else
         {
-            windowSize.width = round(size.v[0] / screen.backingScaleFactor);
-            windowSize.height = round(size.v[1] / screen.backingScaleFactor);
+            windowSize.width = std::round(size.v[0] / screen.backingScaleFactor);
+            windowSize.height = std::round(size.v[1] / screen.backingScaleFactor);
         }
 
-        if (windowSize.width <= 0.0F) windowSize.width = round(screen.frame.size.width * 0.8);
-        if (windowSize.height <= 0.0F) windowSize.height = round(screen.frame.size.height * 0.8);
+        if (windowSize.width <= 0.0F) windowSize.width = std::round(screen.frame.size.width * 0.8);
+        if (windowSize.height <= 0.0F) windowSize.height = std::round(screen.frame.size.height * 0.8);
 
-        NSRect frame = NSMakeRect(round(screen.frame.size.width / 2.0F - windowSize.width / 2.0F),
-                                  round(screen.frame.size.height / 2.0F - windowSize.height / 2.0F),
+        NSRect frame = NSMakeRect(std::round(screen.frame.size.width / 2.0F - windowSize.width / 2.0F),
+                                  std::round(screen.frame.size.height / 2.0F - windowSize.height / 2.0F),
                                   windowSize.width, windowSize.height);
 
         windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;

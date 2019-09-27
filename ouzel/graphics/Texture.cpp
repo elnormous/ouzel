@@ -398,12 +398,12 @@ namespace ouzel
 
             inline float gammaDecode(uint8_t value)
             {
-                return GAMMA_DECODE[value]; // pow(value / 255.0F, GAMMA);
+                return GAMMA_DECODE[value]; // std::pow(value / 255.0F, GAMMA);
             }
 
             inline uint8_t gammaEncode(float value)
             {
-                return static_cast<uint8_t>(round(pow(value, 1.0F / GAMMA) * 255.0F));
+                return static_cast<uint8_t>(std::round(std::pow(value, 1.0F / GAMMA) * 255.0F));
             }
 
             void decode(const Size2U& size,
@@ -496,7 +496,7 @@ namespace ouzel
                                 dst[0] = gammaEncode(pixel[0]); // red
                                 dst[1] = gammaEncode(pixel[1]); // green
                                 dst[2] = gammaEncode(pixel[2]); // blue
-                                dst[3] = static_cast<uint8_t>(round(pixel[3] * 255.0F)); // alpha
+                                dst[3] = static_cast<uint8_t>(std::round(pixel[3] * 255.0F)); // alpha
                             }
                         }
                         break;
@@ -530,7 +530,7 @@ namespace ouzel
                             const float* pixel = src;
                             for (uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
                             {
-                                dst[0] = static_cast<uint8_t>(round(pixel[0] * 255.0F)); // alpha
+                                dst[0] = static_cast<uint8_t>(std::round(pixel[0] * 255.0F)); // alpha
                             }
                         }
                         break;

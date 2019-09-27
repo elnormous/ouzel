@@ -64,7 +64,7 @@ namespace ouzel
         template <size_t X = N, typename std::enable_if<(X == 2)>::type* = nullptr>
         inline auto getAngle() const noexcept
         {
-            return atan2(v[1], v[0]);
+            return std::atan2(v[1], v[0]);
         }
 
         template <size_t X = N, typename std::enable_if<(X == 3)>::type* = nullptr>
@@ -74,7 +74,7 @@ namespace ouzel
             const T dy = axis.v[1] - v[1] - v[2] * axis.v[0] + v[0] * axis.v[2];
             const T dz = axis.v[2] - v[2] - v[0] * axis.v[1] + v[1] * axis.v[0];
 
-            return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
+            return std::atan2(std::sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
         template <size_t X = N, typename std::enable_if<(X == 4)>::type* = nullptr>
@@ -84,7 +84,7 @@ namespace ouzel
             const T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
             const T dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
 
-            return atan2(sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
+            return std::atan2(std::sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
         void clamp(const Vector& min, const Vector& max) noexcept
@@ -107,7 +107,7 @@ namespace ouzel
             T d = 0;
             for (size_t i = 0; i < N; ++i)
                 d += (vec.v[i] - v[i]) * (vec.v[i] - v[i]);
-            return sqrt(d);
+            return std::sqrt(d);
         }
 
         inline T distanceSquared(const Vector& vec) const noexcept
@@ -131,7 +131,7 @@ namespace ouzel
             T l = 0;
             for (const T& c : v)
                 l += c * c;
-            return sqrt(l);
+            return std::sqrt(l);
         }
 
         inline T lengthSquared() const noexcept
@@ -150,7 +150,7 @@ namespace ouzel
 
         inline auto isNormalized(const T tolerance = std::numeric_limits<T>::min()) const noexcept
         {
-            return abs(T(1) - lengthSquared()) < tolerance;
+            return std::abs(T(1) - lengthSquared()) < tolerance;
         }
 
         void normalize() noexcept
@@ -162,7 +162,7 @@ namespace ouzel
             if (n == 1) // already normalized
                 return;
 
-            n = sqrt(n);
+            n = std::sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
@@ -179,7 +179,7 @@ namespace ouzel
             if (n == 1) // already normalized
                 return *this;
 
-            n = sqrt(n);
+            n = std::sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 

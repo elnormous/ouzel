@@ -14,17 +14,17 @@ namespace ouzel
     {
         static float sineIn(const float t)
         {
-            return 1.0F - cos(t * pi<float> / 2.0F);
+            return 1.0F - std::cos(t * pi<float> / 2.0F);
         }
 
         static float sineOut(const float t)
         {
-            return sin(t * pi<float> / 2.0F);
+            return std::sin(t * pi<float> / 2.0F);
         }
 
         static float sineInOut(const float t)
         {
-            return -0.5F * (cos(pi<float> * t) - 1.0F);
+            return -0.5F * (std::cos(pi<float> * t) - 1.0F);
         }
 
         static constexpr float quadIn(const float t)
@@ -97,36 +97,36 @@ namespace ouzel
 
         static float expoIn(const float t)
         {
-            return pow(2.0F, 10.0F * (t - 1.0F));
+            return std::pow(2.0F, 10.0F * (t - 1.0F));
         }
 
         static float expoOut(const float t)
         {
-            return 1.0F - pow(2.0F, -10.0F * t);
+            return 1.0F - std::pow(2.0F, -10.0F * t);
         }
 
         static float expoInOut(const float t)
         {
             return (t < 0.5F) ?
-                0.5F * pow(2.0F, 10.0F * (2.0F * t - 1.0F)) :
-                0.5F * (pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
+                0.5F * std::pow(2.0F, 10.0F * (2.0F * t - 1.0F)) :
+                0.5F * (std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
         }
 
         static float circIn(const float t)
         {
-            return 1.0F - sqrt(1.0F - t * t);
+            return 1.0F - std::sqrt(1.0F - t * t);
         }
 
         static float circOut(const float t)
         {
-            return sqrt(1.0F - (t - 1.0F) * (t - 1.0F));
+            return std::sqrt(1.0F - (t - 1.0F) * (t - 1.0F));
         }
 
         static float circInOut(const float t)
         {
             return (t < 0.5F) ?
-                0.5F * (-sqrt(1.0F - (t * 2.0F) * (t * 2.0F)) + 1.0F) :
-                0.5F * (sqrt(1.0F - (t * 2.0F - 2.0F) * (t * 2.0F - 2.0F)) + 1.0F);
+                0.5F * (-std::sqrt(1.0F - (t * 2.0F) * (t * 2.0F)) + 1.0F) :
+                0.5F * (std::sqrt(1.0F - (t * 2.0F - 2.0F) * (t * 2.0F - 2.0F)) + 1.0F);
         }
 
         static float backIn(const float t)
@@ -156,7 +156,7 @@ namespace ouzel
 
             static constexpr float p = 0.3F;
 
-            return -pow(2.0F, 10.0F * (t - 1.0F)) * sin(((t - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p);
+            return -std::pow(2.0F, 10.0F * (t - 1.0F)) * std::sin(((t - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p);
         }
 
         static float elasticOut(const float t)
@@ -166,7 +166,7 @@ namespace ouzel
 
             static constexpr float p = 0.3F;
 
-            return pow(2.0F, -10.0F * t) * sin((t - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
+            return std::pow(2.0F, -10.0F * t) * std::sin((t - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
         }
 
         static float elasticInOut(const float t)
@@ -177,8 +177,8 @@ namespace ouzel
             static constexpr float p = 0.3F * 1.5F;
 
             return (t < 0.5F) ?
-                -0.5F * pow(2.0F, 10.0F * (t * 2.0F - 1.0F)) * sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) :
-                0.5F * pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) * sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
+                -0.5F * std::pow(2.0F, 10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) :
+                0.5F * std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
         }
 
         static float bounceOut(const float t)

@@ -57,7 +57,7 @@ namespace ouzel
             if (n == T(1)) // already normalized
                 return;
 
-            n = sqrt(n);
+            n = std::sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
@@ -74,7 +74,7 @@ namespace ouzel
             if (n == T(1)) // already normalized
                 return *this;
 
-            n = sqrt(n);
+            n = std::sqrt(n);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 
@@ -94,7 +94,7 @@ namespace ouzel
 
         static inline Plane makeFrustumPlane(const T a, const T b, const T c, const T d) noexcept
         {
-            T n = sqrt(a * a + b * b + c * c);
+            T n = std::sqrt(a * a + b * b + c * c);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return Plane();
 

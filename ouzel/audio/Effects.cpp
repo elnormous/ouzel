@@ -89,7 +89,7 @@ namespace ouzel
         public:
             explicit GainProcessor(float initGain = 0.0F):
                 gain(initGain),
-                gainFactor(pow(10.0F, initGain / 20.0F))
+                gainFactor(std::pow(10.0F, initGain / 20.0F))
             {
             }
 
@@ -103,7 +103,7 @@ namespace ouzel
             void setGain(float newGain)
             {
                 gain = newGain;
-                gainFactor = pow(10.0F, gain / 20.0F);
+                gainFactor = std::pow(10.0F, gain / 20.0F);
             }
 
         private:
