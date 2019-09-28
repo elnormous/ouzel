@@ -543,10 +543,10 @@ namespace ouzel
     {
         size = newSize;
 
-        auto width = static_cast<UINT>(newSize.v[0]);
-        auto height = static_cast<UINT>(newSize.v[1]);
+        const auto width = static_cast<UINT>(newSize.v[0]);
+        const auto height = static_cast<UINT>(newSize.v[1]);
 
-        UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
+        const UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
         RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
         if (!AdjustWindowRectEx(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE, windowExStyle))
@@ -573,7 +573,7 @@ namespace ouzel
     {
         if (title != newTitle)
         {
-            int titleBufferSize = MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, nullptr, 0);
+            const int titleBufferSize = MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, nullptr, 0);
             if (titleBufferSize == 0)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
