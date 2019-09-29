@@ -1409,16 +1409,23 @@ namespace ouzel
                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to read pixels from frame buffer");
 
-                uint32_t temp;
-                uint32_t* rgba = reinterpret_cast<uint32_t*>(data.data());
+                // flip the image vertically
+                const auto rowSize = frameBufferWidth * pixelSize;
+                std::vector<uint8_t> temp(static_cast<size_t>(rowSize));
                 for (GLsizei row = 0; row < frameBufferHeight / 2; ++row)
                 {
-                    for (GLsizei col = 0; col < frameBufferWidth; ++col)
-                    {
-                        temp = rgba[static_cast<size_t>((frameBufferHeight - row - 1) * frameBufferWidth + col)];
-                        rgba[static_cast<size_t>((frameBufferHeight - row - 1) * frameBufferWidth + col)] = rgba[static_cast<size_t>(row * frameBufferWidth + col)];
-                        rgba[static_cast<size_t>(row * frameBufferWidth + col)] = temp;
-                    }
+                    const auto topRowOffset =  row * rowSize;
+                    const auto bottomRowOffset = (frameBufferHeight - row - 1) * rowSize;
+
+                    std::copy(temp.begin(), temp.end(), data.begin() + topRowOffset);
+
+                    std::copy(data.begin() + topRowOffset,
+                              data.begin() + topRowOffset + rowSize,
+                              data.begin() + bottomRowOffset);
+
+                    std::copy(data.begin() + bottomRowOffset,
+                              data.begin() + bottomRowOffset + rowSize,
+                              temp.begin());
                 }
 
                 if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, pixelSize, data.data(), frameBufferWidth * pixelSize))
