@@ -30,22 +30,24 @@ namespace ouzel
                                                      (data[3] << 24));
         offset += sizeof(magic);
 
-        const std::function<uint32_t(const uint8_t*)> decodeUInt32 =
-            (magic == MAGIC_BIG) ?
-                [](const uint8_t* bytes) {
+        const auto decodeUInt32 = [magic]() -> std::function<uint32_t(const uint8_t*)> {
+            if (magic == MAGIC_BIG)
+                return [](const uint8_t* bytes) {
                     return static_cast<uint32_t>(bytes[3] |
                                                  (bytes[2] << 8) |
                                                  (bytes[1] << 16) |
                                                  (bytes[0] << 24));
-                } :
-            (magic == MAGIC_LITTLE) ?
-                [](const uint8_t* bytes) {
+                };
+            else if (magic == MAGIC_LITTLE)
+                return [](const uint8_t* bytes) {
                     return static_cast<uint32_t>(bytes[0] |
                                                  (bytes[1] << 8) |
                                                  (bytes[2] << 16) |
                                                  (bytes[3] << 24));
-                } :
+                };
+            else
                 throw std::runtime_error("Wrong magic " + std::to_string(magic));
+        }();
 
         const uint32_t revision = decodeUInt32(data.data() + offset);
         offset += sizeof(revision);
