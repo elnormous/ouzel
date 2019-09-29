@@ -30,7 +30,7 @@ namespace ouzel
                                                      (data[3] << 24));
         offset += sizeof(magic);
 
-        const auto decodeUInt32 =
+        const std::function<uint32_t(const uint8_t*)> decodeUInt32 =
             (magic == MAGIC_BIG) ?
                 [](const uint8_t* bytes) {
                     return static_cast<uint32_t>(bytes[3] |
