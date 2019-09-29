@@ -8,6 +8,7 @@
 #  include <dlfcn.h>
 #endif
 
+#include <algorithm>
 #include <cassert>
 #include <stdexcept>
 
@@ -1417,15 +1418,17 @@ namespace ouzel
                     const auto topRowOffset =  row * rowSize;
                     const auto bottomRowOffset = (frameBufferHeight - row - 1) * rowSize;
 
-                    std::copy(temp.begin(), temp.end(), data.begin() + topRowOffset);
-
                     std::copy(data.begin() + topRowOffset,
                               data.begin() + topRowOffset + rowSize,
-                              data.begin() + bottomRowOffset);
+                              temp.begin());
 
                     std::copy(data.begin() + bottomRowOffset,
                               data.begin() + bottomRowOffset + rowSize,
-                              temp.begin());
+                              data.begin() + topRowOffset);
+
+                    std::copy(temp.begin(), temp.end(),
+                              data.begin() + bottomRowOffset);
+
                 }
 
                 if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, pixelSize, data.data(), frameBufferWidth * pixelSize))
