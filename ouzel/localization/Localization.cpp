@@ -24,7 +24,10 @@ namespace ouzel
         if (data.size() < 5 * sizeof(uint32_t))
             throw std::runtime_error("Not enough data");
 
-        const uint32_t magic = *reinterpret_cast<const uint32_t*>(data.data() + offset);
+        const uint32_t magic = static_cast<uint32_t>(data[0] |
+                                                     (data[1] << 8) |
+                                                     (data[2] << 16) |
+                                                     (data[3] << 24));
         offset += sizeof(magic);
 
         std::function<uint32_t(const uint8_t*)> decodeUInt32;
