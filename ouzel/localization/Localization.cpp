@@ -16,9 +16,6 @@ namespace ouzel
 
     Language::Language(const std::vector<uint8_t>& data)
     {
-        constexpr uint32_t MAGIC_BIG = 0xDE120495;
-        constexpr uint32_t MAGIC_LITTLE = 0x950412DE;
-
         uint32_t offset = 0;
 
         if (data.size() < 5 * sizeof(uint32_t))
@@ -31,6 +28,9 @@ namespace ouzel
         offset += sizeof(magic);
 
         const auto decodeUInt32 = [magic]() -> std::function<uint32_t(const uint8_t*)> {
+            constexpr uint32_t MAGIC_BIG = 0xDE120495;
+            constexpr uint32_t MAGIC_LITTLE = 0x950412DE;
+
             if (magic == MAGIC_BIG)
                 return [](const uint8_t* bytes) {
                     return static_cast<uint32_t>(bytes[3] |
