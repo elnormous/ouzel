@@ -122,7 +122,7 @@ namespace ouzel
                     return *this;
                 }
 
-                inline operator uintptr_t() const
+                inline operator uintptr_t() const noexcept
                 {
                     return id;
                 }
