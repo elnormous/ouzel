@@ -168,7 +168,7 @@ namespace ouzel
 
                     while (remaining > 0)
                     {
-                        uint32_t bytesRead = read(dest, remaining);
+                        const uint32_t bytesRead = read(dest, remaining);
 
                         if (bytesRead == 0)
                             return 0; // End of file reached
@@ -181,6 +181,9 @@ namespace ouzel
                 }
                 else
                 {
+                    if (file == INVALID)
+                        throw std::runtime_error("File is not open");
+
 #if defined(_WIN32)
                     DWORD n;
                     if (!ReadFile(file, buffer, size, &n, nullptr))
@@ -188,7 +191,7 @@ namespace ouzel
 
                     return static_cast<uint32_t>(n);
 #else
-                    ssize_t ret = ::read(file, buffer, size);
+                    const ssize_t ret = ::read(file, buffer, size);
 
                     if (ret == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to read from file");
@@ -207,7 +210,7 @@ namespace ouzel
 
                     while (remaining > 0)
                     {
-                        uint32_t bytesWritten = write(src, remaining, false);
+                        const uint32_t bytesWritten = write(src, remaining, false);
                         remaining -= bytesWritten;
                         src += bytesWritten;
                     }
@@ -216,6 +219,9 @@ namespace ouzel
                 }
                 else
                 {
+                    if (file == INVALID)
+                        throw std::runtime_error("File is not open");
+
 #if defined(_WIN32)
                     DWORD n;
                     if (!WriteFile(file, buffer, size, &n, nullptr))
@@ -223,7 +229,7 @@ namespace ouzel
 
                     return static_cast<uint32_t>(n);
 #else
-                    ssize_t ret = ::write(file, buffer, size);
+                    const ssize_t ret = ::write(file, buffer, size);
 
                     if (ret == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to write to file");
@@ -235,6 +241,9 @@ namespace ouzel
 
             void seek(const int32_t offset, const Seek method) const
             {
+                if (file == INVALID)
+                    throw std::runtime_error("File is not open");
+
 #if defined(_WIN32)
                 const DWORD moveMethod =
                     (method == Seek::Begin) ? FILE_BEGIN :
@@ -258,6 +267,9 @@ namespace ouzel
 
             auto getOffset() const
             {
+                if (file == INVALID)
+                    throw std::runtime_error("File is not open");
+
 #if defined(_WIN32)
                 DWORD ret = SetFilePointer(file, 0, nullptr, FILE_CURRENT);
                 if (ret == INVALID_SET_FILE_POINTER)
