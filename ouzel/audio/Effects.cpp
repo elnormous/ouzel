@@ -58,7 +58,8 @@ namespace ouzel
 
         Gain::Gain(Audio& initAudio, float initGain):
             Effect(initAudio),
-            gain(initGain)
+            gain(initGain),
+            gainFactor(std::pow(10.0F, initGain / 20.0F))
         {
         }
 
@@ -72,7 +73,7 @@ namespace ouzel
         void Gain::setGain(float newGain)
         {
             gain = newGain;
-            gainFactor = pow(10.0F, gain / 20.0F);
+            gainFactor = std::pow(10.0F, gain / 20.0F);
         }
 
         void Gain::setGainRandom(const std::pair<float, float>& newGainRandom)
