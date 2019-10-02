@@ -10,6 +10,7 @@ jobs:
     CXX: g++-7
   steps:
   - script: sudo apt-get update --fix-missing
+  - script: sudo apt-get install -y mesa-common-dev
   - script: sudo apt-get install -y libopenal-dev
   - script: sudo apt-get install -y libasound2-dev
   - script: sudo apt-get install -y libxi-dev
