@@ -195,7 +195,7 @@ namespace ouzel
                 if (PFNWGLGETEXTENSIONSSTRINGARBPROC wglGetExtensionsStringProc = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB")))
                 {
                     if (const char* extensionsPtr = wglGetExtensionsStringProc(deviceContext))
-                        extensions = explodeString(std::string(reinterpret_cast<const char*>(extensionsPtr)), ' ');
+                        extensions = explodeString(std::string(extensionsPtr), ' ');
 
                     engine->log(Log::Level::All) << "Supported WGL extensions: " << extensions;
                 }

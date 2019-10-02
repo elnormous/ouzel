@@ -85,8 +85,8 @@ namespace ouzel
             {
                 fragmentShaderId = renderDevice.glCreateShaderProc(GL_FRAGMENT_SHADER);
 
-                auto fragmentShaderBuffer = reinterpret_cast<const GLchar*>(fragmentShaderData.data());
-                auto fragmentShaderSize = static_cast<GLint>(fragmentShaderData.size());
+                const auto fragmentShaderBuffer = reinterpret_cast<const GLchar*>(fragmentShaderData.data());
+                const auto fragmentShaderSize = static_cast<GLint>(fragmentShaderData.size());
 
                 renderDevice.glShaderSourceProc(fragmentShaderId, 1, &fragmentShaderBuffer, &fragmentShaderSize);
                 renderDevice.glCompileShaderProc(fragmentShaderId);

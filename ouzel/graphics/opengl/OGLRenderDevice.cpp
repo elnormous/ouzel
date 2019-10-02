@@ -391,7 +391,7 @@ namespace ouzel
                 if (!versionPtr)
                     throw std::runtime_error("Failed to get OpenGL version");
 
-                std::string versionStr(reinterpret_cast<const char*>(versionPtr));
+                const std::string versionStr(reinterpret_cast<const char*>(versionPtr));
                 std::string versionParts[2];
                 uint32_t part = 0;
 
