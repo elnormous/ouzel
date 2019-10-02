@@ -135,7 +135,7 @@ namespace ouzel
                 std::vector<std::string> extensions;
 
                 if (const char* extensionsPtr = glXQueryExtensionsString(engineLinux->getDisplay(), screenIndex))
-                    extensions = explodeString(std::string(reinterpret_cast<const char*>(extensionsPtr)), ' ');
+                    extensions = explodeString(std::string(extensionsPtr), ' ');
 
                 engine->log(Log::Level::All) << "Supported GLX extensions: " << extensions;
 
