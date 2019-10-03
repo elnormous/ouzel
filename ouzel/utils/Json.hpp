@@ -756,7 +756,7 @@ namespace ouzel
         public:
             Data() = default;
 
-            Data(const std::vector<uint8_t>& data)
+            explicit Data(const std::vector<uint8_t>& data)
             {
                 std::u32string str;
 
