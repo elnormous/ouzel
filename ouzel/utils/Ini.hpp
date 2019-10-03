@@ -27,7 +27,7 @@ namespace ouzel
         public:
             Section() = default;
 
-            Section(const std::string& initName):
+            explicit Section(const std::string& initName):
                 name(initName)
             {
             }
@@ -137,7 +137,7 @@ namespace ouzel
         public:
             Data() = default;
 
-            Data(const std::vector<uint8_t>& data)
+            explicit Data(const std::vector<uint8_t>& data)
             {
                 std::u32string str;
 

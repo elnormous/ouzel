@@ -15,7 +15,7 @@ namespace ouzel
         class Client final
         {
         public:
-            Client(Network& initNetwork);
+            explicit Client(Network& initNetwork);
             ~Client();
 
             Client(const Client&) = delete;
