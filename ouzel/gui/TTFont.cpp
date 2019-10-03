@@ -10,8 +10,8 @@
 #  pragma GCC diagnostic push
 #  pragma GCC diagnostic ignored "-Wold-style-cast"
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
-#  pragma GCC diagnostic ignored "-Wunused-parameter"
 #  pragma GCC diagnostic ignored "-Wdouble-promotion"
+#  pragma GCC diagnostic ignored "-Wunused-parameter"
 #  if defined(__clang__)
 #    pragma GCC diagnostic ignored "-Wcomma"
 #  endif

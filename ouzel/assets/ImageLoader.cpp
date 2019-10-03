@@ -15,6 +15,7 @@
 #elif defined(__GNUC__)
 #  pragma GCC diagnostic push
 #  pragma GCC diagnostic ignored "-Wconversion"
+#  pragma GCC diagnostic ignored "-Wdouble-promotion"
 #  pragma GCC diagnostic ignored "-Wmissing-prototypes"
 #  pragma GCC diagnostic ignored "-Wold-style-cast"
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
