@@ -1,5 +1,6 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
+#include <cstring>
 #include <stdexcept>
 #include "Obf.hpp"
 #include "Utils.hpp"
