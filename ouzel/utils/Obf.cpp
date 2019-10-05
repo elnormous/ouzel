@@ -14,7 +14,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(result))
                 throw std::runtime_error("Not enough data");
 
-            result = *reinterpret_cast<const uint8_t*>(buffer.data() + offset);
+            memcpy(&result, buffer.data() + offset, sizeof(result));
 
             return sizeof(result);
         }
@@ -54,7 +54,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(float))
                 throw std::runtime_error("Not enough data");
 
-            result = *reinterpret_cast<const float*>(buffer.data() + offset);
+            memcpy(&result, buffer.data() + offset, sizeof(result));
 
             return sizeof(result);
         }
@@ -64,7 +64,7 @@ namespace ouzel
             if (buffer.size() - offset < sizeof(double))
                 throw std::runtime_error("Not enough data");
 
-            result = *reinterpret_cast<const double*>(buffer.data() + offset);
+            memcpy(&result, buffer.data() + offset, sizeof(result));
 
             return sizeof(result);
         }
@@ -415,7 +415,8 @@ namespace ouzel
             if (buffer.size() - offset < 1)
                 throw std::runtime_error("Not enough data");
 
-            Marker marker = *reinterpret_cast<const Marker*>(buffer.data() + offset);
+            Marker marker;
+            memcpy(&marker, buffer.data() + offset, sizeof(marker));
             offset += 1;
 
             uint32_t ret = 0;
