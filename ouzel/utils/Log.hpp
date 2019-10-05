@@ -126,8 +126,11 @@ namespace ouzel
         {
             constexpr char digits[] = "0123456789abcdef";
 
+            uintptr_t ptrValue;
+            memcpy(&ptrValue, &val, sizeof(ptrValue));
+
             for (size_t i = 0; i < sizeof(val) * 2; ++i)
-                s.push_back(digits[(reinterpret_cast<uintptr_t>(val) >> (sizeof(val) * 2 - i - 1) * 4) & 0x0F]);
+                s.push_back(digits[(ptrValue >> (sizeof(ptrValue) * 2 - i - 1) * 4) & 0x0F]);
 
             return *this;
         }
