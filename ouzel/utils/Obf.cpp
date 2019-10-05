@@ -9,197 +9,73 @@ namespace ouzel
 {
     namespace obf
     {
-        // reading
-        static uint32_t readInt8(const std::vector<uint8_t>& buffer, uint32_t offset, uint8_t& result)
+        namespace
         {
-            if (buffer.size() - offset < sizeof(result))
-                throw std::runtime_error("Not enough data");
-
-            memcpy(&result, buffer.data() + offset, sizeof(result));
-
-            return sizeof(result);
-        }
-
-        static uint32_t readInt16(const std::vector<uint8_t>& buffer, uint32_t offset, uint16_t& result)
-        {
-            if (buffer.size() - offset < sizeof(result))
-                throw std::runtime_error("Not enough data");
-
-            result = decodeBigEndian<uint16_t>(buffer.data() + offset);
-
-            return sizeof(result);
-        }
-
-        static uint32_t readInt32(const std::vector<uint8_t>& buffer, uint32_t offset, uint32_t& result)
-        {
-            if (buffer.size() - offset < sizeof(result))
-                throw std::runtime_error("Not enough data");
-
-            result = decodeBigEndian<uint32_t>(buffer.data() + offset);
-
-            return sizeof(result);
-        }
-
-        static uint32_t readInt64(const std::vector<uint8_t>& buffer, uint32_t offset, uint64_t& result)
-        {
-            if (buffer.size() - offset < sizeof(result))
-                throw std::runtime_error("Not enough data");
-
-            result = decodeBigEndian<uint64_t>(buffer.data() + offset);
-
-            return sizeof(result);
-        }
-
-        static uint32_t readFloat(const std::vector<uint8_t>& buffer, uint32_t offset, float& result)
-        {
-            if (buffer.size() - offset < sizeof(float))
-                throw std::runtime_error("Not enough data");
-
-            memcpy(&result, buffer.data() + offset, sizeof(result));
-
-            return sizeof(result);
-        }
-
-        static uint32_t readDouble(const std::vector<uint8_t>& buffer, uint32_t offset, double& result)
-        {
-            if (buffer.size() - offset < sizeof(double))
-                throw std::runtime_error("Not enough data");
-
-            memcpy(&result, buffer.data() + offset, sizeof(result));
-
-            return sizeof(result);
-        }
-
-        static uint32_t readString(const std::vector<uint8_t>& buffer, uint32_t offset, std::string& result)
-        {
-            uint32_t originalOffset = offset;
-
-            if (buffer.size() - offset < sizeof(uint16_t))
-                throw std::runtime_error("Not enough data");
-
-            uint16_t length = decodeBigEndian<uint16_t>(buffer.data() + offset);
-
-            offset += sizeof(length);
-
-            if (buffer.size() - offset < length)
-                throw std::runtime_error("Not enough data");
-
-            result.assign(reinterpret_cast<const char*>(buffer.data() + offset), length);
-            offset += length;
-
-            return offset - originalOffset;
-        }
-
-        static uint32_t readLongString(const std::vector<uint8_t>& buffer, uint32_t offset, std::string& result)
-        {
-            uint32_t originalOffset = offset;
-
-            if (buffer.size() - offset < sizeof(uint32_t))
-                throw std::runtime_error("Not enough data");
-
-            uint32_t length = decodeBigEndian<uint32_t>(buffer.data() + offset);
-
-            offset += sizeof(length);
-
-            if (buffer.size() - offset < length)
-                throw std::runtime_error("Not enough data");
-
-            result.assign(reinterpret_cast<const char*>(buffer.data() + offset), length);
-            offset += length;
-
-            return offset - originalOffset;
-        }
-
-        static uint32_t readByteArray(const std::vector<uint8_t>& buffer, uint32_t offset, std::vector<uint8_t>& result)
-        {
-            uint32_t originalOffset = offset;
-
-            if (buffer.size() - offset < sizeof(uint32_t))
-                throw std::runtime_error("Not enough data");
-
-            uint32_t length = decodeBigEndian<uint32_t>(buffer.data() + offset);
-
-            offset += sizeof(length);
-
-            if (buffer.size() - offset < length)
-                throw std::runtime_error("Not enough data");
-
-            result.assign(reinterpret_cast<const uint8_t*>(buffer.data() + offset),
-                          reinterpret_cast<const uint8_t*>(buffer.data() + offset) + length);
-            offset += length;
-
-            return offset - originalOffset;
-        }
-
-        static uint32_t readObject(const std::vector<uint8_t>& buffer, uint32_t offset, std::map<uint32_t, Value>& result)
-        {
-            uint32_t originalOffset = offset;
-
-            if (buffer.size() - offset < sizeof(uint32_t))
-                throw std::runtime_error("Not enough data");
-
-            uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
-
-            offset += sizeof(count);
-
-            for (uint32_t i = 0; i < count; ++i)
+            // reading
+            uint32_t readInt8(const std::vector<uint8_t>& buffer, uint32_t offset, uint8_t& result)
             {
-                if (buffer.size() - offset < sizeof(uint32_t))
+                if (buffer.size() - offset < sizeof(result))
                     throw std::runtime_error("Not enough data");
 
-                uint32_t key = decodeBigEndian<uint32_t>(buffer.data() + offset);
+                memcpy(&result, buffer.data() + offset, sizeof(result));
 
-                offset += sizeof(key);
-
-                Value node;
-
-                uint32_t ret = node.decode(buffer, offset);
-
-                offset += ret;
-
-                result[static_cast<uint32_t>(key)] = node;
+                return sizeof(result);
             }
 
-            return offset - originalOffset;
-        }
-
-        static uint32_t readArray(const std::vector<uint8_t>& buffer, uint32_t offset, std::vector<Value>& result)
-        {
-            uint32_t originalOffset = offset;
-
-            if (buffer.size() - offset < sizeof(uint32_t))
-                throw std::runtime_error("Not enough data");
-
-            uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
-
-            offset += sizeof(count);
-
-            for (uint32_t i = 0; i < count; ++i)
+            uint32_t readInt16(const std::vector<uint8_t>& buffer, uint32_t offset, uint16_t& result)
             {
-                Value node;
-                uint32_t ret = node.decode(buffer, offset);
+                if (buffer.size() - offset < sizeof(result))
+                    throw std::runtime_error("Not enough data");
 
-                offset += ret;
+                result = decodeBigEndian<uint16_t>(buffer.data() + offset);
 
-                result.push_back(node);
+                return sizeof(result);
             }
 
-            return offset - originalOffset;
-        }
-
-        static uint32_t readDictionary(const std::vector<uint8_t>& buffer, uint32_t offset, std::map<std::string, Value>& result)
-        {
-            uint32_t originalOffset = offset;
-
-            if (buffer.size() - offset < sizeof(uint32_t))
-                throw std::runtime_error("Not enough data");
-
-            uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
-
-            offset += sizeof(count);
-
-            for (uint32_t i = 0; i < count; ++i)
+            uint32_t readInt32(const std::vector<uint8_t>& buffer, uint32_t offset, uint32_t& result)
             {
+                if (buffer.size() - offset < sizeof(result))
+                    throw std::runtime_error("Not enough data");
+
+                result = decodeBigEndian<uint32_t>(buffer.data() + offset);
+
+                return sizeof(result);
+            }
+
+            uint32_t readInt64(const std::vector<uint8_t>& buffer, uint32_t offset, uint64_t& result)
+            {
+                if (buffer.size() - offset < sizeof(result))
+                    throw std::runtime_error("Not enough data");
+
+                result = decodeBigEndian<uint64_t>(buffer.data() + offset);
+
+                return sizeof(result);
+            }
+
+            uint32_t readFloat(const std::vector<uint8_t>& buffer, uint32_t offset, float& result)
+            {
+                if (buffer.size() - offset < sizeof(float))
+                    throw std::runtime_error("Not enough data");
+
+                memcpy(&result, buffer.data() + offset, sizeof(result));
+
+                return sizeof(result);
+            }
+
+            uint32_t readDouble(const std::vector<uint8_t>& buffer, uint32_t offset, double& result)
+            {
+                if (buffer.size() - offset < sizeof(double))
+                    throw std::runtime_error("Not enough data");
+
+                memcpy(&result, buffer.data() + offset, sizeof(result));
+
+                return sizeof(result);
+            }
+
+            uint32_t readString(const std::vector<uint8_t>& buffer, uint32_t offset, std::string& result)
+            {
+                uint32_t originalOffset = offset;
+
                 if (buffer.size() - offset < sizeof(uint16_t))
                     throw std::runtime_error("Not enough data");
 
@@ -210,203 +86,330 @@ namespace ouzel
                 if (buffer.size() - offset < length)
                     throw std::runtime_error("Not enough data");
 
-                std::string key(reinterpret_cast<const char*>(buffer.data() + offset), length);
+                result.assign(reinterpret_cast<const char*>(buffer.data() + offset), length);
                 offset += length;
 
-                Value node;
-
-                uint32_t ret = node.decode(buffer, offset);
-
-                offset += ret;
-
-                result[key] = node;
+                return offset - originalOffset;
             }
 
-            return offset - originalOffset;
-        }
-
-        // writing
-        static uint32_t writeInt8(std::vector<uint8_t>& buffer, uint8_t value)
-        {
-            buffer.push_back(value);
-
-            return sizeof(value);
-        }
-
-        static uint32_t writeInt16(std::vector<uint8_t>& buffer, uint16_t value)
-        {
-            uint8_t data[sizeof(value)];
-
-            encodeBigEndian<uint16_t>(data, value);
-
-            buffer.insert(buffer.end(), std::begin(data), std::end(data));
-
-            return sizeof(value);
-        }
-
-        static uint32_t writeInt32(std::vector<uint8_t>& buffer, uint32_t value)
-        {
-            uint8_t data[sizeof(value)];
-
-            encodeBigEndian<uint32_t>(data, value);
-
-            buffer.insert(buffer.end(), std::begin(data), std::end(data));
-
-            return sizeof(value);
-        }
-
-        static uint32_t writeInt64(std::vector<uint8_t>& buffer, uint64_t value)
-        {
-            uint8_t data[sizeof(value)];
-
-            encodeBigEndian<uint64_t>(data, value);
-
-            buffer.insert(buffer.end(), std::begin(data), std::end(data));
-
-            return sizeof(value);
-        }
-
-        static uint32_t writeFloat(std::vector<uint8_t>& buffer, float value)
-        {
-            buffer.insert(buffer.end(),
-                          reinterpret_cast<const uint8_t*>(&value),
-                          reinterpret_cast<const uint8_t*>(&value) + sizeof(value));
-
-            return sizeof(float);
-        }
-
-        static uint32_t writeDouble(std::vector<uint8_t>& buffer, double value)
-        {
-            buffer.insert(buffer.end(),
-                          reinterpret_cast<const uint8_t*>(&value),
-                          reinterpret_cast<const uint8_t*>(&value) + sizeof(value));
-
-            return sizeof(double);
-        }
-
-        static uint32_t writeString(std::vector<uint8_t>& buffer, const std::string& value)
-        {
-            uint8_t lengthData[sizeof(uint16_t)];
-
-            encodeBigEndian<uint16_t>(lengthData, static_cast<uint16_t>(value.length()));
-
-            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
-
-            uint32_t size = sizeof(lengthData);
-
-            buffer.insert(buffer.end(),
-                          reinterpret_cast<const uint8_t*>(value.data()),
-                          reinterpret_cast<const uint8_t*>(value.data()) + value.length());
-            size += static_cast<uint32_t>(value.length());
-
-            return size;
-        }
-
-        static uint32_t writeLongString(std::vector<uint8_t>& buffer, const std::string& value)
-        {
-            uint8_t lengthData[sizeof(uint32_t)];
-
-            encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.length()));
-
-            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
-
-            uint32_t size = sizeof(lengthData);
-
-            buffer.insert(buffer.end(),
-                          reinterpret_cast<const uint8_t*>(value.data()),
-                          reinterpret_cast<const uint8_t*>(value.data()) + value.length());
-            size += static_cast<uint32_t>(value.length());
-
-            return size;
-        }
-
-        static uint32_t writeByteArray(std::vector<uint8_t>& buffer, const std::vector<uint8_t>& value)
-        {
-            uint8_t lengthData[sizeof(uint32_t)];
-
-            encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.size()));
-
-            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
-
-            uint32_t size = sizeof(lengthData);
-
-            buffer.insert(buffer.end(), value.begin(), value.end());
-            size += static_cast<uint32_t>(value.size());
-
-            return size;
-        }
-
-        static uint32_t writeObject(std::vector<uint8_t>& buffer, const std::map<uint32_t, Value>& value)
-        {
-            uint8_t lengthData[sizeof(uint32_t)];
-
-            encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.size()));
-
-            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
-
-            uint32_t size = sizeof(lengthData);
-
-            for (const auto& i : value)
+            uint32_t readLongString(const std::vector<uint8_t>& buffer, uint32_t offset, std::string& result)
             {
-                uint8_t keyData[sizeof(uint32_t)];
+                uint32_t originalOffset = offset;
 
-                encodeBigEndian<uint32_t>(keyData, i.first);
+                if (buffer.size() - offset < sizeof(uint32_t))
+                    throw std::runtime_error("Not enough data");
 
-                buffer.insert(buffer.end(), std::begin(keyData), std::end(keyData));
+                uint32_t length = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
-                size += sizeof(keyData);
+                offset += sizeof(length);
 
-                size += i.second.encode(buffer);
+                if (buffer.size() - offset < length)
+                    throw std::runtime_error("Not enough data");
+
+                result.assign(reinterpret_cast<const char*>(buffer.data() + offset), length);
+                offset += length;
+
+                return offset - originalOffset;
             }
 
-            return size;
-        }
+            uint32_t readByteArray(const std::vector<uint8_t>& buffer, uint32_t offset, std::vector<uint8_t>& result)
+            {
+                uint32_t originalOffset = offset;
 
-        static uint32_t writeArray(std::vector<uint8_t>& buffer, const std::vector<Value>& value)
-        {
-            uint8_t lengthData[sizeof(uint32_t)];
+                if (buffer.size() - offset < sizeof(uint32_t))
+                    throw std::runtime_error("Not enough data");
 
-            encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.size()));
+                uint32_t length = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
-            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+                offset += sizeof(length);
 
-            uint32_t size = sizeof(lengthData);
+                if (buffer.size() - offset < length)
+                    throw std::runtime_error("Not enough data");
 
-            for (const auto& i : value)
-                size += i.encode(buffer);
+                result.assign(reinterpret_cast<const uint8_t*>(buffer.data() + offset),
+                              reinterpret_cast<const uint8_t*>(buffer.data() + offset) + length);
+                offset += length;
 
-            return size;
-        }
+                return offset - originalOffset;
+            }
 
-        static uint32_t writeDictionary(std::vector<uint8_t>& buffer, const std::map<std::string, Value>& value)
-        {
-            uint8_t sizeData[sizeof(uint32_t)];
+            uint32_t readObject(const std::vector<uint8_t>& buffer, uint32_t offset, std::map<uint32_t, Value>& result)
+            {
+                uint32_t originalOffset = offset;
 
-            encodeBigEndian<uint32_t>(sizeData, static_cast<uint32_t>(value.size()));
+                if (buffer.size() - offset < sizeof(uint32_t))
+                    throw std::runtime_error("Not enough data");
 
-            buffer.insert(buffer.end(), std::begin(sizeData), std::end(sizeData));
+                uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
-            uint32_t size = sizeof(sizeData);
+                offset += sizeof(count);
 
-            for (const auto& i : value)
+                for (uint32_t i = 0; i < count; ++i)
+                {
+                    if (buffer.size() - offset < sizeof(uint32_t))
+                        throw std::runtime_error("Not enough data");
+
+                    uint32_t key = decodeBigEndian<uint32_t>(buffer.data() + offset);
+
+                    offset += sizeof(key);
+
+                    Value node;
+
+                    uint32_t ret = node.decode(buffer, offset);
+
+                    offset += ret;
+
+                    result[static_cast<uint32_t>(key)] = node;
+                }
+
+                return offset - originalOffset;
+            }
+
+            uint32_t readArray(const std::vector<uint8_t>& buffer, uint32_t offset, std::vector<Value>& result)
+            {
+                uint32_t originalOffset = offset;
+
+                if (buffer.size() - offset < sizeof(uint32_t))
+                    throw std::runtime_error("Not enough data");
+
+                uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
+
+                offset += sizeof(count);
+
+                for (uint32_t i = 0; i < count; ++i)
+                {
+                    Value node;
+                    uint32_t ret = node.decode(buffer, offset);
+
+                    offset += ret;
+
+                    result.push_back(node);
+                }
+
+                return offset - originalOffset;
+            }
+
+            uint32_t readDictionary(const std::vector<uint8_t>& buffer, uint32_t offset, std::map<std::string, Value>& result)
+            {
+                uint32_t originalOffset = offset;
+
+                if (buffer.size() - offset < sizeof(uint32_t))
+                    throw std::runtime_error("Not enough data");
+
+                uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
+
+                offset += sizeof(count);
+
+                for (uint32_t i = 0; i < count; ++i)
+                {
+                    if (buffer.size() - offset < sizeof(uint16_t))
+                        throw std::runtime_error("Not enough data");
+
+                    uint16_t length = decodeBigEndian<uint16_t>(buffer.data() + offset);
+
+                    offset += sizeof(length);
+
+                    if (buffer.size() - offset < length)
+                        throw std::runtime_error("Not enough data");
+
+                    std::string key(reinterpret_cast<const char*>(buffer.data() + offset), length);
+                    offset += length;
+
+                    Value node;
+
+                    uint32_t ret = node.decode(buffer, offset);
+
+                    offset += ret;
+
+                    result[key] = node;
+                }
+
+                return offset - originalOffset;
+            }
+
+            // writing
+            uint32_t writeInt8(std::vector<uint8_t>& buffer, uint8_t value)
+            {
+                buffer.push_back(value);
+
+                return sizeof(value);
+            }
+
+            uint32_t writeInt16(std::vector<uint8_t>& buffer, uint16_t value)
+            {
+                uint8_t data[sizeof(value)];
+
+                encodeBigEndian<uint16_t>(data, value);
+
+                buffer.insert(buffer.end(), std::begin(data), std::end(data));
+
+                return sizeof(value);
+            }
+
+            uint32_t writeInt32(std::vector<uint8_t>& buffer, uint32_t value)
+            {
+                uint8_t data[sizeof(value)];
+
+                encodeBigEndian<uint32_t>(data, value);
+
+                buffer.insert(buffer.end(), std::begin(data), std::end(data));
+
+                return sizeof(value);
+            }
+
+            uint32_t writeInt64(std::vector<uint8_t>& buffer, uint64_t value)
+            {
+                uint8_t data[sizeof(value)];
+
+                encodeBigEndian<uint64_t>(data, value);
+
+                buffer.insert(buffer.end(), std::begin(data), std::end(data));
+
+                return sizeof(value);
+            }
+
+            uint32_t writeFloat(std::vector<uint8_t>& buffer, float value)
+            {
+                buffer.insert(buffer.end(),
+                              reinterpret_cast<const uint8_t*>(&value),
+                              reinterpret_cast<const uint8_t*>(&value) + sizeof(value));
+
+                return sizeof(float);
+            }
+
+            uint32_t writeDouble(std::vector<uint8_t>& buffer, double value)
+            {
+                buffer.insert(buffer.end(),
+                              reinterpret_cast<const uint8_t*>(&value),
+                              reinterpret_cast<const uint8_t*>(&value) + sizeof(value));
+
+                return sizeof(double);
+            }
+
+            uint32_t writeString(std::vector<uint8_t>& buffer, const std::string& value)
             {
                 uint8_t lengthData[sizeof(uint16_t)];
 
-                encodeBigEndian<uint16_t>(lengthData, static_cast<uint16_t>(i.first.length()));
+                encodeBigEndian<uint16_t>(lengthData, static_cast<uint16_t>(value.length()));
 
                 buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
 
-                size += sizeof(lengthData);
+                uint32_t size = sizeof(lengthData);
 
                 buffer.insert(buffer.end(),
-                              reinterpret_cast<const uint8_t*>(i.first.data()),
-                              reinterpret_cast<const uint8_t*>(i.first.data()) + i.first.length());
-                size += static_cast<uint32_t>(i.first.length());
+                              reinterpret_cast<const uint8_t*>(value.data()),
+                              reinterpret_cast<const uint8_t*>(value.data()) + value.length());
+                size += static_cast<uint32_t>(value.length());
 
-                size += i.second.encode(buffer);
+                return size;
             }
 
-            return size;
+            uint32_t writeLongString(std::vector<uint8_t>& buffer, const std::string& value)
+            {
+                uint8_t lengthData[sizeof(uint32_t)];
+
+                encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.length()));
+
+                buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+
+                uint32_t size = sizeof(lengthData);
+
+                buffer.insert(buffer.end(),
+                              reinterpret_cast<const uint8_t*>(value.data()),
+                              reinterpret_cast<const uint8_t*>(value.data()) + value.length());
+                size += static_cast<uint32_t>(value.length());
+
+                return size;
+            }
+
+            uint32_t writeByteArray(std::vector<uint8_t>& buffer, const std::vector<uint8_t>& value)
+            {
+                uint8_t lengthData[sizeof(uint32_t)];
+
+                encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.size()));
+
+                buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+
+                uint32_t size = sizeof(lengthData);
+
+                buffer.insert(buffer.end(), value.begin(), value.end());
+                size += static_cast<uint32_t>(value.size());
+
+                return size;
+            }
+
+            uint32_t writeObject(std::vector<uint8_t>& buffer, const std::map<uint32_t, Value>& value)
+            {
+                uint8_t lengthData[sizeof(uint32_t)];
+
+                encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.size()));
+
+                buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+
+                uint32_t size = sizeof(lengthData);
+
+                for (const auto& i : value)
+                {
+                    uint8_t keyData[sizeof(uint32_t)];
+
+                    encodeBigEndian<uint32_t>(keyData, i.first);
+
+                    buffer.insert(buffer.end(), std::begin(keyData), std::end(keyData));
+
+                    size += sizeof(keyData);
+
+                    size += i.second.encode(buffer);
+                }
+
+                return size;
+            }
+
+            uint32_t writeArray(std::vector<uint8_t>& buffer, const std::vector<Value>& value)
+            {
+                uint8_t lengthData[sizeof(uint32_t)];
+
+                encodeBigEndian<uint32_t>(lengthData, static_cast<uint32_t>(value.size()));
+
+                buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+
+                uint32_t size = sizeof(lengthData);
+
+                for (const auto& i : value)
+                    size += i.encode(buffer);
+
+                return size;
+            }
+
+            uint32_t writeDictionary(std::vector<uint8_t>& buffer, const std::map<std::string, Value>& value)
+            {
+                uint8_t sizeData[sizeof(uint32_t)];
+
+                encodeBigEndian<uint32_t>(sizeData, static_cast<uint32_t>(value.size()));
+
+                buffer.insert(buffer.end(), std::begin(sizeData), std::end(sizeData));
+
+                uint32_t size = sizeof(sizeData);
+
+                for (const auto& i : value)
+                {
+                    uint8_t lengthData[sizeof(uint16_t)];
+
+                    encodeBigEndian<uint16_t>(lengthData, static_cast<uint16_t>(i.first.length()));
+
+                    buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+
+                    size += sizeof(lengthData);
+
+                    buffer.insert(buffer.end(),
+                                  reinterpret_cast<const uint8_t*>(i.first.data()),
+                                  reinterpret_cast<const uint8_t*>(i.first.data()) + i.first.length());
+                    size += static_cast<uint32_t>(i.first.length());
+
+                    size += i.second.encode(buffer);
+                }
+
+                return size;
+            }
         }
 
         uint32_t Value::decode(const std::vector<uint8_t>& buffer, uint32_t offset)
