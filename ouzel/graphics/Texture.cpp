@@ -553,9 +553,6 @@ namespace ouzel
                 uint32_t bufferSize = newWidth * newHeight * pixelSize;
                 levels.emplace_back(size, std::vector<uint8_t>(bufferSize));
 
-                uint32_t previousWidth = newWidth;
-                uint32_t previousHeight = newHeight;
-
                 while ((newWidth > 1 || newHeight > 1) &&
                     (mipmaps == 0 || levels.size() < mipmaps))
                 {
@@ -569,9 +566,6 @@ namespace ouzel
                     bufferSize = newWidth * newHeight * pixelSize;
 
                     levels.emplace_back(mipMapSize, std::vector<uint8_t>(bufferSize));
-
-                    previousWidth = newWidth;
-                    previousHeight = newHeight;
                 }
 
                 return levels;
