@@ -65,7 +65,6 @@ namespace ouzel
             if (!tempData)
                 throw std::runtime_error("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
 
-            size_t pixelSize;
             graphics::PixelFormat pixelFormat;
             std::vector<uint8_t> imageData;
 
@@ -74,7 +73,6 @@ namespace ouzel
                 case STBI_grey:
                 {
                     pixelFormat = graphics::PixelFormat::RGBA8UNorm;
-                    pixelSize = 4;
 
                     imageData.resize(static_cast<size_t>(width * height * 4));
 
@@ -96,7 +94,6 @@ namespace ouzel
                 case STBI_grey_alpha:
                 {
                     pixelFormat = graphics::PixelFormat::RGBA8UNorm;
-                    pixelSize = 4;
 
                     imageData.resize(static_cast<size_t>(width * height * 4));
 
@@ -118,7 +115,6 @@ namespace ouzel
                 case STBI_rgb:
                 {
                     pixelFormat = graphics::PixelFormat::RGBA8UNorm;
-                    pixelSize = 4;
 
                     imageData.resize(static_cast<size_t>(width * height * 4));
 
@@ -140,9 +136,8 @@ namespace ouzel
                 case STBI_rgb_alpha:
                 {
                     pixelFormat = graphics::PixelFormat::RGBA8UNorm;
-                    pixelSize = 4;
                     imageData.assign(tempData,
-                                     tempData + static_cast<size_t>(width * height) * pixelSize);
+                                     tempData + static_cast<size_t>(width * height) * 4);
                     stbi_image_free(tempData);
                     break;
                 }
