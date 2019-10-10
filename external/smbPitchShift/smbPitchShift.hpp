@@ -171,7 +171,7 @@ namespace smb
             constexpr uint32_t stepSize = fftFrameSize / oversamp;
             constexpr uint32_t inFifoLatency = fftFrameSize - stepSize;
             const float freqPerBin = static_cast<float>(sampleRate) / static_cast<float>(fftFrameSize);
-            const float expected = 2.0F * pi * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
+            constexpr float expected = 2.0F * pi * static_cast<float>(stepSize) / static_cast<float>(fftFrameSize);
             if (rover == 0) rover = inFifoLatency;
 
             // main processing loop
