@@ -234,7 +234,6 @@ namespace smb
                     // ***************** PROCESSING *******************
                     // this does the actual pitch shifting
                     std::fill(std::begin(synMagn), std::end(synMagn), 0.0F);
-                    std::fill(std::begin(synFreq), std::end(synFreq), 0.0F);
                     for (uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
                     {
                         const uint32_t index = static_cast<uint32_t>(k * pitchShift);
@@ -307,10 +306,10 @@ namespace smb
         float lastPhase[fftFrameSize / 2 + 1]{0.0F};
         float sumPhase[fftFrameSize / 2 + 1]{0.0F};
         float outputAccum[2 * fftFrameSize]{0.0F};
-        float anaFreq[fftFrameSize]{0.0F};
-        float anaMagn[fftFrameSize]{0.0F};
-        float synFreq[fftFrameSize]{0.0F};
-        float synMagn[fftFrameSize]{0.0F};
+        float anaFreq[fftFrameSize / 2 + 1]{0.0F};
+        float anaMagn[fftFrameSize / 2 + 1]{0.0F};
+        float synFreq[fftFrameSize / 2 + 1]{0.0F};
+        float synMagn[fftFrameSize / 2 + 1]{0.0F};
         uint32_t rover = 0;
     };
 }
