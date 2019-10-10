@@ -233,8 +233,8 @@ namespace smb
 
                     // ***************** PROCESSING *******************
                     // this does the actual pitch shifting
-                    std::fill(std::begin(synMagn), std::begin(synMagn) + fftFrameSize, 0.0F);
-                    std::fill(std::begin(synFreq), std::begin(synFreq) + fftFrameSize, 0.0F);
+                    std::fill(std::begin(synMagn), std::end(synMagn), 0.0F);
+                    std::fill(std::begin(synFreq), std::end(synFreq), 0.0F);
                     for (uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
                     {
                         const uint32_t index = static_cast<uint32_t>(k * pitchShift);
