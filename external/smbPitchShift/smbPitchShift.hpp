@@ -104,7 +104,7 @@ namespace smb
         };
 
         template <int32_t sign, uint32_t fftFrameSize>
-        void fft(Complex<float>* fftBuffer) noexcept
+        void fft(Complex<float> fftBuffer[fftFrameSize]) noexcept
         {
             // Bit-reversal permutation applied to a sequence of fftFrameSize items
             for (uint32_t i = 1; i < fftFrameSize - 1; ++i)
