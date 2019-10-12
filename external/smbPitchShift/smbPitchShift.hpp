@@ -189,7 +189,7 @@ namespace smb
 
                     // do windowing
                     for (uint32_t k = 0; k < fftFrameSize; ++k)
-                        fftWorksp[k] = { inFifo[k] * window[k], 0.0F };
+                        fftWorksp[k] = {inFifo[k] * window[k], 0.0F};
 
                     // ***************** ANALYSIS *******************
                     // do transform
@@ -267,12 +267,12 @@ namespace smb
                         const float phase = sumPhase[k];
 
                         // get real and imag part and re-interleave
-                        fftWorksp[k] = { magn * std::cos(phase), magn * std::sin(phase) };
+                        fftWorksp[k] = {magn * std::cos(phase), magn * std::sin(phase)};
                     }
 
                     // zero negative frequencies
-                    for (uint32_t k = fftFrameSize + 1; k < fftFrameSize; ++k)
-                        fftWorksp[k] = {0.0F, 0.0F};
+                    //for (uint32_t k = fftFrameSizeHalf + 1; k < fftFrameSize; ++k)
+                    //    fftWorksp[k] = {0.0F, 0.0F};
 
                     // do inverse transform
                     fft<1, fftFrameSize>(fftWorksp);
