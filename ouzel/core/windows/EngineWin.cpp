@@ -203,9 +203,10 @@ namespace ouzel
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         // Result of the ShellExecuteW can be cast only to an int (https://docs.microsoft.com/en-us/windows/desktop/api/shellapi/nf-shellapi-shellexecutew)
-        // Cast to intptr_t and then to int to avoid warnings 4311 and 4302
-        auto result = static_cast<int>(reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", buffer.data(), nullptr, nullptr, SW_SHOWNORMAL)));
-        if (result <= 32)
-            throw std::system_error(result, shellExecuteErrorCategory, "Failed to execute open");
+        HINSTANCE result = ShellExecuteW(nullptr, L"open", buffer.data(), nullptr, nullptr, SW_SHOWNORMAL);
+        int status;
+        memcpy(&status, &result, sizeof(status));
+        if (status <= 32)
+            throw std::system_error(status, shellExecuteErrorCategory, "Failed to execute open");
     }
 }
