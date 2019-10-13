@@ -282,7 +282,7 @@ namespace smb
                         outputAccum[k] += 2.0F * window[k] * fftWorksp[k].real / (fftFrameSizeHalf * oversamp);
 
                     uint32_t k;
-                    for (k = 0 ; k < stepSize; ++k)
+                    for (k = 0; k < stepSize; ++k)
                         outFifo[k] = outputAccum[k];
                     // shift accumulator
                     uint32_t j;

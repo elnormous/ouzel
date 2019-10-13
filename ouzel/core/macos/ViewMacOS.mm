@@ -367,7 +367,10 @@ namespace
     {
         CGPoint location = touch.normalizedPosition;
 
-        touchpadDevice->handleTouchBegin(reinterpret_cast<uint64_t>(touch),
+        uint64_t touchId;
+        memcpy(&touchId, &touch, sizeof(touch));
+
+        touchpadDevice->handleTouchBegin(touchId,
                                          ouzel::Vector2F(static_cast<float>(location.x),
                                                          static_cast<float>(location.y)),
                                          1.0F);
@@ -384,7 +387,10 @@ namespace
     {
         CGPoint location = touch.normalizedPosition;
 
-        touchpadDevice->handleTouchMove(reinterpret_cast<uint64_t>(touch),
+        uint64_t touchId;
+        memcpy(&touchId, &touch, sizeof(touch));
+
+        touchpadDevice->handleTouchMove(touchId,
                                         ouzel::Vector2F(static_cast<float>(location.x),
                                                         static_cast<float>(location.y)),
                                         1.0F);
@@ -401,7 +407,10 @@ namespace
     {
         CGPoint location = touch.normalizedPosition;
 
-        touchpadDevice->handleTouchEnd(reinterpret_cast<uint64_t>(touch),
+        uint64_t touchId;
+        memcpy(&touchId, &touch, sizeof(touch));
+
+        touchpadDevice->handleTouchEnd(touchId,
                                        ouzel::Vector2F(static_cast<float>(location.x),
                                                        static_cast<float>(location.y)),
                                        1.0F);
@@ -418,7 +427,10 @@ namespace
     {
         CGPoint location = touch.normalizedPosition;
 
-        touchpadDevice->handleTouchCancel(reinterpret_cast<uint64_t>(touch),
+        uint64_t touchId;
+        memcpy(&touchId, &touch, sizeof(touch));
+
+        touchpadDevice->handleTouchCancel(touchId,
                                           ouzel::Vector2F(static_cast<float>(location.x),
                                                           static_cast<float>(location.y)),
                                           1.0F);

@@ -20,7 +20,10 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        touchpadDevice->handleTouchBegin(reinterpret_cast<uint64_t>(touch),
+        uint64_t touchId;
+        memcpy(&touchId, &touch, sizeof(touch));
+
+        touchpadDevice->handleTouchBegin(touchId,
                                          ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
                                                          static_cast<float>(location.y / self.bounds.size.height)),
                                          static_cast<float>(force));
@@ -38,7 +41,10 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        touchpadDevice->handleTouchMove(reinterpret_cast<uint64_t>(touch),
+        uint64_t touchId;
+        memcpy(&touchId, &touch, sizeof(touch));
+
+        touchpadDevice->handleTouchMove(touchId,
                                         ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
                                                         static_cast<float>(location.y / self.bounds.size.height)),
                                         static_cast<float>(force));
@@ -56,7 +62,10 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        touchpadDevice->handleTouchEnd(reinterpret_cast<uint64_t>(touch),
+        uint64_t touchId;
+        memcpy(&touchId, &touch, sizeof(touch));
+
+        touchpadDevice->handleTouchEnd(touchId,
                                        ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
                                                        static_cast<float>(location.y / self.bounds.size.height)),
                                        static_cast<float>(force));
@@ -74,7 +83,10 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        touchpadDevice->handleTouchCancel(reinterpret_cast<uint64_t>(touch),
+        uint64_t touchId;
+        memcpy(&touchId, &touch, sizeof(touch));
+
+        touchpadDevice->handleTouchCancel(touchId,
                                           ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
                                                           static_cast<float>(location.y / self.bounds.size.height)),
                                           static_cast<float>(force));
