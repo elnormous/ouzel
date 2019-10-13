@@ -9,7 +9,7 @@
 
 namespace
 {
-    std::map<std::string, ouzel::input::Keyboard::Key> keyMap = {
+    const std::map<std::string, ouzel::input::Keyboard::Key> keyMap = {
         {"Backspace", ouzel::input::Keyboard::Key::Backspace},
         {"Tab", ouzel::input::Keyboard::Key::Tab},
         {"Enter", ouzel::input::Keyboard::Key::Enter},
@@ -186,17 +186,17 @@ namespace
         }
 
         ouzel::Vector2F position(static_cast<float>(mouseEvent->canvasX),
-                                static_cast<float>(mouseEvent->canvasY));
+                                 static_cast<float>(mouseEvent->canvasY));
 
         switch (eventType)
         {
             case EMSCRIPTEN_EVENT_MOUSEDOWN:
                 mouseDevice->handleButtonPress(button,
-                                            ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                               ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
                 return true;
             case EMSCRIPTEN_EVENT_MOUSEUP:
                 mouseDevice->handleButtonRelease(button,
-                                                ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                                 ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
                 return true;
             case EMSCRIPTEN_EVENT_MOUSEMOVE:
                 mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
@@ -216,7 +216,7 @@ namespace
                                     static_cast<float>(wheelEvent->mouse.canvasY));
 
             mouseDevice->handleScroll(ouzel::Vector2F(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
-                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
 
             return true;
         }
@@ -270,13 +270,13 @@ namespace
                 {
                     case EMSCRIPTEN_EVENT_TOUCHSTART:
                         touchpadDevice->handleTouchBegin(static_cast<uint64_t>(touchEvent->touches[i].identifier),
-                                                        ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                        1.0F);
+                                                         ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                         1.0F);
                         break;
                     case EMSCRIPTEN_EVENT_TOUCHEND:
                         touchpadDevice->handleTouchEnd(static_cast<uint64_t>(touchEvent->touches[i].identifier),
-                                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                    1.0F);
+                                                       ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                       1.0F);
                         break;
                     case EMSCRIPTEN_EVENT_TOUCHMOVE:
                         touchpadDevice->handleTouchMove(static_cast<uint64_t>(touchEvent->touches[i].identifier),
@@ -285,8 +285,8 @@ namespace
                         break;
                     case EMSCRIPTEN_EVENT_TOUCHCANCEL:
                         touchpadDevice->handleTouchCancel(static_cast<uint64_t>(touchEvent->touches[i].identifier),
-                                                        ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                        1.0F);
+                                                          ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                          1.0F);
                         break;
                 }
             }
