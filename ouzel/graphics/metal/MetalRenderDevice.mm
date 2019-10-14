@@ -765,7 +765,7 @@ namespace ouzel
                                 MTLBufferPtr currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
 
                                 std::copy(reinterpret_cast<const char*>(shaderData.data()),
-                                          reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
+                                          reinterpret_cast<const char*>(shaderData.data()) + sizeof(float) * shaderData.size(),
                                           static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset);
 
                                 [currentRenderCommandEncoder setFragmentBuffer:currentBuffer
@@ -816,7 +816,7 @@ namespace ouzel
                                 currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
 
                                 std::copy(reinterpret_cast<const char*>(shaderData.data()),
-                                          reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
+                                          reinterpret_cast<const char*>(shaderData.data()) + sizeof(float) * shaderData.size(),
                                           static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset);
 
                                 [currentRenderCommandEncoder setVertexBuffer:currentBuffer
