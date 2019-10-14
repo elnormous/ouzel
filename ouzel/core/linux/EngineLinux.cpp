@@ -429,7 +429,7 @@ namespace ouzel
                             {
                                 case XI_TouchBegin:
                                 {
-                                    XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
+                                    XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchBegin(xievent->detail,
                                                                      window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
                                                                                                                         static_cast<float>(xievent->event_y))));
@@ -437,7 +437,7 @@ namespace ouzel
                                 }
                                 case XI_TouchEnd:
                                 {
-                                    XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
+                                    XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchEnd(xievent->detail,
                                                                    window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
                                                                                                                       static_cast<float>(xievent->event_y))));
@@ -445,7 +445,7 @@ namespace ouzel
                                 }
                                 case XI_TouchUpdate:
                                 {
-                                    XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
+                                    XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchMove(xievent->detail,
                                                                     window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
                                                                                                                        static_cast<float>(xievent->event_y))));
