@@ -255,7 +255,10 @@ namespace ouzel
                 if (!eglBindAPI(EGL_OPENGL_ES_API))
                     throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API");
 
-                surface = eglCreateWindowSurface(display, config, reinterpret_cast<EGLNativeWindowType>(&windowLinux->getNativeWindow()), nullptr);
+                const EGL_DISPMANX_WINDOW_T* dispmanxWindow = &windowLinux->getNativeWindow();
+                EGLNativeWindowType nativeWindow;
+                memcpy(&nativeWindow, &dispmanxWindow, sizeof(dispmanxWindow));
+                surface = eglCreateWindowSurface(display, config, nativeWindow, nullptr);
                 if (surface == EGL_NO_SURFACE)
                     throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");
 
