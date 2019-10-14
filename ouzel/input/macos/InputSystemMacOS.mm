@@ -120,13 +120,13 @@ namespace ouzel
 
             void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
             {
-                InputSystemMacOS* inputMacOS = reinterpret_cast<InputSystemMacOS*>(ctx);
+                InputSystemMacOS* inputMacOS = static_cast<InputSystemMacOS*>(ctx);
                 inputMacOS->handleGamepadConnected(device);
             }
 
             void deviceRemoved(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
             {
-                InputSystemMacOS* inputMacOS = reinterpret_cast<InputSystemMacOS*>(ctx);
+                InputSystemMacOS* inputMacOS = static_cast<InputSystemMacOS*>(ctx);
                 inputMacOS->handleGamepadDisconnected(device);
             }
         }
