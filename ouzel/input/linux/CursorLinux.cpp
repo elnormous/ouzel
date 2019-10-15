@@ -67,17 +67,15 @@ namespace ouzel
                 cursorImage->yhot = height - static_cast<int>(hotSpot.v[1]) - 1;
                 cursorImage->delay = 0;
 
-                auto target = reinterpret_cast<unsigned char*>(cursorImage->pixels);
-
                 for (int i = 0; i < width * height; ++i)
                 {
                     // premultiply alpha
                     const float opacity = data[i * 4 + 3] / 255.0F;
 
-                    target[i * 4 + 0] = static_cast<unsigned char>(data[i * 4 + 2] * opacity);
-                    target[i * 4 + 1] = static_cast<unsigned char>(data[i * 4 + 1] * opacity);
-                    target[i * 4 + 2] = static_cast<unsigned char>(data[i * 4 + 0] * opacity);
-                    target[i * 4 + 3] = data[i * 4 + 3];
+                    cursorImage->pixels[i] = static_cast<unsigned int>(data[i * 4 + 2] * opacity) |
+                        (static_cast<unsigned int>(data[i * 4 + 1] * opacity) << 8) |
+                        (static_cast<unsigned int>(data[i * 4 + 0] * opacity) << 16) |
+                        (data[i * 4 + 3] << 24);
                 }
 
                 cursor = XcursorImageLoadCursor(display, cursorImage);
