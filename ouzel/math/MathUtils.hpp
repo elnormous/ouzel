@@ -76,7 +76,7 @@ namespace ouzel
 
     template <typename T> constexpr T radToDeg(const T x) noexcept
     {
-        return static_cast<T>(x * 57.2957795130823208767);
+        return x * T(57.2957795130823208767);
     }
 
     template <typename T> constexpr T clamp(const T x, const T lo, const T hi) noexcept
