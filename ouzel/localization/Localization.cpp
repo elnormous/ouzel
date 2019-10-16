@@ -116,7 +116,7 @@ namespace ouzel
         else
             return str;
     }
-    
+
     void Localization::addLanguage(const std::string& name, const std::vector<uint8_t>& data)
     {
         auto i = languages.find(name);

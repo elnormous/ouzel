@@ -165,7 +165,7 @@ namespace ouzel
 
             return false;
         }
-        
+
         constexpr bool operator==(const Color& c) const noexcept
         {
             return v[0] == c.v[0] &&

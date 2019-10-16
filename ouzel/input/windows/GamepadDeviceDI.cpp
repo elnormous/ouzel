@@ -66,12 +66,12 @@ namespace ouzel
             }
 
             constexpr std::array<std::pair<USAGE, DWORD>, 6> axisUsageMap = {{
-				{HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lX))}, // DIJOFS_X
-				{HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lY))}, // DIJOFS_Y
-				{HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lZ))}, // DIJOFS_Z
-				{HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lRx))}, // DIJOFS_RX
-				{HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lRy))}, // DIJOFS_RY
-				{HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lRz))} // DIJOFS_RZ
+                {HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lX))}, // DIJOFS_X
+                {HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lY))}, // DIJOFS_Y
+                {HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lZ))}, // DIJOFS_Z
+                {HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lRx))}, // DIJOFS_RX
+                {HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lRy))}, // DIJOFS_RY
+                {HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lRz))} // DIJOFS_RZ
             }};
 
             for (size_t i = 0; i < 6; ++i)

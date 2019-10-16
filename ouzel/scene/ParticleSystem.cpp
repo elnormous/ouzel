@@ -40,7 +40,7 @@ namespace ouzel
         {
             init(initParticleSystemData);
         }
-        
+
         void ParticleSystem::draw(const Matrix4F& transformMatrix,
                                   float opacity,
                                   const Matrix4F& renderViewProjection,

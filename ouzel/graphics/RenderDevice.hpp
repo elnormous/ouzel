@@ -149,7 +149,7 @@ namespace ouzel
                     });
                 }
             }
-            
+
         protected:
             virtual void init(Window* newWindow,
                               const Size2U& newSize,

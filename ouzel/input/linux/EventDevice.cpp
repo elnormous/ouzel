@@ -586,7 +586,8 @@ namespace ouzel
                                         __s32 values[1];
                                     };
 
-                                    size_t size = sizeof(__u32) + sizeof(__s32) * touchSlots.size();
+                                    size_t size = sizeof(input_mt_request_layout::code) +
+                                        sizeof(*input_mt_request_layout::values) * touchSlots.size();
                                     std::vector<uint8_t> data(size);
 
                                     input_mt_request_layout* request = reinterpret_cast<input_mt_request_layout*>(data.data());

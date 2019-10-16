@@ -60,7 +60,7 @@ namespace ouzel
         Log& operator=(const Log& other)
         {
             if (&other == this) return *this;
-            
+
             level = other.level;
             s = other.s;
 

@@ -429,7 +429,7 @@ namespace ouzel
             {
                 Widget* widget = *i;
                 widget->menu = nullptr;
-                
+
                 widgets.erase(i);
             }
 

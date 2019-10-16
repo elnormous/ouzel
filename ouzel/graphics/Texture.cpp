@@ -164,7 +164,7 @@ namespace ouzel
 
                 if (dstWidth > 0 && dstHeight > 0)
                 {
-                    for (uint32_t  y = 0; y < dstHeight; ++y, src += pitch * 2)
+                    for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                     {
                         const float* pixel = src;
                         for (uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)

@@ -69,7 +69,7 @@ namespace ouzel
             Type type;
             std::u32string value;
         };
-        
+
         inline std::vector<Token> tokenize(const std::u32string& str)
         {
             std::vector<Token> tokens;

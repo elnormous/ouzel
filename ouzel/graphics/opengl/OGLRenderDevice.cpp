@@ -1415,7 +1415,7 @@ namespace ouzel
                 std::vector<uint8_t> temp(static_cast<size_t>(rowSize));
                 for (GLsizei row = 0; row < frameBufferHeight / 2; ++row)
                 {
-                    const auto topRowOffset =  row * rowSize;
+                    const auto topRowOffset = row * rowSize;
                     const auto bottomRowOffset = (frameBufferHeight - row - 1) * rowSize;
 
                     std::copy(data.begin() + topRowOffset,
