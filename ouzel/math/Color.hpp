@@ -11,7 +11,7 @@
 
 namespace ouzel
 {
-    constexpr uint8_t hexToInt(char c)
+    constexpr uint8_t hexToInt(const char c)
     {
         return (c >= '0' && c <= '9') ? static_cast<uint8_t>(c - '0') :
             (c >= 'a' && c <= 'f') ? static_cast<uint8_t>(c - 'a' + 10) :
@@ -52,7 +52,7 @@ namespace ouzel
 
                         for (size_t byte = 0; byte < 2; ++byte)
                         {
-                            char c = (byte < componentSize) ? color[component * componentSize + byte + 1] : color[component * componentSize + 1];
+                            const char c = (byte < componentSize) ? color[component * componentSize + byte + 1] : color[component * componentSize + 1];
                             v[component] = static_cast<uint8_t>((v[component] << 4) | hexToInt(c));
                         }
                     }
