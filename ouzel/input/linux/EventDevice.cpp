@@ -627,7 +627,7 @@ namespace ouzel
                                     }
 
                                     request->code = ABS_MT_POSITION_Y;
-                                    if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
+                                    if (ioctl(fd, EVIOCGMTSLOTS(size), request.get()) == -1)
                                         throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
                                     for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
@@ -642,7 +642,7 @@ namespace ouzel
                                     }
 
                                     request->code = ABS_MT_PRESSURE;
-                                    if (ioctl(fd, EVIOCGABS(size), request) != -1)
+                                    if (ioctl(fd, EVIOCGABS(size), request.get()) != -1)
                                     {
                                         for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
                                         {
