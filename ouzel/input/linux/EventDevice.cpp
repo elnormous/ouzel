@@ -588,12 +588,11 @@ namespace ouzel
 
                                     size_t size = sizeof(input_mt_request_layout::code) +
                                         sizeof(*input_mt_request_layout::values) * touchSlots.size();
-                                    std::vector<uint8_t> data(size);
 
-                                    input_mt_request_layout* request = reinterpret_cast<input_mt_request_layout*>(data.data());
+                                    std::unique_ptr<input_mt_request_layout, decltype(&free)> request(static_cast<input_mt_request_layout*>(malloc(size)), free);
 
                                     request->code = ABS_MT_TRACKING_ID;
-                                    if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
+                                    if (ioctl(fd, EVIOCGMTSLOTS(size), request.get()) == -1)
                                         throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
                                     for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
@@ -613,7 +612,7 @@ namespace ouzel
                                     }
 
                                     request->code = ABS_MT_POSITION_X;
-                                    if (ioctl(fd, EVIOCGMTSLOTS(size), request) == -1)
+                                    if (ioctl(fd, EVIOCGMTSLOTS(size), request.get()) == -1)
                                         throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
                                     for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
