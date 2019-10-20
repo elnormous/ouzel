@@ -452,27 +452,27 @@ namespace ouzel
 
         void add(const Matrix& matrix) noexcept
         {
-            add(*this, matrix, *this);
+            add(matrix, *this);
         }
 
-        static void add(const Matrix& m1, const Matrix& m2, Matrix& dst)
+        void add(const Matrix& matrix, Matrix& dst)
         {
-            dst.m[0] = m1.m[0] + m2.m[0];
-            dst.m[1] = m1.m[1] + m2.m[1];
-            dst.m[2] = m1.m[2] + m2.m[2];
-            dst.m[3] = m1.m[3] + m2.m[3];
-            dst.m[4] = m1.m[4] + m2.m[4];
-            dst.m[5] = m1.m[5] + m2.m[5];
-            dst.m[6] = m1.m[6] + m2.m[6];
-            dst.m[7] = m1.m[7] + m2.m[7];
-            dst.m[8] = m1.m[8] + m2.m[8];
-            dst.m[9] = m1.m[9] + m2.m[9];
-            dst.m[10] = m1.m[10] + m2.m[10];
-            dst.m[11] = m1.m[11] + m2.m[11];
-            dst.m[12] = m1.m[12] + m2.m[12];
-            dst.m[13] = m1.m[13] + m2.m[13];
-            dst.m[14] = m1.m[14] + m2.m[14];
-            dst.m[15] = m1.m[15] + m2.m[15];
+            dst.m[0] = m[0] + matrix.m[0];
+            dst.m[1] = m[1] + matrix.m[1];
+            dst.m[2] = m[2] + matrix.m[2];
+            dst.m[3] = m[3] + matrix.m[3];
+            dst.m[4] = m[4] + matrix.m[4];
+            dst.m[5] = m[5] + matrix.m[5];
+            dst.m[6] = m[6] + matrix.m[6];
+            dst.m[7] = m[7] + matrix.m[7];
+            dst.m[8] = m[8] + matrix.m[8];
+            dst.m[9] = m[9] + matrix.m[9];
+            dst.m[10] = m[10] + matrix.m[10];
+            dst.m[11] = m[11] + matrix.m[11];
+            dst.m[12] = m[12] + matrix.m[12];
+            dst.m[13] = m[13] + matrix.m[13];
+            dst.m[14] = m[14] + matrix.m[14];
+            dst.m[15] = m[15] + matrix.m[15];
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 1 && Y == 1)>::type* = nullptr>
@@ -574,56 +574,56 @@ namespace ouzel
 
         void multiply(const T scalar, Matrix& dst) const noexcept
         {
-            multiply(*this, scalar, dst);
+            multiply(scalar, dst);
         }
 
-        static void multiply(const Matrix& m, T scalar, Matrix& dst)
+        void multiply(T scalar, Matrix& dst)
         {
-            dst.m[0] = m.m[0] * scalar;
-            dst.m[1] = m.m[1] * scalar;
-            dst.m[2] = m.m[2] * scalar;
-            dst.m[3] = m.m[3] * scalar;
-            dst.m[4] = m.m[4] * scalar;
-            dst.m[5] = m.m[5] * scalar;
-            dst.m[6] = m.m[6] * scalar;
-            dst.m[7] = m.m[7] * scalar;
-            dst.m[8] = m.m[8] * scalar;
-            dst.m[9] = m.m[9] * scalar;
-            dst.m[10] = m.m[10] * scalar;
-            dst.m[11] = m.m[11] * scalar;
-            dst.m[12] = m.m[12] * scalar;
-            dst.m[13] = m.m[13] * scalar;
-            dst.m[14] = m.m[14] * scalar;
-            dst.m[15] = m.m[15] * scalar;
+            dst.m[0] = m[0] * scalar;
+            dst.m[1] = m[1] * scalar;
+            dst.m[2] = m[2] * scalar;
+            dst.m[3] = m[3] * scalar;
+            dst.m[4] = m[4] * scalar;
+            dst.m[5] = m[5] * scalar;
+            dst.m[6] = m[6] * scalar;
+            dst.m[7] = m[7] * scalar;
+            dst.m[8] = m[8] * scalar;
+            dst.m[9] = m[9] * scalar;
+            dst.m[10] = m[10] * scalar;
+            dst.m[11] = m[11] * scalar;
+            dst.m[12] = m[12] * scalar;
+            dst.m[13] = m[13] * scalar;
+            dst.m[14] = m[14] * scalar;
+            dst.m[15] = m[15] * scalar;
         }
 
         void multiply(const Matrix& matrix) noexcept
         {
-            multiply(*this, matrix, *this);
+            multiply(matrix, *this);
         }
 
-        static void multiply(const Matrix& m1, const Matrix& m2, Matrix& dst)
+        void multiply(const Matrix& matrix, Matrix& dst)
         {
             const T product[16] = {
-                m1.m[0] * m2.m[0] + m1.m[4] * m2.m[1] + m1.m[8] * m2.m[2] + m1.m[12] * m2.m[3],
-                m1.m[1] * m2.m[0] + m1.m[5] * m2.m[1] + m1.m[9] * m2.m[2] + m1.m[13] * m2.m[3],
-                m1.m[2] * m2.m[0] + m1.m[6] * m2.m[1] + m1.m[10] * m2.m[2] + m1.m[14] * m2.m[3],
-                m1.m[3] * m2.m[0] + m1.m[7] * m2.m[1] + m1.m[11] * m2.m[2] + m1.m[15] * m2.m[3],
+                m[0] * matrix.m[0] + m[4] * matrix.m[1] + m[8] * matrix.m[2] + m[12] * matrix.m[3],
+                m[1] * matrix.m[0] + m[5] * matrix.m[1] + m[9] * matrix.m[2] + m[13] * matrix.m[3],
+                m[2] * matrix.m[0] + m[6] * matrix.m[1] + m[10] * matrix.m[2] + m[14] * matrix.m[3],
+                m[3] * matrix.m[0] + m[7] * matrix.m[1] + m[11] * matrix.m[2] + m[15] * matrix.m[3],
 
-                m1.m[0] * m2.m[4] + m1.m[4] * m2.m[5] + m1.m[8] * m2.m[6] + m1.m[12] * m2.m[7],
-                m1.m[1] * m2.m[4] + m1.m[5] * m2.m[5] + m1.m[9] * m2.m[6] + m1.m[13] * m2.m[7],
-                m1.m[2] * m2.m[4] + m1.m[6] * m2.m[5] + m1.m[10] * m2.m[6] + m1.m[14] * m2.m[7],
-                m1.m[3] * m2.m[4] + m1.m[7] * m2.m[5] + m1.m[11] * m2.m[6] + m1.m[15] * m2.m[7],
+                m[0] * matrix.m[4] + m[4] * matrix.m[5] + m[8] * matrix.m[6] + m[12] * matrix.m[7],
+                m[1] * matrix.m[4] + m[5] * matrix.m[5] + m[9] * matrix.m[6] + m[13] * matrix.m[7],
+                m[2] * matrix.m[4] + m[6] * matrix.m[5] + m[10] * matrix.m[6] + m[14] * matrix.m[7],
+                m[3] * matrix.m[4] + m[7] * matrix.m[5] + m[11] * matrix.m[6] + m[15] * matrix.m[7],
 
-                m1.m[0] * m2.m[8] + m1.m[4] * m2.m[9] + m1.m[8] * m2.m[10] + m1.m[12] * m2.m[11],
-                m1.m[1] * m2.m[8] + m1.m[5] * m2.m[9] + m1.m[9] * m2.m[10] + m1.m[13] * m2.m[11],
-                m1.m[2] * m2.m[8] + m1.m[6] * m2.m[9] + m1.m[10] * m2.m[10] + m1.m[14] * m2.m[11],
-                m1.m[3] * m2.m[8] + m1.m[7] * m2.m[9] + m1.m[11] * m2.m[10] + m1.m[15] * m2.m[11],
+                m[0] * matrix.m[8] + m[4] * matrix.m[9] + m[8] * matrix.m[10] + m[12] * matrix.m[11],
+                m[1] * matrix.m[8] + m[5] * matrix.m[9] + m[9] * matrix.m[10] + m[13] * matrix.m[11],
+                m[2] * matrix.m[8] + m[6] * matrix.m[9] + m[10] * matrix.m[10] + m[14] * matrix.m[11],
+                m[3] * matrix.m[8] + m[7] * matrix.m[9] + m[11] * matrix.m[10] + m[15] * matrix.m[11],
 
-                m1.m[0] * m2.m[12] + m1.m[4] * m2.m[13] + m1.m[8] * m2.m[14] + m1.m[12] * m2.m[15],
-                m1.m[1] * m2.m[12] + m1.m[5] * m2.m[13] + m1.m[9] * m2.m[14] + m1.m[13] * m2.m[15],
-                m1.m[2] * m2.m[12] + m1.m[6] * m2.m[13] + m1.m[10] * m2.m[14] + m1.m[14] * m2.m[15],
-                m1.m[3] * m2.m[12] + m1.m[7] * m2.m[13] + m1.m[11] * m2.m[14] + m1.m[15] * m2.m[15]
+                m[0] * matrix.m[12] + m[4] * matrix.m[13] + m[8] * matrix.m[14] + m[12] * matrix.m[15],
+                m[1] * matrix.m[12] + m[5] * matrix.m[13] + m[9] * matrix.m[14] + m[13] * matrix.m[15],
+                m[2] * matrix.m[12] + m[6] * matrix.m[13] + m[10] * matrix.m[14] + m[14] * matrix.m[15],
+                m[3] * matrix.m[12] + m[7] * matrix.m[13] + m[11] * matrix.m[14] + m[15] * matrix.m[15]
             };
 
             std::copy(std::begin(product), std::end(product), dst.m);
@@ -670,27 +670,27 @@ namespace ouzel
 
         void subtract(const Matrix& matrix) noexcept
         {
-            subtract(*this, matrix, *this);
+            subtract(matrix, *this);
         }
 
-        static void subtract(const Matrix& m1, const Matrix& m2, Matrix& dst)
+        void subtract(const Matrix& matrix, Matrix& dst)
         {
-            dst.m[0] = m1.m[0] - m2.m[0];
-            dst.m[1] = m1.m[1] - m2.m[1];
-            dst.m[2] = m1.m[2] - m2.m[2];
-            dst.m[3] = m1.m[3] - m2.m[3];
-            dst.m[4] = m1.m[4] - m2.m[4];
-            dst.m[5] = m1.m[5] - m2.m[5];
-            dst.m[6] = m1.m[6] - m2.m[6];
-            dst.m[7] = m1.m[7] - m2.m[7];
-            dst.m[8] = m1.m[8] - m2.m[8];
-            dst.m[9] = m1.m[9] - m2.m[9];
-            dst.m[10] = m1.m[10] - m2.m[10];
-            dst.m[11] = m1.m[11] - m2.m[11];
-            dst.m[12] = m1.m[12] - m2.m[12];
-            dst.m[13] = m1.m[13] - m2.m[13];
-            dst.m[14] = m1.m[14] - m2.m[14];
-            dst.m[15] = m1.m[15] - m2.m[15];
+            dst.m[0] = m[0] - matrix.m[0];
+            dst.m[1] = m[1] - matrix.m[1];
+            dst.m[2] = m[2] - matrix.m[2];
+            dst.m[3] = m[3] - matrix.m[3];
+            dst.m[4] = m[4] - matrix.m[4];
+            dst.m[5] = m[5] - matrix.m[5];
+            dst.m[6] = m[6] - matrix.m[6];
+            dst.m[7] = m[7] - matrix.m[7];
+            dst.m[8] = m[8] - matrix.m[8];
+            dst.m[9] = m[9] - matrix.m[9];
+            dst.m[10] = m[10] - matrix.m[10];
+            dst.m[11] = m[11] - matrix.m[11];
+            dst.m[12] = m[12] - matrix.m[12];
+            dst.m[13] = m[13] - matrix.m[13];
+            dst.m[14] = m[14] - matrix.m[14];
+            dst.m[15] = m[15] - matrix.m[15];
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
@@ -819,7 +819,7 @@ namespace ouzel
         inline const Matrix operator+(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
-            add(result, matrix, result);
+            result.add(matrix, result);
             return result;
         }
 
@@ -832,7 +832,7 @@ namespace ouzel
         inline const Matrix operator-(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
-            subtract(result, matrix, result);
+            result.subtract(matrix, result);
             return result;
         }
 
@@ -852,7 +852,7 @@ namespace ouzel
         inline const Matrix operator*(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
-            multiply(result, matrix, result);
+            result.multiply(matrix, result);
             return result;
         }
 

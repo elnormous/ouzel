@@ -85,7 +85,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<4, 4, float>::add(const Matrix& m1, const Matrix& m2, Matrix& dst)
+    void Matrix<4, 4, float>::add(const Matrix& matrix, Matrix& dst)
     {
         if (isSimdAvailable)
         {
@@ -93,66 +93,66 @@ namespace ouzel
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
-                "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]\n\t" // m1.m[0-7] m1.m[8-15]
-                "ld4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%2]\n\t" // m2.m[0-7] m2.m[8-15]
+                "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]\n\t" // m[0-7] m[8-15]
+                "ld4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%2]\n\t" // matrix.m[0-7] matrix.m[8-15]
 
-                "fadd v12.4s, v0.4s, v8.4s\n\t" // dst.m[0-3] = m1.m[0-3] + m2.m[0-3]
-                "fadd v13.4s, v1.4s, v9.4s\n\t" // dst.m[4-7] = m1.m[4-7] + m2.m[4-7]
-                "fadd v14.4s, v2.4s, v10.4s\n\t" // dst.m[8-11] = m1.m[8-11] + m2.m[8-11]
-                "fadd v15.4s, v3.4s, v11.4s\n\t" // dst.m[12-15] = m1.m[12-15] + m2.m[12-15]
+                "fadd v12.4s, v0.4s, v8.4s\n\t" // dst.m[0-3] = m[0-3] + matrix.m[0-3]
+                "fadd v13.4s, v1.4s, v9.4s\n\t" // dst.m[4-7] = m[4-7] + matrix.m[4-7]
+                "fadd v14.4s, v2.4s, v10.4s\n\t" // dst.m[8-11] = m[8-11] + matrix.m[8-11]
+                "fadd v15.4s, v3.4s, v11.4s\n\t" // dst.m[12-15] = m[12-15] + matrix.m[12-15]
 
                 "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
+                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
                 : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
             );
 #  else // NEON
             asm volatile
             (
-                "vld1.32 {q0, q1}, [%1]!\n\t" // m1.m[0-7]
-                "vld1.32 {q2, q3}, [%1]\n\t" // m1.m[8-15]
-                "vld1.32 {q8, q9}, [%2]!\n\t" // m2.m[0-7]
-                "vld1.32 {q10, q11}, [%2]\n\t" // m2.m[8-15]
+                "vld1.32 {q0, q1}, [%1]!\n\t" // m[0-7]
+                "vld1.32 {q2, q3}, [%1]\n\t" // m[8-15]
+                "vld1.32 {q8, q9}, [%2]!\n\t" // matrix.m[0-7]
+                "vld1.32 {q10, q11}, [%2]\n\t" // matrix.m[8-15]
 
-                "vadd.f32 q12, q0, q8\n\t" // dst.m[0-3] = m1.m[0-3] + m2.m[0-3]
-                "vadd.f32 q13, q1, q9\n\t" // dst.m[4-7] = m1.m[4-7] + m2.m[4-7]
-                "vadd.f32 q14, q2, q10\n\t" // dst.m[8-11] = m1.m[8-11] + m2.m[8-11]
-                "vadd.f32 q15, q3, q11\n\t" // dst.m[12-15] = m1.m[12-15] + m2.m[12-15]
+                "vadd.f32 q12, q0, q8\n\t" // dst.m[0-3] = m[0-3] + matrix.m[0-3]
+                "vadd.f32 q13, q1, q9\n\t" // dst.m[4-7] = m[4-7] + matrix.m[4-7]
+                "vadd.f32 q14, q2, q10\n\t" // dst.m[8-11] = m[8-11] + matrix.m[8-11]
+                "vadd.f32 q15, q3, q11\n\t" // dst.m[12-15] = m[12-15] + matrix.m[12-15]
 
                 "vst1.32 {q12, q13}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q14, q15}, [%0]\n\t" // dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
+                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
                 : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
             );
 #  endif
 #elif defined(__SSE__)
-            _mm_store_ps(&dst.m[0], _mm_add_ps(_mm_load_ps(&m1.m[0]), _mm_load_ps(&m2.m[0])));
-            _mm_store_ps(&dst.m[4], _mm_add_ps(_mm_load_ps(&m1.m[4]), _mm_load_ps(&m2.m[4])));
-            _mm_store_ps(&dst.m[8], _mm_add_ps(_mm_load_ps(&m1.m[8]), _mm_load_ps(&m2.m[8])));
-            _mm_store_ps(&dst.m[12], _mm_add_ps(_mm_load_ps(&m1.m[12]), _mm_load_ps(&m2.m[12])));
+            _mm_store_ps(&dst.m[0], _mm_add_ps(_mm_load_ps(&m[0]), _mm_load_ps(&matrix.m[0])));
+            _mm_store_ps(&dst.m[4], _mm_add_ps(_mm_load_ps(&m[4]), _mm_load_ps(&matrix.m[4])));
+            _mm_store_ps(&dst.m[8], _mm_add_ps(_mm_load_ps(&m[8]), _mm_load_ps(&matrix.m[8])));
+            _mm_store_ps(&dst.m[12], _mm_add_ps(_mm_load_ps(&m[12]), _mm_load_ps(&matrix.m[12])));
 #else
             throw std::runtime_error("Unsupported SIMD architecture");
 #endif
         }
         else
         {
-            dst.m[0] = m1.m[0] + m2.m[0];
-            dst.m[1] = m1.m[1] + m2.m[1];
-            dst.m[2] = m1.m[2] + m2.m[2];
-            dst.m[3] = m1.m[3] + m2.m[3];
-            dst.m[4] = m1.m[4] + m2.m[4];
-            dst.m[5] = m1.m[5] + m2.m[5];
-            dst.m[6] = m1.m[6] + m2.m[6];
-            dst.m[7] = m1.m[7] + m2.m[7];
-            dst.m[8] = m1.m[8] + m2.m[8];
-            dst.m[9] = m1.m[9] + m2.m[9];
-            dst.m[10] = m1.m[10] + m2.m[10];
-            dst.m[11] = m1.m[11] + m2.m[11];
-            dst.m[12] = m1.m[12] + m2.m[12];
-            dst.m[13] = m1.m[13] + m2.m[13];
-            dst.m[14] = m1.m[14] + m2.m[14];
-            dst.m[15] = m1.m[15] + m2.m[15];
+            dst.m[0] = m[0] + matrix.m[0];
+            dst.m[1] = m[1] + matrix.m[1];
+            dst.m[2] = m[2] + matrix.m[2];
+            dst.m[3] = m[3] + matrix.m[3];
+            dst.m[4] = m[4] + matrix.m[4];
+            dst.m[5] = m[5] + matrix.m[5];
+            dst.m[6] = m[6] + matrix.m[6];
+            dst.m[7] = m[7] + matrix.m[7];
+            dst.m[8] = m[8] + matrix.m[8];
+            dst.m[9] = m[9] + matrix.m[9];
+            dst.m[10] = m[10] + matrix.m[10];
+            dst.m[11] = m[11] + matrix.m[11];
+            dst.m[12] = m[12] + matrix.m[12];
+            dst.m[13] = m[13] + matrix.m[13];
+            dst.m[14] = m[14] + matrix.m[14];
+            dst.m[15] = m[15] + matrix.m[15];
         }
     }
 
@@ -199,11 +199,11 @@ namespace ouzel
         inverse.m[14] = -m[12] * a3 + m[13] * a1 - m[14] * a0;
         inverse.m[15] = m[8] * a3 - m[9] * a1 + m[10] * a0;
 
-        multiply(inverse, 1 / det, dst);
+        inverse.multiply(1 / det, dst);
     }
 
     template <>
-    void Matrix<4, 4, float>::multiply(const Matrix& m, float scalar, Matrix& dst)
+    void Matrix<4, 4, float>::multiply(float scalar, Matrix& dst)
     {
         if (isSimdAvailable)
         {
@@ -212,70 +212,70 @@ namespace ouzel
             asm volatile
             (
                 "ld1 {v0.s}[0], [%2]\n\t" // s
-                "ld4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%1]\n\t" // m.m[0-7] m.m[8-15]
+                "ld4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%1]\n\t" // m[0-7] m[8-15]
 
-                "fmul v8.4s, v4.4s, v0.s[0]\n\t" // dst.m[0-3] = m.m[0-3] * s
-                "fmul v9.4s, v5.4s, v0.s[0]\n\t" // dst.m[4-7] = m.m[4-7] * s
-                "fmul v10.4s, v6.4s, v0.s[0]\n\t" // dst.m[8-11] = m.m[8-11] * s
-                "fmul v11.4s, v7.4s, v0.s[0]\n\t" // dst.m[12-15] = m.m[12-15] * s
+                "fmul v8.4s, v4.4s, v0.s[0]\n\t" // dst.m[0-3] = m[0-3] * s
+                "fmul v9.4s, v5.4s, v0.s[0]\n\t" // dst.m[4-7] = m[4-7] * s
+                "fmul v10.4s, v6.4s, v0.s[0]\n\t" // dst.m[8-11] = m[8-11] * s
+                "fmul v11.4s, v7.4s, v0.s[0]\n\t" // dst.m[12-15] = m[12-15] * s
 
                 "st4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m.m), "r"(&scalar) // input
+                : "r"(dst.m), "r"(m), "r"(&scalar) // input
                 : "v0", "v4", "v5", "v6", "v7", "v8", "v9", "v10", "v11", "memory"
             );
 #  else // NEON
             asm volatile
             (
-                "vld1.32 {d0[0]}, [%2]\n\t" // m.m[0-7]
-                "vld1.32 {q4-q5}, [%1]!\n\t" // m.m[8-15]
+                "vld1.32 {d0[0]}, [%2]\n\t" // m[0-7]
+                "vld1.32 {q4-q5}, [%1]!\n\t" // m[8-15]
                 "vld1.32 {q6-q7}, [%1]\n\t" // s
 
-                "vmul.f32 q8, q4, d0[0]\n\t" // dst.m[0-3] = m.m[0-3] * s
-                "vmul.f32 q9, q5, d0[0]\n\t" // dst.m[4-7] = m.m[4-7] * s
-                "vmul.f32 q10, q6, d0[0]\n\t" // dst.m[8-11] = m.m[8-11] * s
-                "vmul.f32 q11, q7, d0[0]\n\t" // dst.m[12-15] = m.m[12-15] * s
+                "vmul.f32 q8, q4, d0[0]\n\t" // dst.m[0-3] = m[0-3] * s
+                "vmul.f32 q9, q5, d0[0]\n\t" // dst.m[4-7] = m[4-7] * s
+                "vmul.f32 q10, q6, d0[0]\n\t" // dst.m[8-11] = m[8-11] * s
+                "vmul.f32 q11, q7, d0[0]\n\t" // dst.m[12-15] = m[12-15] * s
 
                 "vst1.32 {q8-q9}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q10-q11}, [%0]\n\t" // dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m.m), "r"(&scalar) // input
+                : "r"(dst.m), "r"(m), "r"(&scalar) // input
                 : "q0", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "memory"
             );
 #  endif
 #elif defined(__SSE__)
             __m128 s = _mm_set1_ps(scalar);
-            _mm_store_ps(&dst.m[0], _mm_mul_ps(_mm_load_ps(&m.m[0]), s));
-            _mm_store_ps(&dst.m[4], _mm_mul_ps(_mm_load_ps(&m.m[4]), s));
-            _mm_store_ps(&dst.m[8], _mm_mul_ps(_mm_load_ps(&m.m[8]), s));
-            _mm_store_ps(&dst.m[12], _mm_mul_ps(_mm_load_ps(&m.m[12]), s));
+            _mm_store_ps(&dst.m[0], _mm_mul_ps(_mm_load_ps(&m[0]), s));
+            _mm_store_ps(&dst.m[4], _mm_mul_ps(_mm_load_ps(&m[4]), s));
+            _mm_store_ps(&dst.m[8], _mm_mul_ps(_mm_load_ps(&m[8]), s));
+            _mm_store_ps(&dst.m[12], _mm_mul_ps(_mm_load_ps(&m[12]), s));
 #else
             throw std::runtime_error("Unsupported SIMD architecture");
 #endif
         }
         else
         {
-            dst.m[0] = m.m[0] * scalar;
-            dst.m[1] = m.m[1] * scalar;
-            dst.m[2] = m.m[2] * scalar;
-            dst.m[3] = m.m[3] * scalar;
-            dst.m[4] = m.m[4] * scalar;
-            dst.m[5] = m.m[5] * scalar;
-            dst.m[6] = m.m[6] * scalar;
-            dst.m[7] = m.m[7] * scalar;
-            dst.m[8] = m.m[8] * scalar;
-            dst.m[9] = m.m[9] * scalar;
-            dst.m[10] = m.m[10] * scalar;
-            dst.m[11] = m.m[11] * scalar;
-            dst.m[12] = m.m[12] * scalar;
-            dst.m[13] = m.m[13] * scalar;
-            dst.m[14] = m.m[14] * scalar;
-            dst.m[15] = m.m[15] * scalar;
+            dst.m[0] = m[0] * scalar;
+            dst.m[1] = m[1] * scalar;
+            dst.m[2] = m[2] * scalar;
+            dst.m[3] = m[3] * scalar;
+            dst.m[4] = m[4] * scalar;
+            dst.m[5] = m[5] * scalar;
+            dst.m[6] = m[6] * scalar;
+            dst.m[7] = m[7] * scalar;
+            dst.m[8] = m[8] * scalar;
+            dst.m[9] = m[9] * scalar;
+            dst.m[10] = m[10] * scalar;
+            dst.m[11] = m[11] * scalar;
+            dst.m[12] = m[12] * scalar;
+            dst.m[13] = m[13] * scalar;
+            dst.m[14] = m[14] * scalar;
+            dst.m[15] = m[15] * scalar;
         }
     }
 
     template <>
-    void Matrix<4, 4, float>::multiply(const Matrix& m1, const Matrix& m2, Matrix& dst)
+    void Matrix<4, 4, float>::multiply(const Matrix& matrix, Matrix& dst)
     {
         if (isSimdAvailable)
         {
@@ -283,68 +283,68 @@ namespace ouzel
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
-                "ld1 {v8.4s, v9.4s, v10.4s, v11.4s}, [%1]\n\t" // m1.m[0-7] m1.m[8-15]
-                "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%2]\n\t" // m2.m[0-15]
+                "ld1 {v8.4s, v9.4s, v10.4s, v11.4s}, [%1]\n\t" // m[0-7] m[8-15]
+                "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%2]\n\t" // matrix.m[0-15]
 
-                "fmul v12.4s, v8.4s, v0.s[0]\n\t" // dst.m[0-3] = m1.m[0-3] * m2.m[0]
-                "fmul v13.4s, v8.4s, v0.s[1]\n\t" // dst.m[4-7] = m1.m[4-7] * m2.m[4]
-                "fmul v14.4s, v8.4s, v0.s[2]\n\t" // dst.m[8-11] = m1.m[8-11] * m2.m[8]
-                "fmul v15.4s, v8.4s, v0.s[3]\n\t" // dst.m[12-15] = m1.m[12-15] * m2.m[12]
+                "fmul v12.4s, v8.4s, v0.s[0]\n\t" // dst.m[0-3] = m[0-3] * matrix.m[0]
+                "fmul v13.4s, v8.4s, v0.s[1]\n\t" // dst.m[4-7] = m[4-7] * matrix.m[4]
+                "fmul v14.4s, v8.4s, v0.s[2]\n\t" // dst.m[8-11] = m[8-11] * matrix.m[8]
+                "fmul v15.4s, v8.4s, v0.s[3]\n\t" // dst.m[12-15] = m[12-15] * matrix.m[12]
 
-                "fmla v12.4s, v9.4s, v1.s[0]\n\t" // dst.m[0-3] += m1.m[0-3] * m2.m[1]
-                "fmla v13.4s, v9.4s, v1.s[1]\n\t" // dst.m[4-7] += m1.m[4-7] * m2.m[5]
-                "fmla v14.4s, v9.4s, v1.s[2]\n\t" // dst.m[8-11] += m1.m[8-11] * m2.m[9]
-                "fmla v15.4s, v9.4s, v1.s[3]\n\t" // dst.m[12-15] += m1.m[12-15] * m2.m[13]
+                "fmla v12.4s, v9.4s, v1.s[0]\n\t" // dst.m[0-3] += m[0-3] * matrix.m[1]
+                "fmla v13.4s, v9.4s, v1.s[1]\n\t" // dst.m[4-7] += m[4-7] * matrix.m[5]
+                "fmla v14.4s, v9.4s, v1.s[2]\n\t" // dst.m[8-11] += m[8-11] * matrix.m[9]
+                "fmla v15.4s, v9.4s, v1.s[3]\n\t" // dst.m[12-15] += m[12-15] * matrix.m[13]
 
-                "fmla v12.4s, v10.4s, v2.s[0]\n\t" // dst.m[0-3] += m1.m[0-3] * m2.m[2]
-                "fmla v13.4s, v10.4s, v2.s[1]\n\t" // dst.m[4-7] += m1.m[4-7] * m2.m[6]
-                "fmla v14.4s, v10.4s, v2.s[2]\n\t" // dst.m[8-11] += m1.m[8-11] * m2.m[10]
-                "fmla v15.4s, v10.4s, v2.s[3]\n\t" // dst.m[12-15] += m1.m[12-15] * m2.m[14]
+                "fmla v12.4s, v10.4s, v2.s[0]\n\t" // dst.m[0-3] += m[0-3] * matrix.m[2]
+                "fmla v13.4s, v10.4s, v2.s[1]\n\t" // dst.m[4-7] += m[4-7] * matrix.m[6]
+                "fmla v14.4s, v10.4s, v2.s[2]\n\t" // dst.m[8-11] += m[8-11] * matrix.m[10]
+                "fmla v15.4s, v10.4s, v2.s[3]\n\t" // dst.m[12-15] += m[12-15] * matrix.m[14]
 
-                "fmla v12.4s, v11.4s, v3.s[0]\n\t" // dst.m[0-3] += m1.m[0-3] * m2.m[3]
-                "fmla v13.4s, v11.4s, v3.s[1]\n\t" // dst.m[4-7] += m1.m[4-7] * m2.m[7]
-                "fmla v14.4s, v11.4s, v3.s[2]\n\t" // dst.m[8-11] += m1.m[8-11] * m2.m[11]
-                "fmla v15.4s, v11.4s, v3.s[3]\n\t" // dst.m[12-15] += m1.m[12-15] * m2.m[15]
+                "fmla v12.4s, v11.4s, v3.s[0]\n\t" // dst.m[0-3] += m[0-3] * matrix.m[3]
+                "fmla v13.4s, v11.4s, v3.s[1]\n\t" // dst.m[4-7] += m[4-7] * matrix.m[7]
+                "fmla v14.4s, v11.4s, v3.s[2]\n\t" // dst.m[8-11] += m[8-11] * matrix.m[11]
+                "fmla v15.4s, v11.4s, v3.s[3]\n\t" // dst.m[12-15] += m[12-15] * matrix.m[15]
 
                 "st1 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
 
                 : // output
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
+                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
                 : "memory", "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15"
             );
 #  else // NEON
             asm volatile
             (
-                "vld1.32 {d16 - d19}, [%1]!\n\t" // m1.m[0-7]
-                "vld1.32 {d20 - d23}, [%1]\n\t" // m1.m[8-15]
-                "vld1.32 {d0 - d3}, [%2]!\n\t" // m2.m[0-7]
-                "vld1.32 {d4 - d7}, [%2]\n\t" // m2.m[8-15]
+                "vld1.32 {d16 - d19}, [%1]!\n\t" // m[0-7]
+                "vld1.32 {d20 - d23}, [%1]\n\t" // m[8-15]
+                "vld1.32 {d0 - d3}, [%2]!\n\t" // matrix.m[0-7]
+                "vld1.32 {d4 - d7}, [%2]\n\t" // matrix.m[8-15]
 
-                "vmul.f32 q12, q8, d0[0]\n\t" // dst.m[0-3] = m1.m[0-3] * m2.m[0]
-                "vmul.f32 q13, q8, d2[0]\n\t" // dst.m[4-7] = m1.m[4-7] * m2.m[4]
-                "vmul.f32 q14, q8, d4[0]\n\t" // dst.m[8-11] = m1.m[8-11] * m2.m[8]
-                "vmul.f32 q15, q8, d6[0]\n\t" // dst.m[12-15] = m1.m[12-15] * m2.m[12]
+                "vmul.f32 q12, q8, d0[0]\n\t" // dst.m[0-3] = m[0-3] * matrix.m[0]
+                "vmul.f32 q13, q8, d2[0]\n\t" // dst.m[4-7] = m[4-7] * matrix.m[4]
+                "vmul.f32 q14, q8, d4[0]\n\t" // dst.m[8-11] = m[8-11] * matrix.m[8]
+                "vmul.f32 q15, q8, d6[0]\n\t" // dst.m[12-15] = m[12-15] * matrix.m[12]
 
-                "vmla.f32 q12, q9, d0[1]\n\t" // dst.m[0-3] += m1.m[0-3] * m2.m[1]
-                "vmla.f32 q13, q9, d2[1]\n\t" // dst.m[4-7] += m1.m[4-7] * m2.m[5]
-                "vmla.f32 q14, q9, d4[1]\n\t" // dst.m[8-11] += m1.m[8-11] * m2.m[9]
-                "vmla.f32 q15, q9, d6[1]\n\t" // dst.m[12-15] += m1.m[12-15] * m2.m[13]
+                "vmla.f32 q12, q9, d0[1]\n\t" // dst.m[0-3] += m[0-3] * matrix.m[1]
+                "vmla.f32 q13, q9, d2[1]\n\t" // dst.m[4-7] += m[4-7] * matrix.m[5]
+                "vmla.f32 q14, q9, d4[1]\n\t" // dst.m[8-11] += m[8-11] * matrix.m[9]
+                "vmla.f32 q15, q9, d6[1]\n\t" // dst.m[12-15] += m[12-15] * matrix.m[13]
 
-                "vmla.f32 q12, q10, d1[0]\n\t" // dst.m[0-3] += m1.m[0-3] * m2.m[2]
-                "vmla.f32 q13, q10, d3[0]\n\t" // dst.m[4-7] += m1.m[4-7] * m2.m[6]
-                "vmla.f32 q14, q10, d5[0]\n\t" // dst.m[8-11] += m1.m[8-11] * m2.m[10]
-                "vmla.f32 q15, q10, d7[0]\n\t" // dst.m[12-15] += m1.m[12-15] * m2.m[14]
+                "vmla.f32 q12, q10, d1[0]\n\t" // dst.m[0-3] += m[0-3] * matrix.m[2]
+                "vmla.f32 q13, q10, d3[0]\n\t" // dst.m[4-7] += m[4-7] * matrix.m[6]
+                "vmla.f32 q14, q10, d5[0]\n\t" // dst.m[8-11] += m[8-11] * matrix.m[10]
+                "vmla.f32 q15, q10, d7[0]\n\t" // dst.m[12-15] += m[12-15] * matrix.m[14]
 
-                "vmla.f32 q12, q11, d1[1]\n\t" // dst.m[0-3] += m1.m[0-3] * m2.m[3]
-                "vmla.f32 q13, q11, d3[1]\n\t" // dst.m[4-7] += m1.m[4-7] * m2.m[7]
-                "vmla.f32 q14, q11, d5[1]\n\t" // dst.m[8-11] += m1.m[8-11] * m2.m[11]
-                "vmla.f32 q15, q11, d7[1]\n\t" // dst.m[12-15] += m1.m[12-15] * m2.m[15]
+                "vmla.f32 q12, q11, d1[1]\n\t" // dst.m[0-3] += m[0-3] * matrix.m[3]
+                "vmla.f32 q13, q11, d3[1]\n\t" // dst.m[4-7] += m[4-7] * matrix.m[7]
+                "vmla.f32 q14, q11, d5[1]\n\t" // dst.m[8-11] += m[8-11] * matrix.m[11]
+                "vmla.f32 q15, q11, d7[1]\n\t" // dst.m[12-15] += m[12-15] * matrix.m[15]
 
                 "vst1.32 {d24 - d27}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {d28 - d31}, [%0]\n\t" // dst.m[8-15]
 
                 : // output
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
+                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
                 : "memory", "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15"
             );
 #  endif
@@ -353,15 +353,15 @@ namespace ouzel
             __m128 dest[4];
 
             {
-                __m128 e0 = _mm_set1_ps(m2.m[0]);
-                __m128 e1 = _mm_set1_ps(m2.m[1]);
-                __m128 e2 = _mm_set1_ps(m2.m[2]);
-                __m128 e3 = _mm_set1_ps(m2.m[3]);
+                __m128 e0 = _mm_set1_ps(matrix.m[0]);
+                __m128 e1 = _mm_set1_ps(matrix.m[1]);
+                __m128 e2 = _mm_set1_ps(matrix.m[2]);
+                __m128 e3 = _mm_set1_ps(matrix.m[3]);
 
-                __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
-                __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
-                __m128 v2 = _mm_mul_ps(_mm_load_ps(&m1.m[8]), e2);
-                __m128 v3 = _mm_mul_ps(_mm_load_ps(&m1.m[12]), e3);
+                __m128 v0 = _mm_mul_ps(_mm_load_ps(&m[0]), e0);
+                __m128 v1 = _mm_mul_ps(_mm_load_ps(&m[4]), e1);
+                __m128 v2 = _mm_mul_ps(_mm_load_ps(&m[8]), e2);
+                __m128 v3 = _mm_mul_ps(_mm_load_ps(&m[12]), e3);
 
                 __m128 a0 = _mm_add_ps(v0, v1);
                 __m128 a1 = _mm_add_ps(v2, v3);
@@ -371,15 +371,15 @@ namespace ouzel
             }
 
             {
-                __m128 e0 = _mm_set1_ps(m2.m[4]);
-                __m128 e1 = _mm_set1_ps(m2.m[5]);
-                __m128 e2 = _mm_set1_ps(m2.m[6]);
-                __m128 e3 = _mm_set1_ps(m2.m[7]);
+                __m128 e0 = _mm_set1_ps(matrix.m[4]);
+                __m128 e1 = _mm_set1_ps(matrix.m[5]);
+                __m128 e2 = _mm_set1_ps(matrix.m[6]);
+                __m128 e3 = _mm_set1_ps(matrix.m[7]);
 
-                __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
-                __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
-                __m128 v2 = _mm_mul_ps(_mm_load_ps(&m1.m[8]), e2);
-                __m128 v3 = _mm_mul_ps(_mm_load_ps(&m1.m[12]), e3);
+                __m128 v0 = _mm_mul_ps(_mm_load_ps(&m[0]), e0);
+                __m128 v1 = _mm_mul_ps(_mm_load_ps(&m[4]), e1);
+                __m128 v2 = _mm_mul_ps(_mm_load_ps(&m[8]), e2);
+                __m128 v3 = _mm_mul_ps(_mm_load_ps(&m[12]), e3);
 
                 __m128 a0 = _mm_add_ps(v0, v1);
                 __m128 a1 = _mm_add_ps(v2, v3);
@@ -389,15 +389,15 @@ namespace ouzel
             }
 
             {
-                __m128 e0 = _mm_set1_ps(m2.m[8]);
-                __m128 e1 = _mm_set1_ps(m2.m[9]);
-                __m128 e2 = _mm_set1_ps(m2.m[10]);
-                __m128 e3 = _mm_set1_ps(m2.m[11]);
+                __m128 e0 = _mm_set1_ps(matrix.m[8]);
+                __m128 e1 = _mm_set1_ps(matrix.m[9]);
+                __m128 e2 = _mm_set1_ps(matrix.m[10]);
+                __m128 e3 = _mm_set1_ps(matrix.m[11]);
 
-                __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
-                __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
-                __m128 v2 = _mm_mul_ps(_mm_load_ps(&m1.m[8]), e2);
-                __m128 v3 = _mm_mul_ps(_mm_load_ps(&m1.m[12]), e3);
+                __m128 v0 = _mm_mul_ps(_mm_load_ps(&m[0]), e0);
+                __m128 v1 = _mm_mul_ps(_mm_load_ps(&m[4]), e1);
+                __m128 v2 = _mm_mul_ps(_mm_load_ps(&m[8]), e2);
+                __m128 v3 = _mm_mul_ps(_mm_load_ps(&m[12]), e3);
 
                 __m128 a0 = _mm_add_ps(v0, v1);
                 __m128 a1 = _mm_add_ps(v2, v3);
@@ -407,15 +407,15 @@ namespace ouzel
             }
 
             {
-                __m128 e0 = _mm_set1_ps(m2.m[12]);
-                __m128 e1 = _mm_set1_ps(m2.m[13]);
-                __m128 e2 = _mm_set1_ps(m2.m[14]);
-                __m128 e3 = _mm_set1_ps(m2.m[15]);
+                __m128 e0 = _mm_set1_ps(matrix.m[12]);
+                __m128 e1 = _mm_set1_ps(matrix.m[13]);
+                __m128 e2 = _mm_set1_ps(matrix.m[14]);
+                __m128 e3 = _mm_set1_ps(matrix.m[15]);
 
-                __m128 v0 = _mm_mul_ps(_mm_load_ps(&m1.m[0]), e0);
-                __m128 v1 = _mm_mul_ps(_mm_load_ps(&m1.m[4]), e1);
-                __m128 v2 = _mm_mul_ps(_mm_load_ps(&m1.m[8]), e2);
-                __m128 v3 = _mm_mul_ps(_mm_load_ps(&m1.m[12]), e3);
+                __m128 v0 = _mm_mul_ps(_mm_load_ps(&m[0]), e0);
+                __m128 v1 = _mm_mul_ps(_mm_load_ps(&m[4]), e1);
+                __m128 v2 = _mm_mul_ps(_mm_load_ps(&m[8]), e2);
+                __m128 v3 = _mm_mul_ps(_mm_load_ps(&m[12]), e3);
 
                 __m128 a0 = _mm_add_ps(v0, v1);
                 __m128 a1 = _mm_add_ps(v2, v3);
@@ -435,25 +435,25 @@ namespace ouzel
         else
         {
             const float product[16] {
-                m1.m[0] * m2.m[0] + m1.m[4] * m2.m[1] + m1.m[8] * m2.m[2] + m1.m[12] * m2.m[3],
-                m1.m[1] * m2.m[0] + m1.m[5] * m2.m[1] + m1.m[9] * m2.m[2] + m1.m[13] * m2.m[3],
-                m1.m[2] * m2.m[0] + m1.m[6] * m2.m[1] + m1.m[10] * m2.m[2] + m1.m[14] * m2.m[3],
-                m1.m[3] * m2.m[0] + m1.m[7] * m2.m[1] + m1.m[11] * m2.m[2] + m1.m[15] * m2.m[3],
+                m[0] * matrix.m[0] + m[4] * matrix.m[1] + m[8] * matrix.m[2] + m[12] * matrix.m[3],
+                m[1] * matrix.m[0] + m[5] * matrix.m[1] + m[9] * matrix.m[2] + m[13] * matrix.m[3],
+                m[2] * matrix.m[0] + m[6] * matrix.m[1] + m[10] * matrix.m[2] + m[14] * matrix.m[3],
+                m[3] * matrix.m[0] + m[7] * matrix.m[1] + m[11] * matrix.m[2] + m[15] * matrix.m[3],
 
-                m1.m[0] * m2.m[4] + m1.m[4] * m2.m[5] + m1.m[8] * m2.m[6] + m1.m[12] * m2.m[7],
-                m1.m[1] * m2.m[4] + m1.m[5] * m2.m[5] + m1.m[9] * m2.m[6] + m1.m[13] * m2.m[7],
-                m1.m[2] * m2.m[4] + m1.m[6] * m2.m[5] + m1.m[10] * m2.m[6] + m1.m[14] * m2.m[7],
-                m1.m[3] * m2.m[4] + m1.m[7] * m2.m[5] + m1.m[11] * m2.m[6] + m1.m[15] * m2.m[7],
+                m[0] * matrix.m[4] + m[4] * matrix.m[5] + m[8] * matrix.m[6] + m[12] * matrix.m[7],
+                m[1] * matrix.m[4] + m[5] * matrix.m[5] + m[9] * matrix.m[6] + m[13] * matrix.m[7],
+                m[2] * matrix.m[4] + m[6] * matrix.m[5] + m[10] * matrix.m[6] + m[14] * matrix.m[7],
+                m[3] * matrix.m[4] + m[7] * matrix.m[5] + m[11] * matrix.m[6] + m[15] * matrix.m[7],
 
-                m1.m[0] * m2.m[8] + m1.m[4] * m2.m[9] + m1.m[8] * m2.m[10] + m1.m[12] * m2.m[11],
-                m1.m[1] * m2.m[8] + m1.m[5] * m2.m[9] + m1.m[9] * m2.m[10] + m1.m[13] * m2.m[11],
-                m1.m[2] * m2.m[8] + m1.m[6] * m2.m[9] + m1.m[10] * m2.m[10] + m1.m[14] * m2.m[11],
-                m1.m[3] * m2.m[8] + m1.m[7] * m2.m[9] + m1.m[11] * m2.m[10] + m1.m[15] * m2.m[11],
+                m[0] * matrix.m[8] + m[4] * matrix.m[9] + m[8] * matrix.m[10] + m[12] * matrix.m[11],
+                m[1] * matrix.m[8] + m[5] * matrix.m[9] + m[9] * matrix.m[10] + m[13] * matrix.m[11],
+                m[2] * matrix.m[8] + m[6] * matrix.m[9] + m[10] * matrix.m[10] + m[14] * matrix.m[11],
+                m[3] * matrix.m[8] + m[7] * matrix.m[9] + m[11] * matrix.m[10] + m[15] * matrix.m[11],
 
-                m1.m[0] * m2.m[12] + m1.m[4] * m2.m[13] + m1.m[8] * m2.m[14] + m1.m[12] * m2.m[15],
-                m1.m[1] * m2.m[12] + m1.m[5] * m2.m[13] + m1.m[9] * m2.m[14] + m1.m[13] * m2.m[15],
-                m1.m[2] * m2.m[12] + m1.m[6] * m2.m[13] + m1.m[10] * m2.m[14] + m1.m[14] * m2.m[15],
-                m1.m[3] * m2.m[12] + m1.m[7] * m2.m[13] + m1.m[11] * m2.m[14] + m1.m[15] * m2.m[15]
+                m[0] * matrix.m[12] + m[4] * matrix.m[13] + m[8] * matrix.m[14] + m[12] * matrix.m[15],
+                m[1] * matrix.m[12] + m[5] * matrix.m[13] + m[9] * matrix.m[14] + m[13] * matrix.m[15],
+                m[2] * matrix.m[12] + m[6] * matrix.m[13] + m[10] * matrix.m[14] + m[14] * matrix.m[15],
+                m[3] * matrix.m[12] + m[7] * matrix.m[13] + m[11] * matrix.m[14] + m[15] * matrix.m[15]
             };
 
             std::copy(std::begin(product), std::end(product), dst.m);
@@ -531,7 +531,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<4, 4, float>::subtract(const Matrix& m1, const Matrix& m2, Matrix& dst)
+    void Matrix<4, 4, float>::subtract(const Matrix& matrix, Matrix& dst)
     {
         if (isSimdAvailable)
         {
@@ -539,66 +539,66 @@ namespace ouzel
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
-                "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]\n\t" // m1.m[0-7] m1.m[8-15]
-                "ld4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%2]\n\t" // m2.m[0-7] m2.m[8-15]
+                "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]\n\t" // m[0-7] m[8-15]
+                "ld4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%2]\n\t" // matrix.m[0-7] matrix.m[8-15]
 
-                "fsub v12.4s, v0.4s, v8.4s\n\t" // dst.m[0-3] = m1.m[0-3] - m2.m[0-3]
-                "fsub v13.4s, v1.4s, v9.4s\n\t" // dst.m[4-7] = m1.m[4-7] - m2.m[4-7]
-                "fsub v14.4s, v2.4s, v10.4s\n\t" // dst.m[8-11] = m1.m[8-11] - m2.m[8-11]
-                "fsub v15.4s, v3.4s, v11.4s\n\t" // dst.m[12-15] = m1.m[12-15] - m2.m[12-15]
+                "fsub v12.4s, v0.4s, v8.4s\n\t" // dst.m[0-3] = m[0-3] - matrix.m[0-3]
+                "fsub v13.4s, v1.4s, v9.4s\n\t" // dst.m[4-7] = m[4-7] - matrix.m[4-7]
+                "fsub v14.4s, v2.4s, v10.4s\n\t" // dst.m[8-11] = m[8-11] - matrix.m[8-11]
+                "fsub v15.4s, v3.4s, v11.4s\n\t" // dst.m[12-15] = m[12-15] - matrix.m[12-15]
 
                 "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
+                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
                 : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
             );
 #  else // NEON
             asm volatile
             (
-                "vld1.32 {q0, q1}, [%1]!\n\t" // m1.m[0-7]
-                "vld1.32 {q2, q3}, [%1]\n\t" // m1.m[8-15]
-                "vld1.32 {q8, q9}, [%2]!\n\t" // m2.m[0-7]
-                "vld1.32 {q10, q11}, [%2]\n\t" // m2.m[8-15]
+                "vld1.32 {q0, q1}, [%1]!\n\t" // m[0-7]
+                "vld1.32 {q2, q3}, [%1]\n\t" // m[8-15]
+                "vld1.32 {q8, q9}, [%2]!\n\t" // matrix.m[0-7]
+                "vld1.32 {q10, q11}, [%2]\n\t" // matrix.m[8-15]
 
-                "vsub.f32 q12, q0, q8\n\t" // dst.m[0-3] = m1.m[0-3] - m2.m[0-3]
-                "vsub.f32 q13, q1, q9\n\t" // dst.m[4-7] = m1.m[4-7] - m2.m[4-7]
-                "vsub.f32 q14, q2, q10\n\t" // dst.m[8-11] = m1.m[8-11] - m2.m[8-11]
-                "vsub.f32 q15, q3, q11\n\t" // dst.m[12-15] = m1.m[12-15] - m2.m[12-15]
+                "vsub.f32 q12, q0, q8\n\t" // dst.m[0-3] = m[0-3] - matrix.m[0-3]
+                "vsub.f32 q13, q1, q9\n\t" // dst.m[4-7] = m[4-7] - matrix.m[4-7]
+                "vsub.f32 q14, q2, q10\n\t" // dst.m[8-11] = m[8-11] - matrix.m[8-11]
+                "vsub.f32 q15, q3, q11\n\t" // dst.m[12-15] = m[12-15] - matrix.m[12-15]
 
                 "vst1.32 {q12, q13}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q14, q15}, [%0]\n\t" // dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input
+                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
                 : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
             );
 #  endif
 #elif defined(__SSE__)
-            _mm_store_ps(&dst.m[0], _mm_sub_ps(_mm_load_ps(&m1.m[0]), _mm_load_ps(&m2.m[0])));
-            _mm_store_ps(&dst.m[4], _mm_sub_ps(_mm_load_ps(&m1.m[4]), _mm_load_ps(&m2.m[4])));
-            _mm_store_ps(&dst.m[8], _mm_sub_ps(_mm_load_ps(&m1.m[8]), _mm_load_ps(&m2.m[8])));
-            _mm_store_ps(&dst.m[12], _mm_sub_ps(_mm_load_ps(&m1.m[12]), _mm_load_ps(&m2.m[12])));
+            _mm_store_ps(&dst.m[0], _mm_sub_ps(_mm_load_ps(&m[0]), _mm_load_ps(&matrix.m[0])));
+            _mm_store_ps(&dst.m[4], _mm_sub_ps(_mm_load_ps(&m[4]), _mm_load_ps(&matrix.m[4])));
+            _mm_store_ps(&dst.m[8], _mm_sub_ps(_mm_load_ps(&m[8]), _mm_load_ps(&matrix.m[8])));
+            _mm_store_ps(&dst.m[12], _mm_sub_ps(_mm_load_ps(&m[12]), _mm_load_ps(&matrix.m[12])));
 #else
             throw std::runtime_error("Unsupported SIMD architecture");
 #endif
         }
         else
         {
-            dst.m[0] = m1.m[0] - m2.m[0];
-            dst.m[1] = m1.m[1] - m2.m[1];
-            dst.m[2] = m1.m[2] - m2.m[2];
-            dst.m[3] = m1.m[3] - m2.m[3];
-            dst.m[4] = m1.m[4] - m2.m[4];
-            dst.m[5] = m1.m[5] - m2.m[5];
-            dst.m[6] = m1.m[6] - m2.m[6];
-            dst.m[7] = m1.m[7] - m2.m[7];
-            dst.m[8] = m1.m[8] - m2.m[8];
-            dst.m[9] = m1.m[9] - m2.m[9];
-            dst.m[10] = m1.m[10] - m2.m[10];
-            dst.m[11] = m1.m[11] - m2.m[11];
-            dst.m[12] = m1.m[12] - m2.m[12];
-            dst.m[13] = m1.m[13] - m2.m[13];
-            dst.m[14] = m1.m[14] - m2.m[14];
-            dst.m[15] = m1.m[15] - m2.m[15];
+            dst.m[0] = m[0] - matrix.m[0];
+            dst.m[1] = m[1] - matrix.m[1];
+            dst.m[2] = m[2] - matrix.m[2];
+            dst.m[3] = m[3] - matrix.m[3];
+            dst.m[4] = m[4] - matrix.m[4];
+            dst.m[5] = m[5] - matrix.m[5];
+            dst.m[6] = m[6] - matrix.m[6];
+            dst.m[7] = m[7] - matrix.m[7];
+            dst.m[8] = m[8] - matrix.m[8];
+            dst.m[9] = m[9] - matrix.m[9];
+            dst.m[10] = m[10] - matrix.m[10];
+            dst.m[11] = m[11] - matrix.m[11];
+            dst.m[12] = m[12] - matrix.m[12];
+            dst.m[13] = m[13] - matrix.m[13];
+            dst.m[14] = m[14] - matrix.m[14];
+            dst.m[15] = m[15] - matrix.m[15];
         }
     }
 
