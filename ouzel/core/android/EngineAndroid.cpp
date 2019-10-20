@@ -66,11 +66,9 @@ namespace ouzel
         if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
-        uriClass = jniEnv->FindClass("android/net/Uri");
-        uriClass = static_cast<jclass>(jniEnv->NewGlobalRef(uriClass));
+        uriClass = static_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/net/Uri")));
         parseMethod = jniEnv->GetStaticMethodID(uriClass, "parse", "(Ljava/lang/String;)Landroid/net/Uri;");
-        intentClass = jniEnv->FindClass("android/content/Intent");
-        intentClass = static_cast<jclass>(jniEnv->NewGlobalRef(intentClass));
+        intentClass = static_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/content/Intent")));
         intentConstructor = jniEnv->GetMethodID(intentClass, "<init>", "(Ljava/lang/String;Landroid/net/Uri;)V");
     }
 
@@ -114,7 +112,7 @@ namespace ouzel
         jmethodID getConfigurationMethod = jniEnv->GetMethodID(resourcesClass, "getConfiguration", "()Landroid/content/res/Configuration;");
 
         // get configuration
-        configurationClass = jniEnv->FindClass("android/content/res/Configuration");
+        jclass configurationClass = jniEnv->FindClass("android/content/res/Configuration");
         jobject configurationObject = jniEnv->CallObjectMethod(resourcesObject, getConfigurationMethod);
 
         orientationField = jniEnv->GetFieldID(configurationClass, "orientation", "I");

@@ -26,8 +26,7 @@ namespace ouzel
             if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
                 throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
 
-            inputDeviceClass = jniEnv->FindClass("android/view/InputDevice");
-            inputDeviceClass = static_cast<jclass>(jniEnv->NewGlobalRef(inputDeviceClass));
+            inputDeviceClass = static_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/view/InputDevice")));
             getDeviceIdsMethod = jniEnv->GetStaticMethodID(inputDeviceClass, "getDeviceIds", "()[I");
 
             jclass motionEventClass = jniEnv->FindClass("android/view/MotionEvent");

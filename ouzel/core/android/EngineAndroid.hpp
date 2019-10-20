@@ -55,7 +55,6 @@ namespace ouzel
         jmethodID intentConstructor = nullptr;
         jobject mainActivity = nullptr;
         jmethodID startActivityMethod = nullptr;
-        jclass configurationClass = nullptr;
         jfieldID orientationField = nullptr;
         jint orientation = 0;
         jobject surface = nullptr;
