@@ -76,22 +76,22 @@ namespace ouzel
             m[0] = xaxis.v[0];
             m[1] = yaxis.v[0];
             m[2] = zaxis.v[0];
-            m[3] = 0;
+            m[3] = T(0);
 
             m[4] = xaxis.v[1];
             m[5] = yaxis.v[1];
             m[6] = zaxis.v[1];
-            m[7] = 0;
+            m[7] = T(0);
 
             m[8] = xaxis.v[2];
             m[9] = yaxis.v[2];
             m[10] = zaxis.v[2];
-            m[11] = 0;
+            m[11] = T(0);
 
             m[12] = xaxis.dot(-eye);
             m[13] = yaxis.dot(-eye);
             m[14] = zaxis.dot(-eye);
-            m[15] = 1;
+            m[15] = T(1);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
@@ -146,7 +146,7 @@ namespace ouzel
             m[12] = (left + right) / (left - right);
             m[13] = (bottom + top) / (bottom - top);
             m[14] = zNearPlane / (zNearPlane - zFarPlane);
-            m[15] = 1;
+            m[15] = T(1);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
@@ -241,22 +241,22 @@ namespace ouzel
             m[0] = c + tx * x;
             m[4] = txy - sz;
             m[8] = txz + sy;
-            m[12] = 0;
+            m[12] = T(0);
 
             m[1] = txy + sz;
             m[5] = c + ty * y;
             m[9] = tyz - sx;
-            m[13] = 0;
+            m[13] = T(0);
 
             m[2] = txz - sy;
             m[6] = tyz + sx;
             m[10] = c + tz * z;
-            m[14] = 0;
+            m[14] = T(0);
 
-            m[3] = 0;
-            m[7] = 0;
-            m[11] = 0;
-            m[15] = 1;
+            m[3] = T(0);
+            m[7] = T(0);
+            m[11] = T(0);
+            m[15] = T(1);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
@@ -278,22 +278,22 @@ namespace ouzel
             m[0] = T(1) - T(2) * (yy + zz);
             m[4] = T(2) * (xy - wz);
             m[8] = T(2) * (xz + wy);
-            m[12] = 0;
+            m[12] = T(0);
 
             m[1] = T(2) * (xy + wz);
             m[5] = T(1) - T(2) * (xx + zz);
             m[9] = T(2) * (yz - wx);
-            m[13] = 0;
+            m[13] = T(0);
 
             m[2] = T(2) * (xz - wy);
             m[6] = T(2) * (yz + wx);
             m[10] = T(1) - T(2) * (xx + yy);
-            m[14] = 0;
+            m[14] = T(0);
 
-            m[3] = 0;
-            m[7] = 0;
-            m[11] = 0;
-            m[15] = 1;
+            m[3] = T(0);
+            m[7] = T(0);
+            m[11] = T(0);
+            m[15] = T(1);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
@@ -597,7 +597,7 @@ namespace ouzel
             inverse.m[14] = -m[12] * a3 + m[13] * a1 - m[14] * a0;
             inverse.m[15] = m[8] * a3 - m[9] * a1 + m[10] * a0;
 
-            inverse.multiply(1 / det, dst);
+            inverse.multiply(T(1) / det, dst);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == Y)>::type* = nullptr>
