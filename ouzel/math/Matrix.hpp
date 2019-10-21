@@ -430,7 +430,7 @@ namespace ouzel
             add(scalar, *this);
         }
 
-        void add(const T scalar, Matrix& dst)
+        void add(const T scalar, Matrix& dst) const noexcept
         {
             dst.m[0] = m[0] + scalar;
             dst.m[1] = m[1] + scalar;
@@ -455,7 +455,7 @@ namespace ouzel
             add(matrix, *this);
         }
 
-        void add(const Matrix& matrix, Matrix& dst)
+        void add(const Matrix& matrix, Matrix& dst) const noexcept
         {
             dst.m[0] = m[0] + matrix.m[0];
             dst.m[1] = m[1] + matrix.m[1];
@@ -555,7 +555,7 @@ namespace ouzel
             invert(*this);
         }
 
-        void invert(Matrix& dst) const
+        void invert(Matrix& dst) const noexcept
         {
             const T a0 = m[0] * m[5] - m[1] * m[4];
             const T a1 = m[0] * m[6] - m[2] * m[4];
@@ -617,11 +617,6 @@ namespace ouzel
 
         void multiply(const T scalar, Matrix& dst) const noexcept
         {
-            multiply(scalar, dst);
-        }
-
-        void multiply(T scalar, Matrix& dst)
-        {
             dst.m[0] = m[0] * scalar;
             dst.m[1] = m[1] * scalar;
             dst.m[2] = m[2] * scalar;
@@ -645,7 +640,7 @@ namespace ouzel
             multiply(matrix, *this);
         }
 
-        void multiply(const Matrix& matrix, Matrix& dst)
+        void multiply(const Matrix& matrix, Matrix& dst) const noexcept
         {
             const T product[16] = {
                 m[0] * matrix.m[0] + m[4] * matrix.m[1] + m[8] * matrix.m[2] + m[12] * matrix.m[3],
@@ -677,7 +672,7 @@ namespace ouzel
             negate(*this);
         }
 
-        void negate(Matrix& dst) const
+        void negate(Matrix& dst) const noexcept
         {
             dst.m[0] = -m[0];
             dst.m[1] = -m[1];
@@ -716,7 +711,7 @@ namespace ouzel
             subtract(matrix, *this);
         }
 
-        void subtract(const Matrix& matrix, Matrix& dst)
+        void subtract(const Matrix& matrix, Matrix& dst) const noexcept
         {
             dst.m[0] = m[0] - matrix.m[0];
             dst.m[1] = m[1] - matrix.m[1];
@@ -777,7 +772,7 @@ namespace ouzel
             transformVector(v, v);
         }
 
-        void transformVector(const Vector<4, T>& v, Vector<4, T>& dst) const
+        void transformVector(const Vector<4, T>& v, Vector<4, T>& dst) const noexcept
         {
             assert(&v != &dst);
             dst.v[0] = v.v[0] * m[0] + v.v[1] * m[4] + v.v[2] * m[8] + v.v[3] * m[12];
@@ -791,7 +786,7 @@ namespace ouzel
             transpose(*this);
         }
 
-        void transpose(Matrix& dst) const
+        void transpose(Matrix& dst) const noexcept
         {
             const T t[16] = {
                 m[0], m[4], m[8], m[12],

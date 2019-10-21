@@ -10,7 +10,7 @@
 namespace ouzel
 {
     template <>
-    void Matrix<4, 4, float>::add(float scalar, Matrix& dst)
+    void Matrix<4, 4, float>::add(float scalar, Matrix& dst) const noexcept
     {
         if (isSimdAvailable)
         {
@@ -85,7 +85,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<4, 4, float>::add(const Matrix& matrix, Matrix& dst)
+    void Matrix<4, 4, float>::add(const Matrix& matrix, Matrix& dst) const noexcept
     {
         if (isSimdAvailable)
         {
@@ -157,7 +157,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<4, 4, float>::multiply(float scalar, Matrix& dst)
+    void Matrix<4, 4, float>::multiply(float scalar, Matrix& dst) const noexcept
     {
         if (isSimdAvailable)
         {
@@ -229,7 +229,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<4, 4, float>::multiply(const Matrix& matrix, Matrix& dst)
+    void Matrix<4, 4, float>::multiply(const Matrix& matrix, Matrix& dst) const noexcept
     {
         if (isSimdAvailable)
         {
@@ -415,7 +415,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<4, 4, float>::negate(Matrix& dst) const
+    void Matrix<4, 4, float>::negate(Matrix& dst) const noexcept
     {
         if (isSimdAvailable)
         {
@@ -485,7 +485,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<4, 4, float>::subtract(const Matrix& matrix, Matrix& dst)
+    void Matrix<4, 4, float>::subtract(const Matrix& matrix, Matrix& dst) const noexcept
     {
         if (isSimdAvailable)
         {
@@ -557,7 +557,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<4, 4, float>::transformVector(const Vector<4, float>& v, Vector<4, float>& dst) const
+    void Matrix<4, 4, float>::transformVector(const Vector<4, float>& v, Vector<4, float>& dst) const noexcept
     {
         if (isSimdAvailable)
         {
@@ -622,7 +622,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<4, 4, float>::transpose(Matrix& dst) const
+    void Matrix<4, 4, float>::transpose(Matrix& dst) const noexcept
     {
         if (isSimdAvailable)
         {
