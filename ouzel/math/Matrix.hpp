@@ -38,10 +38,10 @@ namespace ouzel
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         static constexpr Matrix identity() noexcept
         {
-            return Matrix(1, 0, 0, 0,
-                          0, 1, 0, 0,
-                          0, 0, 1, 0,
-                          0, 0, 0, 1);
+            return Matrix(T(1), T(0), T(0), T(0),
+                          T(0), T(1), T(0), T(0),
+                          T(0), T(0), T(1), T(0),
+                          T(0), T(0), T(0), T(1));
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
@@ -703,7 +703,7 @@ namespace ouzel
         inline void setZero() noexcept
         {
             for (T& c : m)
-                c = 0;
+                c = T(0);
         }
 
         void subtract(const Matrix& matrix) noexcept
