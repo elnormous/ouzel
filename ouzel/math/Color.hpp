@@ -155,15 +155,17 @@ namespace ouzel
                    static_cast<uint32_t>(v[3]);
         }
 
-        inline bool operator<(const Color& c) const noexcept
+        constexpr bool operator<(const Color& c) const noexcept
         {
-            for (size_t i = 0; i < 4; ++i)
-            {
-                if (v[i] < c.v[i]) return true;
-                else if (c.v[i] < v[i]) return false;
-            }
-
-            return false;
+            return v[0] == c.v[0] ?
+                v[1] == c.v[1] ?
+                    v[2] == c.v[2] ?
+                        v[3] == c.v[3] ?
+                            false :
+                            v[3] < c.v[3] :
+                        v[2] < c.v[2] :
+                    v[1] < c.v[1] :
+                v[0] < c.v[0];
         }
 
         constexpr bool operator==(const Color& c) const noexcept
