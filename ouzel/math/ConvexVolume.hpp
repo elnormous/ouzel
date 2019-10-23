@@ -3,6 +3,7 @@
 #ifndef OUZEL_MATH_CONVEXVOLUME_HPP
 #define OUZEL_MATH_CONVEXVOLUME_HPP
 
+#include <type_traits>
 #include <vector>
 #include "math/Box.hpp"
 #include "math/Plane.hpp"
@@ -20,7 +21,8 @@ namespace ouzel
         {
         }
 
-        inline auto isPointInside(const Vector<4, T>& position) const noexcept
+        template<size_t N, typename std::enable_if<N >= 3>::type* = nullptr>
+        inline auto isPointInside(const Vector<N, T>& position) const noexcept
         {
             for (const Plane<T>& plane : planes)
                 if (plane.dot(position) < T(0))
@@ -29,7 +31,8 @@ namespace ouzel
             return true;
         }
 
-        inline auto isSphereInside(const Vector<4, T>& position, const T radius) const noexcept
+        template<size_t N, typename std::enable_if<N >= 3>::type* = nullptr>
+        inline auto isSphereInside(const Vector<N, T>& position, const T radius) const noexcept
         {
             for (const Plane<T>& plane : planes)
                 if (plane.dot(position) < -radius)
