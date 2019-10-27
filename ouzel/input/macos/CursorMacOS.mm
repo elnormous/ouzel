@@ -42,11 +42,11 @@ namespace ouzel
         {
             if (!data.empty())
             {
-                NSInteger bytesPerPixel = graphics::getPixelSize(pixelFormat);
-                NSInteger channelSize = graphics::getChannelSize(pixelFormat);
-                NSInteger channelCount = graphics::getChannelCount(pixelFormat);
-                auto width = static_cast<NSInteger>(size.v[0]);
-                auto height = static_cast<NSInteger>(size.v[1]);
+                const NSInteger bytesPerPixel = graphics::getPixelSize(pixelFormat);
+                const NSInteger channelSize = graphics::getChannelSize(pixelFormat);
+                const NSInteger channelCount = graphics::getChannelCount(pixelFormat);
+                const auto width = static_cast<NSInteger>(size.v[0]);
+                const auto height = static_cast<NSInteger>(size.v[1]);
 
                 unsigned char* rgba = data.data();
 

@@ -831,7 +831,7 @@ namespace ouzel
         input::InputSystemWin* inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
         input::TouchpadDevice* touchpadDevice = inputSystemWin->getTouchpadDevice();
 
-        UINT inputCount = LOWORD(wParam);
+        const UINT inputCount = LOWORD(wParam);
         std::vector<TOUCHINPUT> touches(inputCount);
 
         if (!GetTouchInputInfo(reinterpret_cast<HTOUCHINPUT>(lParam), inputCount, touches.data(), sizeof(TOUCHINPUT)))

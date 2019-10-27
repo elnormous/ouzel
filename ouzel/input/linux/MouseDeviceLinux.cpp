@@ -21,7 +21,7 @@ namespace ouzel
             XWindowAttributes attributes;
             XGetWindowAttributes(display, window, &attributes);
 
-            Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
+            const Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
             XWarpPointer(display, None, window, 0, 0, 0, 0,
                          attributes.x + static_cast<int>(windowLocation.v[0]),

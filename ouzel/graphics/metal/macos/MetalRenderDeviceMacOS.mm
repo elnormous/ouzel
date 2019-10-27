@@ -96,7 +96,7 @@ namespace ouzel
 
                 metalLayer = (CAMetalLayer*)view.layer;
                 metalLayer.device = device;
-                CGSize drawableSize = CGSizeMake(newSize.v[0], newSize.v[1]);
+                const CGSize drawableSize = CGSizeMake(newSize.v[0], newSize.v[1]);
                 metalLayer.drawableSize = drawableSize;
 
                 colorFormat = metalLayer.pixelFormat;
@@ -104,7 +104,7 @@ namespace ouzel
                 eventHandler.windowHandler = std::bind(&RenderDeviceMacOS::handleWindow, this, std::placeholders::_1);
                 engine->getEventDispatcher().addEventHandler(eventHandler);
 
-                CGDirectDisplayID displayId = windowMacOS->getDisplayId();
+                const CGDirectDisplayID displayId = windowMacOS->getDisplayId();
                 if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
                     throw std::runtime_error("Failed to create display link");
 

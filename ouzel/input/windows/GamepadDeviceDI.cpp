@@ -78,8 +78,8 @@ namespace ouzel
             {
                 if (gamepadConfig.axisMap[i] != Gamepad::Axis::Unknown)
                 {
-                    USAGE usage = axisUsageMap[i].first;
-                    DWORD offset = axisUsageMap[i].second;
+                    const USAGE usage = axisUsageMap[i].first;
+                    const DWORD offset = axisUsageMap[i].second;
 
                     DIDEVICEOBJECTINSTANCEW didObjectInstance;
                     didObjectInstance.dwSize = sizeof(didObjectInstance);
@@ -352,9 +352,9 @@ namespace ouzel
 
             for (auto& buttonPair : buttons)
             {
-                DWORD offset = buttonPair.first;
+                const DWORD offset = buttonPair.first;
                 Button& button = buttonPair.second;
-                BYTE newValue = *reinterpret_cast<const BYTE*>(reinterpret_cast<const uint8_t*>(&newDIState) + offset);
+                const BYTE newValue = *reinterpret_cast<const BYTE*>(reinterpret_cast<const uint8_t*>(&newDIState) + offset);
 
                 if (button.value != newValue)
                 {
@@ -372,9 +372,9 @@ namespace ouzel
 
             for (auto& axisPair : axes)
             {
-                DWORD offset = axisPair.first;
+                const DWORD offset = axisPair.first;
                 Axis& axis = axisPair.second;
-                LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&newDIState) + offset);
+                const LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&newDIState) + offset);
 
                 if (axis.value != newValue)
                 {

@@ -241,8 +241,8 @@ namespace ouzel
 
                 currentMetalTexture = [currentMetalDrawable.texture retain];
 
-                NSUInteger frameBufferWidth = currentMetalTexture.width;
-                NSUInteger frameBufferHeight = currentMetalTexture.height;
+                const NSUInteger frameBufferWidth = currentMetalTexture.width;
+                const NSUInteger frameBufferHeight = currentMetalTexture.height;
 
                 if (sampleCount > 1)
                 {
@@ -348,8 +348,8 @@ namespace ouzel
                             case Command::Type::Resize:
                             {
                                 auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
-                                CGSize drawableSize = CGSizeMake(resizeCommand->size.v[0],
-                                                                 resizeCommand->size.v[1]);
+                                const CGSize drawableSize = CGSizeMake(resizeCommand->size.v[0],
+                                                                       resizeCommand->size.v[1]);
                                 metalLayer.drawableSize = drawableSize;
                                 break;
                             }
@@ -906,8 +906,8 @@ namespace ouzel
                 if (!currentMetalTexture)
                     throw std::runtime_error("No back buffer");
 
-                NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.width);
-                NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.height);
+                const NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.width);
+                const NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.height);
 
                 std::vector<uint8_t> data(width * height * 4);
                 [currentMetalTexture getBytes:data.data() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];

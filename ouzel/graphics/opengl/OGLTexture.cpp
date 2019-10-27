@@ -418,7 +418,7 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                SamplerFilter finalFilter = (filter == SamplerFilter::Default) ? renderDevice.getTextureFilter() : filter;
+                const SamplerFilter finalFilter = (filter == SamplerFilter::Default) ? renderDevice.getTextureFilter() : filter;
 
                 switch (finalFilter)
                 {
@@ -593,7 +593,7 @@ namespace ouzel
             {
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                SamplerFilter finalFilter = (filter == SamplerFilter::Default) ? renderDevice.getTextureFilter() : filter;
+                const SamplerFilter finalFilter = (filter == SamplerFilter::Default) ? renderDevice.getTextureFilter() : filter;
 
                 switch (finalFilter)
                 {

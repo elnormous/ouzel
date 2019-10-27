@@ -111,9 +111,9 @@ namespace ouzel
         if (windowSize.width <= 0.0F) windowSize.width = std::round(screen.frame.size.width * 0.8);
         if (windowSize.height <= 0.0F) windowSize.height = std::round(screen.frame.size.height * 0.8);
 
-        NSRect frame = NSMakeRect(std::round(screen.frame.size.width / 2.0F - windowSize.width / 2.0F),
-                                  std::round(screen.frame.size.height / 2.0F - windowSize.height / 2.0F),
-                                  windowSize.width, windowSize.height);
+        const NSRect frame = NSMakeRect(std::round(screen.frame.size.width / 2.0F - windowSize.width / 2.0F),
+                                        std::round(screen.frame.size.height / 2.0F - windowSize.height / 2.0F),
+                                        windowSize.width, windowSize.height);
 
         windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
 
@@ -143,10 +143,10 @@ namespace ouzel
                 windowRect = frame;
                 [window setStyleMask:NSBorderlessWindowMask];
 
-                NSRect screenRect = [screen frame];
+                const NSRect screenRect = [screen frame];
                 [window setFrame:screenRect display:YES animate:NO];
 
-                CGWindowLevel windowLevel = CGShieldingWindowLevel();
+                const CGWindowLevel windowLevel = CGShieldingWindowLevel();
                 [window setLevel:windowLevel];
             }
             else
@@ -166,8 +166,8 @@ namespace ouzel
             [invocation invoke];
         }
 
-        NSRect windowFrame = [NSWindow contentRectForFrameRect:[window frame]
-                                                     styleMask:[window styleMask]];
+        const NSRect windowFrame = [NSWindow contentRectForFrameRect:[window frame]
+                                                           styleMask:[window styleMask]];
 
         switch (graphicsDriver)
         {

@@ -32,7 +32,7 @@ namespace ouzel
         Network::Network()
         {
 #ifdef _WIN32
-            WORD sockVersion = MAKEWORD(2, 2);
+            const WORD sockVersion = MAKEWORD(2, 2);
             WSADATA wsaData;
             int error = WSAStartup(sockVersion, &wsaData);
             if (error != 0)

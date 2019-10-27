@@ -335,7 +335,7 @@ namespace ouzel
                                 if (strPid && swscanf(strPid, L"PID_%4X", &dwPid) != 1) dwPid = 0;
 
                                 // Compare the VID/PID to the DInput device
-                                DWORD dwVidPid = MAKELONG(dwVid, dwPid);
+                                const DWORD dwVidPid = MAKELONG(dwVid, dwPid);
                                 if (dwVidPid == didInstance->guidProduct.Data1)
                                     isXInputDevice = true;
                             }

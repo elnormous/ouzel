@@ -926,7 +926,7 @@ namespace ouzel
                             {
                                 auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
-                                GLbitfield clearMask = (clearCommand->clearColorBuffer ? GL_COLOR_BUFFER_BIT : 0) |
+                                const GLbitfield clearMask = (clearCommand->clearColorBuffer ? GL_COLOR_BUFFER_BIT : 0) |
                                     (clearCommand->clearDepthBuffer ? GL_DEPTH_BUFFER_BIT : 0 |
                                     (clearCommand->clearStencilBuffer ? GL_STENCIL_BUFFER_BIT : 0));
 

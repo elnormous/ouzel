@@ -152,7 +152,7 @@ namespace ouzel
                 [openGLView setOpenGLContext:openGLContext];
                 [openGLContext setView:openGLView];
 
-                GLint swapInterval = newVerticalSync ? 1 : 0;
+                const GLint swapInterval = newVerticalSync ? 1 : 0;
                 [openGLContext setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
 
                 RenderDevice::init(newWindow,
@@ -169,7 +169,7 @@ namespace ouzel
                 eventHandler.windowHandler = std::bind(&RenderDeviceMacOS::handleWindow, this, std::placeholders::_1);
                 engine->getEventDispatcher().addEventHandler(eventHandler);
 
-                CGDirectDisplayID displayId = windowMacOS->getDisplayId();
+                const CGDirectDisplayID displayId = windowMacOS->getDisplayId();
                 if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
                     throw std::runtime_error("Failed to create display link");
 

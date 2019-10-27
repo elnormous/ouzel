@@ -102,9 +102,9 @@ namespace ouzel
             CFStringRef path = CFURLCopyFileSystemPath(absolutePath, kCFURLPOSIXPathStyle);
             CFRelease(absolutePath);
 
-            CFIndex maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path);
+            const CFIndex maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path);
             std::vector<char> resourceDirectory(static_cast<size_t>(maximumSize));
-            Boolean result = CFStringGetFileSystemRepresentation(path, resourceDirectory.data(), maximumSize);
+            const Boolean result = CFStringGetFileSystemRepresentation(path, resourceDirectory.data(), maximumSize);
             CFRelease(path);
             if (!result)
                 throw std::runtime_error("Failed to get resource directory");
@@ -163,7 +163,7 @@ namespace ouzel
                 if (buffer.size() > MAX_PATH)
                     buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
-                DWORD attributes = GetFileAttributesW(buffer.data());
+                const DWORD attributes = GetFileAttributesW(buffer.data());
                 if (attributes == INVALID_FILE_ATTRIBUTES)
                 {
                     if (!CreateDirectoryW(buffer.data(), nullptr))
@@ -189,7 +189,7 @@ namespace ouzel
                 if (buffer.size() > MAX_PATH)
                     buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
-                DWORD attributes = GetFileAttributesW(buffer.data());
+                const DWORD attributes = GetFileAttributesW(buffer.data());
                 if (attributes == INVALID_FILE_ATTRIBUTES)
                 {
                     if (!CreateDirectoryW(buffer.data(), nullptr))

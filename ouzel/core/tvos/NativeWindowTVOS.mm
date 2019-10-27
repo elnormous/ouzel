@@ -57,7 +57,7 @@ namespace ouzel
         viewController = [[[ViewController alloc] initWithWindow:this] autorelease];
         window.rootViewController = viewController;
 
-        CGRect windowFrame = [window bounds];
+        const CGRect windowFrame = [window bounds];
 
         size = Size2U(static_cast<uint32_t>(windowFrame.size.width),
                       static_cast<uint32_t>(windowFrame.size.height));

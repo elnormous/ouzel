@@ -129,7 +129,7 @@ namespace ouzel
                 {
                     if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
                     {
-                        MTLVertexFormat vertexFormat = getVertexFormat(vertexAttribute.dataType);
+                        const MTLVertexFormat vertexFormat = getVertexFormat(vertexAttribute.dataType);
 
                         if (vertexFormat == MTLVertexFormatInvalid)
                             throw std::runtime_error("Invalid vertex format");

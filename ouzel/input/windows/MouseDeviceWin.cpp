@@ -11,7 +11,7 @@ namespace ouzel
     {
         void MouseDeviceWin::setPosition(const Vector2F& position)
         {
-            Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
+            const Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
             HWND nativeWindow = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
 
             POINT p;
@@ -35,8 +35,8 @@ namespace ouzel
                 RECT rect;
                 GetWindowRect(nativeWindow, &rect);
 
-                LONG centerX = (rect.left + rect.right) / 2;
-                LONG centerY = (rect.top + rect.bottom) / 2;
+                const LONG centerX = (rect.left + rect.right) / 2;
+                const LONG centerY = (rect.top + rect.bottom) / 2;
 
                 rect.left = centerX;
                 rect.right = centerX + 1;
