@@ -65,7 +65,7 @@
 -(void)deviceOrientationDidChange:(NSNotification*)note
 {
     UIDevice* device = note.object;
-    UIDeviceOrientation orientation = device.orientation;
+    const UIDeviceOrientation orientation = device.orientation;
 
     auto event = std::make_unique<ouzel::SystemEvent>();
     event->type = ouzel::Event::Type::OrientationChange;

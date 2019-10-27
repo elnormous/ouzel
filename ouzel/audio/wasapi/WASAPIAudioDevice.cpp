@@ -39,7 +39,7 @@ namespace ouzel
 
                     ULONG STDMETHODCALLTYPE Release()
                     {
-                        ULONG newRefCount = InterlockedDecrement(&refCount);
+                        const ULONG newRefCount = InterlockedDecrement(&refCount);
                         if (!newRefCount)
                             delete this;
 
@@ -203,10 +203,8 @@ namespace ouzel
                 sampleFormat = SampleFormat::Float32;
                 sampleSize = sizeof(float);
 
-                DWORD streamFlags = AUDCLNT_STREAMFLAGS_EVENTCALLBACK;
-
-                if (waveFormat.nSamplesPerSec != audioClientWaveFormat->nSamplesPerSec)
-                    streamFlags |= AUDCLNT_STREAMFLAGS_RATEADJUST;
+                const DWORD streamFlags = AUDCLNT_STREAMFLAGS_EVENTCALLBACK &
+                    (waveFormat.nSamplesPerSec != audioClientWaveFormat->nSamplesPerSec) ? AUDCLNT_STREAMFLAGS_RATEADJUST : 0;
 
                 CoTaskMemFree(audioClientWaveFormat);
 
@@ -320,7 +318,7 @@ namespace ouzel
                             if (FAILED(hr = audioClient->GetCurrentPadding(&bufferPadding)))
                                 throw std::system_error(hr, errorCategory, "Failed to get buffer padding");
 
-                            UINT32 frameCount = bufferFrameCount - bufferPadding;
+                            const UINT32 frameCount = bufferFrameCount - bufferPadding;
                             if (frameCount != 0)
                             {
                                 BYTE* renderBuffer;

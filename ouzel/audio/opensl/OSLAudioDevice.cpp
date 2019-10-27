@@ -125,16 +125,9 @@ namespace ouzel
 
                 dataFormat.endianness = SL_BYTEORDER_LITTLEENDIAN;
 
-                SLDataSource dataSource = {&location, &dataFormat};
-
-                SLDataLocator_OutputMix dataLocatorOut;
-                dataLocatorOut.locatorType = SL_DATALOCATOR_OUTPUTMIX;
-                dataLocatorOut.outputMix = outputMixObject;
-
-                SLDataSink dataSink;
-                dataSink.pLocator = &dataLocatorOut;
-                dataSink.pFormat = nullptr;
-
+                SLDataSource dataSource{&location, &dataFormat};
+                SLDataLocator_OutputMix dataLocatorOut{SL_DATALOCATOR_OUTPUTMIX, outputMixObject};
+                SLDataSink dataSink{&dataLocatorOut, nullptr};
                 constexpr SLuint32 playerIIDCount = 3;
                 const SLInterfaceID playerIIDs[] = {SL_IID_BUFFERQUEUE, SL_IID_PLAY, SL_IID_VOLUME};
                 constexpr SLboolean playerReqs[] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};

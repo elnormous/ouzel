@@ -103,14 +103,14 @@ namespace ouzel
 
                 id currentRoute = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(audioSession, sel_getUid("currentRoute")); // [audioSession currentRoute]
                 id outputs = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(currentRoute, sel_getUid("outputs")); // [currentRoute outputs]
-                NSUInteger count = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(outputs, sel_getUid("count")); // [outputs count]
+                const NSUInteger count = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(outputs, sel_getUid("count")); // [outputs count]
 
                 NSUInteger maxChannelCount = 0;
                 for (NSUInteger outputIndex = 0; outputIndex < count; ++outputIndex)
                 {
                     id output = reinterpret_cast<id (*)(id, SEL, NSUInteger)>(&objc_msgSend)(outputs, sel_getUid("objectAtIndex:"), outputIndex); // [outputs objectAtIndex:outputIndex]
                     id channels = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(output, sel_getUid("channels")); // [output channels]
-                    NSUInteger channelCount = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(channels, sel_getUid("count")); // [channels count]
+                    const NSUInteger channelCount = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(channels, sel_getUid("count")); // [channels count]
                     if (channelCount > maxChannelCount)
                         maxChannelCount = channelCount;
                 }
@@ -189,7 +189,7 @@ namespace ouzel
                         name = deviceName;
                     else
                     {
-                        CFIndex stringLength = CFStringGetLength(tempStringRef);
+                        const CFIndex stringLength = CFStringGetLength(tempStringRef);
                         std::vector<char> temp(static_cast<size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
                         if (CFStringGetCString(tempStringRef, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8))
                             name = temp.data();
@@ -280,7 +280,7 @@ namespace ouzel
                     throw std::system_error(result, errorCategory, "Failed to set CoreAudio unit output callback");
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
-                UInt32 inIOBufferFrameSize = 512;
+                const UInt32 inIOBufferFrameSize = 512;
                 if ((result = AudioUnitSetProperty(audioUnit,
                                                    kAudioDevicePropertyBufferFrameSize,
                                                    kAudioUnitScope_Global,
