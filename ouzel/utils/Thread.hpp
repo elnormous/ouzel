@@ -72,7 +72,7 @@ namespace ouzel
         {
 #if defined(_MSC_VER)
             static_cast<void>(realtime);
-            static const int priorities[] = {
+            static constexpr int priorities[] = {
                 THREAD_PRIORITY_IDLE, THREAD_PRIORITY_LOWEST, THREAD_PRIORITY_BELOW_NORMAL, THREAD_PRIORITY_NORMAL,
                 THREAD_PRIORITY_ABOVE_NORMAL, THREAD_PRIORITY_HIGHEST, THREAD_PRIORITY_TIME_CRITICAL
             };
