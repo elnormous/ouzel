@@ -88,10 +88,10 @@ namespace
             // scan codes
             default:
             {
-                uint8_t scanCode = (lParam >> 16) & 0xFF;
+                const uint8_t scanCode = (lParam >> 16) & 0xFF;
                 if (scanCode <= 127)
                 {
-                    bool isExtended = (lParam & (1 << 24)) != 0;
+                    const bool isExtended = (lParam & (1 << 24)) != 0;
 
                     switch (scanCode)
                     {

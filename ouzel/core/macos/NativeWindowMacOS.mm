@@ -343,7 +343,7 @@ namespace ouzel
             else
             {
                 NSApplicationPresentationOptions options = [[NSApplication sharedApplication] presentationOptions];
-                bool isFullscreen = (options & NSApplicationPresentationFullScreen) > 0;
+                const bool isFullscreen = (options & NSApplicationPresentationFullScreen) > 0;
 
                 if (isFullscreen != newFullscreen)
                     [window toggleFullScreen:nil];

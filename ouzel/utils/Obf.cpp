@@ -74,12 +74,12 @@ namespace ouzel
 
             uint32_t readString(const std::vector<uint8_t>& buffer, uint32_t offset, std::string& result)
             {
-                uint32_t originalOffset = offset;
+                const uint32_t originalOffset = offset;
 
                 if (buffer.size() - offset < sizeof(uint16_t))
                     throw std::runtime_error("Not enough data");
 
-                uint16_t length = decodeBigEndian<uint16_t>(buffer.data() + offset);
+                const uint16_t length = decodeBigEndian<uint16_t>(buffer.data() + offset);
 
                 offset += sizeof(length);
 
@@ -94,12 +94,12 @@ namespace ouzel
 
             uint32_t readLongString(const std::vector<uint8_t>& buffer, uint32_t offset, std::string& result)
             {
-                uint32_t originalOffset = offset;
+                const uint32_t originalOffset = offset;
 
                 if (buffer.size() - offset < sizeof(uint32_t))
                     throw std::runtime_error("Not enough data");
 
-                uint32_t length = decodeBigEndian<uint32_t>(buffer.data() + offset);
+                const uint32_t length = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
                 offset += sizeof(length);
 
@@ -114,12 +114,12 @@ namespace ouzel
 
             uint32_t readByteArray(const std::vector<uint8_t>& buffer, uint32_t offset, std::vector<uint8_t>& result)
             {
-                uint32_t originalOffset = offset;
+                const uint32_t originalOffset = offset;
 
                 if (buffer.size() - offset < sizeof(uint32_t))
                     throw std::runtime_error("Not enough data");
 
-                uint32_t length = decodeBigEndian<uint32_t>(buffer.data() + offset);
+                const uint32_t length = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
                 offset += sizeof(length);
 
@@ -135,12 +135,12 @@ namespace ouzel
 
             uint32_t readObject(const std::vector<uint8_t>& buffer, uint32_t offset, std::map<uint32_t, Value>& result)
             {
-                uint32_t originalOffset = offset;
+                const uint32_t originalOffset = offset;
 
                 if (buffer.size() - offset < sizeof(uint32_t))
                     throw std::runtime_error("Not enough data");
 
-                uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
+                const uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
                 offset += sizeof(count);
 
@@ -149,13 +149,13 @@ namespace ouzel
                     if (buffer.size() - offset < sizeof(uint32_t))
                         throw std::runtime_error("Not enough data");
 
-                    uint32_t key = decodeBigEndian<uint32_t>(buffer.data() + offset);
+                    const uint32_t key = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
                     offset += sizeof(key);
 
                     Value node;
 
-                    uint32_t ret = node.decode(buffer, offset);
+                    const uint32_t ret = node.decode(buffer, offset);
 
                     offset += ret;
 
@@ -167,19 +167,19 @@ namespace ouzel
 
             uint32_t readArray(const std::vector<uint8_t>& buffer, uint32_t offset, std::vector<Value>& result)
             {
-                uint32_t originalOffset = offset;
+                const uint32_t originalOffset = offset;
 
                 if (buffer.size() - offset < sizeof(uint32_t))
                     throw std::runtime_error("Not enough data");
 
-                uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
+                const uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
                 offset += sizeof(count);
 
                 for (uint32_t i = 0; i < count; ++i)
                 {
                     Value node;
-                    uint32_t ret = node.decode(buffer, offset);
+                    const uint32_t ret = node.decode(buffer, offset);
 
                     offset += ret;
 
@@ -191,12 +191,12 @@ namespace ouzel
 
             uint32_t readDictionary(const std::vector<uint8_t>& buffer, uint32_t offset, std::map<std::string, Value>& result)
             {
-                uint32_t originalOffset = offset;
+                const uint32_t originalOffset = offset;
 
                 if (buffer.size() - offset < sizeof(uint32_t))
                     throw std::runtime_error("Not enough data");
 
-                uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
+                const uint32_t count = decodeBigEndian<uint32_t>(buffer.data() + offset);
 
                 offset += sizeof(count);
 
@@ -205,7 +205,7 @@ namespace ouzel
                     if (buffer.size() - offset < sizeof(uint16_t))
                         throw std::runtime_error("Not enough data");
 
-                    uint16_t length = decodeBigEndian<uint16_t>(buffer.data() + offset);
+                    const uint16_t length = decodeBigEndian<uint16_t>(buffer.data() + offset);
 
                     offset += sizeof(length);
 
@@ -217,7 +217,7 @@ namespace ouzel
 
                     Value node;
 
-                    uint32_t ret = node.decode(buffer, offset);
+                    const uint32_t ret = node.decode(buffer, offset);
 
                     offset += ret;
 
@@ -414,7 +414,7 @@ namespace ouzel
 
         uint32_t Value::decode(const std::vector<uint8_t>& buffer, uint32_t offset)
         {
-            uint32_t originalOffset = offset;
+            const uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < 1)
                 throw std::runtime_error("Not enough data");

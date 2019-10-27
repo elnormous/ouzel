@@ -363,7 +363,7 @@ namespace ouzel
                 }
             }
 
-            bool supportsGameController = (vendorId == 0x1038 && productId == 0x1420) || // SteelSeries Nimbus
+            const bool supportsGameController = (vendorId == 0x1038 && productId == 0x1420) || // SteelSeries Nimbus
                 (vendorId == 0x0F0D && productId == 0x0090); // Horipad Ultimate
 
             // Use IOKit only if the controller does not support GameController framework
@@ -395,7 +395,7 @@ namespace ouzel
             if (product)
                 CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
 
-            bool supportsGameController = (vendorId == 0x1038 && productId == 0x1420) || // SteelSeries Nimbus
+            const bool supportsGameController = (vendorId == 0x1038 && productId == 0x1420) || // SteelSeries Nimbus
             (vendorId == 0x0F0D && productId == 0x0090); // Horipad Ultimate
 
             // Use IOKit only if the controller does not support GameController framework

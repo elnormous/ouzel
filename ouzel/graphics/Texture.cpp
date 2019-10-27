@@ -411,8 +411,8 @@ namespace ouzel
                         PixelFormat pixelFormat,
                         std::vector<float>& decodedData)
             {
-                uint32_t channelCount = getChannelCount(pixelFormat);
-                uint32_t pitch = size.width() * channelCount;
+                const uint32_t channelCount = getChannelCount(pixelFormat);
+                const uint32_t pitch = size.width() * channelCount;
                 decodedData.resize(size.width() * size.height() * channelCount);
                 const uint8_t* src = encodedData.data();
                 float* dst = decodedData.data();
@@ -478,8 +478,8 @@ namespace ouzel
                         PixelFormat pixelFormat,
                         std::vector<uint8_t>& encodedData)
             {
-                uint32_t pixelSize = getPixelSize(pixelFormat);
-                uint32_t pitch = size.width() * pixelSize;
+                const uint32_t pixelSize = getPixelSize(pixelFormat);
+                const uint32_t pitch = size.width() * pixelSize;
                 encodedData.resize(size.width() * size.height() * pixelSize);
                 const float* src = decodedData.data();
                 uint8_t* dst = encodedData.data();
@@ -549,7 +549,7 @@ namespace ouzel
                 uint32_t newWidth = size.v[0];
                 uint32_t newHeight = size.v[1];
 
-                uint32_t pixelSize = getPixelSize(pixelFormat);
+                const uint32_t pixelSize = getPixelSize(pixelFormat);
                 uint32_t bufferSize = newWidth * newHeight * pixelSize;
                 levels.emplace_back(size, std::vector<uint8_t>(bufferSize));
 
@@ -581,7 +581,7 @@ namespace ouzel
                 uint32_t newWidth = size.v[0];
                 uint32_t newHeight = size.v[1];
 
-                uint32_t pixelSize = getPixelSize(pixelFormat);
+                const uint32_t pixelSize = getPixelSize(pixelFormat);
                 uint32_t bufferSize = newWidth * newHeight * pixelSize;
                 levels.emplace_back(size, data);
 

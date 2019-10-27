@@ -114,7 +114,7 @@ namespace ouzel
         {
             if ((newState.Gamepad.wButtons & mask) != (state.Gamepad.wButtons & mask))
             {
-                bool pressed = ((newState.Gamepad.wButtons & mask) == mask);
+                const bool pressed = ((newState.Gamepad.wButtons & mask) == mask);
                 handleButtonValueChange(button, pressed, pressed ? 1.0F : 0.0F);
             }
         }

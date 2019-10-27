@@ -64,7 +64,7 @@ namespace ouzel
                 throw std::system_error(errno, std::system_category(), "Failed to get address info of " + address);
 
             sockaddr_in* addr = reinterpret_cast<sockaddr_in*>(info->ai_addr);
-            uint32_t result = ntohl(addr->sin_addr.s_addr);
+            const uint32_t result = ntohl(addr->sin_addr.s_addr);
 
             freeaddrinfo(info);
 

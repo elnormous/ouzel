@@ -324,10 +324,10 @@ namespace ouzel
                 const uint32_t oldHatValue = getHatValue(hatValue);
                 const uint32_t newHatValue = getHatValue(newDIState.rgdwPOV[0]);
 
-                uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
+                const uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                     (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
 
-                uint32_t newBitmask = (newHatValue >= 8) ? 0 : (1 << (newHatValue / 2)) | // first bit
+                const uint32_t newBitmask = (newHatValue >= 8) ? 0 : (1 << (newHatValue / 2)) | // first bit
                     (1 << (newHatValue / 2 + newHatValue % 2)) % 4; // second bit
 
                 if ((oldBitmask & 0x01) != (newBitmask & 0x01))
