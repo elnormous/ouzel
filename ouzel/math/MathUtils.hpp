@@ -31,7 +31,7 @@ namespace ouzel
         bool neonAvailable;
     };
 
-    extern AnrdoidNeonChecker isSimdAvailable;
+    extern const AnrdoidNeonChecker isSimdAvailable;
 #  else
     constexpr auto isSimdAvailable = true;
 #  endif
