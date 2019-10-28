@@ -97,7 +97,7 @@ namespace ouzel
 
                     if (usageIterator != axisUsageMap.end())
                     {
-                        size_t index = usageIterator->second;
+                        const size_t index = usageIterator->second;
 
                         Axis axis;
                         axis.axis = gamepadConfig.axisMap[index];
@@ -229,17 +229,13 @@ namespace ouzel
                 const auto floatValue = 2.0F * static_cast<float>(newValue - min) / range - 1.0F;
 
                 if (floatValue > 0.0F)
-                {
                     handleButtonValueChange(positiveButton,
                                             floatValue > THUMB_DEADZONE,
                                             floatValue);
-                }
                 else if (floatValue < 0.0F)
-                {
                     handleButtonValueChange(negativeButton,
                                             -floatValue > THUMB_DEADZONE,
                                             -floatValue);
-                }
                 else // thumbstick is 0
                 {
                     if (oldValue > newValue)
