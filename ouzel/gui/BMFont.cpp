@@ -12,126 +12,129 @@ namespace ouzel
 {
     namespace gui
     {
-        constexpr auto isWhitespace(uint8_t c)
+        namespace
         {
-            return c == ' ' || c == '\t';
-        }
-
-        constexpr auto isNewline(uint8_t c)
-        {
-            return c == '\r' || c == '\n';
-        }
-
-        constexpr auto isControlChar(uint8_t c)
-        {
-            return c <= 0x1F;
-        }
-
-        static void skipWhitespaces(const std::vector<uint8_t>& str,
-                                    std::vector<uint8_t>::const_iterator& iterator)
-        {
-            while (iterator != str.end())
-                if (isWhitespace(*iterator))
-                    ++iterator;
-                else
-                    break;
-        }
-
-        static void skipLine(const std::vector<uint8_t>& str,
-                             std::vector<uint8_t>::const_iterator& iterator)
-        {
-            while (iterator != str.end())
+            constexpr auto isWhitespace(uint8_t c)
             {
-                if (isNewline(*iterator))
-                {
-                    ++iterator;
-                    break;
-                }
-
-                ++iterator;
+                return c == ' ' || c == '\t';
             }
-        }
 
-        static std::string parseString(const std::vector<uint8_t>& str,
-                                       std::vector<uint8_t>::const_iterator& iterator)
-        {
-            if (iterator == str.end())
-                throw std::runtime_error("Invalid string");
-
-            std::string result;
-
-            if (*iterator == '"')
+            constexpr auto isNewline(uint8_t c)
             {
-                ++iterator;
+                return c == '\r' || c == '\n';
+            }
 
-                for (;;)
+            constexpr auto isControlChar(uint8_t c)
+            {
+                return c <= 0x1F;
+            }
+
+            void skipWhitespaces(const std::vector<uint8_t>& str,
+                                 std::vector<uint8_t>::const_iterator& iterator)
+            {
+                while (iterator != str.end())
+                    if (isWhitespace(*iterator))
+                        ++iterator;
+                    else
+                        break;
+            }
+
+            void skipLine(const std::vector<uint8_t>& str,
+                          std::vector<uint8_t>::const_iterator& iterator)
+            {
+                while (iterator != str.end())
                 {
-                    if (*iterator == '"' &&
-                        (iterator + 1 == str.end() ||
-                         isWhitespace(*(iterator + 1)) ||
-                         isNewline(*(iterator + 1))))
+                    if (isNewline(*iterator))
                     {
                         ++iterator;
                         break;
                     }
-                    if (iterator == str.end())
-                        throw std::runtime_error("Unterminated string");
-
-                    result.push_back(static_cast<char>(*iterator));
 
                     ++iterator;
                 }
             }
-            else
+
+            std::string parseString(const std::vector<uint8_t>& str,
+                                    std::vector<uint8_t>::const_iterator& iterator)
             {
-                while (iterator != str.end() && !isControlChar(*iterator) && !isWhitespace(*iterator) && *iterator != '=')
+                if (iterator == str.end())
+                    throw std::runtime_error("Invalid string");
+
+                std::string result;
+
+                if (*iterator == '"')
+                {
+                    ++iterator;
+
+                    for (;;)
+                    {
+                        if (*iterator == '"' &&
+                            (iterator + 1 == str.end() ||
+                             isWhitespace(*(iterator + 1)) ||
+                             isNewline(*(iterator + 1))))
+                        {
+                            ++iterator;
+                            break;
+                        }
+                        if (iterator == str.end())
+                            throw std::runtime_error("Unterminated string");
+
+                        result.push_back(static_cast<char>(*iterator));
+
+                        ++iterator;
+                    }
+                }
+                else
+                {
+                    while (iterator != str.end() && !isControlChar(*iterator) && !isWhitespace(*iterator) && *iterator != '=')
+                    {
+                        result.push_back(static_cast<char>(*iterator));
+
+                        ++iterator;
+                    }
+
+                    if (result.empty())
+                        throw std::runtime_error("Invalid string");
+                }
+
+                return result;
+            }
+
+            std::string parseInt(const std::vector<uint8_t>& str,
+                                 std::vector<uint8_t>::const_iterator& iterator)
+            {
+                std::string result;
+                uint32_t length = 1;
+
+                if (iterator != str.end() && *iterator == '-')
+                {
+                    result.push_back(static_cast<char>(*iterator));
+                    ++length;
+                    ++iterator;
+                }
+
+                while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
                 {
                     result.push_back(static_cast<char>(*iterator));
 
                     ++iterator;
                 }
 
-                if (result.empty())
-                    throw std::runtime_error("Invalid string");
+                if (result.length() < length)
+                    throw std::runtime_error("Invalid integer");
+
+                return result;
             }
 
-            return result;
-        }
-
-        static std::string parseInt(const std::vector<uint8_t>& str,
-                                    std::vector<uint8_t>::const_iterator& iterator)
-        {
-            std::string result;
-            uint32_t length = 1;
-
-            if (iterator != str.end() && *iterator == '-')
+            void expectToken(const std::vector<uint8_t>& str,
+                             std::vector<uint8_t>::const_iterator& iterator,
+                             char token)
             {
-                result.push_back(static_cast<char>(*iterator));
-                ++length;
-                ++iterator;
-            }
-
-            while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
-            {
-                result.push_back(static_cast<char>(*iterator));
+                if (iterator == str.end() || *iterator != static_cast<uint8_t>(token))
+                    throw std::runtime_error("Unexpected token");
 
                 ++iterator;
             }
-
-            if (result.length() < length)
-                throw std::runtime_error("Invalid integer");
-
-            return result;
-        }
-
-        static void expectToken(const std::vector<uint8_t>& str,
-                                std::vector<uint8_t>::const_iterator& iterator,
-                                char token)
-        {
-            if (iterator == str.end() || *iterator != static_cast<uint8_t>(token))
-                throw std::runtime_error("Unexpected token");
-
-            ++iterator;
         }
 
         BMFont::BMFont(const std::vector<uint8_t>& data)

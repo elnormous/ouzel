@@ -462,14 +462,17 @@ namespace ouzel
             dirty = true;
         }
 
-        static std::vector<uint32_t> pascalsTriangleRow(uint32_t row)
+        namespace
         {
-            std::vector<uint32_t> ret;
-            ret.push_back(1);
-            for (uint32_t i = 0; i < row; ++i)
-                ret.push_back(ret[i] * (row - i) / (i + 1));
+            std::vector<uint32_t> pascalsTriangleRow(uint32_t row)
+            {
+                std::vector<uint32_t> ret;
+                ret.push_back(1);
+                for (uint32_t i = 0; i < row; ++i)
+                    ret.push_back(ret[i] * (row - i) / (i + 1));
 
-            return ret;
+                return ret;
+            }
         }
 
         void ShapeRenderer::curve(const std::vector<Vector2F>& controlPoints,

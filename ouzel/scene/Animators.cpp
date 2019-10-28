@@ -12,197 +12,200 @@ namespace ouzel
 {
     namespace scene
     {
-        static float sineIn(const float t)
+        namespace
         {
-            return 1.0F - std::cos(t * pi<float> / 2.0F);
-        }
+            float sineIn(const float t)
+            {
+                return 1.0F - std::cos(t * pi<float> / 2.0F);
+            }
 
-        static float sineOut(const float t)
-        {
-            return std::sin(t * pi<float> / 2.0F);
-        }
+            float sineOut(const float t)
+            {
+                return std::sin(t * pi<float> / 2.0F);
+            }
 
-        static float sineInOut(const float t)
-        {
-            return -0.5F * (std::cos(pi<float> * t) - 1.0F);
-        }
+            float sineInOut(const float t)
+            {
+                return -0.5F * (std::cos(pi<float> * t) - 1.0F);
+            }
 
-        static constexpr float quadIn(const float t)
-        {
-            return t * t;
-        }
+            constexpr float quadIn(const float t)
+            {
+                return t * t;
+            }
 
-        static constexpr float quadOut(const float t)
-        {
-            return t * (2.0F - t);
-        }
+            constexpr float quadOut(const float t)
+            {
+                return t * (2.0F - t);
+            }
 
-        static constexpr float quadInOut(const float t)
-        {
-            return (t < 0.5F) ?
-                2.0F * t * t :
-                -1.0F + (4.0F - 2.0F * t) * t;
-        }
+            constexpr float quadInOut(const float t)
+            {
+                return (t < 0.5F) ?
+                    2.0F * t * t :
+                    -1.0F + (4.0F - 2.0F * t) * t;
+            }
 
-        static constexpr float cubicIn(const float t)
-        {
-            return t * t * t;
-        }
+            constexpr float cubicIn(const float t)
+            {
+                return t * t * t;
+            }
 
-        static constexpr float cubicOut(const float t)
-        {
-            return (t - 1.0F) * (t - 1.0F) * (t - 1.0F) + 1.0F;
-        }
+            constexpr float cubicOut(const float t)
+            {
+                return (t - 1.0F) * (t - 1.0F) * (t - 1.0F) + 1.0F;
+            }
 
-        static constexpr float cubicInOut(const float t)
-        {
-            return (t < 0.5F) ?
-                4.0F * t * t * t :
-                (t - 1.0F) * (2.0F * t - 2.0F) * (2.0F * t - 2.0F) + 1.0F;
-        }
+            constexpr float cubicInOut(const float t)
+            {
+                return (t < 0.5F) ?
+                    4.0F * t * t * t :
+                    (t - 1.0F) * (2.0F * t - 2.0F) * (2.0F * t - 2.0F) + 1.0F;
+            }
 
-        static constexpr float quartIn(const float t)
-        {
-            return t * t * t * t;
-        }
+            constexpr float quartIn(const float t)
+            {
+                return t * t * t * t;
+            }
 
-        static constexpr float quartOut(const float t)
-        {
-            return 1.0F - (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
-        }
+            constexpr float quartOut(const float t)
+            {
+                return 1.0F - (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
+            }
 
-        static constexpr float quartInOut(const float t)
-        {
-            return (t < 0.5F) ?
-                8.0F * t * t * t * t :
-                1.0F - 8.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
-        }
+            constexpr float quartInOut(const float t)
+            {
+                return (t < 0.5F) ?
+                    8.0F * t * t * t * t :
+                    1.0F - 8.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
+            }
 
-        static constexpr float quintIn(const float t)
-        {
-            return t * t * t * t * t;
-        }
+            constexpr float quintIn(const float t)
+            {
+                return t * t * t * t * t;
+            }
 
-        static constexpr float quintOut(const float t)
-        {
-            return 1.0F + (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
-        }
+            constexpr float quintOut(const float t)
+            {
+                return 1.0F + (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
+            }
 
-        static constexpr float quintInOut(const float t)
-        {
-            return (t < 0.5F) ?
-                16.0F * t * t * t * t * t :
-                1.0F + 16.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
-        }
+            constexpr float quintInOut(const float t)
+            {
+                return (t < 0.5F) ?
+                    16.0F * t * t * t * t * t :
+                    1.0F + 16.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
+            }
 
-        static float expoIn(const float t)
-        {
-            return std::pow(2.0F, 10.0F * (t - 1.0F));
-        }
+            float expoIn(const float t)
+            {
+                return std::pow(2.0F, 10.0F * (t - 1.0F));
+            }
 
-        static float expoOut(const float t)
-        {
-            return 1.0F - std::pow(2.0F, -10.0F * t);
-        }
+            float expoOut(const float t)
+            {
+                return 1.0F - std::pow(2.0F, -10.0F * t);
+            }
 
-        static float expoInOut(const float t)
-        {
-            return (t < 0.5F) ?
-                0.5F * std::pow(2.0F, 10.0F * (2.0F * t - 1.0F)) :
-                0.5F * (std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
-        }
+            float expoInOut(const float t)
+            {
+                return (t < 0.5F) ?
+                    0.5F * std::pow(2.0F, 10.0F * (2.0F * t - 1.0F)) :
+                    0.5F * (std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
+            }
 
-        static float circIn(const float t)
-        {
-            return 1.0F - std::sqrt(1.0F - t * t);
-        }
+            float circIn(const float t)
+            {
+                return 1.0F - std::sqrt(1.0F - t * t);
+            }
 
-        static float circOut(const float t)
-        {
-            return std::sqrt(1.0F - (t - 1.0F) * (t - 1.0F));
-        }
+            float circOut(const float t)
+            {
+                return std::sqrt(1.0F - (t - 1.0F) * (t - 1.0F));
+            }
 
-        static float circInOut(const float t)
-        {
-            return (t < 0.5F) ?
-                0.5F * (-std::sqrt(1.0F - (t * 2.0F) * (t * 2.0F)) + 1.0F) :
-                0.5F * (std::sqrt(1.0F - (t * 2.0F - 2.0F) * (t * 2.0F - 2.0F)) + 1.0F);
-        }
+            float circInOut(const float t)
+            {
+                return (t < 0.5F) ?
+                    0.5F * (-std::sqrt(1.0F - (t * 2.0F) * (t * 2.0F)) + 1.0F) :
+                    0.5F * (std::sqrt(1.0F - (t * 2.0F - 2.0F) * (t * 2.0F - 2.0F)) + 1.0F);
+            }
 
-        static float backIn(const float t)
-        {
-            static constexpr float s = 1.70158F;
-            return t * t * ((s + 1.0F) * t - s);
-        }
+            float backIn(const float t)
+            {
+                static constexpr float s = 1.70158F;
+                return t * t * ((s + 1.0F) * t - s);
+            }
 
-        static float backOut(const float t)
-        {
-            static constexpr float s = 1.70158F;
-            return (t - 1.0F) * (t - 1.0F) * ((s + 1.0F) * (t - 1.0F) + s) + 1.0F;
-        }
+            float backOut(const float t)
+            {
+                static constexpr float s = 1.70158F;
+                return (t - 1.0F) * (t - 1.0F) * ((s + 1.0F) * (t - 1.0F) + s) + 1.0F;
+            }
 
-        static float backInOut(const float t)
-        {
-            static constexpr float s = 1.70158F * 1.525F;
-            return (t < 0.5F) ?
-                0.5F * ((t * 2.0F) * (t * 2.0F) * ((s + 1.0F) * (t * 2.0F) - s)):
-                0.5F * ((t * 2.0F - 2.0F) * (t * 2.0F - 2.0F) * ((s + 1.0F) * (t * 2.0F - 2.0F) + s) + 2.0F);
-        }
+            float backInOut(const float t)
+            {
+                static constexpr float s = 1.70158F * 1.525F;
+                return (t < 0.5F) ?
+                    0.5F * ((t * 2.0F) * (t * 2.0F) * ((s + 1.0F) * (t * 2.0F) - s)):
+                    0.5F * ((t * 2.0F - 2.0F) * (t * 2.0F - 2.0F) * ((s + 1.0F) * (t * 2.0F - 2.0F) + s) + 2.0F);
+            }
 
-        static float elasticIn(const float t)
-        {
-            if (t == 0.0F) return 0.0F;
-            if (t == 1.0F) return 1.0F;
+            float elasticIn(const float t)
+            {
+                if (t == 0.0F) return 0.0F;
+                if (t == 1.0F) return 1.0F;
 
-            static constexpr float p = 0.3F;
+                static constexpr float p = 0.3F;
 
-            return -std::pow(2.0F, 10.0F * (t - 1.0F)) * std::sin(((t - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p);
-        }
+                return -std::pow(2.0F, 10.0F * (t - 1.0F)) * std::sin(((t - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p);
+            }
 
-        static float elasticOut(const float t)
-        {
-            if (t == 0.0F) return 0.0F;
-            if (t == 1.0F) return 1.0F;
+            float elasticOut(const float t)
+            {
+                if (t == 0.0F) return 0.0F;
+                if (t == 1.0F) return 1.0F;
 
-            static constexpr float p = 0.3F;
+                static constexpr float p = 0.3F;
 
-            return std::pow(2.0F, -10.0F * t) * std::sin((t - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
-        }
+                return std::pow(2.0F, -10.0F * t) * std::sin((t - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
+            }
 
-        static float elasticInOut(const float t)
-        {
-            if (t == 0.0F) return 0.0F;
-            if (t == 1.0F) return 1.0F;
+            float elasticInOut(const float t)
+            {
+                if (t == 0.0F) return 0.0F;
+                if (t == 1.0F) return 1.0F;
 
-            static constexpr float p = 0.3F * 1.5F;
+                static constexpr float p = 0.3F * 1.5F;
 
-            return (t < 0.5F) ?
-                -0.5F * std::pow(2.0F, 10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) :
-                0.5F * std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
-        }
+                return (t < 0.5F) ?
+                    -0.5F * std::pow(2.0F, 10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) :
+                    0.5F * std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
+            }
 
-        static float bounceOut(const float t)
-        {
-            if (t < 1.0F / 2.75F)
-                return 7.5625F * t * t;
-            else if (t < 2.0F / 2.75F)
-                return 7.5625F * (t - 1.5F / 2.75F) * (t - 1.5F / 2.75F) + 0.75F;
-            else if (t < 2.5F / 2.75F)
-                return 7.5625F * (t - 2.25F / 2.75F) * (t - 2.25F / 2.75F) + 0.9375F;
-            else
-                return 7.5625F * (t - 2.625F / 2.75F) * (t - 2.625F / 2.75F) + 0.984375F;
-        }
+            float bounceOut(const float t)
+            {
+                if (t < 1.0F / 2.75F)
+                    return 7.5625F * t * t;
+                else if (t < 2.0F / 2.75F)
+                    return 7.5625F * (t - 1.5F / 2.75F) * (t - 1.5F / 2.75F) + 0.75F;
+                else if (t < 2.5F / 2.75F)
+                    return 7.5625F * (t - 2.25F / 2.75F) * (t - 2.25F / 2.75F) + 0.9375F;
+                else
+                    return 7.5625F * (t - 2.625F / 2.75F) * (t - 2.625F / 2.75F) + 0.984375F;
+            }
 
-        static float bounceIn(const float t)
-        {
-            return 1.0F - bounceOut(1.0F - t);
-        }
+            float bounceIn(const float t)
+            {
+                return 1.0F - bounceOut(1.0F - t);
+            }
 
-        static float bounceInOut(const float t)
-        {
-            return (t < 0.5F) ?
-                bounceOut(t * 2.0F) * 0.5F :
-                bounceOut(t * 2.0F - 1.0F) * 0.5F + 0.5F;
+            float bounceInOut(const float t)
+            {
+                return (t < 0.5F) ?
+                    bounceOut(t * 2.0F) * 0.5F :
+                    bounceOut(t * 2.0F - 1.0F) * 0.5F + 0.5F;
+            }
         }
 
         Ease::Ease(Animator& animator, Mode initMode, Func initFunc):
