@@ -44,19 +44,21 @@ namespace ouzel
                 }
             }
 
-            int32_t vendorId;
             const auto vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (!vendor)
                 throw std::runtime_error("Failed to get vendor ID");
 
-            CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
+            int32_t vendorId;
+            if (!CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId))
+                throw std::runtime_error("Failed to get vendor ID");
 
-            int32_t productId;
             const auto product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
             if (!product)
                 throw std::runtime_error("Failed to get product ID");
 
-            CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
+            int32_t productId;
+            if (!CFNumberGetValue(product, kCFNumberSInt32Type, &productId))
+                throw std::runtime_error("Failed to get product ID");
 
             const GamepadConfig& gamepadConfig = getGamepadConfig(vendorId, productId);
 
@@ -74,8 +76,14 @@ namespace ouzel
 
             for (CFIndex i = 0; i < count; ++i)
             {
-                //Cast the CFArrayGetValueAtIndex to return the needed type to avoid const_cast
-                const auto element = reinterpret_cast<IOHIDElementRef (*)(CFArrayRef, CFIndex)>(&CFArrayGetValueAtIndex)(elementArray, i);
+                auto getElement = [](CFArrayRef elementArray, CFIndex i) {
+                    auto arrayValue = CFArrayGetValueAtIndex(elementArray, i);
+                    IOHIDElementRef element;
+                    memcpy(&element, &arrayValue, sizeof(IOHIDElementRef));
+                    return element;
+                };
+
+                const IOHIDElementRef element = getElement(elementArray, i);
                 const IOHIDElementType type = IOHIDElementGetType(element);
                 const uint32_t usagePage = IOHIDElementGetUsagePage(element);
                 const uint32_t usage = IOHIDElementGetUsage(element);
@@ -189,9 +197,7 @@ namespace ouzel
 
                 if ((button.button != Gamepad::Button::LeftTrigger || !hasLeftTrigger) &&
                     (button.button != Gamepad::Button::RightTrigger || !hasRightTrigger))
-                {
                     handleButtonValueChange(button.button, newValue > 0, (newValue > 0) ? 1.0F : 0.0F);
-                }
 
                 button.value = newValue;
             }
