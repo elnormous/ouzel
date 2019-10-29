@@ -168,7 +168,7 @@ namespace ouzel
         DISPMANX_DISPLAY_HANDLE_T display = engineLinux->getDisplay();
 
         DISPMANX_MODEINFO_T modeInfo;
-        int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);
+        const int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);
 
         if (success < 0)
             throw std::runtime_error("Failed to get display size");

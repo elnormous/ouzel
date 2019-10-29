@@ -435,8 +435,8 @@ namespace ouzel
 
         windowFullscreenStyle = WS_CLIPSIBLINGS | WS_GROUP | WS_TABSTOP;
 
-        int x = CW_USEDEFAULT;
-        int y = CW_USEDEFAULT;
+        const int x = CW_USEDEFAULT;
+        const int y = CW_USEDEFAULT;
 
         windowStyle = windowWindowedStyle;
         windowExStyle = WS_EX_APPWINDOW;
