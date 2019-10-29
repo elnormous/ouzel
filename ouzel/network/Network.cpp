@@ -34,7 +34,7 @@ namespace ouzel
 #ifdef _WIN32
             const WORD sockVersion = MAKEWORD(2, 2);
             WSADATA wsaData;
-            int error = WSAStartup(sockVersion, &wsaData);
+            const int error = WSAStartup(sockVersion, &wsaData);
             if (error != 0)
                 throw std::system_error(error, std::system_category(), "Failed to start WinSock failed");
 
@@ -58,7 +58,7 @@ namespace ouzel
         uint32_t Network::getAddress(const std::string& address)
         {
             addrinfo* info;
-            int ret = getaddrinfo(address.c_str(), nullptr, nullptr, &info);
+            const int ret = getaddrinfo(address.c_str(), nullptr, nullptr, &info);
 
             if (ret != 0)
                 throw std::system_error(errno, std::system_category(), "Failed to get address info of " + address);
