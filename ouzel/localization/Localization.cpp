@@ -5,14 +5,17 @@
 
 namespace ouzel
 {
-    struct TranslationInfo final
+    namespace
     {
-        uint32_t stringLength;
-        uint32_t stringOffset;
+        struct TranslationInfo final
+        {
+            uint32_t stringLength = 0;
+            uint32_t stringOffset = 0;
 
-        uint32_t translationLength;
-        uint32_t translationOffset;
-    };
+            uint32_t translationLength = 0;
+            uint32_t translationOffset = 0;
+        };
+    }
 
     Language::Language(const std::vector<uint8_t>& data)
     {
