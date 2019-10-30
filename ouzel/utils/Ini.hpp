@@ -215,8 +215,8 @@ namespace ouzel
             inline void setBom(const bool newBom) noexcept { bom = newBom; }
 
         private:
-            void parse(std::u32string::iterator begin,
-                       std::u32string::iterator end)
+            void parse(std::u32string::const_iterator begin,
+                       std::u32string::const_iterator end)
             {
                 std::map<std::string, Section>::iterator sectionIterator;
                 std::tie(sectionIterator, std::ignore) = sections.insert(std::make_pair("", Section())); // default section

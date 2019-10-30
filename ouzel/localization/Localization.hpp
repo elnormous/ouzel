@@ -32,7 +32,7 @@ namespace ouzel
 
     private:
         std::map<std::string, Language> languages;
-        std::map<std::string, Language>::iterator currentLanguage = languages.end();
+        std::map<std::string, Language>::const_iterator currentLanguage = languages.end();
     };
 }
 

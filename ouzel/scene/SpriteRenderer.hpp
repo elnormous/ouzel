@@ -134,7 +134,7 @@ namespace ouzel
             };
 
             std::list<QueuedAnimation> animationQueue;
-            std::list<QueuedAnimation>::iterator currentAnimation;
+            std::list<QueuedAnimation>::const_iterator currentAnimation;
 
             Vector2F offset;
             Matrix4F offsetMatrix = Matrix4F::identity();
