@@ -61,33 +61,33 @@ namespace ouzel
         inline auto& getArgs() const noexcept { return args; }
 
         inline Log log(Log::Level level = Log::Level::Info) const { return logger.log(level); }
-        inline Logger& getLogger() { return logger; }
-        inline const Logger& getLogger() const { return logger; }
+        inline auto& getLogger() { return logger; }
+        inline auto& getLogger() const { return logger; }
 
-        inline storage::FileSystem& getFileSystem() { return fileSystem; }
-        inline const storage::FileSystem& getFileSystem() const { return fileSystem; }
+        inline auto& getFileSystem() { return fileSystem; }
+        inline const auto& getFileSystem() const { return fileSystem; }
 
-        inline EventDispatcher& getEventDispatcher() { return eventDispatcher; }
-        inline const EventDispatcher& getEventDispatcher() const { return eventDispatcher; }
+        inline auto& getEventDispatcher() { return eventDispatcher; }
+        inline const auto& getEventDispatcher() const { return eventDispatcher; }
 
-        inline assets::Cache& getCache() { return cache; }
-        inline const assets::Cache& getCache() const { return cache; }
+        inline auto& getCache() { return cache; }
+        inline const auto& getCache() const { return cache; }
 
         inline auto getWindow() const { return window.get(); }
 
         inline auto getRenderer() const noexcept { return renderer.get(); }
         inline auto getAudio() const noexcept { return audio.get(); }
 
-        inline scene::SceneManager& getSceneManager() { return sceneManager; }
-        inline const scene::SceneManager& getSceneManager() const { return sceneManager; }
+        inline auto& getSceneManager() { return sceneManager; }
+        inline const auto& getSceneManager() const { return sceneManager; }
 
         inline auto getInputManager() const noexcept { return inputManager.get(); }
 
-        inline Localization& getLocalization() { return localization; }
-        inline const Localization& getLocalization() const { return localization; }
+        inline auto& getLocalization() { return localization; }
+        inline const auto& getLocalization() const { return localization; }
 
-        inline network::Network& getNetwork() { return network; }
-        inline const network::Network& getNetwork() const { return network; }
+        inline auto& getNetwork() { return network; }
+        inline const auto& getNetwork() const { return network; }
 
         inline auto& getDefaultSettings() const noexcept { return defaultSettings; }
         inline auto& getUserSettings() const noexcept { return userSettings; }
