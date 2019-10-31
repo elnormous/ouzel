@@ -62,17 +62,32 @@ namespace ouzel
 
         inline Log log(Log::Level level = Log::Level::Info) const { return logger.log(level); }
         inline Logger& getLogger() { return logger; }
+        inline const Logger& getLogger() const { return logger; }
 
         inline storage::FileSystem& getFileSystem() { return fileSystem; }
+        inline const storage::FileSystem& getFileSystem() const { return fileSystem; }
+
         inline EventDispatcher& getEventDispatcher() { return eventDispatcher; }
+        inline const EventDispatcher& getEventDispatcher() const { return eventDispatcher; }
+
         inline assets::Cache& getCache() { return cache; }
-        inline auto getWindow() { return window.get(); }
+        inline const assets::Cache& getCache() const { return cache; }
+
+        inline auto getWindow() const { return window.get(); }
+
         inline auto getRenderer() const noexcept { return renderer.get(); }
         inline auto getAudio() const noexcept { return audio.get(); }
+
         inline scene::SceneManager& getSceneManager() { return sceneManager; }
+        inline const scene::SceneManager& getSceneManager() const { return sceneManager; }
+
         inline auto getInputManager() const noexcept { return inputManager.get(); }
+
         inline Localization& getLocalization() { return localization; }
+        inline const Localization& getLocalization() const { return localization; }
+
         inline network::Network& getNetwork() { return network; }
+        inline const network::Network& getNetwork() const { return network; }
 
         inline auto& getDefaultSettings() const noexcept { return defaultSettings; }
         inline auto& getUserSettings() const noexcept { return userSettings; }
