@@ -112,7 +112,7 @@ namespace ouzel
             void reset();
             inline auto isPlaying() const noexcept { return playing; }
 
-            inline const std::map<std::string, SpriteData::Animation>& getAnimations() const noexcept { return animations; }
+            inline auto& getAnimations() const noexcept { return animations; }
             inline auto getAnimation() const noexcept { return currentAnimation->animation; }
             inline auto& getAnimationName() const noexcept { return currentAnimation->animation->name; }
             bool hasAnimation(const std::string& animation) const;

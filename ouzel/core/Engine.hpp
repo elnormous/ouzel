@@ -65,13 +65,13 @@ namespace ouzel
         inline auto& getLogger() const { return logger; }
 
         inline auto& getFileSystem() { return fileSystem; }
-        inline const auto& getFileSystem() const { return fileSystem; }
+        inline auto& getFileSystem() const { return fileSystem; }
 
         inline auto& getEventDispatcher() { return eventDispatcher; }
-        inline const auto& getEventDispatcher() const { return eventDispatcher; }
+        inline auto& getEventDispatcher() const { return eventDispatcher; }
 
         inline auto& getCache() { return cache; }
-        inline const auto& getCache() const { return cache; }
+        inline auto& getCache() const { return cache; }
 
         inline auto getWindow() const { return window.get(); }
 
@@ -79,15 +79,15 @@ namespace ouzel
         inline auto getAudio() const noexcept { return audio.get(); }
 
         inline auto& getSceneManager() { return sceneManager; }
-        inline const auto& getSceneManager() const { return sceneManager; }
+        inline auto& getSceneManager() const { return sceneManager; }
 
         inline auto getInputManager() const noexcept { return inputManager.get(); }
 
         inline auto& getLocalization() { return localization; }
-        inline const auto& getLocalization() const { return localization; }
+        inline auto& getLocalization() const { return localization; }
 
         inline auto& getNetwork() { return network; }
-        inline const auto& getNetwork() const { return network; }
+        inline auto& getNetwork() const { return network; }
 
         inline auto& getDefaultSettings() const noexcept { return defaultSettings; }
         inline auto& getUserSettings() const noexcept { return userSettings; }
