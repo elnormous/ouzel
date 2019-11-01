@@ -35,7 +35,7 @@ namespace ouzel
             inline auto& getName() const noexcept { return name; }
             inline void setName(const std::string& newName) { name = newName; }
 
-            inline const std::map<std::string, std::string>& getValues() const noexcept { return values; }
+            inline auto& getValues() const noexcept { return values; }
 
             inline bool hasValue(const std::string& key) const
             {
@@ -177,7 +177,7 @@ namespace ouzel
                 return result;
             }
 
-            inline const std::map<std::string, Section>& getSections() const noexcept { return sections; }
+            inline auto& getSections() const noexcept { return sections; }
 
             inline bool hasSection(const std::string& name) const
             {
@@ -185,7 +185,7 @@ namespace ouzel
                 return sectionIterator != sections.end();
             }
 
-            inline Section& getSection(const std::string& name)
+            inline auto& getSection(const std::string& name)
             {
                 return sections[name];
             }
