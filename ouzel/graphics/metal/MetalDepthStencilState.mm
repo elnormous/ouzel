@@ -71,21 +71,27 @@ namespace ouzel
                 depthStencilDescriptor.depthWriteEnabled = initDepthWrite ? YES : NO; // depth write
                 if (initStencilEnabled)
                 {
-                    depthStencilDescriptor.frontFaceStencil = [MTLStencilDescriptor new];
-                    depthStencilDescriptor.frontFaceStencil.stencilFailureOperation = getStencilOperation(initFrontFaceStencilFailureOperation);
-                    depthStencilDescriptor.frontFaceStencil.depthFailureOperation = getStencilOperation(initFrontFaceStencilDepthFailureOperation);
-                    depthStencilDescriptor.frontFaceStencil.depthStencilPassOperation = getStencilOperation(initFrontFaceStencilPassOperation);
-                    depthStencilDescriptor.frontFaceStencil.stencilCompareFunction = getCompareFunction(initFrontFaceStencilCompareFunction);
-                    depthStencilDescriptor.frontFaceStencil.readMask = initStencilReadMask;
-                    depthStencilDescriptor.frontFaceStencil.writeMask = initStencilWriteMask;
+                    MTLStencilDescriptor* frontFaceStencil = [MTLStencilDescriptor new];
+                    frontFaceStencil.stencilFailureOperation = getStencilOperation(initFrontFaceStencilFailureOperation);
+                    frontFaceStencil.depthFailureOperation = getStencilOperation(initFrontFaceStencilDepthFailureOperation);
+                    frontFaceStencil.depthStencilPassOperation = getStencilOperation(initFrontFaceStencilPassOperation);
+                    frontFaceStencil.stencilCompareFunction = getCompareFunction(initFrontFaceStencilCompareFunction);
+                    frontFaceStencil.readMask = initStencilReadMask;
+                    frontFaceStencil.writeMask = initStencilWriteMask;
 
-                    depthStencilDescriptor.backFaceStencil = [MTLStencilDescriptor new];
-                    depthStencilDescriptor.backFaceStencil.stencilFailureOperation = getStencilOperation(initBackFaceStencilFailureOperation);
-                    depthStencilDescriptor.backFaceStencil.depthFailureOperation = getStencilOperation(initBackFaceStencilDepthFailureOperation);
-                    depthStencilDescriptor.backFaceStencil.depthStencilPassOperation = getStencilOperation(initBackFaceStencilPassOperation);
-                    depthStencilDescriptor.backFaceStencil.stencilCompareFunction = getCompareFunction(initBackFaceStencilCompareFunction);
-                    depthStencilDescriptor.backFaceStencil.readMask = initStencilReadMask;
-                    depthStencilDescriptor.backFaceStencil.writeMask = initStencilWriteMask;
+                    MTLStencilDescriptor* backFaceStencil = [MTLStencilDescriptor new];
+                    backFaceStencil.stencilFailureOperation = getStencilOperation(initBackFaceStencilFailureOperation);
+                    backFaceStencil.depthFailureOperation = getStencilOperation(initBackFaceStencilDepthFailureOperation);
+                    backFaceStencil.depthStencilPassOperation = getStencilOperation(initBackFaceStencilPassOperation);
+                    backFaceStencil.stencilCompareFunction = getCompareFunction(initBackFaceStencilCompareFunction);
+                    backFaceStencil.readMask = initStencilReadMask;
+                    backFaceStencil.writeMask = initStencilWriteMask;
+
+                    depthStencilDescriptor.frontFaceStencil = frontFaceStencil;
+                    depthStencilDescriptor.backFaceStencil = backFaceStencil;
+
+                    [frontFaceStencil release];
+                    [backFaceStencil release];
                 }
                 depthStencilState = [renderDevice.getDevice() newDepthStencilStateWithDescriptor:depthStencilDescriptor];
                 [depthStencilDescriptor release];
