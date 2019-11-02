@@ -219,7 +219,7 @@ namespace ouzel
                 renderPassDescriptor.stencilAttachment.loadAction = MTLLoadActionClear;
                 renderPassDescriptor.stencilAttachment.clearStencil = 0;
 
-                MTLDepthStencilDescriptor* depthStencilDescriptor = [[MTLDepthStencilDescriptor new] autorelease];
+                MTLDepthStencilDescriptor* depthStencilDescriptor = [[[MTLDepthStencilDescriptor alloc] init] autorelease];
 
                 depthStencilDescriptor.depthCompareFunction = MTLCompareFunctionAlways; // depth read
                 depthStencilDescriptor.depthWriteEnabled = NO; // depth write
@@ -938,7 +938,7 @@ namespace ouzel
                     return pipelineStateIterator->second;
                 else
                 {
-                    MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor new] autorelease];
+                    MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[[MTLRenderPipelineDescriptor alloc] init] autorelease];
                     pipelineStateDescriptor.sampleCount = desc.sampleCount;
 
                     if (desc.shader)
@@ -998,7 +998,7 @@ namespace ouzel
                     return samplerStatesIterator->second;
                 else
                 {
-                    MTLSamplerDescriptor* samplerDescriptor = [[MTLSamplerDescriptor new] autorelease];
+                    MTLSamplerDescriptor* samplerDescriptor = [[[MTLSamplerDescriptor alloc] init] autorelease];
                     switch (descriptor.filter)
                     {
                         case SamplerFilter::Default:

@@ -65,13 +65,13 @@ namespace ouzel
                                                  CompareFunction initBackFaceStencilCompareFunction):
                 RenderResource(initRenderDevice)
             {
-                MTLDepthStencilDescriptor* depthStencilDescriptor = [[MTLDepthStencilDescriptor new] autorelease];
+                MTLDepthStencilDescriptor* depthStencilDescriptor = [[[MTLDepthStencilDescriptor alloc] init] autorelease];
 
                 depthStencilDescriptor.depthCompareFunction = initDepthTest ? getCompareFunction(initCompareFunction) : MTLCompareFunctionAlways; // depth read
                 depthStencilDescriptor.depthWriteEnabled = initDepthWrite ? YES : NO; // depth write
                 if (initStencilEnabled)
                 {
-                    depthStencilDescriptor.frontFaceStencil = [[MTLStencilDescriptor new] autorelease];
+                    depthStencilDescriptor.frontFaceStencil = [[[MTLStencilDescriptor alloc] init] autorelease];
                     depthStencilDescriptor.frontFaceStencil.stencilFailureOperation = getStencilOperation(initFrontFaceStencilFailureOperation);
                     depthStencilDescriptor.frontFaceStencil.depthFailureOperation = getStencilOperation(initFrontFaceStencilDepthFailureOperation);
                     depthStencilDescriptor.frontFaceStencil.depthStencilPassOperation = getStencilOperation(initFrontFaceStencilPassOperation);
@@ -79,7 +79,7 @@ namespace ouzel
                     depthStencilDescriptor.frontFaceStencil.readMask = initStencilReadMask;
                     depthStencilDescriptor.frontFaceStencil.writeMask = initStencilWriteMask;
 
-                    depthStencilDescriptor.backFaceStencil = [[MTLStencilDescriptor new] autorelease];
+                    depthStencilDescriptor.backFaceStencil = [[[MTLStencilDescriptor alloc] init] autorelease];
                     depthStencilDescriptor.backFaceStencil.stencilFailureOperation = getStencilOperation(initBackFaceStencilFailureOperation);
                     depthStencilDescriptor.backFaceStencil.depthFailureOperation = getStencilOperation(initBackFaceStencilDepthFailureOperation);
                     depthStencilDescriptor.backFaceStencil.depthStencilPassOperation = getStencilOperation(initBackFaceStencilPassOperation);

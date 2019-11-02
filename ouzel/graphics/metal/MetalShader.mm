@@ -123,7 +123,7 @@ namespace ouzel
                 uint32_t index = 0;
                 NSUInteger offset = 0;
 
-                vertexDescriptor = [MTLVertexDescriptor new];
+                vertexDescriptor = [[MTLVertexDescriptor alloc] init];
 
                 for (const Vertex::Attribute& vertexAttribute : RenderDevice::VERTEX_ATTRIBUTES)
                 {
