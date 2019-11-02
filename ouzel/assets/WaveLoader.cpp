@@ -61,13 +61,11 @@ namespace ouzel
                     data[typeOffset + 3] != 'E')
                     throw std::runtime_error("Failed to load sound file, not a WAVE file");
 
-                uint32_t offset = typeOffset + 4;
-
                 uint16_t bitsPerSample = 0;
                 uint16_t formatTag = 0;
                 std::vector<uint8_t> soundData;
 
-                while (offset < data.size())
+                for (uint32_t offset = typeOffset + 4; offset < data.size();)
                 {
                     if (data.size() < offset + 8)
                         throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
@@ -94,38 +92,35 @@ namespace ouzel
                         if (chunkSize < 16)
                             throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
 
-                        uint32_t i = offset;
+                        const uint32_t formatTagOffset = offset;
 
-                        formatTag = static_cast<uint16_t>(data[i + 0] |
-                                                          (data[i + 1] << 8));
-                        i += 2;
+                        formatTag = static_cast<uint16_t>(data[formatTagOffset + 0] |
+                                                          (data[formatTagOffset + 1] << 8));
 
                         if (formatTag != PCM && formatTag != IEEE_FLOAT)
                             throw std::runtime_error("Failed to load sound file, unsupported format");
 
-                        channels = static_cast<uint16_t>(data[i + 0] |
-                                                         (data[i + 1] << 8));
-                        i += 2;
+                        const uint32_t channelsOffset = formatTagOffset + 2;
+                        channels = static_cast<uint16_t>(data[channelsOffset + 0] |
+                                                         (data[channelsOffset + 1] << 8));
 
                         if (!channels)
                             throw std::runtime_error("Failed to load sound file, invalid channel count");
 
-                        sampleRate = static_cast<uint32_t>(data[i + 0] |
-                                                           (data[i + 1] << 8) |
-                                                           (data[i + 2] << 16) |
-                                                           (data[i + 3] << 24));
-                        i += 4;
+                        const uint32_t sampleRateOffset = channelsOffset + 2;
+                        sampleRate = static_cast<uint32_t>(data[sampleRateOffset + 0] |
+                                                           (data[sampleRateOffset + 1] << 8) |
+                                                           (data[sampleRateOffset + 2] << 16) |
+                                                           (data[sampleRateOffset + 3] << 24));
 
                         if (!sampleRate)
                             throw std::runtime_error("Failed to load sound file, invalid sample rate");
 
-                        i += 4; // average bytes per second
-
-                        i += 2; // block align
-
-                        bitsPerSample = static_cast<uint16_t>(data[i + 0] |
-                                                              (data[i + 1] << 8));
-                        i += 2;
+                        const uint32_t byteRateOffset = sampleRateOffset + 4;
+                        const uint32_t blockAlignOffset = byteRateOffset + 4;
+                        const uint32_t bitsPerSampleOffset = blockAlignOffset + 2;
+                        bitsPerSample = static_cast<uint16_t>(data[bitsPerSampleOffset + 0] |
+                                                              (data[bitsPerSampleOffset + 1] << 8));
 
                         if (bitsPerSample != 8 && bitsPerSample != 16 &&
                             bitsPerSample != 24 && bitsPerSample != 32)
