@@ -19,8 +19,6 @@ namespace ouzel
 
     Language::Language(const std::vector<uint8_t>& data)
     {
-        uint32_t offset = 0;
-
         if (data.size() < 5 * sizeof(uint32_t))
             throw std::runtime_error("Not enough data");
 
@@ -28,7 +26,6 @@ namespace ouzel
                                                      (data[1] << 8) |
                                                      (data[2] << 16) |
                                                      (data[3] << 24));
-        offset += sizeof(magic);
 
         const auto decodeUInt32 = [magic]() -> std::function<uint32_t(const uint8_t*)> {
             constexpr uint32_t MAGIC_BIG = 0xDE120495;
@@ -52,49 +49,47 @@ namespace ouzel
                 throw std::runtime_error("Wrong magic " + std::to_string(magic));
         }();
 
-        const uint32_t revision = decodeUInt32(data.data() + offset);
-        offset += sizeof(revision);
+        const uint32_t revisionOffset = sizeof(magic);
+        const uint32_t revision = decodeUInt32(data.data() + revisionOffset);
 
         if (revision != 0)
             throw std::runtime_error("Unsupported revision " + std::to_string(revision));
 
-        const uint32_t stringCount = decodeUInt32(data.data() + offset);
-        offset += sizeof(stringCount);
+        const uint32_t stringCountOffset = revisionOffset + sizeof(revision);
+        const uint32_t stringCount = decodeUInt32(data.data() + stringCountOffset);
 
         std::vector<TranslationInfo> translations(stringCount);
 
-        const uint32_t stringsOffset = decodeUInt32(data.data() + offset);
-        offset += sizeof(stringsOffset);
+        const uint32_t stringsOffsetOffset = stringCountOffset + sizeof(stringCount);
+        const uint32_t stringsOffset = decodeUInt32(data.data() + stringsOffsetOffset);
 
-        const uint32_t translationsOffset = decodeUInt32(data.data() + offset);
-        offset += sizeof(translationsOffset);
+        const uint32_t translationsOffsetOffset = stringsOffsetOffset + sizeof(stringsOffset);
+        const uint32_t translationsOffset = decodeUInt32(data.data() + translationsOffsetOffset);
 
-        offset = stringsOffset;
-
-        if (data.size() < offset + 2 * sizeof(uint32_t) * stringCount)
+        if (data.size() < stringsOffset + 2 * sizeof(uint32_t) * stringCount)
             throw std::runtime_error("Not enough data");
 
+        uint32_t stringOffset = stringsOffset;
         for (uint32_t i = 0; i < stringCount; ++i)
         {
-            translations[i].stringLength = decodeUInt32(data.data() + offset);
-            offset += sizeof(translations[i].stringLength);
+            translations[i].stringLength = decodeUInt32(data.data() + stringOffset);
+            stringOffset += sizeof(translations[i].stringLength);
 
-            translations[i].stringOffset = decodeUInt32(data.data() + offset);
-            offset += sizeof(translations[i].stringOffset);
+            translations[i].stringOffset = decodeUInt32(data.data() + stringOffset);
+            stringOffset += sizeof(translations[i].stringOffset);
         }
 
-        offset = translationsOffset;
-
-        if (data.size() < offset + 2 * sizeof(uint32_t) * stringCount)
+        if (data.size() < translationsOffset + 2 * sizeof(uint32_t) * stringCount)
             throw std::runtime_error("Not enough data");
 
+        uint32_t translationOffset = translationsOffset;
         for (uint32_t i = 0; i < stringCount; ++i)
         {
-            translations[i].translationLength = decodeUInt32(data.data() + offset);
-            offset += sizeof(translations[i].translationLength);
+            translations[i].translationLength = decodeUInt32(data.data() + translationOffset);
+            translationOffset += sizeof(translations[i].translationLength);
 
-            translations[i].translationOffset = decodeUInt32(data.data() + offset);
-            offset += sizeof(translations[i].translationOffset);
+            translations[i].translationOffset = decodeUInt32(data.data() + translationOffset);
+            translationOffset += sizeof(translations[i].translationOffset);
         }
 
         for (uint32_t i = 0; i < stringCount; ++i)
