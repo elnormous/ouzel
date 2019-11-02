@@ -122,7 +122,7 @@ namespace ouzel
                     throw std::runtime_error("Invalid texture size");
 
                 // TODO: don't create texture if only MSAA is needed
-                MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
+                MTLTextureDescriptor* textureDescriptor = [[MTLTextureDescriptor new] autorelease];
                 textureDescriptor.pixelFormat = pixelFormat;
                 textureDescriptor.width = width;
                 textureDescriptor.height = height;
@@ -153,7 +153,7 @@ namespace ouzel
                 {
                     if (sampleCount > 1)
                     {
-                        MTLTextureDescriptor* msaaTextureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
+                        MTLTextureDescriptor* msaaTextureDescriptor = [[MTLTextureDescriptor new] autorelease];
                         msaaTextureDescriptor.pixelFormat = pixelFormat;
                         msaaTextureDescriptor.width = width;
                         msaaTextureDescriptor.height = height;

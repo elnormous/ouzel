@@ -150,20 +150,15 @@ namespace ouzel
                 NSError* err;
 
                 dispatch_data_t fragmentShaderDispatchData = dispatch_data_create(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-                id<MTLLibrary> fragmentShaderLibrary = [renderDevice.getDevice() newLibraryWithData:fragmentShaderDispatchData error:&err];
+                id<MTLLibrary> fragmentShaderLibrary = [[renderDevice.getDevice() newLibraryWithData:fragmentShaderDispatchData error:&err] autorelease];
                 dispatch_release(fragmentShaderDispatchData);
 
                 if (!fragmentShaderLibrary || err != nil)
-                {
-                    if (fragmentShaderLibrary) [fragmentShaderLibrary release];
                     throw std::runtime_error("Failed to load pixel shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
-                }
 
                 if (fragmentShader) [fragmentShader release];
 
                 fragmentShader = [fragmentShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:fragmentShaderFunction.c_str()])];
-
-                [fragmentShaderLibrary release];
 
                 if (!fragmentShader || err != nil)
                 {

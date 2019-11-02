@@ -219,12 +219,11 @@ namespace ouzel
                 renderPassDescriptor.stencilAttachment.loadAction = MTLLoadActionClear;
                 renderPassDescriptor.stencilAttachment.clearStencil = 0;
 
-                MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
+                MTLDepthStencilDescriptor* depthStencilDescriptor = [[MTLDepthStencilDescriptor new] autorelease];
 
                 depthStencilDescriptor.depthCompareFunction = MTLCompareFunctionAlways; // depth read
                 depthStencilDescriptor.depthWriteEnabled = NO; // depth write
                 defaultDepthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
-                [depthStencilDescriptor release];
             }
 
             void RenderDevice::process()
@@ -939,7 +938,7 @@ namespace ouzel
                     return pipelineStateIterator->second;
                 else
                 {
-                    MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+                    MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor new] autorelease];
                     pipelineStateDescriptor.sampleCount = desc.sampleCount;
 
                     if (desc.shader)
@@ -979,7 +978,6 @@ namespace ouzel
 
                     NSError* error;
                     id<MTLRenderPipelineState> pipelineState = [device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
-                    [pipelineStateDescriptor release];
                     if (error || !pipelineState)
                     {
                         if (pipelineState) [pipelineState release];
@@ -1000,7 +998,7 @@ namespace ouzel
                     return samplerStatesIterator->second;
                 else
                 {
-                    MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
+                    MTLSamplerDescriptor* samplerDescriptor = [[MTLSamplerDescriptor new] autorelease];
                     switch (descriptor.filter)
                     {
                         case SamplerFilter::Default:
@@ -1035,7 +1033,6 @@ namespace ouzel
                     samplerDescriptor.maxAnisotropy = descriptor.maxAnisotropy;
 
                     MTLSamplerStatePtr samplerState = [device newSamplerStateWithDescriptor:samplerDescriptor];
-                    [samplerDescriptor release];
 
                     if (!samplerState)
                         throw std::runtime_error("Failed to create Metal sampler state");
