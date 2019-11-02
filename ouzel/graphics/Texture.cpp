@@ -582,7 +582,6 @@ namespace ouzel
                 uint32_t newHeight = size.v[1];
 
                 const uint32_t pixelSize = getPixelSize(pixelFormat);
-                uint32_t bufferSize = newWidth * newHeight * pixelSize;
                 levels.emplace_back(size, data);
 
                 uint32_t previousWidth = newWidth;
@@ -604,7 +603,6 @@ namespace ouzel
                     if (newHeight < 1) newHeight = 1;
 
                     auto mipMapSize = Size2U(newWidth, newHeight);
-                    bufferSize = newWidth * newHeight * pixelSize;
 
                     switch (pixelFormat)
                     {
