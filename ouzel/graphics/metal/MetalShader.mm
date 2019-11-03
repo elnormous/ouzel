@@ -156,8 +156,6 @@ namespace ouzel
                 if (!fragmentShaderLibrary || err != nil)
                     throw std::runtime_error("Failed to load pixel shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
 
-                if (fragmentShader) [fragmentShader release];
-
                 fragmentShader = [fragmentShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:fragmentShaderFunction.c_str()])];
 
                 if (!fragmentShader || err != nil)
@@ -186,8 +184,6 @@ namespace ouzel
                     if (vertexShaderLibrary) [vertexShaderLibrary release];
                     throw std::runtime_error("Failed to load vertex shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
                 }
-
-                if (vertexShader) [vertexShader release];
 
                 vertexShader = [vertexShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:vertexShaderFunction.c_str()])];
 
