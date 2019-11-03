@@ -91,7 +91,6 @@ namespace ouzel
                                    newDebugRenderer);
 
                 NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());
-
                 MetalView* view = (MetalView*)windowMacOS->getNativeView();
 
                 metalLayer = (CAMetalLayer*)view.layer;

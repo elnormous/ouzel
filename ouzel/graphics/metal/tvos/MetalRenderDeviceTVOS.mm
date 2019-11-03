@@ -69,7 +69,8 @@ namespace ouzel
                                    newStencil,
                                    newDebugRenderer);
 
-                MetalView* view = (MetalView*)static_cast<NativeWindowTVOS*>(newWindow->getNativeWindow())->getNativeView();
+                NativeWindowTVOS* windowTVOS = static_cast<NativeWindowTVOS*>(newWindow->getNativeWindow());
+                MetalView* view = (MetalView*)windowTVOS->getNativeView();
 
                 metalLayer = (CAMetalLayer*)view.layer;
                 metalLayer.device = device;
