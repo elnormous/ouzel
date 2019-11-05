@@ -47,9 +47,9 @@ namespace ouzel
 
             for (const json::Value& asset : data["assets"])
             {
-                auto file = asset["filename"].as<std::string>();
-                auto name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;
-                auto mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
+                const auto file = asset["filename"].as<std::string>();
+                const auto name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;
+                const auto mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
                 loadAsset(asset["type"].as<uint32_t>(), name, file, mipmaps);
             }
         }
@@ -146,7 +146,7 @@ namespace ouzel
         {
             auto extension = storage::FileSystem::getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return toLower(c); });
-            std::vector<std::string> imageExtensions{"jpg", "jpeg", "png", "bmp", "tga"};
+            const std::vector<std::string> imageExtensions{"jpg", "jpeg", "png", "bmp", "tga"};
 
             if (std::find(imageExtensions.begin(), imageExtensions.end(), extension) != imageExtensions.end())
             {
@@ -162,8 +162,8 @@ namespace ouzel
 
                 if (newSpriteData.texture)
                 {
-                    auto spriteSize = Size2F(textureSize.v[0] / spritesX,
-                                             textureSize.v[1] / spritesY);
+                    const auto spriteSize = Size2F(textureSize.v[0] / spritesX,
+                                                   textureSize.v[1] / spritesY);
 
                     scene::SpriteData::Animation animation;
                     animation.frames.reserve(spritesX * spritesY);
