@@ -77,7 +77,6 @@ namespace ouzel
             int32_t parseInt32(std::vector<uint8_t>::const_iterator& iterator,
                                std::vector<uint8_t>::const_iterator end)
             {
-                int32_t result;
                 std::string value;
                 uint32_t length = 1;
 
@@ -97,15 +96,12 @@ namespace ouzel
 
                 if (value.length() < length) return false;
 
-                result = std::stoi(value);
-
-                return result;
+                return std::stoi(value);
             }
 
             float parseFloat(std::vector<uint8_t>::const_iterator& iterator,
                              std::vector<uint8_t>::const_iterator end)
             {
-                float result;
                 std::string value;
                 uint32_t length = 1;
 
@@ -139,9 +135,7 @@ namespace ouzel
 
                 if (value.length() < length) return false;
 
-                result = std::stof(value);
-
-                return result;
+                return std::stof(value);
             }
 
             bool parseToken(const std::vector<uint8_t>& str,

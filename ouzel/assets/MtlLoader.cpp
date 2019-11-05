@@ -74,7 +74,6 @@ namespace ouzel
             float parseFloat(std::vector<uint8_t>::const_iterator& iterator,
                              std::vector<uint8_t>::const_iterator end)
             {
-                float result;
                 std::string value;
                 uint32_t length = 1;
 
@@ -108,9 +107,7 @@ namespace ouzel
 
                 if (value.length() < length) return false;
 
-                result = std::stof(value);
-
-                return result;
+                return std::stof(value);
             }
         }
 

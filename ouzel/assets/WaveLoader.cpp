@@ -44,10 +44,10 @@ namespace ouzel
 
                 const uint32_t lengthOffset = formatOffset + 4;
 
-                auto length = static_cast<uint32_t>(data[lengthOffset + 0] |
-                                                    (data[lengthOffset + 1] << 8) |
-                                                    (data[lengthOffset + 2] << 16) |
-                                                    (data[lengthOffset + 3] << 24));
+                const auto length = static_cast<uint32_t>(data[lengthOffset + 0] |
+                                                          (data[lengthOffset + 1] << 8) |
+                                                          (data[lengthOffset + 2] << 16) |
+                                                          (data[lengthOffset + 3] << 24));
 
                 const uint32_t typeOffset = lengthOffset + 4;
 
@@ -70,18 +70,19 @@ namespace ouzel
                     if (data.size() < offset + 8)
                         throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
 
-                    uint8_t chunkHeader[4];
-                    chunkHeader[0] = data[offset + 0];
-                    chunkHeader[1] = data[offset + 1];
-                    chunkHeader[2] = data[offset + 2];
-                    chunkHeader[3] = data[offset + 3];
+                    const uint8_t chunkHeader[4] = {
+                        data[offset + 0],
+                        data[offset + 1],
+                        data[offset + 2],
+                        data[offset + 3]
+                    };
 
                     offset += 4;
 
-                    auto chunkSize = static_cast<uint32_t>(data[offset + 0] |
-                                                           (data[offset + 1] << 8) |
-                                                           (data[offset + 2] << 16) |
-                                                           (data[offset + 3] << 24));
+                    const auto chunkSize = static_cast<uint32_t>(data[offset + 0] |
+                                                                 (data[offset + 1] << 8) |
+                                                                 (data[offset + 2] << 16) |
+                                                                 (data[offset + 3] << 24));
                     offset += 4;
 
                     if (data.size() < offset + chunkSize)
@@ -139,8 +140,8 @@ namespace ouzel
                 if (data.empty())
                     throw std::runtime_error("Failed to load sound file, failed to find a data chunk");
 
-                auto sampleCount = static_cast<uint32_t>(soundData.size() / (bitsPerSample / 8));
-                auto frames = sampleCount / channels;
+                const auto sampleCount = static_cast<uint32_t>(soundData.size() / (bitsPerSample / 8));
+                const auto frames = sampleCount / channels;
                 std::vector<float> samples(sampleCount);
 
                 if (formatTag == PCM)
@@ -184,7 +185,7 @@ namespace ouzel
 
                                 for (uint32_t frame = 0; frame < frames; ++frame)
                                 {
-                                    uint8_t* sourceData = &soundData[(frame * channels + channel) * 3];
+                                    const uint8_t* sourceData = &soundData[(frame * channels + channel) * 3];
                                     outputChannel[frame] = static_cast<float>(static_cast<int32_t>((sourceData[0] << 8) |
                                                                                                    (sourceData[1] << 16) |
                                                                                                    (sourceData[2] << 24)) / 2147483648.0);
@@ -200,7 +201,7 @@ namespace ouzel
 
                                 for (uint32_t frame = 0; frame < frames; ++frame)
                                 {
-                                    uint8_t* sourceData = &soundData[(frame * channels + channel) * 4];
+                                    const uint8_t* sourceData = &soundData[(frame * channels + channel) * 4];
                                     outputChannel[frame] = static_cast<float>(static_cast<int32_t>(sourceData[0] |
                                                                                                    (sourceData[1] << 8) |
                                                                                                    (sourceData[2] << 16) |

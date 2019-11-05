@@ -53,7 +53,7 @@ namespace ouzel
 
             for (const json::Value& frameObject : framesArray)
             {
-                auto filename = frameObject["filename"].as<std::string>();
+                const auto filename = frameObject["filename"].as<std::string>();
 
                 const json::Value& frameRectangleObject = frameObject["frame"];
 
@@ -74,8 +74,8 @@ namespace ouzel
 
                 const json::Value& pivotObject = frameObject["pivot"];
 
-                Vector2F pivot(pivotObject["x"].as<float>(),
-                               pivotObject["y"].as<float>());
+                const Vector2F pivot(pivotObject["x"].as<float>(),
+                                     pivotObject["y"].as<float>());
 
                 if (frameObject.hasMember("vertices") &&
                     frameObject.hasMember("verticesUV") &&
@@ -107,9 +107,11 @@ namespace ouzel
                         const json::Value& vertexObject = verticesObject[vertexIndex];
                         const json::Value& vertexUVObject = verticesUVObject[vertexIndex];
 
-                        vertices.emplace_back(Vector3F{static_cast<float>(vertexObject[0].as<int32_t>()) + finalOffset.v[0], -static_cast<float>(vertexObject[1].as<int32_t>()) - finalOffset.v[1], 0.0F},
+                        vertices.emplace_back(Vector3F{static_cast<float>(vertexObject[0].as<int32_t>()) + finalOffset.v[0],
+                                                       -static_cast<float>(vertexObject[1].as<int32_t>()) - finalOffset.v[1], 0.0F},
                                               Color::white(),
-                                              Vector2F{static_cast<float>(vertexUVObject[0].as<int32_t>()) / textureSize.v[0], static_cast<float>(vertexUVObject[1].as<int32_t>()) / textureSize.v[1]},
+                                              Vector2F{static_cast<float>(vertexUVObject[0].as<int32_t>()) / textureSize.v[0],
+                                                       static_cast<float>(vertexUVObject[1].as<int32_t>()) / textureSize.v[1]},
                                               Vector3F{0.0F, 0.0F, -1.0F});
                     }
 
@@ -117,7 +119,7 @@ namespace ouzel
                 }
                 else
                 {
-                    auto rotated = frameObject["rotated"].as<bool>();
+                    const auto rotated = frameObject["rotated"].as<bool>();
 
                     animation.frames.emplace_back(filename, textureSize, frameRectangle, rotated, sourceSize, sourceOffset, pivot);
                 }
