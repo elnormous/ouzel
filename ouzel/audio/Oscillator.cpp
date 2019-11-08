@@ -9,32 +9,35 @@ namespace ouzel
 {
     namespace audio
     {
-        static void generateWave(Oscillator::Type type, uint32_t frames, uint32_t offset,
-                                 float frameLength, float amplitude, float* samples)
+        namespace
         {
-            for (uint32_t i = 0; i < frames; ++i)
+            void generateWave(Oscillator::Type type, uint32_t frames, uint32_t offset,
+                              float frameLength, float amplitude, float* samples)
             {
-                auto t = static_cast<float>(offset) * frameLength;
-
-                switch (type)
+                for (uint32_t i = 0; i < frames; ++i)
                 {
-                    case Oscillator::Type::Sine:
-                        samples[i] = std::sin(t * tau<float>);
-                        break;
-                    case Oscillator::Type::Square:
-                        samples[i] = std::fmod(std::round(t * 2.0F + 0.5F), 2.0F) * 2.0F - 1.0F;
-                        break;
-                    case Oscillator::Type::Sawtooth:
-                        samples[i] = std::fmod(t + 0.5F, 1.0F) * 2.0F - 1.0F;
-                        break;
-                    case Oscillator::Type::Triangle:
-                        samples[i] = std::fabs(std::fmod(t + 0.75F, 1.0F) * 2.0F - 1.0F) * 2.0F - 1.0F;
-                        break;
+                    auto t = static_cast<float>(offset) * frameLength;
+
+                    switch (type)
+                    {
+                        case Oscillator::Type::Sine:
+                            samples[i] = std::sin(t * tau<float>);
+                            break;
+                        case Oscillator::Type::Square:
+                            samples[i] = std::fmod(std::round(t * 2.0F + 0.5F), 2.0F) * 2.0F - 1.0F;
+                            break;
+                        case Oscillator::Type::Sawtooth:
+                            samples[i] = std::fmod(t + 0.5F, 1.0F) * 2.0F - 1.0F;
+                            break;
+                        case Oscillator::Type::Triangle:
+                            samples[i] = std::fabs(std::fmod(t + 0.75F, 1.0F) * 2.0F - 1.0F) * 2.0F - 1.0F;
+                            break;
+                    }
+
+                    samples[i] *= amplitude;
+
+                    ++offset;
                 }
-
-                samples[i] *= amplitude;
-
-                ++offset;
             }
         }
 

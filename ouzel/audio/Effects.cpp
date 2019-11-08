@@ -97,8 +97,11 @@ namespace ouzel
             position = newPosition;
         }
 
-        static constexpr float MIN_PITCH = 0.5F;
-        static constexpr float MAX_PITCH = 2.0F;
+        namespace
+        {
+            constexpr float MIN_PITCH = 0.5F;
+            constexpr float MAX_PITCH = 2.0F;
+        }
 
         PitchScale::PitchScale(Audio& initAudio, float initScale):
             Effect(initAudio),
