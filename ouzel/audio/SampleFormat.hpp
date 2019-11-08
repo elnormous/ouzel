@@ -5,8 +5,6 @@
 
 namespace ouzel
 {
-    class Window;
-
     namespace audio
     {
         enum class SampleFormat
