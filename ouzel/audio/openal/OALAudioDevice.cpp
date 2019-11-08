@@ -201,7 +201,7 @@ namespace ouzel
                         else
                         {
                             format = AL_FORMAT_MONO16;
-                            sampleFormat = SampleFormat::SInt16;
+                            sampleFormat = SampleFormat::SignedInt16;
                             sampleSize = sizeof(int16_t);
                         }
                         break;
@@ -217,7 +217,7 @@ namespace ouzel
                         else
                         {
                             format = AL_FORMAT_STEREO16;
-                            sampleFormat = SampleFormat::SInt16;
+                            sampleFormat = SampleFormat::SignedInt16;
                             sampleSize = sizeof(int16_t);
                         }
                         break;
@@ -225,28 +225,28 @@ namespace ouzel
                     case 4:
                     {
                         format = format40;
-                        sampleFormat = SampleFormat::SInt16;
+                        sampleFormat = SampleFormat::SignedInt16;
                         sampleSize = sizeof(int16_t);
                         break;
                     }
                     case 6:
                     {
                         format = format51;
-                        sampleFormat = SampleFormat::SInt16;
+                        sampleFormat = SampleFormat::SignedInt16;
                         sampleSize = sizeof(int16_t);
                         break;
                     }
                     case 7:
                     {
                         format = format61;
-                        sampleFormat = SampleFormat::SInt16;
+                        sampleFormat = SampleFormat::SignedInt16;
                         sampleSize = sizeof(int16_t);
                         break;
                     }
                     case 8:
                     {
                         format = format71;
-                        sampleFormat = SampleFormat::SInt16;
+                        sampleFormat = SampleFormat::SignedInt16;
                         sampleSize = sizeof(int16_t);
                         break;
                     }

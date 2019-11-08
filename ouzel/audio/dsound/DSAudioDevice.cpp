@@ -128,7 +128,7 @@ namespace ouzel
                     if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
                         throw std::system_error(hr, errorCategory, "Failed to set DirectSound buffer format");
 
-                    sampleFormat = SampleFormat::SInt16;
+                    sampleFormat = SampleFormat::SignedInt16;
                     sampleSize = sizeof(int16_t);
                 }
 

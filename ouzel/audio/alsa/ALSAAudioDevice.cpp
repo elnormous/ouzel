@@ -51,7 +51,7 @@ namespace ouzel
                     if ((result = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE)) < 0)
                         throw std::system_error(result, std::system_category(), "Failed to set sample format");
 
-                    sampleFormat = SampleFormat::SInt16;
+                    sampleFormat = SampleFormat::SignedInt16;
                 }
                 else
                     throw std::runtime_error("No supported format");

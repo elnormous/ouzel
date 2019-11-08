@@ -267,7 +267,7 @@ namespace ouzel
                                                        kAudioUnitScope_Input, bus, &streamDescription, sizeof(streamDescription))) != noErr)
                         throw std::system_error(result, errorCategory, "Failed to set CoreAudio unit stream format");
 
-                    sampleFormat = SampleFormat::SInt16;
+                    sampleFormat = SampleFormat::SignedInt16;
                     sampleSize = sizeof(int16_t);
                 }
 

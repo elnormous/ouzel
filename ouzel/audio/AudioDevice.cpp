@@ -28,7 +28,7 @@ namespace ouzel
 
             switch (sampleFormat)
             {
-                case SampleFormat::SInt16:
+                case SampleFormat::SignedInt16:
                 {
                     result.resize(frames * channels * sizeof(int16_t));
                     int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());

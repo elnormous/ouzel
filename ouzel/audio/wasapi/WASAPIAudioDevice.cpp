@@ -231,7 +231,7 @@ namespace ouzel
                                                             nullptr)))
                         throw std::system_error(hr, errorCategory, "Failed to initialize audio client");
 
-                    sampleFormat = SampleFormat::SInt16;
+                    sampleFormat = SampleFormat::SignedInt16;
                     sampleSize = sizeof(int16_t);
                 }
 
