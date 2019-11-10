@@ -3,7 +3,10 @@
 #ifndef OUZEL_GRAPHICS_METALPOINTER_HPP
 #define OUZEL_GRAPHICS_METALPOINTER_HPP
 
-#include <CoreFoundation/CoreFoundation.h>
+#ifndef __OBJC__
+# include <objc/message.h>
+# include <objc/objc.h>
+#endif
 
 namespace ouzel
 {
@@ -20,7 +23,13 @@ namespace ouzel
                 inline Pointer(T a) noexcept: p(a) {}
                 inline Pointer& operator=(T a) noexcept
                 {
-                    if (p != nil) CFRelease(p);
+                    if (p != nil)
+#ifdef __OBJC__
+                        [p release];
+#else
+                        objc_msgSend(p, sel_getUid("release"));
+#endif
+
                     p = a;
                     return *this;
                 }
@@ -35,7 +44,12 @@ namespace ouzel
 
                 inline Pointer& operator=(Pointer&& o) noexcept
                 {
-                    if (p != nil) CFRelease(p);
+                    if (p != nil)
+#ifdef __OBJC__
+                        [p release];
+#else
+                        objc_msgSend(p, sel_getUid("release"));
+#endif
                     p = o.p;
                     o.p = nil;
                     return *this;
@@ -43,7 +57,12 @@ namespace ouzel
 
                 ~Pointer()
                 {
-                    if (p) CFRelease(p);
+                    if (p)
+#ifdef __OBJC__
+                        [p release];
+#else
+                        objc_msgSend(p, sel_getUid("release"));
+#endif
                 }
 
                 inline T operator->() const
