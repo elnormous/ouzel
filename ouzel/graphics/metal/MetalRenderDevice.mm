@@ -96,15 +96,9 @@ namespace ouzel
 
             bool RenderDevice::available()
             {
-                id<MTLDevice> device = MTLCreateSystemDefaultDevice();
+                Pointer<id<MTLDevice>> device = MTLCreateSystemDefaultDevice();
 
-                if (device)
-                {
-                    [device release];
-                    return true;
-                }
-
-                return false;
+                return device;
             }
 
             RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
@@ -115,35 +109,6 @@ namespace ouzel
             {
                 apiMajorVersion = 1;
                 apiMinorVersion = 0;
-            }
-
-            RenderDevice::~RenderDevice()
-            {
-                resources.clear();
-
-                for (const ShaderConstantBuffer& shaderConstantBuffer : shaderConstantBuffers)
-                    for (MTLBufferPtr buffer : shaderConstantBuffer.buffers)
-                        [buffer release];
-
-                for (const auto& samplerState : samplerStates)
-                    [samplerState.second release];
-
-                if (depthTexture) [depthTexture release];
-
-                if (msaaTexture) [msaaTexture release];
-
-                for (const auto& pipelineState : pipelineStates)
-                    [pipelineState.second release];
-
-                if (metalCommandQueue) [metalCommandQueue release];
-
-                if (defaultDepthStencilState) [defaultDepthStencilState release];
-
-                if (renderPassDescriptor) [renderPassDescriptor release];
-
-                if (device) [device release];
-
-                if (currentMetalTexture) [currentMetalTexture release];
             }
 
             void RenderDevice::init(Window* newWindow,
@@ -180,16 +145,16 @@ namespace ouzel
                 if (!device)
                     throw std::runtime_error("Failed to create Metal device");
 
-                if (device.name)
-                    engine->log(Log::Level::Info) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
+                if (device.get().name)
+                    engine->log(Log::Level::Info) << "Using " << [device.get().name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
 
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
                 // MTLFeatureSet_macOS_GPUFamily1_v2 is not defined in macOS SDK older than 10.12
-                if ([device supportsFeatureSet:MTLFeatureSet_macOS_GPUFamily1_v2])
+                if ([device.get() supportsFeatureSet:MTLFeatureSet_macOS_GPUFamily1_v2])
                     clampToBorderSupported = true;
 #endif
 
-                metalCommandQueue = [device newCommandQueue];
+                metalCommandQueue = [device.get() newCommandQueue];
 
                 if (!metalCommandQueue)
                     throw std::runtime_error("Failed to create Metal command queue");
@@ -210,20 +175,20 @@ namespace ouzel
                 if (!renderPassDescriptor)
                     throw std::runtime_error("Failed to create Metal render pass descriptor");
 
-                renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0F, 0.0F, 0.0F, 0.0F);
-                renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-                renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
-                renderPassDescriptor.depthAttachment.clearDepth = 1.0F;
-                renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
-                renderPassDescriptor.stencilAttachment.loadAction = MTLLoadActionClear;
-                renderPassDescriptor.stencilAttachment.clearStencil = 0;
+                renderPassDescriptor.get().colorAttachments[0].loadAction = MTLLoadActionClear;
+                renderPassDescriptor.get().colorAttachments[0].clearColor = MTLClearColorMake(0.0F, 0.0F, 0.0F, 0.0F);
+                renderPassDescriptor.get().colorAttachments[0].storeAction = MTLStoreActionStore;
+                renderPassDescriptor.get().depthAttachment.loadAction = MTLLoadActionClear;
+                renderPassDescriptor.get().depthAttachment.clearDepth = 1.0F;
+                renderPassDescriptor.get().depthAttachment.storeAction = MTLStoreActionStore;
+                renderPassDescriptor.get().stencilAttachment.loadAction = MTLLoadActionClear;
+                renderPassDescriptor.get().stencilAttachment.clearStencil = 0;
 
-                MTLDepthStencilDescriptor* depthStencilDescriptor = [[[MTLDepthStencilDescriptor alloc] init] autorelease];
+                Pointer<MTLDepthStencilDescriptor*> depthStencilDescriptor = [[MTLDepthStencilDescriptor alloc] init];
 
-                depthStencilDescriptor.depthCompareFunction = MTLCompareFunctionAlways; // depth read
-                depthStencilDescriptor.depthWriteEnabled = NO; // depth write
-                defaultDepthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
+                depthStencilDescriptor.get().depthCompareFunction = MTLCompareFunctionAlways; // depth read
+                depthStencilDescriptor.get().depthWriteEnabled = NO; // depth write
+                defaultDepthStencilState = [device.get() newDepthStencilStateWithDescriptor:depthStencilDescriptor.get()];
             }
 
             void RenderDevice::process()
@@ -236,21 +201,17 @@ namespace ouzel
                 if (!currentMetalDrawable)
                     throw std::runtime_error("Failed to get Metal drawable");
 
-                if (currentMetalTexture) [currentMetalTexture release];
-
                 currentMetalTexture = [currentMetalDrawable.texture retain];
 
-                const NSUInteger frameBufferWidth = currentMetalTexture.width;
-                const NSUInteger frameBufferHeight = currentMetalTexture.height;
+                const NSUInteger frameBufferWidth = currentMetalTexture.get().width;
+                const NSUInteger frameBufferHeight = currentMetalTexture.get().height;
 
                 if (sampleCount > 1)
                 {
                     if (!msaaTexture ||
-                        frameBufferWidth != msaaTexture.width ||
-                        frameBufferHeight != msaaTexture.height)
+                        frameBufferWidth != msaaTexture.get().width ||
+                        frameBufferHeight != msaaTexture.get().height)
                     {
-                        if (msaaTexture) [msaaTexture release];
-
                         MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
                                                                                                         width:frameBufferWidth
                                                                                                        height:frameBufferHeight
@@ -260,28 +221,26 @@ namespace ouzel
                         desc.sampleCount = sampleCount;
                         desc.usage = MTLTextureUsageRenderTarget;
 
-                        msaaTexture = [device newTextureWithDescriptor:desc];
+                        msaaTexture = [device.get() newTextureWithDescriptor:desc];
 
                         if (!msaaTexture)
                             throw std::runtime_error("Failed to create MSAA texture");
 
-                        renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
-                        renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
+                        renderPassDescriptor.get().colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
+                        renderPassDescriptor.get().colorAttachments[0].texture = msaaTexture.get();
                     }
 
-                    renderPassDescriptor.colorAttachments[0].resolveTexture = currentMetalTexture;
+                    renderPassDescriptor.get().colorAttachments[0].resolveTexture = currentMetalTexture.get();
                 }
                 else
-                    renderPassDescriptor.colorAttachments[0].texture = currentMetalTexture;
+                    renderPassDescriptor.get().colorAttachments[0].texture = currentMetalTexture.get();
 
                 if (depth)
                 {
                     if (!depthTexture ||
-                        frameBufferWidth != depthTexture.width ||
-                        frameBufferHeight != depthTexture.height)
+                        frameBufferWidth != depthTexture.get().width ||
+                        frameBufferHeight != depthTexture.get().height)
                     {
-                        if (depthTexture) [depthTexture release];
-
                         MTLTextureDescriptor* desc = [MTLTextureDescriptor
                                                       texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(depthFormat)
                                                       width:frameBufferWidth height:frameBufferHeight mipmapped:NO];
@@ -291,20 +250,20 @@ namespace ouzel
                         desc.sampleCount = sampleCount;
                         desc.usage = MTLTextureUsageRenderTarget;
 
-                        depthTexture = [device newTextureWithDescriptor:desc];
+                        depthTexture = [device.get() newTextureWithDescriptor:desc];
 
                         if (!depthTexture)
                             throw std::runtime_error("Failed to create depth texture");
 
-                        renderPassDescriptor.depthAttachment.texture = depthTexture;
+                        renderPassDescriptor.get().depthAttachment.texture = depthTexture.get();
                     }
                 }
                 else
-                    renderPassDescriptor.depthAttachment.texture = nil;
+                    renderPassDescriptor.get().depthAttachment.texture = nil;
 
                 dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 
-                id<MTLCommandBuffer> currentCommandBuffer = [metalCommandQueue commandBuffer];
+                id<MTLCommandBuffer> currentCommandBuffer = [metalCommandQueue.get() commandBuffer];
 
                 if (!currentCommandBuffer)
                     throw std::runtime_error("Failed to create Metal command buffer");
@@ -401,7 +360,7 @@ namespace ouzel
                                 {
                                     currentRenderTarget = getResource<RenderTarget>(setRenderTargetCommand->renderTarget);
 
-                                    newRenderPassDescriptor = currentRenderTarget->getRenderPassDescriptor();
+                                    newRenderPassDescriptor = currentRenderTarget->getRenderPassDescriptor().get();
                                     if (!newRenderPassDescriptor) break;
 
                                     currentPipelineStateDesc.sampleCount = currentRenderTarget->getSampleCount();
@@ -412,7 +371,7 @@ namespace ouzel
                                 else
                                 {
                                     currentRenderTarget = nullptr;
-                                    newRenderPassDescriptor = renderPassDescriptor;
+                                    newRenderPassDescriptor = renderPassDescriptor.get();
                                     currentPipelineStateDesc.sampleCount = sampleCount;
                                     currentPipelineStateDesc.colorFormats = {colorFormat};
                                     currentPipelineStateDesc.depthFormat = depthFormat;
@@ -558,10 +517,10 @@ namespace ouzel
                                 if (setDepthStencilStateCommand->depthStencilState)
                                 {
                                     DepthStencilState* depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
-                                    [currentRenderCommandEncoder setDepthStencilState:depthStencilState->getDepthStencilState()];
+                                    [currentRenderCommandEncoder setDepthStencilState:depthStencilState->getDepthStencilState().get()];
                                 }
                                 else
-                                    [currentRenderCommandEncoder setDepthStencilState:defaultDepthStencilState];
+                                    [currentRenderCommandEncoder setDepthStencilState:defaultDepthStencilState.get()];
 
                                 [currentRenderCommandEncoder setStencilFrontReferenceValue:setDepthStencilStateCommand->stencilReferenceValue
                                                                         backReferenceValue:setDepthStencilStateCommand->stencilReferenceValue];
@@ -608,7 +567,7 @@ namespace ouzel
                                 assert(vertexBuffer);
                                 assert(vertexBuffer->getBuffer());
 
-                                [currentRenderCommandEncoder setVertexBuffer:vertexBuffer->getBuffer() offset:0 atIndex:0];
+                                [currentRenderCommandEncoder setVertexBuffer:vertexBuffer->getBuffer().get() offset:0 atIndex:0];
 
                                 // draw
                                 assert(drawCommand->indexCount);
@@ -618,7 +577,7 @@ namespace ouzel
                                 [currentRenderCommandEncoder drawIndexedPrimitives:getPrimitiveType(drawCommand->drawMode)
                                                                         indexCount:drawCommand->indexCount
                                                                          indexType:getIndexType(drawCommand->indexSize)
-                                                                       indexBuffer:indexBuffer->getBuffer()
+                                                                       indexBuffer:indexBuffer->getBuffer().get()
                                                                  indexBufferOffset:drawCommand->startIndex * drawCommand->indexSize];
 
                                 break;
@@ -752,8 +711,8 @@ namespace ouzel
 
                                 if (shaderConstantBuffer.index >= shaderConstantBuffer.buffers.size())
                                 {
-                                    MTLBufferPtr buffer = [device newBufferWithLength:BUFFER_SIZE
-                                                                              options:MTLResourceCPUCacheModeWriteCombined];
+                                    MTLBufferPtr buffer = [device.get() newBufferWithLength:BUFFER_SIZE
+                                                                                    options:MTLResourceCPUCacheModeWriteCombined];
 
                                     if (!buffer)
                                         throw std::runtime_error("Failed to create Metal buffer");
@@ -761,7 +720,7 @@ namespace ouzel
                                     shaderConstantBuffer.buffers.push_back(buffer);
                                 }
 
-                                MTLBufferPtr currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
+                                MTLBufferPtr currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index].get();
 
                                 std::copy(reinterpret_cast<const char*>(shaderData.data()),
                                           reinterpret_cast<const char*>(shaderData.data()) + sizeof(float) * shaderData.size(),
@@ -803,8 +762,8 @@ namespace ouzel
 
                                 if (shaderConstantBuffer.index >= shaderConstantBuffer.buffers.size())
                                 {
-                                    MTLBufferPtr buffer = [device newBufferWithLength:BUFFER_SIZE
-                                                                              options:MTLResourceCPUCacheModeWriteCombined];
+                                    MTLBufferPtr buffer = [device.get() newBufferWithLength:BUFFER_SIZE
+                                                                                    options:MTLResourceCPUCacheModeWriteCombined];
 
                                     if (!buffer)
                                         throw std::runtime_error("Failed to create Metal buffer");
@@ -812,7 +771,7 @@ namespace ouzel
                                     shaderConstantBuffer.buffers.push_back(buffer);
                                 }
 
-                                currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index];
+                                currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index].get();
 
                                 std::copy(reinterpret_cast<const char*>(shaderData.data()),
                                           reinterpret_cast<const char*>(shaderData.data()) + sizeof(float) * shaderData.size(),
@@ -879,7 +838,7 @@ namespace ouzel
                                 {
                                     if (Texture* texture = getResource<Texture>(setTexturesCommand->textures[layer]))
                                     {
-                                        [currentRenderCommandEncoder setFragmentTexture:texture->getTexture() atIndex:layer];
+                                        [currentRenderCommandEncoder setFragmentTexture:texture->getTexture().get() atIndex:layer];
                                         [currentRenderCommandEncoder setFragmentSamplerState:texture->getSamplerState() atIndex:layer];
                                     }
                                     else
@@ -905,11 +864,14 @@ namespace ouzel
                 if (!currentMetalTexture)
                     throw std::runtime_error("No back buffer");
 
-                const NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.width);
-                const NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.height);
+                const NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.get().width);
+                const NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.get().height);
 
                 std::vector<uint8_t> data(width * height * 4);
-                [currentMetalTexture getBytes:data.data() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
+                [currentMetalTexture.get() getBytes:data.data()
+                                        bytesPerRow:width * 4
+                                         fromRegion:MTLRegionMake2D(0, 0, width, height)
+                                        mipmapLevel:0];
 
                 uint8_t temp;
                 for (uint32_t y = 0; y < height; ++y)
@@ -935,11 +897,11 @@ namespace ouzel
                 auto pipelineStateIterator = pipelineStates.find(desc);
 
                 if (pipelineStateIterator != pipelineStates.end())
-                    return pipelineStateIterator->second;
+                    return pipelineStateIterator->second.get();
                 else
                 {
-                    MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[[MTLRenderPipelineDescriptor alloc] init] autorelease];
-                    pipelineStateDescriptor.sampleCount = desc.sampleCount;
+                    Pointer<MTLRenderPipelineDescriptor*> pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+                    pipelineStateDescriptor.get().sampleCount = desc.sampleCount;
 
                     if (desc.shader)
                     {
@@ -947,46 +909,46 @@ namespace ouzel
                         assert(desc.shader->getVertexShader());
                         assert(desc.shader->getVertexDescriptor());
 
-                        pipelineStateDescriptor.vertexFunction = desc.shader->getVertexShader();
-                        pipelineStateDescriptor.fragmentFunction = desc.shader->getFragmentShader();
-                        pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
+                        pipelineStateDescriptor.get().vertexFunction = desc.shader->getVertexShader().get();
+                        pipelineStateDescriptor.get().fragmentFunction = desc.shader->getFragmentShader().get();
+                        pipelineStateDescriptor.get().vertexDescriptor = desc.shader->getVertexDescriptor().get();
                     }
 
                     for (size_t i = 0; i < desc.colorFormats.size(); ++i)
-                        pipelineStateDescriptor.colorAttachments[i].pixelFormat = desc.colorFormats[i];
-                    pipelineStateDescriptor.depthAttachmentPixelFormat = desc.depthFormat;
-                    pipelineStateDescriptor.stencilAttachmentPixelFormat = desc.stencilFormat;
+                        pipelineStateDescriptor.get().colorAttachments[i].pixelFormat = desc.colorFormats[i];
+                    pipelineStateDescriptor.get().depthAttachmentPixelFormat = desc.depthFormat;
+                    pipelineStateDescriptor.get().stencilAttachmentPixelFormat = desc.stencilFormat;
 
                     if (desc.blendState)
                     {
                         for (size_t i = 0; i < desc.colorFormats.size(); ++i)
                         {
                             // blending
-                            pipelineStateDescriptor.colorAttachments[i].blendingEnabled = desc.blendState->isBlendingEnabled() ? YES : NO;
+                            pipelineStateDescriptor.get().colorAttachments[i].blendingEnabled = desc.blendState->isBlendingEnabled() ? YES : NO;
 
-                            pipelineStateDescriptor.colorAttachments[i].sourceRGBBlendFactor = desc.blendState->getSourceRgbBlendFactor();
-                            pipelineStateDescriptor.colorAttachments[i].destinationRGBBlendFactor = desc.blendState->getDestinationRgbBlendFactor();
-                            pipelineStateDescriptor.colorAttachments[i].rgbBlendOperation = desc.blendState->getRgbBlendOperation();
+                            pipelineStateDescriptor.get().colorAttachments[i].sourceRGBBlendFactor = desc.blendState->getSourceRgbBlendFactor();
+                            pipelineStateDescriptor.get().colorAttachments[i].destinationRGBBlendFactor = desc.blendState->getDestinationRgbBlendFactor();
+                            pipelineStateDescriptor.get().colorAttachments[i].rgbBlendOperation = desc.blendState->getRgbBlendOperation();
 
-                            pipelineStateDescriptor.colorAttachments[i].sourceAlphaBlendFactor = desc.blendState->getSourceAlphaBlendFactor();
-                            pipelineStateDescriptor.colorAttachments[i].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
-                            pipelineStateDescriptor.colorAttachments[i].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
+                            pipelineStateDescriptor.get().colorAttachments[i].sourceAlphaBlendFactor = desc.blendState->getSourceAlphaBlendFactor();
+                            pipelineStateDescriptor.get().colorAttachments[i].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
+                            pipelineStateDescriptor.get().colorAttachments[i].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
 
-                            pipelineStateDescriptor.colorAttachments[i].writeMask = desc.blendState->getColorWriteMask();
+                            pipelineStateDescriptor.get().colorAttachments[i].writeMask = desc.blendState->getColorWriteMask();
                         }
                     }
 
                     NSError* error;
-                    id<MTLRenderPipelineState> pipelineState = [device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
+                    Pointer<id<MTLRenderPipelineState>> pipelineState = [device.get() newRenderPipelineStateWithDescriptor:pipelineStateDescriptor.get()
+                                                                                                                     error:&error];
                     if (error || !pipelineState)
-                    {
-                        if (pipelineState) [pipelineState release];
                         throw std::runtime_error("Failed to created Metal pipeline state");
-                    }
 
-                    pipelineStates[desc] = pipelineState;
+                    auto result = pipelineState.get();
 
-                    return pipelineState;
+                    pipelineStates[desc] = std::move(pipelineState);
+
+                    return result;
                 }
             }
 
@@ -995,44 +957,44 @@ namespace ouzel
                 auto samplerStatesIterator = samplerStates.find(descriptor);
 
                 if (samplerStatesIterator != samplerStates.end())
-                    return samplerStatesIterator->second;
+                    return samplerStatesIterator->second.get();
                 else
                 {
-                    MTLSamplerDescriptor* samplerDescriptor = [[[MTLSamplerDescriptor alloc] init] autorelease];
+                    Pointer<MTLSamplerDescriptor*> samplerDescriptor = [[MTLSamplerDescriptor alloc] init];
                     switch (descriptor.filter)
                     {
                         case SamplerFilter::Default:
                         case SamplerFilter::Point:
-                            samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
-                            samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
-                            samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+                            samplerDescriptor.get().minFilter = MTLSamplerMinMagFilterNearest;
+                            samplerDescriptor.get().magFilter = MTLSamplerMinMagFilterNearest;
+                            samplerDescriptor.get().mipFilter = MTLSamplerMipFilterNearest;
                             break;
                         case SamplerFilter::Linear:
-                            samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
-                            samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
-                            samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+                            samplerDescriptor.get().minFilter = MTLSamplerMinMagFilterLinear;
+                            samplerDescriptor.get().magFilter = MTLSamplerMinMagFilterNearest;
+                            samplerDescriptor.get().mipFilter = MTLSamplerMipFilterNearest;
                             break;
                         case SamplerFilter::Bilinear:
-                            samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
-                            samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
-                            samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+                            samplerDescriptor.get().minFilter = MTLSamplerMinMagFilterLinear;
+                            samplerDescriptor.get().magFilter = MTLSamplerMinMagFilterLinear;
+                            samplerDescriptor.get().mipFilter = MTLSamplerMipFilterNearest;
                             break;
                         case SamplerFilter::Trilinear:
-                            samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
-                            samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
-                            samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
+                            samplerDescriptor.get().minFilter = MTLSamplerMinMagFilterLinear;
+                            samplerDescriptor.get().magFilter = MTLSamplerMinMagFilterLinear;
+                            samplerDescriptor.get().mipFilter = MTLSamplerMipFilterLinear;
                             break;
                         default:
                             throw std::runtime_error("Invalid texture filter");
                     }
 
-                    samplerDescriptor.sAddressMode = getSamplerAddressMode(descriptor.addressX);
-                    samplerDescriptor.tAddressMode = getSamplerAddressMode(descriptor.addressY);
-                    samplerDescriptor.rAddressMode = getSamplerAddressMode(descriptor.addressZ);
+                    samplerDescriptor.get().sAddressMode = getSamplerAddressMode(descriptor.addressX);
+                    samplerDescriptor.get().tAddressMode = getSamplerAddressMode(descriptor.addressY);
+                    samplerDescriptor.get().rAddressMode = getSamplerAddressMode(descriptor.addressZ);
 
-                    samplerDescriptor.maxAnisotropy = descriptor.maxAnisotropy;
+                    samplerDescriptor.get().maxAnisotropy = descriptor.maxAnisotropy;
 
-                    MTLSamplerStatePtr samplerState = [device newSamplerStateWithDescriptor:samplerDescriptor];
+                    MTLSamplerStatePtr samplerState = [device.get() newSamplerStateWithDescriptor:samplerDescriptor.get()];
 
                     if (!samplerState)
                         throw std::runtime_error("Failed to create Metal sampler state");

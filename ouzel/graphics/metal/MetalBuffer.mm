@@ -27,12 +27,7 @@ namespace ouzel
                 createBuffer(initSize);
 
                 if (!data.empty())
-                    std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
-            }
-
-            Buffer::~Buffer()
-            {
-                if (buffer) [buffer release];
+                    std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer.get() contents]));
             }
 
             void Buffer::setData(const std::vector<uint8_t>& data)
@@ -46,23 +41,17 @@ namespace ouzel
                 if (!buffer || data.size() > size)
                     createBuffer(static_cast<uint32_t>(data.size()));
 
-                std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
+                std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer.get() contents]));
             }
 
             void Buffer::createBuffer(NSUInteger newSize)
             {
-                if (buffer)
-                {
-                    [buffer release];
-                    buffer = nil;
-                }
-
                 if (newSize > 0)
                 {
                     size = newSize;
 
-                    buffer = [renderDevice.getDevice() newBufferWithLength:size
-                                                                   options:MTLResourceCPUCacheModeWriteCombined];
+                    buffer = [renderDevice.getDevice().get() newBufferWithLength:size
+                                                                         options:MTLResourceCPUCacheModeWriteCombined];
 
                     if (!buffer)
                         throw std::runtime_error("Failed to create Metal buffer");

@@ -20,6 +20,7 @@ typedef id MTLVertexDescriptorPtr;
 #endif
 
 #include "graphics/metal/MetalRenderResource.hpp"
+#include "graphics/metal/MetalPointer.hpp"
 #include "graphics/DataType.hpp"
 #include "graphics/Vertex.hpp"
 
@@ -44,7 +45,6 @@ namespace ouzel
                        uint32_t initVertexShaderDataAlignment,
                        const std::string& fragmentShaderFunction,
                        const std::string& vertexShaderFunction);
-                ~Shader();
 
                 struct Location final
                 {
@@ -65,10 +65,10 @@ namespace ouzel
                 inline auto& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
                 inline auto& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
 
-                inline auto getFragmentShader() const noexcept { return fragmentShader; }
-                inline auto getVertexShader() const noexcept { return vertexShader; }
+                inline auto& getFragmentShader() const noexcept { return fragmentShader; }
+                inline auto& getVertexShader() const noexcept { return vertexShader; }
 
-                inline auto getVertexDescriptor() const noexcept { return vertexDescriptor; }
+                inline auto& getVertexDescriptor() const noexcept { return vertexDescriptor; }
 
                 inline auto getFragmentShaderConstantBufferSize() const noexcept { return fragmentShaderConstantSize; }
                 inline auto getVertexShaderConstantBufferSize() const noexcept { return vertexShaderConstantSize; }
@@ -81,10 +81,10 @@ namespace ouzel
                 std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
                 uint32_t vertexShaderAlignment = 0;
 
-                MTLFunctionPtr fragmentShader = nil;
-                MTLFunctionPtr vertexShader = nil;
+                Pointer<MTLFunctionPtr> fragmentShader;
+                Pointer<MTLFunctionPtr> vertexShader;
 
-                MTLVertexDescriptorPtr vertexDescriptor = nil;
+                Pointer<MTLVertexDescriptorPtr> vertexDescriptor;
 
                 std::vector<Location> fragmentShaderConstantLocations;
                 uint32_t fragmentShaderConstantSize = 0;

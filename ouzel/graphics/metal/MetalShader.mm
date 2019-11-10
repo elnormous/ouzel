@@ -134,34 +134,32 @@ namespace ouzel
                         if (vertexFormat == MTLVertexFormatInvalid)
                             throw std::runtime_error("Invalid vertex format");
 
-                        vertexDescriptor.attributes[index].format = vertexFormat;
-                        vertexDescriptor.attributes[index].offset = offset;
-                        vertexDescriptor.attributes[index].bufferIndex = 0;
+                        vertexDescriptor.get().attributes[index].format = vertexFormat;
+                        vertexDescriptor.get().attributes[index].offset = offset;
+                        vertexDescriptor.get().attributes[index].bufferIndex = 0;
                         ++index;
                     }
 
                     offset += getDataTypeSize(vertexAttribute.dataType);
                 }
 
-                vertexDescriptor.layouts[0].stride = offset;
-                vertexDescriptor.layouts[0].stepRate = 1;
-                vertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
+                vertexDescriptor.get().layouts[0].stride = offset;
+                vertexDescriptor.get().layouts[0].stepRate = 1;
+                vertexDescriptor.get().layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
 
                 NSError* err;
 
                 dispatch_data_t fragmentShaderDispatchData = dispatch_data_create(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-                id<MTLLibrary> fragmentShaderLibrary = [[renderDevice.getDevice() newLibraryWithData:fragmentShaderDispatchData error:&err] autorelease];
+                Pointer<id<MTLLibrary>> fragmentShaderLibrary = [renderDevice.getDevice().get() newLibraryWithData:fragmentShaderDispatchData error:&err];
                 dispatch_release(fragmentShaderDispatchData);
 
                 if (!fragmentShaderLibrary || err != nil)
                     throw std::runtime_error("Failed to load pixel shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
 
-                fragmentShader = [fragmentShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:fragmentShaderFunction.c_str()])];
+                fragmentShader = [fragmentShaderLibrary.get() newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:fragmentShaderFunction.c_str()])];
 
                 if (!fragmentShader || err != nil)
-                {
                     throw std::runtime_error("Failed to get function from shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
-                }
 
                 if (!fragmentShaderConstantInfo.empty())
                 {
@@ -176,18 +174,13 @@ namespace ouzel
                 }
 
                 dispatch_data_t vertexShaderDispatchData = dispatch_data_create(vertexShaderData.data(), vertexShaderData.size(), nullptr, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-                id<MTLLibrary> vertexShaderLibrary = [renderDevice.getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
+                Pointer<id<MTLLibrary>> vertexShaderLibrary = [renderDevice.getDevice().get() newLibraryWithData:vertexShaderDispatchData error:&err];
                 dispatch_release(vertexShaderDispatchData);
 
                 if (!vertexShaderLibrary || err != nil)
-                {
-                    if (vertexShaderLibrary) [vertexShaderLibrary release];
                     throw std::runtime_error("Failed to load vertex shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
-                }
 
-                vertexShader = [vertexShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:vertexShaderFunction.c_str()])];
-
-                [vertexShaderLibrary release];
+                vertexShader = [vertexShaderLibrary.get() newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:vertexShaderFunction.c_str()])];
 
                 if (!vertexShader || err != nil)
                     throw std::runtime_error("Failed to get function from shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
@@ -203,13 +196,6 @@ namespace ouzel
                         vertexShaderConstantSize += size;
                     }
                 }
-            }
-
-            Shader::~Shader()
-            {
-                if (vertexShader) [vertexShader release];
-                if (fragmentShader) [fragmentShader release];
-                if (vertexDescriptor) [vertexDescriptor release];
             }
         } // namespace metal
     } // namespace graphics

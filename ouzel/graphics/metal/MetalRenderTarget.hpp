@@ -25,6 +25,7 @@ typedef struct
 
 #include <set>
 #include "graphics/metal/MetalRenderResource.hpp"
+#include "graphics/metal/MetalPointer.hpp"
 #include "math/Color.hpp"
 
 namespace ouzel
@@ -42,7 +43,6 @@ namespace ouzel
                 RenderTarget(RenderDevice& initRenderDevice,
                              const std::set<Texture*>& initColorTextures,
                              Texture* initDepthTexture);
-                ~RenderTarget();
 
                 inline auto& getColorTextures() const noexcept { return colorTextures; }
                 inline auto getDepthTexture() const noexcept { return depthTexture; }
@@ -52,7 +52,7 @@ namespace ouzel
                 inline auto getDepthFormat() const noexcept { return depthFormat; }
                 inline auto getStencilFormat() const noexcept { return stencilFormat; }
 
-                inline auto getRenderPassDescriptor() const noexcept { return renderPassDescriptor; }
+                inline auto& getRenderPassDescriptor() const noexcept { return renderPassDescriptor; }
 
             private:
                 std::set<Texture*> colorTextures;
@@ -63,7 +63,7 @@ namespace ouzel
                 MTLPixelFormat depthFormat;
                 MTLPixelFormat stencilFormat;
 
-                MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
+                Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
             };
         } // namespace metal
     } // namespace graphics

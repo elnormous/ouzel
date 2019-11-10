@@ -18,6 +18,7 @@ typedef id MTLDepthStencilStatePtr;
 #endif
 
 #include "graphics/metal/MetalRenderResource.hpp"
+#include "graphics/metal/MetalPointer.hpp"
 #include "graphics/CompareFunction.hpp"
 #include "graphics/StencilOperation.hpp"
 
@@ -47,12 +48,11 @@ namespace ouzel
                                   StencilOperation initBackFaceStencilDepthFailureOperation,
                                   StencilOperation initBackFaceStencilPassOperation,
                                   CompareFunction initBackFaceStencilCompareFunction);
-                ~DepthStencilState();
 
-                inline auto getDepthStencilState() const noexcept { return depthStencilState; }
+                inline auto& getDepthStencilState() const noexcept { return depthStencilState; }
 
             private:
-                MTLDepthStencilStatePtr depthStencilState = nil;
+                Pointer<MTLDepthStencilStatePtr> depthStencilState;
             };
         } // namespace metal
     } // namespace graphics

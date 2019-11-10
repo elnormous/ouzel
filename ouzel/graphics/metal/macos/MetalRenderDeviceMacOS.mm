@@ -94,7 +94,7 @@ namespace ouzel
                 MetalView* view = (MetalView*)windowMacOS->getNativeView();
 
                 metalLayer = (CAMetalLayer*)view.layer;
-                metalLayer.device = device;
+                metalLayer.device = device.get();
                 const CGSize drawableSize = CGSizeMake(newSize.v[0], newSize.v[1]);
                 metalLayer.drawableSize = drawableSize;
 

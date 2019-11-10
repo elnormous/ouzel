@@ -122,29 +122,29 @@ namespace ouzel
                     throw std::runtime_error("Invalid texture size");
 
                 // TODO: don't create texture if only MSAA is needed
-                MTLTextureDescriptor* textureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
-                textureDescriptor.pixelFormat = pixelFormat;
-                textureDescriptor.width = width;
-                textureDescriptor.height = height;
-                textureDescriptor.textureType = getTextureType(type, false);
-                textureDescriptor.sampleCount = 1;
-                textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
+                Pointer<MTLTextureDescriptor*> textureDescriptor = [[MTLTextureDescriptor alloc] init];
+                textureDescriptor.get().pixelFormat = pixelFormat;
+                textureDescriptor.get().width = width;
+                textureDescriptor.get().height = height;
+                textureDescriptor.get().textureType = getTextureType(type, false);
+                textureDescriptor.get().sampleCount = 1;
+                textureDescriptor.get().mipmapLevelCount = static_cast<NSUInteger>(levels.size());
 
                 if (initPixelFormat == PixelFormat::Depth ||
                     initPixelFormat == PixelFormat::DepthStencil)
-                    textureDescriptor.storageMode = MTLStorageModePrivate;
+                    textureDescriptor.get().storageMode = MTLStorageModePrivate;
 
                 if (flags & Flags::BindRenderTarget)
                 {
-                    textureDescriptor.usage = MTLTextureUsageRenderTarget;
+                    textureDescriptor.get().usage = MTLTextureUsageRenderTarget;
                     if (flags & Flags::BindShader &&
                         !(flags & Flags::BindShaderMsaa))
-                        textureDescriptor.usage |= MTLTextureUsageShaderRead;
+                        textureDescriptor.get().usage |= MTLTextureUsageShaderRead;
                 }
                 else
-                    textureDescriptor.usage = MTLTextureUsageShaderRead;
+                    textureDescriptor.get().usage = MTLTextureUsageShaderRead;
 
-                texture = [renderDevice.getDevice() newTextureWithDescriptor:textureDescriptor];
+                texture = [renderDevice.getDevice().get() newTextureWithDescriptor:textureDescriptor.get()];
 
                 if (!texture)
                     throw std::runtime_error("Failed to create Metal texture");
@@ -153,20 +153,20 @@ namespace ouzel
                 {
                     if (sampleCount > 1)
                     {
-                        MTLTextureDescriptor* msaaTextureDescriptor = [[[MTLTextureDescriptor alloc] init] autorelease];
-                        msaaTextureDescriptor.pixelFormat = pixelFormat;
-                        msaaTextureDescriptor.width = width;
-                        msaaTextureDescriptor.height = height;
-                        msaaTextureDescriptor.textureType = getTextureType(type, true);
-                        msaaTextureDescriptor.storageMode = MTLStorageModePrivate;
-                        msaaTextureDescriptor.sampleCount = sampleCount;
-                        msaaTextureDescriptor.mipmapLevelCount = 1;
-                        msaaTextureDescriptor.usage = MTLTextureUsageRenderTarget;
+                        Pointer<MTLTextureDescriptor*> msaaTextureDescriptor = [[MTLTextureDescriptor alloc] init];
+                        msaaTextureDescriptor.get().pixelFormat = pixelFormat;
+                        msaaTextureDescriptor.get().width = width;
+                        msaaTextureDescriptor.get().height = height;
+                        msaaTextureDescriptor.get().textureType = getTextureType(type, true);
+                        msaaTextureDescriptor.get().storageMode = MTLStorageModePrivate;
+                        msaaTextureDescriptor.get().sampleCount = sampleCount;
+                        msaaTextureDescriptor.get().mipmapLevelCount = 1;
+                        msaaTextureDescriptor.get().usage = MTLTextureUsageRenderTarget;
 
                         if (flags & Flags::BindShaderMsaa)
-                            msaaTextureDescriptor.usage |= MTLTextureUsageShaderRead;
+                            msaaTextureDescriptor.get().usage |= MTLTextureUsageShaderRead;
 
-                        msaaTexture = [renderDevice.getDevice() newTextureWithDescriptor:msaaTextureDescriptor];
+                        msaaTexture = [renderDevice.getDevice().get() newTextureWithDescriptor:msaaTextureDescriptor.get()];
 
                         if (!msaaTexture)
                             throw std::runtime_error("Failed to create MSAA texture");
@@ -177,12 +177,12 @@ namespace ouzel
                     for (size_t level = 0; level < levels.size(); ++level)
                     {
                         if (!levels[level].second.empty())
-                            [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                                   static_cast<NSUInteger>(levels[level].first.v[0]),
-                                                                   static_cast<NSUInteger>(levels[level].first.v[1]))
-                                       mipmapLevel:level
-                                         withBytes:levels[level].second.data()
-                                       bytesPerRow:static_cast<NSUInteger>(levels[level].first.v[0] * pixelSize)];
+                            [texture.get() replaceRegion:MTLRegionMake2D(0, 0,
+                                                                         static_cast<NSUInteger>(levels[level].first.v[0]),
+                                                                         static_cast<NSUInteger>(levels[level].first.v[1]))
+                                             mipmapLevel:level
+                                               withBytes:levels[level].second.data()
+                                             bytesPerRow:static_cast<NSUInteger>(levels[level].first.v[0] * pixelSize)];
                     }
                 }
 
@@ -195,18 +195,6 @@ namespace ouzel
                 updateSamplerState();
             }
 
-            Texture::~Texture()
-            {
-                if (msaaTexture)
-                    [msaaTexture release];
-
-                if (texture)
-                    [texture release];
-
-                if (samplerState)
-                    [samplerState release];
-            }
-
             void Texture::setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels)
             {
                 if (!(flags & Flags::Dynamic) ||
@@ -216,12 +204,12 @@ namespace ouzel
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
                     if (!levels[level].second.empty())
-                        [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                               static_cast<NSUInteger>(levels[level].first.v[0]),
-                                                               static_cast<NSUInteger>(levels[level].first.v[1]))
-                                   mipmapLevel:level
-                                     withBytes:levels[level].second.data()
-                                   bytesPerRow:static_cast<NSUInteger>(levels[level].first.v[0] * pixelSize)];
+                        [texture.get() replaceRegion:MTLRegionMake2D(0, 0,
+                                                                     static_cast<NSUInteger>(levels[level].first.v[0]),
+                                                                     static_cast<NSUInteger>(levels[level].first.v[1]))
+                                         mipmapLevel:level
+                                           withBytes:levels[level].second.data()
+                                         bytesPerRow:static_cast<NSUInteger>(levels[level].first.v[0] * pixelSize)];
                 }
             }
 
@@ -257,13 +245,10 @@ namespace ouzel
 
             void Texture::updateSamplerState()
             {
-                if (samplerState) [samplerState release];
                 samplerState = renderDevice.getSamplerState(samplerDescriptor);
 
                 if (!samplerState)
                     throw std::runtime_error("Failed to get Metal sampler state");
-
-                [samplerState retain];
             }
         } // namespace metal
     } // namespace graphics

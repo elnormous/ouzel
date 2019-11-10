@@ -25,6 +25,7 @@ typedef NSUInteger MTLLoadAction;
 
 #include <tuple>
 #include "graphics/metal/MetalRenderResource.hpp"
+#include "graphics/metal/MetalPointer.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "graphics/SamplerAddressMode.hpp"
 #include "graphics/SamplerFilter.hpp"
@@ -64,7 +65,6 @@ namespace ouzel
                         uint32_t initFlags = 0,
                         uint32_t initSampleCount = 1,
                         PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
-                ~Texture();
 
                 void setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels);
                 void setFilter(SamplerFilter filter);
@@ -77,7 +77,7 @@ namespace ouzel
                 inline auto getMipmaps() const noexcept { return mipmaps; }
                 inline auto getSampleCount() const noexcept { return sampleCount; }
 
-                inline auto getTexture() const noexcept { return texture; }
+                inline auto& getTexture() const noexcept { return texture; }
                 inline auto getPixelFormat() const noexcept { return pixelFormat; }
                 inline auto getStencilBuffer() const noexcept { return stencilBuffer; }
 
@@ -95,13 +95,13 @@ namespace ouzel
 
                 SamplerStateDescriptor samplerDescriptor;
 
-                MTLTexturePtr texture = nil;
+                Pointer<MTLTexturePtr> texture;
 
                 NSUInteger width = 0;
                 NSUInteger height = 0;
 
                 MTLSamplerStatePtr samplerState = nil;
-                MTLTexturePtr msaaTexture = nil;
+                Pointer<MTLTexturePtr> msaaTexture;
 
                 MTLPixelFormat pixelFormat;
                 uint32_t pixelSize = 0;

@@ -44,6 +44,7 @@ typedef NSUInteger MTLLoadAction;
 #endif
 
 #include "graphics/RenderDevice.hpp"
+#include "graphics/metal/MetalPointer.hpp"
 #include "graphics/metal/MetalShader.hpp"
 #include "graphics/metal/MetalTexture.hpp"
 
@@ -65,9 +66,7 @@ namespace ouzel
 
                 static bool available();
 
-                ~RenderDevice();
-
-                inline auto getDevice() const noexcept { return device; }
+                inline auto& getDevice() const noexcept { return device; }
 
                 MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
@@ -113,14 +112,14 @@ namespace ouzel
 
                 MTLRenderPipelineStatePtr getPipelineState(const PipelineStateDesc& desc);
 
-                MTLDevicePtr device = nil;
-                MTLCommandQueuePtr metalCommandQueue = nil;
+                Pointer<MTLDevicePtr> device;
+                Pointer<MTLCommandQueuePtr> metalCommandQueue;
                 CAMetalLayerPtr metalLayer = nil;
-                MTLTexturePtr currentMetalTexture = nullptr;
+                Pointer<MTLTexturePtr> currentMetalTexture;
 
                 struct ShaderConstantBuffer
                 {
-                    std::vector<MTLBufferPtr> buffers;
+                    std::vector<Pointer<MTLBufferPtr>> buffers;
                     uint32_t index = 0;
                     uint32_t offset = 0;
                 };
@@ -128,12 +127,12 @@ namespace ouzel
                 uint32_t shaderConstantBufferIndex = 0;
                 ShaderConstantBuffer shaderConstantBuffers[BUFFER_COUNT];
 
-                MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
-                MTLDepthStencilStatePtr defaultDepthStencilState = nil;
+                Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
+                Pointer<MTLDepthStencilStatePtr> defaultDepthStencilState;
 
-                MTLTexturePtr msaaTexture = nil;
-                MTLTexturePtr depthTexture = nil;
-                std::map<SamplerStateDescriptor, MTLSamplerStatePtr> samplerStates;
+                Pointer<MTLTexturePtr> msaaTexture;
+                Pointer<MTLTexturePtr> depthTexture;
+                std::map<SamplerStateDescriptor, Pointer<MTLSamplerStatePtr>> samplerStates;
 
                 MTLPixelFormat colorFormat;
                 MTLPixelFormat depthFormat;
@@ -141,7 +140,7 @@ namespace ouzel
 
                 dispatch_semaphore_t inflightSemaphore;
 
-                std::map<PipelineStateDesc, MTLRenderPipelineStatePtr> pipelineStates;
+                std::map<PipelineStateDesc, Pointer<MTLRenderPipelineStatePtr>> pipelineStates;
 
                 std::vector<std::unique_ptr<RenderResource>> resources;
             };

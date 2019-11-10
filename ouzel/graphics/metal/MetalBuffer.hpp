@@ -16,6 +16,7 @@ typedef id MTLBufferPtr;
 #endif
 
 #include "graphics/metal/MetalRenderResource.hpp"
+#include "graphics/metal/MetalPointer.hpp"
 #include "graphics/BufferType.hpp"
 
 namespace ouzel
@@ -34,7 +35,6 @@ namespace ouzel
                        uint32_t initFlags,
                        const std::vector<uint8_t>& initData,
                        uint32_t initSize);
-                ~Buffer();
 
                 void setData(const std::vector<uint8_t>& data);
 
@@ -42,7 +42,7 @@ namespace ouzel
                 inline auto getType() const noexcept { return type; }
                 inline auto getSize() const noexcept { return size; }
 
-                inline auto getBuffer() const noexcept { return buffer; }
+                inline auto& getBuffer() const noexcept { return buffer; }
 
             private:
                 void createBuffer(NSUInteger newSize);
@@ -50,7 +50,7 @@ namespace ouzel
                 BufferType type;
                 uint32_t flags = 0;
 
-                MTLBufferPtr buffer = nil;
+                Pointer<MTLBufferPtr> buffer;
                 NSUInteger size = 0;
             };
         } // namespace metal
