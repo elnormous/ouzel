@@ -98,7 +98,7 @@ namespace ouzel
             {
                 Pointer<id<MTLDevice>> device = MTLCreateSystemDefaultDevice();
 
-                return device;
+                return static_cast<bool>(device);
             }
 
             RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):

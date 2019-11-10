@@ -75,14 +75,9 @@ namespace ouzel
                     return p;
                 }
 
-                inline operator bool() const noexcept
+                explicit inline operator bool() const noexcept
                 {
                     return p != nil;
-                }
-
-                inline bool operator!() const noexcept
-                {
-                    return p == nil;
                 }
 
             private:
