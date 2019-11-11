@@ -204,7 +204,7 @@ namespace ouzel
                 sampleSize = sizeof(float);
 
                 const DWORD streamFlags = AUDCLNT_STREAMFLAGS_EVENTCALLBACK |
-                    (waveFormat.nSamplesPerSec != audioClientWaveFormat->nSamplesPerSec) ? AUDCLNT_STREAMFLAGS_RATEADJUST : 0;
+                    (waveFormat.nSamplesPerSec != audioClientWaveFormat->nSamplesPerSec ? AUDCLNT_STREAMFLAGS_RATEADJUST : 0);
 
                 CoTaskMemFree(audioClientWaveFormat);
 
