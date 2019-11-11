@@ -203,7 +203,7 @@ namespace ouzel
                 sampleFormat = SampleFormat::Float32;
                 sampleSize = sizeof(float);
 
-                const DWORD streamFlags = AUDCLNT_STREAMFLAGS_EVENTCALLBACK &
+                const DWORD streamFlags = AUDCLNT_STREAMFLAGS_EVENTCALLBACK |
                     (waveFormat.nSamplesPerSec != audioClientWaveFormat->nSamplesPerSec) ? AUDCLNT_STREAMFLAGS_RATEADJUST : 0;
 
                 CoTaskMemFree(audioClientWaveFormat);
@@ -225,7 +225,7 @@ namespace ouzel
 
                     if (FAILED(hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED,
                                                             streamFlags,
-                                                            0,
+															bufferPeriod,
                                                             0,
                                                             &waveFormat,
                                                             nullptr)))
