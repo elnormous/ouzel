@@ -23,7 +23,7 @@ namespace ouzel
                 inline Pointer(T a) noexcept: p(a) {}
                 inline Pointer& operator=(T a) noexcept
                 {
-                    if (p != nil)
+                    if (p)
 #ifdef __OBJC__
                         [p release];
 #else
@@ -44,7 +44,7 @@ namespace ouzel
 
                 inline Pointer& operator=(Pointer&& o) noexcept
                 {
-                    if (p != nil)
+                    if (p)
 #ifdef __OBJC__
                         [p release];
 #else
