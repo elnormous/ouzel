@@ -103,7 +103,6 @@ namespace ouzel
                 if (FAILED(hr = renderDevice.getDevice()->CreatePixelShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &fragmentShader)))
                     throw std::system_error(hr, getErrorCategory(), "Failed to create a Direct3D 11 pixel shader");
 
-                if (vertexShader) vertexShader->Release();
 
                 if (FAILED(hr = renderDevice.getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &vertexShader)))
                     throw std::system_error(hr, getErrorCategory(), "Failed to create a Direct3D 11 vertex shader");
