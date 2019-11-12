@@ -173,7 +173,6 @@ namespace ouzel
                     offset += getDataTypeSize(vertexAttribute.dataType);
                 }
 
-                if (inputLayout) inputLayout->Release();
 
                 if (FAILED(hr = renderDevice.getDevice()->CreateInputLayout(vertexInputElements.data(),
                                                                             static_cast<UINT>(vertexInputElements.size()),
@@ -202,7 +201,6 @@ namespace ouzel
                 fragmentShaderConstantBufferDesc.MiscFlags = 0;
                 fragmentShaderConstantBufferDesc.StructureByteStride = 0;
 
-                if (fragmentShaderConstantBuffer) fragmentShaderConstantBuffer->Release();
 
                 if (FAILED(hr = renderDevice.getDevice()->CreateBuffer(&fragmentShaderConstantBufferDesc, nullptr, &fragmentShaderConstantBuffer)))
                     throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 constant buffer");
@@ -227,7 +225,6 @@ namespace ouzel
                 vertexShaderConstantBufferDesc.MiscFlags = 0;
                 vertexShaderConstantBufferDesc.StructureByteStride = 0;
 
-                if (vertexShaderConstantBuffer) vertexShaderConstantBuffer->Release();
 
                 if (FAILED(hr = renderDevice.getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer)))
                     throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 constant buffer");
