@@ -20,6 +20,7 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
+#include "graphics/direct3d11/D3D11Pointer.hpp"
 #include "graphics/BlendFactor.hpp"
 #include "graphics/BlendOperation.hpp"
 #include "graphics/ColorMask.hpp"
@@ -44,12 +45,11 @@ namespace ouzel
                            BlendFactor alphaBlendDest,
                            BlendOperation alphaOperation,
                            uint8_t colorMask);
-                ~BlendState();
 
-                inline auto getBlendState() const noexcept { return blendState; }
+                inline auto& getBlendState() const noexcept { return blendState; }
 
             private:
-                ID3D11BlendState* blendState = nullptr;
+                Pointer<ID3D11BlendState> blendState;
             };
         } // namespace d3d11
     } // namespace graphics

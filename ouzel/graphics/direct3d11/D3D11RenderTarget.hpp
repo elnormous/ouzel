@@ -40,7 +40,6 @@ namespace ouzel
                 RenderTarget(RenderDevice& initRenderDevice,
                              const std::set<Texture*>& initColorTextures,
                              Texture* initDepthTexture);
-                ~RenderTarget();
 
                 void resolve();
 

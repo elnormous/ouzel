@@ -27,6 +27,7 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "graphics/RenderDevice.hpp"
+#include "graphics/direct3d11/D3D11Pointer.hpp"
 #include "graphics/direct3d11/D3D11Texture.hpp"
 #include "utils/Thread.hpp"
 
@@ -47,8 +48,8 @@ namespace ouzel
 
                 std::vector<Size2U> getSupportedResolutions() const final;
 
-                inline auto getDevice() const noexcept { return device; }
-                inline auto getContext() const noexcept { return context; }
+                inline auto& getDevice() const noexcept { return device; }
+                inline auto& getContext() const noexcept { return context; }
 
                 ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
                 void setFullscreen(bool newFullscreen);
@@ -79,17 +80,17 @@ namespace ouzel
 
                 IDXGIOutput* getOutput() const;
 
-                ID3D11Device* device = nullptr;
-                ID3D11DeviceContext* context = nullptr;
-                IDXGISwapChain* swapChain = nullptr;
-                IDXGIAdapter* adapter = nullptr;
-                ID3D11Texture2D* backBuffer = nullptr;
-                ID3D11RenderTargetView* renderTargetView = nullptr;
-                std::map<SamplerStateDesc, ID3D11SamplerState*> samplerStates;
-                ID3D11RasterizerState* rasterizerStates[12]{nullptr};
-                ID3D11Texture2D* depthStencilTexture = nullptr;
-                ID3D11DepthStencilView* depthStencilView = nullptr;
-                ID3D11DepthStencilState* defaultDepthStencilState = nullptr;
+                Pointer<ID3D11Device> device;
+                Pointer<ID3D11DeviceContext> context;
+                Pointer<IDXGISwapChain> swapChain;
+                Pointer<IDXGIAdapter> adapter;
+                Pointer<ID3D11Texture2D> backBuffer;
+                Pointer<ID3D11RenderTargetView> renderTargetView;
+                std::map<SamplerStateDesc, Pointer<ID3D11SamplerState>> samplerStates;
+                Pointer<ID3D11RasterizerState> rasterizerStates[12];
+                Pointer<ID3D11Texture2D> depthStencilTexture;
+                Pointer<ID3D11DepthStencilView> depthStencilView;
+                Pointer<ID3D11DepthStencilState> defaultDepthStencilState;
 
                 UINT frameBufferWidth = 0;
                 UINT frameBufferHeight = 0;

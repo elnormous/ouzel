@@ -218,6 +218,7 @@
     <ClInclude Include="..\ouzel\graphics\BlendOperation.hpp" />
     <ClInclude Include="..\ouzel\graphics\CompareFunction.hpp" />
     <ClInclude Include="..\ouzel\graphics\CubeFace.hpp" />
+    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Pointer.hpp" />
     <ClInclude Include="..\ouzel\graphics\StencilOperation.hpp" />
     <ClInclude Include="..\ouzel\storage\Archive.hpp" />
     <ClInclude Include="..\ouzel\storage\File.hpp" />

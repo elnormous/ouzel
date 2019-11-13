@@ -23,6 +23,7 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
+#include "graphics/direct3d11/D3D11Pointer.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "graphics/SamplerAddressMode.hpp"
 #include "graphics/SamplerFilter.hpp"
@@ -61,7 +62,6 @@ namespace ouzel
                         uint32_t initFlags = 0,
                         uint32_t initSampleCount = 1,
                         PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
-                ~Texture();
 
                 void setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels);
                 void setFilter(SamplerFilter filter);
@@ -77,12 +77,12 @@ namespace ouzel
                 inline auto getSampleCount() const noexcept { return sampleCount; }
                 inline auto getPixelFormat() const noexcept { return pixelFormat; }
 
-                inline auto getTexture() const noexcept { return texture; }
-                inline auto getResourceView() const noexcept { return resourceView; }
+                inline auto& getTexture() const noexcept { return texture; }
+                inline auto& getResourceView() const noexcept { return resourceView; }
                 inline auto getSamplerState() const noexcept { return samplerState; }
 
-                inline auto getRenderTargetView() const noexcept { return renderTargetView; }
-                inline auto getDepthStencilView() const noexcept { return depthStencilView; }
+                inline auto& getRenderTargetView() const noexcept { return renderTargetView; }
+                inline auto& getDepthStencilView() const noexcept { return depthStencilView; }
 
                 inline auto getWidth() const noexcept { return width; }
                 inline auto getHeight() const noexcept { return height; }
@@ -97,16 +97,16 @@ namespace ouzel
                 uint32_t pixelSize = 0;
                 SamplerStateDesc samplerDescriptor;
 
-                ID3D11Texture2D* texture = nullptr;
-                ID3D11Texture2D* msaaTexture = nullptr;
-                ID3D11ShaderResourceView* resourceView = nullptr;
-                ID3D11SamplerState* samplerState = nullptr;
+                Pointer<ID3D11Texture2D> texture;
+				Pointer<ID3D11Texture2D> msaaTexture;
+				Pointer<ID3D11ShaderResourceView> resourceView;
+				ID3D11SamplerState* samplerState = nullptr;
 
                 UINT width = 0;
                 UINT height = 0;
 
-                ID3D11RenderTargetView* renderTargetView = nullptr;
-                ID3D11DepthStencilView* depthStencilView = nullptr;
+				Pointer<ID3D11RenderTargetView> renderTargetView;
+				Pointer<ID3D11DepthStencilView> depthStencilView;
             };
         } // namespace d3d11
     } // namespace graphics

@@ -20,6 +20,7 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
+#include "graphics/direct3d11/D3D11Pointer.hpp"
 #include "graphics/CompareFunction.hpp"
 #include "graphics/StencilOperation.hpp"
 
@@ -49,12 +50,11 @@ namespace ouzel
                                   StencilOperation initBackFaceStencilDepthFailureOperation,
                                   StencilOperation initBackFaceStencilPassOperation,
                                   CompareFunction initBackFaceStencilCompareFunction);
-                ~DepthStencilState();
 
-                inline auto getDepthStencilState() const noexcept { return depthStencilState; }
+                inline auto& getDepthStencilState() const noexcept { return depthStencilState; }
 
             private:
-                ID3D11DepthStencilState* depthStencilState = nullptr;
+                Pointer<ID3D11DepthStencilState> depthStencilState;
             };
         } // namespace d3d11
     } // namespace graphics

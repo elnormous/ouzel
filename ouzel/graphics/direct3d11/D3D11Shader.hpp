@@ -23,6 +23,7 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
+#include "graphics/direct3d11/D3D11Pointer.hpp"
 #include "graphics/DataType.hpp"
 #include "graphics/Vertex.hpp"
 
@@ -47,7 +48,6 @@ namespace ouzel
                        uint32_t,
                        const std::string& fragmentShaderFunction,
                        const std::string& vertexShaderFunction);
-                ~Shader();
 
                 struct Location final
                 {
@@ -65,12 +65,12 @@ namespace ouzel
                 auto& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
                 auto& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
 
-                inline auto getFragmentShader() const noexcept { return fragmentShader; }
-                inline auto getVertexShader() const noexcept { return vertexShader; }
+                inline auto& getFragmentShader() const noexcept { return fragmentShader; }
+                inline auto& getVertexShader() const noexcept { return vertexShader; }
 
-                inline auto getFragmentShaderConstantBuffer() const noexcept { return fragmentShaderConstantBuffer; }
-                inline auto getVertexShaderConstantBuffer() const noexcept { return vertexShaderConstantBuffer; }
-                inline auto getInputLayout() const noexcept { return inputLayout; }
+                inline auto& getFragmentShaderConstantBuffer() const noexcept { return fragmentShaderConstantBuffer; }
+                inline auto& getVertexShaderConstantBuffer() const noexcept { return vertexShaderConstantBuffer; }
+                inline auto& getInputLayout() const noexcept { return inputLayout; }
 
             private:
                 std::set<Vertex::Attribute::Usage> vertexAttributes;
@@ -78,12 +78,12 @@ namespace ouzel
                 std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
                 std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
 
-                ID3D11PixelShader* fragmentShader = nullptr;
-                ID3D11VertexShader* vertexShader = nullptr;
-                ID3D11InputLayout* inputLayout = nullptr;
+				Pointer<ID3D11PixelShader> fragmentShader;
+				Pointer<ID3D11VertexShader> vertexShader;
+				Pointer<ID3D11InputLayout> inputLayout;
 
-                ID3D11Buffer* fragmentShaderConstantBuffer = nullptr;
-                ID3D11Buffer* vertexShaderConstantBuffer = nullptr;
+				Pointer<ID3D11Buffer> fragmentShaderConstantBuffer;
+				Pointer<ID3D11Buffer> vertexShaderConstantBuffer;
 
                 std::vector<Location> fragmentShaderConstantLocations;
                 uint32_t fragmentShaderConstantSize = 0;

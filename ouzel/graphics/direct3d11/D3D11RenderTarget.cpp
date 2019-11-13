@@ -23,13 +23,9 @@ namespace ouzel
             {
                 for (const Texture* colorTexture : colorTextures)
                     if (colorTexture)
-                        renderTargetViews.push_back(colorTexture->getRenderTargetView());
+                        renderTargetViews.push_back(colorTexture->getRenderTargetView().get());
 
-                depthStencilView = depthTexture ? depthTexture->getDepthStencilView() : nullptr;
-            }
-
-            RenderTarget::~RenderTarget()
-            {
+                depthStencilView = depthTexture ? depthTexture->getDepthStencilView().get() : nullptr;
             }
 
             void RenderTarget::resolve()

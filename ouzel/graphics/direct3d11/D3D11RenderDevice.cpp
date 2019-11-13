@@ -117,44 +117,6 @@ namespace ouzel
                 submitCommandBuffer(std::move(commandBuffer));
 
                 if (renderThread.isJoinable()) renderThread.join();
-
-                resources.clear();
-
-                if (defaultDepthStencilState)
-                    defaultDepthStencilState->Release();
-
-                if (depthStencilView)
-                    depthStencilView->Release();
-
-                if (depthStencilTexture)
-                    depthStencilTexture->Release();
-
-                for (ID3D11RasterizerState* rasterizerState : rasterizerStates)
-                {
-                    if (rasterizerState)
-                        rasterizerState->Release();
-                }
-
-                for (const auto& samplerState : samplerStates)
-                    samplerState.second->Release();
-
-                if (renderTargetView)
-                    renderTargetView->Release();
-
-                if (backBuffer)
-                    backBuffer->Release();
-
-                if (swapChain)
-                    swapChain->Release();
-
-                if (adapter)
-                    adapter->Release();
-
-                if (context)
-                    context->Release();
-
-                if (device)
-                    device->Release();
             }
 
             void RenderDevice::init(Window* newWindow,
@@ -189,6 +151,9 @@ namespace ouzel
                 if (debugRenderer)
                     deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
 
+				ID3D11Device* newDevice;
+				ID3D11DeviceContext* newContext;
+
                 D3D_FEATURE_LEVEL featureLevel;
                 HRESULT hr;
                 if (FAILED(hr = D3D11CreateDevice(nullptr, // adapter
@@ -198,21 +163,34 @@ namespace ouzel
                                                   nullptr, // feature levels
                                                   0, // no feature levels
                                                   D3D11_SDK_VERSION,
-                                                  &device,
+                                                  &newDevice,
                                                   &featureLevel,
-                                                  &context)))
+                                                  &newContext)))
                     throw std::system_error(hr, errorCategory, "Failed to create the Direct3D 11 device");
+
+				device = newDevice;
+				context = newContext;
 
                 if (featureLevel >= D3D_FEATURE_LEVEL_10_0)
                     npotTexturesSupported = true;
 
-                IDXGIDevice* dxgiDevice;
-                IDXGIFactory* factory;
 
-                device->QueryInterface(IID_IDXGIDevice, reinterpret_cast<void**>(&dxgiDevice));
-                dxgiDevice->GetParent(IID_IDXGIAdapter, reinterpret_cast<void**>(&adapter));
-                if (FAILED(hr = adapter->GetParent(IID_IDXGIFactory, reinterpret_cast<void**>(&factory))))
+				void* dxgiDevicePtr;
+                device->QueryInterface(IID_IDXGIDevice, &dxgiDevicePtr);
+
+				Pointer<IDXGIDevice> dxgiDevice = static_cast<IDXGIDevice*>(dxgiDevicePtr);
+
+				void* newAdapter;
+                if (FAILED(hr = dxgiDevice->GetParent(IID_IDXGIAdapter, &newAdapter)))
+					throw std::system_error(hr, errorCategory, "Failed to get the DXGI adapter");
+
+				adapter = static_cast<IDXGIAdapter*>(newAdapter);
+
+				void* factoryPtr;
+                if (FAILED(hr = adapter->GetParent(IID_IDXGIFactory, &factoryPtr)))
                     throw std::system_error(hr, errorCategory, "Failed to get the DXGI factory");
+
+				Pointer<IDXGIFactory> factory = static_cast<IDXGIFactory*>(factoryPtr);
 
                 DXGI_ADAPTER_DESC adapterDesc;
                 if (FAILED(hr = adapter->GetDesc(&adapterDesc)))
@@ -268,20 +246,27 @@ namespace ouzel
 
                 swapInterval = verticalSync ? 1 : 0;
 
-                if (FAILED(hr = factory->CreateSwapChain(device, &swapChainDesc, &swapChain)))
+				IDXGISwapChain* newSwapCahin;
+
+                if (FAILED(hr = factory->CreateSwapChain(device.get(), &swapChainDesc, &newSwapCahin)))
                     throw std::system_error(hr, errorCategory, "Failed to create the Direct3D 11 swap chain");
+
+				swapChain = newSwapCahin;
 
                 factory->MakeWindowAssociation(windowWin->getNativeWindow(), DXGI_MWA_NO_ALT_ENTER);
 
-                factory->Release();
-                dxgiDevice->Release();
-
                 // Backbuffer
-                if (FAILED(hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBuffer))))
+				void* newBackBuffer;
+                if (FAILED(hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, &newBackBuffer)))
                     throw std::system_error(hr, errorCategory, "Failed to retrieve Direct3D 11 backbuffer");
 
-                if (FAILED(hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView)))
+				backBuffer = static_cast<ID3D11Texture2D*>(newBackBuffer);
+
+				ID3D11RenderTargetView* newRenderTargetView;
+                if (FAILED(hr = device->CreateRenderTargetView(backBuffer.get(), nullptr, &newRenderTargetView)))
                     throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 render target view");
+
+				renderTargetView = newRenderTargetView;
 
                 // Rasterizer state
                 D3D11_RASTERIZER_DESC rasterStateDesc;
@@ -310,8 +295,12 @@ namespace ouzel
                                 case 2: rasterStateDesc.CullMode = D3D11_CULL_BACK; break;
                             }
 
-                            if (FAILED(hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[rasterStateIndex])))
+							ID3D11RasterizerState* newRasterizerState;
+
+                            if (FAILED(hr = device->CreateRasterizerState(&rasterStateDesc, &newRasterizerState)))
                                 throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 rasterizer state");
+
+							rasterizerStates[rasterStateIndex] = newRasterizerState;
 
                             ++rasterStateIndex;
                         }
@@ -332,11 +321,18 @@ namespace ouzel
                     depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
                     depthStencilDesc.CPUAccessFlags = 0;
                     depthStencilDesc.MiscFlags = 0;
-                    if (FAILED(hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture)))
+
+					ID3D11Texture2D* newDepthStencilTexture;
+                    if (FAILED(hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &newDepthStencilTexture)))
                         throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 depth stencil texture");
 
-                    if (FAILED(hr = device->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView)))
+					depthStencilTexture = newDepthStencilTexture;
+
+					ID3D11DepthStencilView* newDepthStencilView;
+                    if (FAILED(hr = device->CreateDepthStencilView(depthStencilTexture.get(), nullptr, &newDepthStencilView)))
                         throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 depth stencil view");
+
+					depthStencilView = newDepthStencilView;
                 }
 
                 D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
@@ -355,8 +351,11 @@ namespace ouzel
                 depthStencilStateDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
                 depthStencilStateDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
 
-                if (FAILED(hr = device->CreateDepthStencilState(&depthStencilStateDesc, &defaultDepthStencilState)))
+				ID3D11DepthStencilState* newDefaultDepthStencilState;
+                if (FAILED(hr = device->CreateDepthStencilState(&depthStencilStateDesc, &newDefaultDepthStencilState)))
                     throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 depth stencil state");
+
+				defaultDepthStencilState = newDefaultDepthStencilState;
 
                 running = true;
                 renderThread = Thread(&RenderDevice::renderMain, this);
@@ -463,7 +462,8 @@ namespace ouzel
                                 else
                                 {
                                     currentRenderTarget = nullptr;
-                                    context->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+									ID3D11RenderTargetView* renderTargetViews[] = {renderTargetView.get()};
+                                    context->OMSetRenderTargets(1, renderTargetViews, depthStencilView.get());
                                 }
                                 break;
                             }
@@ -493,10 +493,10 @@ namespace ouzel
                                 else
                                 {
                                     if (clearCommand->clearColorBuffer)
-                                        context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
+                                        context->ClearRenderTargetView(renderTargetView.get(), frameBufferClearColor);
 
                                     if (clearCommand->clearDepthBuffer)
-                                        context->ClearDepthStencilView(depthStencilView,
+                                        context->ClearDepthStencilView(depthStencilView.get(),
                                                                        (clearCommand->clearDepthBuffer ? D3D11_CLEAR_DEPTH : 0) | (clearCommand->clearStencilBuffer ? D3D11_CLEAR_STENCIL : 0),
                                                                        clearCommand->clearDepth,
                                                                        static_cast<UINT8>(clearCommand->clearStencil));
@@ -520,12 +520,12 @@ namespace ouzel
                                 box.bottom = blitCommand->sourceY + blitCommand->sourceHeight;
                                 box.back = 0;
 
-                                context->CopySubresourceRegion(destinationTexture->getTexture(),
+                                context->CopySubresourceRegion(destinationTexture->getTexture().get(),
                                                                blitCommand->destinationLevel,
                                                                blitCommand->destinationX,
                                                                blitCommand->destinationY,
                                                                0,
-                                                               sourceTexture->getTexture(),
+                                                               sourceTexture->getTexture().get(),
                                                                blitCommand->sourceLevel,
                                                                &box);
                                 break;
@@ -548,7 +548,7 @@ namespace ouzel
                                 scissorEnableIndex = (setScissorTestCommand->enabled) ? 1 : 0;
 
                                 const uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
-                                context->RSSetState(rasterizerStates[rasterizerStateIndex]);
+                                context->RSSetState(rasterizerStates[rasterizerStateIndex].get());
 
                                 break;
                             }
@@ -601,11 +601,11 @@ namespace ouzel
                                 if (setDepthStencilStateCommand->depthStencilState)
                                 {
                                     DepthStencilState* depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
-                                    context->OMSetDepthStencilState(depthStencilState->getDepthStencilState(),
+                                    context->OMSetDepthStencilState(depthStencilState->getDepthStencilState().get(),
                                                                     setDepthStencilStateCommand->stencilReferenceValue);
                                 }
                                 else
-                                    context->OMSetDepthStencilState(defaultDepthStencilState,
+                                    context->OMSetDepthStencilState(defaultDepthStencilState.get(),
                                                                     setDepthStencilStateCommand->stencilReferenceValue);
 
                                 break;
@@ -620,7 +620,7 @@ namespace ouzel
                                 currentShader = shader;
 
                                 if (blendState)
-                                    context->OMSetBlendState(blendState->getBlendState(), nullptr, 0xFFFFFFFF);
+                                    context->OMSetBlendState(blendState->getBlendState().get(), nullptr, 0xFFFFFFFF);
                                 else
                                     context->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
 
@@ -630,9 +630,9 @@ namespace ouzel
                                     assert(shader->getVertexShader());
                                     assert(shader->getInputLayout());
 
-                                    context->PSSetShader(shader->getFragmentShader(), nullptr, 0);
-                                    context->VSSetShader(shader->getVertexShader(), nullptr, 0);
-                                    context->IASetInputLayout(shader->getInputLayout());
+                                    context->PSSetShader(shader->getFragmentShader().get(), nullptr, 0);
+                                    context->VSSetShader(shader->getVertexShader().get(), nullptr, 0);
+                                    context->IASetInputLayout(shader->getInputLayout().get());
                                 }
                                 else
                                 {
@@ -657,7 +657,7 @@ namespace ouzel
                                 }
 
                                 const uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
-                                context->RSSetState(rasterizerStates[rasterizerStateIndex]);
+                                context->RSSetState(rasterizerStates[rasterizerStateIndex].get());
                                 break;
                             }
 
@@ -674,11 +674,11 @@ namespace ouzel
                                 assert(vertexBuffer);
                                 assert(vertexBuffer->getBuffer());
 
-                                ID3D11Buffer* buffers[] = {vertexBuffer->getBuffer()};
+                                ID3D11Buffer* buffers[] = {vertexBuffer->getBuffer().get()};
                                 UINT strides[] = {sizeof(Vertex)};
                                 UINT offsets[] = {0};
                                 context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
-                                context->IASetIndexBuffer(indexBuffer->getBuffer(),
+                                context->IASetIndexBuffer(indexBuffer->getBuffer().get(),
                                                           getIndexFormat(drawCommand->indexSize), 0);
                                 context->IASetPrimitiveTopology(getPrimitiveTopology(drawCommand->drawMode));
 
@@ -795,11 +795,11 @@ namespace ouzel
                                     shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
                                 }
 
-                                uploadBuffer(currentShader->getFragmentShaderConstantBuffer(),
+                                uploadBuffer(currentShader->getFragmentShaderConstantBuffer().get(),
                                              shaderData.data(),
                                              static_cast<uint32_t>(sizeof(float) * shaderData.size()));
 
-                                ID3D11Buffer* fragmentShaderConstantBuffers[1] = {currentShader->getFragmentShaderConstantBuffer()};
+                                ID3D11Buffer* fragmentShaderConstantBuffers[1] = {currentShader->getFragmentShaderConstantBuffer().get()};
                                 context->PSSetConstantBuffers(0, 1, fragmentShaderConstantBuffers);
 
                                 // vertex shader constants
@@ -821,11 +821,11 @@ namespace ouzel
                                     shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                                 }
 
-                                uploadBuffer(currentShader->getVertexShaderConstantBuffer(),
+                                uploadBuffer(currentShader->getVertexShaderConstantBuffer().get(),
                                              shaderData.data(),
                                              static_cast<uint32_t>(sizeof(float) * shaderData.size()));
 
-                                ID3D11Buffer* vertexShaderConstantBuffers[1] = {currentShader->getVertexShaderConstantBuffer()};
+                                ID3D11Buffer* vertexShaderConstantBuffers[1] = {currentShader->getVertexShaderConstantBuffer().get()};
                                 context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
 
                                 break;
@@ -882,7 +882,7 @@ namespace ouzel
                                 for (const uintptr_t resource : setTexturesCommand->textures)
                                     if (Texture* texture = getResource<Texture>(resource))
                                     {
-                                        currentResourceViews.push_back(texture->getResourceView());
+                                        currentResourceViews.push_back(texture->getResourceView().get());
                                         currentSamplerStates.push_back(texture->getSamplerState());
                                     }
                                     else
@@ -966,10 +966,13 @@ namespace ouzel
 
             void RenderDevice::generateScreenshot(const std::string& filename)
             {
-                ID3D11Texture2D* backBufferTexture;
+				void* backBufferTexturePtr;
+
                 HRESULT hr;
-                if (FAILED(hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBufferTexture))))
+                if (FAILED(hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, &backBufferTexturePtr)))
                     throw std::system_error(hr, errorCategory, "Failed to get Direct3D 11 back buffer texture");
+
+				Pointer<ID3D11Texture2D> backBufferTexture = static_cast<ID3D11Texture2D*>(backBufferTexturePtr);
 
                 D3D11_TEXTURE2D_DESC backBufferDesc;
                 backBufferTexture->GetDesc(&backBufferDesc);
@@ -987,9 +990,11 @@ namespace ouzel
                 textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
                 textureDesc.MiscFlags = 0;
 
-                ID3D11Texture2D* texture;
-                if (FAILED(hr = device->CreateTexture2D(&textureDesc, nullptr, &texture)))
+                ID3D11Texture2D* texturePtr;
+                if (FAILED(hr = device->CreateTexture2D(&textureDesc, nullptr, &texturePtr)))
                     throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 texture");
+
+				Pointer<ID3D11Texture2D> texture = texturePtr;
 
                 if (backBufferDesc.SampleDesc.Count > 1)
                 {
@@ -1006,75 +1011,50 @@ namespace ouzel
                     resolveTextureDesc.CPUAccessFlags = 0;
                     resolveTextureDesc.MiscFlags = 0;
 
-                    ID3D11Texture2D* resolveTexture;
-                    if (FAILED(hr = device->CreateTexture2D(&resolveTextureDesc, nullptr, &resolveTexture)))
-                    {
-                        texture->Release();
+                    ID3D11Texture2D* resolveTexturePtr;
+                    if (FAILED(hr = device->CreateTexture2D(&resolveTextureDesc, nullptr, &resolveTexturePtr)))
                         throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 texture");
-                    }
 
-                    context->ResolveSubresource(resolveTexture, 0, backBuffer, 0, DXGI_FORMAT_R8G8B8A8_UNORM);
-                    context->CopyResource(texture, resolveTexture);
-                    resolveTexture->Release();
+					Pointer<ID3D11Texture2D> resolveTexture = resolveTexturePtr;
+
+                    context->ResolveSubresource(resolveTexture.get(), 0, backBuffer.get(), 0, DXGI_FORMAT_R8G8B8A8_UNORM);
+                    context->CopyResource(texture.get(), resolveTexture.get());
                 }
                 else
-                    context->CopyResource(texture, backBuffer);
+                    context->CopyResource(texture.get(), backBuffer.get());
 
                 D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-                if (FAILED(hr = context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource)))
-                {
-                    texture->Release();
+                if (FAILED(hr = context->Map(texture.get(), 0, D3D11_MAP_READ, 0, &mappedSubresource)))
                     throw std::system_error(hr, errorCategory, "Failed to map Direct3D 11 resource");
-                }
 
                 if (!stbi_write_png(filename.c_str(), textureDesc.Width, textureDesc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
                 {
-                    context->Unmap(texture, 0);
-                    texture->Release();
+                    context->Unmap(texture.get(), 0);
                     throw std::runtime_error("Failed to save screenshot to file");
                 }
 
-                context->Unmap(texture, 0);
-                texture->Release();
+                context->Unmap(texture.get(), 0);
             }
 
             void RenderDevice::resizeBackBuffer(UINT newWidth, UINT newHeight)
             {
                 if (frameBufferWidth != newWidth || frameBufferHeight != newHeight)
                 {
-                    if (depthStencilTexture)
-                    {
-                        depthStencilTexture->Release();
-                        depthStencilTexture = nullptr;
-                    }
-
-                    if (depthStencilView)
-                    {
-                        depthStencilView->Release();
-                        depthStencilView = nullptr;
-                    }
-
-                    if (renderTargetView)
-                    {
-                        renderTargetView->Release();
-                        renderTargetView = nullptr;
-                    }
-
-                    if (backBuffer)
-                    {
-                        backBuffer->Release();
-                        backBuffer = nullptr;
-                    }
-
                     HRESULT hr;
                     if (FAILED(hr = swapChain->ResizeBuffers(0, newWidth, newHeight, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH)))
                         throw std::system_error(hr, errorCategory, "Failed to resize Direct3D 11 backbuffer");
 
-                    if (FAILED(hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBuffer))))
+					void* newBackBuffer;
+                    if (FAILED(hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, &newBackBuffer)))
                         throw std::system_error(hr, errorCategory, "Failed to retrieve Direct3D 11 backbuffer");
 
-                    if (FAILED(hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView)))
+					backBuffer = static_cast<ID3D11Texture2D*>(newBackBuffer);
+
+					ID3D11RenderTargetView* newRenderTargetView;
+                    if (FAILED(hr = device->CreateRenderTargetView(backBuffer.get(), nullptr, &newRenderTargetView)))
                         throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 render target view");
+
+					renderTargetView = newRenderTargetView;
 
                     D3D11_TEXTURE2D_DESC desc;
                     backBuffer->GetDesc(&desc);
@@ -1093,11 +1073,18 @@ namespace ouzel
                         depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
                         depthStencilDesc.CPUAccessFlags = 0;
                         depthStencilDesc.MiscFlags = 0;
-                        if (FAILED(hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture)))
+
+						ID3D11Texture2D* newDepthStencilTexture;
+                        if (FAILED(hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &newDepthStencilTexture)))
                             throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 depth stencil texture");
 
-                        if (FAILED(hr = device->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView)))
+						depthStencilTexture = newDepthStencilTexture;
+
+						ID3D11DepthStencilView* newDepthStencilView;
+                        if (FAILED(hr = device->CreateDepthStencilView(depthStencilTexture.get(), nullptr, &newDepthStencilView)))
                             throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 depth stencil view");
+
+						depthStencilView = newDepthStencilView;
                     }
 
                     frameBufferWidth = desc.Width;
@@ -1122,7 +1109,7 @@ namespace ouzel
                 auto samplerStatesIterator = samplerStates.find(desc);
 
                 if (samplerStatesIterator != samplerStates.end())
-                    return samplerStatesIterator->second;
+                    return samplerStatesIterator->second.get();
                 else
                 {
                     D3D11_SAMPLER_DESC samplerStateDesc;

@@ -912,6 +912,9 @@
     <ClInclude Include="..\ouzel\graphics\StencilOperation.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Pointer.hpp">
+      <Filter>ouzel\graphics\direct3d11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">

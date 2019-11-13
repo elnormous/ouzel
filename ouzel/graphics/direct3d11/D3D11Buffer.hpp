@@ -20,6 +20,7 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "graphics/direct3d11/D3D11RenderResource.hpp"
+#include "graphics/direct3d11/D3D11Pointer.hpp"
 #include "graphics/BufferType.hpp"
 
 namespace ouzel
@@ -38,7 +39,6 @@ namespace ouzel
                        uint32_t initFlags,
                        const std::vector<uint8_t>& data,
                        uint32_t initSize);
-                ~Buffer();
 
                 void setData(const std::vector<uint8_t>& data);
 
@@ -46,7 +46,7 @@ namespace ouzel
                 inline auto getType() const noexcept { return type; }
                 inline auto getSize() const noexcept { return size; }
 
-                inline auto getBuffer() const noexcept { return buffer; }
+                inline auto& getBuffer() const noexcept { return buffer; }
 
             private:
                 void createBuffer(UINT newSize, const std::vector<uint8_t>& data);
@@ -54,7 +54,7 @@ namespace ouzel
                 BufferType type;
                 uint32_t flags = 0;
 
-                ID3D11Buffer* buffer = nullptr;
+                Pointer<ID3D11Buffer> buffer;
                 UINT size = 0;
             };
         } // namespace d3d11

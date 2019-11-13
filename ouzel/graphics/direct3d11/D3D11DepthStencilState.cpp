@@ -81,14 +81,13 @@ namespace ouzel
                 depthStencilStateDesc.BackFace.StencilPassOp = getStencilOperation(initBackFaceStencilPassOperation);
                 depthStencilStateDesc.BackFace.StencilFunc = getCompareFunction(initBackFaceStencilCompareFunction);
 
-                HRESULT hr;
-                if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilState)))
-                    throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 depth stencil state");
-            }
+				ID3D11DepthStencilState* newDepthStencilState;
 
-            DepthStencilState::~DepthStencilState()
-            {
-                if (depthStencilState) depthStencilState->Release();
+                HRESULT hr;
+                if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilState(&depthStencilStateDesc, &newDepthStencilState)))
+                    throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 depth stencil state");
+
+				depthStencilState = newDepthStencilState;
             }
         } // namespace d3d11
     } // namespace graphics

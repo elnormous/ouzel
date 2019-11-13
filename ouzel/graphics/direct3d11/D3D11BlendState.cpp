@@ -82,15 +82,13 @@ namespace ouzel
 
                 if (blendState) blendState->Release();
 
-                HRESULT hr;
-                if (FAILED(hr = renderDevice.getDevice()->CreateBlendState(&blendStateDesc, &blendState)))
-                    throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 blend state");
-            }
+				ID3D11BlendState* newBlendState;
 
-            BlendState::~BlendState()
-            {
-                if (blendState)
-                    blendState->Release();
+                HRESULT hr;
+                if (FAILED(hr = renderDevice.getDevice()->CreateBlendState(&blendStateDesc, &newBlendState)))
+                    throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 blend state");
+
+				blendState = newBlendState;
             }
         } // namespace d3d11
     } // namespace graphics
