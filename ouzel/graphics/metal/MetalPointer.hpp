@@ -65,11 +65,6 @@ namespace ouzel
 #endif
                 }
 
-                inline T operator->() const
-                {
-                    return p;
-                }
-
                 inline T get() const noexcept
                 {
                     return p;
