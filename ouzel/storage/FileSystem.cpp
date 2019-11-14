@@ -43,6 +43,7 @@
 #include "utils/Log.hpp"
 
 #if defined(__APPLE__)
+#  include "CfPointer.hpp"
 extern "C" id NSTemporaryDirectory();
 #endif
 
@@ -92,20 +93,16 @@ namespace ouzel
             if (!bundle)
                 throw std::runtime_error("Failed to get main bundle");
 
-            CFURLRef relativePath = CFBundleCopyResourcesDirectoryURL(bundle);
+            CfPointer<CFURLRef> relativePath = CFBundleCopyResourcesDirectoryURL(bundle);
             if (!relativePath)
                 throw std::runtime_error("Failed to get resource directory");
 
-            CFURLRef absolutePath = CFURLCopyAbsoluteURL(relativePath);
-            CFRelease(relativePath);
+            CfPointer<CFURLRef> absolutePath = CFURLCopyAbsoluteURL(relativePath.get());
+            CfPointer<CFStringRef> path = CFURLCopyFileSystemPath(absolutePath.get(), kCFURLPOSIXPathStyle);
 
-            CFStringRef path = CFURLCopyFileSystemPath(absolutePath, kCFURLPOSIXPathStyle);
-            CFRelease(absolutePath);
-
-            const CFIndex maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path);
+            const CFIndex maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path.get());
             std::vector<char> resourceDirectory(static_cast<size_t>(maximumSize));
-            const Boolean result = CFStringGetFileSystemRepresentation(path, resourceDirectory.data(), maximumSize);
-            CFRelease(path);
+            const Boolean result = CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.data(), maximumSize);
             if (!result)
                 throw std::runtime_error("Failed to get resource directory");
 

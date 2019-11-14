@@ -78,8 +78,8 @@ namespace ouzel
             private:
                 T p = nil;
             };
-        }
-    }
-}
+        } // namespace metal
+    } // namespace graphics
+} // namespace ouzel
 
 #endif // OUZEL_GRAPHICS_METALPOINTER_HPP
