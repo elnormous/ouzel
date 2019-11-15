@@ -76,7 +76,7 @@ namespace ouzel
 
             for (CFIndex i = 0; i < count; ++i)
             {
-                auto getElement = [](CFArrayRef elementArray, CFIndex i) {
+                auto getElement = [](CFArrayRef elementArray, CFIndex i) noexcept {
                     auto arrayValue = CFArrayGetValueAtIndex(elementArray, i);
                     IOHIDElementRef element;
                     memcpy(&element, &arrayValue, sizeof(IOHIDElementRef));

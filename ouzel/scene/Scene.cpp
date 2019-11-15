@@ -34,7 +34,7 @@ namespace ouzel
 
         void Scene::draw()
         {
-            std::stable_sort(layers.begin(), layers.end(), [](Layer* a, Layer* b) {
+            std::stable_sort(layers.begin(), layers.end(), [](Layer* a, Layer* b) noexcept {
                 return a->getOrder() > b->getOrder();
             });
 
@@ -98,7 +98,7 @@ namespace ouzel
                 result = true;
             }
 
-            auto ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const auto& other) {
+            auto ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const auto& other) noexcept {
                 return other.get() == layer;
             });
 

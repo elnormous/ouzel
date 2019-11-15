@@ -61,7 +61,7 @@ namespace ouzel
 
         void Cache::removeLoader(const Loader* loader)
         {
-            auto i = std::find_if(loaders.begin(), loaders.end(), [loader](const auto& ownedLoader){
+            auto i = std::find_if(loaders.begin(), loaders.end(), [loader](const auto& ownedLoader) noexcept {
                 return loader == ownedLoader.get();
             });
             if (i != loaders.end())

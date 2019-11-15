@@ -114,7 +114,7 @@ namespace ouzel
         inline T& leftTrim(T& s)
         {
             s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-                                            [](auto c) {return !isWhitespace(c);}));
+                                            [](auto c) noexcept {return !isWhitespace(c);}));
             return s;
         }
 
@@ -122,7 +122,7 @@ namespace ouzel
         inline T& rightTrim(T& s)
         {
             s.erase(std::find_if(s.rbegin(), s.rend(),
-                                 [](auto c) {return !isWhitespace(c);}).base(), s.end());
+                                 [](auto c) noexcept {return !isWhitespace(c);}).base(), s.end());
             return s;
         }
 

@@ -38,7 +38,7 @@ namespace ouzel
             if (i == eventHandlers.end())
             {
                 auto upperBound = std::upper_bound(eventHandlers.begin(), eventHandlers.end(), eventHandler,
-                                                   [](const EventHandler* a, const EventHandler* b) {
+                                                   [](const EventHandler* a, const EventHandler* b) noexcept {
                                                        return a->priority > b->priority;
                                                    });
 

@@ -145,7 +145,7 @@ namespace ouzel
                                        const Vector2F& pivot)
         {
             auto extension = storage::FileSystem::getExtensionPart(filename);
-            std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return toLower(c); });
+            std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c) noexcept { return toLower(c); });
             const std::vector<std::string> imageExtensions{"jpg", "jpeg", "png", "bmp", "tga"};
 
             if (std::find(imageExtensions.begin(), imageExtensions.end(), extension) != imageExtensions.end())
