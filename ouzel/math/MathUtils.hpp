@@ -41,12 +41,14 @@ namespace ouzel
     constexpr auto isSimdAvailable = false;
 #endif
 
-    template <typename T> constexpr T lerp(const T v0, const T v1, const T t) noexcept
+    template <typename T>
+    constexpr T lerp(const T v0, const T v1, const T t) noexcept
     {
         return (T(1) - t) * v0 + t * v1;
     }
 
-    template <typename T> constexpr T smoothStep(const T a, const T b, const T t) noexcept
+    template <typename T>
+    constexpr T smoothStep(const T a, const T b, const T t) noexcept
     {
         return lerp(a, b, t * t * (T(3) - T(2) * t));
     }
@@ -79,13 +81,15 @@ namespace ouzel
         return x * T(57.2957795130823208767);
     }
 
-    template <typename T> constexpr T clamp(const T x, const T lo, const T hi) noexcept
+    template <typename T>
+    constexpr T clamp(const T x, const T lo, const T hi) noexcept
     {
         return (x < lo) ? lo : ((x > hi) ? hi : x);
     }
 
     template <typename T>
-    constexpr auto isNearlyEqual(const T a, const T b, const T tolerance = std::numeric_limits<T>::min()) noexcept
+    constexpr auto isNearlyEqual(const T a, const T b,
+                                 const T tolerance = std::numeric_limits<T>::min()) noexcept
     {
         return (a - b) <= tolerance && (a - b) >= -tolerance;
     }
