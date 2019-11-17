@@ -10,7 +10,7 @@ namespace ouzel
         namespace d3d11
         {
             template <class T>
-            class Pointer
+            class Pointer final
             {
             public:
                 Pointer() noexcept = default;

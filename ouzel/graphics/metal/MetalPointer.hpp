@@ -15,7 +15,7 @@ namespace ouzel
         namespace metal
         {
             template <class T>
-            class Pointer
+            class Pointer final
             {
             public:
                 Pointer() noexcept = default;
