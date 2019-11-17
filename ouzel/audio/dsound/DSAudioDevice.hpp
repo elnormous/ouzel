@@ -1,7 +1,7 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_AUDIO_AUDIODEVICEDS_HPP
-#define OUZEL_AUDIO_AUDIODEVICEDS_HPP
+#ifndef OUZEL_AUDIO_DSAUDIODEVICE_HPP
+#define OUZEL_AUDIO_DSAUDIODEVICE_HPP
 
 #include "core/Setup.h"
 
@@ -72,4 +72,4 @@ namespace ouzel
 
 #endif
 
-#endif // OUZEL_AUDIO_AUDIODEVICEDS_HPP
+#endif // OUZEL_AUDIO_DSAUDIODEVICE_HPP
