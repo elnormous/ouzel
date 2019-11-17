@@ -3,6 +3,10 @@
 #ifndef OUZEL_GRAPHICS_METALPOINTER_HPP
 #define OUZEL_GRAPHICS_METALPOINTER_HPP
 
+#include "core/Setup.h"
+
+#if OUZEL_COMPILE_METAL
+
 #ifndef __OBJC__
 # include <objc/message.h>
 # include <objc/objc.h>
@@ -34,24 +38,25 @@ namespace ouzel
                     return *this;
                 }
 
-                Pointer(const Pointer& o) = delete;
-                Pointer& operator=(const Pointer& o) = delete;
+                Pointer(const Pointer&) = delete;
+                Pointer& operator=(const Pointer&) = delete;
 
-                inline Pointer(Pointer&& o) noexcept: p(o.p)
+                inline Pointer(Pointer&& other) noexcept: p(other.p)
                 {
-                    o.p = nil;
+                    other.p = nil;
                 }
 
-                inline Pointer& operator=(Pointer&& o) noexcept
+                inline Pointer& operator=(Pointer&& other) noexcept
                 {
+                    if (this == &other) return *this;
                     if (p)
 #ifdef __OBJC__
                         [p release];
 #else
                         objc_msgSend(p, sel_getUid("release"));
 #endif
-                    p = o.p;
-                    o.p = nil;
+                    p = other.p;
+                    other.p = nil;
                     return *this;
                 }
 
@@ -81,5 +86,7 @@ namespace ouzel
         } // namespace metal
     } // namespace graphics
 } // namespace ouzel
+
+#endif
 
 #endif // OUZEL_GRAPHICS_METALPOINTER_HPP

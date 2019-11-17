@@ -3,6 +3,10 @@
 #ifndef OUZEL_GRAPHICS_D3D11POINTER_HPP
 #define OUZEL_GRAPHICS_D3D11POINTER_HPP
 
+#include "core/Setup.h"
+
+#if OUZEL_COMPILE_DIRECT3D11
+
 namespace ouzel
 {
     namespace graphics
@@ -23,19 +27,20 @@ namespace ouzel
                     return *this;
                 }
 
-                Pointer(const Pointer& o) = delete;
-                Pointer& operator=(const Pointer& o) = delete;
+                Pointer(const Pointer&) = delete;
+                Pointer& operator=(const Pointer&) = delete;
 
-                inline Pointer(Pointer&& o) noexcept : p(o.p)
+                inline Pointer(Pointer&& other) noexcept : p(other.p)
                 {
-                    o.p = nil;
+                    other.p = nullptr;
                 }
 
-                inline Pointer& operator=(Pointer&& o) noexcept
+                inline Pointer& operator=(Pointer&& other) noexcept
                 {
+                    if (this == &other) return *this;
                     if (p) p->Release();
-                    p = o.p;
-                    o.p = nil;
+                    p = other.p;
+                    other.p = nullptr;
                     return *this;
                 }
 
@@ -65,5 +70,7 @@ namespace ouzel
         } // namespace d3d11
     } // namespace graphics
 } // namespace ouzel
+
+#endif
 
 #endif // OUZEL_GRAPHICS_D3D11POINTER_HPP
