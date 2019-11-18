@@ -548,7 +548,7 @@ namespace ouzel
 
         const UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
-        RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
+        RECT rect = {0, 0, static_cast<LONG>(width), static_cast<LONG>(height)};
         if (!AdjustWindowRectEx(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE, windowExStyle))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to adjust window rectangle");
 

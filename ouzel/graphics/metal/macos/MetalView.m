@@ -19,7 +19,7 @@
 
         CAMetalLayer* metalLayer = [[[CAMetalLayer alloc] init] autorelease];
 
-        CGFloat bgColor[] = { 0.0, 0.0, 0.0, 0.0 };
+        CGFloat bgColor[] = {0.0, 0.0, 0.0, 0.0};
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGColorRef backgroundColor = CGColorCreate(colorSpace, bgColor);
 
