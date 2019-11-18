@@ -114,7 +114,7 @@ namespace ouzel
 
                 WAVEFORMATEX waveFormat;
                 waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
-                waveFormat.nChannels = channels;
+                waveFormat.nChannels = static_cast<WORD>(channels);
                 waveFormat.nSamplesPerSec = sampleRate;
                 waveFormat.wBitsPerSample = sizeof(float) * 8;
                 waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
