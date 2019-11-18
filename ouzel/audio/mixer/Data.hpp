@@ -23,12 +23,12 @@ namespace ouzel
                 inline auto getSampleRate() const noexcept { return sampleRate; }
 
                 /*virtual void getData(uint32_t frames,
-                                     uint16_t channels,
+                                     uint32_t channels,
                                      uint32_t sampleRate,
                                      std::vector<float>& samples) = 0;*/
 
             protected:
-                uint16_t channels = 0;
+                uint32_t channels = 0;
                 uint32_t sampleRate = 0;
             };
         }

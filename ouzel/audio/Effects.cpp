@@ -19,7 +19,7 @@ namespace ouzel
             {
             }
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) final
             {
                 const auto delayFrames = static_cast<uint32_t>(delay * sampleRate);
@@ -27,7 +27,7 @@ namespace ouzel
 
                 buffer.resize(bufferFrames * channels);
 
-                for (uint16_t channel = 0; channel < channels; ++channel)
+                for (uint32_t channel = 0; channel < channels; ++channel)
                 {
                     float* bufferChannel = &buffer[channel * bufferFrames];
                     float* outputChannel = &samples[channel * frames];
@@ -93,7 +93,7 @@ namespace ouzel
             {
             }
 
-            void process(uint32_t, uint16_t, uint32_t,
+            void process(uint32_t, uint32_t, uint32_t,
                          std::vector<float>& samples) final
             {
                 for (float& sample : samples)
@@ -145,7 +145,7 @@ namespace ouzel
             {
             }
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) final
             {
             }
@@ -246,12 +246,12 @@ namespace ouzel
             {
             }
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) final
             {
                 pitchShift.resize(channels);
 
-                for (uint16_t channel = 0; channel < channels; ++channel)
+                for (uint32_t channel = 0; channel < channels; ++channel)
                     pitchShift[channel].process(scale, frames, sampleRate,
                                                 &samples[channel * frames],
                                                 &samples[channel * frames]);
@@ -302,7 +302,7 @@ namespace ouzel
             {
             }
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) final
             {
                 // TODO: implement
@@ -352,7 +352,7 @@ namespace ouzel
             {
             }
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) final
             {
                 const auto delayFrames = static_cast<uint32_t>(delay * sampleRate);
@@ -360,7 +360,7 @@ namespace ouzel
 
                 buffers.resize(channels);
 
-                for (uint16_t channel = 0; channel < channels; ++channel)
+                for (uint32_t channel = 0; channel < channels; ++channel)
                 {
                     std::vector<float>& buffer = buffers[channel];
                     buffer.resize(bufferFrames);

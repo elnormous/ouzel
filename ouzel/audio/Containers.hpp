@@ -19,7 +19,7 @@ namespace ouzel
         class Parallel final: public Container
         {
         public:
-            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
+            void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) override
             {
             }
         };
@@ -27,7 +27,7 @@ namespace ouzel
         class Random final: public Container
         {
         public:
-            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
+            void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) override
             {
             }
         };
@@ -35,7 +35,7 @@ namespace ouzel
         class Sequence final: public Container
         {
         public:
-            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
+            void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) override
             {
             }
         };

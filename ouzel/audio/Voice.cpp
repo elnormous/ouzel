@@ -30,7 +30,7 @@ namespace ouzel
                     source->stop(shouldReset);
             }
 
-            void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) override
+            void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) override
             {
                 if (source)
                     source->getSamples(frames, channels, sampleRate, samples);

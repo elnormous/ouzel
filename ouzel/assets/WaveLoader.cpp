@@ -28,7 +28,7 @@ namespace ouzel
         {
             try
             {
-                uint16_t channels = 0;
+                uint32_t channels = 0;
                 uint32_t sampleRate = 0;
 
                 const uint32_t formatOffset = 0;
@@ -102,7 +102,7 @@ namespace ouzel
                             throw std::runtime_error("Failed to load sound file, unsupported format");
 
                         const uint32_t channelsOffset = formatTagOffset + 2;
-                        channels = static_cast<uint16_t>(data[channelsOffset + 0] |
+                        channels = static_cast<uint32_t>(data[channelsOffset + 0] |
                                                          (data[channelsOffset + 1] << 8));
 
                         if (!channels)

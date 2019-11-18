@@ -32,7 +32,7 @@ namespace ouzel
         class PcmData final: public mixer::Data
         {
         public:
-            PcmData(uint16_t initChannels, uint32_t initSampleRate,
+            PcmData(uint32_t initChannels, uint32_t initSampleRate,
                     const std::vector<float>& initSamples):
                 samples(initSamples)
             {
@@ -93,7 +93,7 @@ namespace ouzel
             }
         }
 
-        PcmClip::PcmClip(Audio& initAudio, uint16_t channels, uint32_t sampleRate,
+        PcmClip::PcmClip(Audio& initAudio, uint32_t channels, uint32_t sampleRate,
                           const std::vector<float>& samples):
             Sound(initAudio,
                   initAudio.initData(std::unique_ptr<mixer::Data>(data = new PcmData(channels, sampleRate, samples))),

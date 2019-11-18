@@ -100,7 +100,7 @@ namespace ouzel
         namespace
         {
             std::unique_ptr<AudioDevice> createAudioDevice(Driver driver,
-                                                           const std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)>& dataGetter,
+                                                           const std::function<void(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples)>& dataGetter,
                                                            bool debugAudio)
             {
                 switch (driver)
@@ -211,7 +211,7 @@ namespace ouzel
             addCommand(std::make_unique<mixer::UpdateProcessorCommand>(processorId, updateFunction));
         }
 
-        void Audio::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
+        void Audio::getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
             mixer.getSamples(frames, channels, sampleRate, samples);
         }

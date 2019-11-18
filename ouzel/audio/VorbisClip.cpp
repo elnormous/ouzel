@@ -82,7 +82,7 @@ namespace ouzel
 
                 stb_vorbis_info info = stb_vorbis_get_info(vorbisStream);
 
-                channels = static_cast<uint16_t>(info.channels);
+                channels = static_cast<uint32_t>(info.channels);
                 sampleRate = info.sample_rate;
 
                 stb_vorbis_close(vorbisStream);

@@ -18,7 +18,7 @@ namespace ouzel
 
             virtual void play() {}
             virtual void stop(bool shouldReset) { (void)shouldReset; }
-            virtual void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
+            virtual void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
 
             auto& getEffects() const noexcept { return effects; }
 

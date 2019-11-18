@@ -34,7 +34,7 @@ namespace ouzel
                 if (output) output->addInput(this);
             }
 
-            static void resample(uint16_t channels, uint32_t sourceFrames, const std::vector<float>& sourceSamples,
+            static void resample(uint32_t channels, uint32_t sourceFrames, const std::vector<float>& sourceSamples,
                                  uint32_t frames, std::vector<float>& samples)
             {
                 if (sourceFrames != frames)
@@ -76,8 +76,8 @@ namespace ouzel
                     samples = sourceSamples;
             }
 
-            static void convert(uint32_t frames, uint16_t sourceChannels, const std::vector<float>& sourceSamples,
-                                uint16_t channels, std::vector<float>& samples)
+            static void convert(uint32_t frames, uint32_t sourceChannels, const std::vector<float>& sourceSamples,
+                                uint32_t channels, std::vector<float>& samples)
             {
                 samples.resize(frames * channels);
 
@@ -228,7 +228,7 @@ namespace ouzel
                     samples = sourceSamples;
             }
 
-            void Bus::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void Bus::getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                                  const Vector3F& listenerPosition, const QuaternionF& listenerRotation,
                                  std::vector<float>& samples)
             {
@@ -248,7 +248,7 @@ namespace ouzel
                     if (stream->isPlaying())
                     {
                         const uint32_t sourceSampleRate = stream->getData().getSampleRate();
-                        const uint16_t sourceChannels = stream->getData().getChannels();
+                        const uint32_t sourceChannels = stream->getData().getChannels();
 
                         if (sourceSampleRate != sampleRate)
                         {

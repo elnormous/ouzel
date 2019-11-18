@@ -74,9 +74,9 @@ namespace ouzel
 
             AudioDevice::AudioDevice(uint32_t initBufferSize,
                                      uint32_t initSampleRate,
-                                     uint16_t initChannels,
+                                     uint32_t initChannels,
                                      const std::function<void(uint32_t frames,
-                                                              uint16_t channels,
+                                                              uint32_t channels,
                                                               uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
                 audio::AudioDevice(Driver::OpenSL, initBufferSize, initSampleRate, initChannels, initDataGetter)

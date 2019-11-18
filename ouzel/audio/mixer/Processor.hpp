@@ -28,7 +28,7 @@ namespace ouzel
                 Processor(Processor&&) = delete;
                 Processor& operator=(Processor&&) = delete;
 
-                virtual void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+                virtual void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                                      std::vector<float>& samples) = 0;
 
                 inline auto isEnabled() const noexcept { return enabled; }

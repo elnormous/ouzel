@@ -25,7 +25,7 @@ namespace ouzel
             class RootObject final: public Object
             {
             public:
-                void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) final
+                void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) final
                 {
                     samples.resize(frames * channels);
                     std::fill(samples.begin(), samples.end(), 0.0F);
@@ -66,7 +66,7 @@ namespace ouzel
                 };
 
                 Mixer(uint32_t initBufferSize,
-                      uint16_t initChannels,
+                      uint32_t initChannels,
                       const std::function<void(const Event&)>& initCallback);
 
                 ~Mixer();
@@ -78,7 +78,7 @@ namespace ouzel
                 Mixer& operator=(Mixer&&) = delete;
 
                 void process();
-                void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples);
+                void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples);
 
                 uintptr_t getObjectId()
                 {
@@ -115,7 +115,7 @@ namespace ouzel
                 void mixerMain();
 
                 uint32_t bufferSize;
-                uint16_t channels;
+                uint32_t channels;
                 std::function<void(const Event&)> callback;
 
                 uintptr_t lastObjectId = 0;
@@ -130,7 +130,7 @@ namespace ouzel
                 class Buffer final
                 {
                 public:
-                    Buffer(size_t size, uint16_t initChannels):
+                    Buffer(size_t size, uint32_t initChannels):
                         maxFrames(size),
                         channels(initChannels),
                         buffer(size * channels)
@@ -143,7 +143,7 @@ namespace ouzel
                 private:
                     size_t frames = 0;
                     size_t maxFrames;
-                    uint16_t channels;
+                    uint32_t channels;
                     size_t readPosition = 0;
                     size_t writePosition = 0;
                     std::vector<float> buffer;

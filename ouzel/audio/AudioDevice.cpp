@@ -9,9 +9,9 @@ namespace ouzel
         AudioDevice::AudioDevice(Driver initDriver,
                                  uint32_t initBufferSize,
                                  uint32_t initSampleRate,
-                                 uint16_t initChannels,
+                                 uint32_t initChannels,
                                  const std::function<void(uint32_t frames,
-                                                          uint16_t channels,
+                                                          uint32_t channels,
                                                           uint32_t sampleRate,
                                                           std::vector<float>& samples)>& initDataGetter):
             driver(initDriver),
@@ -33,7 +33,7 @@ namespace ouzel
                     result.resize(frames * channels * sizeof(int16_t));
                     int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
 
-                    for (uint16_t channel = 0; channel < channels; ++channel)
+                    for (uint32_t channel = 0; channel < channels; ++channel)
                     {
                         float* bufferChannel = &buffer[channel * frames];
 
@@ -47,7 +47,7 @@ namespace ouzel
                     result.resize(frames * channels * sizeof(float));
                     float* resultPtr = reinterpret_cast<float*>(result.data());
 
-                    for (uint16_t channel = 0; channel < channels; ++channel)
+                    for (uint32_t channel = 0; channel < channels; ++channel)
                     {
                         float* bufferChannel = &buffer[channel * frames];
 

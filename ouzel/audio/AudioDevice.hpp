@@ -18,9 +18,9 @@ namespace ouzel
             AudioDevice(Driver initDriver,
                         uint32_t initBufferSize,
                         uint32_t initSampleRate,
-                        uint16_t initChannels, // zero for maximum available channels
+                        uint32_t initChannels, // zero for maximum available channels
                         const std::function<void(uint32_t frames,
-                                                 uint16_t channels,
+                                                 uint32_t channels,
                                                  uint32_t sampleRate,
                                                  std::vector<float>& samples)>& initDataGetter);
             virtual ~AudioDevice() = default;
@@ -54,10 +54,10 @@ namespace ouzel
             SampleFormat sampleFormat = SampleFormat::SignedInt16;
             uint32_t bufferSize; // in frames
             uint32_t sampleRate;
-            uint16_t channels;
+            uint32_t channels;
 
         private:
-            std::function<void(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)> dataGetter;
+            std::function<void(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples)> dataGetter;
             std::vector<float> buffer;
         };
     } // namespace audio
