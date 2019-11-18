@@ -12,6 +12,7 @@
 #include <Audioclient.h>
 #include <mmdeviceapi.h>
 #include "audio/AudioDevice.hpp"
+#include "audio/wasapi/WASAPIPointer.hpp"
 #include "utils/Thread.hpp"
 
 namespace ouzel
@@ -38,11 +39,11 @@ namespace ouzel
             private:
                 void run();
 
-                IMMDeviceEnumerator* enumerator = nullptr;
-                IMMDevice* device = nullptr;
-                IMMNotificationClient* notificationClient = nullptr;
-                IAudioClient* audioClient = nullptr;
-                IAudioRenderClient* renderClient = nullptr;
+                Pointer<IMMDeviceEnumerator> enumerator;
+                Pointer<IMMDevice> device;
+                Pointer<IMMNotificationClient> notificationClient;
+                Pointer<IAudioClient> audioClient;
+                Pointer<IAudioRenderClient> renderClient;
                 HANDLE notifyEvent = nullptr;
 
                 UINT32 bufferFrameCount;

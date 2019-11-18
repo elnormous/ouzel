@@ -918,6 +918,9 @@
     <ClInclude Include="..\ouzel\audio\dsound\DSPointer.hpp">
       <Filter>ouzel\audio\directsound</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\audio\wasapi\WASAPIPointer.hpp">
+      <Filter>ouzel\audio\wasapi</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">

@@ -172,19 +172,29 @@ namespace ouzel
                 audio::AudioDevice(Driver::WASAPI, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
                 HRESULT hr;
-                if (FAILED(hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, reinterpret_cast<LPVOID*>(&enumerator))))
+
+                LPVOID enumeratorPointer;
+                if (FAILED(hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, &enumeratorPointer)))
                     throw std::system_error(hr, errorCategory, "Failed to create device enumerator");
 
-                if (FAILED(hr = enumerator->GetDefaultAudioEndpoint(eRender, eConsole, &device)))
+                enumerator = static_cast<IMMDeviceEnumerator*>(enumeratorPointer);
+
+                IMMDevice* devicePointer;
+                if (FAILED(hr = enumerator->GetDefaultAudioEndpoint(eRender, eConsole, &devicePointer)))
                     throw std::system_error(hr, errorCategory, "Failed to get audio endpoint");
+
+                device = devicePointer;
 
                 notificationClient = new NotificationClient();
 
-                if (FAILED(hr = enumerator->RegisterEndpointNotificationCallback(notificationClient)))
+                if (FAILED(hr = enumerator->RegisterEndpointNotificationCallback(notificationClient.get())))
                     throw std::system_error(hr, errorCategory, "Failed to get audio endpoint");
 
-                if (FAILED(hr = device->Activate(IID_IAudioClient, CLSCTX_ALL, nullptr, reinterpret_cast<void**>(&audioClient))))
+                void* audioClientPointer;
+                if (FAILED(hr = device->Activate(IID_IAudioClient, CLSCTX_ALL, nullptr, &audioClientPointer)))
                     throw std::system_error(hr, errorCategory, "Failed to activate audio device");
+
+                audioClient = static_cast<IAudioClient*>(audioClientPointer);
 
                 WAVEFORMATEX* audioClientWaveFormat;
 
@@ -240,8 +250,11 @@ namespace ouzel
                     throw std::system_error(hr, errorCategory, "Failed to get audio buffer size");
                 bufferSize = bufferFrameCount * channels;
 
-                if (FAILED(hr = audioClient->GetService(IID_IAudioRenderClient, reinterpret_cast<void**>(&renderClient))))
+                void* renderClientPointer;
+                if (FAILED(hr = audioClient->GetService(IID_IAudioRenderClient, &renderClientPointer)))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get render client service");
+
+                renderClient = static_cast<IAudioRenderClient*>(renderClientPointer);
 
                 notifyEvent = CreateEvent(nullptr, false, false, nullptr);
                 if (!notifyEvent)
@@ -260,15 +273,7 @@ namespace ouzel
 
                 if (notifyEvent) CloseHandle(notifyEvent);
 
-                if (renderClient) renderClient->Release();
-                if (audioClient)
-                {
-                    if (started) audioClient->Stop();
-                    audioClient->Release();
-                }
-                if (notificationClient) notificationClient->Release();
-                if (device) device->Release();
-                if (enumerator) enumerator->Release();
+                if (audioClient && started) audioClient->Stop();
             }
 
             void AudioDevice::start()

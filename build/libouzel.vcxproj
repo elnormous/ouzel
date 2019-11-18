@@ -191,6 +191,7 @@
     <ClInclude Include="..\ouzel\audio\Node.hpp" />
     <ClInclude Include="..\ouzel\audio\Oscillator.hpp" />
     <ClInclude Include="..\ouzel\audio\VorbisClip.hpp" />
+    <ClInclude Include="..\ouzel\audio\wasapi\WASAPIPointer.hpp" />
     <ClInclude Include="..\ouzel\audio\WavePlayer.hpp" />
     <ClInclude Include="..\ouzel\audio\PcmClip.hpp" />
     <ClInclude Include="..\ouzel\audio\Mix.hpp" />
