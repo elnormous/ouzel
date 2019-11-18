@@ -915,6 +915,9 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Pointer.hpp">
       <Filter>ouzel\graphics\direct3d11</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\audio\dsound\DSPointer.hpp">
+      <Filter>ouzel\audio\directsound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">

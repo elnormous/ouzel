@@ -167,6 +167,7 @@
     <ClInclude Include="..\ouzel\audio\Cue.hpp" />
     <ClInclude Include="..\ouzel\audio\Driver.hpp" />
     <ClInclude Include="..\ouzel\audio\dsound\DSAudioDevice.hpp" />
+    <ClInclude Include="..\ouzel\audio\dsound\DSPointer.hpp" />
     <ClInclude Include="..\ouzel\audio\empty\EmptyAudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\Containers.hpp" />
     <ClInclude Include="..\ouzel\audio\Effect.hpp" />

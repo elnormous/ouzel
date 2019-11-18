@@ -23,6 +23,7 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "audio/AudioDevice.hpp"
+#include "audio/dsound/DSPointer.hpp"
 #include "utils/Thread.hpp"
 
 namespace ouzel
@@ -46,16 +47,16 @@ namespace ouzel
                 void start() final;
                 void stop() final;
 
-                inline auto getDirectSound() const noexcept { return directSound; }
+                inline auto& getDirectSound() const noexcept { return directSound; }
 
             private:
                 void run();
 
-                IDirectSound8* directSound = nullptr;
+                Pointer<IDirectSound8> directSound;
 
-                IDirectSoundBuffer* primaryBuffer = nullptr;
-                IDirectSoundBuffer8* buffer = nullptr;
-                IDirectSoundNotify* notify = nullptr;
+                Pointer<IDirectSoundBuffer> primaryBuffer;
+                Pointer<IDirectSoundBuffer8> buffer;
+                Pointer<IDirectSoundNotify> notify;
                 HANDLE notifyEvents[2] = {nullptr, nullptr};
 
                 uint32_t nextBuffer = 0;
