@@ -86,19 +86,25 @@ namespace ouzel
                 const SLInterfaceID engineMixIID = SL_IID_ENGINE;
                 constexpr SLboolean engineMixReq = SL_BOOLEAN_TRUE;
 
-                if ((result = slCreateEngine(&engineObject, 0, nullptr, engineMixIIDCount, &engineMixIID, &engineMixReq)) != SL_RESULT_SUCCESS)
+                SLObjectItf engineObjectPointer;
+                if ((result = slCreateEngine(&engineObjectPointer, 0, nullptr, engineMixIIDCount, &engineMixIID, &engineMixReq)) != SL_RESULT_SUCCESS)
+                    throw std::system_error(makeErrorCode(result), "Failed to create OpenSL engine object");
+                
+                engineObject = engineObjectPointer;
+
+                if ((result = engineObject->Realize(engineObject.get(), SL_BOOLEAN_FALSE)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to create OpenSL engine object");
 
-                if ((result = (*engineObject)->Realize(engineObject, SL_BOOLEAN_FALSE)) != SL_RESULT_SUCCESS)
-                    throw std::system_error(makeErrorCode(result), "Failed to create OpenSL engine object");
-
-                if ((result = (*engineObject)->GetInterface(engineObject, SL_IID_ENGINE, &engine)) != SL_RESULT_SUCCESS)
+                if ((result = engineObject->GetInterface(engineObject.get(), SL_IID_ENGINE, &engine)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to get OpenSL engine");
 
-                if ((result = (*engine)->CreateOutputMix(engine, &outputMixObject, 0, nullptr, nullptr)) != SL_RESULT_SUCCESS)
+                SLObjectItf outputMixObjectPointer;
+                if ((result = (*engine)->CreateOutputMix(engine, &outputMixObjectPointer, 0, nullptr, nullptr)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to create OpenSL output mix");
+                
+                outputMixObject = outputMixObjectPointer;
 
-                if ((result = (*outputMixObject)->Realize(outputMixObject, SL_BOOLEAN_FALSE)) != SL_RESULT_SUCCESS)
+                if ((result = outputMixObject->Realize(outputMixObject.get(), SL_BOOLEAN_FALSE)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to create OpenSL output mix");
 
                 SLDataLocator_AndroidSimpleBufferQueue location = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE, 2};
@@ -126,27 +132,30 @@ namespace ouzel
                 dataFormat.endianness = SL_BYTEORDER_LITTLEENDIAN;
 
                 SLDataSource dataSource{&location, &dataFormat};
-                SLDataLocator_OutputMix dataLocatorOut{SL_DATALOCATOR_OUTPUTMIX, outputMixObject};
+                SLDataLocator_OutputMix dataLocatorOut{SL_DATALOCATOR_OUTPUTMIX, outputMixObject.get()};
                 SLDataSink dataSink{&dataLocatorOut, nullptr};
                 constexpr SLuint32 playerIIDCount = 3;
                 const SLInterfaceID playerIIDs[] = {SL_IID_BUFFERQUEUE, SL_IID_PLAY, SL_IID_VOLUME};
                 constexpr SLboolean playerReqs[] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};
 
-                if ((result = (*engine)->CreateAudioPlayer(engine, &playerObject, &dataSource, &dataSink, playerIIDCount, playerIIDs, playerReqs)) != SL_RESULT_SUCCESS)
+                SLObjectItf playerObjectPointer;
+                if ((result = (*engine)->CreateAudioPlayer(engine, &playerObjectPointer, &dataSource, &dataSink, playerIIDCount, playerIIDs, playerReqs)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to create OpenSL player object");
+
+                playerObject = playerObjectPointer;
 
                 sampleFormat = SampleFormat::SignedInt16;
 
-                if ((result = (*playerObject)->Realize(playerObject, SL_BOOLEAN_FALSE)) != SL_RESULT_SUCCESS)
+                if ((result = playerObject->Realize(playerObject.get(), SL_BOOLEAN_FALSE)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to create OpenSL player object");
 
-                if ((result = (*playerObject)->GetInterface(playerObject, SL_IID_PLAY, &player)) != SL_RESULT_SUCCESS)
+                if ((result = playerObject->GetInterface(playerObject.get(), SL_IID_PLAY, &player)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to get OpenSL player interface");
 
-                if ((result = (*playerObject)->GetInterface(playerObject, SL_IID_BUFFERQUEUE, &bufferQueue)) != SL_RESULT_SUCCESS)
+                if ((result = playerObject->GetInterface(playerObject.get(), SL_IID_BUFFERQUEUE, &bufferQueue)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to get OpenSL buffer queue interface");
 
-                if ((result = (*playerObject)->GetInterface(playerObject, SL_IID_VOLUME, &playerVolume)) != SL_RESULT_SUCCESS)
+                if ((result = playerObject->GetInterface(playerObject.get(), SL_IID_VOLUME, &playerVolume)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to get OpenSL volume interface");
 
                 if ((result = (*bufferQueue)->Clear(bufferQueue)) != SL_RESULT_SUCCESS)
@@ -154,18 +163,6 @@ namespace ouzel
 
                 if ((result = (*bufferQueue)->RegisterCallback(bufferQueue, playerCallback, this)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to register OpenSL buffer queue callback");
-            }
-
-            AudioDevice::~AudioDevice()
-            {
-                if (playerObject)
-                    (*playerObject)->Destroy(playerObject);
-
-                if (outputMixObject)
-                    (*outputMixObject)->Destroy(outputMixObject);
-
-                if (engineObject)
-                    (*engineObject)->Destroy(engineObject);
             }
 
             void AudioDevice::start()

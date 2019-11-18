@@ -12,6 +12,7 @@
 #include <SLES/OpenSLES_AndroidConfiguration.h>
 
 #include "audio/AudioDevice.hpp"
+#include "audio/opensl/OSLPointer.hpp"
 
 namespace ouzel
 {
@@ -29,7 +30,6 @@ namespace ouzel
                                                      uint16_t channels,
                                                      uint32_t sampleRate,
                                                      std::vector<float>& samples)>& initDataGetter);
-                ~AudioDevice();
 
                 void start() final;
                 void stop() final;
@@ -37,14 +37,13 @@ namespace ouzel
                 void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
                 inline auto getEngine() const noexcept { return engine; }
-                inline auto getOutputMix() const noexcept { return outputMixObject; }
 
             private:
-                SLObjectItf engineObject = nullptr;
+                Pointer<SLObjectItf> engineObject;
                 SLEngineItf engine = nullptr;
-                SLObjectItf outputMixObject = nullptr;
+                Pointer<SLObjectItf> outputMixObject;
 
-                SLObjectItf playerObject = nullptr;
+                Pointer<SLObjectItf> playerObject;
                 SLPlayItf player = nullptr;
                 SLAndroidSimpleBufferQueueItf bufferQueue = nullptr;
                 SLVolumeItf playerVolume = nullptr;
