@@ -18,7 +18,7 @@ namespace ouzel
                 inline auto getChannels() const noexcept { return channels; }
                 inline auto getSampleRate() const noexcept { return sampleRate; }
 
-                void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) final
+                void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) final
                 {
                 }
 

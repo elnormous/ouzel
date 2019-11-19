@@ -55,7 +55,7 @@ namespace ouzel
             position = 0;
         }
 
-        void Oscillator::getSamples(uint32_t frames, uint16_t channels,
+        void Oscillator::getSamples(uint32_t frames, uint32_t channels,
                                     uint32_t sampleRate, std::vector<float>& samples)
         {
             if (length > 0.0F)

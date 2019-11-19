@@ -42,7 +42,7 @@ namespace ouzel
 
                 inline bool isPlaying() const { return playing; }
 
-                void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
+                void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples)
                 {
                     samples.resize(frames * channels);
                     std::fill(samples.begin(), samples.end(), 0.0F); // TODO: fill only the needed samples

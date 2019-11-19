@@ -28,7 +28,7 @@ namespace ouzel
             Delay(Delay&&) = delete;
             Delay& operator=(Delay&&) = delete;
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override;
 
             inline auto getDelay() const noexcept { return delay; }
@@ -53,7 +53,7 @@ namespace ouzel
             Gain(Gain&&) = delete;
             Gain& operator=(Gain&&) = delete;
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override;
 
             inline auto getGain() const noexcept { return gain; }
@@ -78,7 +78,7 @@ namespace ouzel
             Panner(Panner&&) = delete;
             Panner& operator=(Panner&&) = delete;
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override;
 
             inline auto& getPosition() const noexcept { return position; }
@@ -98,7 +98,7 @@ namespace ouzel
             PitchScale(PitchScale&&) = delete;
             PitchScale& operator=(PitchScale&&) = delete;
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override;
 
             inline auto getScale() const noexcept { return scale; }
@@ -123,7 +123,7 @@ namespace ouzel
             PitchShift(PitchShift&&) = delete;
             PitchShift& operator=(PitchShift&&) = delete;
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override;
 
             inline auto getShift() const noexcept { return shift; }
@@ -147,7 +147,7 @@ namespace ouzel
             Reverb(Reverb&&) = delete;
             Reverb& operator=(Reverb&&) = delete;
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override;
 
             inline auto getDelay() const noexcept { return delay; }
@@ -169,7 +169,7 @@ namespace ouzel
             LowPass(LowPass&&) = delete;
             LowPass& operator=(LowPass&&) = delete;
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override;
         };
 
@@ -183,7 +183,7 @@ namespace ouzel
             HighPass(HighPass&&) = delete;
             HighPass& operator=(HighPass&&) = delete;
 
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override;
         };
     } // namespace audio

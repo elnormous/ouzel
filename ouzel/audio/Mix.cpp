@@ -14,7 +14,7 @@ namespace ouzel
         class MixProcessor: public mixer::Processor
         {
         public:
-            void process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                          std::vector<float>& samples) override
             {
             }

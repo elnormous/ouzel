@@ -10,7 +10,7 @@ namespace ouzel
         {
         }
 
-        void Parallel::getSamples(uint32_t frames, uint16_t channels,
+        void Parallel::getSamples(uint32_t frames, uint32_t channels,
                                   uint32_t sampleRate, std::vector<float>& samples)
         {
         }
@@ -19,7 +19,7 @@ namespace ouzel
         {
         }
 
-        void Random::getSamples(uint32_t frames, uint16_t channels,
+        void Random::getSamples(uint32_t frames, uint32_t channels,
                                 uint32_t sampleRate, std::vector<float>& samples)
         {
         }
@@ -28,7 +28,7 @@ namespace ouzel
         {
         }
 
-        void Sequence::getSamples(uint32_t frames, uint16_t channels,
+        void Sequence::getSamples(uint32_t frames, uint32_t channels,
                                   uint32_t sampleRate, std::vector<float>& samples)
         {
         }

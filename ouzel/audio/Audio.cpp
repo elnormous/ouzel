@@ -200,7 +200,7 @@ namespace ouzel
             return dataId;
         }
 
-        void Audio::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples)
+        void Audio::getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples)
         {
             mixer.getSamples(frames, channels, sampleRate, samples);
         }

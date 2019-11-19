@@ -31,9 +31,8 @@ namespace ouzel
             }
 
             virtual void reset() = 0;
-            virtual void getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
+            virtual void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
 
-            const auto& getEffects() const noexcept { return effects; }
             bool isPlaying() const noexcept { return playing; }
 
         private:

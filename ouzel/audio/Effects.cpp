@@ -17,7 +17,7 @@ namespace ouzel
         {
         }
 
-        void Delay::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+        void Delay::process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                             std::vector<float>& samples)
         {
             const auto delayFrames = static_cast<uint32_t>(delay * sampleRate);
@@ -25,7 +25,7 @@ namespace ouzel
 
             buffer.resize(bufferFrames * channels);
 
-            for (uint16_t channel = 0; channel < channels; ++channel)
+            for (uint32_t channel = 0; channel < channels; ++channel)
             {
                 float* bufferChannel = &buffer[channel * bufferFrames];
                 float* outputChannel = &samples[channel * frames];
@@ -63,8 +63,8 @@ namespace ouzel
         {
         }
 
-        void Gain::process(uint32_t, uint16_t, uint32_t,
-                     std::vector<float>& samples)
+        void Gain::process(uint32_t, uint32_t, uint32_t,
+                           std::vector<float>& samples)
         {
             for (float& sample : samples)
                 sample *= gainFactor;
@@ -87,7 +87,7 @@ namespace ouzel
         {
         }
 
-        void Panner::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+        void Panner::process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                              std::vector<float>& samples)
         {
         }
@@ -109,12 +109,12 @@ namespace ouzel
         {
         }
 
-        void PitchScale::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+        void PitchScale::process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                                  std::vector<float>& samples)
         {
             pitchShift.resize(channels);
 
-            for (uint16_t channel = 0; channel < channels; ++channel)
+            for (uint32_t channel = 0; channel < channels; ++channel)
                 pitchShift[channel].process(scale, frames, sampleRate,
                                             &samples[channel * frames],
                                             &samples[channel * frames]);
@@ -137,7 +137,7 @@ namespace ouzel
         {
         }
 
-        void PitchShift::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+        void PitchShift::process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                                  std::vector<float>& samples)
         {
             // TODO: implement
@@ -161,7 +161,7 @@ namespace ouzel
         {
         }
 
-        void Reverb::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+        void Reverb::process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                              std::vector<float>& samples)
         {
             const auto delayFrames = static_cast<uint32_t>(delay * sampleRate);
@@ -169,7 +169,7 @@ namespace ouzel
 
             buffers.resize(channels);
 
-            for (uint16_t channel = 0; channel < channels; ++channel)
+            for (uint32_t channel = 0; channel < channels; ++channel)
             {
                 std::vector<float>& buffer = buffers[channel];
                 buffer.resize(bufferFrames);
@@ -195,7 +195,7 @@ namespace ouzel
         {
         }
 
-        void LowPass::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+        void LowPass::process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                               std::vector<float>& samples)
         {
         }
@@ -205,7 +205,7 @@ namespace ouzel
         {
         }
 
-        void HighPass::process(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+        void HighPass::process(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                                std::vector<float>& samples)
         {
         }

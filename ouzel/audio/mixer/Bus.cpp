@@ -231,7 +231,7 @@ namespace ouzel
                     samples = sourceSamples;
             }
 
-            void Bus::getSamples(uint32_t frames, uint16_t channels, uint32_t sampleRate,
+            void Bus::getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate,
                                  std::vector<float>& samples)
             {
                 samples.resize(frames * channels);
@@ -250,7 +250,7 @@ namespace ouzel
                     if (source->isPlaying())
                     {
                         /*const uint32_t sourceSampleRate = source->getData().getSampleRate();
-                        const uint16_t sourceChannels = source->getData().getChannels();
+                        const uint32_t sourceChannels = source->getData().getChannels();
 
                         if (sourceSampleRate != sampleRate)
                         {
