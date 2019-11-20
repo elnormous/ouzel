@@ -161,10 +161,6 @@ namespace ouzel
             device->start();
         }
 
-        Audio::~Audio()
-        {
-        }
-
         void Audio::update()
         {
             // TODO: handle events from the audio device

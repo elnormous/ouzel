@@ -39,12 +39,6 @@ namespace ouzel
                      bool newStencil,
                      bool newDebugRenderer);
 
-            Renderer(const Renderer&) = delete;
-            Renderer& operator=(const Renderer&) = delete;
-
-            Renderer(Renderer&&) = delete;
-            Renderer& operator=(Renderer&&) = delete;
-
             static Driver getDriver(const std::string& driver);
             static std::set<Driver> getAvailableRenderDrivers();
 

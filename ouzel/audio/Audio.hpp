@@ -8,6 +8,7 @@
 #include <memory>
 #include <set>
 #include <vector>
+#include "audio/AudioDevice.hpp"
 #include "audio/Driver.hpp"
 #include "audio/Mix.hpp"
 #include "audio/Node.hpp"
@@ -21,19 +22,12 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioDevice;
         class Listener;
 
         class Audio final
         {
         public:
             Audio(Driver driver, bool debugAudio);
-            ~Audio();
-
-            Audio(const Audio&) = delete;
-            Audio& operator=(const Audio&) = delete;
-            Audio(Audio&&) = delete;
-            Audio& operator=(Audio&&) = delete;
 
             static Driver getDriver(const std::string& driver);
             static std::set<Driver> getAvailableAudioDrivers();
