@@ -9,21 +9,14 @@ namespace ouzel
     {
     public:
         Timer() noexcept = default;
-        ~Timer() noexcept = default;
-
-        Timer(const Timer&) = delete;
-        Timer& operator=(const Timer&) = delete;
-
-        Timer(Timer&&) = delete;
-        Timer& operator=(Timer&&) = delete;
 
         void update(const float delta)
         {
             time += delta * scale;
         }
 
-        inline constexpr auto getTime() const noexcept { return time; }
-        inline constexpr auto getScale() const noexcept { return scale; }
+        inline auto getTime() const noexcept { return time; }
+        inline auto getScale() const noexcept { return scale; }
         inline void setScale(const float newScale) { scale = newScale; }
 
     private:
