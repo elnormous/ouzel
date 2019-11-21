@@ -17,7 +17,7 @@
     ouzel::NativeWindowIOS* window;
 }
 
--(id)initWithWindow:(ouzel::NativeWindowIOS*)initWindow
+- (id)initWithWindow:(ouzel::NativeWindowIOS*)initWindow
 {
     if (self = [super init])
         window = initWindow;
@@ -25,22 +25,22 @@
     return self;
 }
 
--(BOOL)prefersStatusBarHidden
+- (BOOL)prefersStatusBarHidden
 {
     return YES;
 }
 
--(void)textFieldDidChange:(__unused id)sender
+- (void)textFieldDidChange:(__unused id)sender
 {
 }
 
--(NSUInteger)supportedInterfaceOrientations
+- (NSUInteger)supportedInterfaceOrientations
 {
     // TODO: add setting to limit orientations
     return UIInterfaceOrientationMaskAll;
 }
 
--(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 

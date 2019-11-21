@@ -8,7 +8,7 @@
 
 @implementation MetalView
 
--(id)initWithFrame:(CGRect)frameRect
+- (id)initWithFrame:(CGRect)frameRect
 {
     if (self = [super initWithFrame:frameRect])
     {
@@ -31,7 +31,7 @@
     return self;
 }
 
-+(Class)layerClass
++ (Class)layerClass
 {
     return [CAMetalLayer class];
 }

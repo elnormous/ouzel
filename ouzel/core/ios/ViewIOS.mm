@@ -9,7 +9,7 @@
 
 @implementation ViewIOS
 
--(void)touchesBegan:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
+- (void)touchesBegan:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
     ouzel::input::InputSystemIOS* inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::TouchpadDevice* touchpadDevice = inputSystemIOS->getTouchpadDevice();
@@ -30,7 +30,7 @@
     }
 }
 
--(void)touchesMoved:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
+- (void)touchesMoved:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
     ouzel::input::InputSystemIOS* inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::TouchpadDevice* touchpadDevice = inputSystemIOS->getTouchpadDevice();
@@ -51,7 +51,7 @@
     }
 }
 
--(void)touchesEnded:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
+- (void)touchesEnded:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
     ouzel::input::InputSystemIOS* inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::TouchpadDevice* touchpadDevice = inputSystemIOS->getTouchpadDevice();
@@ -72,7 +72,7 @@
     }
 }
 
--(void)touchesCancelled:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
+- (void)touchesCancelled:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
     ouzel::input::InputSystemIOS* inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::TouchpadDevice* touchpadDevice = inputSystemIOS->getTouchpadDevice();
@@ -111,7 +111,7 @@ namespace
     }
 }
 
--(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event
+- (void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event
 {
     bool forward = false;
 
@@ -128,7 +128,7 @@ namespace
         [super pressesBegan:presses withEvent:event];
 }
 
--(void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event
+- (void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event
 {
     bool forward = false;
 
@@ -145,7 +145,7 @@ namespace
         [super pressesEnded:presses withEvent:event];
 }
 
--(void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event
+- (void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(UIPressesEvent*)event
 {
     bool forward = false;
 

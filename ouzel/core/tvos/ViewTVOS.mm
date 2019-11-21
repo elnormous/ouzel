@@ -8,20 +8,20 @@
 
 @implementation ViewTVOS
 
--(void)insertText:(__unused NSString*)text
+- (void)insertText:(__unused NSString*)text
 {
 }
 
--(void)deleteBackward
+- (void)deleteBackward
 {
 }
 
--(BOOL)hasText
+- (BOOL)hasText
 {
     return NO;
 }
 
--(BOOL)canBecomeFirstResponder
+- (BOOL)canBecomeFirstResponder
 {
     return YES;
 }
@@ -44,7 +44,7 @@ namespace
     }
 }
 
--(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
+- (void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     bool forward = false;
 
@@ -61,7 +61,7 @@ namespace
         [super pressesBegan:presses withEvent:event];
 }
 
--(void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
+- (void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     bool forward = false;
 
@@ -78,7 +78,7 @@ namespace
         [super pressesEnded:presses withEvent:event];
 }
 
--(void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
+- (void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
 {
     bool forward = false;
 

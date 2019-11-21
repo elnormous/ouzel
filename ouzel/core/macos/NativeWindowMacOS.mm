@@ -15,7 +15,7 @@
     ouzel::NativeWindowMacOS* window;
 }
 
--(id)initWithWindow:(ouzel::NativeWindowMacOS*)initWindow
+- (id)initWithWindow:(ouzel::NativeWindowMacOS*)initWindow
 {
     if (self = [super init])
         window = initWindow;
@@ -23,52 +23,52 @@
     return self;
 }
 
--(void)windowDidResize:(__unused NSNotification*)notification
+- (void)windowDidResize:(__unused NSNotification*)notification
 {
     window->handleResize();
 }
 
--(void)windowWillClose:(__unused NSNotification*)notification
+- (void)windowWillClose:(__unused NSNotification*)notification
 {
     window->handleClose();
 }
 
--(void)windowDidMiniaturize:(__unused NSNotification*)notification
+- (void)windowDidMiniaturize:(__unused NSNotification*)notification
 {
     window->handleMinituarize();
 }
 
--(void)windowDidDeminiaturize:(__unused NSNotification*)notification
+- (void)windowDidDeminiaturize:(__unused NSNotification*)notification
 {
     window->handleDeminituarize();
 }
 
--(void)windowDidEnterFullScreen:(__unused NSNotification*)notification
+- (void)windowDidEnterFullScreen:(__unused NSNotification*)notification
 {
     window->handleFullscreenChange(true);
 }
 
--(void)windowDidExitFullScreen:(__unused NSNotification*)notification
+- (void)windowDidExitFullScreen:(__unused NSNotification*)notification
 {
     window->handleFullscreenChange(false);
 }
 
--(void)windowDidChangeBackingProperties:(__unused NSNotification*)notification
+- (void)windowDidChangeBackingProperties:(__unused NSNotification*)notification
 {
     window->handleScaleFactorChange();
 }
 
--(void)windowDidChangeScreen:(__unused NSNotification*)notification
+- (void)windowDidChangeScreen:(__unused NSNotification*)notification
 {
     window->handleScreenChange();
 }
 
--(void)windowDidBecomeKey:(__unused NSNotification*)notification
+- (void)windowDidBecomeKey:(__unused NSNotification*)notification
 {
     window->handleBecomeKeyChange();
 }
 
--(void)windowDidResignKey:(__unused NSNotification*)notification
+- (void)windowDidResignKey:(__unused NSNotification*)notification
 {
     window->handleResignKeyChange();
 }

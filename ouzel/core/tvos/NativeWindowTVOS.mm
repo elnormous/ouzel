@@ -15,7 +15,7 @@
     ouzel::NativeWindowTVOS* window;
 }
 
--(id)initWithWindow:(ouzel::NativeWindowTVOS*)initWindow
+- (id)initWithWindow:(ouzel::NativeWindowTVOS*)initWindow
 {
     if (self = [super init])
         window = initWindow;
@@ -23,11 +23,11 @@
     return self;
 }
 
--(void)textFieldDidChange:(__unused id)sender
+- (void)textFieldDidChange:(__unused id)sender
 {
 }
 
--(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 

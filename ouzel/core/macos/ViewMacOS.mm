@@ -10,32 +10,32 @@
 
 @implementation ViewMacOS
 
--(BOOL)isOpaque
+- (BOOL)isOpaque
 {
     return YES;
 }
 
--(BOOL)mouseDownCanMoveWindow
+- (BOOL)mouseDownCanMoveWindow
 {
     return YES;
 }
 
--(BOOL)isFlipped
+- (BOOL)isFlipped
 {
     return YES;
 }
 
--(BOOL)acceptsFirstResponder
+- (BOOL)acceptsFirstResponder
 {
     return YES;
 }
 
--(BOOL)acceptsFirstMouse:(__unused NSEvent*)event
+- (BOOL)acceptsFirstMouse:(__unused NSEvent*)event
 {
     return YES;
 }
 
--(void)resetCursorRects
+- (void)resetCursorRects
 {
     [super resetCursorRects];
 
@@ -192,21 +192,21 @@ namespace
     }
 }
 
--(void)keyDown:(NSEvent*)event
+- (void)keyDown:(NSEvent*)event
 {
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemMacOS->getKeyboardDevice();
     keyboardDevice->handleKeyPress(convertKeyCode(event.keyCode));
 }
 
--(void)keyUp:(NSEvent*)event
+- (void)keyUp:(NSEvent*)event
 {
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemMacOS->getKeyboardDevice();
     keyboardDevice->handleKeyRelease(convertKeyCode(event.keyCode));
 }
 
--(void)flagsChanged:(NSEvent*)event
+- (void)flagsChanged:(NSEvent*)event
 {
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::KeyboardDevice* keyboardDevice = inputSystemMacOS->getKeyboardDevice();
@@ -234,12 +234,12 @@ namespace
     }
 }
 
--(void)doCommandBySelector:(__unused SEL)selector
+- (void)doCommandBySelector:(__unused SEL)selector
 {
     // implement this method to not beep on Command-Escape
 }
 
--(void)mouseDown:(NSEvent*)event
+- (void)mouseDown:(NSEvent*)event
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -250,7 +250,7 @@ namespace
                                                                                                                  static_cast<float>(location.y))));
 }
 
--(void)mouseUp:(NSEvent*)event
+- (void)mouseUp:(NSEvent*)event
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -261,7 +261,7 @@ namespace
                                                                                                                    static_cast<float>(location.y))));
 }
 
--(void)rightMouseDown:(NSEvent*)event
+- (void)rightMouseDown:(NSEvent*)event
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -272,7 +272,7 @@ namespace
                                                                                                                  static_cast<float>(location.y))));
 }
 
--(void)rightMouseUp:(NSEvent*)event
+- (void)rightMouseUp:(NSEvent*)event
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -283,7 +283,7 @@ namespace
                                                                                                                    static_cast<float>(location.y))));
 }
 
--(void)otherMouseDown:(NSEvent*)event
+- (void)otherMouseDown:(NSEvent*)event
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -294,7 +294,7 @@ namespace
                                                                                                                  static_cast<float>(location.y))));
 }
 
--(void)otherMouseUp:(NSEvent*)event
+- (void)otherMouseUp:(NSEvent*)event
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -305,7 +305,7 @@ namespace
                                                                                                                    static_cast<float>(location.y))));
 }
 
--(void)mouseMoved:(NSEvent*)event
+- (void)mouseMoved:(NSEvent*)event
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -315,7 +315,7 @@ namespace
                                                                                                           static_cast<float>(location.y))));
 }
 
--(void)mouseDragged:(NSEvent*)event
+- (void)mouseDragged:(NSEvent*)event
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -325,7 +325,7 @@ namespace
                                                                                                           static_cast<float>(location.y))));
 }
 
--(void)rightMouseDragged:(NSEvent*)event
+- (void)rightMouseDragged:(NSEvent*)event
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -335,7 +335,7 @@ namespace
                                                                                                           static_cast<float>(location.y))));
 }
 
--(void)otherMouseDragged:(NSEvent*)event
+- (void)otherMouseDragged:(NSEvent*)event
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -345,7 +345,7 @@ namespace
                                                                                                           static_cast<float>(location.y))));
 }
 
--(void)scrollWheel:(NSEvent*)event
+- (void)scrollWheel:(NSEvent*)event
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
@@ -357,7 +357,7 @@ namespace
                                                                                                             static_cast<float>(location.y))));
 }
 
--(void)touchesBeganWithEvent:(NSEvent*)event
+- (void)touchesBeganWithEvent:(NSEvent*)event
 {
     NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseBegan inView:self];
 
@@ -377,7 +377,7 @@ namespace
     }
 }
 
--(void)touchesMovedWithEvent:(NSEvent*)event
+- (void)touchesMovedWithEvent:(NSEvent*)event
 {
     NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseMoved inView:self];
 
@@ -397,7 +397,7 @@ namespace
     }
 }
 
--(void)touchesEndedWithEvent:(NSEvent*)event
+- (void)touchesEndedWithEvent:(NSEvent*)event
 {
     NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseEnded inView:self];
 
@@ -417,7 +417,7 @@ namespace
     }
 }
 
--(void)touchesCancelledWithEvent:(NSEvent*)event
+- (void)touchesCancelledWithEvent:(NSEvent*)event
 {
     NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseCancelled inView:self];
 
@@ -437,15 +437,15 @@ namespace
     }
 }
 
--(void)swipeWithEvent:(__unused NSEvent*)event
+- (void)swipeWithEvent:(__unused NSEvent*)event
 {
 }
 
--(void)rotateWithEvent:(__unused NSEvent*)event
+- (void)rotateWithEvent:(__unused NSEvent*)event
 {
 }
 
--(void)magnifyWithEvent:(__unused NSEvent*)event
+- (void)magnifyWithEvent:(__unused NSEvent*)event
 {
 }
 @end

@@ -8,8 +8,8 @@
 
 @interface ConnectDelegate: NSObject
 
--(void)handleControllerConnected:(NSNotification*)notification;
--(void)handleControllerDisconnected:(NSNotification*)notification;
+- (void)handleControllerConnected:(NSNotification*)notification;
+- (void)handleControllerDisconnected:(NSNotification*)notification;
 @end
 
 @implementation ConnectDelegate
@@ -17,7 +17,7 @@
     ouzel::input::InputSystemTVOS* input;
 }
 
--(id)initWithInput:(ouzel::input::InputSystemTVOS*)initInput
+- (id)initWithInput:(ouzel::input::InputSystemTVOS*)initInput
 {
     if (self = [super init])
         input = initInput;
@@ -25,12 +25,12 @@
     return self;
 }
 
--(void)handleControllerConnected:(NSNotification*)notification
+- (void)handleControllerConnected:(NSNotification*)notification
 {
     input->handleGamepadConnected(notification.object);
 }
 
--(void)handleControllerDisconnected:(NSNotification*)notification
+- (void)handleControllerDisconnected:(NSNotification*)notification
 {
     input->handleGamepadDisconnected(notification.object);
 }

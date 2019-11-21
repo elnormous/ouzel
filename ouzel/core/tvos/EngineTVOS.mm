@@ -8,14 +8,14 @@
 
 @implementation AppDelegate
 
--(BOOL)application:(__unused UIApplication*)application willFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
+- (BOOL)application:(__unused UIApplication*)application willFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
     ouzel::engine->init();
 
     return YES;
 }
 
--(BOOL)application:(__unused UIApplication*)application didFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
+- (BOOL)application:(__unused UIApplication*)application didFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
     if (ouzel::engine)
         ouzel::engine->start();
@@ -23,30 +23,30 @@
     return YES;
 }
 
--(void)applicationDidBecomeActive:(__unused UIApplication*)application
+- (void)applicationDidBecomeActive:(__unused UIApplication*)application
 {
     ouzel::engine->resume();
 }
 
--(void)applicationWillResignActive:(__unused UIApplication*)application
+- (void)applicationWillResignActive:(__unused UIApplication*)application
 {
     ouzel::engine->pause();
 }
 
--(void)applicationDidEnterBackground:(__unused UIApplication*)application
+- (void)applicationDidEnterBackground:(__unused UIApplication*)application
 {
 }
 
--(void)applicationWillEnterForeground:(__unused UIApplication*)application
+- (void)applicationWillEnterForeground:(__unused UIApplication*)application
 {
 }
 
--(void)applicationWillTerminate:(__unused UIApplication*)application
+- (void)applicationWillTerminate:(__unused UIApplication*)application
 {
     ouzel::engine->exit();
 }
 
--(void)applicationDidReceiveMemoryWarning:(__unused UIApplication*)application
+- (void)applicationDidReceiveMemoryWarning:(__unused UIApplication*)application
 {
     if (ouzel::engine)
     {
@@ -66,7 +66,7 @@
     ouzel::EngineTVOS* engine;
 }
 
--(id)initWithEngine:(ouzel::EngineTVOS*)initEngine
+- (id)initWithEngine:(ouzel::EngineTVOS*)initEngine
 {
     if (self = [super init])
         engine = initEngine;
@@ -74,7 +74,7 @@
     return self;
 }
 
--(void)executeAll
+- (void)executeAll
 {
     engine->executeAll();
 }

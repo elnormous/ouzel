@@ -8,7 +8,7 @@
 
 @implementation OpenGLView
 
-+(Class)layerClass
++ (Class)layerClass
 {
     return [CAEAGLLayer class];
 }

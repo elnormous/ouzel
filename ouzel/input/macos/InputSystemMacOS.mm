@@ -13,8 +13,8 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
 
 @interface ConnectDelegate: NSObject
 
--(void)handleControllerConnected:(NSNotification*)notification;
--(void)handleControllerDisconnected:(NSNotification*)notification;
+- (void)handleControllerConnected:(NSNotification*)notification;
+- (void)handleControllerDisconnected:(NSNotification*)notification;
 @end
 
 @implementation ConnectDelegate
@@ -22,7 +22,7 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
     ouzel::input::InputSystemMacOS* input;
 }
 
--(id)initWithInput:(ouzel::input::InputSystemMacOS*)initInput
+- (id)initWithInput:(ouzel::input::InputSystemMacOS*)initInput
 {
     if (self = [super init])
         input = initInput;
@@ -30,12 +30,12 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
         return self;
 }
 
--(void)handleControllerConnected:(NSNotification*)notification
+- (void)handleControllerConnected:(NSNotification*)notification
 {
     input->handleGamepadConnected(notification.object);
 }
 
--(void)handleControllerDisconnected:(NSNotification*)notification
+- (void)handleControllerDisconnected:(NSNotification*)notification
 {
     input->handleGamepadDisconnected(notification.object);
 }

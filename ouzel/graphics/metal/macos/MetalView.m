@@ -10,7 +10,7 @@
 
 @implementation MetalView
 
--(id)initWithFrame:(NSRect)frameRect
+- (id)initWithFrame:(NSRect)frameRect
 {
     if (self = [super initWithFrame:frameRect])
     {

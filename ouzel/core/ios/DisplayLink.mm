@@ -12,7 +12,7 @@
     void* userInfo;
 }
 
--(id)initWithCallback:(RenderCallback)initCallback andUserInfo:(void*)initUserInfo
+- (id)initWithCallback:(RenderCallback)initCallback andUserInfo:(void*)initUserInfo
 {
     if (self = [super init])
     {
@@ -23,7 +23,7 @@
     return self;
 }
 
--(void)draw:(__unused CADisplayLink*)sender
+- (void)draw:(__unused CADisplayLink*)sender
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     callback(userInfo);

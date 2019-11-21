@@ -11,12 +11,12 @@
     NSOpenGLContext* openGLContext;
 }
 
--(void)setOpenGLContext:(NSOpenGLContext*)context
+- (void)setOpenGLContext:(NSOpenGLContext*)context
 {
     openGLContext = context;
 }
 
--(void)setLayer:(CALayer*)layer
+- (void)setLayer:(CALayer*)layer
 {
     [super setLayer:layer];
 

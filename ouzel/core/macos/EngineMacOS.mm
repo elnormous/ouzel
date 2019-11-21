@@ -10,27 +10,27 @@
 
 @implementation AppDelegate
 
--(void)applicationWillFinishLaunching:(__unused NSNotification*)notification
+- (void)applicationWillFinishLaunching:(__unused NSNotification*)notification
 {
     ouzel::engine->init();
 }
 
--(void)applicationDidFinishLaunching:(__unused NSNotification*)notification
+- (void)applicationDidFinishLaunching:(__unused NSNotification*)notification
 {
     ouzel::engine->start();
 }
 
--(void)applicationWillTerminate:(__unused NSNotification*)notification
+- (void)applicationWillTerminate:(__unused NSNotification*)notification
 {
     ouzel::engine->exit();
 }
 
--(BOOL)applicationShouldTerminateAfterLastWindowClosed:(__unused NSApplication*)sender
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(__unused NSApplication*)sender
 {
     return YES;
 }
 
--(BOOL)application:(__unused NSApplication*)sender openFile:(NSString*)filename
+- (BOOL)application:(__unused NSApplication*)sender openFile:(NSString*)filename
 {
     if (ouzel::engine)
     {
@@ -43,17 +43,17 @@
     return YES;
 }
 
--(void)applicationDidBecomeActive:(__unused NSNotification*)notification
+- (void)applicationDidBecomeActive:(__unused NSNotification*)notification
 {
     //ouzel::engine->resume();
 }
 
--(void)applicationDidResignActive:(__unused NSNotification*)notification
+- (void)applicationDidResignActive:(__unused NSNotification*)notification
 {
     //ouzel::engine->pause();
 }
 
--(void)handleQuit:(__unused id)sender
+- (void)handleQuit:(__unused id)sender
 {
     [[NSApplication sharedApplication] terminate:nil];
 }
@@ -67,7 +67,7 @@
     ouzel::EngineMacOS* engine;
 }
 
--(id)initWithEngine:(ouzel::EngineMacOS*)initEngine
+- (id)initWithEngine:(ouzel::EngineMacOS*)initEngine
 {
     if (self = [super init])
         engine = initEngine;
@@ -75,7 +75,7 @@
     return self;
 }
 
--(void)executeAll
+- (void)executeAll
 {
     engine->executeAll();
 }
