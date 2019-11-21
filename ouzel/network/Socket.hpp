@@ -97,17 +97,16 @@ namespace ouzel
 
             Socket& operator=(Socket&& other) noexcept
             {
-                if (&other != this)
-                {
-                    if (endpoint != Invalid)
+                if (&other == this) return *this;
+
+                if (endpoint != Invalid)
 #ifdef _WIN32
-                        closesocket(endpoint);
+                    closesocket(endpoint);
 #else
-                        close(endpoint);
+                    close(endpoint);
 #endif
-                    endpoint = other.endpoint;
-                    other.endpoint = Invalid;
-                }
+                endpoint = other.endpoint;
+                other.endpoint = Invalid;
 
                 return *this;
             }

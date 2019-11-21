@@ -135,6 +135,8 @@ namespace ouzel
 
             File& operator=(const File& other)
             {
+                if (&other == this) return *this;
+
 #if defined(_WIN32)
                 if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
 
