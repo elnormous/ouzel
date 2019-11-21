@@ -449,12 +449,15 @@ namespace ouzel
 
             const std::u32string utf32Text = utf8::toUtf32(text);
 
-            for (const auto c : utf32Text)
+            for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
             {
-                auto iter = chars.find(c);
+                auto iter = chars.find(*i);
 
                 if (iter != chars.end())
                 {
+                    if ((i + 1) != utf32Text.end())
+                        total += static_cast<float>(getKerningPair(*i, *(i + 1)));
+
                     const CharDescriptor& f = iter->second;
                     total += f.xAdvance;
                 }
