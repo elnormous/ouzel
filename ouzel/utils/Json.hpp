@@ -89,12 +89,15 @@ namespace ouzel
                     *iterator == '[' || *iterator == ']' ||
                     *iterator == ',' || *iterator == ':') // punctuation
                 {
-                    if (*iterator == '{') token.type = Token::Type::LeftBrace;
-                    if (*iterator == '}') token.type = Token::Type::RightBrace;
-                    if (*iterator == '[') token.type = Token::Type::LeftBracket;
-                    if (*iterator == ']') token.type = Token::Type::RightBracket;
-                    if (*iterator == ',') token.type = Token::Type::Comma;
-                    if (*iterator == ':') token.type = Token::Type::Colon;
+                    switch (*iterator)
+                    {
+                        case '{': token.type = Token::Type::LeftBrace; break;
+                        case '}': token.type = Token::Type::RightBrace; break;
+                        case '[': token.type = Token::Type::LeftBracket; break;
+                        case ']': token.type = Token::Type::RightBracket; break;
+                        case ',': token.type = Token::Type::Comma; break;
+                        case ':': token.type = Token::Type::Colon; break;
+                    }
 
                     ++iterator;
                 }
@@ -175,38 +178,42 @@ namespace ouzel
                             if (++iterator == str.cend())
                                 throw std::runtime_error("Unterminated string literal");
 
-                            if (*iterator == '"') token.value.push_back('"');
-                            else if (*iterator == '\\') token.value.push_back('\\');
-                            else if (*iterator == '/') token.value.push_back('/');
-                            else if (*iterator == 'b') token.value.push_back('\b');
-                            else if (*iterator == 'f') token.value.push_back('\f');
-                            else if (*iterator == 'n') token.value.push_back('\n');
-                            else if (*iterator == 'r') token.value.push_back('\r');
-                            else if (*iterator == 't') token.value.push_back('\t');
-                            else if (*iterator == 'u')
+                            switch (*iterator)
                             {
-                                if (std::distance(++iterator, str.cend()) < 4)
-                                    throw std::runtime_error("Unexpected end of data");
-
-                                char32_t c = 0;
-
-                                for (uint32_t i = 0; i < 4; ++i, ++iterator)
+                                case '"': token.value.push_back('"'); break;
+                                case '\\': token.value.push_back('\\'); break;
+                                case '/': token.value.push_back('/'); break;
+                                case 'b': token.value.push_back('\b'); break;
+                                case 'f': token.value.push_back('\f'); break;
+                                case 'n': token.value.push_back('\n'); break;
+                                case 'r': token.value.push_back('\r'); break;
+                                case 't': token.value.push_back('\t'); break;
+                                case 'u':
                                 {
-                                    uint8_t code = 0;
+                                    if (std::distance(++iterator, str.cend()) < 4)
+                                        throw std::runtime_error("Unexpected end of data");
 
-                                    if (*iterator >= '0' && *iterator <= '9') code = static_cast<uint8_t>(*iterator) - '0';
-                                    else if (*iterator >= 'a' && *iterator <='f') code = static_cast<uint8_t>(*iterator) - 'a' + 10;
-                                    else if (*iterator >= 'A' && *iterator <='F') code = static_cast<uint8_t>(*iterator) - 'A' + 10;
-                                    else
-                                        throw std::runtime_error("Invalid character code");
+                                    char32_t c = 0;
 
-                                    c = (c << 4) | code;
+                                    for (uint32_t i = 0; i < 4; ++i, ++iterator)
+                                    {
+                                        uint8_t code = 0;
+
+                                        if (*iterator >= '0' && *iterator <= '9') code = static_cast<uint8_t>(*iterator) - '0';
+                                        else if (*iterator >= 'a' && *iterator <='f') code = static_cast<uint8_t>(*iterator) - 'a' + 10;
+                                        else if (*iterator >= 'A' && *iterator <='F') code = static_cast<uint8_t>(*iterator) - 'A' + 10;
+                                        else
+                                            throw std::runtime_error("Invalid character code");
+
+                                        c = (c << 4) | code;
+                                    }
+
+                                    token.value.push_back(c);
+                                    break;
                                 }
-
-                                token.value.push_back(c);
+                                default:
+                                    throw std::runtime_error("Unrecognized escape character");
                             }
-                            else
-                                throw std::runtime_error("Unrecognized escape character");
                         }
                         else if (*iterator <= 0x1F) // control char
                             throw std::runtime_error("Unterminated string literal");
