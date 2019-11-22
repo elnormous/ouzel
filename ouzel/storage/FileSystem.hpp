@@ -20,11 +20,6 @@ namespace ouzel
             static const std::string DIRECTORY_SEPARATOR;
 
             explicit FileSystem(Engine& initEngine);
-            FileSystem(const FileSystem&) = delete;
-            FileSystem& operator=(const FileSystem&) = delete;
-
-            FileSystem(FileSystem&&) = delete;
-            FileSystem& operator=(FileSystem&&) = delete;
 
             std::string getStorageDirectory(const bool user = true) const;
             std::string getTempDirectory() const;
