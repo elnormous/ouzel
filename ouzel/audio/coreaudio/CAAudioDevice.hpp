@@ -15,6 +15,10 @@
 #  include <CoreAudio/CoreAudio.h>
 #endif
 
+#if !defined(__OBJC__)
+#  include <objc/objc.h>
+#endif
+
 #include <AudioUnit/AudioUnit.h>
 
 #include "audio/AudioDevice.hpp"
@@ -43,7 +47,9 @@ namespace ouzel
                 void outputCallback(AudioBufferList* ioData);
 
             private:
-#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
+#if TARGET_OS_IOS || TARGET_OS_TV
+                id routeChangeDelegate = nil;
+#elif TARGET_OS_MAC
                 AudioDeviceID deviceId = 0;
 #endif
                 AudioComponent audioComponent = nullptr;

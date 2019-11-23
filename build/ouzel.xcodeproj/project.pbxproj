@@ -1778,8 +1778,8 @@
 		309BA3101F183D3D006F2240 /* coreaudio */ = {
 			isa = PBXGroup;
 			children = (
-				309BA3111F183D6E006F2240 /* CAAudioDevice.mm */,
 				309BA3121F183D6E006F2240 /* CAAudioDevice.hpp */,
+				309BA3111F183D6E006F2240 /* CAAudioDevice.mm */,
 			);
 			path = coreaudio;
 			sourceTree = "<group>";

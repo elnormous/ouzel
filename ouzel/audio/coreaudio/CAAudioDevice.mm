@@ -13,6 +13,41 @@
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
+#if TARGET_OS_IOS || TARGET_OS_TV
+@interface RouteChangeDelegate: NSObject
+
+@end
+
+@implementation RouteChangeDelegate
+{
+    ouzel::audio::coreaudio::AudioDevice* audioDevice;
+}
+
+- (id)initWithAudioDevice:(ouzel::audio::coreaudio::AudioDevice*)initAudioDevice
+{
+    if (self = [super init])
+        audioDevice = initAudioDevice;
+
+    return self;
+}
+
+- (void)handleRouteChanged:(NSNotification*)notification
+{
+    switch ([[[notification userInfo] objectForKey:AVAudioSessionRouteChangeReasonKey] unsignedIntegerValue])
+    {
+        case AVAudioSessionRouteChangeReasonNewDeviceAvailable:
+            // TODO: implement
+            break;
+
+        case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:
+            // TODO: implement
+            break;
+    }
+}
+
+@end
+#endif
+
 namespace ouzel
 {
     namespace audio
@@ -115,6 +150,13 @@ namespace ouzel
 
                 if (channels > maxChannelCount)
                     channels = static_cast<uint32_t>(maxChannelCount);
+
+                routeChangeDelegate = [[RouteChangeDelegate alloc] initWithAudioDevice:this];
+
+                [[NSNotificationCenter defaultCenter] addObserver:routeChangeDelegate
+                                                         selector:@selector(handleRouteChanged:)
+                                                             name:AVAudioSessionRouteChangeNotification
+                                                           object:nil];
 #elif TARGET_OS_MAC
                 constexpr AudioObjectPropertyAddress deviceListAddress = {
                     kAudioHardwarePropertyDevices,
@@ -310,7 +352,9 @@ namespace ouzel
                     AudioComponentInstanceDispose(audioUnit);
                 }
 
-#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
+#if TARGET_OS_IOS || TARGET_OS_TV
+                if (routeChangeDelegate) [routeChangeDelegate release];
+#elif TARGET_OS_MAC
                 constexpr AudioObjectPropertyAddress deviceListAddress = {
                     kAudioHardwarePropertyDevices,
                     kAudioObjectPropertyScopeGlobal,

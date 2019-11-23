@@ -8,8 +8,6 @@
 
 @interface ConnectDelegate: NSObject
 
-- (void)handleControllerConnected:(NSNotification*)notification;
-- (void)handleControllerDisconnected:(NSNotification*)notification;
 @end
 
 @implementation ConnectDelegate
