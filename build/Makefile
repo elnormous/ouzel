@@ -184,7 +184,7 @@ CFLAGS+=-I$(VC_DIR)/include -I$(VC_DIR)/include/interface/vcos/pthreads -I$(VC_D
 CXXFLAGS+=-I$(VC_DIR)include -I$(VC_DIR)/include/interface/vcos/pthreads -I$(VC_DIR)/include/interface/vmcs_host/linux
 endif
 else ifeq ($(PLATFORM),macos)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.mm \
 	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/EngineMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
@@ -208,7 +208,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/MouseDeviceMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/CursorMacOS.cpp
 else ifeq ($(PLATFORM),ios)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.mm \
 	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/DisplayLink.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/EngineIOS.mm \
@@ -234,7 +234,7 @@ CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -m
 OBJCFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 OBJCXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 else ifeq ($(PLATFORM),tvos)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/CAAudioDevice.mm \
 	$(ROOT_DIR)/../ouzel/audio/openal/OALAudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/DisplayLink.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/EngineTVOS.mm \

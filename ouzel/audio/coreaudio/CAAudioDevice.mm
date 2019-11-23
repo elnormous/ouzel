@@ -5,15 +5,13 @@
 #if OUZEL_COMPILE_COREAUDIO
 
 #include <system_error>
+#if TARGET_OS_IOS || TARGET_OS_TV
+#  import <AVFoundation/AVFoundation.h>
+#endif
+
 #include "CAAudioDevice.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
-
-#if TARGET_OS_IOS || TARGET_OS_TV
-#  include <objc/message.h>
-#  include <objc/NSObjCRuntime.h>
-extern "C" id const AVAudioSessionCategoryAmbient;
-#endif
 
 namespace ouzel
 {
@@ -97,20 +95,20 @@ namespace ouzel
                 OSStatus result;
 
 #if TARGET_OS_IOS || TARGET_OS_TV
-                id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance")); // [AVAudioSession sharedInstance]
-                if (!reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil)) // [audioSession setCategory:AVAudioSessionCategoryAmbient error:nil]
+                AVAudioSession* audioSession = [AVAudioSession sharedInstance];
+                if (![audioSession setCategory:AVAudioSessionCategoryAmbient error:nil])
                     throw std::runtime_error("Failed to set audio session category");
 
-                id currentRoute = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(audioSession, sel_getUid("currentRoute")); // [audioSession currentRoute]
-                id outputs = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(currentRoute, sel_getUid("outputs")); // [currentRoute outputs]
-                const NSUInteger count = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(outputs, sel_getUid("count")); // [outputs count]
+                AVAudioSessionRouteDescription* currentRoute = [audioSession currentRoute];
+                NSArray<AVAudioSessionPortDescription*>* outputs = [currentRoute outputs];
+                const NSUInteger count = [outputs count];
 
                 NSUInteger maxChannelCount = 0;
                 for (NSUInteger outputIndex = 0; outputIndex < count; ++outputIndex)
                 {
-                    id output = reinterpret_cast<id (*)(id, SEL, NSUInteger)>(&objc_msgSend)(outputs, sel_getUid("objectAtIndex:"), outputIndex); // [outputs objectAtIndex:outputIndex]
-                    id channels = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(output, sel_getUid("channels")); // [output channels]
-                    const NSUInteger channelCount = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(channels, sel_getUid("count")); // [channels count]
+                    AVAudioSessionPortDescription* output = [outputs objectAtIndex:outputIndex];
+                    NSArray<AVAudioSessionChannelDescription*>* channels = [output channels];
+                    const NSUInteger channelCount = [channels count];
                     if (channelCount > maxChannelCount)
                         maxChannelCount = channelCount;
                 }
