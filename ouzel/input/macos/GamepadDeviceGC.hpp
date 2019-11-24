@@ -35,7 +35,7 @@ namespace ouzel
 
         private:
             GCControllerPtr controller = nil;
-            bool attached;
+            bool attached = false;
         };
     } // namespace input
 } // namespace ouzel
