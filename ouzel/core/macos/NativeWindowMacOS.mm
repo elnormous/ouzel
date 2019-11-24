@@ -293,9 +293,10 @@ namespace ouzel
     {
         size = newSize;
 
-        NSRect frame = [window frame];
+        const NSRect frame = [window frame];
+        const NSRect contentRect = NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.v[0], newSize.v[1]);
 
-        NSRect newFrame = [NSWindow frameRectForContentRect:NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.v[0], newSize.v[1])
+        NSRect newFrame = [NSWindow frameRectForContentRect:contentRect
                                                   styleMask:[window styleMask]];
 
         if (frame.size.width != newFrame.size.width ||
