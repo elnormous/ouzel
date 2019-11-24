@@ -152,12 +152,12 @@ namespace ouzel
             attached = (controller.isAttachedToDevice == YES);
         }
 
-        void GamepadDeviceTVOS::setAbsoluteDPadValues(bool absoluteDPadValues)
+        void GamepadDeviceTVOS::setAbsoluteDpadValues(bool absoluteDpadValues)
         {
-            controller.microGamepad.reportsAbsoluteDpadValues = absoluteDPadValues ? YES : NO;
+            controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
         }
 
-        bool GamepadDeviceTVOS::isAbsoluteDPadValues() const
+        bool GamepadDeviceTVOS::isAbsoluteDpadValues() const
         {
             return controller.microGamepad.reportsAbsoluteDpadValues == YES;
         }

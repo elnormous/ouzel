@@ -154,14 +154,14 @@ namespace ouzel
             attached = (controller.isAttachedToDevice == YES);
         }
 
-        void GamepadDeviceIOS::setAbsoluteDPadValues(bool absoluteDPadValues)
+        void GamepadDeviceIOS::setAbsoluteDpadValues(bool absoluteDpadValues)
         {
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-            controller.microGamepad.reportsAbsoluteDpadValues = absoluteDPadValues ? YES : NO;
+            controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
 #endif
         }
 
-        bool GamepadDeviceIOS::isAbsoluteDPadValues() const
+        bool GamepadDeviceIOS::isAbsoluteDpadValues() const
         {
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
             return controller.microGamepad.reportsAbsoluteDpadValues == YES;

@@ -14,13 +14,13 @@ namespace ouzel
         {
         }
 
-        void Gamepad::setAbsoluteDPadValues(bool newAbsoluteDPadValues)
+        void Gamepad::setAbsoluteDpadValues(bool newAbsoluteDpadValues)
         {
-            absoluteDPadValues = newAbsoluteDPadValues;
+            absoluteDpadValues = newAbsoluteDpadValues;
 
             InputSystem::Command command(InputSystem::Command::Type::SetAbsoluteDpad_VALUES);
             command.deviceId = deviceId;
-            command.absoluteDPadValues = absoluteDPadValues;
+            command.absoluteDpadValues = absoluteDpadValues;
             inputManager.getInputSystem()->addCommand(command);
         }
 

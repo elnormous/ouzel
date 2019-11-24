@@ -155,15 +155,15 @@ namespace ouzel
             attached = (controller.isAttachedToDevice == YES);
         }
 
-        void GamepadDeviceGC::setAbsoluteDPadValues(bool absoluteDPadValues)
+        void GamepadDeviceGC::setAbsoluteDpadValues(bool absoluteDpadValues)
         {
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
             // GCController.microGamepad is not defined in macOS SDK older than 10.12
-            controller.microGamepad.reportsAbsoluteDpadValues = absoluteDPadValues ? YES : NO;
+            controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
 #endif
         }
 
-        bool GamepadDeviceGC::isAbsoluteDPadValues() const
+        bool GamepadDeviceGC::isAbsoluteDpadValues() const
         {
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
             // GCController.microGamepad is not defined in macOS SDK older than 10.12

@@ -83,8 +83,8 @@ namespace ouzel
 
             inline auto isAttached() const noexcept { return attached; }
 
-            inline auto isAbsoluteDPadValues() const noexcept { return absoluteDPadValues; }
-            void setAbsoluteDPadValues(bool newAbsoluteDPadValues);
+            inline auto isAbsoluteDpadValues() const noexcept { return absoluteDpadValues; }
+            void setAbsoluteDpadValues(bool newAbsoluteDpadValues);
 
             inline auto getPlayerIndex() const noexcept { return playerIndex; }
             void setPlayerIndex(int32_t newPlayerIndex);
@@ -103,7 +103,7 @@ namespace ouzel
         private:
             ButtonState buttonStates[static_cast<uint32_t>(Button::Count)];
             int32_t playerIndex = -1;
-            bool absoluteDPadValues = false;
+            bool absoluteDpadValues = false;
             bool attached = false;
             float vibration[static_cast<uint32_t>(Motor::Count)]{0.0F};
         };

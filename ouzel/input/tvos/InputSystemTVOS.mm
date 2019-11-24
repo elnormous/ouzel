@@ -86,7 +86,7 @@ namespace ouzel
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
                         GamepadDeviceTVOS* gamepadDevice = static_cast<GamepadDeviceTVOS*>(inputDevice);
-                        gamepadDevice->setAbsoluteDPadValues(command.absoluteDPadValues);
+                        gamepadDevice->setAbsoluteDpadValues(command.absoluteDpadValues);
                     }
                     break;
                 }
