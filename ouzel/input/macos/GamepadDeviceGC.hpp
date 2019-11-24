@@ -34,7 +34,7 @@ namespace ouzel
             inline auto getController() const noexcept { return controller; }
 
         private:
-            GCControllerPtr controller;
+            GCControllerPtr controller = nil;
             bool attached;
         };
     } // namespace input

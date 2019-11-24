@@ -35,7 +35,7 @@ namespace ouzel
             inline auto getController() const noexcept { return controller; }
 
         private:
-            GCControllerPtr controller;
+            GCControllerPtr controller = nil;
             std::string name;
             bool attached = false;
         };
