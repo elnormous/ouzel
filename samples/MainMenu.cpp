@@ -26,7 +26,7 @@ MainMenu::MainMenu():
         if (event.type == Event::Type::ActorClick)
         {
             if (event.actor == &gitHubButton)
-                engine->openURL("https://github.com/elnormous/ouzel");
+                engine->openUrl("https://github.com/elnormous/ouzel");
             else if (event.actor == &spritesButton)
                 engine->getSceneManager().setScene(std::make_unique<SpritesSample>());
             else if (event.actor == &guiButton)
