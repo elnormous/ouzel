@@ -30,7 +30,7 @@ namespace ouzel
 
         void run();
 
-        void openURL(const std::string& url) final;
+        void openUrl(const std::string& url) final;
 
         void setScreenSaverEnabled(bool newScreenSaverEnabled) final;
 

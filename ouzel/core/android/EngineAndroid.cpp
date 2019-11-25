@@ -277,7 +277,7 @@ namespace ouzel
             throw std::system_error(errno, std::system_category(), "Failed to write to pipe");
     }
 
-    void EngineAndroid::openURL(const std::string& url)
+    void EngineAndroid::openUrl(const std::string& url)
     {
         executeOnMainThread([url, this]() {
             JNIEnv* jniEnv;

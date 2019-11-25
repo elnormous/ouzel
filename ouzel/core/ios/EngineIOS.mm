@@ -153,13 +153,13 @@ namespace ouzel
         [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
-    void EngineIOS::openURL(const std::string& url)
+    void EngineIOS::openUrl(const std::string& url)
     {
         executeOnMainThread([url](){
-            NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
-            NSURL* nsURL = [NSURL URLWithString:nsStringURL];
+            NSString* urlString = [NSString stringWithUTF8String:url.c_str()];
+            NSURL* nsUrl = [NSURL URLWithString:urlString];
 
-            [[UIApplication sharedApplication] openURL:nsURL];
+            [[UIApplication sharedApplication] openURL:nsUrl];
         });
     }
 

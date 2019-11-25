@@ -192,7 +192,7 @@ namespace ouzel
         }
     }
 
-    void EngineWin::openURL(const std::string& url)
+    void EngineWin::openUrl(const std::string& url)
     {
         const int buferSize = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, nullptr, 0);
         if (buferSize == 0)

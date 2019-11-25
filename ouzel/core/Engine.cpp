@@ -770,7 +770,7 @@ namespace ouzel
         }
     }
 
-    void Engine::openURL(const std::string&)
+    void Engine::openUrl(const std::string&)
     {
     }
 

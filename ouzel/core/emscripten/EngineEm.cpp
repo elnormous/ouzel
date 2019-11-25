@@ -98,7 +98,7 @@ namespace ouzel
         if (func) func();
     }
 
-    void EngineEm::openURL(const std::string& url)
+    void EngineEm::openUrl(const std::string& url)
     {
         EM_ASM_ARGS({window.open(Pointer_stringify($0));}, url.c_str());
     }

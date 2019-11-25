@@ -131,13 +131,13 @@ namespace ouzel
         [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
-    void EngineMacOS::openURL(const std::string& url)
+    void EngineMacOS::openUrl(const std::string& url)
     {
         executeOnMainThread([url](){
-            NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
-            NSURL* nsURL = [NSURL URLWithString:nsStringURL];
+            NSString* urlString = [NSString stringWithUTF8String:url.c_str()];
+            NSURL* nsUrl = [NSURL URLWithString:urlString];
 
-            [[NSWorkspace sharedWorkspace] openURL:nsURL];
+            [[NSWorkspace sharedWorkspace] openURL:nsUrl];
         });
     }
 
