@@ -22,7 +22,7 @@ namespace ouzel
     public:
         Library() = default;
         Library(const std::string& filename) noexcept:
-            handle(LoadLibraryA(filename.c_str()));
+            handle(LoadLibraryA(filename.c_str()))
         {
         }
 
