@@ -17,6 +17,7 @@
 
 #include "NativeWindowWin.hpp"
 #include "EngineWin.hpp"
+#include "Library.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "input/windows/InputSystemWin.hpp"
@@ -30,7 +31,7 @@ namespace
     constexpr LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
     constexpr LONG_PTR MOUSEEVENTF_FROMTOUCH = 0x0FF515700;
 
-    ouzel::input::Keyboard::Key convertKeyCode(LPARAM lParam, WPARAM wParam)
+    ouzel::input::Keyboard::Key convertKeyCode(LPARAM lParam, WPARAM wParam) noexcept
     {
         switch (wParam)
         {
@@ -392,18 +393,16 @@ namespace ouzel
     {
         if (highDpi)
         {
-            HMODULE shcoreModule = LoadLibraryW(L"shcore.dll");
+            Library shcoreModule("shcore.dll");
 
             if (shcoreModule)
             {
                 using SetProcessDpiAwarenessProc = HRESULT(STDAPICALLTYPE *)(int value);
-                SetProcessDpiAwarenessProc setProcessDpiAwarenessProc = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcoreModule, "SetProcessDpiAwareness"));
+                SetProcessDpiAwarenessProc setProcessDpiAwarenessProc = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcoreModule.get(), "SetProcessDpiAwareness"));
 
                 constexpr int PROCESS_PER_MONITOR_DPI_AWARE = 2;
                 if (setProcessDpiAwarenessProc)
                     setProcessDpiAwarenessProc(PROCESS_PER_MONITOR_DPI_AWARE);
-                
-                FreeLibrary(shcoreModule);
             }
         }
 
