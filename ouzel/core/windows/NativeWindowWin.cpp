@@ -402,6 +402,8 @@ namespace ouzel
                 constexpr int PROCESS_PER_MONITOR_DPI_AWARE = 2;
                 if (setProcessDpiAwarenessProc)
                     setProcessDpiAwarenessProc(PROCESS_PER_MONITOR_DPI_AWARE);
+                
+                FreeLibrary(shcoreModule);
             }
         }
 
