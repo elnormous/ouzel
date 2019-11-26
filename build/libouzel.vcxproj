@@ -210,6 +210,7 @@
     <ClInclude Include="..\ouzel\core\Window.hpp" />
     <ClInclude Include="..\ouzel\core\NativeWindow.hpp" />
     <ClInclude Include="..\ouzel\core\windows\EngineWin.hpp" />
+    <ClInclude Include="..\ouzel\core\windows\Library.hpp" />
     <ClInclude Include="..\ouzel\core\windows\NativeWindowWin.hpp" />
     <ClInclude Include="..\ouzel\core\windows\SystemWin.hpp" />
     <ClInclude Include="..\ouzel\DefaultConfig.h" />

@@ -504,6 +504,9 @@
     <ClInclude Include="..\ouzel\core\Window.hpp">
       <Filter>ouzel\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\core\windows\Library.hpp">
+      <Filter>ouzel\core\windows</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\core\windows\NativeWindowWin.hpp">
       <Filter>ouzel\core\windows</Filter>
     </ClInclude>
