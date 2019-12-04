@@ -138,9 +138,12 @@ namespace ouzel
                     {
                         uint8_t code = 0;
 
-                        if (value[i + 2] >= '0' && value[i + 2] <= '9') code = static_cast<uint8_t>(value[i + 2]) - '0';
-                        else if (value[i + 2] >= 'a' && value[i + 2] <='f') code = static_cast<uint8_t>(value[i + 2]) - 'a' + 10;
-                        else if (value[i + 2] >= 'A' && value[i + 2] <='F') code = static_cast<uint8_t>(value[i + 2]) - 'A' + 10;
+                        if (value[i + 2] >= '0' && value[i + 2] <= '9')
+                            code = static_cast<uint8_t>(value[i + 2]) - '0';
+                        else if (value[i + 2] >= 'a' && value[i + 2] <='f')
+                            code = static_cast<uint8_t>(value[i + 2]) - 'a' + 10;
+                        else if (value[i + 2] >= 'A' && value[i + 2] <='F')
+                            code = static_cast<uint8_t>(value[i + 2]) - 'A' + 10;
                         else
                             throw std::runtime_error("Invalid character code");
 
@@ -156,7 +159,8 @@ namespace ouzel
                     {
                         uint8_t code = 0;
 
-                        if (value[i + 1] >= '0' && value[i + 1] <= '9') code = static_cast<uint8_t>(value[i + 1]) - '0';
+                        if (value[i + 1] >= '0' && value[i + 1] <= '9')
+                            code = static_cast<uint8_t>(value[i + 1]) - '0';
                         else
                             throw std::runtime_error("Invalid character code");
 

@@ -72,12 +72,12 @@ namespace ouzel
         inline auto isVisible() const noexcept { return visible; }
         inline auto isMinimized() const noexcept { return minimized; }
 
-        inline auto convertWindowToNormalizedLocation(const Vector2F& position) const
+        inline auto convertWindowToNormalizedLocation(const Vector2F& position) const noexcept
         {
             return Vector2F(position.v[0] / size.v[0], position.v[1] / size.v[1]);
         }
 
-        inline auto convertNormalizedToWindowLocation(const Vector2F& position) const
+        inline auto convertNormalizedToWindowLocation(const Vector2F& position) const noexcept
         {
             return Vector2F(position.v[0] * size.v[0], position.v[1] * size.v[1]);
         }

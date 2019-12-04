@@ -10,14 +10,14 @@ namespace ouzel
     public:
         Timer() noexcept = default;
 
-        void update(const float delta)
+        void update(const float delta) noexcept
         {
             time += delta * scale;
         }
 
         inline auto getTime() const noexcept { return time; }
         inline auto getScale() const noexcept { return scale; }
-        inline void setScale(const float newScale) { scale = newScale; }
+        inline void setScale(const float newScale) noexcept { scale = newScale; }
 
     private:
         float time = 0.0F;
