@@ -17,7 +17,10 @@ namespace ouzel
 {
     namespace ini
     {
-        static const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
+        namespace
+        {
+            const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
+        }
 
         class Data;
 
