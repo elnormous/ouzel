@@ -9,239 +9,242 @@ namespace ouzel
 {
     namespace input
     {
-        struct GamepadConfig final
+        namespace
         {
-            Gamepad::Button buttonMap[24];
-            Gamepad::Axis axisMap[6]; // X, Y, Z, RX, RY, RZ
-        };
+            struct GamepadConfig final
+            {
+                Gamepad::Button buttonMap[24];
+                Gamepad::Axis axisMap[6]; // X, Y, Z, RX, RY, RZ
+            };
 
-        // Playstation 3 controller
-        static const GamepadConfig PLAYSTATION_3_CONFIG = {
-            {
-                Gamepad::Button::Back, // Select
-                Gamepad::Button::LeftThumb, // L3
-                Gamepad::Button::RightThumb, // R3
-                Gamepad::Button::Start, // Start
-                Gamepad::Button::DpadUp,
-                Gamepad::Button::DpadRight,
-                Gamepad::Button::DpadDown,
-                Gamepad::Button::DpadLeft,
-                Gamepad::Button::LeftTrigger, // L2
-                Gamepad::Button::RightTrigger, // R2
-                Gamepad::Button::LeftShoulder, // L1
-                Gamepad::Button::RightShoulder, // R1
-                Gamepad::Button::FaceTop, // Triangle
-                Gamepad::Button::FaceRight, // Circle
-                Gamepad::Button::FaceBottom, // Cross
-                Gamepad::Button::FaceLeft, // Square
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown
-            },
-            {
-                Gamepad::Axis::LeftThumbX,
-                Gamepad::Axis::LeftThumbY,
-                Gamepad::Axis::RightThumbX,
-                Gamepad::Axis::LeftTrigger,
-                Gamepad::Axis::RightTrigger,
-                Gamepad::Axis::RightThumbY
-            }
-        };
+            // Playstation 3 controller
+            constexpr GamepadConfig PLAYSTATION_3_CONFIG = {
+                {
+                    Gamepad::Button::Back, // Select
+                    Gamepad::Button::LeftThumb, // L3
+                    Gamepad::Button::RightThumb, // R3
+                    Gamepad::Button::Start, // Start
+                    Gamepad::Button::DpadUp,
+                    Gamepad::Button::DpadRight,
+                    Gamepad::Button::DpadDown,
+                    Gamepad::Button::DpadLeft,
+                    Gamepad::Button::LeftTrigger, // L2
+                    Gamepad::Button::RightTrigger, // R2
+                    Gamepad::Button::LeftShoulder, // L1
+                    Gamepad::Button::RightShoulder, // R1
+                    Gamepad::Button::FaceTop, // Triangle
+                    Gamepad::Button::FaceRight, // Circle
+                    Gamepad::Button::FaceBottom, // Cross
+                    Gamepad::Button::FaceLeft, // Square
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown
+                },
+                {
+                    Gamepad::Axis::LeftThumbX,
+                    Gamepad::Axis::LeftThumbY,
+                    Gamepad::Axis::RightThumbX,
+                    Gamepad::Axis::LeftTrigger,
+                    Gamepad::Axis::RightTrigger,
+                    Gamepad::Axis::RightThumbY
+                }
+            };
 
-        // Playstation 4 controller
-        static const GamepadConfig PLAYSTATION_4_CONFIG = {
-            {
-                Gamepad::Button::FaceLeft, // Square
-                Gamepad::Button::FaceBottom, // Cross
-                Gamepad::Button::FaceRight, // Circle
-                Gamepad::Button::FaceTop, // Triangle
-                Gamepad::Button::LeftShoulder, // L1
-                Gamepad::Button::RightShoulder, // R1
-                Gamepad::Button::LeftTrigger, // L2
-                Gamepad::Button::RightTrigger, // R2
-                Gamepad::Button::Back, // Share
-                Gamepad::Button::Start, // Options
-                Gamepad::Button::LeftThumb, // L3
-                Gamepad::Button::RightThumb, // R3
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown
-            },
-            {
-                Gamepad::Axis::LeftThumbX,
-                Gamepad::Axis::LeftThumbY,
-                Gamepad::Axis::RightThumbX,
-                Gamepad::Axis::LeftTrigger,
-                Gamepad::Axis::RightTrigger,
-                Gamepad::Axis::RightThumbY
-            }
-        };
+            // Playstation 4 controller
+            constexpr GamepadConfig PLAYSTATION_4_CONFIG = {
+                {
+                    Gamepad::Button::FaceLeft, // Square
+                    Gamepad::Button::FaceBottom, // Cross
+                    Gamepad::Button::FaceRight, // Circle
+                    Gamepad::Button::FaceTop, // Triangle
+                    Gamepad::Button::LeftShoulder, // L1
+                    Gamepad::Button::RightShoulder, // R1
+                    Gamepad::Button::LeftTrigger, // L2
+                    Gamepad::Button::RightTrigger, // R2
+                    Gamepad::Button::Back, // Share
+                    Gamepad::Button::Start, // Options
+                    Gamepad::Button::LeftThumb, // L3
+                    Gamepad::Button::RightThumb, // R3
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown
+                },
+                {
+                    Gamepad::Axis::LeftThumbX,
+                    Gamepad::Axis::LeftThumbY,
+                    Gamepad::Axis::RightThumbX,
+                    Gamepad::Axis::LeftTrigger,
+                    Gamepad::Axis::RightTrigger,
+                    Gamepad::Axis::RightThumbY
+                }
+            };
 
-        // Xbox One controller
-        static const GamepadConfig XBOX_ONE_CONFIG = {
-            {
-                Gamepad::Button::FaceBottom, // A
-                Gamepad::Button::FaceRight, // B
-                Gamepad::Button::FaceLeft, // X
-                Gamepad::Button::FaceTop, // Y
-                Gamepad::Button::LeftShoulder,
-                Gamepad::Button::RightShoulder,
-                Gamepad::Button::LeftThumb,
-                Gamepad::Button::RightThumb,
-                Gamepad::Button::Back, // Menu
-                Gamepad::Button::Start, // View
-                Gamepad::Button::DpadUp,
-                Gamepad::Button::DpadDown,
-                Gamepad::Button::DpadLeft,
-                Gamepad::Button::DpadRight,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown
-            },
-            {
-                Gamepad::Axis::LeftThumbX,
-                Gamepad::Axis::LeftThumbY,
-                Gamepad::Axis::RightThumbX,
-                Gamepad::Axis::RightThumbY,
-                Gamepad::Axis::LeftTrigger,
-                Gamepad::Axis::RightTrigger
-            }
-        };
+            // Xbox One controller
+            constexpr GamepadConfig XBOX_ONE_CONFIG = {
+                {
+                    Gamepad::Button::FaceBottom, // A
+                    Gamepad::Button::FaceRight, // B
+                    Gamepad::Button::FaceLeft, // X
+                    Gamepad::Button::FaceTop, // Y
+                    Gamepad::Button::LeftShoulder,
+                    Gamepad::Button::RightShoulder,
+                    Gamepad::Button::LeftThumb,
+                    Gamepad::Button::RightThumb,
+                    Gamepad::Button::Back, // Menu
+                    Gamepad::Button::Start, // View
+                    Gamepad::Button::DpadUp,
+                    Gamepad::Button::DpadDown,
+                    Gamepad::Button::DpadLeft,
+                    Gamepad::Button::DpadRight,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown
+                },
+                {
+                    Gamepad::Axis::LeftThumbX,
+                    Gamepad::Axis::LeftThumbY,
+                    Gamepad::Axis::RightThumbX,
+                    Gamepad::Axis::RightThumbY,
+                    Gamepad::Axis::LeftTrigger,
+                    Gamepad::Axis::RightTrigger
+                }
+            };
 
-        // Xbox 360 controller
-        static const GamepadConfig XBOX_360_CONFIG = {
-            {
-                Gamepad::Button::FaceBottom, // A
-                Gamepad::Button::FaceRight, // B
-                Gamepad::Button::FaceLeft, // X
-                Gamepad::Button::FaceTop, // Y
-                Gamepad::Button::LeftShoulder,
-                Gamepad::Button::RightShoulder,
-                Gamepad::Button::LeftThumb,
-                Gamepad::Button::RightThumb,
-                Gamepad::Button::Start,
-                Gamepad::Button::Back,
-                Gamepad::Button::DpadUp,
-                Gamepad::Button::DpadDown,
-                Gamepad::Button::DpadLeft,
-                Gamepad::Button::DpadRight,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown
-            },
-            {
-                Gamepad::Axis::LeftThumbX,
-                Gamepad::Axis::LeftThumbY,
-                Gamepad::Axis::LeftTrigger,
-                Gamepad::Axis::RightThumbX,
-                Gamepad::Axis::RightThumbY,
-                Gamepad::Axis::RightTrigger
-            }
-        };
+            // Xbox 360 controller
+            constexpr GamepadConfig XBOX_360_CONFIG = {
+                {
+                    Gamepad::Button::FaceBottom, // A
+                    Gamepad::Button::FaceRight, // B
+                    Gamepad::Button::FaceLeft, // X
+                    Gamepad::Button::FaceTop, // Y
+                    Gamepad::Button::LeftShoulder,
+                    Gamepad::Button::RightShoulder,
+                    Gamepad::Button::LeftThumb,
+                    Gamepad::Button::RightThumb,
+                    Gamepad::Button::Start,
+                    Gamepad::Button::Back,
+                    Gamepad::Button::DpadUp,
+                    Gamepad::Button::DpadDown,
+                    Gamepad::Button::DpadLeft,
+                    Gamepad::Button::DpadRight,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown
+                },
+                {
+                    Gamepad::Axis::LeftThumbX,
+                    Gamepad::Axis::LeftThumbY,
+                    Gamepad::Axis::LeftTrigger,
+                    Gamepad::Axis::RightThumbX,
+                    Gamepad::Axis::RightThumbY,
+                    Gamepad::Axis::RightTrigger
+                }
+            };
 
-        // Acme GA07 controller
-        static const GamepadConfig ACME_GA07_CONFIG = {
-            {
-                Gamepad::Button::FaceTop, // 1
-                Gamepad::Button::FaceRight, // 2
-                Gamepad::Button::FaceBottom, // 3
-                Gamepad::Button::FaceLeft, // 4
-                Gamepad::Button::LeftShoulder,
-                Gamepad::Button::RightShoulder,
-                Gamepad::Button::LeftTrigger,
-                Gamepad::Button::RightTrigger,
-                Gamepad::Button::Back,
-                Gamepad::Button::Start,
-                Gamepad::Button::LeftThumb,
-                Gamepad::Button::RightThumb,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown
-            },
-            {
-                Gamepad::Axis::LeftThumbX,
-                Gamepad::Axis::LeftThumbY,
-                Gamepad::Axis::RightThumbX,
-                Gamepad::Axis::Unknown,
-                Gamepad::Axis::Unknown,
-                Gamepad::Axis::RightThumbY
-            }
-        };
+            // Acme GA07 controller
+            constexpr GamepadConfig ACME_GA07_CONFIG = {
+                {
+                    Gamepad::Button::FaceTop, // 1
+                    Gamepad::Button::FaceRight, // 2
+                    Gamepad::Button::FaceBottom, // 3
+                    Gamepad::Button::FaceLeft, // 4
+                    Gamepad::Button::LeftShoulder,
+                    Gamepad::Button::RightShoulder,
+                    Gamepad::Button::LeftTrigger,
+                    Gamepad::Button::RightTrigger,
+                    Gamepad::Button::Back,
+                    Gamepad::Button::Start,
+                    Gamepad::Button::LeftThumb,
+                    Gamepad::Button::RightThumb,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown
+                },
+                {
+                    Gamepad::Axis::LeftThumbX,
+                    Gamepad::Axis::LeftThumbY,
+                    Gamepad::Axis::RightThumbX,
+                    Gamepad::Axis::Unknown,
+                    Gamepad::Axis::Unknown,
+                    Gamepad::Axis::RightThumbY
+                }
+            };
 
-        // Generic controller
-        static const GamepadConfig GENERIC_CONFIG = {
-            {
-                Gamepad::Button::FaceLeft,
-                Gamepad::Button::FaceBottom,
-                Gamepad::Button::FaceRight,
-                Gamepad::Button::FaceTop,
-                Gamepad::Button::LeftShoulder,
-                Gamepad::Button::RightShoulder,
-                Gamepad::Button::LeftTrigger,
-                Gamepad::Button::RightTrigger,
-                Gamepad::Button::Back,
-                Gamepad::Button::Start,
-                Gamepad::Button::LeftThumb,
-                Gamepad::Button::RightThumb,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown,
-                Gamepad::Button::Unknown
-            },
-            {
-                Gamepad::Axis::LeftThumbX,
-                Gamepad::Axis::LeftThumbY,
-                Gamepad::Axis::RightThumbX,
-                Gamepad::Axis::LeftTrigger,
-                Gamepad::Axis::RightTrigger,
-                Gamepad::Axis::RightThumbY
-            }
-        };
+            // Generic controller
+            constexpr GamepadConfig GENERIC_CONFIG = {
+                {
+                    Gamepad::Button::FaceLeft,
+                    Gamepad::Button::FaceBottom,
+                    Gamepad::Button::FaceRight,
+                    Gamepad::Button::FaceTop,
+                    Gamepad::Button::LeftShoulder,
+                    Gamepad::Button::RightShoulder,
+                    Gamepad::Button::LeftTrigger,
+                    Gamepad::Button::RightTrigger,
+                    Gamepad::Button::Back,
+                    Gamepad::Button::Start,
+                    Gamepad::Button::LeftThumb,
+                    Gamepad::Button::RightThumb,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown,
+                    Gamepad::Button::Unknown
+                },
+                {
+                    Gamepad::Axis::LeftThumbX,
+                    Gamepad::Axis::LeftThumbY,
+                    Gamepad::Axis::RightThumbX,
+                    Gamepad::Axis::LeftTrigger,
+                    Gamepad::Axis::RightTrigger,
+                    Gamepad::Axis::RightThumbY
+                }
+            };
+        }
 
         inline auto& getGamepadConfig(int32_t vendorId, int32_t productId)
         {
