@@ -192,13 +192,13 @@ namespace ouzel
                                     case 't': token.value.push_back('\t'); break;
                                     case 'u':
                                     {
-                                        if (std::distance(++iterator, str.cend()) < 4)
-                                            throw std::runtime_error("Unexpected end of data");
-
                                         char32_t c = 0;
 
                                         for (uint32_t i = 0; i < 4; ++i, ++iterator)
                                         {
+                                            if (iterator == str.cend())
+                                                throw std::runtime_error("Unexpected end of data");
+
                                             uint8_t code = 0;
 
                                             if (*iterator >= '0' && *iterator <= '9') code = static_cast<uint8_t>(*iterator) - '0';
