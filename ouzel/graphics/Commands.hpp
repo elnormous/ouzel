@@ -8,6 +8,7 @@
 #include "graphics/BlendFactor.hpp"
 #include "graphics/BlendOperation.hpp"
 #include "graphics/BufferType.hpp"
+#include "graphics/ColorMask.hpp"
 #include "graphics/CompareFunction.hpp"
 #include "graphics/CubeFace.hpp"
 #include "graphics/DataType.hpp"
@@ -394,7 +395,7 @@ namespace ouzel
                                             BlendFactor initAlphaBlendSource,
                                             BlendFactor initAlphaBlendDest,
                                             BlendOperation initAlphaOperation,
-                                            uint8_t initColorMask) noexcept:
+                                            ColorMask initColorMask) noexcept:
                 Command(Command::Type::InitBlendState),
                 blendState(initBlendState),
                 enableBlending(initEnableBlending),
@@ -416,7 +417,7 @@ namespace ouzel
             const BlendFactor alphaBlendSource;
             const BlendFactor alphaBlendDest;
             const BlendOperation alphaOperation;
-            const uint8_t colorMask;
+            const ColorMask colorMask;
         };
 
         class InitBufferCommand final: public Command

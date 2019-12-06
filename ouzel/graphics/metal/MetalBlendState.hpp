@@ -40,7 +40,7 @@ namespace ouzel
                            BlendFactor alphaBlendSource,
                            BlendFactor alphaBlendDest,
                            BlendOperation alphaOperation,
-                           uint8_t colorMask);
+                           ColorMask colorMask);
 
                 inline auto getRgbBlendOperation() const noexcept { return rgbBlendOperation; }
                 inline auto getAlphaBlendOperation() const noexcept { return alphaBlendOperation; }

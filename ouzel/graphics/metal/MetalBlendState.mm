@@ -60,7 +60,7 @@ namespace ouzel
                                    BlendFactor alphaBlendSource,
                                    BlendFactor alphaBlendDest,
                                    BlendOperation alphaOperation,
-                                   uint8_t colorMask):
+                                   ColorMask colorMask):
                 RenderResource(initRenderDevice),
                 rgbBlendOperation(getBlendOperation(colorOperation)),
                 alphaBlendOperation(getBlendOperation(alphaOperation)),

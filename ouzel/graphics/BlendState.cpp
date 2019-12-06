@@ -20,7 +20,7 @@ namespace ouzel
                                BlendFactor initAlphaBlendSource,
                                BlendFactor initAlphaBlendDest,
                                BlendOperation initAlphaOperation,
-                               uint8_t initColorMask):
+                               ColorMask initColorMask):
             resource(initRenderer.getDevice()->createResource()),
             colorBlendSource(initColorBlendSource),
             colorBlendDest(initColorBlendDest),
