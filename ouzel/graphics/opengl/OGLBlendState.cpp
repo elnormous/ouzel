@@ -74,10 +74,10 @@ namespace ouzel
                 sourceFactorAlpha = getBlendFactor(alphaBlendSource);
                 destFactorAlpha = getBlendFactor(alphaBlendDest);
 
-                redMask = (colorMask & ColorMask::Red) ? GL_TRUE : GL_FALSE;
-                greenMask = (colorMask & ColorMask::Green) ? GL_TRUE : GL_FALSE;
-                blueMask = (colorMask & ColorMask::Blue) ? GL_TRUE : GL_FALSE;
-                alphaMask = (colorMask & ColorMask::Alpha) ? GL_TRUE : GL_FALSE;
+                redMask = ((colorMask & ColorMask::Red) == ColorMask::Red) ? GL_TRUE : GL_FALSE;
+                greenMask = ((colorMask & ColorMask::Green) == ColorMask::Green) ? GL_TRUE : GL_FALSE;
+                blueMask = ((colorMask & ColorMask::Blue) == ColorMask::Blue) ? GL_TRUE : GL_FALSE;
+                alphaMask = ((colorMask & ColorMask::Alpha) == ColorMask::Alpha) ? GL_TRUE : GL_FALSE;
             }
         } // namespace opengl
     } // namespace graphics

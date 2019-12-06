@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        enum ColorMask
+        enum class ColorMask: uint8_t
         {
             Red = 0x01,
             Green = 0x02,
@@ -15,6 +15,62 @@ namespace ouzel
             Alpha = 0x08,
             All = Red | Green | Blue | Alpha
         };
+
+        inline constexpr ColorMask operator&(const ColorMask a, const ColorMask b)
+        {
+            return static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) & static_cast<std::underlying_type_t<ColorMask>>(b));
+        }
+        inline constexpr ColorMask operator|(const ColorMask a, const ColorMask b)
+        {
+            return static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) | static_cast<std::underlying_type_t<ColorMask>>(b));
+        }
+        inline constexpr ColorMask operator^(const ColorMask a, const ColorMask b)
+        {
+            return static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) ^ static_cast<std::underlying_type_t<ColorMask>>(b));
+        }
+        inline constexpr ColorMask operator~(const ColorMask a)
+        {
+            return static_cast<ColorMask>(~static_cast<std::underlying_type_t<ColorMask>>(a));
+        }
+        inline constexpr ColorMask& operator|=(ColorMask& a, const ColorMask b)
+        {
+            a = static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) | static_cast<std::underlying_type_t<ColorMask>>(b));
+            return a;
+        }
+        inline constexpr ColorMask& operator&=(ColorMask& a, const ColorMask b)
+        {
+            a = static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) & static_cast<std::underlying_type_t<ColorMask>>(b));
+            return a;
+        }
+        inline constexpr ColorMask& operator^=(ColorMask& a, const ColorMask b)
+        {
+            a = static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) ^ static_cast<std::underlying_type_t<ColorMask>>(b));
+            return a;
+        }
+        inline constexpr bool operator==(const ColorMask a, const ColorMask b)
+        {
+            return static_cast<std::underlying_type_t<ColorMask>>(a) == static_cast<std::underlying_type_t<ColorMask>>(b);
+        }
+        inline constexpr bool operator!=(const ColorMask a, const ColorMask b)
+        {
+            return static_cast<std::underlying_type_t<ColorMask>>(a) != static_cast<std::underlying_type_t<ColorMask>>(b);
+        }
+        inline constexpr bool operator>(const ColorMask a, const ColorMask b)
+        {
+            return static_cast<std::underlying_type_t<ColorMask>>(a) > static_cast<std::underlying_type_t<ColorMask>>(b);
+        }
+        inline constexpr bool operator<(const ColorMask a, const ColorMask b)
+        {
+            return static_cast<std::underlying_type_t<ColorMask>>(a) < static_cast<std::underlying_type_t<ColorMask>>(b);
+        }
+        inline constexpr bool operator>=(const ColorMask a, const ColorMask b)
+        {
+            return static_cast<std::underlying_type_t<ColorMask>>(a) >= static_cast<std::underlying_type_t<ColorMask>>(b);
+        }
+        inline constexpr bool operator<=(const ColorMask a, const ColorMask b)
+        {
+            return static_cast<std::underlying_type_t<ColorMask>>(a) <= static_cast<std::underlying_type_t<ColorMask>>(b);
+        }
     } // namespace graphics
 } // namespace ouzel
 
