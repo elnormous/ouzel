@@ -16,60 +16,64 @@ namespace ouzel
             All = Red | Green | Blue | Alpha
         };
 
-        inline constexpr ColorMask operator&(const ColorMask a, const ColorMask b)
+        inline constexpr ColorMask operator&(const ColorMask a, const ColorMask b) noexcept
         {
             return static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) & static_cast<std::underlying_type_t<ColorMask>>(b));
         }
-        inline constexpr ColorMask operator|(const ColorMask a, const ColorMask b)
+        inline constexpr ColorMask operator|(const ColorMask a, const ColorMask b) noexcept
         {
             return static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) | static_cast<std::underlying_type_t<ColorMask>>(b));
         }
-        inline constexpr ColorMask operator^(const ColorMask a, const ColorMask b)
+        inline constexpr ColorMask operator^(const ColorMask a, const ColorMask b) noexcept
         {
             return static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) ^ static_cast<std::underlying_type_t<ColorMask>>(b));
         }
-        inline constexpr ColorMask operator~(const ColorMask a)
+        inline constexpr ColorMask operator~(const ColorMask a) noexcept
         {
             return static_cast<ColorMask>(~static_cast<std::underlying_type_t<ColorMask>>(a));
         }
-        inline constexpr ColorMask& operator|=(ColorMask& a, const ColorMask b)
+        inline constexpr ColorMask& operator|=(ColorMask& a, const ColorMask b) noexcept
         {
             a = static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) | static_cast<std::underlying_type_t<ColorMask>>(b));
             return a;
         }
-        inline constexpr ColorMask& operator&=(ColorMask& a, const ColorMask b)
+        inline constexpr ColorMask& operator&=(ColorMask& a, const ColorMask b) noexcept
         {
             a = static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) & static_cast<std::underlying_type_t<ColorMask>>(b));
             return a;
         }
-        inline constexpr ColorMask& operator^=(ColorMask& a, const ColorMask b)
+        inline constexpr ColorMask& operator^=(ColorMask& a, const ColorMask b) noexcept
         {
             a = static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) ^ static_cast<std::underlying_type_t<ColorMask>>(b));
             return a;
         }
-        inline constexpr bool operator==(const ColorMask a, const ColorMask b)
+        inline constexpr bool operator==(const ColorMask a, const ColorMask b) noexcept
         {
             return static_cast<std::underlying_type_t<ColorMask>>(a) == static_cast<std::underlying_type_t<ColorMask>>(b);
         }
-        inline constexpr bool operator!=(const ColorMask a, const ColorMask b)
+        inline constexpr bool operator!=(const ColorMask a, const ColorMask b) noexcept
         {
             return static_cast<std::underlying_type_t<ColorMask>>(a) != static_cast<std::underlying_type_t<ColorMask>>(b);
         }
-        inline constexpr bool operator>(const ColorMask a, const ColorMask b)
+        inline constexpr bool operator>(const ColorMask a, const ColorMask b) noexcept
         {
             return static_cast<std::underlying_type_t<ColorMask>>(a) > static_cast<std::underlying_type_t<ColorMask>>(b);
         }
-        inline constexpr bool operator<(const ColorMask a, const ColorMask b)
+        inline constexpr bool operator<(const ColorMask a, const ColorMask b) noexcept
         {
             return static_cast<std::underlying_type_t<ColorMask>>(a) < static_cast<std::underlying_type_t<ColorMask>>(b);
         }
-        inline constexpr bool operator>=(const ColorMask a, const ColorMask b)
+        inline constexpr bool operator>=(const ColorMask a, const ColorMask b) noexcept
         {
             return static_cast<std::underlying_type_t<ColorMask>>(a) >= static_cast<std::underlying_type_t<ColorMask>>(b);
         }
-        inline constexpr bool operator<=(const ColorMask a, const ColorMask b)
+        inline constexpr bool operator<=(const ColorMask a, const ColorMask b) noexcept
         {
             return static_cast<std::underlying_type_t<ColorMask>>(a) <= static_cast<std::underlying_type_t<ColorMask>>(b);
+        }
+        inline constexpr bool operator!(const ColorMask a) noexcept
+        {
+            return !static_cast<std::underlying_type_t<ColorMask>>(a);
         }
     } // namespace graphics
 } // namespace ouzel
