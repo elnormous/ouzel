@@ -191,7 +191,7 @@ namespace ouzel
 
                             auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
                                                                [](const std::pair<Actor*, Vector3F>& a,
-                                                                  const std::pair<Actor*, Vector3F>& b) {
+                                                                  const std::pair<Actor*, Vector3F>& b) noexcept {
                                                                    return a.first->worldOrder < b.first->worldOrder;
                                                                });
 
@@ -227,7 +227,7 @@ namespace ouzel
                         if (actor->isPickable() && actor->shapeOverlaps(edges))
                         {
                             auto upperBound = std::upper_bound(actors.begin(), actors.end(), actor,
-                                                               [](Actor* a, Actor* b) {
+                                                               [](Actor* a, Actor* b) noexcept {
                                                                    return a->worldOrder < b->worldOrder;
                                                                });
 
@@ -268,7 +268,7 @@ namespace ouzel
                 if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
                 {
                     auto upperBound = std::upper_bound(drawQueue.begin(), drawQueue.end(), this,
-                                                       [](Actor* a, Actor* b) {
+                                                       [](Actor* a, Actor* b) noexcept {
                                                            return a->worldOrder > b->worldOrder;
                                                        });
 

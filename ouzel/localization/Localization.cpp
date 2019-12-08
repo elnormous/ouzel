@@ -32,14 +32,14 @@ namespace ouzel
             constexpr uint32_t MAGIC_LITTLE = 0x950412DE;
 
             if (magic == MAGIC_BIG)
-                return [](const uint8_t* bytes) {
+                return [](const uint8_t* bytes) noexcept {
                     return static_cast<uint32_t>(bytes[3] |
                                                  (bytes[2] << 8) |
                                                  (bytes[1] << 16) |
                                                  (bytes[0] << 24));
                 };
             else if (magic == MAGIC_LITTLE)
-                return [](const uint8_t* bytes) {
+                return [](const uint8_t* bytes) noexcept {
                     return static_cast<uint32_t>(bytes[0] |
                                                  (bytes[1] << 8) |
                                                  (bytes[2] << 16) |
