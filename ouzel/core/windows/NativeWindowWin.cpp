@@ -234,8 +234,11 @@ namespace
 
     LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
     {
-        ouzel::NativeWindowWin* windowWin = reinterpret_cast<ouzel::NativeWindowWin*>(GetWindowLongPtr(window, GWLP_USERDATA));
-        if (!windowWin) return DefWindowProcW(window, message, wParam, lParam);
+        auto userData = GetWindowLongPtr(window, GWLP_USERDATA);
+        if (!userData) return DefWindowProcW(window, message, wParam, lParam);
+
+        ouzel::NativeWindowWin* windowWin;
+        memcpy(&windowWin, &userData, sizeof(windowWin));
 
         switch (message)
         {
@@ -482,7 +485,11 @@ namespace ouzel
 
         SetLastError(ERROR_SUCCESS);
 
-        if (!SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this)))
+        ouzel::NativeWindowWin* windowWin = this;
+        LONG_PTR userData;
+        memcpy(&userData, &windowWin, sizeof(windowWin));
+
+        if (!SetWindowLongPtr(window, GWLP_USERDATA, userData))
             if (DWORD error = GetLastError())
                 throw std::system_error(error, std::system_category(), "Failed to set window pointer");
     }
