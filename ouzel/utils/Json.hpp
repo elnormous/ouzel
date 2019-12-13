@@ -17,104 +17,100 @@ namespace ouzel
 {
     namespace json
     {
-        namespace
+        constexpr uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
+
+        inline void encodeString(std::vector<uint8_t>& data,
+                                const std::u32string& str)
         {
-            const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
-
-            inline void encodeString(std::vector<uint8_t>& data,
-                                    const std::u32string& str)
+            for (const char32_t c : str)
             {
-                for (const char32_t c : str)
+                if (c == '"') data.insert(data.end(), {'\\', '"'});
+                else if (c == '\\') data.insert(data.end(), {'\\', '\\'});
+                else if (c == '/') data.insert(data.end(), {'\\', '/'});
+                else if (c == '\b') data.insert(data.end(), {'\\', 'b'});
+                else if (c == '\f') data.insert(data.end(), {'\\', 'f'});
+                else if (c == '\n') data.insert(data.end(), {'\\', 'n'});
+                else if (c == '\r') data.insert(data.end(), {'\\', 'r'});
+                else if (c == '\t') data.insert(data.end(), {'\\', 't'});
+                else if (c <= 0x1F)
                 {
-                    if (c == '"') data.insert(data.end(), {'\\', '"'});
-                    else if (c == '\\') data.insert(data.end(), {'\\', '\\'});
-                    else if (c == '/') data.insert(data.end(), {'\\', '/'});
-                    else if (c == '\b') data.insert(data.end(), {'\\', 'b'});
-                    else if (c == '\f') data.insert(data.end(), {'\\', 'f'});
-                    else if (c == '\n') data.insert(data.end(), {'\\', 'n'});
-                    else if (c == '\r') data.insert(data.end(), {'\\', 'r'});
-                    else if (c == '\t') data.insert(data.end(), {'\\', 't'});
-                    else if (c <= 0x1F)
-                    {
-                        data.insert(data.end(), {'\\', 'u'});
+                    data.insert(data.end(), {'\\', 'u'});
 
-                        constexpr char digits[] = "0123456789abcdef";
-                        for (uint32_t p = 0; p < 4; ++p)
-                            data.push_back(static_cast<uint8_t>(digits[(c >> (12 - p * 4)) & 0x0F]));
-                    }
-                    else
-                    {
-                        std::string encoded = utf8::fromUtf32(c);
-                        data.insert(data.end(), encoded.begin(), encoded.end());
-                    }
+                    constexpr char digits[] = "0123456789abcdef";
+                    for (uint32_t p = 0; p < 4; ++p)
+                        data.push_back(static_cast<uint8_t>(digits[(c >> (12 - p * 4)) & 0x0F]));
+                }
+                else
+                {
+                    std::string encoded = utf8::fromUtf32(c);
+                    data.insert(data.end(), encoded.begin(), encoded.end());
                 }
             }
+        }
 
-            struct Token final
+        struct Token final
+        {
+            enum class Type
             {
-                enum class Type
-                {
-                    LiteralInteger, // integer
-                    LiteralFloat, // float
-                    LiteralString, // string
-                    KeywordTrue, // true
-                    KeywordFalse, // false
-                    KeywordNull, // null
-                    LeftBrace, // {
-                    RightBrace, // }
-                    LeftBracket, // [
-                    RightBracket, // ]
-                    Comma, // ,
-                    Colon // :
-                };
-
-                Type type;
-                std::u32string value;
+                LiteralInteger, // integer
+                LiteralFloat, // float
+                LiteralString, // string
+                KeywordTrue, // true
+                KeywordFalse, // false
+                KeywordNull, // null
+                LeftBrace, // {
+                RightBrace, // }
+                LeftBracket, // [
+                RightBracket, // ]
+                Comma, // ,
+                Colon // :
             };
 
-            inline std::vector<Token> tokenize(const std::u32string& str)
+            Type type;
+            std::u32string value;
+        };
+
+        inline std::vector<Token> tokenize(const std::u32string& str)
+        {
+            std::vector<Token> tokens;
+
+            static const std::map<std::u32string, Token::Type> keywordMap{
+                {{'t', 'r', 'u', 'e'}, Token::Type::KeywordTrue},
+                {{'f', 'a', 'l', 's', 'e'}, Token::Type::KeywordFalse},
+                {{'n', 'u', 'l', 'l'}, Token::Type::KeywordNull}
+            };
+
+            // tokenize
+            for (auto iterator = str.cbegin(); iterator != str.cend();)
             {
-                std::vector<Token> tokens;
+                Token token;
 
-                static const std::map<std::u32string, Token::Type> keywordMap{
-                    {{'t', 'r', 'u', 'e'}, Token::Type::KeywordTrue},
-                    {{'f', 'a', 'l', 's', 'e'}, Token::Type::KeywordFalse},
-                    {{'n', 'u', 'l', 'l'}, Token::Type::KeywordNull}
-                };
-
-                // tokenize
-                for (auto iterator = str.cbegin(); iterator != str.cend();)
+                if (*iterator == '-' ||
+                    (*iterator >= '0' && *iterator <= '9'))
                 {
-                    Token token;
+                    token.type = Token::Type::LiteralInteger;
 
-                    if (*iterator == '{' || *iterator == '}' ||
-                        *iterator == '[' || *iterator == ']' ||
-                        *iterator == ',' || *iterator == ':') // punctuation
+                    if (*iterator == '-')
                     {
-                        switch (*iterator)
-                        {
-                            case '{': token.type = Token::Type::LeftBrace; break;
-                            case '}': token.type = Token::Type::RightBrace; break;
-                            case '[': token.type = Token::Type::LeftBracket; break;
-                            case ']': token.type = Token::Type::RightBracket; break;
-                            case ',': token.type = Token::Type::Comma; break;
-                            case ':': token.type = Token::Type::Colon; break;
-                        }
+                        token.value.push_back(*iterator);
+                        if (++iterator == str.cend() ||
+                            *iterator < '0' || *iterator > '9')
+                            throw std::runtime_error("Invalid number");
+                    }
 
+                    while (iterator != str.cend() &&
+                        (*iterator >= '0' && *iterator <= '9'))
+                    {
+                        token.value.push_back(*iterator);
                         ++iterator;
                     }
-                    else if (*iterator == '-' ||
-                            (*iterator >= '0' && *iterator <= '9'))
-                    {
-                        token.type = Token::Type::LiteralInteger;
 
-                        if (*iterator == '-')
-                        {
-                            token.value.push_back(*iterator);
-                            if (++iterator == str.cend() ||
-                                *iterator < '0' || *iterator > '9')
-                                throw std::runtime_error("Invalid number");
-                        }
+                    if (iterator != str.cend() && *iterator == '.')
+                    {
+                        token.type = Token::Type::LiteralFloat;
+
+                        token.value.push_back(*iterator);
+                        ++iterator;
 
                         while (iterator != str.cend() &&
                             (*iterator >= '0' && *iterator <= '9'))
@@ -122,146 +118,144 @@ namespace ouzel
                             token.value.push_back(*iterator);
                             ++iterator;
                         }
+                    }
 
-                        if (iterator != str.cend() && *iterator == '.')
+                    // parse exponent
+                    if (iterator != str.cend() &&
+                        (*iterator == 'e' || *iterator == 'E'))
+                    {
+                        token.value.push_back(*iterator);
+
+                        if (++iterator == str.cend())
+                            throw std::runtime_error("Invalid exponent");
+
+                        if (*iterator == '+' || *iterator == '-')
+                            token.value.push_back(*iterator);
+
+                        if (++iterator == str.cend() || *iterator < '0' || *iterator > '9')
+                            throw std::runtime_error("Invalid exponent");
+
+                        while (iterator != str.cend() &&
+                            (*iterator >= '0' && *iterator <= '9'))
                         {
-                            token.type = Token::Type::LiteralFloat;
-
                             token.value.push_back(*iterator);
                             ++iterator;
-
-                            while (iterator != str.cend() &&
-                                (*iterator >= '0' && *iterator <= '9'))
-                            {
-                                token.value.push_back(*iterator);
-                                ++iterator;
-                            }
-                        }
-
-                        // parse exponent
-                        if (iterator != str.cend() &&
-                            (*iterator == 'e' || *iterator == 'E'))
-                        {
-                            token.value.push_back(*iterator);
-
-                            if (++iterator == str.cend())
-                                throw std::runtime_error("Invalid exponent");
-
-                            if (*iterator == '+' || *iterator == '-')
-                                token.value.push_back(*iterator);
-
-                            if (++iterator == str.cend() || *iterator < '0' || *iterator > '9')
-                                throw std::runtime_error("Invalid exponent");
-
-                            while (iterator != str.cend() &&
-                                (*iterator >= '0' && *iterator <= '9'))
-                            {
-                                token.value.push_back(*iterator);
-                                ++iterator;
-                            }
                         }
                     }
-                    else if (*iterator == '"') // string literal
-                    {
-                        token.type = Token::Type::LiteralString;
+                }
+                else if (*iterator == '"') // string literal
+                {
+                    token.type = Token::Type::LiteralString;
 
-                        for (;;)
+                    for (;;)
+                    {
+                        if (++iterator == str.cend())
+                            throw std::runtime_error("Unterminated string literal");
+
+                        if (*iterator == '"')
+                        {
+                            ++iterator;
+                            break;
+                        }
+                        else if (*iterator == '\\')
                         {
                             if (++iterator == str.cend())
                                 throw std::runtime_error("Unterminated string literal");
 
-                            if (*iterator == '"')
+                            switch (*iterator)
                             {
-                                ++iterator;
-                                break;
-                            }
-                            else if (*iterator == '\\')
-                            {
-                                if (++iterator == str.cend())
-                                    throw std::runtime_error("Unterminated string literal");
-
-                                switch (*iterator)
+                                case '"': token.value.push_back('"'); break;
+                                case '\\': token.value.push_back('\\'); break;
+                                case '/': token.value.push_back('/'); break;
+                                case 'b': token.value.push_back('\b'); break;
+                                case 'f': token.value.push_back('\f'); break;
+                                case 'n': token.value.push_back('\n'); break;
+                                case 'r': token.value.push_back('\r'); break;
+                                case 't': token.value.push_back('\t'); break;
+                                case 'u':
                                 {
-                                    case '"': token.value.push_back('"'); break;
-                                    case '\\': token.value.push_back('\\'); break;
-                                    case '/': token.value.push_back('/'); break;
-                                    case 'b': token.value.push_back('\b'); break;
-                                    case 'f': token.value.push_back('\f'); break;
-                                    case 'n': token.value.push_back('\n'); break;
-                                    case 'r': token.value.push_back('\r'); break;
-                                    case 't': token.value.push_back('\t'); break;
-                                    case 'u':
+                                    char32_t c = 0;
+
+                                    for (uint32_t i = 0; i < 4; ++i, ++iterator)
                                     {
-                                        char32_t c = 0;
+                                        if (iterator == str.cend())
+                                            throw std::runtime_error("Unexpected end of data");
 
-                                        for (uint32_t i = 0; i < 4; ++i, ++iterator)
-                                        {
-                                            if (iterator == str.cend())
-                                                throw std::runtime_error("Unexpected end of data");
+                                        uint8_t code = 0;
 
-                                            uint8_t code = 0;
+                                        if (*iterator >= '0' && *iterator <= '9') code = static_cast<uint8_t>(*iterator) - '0';
+                                        else if (*iterator >= 'a' && *iterator <='f') code = static_cast<uint8_t>(*iterator) - 'a' + 10;
+                                        else if (*iterator >= 'A' && *iterator <='F') code = static_cast<uint8_t>(*iterator) - 'A' + 10;
+                                        else
+                                            throw std::runtime_error("Invalid character code");
 
-                                            if (*iterator >= '0' && *iterator <= '9') code = static_cast<uint8_t>(*iterator) - '0';
-                                            else if (*iterator >= 'a' && *iterator <='f') code = static_cast<uint8_t>(*iterator) - 'a' + 10;
-                                            else if (*iterator >= 'A' && *iterator <='F') code = static_cast<uint8_t>(*iterator) - 'A' + 10;
-                                            else
-                                                throw std::runtime_error("Invalid character code");
-
-                                            c = (c << 4) | code;
-                                        }
-
-                                        token.value.push_back(c);
-                                        break;
+                                        c = (c << 4) | code;
                                     }
-                                    default:
-                                        throw std::runtime_error("Unrecognized escape character");
+
+                                    token.value.push_back(c);
+                                    break;
                                 }
+                                default:
+                                    throw std::runtime_error("Unrecognized escape character");
                             }
-                            else if (*iterator <= 0x1F) // control char
-                                throw std::runtime_error("Unterminated string literal");
-                            else
-                                token.value.push_back(*iterator);
                         }
-                    }
-                    else if ((*iterator >= 'a' && *iterator <= 'z') ||
-                            (*iterator >= 'A' && *iterator <= 'Z') ||
-                            *iterator == '_')
-                    {
-                        while (iterator != str.cend() &&
-                            ((*iterator >= 'a' && *iterator <= 'z') ||
-                                (*iterator >= 'A' && *iterator <= 'Z') ||
-                                *iterator == '_' ||
-                                (*iterator >= '0' && *iterator <= '9')))
-                        {
-                            token.value.push_back(*iterator);
-                            ++iterator;
-                        }
-
-                        auto keywordIterator = keywordMap.find(token.value);
-
-                        if (keywordIterator != keywordMap.end())
-                            token.type = keywordIterator->second;
+                        else if (*iterator <= 0x1F) // control char
+                            throw std::runtime_error("Unterminated string literal");
                         else
-                            throw std::runtime_error("Unknown keyword " + utf8::fromUtf32(token.value));
+                            token.value.push_back(*iterator);
                     }
-                    else if (*iterator == ' ' ||
-                            *iterator == '\t' ||
-                            *iterator == '\r' ||
-                            *iterator == '\n') // whitespace or newline
+                }
+                else if ((*iterator >= 'a' && *iterator <= 'z') ||
+                        (*iterator >= 'A' && *iterator <= 'Z') ||
+                        *iterator == '_')
+                {
+                    while (iterator != str.cend() &&
+                        ((*iterator >= 'a' && *iterator <= 'z') ||
+                            (*iterator >= 'A' && *iterator <= 'Z') ||
+                            *iterator == '_' ||
+                            (*iterator >= '0' && *iterator <= '9')))
                     {
+                        token.value.push_back(*iterator);
                         ++iterator;
-                        continue;
                     }
-                    else if (*iterator == '\0')
-                        break;
-                    else
-                        throw std::runtime_error("Unknown character");
 
-                    tokens.push_back(token);
+                    auto keywordIterator = keywordMap.find(token.value);
+
+                    if (keywordIterator != keywordMap.end())
+                        token.type = keywordIterator->second;
+                    else
+                        throw std::runtime_error("Unknown keyword " + utf8::fromUtf32(token.value));
+                }
+                else if (*iterator == ' ' ||
+                        *iterator == '\t' ||
+                        *iterator == '\r' ||
+                        *iterator == '\n') // whitespace or newline
+                {
+                    ++iterator;
+                    continue;
+                }
+                else if (*iterator == '\0')
+                    break;
+                else
+                {
+                    switch (*iterator)
+                    {
+                        case '{': token.type = Token::Type::LeftBrace; break;
+                        case '}': token.type = Token::Type::RightBrace; break;
+                        case '[': token.type = Token::Type::LeftBracket; break;
+                        case ']': token.type = Token::Type::RightBracket; break;
+                        case ',': token.type = Token::Type::Comma; break;
+                        case ':': token.type = Token::Type::Colon; break;
+                        default: throw std::runtime_error("Unknown character");
+                    }
+
+                    ++iterator;
                 }
 
-                return tokens;
+                tokens.push_back(token);
             }
+
+            return tokens;
         }
 
         class Value
@@ -776,7 +770,7 @@ namespace ouzel
                 // BOM
                 if (std::distance(std::begin(data), std::end(data)) >= 3 &&
                     std::equal(std::begin(data), std::begin(data) + 3,
-                               UTF8_BOM.begin()))
+                               std::begin(UTF8_BOM)))
                 {
                     bom = true;
                     str = utf8::toUtf32(std::begin(data) + 3, std::end(data));
@@ -798,7 +792,7 @@ namespace ouzel
             {
                 std::vector<uint8_t> result;
 
-                if (bom) result = UTF8_BOM;
+                if (bom) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
 
                 encodeValue(result);
 

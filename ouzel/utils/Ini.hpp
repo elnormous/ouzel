@@ -17,10 +17,7 @@ namespace ouzel
 {
     namespace ini
     {
-        namespace
-        {
-            const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
-        }
+        constexpr uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
 
         class Data;
 
@@ -147,7 +144,7 @@ namespace ouzel
                 // BOM
                 if (data.size() >= 3 &&
                     std::equal(data.begin(), data.begin() + 3,
-                               UTF8_BOM.begin(), UTF8_BOM.end()))
+                               std::begin(UTF8_BOM), std::end(UTF8_BOM)))
                 {
                     bom = true;
                     str = utf8::toUtf32(data.begin() + 3, data.end());
@@ -165,7 +162,7 @@ namespace ouzel
             {
                 std::vector<uint8_t> result;
 
-                if (bom) result = UTF8_BOM;
+                if (bom) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
 
                 auto i = sections.find("");
                 if (i != sections.end())

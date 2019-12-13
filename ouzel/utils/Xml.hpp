@@ -13,238 +13,235 @@ namespace ouzel
 {
     namespace xml
     {
-        namespace
+        constexpr uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
+
+        constexpr auto isWhitespace(const char32_t c) noexcept
         {
-            const std::vector<uint8_t> UTF8_BOM = {0xEF, 0xBB, 0xBF};
+            return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+        }
 
-            constexpr auto isWhitespace(const char32_t c) noexcept
+        constexpr auto isNameStartChar(const char32_t c) noexcept
+        {
+            return (c >= 'a' && c <= 'z') ||
+                (c >= 'A' && c <= 'Z') ||
+                c == ':' || c == '_' ||
+                (c >= 0xC0 && c <= 0xD6) ||
+                (c >= 0xD8 && c <= 0xF6) ||
+                (c >= 0xF8 && c <= 0x2FF) ||
+                (c >= 0x370 && c <= 0x37D) ||
+                (c >= 0x37F && c <= 0x1FFF) ||
+                (c >= 0x200C && c <= 0x200D) ||
+                (c >= 0x2070 && c <= 0x218F);
+        }
+
+        constexpr auto isNameChar(const char32_t c) noexcept
+        {
+            return isNameStartChar(c) ||
+                c == '-' || c == '.' ||
+                (c >= '0' && c <= '9') ||
+                c == 0xB7 ||
+                (c >= 0x0300 && c <= 0x036F) ||
+                (c >= 0x203F && c <= 0x2040);
+        }
+
+        inline void skipWhitespaces(std::u32string::const_iterator& iterator,
+                                    std::u32string::const_iterator end)
+        {
+            while (iterator != end)
+                if (isWhitespace(*iterator))
+                    ++iterator;
+                else
+                    break;
+        }
+
+        inline std::string parseName(std::u32string::const_iterator& iterator,
+                                    std::u32string::const_iterator end)
+        {
+            std::string result;
+
+            if (iterator == end)
+                throw std::runtime_error("Unexpected end of data");
+
+            if (!isNameStartChar(*iterator))
+                throw std::runtime_error("Invalid name start");
+
+            for (;;)
             {
-                return c == ' ' || c == '\t' || c == '\r' || c == '\n';
-            }
-
-            constexpr auto isNameStartChar(const char32_t c) noexcept
-            {
-                return (c >= 'a' && c <= 'z') ||
-                    (c >= 'A' && c <= 'Z') ||
-                    c == ':' || c == '_' ||
-                    (c >= 0xC0 && c <= 0xD6) ||
-                    (c >= 0xD8 && c <= 0xF6) ||
-                    (c >= 0xF8 && c <= 0x2FF) ||
-                    (c >= 0x370 && c <= 0x37D) ||
-                    (c >= 0x37F && c <= 0x1FFF) ||
-                    (c >= 0x200C && c <= 0x200D) ||
-                    (c >= 0x2070 && c <= 0x218F);
-            }
-
-            constexpr auto isNameChar(const char32_t c) noexcept
-            {
-                return isNameStartChar(c) ||
-                    c == '-' || c == '.' ||
-                    (c >= '0' && c <= '9') ||
-                    c == 0xB7 ||
-                    (c >= 0x0300 && c <= 0x036F) ||
-                    (c >= 0x203F && c <= 0x2040);
-            }
-
-            inline void skipWhitespaces(std::u32string::const_iterator& iterator,
-                                        std::u32string::const_iterator end)
-            {
-                while (iterator != end)
-                    if (isWhitespace(*iterator))
-                        ++iterator;
-                    else
-                        break;
-            }
-
-            inline std::string parseName(std::u32string::const_iterator& iterator,
-                                        std::u32string::const_iterator end)
-            {
-                std::string result;
-
                 if (iterator == end)
                     throw std::runtime_error("Unexpected end of data");
 
-                if (!isNameStartChar(*iterator))
-                    throw std::runtime_error("Invalid name start");
-
-                for (;;)
+                if (!isNameChar(*iterator))
+                    break;
+                else
                 {
-                    if (iterator == end)
-                        throw std::runtime_error("Unexpected end of data");
-
-                    if (!isNameChar(*iterator))
-                        break;
-                    else
-                    {
-                        result += utf8::fromUtf32(*iterator);
-                        ++iterator;
-                    }
+                    result += utf8::fromUtf32(*iterator);
+                    ++iterator;
                 }
-
-                return result;
             }
 
-            inline std::string parseEntity(std::u32string::const_iterator& iterator,
-                                        std::u32string::const_iterator end)
-            {
-                std::string result;
+            return result;
+        }
 
-                if (iterator == end)
+        inline std::string parseEntity(std::u32string::const_iterator& iterator,
+                                    std::u32string::const_iterator end)
+        {
+            std::string result;
+
+            if (iterator == end)
+                throw std::runtime_error("Unexpected end of data");
+
+            if (*iterator != '&')
+                throw std::runtime_error("Expected an ampersand");
+
+            std::string value;
+
+            for (;;)
+            {
+                if (++iterator == end)
                     throw std::runtime_error("Unexpected end of data");
 
-                if (*iterator != '&')
-                    throw std::runtime_error("Expected an ampersand");
-
-                std::string value;
-
-                for (;;)
+                if (*iterator == ';')
                 {
-                    if (++iterator == end)
-                        throw std::runtime_error("Unexpected end of data");
-
-                    if (*iterator == ';')
-                    {
-                        ++iterator;
-                        break;
-                    }
-                    else
-                        value.push_back(static_cast<char>(*iterator));
-                }
-
-                if (value.empty())
-                    throw std::runtime_error("Invalid entity");
-
-                if (value == "quot")
-                    result = "\"";
-                else if (value == "amp")
-                    result = "&";
-                else if (value == "apos")
-                    result = "'";
-                else if (value == "lt")
-                    result = "<";
-                else if (value == "gt")
-                    result = ">";
-                else if (value[0] == '#')
-                {
-                    if (value.length() < 2)
-                        throw std::runtime_error("Invalid entity");
-
-                    char32_t c = 0;
-
-                    if (value[1] == 'x') // hex value
-                    {
-                        if (value.length() != 2 + 4)
-                            throw std::runtime_error("Invalid entity");
-
-                        for (size_t i = 0; i < 4; ++i)
-                        {
-                            uint8_t code = 0;
-
-                            if (value[i + 2] >= '0' && value[i + 2] <= '9')
-                                code = static_cast<uint8_t>(value[i + 2]) - '0';
-                            else if (value[i + 2] >= 'a' && value[i + 2] <='f')
-                                code = static_cast<uint8_t>(value[i + 2]) - 'a' + 10;
-                            else if (value[i + 2] >= 'A' && value[i + 2] <='F')
-                                code = static_cast<uint8_t>(value[i + 2]) - 'A' + 10;
-                            else
-                                throw std::runtime_error("Invalid character code");
-
-                            c = (c << 4) | code;
-                        }
-                    }
-                    else
-                    {
-                        if (value.length() != 1 + 4)
-                            throw std::runtime_error("Invalid entity");
-
-                        for (size_t i = 0; i < 4; ++i)
-                        {
-                            uint8_t code = 0;
-
-                            if (value[i + 1] >= '0' && value[i + 1] <= '9')
-                                code = static_cast<uint8_t>(value[i + 1]) - '0';
-                            else
-                                throw std::runtime_error("Invalid character code");
-
-                            c = c * 10 + code;
-                        }
-                    }
-
-                    result = utf8::fromUtf32(c);
+                    ++iterator;
+                    break;
                 }
                 else
-                    throw std::runtime_error("Invalid entity");
-
-                return result;
+                    value.push_back(static_cast<char>(*iterator));
             }
 
-            inline std::string parseString(std::u32string::const_iterator& iterator,
-                                        std::u32string::const_iterator end)
+            if (value.empty())
+                throw std::runtime_error("Invalid entity");
+
+            if (value == "quot")
+                result = "\"";
+            else if (value == "amp")
+                result = "&";
+            else if (value == "apos")
+                result = "'";
+            else if (value == "lt")
+                result = "<";
+            else if (value == "gt")
+                result = ">";
+            else if (value[0] == '#')
             {
-                std::string result;
+                if (value.length() < 2)
+                    throw std::runtime_error("Invalid entity");
 
-                if (iterator == end)
-                    throw std::runtime_error("Unexpected end of data");
+                char32_t c = 0;
 
-                if (*iterator != '"' && *iterator != '\'')
-                    throw std::runtime_error("Expected quotes");
-
-                auto quotes = *iterator;
-
-                ++iterator;
-
-                for (;;)
+                if (value[1] == 'x') // hex value
                 {
-                    if (iterator == end)
-                        throw std::runtime_error("Unexpected end of data");
+                    if (value.length() != 2 + 4)
+                        throw std::runtime_error("Invalid entity");
 
-                    if (*iterator == quotes)
+                    for (size_t i = 0; i < 4; ++i)
                     {
-                        ++iterator;
-                        break;
+                        uint8_t code = 0;
+
+                        if (value[i + 2] >= '0' && value[i + 2] <= '9')
+                            code = static_cast<uint8_t>(value[i + 2]) - '0';
+                        else if (value[i + 2] >= 'a' && value[i + 2] <='f')
+                            code = static_cast<uint8_t>(value[i + 2]) - 'a' + 10;
+                        else if (value[i + 2] >= 'A' && value[i + 2] <='F')
+                            code = static_cast<uint8_t>(value[i + 2]) - 'A' + 10;
+                        else
+                            throw std::runtime_error("Invalid character code");
+
+                        c = (c << 4) | code;
                     }
-                    else if (*iterator == '&')
+                }
+                else
+                {
+                    if (value.length() != 1 + 4)
+                        throw std::runtime_error("Invalid entity");
+
+                    for (size_t i = 0; i < 4; ++i)
                     {
-                        std::string entity = parseEntity(iterator, end);
-                        result += entity;
-                    }
-                    else
-                    {
-                        result += utf8::fromUtf32(*iterator);
-                        ++iterator;
+                        uint8_t code = 0;
+
+                        if (value[i + 1] >= '0' && value[i + 1] <= '9')
+                            code = static_cast<uint8_t>(value[i + 1]) - '0';
+                        else
+                            throw std::runtime_error("Invalid character code");
+
+                        c = c * 10 + code;
                     }
                 }
 
-                return result;
+                result = utf8::fromUtf32(c);
+            }
+            else
+                throw std::runtime_error("Invalid entity");
+
+            return result;
+        }
+
+        inline std::string parseString(std::u32string::const_iterator& iterator,
+                                    std::u32string::const_iterator end)
+        {
+            std::string result;
+
+            if (iterator == end)
+                throw std::runtime_error("Unexpected end of data");
+
+            if (*iterator != '"' && *iterator != '\'')
+                throw std::runtime_error("Expected quotes");
+
+            auto quotes = *iterator;
+
+            ++iterator;
+
+            for (;;)
+            {
+                if (iterator == end)
+                    throw std::runtime_error("Unexpected end of data");
+
+                if (*iterator == quotes)
+                {
+                    ++iterator;
+                    break;
+                }
+                else if (*iterator == '&')
+                {
+                    std::string entity = parseEntity(iterator, end);
+                    result += entity;
+                }
+                else
+                {
+                    result += utf8::fromUtf32(*iterator);
+                    ++iterator;
+                }
             }
 
-            inline void encodeString(std::vector<uint8_t>& data,
-                                    const std::u32string& str)
+            return result;
+        }
+
+        inline void encodeString(std::vector<uint8_t>& data,
+                                const std::u32string& str)
+        {
+            for (const char32_t c : str)
             {
-                for (const char32_t c : str)
+                switch (c)
                 {
-                    switch (c)
-                    {
-                        case '"':
-                            data.insert(data.end(), {'&', 'q', 'u', 'o', 't', ';'});
-                            break;
-                        case '&':
-                            data.insert(data.end(), {'&', 'a', 'm', 'p', ';'});
-                            break;
-                        case '\'':
-                            data.insert(data.end(), {'&', 'a', 'p', 'o', 's', ';'});
-                            break;
-                        case '<':
-                            data.insert(data.end(), {'&', 'l', 't', ';'});
-                            break;
-                        case '>':
-                            data.insert(data.end(), {'&', 'g', 't', ';'});
-                            break;
-                        default:
-                            std::string encoded = utf8::fromUtf32(c);
-                            data.insert(data.end(), encoded.begin(), encoded.end());
-                            break;
-                    }
+                    case '"':
+                        data.insert(data.end(), {'&', 'q', 'u', 'o', 't', ';'});
+                        break;
+                    case '&':
+                        data.insert(data.end(), {'&', 'a', 'm', 'p', ';'});
+                        break;
+                    case '\'':
+                        data.insert(data.end(), {'&', 'a', 'p', 'o', 's', ';'});
+                        break;
+                    case '<':
+                        data.insert(data.end(), {'&', 'l', 't', ';'});
+                        break;
+                    case '>':
+                        data.insert(data.end(), {'&', 'g', 't', ';'});
+                        break;
+                    default:
+                        std::string encoded = utf8::fromUtf32(c);
+                        data.insert(data.end(), encoded.begin(), encoded.end());
+                        break;
                 }
             }
         }
@@ -645,7 +642,7 @@ namespace ouzel
                 // BOM
                 if (data.size() >= 3 &&
                     std::equal(data.begin(), data.begin() + 3,
-                               UTF8_BOM.begin(), UTF8_BOM.end()))
+                               std::begin(UTF8_BOM), std::end(UTF8_BOM)))
                 {
                     bom = true;
                     str = utf8::toUtf32(data.begin() + 3, data.end());
@@ -695,7 +692,7 @@ namespace ouzel
             {
                 std::vector<uint8_t> result;
 
-                if (bom) result = UTF8_BOM;
+                if (bom) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
 
                 for (const Node& node : children)
                     node.encode(result);
