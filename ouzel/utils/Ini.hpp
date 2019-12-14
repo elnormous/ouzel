@@ -19,6 +19,13 @@ namespace ouzel
     {
         constexpr uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
 
+        class ParseError final: public std::logic_error
+        {
+        public:
+            explicit ParseError(const std::string& str): std::logic_error(str) {}
+            explicit ParseError(const char* str): std::logic_error(str) {}
+        };
+        
         class Data;
 
         class Section final
@@ -237,7 +244,7 @@ namespace ouzel
                             if (iterator == end || *iterator == '\n' || *iterator == '\r')
                             {
                                 if (!parsedSection)
-                                    throw std::runtime_error("Unexpected end of section");
+                                    throw ParseError("Unexpected end of section");
 
                                 ++iterator; // skip the newline
                                 break;
@@ -247,7 +254,7 @@ namespace ouzel
                                 ++iterator; // skip the semicolon
 
                                 if (!parsedSection)
-                                    throw std::runtime_error("Unexpected comment");
+                                    throw ParseError("Unexpected comment");
 
                                 while (iterator != end)
                                 {
@@ -266,7 +273,7 @@ namespace ouzel
                             else if (*iterator != ' ' && *iterator != '\t')
                             {
                                 if (parsedSection)
-                                    throw std::runtime_error("Unexpected character after section");
+                                    throw ParseError("Unexpected character after section");
                             }
 
                             if (!parsedSection)
@@ -278,7 +285,7 @@ namespace ouzel
                         trim(sectionUtf32);
 
                         if (sectionUtf32.empty())
-                            throw std::runtime_error("Invalid section name");
+                            throw ParseError("Invalid section name");
 
                         std::string section = utf8::fromUtf32(sectionUtf32);
 
@@ -313,7 +320,7 @@ namespace ouzel
                                 if (!parsedKey)
                                     parsedKey = true;
                                 else
-                                    throw std::runtime_error("Unexpected character");
+                                    throw ParseError("Unexpected character");
                             }
                             else if (*iterator == ';')
                             {
@@ -343,7 +350,7 @@ namespace ouzel
                         }
 
                         if (keyUtf32.empty())
-                            throw std::runtime_error("Invalid key name");
+                            throw ParseError("Invalid key name");
 
                         keyUtf32 = trim(keyUtf32);
                         valueUtf32 = trim(valueUtf32);

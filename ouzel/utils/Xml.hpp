@@ -54,21 +54,28 @@ namespace ouzel
                     break;
         }
 
+        class ParseError final: public std::logic_error
+        {
+        public:
+            explicit ParseError(const std::string& str): std::logic_error(str) {}
+            explicit ParseError(const char* str): std::logic_error(str) {}
+        };
+        
         inline std::string parseName(std::u32string::const_iterator& iterator,
                                     std::u32string::const_iterator end)
         {
             std::string result;
 
             if (iterator == end)
-                throw std::runtime_error("Unexpected end of data");
+                throw ParseError("Unexpected end of data");
 
             if (!isNameStartChar(*iterator))
-                throw std::runtime_error("Invalid name start");
+                throw ParseError("Invalid name start");
 
             for (;;)
             {
                 if (iterator == end)
-                    throw std::runtime_error("Unexpected end of data");
+                    throw ParseError("Unexpected end of data");
 
                 if (!isNameChar(*iterator))
                     break;
@@ -88,17 +95,17 @@ namespace ouzel
             std::string result;
 
             if (iterator == end)
-                throw std::runtime_error("Unexpected end of data");
+                throw ParseError("Unexpected end of data");
 
             if (*iterator != '&')
-                throw std::runtime_error("Expected an ampersand");
+                throw ParseError("Expected an ampersand");
 
             std::string value;
 
             for (;;)
             {
                 if (++iterator == end)
-                    throw std::runtime_error("Unexpected end of data");
+                    throw ParseError("Unexpected end of data");
 
                 if (*iterator == ';')
                 {
@@ -110,7 +117,7 @@ namespace ouzel
             }
 
             if (value.empty())
-                throw std::runtime_error("Invalid entity");
+                throw ParseError("Invalid entity");
 
             if (value == "quot")
                 result = "\"";
@@ -125,14 +132,14 @@ namespace ouzel
             else if (value[0] == '#')
             {
                 if (value.length() < 2)
-                    throw std::runtime_error("Invalid entity");
+                    throw ParseError("Invalid entity");
 
                 char32_t c = 0;
 
                 if (value[1] == 'x') // hex value
                 {
                     if (value.length() != 2 + 4)
-                        throw std::runtime_error("Invalid entity");
+                        throw ParseError("Invalid entity");
 
                     for (size_t i = 0; i < 4; ++i)
                     {
@@ -145,7 +152,7 @@ namespace ouzel
                         else if (value[i + 2] >= 'A' && value[i + 2] <='F')
                             code = static_cast<uint8_t>(value[i + 2]) - 'A' + 10;
                         else
-                            throw std::runtime_error("Invalid character code");
+                            throw ParseError("Invalid character code");
 
                         c = (c << 4) | code;
                     }
@@ -153,7 +160,7 @@ namespace ouzel
                 else
                 {
                     if (value.length() != 1 + 4)
-                        throw std::runtime_error("Invalid entity");
+                        throw ParseError("Invalid entity");
 
                     for (size_t i = 0; i < 4; ++i)
                     {
@@ -162,7 +169,7 @@ namespace ouzel
                         if (value[i + 1] >= '0' && value[i + 1] <= '9')
                             code = static_cast<uint8_t>(value[i + 1]) - '0';
                         else
-                            throw std::runtime_error("Invalid character code");
+                            throw ParseError("Invalid character code");
 
                         c = c * 10 + code;
                     }
@@ -171,7 +178,7 @@ namespace ouzel
                 result = utf8::fromUtf32(c);
             }
             else
-                throw std::runtime_error("Invalid entity");
+                throw ParseError("Invalid entity");
 
             return result;
         }
@@ -182,10 +189,10 @@ namespace ouzel
             std::string result;
 
             if (iterator == end)
-                throw std::runtime_error("Unexpected end of data");
+                throw ParseError("Unexpected end of data");
 
             if (*iterator != '"' && *iterator != '\'')
-                throw std::runtime_error("Expected quotes");
+                throw ParseError("Expected quotes");
 
             auto quotes = *iterator;
 
@@ -194,7 +201,7 @@ namespace ouzel
             for (;;)
             {
                 if (iterator == end)
-                    throw std::runtime_error("Unexpected end of data");
+                    throw ParseError("Unexpected end of data");
 
                 if (*iterator == quotes)
                 {
@@ -300,30 +307,30 @@ namespace ouzel
                        bool preserveProcessingInstructions = false)
             {
                 if (iterator == end)
-                    throw std::runtime_error("Unexpected end of data");
+                    throw ParseError("Unexpected end of data");
 
                 if (*iterator == '<')
                 {
                     if (++iterator == end)
-                        throw std::runtime_error("Unexpected end of data");
+                        throw ParseError("Unexpected end of data");
 
                     if (*iterator == '!') // <!
                     {
                         if (++iterator == end)
-                            throw std::runtime_error("Unexpected end of data");
+                            throw ParseError("Unexpected end of data");
 
                         if (*iterator == '-') // <!-
                         {
                             if (++iterator == end)
-                                throw std::runtime_error("Unexpected end of data");
+                                throw ParseError("Unexpected end of data");
 
                             if (*iterator != '-') // <!--
-                                throw std::runtime_error("Expected a comment");
+                                throw ParseError("Expected a comment");
 
                             for (;;)
                             {
                                 if (std::distance(++iterator, end) < 3)
-                                    throw std::runtime_error("Unexpected end of data");
+                                    throw ParseError("Unexpected end of data");
 
                                 if (*iterator == '-')
                                 {
@@ -337,7 +344,7 @@ namespace ouzel
                                             break;
                                         }
                                         else
-                                            throw std::runtime_error("Unexpected double-hyphen inside comment");
+                                            throw ParseError("Unexpected double-hyphen inside comment");
                                     }
                                 }
 
@@ -353,18 +360,18 @@ namespace ouzel
                             name = parseName(iterator, end);
 
                             if (name != "CDATA")
-                                throw std::runtime_error("Expected CDATA");
+                                throw ParseError("Expected CDATA");
 
                             if (iterator == end)
-                                throw std::runtime_error("Unexpected end of data");
+                                throw ParseError("Unexpected end of data");
 
                             if (*iterator != '[')
-                                throw std::runtime_error("Expected a left bracket");
+                                throw ParseError("Expected a left bracket");
 
                             for (;;)
                             {
                                 if (std::distance(++iterator, end) < 3)
-                                    throw std::runtime_error("Unexpected end of data");
+                                    throw ParseError("Unexpected end of data");
 
                                 if (*iterator == ']' &&
                                     *(iterator + 1) == ']' &&
@@ -380,7 +387,7 @@ namespace ouzel
                             type = Type::CData;
                         }
                         else
-                            throw std::runtime_error("Type declarations are not supported");
+                            throw ParseError("Type declarations are not supported");
                     }
                     else if (*iterator == '?') // <?
                     {
@@ -392,15 +399,15 @@ namespace ouzel
                             skipWhitespaces(iterator, end);
 
                             if (iterator == end)
-                                throw std::runtime_error("Unexpected end of data");
+                                throw ParseError("Unexpected end of data");
 
                             if (*iterator == '?')
                             {
                                 if (++iterator == end)
-                                    throw std::runtime_error("Unexpected end of data");
+                                    throw ParseError("Unexpected end of data");
 
                                 if (*iterator != '>') // ?>
-                                    throw std::runtime_error("Expected a right angle bracket");
+                                    throw ParseError("Expected a right angle bracket");
 
                                 ++iterator;
                                 break;
@@ -411,10 +418,10 @@ namespace ouzel
                             skipWhitespaces(iterator, end);
 
                             if (iterator == end)
-                                throw std::runtime_error("Unexpected end of data");
+                                throw ParseError("Unexpected end of data");
 
                             if (*iterator != '=')
-                                throw std::runtime_error("Expected an equal sign");
+                                throw ParseError("Expected an equal sign");
 
                             ++iterator;
 
@@ -435,7 +442,7 @@ namespace ouzel
                             skipWhitespaces(iterator, end);
 
                             if (iterator == end)
-                                throw std::runtime_error("Unexpected end of data");
+                                throw ParseError("Unexpected end of data");
 
                             if (*iterator == '>')
                             {
@@ -445,10 +452,10 @@ namespace ouzel
                             else if (*iterator == '/')
                             {
                                 if (++iterator == end)
-                                    throw std::runtime_error("Unexpected end of data");
+                                    throw ParseError("Unexpected end of data");
 
                                 if (*iterator != '>') // />
-                                    throw std::runtime_error("Expected a right angle bracket");
+                                    throw ParseError("Expected a right angle bracket");
 
                                 tagClosed = true;
                                 ++iterator;
@@ -461,10 +468,10 @@ namespace ouzel
                             skipWhitespaces(iterator, end);
 
                             if (iterator == end)
-                                throw std::runtime_error("Unexpected end of data");
+                                throw ParseError("Unexpected end of data");
 
                             if (*iterator != '=')
-                                throw std::runtime_error("Expected an equal sign");
+                                throw ParseError("Expected an equal sign");
 
                             ++iterator;
 
@@ -480,7 +487,7 @@ namespace ouzel
                                 if (!preserveWhitespaces) skipWhitespaces(iterator, end);
 
                                 if (iterator == end)
-                                    throw std::runtime_error("Unexpected end of data");
+                                    throw ParseError("Unexpected end of data");
 
                                 if (*iterator == '<' &&
                                     iterator + 1 != end &&
@@ -492,13 +499,13 @@ namespace ouzel
                                     std::string tag = parseName(iterator, end);
 
                                     if (tag != value)
-                                        throw std::runtime_error("Tag not closed properly");
+                                        throw ParseError("Tag not closed properly");
 
                                     if (iterator == end)
-                                        throw std::runtime_error("Unexpected end of data");
+                                        throw ParseError("Unexpected end of data");
 
                                     if (*iterator != '>')
-                                        throw std::runtime_error("Expected a right angle bracket");
+                                        throw ParseError("Expected a right angle bracket");
 
                                     ++iterator;
 
@@ -557,7 +564,7 @@ namespace ouzel
                         data.insert(data.end(), {']', ']', '>'});
                         break;
                     case Node::Type::TypeDeclaration:
-                        throw std::runtime_error("Type declarations are not supported");
+                        throw ParseError("Type declarations are not supported");
                     case Node::Type::ProcessingInstruction:
                         data.insert(data.end(), {'<', '?'});
                         data.insert(data.end(), value.begin(), value.end());
@@ -612,7 +619,7 @@ namespace ouzel
                         encodeString(data, utf8::toUtf32(value));
                         break;
                     default:
-                        throw std::runtime_error("Unknown node type");
+                        throw ParseError("Unknown node type");
                 }
 
                 for (const Node& node : children)
@@ -677,7 +684,7 @@ namespace ouzel
                         if (node.getType() == Node::Type::Tag)
                         {
                             if (rootTagFound)
-                                throw std::runtime_error("Multiple root tags found");
+                                throw ParseError("Multiple root tags found");
                             else
                                 rootTagFound = true;
                         }
@@ -685,7 +692,7 @@ namespace ouzel
                 }
 
                 if (!rootTagFound)
-                    throw std::runtime_error("No root tag found");
+                    throw ParseError("No root tag found");
             }
 
             std::vector<uint8_t> encode() const
