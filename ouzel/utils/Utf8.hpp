@@ -10,6 +10,13 @@ namespace ouzel
 {
     namespace utf8
     {
+        class ParseError: public std::logic_error
+        {
+        public:
+            explicit ParseError(const std::string& str): std::logic_error(str) {}
+            explicit ParseError(const char* str): std::logic_error(str) {}
+        };
+
         template <class Iterator>
         inline std::u32string toUtf32(Iterator begin, Iterator end)
         {
@@ -25,23 +32,29 @@ namespace ouzel
                 }
                 else if ((cp >> 5) == 0x6) // length = 2
                 {
-                    if (++i == end) return result;
+                    if (++i == end)
+                        throw ParseError("Invalid UTF-8 string");
                     cp = ((cp << 6) & 0x7FF) + (*i & 0x3F);
                 }
                 else if ((cp >> 4) == 0xE) // length = 3
                 {
-                    if (++i == end) return result;
+                    if (++i == end)
+                        throw ParseError("Invalid UTF-8 string");
                     cp = ((cp << 12) & 0xFFFF) + (((*i & 0xFF) << 6) & 0x0FFF);
-                    if (++i == end) return result;
+                    if (++i == end)
+                        throw ParseError("Invalid UTF-8 string");
                     cp += *i & 0x3F;
                 }
                 else if ((cp >> 3) == 0x1E) // length = 4
                 {
-                    if (++i == end) return result;
+                    if (++i == end)
+                        throw ParseError("Invalid UTF-8 string");
                     cp = ((cp << 18) & 0x1FFFFF) + (((*i & 0xFF) << 12) & 0x3FFFF);
-                    if (++i == end) return result;
+                    if (++i == end)
+                        throw ParseError("Invalid UTF-8 string");
                     cp += ((*i & 0xFF) << 6) & 0x0FFF;
-                    if (++i == end) return result;
+                    if (++i == end)
+                        throw ParseError("Invalid UTF-8 string");
                     cp += (*i) & 0x3F;
                 }
 
