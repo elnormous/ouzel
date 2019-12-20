@@ -273,7 +273,7 @@ namespace ouzel
             Node(Type initType): type(initType) {}
             Node(const std::string& val): type(Type::Text), value(val) {}
 
-            inline Node& operator=(Type newType)
+            inline Node& operator=(Type newType) noexcept
             {
                 type = newType;
                 return *this;

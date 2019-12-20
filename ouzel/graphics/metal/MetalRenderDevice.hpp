@@ -103,7 +103,7 @@ namespace ouzel
                     MTLPixelFormat depthFormat;
                     MTLPixelFormat stencilFormat;
 
-                    bool operator<(const PipelineStateDesc& other) const
+                    bool operator<(const PipelineStateDesc& other) const noexcept
                     {
                         return std::tie(blendState, shader, sampleCount, colorFormats, depthFormat) <
                             std::tie(other.blendState, other.shader, other.sampleCount, colorFormats, other.depthFormat);

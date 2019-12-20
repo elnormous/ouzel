@@ -4,7 +4,6 @@
 #define OUZEL_UTILS_JSON_HPP
 
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <map>
 #include <stdexcept>
@@ -351,7 +350,7 @@ namespace ouzel
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
-            inline Value& operator=(const T value)
+            inline Value& operator=(const T value) noexcept
             {
                 type = Type::Boolean;
                 boolValue = value;
@@ -385,7 +384,7 @@ namespace ouzel
             inline auto getType() const noexcept { return type; }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            T& as()
+            T& as() noexcept
             {
                 type = Type::String;
                 return stringValue;
@@ -394,21 +393,22 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             const T& as() const
             {
-                assert(type == Type::String);
+                if (type != Type::String) throw std::runtime_error("Wrong type");
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, const char*>::value>::type* = nullptr>
             const char* as() const
             {
-                assert(type == Type::String);
+                if (type != Type::String) throw std::runtime_error("Wrong type");
                 return stringValue.c_str();
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::Boolean || type == Type::Integer || type == Type::Float);
+                if (type != Type::Boolean && type != Type::Integer && type != Type::Float)
+                    throw std::runtime_error("Wrong type");
                 if (type == Type::Boolean) return boolValue;
                 else if (type == Type::Integer) return intValue != 0;
                 else return doubleValue != 0.0;
@@ -417,14 +417,15 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::Boolean || type == Type::Integer || type == Type::Float);
+                if (type != Type::Boolean && type != Type::Integer && type != Type::Float)
+                    throw std::runtime_error("Wrong type");
                 if (type == Type::Boolean) return boolValue;
                 else if (type == Type::Integer) return static_cast<T>(intValue);
                 else return static_cast<T>(doubleValue);
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
-            inline T& as()
+            inline T& as() noexcept
             {
                 type = Type::Object;
                 return objectValue;
@@ -433,7 +434,7 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
             inline const T& as() const
             {
-                assert(type == Type::Object);
+                if (type != Type::Object) throw std::runtime_error("Wrong type");
                 return objectValue;
             }
 
@@ -447,31 +448,31 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             inline const T& as() const
             {
-                assert(type == Type::Array);
+                if (type != Type::Array) throw std::runtime_error("Wrong type");
                 return arrayValue;
             }
 
             Array::iterator begin()
             {
-                assert(type == Type::Array);
+                if (type != Type::Array) throw std::runtime_error("Wrong type");
                 return arrayValue.begin();
             }
 
             Array::iterator end()
             {
-                assert(type == Type::Array);
+                if (type != Type::Array) throw std::runtime_error("Wrong type");
                 return arrayValue.end();
             }
 
             Array::const_iterator begin() const
             {
-                assert(type == Type::Array);
+                if (type != Type::Array) throw std::runtime_error("Wrong type");
                 return arrayValue.begin();
             }
 
             Array::const_iterator end() const
             {
-                assert(type == Type::Array);
+                if (type != Type::Array) throw std::runtime_error("Wrong type");
                 return arrayValue.end();
             }
 
@@ -482,7 +483,7 @@ namespace ouzel
 
             inline auto hasMember(const std::string& member) const
             {
-                assert(type == Type::Object);
+                if (type != Type::Object) throw std::runtime_error("Wrong type");
                 return objectValue.find(member) != objectValue.end();
             }
 
@@ -494,7 +495,7 @@ namespace ouzel
 
             inline const Value& operator[](const std::string& member) const
             {
-                assert(type == Type::Object);
+                if (type != Type::Object) throw std::runtime_error("Wrong type");
 
                 auto i = objectValue.find(member);
                 if (i != objectValue.end())
@@ -512,7 +513,7 @@ namespace ouzel
 
             inline const Value& operator[](size_t index) const
             {
-                assert(type == Type::Array);
+                if (type != Type::Array) throw std::runtime_error("Wrong type");
 
                 if (index < arrayValue.size())
                     return arrayValue[index];
@@ -522,7 +523,7 @@ namespace ouzel
 
             inline auto getSize() const
             {
-                assert(type == Type::Array);
+                if (type != Type::Array) throw std::runtime_error("Wrong type");
                 return arrayValue.size();
             }
 

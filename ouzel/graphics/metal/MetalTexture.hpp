@@ -49,7 +49,7 @@ namespace ouzel
                 SamplerAddressMode addressZ;
                 uint32_t maxAnisotropy;
 
-                bool operator<(const SamplerStateDescriptor& other) const
+                bool operator<(const SamplerStateDescriptor& other) const noexcept
                 {
                     return std::tie(filter, addressX, addressY, addressZ, maxAnisotropy) <
                         std::tie(other.filter, other.addressX, other.addressY, other.addressZ, other.maxAnisotropy);
