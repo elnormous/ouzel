@@ -17,7 +17,7 @@ namespace ouzel
         constexpr Size() noexcept {}
 
         template <typename ...A>
-        constexpr Size(A... args) noexcept:
+        explicit constexpr Size(A... args) noexcept:
             v{static_cast<T>(args)...}
         {
         }

@@ -22,7 +22,7 @@ namespace ouzel
         constexpr Vector() noexcept {}
 
         template <typename ...A>
-        constexpr Vector(A... args) noexcept:
+        explicit constexpr Vector(A... args) noexcept:
             v{static_cast<T>(args)...}
         {
         }
