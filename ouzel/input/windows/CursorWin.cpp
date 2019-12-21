@@ -67,7 +67,7 @@ namespace ouzel
                                          DIB_RGB_COLORS,
                                          reinterpret_cast<void**>(&target),
                                          nullptr,
-                                         static_cast<DWORD>(0));
+                                         DWORD{0});
 
                 if (!color)
                     throw std::runtime_error("Failed to create RGBA bitmap");

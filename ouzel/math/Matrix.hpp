@@ -848,10 +848,10 @@ namespace ouzel
             const T m33 = m[10] / scale.v[2];
 
             Quaternion<T> result;
-            result.v[0] = std::sqrt(std::max(static_cast<T>(0), T(1) + m11 - m22 - m33)) / T(2);
-            result.v[1] = std::sqrt(std::max(static_cast<T>(0), T(1) - m11 + m22 - m33)) / T(2);
-            result.v[2] = std::sqrt(std::max(static_cast<T>(0), T(1) - m11 - m22 + m33)) / T(2);
-            result.v[3] = std::sqrt(std::max(static_cast<T>(0), T(1) + m11 + m22 + m33)) / T(2);
+            result.v[0] = std::sqrt(std::max(T(0), T(1) + m11 - m22 - m33)) / T(2);
+            result.v[1] = std::sqrt(std::max(T(0), T(1) - m11 + m22 - m33)) / T(2);
+            result.v[2] = std::sqrt(std::max(T(0), T(1) - m11 - m22 + m33)) / T(2);
+            result.v[3] = std::sqrt(std::max(T(0), T(1) + m11 + m22 + m33)) / T(2);
 
             // The problem with using copysign: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/paul.htm
             result.v[0] = std::copysign(result.v[0], m32 - m23);
