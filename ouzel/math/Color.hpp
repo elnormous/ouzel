@@ -83,7 +83,7 @@ namespace ouzel
         {
         }
 
-        explicit Color(float color[4]) noexcept:
+        explicit Color(const float color[4]) noexcept:
             v{
                 static_cast<uint8_t>(std::round(color[0] * 255.0F)),
                 static_cast<uint8_t>(std::round(color[1] * 255.0F)),
