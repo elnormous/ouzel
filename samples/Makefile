@@ -154,7 +154,6 @@ endif
 
 $(ROOT_DIR)/$(EXECUTABLE): ouzel $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
-	strip $(EXECUTABLE)
 
 -include $(DEPENDENCIES)
 
