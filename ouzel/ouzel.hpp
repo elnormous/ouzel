@@ -120,7 +120,6 @@
 #include "storage/Archive.hpp"
 #include "storage/File.hpp"
 #include "storage/FileSystem.hpp"
-#include "utils/Base64.hpp"
 #include "utils/Ini.hpp"
 #include "utils/Json.hpp"
 #include "utils/Log.hpp"

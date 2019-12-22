@@ -52,9 +52,6 @@
 		3017AEBE21E5815100B07B53 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 3017AEBD21E5815000B07B53 /* Prefix.pch */; };
 		3017AEBF21E5815100B07B53 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 3017AEBD21E5815000B07B53 /* Prefix.pch */; };
 		3017AEC021E5815100B07B53 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 3017AEBD21E5815000B07B53 /* Prefix.pch */; };
-		301B30F2223D5B44005E000B /* Base64.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 301B30F1223D5B44005E000B /* Base64.hpp */; };
-		301B30F3223D5B44005E000B /* Base64.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 301B30F1223D5B44005E000B /* Base64.hpp */; };
-		301B30F4223D5B44005E000B /* Base64.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 301B30F1223D5B44005E000B /* Base64.hpp */; };
 		301EB3A21CCD691800466E92 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Component.cpp */; };
 		301EB3A31CCD691800466E92 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Component.cpp */; };
 		301EB3A41CCD691800466E92 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Component.cpp */; };
@@ -804,7 +801,6 @@
 		3011E1C21EFFE6DE00CB1DDC /* Ini.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Ini.hpp; sourceTree = "<group>"; };
 		301457091E40FB5100BA75DB /* DataType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DataType.hpp; sourceTree = "<group>"; };
 		3017AEBD21E5815000B07B53 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
-		301B30F1223D5B44005E000B /* Base64.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Base64.hpp; sourceTree = "<group>"; };
 		301EB3A01CCD691800466E92 /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
 		301EB3A11CCD691800466E92 /* Component.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
 		301EB3A81CCD77F600466E92 /* TextRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextRenderer.cpp; sourceTree = "<group>"; };
@@ -1787,7 +1783,6 @@
 		30A5BF0C1CFCE3F800A977CA /* utils */ = {
 			isa = PBXGroup;
 			children = (
-				301B30F1223D5B44005E000B /* Base64.hpp */,
 				3011E1C21EFFE6DE00CB1DDC /* Ini.hpp */,
 				307237091FAFDAB8002EA399 /* Json.hpp */,
 				3030D5001DAEF1FA007CC8EB /* Log.cpp */,
@@ -1931,7 +1926,6 @@
 				303696C71E32DD8F007F4211 /* Texture.hpp in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHandler.hpp in Headers */,
 				305B113B2250413900EDA4F5 /* Containers.hpp in Headers */,
-				301B30F2223D5B44005E000B /* Base64.hpp in Headers */,
 				303B75821C2B17DC00FEDE92 /* Event.hpp in Headers */,
 				303B75411C2A3C9200FEDE92 /* Image.hpp in Headers */,
 				30A9C1351CAE80570084C4BF /* Localization.hpp in Headers */,
@@ -2062,7 +2056,6 @@
 				303B76681C355A3B00FEDE92 /* InputManager.hpp in Headers */,
 				30C758B21F4A0196008499DC /* AudioDevice.hpp in Headers */,
 				302B728921BDE302006EBC59 /* SilenceSound.hpp in Headers */,
-				301B30F4223D5B44005E000B /* Base64.hpp in Headers */,
 				305B99961C41F06F008589E1 /* Widget.hpp in Headers */,
 				306792F7211F98070006FF79 /* Bundle.hpp in Headers */,
 				303B76691C355A3B00FEDE92 /* Rect.hpp in Headers */,
@@ -2132,7 +2125,6 @@
 				C61B49EF2174B83900B818F1 /* SkinnedMeshRenderer.hpp in Headers */,
 				305B113C2250413900EDA4F5 /* Containers.hpp in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix.hpp in Headers */,
-				301B30F3223D5B44005E000B /* Base64.hpp in Headers */,
 				303820861D816C9E00677CAB /* NativeWindowMacOS.hpp in Headers */,
 				303B75781C2A419F00FEDE92 /* Setup.h in Headers */,
 				304A8E651C237C70008B1151 /* Renderer.hpp in Headers */,
