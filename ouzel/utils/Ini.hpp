@@ -17,7 +17,10 @@ namespace ouzel
 {
     namespace ini
     {
-        constexpr uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
+        inline namespace detail
+        {
+            constexpr uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
+        }
 
         class ParseError final: public std::logic_error
         {

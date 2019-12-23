@@ -13,242 +13,245 @@ namespace ouzel
 {
     namespace xml
     {
-        constexpr uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
-
-        constexpr auto isWhitespace(const char32_t c) noexcept
-        {
-            return c == ' ' || c == '\t' || c == '\r' || c == '\n';
-        }
-
-        constexpr auto isNameStartChar(const char32_t c) noexcept
-        {
-            return (c >= 'a' && c <= 'z') ||
-                (c >= 'A' && c <= 'Z') ||
-                c == ':' || c == '_' ||
-                (c >= 0xC0 && c <= 0xD6) ||
-                (c >= 0xD8 && c <= 0xF6) ||
-                (c >= 0xF8 && c <= 0x2FF) ||
-                (c >= 0x370 && c <= 0x37D) ||
-                (c >= 0x37F && c <= 0x1FFF) ||
-                (c >= 0x200C && c <= 0x200D) ||
-                (c >= 0x2070 && c <= 0x218F);
-        }
-
-        constexpr auto isNameChar(const char32_t c) noexcept
-        {
-            return isNameStartChar(c) ||
-                c == '-' || c == '.' ||
-                (c >= '0' && c <= '9') ||
-                c == 0xB7 ||
-                (c >= 0x0300 && c <= 0x036F) ||
-                (c >= 0x203F && c <= 0x2040);
-        }
-
-        inline void skipWhitespaces(std::u32string::const_iterator& iterator,
-                                    std::u32string::const_iterator end)
-        {
-            while (iterator != end)
-                if (isWhitespace(*iterator))
-                    ++iterator;
-                else
-                    break;
-        }
-
         class ParseError final: public std::logic_error
         {
         public:
             explicit ParseError(const std::string& str): std::logic_error(str) {}
             explicit ParseError(const char* str): std::logic_error(str) {}
         };
-        
-        inline std::string parseName(std::u32string::const_iterator& iterator,
-                                    std::u32string::const_iterator end)
+
+        inline namespace detail
         {
-            std::string result;
+            constexpr uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
 
-            if (iterator == end)
-                throw ParseError("Unexpected end of data");
-
-            if (!isNameStartChar(*iterator))
-                throw ParseError("Invalid name start");
-
-            for (;;)
+            constexpr auto isWhitespace(const char32_t c) noexcept
             {
+                return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+            }
+
+            constexpr auto isNameStartChar(const char32_t c) noexcept
+            {
+                return (c >= 'a' && c <= 'z') ||
+                    (c >= 'A' && c <= 'Z') ||
+                    c == ':' || c == '_' ||
+                    (c >= 0xC0 && c <= 0xD6) ||
+                    (c >= 0xD8 && c <= 0xF6) ||
+                    (c >= 0xF8 && c <= 0x2FF) ||
+                    (c >= 0x370 && c <= 0x37D) ||
+                    (c >= 0x37F && c <= 0x1FFF) ||
+                    (c >= 0x200C && c <= 0x200D) ||
+                    (c >= 0x2070 && c <= 0x218F);
+            }
+
+            constexpr auto isNameChar(const char32_t c) noexcept
+            {
+                return isNameStartChar(c) ||
+                    c == '-' || c == '.' ||
+                    (c >= '0' && c <= '9') ||
+                    c == 0xB7 ||
+                    (c >= 0x0300 && c <= 0x036F) ||
+                    (c >= 0x203F && c <= 0x2040);
+            }
+
+            inline void skipWhitespaces(std::u32string::const_iterator& iterator,
+                                        std::u32string::const_iterator end)
+            {
+                while (iterator != end)
+                    if (isWhitespace(*iterator))
+                        ++iterator;
+                    else
+                        break;
+            }
+
+            inline std::string parseName(std::u32string::const_iterator& iterator,
+                                         std::u32string::const_iterator end)
+            {
+                std::string result;
+
                 if (iterator == end)
                     throw ParseError("Unexpected end of data");
 
-                if (!isNameChar(*iterator))
-                    break;
-                else
+                if (!isNameStartChar(*iterator))
+                    throw ParseError("Invalid name start");
+
+                for (;;)
                 {
-                    result += utf8::fromUtf32(*iterator);
-                    ++iterator;
+                    if (iterator == end)
+                        throw ParseError("Unexpected end of data");
+
+                    if (!isNameChar(*iterator))
+                        break;
+                    else
+                    {
+                        result += utf8::fromUtf32(*iterator);
+                        ++iterator;
+                    }
                 }
+
+                return result;
             }
 
-            return result;
-        }
-
-        inline std::string parseEntity(std::u32string::const_iterator& iterator,
-                                    std::u32string::const_iterator end)
-        {
-            std::string result;
-
-            if (iterator == end)
-                throw ParseError("Unexpected end of data");
-
-            if (*iterator != '&')
-                throw ParseError("Expected an ampersand");
-
-            std::string value;
-
-            for (;;)
+            inline std::string parseEntity(std::u32string::const_iterator& iterator,
+                                           std::u32string::const_iterator end)
             {
-                if (++iterator == end)
+                std::string result;
+
+                if (iterator == end)
                     throw ParseError("Unexpected end of data");
 
-                if (*iterator == ';')
+                if (*iterator != '&')
+                    throw ParseError("Expected an ampersand");
+
+                std::string value;
+
+                for (;;)
                 {
-                    ++iterator;
-                    break;
+                    if (++iterator == end)
+                        throw ParseError("Unexpected end of data");
+
+                    if (*iterator == ';')
+                    {
+                        ++iterator;
+                        break;
+                    }
+                    else
+                        value.push_back(static_cast<char>(*iterator));
                 }
-                else
-                    value.push_back(static_cast<char>(*iterator));
-            }
 
-            if (value.empty())
-                throw ParseError("Invalid entity");
-
-            if (value == "quot")
-                result = "\"";
-            else if (value == "amp")
-                result = "&";
-            else if (value == "apos")
-                result = "'";
-            else if (value == "lt")
-                result = "<";
-            else if (value == "gt")
-                result = ">";
-            else if (value[0] == '#')
-            {
-                if (value.length() < 2)
+                if (value.empty())
                     throw ParseError("Invalid entity");
 
-                char32_t c = 0;
-
-                if (value[1] == 'x') // hex value
+                if (value == "quot")
+                    result = "\"";
+                else if (value == "amp")
+                    result = "&";
+                else if (value == "apos")
+                    result = "'";
+                else if (value == "lt")
+                    result = "<";
+                else if (value == "gt")
+                    result = ">";
+                else if (value[0] == '#')
                 {
-                    if (value.length() != 2 + 4)
+                    if (value.length() < 2)
                         throw ParseError("Invalid entity");
 
-                    for (size_t i = 0; i < 4; ++i)
+                    char32_t c = 0;
+
+                    if (value[1] == 'x') // hex value
                     {
-                        uint8_t code = 0;
+                        if (value.length() != 2 + 4)
+                            throw ParseError("Invalid entity");
 
-                        if (value[i + 2] >= '0' && value[i + 2] <= '9')
-                            code = static_cast<uint8_t>(value[i + 2]) - '0';
-                        else if (value[i + 2] >= 'a' && value[i + 2] <='f')
-                            code = static_cast<uint8_t>(value[i + 2]) - 'a' + 10;
-                        else if (value[i + 2] >= 'A' && value[i + 2] <='F')
-                            code = static_cast<uint8_t>(value[i + 2]) - 'A' + 10;
-                        else
-                            throw ParseError("Invalid character code");
+                        for (size_t i = 0; i < 4; ++i)
+                        {
+                            uint8_t code = 0;
 
-                        c = (c << 4) | code;
+                            if (value[i + 2] >= '0' && value[i + 2] <= '9')
+                                code = static_cast<uint8_t>(value[i + 2]) - '0';
+                            else if (value[i + 2] >= 'a' && value[i + 2] <='f')
+                                code = static_cast<uint8_t>(value[i + 2]) - 'a' + 10;
+                            else if (value[i + 2] >= 'A' && value[i + 2] <='F')
+                                code = static_cast<uint8_t>(value[i + 2]) - 'A' + 10;
+                            else
+                                throw ParseError("Invalid character code");
+
+                            c = (c << 4) | code;
+                        }
                     }
+                    else
+                    {
+                        if (value.length() != 1 + 4)
+                            throw ParseError("Invalid entity");
+
+                        for (size_t i = 0; i < 4; ++i)
+                        {
+                            uint8_t code = 0;
+
+                            if (value[i + 1] >= '0' && value[i + 1] <= '9')
+                                code = static_cast<uint8_t>(value[i + 1]) - '0';
+                            else
+                                throw ParseError("Invalid character code");
+
+                            c = c * 10 + code;
+                        }
+                    }
+
+                    result = utf8::fromUtf32(c);
                 }
                 else
-                {
-                    if (value.length() != 1 + 4)
-                        throw ParseError("Invalid entity");
+                    throw ParseError("Invalid entity");
 
-                    for (size_t i = 0; i < 4; ++i)
-                    {
-                        uint8_t code = 0;
-
-                        if (value[i + 1] >= '0' && value[i + 1] <= '9')
-                            code = static_cast<uint8_t>(value[i + 1]) - '0';
-                        else
-                            throw ParseError("Invalid character code");
-
-                        c = c * 10 + code;
-                    }
-                }
-
-                result = utf8::fromUtf32(c);
+                return result;
             }
-            else
-                throw ParseError("Invalid entity");
 
-            return result;
-        }
-
-        inline std::string parseString(std::u32string::const_iterator& iterator,
-                                    std::u32string::const_iterator end)
-        {
-            std::string result;
-
-            if (iterator == end)
-                throw ParseError("Unexpected end of data");
-
-            if (*iterator != '"' && *iterator != '\'')
-                throw ParseError("Expected quotes");
-
-            auto quotes = *iterator;
-
-            ++iterator;
-
-            for (;;)
+            inline std::string parseString(std::u32string::const_iterator& iterator,
+                                           std::u32string::const_iterator end)
             {
+                std::string result;
+
                 if (iterator == end)
                     throw ParseError("Unexpected end of data");
 
-                if (*iterator == quotes)
+                if (*iterator != '"' && *iterator != '\'')
+                    throw ParseError("Expected quotes");
+
+                auto quotes = *iterator;
+
+                ++iterator;
+
+                for (;;)
                 {
-                    ++iterator;
-                    break;
+                    if (iterator == end)
+                        throw ParseError("Unexpected end of data");
+
+                    if (*iterator == quotes)
+                    {
+                        ++iterator;
+                        break;
+                    }
+                    else if (*iterator == '&')
+                    {
+                        std::string entity = parseEntity(iterator, end);
+                        result += entity;
+                    }
+                    else
+                    {
+                        result += utf8::fromUtf32(*iterator);
+                        ++iterator;
+                    }
                 }
-                else if (*iterator == '&')
-                {
-                    std::string entity = parseEntity(iterator, end);
-                    result += entity;
-                }
-                else
-                {
-                    result += utf8::fromUtf32(*iterator);
-                    ++iterator;
-                }
+
+                return result;
             }
 
-            return result;
-        }
-
-        inline void encodeString(std::vector<uint8_t>& data,
-                                const std::u32string& str)
-        {
-            for (const char32_t c : str)
+            inline void encodeString(std::vector<uint8_t>& data,
+                                     const std::u32string& str)
             {
-                switch (c)
+                for (const char32_t c : str)
                 {
-                    case '"':
-                        data.insert(data.end(), {'&', 'q', 'u', 'o', 't', ';'});
-                        break;
-                    case '&':
-                        data.insert(data.end(), {'&', 'a', 'm', 'p', ';'});
-                        break;
-                    case '\'':
-                        data.insert(data.end(), {'&', 'a', 'p', 'o', 's', ';'});
-                        break;
-                    case '<':
-                        data.insert(data.end(), {'&', 'l', 't', ';'});
-                        break;
-                    case '>':
-                        data.insert(data.end(), {'&', 'g', 't', ';'});
-                        break;
-                    default:
-                        std::string encoded = utf8::fromUtf32(c);
-                        data.insert(data.end(), encoded.begin(), encoded.end());
-                        break;
+                    switch (c)
+                    {
+                        case '"':
+                            data.insert(data.end(), {'&', 'q', 'u', 'o', 't', ';'});
+                            break;
+                        case '&':
+                            data.insert(data.end(), {'&', 'a', 'm', 'p', ';'});
+                            break;
+                        case '\'':
+                            data.insert(data.end(), {'&', 'a', 'p', 'o', 's', ';'});
+                            break;
+                        case '<':
+                            data.insert(data.end(), {'&', 'l', 't', ';'});
+                            break;
+                        case '>':
+                            data.insert(data.end(), {'&', 'g', 't', ';'});
+                            break;
+                        default:
+                            std::string encoded = utf8::fromUtf32(c);
+                            data.insert(data.end(), encoded.begin(), encoded.end());
+                            break;
+                    }
                 }
             }
         }
