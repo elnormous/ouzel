@@ -277,15 +277,15 @@ namespace ouzel
 
         void setEulerAngles(const Vector<3, T>& angles) noexcept
         {
-            constexpr T angleR = angles.v[0] / T(2);
+            const T angleR = angles.v[0] / T(2);
             const T sr = std::sin(angleR);
             const T cr = std::cos(angleR);
 
-            constexpr T angleP = angles.v[1] / T(2);
+            const T angleP = angles.v[1] / T(2);
             const T sp = std::sin(angleP);
             const T cp = std::cos(angleP);
 
-            constexpr T angleY = angles.v[2] / T(2);
+            const T angleY = angles.v[2] / T(2);
             const T sy = std::sin(angleY);
             const T cy = std::cos(angleY);
 
