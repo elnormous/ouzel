@@ -52,10 +52,10 @@ namespace ouzel
 
         inline Quaternion& operator*=(const Quaternion& q) noexcept
         {
-            const T tempX = v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0];
-            const T tempY = -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1];
-            const T tempZ = v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2];
-            const T tempW = -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3];
+            constexpr T tempX = v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0];
+            constexpr T tempY = -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1];
+            constexpr T tempZ = v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2];
+            constexpr T tempW = -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3];
 
             v[0] = tempX;
             v[1] = tempY;
@@ -169,8 +169,7 @@ namespace ouzel
 
         inline void invert() noexcept
         {
-            const T n2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
-
+            constexpr T n2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
             if (n2 <= std::numeric_limits<T>::min())
                 return;
 
@@ -183,7 +182,7 @@ namespace ouzel
 
         inline auto getNorm() const noexcept
         {
-            const T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            constexpr T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (n == T(1)) // already normalized
                 return 1;
 
@@ -192,11 +191,11 @@ namespace ouzel
 
         void normalize() noexcept
         {
-            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (n == T(1)) // already normalized
+            constexpr T s = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (s == T(1)) // already normalized
                 return;
 
-            n = std::sqrt(n);
+            T n = std::sqrt(s);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
@@ -209,11 +208,11 @@ namespace ouzel
 
         Quaternion normalized() const noexcept
         {
-            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (n == T(1)) // already normalized
+            constexpr T s = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (s == T(1)) // already normalized
                 return *this;
 
-            n = std::sqrt(n);
+            T n = std::sqrt(s);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 
@@ -278,17 +277,17 @@ namespace ouzel
 
         void setEulerAngles(const Vector<3, T>& angles) noexcept
         {
-            T angle = angles.v[0] / T(2);
-            const T sr = std::sin(angle);
-            const T cr = std::cos(angle);
+            constexpr T angleR = angles.v[0] / T(2);
+            const T sr = std::sin(angleR);
+            const T cr = std::cos(angleR);
 
-            angle = angles.v[1] / T(2);
-            const T sp = std::sin(angle);
-            const T cp = std::cos(angle);
+            constexpr T angleP = angles.v[1] / T(2);
+            const T sp = std::sin(angleP);
+            const T cp = std::cos(angleP);
 
-            angle = angles.v[2] / T(2);
-            const T sy = std::sin(angle);
-            const T cy = std::cos(angle);
+            constexpr T angleY = angles.v[2] / T(2);
+            const T sy = std::sin(angleY);
+            const T cy = std::cos(angleY);
 
             const T cpcy = cp * cy;
             const T spcy = sp * cy;
@@ -308,7 +307,7 @@ namespace ouzel
 
         inline Vector<3, T> rotateVector(const Vector<3, T>& vector) const noexcept
         {
-            const Vector<3, T> q(v[0], v[1], v[2]);
+            constexpr Vector<3, T> q(v[0], v[1], v[2]);
             const Vector<3, T> t = T(2) * q.cross(vector);
             return vector + (v[3] * t) + q.cross(t);
         }
