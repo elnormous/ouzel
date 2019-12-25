@@ -195,15 +195,15 @@ namespace ouzel
             if (s == T(1)) // already normalized
                 return;
 
-            T n = std::sqrt(s);
+            const T n = std::sqrt(s);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            n = T(1) / n;
-            v[0] *= n;
-            v[1] *= n;
-            v[2] *= n;
-            v[3] *= n;
+            const T d = T(1) / n;
+            v[0] *= d;
+            v[1] *= d;
+            v[2] *= d;
+            v[3] *= d;
         }
 
         Quaternion normalized() const noexcept
@@ -212,12 +212,12 @@ namespace ouzel
             if (s == T(1)) // already normalized
                 return *this;
 
-            T n = std::sqrt(s);
+            const T n = std::sqrt(s);
             if (n <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 
-            n = T(1) / n;
-            return *this * n;
+            const T d = T(1) / n;
+            return *this * d;
         }
 
         void rotate(const T angle, const Vector<3, T>& axis) noexcept
