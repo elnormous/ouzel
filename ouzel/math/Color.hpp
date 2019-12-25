@@ -73,7 +73,7 @@ namespace ouzel
                     v[i] = 0;
         }
 
-        Color(const char* color):
+        explicit Color(const char* color):
             Color(std::string(color))
         {
         }
