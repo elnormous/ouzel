@@ -26,7 +26,7 @@ namespace ouzel
 
         constexpr Color() noexcept {}
 
-        constexpr Color(uint32_t color) noexcept:
+        explicit constexpr Color(uint32_t color) noexcept:
             v{
                 static_cast<uint8_t>((color & 0xFF000000) >> 24),
                 static_cast<uint8_t>((color & 0x00FF0000) >> 16),
@@ -36,7 +36,7 @@ namespace ouzel
         {
         }
 
-        Color(const std::string& color)
+        explicit Color(const std::string& color)
         {
             if (!color.empty())
             {
