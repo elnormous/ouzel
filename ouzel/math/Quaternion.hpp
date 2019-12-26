@@ -169,15 +169,16 @@ namespace ouzel
 
         constexpr void invert() noexcept
         {
-            constexpr T n2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
-            if (n2 <= std::numeric_limits<T>::min())
+            constexpr T squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
+            if (squared <= std::numeric_limits<T>::min())
                 return;
 
             // conjugate divided by norm squared
-            v[0] = -v[0] / n2;
-            v[1] = -v[1] / n2;
-            v[2] = -v[2] / n2;
-            v[3] = v[3] / n2;
+            const T multiplier = T(1) / squared;
+            v[0] = -v[0] * multiplier;
+            v[1] = -v[1] * multiplier;
+            v[2] = -v[2] * multiplier;
+            v[3] = v[3] * multiplier;
         }
 
         inline auto getNorm() const noexcept
@@ -191,33 +192,33 @@ namespace ouzel
 
         void normalize() noexcept
         {
-            constexpr T s = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (s == T(1)) // already normalized
+            constexpr T squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (squared == T(1)) // already normalized
                 return;
 
-            const T n = std::sqrt(s);
-            if (n <= std::numeric_limits<T>::min()) // too close to zero
+            const T length = std::sqrt(squared);
+            if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            const T d = T(1) / n;
-            v[0] *= d;
-            v[1] *= d;
-            v[2] *= d;
-            v[3] *= d;
+            const T multiplier = T(1) / length;
+            v[0] *= multiplier;
+            v[1] *= multiplier;
+            v[2] *= multiplier;
+            v[3] *= multiplier;
         }
 
         Quaternion normalized() const noexcept
         {
-            constexpr T s = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (s == T(1)) // already normalized
+            constexpr T squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (squared == T(1)) // already normalized
                 return *this;
 
-            const T n = std::sqrt(s);
-            if (n <= std::numeric_limits<T>::min()) // too close to zero
+            const T length = std::sqrt(squared);
+            if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 
-            const T d = T(1) / n;
-            return *this * d;
+            const T multiplier = T(1) / length;
+            return *this * multiplier;
         }
 
         void rotate(const T angle, const Vector<3, T>& axis) noexcept

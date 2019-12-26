@@ -159,7 +159,7 @@ namespace ouzel
             for (const T& c : v)
                 n += c * c;
 
-            if (n == 1) // already normalized
+            if (n == T(1)) // already normalized
                 return;
 
             n = std::sqrt(n);
@@ -176,7 +176,7 @@ namespace ouzel
             for (const T& c : v)
                 n += c * c;
 
-            if (n == 1) // already normalized
+            if (n == T(1)) // already normalized
                 return *this;
 
             n = std::sqrt(n);
