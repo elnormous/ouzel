@@ -208,19 +208,16 @@ namespace ouzel
             const T y = axis.v[1];
             const T z = axis.v[2];
 
-            // Make sure the input axis is normalized
-            T n = x * x + y * y + z * z;
-            if (n != T(1))
+            const T squared = x * x + y * y + z * z;
+            if (squared != T(1))
             {
-                // Not normalized
-                n = std::sqrt(n);
-                // Prevent divide too close to zero
-                if (n > std::numeric_limits<T>::min())
+                const T length = std::sqrt(squared);
+                if (length > std::numeric_limits<T>::min())
                 {
-                    n = T(1) / n;
-                    x *= n;
-                    y *= n;
-                    z *= n;
+                    const T multiplier = T(1) / length;
+                    x *= multiplier;
+                    y *= multiplier;
+                    z *= multiplier;
                 }
             }
 
@@ -499,18 +496,18 @@ namespace ouzel
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         T determinant() const noexcept
         {
-            T a0 = m[0] * m[5] - m[1] * m[4];
-            T a1 = m[0] * m[6] - m[2] * m[4];
-            T a2 = m[0] * m[7] - m[3] * m[4];
-            T a3 = m[1] * m[6] - m[2] * m[5];
-            T a4 = m[1] * m[7] - m[3] * m[5];
-            T a5 = m[2] * m[7] - m[3] * m[6];
-            T b0 = m[8] * m[13] - m[9] * m[12];
-            T b1 = m[8] * m[14] - m[10] * m[12];
-            T b2 = m[8] * m[15] - m[11] * m[12];
-            T b3 = m[9] * m[14] - m[10] * m[13];
-            T b4 = m[9] * m[15] - m[11] * m[13];
-            T b5 = m[10] * m[15] - m[11] * m[14];
+            constexpr T a0 = m[0] * m[5] - m[1] * m[4];
+            constexpr T a1 = m[0] * m[6] - m[2] * m[4];
+            constexpr T a2 = m[0] * m[7] - m[3] * m[4];
+            constexpr T a3 = m[1] * m[6] - m[2] * m[5];
+            constexpr T a4 = m[1] * m[7] - m[3] * m[5];
+            constexpr T a5 = m[2] * m[7] - m[3] * m[6];
+            constexpr T b0 = m[8] * m[13] - m[9] * m[12];
+            constexpr T b1 = m[8] * m[14] - m[10] * m[12];
+            constexpr T b2 = m[8] * m[15] - m[11] * m[12];
+            constexpr T b3 = m[9] * m[14] - m[10] * m[13];
+            constexpr T b4 = m[9] * m[15] - m[11] * m[13];
+            constexpr T b5 = m[10] * m[15] - m[11] * m[14];
             return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
         }
 
@@ -557,21 +554,21 @@ namespace ouzel
 
         void invert(Matrix& dst) const noexcept
         {
-            const T a0 = m[0] * m[5] - m[1] * m[4];
-            const T a1 = m[0] * m[6] - m[2] * m[4];
-            const T a2 = m[0] * m[7] - m[3] * m[4];
-            const T a3 = m[1] * m[6] - m[2] * m[5];
-            const T a4 = m[1] * m[7] - m[3] * m[5];
-            const T a5 = m[2] * m[7] - m[3] * m[6];
-            const T b0 = m[8] * m[13] - m[9] * m[12];
-            const T b1 = m[8] * m[14] - m[10] * m[12];
-            const T b2 = m[8] * m[15] - m[11] * m[12];
-            const T b3 = m[9] * m[14] - m[10] * m[13];
-            const T b4 = m[9] * m[15] - m[11] * m[13];
-            const T b5 = m[10] * m[15] - m[11] * m[14];
+            constexpr T a0 = m[0] * m[5] - m[1] * m[4];
+            constexpr T a1 = m[0] * m[6] - m[2] * m[4];
+            constexpr T a2 = m[0] * m[7] - m[3] * m[4];
+            constexpr T a3 = m[1] * m[6] - m[2] * m[5];
+            constexpr T a4 = m[1] * m[7] - m[3] * m[5];
+            constexpr T a5 = m[2] * m[7] - m[3] * m[6];
+            constexpr T b0 = m[8] * m[13] - m[9] * m[12];
+            constexpr T b1 = m[8] * m[14] - m[10] * m[12];
+            constexpr T b2 = m[8] * m[15] - m[11] * m[12];
+            constexpr T b3 = m[9] * m[14] - m[10] * m[13];
+            constexpr T b4 = m[9] * m[15] - m[11] * m[13];
+            constexpr T b5 = m[10] * m[15] - m[11] * m[14];
 
             // Calculate the determinant
-            const T det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
+            constexpr T det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
             // Close to zero, can't invert
             if (std::fabs(det) <= std::numeric_limits<T>::min()) return;
@@ -788,7 +785,7 @@ namespace ouzel
 
         void transpose(Matrix& dst) const noexcept
         {
-            const T t[16] = {
+            constexpr T t[16] = {
                 m[0], m[4], m[8], m[12],
                 m[1], m[5], m[9], m[13],
                 m[2], m[6], m[10], m[14],
