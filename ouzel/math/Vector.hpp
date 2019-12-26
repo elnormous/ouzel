@@ -155,36 +155,37 @@ namespace ouzel
 
         void normalize() noexcept
         {
-            T n = 0;
+            T squared = T(0);
             for (const T& c : v)
-                n += c * c;
+                squared += c * c;
 
-            if (n == T(1)) // already normalized
+            if (squared == T(1)) // already normalized
                 return;
 
-            n = std::sqrt(n);
-            if (n <= std::numeric_limits<T>::min()) // too close to zero
+            const T length = std::sqrt(squared);
+            if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
+            const T multiplier = T(1) / length;
             for (T& c : v)
-                c /= n;
+                c *= multiplier;
         }
 
         Vector normalized() const noexcept
         {
-            T n = 0;
+            T squared = T(0);
             for (const T& c : v)
-                n += c * c;
+                squared += c * c;
 
-            if (n == T(1)) // already normalized
+            if (squared == T(1)) // already normalized
                 return *this;
 
-            n = std::sqrt(n);
-            if (n <= std::numeric_limits<T>::min()) // too close to zero
+            const T length = std::sqrt(squared);
+            if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 
-            n = T(1) / n;
-            return *this * n;
+            const T multiplier = T(1) / length;
+            return *this * multiplier;
         }
 
         inline void scale(const Vector& scale) noexcept

@@ -218,7 +218,10 @@ namespace ouzel
                 return *this;
 
             const T multiplier = T(1) / length;
-            return *this * multiplier;
+            return Quaternion(v[0] * multiplier,
+                              v[1] * multiplier,
+                              v[2] * multiplier,
+                              v[3] * multiplier);
         }
 
         void rotate(const T angle, const Vector<3, T>& axis) noexcept

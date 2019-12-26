@@ -55,33 +55,36 @@ namespace ouzel
 
         void normalize() noexcept
         {
-            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (n == T(1)) // already normalized
+            constexpr T squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (squared == T(1)) // already normalized
                 return;
 
-            n = std::sqrt(n);
-            if (n <= std::numeric_limits<T>::min()) // too close to zero
+            const T length = std::sqrt(squared);
+            if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            n = T(1) / n;
-            v[0] *= n;
-            v[1] *= n;
-            v[2] *= n;
-            v[3] *= n;
+            const T multiplier = T(1) / length;
+            v[0] *= multiplier;
+            v[1] *= multiplier;
+            v[2] *= multiplier;
+            v[3] *= multiplier;
         }
 
         Plane normalized() const noexcept
         {
-            T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (n == T(1)) // already normalized
+            constexpr T squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            if (squared == T(1)) // already normalized
                 return *this;
 
-            n = std::sqrt(n);
-            if (n <= std::numeric_limits<T>::min()) // too close to zero
+            const T length = std::sqrt(squared);
+            if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 
-            n = T(1) / n;
-            return Plane(v[0] * n, v[1] * n, v[2] * n, v[3] * n);
+            const T multiplier = T(1) / length;
+            return Plane(v[0] * multiplier,
+                         v[1] * multiplier,
+                         v[2] * multiplier,
+                         v[3] * multiplier);
         }
 
         constexpr bool operator==(const Plane& plane) const noexcept
@@ -96,12 +99,15 @@ namespace ouzel
 
         static inline Plane makeFrustumPlane(const T a, const T b, const T c, const T d) noexcept
         {
-            T n = std::sqrt(a * a + b * b + c * c);
-            if (n <= std::numeric_limits<T>::min()) // too close to zero
+            const T length = std::sqrt(a * a + b * b + c * c);
+            if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return Plane();
 
-            n = T(1) / n;
-            return Plane(a * n, b * n, c * n, d * n);
+            const T multiplier = T(1) / length;
+            return Plane(a * multiplier,
+                         b * multiplier,
+                         c * multiplier,
+                         d * multiplier);
         }
     };
 
