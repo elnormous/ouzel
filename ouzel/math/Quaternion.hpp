@@ -50,7 +50,7 @@ namespace ouzel
                               -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3]);
         }
 
-        inline Quaternion& operator*=(const Quaternion& q) noexcept
+        constexpr Quaternion& operator*=(const Quaternion& q) noexcept
         {
             constexpr T tempX = v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0];
             constexpr T tempY = -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1];
@@ -73,7 +73,7 @@ namespace ouzel
                               v[3] * scalar);
         }
 
-        inline Quaternion& operator*=(const T scalar) noexcept
+        constexpr Quaternion& operator*=(const T scalar) noexcept
         {
             v[0] *= scalar;
             v[1] *= scalar;
@@ -91,7 +91,7 @@ namespace ouzel
                               v[3] / scalar);
         }
 
-        inline Quaternion& operator/=(const T scalar) noexcept
+        constexpr Quaternion& operator/=(const T scalar) noexcept
         {
             v[0] /= scalar;
             v[1] /= scalar;
@@ -114,7 +114,7 @@ namespace ouzel
                               v[3] + q.v[3]);
         }
 
-        inline Quaternion& operator+=(const Quaternion& q) noexcept
+        constexpr Quaternion& operator+=(const Quaternion& q) noexcept
         {
             v[0] += q.v[0];
             v[1] += q.v[1];
@@ -132,7 +132,7 @@ namespace ouzel
                               v[3] - q.v[3]);
         }
 
-        inline Quaternion& operator-=(const Quaternion& q) noexcept
+        constexpr Quaternion& operator-=(const Quaternion& q) noexcept
         {
             v[0] -= q.v[0];
             v[1] -= q.v[1];
@@ -152,7 +152,7 @@ namespace ouzel
             return v[0] != q.v[0] || v[1] != q.v[1] || v[2] != q.v[2] || v[3] != q.v[3];
         }
 
-        inline void negate() noexcept
+        constexpr void negate() noexcept
         {
             v[0] = -v[0];
             v[1] = -v[1];
@@ -160,14 +160,14 @@ namespace ouzel
             v[3] = -v[3];
         }
 
-        inline void conjugate() noexcept
+        constexpr void conjugate() noexcept
         {
             v[0] = -v[0];
             v[1] = -v[1];
             v[2] = -v[2];
         }
 
-        inline void invert() noexcept
+        constexpr void invert() noexcept
         {
             constexpr T n2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
             if (n2 <= std::numeric_limits<T>::min())
@@ -327,7 +327,7 @@ namespace ouzel
             return rotateVector(Vector<3, T>(0, 0, 1));
         }
 
-        inline Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept
+        constexpr Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept
         {
             *this = (q1 * (T(1) - t)) + (q2 * t);
             return *this;
