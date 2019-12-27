@@ -34,7 +34,7 @@ namespace ouzel
 
         void Scene::draw()
         {
-            std::stable_sort(layers.begin(), layers.end(), [](Layer* a, Layer* b) noexcept {
+            std::stable_sort(layers.begin(), layers.end(), [](const auto a, const auto b) noexcept {
                 return a->getOrder() > b->getOrder();
             });
 
