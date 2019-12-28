@@ -27,29 +27,30 @@ namespace ouzel
         {
         }
 
-        Rect(const Vector<2, T>& initPosition,
+        constexpr Rect(const Vector<2, T>& initPosition,
              const T width, const T height) noexcept:
             position(initPosition), size(width, height)
         {
         }
 
-        Rect(const Vector<2, T>& initPosition, const Size<2, T>& initSize) noexcept:
+        constexpr Rect(const Vector<2, T>& initPosition,
+                       const Size<2, T>& initSize) noexcept:
             position(initPosition), size(initSize)
         {
         }
 
-        inline auto isEmpty() const noexcept
+        constexpr auto isEmpty() const noexcept
         {
             return size.isZero();
         }
 
-        inline void setPosition(const T x, const T y) noexcept
+        constexpr void setPosition(const T x, const T y) noexcept
         {
             position.v[0] = x;
             position.v[1] = y;
         }
 
-        inline void setPosition(const Vector<2, T>& newPosition) noexcept
+        constexpr void setPosition(const Vector<2, T>& newPosition) noexcept
         {
             position = newPosition;
         }
@@ -153,8 +154,8 @@ namespace ouzel
             dst.size.v[1] = std::max(r1.position.v[1] + r1.size.v[1], r2.position.v[1] + r2.size.v[1]) - dst.position.v[1];
         }
 
-        inline void inflate(const T horizontalAmount,
-                            const T verticalAmount) noexcept
+        constexpr void inflate(const T horizontalAmount,
+                               const T verticalAmount) noexcept
         {
             position.v[0] -= horizontalAmount;
             position.v[1] -= verticalAmount;
@@ -174,13 +175,13 @@ namespace ouzel
                 position.v[1] != other.position.v[1] || size.v[1] != other.size.v[1];
         }
 
-        inline const Rect operator*(const T scalar) const noexcept
+        constexpr const Rect operator*(const T scalar) const noexcept
         {
             return Rect(position.v[0] * scalar, position.v[1] * scalar,
                         size.v[0] * scalar, size.v[1] * scalar);
         }
 
-        inline Rect& operator*=(const T scalar) noexcept
+        constexpr Rect& operator*=(const T scalar) noexcept
         {
             position.v[0] *= scalar;
             position.v[1] *= scalar;
@@ -189,13 +190,13 @@ namespace ouzel
             return *this;
         }
 
-        inline const Rect operator/(const T scalar) const noexcept
+        constexpr const Rect operator/(const T scalar) const noexcept
         {
             return Rect(position.v[0] / scalar, position.v[1] / scalar,
                         size.v[0] / scalar, size.v[1] / scalar);
         }
 
-        inline Rect& operator/=(const T scalar) noexcept
+        constexpr Rect& operator/=(const T scalar) noexcept
         {
             position.v[0] /= scalar;
             position.v[1] /= scalar;

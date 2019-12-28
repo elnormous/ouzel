@@ -39,7 +39,7 @@ namespace ouzel
         inline T& d() noexcept { return v[3]; }
         constexpr T d() const noexcept { return v[3]; }
 
-        inline void flip() noexcept
+        constexpr void flip() noexcept
         {
             v[0] = -v[0];
             v[1] = -v[1];
