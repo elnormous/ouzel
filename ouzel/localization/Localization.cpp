@@ -98,8 +98,10 @@ namespace ouzel
                 data.size() < translations[i].translationOffset + translations[i].translationLength)
                 throw std::runtime_error("Not enough data");
 
-            std::string str(reinterpret_cast<const char*>(data.data() + translations[i].stringOffset), translations[i].stringLength);
-            std::string translation(reinterpret_cast<const char*>(data.data() + translations[i].translationOffset), translations[i].translationLength);
+            const std::string str(reinterpret_cast<const char*>(data.data() + translations[i].stringOffset),
+                                  translations[i].stringLength);
+            const std::string translation(reinterpret_cast<const char*>(data.data() + translations[i].translationOffset),
+                                          translations[i].translationLength);
 
             strings[str] = translation;
         }
@@ -107,7 +109,7 @@ namespace ouzel
 
     std::string Language::getString(const std::string& str) const
     {
-        auto i = strings.find(str);
+        const auto i = strings.find(str);
 
         if (i != strings.end())
             return i->second;
@@ -117,7 +119,7 @@ namespace ouzel
 
     void Localization::addLanguage(const std::string& name, const std::vector<uint8_t>& data)
     {
-        auto i = languages.find(name);
+        const auto i = languages.find(name);
 
         if (i != languages.end())
             i->second = Language(data);
@@ -127,7 +129,7 @@ namespace ouzel
 
     void Localization::removeLanguage(const std::string& name)
     {
-        auto i = languages.find(name);
+        const auto i = languages.find(name);
 
         if (i != languages.end())
         {
@@ -140,7 +142,7 @@ namespace ouzel
 
     void Localization::setLanguage(const std::string& name)
     {
-        auto i = languages.find(name);
+        const auto i = languages.find(name);
 
         if (i != languages.end())
             currentLanguage = i;

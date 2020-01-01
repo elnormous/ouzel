@@ -14,7 +14,9 @@ namespace ouzel
 
         for (EventHandler* eventHandler : eventHandlers)
         {
-            auto i = std::find(eventHandlerDeleteSet.begin(), eventHandlerDeleteSet.end(), eventHandler);
+            const auto i = std::find(eventHandlerDeleteSet.begin(),
+                                     eventHandlerDeleteSet.end(),
+                                     eventHandler);
             if (i == eventHandlerDeleteSet.end()) eventHandler->eventDispatcher = nullptr;
         }
     }
@@ -23,7 +25,9 @@ namespace ouzel
     {
         for (EventHandler* eventHandler : eventHandlerDeleteSet)
         {
-            auto i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
+            const auto i = std::find(eventHandlers.begin(),
+                                     eventHandlers.end(),
+                                     eventHandler);
 
             if (i != eventHandlers.end())
                 eventHandlers.erase(i);
@@ -33,14 +37,16 @@ namespace ouzel
 
         for (EventHandler* eventHandler : eventHandlerAddSet)
         {
-            auto i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
+            const auto i = std::find(eventHandlers.begin(),
+                                     eventHandlers.end(),
+                                     eventHandler);
 
             if (i == eventHandlers.end())
             {
-                auto upperBound = std::upper_bound(eventHandlers.begin(), eventHandlers.end(), eventHandler,
-                                                   [](const EventHandler* a, const EventHandler* b) noexcept {
-                                                       return a->priority > b->priority;
-                                                   });
+                const auto upperBound = std::upper_bound(eventHandlers.begin(), eventHandlers.end(), eventHandler,
+                                                         [](const auto a, const auto b) noexcept {
+                                                                return a->priority > b->priority;
+                                                            });
 
                 eventHandlers.insert(upperBound, eventHandler);
             }
@@ -69,9 +75,11 @@ namespace ouzel
 
         bool handled = false;
 
-        for (const EventHandler* eventHandler : eventHandlers)
+        for (const auto eventHandler : eventHandlers)
         {
-            auto i = std::find(eventHandlerDeleteSet.begin(), eventHandlerDeleteSet.end(), eventHandler);
+            const auto i = std::find(eventHandlerDeleteSet.begin(),
+                                     eventHandlerDeleteSet.end(),
+                                     eventHandler);
 
             if (i == eventHandlerDeleteSet.end())
             {
@@ -190,7 +198,7 @@ namespace ouzel
 
         eventHandlerDeleteSet.insert(&eventHandler);
 
-        auto setIterator = eventHandlerAddSet.find(&eventHandler);
+        const auto setIterator = eventHandlerAddSet.find(&eventHandler);
 
         if (setIterator != eventHandlerAddSet.end())
             eventHandlerAddSet.erase(setIterator);

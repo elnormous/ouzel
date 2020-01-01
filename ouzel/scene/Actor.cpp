@@ -190,8 +190,7 @@ namespace ouzel
                             auto result = std::make_pair(actor, actor->convertWorldToLocal(Vector3F(position)));
 
                             auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
-                                                               [](const std::pair<Actor*, Vector3F>& a,
-                                                                  const std::pair<Actor*, Vector3F>& b) noexcept {
+                                                               [](const auto& a, const auto& b) noexcept {
                                                                    return a.first->worldOrder < b.first->worldOrder;
                                                                });
 
@@ -213,7 +212,7 @@ namespace ouzel
 
             while (!actorContainers.empty())
             {
-                const ActorContainer* actorContainer = actorContainers.front();
+                const auto actorContainer = actorContainers.front();
                 actorContainers.pop();
 
                 for (auto i = actorContainer->children.rbegin(); i != actorContainer->children.rend(); ++i)
@@ -227,7 +226,7 @@ namespace ouzel
                         if (actor->isPickable() && actor->shapeOverlaps(edges))
                         {
                             auto upperBound = std::upper_bound(actors.begin(), actors.end(), actor,
-                                                               [](Actor* a, Actor* b) noexcept {
+                                                               [](const auto a, const auto b) noexcept {
                                                                    return a->worldOrder < b->worldOrder;
                                                                });
 
@@ -268,7 +267,7 @@ namespace ouzel
                 if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
                 {
                     auto upperBound = std::upper_bound(drawQueue.begin(), drawQueue.end(), this,
-                                                       [](Actor* a, Actor* b) noexcept {
+                                                       [](const auto a, const auto b) noexcept {
                                                            return a->worldOrder > b->worldOrder;
                                                        });
 
