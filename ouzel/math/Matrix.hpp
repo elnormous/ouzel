@@ -487,9 +487,9 @@ namespace ouzel
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
         T determinant() const noexcept
         {
-            T a0 = m[0] * (m[4] * m[8] - m[5] * m[7]);
-            T a1 = m[1] * (m[3] * m[8] - m[5] * m[6]);
-            T a2 = m[2] * (m[3] * m[7] - m[4] * m[6]);
+            const T a0 = m[0] * (m[4] * m[8] - m[5] * m[7]);
+            const T a1 = m[1] * (m[3] * m[8] - m[5] * m[6]);
+            const T a2 = m[2] * (m[3] * m[7] - m[4] * m[6]);
             return a0 - a1 + a2;
         }
 
