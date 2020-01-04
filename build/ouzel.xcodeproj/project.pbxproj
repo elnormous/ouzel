@@ -1086,6 +1086,7 @@
 		30CB946D22B465BA0025C927 /* Flags.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Flags.hpp; sourceTree = "<group>"; };
 		30CB946E22B4681C0025C927 /* BufferType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BufferType.hpp; sourceTree = "<group>"; };
 		30CB946F22B473D30025C927 /* ColorMask.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ColorMask.hpp; sourceTree = "<group>"; };
+		30CC849923C00FDD00E5CF90 /* MetalError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MetalError.hpp; sourceTree = "<group>"; };
 		30CC89F8203C5DFB00E2C8C3 /* File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = File.hpp; sourceTree = "<group>"; };
 		30CEB36721A6385C00525637 /* System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = System.cpp; sourceTree = "<group>"; };
 		30CEB36821A6385C00525637 /* System.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = System.hpp; sourceTree = "<group>"; };
@@ -1700,6 +1701,7 @@
 				303820271D80A55700677CAB /* MetalBuffer.mm */,
 				3009030521922DEE00B00BF4 /* MetalDepthStencilState.hpp */,
 				3009030421922DEE00B00BF4 /* MetalDepthStencilState.mm */,
+				30CC849923C00FDD00E5CF90 /* MetalError.hpp */,
 				30F46DBA2377C0B400884EED /* MetalPointer.hpp */,
 				30381FD11D80A40700677CAB /* MetalRenderDevice.hpp */,
 				30381FD21D80A40700677CAB /* MetalRenderDevice.mm */,
