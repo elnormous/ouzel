@@ -4,8 +4,8 @@
 
 #if OUZEL_COMPILE_METAL
 
-#include <stdexcept>
 #include "MetalRenderTarget.hpp"
+#include "MetalError.hpp"
 #include "MetalRenderDevice.hpp"
 #include "MetalTexture.hpp"
 
@@ -27,7 +27,7 @@ namespace ouzel
                 renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
                 if (!renderPassDescriptor)
-                    throw std::runtime_error("Failed to create Metal render pass descriptor");
+                    throw Error("Failed to create Metal render pass descriptor");
 
                 for (const Texture* colorTexture : colorTextures)
                 {

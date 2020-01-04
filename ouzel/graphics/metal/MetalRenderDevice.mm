@@ -7,7 +7,6 @@
 #include <Availability.h>
 #include <TargetConditionals.h>
 #include <cassert>
-#include <stdexcept>
 #include "MetalRenderDevice.hpp"
 #include "MetalBlendState.hpp"
 #include "MetalBuffer.hpp"

@@ -4,8 +4,8 @@
 
 #if OUZEL_COMPILE_METAL
 
-#include <stdexcept>
 #include "MetalTexture.hpp"
+#include "MetalError.hpp"
 #include "MetalRenderDevice.hpp"
 #include "math/MathUtils.hpp"
 
@@ -64,7 +64,7 @@ namespace ouzel
                         switch (type)
                         {
                             case TextureType::TwoDimensional: return MTLTextureType2DMultisample;
-                            default: throw std::runtime_error("Invalid multisample texture type");
+                            default: throw Error("Invalid multisample texture type");
                         }
                     }
                     else
@@ -75,7 +75,7 @@ namespace ouzel
                             case TextureType::TwoDimensional: return MTLTextureType2D;
                             case TextureType::ThreeDimensional: return MTLTextureType3D;
                             case TextureType::Cube: return MTLTextureTypeCube;
-                            default: throw std::runtime_error("Invalid texture type");
+                            default: throw Error("Invalid texture type");
                         }
                     }
                 }
@@ -90,7 +90,7 @@ namespace ouzel
                         case CubeFace::NegativeY: return 3;
                         case CubeFace::PositiveZ: return 4;
                         case CubeFace::NegativeZ: return 5;
-                        default: throw std::runtime_error("Invalid cube face");
+                        default: throw Error("Invalid cube face");
                     }
                 }
             }
@@ -110,16 +110,16 @@ namespace ouzel
                 stencilBuffer(initPixelFormat == PixelFormat::DepthStencil)
             {
                 if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
-                    throw std::runtime_error("Invalid mip map count");
+                    throw Error("Invalid mip map count");
 
                 if (pixelFormat == MTLPixelFormatInvalid)
-                    throw std::runtime_error("Invalid pixel format");
+                    throw Error("Invalid pixel format");
 
                 width = static_cast<NSUInteger>(levels.front().first.v[0]);
                 height = static_cast<NSUInteger>(levels.front().first.v[1]);
 
                 if (!width || !height)
-                    throw std::runtime_error("Invalid texture size");
+                    throw Error("Invalid texture size");
 
                 // TODO: don't create texture if only MSAA is needed
                 Pointer<MTLTextureDescriptor*> textureDescriptor = [[MTLTextureDescriptor alloc] init];
@@ -147,7 +147,7 @@ namespace ouzel
                 texture = [renderDevice.getDevice().get() newTextureWithDescriptor:textureDescriptor.get()];
 
                 if (!texture)
-                    throw std::runtime_error("Failed to create Metal texture");
+                    throw Error("Failed to create Metal texture");
 
                 if (flags & Flags::BindRenderTarget)
                 {
@@ -169,7 +169,7 @@ namespace ouzel
                         msaaTexture = [renderDevice.getDevice().get() newTextureWithDescriptor:msaaTextureDescriptor.get()];
 
                         if (!msaaTexture)
-                            throw std::runtime_error("Failed to create MSAA texture");
+                            throw Error("Failed to create MSAA texture");
                     }
                 }
                 else
@@ -199,7 +199,7 @@ namespace ouzel
             {
                 if (!(flags & Flags::Dynamic) ||
                     flags & Flags::BindRenderTarget)
-                    throw std::runtime_error("Texture is not dynamic");
+                    throw Error("Texture is not dynamic");
 
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
@@ -248,7 +248,7 @@ namespace ouzel
                 samplerState = renderDevice.getSamplerState(samplerDescriptor);
 
                 if (!samplerState)
-                    throw std::runtime_error("Failed to get Metal sampler state");
+                    throw Error("Failed to get Metal sampler state");
             }
         } // namespace metal
     } // namespace graphics

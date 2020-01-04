@@ -5,8 +5,8 @@
 #if OUZEL_COMPILE_METAL
 
 #include <algorithm>
-#include <stdexcept>
 #include "MetalBuffer.hpp"
+#include "MetalError.hpp"
 #include "MetalRenderDevice.hpp"
 
 namespace ouzel
@@ -33,10 +33,10 @@ namespace ouzel
             void Buffer::setData(const std::vector<uint8_t>& data)
             {
                 if (!(flags & Flags::Dynamic))
-                    throw std::runtime_error("Buffer is not dynamic");
+                    throw Error("Buffer is not dynamic");
 
                 if (data.empty())
-                    throw std::runtime_error("Data is empty");
+                    throw Error("Data is empty");
 
                 if (!buffer || data.size() > size)
                     createBuffer(static_cast<uint32_t>(data.size()));
@@ -54,7 +54,7 @@ namespace ouzel
                                                                          options:MTLResourceCPUCacheModeWriteCombined];
 
                     if (!buffer)
-                        throw std::runtime_error("Failed to create Metal buffer");
+                        throw Error("Failed to create Metal buffer");
                 }
             }
         } // namespace metal
