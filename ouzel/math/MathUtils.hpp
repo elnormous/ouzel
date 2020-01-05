@@ -59,18 +59,6 @@ namespace ouzel
         return (x != T(0)) && (((x - T(1)) & x) == 0);
     }
 
-    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline T nextPowerOfTwo(const T x) noexcept
-    {
-        if (x != 0)
-        {
-            --x;
-            for (uint32_t shift = 1; shift < sizeof(T) * 8; shift *= 2)
-                x |= (x >> shift);
-        }
-        return ++x;
-    }
-
     template <typename T> constexpr T degToRad(const T x) noexcept
     {
         return x * T(0.01745329251994329576);

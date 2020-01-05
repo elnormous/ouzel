@@ -12,26 +12,24 @@ namespace ouzel
             {
                 case SystemCursor::Default:
                 case SystemCursor::Arrow:
-                    cursor = [NSCursor arrowCursor];
+                    cursor = [[NSCursor arrowCursor] retain];
                     break;
                 case SystemCursor::Hand:
-                    cursor = [NSCursor openHandCursor];
+                    cursor = [[NSCursor openHandCursor] retain];
                     break;
                 case SystemCursor::HorizontalResize:
-                    cursor = [NSCursor resizeLeftRightCursor];
+                    cursor = [[NSCursor resizeLeftRightCursor] retain];
                     break;
                 case SystemCursor::VerticalResize:
-                    cursor = [NSCursor resizeUpDownCursor];
+                    cursor = [[NSCursor resizeUpDownCursor] retain];
                     break;
                 case SystemCursor::Cross:
-                    cursor = [NSCursor crosshairCursor];
+                    cursor = [[NSCursor crosshairCursor] retain];
                     break;
                 case SystemCursor::IBeam:
-                    cursor = [NSCursor IBeamCursor];
+                    cursor = [[NSCursor IBeamCursor] retain];
                     break;
             }
-
-            if (cursor) [cursor retain];
         }
 
         CursorMacOS::CursorMacOS(const std::vector<uint8_t>& newData,
@@ -50,7 +48,8 @@ namespace ouzel
 
                 unsigned char* rgba = data.data();
 
-                NSImage* image = [[[NSImage alloc] initWithSize:NSMakeSize(width, height)] autorelease];
+                NSImage* image = [[[NSImage alloc]
+                                   initWithSize:NSMakeSize(width, height)] autorelease];
                 NSBitmapImageRep* imageRep = [[[NSBitmapImageRep alloc]
                                                initWithBitmapDataPlanes:&rgba
                                                pixelsWide:width
