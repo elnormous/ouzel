@@ -104,9 +104,13 @@ namespace ouzel
             if (!instance)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
 
+            void* directInputPointer;
+
             HRESULT hr;
-            if (FAILED(hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
+            if (FAILED(hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, &directInputPointer, nullptr)))
                 throw std::system_error(hr, errorCategory, "Failed to initialize DirectInput");
+
+            directInput = static_cast<IDirectInput8W*>(directInputPointer);
 
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
@@ -283,12 +287,14 @@ namespace ouzel
         {
             bool isXInputDevice = false;
 
-            IWbemLocator* wbemLocator = nullptr;
+            void* wbemLocatorPointer;
             HRESULT hr;
 
             if (FAILED(hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
-                                             __uuidof(IWbemLocator), reinterpret_cast<LPVOID*>(&wbemLocator))))
+                                             __uuidof(IWbemLocator), &wbemLocatorPointer)))
                 throw std::system_error(hr, errorCategory, "Failed to create WMI locator instance");
+
+            IWbemLocator* wbemLocator = static_cast<IWbemLocator*>(wbemLocatorPointer);
 
             BSTR namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
             BSTR className = SysAllocString(L"Win32_PNPEntity");
