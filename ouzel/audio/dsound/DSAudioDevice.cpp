@@ -167,13 +167,15 @@ namespace ouzel
 
                 notify = static_cast<IDirectSoundNotify*>(notifyPointer);
 
-                uint8_t* bufferDataPointer;
+                void* bufferDataPointer;
                 DWORD lockedBufferSize;
-                if (FAILED(hr = buffer->Lock(0, bufferDesc.dwBufferBytes, reinterpret_cast<void**>(&bufferDataPointer), &lockedBufferSize, nullptr, 0, 0)))
+                if (FAILED(hr = buffer->Lock(0, bufferDesc.dwBufferBytes, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0)))
                     throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
 
+                uint8_t* bufferData = static_cast<uint8_t*>(bufferDataPointer);
+
                 getData(lockedBufferSize / (channels * sizeof(int16_t)), data);
-                std::copy(data.begin(), data.end(), bufferDataPointer);
+                std::copy(data.begin(), data.end(), bufferData);
 
                 if (FAILED(hr = buffer->Unlock(bufferDataPointer, lockedBufferSize, nullptr, 0)))
                     throw std::system_error(hr, errorCategory, "Failed to unlock DirectSound buffer");
@@ -247,15 +249,17 @@ namespace ouzel
                         {
                             if (!running) break;
 
-                            uint8_t* bufferDataPointer;
+                            void* bufferDataPointer;
                             DWORD lockedBufferSize;
                             HRESULT hr;
-                            if (FAILED(hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, reinterpret_cast<void**>(&bufferDataPointer), &lockedBufferSize, nullptr, 0, 0)))
+                            if (FAILED(hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0)))
                                 throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
+
+                            uint8_t* bufferData = static_cast<uint8_t*>(bufferDataPointer);
 
                             getData(lockedBufferSize / (sampleSize * channels), data);
 
-                            std::copy(data.begin(), data.end(), bufferDataPointer);
+                            std::copy(data.begin(), data.end(), bufferData);
 
                             if (FAILED(hr = buffer->Unlock(bufferDataPointer, lockedBufferSize, nullptr, 0)))
                                 throw std::system_error(hr, errorCategory, "Failed to unlock DirectSound buffer");
