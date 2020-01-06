@@ -175,9 +175,9 @@ namespace
     }
 }
 
-extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVM, void*)
+extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVm, void*)
 {
-    engine = std::make_unique<ouzel::EngineAndroid>(javaVM);
+    engine = std::make_unique<ouzel::EngineAndroid>(javaVm);
     return JNI_VERSION_1_6;
 }
 

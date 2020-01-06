@@ -19,12 +19,14 @@ namespace ouzel
             touchpadDevice(std::make_unique<TouchpadDevice>(*this, ++lastDeviceId, true))
         {
             EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
-            javaVM = engineAndroid->getJavaVM();
-            JNIEnv* jniEnv;
+            javaVm = engineAndroid->getJavaVm();
+            void* jniEnvPointer;
 
             jint result;
-            if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+            if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
                 throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
+
+            JNIEnv* jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
             inputDeviceClass = static_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/view/InputDevice")));
             getDeviceIdsMethod = jniEnv->GetStaticMethodID(inputDeviceClass, "getDeviceIds", "()[I");
@@ -42,10 +44,13 @@ namespace ouzel
 
         InputSystemAndroid::~InputSystemAndroid()
         {
-            JNIEnv* jniEnv;
+            void* jniEnvPointer;
 
-            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) == JNI_OK)
+            if (javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6) == JNI_OK)
+            {
+                JNIEnv* jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
                 if (inputDeviceClass) jniEnv->DeleteGlobalRef(inputDeviceClass);
+            }
         }
 
         void InputSystemAndroid::executeCommand(const Command& command)
@@ -75,11 +80,13 @@ namespace ouzel
 
         jboolean InputSystemAndroid::handleTouchEvent(jobject event)
         {
-            JNIEnv* jniEnv;
+            void* jniEnvPointer;
 
             jint result;
-            if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+            if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
                 throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
+
+            JNIEnv* jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
             const jint action = jniEnv->CallIntMethod(event, getActionMethod);
 
@@ -234,11 +241,13 @@ namespace ouzel
 
         jboolean InputSystemAndroid::handleGenericMotionEvent(jobject event)
         {
-            JNIEnv* jniEnv;
+            void* jniEnvPointer;
 
             jint result;
-            if ((result = javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6)) != JNI_OK)
+            if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
                 throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
+
+            JNIEnv* jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
             const jint action = jniEnv->CallIntMethod(event, getActionMethod);
             const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);

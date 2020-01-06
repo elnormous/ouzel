@@ -35,7 +35,7 @@ namespace ouzel
             std::unique_ptr<MouseDevice> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;
 
-            JavaVM* javaVM = nullptr;
+            JavaVM* javaVm = nullptr;
             jclass inputDeviceClass = nullptr;
             jmethodID getDeviceIdsMethod = nullptr;
             jmethodID getActionMethod = nullptr;

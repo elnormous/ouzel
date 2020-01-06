@@ -20,7 +20,7 @@ namespace ouzel
         static constexpr jint ORIENTATION_PORTRAIT = 0x00000001;
         static constexpr jint ORIENTATION_LANDSCAPE = 0x00000002;
 
-        EngineAndroid(JavaVM* initJavaVM);
+        EngineAndroid(JavaVM* initJavaVm);
         ~EngineAndroid();
 
         void onCreate(jobject initMainActivity);
@@ -34,7 +34,7 @@ namespace ouzel
 
         void setScreenSaverEnabled(bool newScreenSaverEnabled) final;
 
-        inline auto getJavaVM() const noexcept { return javaVM; }
+        inline auto getJavaVm() const noexcept { return javaVm; }
         inline auto getMainActivity() const noexcept { return mainActivity; }
         inline auto getSurface() const noexcept { return surface; }
         inline auto getAssetManager() const noexcept { return assetManager; }
@@ -48,7 +48,7 @@ namespace ouzel
         void engineMain() final;
         void runOnMainThread(const std::function<void()>& func) final;
 
-        JavaVM* javaVM = nullptr;
+        JavaVM* javaVm = nullptr;
         jclass uriClass = nullptr;
         jmethodID parseMethod = nullptr;
         jclass intentClass = nullptr;
