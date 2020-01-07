@@ -1169,11 +1169,14 @@ namespace ouzel
                                 bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer->getBufferId());
                                 bindBuffer(GL_ARRAY_BUFFER, vertexBuffer->getBufferId());
 
-                                GLuint vertexOffset = 0;
+                                uintptr_t vertexOffset = 0;
 
                                 for (GLuint index = 0; index < RenderDevice::VERTEX_ATTRIBUTES.size(); ++index)
                                 {
                                     const Vertex::Attribute& vertexAttribute = RenderDevice::VERTEX_ATTRIBUTES[index];
+
+                                    void* vertexOffsetPointer;
+                                    memcpy(&vertexOffsetPointer, &vertexOffset, sizeof(vertexOffset));
 
                                     glEnableVertexAttribArrayProc(index);
                                     glVertexAttribPointerProc(index,
@@ -1181,7 +1184,7 @@ namespace ouzel
                                                               getVertexType(vertexAttribute.dataType),
                                                               isNormalized(vertexAttribute.dataType),
                                                               static_cast<GLsizei>(sizeof(Vertex)),
-                                                              reinterpret_cast<void*>(static_cast<uintptr_t>(vertexOffset)));
+                                                              vertexOffsetPointer);
 
                                     vertexOffset += getDataTypeSize(vertexAttribute.dataType);
                                 }
@@ -1194,10 +1197,15 @@ namespace ouzel
                                 assert(indexBuffer->getSize());
                                 assert(vertexBuffer->getSize());
 
+                                uintptr_t indexOffset = drawCommand->startIndex * drawCommand->indexSize;
+
+                                void* indexOffsetPointer;
+                                memcpy(&indexOffsetPointer, &indexOffset, sizeof(indexOffset));
+
                                 glDrawElementsProc(getDrawMode(drawCommand->drawMode),
                                                    static_cast<GLsizei>(drawCommand->indexCount),
                                                    getIndexType(drawCommand->indexSize),
-                                                   reinterpret_cast<void*>(static_cast<uintptr_t>(drawCommand->startIndex * drawCommand->indexSize)));
+                                                   indexOffsetPointer);
 
                                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                                     throw std::system_error(makeErrorCode(error), "Failed to draw elements");
