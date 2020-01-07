@@ -61,16 +61,18 @@ namespace ouzel
                 bitmapHeader.bV5AlphaMask = 0xFF000000;
 
                 dc = GetDC(nullptr);
-                unsigned char* target = nullptr;
+                void* targetPointer = nullptr;
                 color = CreateDIBSection(dc,
                                          reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
                                          DIB_RGB_COLORS,
-                                         reinterpret_cast<void**>(&target),
+                                         &targetPointer,
                                          nullptr,
                                          DWORD{0});
 
                 if (!color)
                     throw std::runtime_error("Failed to create RGBA bitmap");
+
+                unsigned char* target = static_cast<unsigned char*>(targetPointer);
 
                 mask = CreateBitmap(width, height, 1, 1, nullptr);
                 if (!mask)
