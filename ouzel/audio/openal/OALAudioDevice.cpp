@@ -116,7 +116,7 @@ namespace ouzel
 
                 const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
-                engine->log(Log::Level::Info) << "Using " << reinterpret_cast<const char*>(deviceName) << " for audio";
+                engine->log(Log::Level::Info) << "Using " << deviceName << " for audio";
 
                 device = alcOpenDevice(deviceName);
 
@@ -149,7 +149,7 @@ namespace ouzel
                 if ((error = alGetError()) != AL_NO_ERROR || !audioRenderer)
                     engine->log(Log::Level::Warning) << "Failed to get OpenAL renderer, error: " + std::to_string(error);
                 else
-                    engine->log(Log::Level::Info) << "Using " << reinterpret_cast<const char*>(audioRenderer) << " audio renderer";
+                    engine->log(Log::Level::Info) << "Using " << audioRenderer << " audio renderer";
 
                 std::vector<std::string> extensions;
                 const ALchar* extensionsPtr = alGetString(AL_EXTENSIONS);
@@ -157,7 +157,7 @@ namespace ouzel
                 if ((error = alGetError()) != AL_NO_ERROR || !extensionsPtr)
                     engine->log(Log::Level::Warning) << "Failed to get OpenGL extensions";
                 else
-                    extensions = explodeString(std::string(reinterpret_cast<const char*>(extensionsPtr)), ' ');
+                    extensions = explodeString(std::string(extensionsPtr), ' ');
 
                 engine->log(Log::Level::All) << "Supported OpenAL extensions: " << extensions;
 
