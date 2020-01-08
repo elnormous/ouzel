@@ -334,7 +334,7 @@ namespace ouzel
                         return archive.second.readFile(filename);
 
             std::vector<uint8_t> data;
-            char buffer[1024];
+            uint8_t buffer[1024];
 
 #if defined(__ANDROID__)
             if (pathIsRelative(filename))
@@ -349,7 +349,7 @@ namespace ouzel
                 int bytesRead = 0;
 
                 while ((bytesRead = AAsset_read(asset, buffer, sizeof(buffer))) > 0)
-                    data.insert(data.end(), reinterpret_cast<uint8_t*>(buffer), reinterpret_cast<uint8_t*>(buffer + bytesRead));
+                    data.insert(data.end(), buffer, buffer + bytesRead);
 
                 AAsset_close(asset);
 
