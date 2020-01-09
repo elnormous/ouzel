@@ -346,10 +346,17 @@ namespace ouzel
                 if (!asset)
                     throw std::runtime_error("Failed to open file " + filename);
 
-                int bytesRead = 0;
+                for (;;)
+                {
+                    const int bytesRead = AAsset_read(asset, buffer, sizeof(buffer));
 
-                while ((bytesRead = AAsset_read(asset, buffer, sizeof(buffer))) > 0)
+                    if (bytesRead < 0)
+                        throw std::runtime_error("Failed to read from file");
+                    else if (bytesRead == 0)
+                        break;
+
                     data.insert(data.end(), buffer, buffer + bytesRead);
+                }
 
                 AAsset_close(asset);
 
