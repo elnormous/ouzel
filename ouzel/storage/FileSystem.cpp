@@ -77,7 +77,7 @@ namespace ouzel
                     break;
             }
 
-            int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer.data(), -1, nullptr, 0, nullptr, nullptr);
+            const int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer.data(), -1, nullptr, 0, nullptr, nullptr);
             if (bufferSize == 0)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 

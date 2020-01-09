@@ -82,7 +82,7 @@ namespace ouzel
         size_t offset = 0;
         while (offset < output.size())
         {
-            ssize_t written = write(fd, output.data() + offset, output.size() - offset);
+            const ssize_t written = write(fd, output.data() + offset, output.size() - offset);
             if (written == -1)
                 return;
 
