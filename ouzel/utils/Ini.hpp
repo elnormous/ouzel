@@ -290,7 +290,7 @@ namespace ouzel
                         if (sectionUtf32.empty())
                             throw ParseError("Invalid section name");
 
-                        std::string section = utf8::fromUtf32(sectionUtf32);
+                        const std::string section = utf8::fromUtf32(sectionUtf32);
 
                         std::tie(sectionIterator, std::ignore) = sections.insert(std::make_pair(section, Section(section)));
                     }
@@ -358,8 +358,8 @@ namespace ouzel
                         keyUtf32 = trim(keyUtf32);
                         valueUtf32 = trim(valueUtf32);
 
-                        std::string key = utf8::fromUtf32(keyUtf32);
-                        std::string value = utf8::fromUtf32(valueUtf32);
+                        const std::string key = utf8::fromUtf32(keyUtf32);
+                        const std::string value = utf8::fromUtf32(valueUtf32);
 
                         sectionIterator->second.values[key] = value;
                     }

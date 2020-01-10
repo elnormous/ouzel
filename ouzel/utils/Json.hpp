@@ -64,7 +64,7 @@ namespace ouzel
                     }
                     else
                     {
-                        std::string encoded = utf8::fromUtf32(c);
+                        const std::string encoded = utf8::fromUtf32(c);
                         data.insert(data.end(), encoded.begin(), encoded.end());
                     }
                 }
