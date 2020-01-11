@@ -769,7 +769,7 @@ namespace ouzel
             transformVector(v, v);
         }
 
-        void transformVector(const Vector<4, T>& v, Vector<4, T>& dst) const noexcept
+        inline void transformVector(const Vector<4, T>& v, Vector<4, T>& dst) const noexcept
         {
             assert(&v != &dst);
             dst.v[0] = v.v[0] * m[0] + v.v[1] * m[4] + v.v[2] * m[8] + v.v[3] * m[12];
@@ -795,13 +795,13 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
-        Vector<2, T> getTranslation() const noexcept
+        constexpr Vector<2, T> getTranslation() const noexcept
         {
             return Vector<2, T>(m[6], m[7]);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        Vector<3, T> getTranslation() const noexcept
+        constexpr Vector<3, T> getTranslation() const noexcept
         {
             return Vector<3, T>(m[12], m[13], m[14]);
         }
@@ -906,7 +906,7 @@ namespace ouzel
             return *this;
         }
 
-        inline bool operator==(const Matrix& matrix) const noexcept
+        constexpr bool operator==(const Matrix& matrix) const noexcept
         {
             for (size_t i = 0; i < C * R; ++i)
                 if (m[i] != matrix.m[i])
@@ -915,7 +915,7 @@ namespace ouzel
             return true;
         }
 
-        inline bool operator!=(const Matrix& matrix) const noexcept
+        constexpr bool operator!=(const Matrix& matrix) const noexcept
         {
             for (size_t i = 0; i < C * R; ++i)
                 if (m[i] != matrix.m[i])
