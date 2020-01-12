@@ -406,7 +406,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<4, 4, float>::negate(Matrix& dst) const noexcept
+    void Matrix<4, 4, float>::negate() noexcept
     {
         if (isSimdAvailable)
         {
@@ -414,7 +414,7 @@ namespace ouzel
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
-                "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]\n\t" // m[0-7] m[8-15]
+                "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%0]\n\t" // m[0-7] m[8-15]
 
                 "fneg v4.4s, v0.4s\n\t" // -m[0-3]
                 "fneg v5.4s, v1.4s\n\t" // -m[4-7]
@@ -423,14 +423,14 @@ namespace ouzel
 
                 "st4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m) // input
+                : "r"(m) // input
                 : "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "memory"
             );
 #  else // NEON
             asm volatile
             (
-                "vld1.32 {q0-q1}, [%1]!\n\t" // m[0-7]
-                "vld1.32 {q2-q3}, [%1]\n\t" // m[8-15]
+                "vld1.32 {q0-q1}, [%0]!\n\t" // m[0-7]
+                "vld1.32 {q2-q3}, [%0]\n\t" // m[8-15]
 
                 "vneg.f32 q4, q0\n\t" // -m[0-3]
                 "vneg.f32 q5, q1\n\t" // -m[4-7]
@@ -440,36 +440,36 @@ namespace ouzel
                 "vst1.32 {q4-q5}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q6-q7}, [%0]\n\t" // dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m) // input
+                : "r"(m) // input
                 : "q0", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "memory"
             );
 #  endif
 #elif defined(__SSE__)
             __m128 z = _mm_setzero_ps();
-            _mm_store_ps(&dst.m[0], _mm_sub_ps(z, _mm_load_ps(&m[0])));
-            _mm_store_ps(&dst.m[4], _mm_sub_ps(z, _mm_load_ps(&m[4])));
-            _mm_store_ps(&dst.m[8], _mm_sub_ps(z, _mm_load_ps(&m[8])));
-            _mm_store_ps(&dst.m[12], _mm_sub_ps(z, _mm_load_ps(&m[12])));
+            _mm_store_ps(&m[0], _mm_sub_ps(z, _mm_load_ps(&m[0])));
+            _mm_store_ps(&m[4], _mm_sub_ps(z, _mm_load_ps(&m[4])));
+            _mm_store_ps(&m[8], _mm_sub_ps(z, _mm_load_ps(&m[8])));
+            _mm_store_ps(&m[12], _mm_sub_ps(z, _mm_load_ps(&m[12])));
 #endif
         }
         else
         {
-            dst.m[0] = -m[0];
-            dst.m[1] = -m[1];
-            dst.m[2] = -m[2];
-            dst.m[3] = -m[3];
-            dst.m[4] = -m[4];
-            dst.m[5] = -m[5];
-            dst.m[6] = -m[6];
-            dst.m[7] = -m[7];
-            dst.m[8] = -m[8];
-            dst.m[9] = -m[9];
-            dst.m[10] = -m[10];
-            dst.m[11] = -m[11];
-            dst.m[12] = -m[12];
-            dst.m[13] = -m[13];
-            dst.m[14] = -m[14];
-            dst.m[15] = -m[15];
+            m[0] = -m[0];
+            m[1] = -m[1];
+            m[2] = -m[2];
+            m[3] = -m[3];
+            m[4] = -m[4];
+            m[5] = -m[5];
+            m[6] = -m[6];
+            m[7] = -m[7];
+            m[8] = -m[8];
+            m[9] = -m[9];
+            m[10] = -m[10];
+            m[11] = -m[11];
+            m[12] = -m[12];
+            m[13] = -m[13];
+            m[14] = -m[14];
+            m[15] = -m[15];
         }
     }
 
