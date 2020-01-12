@@ -901,6 +901,19 @@ namespace ouzel
             return *this;
         }
 
+        inline const Matrix operator*(float scalar) const noexcept
+        {
+            Matrix result(*this);
+            result.multiply(scalar);
+            return result;
+        }
+
+        inline Matrix& operator*=(float scalar) noexcept
+        {
+            multiply(scalar);
+            return *this;
+        }
+
         constexpr bool operator==(const Matrix& matrix) const noexcept
         {
             for (size_t i = 0; i < C * R; ++i)
