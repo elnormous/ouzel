@@ -547,12 +547,8 @@ namespace ouzel
             return Vector<3, T>(m[8], m[9], m[10]);
         }
 
+        template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void invert() noexcept
-        {
-            invert(*this);
-        }
-
-        void invert(Matrix& dst) const noexcept
         {
             const T a0 = m[0] * m[5] - m[1] * m[4];
             const T a1 = m[0] * m[6] - m[2] * m[4];
@@ -594,7 +590,7 @@ namespace ouzel
             inverse.m[14] = -m[12] * a3 + m[13] * a1 - m[14] * a0;
             inverse.m[15] = m[8] * a3 - m[9] * a1 + m[10] * a0;
 
-            inverse.multiply(T(1) / det, dst);
+            inverse.multiply(T(1) / det, *this);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == Y)>::type* = nullptr>
