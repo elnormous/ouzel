@@ -863,7 +863,7 @@ namespace ouzel
         inline const Matrix operator+(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
-            result.add(matrix, result);
+            result.add(matrix);
             return result;
         }
 
@@ -876,7 +876,7 @@ namespace ouzel
         inline const Matrix operator-(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
-            result.subtract(matrix, result);
+            result.subtract(matrix);
             return result;
         }
 
@@ -896,7 +896,7 @@ namespace ouzel
         inline const Matrix operator*(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
-            result.multiply(matrix, result);
+            result.multiply(matrix);
             return result;
         }
 
