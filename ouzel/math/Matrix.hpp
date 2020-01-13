@@ -547,6 +547,34 @@ namespace ouzel
             return Vector<3, T>(m[8], m[9], m[10]);
         }
 
+        template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 1 && Y == 1)>::type* = nullptr>
+        void invert() noexcept
+        {
+            const T determinant = m[0] * m[3] - m[1] * m[2];
+
+            // Close to zero, can't invert
+            if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
+
+            m[0] = T(1) / m[0];
+        }
+
+        template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 2 && Y == 2)>::type* = nullptr>
+        void invert() noexcept
+        {
+            const T determinant = m[0] * m[3] - m[1] * m[2];
+
+            // Close to zero, can't invert
+            if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
+
+            Matrix adjugate;
+            adjugate.m[0] = m[3];
+            adjugate.m[1] = -m[1];
+            adjugate.m[2] = -m[2];
+            adjugate.m[3] = m[0];
+
+            adjugate.multiply(T(1) / determinant, *this);
+        }
+
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void invert() noexcept
         {
