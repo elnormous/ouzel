@@ -473,19 +473,19 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 1 && Y == 1)>::type* = nullptr>
-        constexpr T determinant() const noexcept
+        constexpr T getDeterminant() const noexcept
         {
             return m[0];
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 2 && Y == 2)>::type* = nullptr>
-        constexpr T determinant() const noexcept
+        constexpr T getDeterminant() const noexcept
         {
             return m[0] * m[3] - m[1] * m[2];
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
-        constexpr T determinant() const noexcept
+        constexpr T getDeterminant() const noexcept
         {
             constexpr T a0 = m[0] * (m[4] * m[8] - m[5] * m[7]);
             constexpr T a1 = m[1] * (m[3] * m[8] - m[5] * m[6]);
@@ -494,7 +494,7 @@ namespace ouzel
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        constexpr T determinant() const noexcept
+        constexpr T getDeterminant() const noexcept
         {
             constexpr T a0 = m[0] * m[5] - m[1] * m[4];
             constexpr T a1 = m[0] * m[6] - m[2] * m[4];
