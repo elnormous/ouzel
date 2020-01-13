@@ -575,6 +575,32 @@ namespace ouzel
             adjugate.multiply(T(1) / determinant, *this);
         }
 
+        template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 3 && Y == 3)>::type* = nullptr>
+        void invert() noexcept
+        {
+            const T a0 = m[0] * (m[4] * m[8] - m[5] * m[7]);
+            const T a1 = m[1] * (m[3] * m[8] - m[5] * m[6]);
+            const T a2 = m[2] * (m[3] * m[7] - m[4] * m[6]);
+
+            const T determinant = a0 - a1 + a2;
+
+            // Close to zero, can't invert
+            if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
+
+            Matrix inverse;
+            inverse.m[0] = m[4] * m[8] - m[5] * m[7];
+            inverse.m[1] = -(m[3] * m[8] - m[5] * m[6]);
+            inverse.m[2] = m[3] * m[7] - m[4] * m[6];
+            inverse.m[3] = -(m[1] * m[8] - m[2] * m[7]);
+            inverse.m[4] = m[0] * m[8] - m[2] * m[6];
+            inverse.m[5] = -(m[0] * m[7] - m[1] * m[6]);
+            inverse.m[6] = m[1] * m[5] - m[2] * m[4];
+            inverse.m[7] = -(m[0] * m[5] - m[2] * m[3]);
+            inverse.m[8] = m[0] * m[4] - m[1] * m[3];
+
+            inverse.multiply(T(1) / determinant, *this);
+        }
+
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void invert() noexcept
         {
