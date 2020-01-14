@@ -324,9 +324,7 @@ namespace ouzel
     template <size_t N, typename T>
     inline const Vector<N, T> operator*(const T scalar, const Vector<N, T>& vec) noexcept
     {
-        Vector<N, T> result = vec;
-        result *= scalar;
-        return result;
+        return vec * scalar;
     }
 
     using Vector2F = Vector<2, float>;
