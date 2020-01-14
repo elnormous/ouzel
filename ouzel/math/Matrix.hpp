@@ -775,13 +775,13 @@ namespace ouzel
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void transformPoint(Vector<3, T>& point) const noexcept
         {
-            transformVector(point.v[0], point.v[1], point.v[2], 1, point);
+            transformVector(point.v[0], point.v[1], point.v[2], T(1), point);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void transformPoint(const Vector<3, T>& point, Vector<3, T>& dst) const noexcept
         {
-            transformVector(point.v[0], point.v[1], point.v[2], 1, dst);
+            transformVector(point.v[0], point.v[1], point.v[2], T(1), dst);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
@@ -795,7 +795,7 @@ namespace ouzel
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
         void transformVector(const Vector<3, T>& v, Vector<3, T>& dst) const noexcept
         {
-            transformVector(v.v[0], v.v[1], v.v[2], 0, dst);
+            transformVector(v.v[0], v.v[1], v.v[2], T(0), dst);
         }
 
         template <size_t X = C, size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
