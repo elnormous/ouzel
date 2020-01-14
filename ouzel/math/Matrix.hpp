@@ -1012,6 +1012,14 @@ namespace ouzel
         return v;
     }
 
+    template <size_t C, size_t R, typename T>
+    inline const Matrix<C, R, T> operator*(const T scalar, const Matrix<C, R, T>& m) noexcept
+    {
+        return m * scalar;
+    }
+
+    // TODO: scalar * matrix
+
     using Matrix4F = Matrix<4, 4, float>;
 }
 
