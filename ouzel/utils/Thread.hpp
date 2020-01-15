@@ -120,9 +120,13 @@ namespace ouzel
             info.dwThreadID = static_cast<DWORD>(-1);
             info.dwFlags = 0;
 
+            const DWORD numberOfArguments = sizeof(info) / sizeof(ULONG_PTR);
+            ULONG_PTR arguments[numberOfArguments];
+            memcpy(arguments, &info, sizeof(info));
+
             __try
             {
-                RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), reinterpret_cast<ULONG_PTR*>(&info));
+                RaiseException(MS_VC_EXCEPTION, 0, numberOfArguments, arguments);
             }
             __except (EXCEPTION_EXECUTE_HANDLER)
             {
