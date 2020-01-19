@@ -3,7 +3,7 @@
 cbuffer Constants: register(b0)
 {
     float4x4 modelViewProj;
-}
+};
 
 struct VSInput
 {
