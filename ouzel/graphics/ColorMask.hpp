@@ -3,6 +3,8 @@
 #ifndef OUZEL_GRAPHICS_COLORMASK_HPP
 #define OUZEL_GRAPHICS_COLORMASK_HPP
 
+#include <type_traits>
+
 namespace ouzel
 {
     namespace graphics
