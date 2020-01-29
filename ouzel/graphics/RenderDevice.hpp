@@ -191,8 +191,8 @@ namespace ouzel
             bool clampToBorderSupported:1;
             bool multisamplingSupported:1;
 
-            Matrix4F projectionTransform;
-            Matrix4F renderTargetProjectionTransform;
+            Matrix4F projectionTransform = Matrix4F::identity();
+            Matrix4F renderTargetProjectionTransform = Matrix4F::identity();
 
             uint32_t drawCallCount = 0;
 
