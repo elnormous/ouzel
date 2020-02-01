@@ -157,7 +157,7 @@ namespace ouzel
                         {
                             auto material = std::make_unique<graphics::Material>();
                             material->blendState = cache.getBlendState(BLEND_ALPHA);
-                            material->shader = cache.getShader(SHADER_TEXTURE);
+                            material->shader = diffuseTexture ? cache.getShader(SHADER_TEXTURE) : cache.getShader(SHADER_COLOR);
                             material->textures[0] = diffuseTexture;
                             material->textures[1] = ambientTexture;
                             material->diffuseColor = diffuseColor;
