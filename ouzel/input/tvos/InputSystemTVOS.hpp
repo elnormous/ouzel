@@ -37,13 +37,19 @@ namespace ouzel
             void handleGamepadDisconnected(GCControllerPtr controller);
 
         private:
+            inline auto getNextDeviceId() noexcept
+            {
+                ++lastDeviceId.value;
+                return lastDeviceId;
+            }
+
             void startGamepadDiscovery();
             void stopGamepadDiscovery();
 
             void showVirtualKeyboard();
             void hideVirtualKeyboard();
 
-            uintptr_t lastDeviceId = 0;
+            DeviceId lastDeviceId;
             std::unique_ptr<KeyboardDevice> keyboardDevice;
             std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceTVOS>> gamepadDevices;
 

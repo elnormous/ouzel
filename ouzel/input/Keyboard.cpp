@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace input
     {
-        Keyboard::Keyboard(InputManager& initInputManager, uintptr_t initDeviceId):
+        Keyboard::Keyboard(InputManager& initInputManager, DeviceId initDeviceId):
             Controller(initInputManager, Controller::Type::Keyboard, initDeviceId)
         {
         }

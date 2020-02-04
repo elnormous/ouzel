@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace input
     {
-        Gamepad::Gamepad(InputManager& initInputManager, uintptr_t initDeviceId):
+        Gamepad::Gamepad(InputManager& initInputManager, DeviceId initDeviceId):
             Controller(initInputManager, Controller::Type::Gamepad, initDeviceId)
         {
         }

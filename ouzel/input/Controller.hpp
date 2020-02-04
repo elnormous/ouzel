@@ -3,6 +3,8 @@
 #ifndef OUZEL_INPUT_CONTROLLER_HPP
 #define OUZEL_INPUT_CONTROLLER_HPP
 
+#include "input/DeviceId.hpp"
+
 namespace ouzel
 {
     namespace input
@@ -20,7 +22,7 @@ namespace ouzel
                 Gamepad
             };
 
-            Controller(InputManager& initInputManager, Type initType, uintptr_t initDeviceId):
+            Controller(InputManager& initInputManager, Type initType, DeviceId initDeviceId):
                 inputManager(initInputManager), type(initType), deviceId(initDeviceId)
             {}
             virtual ~Controller() = default;
@@ -31,7 +33,7 @@ namespace ouzel
         protected:
             InputManager& inputManager;
             Type type;
-            uintptr_t deviceId;
+            DeviceId deviceId;
         };
     } // namespace input
 } // namespace ouzel

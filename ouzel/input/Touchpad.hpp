@@ -18,7 +18,7 @@ namespace ouzel
         {
             friend InputManager;
         public:
-            Touchpad(InputManager& initInputManager, uintptr_t initDeviceId, bool initScreen);
+            Touchpad(InputManager& initInputManager, DeviceId initDeviceId, bool initScreen);
 
             inline auto isScreen() const noexcept { return screen; }
 

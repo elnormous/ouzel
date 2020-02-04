@@ -302,9 +302,9 @@ namespace ouzel
     {
         InputSystemEm::InputSystemEm(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
-            keyboardDevice(std::make_unique<KeyboardDevice>(*this, ++lastDeviceId)),
-            mouseDevice(std::make_unique<MouseDeviceEm>(*this, ++lastDeviceId)),
-            touchpadDevice(std::make_unique<TouchpadDevice>(*this, ++lastDeviceId, true))
+            keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
+            mouseDevice(std::make_unique<MouseDeviceEm>(*this, getNextDeviceId())),
+            touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
         {
             emscripten_set_keypress_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
             emscripten_set_keydown_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
@@ -393,7 +393,7 @@ namespace ouzel
 
         void InputSystemEm::handleGamepadConnected(long index)
         {
-            auto gamepadDevice = std::make_unique<GamepadDeviceEm>(*this, ++lastDeviceId, index);
+            auto gamepadDevice = std::make_unique<GamepadDeviceEm>(*this, getNextDeviceId(), index);
             gamepadDevices.insert(std::make_pair(index, std::move(gamepadDevice)));
         }
 

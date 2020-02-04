@@ -56,10 +56,16 @@ namespace ouzel
             NSCursorPtr getCursor() const;
 
         private:
+            inline auto getNextDeviceId() noexcept
+            {
+                ++lastDeviceId.value;
+                return lastDeviceId;
+            }
+
             void startGamepadDiscovery();
             void stopGamepadDiscovery();
 
-            uintptr_t lastDeviceId = 0;
+            DeviceId lastDeviceId;
             std::unique_ptr<KeyboardDevice> keyboardDevice;
             std::unique_ptr<MouseDeviceMacOS> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;

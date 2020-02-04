@@ -53,7 +53,7 @@ namespace ouzel
                 explicit Command(Type initType): type(initType) {}
 
                 Type type;
-                uintptr_t deviceId = 0;
+                DeviceId deviceId;
 
                 union
                 {
@@ -106,7 +106,7 @@ namespace ouzel
 
                 Type type;
                 Controller::Type deviceType;
-                uintptr_t deviceId = 0;
+                DeviceId deviceId;
                 union
                 {
                     Keyboard::Key keyboardKey;
@@ -155,11 +155,11 @@ namespace ouzel
             std::future<bool> sendEvent(const Event& event);
             void addInputDevice(InputDevice& inputDevice);
             void removeInputDevice(const InputDevice& inputDevice);
-            InputDevice* getInputDevice(uintptr_t id);
+            InputDevice* getInputDevice(DeviceId id);
 
         private:
             std::function<std::future<bool>(const Event&)> callback;
-            std::unordered_map<uintptr_t, InputDevice*> inputDevices;
+            std::unordered_map<DeviceId, InputDevice*> inputDevices;
 
             uintptr_t lastResourceId = 0;
             std::set<uintptr_t> deletedResourceIds;

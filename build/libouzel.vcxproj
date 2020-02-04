@@ -274,6 +274,7 @@
     <ClInclude Include="..\ouzel\gui\Widget.hpp" />
     <ClInclude Include="..\ouzel\gui\Widgets.hpp" />
     <ClInclude Include="..\ouzel\input\Cursor.hpp" />
+    <ClInclude Include="..\ouzel\input\DeviceId.hpp" />
     <ClInclude Include="..\ouzel\input\GamepadConfig.hpp" />
     <ClInclude Include="..\ouzel\input\GamepadDevice.hpp" />
     <ClInclude Include="..\ouzel\input\KeyboardDevice.hpp" />

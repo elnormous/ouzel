@@ -33,7 +33,7 @@ namespace ouzel
         };
 
         GamepadDeviceEm::GamepadDeviceEm(InputSystem& initInputSystem,
-                                         uintptr_t initId,
+                                         DeviceId initId,
                                          long initIndex):
             GamepadDevice(initInputSystem, initId),
             index(initIndex)

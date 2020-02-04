@@ -94,9 +94,9 @@ namespace ouzel
 
         InputSystemWin::InputSystemWin(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
-            keyboardDevice(std::make_unique<KeyboardDeviceWin>(*this, ++lastDeviceId)),
-            mouseDevice(std::make_unique<MouseDeviceWin>(*this, ++lastDeviceId)),
-            touchpadDevice(std::make_unique<TouchpadDevice>(*this, ++lastDeviceId, true))
+            keyboardDevice(std::make_unique<KeyboardDeviceWin>(*this, getNextDeviceId())),
+            mouseDevice(std::make_unique<MouseDeviceWin>(*this, getNextDeviceId())),
+            touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
         {
             defaultCursor = LoadCursor(nullptr, IDC_ARROW);
 
@@ -118,7 +118,7 @@ namespace ouzel
                 DWORD result = XInputGetState(userIndex, &state);
 
                 if (result == ERROR_SUCCESS)
-                    gamepadsXI[userIndex] = std::make_unique<GamepadDeviceXI>(*this, ++lastDeviceId, userIndex);
+                    gamepadsXI[userIndex] = std::make_unique<GamepadDeviceXI>(*this, getNextDeviceId(), userIndex);
                 else if (result != ERROR_DEVICE_NOT_CONNECTED)
                     throw std::system_error(result, std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex));
             }
@@ -271,7 +271,7 @@ namespace ouzel
                         DWORD result = XInputGetState(userIndex, &state);
 
                         if (result == ERROR_SUCCESS)
-                            gamepadsXI[userIndex] = std::make_unique<GamepadDeviceXI>(*this, ++lastDeviceId, userIndex);
+                            gamepadsXI[userIndex] = std::make_unique<GamepadDeviceXI>(*this, getNextDeviceId(), userIndex);
                         else if (result != ERROR_DEVICE_NOT_CONNECTED)
                             throw std::system_error(result, std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex));
                     }
@@ -378,7 +378,7 @@ namespace ouzel
                 {
                     NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow());
 
-                    gamepadsDI.emplace_back(std::make_unique<GamepadDeviceDI>(*this, ++lastDeviceId,
+                    gamepadsDI.emplace_back(std::make_unique<GamepadDeviceDI>(*this, getNextDeviceId(),
                                                                               didInstance, directInput,
                                                                               windowWin->getNativeWindow()));
                 }

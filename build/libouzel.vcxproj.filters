@@ -429,6 +429,9 @@
     <ClInclude Include="..\ouzel\input\Cursor.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\input\DeviceId.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
     <ClInclude Include="..\ouzel\input\SystemCursor.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>

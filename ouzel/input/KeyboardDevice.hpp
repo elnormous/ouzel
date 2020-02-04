@@ -14,7 +14,7 @@ namespace ouzel
         class KeyboardDevice: public InputDevice
         {
         public:
-            KeyboardDevice(InputSystem& initInputSystem, uintptr_t initId);
+            KeyboardDevice(InputSystem& initInputSystem, DeviceId initId);
             ~KeyboardDevice();
 
             std::future<bool> handleKeyPress(Keyboard::Key key);

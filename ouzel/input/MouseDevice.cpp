@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace input
     {
-        MouseDevice::MouseDevice(InputSystem& initInputSystem, uintptr_t initId):
+        MouseDevice::MouseDevice(InputSystem& initInputSystem, DeviceId initId):
             InputDevice(initInputSystem, initId, Controller::Type::Mouse)
         {
             InputSystem::Event deviceConnectEvent;

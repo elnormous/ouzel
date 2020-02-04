@@ -34,7 +34,13 @@ namespace ouzel
             void handleGamepadDisconnected(long device);
 
         private:
-            uintptr_t lastDeviceId = 0;
+            inline auto getNextDeviceId() noexcept
+            {
+                ++lastDeviceId.value;
+                return lastDeviceId;
+            }
+
+            DeviceId lastDeviceId;
             std::unique_ptr<KeyboardDevice> keyboardDevice;
             std::unique_ptr<MouseDeviceEm> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;

@@ -8,7 +8,7 @@ namespace ouzel
     namespace input
     {
         GamepadDeviceGC::GamepadDeviceGC(InputSystem& initInputSystem,
-                                         uintptr_t initId,
+                                         DeviceId initId,
                                          GCControllerPtr initController):
             GamepadDeviceMacOS(initInputSystem, initId),
             controller(initController)

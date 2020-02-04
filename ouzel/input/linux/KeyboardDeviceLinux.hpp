@@ -13,7 +13,7 @@ namespace ouzel
         {
         public:
             KeyboardDeviceLinux(InputSystem& initInputSystem,
-                                uintptr_t initId):
+                                DeviceId initId):
                 KeyboardDevice(initInputSystem, initId)
             {
             }

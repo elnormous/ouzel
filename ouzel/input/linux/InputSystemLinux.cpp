@@ -24,9 +24,9 @@ namespace ouzel
         InputSystemLinux::InputSystemLinux(const std::function<std::future<bool>(const Event&)>& initCallback):
 #if OUZEL_SUPPORTS_X11
             InputSystem(initCallback),
-            keyboardDevice(std::make_unique<KeyboardDeviceLinux>(*this, ++lastDeviceId)),
-            mouseDevice(std::make_unique<MouseDeviceLinux>(*this, ++lastDeviceId)),
-            touchpadDevice(std::make_unique<TouchpadDevice>(*this, ++lastDeviceId, true))
+            keyboardDevice(std::make_unique<KeyboardDeviceLinux>(*this, getNextDeviceId())),
+            mouseDevice(std::make_unique<MouseDeviceLinux>(*this, getNextDeviceId())),
+            touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
 #else
             InputSystem(initCallback)
 #endif

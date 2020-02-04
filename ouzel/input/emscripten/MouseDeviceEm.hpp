@@ -13,7 +13,7 @@ namespace ouzel
         {
         public:
             MouseDeviceEm(InputSystem& initInputSystem,
-                          uintptr_t initId):
+                          DeviceId initId):
                 MouseDevice(initInputSystem, initId)
             {
             }

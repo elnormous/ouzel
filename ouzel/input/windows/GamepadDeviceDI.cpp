@@ -26,7 +26,7 @@ namespace ouzel
         }
 
         GamepadDeviceDI::GamepadDeviceDI(InputSystem& initInputSystem,
-                                         uintptr_t initId,
+                                         DeviceId initId,
                                          const DIDEVICEINSTANCEW* initInstance, IDirectInput8W* directInput, HWND window):
             GamepadDeviceWin(initInputSystem, initId),
             instance(initInstance)

@@ -33,7 +33,11 @@ namespace ouzel
             inline auto getMouseDevice() const noexcept { return mouseDevice.get(); }
             inline auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
 
-            inline auto getNextDeviceId() { return ++lastDeviceId; }
+            inline auto getNextDeviceId() noexcept
+            {
+                ++lastDeviceId.value;
+                return lastDeviceId;
+            }
 
             void update();
 
@@ -44,7 +48,7 @@ namespace ouzel
 
             bool discovering = false;
 
-            uintptr_t lastDeviceId = 0;
+            DeviceId lastDeviceId;
             std::unique_ptr<KeyboardDeviceLinux> keyboardDevice;
             std::unique_ptr<MouseDeviceLinux> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;

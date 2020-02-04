@@ -28,9 +28,15 @@ namespace ouzel
             jboolean handleGenericMotionEvent(jobject event);
 
         private:
+            inline auto getNextDeviceId() noexcept
+            {
+                ++lastDeviceId.value;
+                return lastDeviceId;
+            }
+
             bool updateButtonState(jint newButtonState, jint x, jint y);
 
-            uintptr_t lastDeviceId = 0;
+            DeviceId lastDeviceId;
             std::unique_ptr<KeyboardDevice> keyboardDevice;
             std::unique_ptr<MouseDevice> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;

@@ -14,7 +14,7 @@ namespace ouzel
         {
         public:
             GamepadDeviceMacOS(InputSystem& initInputSystem,
-                               uintptr_t initId):
+                               DeviceId initId):
                 GamepadDevice(initInputSystem, initId)
             {
             }

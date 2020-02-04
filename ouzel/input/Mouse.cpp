@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace input
     {
-        Mouse::Mouse(InputManager& initInputManager, uintptr_t initDeviceId):
+        Mouse::Mouse(InputManager& initInputManager, DeviceId initDeviceId):
             Controller(initInputManager, Controller::Type::Mouse, initDeviceId)
         {
         }

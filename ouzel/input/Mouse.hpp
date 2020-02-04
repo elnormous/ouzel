@@ -28,7 +28,7 @@ namespace ouzel
                 Count
             };
 
-            Mouse(InputManager& initInputManager, uintptr_t initDeviceId);
+            Mouse(InputManager& initInputManager, DeviceId initDeviceId);
 
             inline auto& getPosition() const noexcept { return position; }
             void setPosition(const Vector2F& newPosition);

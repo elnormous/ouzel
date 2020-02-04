@@ -138,9 +138,9 @@ namespace ouzel
 
         InputSystemMacOS::InputSystemMacOS(const std::function<std::future<bool>(const Event&)>& initCallback):
             InputSystem(initCallback),
-            keyboardDevice(std::make_unique<KeyboardDevice>(*this, ++lastDeviceId)),
-            mouseDevice(std::make_unique<MouseDeviceMacOS>(*this, ++lastDeviceId)),
-            touchpadDevice(std::make_unique<TouchpadDevice>(*this, ++lastDeviceId, false))
+            keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
+            mouseDevice(std::make_unique<MouseDeviceMacOS>(*this, getNextDeviceId())),
+            touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), false))
         {
             defaultCursor = [NSCursor arrowCursor];
 
@@ -369,7 +369,7 @@ namespace ouzel
             // Use IOKit only if the controller does not support GameController framework
             if (supportsGameController)
             {
-                auto gamepadDevice = std::make_unique<GamepadDeviceGC>(*this, ++lastDeviceId, controller);
+                auto gamepadDevice = std::make_unique<GamepadDeviceGC>(*this, getNextDeviceId(), controller);
                 gamepadDevicesGC.insert(std::make_pair(controller, std::move(gamepadDevice)));
             }
         }
@@ -401,7 +401,7 @@ namespace ouzel
             // Use IOKit only if the controller does not support GameController framework
             if (!supportsGameController)
             {
-                auto gamepadDevice = std::make_unique<GamepadDeviceIOKit>(*this, ++lastDeviceId, device);
+                auto gamepadDevice = std::make_unique<GamepadDeviceIOKit>(*this, getNextDeviceId(), device);
                 gamepadDevicesIOKit.insert(std::make_pair(device, std::move(gamepadDevice)));
             }
         }

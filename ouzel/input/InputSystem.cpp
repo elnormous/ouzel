@@ -36,7 +36,7 @@ namespace ouzel
                 inputDevices.erase(i);
         }
 
-        InputDevice* InputSystem::getInputDevice(uintptr_t id)
+        InputDevice* InputSystem::getInputDevice(DeviceId id)
         {
             auto i = inputDevices.find(id);
 

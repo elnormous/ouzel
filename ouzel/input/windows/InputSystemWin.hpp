@@ -55,9 +55,15 @@ namespace ouzel
             void updateCursor() const;
 
         private:
+            inline auto getNextDeviceId() noexcept
+            {
+                ++lastDeviceId.value;
+                return lastDeviceId;
+            }
+
             bool discovering = false;
 
-            uintptr_t lastDeviceId = 0;
+            DeviceId lastDeviceId;
             std::unique_ptr<KeyboardDeviceWin> keyboardDevice;
             std::unique_ptr<MouseDeviceWin> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;

@@ -17,7 +17,7 @@ namespace ouzel
         {
         public:
             GamepadDeviceIOKit(InputSystem& initInputSystem,
-                               uintptr_t initId,
+                               DeviceId initId,
                                IOHIDDeviceRef initDevice);
 
             inline auto getDevice() const noexcept { return device; }

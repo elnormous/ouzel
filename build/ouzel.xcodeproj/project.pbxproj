@@ -1024,6 +1024,7 @@
 		309B48361DEA5EE600A718C5 /* Color.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Color.hpp; sourceTree = "<group>"; };
 		309BA3111F183D6E006F2240 /* CAAudioDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CAAudioDevice.mm; sourceTree = "<group>"; };
 		309BA3121F183D6E006F2240 /* CAAudioDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CAAudioDevice.hpp; sourceTree = "<group>"; };
+		309F406423EA2C510095ABBD /* DeviceId.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DeviceId.hpp; sourceTree = "<group>"; };
 		30A381F321B201C20043568A /* Bus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bus.cpp; sourceTree = "<group>"; };
 		30A381F421B201C20043568A /* Bus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bus.hpp; sourceTree = "<group>"; };
 		30A381FC21B382A20043568A /* Mixer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mixer.cpp; sourceTree = "<group>"; };
@@ -1490,6 +1491,7 @@
 				30BB848B20843FBE00C145A2 /* Controller.hpp */,
 				3049DCD61EDCD0450000997A /* Cursor.cpp */,
 				3049DCD71EDCD0450000997A /* Cursor.hpp */,
+				309F406423EA2C510095ABBD /* DeviceId.hpp */,
 				303647121C3DFEAF0024DB5B /* Gamepad.cpp */,
 				303647131C3DFEAF0024DB5B /* Gamepad.hpp */,
 				30EEADD3216ECEFD00D2F525 /* GamepadConfig.hpp */,

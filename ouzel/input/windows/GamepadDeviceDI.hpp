@@ -31,7 +31,7 @@ namespace ouzel
         {
         public:
             GamepadDeviceDI(InputSystem& initInputSystem,
-                            uintptr_t initId,
+                            DeviceId initId,
                             const DIDEVICEINSTANCEW* aInstance, IDirectInput8W* directInput, HWND window);
 
             ~GamepadDeviceDI();
