@@ -13,7 +13,7 @@ namespace ouzel
         {
         public:
             KeyboardDeviceWin(InputSystem& initInputSystem,
-                              uint32_t initId):
+                              uintptr_t initId):
                 KeyboardDevice(initInputSystem, initId)
             {
             }

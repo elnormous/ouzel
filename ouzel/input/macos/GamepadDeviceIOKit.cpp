@@ -21,7 +21,7 @@ namespace ouzel
         }
 
         GamepadDeviceIOKit::GamepadDeviceIOKit(InputSystem& initInputSystem,
-                                               uint32_t initId,
+                                               uintptr_t initId,
                                                IOHIDDeviceRef initDevice):
             GamepadDeviceMacOS(initInputSystem, initId),
             device(initDevice)

@@ -14,7 +14,7 @@ namespace ouzel
         }
 
         GamepadDeviceXI::GamepadDeviceXI(InputSystem& initInputSystem,
-                                         uint32_t initId,
+                                         uintptr_t initId,
                                          DWORD aPlayerIndex):
             GamepadDeviceWin(initInputSystem, initId),
             playerIndex(aPlayerIndex)

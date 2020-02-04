@@ -14,7 +14,7 @@ namespace ouzel
         {
         public:
             GamepadDeviceWin(InputSystem& initInputSystem,
-                             uint32_t initId):
+                             uintptr_t initId):
                 GamepadDevice(initInputSystem, initId)
             {
             }

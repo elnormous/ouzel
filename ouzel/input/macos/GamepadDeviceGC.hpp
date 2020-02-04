@@ -22,7 +22,7 @@ namespace ouzel
         {
         public:
             GamepadDeviceGC(InputSystem& initInputSystem,
-                            uint32_t initId,
+                            uintptr_t initId,
                             GCControllerPtr initController);
 
             void setAbsoluteDpadValues(bool absoluteDpadValues);

@@ -15,7 +15,7 @@ namespace ouzel
         {
         public:
             MouseDeviceLinux(InputSystem& initInputSystem,
-                             uint32_t initId):
+                             uintptr_t initId):
                 MouseDevice(initInputSystem, initId)
             {
             }

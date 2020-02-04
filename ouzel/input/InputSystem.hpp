@@ -53,7 +53,7 @@ namespace ouzel
                 explicit Command(Type initType): type(initType) {}
 
                 Type type;
-                uint32_t deviceId = 0;
+                uintptr_t deviceId = 0;
 
                 union
                 {
@@ -106,7 +106,7 @@ namespace ouzel
 
                 Type type;
                 Controller::Type deviceType;
-                uint32_t deviceId = 0;
+                uintptr_t deviceId = 0;
                 union
                 {
                     Keyboard::Key keyboardKey;

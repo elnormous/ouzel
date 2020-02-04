@@ -14,7 +14,7 @@ namespace ouzel
         {
         public:
             GamepadDeviceAndroid(InputSystem& initInputSystem,
-                                 uint32_t initId);
+                                 uintptr_t initId);
         };
     } // namespace input
 } // namespace ouzel

@@ -20,7 +20,7 @@ namespace ouzel
                 Gamepad
             };
 
-            Controller(InputManager& initInputManager, Type initType, uint32_t initDeviceId):
+            Controller(InputManager& initInputManager, Type initType, uintptr_t initDeviceId):
                 inputManager(initInputManager), type(initType), deviceId(initDeviceId)
             {}
             virtual ~Controller() = default;
@@ -31,7 +31,7 @@ namespace ouzel
         protected:
             InputManager& inputManager;
             Type type;
-            uint32_t deviceId;
+            uintptr_t deviceId;
         };
     } // namespace input
 } // namespace ouzel

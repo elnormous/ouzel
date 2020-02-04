@@ -186,7 +186,7 @@ namespace ouzel
                 Count
             };
 
-            Keyboard(InputManager& initInputManager, uint32_t initDeviceId);
+            Keyboard(InputManager& initInputManager, uintptr_t initDeviceId);
 
             inline auto isKeyDown(Key key) const noexcept { return keyStates[static_cast<uint32_t>(key)]; }
 
