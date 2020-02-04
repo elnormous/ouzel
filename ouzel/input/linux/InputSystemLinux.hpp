@@ -44,7 +44,7 @@ namespace ouzel
 
             bool discovering = false;
 
-            uint32_t lastDeviceId = 0;
+            uintptr_t lastDeviceId = 0;
             std::unique_ptr<KeyboardDeviceLinux> keyboardDevice;
             std::unique_ptr<MouseDeviceLinux> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;

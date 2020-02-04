@@ -30,7 +30,7 @@ namespace ouzel
         private:
             bool updateButtonState(jint newButtonState, jint x, jint y);
 
-            uint32_t lastDeviceId = 0;
+            uintptr_t lastDeviceId = 0;
             std::unique_ptr<KeyboardDevice> keyboardDevice;
             std::unique_ptr<MouseDevice> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;

@@ -43,7 +43,7 @@ namespace ouzel
             void showVirtualKeyboard();
             void hideVirtualKeyboard();
 
-            uint32_t lastDeviceId = 0;
+            uintptr_t lastDeviceId = 0;
             std::unique_ptr<KeyboardDevice> keyboardDevice;
             std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceTVOS>> gamepadDevices;
 

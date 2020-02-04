@@ -59,7 +59,7 @@ namespace ouzel
             void startGamepadDiscovery();
             void stopGamepadDiscovery();
 
-            uint32_t lastDeviceId = 0;
+            uintptr_t lastDeviceId = 0;
             std::unique_ptr<KeyboardDevice> keyboardDevice;
             std::unique_ptr<MouseDeviceMacOS> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;
