@@ -155,11 +155,11 @@ namespace ouzel
             std::future<bool> sendEvent(const Event& event);
             void addInputDevice(InputDevice& inputDevice);
             void removeInputDevice(const InputDevice& inputDevice);
-            InputDevice* getInputDevice(uint32_t id);
+            InputDevice* getInputDevice(uintptr_t id);
 
         private:
             std::function<std::future<bool>(const Event&)> callback;
-            std::unordered_map<uint32_t, InputDevice*> inputDevices;
+            std::unordered_map<uintptr_t, InputDevice*> inputDevices;
 
             uintptr_t lastResourceId = 0;
             std::set<uintptr_t> deletedResourceIds;
