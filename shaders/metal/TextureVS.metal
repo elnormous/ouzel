@@ -6,7 +6,7 @@ using namespace metal;
 
 typedef struct __attribute__((__aligned__(256)))
 {
-    matrix_float4x4 modelViewProj;
+    float4x4 modelViewProj;
 } uniforms_t;
 
 typedef struct
