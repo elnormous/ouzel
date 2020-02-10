@@ -395,7 +395,7 @@ namespace ouzel
                 std::string versionParts[2];
                 uint32_t part = 0;
 
-                for (const char c : versionStr)
+                for (const auto c : versionStr)
                 {
                     if (c == '.')
                     {
@@ -647,7 +647,7 @@ namespace ouzel
 #endif
                 }
 
-                for (const std::string& extension : extensions)
+                for (const auto& extension : extensions)
                 {
                     if (extension == "GL_OES_texture_npot" ||
                         extension == "GL_ARB_texture_non_power_of_two")
@@ -888,7 +888,7 @@ namespace ouzel
                                 auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
 
                                 std::set<Texture*> colorTextures;
-                                for (const uintptr_t colorTextureId : initRenderTargetCommand->colorTextures)
+                                for (const auto colorTextureId : initRenderTargetCommand->colorTextures)
                                     colorTextures.insert(getResource<Texture>(colorTextureId));
 
                                 auto renderTarget = std::make_unique<RenderTarget>(*this,
@@ -982,8 +982,8 @@ namespace ouzel
 #if !OUZEL_OPENGLES
                                 auto blitCommand = static_cast<const BlitCommand*>(command.get());
 
-                                Texture* sourceTexture = getResource<Texture>(blitCommand->sourceTexture);
-                                Texture* destinationTexture = getResource<Texture>(blitCommand->destinationTexture);
+                                auto sourceTexture = getResource<Texture>(blitCommand->sourceTexture);
+                                auto destinationTexture = getResource<Texture>(blitCommand->destinationTexture);
 
                                 if (glCopyImageSubDataProc)
                                     glCopyImageSubDataProc(sourceTexture->getTextureId(),
@@ -1062,7 +1062,7 @@ namespace ouzel
 
                                 if (setDepthStencilStateCommand->depthStencilState)
                                 {
-                                    DepthStencilState* depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
+                                    auto depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
 
                                     enableDepthTest(depthStencilState->getDepthTest());
                                     setDepthMask(depthStencilState->getDepthMask());
@@ -1106,8 +1106,8 @@ namespace ouzel
                             {
                                 auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
-                                BlendState* blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
-                                Shader* shader = getResource<Shader>(setPipelineStateCommand->shader);
+                                auto blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
+                                auto shader = getResource<Shader>(setPipelineStateCommand->shader);
                                 currentShader = shader;
 
                                 if (blendState)
@@ -1157,8 +1157,8 @@ namespace ouzel
                                 auto drawCommand = static_cast<const DrawCommand*>(command.get());
 
                                 // mesh buffer
-                                Buffer* indexBuffer = getResource<Buffer>(drawCommand->indexBuffer);
-                                Buffer* vertexBuffer = getResource<Buffer>(drawCommand->vertexBuffer);
+                                auto indexBuffer = getResource<Buffer>(drawCommand->indexBuffer);
+                                auto vertexBuffer = getResource<Buffer>(drawCommand->vertexBuffer);
 
                                 assert(indexBuffer);
                                 assert(indexBuffer->getBufferId());
@@ -1266,7 +1266,7 @@ namespace ouzel
                             {
                                 auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                                Buffer* buffer = getResource<Buffer>(setBufferDataCommand->buffer);
+                                auto buffer = getResource<Buffer>(setBufferDataCommand->buffer);
                                 buffer->setData(setBufferDataCommand->data);
                                 break;
                             }
@@ -1355,7 +1355,7 @@ namespace ouzel
                             {
                                 auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                                Texture* texture = getResource<Texture>(setTextureDataCommand->texture);
+                                auto texture = getResource<Texture>(setTextureDataCommand->texture);
                                 texture->setData(setTextureDataCommand->levels);
 
                                 break;
@@ -1365,7 +1365,7 @@ namespace ouzel
                             {
                                 auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                                Texture* texture = getResource<Texture>(setTextureParametersCommand->texture);
+                                auto texture = getResource<Texture>(setTextureParametersCommand->texture);
                                 texture->setFilter(setTextureParametersCommand->filter == SamplerFilter::Default ? textureFilter : setTextureParametersCommand->filter);
                                 texture->setAddressX(setTextureParametersCommand->addressX);
                                 texture->setAddressY(setTextureParametersCommand->addressY);
@@ -1380,7 +1380,7 @@ namespace ouzel
 
                                 for (uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
                                 {
-                                    if (Texture* texture = getResource<Texture>(setTexturesCommand->textures[layer]))
+                                    if (auto texture = getResource<Texture>(setTexturesCommand->textures[layer]))
                                         bindTexture(GL_TEXTURE_2D, layer, texture->getTextureId());
                                     else
                                         bindTexture(GL_TEXTURE_2D, layer, 0);

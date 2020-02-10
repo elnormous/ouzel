@@ -106,7 +106,7 @@ namespace ouzel
                 {
                     fragmentShaderAlignment = 0;
 
-                    for (const std::pair<std::string, DataType>& info : initFragmentShaderConstantInfo)
+                    for (const auto& info : initFragmentShaderConstantInfo)
                         fragmentShaderAlignment += getDataTypeSize(info.second);
                 }
 
@@ -116,7 +116,7 @@ namespace ouzel
                 {
                     vertexShaderAlignment = 0;
 
-                    for (const std::pair<std::string, DataType>& info : initVertexShaderConstantInfo)
+                    for (const auto& info : initVertexShaderConstantInfo)
                         vertexShaderAlignment += getDataTypeSize(info.second);
                 }
 
@@ -125,7 +125,7 @@ namespace ouzel
 
                 vertexDescriptor = [[MTLVertexDescriptor alloc] init];
 
-                for (const Vertex::Attribute& vertexAttribute : RenderDevice::VERTEX_ATTRIBUTES)
+                for (const auto& vertexAttribute : RenderDevice::VERTEX_ATTRIBUTES)
                 {
                     if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
                     {
@@ -165,7 +165,7 @@ namespace ouzel
                 {
                     fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
 
-                    for (const std::pair<std::string, DataType>& info : fragmentShaderConstantInfo)
+                    for (const auto& info : fragmentShaderConstantInfo)
                     {
                         const uint32_t size = getDataTypeSize(info.second);
                         fragmentShaderConstantLocations.emplace_back(fragmentShaderConstantSize, size);
@@ -189,7 +189,7 @@ namespace ouzel
                 {
                     vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
 
-                    for (const std::pair<std::string, DataType>& info : vertexShaderConstantInfo)
+                    for (const auto& info : vertexShaderConstantInfo)
                     {
                         const uint32_t size = getDataTypeSize(info.second);
                         vertexShaderConstantLocations.emplace_back(vertexShaderConstantSize, size);

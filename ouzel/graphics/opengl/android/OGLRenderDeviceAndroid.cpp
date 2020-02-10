@@ -297,10 +297,10 @@ namespace ouzel
 
                 if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
 
-                for (const std::unique_ptr<RenderResource>& resource : resources)
+                for (const auto& resource : resources)
                     if (resource) resource->invalidate();
 
-                for (const std::unique_ptr<RenderResource>& resource : resources)
+                for (const auto& resource : resources)
                     if (resource) resource->restore();
 
                 if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))

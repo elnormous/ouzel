@@ -87,8 +87,13 @@ namespace ouzel
                                          bool newStencil,
                                          bool newDebugRenderer)
             {
-                constexpr NSOpenGLPixelFormatAttribute openGLVersions[] = {NSOpenGLProfileVersion4_1Core, NSOpenGLProfileVersion3_2Core, NSOpenGLProfileVersionLegacy};
-                for (const NSOpenGLPixelFormatAttribute openGLVersion : openGLVersions)
+                constexpr NSOpenGLPixelFormatAttribute openGLVersions[] = {
+                    NSOpenGLProfileVersion4_1Core,
+                    NSOpenGLProfileVersion3_2Core,
+                    NSOpenGLProfileVersionLegacy
+                };
+
+                for (const auto openGLVersion : openGLVersions)
                 {
                     // Create pixel format
                     std::vector<NSOpenGLPixelFormatAttribute> attributes = {

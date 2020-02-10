@@ -432,7 +432,7 @@ namespace ouzel
                                 auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
 
                                 std::set<Texture*> colorTextures;
-                                for (const uintptr_t colorTextureId : initRenderTargetCommand->colorTextures)
+                                for (const auto colorTextureId : initRenderTargetCommand->colorTextures)
                                     colorTextures.insert(getResource<Texture>(colorTextureId));
 
                                 auto renderTarget = std::make_unique<RenderTarget>(*this,
@@ -509,8 +509,8 @@ namespace ouzel
                             {
                                 auto blitCommand = static_cast<const BlitCommand*>(command.get());
 
-                                Texture* sourceTexture = getResource<Texture>(blitCommand->sourceTexture);
-                                Texture* destinationTexture = getResource<Texture>(blitCommand->destinationTexture);
+                                auto sourceTexture = getResource<Texture>(blitCommand->sourceTexture);
+                                auto destinationTexture = getResource<Texture>(blitCommand->destinationTexture);
 
                                 D3D11_BOX box;
                                 box.left = blitCommand->sourceX;
@@ -600,7 +600,7 @@ namespace ouzel
 
                                 if (setDepthStencilStateCommand->depthStencilState)
                                 {
-                                    DepthStencilState* depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
+                                    auto depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
                                     context->OMSetDepthStencilState(depthStencilState->getDepthStencilState().get(),
                                                                     setDepthStencilStateCommand->stencilReferenceValue);
                                 }
@@ -615,8 +615,8 @@ namespace ouzel
                             {
                                 auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
-                                BlendState* blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
-                                Shader* shader = getResource<Shader>(setPipelineStateCommand->shader);
+                                auto blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
+                                auto shader = getResource<Shader>(setPipelineStateCommand->shader);
                                 currentShader = shader;
 
                                 if (blendState)
@@ -666,8 +666,8 @@ namespace ouzel
                                 auto drawCommand = static_cast<const DrawCommand*>(command.get());
 
                                 // draw mesh buffer
-                                Buffer* indexBuffer = getResource<Buffer>(drawCommand->indexBuffer);
-                                Buffer* vertexBuffer = getResource<Buffer>(drawCommand->vertexBuffer);
+                                auto indexBuffer = getResource<Buffer>(drawCommand->indexBuffer);
+                                auto vertexBuffer = getResource<Buffer>(drawCommand->vertexBuffer);
 
                                 assert(indexBuffer);
                                 assert(indexBuffer->getBuffer());
@@ -743,7 +743,7 @@ namespace ouzel
                             {
                                 auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                                Buffer* buffer = getResource<Buffer>(setBufferDataCommand->buffer);
+                                auto buffer = getResource<Buffer>(setBufferDataCommand->buffer);
                                 buffer->setData(setBufferDataCommand->data);
                                 break;
                             }
@@ -852,7 +852,7 @@ namespace ouzel
                             {
                                 auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                                Texture* texture = getResource<Texture>(setTextureDataCommand->texture);
+                                auto texture = getResource<Texture>(setTextureDataCommand->texture);
                                 texture->setData(setTextureDataCommand->levels);
 
                                 break;
@@ -862,7 +862,7 @@ namespace ouzel
                             {
                                 auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                                Texture* texture = getResource<Texture>(setTextureParametersCommand->texture);
+                                auto texture = getResource<Texture>(setTextureParametersCommand->texture);
                                 texture->setFilter((setTextureParametersCommand->filter == SamplerFilter::Default) ? textureFilter : setTextureParametersCommand->filter);
                                 texture->setAddressX(setTextureParametersCommand->addressX);
                                 texture->setAddressY(setTextureParametersCommand->addressY);
@@ -879,8 +879,8 @@ namespace ouzel
                                 currentResourceViews.clear();
                                 currentSamplerStates.clear();
 
-                                for (const uintptr_t resource : setTexturesCommand->textures)
-                                    if (Texture* texture = getResource<Texture>(resource))
+                                for (const auto textureId : setTexturesCommand->textures)
+                                    if (auto texture = getResource<Texture>(textureId))
                                     {
                                         currentResourceViews.push_back(texture->getResourceView().get());
                                         currentSamplerStates.push_back(texture->getSamplerState());
@@ -954,7 +954,7 @@ namespace ouzel
                     std::vector<DXGI_MODE_DESC> displayModes(numModes);
                     output->GetDisplayModeList(format, 0, &numModes, displayModes.data());
 
-                    for (const DXGI_MODE_DESC& displayMode : displayModes)
+                    for (const auto& displayMode : displayModes)
                         result.emplace_back(static_cast<uint32_t>(displayMode.Width),
                                             static_cast<uint32_t>(displayMode.Height));
                 }

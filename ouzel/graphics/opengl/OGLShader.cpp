@@ -120,7 +120,7 @@ namespace ouzel
 
                 GLuint index = 0;
 
-                for (const Vertex::Attribute& vertexAttribute : RenderDevice::VERTEX_ATTRIBUTES)
+                for (const auto& vertexAttribute : RenderDevice::VERTEX_ATTRIBUTES)
                 {
                     if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
                     {
@@ -206,7 +206,7 @@ namespace ouzel
                     fragmentShaderConstantLocations.clear();
                     fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
 
-                    for (const std::pair<std::string, DataType>& info : fragmentShaderConstantInfo)
+                    for (const auto& info : fragmentShaderConstantInfo)
                     {
                         const GLint location = renderDevice.glGetUniformLocationProc(programId, info.first.c_str());
 
@@ -225,7 +225,7 @@ namespace ouzel
                     vertexShaderConstantLocations.clear();
                     vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
 
-                    for (const std::pair<std::string, DataType>& info : vertexShaderConstantInfo)
+                    for (const auto& info : vertexShaderConstantInfo)
                     {
                         const GLint location = renderDevice.glGetUniformLocationProc(programId, info.first.c_str());
 

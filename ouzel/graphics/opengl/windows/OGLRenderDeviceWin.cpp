@@ -192,7 +192,7 @@ namespace ouzel
 
                 std::vector<std::string> extensions;
 
-                if (PFNWGLGETEXTENSIONSSTRINGARBPROC wglGetExtensionsStringProc = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB")))
+                if (auto wglGetExtensionsStringProc = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB")))
                 {
                     if (const char* extensionsPtr = wglGetExtensionsStringProc(deviceContext))
                         extensions = explodeString(std::string(extensionsPtr), ' ');
@@ -203,7 +203,7 @@ namespace ouzel
                 PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = nullptr;
                 PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsProc = nullptr;
 
-                for (const std::string& extension : extensions)
+                for (const auto& extension : extensions)
                 {
                     if (extension == "WGL_ARB_pixel_format")
                         wglChoosePixelFormatProc = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(wglGetProcAddress("wglChoosePixelFormatARB"));

@@ -29,8 +29,7 @@ namespace ouzel
                 if (!renderPassDescriptor)
                     throw Error("Failed to create Metal render pass descriptor");
 
-                for (const Texture* colorTexture : colorTextures)
-                {
+                for (const auto colorTexture : colorTextures)
                     if (colorTexture)
                     {
                         size_t index = colorTextures.size() - 1;
@@ -41,7 +40,6 @@ namespace ouzel
 
                         sampleCount = colorTexture->getSampleCount();
                     }
-                }
 
                 if (depthTexture)
                 {

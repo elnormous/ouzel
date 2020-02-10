@@ -145,7 +145,7 @@ namespace ouzel
                 PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsProc = nullptr;
                 PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXTProc = nullptr;
 
-                for (const std::string& extension : extensions)
+                for (const auto& extension : extensions)
                 {
                     if (extension == "GLX_ARB_create_context")
                         glXCreateContextAttribsProc = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));

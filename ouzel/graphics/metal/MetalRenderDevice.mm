@@ -337,7 +337,7 @@ namespace ouzel
                                 auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
 
                                 std::set<Texture*> colorTextures;
-                                for (const uintptr_t colorTextureId : initRenderTargetCommand->colorTextures)
+                                for (const auto colorTextureId : initRenderTargetCommand->colorTextures)
                                     colorTextures.insert(getResource<Texture>(colorTextureId));
 
                                 auto renderTarget = std::make_unique<RenderTarget>(*this,
@@ -516,7 +516,7 @@ namespace ouzel
 
                                 if (setDepthStencilStateCommand->depthStencilState)
                                 {
-                                    DepthStencilState* depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
+                                    auto depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
                                     [currentRenderCommandEncoder setDepthStencilState:depthStencilState->getDepthStencilState().get()];
                                 }
                                 else
@@ -535,8 +535,8 @@ namespace ouzel
                                 if (!currentRenderCommandEncoder)
                                     throw Error("Metal render command encoder not initialized");
 
-                                BlendState* blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
-                                Shader* shader = getResource<Shader>(setPipelineStateCommand->shader);
+                                auto blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
+                                auto shader = getResource<Shader>(setPipelineStateCommand->shader);
                                 currentShader = shader;
 
                                 currentPipelineStateDesc.blendState = blendState;
@@ -559,8 +559,8 @@ namespace ouzel
                                     throw Error("Metal render command encoder not initialized");
 
                                 // mesh buffer
-                                Buffer* indexBuffer = getResource<Buffer>(drawCommand->indexBuffer);
-                                Buffer* vertexBuffer = getResource<Buffer>(drawCommand->vertexBuffer);
+                                auto indexBuffer = getResource<Buffer>(drawCommand->indexBuffer);
+                                auto vertexBuffer = getResource<Buffer>(drawCommand->vertexBuffer);
 
                                 assert(indexBuffer);
                                 assert(indexBuffer->getBuffer());
@@ -645,7 +645,7 @@ namespace ouzel
                             {
                                 auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                                Buffer* buffer = getResource<Buffer>(setBufferDataCommand->buffer);
+                                auto buffer = getResource<Buffer>(setBufferDataCommand->buffer);
                                 buffer->setData(setBufferDataCommand->data);
                                 break;
                             }
@@ -807,7 +807,7 @@ namespace ouzel
                             {
                                 auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                                Texture* texture = getResource<Texture>(setTextureDataCommand->texture);
+                                auto texture = getResource<Texture>(setTextureDataCommand->texture);
                                 texture->setData(setTextureDataCommand->levels);
 
                                 break;
@@ -817,7 +817,7 @@ namespace ouzel
                             {
                                 auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                                Texture* texture = getResource<Texture>(setTextureParametersCommand->texture);
+                                auto texture = getResource<Texture>(setTextureParametersCommand->texture);
                                 texture->setFilter(setTextureParametersCommand->filter == SamplerFilter::Default ? textureFilter : setTextureParametersCommand->filter);
                                 texture->setAddressX(setTextureParametersCommand->addressX);
                                 texture->setAddressY(setTextureParametersCommand->addressY);
@@ -836,7 +836,7 @@ namespace ouzel
 
                                 for (uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
                                 {
-                                    if (Texture* texture = getResource<Texture>(setTexturesCommand->textures[layer]))
+                                    if (auto texture = getResource<Texture>(setTexturesCommand->textures[layer]))
                                     {
                                         [currentRenderCommandEncoder setFragmentTexture:texture->getTexture().get() atIndex:layer];
                                         [currentRenderCommandEncoder setFragmentSamplerState:texture->getSamplerState() atIndex:layer];

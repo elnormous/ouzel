@@ -21,7 +21,7 @@ namespace ouzel
                 colorTextures(initColorTextures),
                 depthTexture(initDepthTexture)
             {
-                for (const Texture* colorTexture : colorTextures)
+                for (const auto colorTexture : colorTextures)
                     if (colorTexture)
                         renderTargetViews.push_back(colorTexture->getRenderTargetView().get());
 
