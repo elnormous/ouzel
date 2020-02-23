@@ -290,6 +290,7 @@ all: CXXFLAGS+=-O3
 all: OBJCFLAGS+=-O3
 all: OBJCXXFLAGS+=-O3
 endif
+.PHONY: all
 all: $(ROOT_DIR)/$(LIBRARY)
 
 $(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
