@@ -512,7 +512,7 @@ namespace ouzel
 #if OUZEL_OPENGLES
                         glClearDepthfProc(clearDepthValue);
 #else
-                        glClearDepthProc(clearDepthValue);
+                        glClearDepthProc(static_cast<GLdouble>(clearDepthValue));
 #endif
 
                         stateCache.clearDepth = clearDepthValue;
