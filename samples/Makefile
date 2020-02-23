@@ -1,5 +1,3 @@
-MAKEFILE_PATH:=$(abspath $(lastword $(MAKEFILE_LIST)))
-ROOT_DIR:=$(realpath $(dir $(MAKEFILE_PATH)))
 DEBUG=0
 ifeq ($(OS),Windows_NT)
 	PLATFORM=windows
@@ -16,8 +14,8 @@ ifeq ($(PLATFORM),emscripten)
 CC=emcc
 CXX=em++
 endif
-CXXFLAGS=-c -std=c++14 -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast -I$(ROOT_DIR)/../ouzel
-LDFLAGS=-L$(ROOT_DIR)/../build -louzel
+CXXFLAGS=-c -std=c++14 -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast -I../ouzel
+LDFLAGS=-L../build -louzel
 ifeq ($(PLATFORM),windows)
 LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -ldinput8 -luser32 -lgdi32 -lshell32 -lole32 -loleaut32 -ldsound -luuid -lws2_32
 else ifeq ($(PLATFORM),linux)
@@ -68,16 +66,16 @@ LDFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -m
 else ifeq ($(PLATFORM),emscripten)
 LDFLAGS+=-lopenal --embed-file settings.ini --embed-file Resources -s DISABLE_EXCEPTION_CATCHING=0 -s TOTAL_MEMORY=134217728
 endif
-SOURCES=$(ROOT_DIR)/AnimationsSample.cpp \
-	$(ROOT_DIR)/GameSample.cpp \
-	$(ROOT_DIR)/GUISample.cpp \
-	$(ROOT_DIR)/InputSample.cpp \
-	$(ROOT_DIR)/main.cpp \
-	$(ROOT_DIR)/MainMenu.cpp \
-	$(ROOT_DIR)/PerspectiveSample.cpp \
-	$(ROOT_DIR)/SoundSample.cpp \
-	$(ROOT_DIR)/SpritesSample.cpp \
-	$(ROOT_DIR)/RTSample.cpp
+SOURCES=AnimationsSample.cpp \
+	GameSample.cpp \
+	GUISample.cpp \
+	InputSample.cpp \
+	main.cpp \
+	MainMenu.cpp \
+	PerspectiveSample.cpp \
+	SoundSample.cpp \
+	SpritesSample.cpp \
+	RTSample.cpp
 BASE_NAMES=$(basename $(SOURCES))
 OBJECTS=$(BASE_NAMES:=.o)
 DEPENDENCIES=$(OBJECTS:.o=.d)
@@ -97,63 +95,63 @@ endif
 all: bundle
 
 .PHONY: bundle
-bundle: $(ROOT_DIR)/$(EXECUTABLE)
+bundle: $(EXECUTABLE)
 ifeq ($(PLATFORM),macos)
 bundle:
-	mkdir -p $(ROOT_DIR)/$(EXECUTABLE).app
-	mkdir -p $(ROOT_DIR)/$(EXECUTABLE).app/Contents
+	mkdir -p $(EXECUTABLE).app
+	mkdir -p $(EXECUTABLE).app/Contents
 	sed -e s/'$$(EXECUTABLE_NAME)'/samples/ \
 		-e s/'$$(PRODUCT_BUNDLE_IDENTIFIER)'/lv.elviss.ouzel/ \
 		-e s/'$$(PRODUCT_NAME)'/samples/ \
 		-e s/'$$(MACOSX_DEPLOYMENT_TARGET)'/10.8/ \
-		$(ROOT_DIR)/macos/Info.plist > $(ROOT_DIR)/$(EXECUTABLE).app/Contents/Info.plist
-	mkdir -p $(ROOT_DIR)/$(EXECUTABLE).app/Contents/MacOS
-	cp -f $(ROOT_DIR)/$(EXECUTABLE) $(ROOT_DIR)/$(EXECUTABLE).app/Contents/MacOS
-	mkdir -p $(ROOT_DIR)/$(EXECUTABLE).app/Contents/Resources
-	cp -f $(ROOT_DIR)/settings.ini $(ROOT_DIR)/$(EXECUTABLE).app/Contents/Resources
-	cp -f $(ROOT_DIR)/Resources/* $(ROOT_DIR)/$(EXECUTABLE).app/Contents/Resources/
+		macos/Info.plist > $(EXECUTABLE).app/Contents/Info.plist
+	mkdir -p $(EXECUTABLE).app/Contents/MacOS
+	cp -f $(EXECUTABLE) $(EXECUTABLE).app/Contents/MacOS
+	mkdir -p $(EXECUTABLE).app/Contents/Resources
+	cp -f settings.ini $(EXECUTABLE).app/Contents/Resources
+	cp -f Resources/* $(EXECUTABLE).app/Contents/Resources/
 	xcrun actool --output-format human-readable-text --notices --warnings \
-		--output-partial-info-plist $(ROOT_DIR)/assetcatalog_generated_info.plist --app-icon AppIcon \
-		--export-dependency-info $(ROOT_DIR)/assetcatalog_dependencies \
+		--output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon \
+		--export-dependency-info assetcatalog_dependencies \
 		--enable-on-demand-resources NO --target-device mac --minimum-deployment-target 10.8 \
-		--platform macosx --compile $(ROOT_DIR)/$(EXECUTABLE).app/Contents/Resources $(ROOT_DIR)/macos/Assets.xcassets
-	plutil -replace CFBundleIconFile -string AppIcon $(ROOT_DIR)/$(EXECUTABLE).app/Contents/Info.plist
-	plutil -replace CFBundleIconName -string AppIcon $(ROOT_DIR)/$(EXECUTABLE).app/Contents/Info.plist
+		--platform macosx --compile $(EXECUTABLE).app/Contents/Resources macos/Assets.xcassets
+	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Contents/Info.plist
+	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Contents/Info.plist
 else ifeq ($(PLATFORM),ios)
-	mkdir -p $(ROOT_DIR)/$(EXECUTABLE).app
+	mkdir -p $(EXECUTABLE).app
 	sed -e s/'$$(EXECUTABLE_NAME)'/samples/ \
 		-e s/'$$(PRODUCT_BUNDLE_IDENTIFIER)'/lv.elviss.ouzel/ \
 		-e s/'$$(PRODUCT_NAME)'/samples/ \
-		$(ROOT_DIR)/ios/Info.plist > $(ROOT_DIR)/$(EXECUTABLE).app/Info.plist
-	cp -f $(ROOT_DIR)/$(EXECUTABLE) $(ROOT_DIR)/$(EXECUTABLE).app
-	cp -f $(ROOT_DIR)/settings.ini $(ROOT_DIR)/$(EXECUTABLE).app
-	cp -f $(ROOT_DIR)/Resources/* $(ROOT_DIR)/$(EXECUTABLE).app
+		ios/Info.plist > $(EXECUTABLE).app/Info.plist
+	cp -f $(EXECUTABLE) $(EXECUTABLE).app
+	cp -f settings.ini $(EXECUTABLE).app
+	cp -f Resources/* $(EXECUTABLE).app
 	xcrun actool --output-format human-readable-text --notices --warnings \
-		--output-partial-info-plist $(ROOT_DIR)/assetcatalog_generated_info.plist --app-icon AppIcon \
-		--export-dependency-info $(ROOT_DIR)/assetcatalog_dependencies \
+		--output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon \
+		--export-dependency-info assetcatalog_dependencies \
 		--enable-on-demand-resources NO --target-device iphone --target-device ipad --minimum-deployment-target 8.0 \
-		--platform iphoneos --compile $(ROOT_DIR)/$(EXECUTABLE).app $(ROOT_DIR)/ios/Assets.xcassets
-	plutil -replace CFBundleIconFile -string AppIcon $(ROOT_DIR)/$(EXECUTABLE).app/Info.plist
-	plutil -replace CFBundleIconName -string AppIcon $(ROOT_DIR)/$(EXECUTABLE).app/Info.plist
+		--platform iphoneos --compile $(EXECUTABLE).app ios/Assets.xcassets
+	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Info.plist
+	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Info.plist
 else ifeq ($(PLATFORM),tvos)
-	mkdir -p $(ROOT_DIR)/$(EXECUTABLE).app
+	mkdir -p $(EXECUTABLE).app
 	sed -e s/'$$(EXECUTABLE_NAME)'/samples/ \
 		-e s/'$$(PRODUCT_BUNDLE_IDENTIFIER)'/lv.elviss.ouzel/ \
 		-e s/'$$(PRODUCT_NAME)'/samples/ \
-		$(ROOT_DIR)/tvos/Info.plist > $(ROOT_DIR)/$(EXECUTABLE).app/Info.plist
-	cp -f $(ROOT_DIR)/$(EXECUTABLE) $(ROOT_DIR)/$(EXECUTABLE).app
-	cp -f $(ROOT_DIR)/settings.ini $(ROOT_DIR)/$(EXECUTABLE).app
-	cp -f $(ROOT_DIR)/Resources/* $(ROOT_DIR)/$(EXECUTABLE).app
+		tvos/Info.plist > $(EXECUTABLE).app/Info.plist
+	cp -f $(EXECUTABLE) $(EXECUTABLE).app
+	cp -f settings.ini $(EXECUTABLE).app
+	cp -f Resources/* $(EXECUTABLE).app
 	xcrun actool --output-format human-readable-text --notices --warnings \
-		--output-partial-info-plist $(ROOT_DIR)/assetcatalog_generated_info.plist --app-icon AppIcon \
-		--export-dependency-info $(ROOT_DIR)/assetcatalog_dependencies \
+		--output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon \
+		--export-dependency-info assetcatalog_dependencies \
 		--enable-on-demand-resources NO --target-device tv --minimum-deployment-target 9.0 \
-		--platform appletvos --compile $(ROOT_DIR)/$(EXECUTABLE).app $(ROOT_DIR)/tvos/Assets.xcassets
-	plutil -replace CFBundleIconFile -string AppIcon $(ROOT_DIR)/$(EXECUTABLE).app/Info.plist
-	plutil -replace CFBundleIconName -string AppIcon $(ROOT_DIR)/$(EXECUTABLE).app/Info.plist
+		--platform appletvos --compile $(EXECUTABLE).app tvos/Assets.xcassets
+	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Info.plist
+	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Info.plist
 endif
 
-$(ROOT_DIR)/$(EXECUTABLE): ouzel $(OBJECTS)
+$(EXECUTABLE): ouzel $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
 -include $(DEPENDENCIES)
@@ -163,14 +161,14 @@ $(ROOT_DIR)/$(EXECUTABLE): ouzel $(OBJECTS)
 
 .PHONY: ouzel
 ouzel:
-	$(MAKE) -C $(ROOT_DIR)/../build/ DEBUG=$(DEBUG) PLATFORM=$(PLATFORM) VC_DIR=$(VC_DIR) $(target)
+	$(MAKE) -C ../build/ DEBUG=$(DEBUG) PLATFORM=$(PLATFORM) VC_DIR=$(VC_DIR) $(target)
 
 .PHONY: clean
 clean:
-	$(MAKE) -C $(ROOT_DIR)/../build/ clean
+	$(MAKE) -C ../build/ clean
 ifeq ($(PLATFORM),windows)
-	-del /f /q "$(ROOT_DIR)\$(EXECUTABLE).exe" "$(ROOT_DIR)\*.o" "$(ROOT_DIR)\*.d" "$(ROOT_DIR)\*.js.mem" "$(ROOT_DIR)\*.js"
+	-del /f /q "$(EXECUTABLE).exe" "*.o" "*.d" "*.js.mem" "*.js"
 else
-	$(RM) $(ROOT_DIR)/$(EXECUTABLE) $(ROOT_DIR)/*.o $(ROOT_DIR)/*.d $(ROOT_DIR)/*.js.mem $(ROOT_DIR)/*.js $(ROOT_DIR)/$(EXECUTABLE).exe $(ROOT_DIR)/assetcatalog_generated_info.plist $(ROOT_DIR)/assetcatalog_dependencies
-	$(RM) -r $(ROOT_DIR)/$(EXECUTABLE).app
+	$(RM) $(EXECUTABLE) *.o *.d *.js.mem *.js $(EXECUTABLE).exe assetcatalog_generated_info.plist assetcatalog_dependencies
+	$(RM) -r $(EXECUTABLE).app
 endif
