@@ -12,9 +12,9 @@ int main(int argc, const char* argv[])
 {
     enum class Action
     {
-        NONE,
-        NEW_PROJECT,
-        GENERATE
+        None,
+        GenerateProject,
+        ExportAssets
     };
 
     enum class Project
@@ -35,7 +35,7 @@ int main(int argc, const char* argv[])
         Emscripten
     };
 
-    Action action = Action::NONE;
+    Action action = Action::None;
     std::string path;
     std::string name;
     std::set<Project> projects;
@@ -49,14 +49,6 @@ int main(int argc, const char* argv[])
             std::cout << argv[0] << " [--help] [--new-project <name>] [--generate <path>] [--project <all|makefile|visualstudio|xcode>] [--location <location>]\n";
             return EXIT_SUCCESS;
         }
-        else if (std::string(argv[i]) == "--new-project")
-        {
-            if (++i >= argc)
-                throw std::runtime_error("Invalid command");
-
-            action = Action::NEW_PROJECT;
-            path = std::string(argv[i]);
-        }
         else if (std::string(argv[i]) == "--name")
         {
             if (++i >= argc)
@@ -64,9 +56,9 @@ int main(int argc, const char* argv[])
 
             name = std::string(argv[i]);
         }
-        else if (std::string(argv[i]) == "--generate")
+        else if (std::string(argv[i]) == "--generate-project")
         {
-            action = Action::GENERATE;
+            action = Action::GenerateProject;
 
             if (++i >= argc)
                 throw std::runtime_error("Invalid command");
@@ -119,17 +111,18 @@ int main(int argc, const char* argv[])
             else
                 throw std::runtime_error("Invalid platform");
         }
+        else if (std::string(argv[i]) == "--export-assets")
+        {
+        }
     }
 
     try
     {
         switch (action)
         {
-            case Action::NONE:
+            case Action::None:
                 throw std::runtime_error("No action selected");
-            case Action::NEW_PROJECT:
-                break;
-            case Action::GENERATE:
+            case Action::GenerateProject:
                 break;
             default:
                 throw std::runtime_error("Invalid action selected");
