@@ -163,11 +163,11 @@ $(ROOT_DIR)/$(EXECUTABLE): ouzel $(OBJECTS)
 
 .PHONY: ouzel
 ouzel:
-	$(MAKE) -f $(ROOT_DIR)/../build/Makefile DEBUG=$(DEBUG) PLATFORM=$(PLATFORM) VC_DIR=$(VC_DIR) $(target)
+	$(MAKE) -C $(ROOT_DIR)/../build/ DEBUG=$(DEBUG) PLATFORM=$(PLATFORM) VC_DIR=$(VC_DIR) $(target)
 
 .PHONY: clean
 clean:
-	$(MAKE) -f $(ROOT_DIR)/../build/Makefile clean
+	$(MAKE) -C $(ROOT_DIR)/../build/ clean
 ifeq ($(PLATFORM),windows)
 	-del /f /q "$(ROOT_DIR)\$(EXECUTABLE).exe" "$(ROOT_DIR)\*.o" "$(ROOT_DIR)\*.d" "$(ROOT_DIR)\*.js.mem" "$(ROOT_DIR)\*.js"
 else
