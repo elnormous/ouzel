@@ -36,8 +36,9 @@ int main(int argc, const char* argv[])
     };
 
     Action action = Action::None;
-    std::string path;
-    std::string name;
+    std::string projectPath;
+    std::string assetsPath;
+    std::string output;
     std::set<Project> projects;
     std::set<Platform> platforms;
 
@@ -49,13 +50,6 @@ int main(int argc, const char* argv[])
             std::cout << argv[0] << " [--help] [--new-project <name>] [--generate <path>] [--project <all|makefile|visualstudio|xcode>] [--location <location>]\n";
             return EXIT_SUCCESS;
         }
-        else if (std::string(argv[i]) == "--name")
-        {
-            if (++i >= argc)
-                throw std::runtime_error("Invalid command");
-
-            name = std::string(argv[i]);
-        }
         else if (std::string(argv[i]) == "--generate-project")
         {
             action = Action::GenerateProject;
@@ -63,7 +57,7 @@ int main(int argc, const char* argv[])
             if (++i >= argc)
                 throw std::runtime_error("Invalid command");
 
-            path = std::string(argv[i]);
+            projectPath = std::string(argv[i]);
         }
         else if (std::string(argv[i]) == "--project")
         {
@@ -113,6 +107,17 @@ int main(int argc, const char* argv[])
         }
         else if (std::string(argv[i]) == "--export-assets")
         {
+            if (++i >= argc)
+                throw std::runtime_error("Invalid command");
+
+            assetsPath = std::string(argv[i]);
+        }
+        else if (std::string(argv[i]) == "--output")
+        {
+            if (++i >= argc)
+                throw std::runtime_error("Invalid command");
+
+            output = std::string(argv[i]);
         }
     }
 
@@ -124,8 +129,8 @@ int main(int argc, const char* argv[])
                 throw std::runtime_error("No action selected");
             case Action::GenerateProject:
                 break;
-            default:
-                throw std::runtime_error("Invalid action selected");
+            case Action::ExportAssets:
+                break;
         }
     }
     catch (const std::exception& e)
