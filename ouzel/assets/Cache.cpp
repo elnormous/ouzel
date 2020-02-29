@@ -14,6 +14,7 @@
 #include "TtfLoader.hpp"
 #include "VorbisLoader.hpp"
 #include "WaveLoader.hpp"
+#include "KtxLoader.hpp"
 #include "graphics/Renderer.hpp"
 #include "gui/BMFont.hpp"
 #include "gui/TTFont.hpp"
@@ -36,6 +37,7 @@ namespace ouzel
             addLoader(std::make_unique<TtfLoader>(*this));
             addLoader(std::make_unique<VorbisLoader>(*this));
             addLoader(std::make_unique<WaveLoader>(*this));
+            addLoader(std::make_unique<KtxLoader>(*this));
         }
 
         void Cache::addBundle(const Bundle* bundle)

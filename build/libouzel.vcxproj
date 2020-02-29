@@ -25,6 +25,7 @@
     <ClCompile Include="..\ouzel\assets\CueLoader.cpp" />
     <ClCompile Include="..\ouzel\assets\GltfLoader.cpp" />
     <ClCompile Include="..\ouzel\assets\ImageLoader.cpp" />
+    <ClCompile Include="..\ouzel\assets\KtxLoader.cpp" />
     <ClCompile Include="..\ouzel\assets\MtlLoader.cpp" />
     <ClCompile Include="..\ouzel\assets\ObjLoader.cpp" />
     <ClCompile Include="..\ouzel\assets\ParticleSystemLoader.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="..\ouzel\assets\CueLoader.hpp" />
     <ClInclude Include="..\ouzel\assets\GltfLoader.hpp" />
     <ClInclude Include="..\ouzel\assets\ImageLoader.hpp" />
+    <ClInclude Include="..\ouzel\assets\KtxLoader.hpp" />
     <ClInclude Include="..\ouzel\assets\MtlLoader.hpp" />
     <ClInclude Include="..\ouzel\assets\ObjLoader.hpp" />
     <ClInclude Include="..\ouzel\assets\ParticleSystemLoader.hpp" />
