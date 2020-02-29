@@ -20,31 +20,29 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline auto decodeBigEndian(const void* buffer)
+    inline auto decodeBigEndian(const uint8_t* buffer)
     {
-        auto bytes = static_cast<const uint8_t*>(buffer);
         T result = 0;
 
         for (uintptr_t i = 0; i < sizeof(T); ++i)
-            result |= static_cast<T>(bytes[sizeof(buffer) - i - 1] << (i * 8));
+            result |= static_cast<T>(buffer[sizeof(buffer) - i - 1] << (i * 8));
 
         return result;
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline auto decodeLittleEndian(const void* buffer)
+    inline auto decodeLittleEndian(const uint8_t* buffer)
     {
-        auto bytes = static_cast<const uint8_t*>(buffer);
         T result = 0;
 
         for (uintptr_t i = 0; i < sizeof(T); ++i)
-            result |= static_cast<T>(bytes[i] << (i * 8));
+            result |= static_cast<T>(buffer[i] << (i * 8));
 
         return result;
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline void encodeBigEndian(void* buffer, const T value)
+    inline void encodeBigEndian(uint8_t* buffer, const T value)
     {
         uint8_t* bytes = static_cast<uint8_t*>(buffer);
 
@@ -53,7 +51,7 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline void encodeLittleEndian(void* buffer, const T value)
+    inline void encodeLittleEndian(uint8_t* buffer, const T value)
     {
         uint8_t* bytes = static_cast<uint8_t*>(buffer);
 

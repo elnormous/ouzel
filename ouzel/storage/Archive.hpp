@@ -28,14 +28,13 @@ namespace ouzel
 
                 for (;;)
                 {
-                    uint32_t signature;
+                    uint8_t signature[4];
+                    file.read(signature, sizeof(signature), true);
 
-                    file.read(&signature, sizeof(signature), true);
-
-                    if (decodeLittleEndian<uint32_t>(&signature) == CENTRAL_DIRECTORY)
+                    if (decodeLittleEndian<uint32_t>(signature) == CENTRAL_DIRECTORY)
                         break;
 
-                    if (decodeLittleEndian<uint32_t>(&signature) != HEADER_SIGNATURE)
+                    if (decodeLittleEndian<uint32_t>(signature) != HEADER_SIGNATURE)
                         throw std::runtime_error("Bad signature");
 
                     uint8_t version[2];
@@ -55,32 +54,32 @@ namespace ouzel
                     file.seek(4, File::Seek::Current); // skip modification time
                     file.seek(4, File::Seek::Current); // skip CRC-32
 
-                    uint32_t compressedSize;
-                    file.read(&compressedSize, sizeof(compressedSize), true);
+                    uint8_t compressedSize[4];
+                    file.read(compressedSize, sizeof(compressedSize), true);
 
-                    uint32_t uncompressedSize;
-                    file.read(&uncompressedSize, sizeof(uncompressedSize), true);
+                    uint8_t uncompressedSize[4];
+                    file.read(uncompressedSize, sizeof(uncompressedSize), true);
 
-                    uint16_t fileNameLength;
-                    file.read(&fileNameLength, sizeof(fileNameLength), true);
+                    uint8_t fileNameLength[2];
+                    file.read(fileNameLength, sizeof(fileNameLength), true);
 
-                    uint16_t extraFieldLength;
-                    file.read(&extraFieldLength, sizeof(extraFieldLength), true);
+                    uint8_t extraFieldLength[2];
+                    file.read(extraFieldLength, sizeof(extraFieldLength), true);
 
-                    std::vector<char> name(decodeLittleEndian<uint16_t>(&fileNameLength) + 1);
+                    std::vector<char> name(decodeLittleEndian<uint16_t>(fileNameLength) + 1);
 
-                    file.read(name.data(), decodeLittleEndian<uint16_t>(&fileNameLength), true);
+                    file.read(name.data(), decodeLittleEndian<uint16_t>(fileNameLength), true);
 
-                    name[decodeLittleEndian<uint16_t>(&fileNameLength)] = '\0';
+                    name[decodeLittleEndian<uint16_t>(fileNameLength)] = '\0';
 
                     Entry& entry = entries[name.data()];
-                    entry.size = decodeLittleEndian<uint32_t>(&uncompressedSize);
+                    entry.size = decodeLittleEndian<uint32_t>(uncompressedSize);
 
-                    file.seek(decodeLittleEndian<uint16_t>(&extraFieldLength), File::Seek::Current); // skip extra field
+                    file.seek(decodeLittleEndian<uint16_t>(extraFieldLength), File::Seek::Current); // skip extra field
 
                     entry.offset = file.getOffset();
 
-                    file.seek(static_cast<int32_t>(decodeLittleEndian<uint32_t>(&uncompressedSize)),
+                    file.seek(static_cast<int32_t>(decodeLittleEndian<uint32_t>(uncompressedSize)),
                               File::Seek::Current); // skip uncompressed size
                 }
             }
