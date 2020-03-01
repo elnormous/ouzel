@@ -4,7 +4,7 @@
 
 using namespace metal;
 
-typedef struct __attribute__((__aligned__(256)))
+typedef struct
 {
     float4x4 modelViewProj;
 } uniforms_t;
