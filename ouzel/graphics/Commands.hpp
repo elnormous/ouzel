@@ -468,8 +468,6 @@ namespace ouzel
                               const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
                               const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                               const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
-                              uint32_t initFragmentShaderDataAlignment,
-                              uint32_t initVertexShaderDataAlignment,
                               const std::string& initFragmentShaderFunction,
                               const std::string& initVertexShaderFunction) noexcept:
                 Command(Command::Type::InitShader),
@@ -479,8 +477,6 @@ namespace ouzel
                 vertexAttributes(initVertexAttributes),
                 fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
                 vertexShaderConstantInfo(initVertexShaderConstantInfo),
-                fragmentShaderDataAlignment(initFragmentShaderDataAlignment),
-                vertexShaderDataAlignment(initVertexShaderDataAlignment),
                 fragmentShaderFunction(initFragmentShaderFunction),
                 vertexShaderFunction(initVertexShaderFunction)
             {
@@ -492,8 +488,6 @@ namespace ouzel
             const std::set<Vertex::Attribute::Usage> vertexAttributes;
             const std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
             const std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
-            const uint32_t fragmentShaderDataAlignment;
-            const uint32_t vertexShaderDataAlignment;
             const std::string fragmentShaderFunction;
             const std::string vertexShaderFunction;
         };

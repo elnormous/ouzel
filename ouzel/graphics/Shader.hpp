@@ -29,8 +29,6 @@ namespace ouzel
                    const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
                    const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                    const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
-                   uint32_t initFragmentShaderDataAlignment = 0,
-                   uint32_t initVertexShaderDataAlignment = 0,
                    const std::string& fragmentShaderFunction = "",
                    const std::string& vertexShaderFunction = "");
 

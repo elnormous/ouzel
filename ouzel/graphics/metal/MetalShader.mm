@@ -91,8 +91,6 @@ namespace ouzel
                            const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
                            const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                            const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
-                           uint32_t initFragmentShaderDataAlignment,
-                           uint32_t initVertexShaderDataAlignment,
                            const std::string& fragmentShaderFunction,
                            const std::string& vertexShaderFunction):
                 RenderResource(initRenderDevice),
@@ -100,25 +98,18 @@ namespace ouzel
                 fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
                 vertexShaderConstantInfo(initVertexShaderConstantInfo)
             {
-                if (initFragmentShaderDataAlignment)
-                    fragmentShaderAlignment = initFragmentShaderDataAlignment;
-                else
-                {
-                    fragmentShaderAlignment = 0;
 
-                    for (const auto& info : initFragmentShaderConstantInfo)
-                        fragmentShaderAlignment += getDataTypeSize(info.second);
-                }
+                for (const auto& info : initFragmentShaderConstantInfo)
+                    fragmentShaderAlignment += getDataTypeSize(info.second);
 
-                if (initVertexShaderDataAlignment)
-                    vertexShaderAlignment = initVertexShaderDataAlignment;
-                else
-                {
-                    vertexShaderAlignment = 0;
+                // align the size of the buffer to 256 bytes
+                fragmentShaderAlignment = (fragmentShaderAlignment & ~0xFFU) + 0x100U;
 
-                    for (const auto& info : initVertexShaderConstantInfo)
-                        vertexShaderAlignment += getDataTypeSize(info.second);
-                }
+                for (const auto& info : initVertexShaderConstantInfo)
+                    vertexShaderAlignment += getDataTypeSize(info.second);
+
+                // align the size of the buffer to 256 bytes
+                vertexShaderAlignment = (vertexShaderAlignment & ~0xFFU) + 0x100U;
 
                 uint32_t index = 0;
                 NSUInteger offset = 0;

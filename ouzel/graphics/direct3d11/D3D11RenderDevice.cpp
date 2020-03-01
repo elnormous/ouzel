@@ -758,8 +758,6 @@ namespace ouzel
                                                                        initShaderCommand->vertexAttributes,
                                                                        initShaderCommand->fragmentShaderConstantInfo,
                                                                        initShaderCommand->vertexShaderConstantInfo,
-                                                                       initShaderCommand->fragmentShaderDataAlignment,
-                                                                       initShaderCommand->vertexShaderDataAlignment,
                                                                        initShaderCommand->fragmentShaderFunction,
                                                                        initShaderCommand->vertexShaderFunction);
 

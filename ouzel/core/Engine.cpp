@@ -361,7 +361,6 @@ namespace ouzel
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                          });
-
                         break;
                     case 3:
                         colorShader = std::make_unique<graphics::Shader>(*renderer,
@@ -504,7 +503,6 @@ namespace ouzel
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                         },
-                                                                        256, 256,
                                                                         "mainPS", "mainVS");
 
                 assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
@@ -524,7 +522,6 @@ namespace ouzel
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
                                                                           {"modelViewProj", graphics::DataType::FloatMatrix4}
                                                                       },
-                                                                      256, 256,
                                                                       "mainPS", "mainVS");
 
                 assetBundle.setShader(SHADER_COLOR, std::move(colorShader));

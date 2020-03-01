@@ -90,8 +90,6 @@ namespace ouzel
                            const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
                            const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                            const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
-                           uint32_t,
-                           uint32_t,
                            const std::string&,
                            const std::string&):
                 RenderResource(initRenderDevice),

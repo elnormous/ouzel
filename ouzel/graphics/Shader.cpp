@@ -18,8 +18,6 @@ namespace ouzel
                        const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
                        const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                        const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
-                       uint32_t initFragmentShaderDataAlignment,
-                       uint32_t initVertexShaderDataAlignment,
                        const std::string& fragmentShaderFunction,
                        const std::string& vertexShaderFunction):
             resource(initRenderer.getDevice()->createResource()),
@@ -31,8 +29,6 @@ namespace ouzel
                                                                         initVertexAttributes,
                                                                         initFragmentShaderConstantInfo,
                                                                         initVertexShaderConstantInfo,
-                                                                        initFragmentShaderDataAlignment,
-                                                                        initVertexShaderDataAlignment,
                                                                         fragmentShaderFunction,
                                                                         vertexShaderFunction));
         }
