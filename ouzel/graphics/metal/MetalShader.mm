@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_METAL
 
+#include <TargetConditionals.h>
 #include <algorithm>
 #include "MetalShader.hpp"
 #include "MetalError.hpp"
@@ -102,14 +103,18 @@ namespace ouzel
                 for (const auto& info : initFragmentShaderConstantInfo)
                     fragmentShaderAlignment += getDataTypeSize(info.second);
 
-                // align the size of the buffer to 256 bytes
-                fragmentShaderAlignment = (fragmentShaderAlignment & ~0xFFU) + 0x100U;
-
                 for (const auto& info : initVertexShaderConstantInfo)
                     vertexShaderAlignment += getDataTypeSize(info.second);
 
+#if TARGET_OS_IOS || TARGET_OS_TV
+                constexpr uint32_t alignment = 16U; // 16 bytes on iOS and tvOS
+#else
+                constexpr uint32_t alignment = 256U; // 256 bytes on macOS
+#endif
+
                 // align the size of the buffer to 256 bytes
-                vertexShaderAlignment = (vertexShaderAlignment & ~0xFFU) + 0x100U;
+                fragmentShaderAlignment = (fragmentShaderAlignment & ~(alignment - 1U)) + alignment;
+                vertexShaderAlignment = (vertexShaderAlignment & ~(alignment - 1U)) + alignment;
 
                 uint32_t index = 0;
                 NSUInteger offset = 0;
