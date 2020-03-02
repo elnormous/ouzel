@@ -99,23 +99,6 @@ namespace ouzel
                 fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
                 vertexShaderConstantInfo(initVertexShaderConstantInfo)
             {
-
-                for (const auto& info : initFragmentShaderConstantInfo)
-                    fragmentShaderAlignment += getDataTypeSize(info.second);
-
-                for (const auto& info : initVertexShaderConstantInfo)
-                    vertexShaderAlignment += getDataTypeSize(info.second);
-
-#if TARGET_OS_IOS || TARGET_OS_TV
-                constexpr uint32_t alignment = 16U; // 16 bytes on iOS and tvOS
-#else
-                constexpr uint32_t alignment = 256U; // 256 bytes on macOS
-#endif
-
-                // align the size of the buffer to 256 bytes
-                fragmentShaderAlignment = (fragmentShaderAlignment & ~(alignment - 1U)) + alignment;
-                vertexShaderAlignment = (vertexShaderAlignment & ~(alignment - 1U)) + alignment;
-
                 uint32_t index = 0;
                 NSUInteger offset = 0;
 
@@ -192,6 +175,16 @@ namespace ouzel
                         vertexShaderConstantSize += size;
                     }
                 }
+
+#if TARGET_OS_IOS || TARGET_OS_TV
+                constexpr uint32_t alignment = 16U; // 16 bytes on iOS and tvOS
+#else
+                constexpr uint32_t alignment = 256U; // 256 bytes on macOS
+#endif
+
+                // align the size of the buffer to alignment bytes
+                fragmentShaderAlignment = (fragmentShaderConstantSize + alignment - 1U) & ~(alignment - 1U);
+                vertexShaderAlignment = (vertexShaderConstantSize + alignment - 1U) & ~(alignment - 1U);
             }
         } // namespace metal
     } // namespace graphics
