@@ -63,6 +63,7 @@ SOURCES=../ouzel/assets/BmfLoader.cpp \
 	../ouzel/assets/TtfLoader.cpp \
 	../ouzel/assets/VorbisLoader.cpp \
 	../ouzel/assets/WaveLoader.cpp \
+	../ouzel/assets/KtxLoader.cpp \
 	../ouzel/audio/empty/EmptyAudioDevice.cpp \
 	../ouzel/audio/mixer/Bus.cpp \
 	../ouzel/audio/mixer/Mixer.cpp \

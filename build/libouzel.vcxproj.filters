@@ -352,6 +352,9 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>ouzel</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\assets\KtxLoader.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\scene\Animator.hpp">
@@ -923,6 +926,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\wasapi\WASAPIPointer.hpp">
       <Filter>ouzel\audio\wasapi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\KtxLoader.hpp">
+      <Filter>ouzel\assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
