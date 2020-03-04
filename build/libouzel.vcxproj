@@ -19,127 +19,127 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\ouzel\assets\Bundle.cpp" />
-    <ClCompile Include="..\ouzel\assets\BmfLoader.cpp" />
-    <ClCompile Include="..\ouzel\assets\ColladaLoader.cpp" />
-    <ClCompile Include="..\ouzel\assets\CueLoader.cpp" />
-    <ClCompile Include="..\ouzel\assets\GltfLoader.cpp" />
-    <ClCompile Include="..\ouzel\assets\ImageLoader.cpp" />
-    <ClCompile Include="..\ouzel\assets\MtlLoader.cpp" />
-    <ClCompile Include="..\ouzel\assets\ObjLoader.cpp" />
-    <ClCompile Include="..\ouzel\assets\ParticleSystemLoader.cpp" />
-    <ClCompile Include="..\ouzel\assets\SpriteLoader.cpp" />
-    <ClCompile Include="..\ouzel\assets\TtfLoader.cpp" />
-    <ClCompile Include="..\ouzel\assets\VorbisLoader.cpp" />
-    <ClCompile Include="..\ouzel\assets\WaveLoader.cpp" />
-    <ClCompile Include="..\ouzel\audio\Audio.cpp" />
-    <ClCompile Include="..\ouzel\audio\AudioDevice.cpp" />
-    <ClCompile Include="..\ouzel\audio\Cue.cpp" />
-    <ClCompile Include="..\ouzel\audio\dsound\DSAudioDevice.cpp" />
-    <ClCompile Include="..\ouzel\audio\empty\EmptyAudioDevice.cpp" />
-    <ClCompile Include="..\ouzel\audio\Containers.cpp" />
-    <ClCompile Include="..\ouzel\audio\Effect.cpp" />
-    <ClCompile Include="..\ouzel\audio\Effects.cpp" />
-    <ClCompile Include="..\ouzel\audio\mixer\Bus.cpp" />
-    <ClCompile Include="..\ouzel\audio\mixer\Mixer.cpp" />
-    <ClCompile Include="..\ouzel\audio\Listener.cpp" />
-    <ClCompile Include="..\ouzel\audio\Voice.cpp" />
-    <ClCompile Include="..\ouzel\audio\SilenceSound.cpp" />
-    <ClCompile Include="..\ouzel\audio\Sound.cpp" />
-    <ClCompile Include="..\ouzel\audio\Oscillator.cpp" />
-    <ClCompile Include="..\ouzel\audio\VorbisClip.cpp" />
-    <ClCompile Include="..\ouzel\audio\PcmClip.cpp" />
-    <ClCompile Include="..\ouzel\audio\Mix.cpp" />
-    <ClCompile Include="..\ouzel\audio\Node.cpp" />
-    <ClCompile Include="..\ouzel\audio\Submix.cpp" />
-    <ClCompile Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.cpp" />
-    <ClCompile Include="..\ouzel\audio\xaudio2\XA2AudioDevice.cpp" />
-    <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp">
+    <ClCompile Include="..\engine\assets\Bundle.cpp" />
+    <ClCompile Include="..\engine\assets\BmfLoader.cpp" />
+    <ClCompile Include="..\engine\assets\ColladaLoader.cpp" />
+    <ClCompile Include="..\engine\assets\CueLoader.cpp" />
+    <ClCompile Include="..\engine\assets\GltfLoader.cpp" />
+    <ClCompile Include="..\engine\assets\ImageLoader.cpp" />
+    <ClCompile Include="..\engine\assets\MtlLoader.cpp" />
+    <ClCompile Include="..\engine\assets\ObjLoader.cpp" />
+    <ClCompile Include="..\engine\assets\ParticleSystemLoader.cpp" />
+    <ClCompile Include="..\engine\assets\SpriteLoader.cpp" />
+    <ClCompile Include="..\engine\assets\TtfLoader.cpp" />
+    <ClCompile Include="..\engine\assets\VorbisLoader.cpp" />
+    <ClCompile Include="..\engine\assets\WaveLoader.cpp" />
+    <ClCompile Include="..\engine\audio\Audio.cpp" />
+    <ClCompile Include="..\engine\audio\AudioDevice.cpp" />
+    <ClCompile Include="..\engine\audio\Cue.cpp" />
+    <ClCompile Include="..\engine\audio\dsound\DSAudioDevice.cpp" />
+    <ClCompile Include="..\engine\audio\empty\EmptyAudioDevice.cpp" />
+    <ClCompile Include="..\engine\audio\Containers.cpp" />
+    <ClCompile Include="..\engine\audio\Effect.cpp" />
+    <ClCompile Include="..\engine\audio\Effects.cpp" />
+    <ClCompile Include="..\engine\audio\mixer\Bus.cpp" />
+    <ClCompile Include="..\engine\audio\mixer\Mixer.cpp" />
+    <ClCompile Include="..\engine\audio\Listener.cpp" />
+    <ClCompile Include="..\engine\audio\Voice.cpp" />
+    <ClCompile Include="..\engine\audio\SilenceSound.cpp" />
+    <ClCompile Include="..\engine\audio\Sound.cpp" />
+    <ClCompile Include="..\engine\audio\Oscillator.cpp" />
+    <ClCompile Include="..\engine\audio\VorbisClip.cpp" />
+    <ClCompile Include="..\engine\audio\PcmClip.cpp" />
+    <ClCompile Include="..\engine\audio\Mix.cpp" />
+    <ClCompile Include="..\engine\audio\Node.cpp" />
+    <ClCompile Include="..\engine\audio\Submix.cpp" />
+    <ClCompile Include="..\engine\audio\wasapi\WASAPIAudioDevice.cpp" />
+    <ClCompile Include="..\engine\audio\xaudio2\XA2AudioDevice.cpp" />
+    <ClCompile Include="..\engine\audio\xaudio2\XAudio27.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\Cache.cpp" />
-    <ClCompile Include="..\ouzel\core\Engine.cpp" />
-    <ClCompile Include="..\ouzel\core\System.cpp" />
-    <ClCompile Include="..\ouzel\core\Window.cpp" />
-    <ClCompile Include="..\ouzel\core\NativeWindow.cpp" />
-    <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp" />
-    <ClCompile Include="..\ouzel\core\windows\main.cpp" />
-    <ClCompile Include="..\ouzel\core\windows\NativeWindowWin.cpp" />
-    <ClCompile Include="..\ouzel\core\windows\SystemWin.cpp" />
-    <ClCompile Include="..\ouzel\events\EventDispatcher.cpp" />
-    <ClCompile Include="..\ouzel\storage\FileSystem.cpp" />
-    <ClCompile Include="..\ouzel\graphics\BlendState.cpp" />
-    <ClCompile Include="..\ouzel\graphics\Buffer.cpp" />
-    <ClCompile Include="..\ouzel\graphics\DepthStencilState.cpp" />
-    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11BlendState.cpp" />
-    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11Buffer.cpp" />
-    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11DepthStencilState.cpp" />
-    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11RenderDevice.cpp" />
-    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11RenderTarget.cpp" />
-    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11Shader.cpp" />
-    <ClCompile Include="..\ouzel\graphics\direct3d11\D3D11Texture.cpp" />
-    <ClCompile Include="..\ouzel\graphics\opengl\OGLBlendState.cpp" />
-    <ClCompile Include="..\ouzel\graphics\opengl\OGLBuffer.cpp" />
-    <ClCompile Include="..\ouzel\graphics\opengl\OGLDepthStencilState.cpp" />
-    <ClCompile Include="..\ouzel\graphics\opengl\OGLRenderDevice.cpp" />
-    <ClCompile Include="..\ouzel\graphics\opengl\OGLRenderTarget.cpp" />
-    <ClCompile Include="..\ouzel\graphics\opengl\OGLShader.cpp" />
-    <ClCompile Include="..\ouzel\graphics\opengl\OGLTexture.cpp" />
-    <ClCompile Include="..\ouzel\graphics\opengl\windows\OGLRenderDeviceWin.cpp" />
-    <ClCompile Include="..\ouzel\graphics\RenderDevice.cpp" />
-    <ClCompile Include="..\ouzel\graphics\RenderTarget.cpp" />
-    <ClCompile Include="..\ouzel\graphics\Renderer.cpp" />
-    <ClCompile Include="..\ouzel\graphics\Shader.cpp" />
-    <ClCompile Include="..\ouzel\graphics\Texture.cpp" />
-    <ClCompile Include="..\ouzel\gui\BMFont.cpp" />
-    <ClCompile Include="..\ouzel\gui\TTFont.cpp" />
-    <ClCompile Include="..\ouzel\gui\Widget.cpp" />
-    <ClCompile Include="..\ouzel\gui\Widgets.cpp" />
-    <ClCompile Include="..\ouzel\input\Cursor.cpp" />
-    <ClCompile Include="..\ouzel\input\GamepadDevice.cpp" />
-    <ClCompile Include="..\ouzel\input\Keyboard.cpp" />
-    <ClCompile Include="..\ouzel\input\KeyboardDevice.cpp" />
-    <ClCompile Include="..\ouzel\input\Mouse.cpp" />
-    <ClCompile Include="..\ouzel\input\MouseDevice.cpp" />
-    <ClCompile Include="..\ouzel\input\Gamepad.cpp" />
-    <ClCompile Include="..\ouzel\input\InputDevice.cpp" />
-    <ClCompile Include="..\ouzel\input\InputManager.cpp" />
-    <ClCompile Include="..\ouzel\input\InputSystem.cpp" />
-    <ClCompile Include="..\ouzel\input\Touchpad.cpp" />
-    <ClCompile Include="..\ouzel\input\TouchpadDevice.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\InputSystemWin.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\CursorWin.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\GamepadDeviceDI.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\GamepadDeviceXI.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\KeyboardDeviceWin.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\MouseDeviceWin.cpp" />
-    <ClCompile Include="..\ouzel\localization\Localization.cpp" />
-    <ClCompile Include="..\ouzel\math\MathUtils.cpp" />
-    <ClCompile Include="..\ouzel\math\Matrix.cpp" />
-    <ClCompile Include="..\ouzel\network\Client.cpp" />
-    <ClCompile Include="..\ouzel\network\Network.cpp" />
-    <ClCompile Include="..\ouzel\network\Server.cpp" />
-    <ClCompile Include="..\ouzel\scene\Actor.cpp" />
-    <ClCompile Include="..\ouzel\scene\Animator.cpp" />
-    <ClCompile Include="..\ouzel\scene\Animators.cpp" />
-    <ClCompile Include="..\ouzel\scene\Camera.cpp" />
-    <ClCompile Include="..\ouzel\scene\Component.cpp" />
-    <ClCompile Include="..\ouzel\scene\Layer.cpp" />
-    <ClCompile Include="..\ouzel\scene\Light.cpp" />
-    <ClCompile Include="..\ouzel\scene\SkinnedMeshRenderer.cpp" />
-    <ClCompile Include="..\ouzel\scene\StaticMeshRenderer.cpp" />
-    <ClCompile Include="..\ouzel\scene\ParticleSystem.cpp" />
-    <ClCompile Include="..\ouzel\scene\Scene.cpp" />
-    <ClCompile Include="..\ouzel\scene\SceneManager.cpp" />
-    <ClCompile Include="..\ouzel\scene\ShapeRenderer.cpp" />
-    <ClCompile Include="..\ouzel\scene\SpriteRenderer.cpp" />
-    <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
-    <ClCompile Include="..\ouzel\utils\Log.cpp" />
-    <ClCompile Include="..\ouzel\utils\Obf.cpp" />
-    <ClCompile Include="..\ouzel\utils\Utils.cpp" />
+    <ClCompile Include="..\engine\assets\Cache.cpp" />
+    <ClCompile Include="..\engine\core\Engine.cpp" />
+    <ClCompile Include="..\engine\core\System.cpp" />
+    <ClCompile Include="..\engine\core\Window.cpp" />
+    <ClCompile Include="..\engine\core\NativeWindow.cpp" />
+    <ClCompile Include="..\engine\core\windows\EngineWin.cpp" />
+    <ClCompile Include="..\engine\core\windows\main.cpp" />
+    <ClCompile Include="..\engine\core\windows\NativeWindowWin.cpp" />
+    <ClCompile Include="..\engine\core\windows\SystemWin.cpp" />
+    <ClCompile Include="..\engine\events\EventDispatcher.cpp" />
+    <ClCompile Include="..\engine\storage\FileSystem.cpp" />
+    <ClCompile Include="..\engine\graphics\BlendState.cpp" />
+    <ClCompile Include="..\engine\graphics\Buffer.cpp" />
+    <ClCompile Include="..\engine\graphics\DepthStencilState.cpp" />
+    <ClCompile Include="..\engine\graphics\direct3d11\D3D11BlendState.cpp" />
+    <ClCompile Include="..\engine\graphics\direct3d11\D3D11Buffer.cpp" />
+    <ClCompile Include="..\engine\graphics\direct3d11\D3D11DepthStencilState.cpp" />
+    <ClCompile Include="..\engine\graphics\direct3d11\D3D11RenderDevice.cpp" />
+    <ClCompile Include="..\engine\graphics\direct3d11\D3D11RenderTarget.cpp" />
+    <ClCompile Include="..\engine\graphics\direct3d11\D3D11Shader.cpp" />
+    <ClCompile Include="..\engine\graphics\direct3d11\D3D11Texture.cpp" />
+    <ClCompile Include="..\engine\graphics\opengl\OGLBlendState.cpp" />
+    <ClCompile Include="..\engine\graphics\opengl\OGLBuffer.cpp" />
+    <ClCompile Include="..\engine\graphics\opengl\OGLDepthStencilState.cpp" />
+    <ClCompile Include="..\engine\graphics\opengl\OGLRenderDevice.cpp" />
+    <ClCompile Include="..\engine\graphics\opengl\OGLRenderTarget.cpp" />
+    <ClCompile Include="..\engine\graphics\opengl\OGLShader.cpp" />
+    <ClCompile Include="..\engine\graphics\opengl\OGLTexture.cpp" />
+    <ClCompile Include="..\engine\graphics\opengl\windows\OGLRenderDeviceWin.cpp" />
+    <ClCompile Include="..\engine\graphics\RenderDevice.cpp" />
+    <ClCompile Include="..\engine\graphics\RenderTarget.cpp" />
+    <ClCompile Include="..\engine\graphics\Renderer.cpp" />
+    <ClCompile Include="..\engine\graphics\Shader.cpp" />
+    <ClCompile Include="..\engine\graphics\Texture.cpp" />
+    <ClCompile Include="..\engine\gui\BMFont.cpp" />
+    <ClCompile Include="..\engine\gui\TTFont.cpp" />
+    <ClCompile Include="..\engine\gui\Widget.cpp" />
+    <ClCompile Include="..\engine\gui\Widgets.cpp" />
+    <ClCompile Include="..\engine\input\Cursor.cpp" />
+    <ClCompile Include="..\engine\input\GamepadDevice.cpp" />
+    <ClCompile Include="..\engine\input\Keyboard.cpp" />
+    <ClCompile Include="..\engine\input\KeyboardDevice.cpp" />
+    <ClCompile Include="..\engine\input\Mouse.cpp" />
+    <ClCompile Include="..\engine\input\MouseDevice.cpp" />
+    <ClCompile Include="..\engine\input\Gamepad.cpp" />
+    <ClCompile Include="..\engine\input\InputDevice.cpp" />
+    <ClCompile Include="..\engine\input\InputManager.cpp" />
+    <ClCompile Include="..\engine\input\InputSystem.cpp" />
+    <ClCompile Include="..\engine\input\Touchpad.cpp" />
+    <ClCompile Include="..\engine\input\TouchpadDevice.cpp" />
+    <ClCompile Include="..\engine\input\windows\InputSystemWin.cpp" />
+    <ClCompile Include="..\engine\input\windows\CursorWin.cpp" />
+    <ClCompile Include="..\engine\input\windows\GamepadDeviceDI.cpp" />
+    <ClCompile Include="..\engine\input\windows\GamepadDeviceXI.cpp" />
+    <ClCompile Include="..\engine\input\windows\KeyboardDeviceWin.cpp" />
+    <ClCompile Include="..\engine\input\windows\MouseDeviceWin.cpp" />
+    <ClCompile Include="..\engine\localization\Localization.cpp" />
+    <ClCompile Include="..\engine\math\MathUtils.cpp" />
+    <ClCompile Include="..\engine\math\Matrix.cpp" />
+    <ClCompile Include="..\engine\network\Client.cpp" />
+    <ClCompile Include="..\engine\network\Network.cpp" />
+    <ClCompile Include="..\engine\network\Server.cpp" />
+    <ClCompile Include="..\engine\scene\Actor.cpp" />
+    <ClCompile Include="..\engine\scene\Animator.cpp" />
+    <ClCompile Include="..\engine\scene\Animators.cpp" />
+    <ClCompile Include="..\engine\scene\Camera.cpp" />
+    <ClCompile Include="..\engine\scene\Component.cpp" />
+    <ClCompile Include="..\engine\scene\Layer.cpp" />
+    <ClCompile Include="..\engine\scene\Light.cpp" />
+    <ClCompile Include="..\engine\scene\SkinnedMeshRenderer.cpp" />
+    <ClCompile Include="..\engine\scene\StaticMeshRenderer.cpp" />
+    <ClCompile Include="..\engine\scene\ParticleSystem.cpp" />
+    <ClCompile Include="..\engine\scene\Scene.cpp" />
+    <ClCompile Include="..\engine\scene\SceneManager.cpp" />
+    <ClCompile Include="..\engine\scene\ShapeRenderer.cpp" />
+    <ClCompile Include="..\engine\scene\SpriteRenderer.cpp" />
+    <ClCompile Include="..\engine\scene\TextRenderer.cpp" />
+    <ClCompile Include="..\engine\utils\Log.cpp" />
+    <ClCompile Include="..\engine\utils\Obf.cpp" />
+    <ClCompile Include="..\engine\utils\Utils.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -148,195 +148,195 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ouzel\assets\Bundle.hpp" />
-    <ClInclude Include="..\ouzel\assets\BmfLoader.hpp" />
-    <ClInclude Include="..\ouzel\assets\ColladaLoader.hpp" />
-    <ClInclude Include="..\ouzel\assets\CueLoader.hpp" />
-    <ClInclude Include="..\ouzel\assets\GltfLoader.hpp" />
-    <ClInclude Include="..\ouzel\assets\ImageLoader.hpp" />
-    <ClInclude Include="..\ouzel\assets\MtlLoader.hpp" />
-    <ClInclude Include="..\ouzel\assets\ObjLoader.hpp" />
-    <ClInclude Include="..\ouzel\assets\ParticleSystemLoader.hpp" />
-    <ClInclude Include="..\ouzel\assets\SpriteLoader.hpp" />
-    <ClInclude Include="..\ouzel\assets\TtfLoader.hpp" />
-    <ClInclude Include="..\ouzel\assets\VorbisLoader.hpp" />
-    <ClInclude Include="..\ouzel\assets\WaveLoader.hpp" />
-    <ClInclude Include="..\ouzel\audio\Audio.hpp" />
-    <ClInclude Include="..\ouzel\audio\AudioDevice.hpp" />
-    <ClInclude Include="..\ouzel\audio\Channel.hpp" />
-    <ClInclude Include="..\ouzel\audio\Cue.hpp" />
-    <ClInclude Include="..\ouzel\audio\Driver.hpp" />
-    <ClInclude Include="..\ouzel\audio\dsound\DSAudioDevice.hpp" />
-    <ClInclude Include="..\ouzel\audio\dsound\DSPointer.hpp" />
-    <ClInclude Include="..\ouzel\audio\empty\EmptyAudioDevice.hpp" />
-    <ClInclude Include="..\ouzel\audio\Containers.hpp" />
-    <ClInclude Include="..\ouzel\audio\Effect.hpp" />
-    <ClInclude Include="..\ouzel\audio\Effects.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Bus.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Commands.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Data.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Emitter.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Mix.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Mixer.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Object.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Processor.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Source.hpp" />
-    <ClInclude Include="..\ouzel\audio\mixer\Stream.hpp" />
-    <ClInclude Include="..\ouzel\audio\SampleFormat.hpp" />
-    <ClInclude Include="..\ouzel\audio\Listener.hpp" />
-    <ClInclude Include="..\ouzel\audio\Voice.hpp" />
-    <ClInclude Include="..\ouzel\audio\SilenceSound.hpp" />
-    <ClInclude Include="..\ouzel\audio\Sound.hpp" />
-    <ClInclude Include="..\ouzel\audio\Source.hpp" />
-    <ClInclude Include="..\ouzel\audio\Node.hpp" />
-    <ClInclude Include="..\ouzel\audio\Oscillator.hpp" />
-    <ClInclude Include="..\ouzel\audio\VorbisClip.hpp" />
-    <ClInclude Include="..\ouzel\audio\wasapi\WASAPIPointer.hpp" />
-    <ClInclude Include="..\ouzel\audio\WavePlayer.hpp" />
-    <ClInclude Include="..\ouzel\audio\PcmClip.hpp" />
-    <ClInclude Include="..\ouzel\audio\Mix.hpp" />
-    <ClInclude Include="..\ouzel\audio\Submix.hpp" />
-    <ClInclude Include="..\ouzel\audio\wasapi\WASAPIAudioDevice.hpp" />
-    <ClInclude Include="..\ouzel\audio\xaudio2\XA2AudioDevice.hpp" />
-    <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.hpp" />
-    <ClInclude Include="..\ouzel\assets\Cache.hpp" />
-    <ClInclude Include="..\ouzel\assets\Loader.hpp" />
-    <ClInclude Include="..\ouzel\core\Platform.h" />
-    <ClInclude Include="..\ouzel\core\Setup.h" />
-    <ClInclude Include="..\ouzel\core\Application.hpp" />
-    <ClInclude Include="..\ouzel\core\Engine.hpp" />
-    <ClInclude Include="..\ouzel\core\System.hpp" />
-    <ClInclude Include="..\ouzel\core\Timer.hpp" />
-    <ClInclude Include="..\ouzel\core\Window.hpp" />
-    <ClInclude Include="..\ouzel\core\NativeWindow.hpp" />
-    <ClInclude Include="..\ouzel\core\windows\EngineWin.hpp" />
-    <ClInclude Include="..\ouzel\core\windows\Library.hpp" />
-    <ClInclude Include="..\ouzel\core\windows\NativeWindowWin.hpp" />
-    <ClInclude Include="..\ouzel\core\windows\SystemWin.hpp" />
-    <ClInclude Include="..\ouzel\DefaultConfig.h" />
-    <ClInclude Include="..\ouzel\events\Event.hpp" />
-    <ClInclude Include="..\ouzel\events\EventDispatcher.hpp" />
-    <ClInclude Include="..\ouzel\events\EventHandler.hpp" />
-    <ClInclude Include="..\ouzel\graphics\BlendFactor.hpp" />
-    <ClInclude Include="..\ouzel\graphics\BlendOperation.hpp" />
-    <ClInclude Include="..\ouzel\graphics\CompareFunction.hpp" />
-    <ClInclude Include="..\ouzel\graphics\CubeFace.hpp" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Pointer.hpp" />
-    <ClInclude Include="..\ouzel\graphics\StencilOperation.hpp" />
-    <ClInclude Include="..\ouzel\storage\Archive.hpp" />
-    <ClInclude Include="..\ouzel\storage\File.hpp" />
-    <ClInclude Include="..\ouzel\storage\FileSystem.hpp" />
-    <ClInclude Include="..\ouzel\graphics\BlendState.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Buffer.hpp" />
-    <ClInclude Include="..\ouzel\graphics\BufferType.hpp" />
-    <ClInclude Include="..\ouzel\graphics\ColorMask.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Commands.hpp" />
-    <ClInclude Include="..\ouzel\graphics\DataType.hpp" />
-    <ClInclude Include="..\ouzel\graphics\DepthStencilState.hpp" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11BlendState.hpp" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Buffer.hpp" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11DepthStencilState.hpp" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11RenderDevice.hpp" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11RenderResource.hpp" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11RenderTarget.hpp" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Shader.hpp" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\D3D11Texture.hpp" />
-    <ClInclude Include="..\ouzel\graphics\DrawMode.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Driver.hpp" />
-    <ClInclude Include="..\ouzel\graphics\empty\EmptyRenderDevice.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Flags.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Image.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Material.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\OGL.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\OGLBlendState.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\OGLBuffer.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\OGLDepthStencilState.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\OGLRenderDevice.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\OGLRenderResource.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\OGLRenderTarget.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\OGLShader.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\OGLTexture.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\windows\OGLRenderDeviceWin.hpp" />
-    <ClInclude Include="..\ouzel\graphics\PixelFormat.hpp" />
-    <ClInclude Include="..\ouzel\graphics\RasterizerState.hpp" />
-    <ClInclude Include="..\ouzel\graphics\RenderDevice.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Renderer.hpp" />
-    <ClInclude Include="..\ouzel\graphics\RenderResource.hpp" />
-    <ClInclude Include="..\ouzel\graphics\SamplerAddressMode.hpp" />
-    <ClInclude Include="..\ouzel\graphics\SamplerFilter.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Shader.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Texture.hpp" />
-    <ClInclude Include="..\ouzel\graphics\TextureType.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Vertex.hpp" />
-    <ClInclude Include="..\ouzel\gui\BMFont.hpp" />
-    <ClInclude Include="..\ouzel\gui\Font.hpp" />
-    <ClInclude Include="..\ouzel\gui\TTFont.hpp" />
-    <ClInclude Include="..\ouzel\gui\Widget.hpp" />
-    <ClInclude Include="..\ouzel\gui\Widgets.hpp" />
-    <ClInclude Include="..\ouzel\input\Cursor.hpp" />
-    <ClInclude Include="..\ouzel\input\DeviceId.hpp" />
-    <ClInclude Include="..\ouzel\input\GamepadConfig.hpp" />
-    <ClInclude Include="..\ouzel\input\GamepadDevice.hpp" />
-    <ClInclude Include="..\ouzel\input\KeyboardDevice.hpp" />
-    <ClInclude Include="..\ouzel\input\MouseDevice.hpp" />
-    <ClInclude Include="..\ouzel\input\Gamepad.hpp" />
-    <ClInclude Include="..\ouzel\input\InputManager.hpp" />
-    <ClInclude Include="..\ouzel\input\Controller.hpp" />
-    <ClInclude Include="..\ouzel\input\InputDevice.hpp" />
-    <ClInclude Include="..\ouzel\input\InputSystem.hpp" />
-    <ClInclude Include="..\ouzel\input\Keyboard.hpp" />
-    <ClInclude Include="..\ouzel\input\Mouse.hpp" />
-    <ClInclude Include="..\ouzel\input\SystemCursor.hpp" />
-    <ClInclude Include="..\ouzel\input\Touchpad.hpp" />
-    <ClInclude Include="..\ouzel\input\TouchpadDevice.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\GamepadDeviceWin.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\InputSystemWin.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\CursorWin.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\GamepadDeviceDI.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\GamepadDeviceXI.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\KeyboardDeviceWin.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\MouseDeviceWin.hpp" />
-    <ClInclude Include="..\ouzel\localization\Localization.hpp" />
-    <ClInclude Include="..\ouzel\math\Box.hpp" />
-    <ClInclude Include="..\ouzel\math\Color.hpp" />
-    <ClInclude Include="..\ouzel\math\Constants.hpp" />
-    <ClInclude Include="..\ouzel\math\ConvexVolume.hpp" />
-    <ClInclude Include="..\ouzel\math\Fnv.hpp" />
-    <ClInclude Include="..\ouzel\math\MathUtils.hpp" />
-    <ClInclude Include="..\ouzel\math\Matrix.hpp" />
-    <ClInclude Include="..\ouzel\math\Plane.hpp" />
-    <ClInclude Include="..\ouzel\math\Quaternion.hpp" />
-    <ClInclude Include="..\ouzel\math\Rect.hpp" />
-    <ClInclude Include="..\ouzel\math\Size.hpp" />
-    <ClInclude Include="..\ouzel\math\Vector.hpp" />
-    <ClInclude Include="..\ouzel\network\Client.hpp" />
-    <ClInclude Include="..\ouzel\network\Network.hpp" />
-    <ClInclude Include="..\ouzel\network\Server.hpp" />
-    <ClInclude Include="..\ouzel\network\Socket.hpp" />
-    <ClInclude Include="..\ouzel\ouzel.hpp" />
-    <ClInclude Include="..\ouzel\scene\Actor.hpp" />
-    <ClInclude Include="..\ouzel\scene\Animator.hpp" />
-    <ClInclude Include="..\ouzel\scene\Animators.hpp" />
-    <ClInclude Include="..\ouzel\scene\Camera.hpp" />
-    <ClInclude Include="..\ouzel\scene\Component.hpp" />
-    <ClInclude Include="..\ouzel\scene\Layer.hpp" />
-    <ClInclude Include="..\ouzel\scene\Light.hpp" />
-    <ClInclude Include="..\ouzel\scene\SkinnedMeshRenderer.hpp" />
-    <ClInclude Include="..\ouzel\scene\StaticMeshRenderer.hpp" />
-    <ClInclude Include="..\ouzel\scene\ParticleSystem.hpp" />
-    <ClInclude Include="..\ouzel\scene\Scene.hpp" />
-    <ClInclude Include="..\ouzel\scene\SceneManager.hpp" />
-    <ClInclude Include="..\ouzel\scene\ShapeRenderer.hpp" />
-    <ClInclude Include="..\ouzel\scene\SpriteRenderer.hpp" />
-    <ClInclude Include="..\ouzel\scene\TextRenderer.hpp" />
-    <ClInclude Include="..\ouzel\utils\Ini.hpp" />
-    <ClInclude Include="..\ouzel\utils\Json.hpp" />
-    <ClInclude Include="..\ouzel\utils\Log.hpp" />
-    <ClInclude Include="..\ouzel\utils\Obf.hpp" />
-    <ClInclude Include="..\ouzel\utils\Thread.hpp" />
-    <ClInclude Include="..\ouzel\utils\Utf8.hpp" />
-    <ClInclude Include="..\ouzel\utils\Utils.hpp" />
-    <ClInclude Include="..\ouzel\utils\Xml.hpp" />
+    <ClInclude Include="..\engine\assets\Bundle.hpp" />
+    <ClInclude Include="..\engine\assets\BmfLoader.hpp" />
+    <ClInclude Include="..\engine\assets\ColladaLoader.hpp" />
+    <ClInclude Include="..\engine\assets\CueLoader.hpp" />
+    <ClInclude Include="..\engine\assets\GltfLoader.hpp" />
+    <ClInclude Include="..\engine\assets\ImageLoader.hpp" />
+    <ClInclude Include="..\engine\assets\MtlLoader.hpp" />
+    <ClInclude Include="..\engine\assets\ObjLoader.hpp" />
+    <ClInclude Include="..\engine\assets\ParticleSystemLoader.hpp" />
+    <ClInclude Include="..\engine\assets\SpriteLoader.hpp" />
+    <ClInclude Include="..\engine\assets\TtfLoader.hpp" />
+    <ClInclude Include="..\engine\assets\VorbisLoader.hpp" />
+    <ClInclude Include="..\engine\assets\WaveLoader.hpp" />
+    <ClInclude Include="..\engine\audio\Audio.hpp" />
+    <ClInclude Include="..\engine\audio\AudioDevice.hpp" />
+    <ClInclude Include="..\engine\audio\Channel.hpp" />
+    <ClInclude Include="..\engine\audio\Cue.hpp" />
+    <ClInclude Include="..\engine\audio\Driver.hpp" />
+    <ClInclude Include="..\engine\audio\dsound\DSAudioDevice.hpp" />
+    <ClInclude Include="..\engine\audio\dsound\DSPointer.hpp" />
+    <ClInclude Include="..\engine\audio\empty\EmptyAudioDevice.hpp" />
+    <ClInclude Include="..\engine\audio\Containers.hpp" />
+    <ClInclude Include="..\engine\audio\Effect.hpp" />
+    <ClInclude Include="..\engine\audio\Effects.hpp" />
+    <ClInclude Include="..\engine\audio\mixer\Bus.hpp" />
+    <ClInclude Include="..\engine\audio\mixer\Commands.hpp" />
+    <ClInclude Include="..\engine\audio\mixer\Data.hpp" />
+    <ClInclude Include="..\engine\audio\mixer\Emitter.hpp" />
+    <ClInclude Include="..\engine\audio\mixer\Mix.hpp" />
+    <ClInclude Include="..\engine\audio\mixer\Mixer.hpp" />
+    <ClInclude Include="..\engine\audio\mixer\Object.hpp" />
+    <ClInclude Include="..\engine\audio\mixer\Processor.hpp" />
+    <ClInclude Include="..\engine\audio\mixer\Source.hpp" />
+    <ClInclude Include="..\engine\audio\mixer\Stream.hpp" />
+    <ClInclude Include="..\engine\audio\SampleFormat.hpp" />
+    <ClInclude Include="..\engine\audio\Listener.hpp" />
+    <ClInclude Include="..\engine\audio\Voice.hpp" />
+    <ClInclude Include="..\engine\audio\SilenceSound.hpp" />
+    <ClInclude Include="..\engine\audio\Sound.hpp" />
+    <ClInclude Include="..\engine\audio\Source.hpp" />
+    <ClInclude Include="..\engine\audio\Node.hpp" />
+    <ClInclude Include="..\engine\audio\Oscillator.hpp" />
+    <ClInclude Include="..\engine\audio\VorbisClip.hpp" />
+    <ClInclude Include="..\engine\audio\wasapi\WASAPIPointer.hpp" />
+    <ClInclude Include="..\engine\audio\WavePlayer.hpp" />
+    <ClInclude Include="..\engine\audio\PcmClip.hpp" />
+    <ClInclude Include="..\engine\audio\Mix.hpp" />
+    <ClInclude Include="..\engine\audio\Submix.hpp" />
+    <ClInclude Include="..\engine\audio\wasapi\WASAPIAudioDevice.hpp" />
+    <ClInclude Include="..\engine\audio\xaudio2\XA2AudioDevice.hpp" />
+    <ClInclude Include="..\engine\audio\xaudio2\XAudio27.hpp" />
+    <ClInclude Include="..\engine\assets\Cache.hpp" />
+    <ClInclude Include="..\engine\assets\Loader.hpp" />
+    <ClInclude Include="..\engine\core\Platform.h" />
+    <ClInclude Include="..\engine\core\Setup.h" />
+    <ClInclude Include="..\engine\core\Application.hpp" />
+    <ClInclude Include="..\engine\core\Engine.hpp" />
+    <ClInclude Include="..\engine\core\System.hpp" />
+    <ClInclude Include="..\engine\core\Timer.hpp" />
+    <ClInclude Include="..\engine\core\Window.hpp" />
+    <ClInclude Include="..\engine\core\NativeWindow.hpp" />
+    <ClInclude Include="..\engine\core\windows\EngineWin.hpp" />
+    <ClInclude Include="..\engine\core\windows\Library.hpp" />
+    <ClInclude Include="..\engine\core\windows\NativeWindowWin.hpp" />
+    <ClInclude Include="..\engine\core\windows\SystemWin.hpp" />
+    <ClInclude Include="..\engine\DefaultConfig.h" />
+    <ClInclude Include="..\engine\events\Event.hpp" />
+    <ClInclude Include="..\engine\events\EventDispatcher.hpp" />
+    <ClInclude Include="..\engine\events\EventHandler.hpp" />
+    <ClInclude Include="..\engine\graphics\BlendFactor.hpp" />
+    <ClInclude Include="..\engine\graphics\BlendOperation.hpp" />
+    <ClInclude Include="..\engine\graphics\CompareFunction.hpp" />
+    <ClInclude Include="..\engine\graphics\CubeFace.hpp" />
+    <ClInclude Include="..\engine\graphics\direct3d11\D3D11Pointer.hpp" />
+    <ClInclude Include="..\engine\graphics\StencilOperation.hpp" />
+    <ClInclude Include="..\engine\storage\Archive.hpp" />
+    <ClInclude Include="..\engine\storage\File.hpp" />
+    <ClInclude Include="..\engine\storage\FileSystem.hpp" />
+    <ClInclude Include="..\engine\graphics\BlendState.hpp" />
+    <ClInclude Include="..\engine\graphics\Buffer.hpp" />
+    <ClInclude Include="..\engine\graphics\BufferType.hpp" />
+    <ClInclude Include="..\engine\graphics\ColorMask.hpp" />
+    <ClInclude Include="..\engine\graphics\Commands.hpp" />
+    <ClInclude Include="..\engine\graphics\DataType.hpp" />
+    <ClInclude Include="..\engine\graphics\DepthStencilState.hpp" />
+    <ClInclude Include="..\engine\graphics\direct3d11\D3D11BlendState.hpp" />
+    <ClInclude Include="..\engine\graphics\direct3d11\D3D11Buffer.hpp" />
+    <ClInclude Include="..\engine\graphics\direct3d11\D3D11DepthStencilState.hpp" />
+    <ClInclude Include="..\engine\graphics\direct3d11\D3D11RenderDevice.hpp" />
+    <ClInclude Include="..\engine\graphics\direct3d11\D3D11RenderResource.hpp" />
+    <ClInclude Include="..\engine\graphics\direct3d11\D3D11RenderTarget.hpp" />
+    <ClInclude Include="..\engine\graphics\direct3d11\D3D11Shader.hpp" />
+    <ClInclude Include="..\engine\graphics\direct3d11\D3D11Texture.hpp" />
+    <ClInclude Include="..\engine\graphics\DrawMode.hpp" />
+    <ClInclude Include="..\engine\graphics\Driver.hpp" />
+    <ClInclude Include="..\engine\graphics\empty\EmptyRenderDevice.hpp" />
+    <ClInclude Include="..\engine\graphics\Flags.hpp" />
+    <ClInclude Include="..\engine\graphics\Image.hpp" />
+    <ClInclude Include="..\engine\graphics\Material.hpp" />
+    <ClInclude Include="..\engine\graphics\opengl\OGL.h" />
+    <ClInclude Include="..\engine\graphics\opengl\OGLBlendState.hpp" />
+    <ClInclude Include="..\engine\graphics\opengl\OGLBuffer.hpp" />
+    <ClInclude Include="..\engine\graphics\opengl\OGLDepthStencilState.hpp" />
+    <ClInclude Include="..\engine\graphics\opengl\OGLRenderDevice.hpp" />
+    <ClInclude Include="..\engine\graphics\opengl\OGLRenderResource.hpp" />
+    <ClInclude Include="..\engine\graphics\opengl\OGLRenderTarget.hpp" />
+    <ClInclude Include="..\engine\graphics\opengl\OGLShader.hpp" />
+    <ClInclude Include="..\engine\graphics\opengl\OGLTexture.hpp" />
+    <ClInclude Include="..\engine\graphics\opengl\windows\OGLRenderDeviceWin.hpp" />
+    <ClInclude Include="..\engine\graphics\PixelFormat.hpp" />
+    <ClInclude Include="..\engine\graphics\RasterizerState.hpp" />
+    <ClInclude Include="..\engine\graphics\RenderDevice.hpp" />
+    <ClInclude Include="..\engine\graphics\Renderer.hpp" />
+    <ClInclude Include="..\engine\graphics\RenderResource.hpp" />
+    <ClInclude Include="..\engine\graphics\SamplerAddressMode.hpp" />
+    <ClInclude Include="..\engine\graphics\SamplerFilter.hpp" />
+    <ClInclude Include="..\engine\graphics\Shader.hpp" />
+    <ClInclude Include="..\engine\graphics\Texture.hpp" />
+    <ClInclude Include="..\engine\graphics\TextureType.hpp" />
+    <ClInclude Include="..\engine\graphics\Vertex.hpp" />
+    <ClInclude Include="..\engine\gui\BMFont.hpp" />
+    <ClInclude Include="..\engine\gui\Font.hpp" />
+    <ClInclude Include="..\engine\gui\TTFont.hpp" />
+    <ClInclude Include="..\engine\gui\Widget.hpp" />
+    <ClInclude Include="..\engine\gui\Widgets.hpp" />
+    <ClInclude Include="..\engine\input\Cursor.hpp" />
+    <ClInclude Include="..\engine\input\DeviceId.hpp" />
+    <ClInclude Include="..\engine\input\GamepadConfig.hpp" />
+    <ClInclude Include="..\engine\input\GamepadDevice.hpp" />
+    <ClInclude Include="..\engine\input\KeyboardDevice.hpp" />
+    <ClInclude Include="..\engine\input\MouseDevice.hpp" />
+    <ClInclude Include="..\engine\input\Gamepad.hpp" />
+    <ClInclude Include="..\engine\input\InputManager.hpp" />
+    <ClInclude Include="..\engine\input\Controller.hpp" />
+    <ClInclude Include="..\engine\input\InputDevice.hpp" />
+    <ClInclude Include="..\engine\input\InputSystem.hpp" />
+    <ClInclude Include="..\engine\input\Keyboard.hpp" />
+    <ClInclude Include="..\engine\input\Mouse.hpp" />
+    <ClInclude Include="..\engine\input\SystemCursor.hpp" />
+    <ClInclude Include="..\engine\input\Touchpad.hpp" />
+    <ClInclude Include="..\engine\input\TouchpadDevice.hpp" />
+    <ClInclude Include="..\engine\input\windows\GamepadDeviceWin.hpp" />
+    <ClInclude Include="..\engine\input\windows\InputSystemWin.hpp" />
+    <ClInclude Include="..\engine\input\windows\CursorWin.hpp" />
+    <ClInclude Include="..\engine\input\windows\GamepadDeviceDI.hpp" />
+    <ClInclude Include="..\engine\input\windows\GamepadDeviceXI.hpp" />
+    <ClInclude Include="..\engine\input\windows\KeyboardDeviceWin.hpp" />
+    <ClInclude Include="..\engine\input\windows\MouseDeviceWin.hpp" />
+    <ClInclude Include="..\engine\localization\Localization.hpp" />
+    <ClInclude Include="..\engine\math\Box.hpp" />
+    <ClInclude Include="..\engine\math\Color.hpp" />
+    <ClInclude Include="..\engine\math\Constants.hpp" />
+    <ClInclude Include="..\engine\math\ConvexVolume.hpp" />
+    <ClInclude Include="..\engine\math\Fnv.hpp" />
+    <ClInclude Include="..\engine\math\MathUtils.hpp" />
+    <ClInclude Include="..\engine\math\Matrix.hpp" />
+    <ClInclude Include="..\engine\math\Plane.hpp" />
+    <ClInclude Include="..\engine\math\Quaternion.hpp" />
+    <ClInclude Include="..\engine\math\Rect.hpp" />
+    <ClInclude Include="..\engine\math\Size.hpp" />
+    <ClInclude Include="..\engine\math\Vector.hpp" />
+    <ClInclude Include="..\engine\network\Client.hpp" />
+    <ClInclude Include="..\engine\network\Network.hpp" />
+    <ClInclude Include="..\engine\network\Server.hpp" />
+    <ClInclude Include="..\engine\network\Socket.hpp" />
+    <ClInclude Include="..\engine\ouzel.hpp" />
+    <ClInclude Include="..\engine\scene\Actor.hpp" />
+    <ClInclude Include="..\engine\scene\Animator.hpp" />
+    <ClInclude Include="..\engine\scene\Animators.hpp" />
+    <ClInclude Include="..\engine\scene\Camera.hpp" />
+    <ClInclude Include="..\engine\scene\Component.hpp" />
+    <ClInclude Include="..\engine\scene\Layer.hpp" />
+    <ClInclude Include="..\engine\scene\Light.hpp" />
+    <ClInclude Include="..\engine\scene\SkinnedMeshRenderer.hpp" />
+    <ClInclude Include="..\engine\scene\StaticMeshRenderer.hpp" />
+    <ClInclude Include="..\engine\scene\ParticleSystem.hpp" />
+    <ClInclude Include="..\engine\scene\Scene.hpp" />
+    <ClInclude Include="..\engine\scene\SceneManager.hpp" />
+    <ClInclude Include="..\engine\scene\ShapeRenderer.hpp" />
+    <ClInclude Include="..\engine\scene\SpriteRenderer.hpp" />
+    <ClInclude Include="..\engine\scene\TextRenderer.hpp" />
+    <ClInclude Include="..\engine\utils\Ini.hpp" />
+    <ClInclude Include="..\engine\utils\Json.hpp" />
+    <ClInclude Include="..\engine\utils\Log.hpp" />
+    <ClInclude Include="..\engine\utils\Obf.hpp" />
+    <ClInclude Include="..\engine\utils\Thread.hpp" />
+    <ClInclude Include="..\engine\utils\Utf8.hpp" />
+    <ClInclude Include="..\engine\utils\Utils.hpp" />
+    <ClInclude Include="..\engine\utils\Xml.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -389,23 +389,23 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
+    <IncludePath>..\engine;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
+    <IncludePath>..\engine;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
+    <IncludePath>..\engine;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
+    <IncludePath>..\engine;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -425,7 +425,7 @@
     </Link>
     <Lib />
     <PreBuildEvent>
-      <Command>if not exist ..\ouzel\Config.h copy ..\ouzel\DefaultConfig.h ..\ouzel\Config.h</Command>
+      <Command>if not exist ..\engine\Config.h copy ..\engine\DefaultConfig.h ..\engine\Config.h</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -446,7 +446,7 @@
     </Link>
     <Lib />
     <PreBuildEvent>
-      <Command>if not exist ..\ouzel\Config.h copy ..\ouzel\DefaultConfig.h ..\ouzel\Config.h</Command>
+      <Command>if not exist ..\engine\Config.h copy ..\engine\DefaultConfig.h ..\engine\Config.h</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -467,7 +467,7 @@
     </Link>
     <Lib />
     <PreBuildEvent>
-      <Command>if not exist ..\ouzel\Config.h copy ..\ouzel\DefaultConfig.h ..\ouzel\Config.h</Command>
+      <Command>if not exist ..\engine\Config.h copy ..\engine\DefaultConfig.h ..\engine\Config.h</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -488,7 +488,7 @@
     </Link>
     <Lib />
     <PreBuildEvent>
-      <Command>if not exist ..\ouzel\Config.h copy ..\ouzel\DefaultConfig.h ..\ouzel\Config.h</Command>
+      <Command>if not exist ..\engine\Config.h copy ..\engine\DefaultConfig.h ..\engine\Config.h</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

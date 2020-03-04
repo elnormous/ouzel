@@ -1619,7 +1619,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		304A8E291C237C51008B1151 /* ouzel */ = {
+		304A8E291C237C51008B1151 /* engine */ = {
 			isa = PBXGroup;
 			children = (
 				30519CA81F9AB79B00AF3DC4 /* assets */,
@@ -1638,8 +1638,8 @@
 				303B75121C2883C800FEDE92 /* storage */,
 				30A5BF0C1CFCE3F800A977CA /* utils */,
 			);
-			name = ouzel;
-			path = ../ouzel;
+			name = engine;
+			path = ../engine;
 			sourceTree = "<group>";
 		};
 		304F92A21F4D89560063EEC0 /* network */ = {
@@ -2391,7 +2391,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! -f ../ouzel/Config.h ]; then\n    cp ../ouzel/DefaultConfig.h ../ouzel/Config.h\nfi";
+			shellScript = "if [ ! -f ../engine/Config.h ]; then\n    cp ../engine/DefaultConfig.h ../engine/Config.h\nfi";
 		};
 		304E76481F70AD820025C0DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2404,7 +2404,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! -f ../ouzel/Config.h ]; then\n    cp ../ouzel/DefaultConfig.h ../ouzel/Config.h\nfi";
+			shellScript = "if [ ! -f ../engine/Config.h ]; then\n    cp ../engine/DefaultConfig.h ../engine/Config.h\nfi\n";
 		};
 		304E76491F70AD890025C0DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2417,7 +2417,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! -f ../ouzel/Config.h ]; then\n    cp ../ouzel/DefaultConfig.h ../ouzel/Config.h\nfi";
+			shellScript = "if [ ! -f ../engine/Config.h ]; then\n    cp ../engine/DefaultConfig.h ../engine/Config.h\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2967,7 +2967,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../ouzel,
+					../engine,
 					../shaders,
 					../external/khronos,
 					../external/smbPitchShift,
@@ -3040,7 +3040,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../ouzel,
+					../engine,
 					../shaders,
 					../external/khronos,
 					../external/smbPitchShift,
