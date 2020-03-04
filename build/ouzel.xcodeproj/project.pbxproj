@@ -1099,6 +1099,7 @@
 		30CEB37821A6404B00525637 /* SystemTVOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemTVOS.cpp; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cache.hpp; sourceTree = "<group>"; };
+		30E2660724101F670098C124 /* OuzelProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OuzelProject.hpp; sourceTree = "<group>"; };
 		30EA711E1D52783000AE8C3E /* EngineTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineTVOS.hpp; sourceTree = "<group>"; };
 		30EA711F1D52783000AE8C3E /* EngineTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EngineTVOS.mm; sourceTree = "<group>"; };
 		30EABE38220E5C6C001C70A6 /* Animators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animators.cpp; sourceTree = "<group>"; };
@@ -1187,6 +1188,7 @@
 			children = (
 				3023201622220C70007E0AAD /* main.cpp */,
 				30412799231174CC0054E7ED /* MakefileProject.hpp */,
+				30E2660724101F670098C124 /* OuzelProject.hpp */,
 				3041279A231174DE0054E7ED /* Project.hpp */,
 				30412797231174B40054E7ED /* VisualStudioProject.hpp */,
 				30412798231174C00054E7ED /* XcodeProject.hpp */,
@@ -1601,7 +1603,7 @@
 		304A8E011C237B95008B1151 = {
 			isa = PBXGroup;
 			children = (
-				304A8E291C237C51008B1151 /* ouzel */,
+				304A8E291C237C51008B1151 /* engine */,
 				3017AEBD21E5815000B07B53 /* Prefix.pch */,
 				304A8E0B1C237B95008B1151 /* Products */,
 				3023201422220C03007E0AAD /* tools */,

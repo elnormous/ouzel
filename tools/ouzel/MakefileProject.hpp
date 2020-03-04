@@ -1,15 +1,15 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_MAKEFILE_PROJECT_HPP
-#define OUZEL_MAKEFILE_PROJECT_HPP
+#ifndef OUZEL_MAKEFILEPROJECT_HPP
+#define OUZEL_MAKEFILEPROJECT_HPP
 
 namespace ouzel
 {
-    class MakefileProject
+    class MakefileProject final
     {
     public:
         MakefileProject() = default;
     };
 }
 
-#endif // OUZEL_MAKEFILE_PROJECT_HPP
+#endif // OUZEL_MAKEFILEPROJECT_HPP

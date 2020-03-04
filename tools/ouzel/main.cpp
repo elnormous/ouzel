@@ -4,6 +4,7 @@
 #include <iostream>
 #include <set>
 #include <stdexcept>
+#include "OuzelProject.hpp"
 #include "MakefileProject.hpp"
 #include "VisualStudioProject.hpp"
 #include "XcodeProject.hpp"
@@ -108,6 +109,8 @@ int main(int argc, const char* argv[])
         }
         else if (std::string(argv[i]) == "--export-assets")
         {
+            action = Action::ExportAssets;
+
             if (++i >= argc)
                 throw std::runtime_error("Invalid command");
 
@@ -131,6 +134,8 @@ int main(int argc, const char* argv[])
     {
         std::cerr << e.what() << '\n';
     }
+
+    ouzel::OuzelProject project(projectPath);
 
     return EXIT_SUCCESS;
 }

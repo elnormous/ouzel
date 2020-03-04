@@ -3,13 +3,15 @@
 #ifndef OUZEL_PROJECT_HPP
 #define OUZEL_PROJECT_HPP
 
+#include <string>
+
 namespace ouzel
 {
     class Project
     {
     public:
         Project() = default;
-        virtual ~Project();
+        virtual ~Project() = default;
     };
 }
 

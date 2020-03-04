@@ -1,15 +1,15 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_VISUAL_STUDIO_PROJECT_HPP
-#define OUZEL_VISUAL_STUDIO_PROJECT_HPP
+#ifndef OUZEL_VISUALSTUDIOPROJECT_HPP
+#define OUZEL_VISUALSTUDIOPROJECT_HPP
 
 namespace ouzel
 {
-    class VisualStudioProject
+    class VisualStudioProject final
     {
     public:
         VisualStudioProject() = default;
     };
 }
 
-#endif // OUZEL_VISUAL_STUDIO_PROJECT_HPP
+#endif // OUZEL_VISUALSTUDIOPROJECT_HPP
