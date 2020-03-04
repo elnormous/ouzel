@@ -37,8 +37,6 @@ int main(int argc, const char* argv[])
 
     Action action = Action::None;
     std::string projectPath;
-    std::string assetsPath;
-    std::string output;
     std::set<Project> projects;
     std::set<Platform> platforms;
 
@@ -47,7 +45,10 @@ int main(int argc, const char* argv[])
         if (std::string(argv[i]) == "--help")
         {
             std::cout << "Usage:\n";
-            std::cout << argv[0] << " [--help] [--new-project <name>] [--generate <path>] [--project <all|makefile|visualstudio|xcode>] [--location <location>]\n";
+            std::cout << argv[0] << " [--help] [--generate-project <project-file>]"
+                " [--project <all|makefile|visualstudio|xcode>]"
+                " [--platform <all|windows|macos|linux|ios|tvos|android|emscripten>]"
+                " [--export-assets <project-file>]\n";
             return EXIT_SUCCESS;
         }
         else if (std::string(argv[i]) == "--generate-project")
@@ -110,14 +111,7 @@ int main(int argc, const char* argv[])
             if (++i >= argc)
                 throw std::runtime_error("Invalid command");
 
-            assetsPath = std::string(argv[i]);
-        }
-        else if (std::string(argv[i]) == "--output")
-        {
-            if (++i >= argc)
-                throw std::runtime_error("Invalid command");
-
-            output = std::string(argv[i]);
+            projectPath = std::string(argv[i]);
         }
     }
 
