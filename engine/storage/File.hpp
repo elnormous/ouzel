@@ -100,8 +100,13 @@ namespace ouzel
                 if (lstat(filename.c_str(), &s) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to get file stats");
 
+#  if defined(__APPLE__)
                 auto nanoseconds = std::chrono::seconds{s.st_atimespec.tv_sec} +
                     std::chrono::nanoseconds{s.st_atimespec.tv_nsec};
+#  else
+                auto nanoseconds = std::chrono::seconds{s.st_atime.tv_sec} +
+                    std::chrono::nanoseconds{s.st_atim.tv_nsec};
+#  endif
 				
 				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
             }
@@ -112,9 +117,14 @@ namespace ouzel
                 if (lstat(filename.c_str(), &s) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to get file stats");
 
+#  if defined(__APPLE__)
                 auto nanoseconds = std::chrono::seconds{s.st_mtimespec.tv_sec} +
                     std::chrono::nanoseconds{s.st_mtimespec.tv_nsec};
-				
+#  else
+                auto nanoseconds = std::chrono::seconds{s.st_mtim.tv_sec} +
+                    std::chrono::nanoseconds{s.st_mtim.tv_nsec};
+#  endif
+
 				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
             }
 #endif
