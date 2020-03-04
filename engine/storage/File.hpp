@@ -70,8 +70,8 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
                 auto nanoseconds = std::chrono::nanoseconds{
-                    (static_cast<uint64_t>(time.dwHighDateTime) << 32) |
-                    (static_cast<uint64_t>(time.dwLowDateTime) * 100 - 116444736000000000LL
+                    ((static_cast<uint64_t>(time.dwHighDateTime) << 32) |
+                     static_cast<uint64_t>(time.dwLowDateTime)) * 100 - 116444736000000000LL
                 };
 
                 return std::chrono::steady_clock::time_point{nanoseconds};
@@ -86,8 +86,8 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
                 auto nanoseconds = std::chrono::nanoseconds{
-                    (static_cast<uint64_t>(time.dwHighDateTime) << 32) |
-                    (static_cast<uint64_t>(time.dwLowDateTime) * 100 - 116444736000000000LL
+                    ((static_cast<uint64_t>(time.dwHighDateTime) << 32) |
+                     static_cast<uint64_t>(time.dwLowDateTime)) * 100 - 116444736000000000LL
                 };
 
                 return std::chrono::steady_clock::time_point{nanoseconds};
