@@ -60,6 +60,64 @@ namespace ouzel
                 End
             };
 
+#if defined(_WIN32)
+            static std::chrono::steady_clock::time_point getAccessTime(const std::string& filename)
+            {
+                File file(filename, Mode::Read);
+
+                FILETIME time;
+                if (!GetFileTime(file.file, nullptr, &time, nullptr))
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
+
+                auto nanoseconds = std::chrono::nanoseconds{
+                    (static_cast<uint64_t>(time.dwHighDateTime) << 32) |
+                    (static_cast<uint64_t>(time.dwLowDateTime) * 100 - 116444736000000000LL
+                };
+
+                return std::chrono::steady_clock::time_point{nanoseconds};
+            }
+
+            static std::chrono::steady_clock::time_point getModifyTime(const std::string& filename)
+            {
+                File file(filename, Mode::Read);
+
+                FILETIME time;
+                if (!GetFileTime(file.file, nullptr, nullptr, &time))
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
+
+                auto nanoseconds = std::chrono::nanoseconds{
+                    (static_cast<uint64_t>(time.dwHighDateTime) << 32) |
+                    (static_cast<uint64_t>(time.dwLowDateTime) * 100 - 116444736000000000LL
+                };
+
+                return std::chrono::steady_clock::time_point{nanoseconds};
+            }
+#else
+            static std::chrono::steady_clock::time_point getAccessTime(const std::string& filename)
+            {
+                struct stat s;
+                if (lstat(filename.c_str(), &s) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
+
+                auto nanoseconds = std::chrono::seconds{s.st_atimespec.tv_sec} +
+                    std::chrono::nanoseconds{s.st_atimespec.tv_nsec};
+
+                return std::chrono::steady_clock::time_point{nanoseconds};
+            }
+
+            static std::chrono::steady_clock::time_point getModifyTime(const std::string& filename)
+            {
+                struct stat s;
+                if (lstat(filename.c_str(), &s) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
+
+                auto nanoseconds = std::chrono::seconds{s.st_mtimespec.tv_sec} +
+                    std::chrono::nanoseconds{s.st_mtimespec.tv_nsec};
+
+                return std::chrono::steady_clock::time_point{nanoseconds};
+            }
+#endif
+
             File() noexcept = default;
             File(const std::string& filename, const int mode)
             {
