@@ -4,6 +4,8 @@
 #include <iostream>
 #include <set>
 #include <stdexcept>
+#include "storage/File.hpp"
+#include "utils/Json.hpp"
 #include "OuzelProject.hpp"
 #include "MakefileProject.hpp"
 #include "VisualStudioProject.hpp"
@@ -136,6 +138,8 @@ int main(int argc, const char* argv[])
     }
 
     ouzel::OuzelProject project(projectPath);
+
+	auto t = ouzel::storage::File::getModifyTime("C:\\Users\\elviss\\Projects\\ouzel\\tools\\ouzel\\OuzelProject.hpp");
 
     return EXIT_SUCCESS;
 }
