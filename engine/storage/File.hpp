@@ -103,10 +103,11 @@ namespace ouzel
 #  if defined(__APPLE__)
                 auto nanoseconds = std::chrono::seconds{s.st_atimespec.tv_sec} +
                     std::chrono::nanoseconds{s.st_atimespec.tv_nsec};
-                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
 #  else
-                return std::chrono::system_clock::from_time_t(s.st_atim);
+                auto nanoseconds = std::chrono::seconds{s.st_atim.tv_sec} +
+                    std::chrono::nanoseconds{s.st_atim.tv_nsec};
 #  endif
+				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
             }
 
             static std::chrono::system_clock::time_point getModifyTime(const std::string& filename)
@@ -118,10 +119,11 @@ namespace ouzel
 #  if defined(__APPLE__)
                 auto nanoseconds = std::chrono::seconds{s.st_mtimespec.tv_sec} +
                     std::chrono::nanoseconds{s.st_mtimespec.tv_nsec};
-                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
 #  else
-                return std::chrono::system_clock::from_time_t(s.st_mtim);
+                auto nanoseconds = std::chrono::seconds{s.st_mtim.tv_sec} +
+                    std::chrono::nanoseconds{s.st_mtim.tv_nsec};
 #  endif
+				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
             }
 #endif
 
