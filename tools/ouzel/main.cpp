@@ -139,7 +139,5 @@ int main(int argc, const char* argv[])
 
     ouzel::OuzelProject project(projectPath);
 
-	auto t = ouzel::storage::File::getModifyTime("C:\\Users\\elviss\\Projects\\ouzel\\tools\\ouzel\\OuzelProject.hpp");
-
     return EXIT_SUCCESS;
 }

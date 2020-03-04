@@ -62,7 +62,7 @@ namespace ouzel
             };
 
 #if defined(_WIN32)
-            static std::chrono::steady_clock::time_point getAccessTime(const std::string& filename)
+            static std::chrono::system_clock::time_point getAccessTime(const std::string& filename)
             {
                 File file(filename, Mode::Read);
 
@@ -72,13 +72,13 @@ namespace ouzel
 
                 auto nanoseconds = std::chrono::nanoseconds{
                     ((static_cast<uint64_t>(time.dwHighDateTime) << 32) |
-                     static_cast<uint64_t>(time.dwLowDateTime)) * 100 - 116444736000000000LL
+                     static_cast<uint64_t>(time.dwLowDateTime)) * 100 - 11644473600LL
                 };
 
-                return std::chrono::steady_clock::time_point{nanoseconds};
+				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
             }
 
-            static std::chrono::steady_clock::time_point getModifyTime(const std::string& filename)
+            static std::chrono::system_clock::time_point getModifyTime(const std::string& filename)
             {
                 File file(filename, Mode::Read);
 
@@ -88,13 +88,13 @@ namespace ouzel
 
                 auto nanoseconds = std::chrono::nanoseconds{
                     ((static_cast<uint64_t>(time.dwHighDateTime) << 32) |
-                     static_cast<uint64_t>(time.dwLowDateTime)) * 100 - 116444736000000000LL
+                     static_cast<uint64_t>(time.dwLowDateTime)) * 100 - 11644473600LL
                 };
-
-                return std::chrono::steady_clock::time_point{nanoseconds};
+				
+				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
             }
 #else
-            static std::chrono::steady_clock::time_point getAccessTime(const std::string& filename)
+            static std::chrono::system_clock::time_point getAccessTime(const std::string& filename)
             {
                 struct stat s;
                 if (lstat(filename.c_str(), &s) == -1)
@@ -102,11 +102,11 @@ namespace ouzel
 
                 auto nanoseconds = std::chrono::seconds{s.st_atimespec.tv_sec} +
                     std::chrono::nanoseconds{s.st_atimespec.tv_nsec};
-
-                return std::chrono::steady_clock::time_point{nanoseconds};
+				
+				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
             }
 
-            static std::chrono::steady_clock::time_point getModifyTime(const std::string& filename)
+            static std::chrono::system_clock::time_point getModifyTime(const std::string& filename)
             {
                 struct stat s;
                 if (lstat(filename.c_str(), &s) == -1)
@@ -114,8 +114,8 @@ namespace ouzel
 
                 auto nanoseconds = std::chrono::seconds{s.st_mtimespec.tv_sec} +
                     std::chrono::nanoseconds{s.st_mtimespec.tv_nsec};
-
-                return std::chrono::steady_clock::time_point{nanoseconds};
+				
+				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
             }
 #endif
 
