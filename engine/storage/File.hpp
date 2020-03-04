@@ -70,12 +70,14 @@ namespace ouzel
                 if (!GetFileTime(file.file, nullptr, &time, nullptr))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
-                auto nanoseconds = std::chrono::nanoseconds{
+                using hundrednanoseconds = std::chrono::duration<int64_t, std::ratio_multiply<std::hecto, std::nano>>;
+
+                auto t = hundrednanoseconds{
                     ((static_cast<uint64_t>(time.dwHighDateTime) << 32) |
-                     static_cast<uint64_t>(time.dwLowDateTime)) * 100 - 11644473600LL
+                     static_cast<uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
                 };
 
-				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
+				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};
             }
 
             static std::chrono::system_clock::time_point getModifyTime(const std::string& filename)
@@ -86,12 +88,14 @@ namespace ouzel
                 if (!GetFileTime(file.file, nullptr, nullptr, &time))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
-                auto nanoseconds = std::chrono::nanoseconds{
+                using hundrednanoseconds = std::chrono::duration<int64_t, std::ratio_multiply<std::hecto, std::nano>>;
+
+                auto t = hundrednanoseconds{
                     ((static_cast<uint64_t>(time.dwHighDateTime) << 32) |
-                     static_cast<uint64_t>(time.dwLowDateTime)) * 100 - 11644473600LL
+                     static_cast<uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
                 };
 				
-				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
+				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};
             }
 #else
             static std::chrono::system_clock::time_point getAccessTime(const std::string& filename)
