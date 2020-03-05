@@ -2,1007 +2,1004 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\engine\scene\Animator.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\Animators.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Audio.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Cue.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\dsound\DSAudioDevice.cpp">
-      <Filter>ouzel\audio\directsound</Filter>
+      <Filter>engine\audio\directsound</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\empty\EmptyAudioDevice.cpp">
-      <Filter>ouzel\audio\empty</Filter>
+      <Filter>engine\audio\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\xaudio2\XA2AudioDevice.cpp">
-      <Filter>ouzel\audio\xaudio2</Filter>
+      <Filter>engine\audio\xaudio2</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\BlendState.cpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\direct3d11\D3D11BlendState.cpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\opengl\OGLBlendState.cpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\gui\BMFont.cpp">
-      <Filter>ouzel\gui</Filter>
+      <Filter>engine\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\Buffer.cpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\direct3d11\D3D11Buffer.cpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\opengl\OGLBuffer.cpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\Camera.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\Component.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\Cursor.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\windows\CursorWin.cpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\core\Engine.cpp">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\core\windows\EngineWin.cpp">
-      <Filter>ouzel\core\windows</Filter>
+      <Filter>engine\core\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\events\EventDispatcher.cpp">
-      <Filter>ouzel\events</Filter>
+      <Filter>engine\events</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\storage\FileSystem.cpp">
-      <Filter>ouzel\storage</Filter>
+      <Filter>engine\storage</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\InputManager.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\Layer.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\localization\Localization.cpp">
-      <Filter>ouzel\localization</Filter>
+      <Filter>engine\localization</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\utils\Log.cpp">
-      <Filter>ouzel\utils</Filter>
+      <Filter>engine\utils</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\core\windows\main.cpp">
-      <Filter>ouzel\core\windows</Filter>
+      <Filter>engine\core\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\windows\GamepadDeviceDI.cpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\windows\GamepadDeviceXI.cpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\windows\KeyboardDeviceWin.cpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\windows\MouseDeviceWin.cpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\core\Window.cpp">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\core\windows\NativeWindowWin.cpp">
-      <Filter>ouzel\core\windows</Filter>
+      <Filter>engine\core\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\math\MathUtils.cpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\math\Matrix.cpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\SkinnedMeshRenderer.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\StaticMeshRenderer.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\Actor.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\utils\Obf.cpp">
-      <Filter>ouzel\utils</Filter>
+      <Filter>engine\utils</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\utils\Utils.cpp">
-      <Filter>ouzel\utils</Filter>
+      <Filter>engine\utils</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\ParticleSystem.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\Scene.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\Renderer.cpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\SceneManager.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\RenderTarget.cpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\Shader.cpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\ShapeRenderer.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\SpriteRenderer.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Voice.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\SilenceSound.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Sound.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\VorbisClip.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\PcmClip.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\Texture.cpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\gui\TTFont.cpp">
-      <Filter>ouzel\gui</Filter>
+      <Filter>engine\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\gui\Widget.cpp">
-      <Filter>ouzel\gui</Filter>
+      <Filter>engine\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\gui\Widgets.cpp">
-      <Filter>ouzel\gui</Filter>
+      <Filter>engine\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\xaudio2\XAudio27.cpp">
-      <Filter>ouzel\audio\xaudio2</Filter>
+      <Filter>engine\audio\xaudio2</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\direct3d11\D3D11RenderDevice.cpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\opengl\OGLRenderDevice.cpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\opengl\windows\OGLRenderDeviceWin.cpp">
-      <Filter>ouzel\graphics\opengl\windows</Filter>
+      <Filter>engine\graphics\opengl\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\direct3d11\D3D11Shader.cpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\opengl\OGLShader.cpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\direct3d11\D3D11Texture.cpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\opengl\OGLTexture.cpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\AudioDevice.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\RenderDevice.cpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\network\Network.cpp">
-      <Filter>ouzel\network</Filter>
+      <Filter>engine\network</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Listener.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\network\Client.cpp">
-      <Filter>ouzel\network</Filter>
+      <Filter>engine\network</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\network\Server.cpp">
-      <Filter>ouzel\network</Filter>
+      <Filter>engine\network</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\core\NativeWindow.cpp">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\Light.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\Cache.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\BmfLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\ColladaLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\CueLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\ImageLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\MtlLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\ObjLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\ParticleSystemLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\SpriteLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\TtfLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\VorbisLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\WaveLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\InputDevice.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\InputSystem.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\GltfLoader.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\opengl\OGLRenderTarget.cpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\direct3d11\D3D11RenderTarget.cpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\assets\Bundle.cpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\windows\InputSystemWin.cpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\Touchpad.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\Keyboard.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\Mouse.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\GamepadDevice.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\KeyboardDevice.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\MouseDevice.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\TouchpadDevice.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\input\Gamepad.cpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\DepthStencilState.cpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\opengl\OGLDepthStencilState.cpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\graphics\direct3d11\D3D11DepthStencilState.cpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Containers.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Effect.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Effects.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\core\System.cpp">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\core\windows\SystemWin.cpp">
-      <Filter>ouzel\core\windows</Filter>
+      <Filter>engine\core\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Submix.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\wasapi\WASAPIAudioDevice.cpp">
-      <Filter>ouzel\audio\wasapi</Filter>
+      <Filter>engine\audio\wasapi</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\scene\TextRenderer.cpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Mix.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Node.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\mixer\Mixer.cpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\Oscillator.cpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\audio\mixer\Bus.cpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>ouzel</Filter>
+      <Filter>engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\scene\Animator.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\Animators.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\storage\Archive.hpp">
-      <Filter>ouzel\storage</Filter>
+      <Filter>engine\storage</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Audio.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Cue.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\dsound\DSAudioDevice.hpp">
-      <Filter>ouzel\audio\directsound</Filter>
+      <Filter>engine\audio\directsound</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\empty\EmptyAudioDevice.hpp">
-      <Filter>ouzel\audio\empty</Filter>
+      <Filter>engine\audio\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\xaudio2\XA2AudioDevice.hpp">
-      <Filter>ouzel\audio\xaudio2</Filter>
+      <Filter>engine\audio\xaudio2</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\BlendState.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\direct3d11\D3D11BlendState.hpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\opengl\OGLBlendState.hpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\gui\BMFont.hpp">
-      <Filter>ouzel\gui</Filter>
+      <Filter>engine\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\Box.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\Buffer.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\BufferType.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\direct3d11\D3D11Buffer.hpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\opengl\OGLBuffer.hpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\Camera.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\Color.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\Setup.h">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\Component.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\Constants.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\ConvexVolume.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\Fnv.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\Cursor.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\DeviceId.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\SystemCursor.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\windows\CursorWin.hpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\DataType.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\Application.hpp">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\Engine.hpp">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\windows\EngineWin.hpp">
-      <Filter>ouzel\core\windows</Filter>
+      <Filter>engine\core\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\events\Event.hpp">
-      <Filter>ouzel\events</Filter>
+      <Filter>engine\events</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\events\EventDispatcher.hpp">
-      <Filter>ouzel\events</Filter>
+      <Filter>engine\events</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\events\EventHandler.hpp">
-      <Filter>ouzel\events</Filter>
+      <Filter>engine\events</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\storage\File.hpp">
-      <Filter>ouzel\storage</Filter>
+      <Filter>engine\storage</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\storage\FileSystem.hpp">
-      <Filter>ouzel\storage</Filter>
+      <Filter>engine\storage</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\gui\Font.hpp">
-      <Filter>ouzel\gui</Filter>
+      <Filter>engine\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\Image.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\utils\Ini.hpp">
-      <Filter>ouzel\utils</Filter>
+      <Filter>engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\InputManager.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\Layer.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\localization\Localization.hpp">
-      <Filter>ouzel\localization</Filter>
+      <Filter>engine\localization</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\utils\Log.hpp">
-      <Filter>ouzel\utils</Filter>
+      <Filter>engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\windows\GamepadDeviceDI.hpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\windows\GamepadDeviceXI.hpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\windows\KeyboardDeviceWin.hpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\windows\MouseDeviceWin.hpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\Material.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\Window.hpp">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\windows\Library.hpp">
-      <Filter>ouzel\core\windows</Filter>
+      <Filter>engine\core\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\windows\NativeWindowWin.hpp">
-      <Filter>ouzel\core\windows</Filter>
+      <Filter>engine\core\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\MathUtils.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\Matrix.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\SkinnedMeshRenderer.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\StaticMeshRenderer.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\Actor.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\utils\Obf.hpp">
-      <Filter>ouzel\utils</Filter>
+      <Filter>engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\utils\Thread.hpp">
-      <Filter>ouzel\utils</Filter>
+      <Filter>engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\utils\Utf8.hpp">
-      <Filter>ouzel\utils</Filter>
+      <Filter>engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\utils\Utils.hpp">
-      <Filter>ouzel\utils</Filter>
+      <Filter>engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\ParticleSystem.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\Plane.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\Quaternion.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\Rect.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\Scene.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\PixelFormat.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\Renderer.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\SceneManager.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\Shader.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\ShapeRenderer.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\SpriteRenderer.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\TextRenderer.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\Size.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\math\Vector.hpp">
-      <Filter>ouzel\math</Filter>
+      <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Voice.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\SilenceSound.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Sound.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Source.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Node.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\VorbisClip.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\WavePlayer.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\PcmClip.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\Texture.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\TextureType.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\Timer.hpp">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\gui\TTFont.hpp">
-      <Filter>ouzel\gui</Filter>
+      <Filter>engine\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\Vertex.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\gui\Widget.hpp">
-      <Filter>ouzel\gui</Filter>
+      <Filter>engine\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\gui\Widgets.hpp">
-      <Filter>ouzel\gui</Filter>
+      <Filter>engine\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\xaudio2\XAudio27.hpp">
-      <Filter>ouzel\audio\xaudio2</Filter>
+      <Filter>engine\audio\xaudio2</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\direct3d11\D3D11RenderDevice.hpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\opengl\OGLRenderDevice.hpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\opengl\windows\OGLRenderDeviceWin.hpp">
-      <Filter>ouzel\graphics\opengl\windows</Filter>
+      <Filter>engine\graphics\opengl\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\empty\EmptyRenderDevice.hpp">
-      <Filter>ouzel\graphics\empty</Filter>
+      <Filter>engine\graphics\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\direct3d11\D3D11Shader.hpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\opengl\OGLShader.hpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\direct3d11\D3D11Texture.hpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\opengl\OGLTexture.hpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\AudioDevice.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\RenderDevice.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\network\Network.hpp">
-      <Filter>ouzel\network</Filter>
+      <Filter>engine\network</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Listener.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\network\Client.hpp">
-      <Filter>ouzel\network</Filter>
+      <Filter>engine\network</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\network\Server.hpp">
-      <Filter>ouzel\network</Filter>
+      <Filter>engine\network</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\DefaultConfig.h">
-      <Filter>ouzel</Filter>
+      <Filter>engine</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\RenderResource.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\NativeWindow.hpp">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\Platform.h">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\scene\Light.hpp">
-      <Filter>ouzel\scene</Filter>
+      <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\Cache.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\Loader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\BmfLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\ColladaLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\CueLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\ImageLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\MtlLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\ObjLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\ParticleSystemLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\SpriteLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\TtfLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\VorbisLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\WaveLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\utils\Json.hpp">
-      <Filter>ouzel\utils</Filter>
+      <Filter>engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\utils\Xml.hpp">
-      <Filter>ouzel\utils</Filter>
+      <Filter>engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\ouzel.hpp">
-      <Filter>ouzel</Filter>
+      <Filter>engine</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\Controller.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\InputDevice.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\Keyboard.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\Mouse.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\Touchpad.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\InputSystem.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\ColorMask.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\Commands.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\GltfLoader.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\direct3d11\D3D11RenderTarget.hpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\opengl\OGLRenderTarget.hpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\network\Socket.hpp">
-      <Filter>ouzel\network</Filter>
+      <Filter>engine\network</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\assets\Bundle.hpp">
-      <Filter>ouzel\assets</Filter>
+      <Filter>engine\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\direct3d11\D3D11RenderResource.hpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\opengl\OGLRenderResource.hpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\windows\InputSystemWin.hpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\windows\GamepadDeviceWin.hpp">
-      <Filter>ouzel\input\windows</Filter>
+      <Filter>engine\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\GamepadConfig.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\GamepadDevice.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\KeyboardDevice.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\MouseDevice.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\TouchpadDevice.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\input\Gamepad.hpp">
-      <Filter>ouzel\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\DepthStencilState.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\opengl\OGLDepthStencilState.hpp">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\direct3d11\D3D11DepthStencilState.hpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\DrawMode.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\RasterizerState.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Channel.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Driver.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\SampleFormat.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\Driver.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\SamplerAddressMode.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\SamplerFilter.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Containers.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Effect.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Effects.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\System.hpp">
-      <Filter>ouzel\core</Filter>
+      <Filter>engine\core</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\core\windows\SystemWin.hpp">
-      <Filter>ouzel\core\windows</Filter>
+      <Filter>engine\core\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Submix.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\wasapi\WASAPIAudioDevice.hpp">
-      <Filter>ouzel\audio\wasapi</Filter>
+      <Filter>engine\audio\wasapi</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\mixer\Object.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\mixer\Processor.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\mixer\Source.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\mixer\Stream.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Mix.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\mixer\Commands.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\mixer\Data.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\mixer\Emitter.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\mixer\Mix.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\mixer\Mixer.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\Oscillator.hpp">
-      <Filter>ouzel\audio</Filter>
+      <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\mixer\Bus.hpp">
-      <Filter>ouzel\audio\mixer</Filter>
+      <Filter>engine\audio\mixer</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>ouzel</Filter>
+      <Filter>engine</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\Flags.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\opengl\OGL.h">
-      <Filter>ouzel\graphics\opengl</Filter>
+      <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\BlendFactor.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\BlendOperation.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\CompareFunction.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\CubeFace.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\StencilOperation.hpp">
-      <Filter>ouzel\graphics</Filter>
+      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\graphics\direct3d11\D3D11Pointer.hpp">
-      <Filter>ouzel\graphics\direct3d11</Filter>
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\dsound\DSPointer.hpp">
-      <Filter>ouzel\audio\directsound</Filter>
+      <Filter>engine\audio\directsound</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\audio\wasapi\WASAPIPointer.hpp">
-      <Filter>ouzel\audio\wasapi</Filter>
+      <Filter>engine\audio\wasapi</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="ouzel">
+    <Filter Include="engine">
       <UniqueIdentifier>{609eeaba-c2d7-4b6b-bc79-aec5b84b0595}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ouzel\audio">
+    <Filter Include="engine\audio">
       <UniqueIdentifier>{ec575031-07a5-4602-a6c6-e9063626a451}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ouzel\core">
-      <UniqueIdentifier>{f41cb5c8-0778-4b99-9841-eb6fb193a259}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\events">
-      <UniqueIdentifier>{8dace8b8-7b5d-43a0-a7fa-7c3ed3aad611}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\graphics">
-      <UniqueIdentifier>{7f740e6a-68dd-4776-96f6-06b3b0dd27b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\storage">
-      <UniqueIdentifier>{10c294c8-1814-4941-8dd3-2330844019bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\audio\empty">
+    <Filter Include="engine\audio\empty">
       <UniqueIdentifier>{2db04b0f-4f91-4234-a68b-f155a320c480}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ouzel\audio\xaudio2">
+    <Filter Include="engine\audio\xaudio2">
       <UniqueIdentifier>{c9c17ce5-9437-4065-961d-912571b5be4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ouzel\audio\directsound">
+    <Filter Include="engine\audio\directsound">
       <UniqueIdentifier>{bc334681-a64d-43ce-b5f7-102b531790b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ouzel\graphics\empty">
-      <UniqueIdentifier>{45610f54-63bc-472a-b0b0-77b688729b38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\graphics\direct3d11">
-      <UniqueIdentifier>{e9f6e2c0-8da9-4df6-af4c-62db90b9caa6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\graphics\opengl">
-      <UniqueIdentifier>{15573501-52bc-4312-9434-35f393bd67cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\gui">
-      <UniqueIdentifier>{08dca6a3-32ca-4345-8dec-9537d9ef81d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\input">
-      <UniqueIdentifier>{a290bb2d-8a74-4429-8dc3-c69500f1b41b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\localization">
-      <UniqueIdentifier>{a707cf14-2a70-4fe9-a4f8-e4deaf184edf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\math">
-      <UniqueIdentifier>{98914365-06b8-4dd3-a075-37217c34d835}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\scene">
-      <UniqueIdentifier>{f525ad83-7ab7-479b-9336-814faadb78a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\utils">
-      <UniqueIdentifier>{0c6ae549-dc69-45d8-b195-61fa009019b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\input\windows">
-      <UniqueIdentifier>{ca4d7821-5750-4acb-9f3d-b532ee0eef7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\core\windows">
-      <UniqueIdentifier>{706c1a82-b2ae-4ae8-820f-06c2798e4405}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\graphics\opengl\windows">
-      <UniqueIdentifier>{8e5def8b-22ab-49ae-b846-f048444c20e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\network">
-      <UniqueIdentifier>{57b86987-14d5-4d4a-97e6-c33cb1e9f749}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\assets">
-      <UniqueIdentifier>{3321c286-5355-42bc-a945-fafc9b4abbb1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\thread">
-      <UniqueIdentifier>{07047ccf-c574-4c41-8bd9-f721dd46f07a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ouzel\audio\wasapi">
+    <Filter Include="engine\audio\wasapi">
       <UniqueIdentifier>{6f214ec4-e87d-4f7f-a227-11016994b584}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ouzel\audio\mixer">
+    <Filter Include="engine\audio\mixer">
       <UniqueIdentifier>{9a1f94ef-2a26-4f9a-bd15-56bef91227f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\core">
+      <UniqueIdentifier>{f41cb5c8-0778-4b99-9841-eb6fb193a259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\core\windows">
+      <UniqueIdentifier>{706c1a82-b2ae-4ae8-820f-06c2798e4405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\events">
+      <UniqueIdentifier>{8dace8b8-7b5d-43a0-a7fa-7c3ed3aad611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\graphics">
+      <UniqueIdentifier>{7f740e6a-68dd-4776-96f6-06b3b0dd27b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\graphics\empty">
+      <UniqueIdentifier>{45610f54-63bc-472a-b0b0-77b688729b38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\graphics\direct3d11">
+      <UniqueIdentifier>{e9f6e2c0-8da9-4df6-af4c-62db90b9caa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\graphics\opengl">
+      <UniqueIdentifier>{15573501-52bc-4312-9434-35f393bd67cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\graphics\opengl\windows">
+      <UniqueIdentifier>{8e5def8b-22ab-49ae-b846-f048444c20e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\storage">
+      <UniqueIdentifier>{10c294c8-1814-4941-8dd3-2330844019bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\gui">
+      <UniqueIdentifier>{08dca6a3-32ca-4345-8dec-9537d9ef81d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\input">
+      <UniqueIdentifier>{a290bb2d-8a74-4429-8dc3-c69500f1b41b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\input\windows">
+      <UniqueIdentifier>{ca4d7821-5750-4acb-9f3d-b532ee0eef7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\localization">
+      <UniqueIdentifier>{a707cf14-2a70-4fe9-a4f8-e4deaf184edf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\math">
+      <UniqueIdentifier>{98914365-06b8-4dd3-a075-37217c34d835}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\scene">
+      <UniqueIdentifier>{f525ad83-7ab7-479b-9336-814faadb78a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\utils">
+      <UniqueIdentifier>{0c6ae549-dc69-45d8-b195-61fa009019b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\network">
+      <UniqueIdentifier>{57b86987-14d5-4d4a-97e6-c33cb1e9f749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\assets">
+      <UniqueIdentifier>{3321c286-5355-42bc-a945-fafc9b4abbb1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
