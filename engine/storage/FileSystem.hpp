@@ -17,11 +17,11 @@ namespace ouzel
         class FileSystem final
         {
         public:
-            #if defined(_WIN32)
+#if defined(_WIN32)
                 static constexpr char DIRECTORY_SEPARATOR = '\\';
-            #else
+#elif defined(__unix__) || defined(__APPLE__)
                 static constexpr char DIRECTORY_SEPARATOR = '/';
-            #endif
+#endif
 
             explicit FileSystem(Engine& initEngine);
 

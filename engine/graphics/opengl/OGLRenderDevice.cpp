@@ -4,7 +4,7 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#if !defined(_WIN32)
+#if defined(__unix__) || defined(__APPLE__)
 #  include <dlfcn.h>
 #endif
 

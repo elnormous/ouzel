@@ -32,7 +32,7 @@
 #  include <unistd.h>
 #endif
 
-#if !defined(_WIN32)
+#if defined(__unix__) || defined(__APPLE__)
 #  include <sys/stat.h>
 #endif
 
@@ -443,7 +443,7 @@ namespace ouzel
                 return false;
 
             return (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
-#else
+#elif defined(__unix__) || defined(__APPLE__)
             struct stat buf;
             if (stat(dirname.c_str(), &buf) == -1)
                 return false;
@@ -484,7 +484,7 @@ namespace ouzel
                 return false;
 
             return (attributes & FILE_ATTRIBUTE_DIRECTORY) == 0;
-#else
+#elif defined(__unix__) || defined(__APPLE__)
             struct stat buf;
             if (stat(filename.c_str(), &buf) == -1)
                 return false;
@@ -509,7 +509,7 @@ namespace ouzel
                 buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
 
             return PathIsRelativeW(buffer.data()) == TRUE;
-#else
+#elif defined(__unix__) || defined(__APPLE__)
             return path.empty() || path[0] != '/';
 #endif
         }

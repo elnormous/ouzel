@@ -17,7 +17,7 @@
 #  include <Windows.h>
 #  pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #  pragma pop_macro("NOMINMAX")
-#else
+#elif defined(__unix__) || defined(__APPLE__)
 #  include <pthread.h>
 #endif
 

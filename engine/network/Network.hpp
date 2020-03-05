@@ -3,7 +3,7 @@
 #ifndef OUZEL_NETWORK_NETWORK_HPP
 #define OUZEL_NETWORK_NETWORK_HPP
 
-#ifdef _WIN32
+#if defined(_WIN32)
 #  pragma push_macro("WIN32_LEAN_AND_MEAN")
 #  pragma push_macro("NOMINMAX")
 #  ifndef WIN32_LEAN_AND_MEAN
@@ -46,7 +46,7 @@ namespace ouzel
             static uint32_t getAddress(const std::string& address);
 
         private:
-#ifdef _WIN32
+#if defined(_WIN32)
             bool wsaStarted = false;
 #endif
 

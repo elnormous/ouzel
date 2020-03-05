@@ -20,7 +20,7 @@
 #  include <Windows.h>
 #  pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #  pragma pop_macro("NOMINMAX")
-#else
+#elif defined(__unix__) || defined(__APPLE__)
 #  include <fcntl.h>
 #  include <sys/stat.h>
 #  include <unistd.h>
@@ -37,10 +37,10 @@ namespace ouzel
         class File final
         {
         public:
-#ifdef _WIN32
+#if defined(_WIN32)
             using Type = HANDLE;
             static constexpr Type INVALID = INVALID_HANDLE_VALUE;
-#else
+#elif defined(__unix__) || defined(__APPLE__)
             using Type = int;
             static constexpr Type INVALID = -1;
 #endif
@@ -97,7 +97,7 @@ namespace ouzel
 				
 				return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};
             }
-#else
+#elif defined(__unix__) || defined(__APPLE__)
             static std::chrono::system_clock::time_point getAccessTime(const std::string& filename)
             {
                 struct stat s;
@@ -159,7 +159,7 @@ namespace ouzel
                 file = CreateFileW(buffer.data(), access, 0, nullptr, createDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
                 if (file == INVALID_HANDLE_VALUE)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                 const int access =
                     ((mode & Mode::Read) && (mode & Mode::Write) ? O_RDWR :
                      (mode & Mode::Read) ? O_RDONLY :
@@ -179,13 +179,13 @@ namespace ouzel
                 if (file != INVALID)
 #if defined(_WIN32)
                     CloseHandle(file);
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                     ::close(file);
 #endif
             }
 
             File(const File& other)
-#if !defined(_WIN32)
+#if defined(__unix__) || defined(__APPLE__)
                 : file(dup(other.file))
 #endif
             {
@@ -198,7 +198,7 @@ namespace ouzel
                                      FALSE,
                                      DUPLICATE_SAME_ACCESS))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to duplicate file handle");
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                 if (file == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to duplicate file descriptor");
 #endif
@@ -219,7 +219,7 @@ namespace ouzel
                                      FALSE,
                                      DUPLICATE_SAME_ACCESS))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to duplicate file handle");
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                 if (file != -1) ::close(file);
 
                 file = dup(other.file);
@@ -243,7 +243,7 @@ namespace ouzel
                 if (file != INVALID)
 #if defined(_WIN32)
                     CloseHandle(file);
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                     ::close(file);
 #endif
                 file = other.file;
@@ -268,7 +268,7 @@ namespace ouzel
 #if defined(_WIN32)
                     if (!CloseHandle(f))
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to close file");
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                     if (::close(f) == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to close file");
 #endif
@@ -306,7 +306,7 @@ namespace ouzel
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to read from file");
 
                     return static_cast<uint32_t>(n);
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                     const ssize_t ret = ::read(file, buffer, size);
 
                     if (ret == -1)
@@ -344,7 +344,7 @@ namespace ouzel
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to write to file");
 
                     return static_cast<uint32_t>(n);
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                     const ssize_t ret = ::write(file, buffer, size);
 
                     if (ret == -1)
@@ -369,7 +369,7 @@ namespace ouzel
 
                 if (SetFilePointer(file, offset, nullptr, moveMethod) == INVALID_SET_FILE_POINTER)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to seek file");
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                 const int whence =
                     (method == Seek::Begin) ? SEEK_SET :
                     (method == Seek::Current) ? SEEK_CUR :
@@ -391,7 +391,7 @@ namespace ouzel
                 if (ret == INVALID_SET_FILE_POINTER)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to seek file");
                 return static_cast<uint32_t>(ret);
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                 off_t ret = lseek(file, 0, SEEK_CUR);
                 if (ret == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to seek file");

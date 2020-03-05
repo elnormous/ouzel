@@ -1,7 +1,7 @@
 // Copyright 2015-2019 Elviss Strazdins. All rights reserved.
 
 #include <system_error>
-#ifdef _WIN32
+#if defined(_WIN32)
 #  pragma push_macro("WIN32_LEAN_AND_MEAN")
 #  pragma push_macro("NOMINMAX")
 #  ifndef WIN32_LEAN_AND_MEAN
@@ -14,7 +14,7 @@
 #  include <WS2tcpip.h>
 #  pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #  pragma pop_macro("NOMINMAX")
-#else
+#elif defined(__unix__) || defined(__APPLE__)
 #  include <sys/socket.h>
 #  include <netinet/in.h>
 #  include <errno.h>
@@ -31,7 +31,7 @@ namespace ouzel
     {
         Network::Network()
         {
-#ifdef _WIN32
+#if defined(_WIN32)
             const WORD sockVersion = MAKEWORD(2, 2);
             WSADATA wsaData;
             const int error = WSAStartup(sockVersion, &wsaData);
@@ -50,7 +50,7 @@ namespace ouzel
 
         Network::~Network()
         {
-#ifdef _WIN32
+#if defined(_WIN32)
             if (wsaStarted) WSACleanup();
 #endif
         }

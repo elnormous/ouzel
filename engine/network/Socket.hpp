@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <system_error>
 
-#ifdef _WIN32
+#if defined(_WIN32)
 #  pragma push_macro("WIN32_LEAN_AND_MEAN")
 #  pragma push_macro("NOMINMAX")
 #  ifndef WIN32_LEAN_AND_MEAN
@@ -19,7 +19,7 @@
 #  include <ws2tcpip.h>
 #  pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #  pragma pop_macro("NOMINMAX")
-#else
+#elif defined(__unix__) || defined(__APPLE__)
 #  include <sys/socket.h>
 #  include <netinet/in.h>
 #  include <netdb.h>
@@ -33,9 +33,9 @@ namespace ouzel
     {
         inline int getLastError() noexcept
         {
-#ifdef _WIN32
+#if defined(_WIN32)
             return WSAGetLastError();
-#else
+#elif defined(__unix__) || defined(__APPLE__)
             return errno;
 #endif
         }
@@ -56,10 +56,10 @@ namespace ouzel
         class Socket final
         {
         public:
-#ifdef _WIN32
+#if defined(_WIN32)
             using Type = SOCKET;
             static constexpr Type Invalid = INVALID_SOCKET;
-#else
+#elif defined(__unix__) || defined(__APPLE__)
             using Type = int;
             static constexpr Type Invalid = -1;
 #endif
@@ -79,9 +79,9 @@ namespace ouzel
             ~Socket()
             {
                 if (endpoint != Invalid)
-#ifdef _WIN32
+#if defined(_WIN32)
                     closesocket(endpoint);
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                     close(endpoint);
 #endif
             }
@@ -100,9 +100,9 @@ namespace ouzel
                 if (&other == this) return *this;
 
                 if (endpoint != Invalid)
-#ifdef _WIN32
+#if defined(_WIN32)
                     closesocket(endpoint);
-#else
+#elif defined(__unix__) || defined(__APPLE__)
                     close(endpoint);
 #endif
                 endpoint = other.endpoint;
