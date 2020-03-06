@@ -146,7 +146,6 @@ SOURCES=../engine/assets/BmfLoader.cpp \
 ifeq ($(PLATFORM),windows)
 SOURCES+=../engine/audio/dsound/DSAudioDevice.cpp \
 	../engine/core/windows/EngineWin.cpp \
-	../engine/core/windows/main.cpp \
 	../engine/core/windows/NativeWindowWin.cpp \
 	../engine/core/windows/SystemWin.cpp \
 	../engine/graphics/direct3d11/D3D11BlendState.cpp \
@@ -167,7 +166,6 @@ else ifeq ($(PLATFORM),linux)
 SOURCES+=../engine/audio/alsa/ALSAAudioDevice.cpp \
 	../engine/audio/openal/OALAudioDevice.cpp \
 	../engine/core/linux/EngineLinux.cpp \
-	../engine/core/linux/main.cpp \
 	../engine/core/linux/NativeWindowLinux.cpp \
 	../engine/core/linux/SystemLinux.cpp \
 	../engine/graphics/opengl/linux/OGLRenderDeviceLinux.cpp \
@@ -185,7 +183,6 @@ else ifeq ($(PLATFORM),macos)
 SOURCES+=../engine/audio/coreaudio/CAAudioDevice.mm \
 	../engine/audio/openal/OALAudioDevice.cpp \
 	../engine/core/macos/EngineMacOS.mm \
-	../engine/core/macos/main.cpp \
 	../engine/core/macos/NativeWindowMacOS.mm \
 	../engine/core/macos/SystemMacOS.mm \
 	../engine/core/macos/ViewMacOS.mm \
@@ -210,7 +207,6 @@ SOURCES+=../engine/audio/coreaudio/CAAudioDevice.mm \
 	../engine/audio/openal/OALAudioDevice.cpp \
 	../engine/core/ios/DisplayLink.mm \
 	../engine/core/ios/EngineIOS.mm \
-	../engine/core/ios/main.cpp \
 	../engine/core/ios/NativeWindowIOS.mm \
 	../engine/core/ios/SystemIOS.mm \
 	../engine/core/ios/ViewIOS.mm \
@@ -236,7 +232,6 @@ SOURCES+=../engine/audio/coreaudio/CAAudioDevice.mm \
 	../engine/audio/openal/OALAudioDevice.cpp \
 	../engine/core/tvos/DisplayLink.mm \
 	../engine/core/tvos/EngineTVOS.mm \
-	../engine/core/tvos/main.cpp \
 	../engine/core/tvos/NativeWindowTVOS.mm \
 	../engine/core/tvos/SystemTVOS.mm \
 	../engine/core/tvos/ViewTVOS.mm \
@@ -260,7 +255,6 @@ OBJCXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path
 else ifeq ($(PLATFORM),emscripten)
 SOURCES+=../engine/audio/openal/OALAudioDevice.cpp \
 	../engine/core/emscripten/EngineEm.cpp \
-	../engine/core/emscripten/main.cpp \
 	../engine/core/emscripten/NativeWindowEm.cpp \
 	../engine/core/emscripten/SystemEm.cpp \
 	../engine/graphics/opengl/emscripten/OGLRenderDeviceEm.cpp \

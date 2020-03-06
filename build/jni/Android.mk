@@ -53,7 +53,6 @@ LOCAL_SRC_FILES := ../../engine/assets/BmfLoader.cpp \
 	../../engine/audio/Voice.cpp \
     ../../engine/audio/VorbisClip.cpp \
     ../../engine/core/android/EngineAndroid.cpp \
-    ../../engine/core/android/main.cpp \
     ../../engine/core/android/NativeWindowAndroid.cpp \
 	../../engine/core/android/SystemAndroid.cpp \
     ../../engine/core/Engine.cpp \

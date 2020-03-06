@@ -66,7 +66,6 @@
     <ClCompile Include="..\engine\core\Window.cpp" />
     <ClCompile Include="..\engine\core\NativeWindow.cpp" />
     <ClCompile Include="..\engine\core\windows\EngineWin.cpp" />
-    <ClCompile Include="..\engine\core\windows\main.cpp" />
     <ClCompile Include="..\engine\core\windows\NativeWindowWin.cpp" />
     <ClCompile Include="..\engine\core\windows\SystemWin.cpp" />
     <ClCompile Include="..\engine\events\EventDispatcher.cpp" />

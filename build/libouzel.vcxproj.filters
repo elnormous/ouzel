@@ -79,9 +79,6 @@
     <ClCompile Include="..\engine\utils\Log.cpp">
       <Filter>engine\utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\core\windows\main.cpp">
-      <Filter>engine\core\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\engine\input\windows\GamepadDeviceDI.cpp">
       <Filter>engine\input\windows</Filter>
     </ClCompile>
