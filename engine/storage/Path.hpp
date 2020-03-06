@@ -106,22 +106,22 @@ namespace ouzel
             {
 				std::string s;
 
-				for (wchar_t cp : p)
+				for (wchar_t w : p)
 				{
-					if (cp == L'\\') cp = '/';
+					if (w == L'\\') w = '/';
 
-					if (cp <= 0x7F)
-						s.push_back(static_cast<char>(cp));
-					else if (cp <= 0x7FF)
+					if (w <= 0x7F)
+						s.push_back(static_cast<char>(w));
+					else if (w <= 0x7FF)
 					{
-						s.push_back(static_cast<char>(0xC0 | ((cp >> 6) & 0x1F)));
-						s.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+						s.push_back(static_cast<char>(0xC0 | ((w >> 6) & 0x1F)));
+						s.push_back(static_cast<char>(0x80 | (w & 0x3F)));
 					}
 					else
 					{
-						s.push_back(static_cast<char>(0xE0 | ((cp >> 12) & 0x0F)));
-						s.push_back(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
-						s.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+						s.push_back(static_cast<char>(0xE0 | ((w >> 12) & 0x0F)));
+						s.push_back(static_cast<char>(0x80 | ((w >> 6) & 0x3F)));
+						s.push_back(static_cast<char>(0x80 | (w & 0x3F)));
 					}
 				}
 
@@ -134,7 +134,7 @@ namespace ouzel
                 
 				for (auto i = p.begin(); i != p.end(); ++i)
 				{
-					wchar_t cp = *i & 0xFF;
+					char32_t cp = *i & 0xFF;
 
 					if (cp <= 0x7F) // length = 1
 					{
@@ -156,10 +156,24 @@ namespace ouzel
 						cp += *i & 0x3F;
 					}
 					else if ((cp >> 3) == 0x1E) // length = 4
+					{
+						if (++i == p.end())
+							throw std::runtime_error("Invalid UTF-8 string");
+						cp = ((cp << 18) & 0x1FFFFF) + (((*i & 0xFF) << 12) & 0x3FFFF);
+						if (++i == p.end())
+							throw std::runtime_error("Invalid UTF-8 string");
+						cp += ((*i & 0xFF) << 6) & 0x0FFF;
+						if (++i == p.end())
+							throw std::runtime_error("Invalid UTF-8 string");
+						cp += (*i) & 0x3F;
+					}
+
+					if (cp > WCHAR_MAX)
 						throw std::runtime_error("Unsupported UTF-8 character");
 
-					if (cp == L'/') cp = L'\\';
-					s.push_back(cp);
+					auto w = static_cast<wchar_t>(cp);
+					if (w == L'/') w = L'\\';
+					s.push_back(w);
 				}
 
                 return s;
