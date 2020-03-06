@@ -130,14 +130,9 @@ namespace ouzel
 
         defaultSettings = ini::Data(fileSystem.readFile("settings.ini"));
 
-        try
-        {
-            userSettings = ini::Data(fileSystem.readFile(fileSystem.getStorageDirectory() + storage::Path::directorySeparator + "settings.ini"));
-        }
-        catch (const std::exception&)
-        {
-            log(Log::Level::Info) << "User settings not provided";
-        }
+        auto settingsPath = fileSystem.getStorageDirectory() + storage::Path::directorySeparator + "settings.ini";
+        if (fileSystem.fileExists(settingsPath))
+            userSettings = ini::Data(fileSystem.readFile(settingsPath));
 
         const ini::Section& userEngineSection = userSettings.getSection("engine");
         const ini::Section& defaultEngineSection = defaultSettings.getSection("engine");
