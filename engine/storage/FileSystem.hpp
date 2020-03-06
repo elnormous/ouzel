@@ -37,7 +37,7 @@ namespace ouzel
                 }
                 else
                 {
-                    std::string str = appPath + Path::DIRECTORY_SEPARATOR + filename;
+                    std::string str = appPath + Path::directorySeparator + filename;
 
                     if (fileExists(str))
                         return str;
@@ -46,9 +46,9 @@ namespace ouzel
                         for (const std::string& path : resourcePaths)
                         {
                             if (!pathIsRelative(path)) // if resource path is absolute
-                                str = path + Path::DIRECTORY_SEPARATOR + filename;
+                                str = path + Path::directorySeparator + filename;
                             else
-                                str = appPath + Path::DIRECTORY_SEPARATOR + path + Path::DIRECTORY_SEPARATOR + filename;
+                                str = appPath + Path::directorySeparator + path + Path::directorySeparator + filename;
 
                             if (fileExists(str))
                                 return str;

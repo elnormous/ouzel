@@ -132,7 +132,7 @@ namespace ouzel
 
         try
         {
-            userSettings = ini::Data(fileSystem.readFile(fileSystem.getStorageDirectory() + storage::Path::DIRECTORY_SEPARATOR + "settings.ini"));
+            userSettings = ini::Data(fileSystem.readFile(fileSystem.getStorageDirectory() + storage::Path::directorySeparator + "settings.ini"));
         }
         catch (const std::exception&)
         {
