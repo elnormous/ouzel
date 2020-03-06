@@ -138,7 +138,7 @@ namespace ouzel
 
             std::string path = appDataBuffer.data();
 
-            path += Path::DIRECTORY_SEPARATOR + OUZEL_DEVELOPER_NAME;
+            path += Path::directorySeparator + OUZEL_DEVELOPER_NAME;
 
             if (!directoryExists(path))
             {
@@ -164,7 +164,7 @@ namespace ouzel
                     throw std::runtime_error(path + " is not a directory");
             }
 
-            path += Path::DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
+            path += Path::directorySeparator + OUZEL_APPLICATION_NAME;
 
             if (!directoryExists(path))
             {
@@ -254,26 +254,26 @@ namespace ouzel
                 else
                     path = pwent.pw_dir;
 
-                path += Path::DIRECTORY_SEPARATOR + ".local";
+                path += Path::directorySeparator + ".local";
 
                 if (!directoryExists(path))
                     if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
 
-                path += Path::DIRECTORY_SEPARATOR + "share";
+                path += Path::directorySeparator + "share";
 
                 if (!directoryExists(path))
                     if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
             }
 
-            path += Path::DIRECTORY_SEPARATOR + OUZEL_DEVELOPER_NAME;
+            path += Path::directorySeparator + OUZEL_DEVELOPER_NAME;
 
             if (!directoryExists(path))
                 if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
 
-            path += Path::DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
+            path += Path::directorySeparator + OUZEL_APPLICATION_NAME;
 
             if (!directoryExists(path))
                 if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)

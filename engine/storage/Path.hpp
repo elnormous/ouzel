@@ -55,7 +55,41 @@ namespace ouzel
 #endif
             }
 
-            bool isRelative() const noexcept
+            bool isDirectory() const
+            {
+#if defined(_WIN32)
+                const DWORD attributes = GetFileAttributesW(path.c_str());
+                if (attributes == INVALID_FILE_ATTRIBUTES)
+                    return false;
+
+                return (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+#elif defined(__unix__) || defined(__APPLE__)
+                struct stat buf;
+                if (stat(path.c_str(), &buf) == -1)
+                    return false;
+
+                return (buf.st_mode & S_IFMT) == S_IFDIR;
+#endif
+            }
+
+            bool isFile() const
+            {
+#if defined(_WIN32)
+                const DWORD attributes = GetFileAttributesW(path.c_str());
+                if (attributes == INVALID_FILE_ATTRIBUTES)
+                    return false;
+
+                return (attributes & FILE_ATTRIBUTE_DIRECTORY) == 0;
+#elif defined(__unix__) || defined(__APPLE__)
+                struct stat buf;
+                if (stat(path.c_str(), &buf) == -1)
+                    return false;
+
+                return (buf.st_mode & S_IFMT) == S_IFREG;
+#endif
+            }
+
+            bool isAbsolute() const noexcept
             {
 #if defined(_WIN32)
                 return path.size() >= 2 &&
