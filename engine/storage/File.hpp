@@ -26,10 +26,6 @@
 #  include <unistd.h>
 #endif
 
-#if defined(__ANDROID__)
-#  include <android/asset_manager_jni.h>
-#endif
-
 namespace ouzel
 {
     namespace storage
