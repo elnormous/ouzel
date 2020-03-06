@@ -6,6 +6,22 @@
 #include <stdexcept>
 #include <string>
 
+#if defined(_WIN32)
+#  pragma push_macro("WIN32_LEAN_AND_MEAN")
+#  pragma push_macro("NOMINMAX")
+#  ifndef WIN32_LEAN_AND_MEAN
+#    define WIN32_LEAN_AND_MEAN
+#  endif
+#  ifndef NOMINMAX
+#    define NOMINMAX
+#  endif
+#  include <Windows.h>
+#  pragma pop_macro("WIN32_LEAN_AND_MEAN")
+#  pragma pop_macro("NOMINMAX")
+#elif defined(__unix__) || defined(__APPLE__)
+#  include <sys/stat.h>
+#endif
+
 namespace ouzel
 {
     namespace storage
@@ -54,28 +70,55 @@ namespace ouzel
 #if defined(_WIN32)
             static std::string toUtf8(const std::wstring& p)
             {
-                const int size = WideCharToMultiByte(CP_UTF8, 0, p.c_str(), static_cast<int>(p.size()), nullptr, 0, nullptr, nullptr);
-                if (size == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
+				std::string s;
 
-                std::string s;
-                s.resize(size);
-                if (WideCharToMultiByte(CP_UTF8, 0, p.c_str(), static_cast<int>(p.size()), s.data(), static_cast<int>(s.size()), nullptr, nullptr) == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
+				for (wchar_t cp : p)
+				{
+					if (cp == L'\\') cp = '/';
+
+					if (cp <= 0x7F)
+						s.push_back(static_cast<char>(cp));
+					else if (cp <= 0x7FF)
+					{
+						s.push_back(static_cast<char>(0xC0 | ((cp >> 6) & 0x1F)));
+						s.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+					}
+					else
+					{
+						s.push_back(static_cast<char>(0xE0 | ((cp >> 12) & 0x0F)));
+						s.push_back(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
+						s.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+					}
+				}
 
                 return s;
             }
 
             static std::wstring toWchar(const std::string& p)
             {
-                const int size = MultiByteToWideChar(CP_UTF8, 0, p.c_str(), static_cast<int>(p.size()), nullptr, 0);
-                if (size == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
-
                 std::wstring s;
-                s.resize(static_cast<size_t>(size));
-                if (MultiByteToWideChar(CP_UTF8, 0, p.c_str(), static_cast<int>(p.size()), s.data(), static_cast<int>(s.size())) == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
+                
+				for (auto i = p.begin(); i != p.end(); ++i)
+				{
+					wchar_t cp = *i & 0xFF;
+
+					if (cp <= 0x7F) // length = 1
+					{
+						// do nothing
+					}
+					else if ((cp >> 5) == 0x6) // length = 2
+					{
+						if (++i == p.end())
+							throw std::runtime_error("Invalid UTF-8 string");
+						cp = ((cp << 6) & 0x7FF) + (*i & 0x3F);
+					}
+					else if ((cp >> 4) == 0xE || // length = 3
+						(cp >> 3) == 0x1E) // length = 4
+						throw std::runtime_error("Unsupported UTF-8 character");
+
+					if (cp == L'/') cp = L'\\';
+					s.push_back(cp);
+				}
 
                 return s;
             }
