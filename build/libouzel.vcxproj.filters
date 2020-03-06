@@ -465,6 +465,9 @@
     <ClInclude Include="..\engine\storage\FileSystem.hpp">
       <Filter>engine\storage</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\storage\Path.hpp">
+      <Filter>engine\storage</Filter>
+    </ClInclude>
     <ClInclude Include="..\engine\gui\Font.hpp">
       <Filter>engine\gui</Filter>
     </ClInclude>

@@ -27,7 +27,7 @@ namespace ouzel
             json::Data j(data);
             name = j["name"].as<std::string>();
 
-            std::string assetsPath = directory + storage::FileSystem::DIRECTORY_SEPARATOR + j["assetsPath"].as<std::string>();
+            std::string assetsPath = directory + storage::Path::DIRECTORY_SEPARATOR + j["assetsPath"].as<std::string>();
 
             for (const auto& assets : j["assets"])
             {

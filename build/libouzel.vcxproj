@@ -226,6 +226,7 @@
     <ClInclude Include="..\engine\storage\Archive.hpp" />
     <ClInclude Include="..\engine\storage\File.hpp" />
     <ClInclude Include="..\engine\storage\FileSystem.hpp" />
+    <ClInclude Include="..\engine\storage\Path.hpp" />
     <ClInclude Include="..\engine\graphics\BlendState.hpp" />
     <ClInclude Include="..\engine\graphics\Buffer.hpp" />
     <ClInclude Include="..\engine\graphics\BufferType.hpp" />

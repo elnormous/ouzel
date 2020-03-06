@@ -138,7 +138,7 @@ namespace ouzel
 
             std::string path = appDataBuffer.data();
 
-            path += DIRECTORY_SEPARATOR + OUZEL_DEVELOPER_NAME;
+            path += Path::DIRECTORY_SEPARATOR + OUZEL_DEVELOPER_NAME;
 
             if (!directoryExists(path))
             {
@@ -164,7 +164,7 @@ namespace ouzel
                     throw std::runtime_error(path + " is not a directory");
             }
 
-            path += DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
+            path += Path::DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
 
             if (!directoryExists(path))
             {
@@ -254,26 +254,26 @@ namespace ouzel
                 else
                     path = pwent.pw_dir;
 
-                path += DIRECTORY_SEPARATOR + ".local";
+                path += Path::DIRECTORY_SEPARATOR + ".local";
 
                 if (!directoryExists(path))
                     if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
 
-                path += DIRECTORY_SEPARATOR + "share";
+                path += Path::DIRECTORY_SEPARATOR + "share";
 
                 if (!directoryExists(path))
                     if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
             }
 
-            path += DIRECTORY_SEPARATOR + OUZEL_DEVELOPER_NAME;
+            path += Path::DIRECTORY_SEPARATOR + OUZEL_DEVELOPER_NAME;
 
             if (!directoryExists(path))
                 if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
 
-            path += DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
+            path += Path::DIRECTORY_SEPARATOR + OUZEL_APPLICATION_NAME;
 
             if (!directoryExists(path))
                 if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
@@ -391,7 +391,7 @@ namespace ouzel
                 return fileExists(filename);
             else
             {
-                std::string str = appPath + DIRECTORY_SEPARATOR + filename;
+                std::string str = appPath + Path::DIRECTORY_SEPARATOR + filename;
 
                 if (fileExists(str))
                     return true;
@@ -400,9 +400,9 @@ namespace ouzel
                     for (const std::string& path : resourcePaths)
                     {
                         if (!pathIsRelative(path)) // if resource path is absolute
-                            str = path + DIRECTORY_SEPARATOR + filename;
+                            str = path + Path::DIRECTORY_SEPARATOR + filename;
                         else
-                            str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
+                            str = appPath + Path::DIRECTORY_SEPARATOR + path + Path::DIRECTORY_SEPARATOR + filename;
 
                         if (fileExists(str))
                             return true;

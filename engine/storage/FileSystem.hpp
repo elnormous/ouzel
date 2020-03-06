@@ -6,7 +6,8 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-#include "Archive.hpp"
+#include "storage/Archive.hpp"
+#include "storage/Path.hpp"
 
 namespace ouzel
 {
@@ -17,12 +18,6 @@ namespace ouzel
         class FileSystem final
         {
         public:
-#if defined(_WIN32)
-                static constexpr char DIRECTORY_SEPARATOR = '\\';
-#elif defined(__unix__) || defined(__APPLE__)
-                static constexpr char DIRECTORY_SEPARATOR = '/';
-#endif
-
             explicit FileSystem(Engine& initEngine);
 
             std::string getStorageDirectory(const bool user = true) const;
@@ -42,7 +37,7 @@ namespace ouzel
                 }
                 else
                 {
-                    std::string str = appPath + DIRECTORY_SEPARATOR + filename;
+                    std::string str = appPath + Path::DIRECTORY_SEPARATOR + filename;
 
                     if (fileExists(str))
                         return str;
@@ -51,9 +46,9 @@ namespace ouzel
                         for (const std::string& path : resourcePaths)
                         {
                             if (!pathIsRelative(path)) // if resource path is absolute
-                                str = path + DIRECTORY_SEPARATOR + filename;
+                                str = path + Path::DIRECTORY_SEPARATOR + filename;
                             else
-                                str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
+                                str = appPath + Path::DIRECTORY_SEPARATOR + path + Path::DIRECTORY_SEPARATOR + filename;
 
                             if (fileExists(str))
                                 return str;
