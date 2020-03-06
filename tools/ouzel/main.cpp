@@ -4,8 +4,7 @@
 #include <iostream>
 #include <set>
 #include <stdexcept>
-#include "storage/File.hpp"
-#include "utils/Json.hpp"
+#include "storage/Path.hpp"
 #include "OuzelProject.hpp"
 #include "MakefileProject.hpp"
 #include "VisualStudioProject.hpp"
@@ -41,7 +40,7 @@ int main(int argc, const char* argv[])
         };
 
         Action action = Action::None;
-        std::string projectPath;
+        ouzel::storage::Path projectPath;
         std::set<Project> projects;
         std::set<Platform> platforms;
 

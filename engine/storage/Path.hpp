@@ -3,6 +3,7 @@
 #ifndef OUZEL_STORAGE_PATH_HPP
 #define OUZEL_STORAGE_PATH_HPP
 
+#include <cstdint>
 #include <stdexcept>
 #include <string>
 
@@ -31,8 +32,10 @@ namespace ouzel
         public:
 #if defined(_WIN32)
             static constexpr char directorySeparator = '\\';
+            using String = std::wstring;
 #elif defined(__unix__) || defined(__APPLE__)
             static constexpr char directorySeparator = '/';
+            using String = std::string;
 #endif
 
             Path() = default;
@@ -46,13 +49,53 @@ namespace ouzel
                 // TODO: normalize
             }
 
-            operator std::string()
+            Path(const std::wstring& p):
+#if defined(_WIN32)
+                path(p)
+#elif defined(__unix__) || defined(__APPLE__)
+                path(toUtf8(p))
+#endif
+            {
+                // TODO: normalize
+            }
+
+            operator std::string() const
             {
 #if defined(_WIN32)
                 return toUtf8(path);
 #elif defined(__unix__) || defined(__APPLE__)
                 return path;
 #endif
+            }
+
+            Path getExtensionPart() const
+            {
+                const size_t pos = path.find_last_of('.');
+
+                if (pos != std::string::npos)
+                    return path.substr(pos + 1);
+
+                return String();
+            }
+
+            Path getFilenamePart() const
+            {
+                const size_t pos = path.find_last_of(directorySeparator);
+
+                if (pos != String::npos)
+                    return path.substr(pos + 1);
+                else
+                    return path;
+            }
+
+            Path getDirectoryPart() const
+            {
+                const size_t pos = path.find_last_of(directorySeparator);
+
+                if (pos != String::npos)
+                    return path.substr(0, pos);
+
+                return String();
             }
 
             bool isDirectory() const
@@ -101,7 +144,6 @@ namespace ouzel
             }
 
         private:
-#if defined(_WIN32)
             static std::string toUtf8(const std::wstring& p)
             {
 				std::string s;
@@ -117,12 +159,21 @@ namespace ouzel
 						s.push_back(static_cast<char>(0xC0 | ((w >> 6) & 0x1F)));
 						s.push_back(static_cast<char>(0x80 | (w & 0x3F)));
 					}
-					else
-					{
-						s.push_back(static_cast<char>(0xE0 | ((w >> 12) & 0x0F)));
-						s.push_back(static_cast<char>(0x80 | ((w >> 6) & 0x3F)));
-						s.push_back(static_cast<char>(0x80 | (w & 0x3F)));
-					}
+					else if (w <= 0xFFFF)
+                    {
+                        s.push_back(static_cast<char>(0xE0 | ((w >> 12) & 0x0F)));
+                        s.push_back(static_cast<char>(0x80 | ((w >> 6) & 0x3F)));
+                        s.push_back(static_cast<char>(0x80 | (w & 0x3F)));
+                    }
+#if WCHAR_MAX > 0xFFFF
+                    else
+                    {
+                        s.push_back(static_cast<char>(0xF0 | ((w >> 18) & 0x07)));
+                        s.push_back(static_cast<char>(0x80 | ((w >> 12) & 0x3F)));
+                        s.push_back(static_cast<char>(0x80 | ((w >> 6) & 0x3F)));
+                        s.push_back(static_cast<char>(0x80 | (w & 0x3F)));
+                    }
+#endif
 				}
 
                 return s;
@@ -179,10 +230,7 @@ namespace ouzel
                 return s;
             }
 
-            std::wstring path;
-#elif defined(__unix__) || defined(__APPLE__)
-            std::string path;
-#endif
+            String path;
         };
     } // namespace storage
 } // namespace ouzel

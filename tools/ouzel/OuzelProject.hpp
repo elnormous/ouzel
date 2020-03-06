@@ -13,9 +13,9 @@ namespace ouzel
     class OuzelProject final
     {
     public:
-        OuzelProject(const std::string& path)
+        OuzelProject(const ouzel::storage::Path& path)
         {
-            std::string directory = storage::FileSystem::getDirectoryPart(path);
+            std::string directory = path.getDirectoryPart();
 
             std::vector<uint8_t> data;
             uint8_t buffer[1024];
