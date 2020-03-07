@@ -41,7 +41,7 @@ namespace ouzel
             Path() = default;
             Path(const std::string& p):
 #if defined(_WIN32)
-                path(toWchar(p))
+                path(convertToNative(toWchar(p)))
 #elif defined(__unix__) || defined(__APPLE__)
                 path(p)
 #endif
@@ -51,7 +51,7 @@ namespace ouzel
 
             Path(const std::wstring& p):
 #if defined(_WIN32)
-                path(p)
+                path(convertToNative(p))
 #elif defined(__unix__) || defined(__APPLE__)
                 path(toUtf8(p))
 #endif
@@ -62,7 +62,7 @@ namespace ouzel
             operator std::string() const
             {
 #if defined(_WIN32)
-                return toUtf8(path);
+                return toUtf8(convertToUniversal(path));
 #elif defined(__unix__) || defined(__APPLE__)
                 return path;
 #endif
@@ -150,8 +150,6 @@ namespace ouzel
 
 				for (wchar_t w : p)
 				{
-					if (w == L'\\') w = '/';
-
 					if (w <= 0x7F)
 						s.push_back(static_cast<char>(w));
 					else if (w <= 0x7FF)
@@ -222,13 +220,33 @@ namespace ouzel
 					if (cp > WCHAR_MAX)
 						throw std::runtime_error("Unsupported UTF-8 character");
 
-					auto w = static_cast<wchar_t>(cp);
-					if (w == L'/') w = L'\\';
-					s.push_back(w);
+					s.push_back(static_cast<wchar_t>(cp));
 				}
 
                 return s;
             }
+
+#if defined(_WIN32)
+            static std::wstring convertToNative(const std::wstring& p)
+            {
+                std::wstring result = p;
+
+                for (auto& c : result)
+                    if (c == L'/') c = L'\\';
+
+                return result;
+            }
+
+            static std::wstring convertToUniversal(const std::wstring& p)
+            {
+                std::wstring result = p;
+
+                for (auto& c : result)
+                    if (c == L'\\') c = L'/';
+
+                return result;
+            }
+#endif
 
             String path;
         };
