@@ -68,6 +68,11 @@ namespace ouzel
 #endif
             }
 
+            const String& getNative() const noexcept
+            {
+                return path;
+            }
+
             Path getExtensionPart() const
             {
                 const size_t pos = path.find_last_of('.');
