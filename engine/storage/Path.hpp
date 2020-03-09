@@ -148,6 +148,91 @@ namespace ouzel
 #endif
             }
 
+
+#if defined(_WIN32)
+            std::chrono::system_clock::time_point getAccessTime() const
+            {
+                HANDLE file = CreateFileW(path.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+                if (file == INVALID_HANDLE_VALUE)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
+
+                FILETIME time;
+                if (!GetFileTime(file, nullptr, &time, nullptr))
+                {
+                    CloseHandle(file);
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
+                }
+
+                CloseHandle(file);
+
+                using hundrednanoseconds = std::chrono::duration<int64_t, std::ratio_multiply<std::hecto, std::nano>>;
+
+                auto t = hundrednanoseconds{
+                    ((static_cast<uint64_t>(time.dwHighDateTime) << 32) |
+                     static_cast<uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
+                };
+
+                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};
+            }
+
+            std::chrono::system_clock::time_point getModifyTime() const
+            {
+                HANDLE file = CreateFileW(path.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+                if (file == INVALID_HANDLE_VALUE)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
+
+                FILETIME time;
+                if (!GetFileTime(file, nullptr, nullptr, &time))
+                {
+                    CloseHandle(file);
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
+                }
+
+                CloseHandle(file);
+
+                using hundrednanoseconds = std::chrono::duration<int64_t, std::ratio_multiply<std::hecto, std::nano>>;
+
+                auto t = hundrednanoseconds{
+                    ((static_cast<uint64_t>(time.dwHighDateTime) << 32) |
+                     static_cast<uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
+                };
+
+                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};
+            }
+#elif defined(__unix__) || defined(__APPLE__)
+            std::chrono::system_clock::time_point getAccessTime() const
+            {
+                struct stat s;
+                if (lstat(path.c_str(), &s) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
+
+#  if defined(__APPLE__)
+                auto nanoseconds = std::chrono::seconds{s.st_atimespec.tv_sec} +
+                    std::chrono::nanoseconds{s.st_atimespec.tv_nsec};
+#  else
+                auto nanoseconds = std::chrono::seconds{s.st_atim.tv_sec} +
+                    std::chrono::nanoseconds{s.st_atim.tv_nsec};
+#  endif
+                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
+            }
+
+            std::chrono::system_clock::time_point getModifyTime() const
+            {
+                struct stat s;
+                if (lstat(path.c_str(), &s) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
+
+#  if defined(__APPLE__)
+                auto nanoseconds = std::chrono::seconds{s.st_mtimespec.tv_sec} +
+                    std::chrono::nanoseconds{s.st_mtimespec.tv_nsec};
+#  else
+                auto nanoseconds = std::chrono::seconds{s.st_mtim.tv_sec} +
+                    std::chrono::nanoseconds{s.st_mtim.tv_nsec};
+#  endif
+                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
+            }
+#endif
+
         private:
             static std::string toUtf8(const std::wstring& p)
             {
