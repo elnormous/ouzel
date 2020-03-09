@@ -104,7 +104,7 @@ namespace ouzel
                 return String();
             }
 
-            bool isDirectory() const
+            bool isDirectory() const noexcept
             {
 #if defined(_WIN32)
                 const DWORD attributes = GetFileAttributesW(path.c_str());
@@ -121,7 +121,7 @@ namespace ouzel
 #endif
             }
 
-            bool isFile() const
+            bool isFile() const noexcept
             {
 #if defined(_WIN32)
                 const DWORD attributes = GetFileAttributesW(path.c_str());
@@ -148,7 +148,6 @@ namespace ouzel
                 return path.size() >= 1 && path[0] == '/';
 #endif
             }
-
 
 #if defined(_WIN32)
             std::chrono::system_clock::time_point getAccessTime() const

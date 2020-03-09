@@ -3,7 +3,6 @@
 #ifndef OUZEL_STORAGE_FILE_HPP
 #define OUZEL_STORAGE_FILE_HPP
 
-#include <chrono>
 #include <string>
 #include <system_error>
 #include <vector>
