@@ -3,6 +3,7 @@
 #ifndef OUZEL_STORAGE_PATH_HPP
 #define OUZEL_STORAGE_PATH_HPP
 
+#include <chrono>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
@@ -157,13 +158,10 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
 
                 FILETIME time;
-                if (!GetFileTime(file, nullptr, &time, nullptr))
-                {
-                    CloseHandle(file);
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
-                }
-
+                auto ret = GetFileTime(file, nullptr, &time, nullptr);
                 CloseHandle(file);
+                if (!ret)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
                 using hundrednanoseconds = std::chrono::duration<int64_t, std::ratio_multiply<std::hecto, std::nano>>;
 
@@ -182,13 +180,10 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
 
                 FILETIME time;
-                if (!GetFileTime(file, nullptr, nullptr, &time))
-                {
-                    CloseHandle(file);
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
-                }
-
+                auto ret = GetFileTime(file, nullptr, nullptr, &time);
                 CloseHandle(file);
+                if (!ret)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
                 using hundrednanoseconds = std::chrono::duration<int64_t, std::ratio_multiply<std::hecto, std::nano>>;
 
