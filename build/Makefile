@@ -141,7 +141,6 @@ SOURCES=../engine/assets/BmfLoader.cpp \
 	../engine/scene/TextRenderer.cpp \
 	../engine/storage/FileSystem.cpp \
 	../engine/utils/Log.cpp \
-	../engine/utils/Obf.cpp \
 	../engine/utils/Utils.cpp
 ifeq ($(PLATFORM),windows)
 SOURCES+=../engine/audio/dsound/DSAudioDevice.cpp \

@@ -117,7 +117,6 @@ LOCAL_SRC_FILES := ../../engine/assets/BmfLoader.cpp \
     ../../engine/scene/TextRenderer.cpp \
     ../../engine/storage/FileSystem.cpp \
     ../../engine/utils/Log.cpp \
-    ../../engine/utils/Obf.cpp \
     ../../engine/utils/Utils.cpp
 
 include $(BUILD_STATIC_LIBRARY)

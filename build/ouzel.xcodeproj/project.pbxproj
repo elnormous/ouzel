@@ -370,9 +370,6 @@
 		304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */; };
 		304A8E971C26EDFB008B1151 /* ParticleSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E951C26EDFB008B1151 /* ParticleSystem.hpp */; };
 		304A8EA31C270833008B1151 /* Vertex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8EA11C270833008B1151 /* Vertex.hpp */; };
-		304AA8BE1E1190E4006FA70E /* Obf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304AA8BC1E1190E4006FA70E /* Obf.cpp */; };
-		304AA8BF1E1190E4006FA70E /* Obf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304AA8BC1E1190E4006FA70E /* Obf.cpp */; };
-		304AA8C01E1190E4006FA70E /* Obf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304AA8BC1E1190E4006FA70E /* Obf.cpp */; };
 		304AA8C11E1190E4006FA70E /* Obf.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304AA8BD1E1190E4006FA70E /* Obf.hpp */; };
 		304AA8C21E1190E4006FA70E /* Obf.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304AA8BD1E1190E4006FA70E /* Obf.hpp */; };
 		304AA8C31E1190E4006FA70E /* Obf.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304AA8BD1E1190E4006FA70E /* Obf.hpp */; };
@@ -938,7 +935,6 @@
 		304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
 		304A8E951C26EDFB008B1151 /* ParticleSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParticleSystem.hpp; sourceTree = "<group>"; };
 		304A8EA11C270833008B1151 /* Vertex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vertex.hpp; sourceTree = "<group>"; };
-		304AA8BC1E1190E4006FA70E /* Obf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Obf.cpp; sourceTree = "<group>"; };
 		304AA8BD1E1190E4006FA70E /* Obf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Obf.hpp; sourceTree = "<group>"; };
 		304B27541C9384A600BA162D /* Size.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Size.hpp; sourceTree = "<group>"; };
 		304E76371F7095DE0025C0DB /* Client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client.cpp; sourceTree = "<group>"; };
@@ -1786,7 +1782,6 @@
 				307237091FAFDAB8002EA399 /* Json.hpp */,
 				3030D5001DAEF1FA007CC8EB /* Log.cpp */,
 				3030D5011DAEF1FA007CC8EB /* Log.hpp */,
-				304AA8BC1E1190E4006FA70E /* Obf.cpp */,
 				304AA8BD1E1190E4006FA70E /* Obf.hpp */,
 				30769B7B22DBFB17000F4EC2 /* Thread.hpp */,
 				C6C9100B21AEB47E00B5FCB7 /* Utf8.hpp */,
@@ -2452,7 +2447,6 @@
 				30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76091C34A92B00FEDE92 /* InputManager.cpp in Sources */,
 				30519CD01F9B53CB00AF3DC4 /* ImageLoader.cpp in Sources */,
-				304AA8BE1E1190E4006FA70E /* Obf.cpp in Sources */,
 				30AEFA2C20C0FD6000CDFD33 /* OGLRenderTarget.cpp in Sources */,
 				C61B49F12174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
 				3038206D1D816C7700677CAB /* NativeWindowIOS.mm in Sources */,
@@ -2572,7 +2566,6 @@
 				30EABE3C220E5C6C001C70A6 /* Animators.cpp in Sources */,
 				30519CD21F9B53CB00AF3DC4 /* ImageLoader.cpp in Sources */,
 				303B76381C355A3B00FEDE92 /* InputManager.cpp in Sources */,
-				304AA8C01E1190E4006FA70E /* Obf.cpp in Sources */,
 				30AEFA2E20C0FD6000CDFD33 /* OGLRenderTarget.cpp in Sources */,
 				C61B49F32174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
 				30519CDA1F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */,
@@ -2698,7 +2691,6 @@
 				30898FE422EFA380001C13F2 /* CueLoader.cpp in Sources */,
 				30A381F621B201C20043568A /* Bus.cpp in Sources */,
 				30575AC51C3B17540009C8A7 /* Widgets.cpp in Sources */,
-				304AA8BF1E1190E4006FA70E /* Obf.cpp in Sources */,
 				307934D522C58CFE005A6804 /* Cue.cpp in Sources */,
 				30EEADCC216A44EC00D2F525 /* InputDevice.cpp in Sources */,
 				30EEADC421618DD800D2F525 /* MouseDevice.cpp in Sources */,

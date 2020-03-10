@@ -112,9 +112,6 @@
     <ClCompile Include="..\engine\scene\Actor.cpp">
       <Filter>engine\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\utils\Obf.cpp">
-      <Filter>engine\utils</Filter>
-    </ClCompile>
     <ClCompile Include="..\engine\utils\Utils.cpp">
       <Filter>engine\utils</Filter>
     </ClCompile>

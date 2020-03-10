@@ -137,7 +137,6 @@
     <ClCompile Include="..\engine\scene\SpriteRenderer.cpp" />
     <ClCompile Include="..\engine\scene\TextRenderer.cpp" />
     <ClCompile Include="..\engine\utils\Log.cpp" />
-    <ClCompile Include="..\engine\utils\Obf.cpp" />
     <ClCompile Include="..\engine\utils\Utils.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
