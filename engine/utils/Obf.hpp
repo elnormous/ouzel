@@ -746,7 +746,7 @@ namespace ouzel
 
             static uint32_t readByteArray(const std::vector<uint8_t>& buffer,
                                           uint32_t offset,
-                                          std::vector<uint8_t>& result)
+                                          ByteArray& result)
             {
                 const uint32_t originalOffset = offset;
 
@@ -769,7 +769,7 @@ namespace ouzel
 
             static uint32_t readObject(const std::vector<uint8_t>& buffer,
                                        uint32_t offset,
-                                       std::map<uint32_t, Value>& result)
+                                       Object& result)
             {
                 const uint32_t originalOffset = offset;
 
@@ -803,7 +803,7 @@ namespace ouzel
 
             static uint32_t readArray(const std::vector<uint8_t>& buffer,
                                       uint32_t offset,
-                                      std::vector<Value>& result)
+                                      Array& result)
             {
                 const uint32_t originalOffset = offset;
 
@@ -829,7 +829,7 @@ namespace ouzel
 
             static uint32_t readDictionary(const std::vector<uint8_t>& buffer,
                                            uint32_t offset,
-                                           std::map<std::string, Value>& result)
+                                           Dictionary& result)
             {
                 const uint32_t originalOffset = offset;
 
@@ -965,7 +965,7 @@ namespace ouzel
             }
 
             static uint32_t writeByteArray(std::vector<uint8_t>& buffer,
-                                           const std::vector<uint8_t>& value)
+                                           const ByteArray& value)
             {
                 uint8_t lengthData[sizeof(uint32_t)];
 
@@ -982,7 +982,7 @@ namespace ouzel
             }
 
             static uint32_t writeObject(std::vector<uint8_t>& buffer,
-                                        const std::map<uint32_t, Value>& value)
+                                        const Object& value)
             {
                 uint8_t lengthData[sizeof(uint32_t)];
 
@@ -1009,7 +1009,7 @@ namespace ouzel
             }
 
             static uint32_t writeArray(std::vector<uint8_t>& buffer,
-                                       const std::vector<Value>& value)
+                                       const Array& value)
             {
                 uint8_t lengthData[sizeof(uint32_t)];
 
@@ -1026,7 +1026,7 @@ namespace ouzel
             }
 
             static uint32_t writeDictionary(std::vector<uint8_t>& buffer,
-                                            const std::map<std::string, Value>& value)
+                                            const Dictionary& value)
             {
                 uint8_t sizeData[sizeof(uint32_t)];
 
