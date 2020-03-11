@@ -280,7 +280,7 @@ namespace ouzel
                 AudioStreamBasicDescription streamDescription;
                 streamDescription.mSampleRate = sampleRate;
                 streamDescription.mFormatID = kAudioFormatLinearPCM;
-                streamDescription.mFormatFlags = kLinearPCMFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked;
+                streamDescription.mFormatFlags = kAudioFormatFlagsNativeFloatPacked;
                 streamDescription.mChannelsPerFrame = channels;
                 streamDescription.mFramesPerPacket = 1;
                 streamDescription.mBitsPerChannel = sizeof(float) * 8;
