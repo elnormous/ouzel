@@ -58,16 +58,16 @@ namespace ouzel
         public:
 #if defined(_WIN32)
             using Type = SOCKET;
-            static constexpr Type Invalid = INVALID_SOCKET;
+            static constexpr Type invalid = INVALID_SOCKET;
 #elif defined(__unix__) || defined(__APPLE__)
             using Type = int;
-            static constexpr Type Invalid = -1;
+            static constexpr Type invalid = -1;
 #endif
 
             explicit Socket(InternetProtocol internetProtocol = InternetProtocol::V4):
                 endpoint(socket(getAddressFamily(internetProtocol), SOCK_STREAM, IPPROTO_TCP))
             {
-                if (endpoint == Invalid)
+                if (endpoint == invalid)
                     throw std::system_error(getLastError(), std::system_category(), "Failed to create socket");
             }
 
@@ -78,7 +78,7 @@ namespace ouzel
 
             ~Socket()
             {
-                if (endpoint != Invalid)
+                if (endpoint != invalid)
 #if defined(_WIN32)
                     closesocket(endpoint);
 #elif defined(__unix__) || defined(__APPLE__)
@@ -92,21 +92,21 @@ namespace ouzel
             Socket(Socket&& other) noexcept:
                 endpoint(other.endpoint)
             {
-                other.endpoint = Invalid;
+                other.endpoint = invalid;
             }
 
             Socket& operator=(Socket&& other) noexcept
             {
                 if (&other == this) return *this;
 
-                if (endpoint != Invalid)
+                if (endpoint != invalid)
 #if defined(_WIN32)
                     closesocket(endpoint);
 #elif defined(__unix__) || defined(__APPLE__)
                     close(endpoint);
 #endif
                 endpoint = other.endpoint;
-                other.endpoint = Invalid;
+                other.endpoint = invalid;
 
                 return *this;
             }
@@ -114,7 +114,7 @@ namespace ouzel
             inline operator Type() const noexcept { return endpoint; }
 
         private:
-            Type endpoint = Invalid;
+            Type endpoint = invalid;
         };
     } // namespace network
 } // namespace ouzel
