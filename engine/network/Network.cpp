@@ -38,20 +38,20 @@ namespace ouzel
             if (error != 0)
                 throw std::system_error(error, std::system_category(), "Failed to start WinSock failed");
 
-            if (LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 2)
+            if (wsaData.wVersion != sockVersion)
             {
                 WSACleanup();
                 throw std::runtime_error("Invalid WinSock version");
             }
 
-            wsaStarted = true;
+            wsaVersion = wsaData.wVersion;
 #endif
         }
 
         Network::~Network()
         {
 #if defined(_WIN32)
-            if (wsaStarted) WSACleanup();
+            if (wsaVersion) WSACleanup();
 #endif
         }
 

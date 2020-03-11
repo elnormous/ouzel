@@ -47,7 +47,7 @@ namespace ouzel
 
         private:
 #if defined(_WIN32)
-            bool wsaStarted = false;
+            WORD wsaVersion = 0;
 #endif
 
             std::vector<std::unique_ptr<Client>> clients;
