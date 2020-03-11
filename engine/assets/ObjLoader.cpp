@@ -133,6 +133,29 @@ namespace ouzel
                     }
                 }
 
+                // parse exponent
+                if (iterator != end &&
+                    (*iterator == 'e' || *iterator == 'E'))
+                {
+                    value.push_back(static_cast<char>(*iterator));
+                    ++iterator;
+
+                    if (iterator == end && *iterator != '+' && *iterator != '-')
+                        throw std::runtime_error("Invalid exponent");
+
+                    value.push_back(static_cast<char>(*iterator));
+                    ++iterator;
+
+                    if (iterator == end || *iterator < '0' || *iterator > '9')
+                        throw std::runtime_error("Invalid exponent");
+
+                    while (iterator != end && (*iterator >= '0' && *iterator <= '9'))
+                    {
+                        value.push_back(static_cast<char>(*iterator));
+                        ++iterator;
+                    }
+                }
+
                 if (value.length() < length) return false;
 
                 return std::stof(value);
