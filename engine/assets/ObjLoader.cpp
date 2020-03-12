@@ -140,7 +140,7 @@ namespace ouzel
                     value.push_back(static_cast<char>(*iterator));
                     ++iterator;
 
-                    if (iterator == end && *iterator != '+' && *iterator != '-')
+                    if (iterator == end || (*iterator != '+' && *iterator != '-'))
                         throw std::runtime_error("Invalid exponent");
 
                     value.push_back(static_cast<char>(*iterator));
