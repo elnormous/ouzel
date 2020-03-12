@@ -187,11 +187,11 @@ namespace ouzel
 
                 inline void bindTexture(GLenum target, GLenum layer, GLuint textureId)
                 {
-                    if (stateCache.textures[target].textureId[layer] != textureId)
+                    if (stateCache.textures[target][layer] != textureId)
                     {
                         glActiveTextureProc(GL_TEXTURE0 + layer);
                         glBindTextureProc(target, textureId);
-                        stateCache.textures[target].textureId[layer] = textureId;
+                        stateCache.textures[target][layer] = textureId;
 
                         GLenum error;
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
@@ -566,7 +566,7 @@ namespace ouzel
                 void deleteTexture(GLuint textureId)
                 {
                     for (auto& texture : stateCache.textures)
-                        for (uint32_t& boundTextureId : texture.second.textureId)
+                        for (auto& boundTextureId : texture.second)
                             if (boundTextureId == textureId) boundTextureId = 0;
 
                     glDeleteTexturesProc(1, &textureId);
@@ -626,18 +626,13 @@ namespace ouzel
                 {
                     GLenum frontFace = GL_CCW;
 
-                    struct Textures
-                    {
-                        GLuint textureId[16]{0};
-                    };
-
-                    std::unordered_map<GLenum, Textures> textures{
+                    std::unordered_map<GLenum, std::array<GLuint, 16>> textures{
 #if !OUZEL_OPENGLES
-                        {GL_TEXTURE_1D, Textures{}},
+                        {GL_TEXTURE_1D, std::array<GLuint, 16>{}},
 #endif
-                        {GL_TEXTURE_2D, Textures{}},
-                        {GL_TEXTURE_3D, Textures{}},
-                        {GL_TEXTURE_CUBE_MAP, Textures{}}
+                        {GL_TEXTURE_2D, std::array<GLuint, 16>{}},
+                        {GL_TEXTURE_3D, std::array<GLuint, 16>{}},
+                        {GL_TEXTURE_CUBE_MAP, std::array<GLuint, 16>{}}
                     };
                     GLuint programId = 0;
                     GLuint frameBufferId = 0;
