@@ -17,7 +17,7 @@ namespace ouzel
             friend Actor;
         public:
             explicit Animator(float initLength);
-            virtual ~Animator();
+            ~Animator() override;
 
             virtual void update(float delta);
 

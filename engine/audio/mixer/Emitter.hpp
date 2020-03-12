@@ -17,7 +17,6 @@ namespace ouzel
             {
             public:
                 Emitter() noexcept = default;
-                virtual ~Emitter() = default;
 
                 Emitter(const Emitter&) = delete;
                 Emitter& operator=(const Emitter&) = delete;

@@ -17,7 +17,6 @@ namespace ouzel
             {
             public:
                 Mix() noexcept = default;
-                virtual ~Mix() = default;
 
                 Mix(const Mix&) = delete;
                 Mix& operator=(const Mix&) = delete;

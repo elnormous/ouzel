@@ -19,7 +19,7 @@ namespace ouzel
         public:
             Effect(Audio& initAudio,
                    uintptr_t initProcessorId);
-            virtual ~Effect();
+            ~Effect() override;
 
             Effect(const Effect&) = delete;
             Effect& operator=(const Effect&) = delete;
