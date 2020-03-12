@@ -34,7 +34,7 @@ namespace ouzel
                             DeviceId initId,
                             const DIDEVICEINSTANCEW* aInstance, IDirectInput8W* directInput, HWND window);
 
-            ~GamepadDeviceDI();
+            ~GamepadDeviceDI() override;
             void update();
 
             inline auto getInstance() const noexcept { return instance; }

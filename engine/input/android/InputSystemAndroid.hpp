@@ -16,7 +16,7 @@ namespace ouzel
         {
         public:
             explicit InputSystemAndroid(const std::function<std::future<bool>(const Event&)>& initCallback);
-            ~InputSystemAndroid();
+            ~InputSystemAndroid() override;
 
             void executeCommand(const Command& command) final;
 

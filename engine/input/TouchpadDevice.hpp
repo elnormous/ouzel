@@ -15,7 +15,7 @@ namespace ouzel
         {
         public:
             TouchpadDevice(InputSystem& initInputSystem, DeviceId initId, bool screen);
-            ~TouchpadDevice();
+            ~TouchpadDevice() override;
 
             std::future<bool> handleTouchBegin(uint64_t touchId, const Vector2F& position, float force = 1.0F);
             std::future<bool> handleTouchEnd(uint64_t touchId, const Vector2F& position, float force = 1.0F);

@@ -25,7 +25,7 @@ namespace ouzel
         {
         public:
             explicit InputSystemLinux(const std::function<std::future<bool>(const Event&)>& initCallback);
-            ~InputSystemLinux();
+            ~InputSystemLinux() override;
 
             void executeCommand(const Command& command) final;
 

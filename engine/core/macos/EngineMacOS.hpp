@@ -20,7 +20,7 @@ namespace ouzel
     {
     public:
         EngineMacOS(int argc, char* argv[]);
-        ~EngineMacOS();
+        ~EngineMacOS() override;
 
         void run();
 

@@ -15,7 +15,7 @@ namespace ouzel
         {
         public:
             MouseDevice(InputSystem& initInputSystem, DeviceId initId);
-            ~MouseDevice();
+            ~MouseDevice() override;
 
             std::future<bool> handleButtonPress(Mouse::Button button, const Vector2F& position);
             std::future<bool> handleButtonRelease(Mouse::Button button, const Vector2F& position);

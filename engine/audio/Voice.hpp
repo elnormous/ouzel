@@ -23,7 +23,7 @@ namespace ouzel
             explicit Voice(Audio& initAudio);
             Voice(Audio& initAudio, const Cue& cue);
             Voice(Audio& initAudio, const Sound* initSound);
-            ~Voice();
+            ~Voice() override;
 
             Voice(const Voice&) = delete;
             Voice& operator=(const Voice&) = delete;

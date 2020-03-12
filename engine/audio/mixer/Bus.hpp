@@ -21,7 +21,7 @@ namespace ouzel
                 friend Stream;
             public:
                 Bus() noexcept {}
-                ~Bus();
+                ~Bus() override;
                 Bus(const Bus&) = delete;
                 Bus& operator=(const Bus&) = delete;
 

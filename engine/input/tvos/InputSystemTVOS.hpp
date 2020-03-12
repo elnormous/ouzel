@@ -26,7 +26,7 @@ namespace ouzel
         {
         public:
             explicit InputSystemTVOS(const std::function<std::future<bool>(const Event&)>& initCallback);
-            ~InputSystemTVOS();
+            ~InputSystemTVOS() override;
 
             void executeCommand(const Command& command) final;
 

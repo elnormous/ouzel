@@ -38,7 +38,7 @@ namespace ouzel
                        uint32_t initFlags,
                        const std::vector<uint8_t>& initData,
                        uint32_t initSize);
-                ~Buffer();
+                ~Buffer() override;
 
                 void reload() final;
 

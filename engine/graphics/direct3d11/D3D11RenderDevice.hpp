@@ -44,7 +44,7 @@ namespace ouzel
                 friend Renderer;
             public:
                 explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
-                ~RenderDevice();
+                ~RenderDevice() override;
 
                 std::vector<Size2U> getSupportedResolutions() const final;
 

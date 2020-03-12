@@ -44,7 +44,7 @@ namespace ouzel
                 std::vector<float> buffer;
             };
 
-            class Mixer
+            class Mixer final
             {
             public:
                 class Event

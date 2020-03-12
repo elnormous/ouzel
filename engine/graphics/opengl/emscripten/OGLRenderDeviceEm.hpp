@@ -22,7 +22,7 @@ namespace ouzel
                 friend Renderer;
             public:
                 explicit RenderDeviceEm(const std::function<void(const Event&)>& initCallback);
-                ~RenderDeviceEm();
+                ~RenderDeviceEm() override;
 
             private:
                 void init(Window* newWindow,

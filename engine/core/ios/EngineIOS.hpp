@@ -18,7 +18,7 @@ namespace ouzel
     {
     public:
         EngineIOS(int initArgc, char* initArgv[]);
-        ~EngineIOS();
+        ~EngineIOS() override;
 
         void run();
 

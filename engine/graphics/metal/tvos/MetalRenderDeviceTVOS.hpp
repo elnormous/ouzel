@@ -25,7 +25,7 @@ namespace ouzel
                 friend Renderer;
             public:
                 explicit RenderDeviceTVOS(const std::function<void(const Event&)>& initCallback);
-                ~RenderDeviceTVOS();
+                ~RenderDeviceTVOS() override;
 
                 void renderCallback();
 

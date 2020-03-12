@@ -46,7 +46,7 @@ namespace ouzel
                         uint32_t initFlags = 0,
                         uint32_t initSampleCount = 1,
                         PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
-                ~Texture();
+                ~Texture() override;
 
                 void reload() final;
 

@@ -35,7 +35,7 @@ namespace ouzel
                 friend Renderer;
             public:
                 explicit RenderDeviceWin(const std::function<void(const Event&)>& initCallback);
-                ~RenderDeviceWin();
+                ~RenderDeviceWin() override;
 
             private:
                 void init(Window* newWindow,

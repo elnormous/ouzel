@@ -31,7 +31,7 @@ namespace ouzel
                          const std::string& newTitle,
                          graphics::Driver graphicsDriver,
                          bool newHighDpi);
-        ~NativeWindowTVOS();
+        ~NativeWindowTVOS() override;
 
         void executeCommand(const Command& command) final;
 

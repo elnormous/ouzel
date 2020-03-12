@@ -52,7 +52,7 @@ namespace ouzel
         public:
             explicit VorbisStream(VorbisData& vorbisData);
 
-            ~VorbisStream()
+            ~VorbisStream() override
             {
                 if (vorbisStream)
                     stb_vorbis_close(vorbisStream);

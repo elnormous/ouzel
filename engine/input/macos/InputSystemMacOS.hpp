@@ -38,7 +38,7 @@ namespace ouzel
         {
         public:
             explicit InputSystemMacOS(const std::function<std::future<bool>(const Event&)>& initCallback);
-            ~InputSystemMacOS();
+            ~InputSystemMacOS() override;
 
             void executeCommand(const Command& command) final;
 

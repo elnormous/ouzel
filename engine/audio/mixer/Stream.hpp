@@ -25,7 +25,7 @@ namespace ouzel
                 {
                 }
 
-                ~Stream()
+                ~Stream() override
                 {
                     if (output) output->removeInput(this);
                 }

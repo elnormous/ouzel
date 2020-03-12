@@ -23,7 +23,7 @@ namespace ouzel
     {
     public:
         EngineWin(int initArgc, LPWSTR* initArgv);
-        ~EngineWin();
+        ~EngineWin() override;
 
         void run();
 

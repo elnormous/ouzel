@@ -17,7 +17,7 @@ namespace ouzel
         {
         public:
             Delay(Audio& initAudio, float initDelay = 0.0F);
-            ~Delay();
+            ~Delay() override;
 
             Delay(const Delay&) = delete;
             Delay& operator=(const Delay&) = delete;
@@ -39,7 +39,7 @@ namespace ouzel
         {
         public:
             Gain(Audio& initAudio, float initGain = 0.0F);
-            ~Gain();
+            ~Gain() override;
 
             Gain(const Gain&) = delete;
             Gain& operator=(const Gain&) = delete;
@@ -61,7 +61,7 @@ namespace ouzel
         {
         public:
             explicit Panner(Audio& initAudio);
-            ~Panner();
+            ~Panner() override;
 
             Panner(const Panner&) = delete;
             Panner& operator=(const Panner&) = delete;
@@ -93,7 +93,7 @@ namespace ouzel
         {
         public:
             PitchScale(Audio& initAudio, float initScale = 1.0F);
-            ~PitchScale();
+            ~PitchScale() override;
 
             PitchScale(const PitchScale&) = delete;
             PitchScale& operator=(const PitchScale&) = delete;
@@ -115,7 +115,7 @@ namespace ouzel
         {
         public:
             PitchShift(Audio& initAudio, float initShift = 1.0F);
-            ~PitchShift();
+            ~PitchShift() override;
 
             PitchShift(const PitchShift&) = delete;
             PitchShift& operator=(const PitchShift&) = delete;
@@ -137,7 +137,7 @@ namespace ouzel
         {
         public:
             Reverb(Audio& initAudio, float initDelay = 0.1F, float initDecay = 0.5F);
-            ~Reverb();
+            ~Reverb() override;
 
             Reverb(const Reverb&) = delete;
             Reverb& operator=(const Reverb&) = delete;
@@ -156,7 +156,7 @@ namespace ouzel
         {
         public:
             explicit LowPass(Audio& initAudio);
-            ~LowPass();
+            ~LowPass() override;
 
             LowPass(const LowPass&) = delete;
             LowPass& operator=(const LowPass&) = delete;
@@ -168,7 +168,7 @@ namespace ouzel
         {
         public:
             explicit HighPass(Audio& initAudio);
-            ~HighPass();
+            ~HighPass() override;
 
             HighPass(const HighPass&) = delete;
             HighPass& operator=(const HighPass&) = delete;

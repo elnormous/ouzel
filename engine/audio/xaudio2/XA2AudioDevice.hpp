@@ -28,7 +28,7 @@ namespace ouzel
                                                      uint32_t sampleRate,
                                                      std::vector<float>& samples)>& initDataGetter,
                             bool debugAudio);
-                ~AudioDevice();
+                ~AudioDevice() override;
 
                 void start() final;
                 void stop() final;

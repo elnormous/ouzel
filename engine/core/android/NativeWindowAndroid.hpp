@@ -15,7 +15,7 @@ namespace ouzel
     public:
         NativeWindowAndroid(const std::function<void(const Event&)>& initCallback,
                             const std::string& newTitle);
-        ~NativeWindowAndroid();
+        ~NativeWindowAndroid() override;
 
         void executeCommand(const Command& command) final;
 

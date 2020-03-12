@@ -167,7 +167,7 @@ namespace ouzel
                 PFNGLPOPGROUPMARKEREXTPROC glPopGroupMarkerEXTProc = nullptr;
 
                 explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
-                ~RenderDevice();
+                ~RenderDevice() override;
 
                 inline auto isTextureBaseLevelSupported() const noexcept { return textureBaseLevelSupported; }
                 inline auto isTextureMaxLevelSupported() const noexcept { return textureMaxLevelSupported; }

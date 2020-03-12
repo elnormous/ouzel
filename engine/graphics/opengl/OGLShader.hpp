@@ -44,7 +44,7 @@ namespace ouzel
                        const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                        const std::string& fragmentShaderFunction,
                        const std::string& vertexShaderFunction);
-                ~Shader();
+                ~Shader() override;
 
                 void reload() final;
 

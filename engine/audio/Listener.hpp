@@ -21,7 +21,7 @@ namespace ouzel
             friend Mix;
         public:
             explicit Listener(Audio& initAudio);
-            ~Listener();
+            ~Listener() override;
 
             Listener(const Listener&) = delete;
             Listener& operator=(const Listener&) = delete;

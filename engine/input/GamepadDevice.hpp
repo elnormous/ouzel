@@ -15,7 +15,7 @@ namespace ouzel
         {
         public:
             GamepadDevice(InputSystem& initInputSystem, DeviceId initId);
-            ~GamepadDevice();
+            ~GamepadDevice() override;
 
             std::future<bool> handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
         };
