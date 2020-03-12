@@ -335,8 +335,7 @@ namespace ouzel
             RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
                 graphics::RenderDevice(Driver::OpenGL, initCallback),
                 textureBaseLevelSupported(false),
-                textureMaxLevelSupported(false),
-                uintElementIndexSupported(false)
+                textureMaxLevelSupported(false)
             {
                 projectionTransform = Matrix4F(1.0F, 0.0F, 0.0F, 0.0F,
                                                0.0F, 1.0F, 0.0F, 0.0F,
@@ -552,7 +551,7 @@ namespace ouzel
 
                 textureBaseLevelSupported = false;
                 textureMaxLevelSupported = false;
-                uintElementIndexSupported = false;
+                uintIndicesSupported = false;
 
                 if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 4, 0))
                 {
@@ -580,7 +579,7 @@ namespace ouzel
                     multisamplingSupported = true;
                     textureBaseLevelSupported = true;
                     textureMaxLevelSupported = true;
-                    uintElementIndexSupported = true;
+                    uintIndicesSupported = true;
 
                     glUniform1uivProc = getExtProcAddress<PFNGLUNIFORM1UIVPROC>("glUniform1uiv");
                     glUniform2uivProc = getExtProcAddress<PFNGLUNIFORM2UIVPROC>("glUniform2uiv");
@@ -636,7 +635,7 @@ namespace ouzel
                     renderTargetsSupported = true;
                     textureBaseLevelSupported = true;
                     textureMaxLevelSupported = true;
-                    uintElementIndexSupported = true;
+                    uintIndicesSupported = true;
 #endif
                 }
 
@@ -687,7 +686,7 @@ namespace ouzel
                         glUnmapBufferProc = getExtProcAddress<PFNGLUNMAPBUFFEROESPROC>("glUnmapBufferOES");
                     }
                     else if (extension == "OES_element_index_uint")
-                        uintElementIndexSupported = true;
+                        uintIndicesSupported = true;
                     else if (extension == "GL_EXT_texture_border_clamp")
                         clampToBorderSupported = true;
 #  if !OUZEL_OPENGL_INTERFACE_EAGL

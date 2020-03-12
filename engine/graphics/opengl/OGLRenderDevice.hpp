@@ -621,7 +621,6 @@ namespace ouzel
 
                 bool textureBaseLevelSupported:1;
                 bool textureMaxLevelSupported:1;
-                bool uintElementIndexSupported:1;
 
                 struct StateCache
                 {

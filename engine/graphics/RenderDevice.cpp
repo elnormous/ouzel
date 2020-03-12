@@ -23,7 +23,8 @@ namespace ouzel
             anisotropicFilteringSupported(false),
             renderTargetsSupported(false),
             clampToBorderSupported(false),
-            multisamplingSupported(false)
+            multisamplingSupported(false),
+            uintIndicesSupported(false)
         {
         }
 

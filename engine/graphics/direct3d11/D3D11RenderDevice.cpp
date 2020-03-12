@@ -145,6 +145,7 @@ namespace ouzel
                 renderTargetsSupported = true;
                 clampToBorderSupported = true;
                 multisamplingSupported = true;
+                uintIndicesSupported = true;
 
                 UINT deviceCreationFlags = 0;
 

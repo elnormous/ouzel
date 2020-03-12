@@ -190,6 +190,7 @@ namespace ouzel
             bool renderTargetsSupported:1;
             bool clampToBorderSupported:1;
             bool multisamplingSupported:1;
+            bool uintIndicesSupported:1;
 
             Matrix4F projectionTransform = Matrix4F::identity();
             Matrix4F renderTargetProjectionTransform = Matrix4F::identity();

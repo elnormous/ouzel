@@ -137,6 +137,7 @@ namespace ouzel
                 anisotropicFilteringSupported = true;
                 renderTargetsSupported = true;
                 multisamplingSupported = true;
+                uintIndicesSupported = true;
 
                 inflightSemaphore = dispatch_semaphore_create(BUFFER_COUNT);
 
