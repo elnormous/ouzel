@@ -110,18 +110,16 @@ namespace ouzel
                     (*iterator == 'e' || *iterator == 'E'))
                 {
                     value.push_back(static_cast<char>(*iterator));
-                    ++iterator;
-
-                    if (iterator == end || (*iterator != '+' && *iterator != '-'))
+                    if (++iterator == end)
                         throw std::runtime_error("Invalid exponent");
 
-                    value.push_back(static_cast<char>(*iterator));
-                    ++iterator;
+                    if (*iterator == '+' || *iterator == '-')
+                        value.push_back(static_cast<char>(*iterator++));
 
                     if (iterator == end || *iterator < '0' || *iterator > '9')
                         throw std::runtime_error("Invalid exponent");
 
-                    while (iterator != end && (*iterator >= '0' && *iterator <= '9'))
+                    while (iterator != end && *iterator >= '0' && *iterator <= '9')
                     {
                         value.push_back(static_cast<char>(*iterator));
                         ++iterator;
