@@ -33,20 +33,16 @@ namespace ouzel
         public:
 #if defined(_WIN32)
             static constexpr char directorySeparator = '\\';
+            using Char = wchar_t;
             using String = std::wstring;
 #elif defined(__unix__) || defined(__APPLE__)
             static constexpr char directorySeparator = '/';
+            using Char = char;
             using String = std::string;
 #endif
 
             Path() = default;
             Path(const std::string& p):
-                path(convertToNative(p))
-            {
-                // TODO: normalize
-            }
-
-            Path(const std::wstring& p):
                 path(convertToNative(p))
             {
                 // TODO: normalize
@@ -63,9 +59,50 @@ namespace ouzel
                 return *this;
             }
 
+            Path& operator+=(const char p)
+            {
+                path += Char(p);
+                return *this;
+            }
+
+            Path& operator+=(const char* p)
+            {
+                path += convertToNative(p);
+                return *this;
+            }
+
+            Path& operator+=(const std::string& p)
+            {
+                path += convertToNative(p);
+                return *this;
+            }
+
             Path operator+(const Path& p)
             {
-                return Path{path + p.path};
+                Path result = *this;
+                result.path += p.path;
+                return result;
+            }
+
+            Path operator+(const char p)
+            {
+                Path result = *this;
+                result.path += Char(p);
+                return result;
+            }
+
+            Path operator+(const char* p)
+            {
+                Path result = *this;
+                result.path += convertToNative(p);
+                return result;
+            }
+
+            Path operator+(const std::string& p)
+            {
+                Path result = *this;
+                result.path += convertToNative(p);
+                return result;
             }
 
             const String& getNative() const noexcept
@@ -73,27 +110,47 @@ namespace ouzel
                 return path;
             }
 
-            Path getExtensionPart() const
+            Path getExtension() const
             {
-                const std::size_t pos = path.find_last_of('.');
+                const std::size_t pos = path.find_last_of(Char('.'));
+
+                Path result;
 
                 if (pos != std::string::npos)
-                    return path.substr(pos + 1);
+                    result.path = path.substr(pos + 1);
+                else
+                    result.path = path;
 
-                return String();
+                return result;
             }
 
-            Path getFilenamePart() const
+            Path getFilename() const
             {
                 const std::size_t pos = path.find_last_of(directorySeparator);
 
+                Path result;
+
                 if (pos != String::npos)
-                    return path.substr(pos + 1);
+                    result.path = path.substr(pos + 1);
                 else
-                    return path;
+                    result.path = path;
+
+                return result;
             }
 
-            Path getDirectoryPart() const
+            Path getStem() const
+            {
+                const std::size_t directoryPos = path.find_last_of(directorySeparator);
+                const std::size_t startPos = directoryPos == String::npos ? 0 : directoryPos + 1;
+                const std::size_t extensionPos = path.find(Char('.'), startPos);
+                const std::size_t endPos = extensionPos == String::npos ? path.size() : extensionPos;
+
+                Path result;
+                result.path = path.substr(startPos, endPos - startPos);
+                return result;
+            }
+
+            Path getDirectory() const
             {
                 const std::size_t pos = path.find_last_of(directorySeparator);
 

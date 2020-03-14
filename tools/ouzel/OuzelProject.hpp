@@ -12,9 +12,9 @@ namespace ouzel
     class OuzelProject final
     {
     public:
-        OuzelProject(const ouzel::storage::Path& path)
+        OuzelProject(const storage::Path& path)
         {
-            std::string directory = path.getDirectoryPart();
+            storage::Path directory = path.getDirectory();
 
             std::ifstream f(path, std::ios::binary);
             std::vector<char> data{std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
@@ -22,11 +22,19 @@ namespace ouzel
             json::Data j(data);
             name = j["name"].as<std::string>();
 
-            std::string assetsPath = directory + storage::Path::directorySeparator + j["assetsPath"].as<std::string>();
+            storage::Path assetsPath = directory + '/' + j["assetsPath"].as<std::string>();
+            storage::Path resourcesPath = directory + "/Resources/";
 
-            for (const auto& assets : j["assets"])
+            for (const auto& asset : j["assets"])
             {
+                storage::Path assetPath(assetsPath + asset["path"].as<std::string>());
 
+                storage::Path resourceName = asset["path"].as<std::string>();
+                storage::Path resourcePath = resourcesPath + resourceName.getStem() + ".otexture";
+
+                // TODO: check if input file exists
+                // TODO: check if output file exists and is older than the input file
+                // TODO: export input file to output file
             }
         }
 
