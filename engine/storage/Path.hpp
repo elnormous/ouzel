@@ -154,10 +154,11 @@ namespace ouzel
             {
                 const std::size_t pos = path.find_last_of(directorySeparator);
 
+                Path result;
                 if (pos != String::npos)
-                    return path.substr(0, pos);
+                    result.path = path.substr(0, pos);
 
-                return String();
+                return result;
             }
 
             bool isDirectory() const noexcept
