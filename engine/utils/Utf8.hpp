@@ -55,7 +55,7 @@ namespace ouzel
                     cp += ((*i & 0xFF) << 6) & 0x0FFF;
                     if (++i == end)
                         throw ParseError("Invalid UTF-8 string");
-                    cp += (*i) & 0x3F;
+                    cp += *i & 0x3F;
                 }
 
                 result.push_back(cp);

@@ -23,7 +23,7 @@ namespace ouzel
             std::string getStorageDirectory(const bool user = true) const;
             std::string getTempDirectory() const;
 
-            std::vector<std::uint8_t> readFile(const std::string& filename, const bool searchResources = true) const;
+            std::vector<std::uint8_t> readFile(const std::string& filename, const bool searchResources = true);
             void writeFile(const std::string& filename, const std::vector<std::uint8_t>& data) const;
 
             bool resourceFileExists(const std::string& filename) const;

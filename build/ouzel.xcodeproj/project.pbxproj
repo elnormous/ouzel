@@ -664,9 +664,6 @@
 		30C758C01F4A23BD008499DC /* DisplayLink.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C758BE1F4A23BD008499DC /* DisplayLink.hpp */; };
 		30C758C11F4A23BD008499DC /* DisplayLink.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30C758BF1F4A23BD008499DC /* DisplayLink.mm */; };
 		30CB946B22B455F80025C927 /* SamplerAddressMode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CB946A22B455F80025C927 /* SamplerAddressMode.hpp */; };
-		30CC89FC203C5DFB00E2C8C3 /* File.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CC89F8203C5DFB00E2C8C3 /* File.hpp */; };
-		30CC89FD203C5DFB00E2C8C3 /* File.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CC89F8203C5DFB00E2C8C3 /* File.hpp */; };
-		30CC89FE203C5DFB00E2C8C3 /* File.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CC89F8203C5DFB00E2C8C3 /* File.hpp */; };
 		30CEB36921A6385C00525637 /* System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CEB36721A6385C00525637 /* System.cpp */; };
 		30CEB36A21A6385C00525637 /* System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CEB36721A6385C00525637 /* System.cpp */; };
 		30CEB36B21A6385C00525637 /* System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CEB36721A6385C00525637 /* System.cpp */; };
@@ -1078,7 +1075,6 @@
 		30CB946E22B4681C0025C927 /* BufferType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BufferType.hpp; sourceTree = "<group>"; };
 		30CB946F22B473D30025C927 /* ColorMask.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ColorMask.hpp; sourceTree = "<group>"; };
 		30CC849923C00FDD00E5CF90 /* MetalError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MetalError.hpp; sourceTree = "<group>"; };
-		30CC89F8203C5DFB00E2C8C3 /* File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = File.hpp; sourceTree = "<group>"; };
 		30CEB36721A6385C00525637 /* System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = System.cpp; sourceTree = "<group>"; };
 		30CEB36821A6385C00525637 /* System.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = System.hpp; sourceTree = "<group>"; };
 		30CEB36F21A6403600525637 /* SystemMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SystemMacOS.hpp; sourceTree = "<group>"; };
@@ -1411,7 +1407,6 @@
 			isa = PBXGroup;
 			children = (
 				30A883631E7432DA004A033F /* Archive.hpp */,
-				30CC89F8203C5DFB00E2C8C3 /* File.hpp */,
 				303B74FE1C28208800FEDE92 /* FileSystem.cpp */,
 				303B74FF1C28208800FEDE92 /* FileSystem.hpp */,
 				30E266192411CFAE0098C124 /* Path.hpp */,
@@ -1942,7 +1937,6 @@
 				303B75371C2A3C8200FEDE92 /* Setup.h in Headers */,
 				305B68D61ED1B31D003352A2 /* Timer.hpp in Headers */,
 				300C39ED1E51355000330E4F /* PcmClip.hpp in Headers */,
-				30CC89FC203C5DFB00E2C8C3 /* File.hpp in Headers */,
 				3009030921922DEE00B00BF4 /* MetalDepthStencilState.hpp in Headers */,
 				303B75681C2A3CBF00FEDE92 /* SpriteRenderer.hpp in Headers */,
 				30381F8E1D80A3EC00677CAB /* OGLTexture.hpp in Headers */,
@@ -1980,7 +1974,6 @@
 				30419DE61D162BCF00A63759 /* Audio.hpp in Headers */,
 				3009030B21922DEE00B00BF4 /* MetalDepthStencilState.hpp in Headers */,
 				303696D11E32DD9C007F4211 /* BlendState.hpp in Headers */,
-				30CC89FE203C5DFB00E2C8C3 /* File.hpp in Headers */,
 				30519CBD1F9B53AB00AF3DC4 /* WaveLoader.hpp in Headers */,
 				C6C9101F21B54B5B00B5FCB7 /* Data.hpp in Headers */,
 				30381F721D80A3EC00677CAB /* OGLBuffer.hpp in Headers */,
@@ -2240,7 +2233,6 @@
 				304A8E521C237C70008B1151 /* Camera.hpp in Headers */,
 				304AA8C21E1190E4006FA70E /* Obf.hpp in Headers */,
 				301EB3A51CCD691800466E92 /* Component.hpp in Headers */,
-				30CC89FD203C5DFB00E2C8C3 /* File.hpp in Headers */,
 				303696C81E32DD8F007F4211 /* Texture.hpp in Headers */,
 				30B859901F3D286600A16952 /* TTFont.hpp in Headers */,
 				304A8E551C237C70008B1151 /* EventHandler.hpp in Headers */,

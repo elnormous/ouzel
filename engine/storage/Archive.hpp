@@ -4,11 +4,11 @@
 #define OUZEL_STORAGE_ARCHIVE_HPP
 
 #include <cstdint>
+#include <fstream>
 #include <map>
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include "storage/File.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
@@ -21,7 +21,7 @@ namespace ouzel
             Archive() = default;
 
             explicit Archive(const std::string& path):
-                file{File(path, File::Mode::Read)}
+                file{path, std::ios::binary}
             {
                 constexpr std::uint32_t CENTRAL_DIRECTORY = 0x02014B50;
                 constexpr std::uint32_t HEADER_SIGNATURE = 0x04034B50;
@@ -29,7 +29,7 @@ namespace ouzel
                 for (;;)
                 {
                     std::uint8_t signature[4];
-                    file.read(signature, sizeof(signature), true);
+                    file.read(reinterpret_cast<char*>(signature), sizeof(signature));
 
                     if (decodeLittleEndian<std::uint32_t>(signature) == CENTRAL_DIRECTORY)
                         break;
@@ -39,52 +39,52 @@ namespace ouzel
 
                     std::uint8_t version[2];
 
-                    file.read(version, sizeof(version), true);
+                    file.read(reinterpret_cast<char*>(version), sizeof(version));
 
                     std::uint16_t flags;
 
-                    file.read(&flags, sizeof(flags), true);
+                    file.read(reinterpret_cast<char*>(&flags), sizeof(flags));
 
                     std::uint16_t compression;
-                    file.read(&compression, sizeof(compression), true);
+                    file.read(reinterpret_cast<char*>(&compression), sizeof(compression));
 
                     if (compression != 0x00)
                         throw std::runtime_error("Unsupported compression");
 
-                    file.seek(4, File::Seek::Current); // skip modification time
-                    file.seek(4, File::Seek::Current); // skip CRC-32
+                    file.seekg(4, std::ios::cur); // skip modification time
+                    file.seekg(4, std::ios::cur); // skip CRC-32
 
                     std::uint8_t compressedSize[4];
-                    file.read(compressedSize, sizeof(compressedSize), true);
+                    file.read(reinterpret_cast<char*>(compressedSize), sizeof(compressedSize));
 
                     std::uint8_t uncompressedSize[4];
-                    file.read(uncompressedSize, sizeof(uncompressedSize), true);
+                    file.read(reinterpret_cast<char*>(uncompressedSize), sizeof(uncompressedSize));
 
                     std::uint8_t fileNameLength[2];
-                    file.read(fileNameLength, sizeof(fileNameLength), true);
+                    file.read(reinterpret_cast<char*>(fileNameLength), sizeof(fileNameLength));
 
                     std::uint8_t extraFieldLength[2];
-                    file.read(extraFieldLength, sizeof(extraFieldLength), true);
+                    file.read(reinterpret_cast<char*>(extraFieldLength), sizeof(extraFieldLength));
 
                     std::vector<char> name(decodeLittleEndian<std::uint16_t>(fileNameLength) + 1);
 
-                    file.read(name.data(), decodeLittleEndian<std::uint16_t>(fileNameLength), true);
+                    file.read(name.data(), decodeLittleEndian<std::uint16_t>(fileNameLength));
 
                     name[decodeLittleEndian<std::uint16_t>(fileNameLength)] = '\0';
 
                     Entry& entry = entries[name.data()];
                     entry.size = decodeLittleEndian<std::uint32_t>(uncompressedSize);
 
-                    file.seek(decodeLittleEndian<std::uint16_t>(extraFieldLength), File::Seek::Current); // skip extra field
+                    file.seekg(decodeLittleEndian<std::uint16_t>(extraFieldLength), std::ios::cur); // skip extra field
 
-                    entry.offset = file.getOffset();
+                    entry.offset = file.tellg();
 
-                    file.seek(static_cast<std::int32_t>(decodeLittleEndian<std::uint32_t>(uncompressedSize)),
-                              File::Seek::Current); // skip uncompressed size
+                    file.seekg(static_cast<std::streamoff>(decodeLittleEndian<std::uint32_t>(uncompressedSize)),
+                               std::ios::cur); // skip uncompressed size
                 }
             }
 
-            std::vector<std::uint8_t> readFile(const std::string& filename) const
+            std::vector<std::uint8_t> readFile(const std::string& filename)
             {
                 std::vector<std::uint8_t> data;
 
@@ -93,11 +93,11 @@ namespace ouzel
                 if (i == entries.end())
                     throw std::runtime_error("File " + filename + " does not exist");
 
-                file.seek(static_cast<std::int32_t>(i->second.offset), File::Seek::Begin);
+                file.seekg(i->second.offset, std::ios::beg);
 
                 data.resize(i->second.size);
 
-                file.read(data.data(), i->second.size, true);
+                file.read(reinterpret_cast<char*>(data.data()), i->second.size);
 
                 return data;
             }
@@ -108,12 +108,12 @@ namespace ouzel
             }
 
         private:
-            File file;
+            std::ifstream file;
 
             struct Entry final
             {
-                std::uint32_t offset;
-                std::uint32_t size;
+                std::streamoff offset;
+                std::size_t size;
             };
 
             std::map<std::string, Entry> entries;

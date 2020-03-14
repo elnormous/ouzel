@@ -4,7 +4,6 @@
 #define OUZEL_OUZELPROJECT_HPP
 
 #include <fstream>
-#include "storage/File.hpp"
 #include "storage/FileSystem.hpp"
 #include "utils/Json.hpp"
 
@@ -17,12 +16,8 @@ namespace ouzel
         {
             std::string directory = path.getDirectoryPart();
 
-            std::vector<std::uint8_t> data;
-            std::uint8_t buffer[1024];
-
-            storage::File file(path, storage::File::Mode::Read);
-            while (const std::uint32_t size = file.read(buffer, sizeof(buffer)))
-                data.insert(data.end(), buffer, buffer + size);
+            std::ifstream f(path, std::ios::binary);
+            std::vector<std::uint8_t> data{std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
 
             json::Data j(data);
             name = j["name"].as<std::string>();

@@ -453,9 +453,6 @@
     <ClInclude Include="..\engine\events\EventHandler.hpp">
       <Filter>engine\events</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\storage\File.hpp">
-      <Filter>engine\storage</Filter>
-    </ClInclude>
     <ClInclude Include="..\engine\storage\FileSystem.hpp">
       <Filter>engine\storage</Filter>
     </ClInclude>

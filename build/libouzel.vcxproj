@@ -222,7 +222,6 @@
     <ClInclude Include="..\engine\graphics\direct3d11\D3D11Pointer.hpp" />
     <ClInclude Include="..\engine\graphics\StencilOperation.hpp" />
     <ClInclude Include="..\engine\storage\Archive.hpp" />
-    <ClInclude Include="..\engine\storage\File.hpp" />
     <ClInclude Include="..\engine\storage\FileSystem.hpp" />
     <ClInclude Include="..\engine\storage\Path.hpp" />
     <ClInclude Include="..\engine\graphics\BlendState.hpp" />

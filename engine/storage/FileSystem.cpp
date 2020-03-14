@@ -3,6 +3,7 @@
 #include "core/Setup.h"
 
 #include <algorithm>
+#include <fstream>
 #include <stdexcept>
 #include <system_error>
 #if defined(_WIN32)
@@ -37,7 +38,6 @@
 #endif
 
 #include "FileSystem.hpp"
-#include "File.hpp"
 #include "Archive.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
@@ -320,15 +320,12 @@ namespace ouzel
 #endif
         }
 
-        std::vector<std::uint8_t> FileSystem::readFile(const std::string& filename, const bool searchResources) const
+        std::vector<std::uint8_t> FileSystem::readFile(const std::string& filename, const bool searchResources)
         {
             if (searchResources)
-                for (const auto& archive : archives)
+                for (auto& archive : archives)
                     if (archive.second.fileExists(filename))
                         return archive.second.readFile(filename);
-
-            std::vector<std::uint8_t> data;
-            std::uint8_t buffer[1024];
 
 #if defined(__ANDROID__)
             if (pathIsRelative(filename))
@@ -339,6 +336,9 @@ namespace ouzel
 
                 if (!asset)
                     throw std::runtime_error("Failed to open file " + filename);
+
+                std::vector<std::uint8_t> data;
+                std::uint8_t buffer[1024];
 
                 for (;;)
                 {
@@ -364,25 +364,15 @@ namespace ouzel
             if (path.empty())
                 throw std::runtime_error("Failed to find file " + filename);
 
-            File file(path, File::Mode::Read);
-
-            while (const std::uint32_t size = file.read(buffer, sizeof(buffer)))
-                data.insert(data.end(), buffer, buffer + size);
-
-            return data;
+            std::ifstream f(path, std::ios::binary);
+            return {std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
         }
 
         void FileSystem::writeFile(const std::string& filename, const std::vector<std::uint8_t>& data) const
         {
-            File file(filename, File::Mode::Write | File::Mode::Create | File::Mode::Truncate);
-
-            std::uint32_t offset = 0;
-
-            while (offset < data.size())
-            {
-                const std::uint32_t written = file.write(data.data() + offset, static_cast<std::uint32_t>(data.size()) - offset);
-                offset += written;
-            }
+            std::ofstream f(filename, std::ios::binary | std::ios::trunc);
+            f.write(reinterpret_cast<const char*>(data.data()),
+                    static_cast<std::streamsize>(data.size()));
         }
 
         bool FileSystem::resourceFileExists(const std::string& filename) const
