@@ -22,14 +22,14 @@ namespace ouzel
                 inline auto getChannels() const noexcept { return channels; }
                 inline auto getSampleRate() const noexcept { return sampleRate; }
 
-                /*virtual void getData(uint32_t frames,
-                                     uint32_t channels,
-                                     uint32_t sampleRate,
+                /*virtual void getData(std::uint32_t frames,
+                                     std::uint32_t channels,
+                                     std::uint32_t sampleRate,
                                      std::vector<float>& samples) = 0;*/
 
             protected:
-                uint32_t channels = 0;
-                uint32_t sampleRate = 0;
+                std::uint32_t channels = 0;
+                std::uint32_t sampleRate = 0;
             };
         }
     } // namespace audio

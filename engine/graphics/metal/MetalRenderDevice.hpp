@@ -61,8 +61,8 @@ namespace ouzel
             {
                 friend Renderer;
             public:
-                static constexpr size_t BUFFER_SIZE = 1024 * 1024; // size of shader constant buffer
-                static constexpr size_t BUFFER_COUNT = 3; // allow encoding up to 3 command buffers simultaneously
+                static constexpr std::size_t BUFFER_SIZE = 1024 * 1024; // size of shader constant buffer
+                static constexpr std::size_t BUFFER_COUNT = 3; // allow encoding up to 3 command buffers simultaneously
 
                 static bool available();
 
@@ -71,7 +71,7 @@ namespace ouzel
                 MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
                 template <class T>
-                inline auto getResource(uintptr_t id) const
+                inline auto getResource(std::uintptr_t id) const
                 {
                     return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
                 }
@@ -81,9 +81,9 @@ namespace ouzel
 
                 void init(Window* newWindow,
                           const Size2U& newSize,
-                          uint32_t newSampleCount,
+                          std::uint32_t newSampleCount,
                           SamplerFilter newTextureFilter,
-                          uint32_t newMaxAnisotropy,
+                          std::uint32_t newMaxAnisotropy,
                           bool newSrgb,
                           bool newVerticalSync,
                           bool newDepth,
@@ -120,11 +120,11 @@ namespace ouzel
                 struct ShaderConstantBuffer
                 {
                     std::vector<Pointer<MTLBufferPtr>> buffers;
-                    uint32_t index = 0;
-                    uint32_t offset = 0;
+                    std::uint32_t index = 0;
+                    std::uint32_t offset = 0;
                 };
 
-                uint32_t shaderConstantBufferIndex = 0;
+                std::uint32_t shaderConstantBufferIndex = 0;
                 ShaderConstantBuffer shaderConstantBuffers[BUFFER_COUNT];
 
                 Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;

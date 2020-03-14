@@ -79,14 +79,14 @@ namespace ouzel
         std::vector<char> output(str.begin(), str.end());
         output.push_back('\n');
 
-        size_t offset = 0;
+        std::size_t offset = 0;
         while (offset < output.size())
         {
             const ssize_t written = write(fd, output.data() + offset, output.size() - offset);
             if (written == -1)
                 return;
 
-            offset += static_cast<size_t>(written);
+            offset += static_cast<std::size_t>(written);
         }
 #elif defined(_WIN32)
         const int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);

@@ -25,7 +25,7 @@ namespace ouzel
             class RootObject final: public Object
             {
             public:
-                void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) final
+                void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples) final
                 {
                     samples.resize(frames * channels);
                     std::fill(samples.begin(), samples.end(), 0.0F);
@@ -34,8 +34,8 @@ namespace ouzel
                     {
                         child->getSamples(frames, channels, sampleRate, buffer);
 
-                        for (uint32_t channel = 0; channel < channels; ++channel)
-                            for (uint32_t frame = 0; frame < frames; ++frame)
+                        for (std::uint32_t channel = 0; channel < channels; ++channel)
+                            for (std::uint32_t frame = 0; frame < frames; ++frame)
                                 samples[channel * frames + frame] += buffer[channel * frames + frame];
                     }
                 }
@@ -62,11 +62,11 @@ namespace ouzel
                     explicit Event(Type initType) noexcept: type(initType) {}
 
                     Type type;
-                    uintptr_t objectId;
+                    std::uintptr_t objectId;
                 };
 
-                Mixer(uint32_t initBufferSize,
-                      uint32_t initChannels,
+                Mixer(std::uint32_t initBufferSize,
+                      std::uint32_t initChannels,
                       const std::function<void(const Event&)>& initCallback);
 
                 ~Mixer();
@@ -78,9 +78,9 @@ namespace ouzel
                 Mixer& operator=(Mixer&&) = delete;
 
                 void process();
-                void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples);
+                void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples);
 
-                uintptr_t getObjectId()
+                std::uintptr_t getObjectId()
                 {
                     auto i = deletedObjectIds.begin();
 
@@ -88,13 +88,13 @@ namespace ouzel
                         return ++lastObjectId; // zero is reserved for null node
                     else
                     {
-                        uintptr_t objectId = *i;
+                        std::uintptr_t objectId = *i;
                         deletedObjectIds.erase(i);
                         return objectId;
                     }
                 }
 
-                void deleteObjectId(uintptr_t objectId)
+                void deleteObjectId(std::uintptr_t objectId)
                 {
                     deletedObjectIds.insert(objectId);
                 }
@@ -114,15 +114,15 @@ namespace ouzel
             private:
                 void mixerMain();
 
-                uint32_t bufferSize;
-                uint32_t channels;
+                std::uint32_t bufferSize;
+                std::uint32_t channels;
                 std::function<void(const Event&)> callback;
 
-                uintptr_t lastObjectId = 0;
-                std::set<uintptr_t> deletedObjectIds;
+                std::uintptr_t lastObjectId = 0;
+                std::set<std::uintptr_t> deletedObjectIds;
 
                 std::vector<std::unique_ptr<Object>> objects;
-                uintptr_t rootObjectId = 0;
+                std::uintptr_t rootObjectId = 0;
                 RootObject* rootObject = nullptr;
 
                 Bus* masterBus = nullptr;
@@ -130,7 +130,7 @@ namespace ouzel
                 class Buffer final
                 {
                 public:
-                    Buffer(size_t size, uint32_t initChannels):
+                    Buffer(std::size_t size, std::uint32_t initChannels):
                         maxFrames(size),
                         channels(initChannels),
                         buffer(size * channels)
@@ -141,11 +141,11 @@ namespace ouzel
                     bool canWrite() const { return frames < maxFrames; }
 
                 private:
-                    size_t frames = 0;
-                    size_t maxFrames;
-                    uint32_t channels;
-                    size_t readPosition = 0;
-                    size_t writePosition = 0;
+                    std::size_t frames = 0;
+                    std::size_t maxFrames;
+                    std::uint32_t channels;
+                    std::size_t readPosition = 0;
+                    std::size_t writePosition = 0;
                     std::vector<float> buffer;
                 };
 

@@ -16,12 +16,12 @@ namespace ouzel
         {
         public:
             AudioDevice(Driver initDriver,
-                        uint32_t initBufferSize,
-                        uint32_t initSampleRate,
-                        uint32_t initChannels, // zero for maximum available channels
-                        const std::function<void(uint32_t frames,
-                                                 uint32_t channels,
-                                                 uint32_t sampleRate,
+                        std::uint32_t initBufferSize,
+                        std::uint32_t initSampleRate,
+                        std::uint32_t initChannels, // zero for maximum available channels
+                        const std::function<void(std::uint32_t frames,
+                                                 std::uint32_t channels,
+                                                 std::uint32_t sampleRate,
                                                  std::vector<float>& samples)>& initDataGetter);
             virtual ~AudioDevice() = default;
 
@@ -46,18 +46,18 @@ namespace ouzel
             Driver driver;
 
         protected:
-            void getData(uint32_t frames, std::vector<uint8_t>& result);
+            void getData(std::uint32_t frames, std::vector<std::uint8_t>& result);
 
-            uint16_t apiMajorVersion = 0;
-            uint16_t apiMinorVersion = 0;
+            std::uint16_t apiMajorVersion = 0;
+            std::uint16_t apiMinorVersion = 0;
 
             SampleFormat sampleFormat = SampleFormat::SignedInt16;
-            uint32_t bufferSize; // in frames
-            uint32_t sampleRate;
-            uint32_t channels;
+            std::uint32_t bufferSize; // in frames
+            std::uint32_t sampleRate;
+            std::uint32_t channels;
 
         private:
-            std::function<void(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples)> dataGetter;
+            std::function<void(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples)> dataGetter;
             std::vector<float> buffer;
         };
     } // namespace audio

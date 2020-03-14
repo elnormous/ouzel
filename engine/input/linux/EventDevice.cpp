@@ -19,9 +19,9 @@ namespace
 {
     constexpr float THUMB_DEADZONE = 0.2F;
 
-    constexpr uint32_t BITS_PER_LONG = 8 * sizeof(long);
+    constexpr std::uint32_t BITS_PER_LONG = 8 * sizeof(long);
 
-    constexpr size_t bitsToLongs(size_t n)
+    constexpr std::size_t bitsToLongs(std::size_t n)
     {
         return (n + BITS_PER_LONG - 1) / BITS_PER_LONG; // rounded up
     }
@@ -31,7 +31,7 @@ namespace
         return (array[bit / BITS_PER_LONG] & (1LL << (bit % BITS_PER_LONG))) != 0;
     }
 
-    ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
+    ouzel::input::Keyboard::Key convertKeyCode(std::uint16_t keyCode)
     {
         switch (keyCode)
         {
@@ -202,7 +202,7 @@ namespace
         }
     }
 
-    ouzel::input::Mouse::Button convertButtonCode(uint16_t buttonCode)
+    ouzel::input::Mouse::Button convertButtonCode(std::uint16_t buttonCode)
     {
         switch (buttonCode)
         {
@@ -323,7 +323,7 @@ namespace ouzel
 
                 const GamepadConfig& gamepadConfig = getGamepadConfig(id.vendor, id.product);
 
-                for (size_t buttonNum = 0; buttonNum < 24; ++buttonNum)
+                for (std::size_t buttonNum = 0; buttonNum < 24; ++buttonNum)
                 {
                     if (gamepadConfig.buttonMap[buttonNum] != Gamepad::Button::Unknown)
                     {
@@ -333,7 +333,7 @@ namespace ouzel
                     }
                 }
 
-                constexpr std::array<uint32_t, 6> axisUsageMap = {
+                constexpr std::array<std::uint32_t, 6> axisUsageMap = {
                     ABS_X,
                     ABS_Y,
                     ABS_Z,
@@ -342,11 +342,11 @@ namespace ouzel
                     ABS_RZ
                 };
 
-                for (size_t axisNum = 0; axisNum < 6; ++axisNum)
+                for (std::size_t axisNum = 0; axisNum < 6; ++axisNum)
                 {
                     if (gamepadConfig.axisMap[axisNum] != Gamepad::Axis::Unknown)
                     {
-                        const uint32_t usage = axisUsageMap[axisNum];
+                        const std::uint32_t usage = axisUsageMap[axisNum];
 
                         Axis axis;
                         axis.axis = gamepadConfig.axisMap[axisNum];
@@ -564,13 +564,13 @@ namespace ouzel
                                                 case Slot::Action::Unknown:
                                                     break;
                                                 case Slot::Action::Begin:
-                                                    touchpadDevice->handleTouchBegin(static_cast<uint64_t>(slot.trackingId), position, pressure);
+                                                    touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(slot.trackingId), position, pressure);
                                                     break;
                                                 case Slot::Action::End:
-                                                    touchpadDevice->handleTouchEnd(static_cast<uint64_t>(slot.trackingId), position, pressure);
+                                                    touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(slot.trackingId), position, pressure);
                                                     break;
                                                 case Slot::Action::Move:
-                                                    touchpadDevice->handleTouchMove(static_cast<uint64_t>(slot.trackingId), position, pressure);
+                                                    touchpadDevice->handleTouchMove(static_cast<std::uint64_t>(slot.trackingId), position, pressure);
                                                     break;
                                             }
 
@@ -586,7 +586,7 @@ namespace ouzel
                                         __s32 values[1];
                                     };
 
-                                    size_t size = sizeof(input_mt_request_layout::code) +
+                                    std::size_t size = sizeof(input_mt_request_layout::code) +
                                         sizeof(*input_mt_request_layout::values) * touchSlots.size();
 
                                     std::unique_ptr<input_mt_request_layout, decltype(&free)> request(static_cast<input_mt_request_layout*>(malloc(size)), free);
@@ -595,7 +595,7 @@ namespace ouzel
                                     if (ioctl(fd, EVIOCGMTSLOTS(size), request.get()) == -1)
                                         throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
-                                    for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
+                                    for (std::size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
                                     {
                                         if (touchSlots[touchNum].trackingId < 0 &&
                                             request->values[touchNum] >= 0)
@@ -615,7 +615,7 @@ namespace ouzel
                                     if (ioctl(fd, EVIOCGMTSLOTS(size), request.get()) == -1)
                                         throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
-                                    for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
+                                    for (std::size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
                                     {
                                         if (touchSlots[touchNum].trackingId >= 0 &&
                                             touchSlots[touchNum].positionX != request->values[touchNum])
@@ -630,7 +630,7 @@ namespace ouzel
                                     if (ioctl(fd, EVIOCGMTSLOTS(size), request.get()) == -1)
                                         throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
-                                    for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
+                                    for (std::size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
                                     {
                                         if (touchSlots[touchNum].trackingId >= 0 &&
                                             touchSlots[touchNum].positionY != request->values[touchNum])
@@ -644,7 +644,7 @@ namespace ouzel
                                     request->code = ABS_MT_PRESSURE;
                                     if (ioctl(fd, EVIOCGABS(size), request.get()) != -1)
                                     {
-                                        for (size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
+                                        for (std::size_t touchNum = 0; touchNum < touchSlots.size(); ++touchNum)
                                         {
                                             if (touchSlots[touchNum].trackingId >= 0 &&
                                                 touchSlots[touchNum].pressure != request->values[touchNum])
@@ -731,8 +731,8 @@ namespace ouzel
             }
         }
 
-        void EventDevice::handleAxisChange(int32_t oldValue, int32_t newValue,
-                                           int32_t min, int32_t range,
+        void EventDevice::handleAxisChange(std::int32_t oldValue, std::int32_t newValue,
+                                           std::int32_t min, std::int32_t range,
                                            Gamepad::Button negativeButton,
                                            Gamepad::Button positiveButton)
         {

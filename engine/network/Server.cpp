@@ -16,7 +16,7 @@ namespace ouzel
         {
         }
 
-        void Server::listen(const std::string& address, uint16_t port)
+        void Server::listen(const std::string& address, std::uint16_t port)
         {
         }
 

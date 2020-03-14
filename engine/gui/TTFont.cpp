@@ -28,7 +28,7 @@ namespace ouzel
 {
     namespace gui
     {
-        TTFont::TTFont(const std::vector<uint8_t>& initData, bool initMipmaps):
+        TTFont::TTFont(const std::vector<std::uint8_t>& initData, bool initMipmaps):
             data(initData),
             mipmaps(initMipmaps)
         {
@@ -51,20 +51,20 @@ namespace ouzel
             if (!font)
                 throw std::runtime_error("Font not loaded");
 
-            constexpr uint32_t SPACING = 2;
+            constexpr std::uint32_t SPACING = 2;
 
             struct CharDescriptor final
             {
-                uint16_t x = 0;
-                uint16_t y = 0;
-                uint16_t width = 0;
-                uint16_t height = 0;
+                std::uint16_t x = 0;
+                std::uint16_t y = 0;
+                std::uint16_t width = 0;
+                std::uint16_t height = 0;
                 Vector2F offset;
                 float advance = 0;
-                std::vector<uint8_t> bitmap;
+                std::vector<std::uint8_t> bitmap;
             };
 
-            std::unordered_map<uint32_t, CharDescriptor> chars;
+            std::unordered_map<std::uint32_t, CharDescriptor> chars;
 
             const float s = stbtt_ScaleForPixelHeight(font.get(), fontSize);
 
@@ -74,8 +74,8 @@ namespace ouzel
             for (const char32_t i : utf32Text)
                 glyphs.insert(i);
 
-            uint16_t width = 0;
-            uint16_t height = 0;
+            std::uint16_t width = 0;
+            std::uint16_t height = 0;
 
             int ascent;
             int descent;
@@ -99,15 +99,15 @@ namespace ouzel
 
                     if (unsigned char* bitmap = stbtt_GetGlyphBitmapSubpixel(font.get(), s, s, 0.0F, 0.0F, index, &w, &h, &xoff, &yoff))
                     {
-                        charDesc.width = static_cast<uint16_t>(w);
-                        charDesc.height = static_cast<uint16_t>(h);
+                        charDesc.width = static_cast<std::uint16_t>(w);
+                        charDesc.height = static_cast<std::uint16_t>(h);
                         charDesc.offset.v[0] = static_cast<float>(leftBearing * s);
                         charDesc.offset.v[1] = static_cast<float>(yoff + (ascent - descent) * s);
-                        charDesc.bitmap = std::vector<uint8_t>(bitmap, bitmap + h * w);
+                        charDesc.bitmap = std::vector<std::uint8_t>(bitmap, bitmap + h * w);
                         charDesc.x = width;
 
-                        width += static_cast<uint16_t>(w);
-                        height = height > static_cast<uint16_t>(h) ? height : static_cast<uint16_t>(h);
+                        width += static_cast<std::uint16_t>(w);
+                        height = height > static_cast<std::uint16_t>(h) ? height : static_cast<std::uint16_t>(h);
 
                         stbtt_FreeBitmap(bitmap, nullptr);
                     }
@@ -121,11 +121,11 @@ namespace ouzel
                 }
             }
 
-            std::vector<uint8_t> textureData(width * height * 4);
+            std::vector<std::uint8_t> textureData(width * height * 4);
 
-            for (uint16_t posX = 0; posX < width; ++posX)
+            for (std::uint16_t posX = 0; posX < width; ++posX)
             {
-                for (uint16_t posY = 0; posY < height; ++posY)
+                for (std::uint16_t posY = 0; posY < height; ++posY)
                 {
                     textureData[(posY * width + posX) * 4 + 0] = 255;
                     textureData[(posY * width + posX) * 4 + 1] = 255;
@@ -138,9 +138,9 @@ namespace ouzel
             {
                 const CharDescriptor& charDesc = c.second;
 
-                for (uint16_t posX = 0; posX < charDesc.width; ++posX)
+                for (std::uint16_t posX = 0; posX < charDesc.width; ++posX)
                 {
-                    for (uint16_t posY = 0; posY < charDesc.height; ++posY)
+                    for (std::uint16_t posY = 0; posY < charDesc.height; ++posY)
                     {
                         textureData[(posY * width + posX + charDesc.x) * 4 + 0] = 255;
                         textureData[(posY * width + posX + charDesc.x) * 4 + 1] = 255;
@@ -159,14 +159,14 @@ namespace ouzel
 
             Vector2F position;
 
-            std::vector<uint16_t> indices;
+            std::vector<std::uint16_t> indices;
             std::vector<graphics::Vertex> vertices;
             indices.reserve(utf32Text.size() * 6);
             vertices.reserve(utf32Text.size() * 4);
 
             Vector2F textCoords[4];
 
-            size_t firstChar = 0;
+            std::size_t firstChar = 0;
 
             for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
             {
@@ -176,7 +176,7 @@ namespace ouzel
                 {
                     const CharDescriptor& f = iter->second;
 
-                    auto startIndex = static_cast<uint16_t>(vertices.size());
+                    auto startIndex = static_cast<std::uint16_t>(vertices.size());
                     indices.push_back(startIndex + 0);
                     indices.push_back(startIndex + 1);
                     indices.push_back(startIndex + 2);
@@ -216,14 +216,14 @@ namespace ouzel
                     position.v[0] += f.advance;
                 }
 
-                if (*i == static_cast<uint32_t>('\n') || // line feed
+                if (*i == static_cast<std::uint32_t>('\n') || // line feed
                     (i + 1) == utf32Text.end()) // end of string
                 {
                     const float lineWidth = position.v[0];
                     position.v[0] = 0.0F;
                     position.v[1] += fontSize + lineGap;
 
-                    for (size_t c = firstChar; c < vertices.size(); ++c)
+                    for (std::size_t c = firstChar; c < vertices.size(); ++c)
                         vertices[c].position.v[0] -= lineWidth * anchor.v[0];
 
                     firstChar = vertices.size();

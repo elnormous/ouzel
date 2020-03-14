@@ -17,11 +17,11 @@ namespace ouzel
         {
             std::string directory = path.getDirectoryPart();
 
-            std::vector<uint8_t> data;
-            uint8_t buffer[1024];
+            std::vector<std::uint8_t> data;
+            std::uint8_t buffer[1024];
 
             storage::File file(path, storage::File::Mode::Read);
-            while (const uint32_t size = file.read(buffer, sizeof(buffer)))
+            while (const std::uint32_t size = file.read(buffer, sizeof(buffer)))
                 data.insert(data.end(), buffer, buffer + size);
 
             json::Data j(data);

@@ -95,9 +95,9 @@ namespace ouzel
         Renderer::Renderer(Driver driver,
                            Window* newWindow,
                            const Size2U& newSize,
-                           uint32_t newSampleCount,
+                           std::uint32_t newSampleCount,
                            SamplerFilter newTextureFilter,
-                           uint32_t newMaxAnisotropy,
+                           std::uint32_t newMaxAnisotropy,
                            bool newSrgb,
                            bool newVerticalSync,
                            bool newDepth,
@@ -190,7 +190,7 @@ namespace ouzel
             device->executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
         }
 
-        void Renderer::setRenderTarget(uintptr_t renderTarget)
+        void Renderer::setRenderTarget(std::uintptr_t renderTarget)
         {
             addCommand(std::make_unique<SetRenderTargetCommand>(renderTarget));
         }
@@ -200,7 +200,7 @@ namespace ouzel
                                          bool clearStencilBuffer,
                                          Color clearColor,
                                          float clearDepth,
-                                         uint32_t clearStencil)
+                                         std::uint32_t clearStencil)
         {
             addCommand(std::make_unique<ClearRenderTargetCommand>(clearColorBuffer,
                                                                   clearDepthBuffer,
@@ -220,15 +220,15 @@ namespace ouzel
             addCommand(std::make_unique<SetViewportCommand>(viewport));
         }
 
-        void Renderer::setDepthStencilState(uintptr_t depthStencilState,
-                                            uint32_t stencilReferenceValue)
+        void Renderer::setDepthStencilState(std::uintptr_t depthStencilState,
+                                            std::uint32_t stencilReferenceValue)
         {
             addCommand(std::make_unique<SetDepthStencilStateCommand>(depthStencilState,
                                                                      stencilReferenceValue));
         }
 
-        void Renderer::setPipelineState(uintptr_t blendState,
-                                        uintptr_t shader,
+        void Renderer::setPipelineState(std::uintptr_t blendState,
+                                        std::uintptr_t shader,
                                         CullMode cullMode,
                                         FillMode fillMode)
         {
@@ -238,12 +238,12 @@ namespace ouzel
                                                                  fillMode));
         }
 
-        void Renderer::draw(uintptr_t indexBuffer,
-                            uint32_t indexCount,
-                            uint32_t indexSize,
-                            uintptr_t vertexBuffer,
+        void Renderer::draw(std::uintptr_t indexBuffer,
+                            std::uint32_t indexCount,
+                            std::uint32_t indexSize,
+                            std::uintptr_t vertexBuffer,
                             DrawMode drawMode,
-                            uint32_t startIndex)
+                            std::uint32_t startIndex)
         {
             if (!indexBuffer || !vertexBuffer)
                 throw std::runtime_error("Invalid mesh buffer passed to render queue");
@@ -273,7 +273,7 @@ namespace ouzel
                                                                    vertexShaderConstants));
         }
 
-        void Renderer::setTextures(const std::vector<uintptr_t>& textures)
+        void Renderer::setTextures(const std::vector<std::uintptr_t>& textures)
         {
             addCommand(std::make_unique<SetTexturesCommand>(textures));
         }

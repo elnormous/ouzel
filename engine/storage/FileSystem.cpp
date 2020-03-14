@@ -95,7 +95,7 @@ namespace ouzel
             CfPointer<CFStringRef> path = CFURLCopyFileSystemPath(absolutePath.get(), kCFURLPOSIXPathStyle);
 
             const CFIndex maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path.get());
-            std::vector<char> resourceDirectory(static_cast<size_t>(maximumSize));
+            std::vector<char> resourceDirectory(static_cast<std::size_t>(maximumSize));
             const Boolean result = CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.data(), maximumSize);
             if (!result)
                 throw std::runtime_error("Failed to get resource directory");
@@ -320,15 +320,15 @@ namespace ouzel
 #endif
         }
 
-        std::vector<uint8_t> FileSystem::readFile(const std::string& filename, const bool searchResources) const
+        std::vector<std::uint8_t> FileSystem::readFile(const std::string& filename, const bool searchResources) const
         {
             if (searchResources)
                 for (const auto& archive : archives)
                     if (archive.second.fileExists(filename))
                         return archive.second.readFile(filename);
 
-            std::vector<uint8_t> data;
-            uint8_t buffer[1024];
+            std::vector<std::uint8_t> data;
+            std::uint8_t buffer[1024];
 
 #if defined(__ANDROID__)
             if (pathIsRelative(filename))
@@ -366,21 +366,21 @@ namespace ouzel
 
             File file(path, File::Mode::Read);
 
-            while (const uint32_t size = file.read(buffer, sizeof(buffer)))
+            while (const std::uint32_t size = file.read(buffer, sizeof(buffer)))
                 data.insert(data.end(), buffer, buffer + size);
 
             return data;
         }
 
-        void FileSystem::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
+        void FileSystem::writeFile(const std::string& filename, const std::vector<std::uint8_t>& data) const
         {
             File file(filename, File::Mode::Write | File::Mode::Create | File::Mode::Truncate);
 
-            uint32_t offset = 0;
+            std::uint32_t offset = 0;
 
             while (offset < data.size())
             {
-                const uint32_t written = file.write(data.data() + offset, static_cast<uint32_t>(data.size()) - offset);
+                const std::uint32_t written = file.write(data.data() + offset, static_cast<std::uint32_t>(data.size()) - offset);
                 offset += written;
             }
         }

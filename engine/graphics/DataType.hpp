@@ -71,7 +71,7 @@ namespace ouzel
             FloatMatrix4
         };
 
-        inline uint32_t getDataTypeSize(DataType dataType)
+        inline std::uint32_t getDataTypeSize(DataType dataType)
         {
             switch (dataType)
             {
@@ -79,56 +79,56 @@ namespace ouzel
                 case DataType::ByteNorm:
                 case DataType::UnsignedByte:
                 case DataType::UnsignedByteNorm:
-                    return sizeof(uint8_t);
+                    return sizeof(std::uint8_t);
                 case DataType::ByteVector2:
                 case DataType::ByteVector2Norm:
                 case DataType::UnsignedByteVector2:
                 case DataType::UnsignedByteVector2Norm:
-                    return 2 * sizeof(uint8_t);
+                    return 2 * sizeof(std::uint8_t);
                 case DataType::ByteVector3:
                 case DataType::ByteVector3Norm:
                 case DataType::UnsignedByteVector3:
                 case DataType::UnsignedByteVector3Norm:
-                    return 3 * sizeof(uint8_t);
+                    return 3 * sizeof(std::uint8_t);
                 case DataType::ByteVector4:
                 case DataType::ByteVector4Norm:
                 case DataType::UnsignedByteVector4:
                 case DataType::UnsignedByteVector4Norm:
-                    return 4 * sizeof(uint8_t);
+                    return 4 * sizeof(std::uint8_t);
 
                 case DataType::Short:
                 case DataType::ShortNorm:
                 case DataType::UnsignedShort:
                 case DataType::UnsignedShortNorm:
-                    return sizeof(uint16_t);
+                    return sizeof(std::uint16_t);
                 case DataType::ShortVector2:
                 case DataType::ShortVector2Norm:
                 case DataType::UnsignedShortVector2:
                 case DataType::UnsignedShortVector2Norm:
-                    return 2 * sizeof(uint16_t);
+                    return 2 * sizeof(std::uint16_t);
                 case DataType::ShortVector3:
                 case DataType::ShortVector3Norm:
                 case DataType::UnsignedShortVector3:
                 case DataType::UnsignedShortVector3Norm:
-                    return 3 * sizeof(uint16_t);
+                    return 3 * sizeof(std::uint16_t);
                 case DataType::ShortVector4:
                 case DataType::ShortVector4Norm:
                 case DataType::UnsignedShortVector4:
                 case DataType::UnsignedShortVector4Norm:
-                    return 4 * sizeof(uint16_t);
+                    return 4 * sizeof(std::uint16_t);
 
                 case DataType::Integer:
                 case DataType::UnsignedInteger:
-                    return sizeof(uint32_t);
+                    return sizeof(std::uint32_t);
                 case DataType::IntegerVector2:
                 case DataType::UnsignedIntegerVector2:
-                    return 2 * sizeof(uint32_t);
+                    return 2 * sizeof(std::uint32_t);
                 case DataType::IntegerVector3:
                 case DataType::UnsignedIntegerVector3:
-                    return 3 * sizeof(uint32_t);
+                    return 3 * sizeof(std::uint32_t);
                 case DataType::IntegerVector4:
                 case DataType::UnsignedIntegerVector4:
-                    return 4 * sizeof(uint32_t);
+                    return 4 * sizeof(std::uint32_t);
 
                 case DataType::Float:
                     return sizeof(float);

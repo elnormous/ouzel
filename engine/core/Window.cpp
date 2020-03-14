@@ -29,7 +29,7 @@ namespace ouzel
 {
     Window::Window(Engine& initEngine,
                    const Size2U& newSize,
-                   uint32_t flags,
+                   std::uint32_t flags,
                    const std::string& newTitle,
                    graphics::Driver graphicsDriver):
         engine(initEngine),

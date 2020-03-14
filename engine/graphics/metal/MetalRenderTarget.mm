@@ -32,7 +32,7 @@ namespace ouzel
                 for (const auto colorTexture : colorTextures)
                     if (colorTexture)
                     {
-                        size_t index = colorTextures.size() - 1;
+                        std::size_t index = colorTextures.size() - 1;
                         renderPassDescriptor.get().colorAttachments[index].storeAction = (colorTexture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
                         renderPassDescriptor.get().colorAttachments[index].texture = colorTexture->getTexture().get();
 

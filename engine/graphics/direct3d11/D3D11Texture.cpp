@@ -95,14 +95,14 @@ namespace ouzel
             }
 
             Texture::Texture(RenderDevice& initRenderDevice,
-                             const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels,
+                             const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
                              TextureType type,
-                             uint32_t initFlags,
-                             uint32_t initSampleCount,
+                             std::uint32_t initFlags,
+                             std::uint32_t initSampleCount,
                              PixelFormat initPixelFormat):
                 RenderResource(initRenderDevice),
                 flags(initFlags),
-                mipmaps(static_cast<uint32_t>(levels.size())),
+                mipmaps(static_cast<std::uint32_t>(levels.size())),
                 sampleCount(initSampleCount),
                 pixelFormat(d3d11::getPixelFormat(initPixelFormat)),
                 pixelSize(getPixelSize(initPixelFormat))
@@ -179,7 +179,7 @@ namespace ouzel
                 {
                     std::vector<D3D11_SUBRESOURCE_DATA> subresourceData(levels.size());
 
-                    for (size_t level = 0; level < levels.size(); ++level)
+                    for (std::size_t level = 0; level < levels.size(); ++level)
                     {
                         subresourceData[level].pSysMem = levels[level].second.data();
                         subresourceData[level].SysMemPitch = static_cast<UINT>(levels[level].first.v[0] * pixelSize);
@@ -333,12 +333,12 @@ namespace ouzel
                 updateSamplerState();
             }
 
-            void Texture::setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels)
+            void Texture::setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels)
             {
                 if (!(flags & Flags::Dynamic) || flags & Flags::BindRenderTarget)
                     throw std::runtime_error("Texture is not dynamic");
 
-                for (size_t level = 0; level < levels.size(); ++level)
+                for (std::size_t level = 0; level < levels.size(); ++level)
                 {
                     if (!levels[level].second.empty())
                     {
@@ -353,7 +353,7 @@ namespace ouzel
                                                                        0, &mappedSubresource)))
                             throw std::system_error(hr, getErrorCategory(), "Failed to map Direct3D 11 texture");
 
-                        uint8_t* destination = static_cast<uint8_t*>(mappedSubresource.pData);
+                        std::uint8_t* destination = static_cast<std::uint8_t*>(mappedSubresource.pData);
 
                         if (mappedSubresource.RowPitch == levels[level].first.v[0] * pixelSize)
                         {
@@ -364,7 +364,7 @@ namespace ouzel
                         else
                         {
                             auto source = levels[level].second.begin();
-                            auto rowSize = static_cast<uint32_t>(levels[level].first.v[0]) * pixelSize;
+                            auto rowSize = static_cast<std::uint32_t>(levels[level].first.v[0]) * pixelSize;
                             auto rows = static_cast<UINT>(levels[level].first.v[1]);
 
                             for (UINT row = 0; row < rows; ++row)
@@ -407,7 +407,7 @@ namespace ouzel
                 updateSamplerState();
             }
 
-            void Texture::setMaxAnisotropy(uint32_t maxAnisotropy)
+            void Texture::setMaxAnisotropy(std::uint32_t maxAnisotropy)
             {
                 samplerDescriptor.maxAnisotropy = maxAnisotropy;
                 updateSamplerState();

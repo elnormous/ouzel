@@ -23,13 +23,13 @@ namespace ouzel
             inline auto isScreen() const noexcept { return screen; }
 
         protected:
-            bool handleTouchBegin(uint64_t touchId, const Vector2F& position, float force = 1.0F);
-            bool handleTouchEnd(uint64_t touchId, const Vector2F& position, float force = 1.0F);
-            bool handleTouchMove(uint64_t touchId, const Vector2F& position, float force = 1.0F);
-            bool handleTouchCancel(uint64_t touchId, const Vector2F& position, float force = 1.0F);
+            bool handleTouchBegin(std::uint64_t touchId, const Vector2F& position, float force = 1.0F);
+            bool handleTouchEnd(std::uint64_t touchId, const Vector2F& position, float force = 1.0F);
+            bool handleTouchMove(std::uint64_t touchId, const Vector2F& position, float force = 1.0F);
+            bool handleTouchCancel(std::uint64_t touchId, const Vector2F& position, float force = 1.0F);
 
         private:
-            std::unordered_map<uint64_t, Vector2F> touchPositions;
+            std::unordered_map<std::uint64_t, Vector2F> touchPositions;
             bool screen = false;
         };
     } // namespace input

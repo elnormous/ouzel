@@ -11,7 +11,7 @@ namespace ouzel
     {
         struct DeviceId
         {
-            uintptr_t value = 0;
+            std::uintptr_t value = 0;
 
             constexpr bool operator==(DeviceId other) const noexcept
             {
@@ -27,7 +27,7 @@ namespace std
     {
         std::size_t operator()(const ouzel::input::DeviceId& deviceId) const
         {
-            return hash<uintptr_t>()(deviceId.value);
+            return hash<std::uintptr_t>()(deviceId.value);
         }
     };
 }

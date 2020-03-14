@@ -22,10 +22,10 @@ namespace ouzel
                 position = 0;
             }
 
-            void getSamples(uint32_t frames, std::vector<float>& samples) final;
+            void getSamples(std::uint32_t frames, std::vector<float>& samples) final;
 
         private:
-            uint32_t position = 0;
+            std::uint32_t position = 0;
         };
 
         class OscillatorData final: public mixer::Data
@@ -65,10 +65,10 @@ namespace ouzel
 
         namespace
         {
-            void generateWave(Oscillator::Type type, uint32_t frames, uint32_t offset,
+            void generateWave(Oscillator::Type type, std::uint32_t frames, std::uint32_t offset,
                               float frameLength, float amplitude, float* samples)
             {
-                for (uint32_t i = 0; i < frames; ++i)
+                for (std::uint32_t i = 0; i < frames; ++i)
                 {
                     auto t = static_cast<float>(offset) * frameLength;
 
@@ -95,7 +95,7 @@ namespace ouzel
             }
         }
 
-        void OscillatorStream::getSamples(uint32_t frames, std::vector<float>& samples)
+        void OscillatorStream::getSamples(std::uint32_t frames, std::vector<float>& samples)
         {
             OscillatorData& oscillatorData = static_cast<OscillatorData&>(data);
 
@@ -106,9 +106,9 @@ namespace ouzel
 
             if (length > 0.0F)
             {
-                const auto frameCount = static_cast<uint32_t>(length * sampleRate);
+                const auto frameCount = static_cast<std::uint32_t>(length * sampleRate);
                 auto neededSize = frames;
-                uint32_t totalSize = 0;
+                std::uint32_t totalSize = 0;
 
                 if (neededSize > 0)
                 {

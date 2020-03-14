@@ -9,38 +9,38 @@ namespace ouzel
     {
         struct TranslationInfo final
         {
-            uint32_t stringLength = 0;
-            uint32_t stringOffset = 0;
+            std::uint32_t stringLength = 0;
+            std::uint32_t stringOffset = 0;
 
-            uint32_t translationLength = 0;
-            uint32_t translationOffset = 0;
+            std::uint32_t translationLength = 0;
+            std::uint32_t translationOffset = 0;
         };
     }
 
-    Language::Language(const std::vector<uint8_t>& data)
+    Language::Language(const std::vector<std::uint8_t>& data)
     {
-        if (data.size() < 5 * sizeof(uint32_t))
+        if (data.size() < 5 * sizeof(std::uint32_t))
             throw std::runtime_error("Not enough data");
 
-        const uint32_t magic = static_cast<uint32_t>(data[0] |
+        const std::uint32_t magic = static_cast<std::uint32_t>(data[0] |
                                                      (data[1] << 8) |
                                                      (data[2] << 16) |
                                                      (data[3] << 24));
 
-        const auto decodeUInt32 = [magic]() -> std::function<uint32_t(const uint8_t*)> {
-            constexpr uint32_t MAGIC_BIG = 0xDE120495;
-            constexpr uint32_t MAGIC_LITTLE = 0x950412DE;
+        const auto decodeUInt32 = [magic]() -> std::function<std::uint32_t(const std::uint8_t*)> {
+            constexpr std::uint32_t MAGIC_BIG = 0xDE120495;
+            constexpr std::uint32_t MAGIC_LITTLE = 0x950412DE;
 
             if (magic == MAGIC_BIG)
-                return [](const uint8_t* bytes) noexcept {
-                    return static_cast<uint32_t>(bytes[3] |
+                return [](const std::uint8_t* bytes) noexcept {
+                    return static_cast<std::uint32_t>(bytes[3] |
                                                  (bytes[2] << 8) |
                                                  (bytes[1] << 16) |
                                                  (bytes[0] << 24));
                 };
             else if (magic == MAGIC_LITTLE)
-                return [](const uint8_t* bytes) noexcept {
-                    return static_cast<uint32_t>(bytes[0] |
+                return [](const std::uint8_t* bytes) noexcept {
+                    return static_cast<std::uint32_t>(bytes[0] |
                                                  (bytes[1] << 8) |
                                                  (bytes[2] << 16) |
                                                  (bytes[3] << 24));
@@ -49,28 +49,28 @@ namespace ouzel
                 throw std::runtime_error("Wrong magic " + std::to_string(magic));
         }();
 
-        const uint32_t revisionOffset = sizeof(magic);
-        const uint32_t revision = decodeUInt32(data.data() + revisionOffset);
+        const std::uint32_t revisionOffset = sizeof(magic);
+        const std::uint32_t revision = decodeUInt32(data.data() + revisionOffset);
 
         if (revision != 0)
             throw std::runtime_error("Unsupported revision " + std::to_string(revision));
 
-        const uint32_t stringCountOffset = revisionOffset + sizeof(revision);
-        const uint32_t stringCount = decodeUInt32(data.data() + stringCountOffset);
+        const std::uint32_t stringCountOffset = revisionOffset + sizeof(revision);
+        const std::uint32_t stringCount = decodeUInt32(data.data() + stringCountOffset);
 
         std::vector<TranslationInfo> translations(stringCount);
 
-        const uint32_t stringsOffsetOffset = stringCountOffset + sizeof(stringCount);
-        const uint32_t stringsOffset = decodeUInt32(data.data() + stringsOffsetOffset);
+        const std::uint32_t stringsOffsetOffset = stringCountOffset + sizeof(stringCount);
+        const std::uint32_t stringsOffset = decodeUInt32(data.data() + stringsOffsetOffset);
 
-        const uint32_t translationsOffsetOffset = stringsOffsetOffset + sizeof(stringsOffset);
-        const uint32_t translationsOffset = decodeUInt32(data.data() + translationsOffsetOffset);
+        const std::uint32_t translationsOffsetOffset = stringsOffsetOffset + sizeof(stringsOffset);
+        const std::uint32_t translationsOffset = decodeUInt32(data.data() + translationsOffsetOffset);
 
-        if (data.size() < stringsOffset + 2 * sizeof(uint32_t) * stringCount)
+        if (data.size() < stringsOffset + 2 * sizeof(std::uint32_t) * stringCount)
             throw std::runtime_error("Not enough data");
 
-        uint32_t stringOffset = stringsOffset;
-        for (uint32_t i = 0; i < stringCount; ++i)
+        std::uint32_t stringOffset = stringsOffset;
+        for (std::uint32_t i = 0; i < stringCount; ++i)
         {
             translations[i].stringLength = decodeUInt32(data.data() + stringOffset);
             stringOffset += sizeof(translations[i].stringLength);
@@ -79,11 +79,11 @@ namespace ouzel
             stringOffset += sizeof(translations[i].stringOffset);
         }
 
-        if (data.size() < translationsOffset + 2 * sizeof(uint32_t) * stringCount)
+        if (data.size() < translationsOffset + 2 * sizeof(std::uint32_t) * stringCount)
             throw std::runtime_error("Not enough data");
 
-        uint32_t translationOffset = translationsOffset;
-        for (uint32_t i = 0; i < stringCount; ++i)
+        std::uint32_t translationOffset = translationsOffset;
+        for (std::uint32_t i = 0; i < stringCount; ++i)
         {
             translations[i].translationLength = decodeUInt32(data.data() + translationOffset);
             translationOffset += sizeof(translations[i].translationLength);
@@ -92,7 +92,7 @@ namespace ouzel
             translationOffset += sizeof(translations[i].translationOffset);
         }
 
-        for (uint32_t i = 0; i < stringCount; ++i)
+        for (std::uint32_t i = 0; i < stringCount; ++i)
         {
             if (data.size() < translations[i].stringOffset + translations[i].stringLength ||
                 data.size() < translations[i].translationOffset + translations[i].translationLength)
@@ -117,7 +117,7 @@ namespace ouzel
             return str;
     }
 
-    void Localization::addLanguage(const std::string& name, const std::vector<uint8_t>& data)
+    void Localization::addLanguage(const std::string& name, const std::vector<std::uint8_t>& data)
     {
         const auto i = languages.find(name);
 

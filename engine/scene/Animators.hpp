@@ -100,7 +100,7 @@ namespace ouzel
         class Repeat final: public Animator
         {
         public:
-            explicit Repeat(Animator& animator, uint32_t initCount = 0);
+            explicit Repeat(Animator& animator, std::uint32_t initCount = 0);
 
             void reset() final;
 
@@ -108,8 +108,8 @@ namespace ouzel
             void updateProgress() final;
 
         private:
-            uint32_t count = 0;
-            uint32_t currentCount = 0;
+            std::uint32_t count = 0;
+            std::uint32_t currentCount = 0;
         };
 
         class Rotate final: public Animator
@@ -174,9 +174,9 @@ namespace ouzel
             void updateProgress() final;
 
         private:
-            uint32_t seedX;
-            uint32_t seedY;
-            uint32_t seedZ;
+            std::uint32_t seedX;
+            std::uint32_t seedY;
+            std::uint32_t seedZ;
             Vector3F distance;
             float timeScale;
             Vector3F startPosition;

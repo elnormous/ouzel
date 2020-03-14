@@ -39,11 +39,11 @@ namespace ouzel
                       const Vector2F& pivot);
 
                 Frame(const std::string& frameName,
-                      const std::vector<uint16_t>& indices,
+                      const std::vector<std::uint16_t>& indices,
                       const std::vector<graphics::Vertex>& vertices);
 
                 Frame(const std::string& frameName,
-                      const std::vector<uint16_t>& indices,
+                      const std::vector<std::uint16_t>& indices,
                       const std::vector<graphics::Vertex>& vertices,
                       const RectF& frameRectangle,
                       const Size2F& sourceSize,
@@ -60,7 +60,7 @@ namespace ouzel
             private:
                 std::string name;
                 Box2F boundingBox;
-                uint32_t indexCount = 0;
+                std::uint32_t indexCount = 0;
                 std::shared_ptr<graphics::Buffer> indexBuffer;
                 std::shared_ptr<graphics::Buffer> vertexBuffer;
             };
@@ -85,13 +85,13 @@ namespace ouzel
             explicit SpriteRenderer(const SpriteData& spriteData);
             explicit SpriteRenderer(const std::string& filename);
             explicit SpriteRenderer(std::shared_ptr<graphics::Texture> texture,
-                                    uint32_t spritesX = 1, uint32_t spritesY = 1,
+                                    std::uint32_t spritesX = 1, std::uint32_t spritesY = 1,
                                     const Vector2F& pivot = Vector2F{0.5F, 0.5F});
 
             void init(const SpriteData& spriteData);
             void init(const std::string& filename);
             void init(std::shared_ptr<graphics::Texture> newTexture,
-                      uint32_t spritesX = 1, uint32_t spritesY = 1,
+                      std::uint32_t spritesX = 1, std::uint32_t spritesY = 1,
                       const Vector2F& pivot = Vector2F{0.5F, 0.5F});
 
             void update(float delta);

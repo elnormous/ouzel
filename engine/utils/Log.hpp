@@ -87,12 +87,12 @@ namespace ouzel
             return *this;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, uint8_t>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if<std::is_same<T, std::uint8_t>::value>::type* = nullptr>
         Log& operator<<(const T val)
         {
             constexpr char digits[] = "0123456789abcdef";
 
-            for (uint32_t p = 0; p < 2; ++p)
+            for (std::uint32_t p = 0; p < 2; ++p)
                 s.push_back(digits[(val >> (4 - p * 4)) & 0x0F]);
 
             return *this;
@@ -100,7 +100,7 @@ namespace ouzel
 
         template <typename T, typename std::enable_if<std::is_arithmetic<T>::value &&
             !std::is_same<T, bool>::value &&
-            !std::is_same<T, uint8_t>::value>::type* = nullptr>
+            !std::is_same<T, std::uint8_t>::value>::type* = nullptr>
         Log& operator<<(const T val)
         {
             s += std::to_string(val);
@@ -126,10 +126,10 @@ namespace ouzel
         {
             constexpr char digits[] = "0123456789abcdef";
 
-            uintptr_t ptrValue;
+            std::uintptr_t ptrValue;
             memcpy(&ptrValue, &val, sizeof(ptrValue));
 
-            for (size_t i = 0; i < sizeof(val) * 2; ++i)
+            for (std::size_t i = 0; i < sizeof(val) * 2; ++i)
                 s.push_back(digits[(ptrValue >> (sizeof(ptrValue) * 2 - i - 1) * 4) & 0x0F]);
 
             return *this;
@@ -158,7 +158,7 @@ namespace ouzel
             return *this;
         }
 
-        template <size_t N, size_t M, class T>
+        template <std::size_t N, std::size_t M, class T>
         Log& operator<<(const Matrix<N, M, T>& val)
         {
             bool first = true;
@@ -181,7 +181,7 @@ namespace ouzel
             return *this;
         }
 
-        template <size_t N, class T>
+        template <std::size_t N, class T>
         Log& operator<<(const Size<N, T>& val)
         {
             bool first = true;
@@ -195,7 +195,7 @@ namespace ouzel
             return *this;
         }
 
-        template <size_t N, class T>
+        template <std::size_t N, class T>
         Log& operator<<(const Vector<N, T>& val)
         {
             bool first = true;

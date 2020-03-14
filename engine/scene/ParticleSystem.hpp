@@ -37,11 +37,11 @@ namespace ouzel
 
             std::string name;
 
-            uint32_t blendFuncSource = 0;
-            uint32_t blendFuncDestination = 0;
+            std::uint32_t blendFuncSource = 0;
+            std::uint32_t blendFuncDestination = 0;
 
             EmitterType emitterType = EmitterType::Gravity;
-            uint32_t maxParticles = 0;
+            std::uint32_t maxParticles = 0;
             float duration = 0.0F;
             float particleLifespan = 0.0F;
             float particleLifespanVariance = 0.0F;
@@ -151,7 +151,7 @@ namespace ouzel
             void createParticleMesh();
             void updateParticleMesh();
 
-            void emitParticles(uint32_t count);
+            void emitParticles(std::uint32_t count);
 
             ParticleSystemData particleSystemData;
 
@@ -199,10 +199,10 @@ namespace ouzel
             std::unique_ptr<graphics::Buffer> indexBuffer;
             std::unique_ptr<graphics::Buffer> vertexBuffer;
 
-            std::vector<uint16_t> indices;
+            std::vector<std::uint16_t> indices;
             std::vector<graphics::Vertex> vertices;
 
-            uint32_t particleCount = 0;
+            std::uint32_t particleCount = 0;
 
             float emitCounter = 0.0F;
             float elapsed = 0.0F;

@@ -82,12 +82,12 @@ namespace ouzel
                 const OpenALErrorCategory openALErrorCategory{};
             }
 
-            AudioDevice::AudioDevice(uint32_t initBufferSize,
-                                     uint32_t initSampleRate,
-                                     uint32_t initChannels,
-                                     const std::function<void(uint32_t frames,
-                                                              uint32_t channels,
-                                                              uint32_t sampleRate,
+            AudioDevice::AudioDevice(std::uint32_t initBufferSize,
+                                     std::uint32_t initSampleRate,
+                                     std::uint32_t initChannels,
+                                     const std::function<void(std::uint32_t frames,
+                                                              std::uint32_t channels,
+                                                              std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
                 audio::AudioDevice(Driver::OpenAL, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
@@ -111,7 +111,7 @@ namespace ouzel
                 }
 
                 if (channels > maxChannelCount)
-                    channels = static_cast<uint32_t>(maxChannelCount);
+                    channels = static_cast<std::uint32_t>(maxChannelCount);
 #endif
 
                 const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
@@ -202,7 +202,7 @@ namespace ouzel
                         {
                             format = AL_FORMAT_MONO16;
                             sampleFormat = SampleFormat::SignedInt16;
-                            sampleSize = sizeof(int16_t);
+                            sampleSize = sizeof(std::int16_t);
                         }
                         break;
                     }
@@ -218,7 +218,7 @@ namespace ouzel
                         {
                             format = AL_FORMAT_STEREO16;
                             sampleFormat = SampleFormat::SignedInt16;
-                            sampleSize = sizeof(int16_t);
+                            sampleSize = sizeof(std::int16_t);
                         }
                         break;
                     }
@@ -226,28 +226,28 @@ namespace ouzel
                     {
                         format = format40;
                         sampleFormat = SampleFormat::SignedInt16;
-                        sampleSize = sizeof(int16_t);
+                        sampleSize = sizeof(std::int16_t);
                         break;
                     }
                     case 6:
                     {
                         format = format51;
                         sampleFormat = SampleFormat::SignedInt16;
-                        sampleSize = sizeof(int16_t);
+                        sampleSize = sizeof(std::int16_t);
                         break;
                     }
                     case 7:
                     {
                         format = format61;
                         sampleFormat = SampleFormat::SignedInt16;
-                        sampleSize = sizeof(int16_t);
+                        sampleSize = sizeof(std::int16_t);
                         break;
                     }
                     case 8:
                     {
                         format = format71;
                         sampleFormat = SampleFormat::SignedInt16;
-                        sampleSize = sizeof(int16_t);
+                        sampleSize = sizeof(std::int16_t);
                         break;
                     }
                     default:

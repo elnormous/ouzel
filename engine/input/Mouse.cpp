@@ -59,7 +59,7 @@ namespace ouzel
 
         bool Mouse::handleButtonPress(Mouse::Button button, const Vector2F& pos)
         {
-            buttonStates[static_cast<uint32_t>(button)] = true;
+            buttonStates[static_cast<std::uint32_t>(button)] = true;
 
             auto event = std::make_unique<MouseEvent>();
             event->type = Event::Type::MousePress;
@@ -72,7 +72,7 @@ namespace ouzel
 
         bool Mouse::handleButtonRelease(Mouse::Button button, const Vector2F& pos)
         {
-            buttonStates[static_cast<uint32_t>(button)] = false;
+            buttonStates[static_cast<std::uint32_t>(button)] = false;
 
             auto event = std::make_unique<MouseEvent>();
             event->type = Event::Type::MouseRelease;

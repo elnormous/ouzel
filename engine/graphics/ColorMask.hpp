@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        enum class ColorMask: uint8_t
+        enum class ColorMask: std::uint8_t
         {
             Red = 0x01,
             Green = 0x02,

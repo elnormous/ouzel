@@ -17,7 +17,7 @@ namespace ouzel
 
         bool ParticleSystemLoader::loadAsset(Bundle& bundle,
                                              const std::string& name,
-                                             const std::vector<uint8_t>& data,
+                                             const std::vector<std::uint8_t>& data,
                                              bool mipmaps)
         {
             scene::ParticleSystemData particleSystemData;
@@ -30,12 +30,12 @@ namespace ouzel
 
             particleSystemData.name = d["configName"].as<std::string>();
 
-            if (d.hasMember("blendFuncSource")) particleSystemData.blendFuncSource = d["blendFuncSource"].as<uint32_t>();
-            if (d.hasMember("blendFuncDestination")) particleSystemData.blendFuncDestination = d["blendFuncDestination"].as<uint32_t>();
+            if (d.hasMember("blendFuncSource")) particleSystemData.blendFuncSource = d["blendFuncSource"].as<std::uint32_t>();
+            if (d.hasMember("blendFuncDestination")) particleSystemData.blendFuncDestination = d["blendFuncDestination"].as<std::uint32_t>();
 
             if (d.hasMember("emitterType"))
             {
-                switch (d["emitterType"].as<uint32_t>())
+                switch (d["emitterType"].as<std::uint32_t>())
                 {
                     case 0: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::Gravity; break;
                     case 1: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::Radius; break;
@@ -43,7 +43,7 @@ namespace ouzel
                 }
             }
 
-            if (d.hasMember("maxParticles")) particleSystemData.maxParticles = d["maxParticles"].as<uint32_t>();
+            if (d.hasMember("maxParticles")) particleSystemData.maxParticles = d["maxParticles"].as<std::uint32_t>();
 
             if (d.hasMember("duration")) particleSystemData.duration = d["duration"].as<float>();
             if (d.hasMember("particleLifespan")) particleSystemData.particleLifespan = d["particleLifespan"].as<float>();
@@ -54,7 +54,7 @@ namespace ouzel
 
             if (d.hasMember("absolutePosition")) particleSystemData.absolutePosition = d["absolutePosition"].as<bool>();
 
-            if (d.hasMember("yCoordFlipped")) particleSystemData.yCoordFlipped = (d["yCoordFlipped"].as<uint32_t>() == 1);
+            if (d.hasMember("yCoordFlipped")) particleSystemData.yCoordFlipped = (d["yCoordFlipped"].as<std::uint32_t>() == 1);
 
             if (d.hasMember("sourcePositionx")) particleSystemData.sourcePosition.v[0] = d["sourcePositionx"].as<float>();
             if (d.hasMember("sourcePositiony")) particleSystemData.sourcePosition.v[1] = d["sourcePositiony"].as<float>();

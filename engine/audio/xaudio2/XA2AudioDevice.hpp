@@ -20,12 +20,12 @@ namespace ouzel
             class AudioDevice final: public audio::AudioDevice, public IXAudio2VoiceCallback
             {
             public:
-                AudioDevice(uint32_t initBufferSize,
-                            uint32_t initSampleRate,
-                            uint32_t initChannels,
-                            const std::function<void(uint32_t frames,
-                                                     uint32_t channels,
-                                                     uint32_t sampleRate,
+                AudioDevice(std::uint32_t initBufferSize,
+                            std::uint32_t initSampleRate,
+                            std::uint32_t initChannels,
+                            const std::function<void(std::uint32_t frames,
+                                                     std::uint32_t channels,
+                                                     std::uint32_t sampleRate,
                                                      std::vector<float>& samples)>& initDataGetter,
                             bool debugAudio);
                 ~AudioDevice() override;
@@ -50,8 +50,8 @@ namespace ouzel
                 IXAudio2MasteringVoice* masteringVoice = nullptr;
                 IXAudio2SourceVoice* sourceVoice = nullptr;
 
-                std::vector<uint8_t> data[2];
-                uint32_t nextBuffer = 0;
+                std::vector<std::uint8_t> data[2];
+                std::uint32_t nextBuffer = 0;
             };
         } // namespace xaudio2
     } // namespace audio

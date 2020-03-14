@@ -408,8 +408,8 @@ namespace ouzel
                     }
                     case ConfigureNotify:
                     {
-                        windowLinux->handleResize(Size2U(static_cast<uint32_t>(event.xconfigure.width),
-                                                         static_cast<uint32_t>(event.xconfigure.height)));
+                        windowLinux->handleResize(Size2U(static_cast<std::uint32_t>(event.xconfigure.width),
+                                                         static_cast<std::uint32_t>(event.xconfigure.height)));
                         break;
                     }
                     case Expose:

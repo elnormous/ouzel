@@ -18,7 +18,7 @@ typedef id NSWindowPtr;
 typedef id NSViewPtr;
 typedef id NSWindowDelegatePtr;
 typedef id NSScreenPtr;
-typedef uint32_t CGDirectDisplayID;
+typedef std::uint32_t CGDirectDisplayID;
 #endif
 
 #include "core/NativeWindow.hpp"

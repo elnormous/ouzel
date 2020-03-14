@@ -56,7 +56,7 @@ namespace ouzel
 
                 virtual void reset() = 0;
 
-                virtual void getSamples(uint32_t frames, std::vector<float>& samples) = 0;
+                virtual void getSamples(std::uint32_t frames, std::vector<float>& samples) = 0;
 
             protected:
                 Data& data;

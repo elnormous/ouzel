@@ -144,7 +144,7 @@ namespace ouzel
             return result;
         }
 
-        void Layer::setOrder(int32_t newOrder)
+        void Layer::setOrder(std::int32_t newOrder)
         {
             order = newOrder;
         }

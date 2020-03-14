@@ -17,9 +17,9 @@ namespace ouzel
         {
             Buffer::Buffer(RenderDevice& initRenderDevice,
                            BufferType initType,
-                           uint32_t initFlags,
-                           const std::vector<uint8_t>& data,
-                           uint32_t initSize):
+                           std::uint32_t initFlags,
+                           const std::vector<std::uint8_t>& data,
+                           std::uint32_t initSize):
                 RenderResource(initRenderDevice),
                 type(initType),
                 flags(initFlags)
@@ -27,10 +27,10 @@ namespace ouzel
                 createBuffer(initSize);
 
                 if (!data.empty())
-                    std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer.get() contents]));
+                    std::copy(data.begin(), data.end(), static_cast<std::uint8_t*>([buffer.get() contents]));
             }
 
-            void Buffer::setData(const std::vector<uint8_t>& data)
+            void Buffer::setData(const std::vector<std::uint8_t>& data)
             {
                 if (!(flags & Flags::Dynamic))
                     throw Error("Buffer is not dynamic");
@@ -39,9 +39,9 @@ namespace ouzel
                     throw Error("Data is empty");
 
                 if (!buffer || data.size() > size)
-                    createBuffer(static_cast<uint32_t>(data.size()));
+                    createBuffer(static_cast<std::uint32_t>(data.size()));
 
-                std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer.get() contents]));
+                std::copy(data.begin(), data.end(), static_cast<std::uint8_t*>([buffer.get() contents]));
             }
 
             void Buffer::createBuffer(NSUInteger newSize)

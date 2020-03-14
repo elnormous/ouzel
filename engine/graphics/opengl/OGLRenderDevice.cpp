@@ -54,7 +54,7 @@ inline auto getCoreProcAddress(const char* name)
 #elif OUZEL_OPENGL_INTERFACE_WGL
     return reinterpret_cast<T>(wglGetProcAddress(name));
 #else
-    return reinterpret_cast<T>(reinterpret_cast<uintptr_t>(dlsym(RTLD_DEFAULT, name)));
+    return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
 #endif
 }
 
@@ -68,12 +68,12 @@ inline auto getExtProcAddress(const char* name)
 #elif OUZEL_OPENGL_INTERFACE_WGL
     return reinterpret_cast<T>(wglGetProcAddress(name));
 #else
-    return reinterpret_cast<T>(reinterpret_cast<uintptr_t>(dlsym(RTLD_DEFAULT, name)));
+    return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
 #endif
 }
 
-constexpr auto isVersionGreaterOrEqual(uint16_t majorVersion, uint16_t minorVersion,
-                                       uint16_t checkMajorVersion, uint16_t checkMinorVersion)
+constexpr auto isVersionGreaterOrEqual(std::uint16_t majorVersion, std::uint16_t minorVersion,
+                                       std::uint16_t checkMajorVersion, std::uint16_t checkMinorVersion)
 {
     return (majorVersion == checkMajorVersion) ?
         (minorVersion >= checkMinorVersion) :
@@ -117,7 +117,7 @@ namespace ouzel
 
                 const ErrorCategory errorCategory {};
 
-                constexpr GLenum getIndexType(uint32_t indexSize)
+                constexpr GLenum getIndexType(std::uint32_t indexSize)
                 {
                     switch (indexSize)
                     {
@@ -357,9 +357,9 @@ namespace ouzel
 
             void RenderDevice::init(Window* newWindow,
                                     const Size2U& newSize,
-                                    uint32_t newSampleCount,
+                                    std::uint32_t newSampleCount,
                                     SamplerFilter newTextureFilter,
-                                    uint32_t newMaxAnisotropy,
+                                    std::uint32_t newMaxAnisotropy,
                                     bool newSrgb,
                                     bool newVerticalSync,
                                     bool newDepth,
@@ -392,7 +392,7 @@ namespace ouzel
 
                 const std::string versionStr(reinterpret_cast<const char*>(versionPtr));
                 std::string versionParts[2];
-                uint32_t part = 0;
+                std::uint32_t part = 0;
 
                 for (const auto c : versionStr)
                 {
@@ -404,8 +404,8 @@ namespace ouzel
                         versionParts[part] += c;
                 }
 
-                apiMajorVersion = static_cast<uint16_t>(std::stoi(versionParts[0]));
-                apiMinorVersion = static_cast<uint16_t>(std::stoi(versionParts[1]));
+                apiMajorVersion = static_cast<std::uint16_t>(std::stoi(versionParts[0]));
+                apiMinorVersion = static_cast<std::uint16_t>(std::stoi(versionParts[1]));
 
                 if (apiMajorVersion < 2 || apiMajorVersion > 4)
                     throw std::runtime_error("Unsupported OpenGL version");
@@ -1168,7 +1168,7 @@ namespace ouzel
                                 bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer->getBufferId());
                                 bindBuffer(GL_ARRAY_BUFFER, vertexBuffer->getBufferId());
 
-                                uintptr_t vertexOffset = 0;
+                                std::uintptr_t vertexOffset = 0;
 
                                 for (GLuint index = 0; index < RenderDevice::VERTEX_ATTRIBUTES.size(); ++index)
                                 {
@@ -1196,7 +1196,7 @@ namespace ouzel
                                 assert(indexBuffer->getSize());
                                 assert(vertexBuffer->getSize());
 
-                                uintptr_t indexOffset = drawCommand->startIndex * drawCommand->indexSize;
+                                std::uintptr_t indexOffset = drawCommand->startIndex * drawCommand->indexSize;
 
                                 void* indexOffsetPointer;
                                 memcpy(&indexOffsetPointer, &indexOffset, sizeof(indexOffset));
@@ -1302,7 +1302,7 @@ namespace ouzel
                                 if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
                                     throw std::runtime_error("Invalid pixel shader constant size");
 
-                                for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
+                                for (std::size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                                 {
                                     const Shader::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
                                     const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
@@ -1318,7 +1318,7 @@ namespace ouzel
                                 if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                                     throw std::runtime_error("Invalid vertex shader constant size");
 
-                                for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
+                                for (std::size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
                                 {
                                     const Shader::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                                     const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
@@ -1375,7 +1375,7 @@ namespace ouzel
                             {
                                 auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
-                                for (uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
+                                for (std::uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
                                 {
                                     if (auto texture = getResource<Texture>(setTexturesCommand->textures[layer]))
                                         bindTexture(GL_TEXTURE_2D, layer, texture->getTextureId());
@@ -1405,7 +1405,7 @@ namespace ouzel
 
                 const GLsizei pixelSize = 4;
 
-                std::vector<uint8_t> data(static_cast<size_t>(frameBufferWidth * frameBufferHeight * pixelSize));
+                std::vector<std::uint8_t> data(static_cast<std::size_t>(frameBufferWidth * frameBufferHeight * pixelSize));
 
                 glReadPixelsProc(0, 0, frameBufferWidth, frameBufferHeight,
                                  GL_RGBA, GL_UNSIGNED_BYTE, data.data());
@@ -1417,7 +1417,7 @@ namespace ouzel
 
                 // flip the image vertically
                 const auto rowSize = frameBufferWidth * pixelSize;
-                std::vector<uint8_t> temp(static_cast<size_t>(rowSize));
+                std::vector<std::uint8_t> temp(static_cast<std::size_t>(rowSize));
                 for (GLsizei row = 0; row < frameBufferHeight / 2; ++row)
                 {
                     const auto topRowOffset = row * rowSize;

@@ -30,9 +30,9 @@ namespace ouzel
 
         void RenderDevice::init(Window* newWindow,
                                 const Size2U&,
-                                uint32_t newSampleCount,
+                                std::uint32_t newSampleCount,
                                 SamplerFilter newTextureFilter,
-                                uint32_t newMaxAnisotropy,
+                                std::uint32_t newMaxAnisotropy,
                                 bool newSrgb,
                                 bool newVerticalSync,
                                 bool newDepth,

@@ -9,7 +9,7 @@
 
 namespace ouzel
 {
-    template <size_t N, typename T> class Size final
+    template <std::size_t N, typename T> class Size final
     {
     public:
         T v[N]{0};
@@ -22,10 +22,10 @@ namespace ouzel
         {
         }
 
-        template <size_t X = N, size_t N2, typename std::enable_if<(X != N2)>::type* = nullptr>
+        template <std::size_t X = N, std::size_t N2, typename std::enable_if<(X != N2)>::type* = nullptr>
         explicit Size(const Size<N2, T>& size) noexcept
         {
-            for (size_t i = 0; i < N && i < N2; ++i)
+            for (std::size_t i = 0; i < N && i < N2; ++i)
                 v[i] = size.v[i];
         }
 
@@ -34,44 +34,44 @@ namespace ouzel
         {
         }
 
-        inline T& operator[](size_t index) noexcept { return v[index]; }
-        constexpr T operator[](size_t index) const noexcept { return v[index]; }
+        inline T& operator[](std::size_t index) noexcept { return v[index]; }
+        constexpr T operator[](std::size_t index) const noexcept { return v[index]; }
 
-        template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
+        template <std::size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
         inline T& width() noexcept { return v[0]; }
 
-        template <size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
+        template <std::size_t X = N, typename std::enable_if<(X >= 1)>::type* = nullptr>
         constexpr T width() const noexcept { return v[0]; }
 
-        template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
+        template <std::size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
         inline T& height() noexcept { return v[1]; }
 
-        template <size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
+        template <std::size_t X = N, typename std::enable_if<(X >= 2)>::type* = nullptr>
         constexpr T height() const noexcept { return v[1]; }
 
-        template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
+        template <std::size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         inline T& depth() noexcept { return v[2]; }
 
-        template <size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
+        template <std::size_t X = N, typename std::enable_if<(X >= 3)>::type* = nullptr>
         constexpr T depth() const noexcept { return v[2]; }
 
         inline void scale(const Vector<N, T>& scale) noexcept
         {
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 v[i] *= scale.v[i];
         }
 
         inline const Size operator+(const Size& size) const noexcept
         {
             Size result = *this;
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 result.v[i] += size.v[i];
             return result;
         }
 
         inline Size& operator+=(const Size& size) noexcept
         {
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 v[i] += size.v[i];
             return *this;
         }
@@ -79,14 +79,14 @@ namespace ouzel
         inline const Size operator-(const Size& size) const noexcept
         {
             Size result = *this;
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 result.v[i] -= size.v[i];
             return result;
         }
 
         inline Size& operator-=(const Size& size) noexcept
         {
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 v[i] -= size.v[i];
             return *this;
         }
@@ -131,7 +131,7 @@ namespace ouzel
 
         inline bool operator<(const Size& size) const noexcept
         {
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
             {
                 if (v[i] < size.v[i]) return true;
                 else if (size.v[i] < v[i]) return false;
@@ -142,14 +142,14 @@ namespace ouzel
 
         inline bool operator==(const Size& size) const noexcept
         {
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 if (v[i] != size.v[i]) return false;
             return true;
         }
 
         inline bool operator!=(const Size& size) const noexcept
         {
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 if (v[i] != size.v[i]) return true;
             return false;
         }
@@ -170,26 +170,26 @@ namespace ouzel
         }
     };
 
-    template <size_t N, typename T>
+    template <std::size_t N, typename T>
     inline const Size<N, T> operator*(const Size<N, T>& size, const Vector<N, T>& v) noexcept
     {
         Size<N, T> result = size;
-        for (size_t i = 0; i < N; ++i)
+        for (std::size_t i = 0; i < N; ++i)
             result.v[i] *= v.v[i];
         return result;
     }
 
-    template <size_t N, typename T>
+    template <std::size_t N, typename T>
     inline const Size<N, T> operator/(const Size<N, T>& size, const Vector<N, T>& v) noexcept
     {
         Size<N, T> result = size;
-        for (size_t i = 0; i < N; ++i)
+        for (std::size_t i = 0; i < N; ++i)
             result.v[i] /= v.v[i];
         return result;
     }
 
-    using Size2U = Size<2, uint32_t>;
-    using Size3U = Size<3, uint32_t>;
+    using Size2U = Size<2, std::uint32_t>;
+    using Size3U = Size<3, std::uint32_t>;
     using Size2F = Size<2, float>;
     using Size3F = Size<3, float>;
 }

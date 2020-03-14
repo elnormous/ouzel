@@ -15,7 +15,7 @@ namespace ouzel
             explicit WaveLoader(Cache& initCache);
             bool loadAsset(Bundle& bundle,
                            const std::string& name,
-                           const std::vector<uint8_t>& data,
+                           const std::vector<std::uint8_t>& data,
                            bool mipmaps = true) final;
         };
     } // namespace assets

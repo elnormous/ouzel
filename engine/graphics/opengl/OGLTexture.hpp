@@ -41,21 +41,21 @@ namespace ouzel
             {
             public:
                 Texture(RenderDevice& initRenderDevice,
-                        const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
+                        const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
                         TextureType type,
-                        uint32_t initFlags = 0,
-                        uint32_t initSampleCount = 1,
+                        std::uint32_t initFlags = 0,
+                        std::uint32_t initSampleCount = 1,
                         PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
                 ~Texture() override;
 
                 void reload() final;
 
-                void setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& newLevels);
+                void setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& newLevels);
                 void setFilter(SamplerFilter newFilter);
                 void setAddressX(SamplerAddressMode newAddressX);
                 void setAddressY(SamplerAddressMode newAddressY);
                 void setAddressZ(SamplerAddressMode newAddressZ);
-                void setMaxAnisotropy(uint32_t newMaxAnisotropy);
+                void setMaxAnisotropy(std::uint32_t newMaxAnisotropy);
 
                 inline auto getFlags() const noexcept { return flags; }
                 inline auto getMipmaps() const noexcept { return mipmaps; }
@@ -78,15 +78,15 @@ namespace ouzel
                 void createTexture();
                 void setTextureParameters();
 
-                std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels;
-                uint32_t flags = 0;
-                uint32_t mipmaps = 0;
-                uint32_t sampleCount = 1;
+                std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
+                std::uint32_t flags = 0;
+                std::uint32_t mipmaps = 0;
+                std::uint32_t sampleCount = 1;
                 SamplerFilter filter = SamplerFilter::Default;
                 SamplerAddressMode addressX = SamplerAddressMode::ClampToEdge;
                 SamplerAddressMode addressY = SamplerAddressMode::ClampToEdge;
                 SamplerAddressMode addressZ = SamplerAddressMode::ClampToEdge;
-                uint32_t maxAnisotropy = 0;
+                std::uint32_t maxAnisotropy = 0;
 
                 GLenum textureTarget = 0;
                 GLuint textureId = 0;

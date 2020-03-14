@@ -124,7 +124,7 @@ namespace ouzel
 
         void InputSystemIOS::handleGamepadConnected(GCControllerPtr controller)
         {
-            std::vector<int32_t> playerIndices = {0, 1, 2, 3};
+            std::vector<std::int32_t> playerIndices = {0, 1, 2, 3};
 
             for (const auto& i : gamepadDevices)
             {

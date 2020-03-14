@@ -56,7 +56,7 @@ enum
 
 namespace
 {
-    ouzel::input::Keyboard::Key convertKeyCode(uint16_t keyCode)
+    ouzel::input::Keyboard::Key convertKeyCode(std::uint16_t keyCode)
     {
         switch (keyCode)
         {
@@ -367,7 +367,7 @@ namespace
     {
         const CGPoint location = touch.normalizedPosition;
 
-        uint64_t touchId;
+        std::uint64_t touchId;
         memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchBegin(touchId,
@@ -387,7 +387,7 @@ namespace
     {
         const CGPoint location = touch.normalizedPosition;
 
-        uint64_t touchId;
+        std::uint64_t touchId;
         memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchMove(touchId,
@@ -407,7 +407,7 @@ namespace
     {
         const CGPoint location = touch.normalizedPosition;
 
-        uint64_t touchId;
+        std::uint64_t touchId;
         memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchEnd(touchId,
@@ -427,7 +427,7 @@ namespace
     {
         const CGPoint location = touch.normalizedPosition;
 
-        uint64_t touchId;
+        std::uint64_t touchId;
         memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchCancel(touchId,

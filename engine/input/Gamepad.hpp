@@ -87,25 +87,25 @@ namespace ouzel
             void setAbsoluteDpadValues(bool newAbsoluteDpadValues);
 
             inline auto getPlayerIndex() const noexcept { return playerIndex; }
-            void setPlayerIndex(int32_t newPlayerIndex);
+            void setPlayerIndex(std::int32_t newPlayerIndex);
 
             inline auto& getButtonState(Button button) const
             {
-                return buttonStates[static_cast<uint32_t>(button)];
+                return buttonStates[static_cast<std::uint32_t>(button)];
             }
 
-            inline auto getVibration(Motor motor) { return vibration[static_cast<uint32_t>(motor)]; }
+            inline auto getVibration(Motor motor) { return vibration[static_cast<std::uint32_t>(motor)]; }
             void setVibration(Motor motor, float speed);
 
         protected:
             bool handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
 
         private:
-            ButtonState buttonStates[static_cast<uint32_t>(Button::Count)];
-            int32_t playerIndex = -1;
+            ButtonState buttonStates[static_cast<std::uint32_t>(Button::Count)];
+            std::int32_t playerIndex = -1;
             bool absoluteDpadValues = false;
             bool attached = false;
-            float vibration[static_cast<uint32_t>(Motor::Count)]{0.0F};
+            float vibration[static_cast<std::uint32_t>(Motor::Count)]{0.0F};
         };
     } // namespace input
 } // namespace ouzel

@@ -20,7 +20,7 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        uint64_t touchId;
+        std::uint64_t touchId;
         memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchBegin(touchId,
@@ -41,7 +41,7 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        uint64_t touchId;
+        std::uint64_t touchId;
         memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchMove(touchId,
@@ -62,7 +62,7 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        uint64_t touchId;
+        std::uint64_t touchId;
         memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchEnd(touchId,
@@ -83,7 +83,7 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        uint64_t touchId;
+        std::uint64_t touchId;
         memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchCancel(touchId,

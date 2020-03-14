@@ -16,7 +16,7 @@ namespace ouzel
         {
             namespace
             {
-                constexpr GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
+                constexpr GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat, std::uint32_t openGLVersion)
                 {
 #if OUZEL_OPENGLES
                     if (openGLVersion >= 3)
@@ -260,15 +260,15 @@ namespace ouzel
             }
 
             Texture::Texture(RenderDevice& initRenderDevice,
-                             const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
+                             const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
                              TextureType type,
-                             uint32_t initFlags,
-                             uint32_t initSampleCount,
+                             std::uint32_t initFlags,
+                             std::uint32_t initSampleCount,
                              PixelFormat initPixelFormat):
                 RenderResource(initRenderDevice),
                 levels(initLevels),
                 flags(initFlags),
-                mipmaps(static_cast<uint32_t>(initLevels.size())),
+                mipmaps(static_cast<std::uint32_t>(initLevels.size())),
                 sampleCount(initSampleCount),
                 textureTarget(getTextureTarget(type)),
                 internalPixelFormat(getOpenGlInternalPixelFormat(initPixelFormat, renderDevice.getAPIMajorVersion())),
@@ -304,7 +304,7 @@ namespace ouzel
                             throw std::system_error(makeErrorCode(error), "Failed to set texture base and max levels");
                     }
 
-                    for (size_t level = 0; level < levels.size(); ++level)
+                    for (std::size_t level = 0; level < levels.size(); ++level)
                     {
                         if (!levels[level].second.empty())
                             renderDevice.glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
@@ -358,7 +358,7 @@ namespace ouzel
                             throw std::system_error(makeErrorCode(error), "Failed to set texture base and max levels");
                     }
 
-                    for (size_t level = 0; level < levels.size(); ++level)
+                    for (std::size_t level = 0; level < levels.size(); ++level)
                     {
                         if (!levels[level].second.empty())
                             renderDevice.glTexImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(internalPixelFormat),
@@ -381,7 +381,7 @@ namespace ouzel
                 }
             }
 
-            void Texture::setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& newLevels)
+            void Texture::setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& newLevels)
             {
                 if (!(flags & Flags::Dynamic) || flags & Flags::BindRenderTarget)
                     throw std::runtime_error("Texture is not dynamic");
@@ -393,7 +393,7 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                for (size_t level = 0; level < levels.size(); ++level)
+                for (std::size_t level = 0; level < levels.size(); ++level)
                 {
                     if (!levels[level].second.empty())
                         renderDevice.glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
@@ -496,7 +496,7 @@ namespace ouzel
                 }
             }
 
-            void Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+            void Texture::setMaxAnisotropy(std::uint32_t newMaxAnisotropy)
             {
                 maxAnisotropy = newMaxAnisotropy;
 

@@ -284,7 +284,7 @@ namespace ouzel
         executeQueue.push(func);
         lock.unlock();
 
-        const uint8_t command = 1;
+        const std::uint8_t command = 1;
         if (write(looperPipe[1], &command, sizeof(command)) == -1)
             throw std::system_error(errno, std::system_category(), "Failed to write to pipe");
     }

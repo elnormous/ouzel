@@ -91,7 +91,7 @@ namespace ouzel
             {
             public:
                 Resource() = default;
-                Resource(uintptr_t initId, const std::function<void(uintptr_t)>& initDeleter):
+                Resource(std::uintptr_t initId, const std::function<void(std::uintptr_t)>& initDeleter):
                     id(initId), deleter(initDeleter)
                 {
                 }
@@ -122,14 +122,14 @@ namespace ouzel
                     return *this;
                 }
 
-                inline operator uintptr_t() const noexcept
+                inline operator std::uintptr_t() const noexcept
                 {
                     return id;
                 }
 
             private:
-                uintptr_t id = 0;
-                std::function<void(uintptr_t)> deleter;
+                std::uintptr_t id = 0;
+                std::function<void(std::uintptr_t)> deleter;
             };
 
             Resource createResource()
@@ -137,14 +137,14 @@ namespace ouzel
                 auto i = deletedResourceIds.begin();
 
                 if (i == deletedResourceIds.end())
-                    return Resource(++lastResourceId, [this](uintptr_t id){
+                    return Resource(++lastResourceId, [this](std::uintptr_t id){
                         deletedResourceIds.insert(id);
                     }); // zero is reserved for null resource
                 else
                 {
-                    uintptr_t resourceId = *i;
+                    std::uintptr_t resourceId = *i;
                     deletedResourceIds.erase(i);
-                    return Resource(resourceId, [this](uintptr_t id){
+                    return Resource(resourceId, [this](std::uintptr_t id){
                         deletedResourceIds.insert(id);
                     });
                 }
@@ -153,9 +153,9 @@ namespace ouzel
         protected:
             virtual void init(Window* newWindow,
                               const Size2U& newSize,
-                              uint32_t newSampleCount,
+                              std::uint32_t newSampleCount,
                               SamplerFilter newTextureFilter,
-                              uint32_t newMaxAnisotropy,
+                              std::uint32_t newMaxAnisotropy,
                               bool newSrgb,
                               bool newVerticalSync,
                               bool newDepth,
@@ -171,12 +171,12 @@ namespace ouzel
 
             Window* window = nullptr;
 
-            uint16_t apiMajorVersion = 0;
-            uint16_t apiMinorVersion = 0;
+            std::uint16_t apiMajorVersion = 0;
+            std::uint16_t apiMinorVersion = 0;
 
-            uint32_t sampleCount = 1; // MSAA sample count
+            std::uint32_t sampleCount = 1; // MSAA sample count
             SamplerFilter textureFilter = SamplerFilter::Point;
-            uint32_t maxAnisotropy = 1;
+            std::uint32_t maxAnisotropy = 1;
 
             bool verticalSync = true;
             bool srgb = false;
@@ -195,7 +195,7 @@ namespace ouzel
             Matrix4F projectionTransform = Matrix4F::identity();
             Matrix4F renderTargetProjectionTransform = Matrix4F::identity();
 
-            uint32_t drawCallCount = 0;
+            std::uint32_t drawCallCount = 0;
 
             std::queue<CommandBuffer> commandQueue;
             std::mutex commandQueueMutex;
@@ -212,8 +212,8 @@ namespace ouzel
             std::mutex executeMutex;
 
         private:
-            uintptr_t lastResourceId = 0;
-            std::set<uintptr_t> deletedResourceIds;
+            std::uintptr_t lastResourceId = 0;
+            std::set<std::uintptr_t> deletedResourceIds;
         };
     } // namespace graphics
 } // namespace ouzel

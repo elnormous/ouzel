@@ -14,23 +14,23 @@ namespace ouzel
     {
         namespace
         {
-            constexpr auto isWhitespace(uint8_t c)
+            constexpr auto isWhitespace(std::uint8_t c)
             {
                 return c == ' ' || c == '\t';
             }
 
-            constexpr auto isNewline(uint8_t c)
+            constexpr auto isNewline(std::uint8_t c)
             {
                 return c == '\r' || c == '\n';
             }
 
-            constexpr auto isControlChar(uint8_t c)
+            constexpr auto isControlChar(std::uint8_t c)
             {
                 return c <= 0x1F;
             }
 
-            void skipWhitespaces(const std::vector<uint8_t>& str,
-                                 std::vector<uint8_t>::const_iterator& iterator)
+            void skipWhitespaces(const std::vector<std::uint8_t>& str,
+                                 std::vector<std::uint8_t>::const_iterator& iterator)
             {
                 while (iterator != str.end())
                     if (isWhitespace(*iterator))
@@ -39,8 +39,8 @@ namespace ouzel
                         break;
             }
 
-            void skipLine(const std::vector<uint8_t>& str,
-                          std::vector<uint8_t>::const_iterator& iterator)
+            void skipLine(const std::vector<std::uint8_t>& str,
+                          std::vector<std::uint8_t>::const_iterator& iterator)
             {
                 while (iterator != str.end())
                 {
@@ -54,8 +54,8 @@ namespace ouzel
                 }
             }
 
-            std::string parseString(const std::vector<uint8_t>& str,
-                                    std::vector<uint8_t>::const_iterator& iterator)
+            std::string parseString(const std::vector<std::uint8_t>& str,
+                                    std::vector<std::uint8_t>::const_iterator& iterator)
             {
                 if (iterator == str.end())
                     throw std::runtime_error("Invalid string");
@@ -100,11 +100,11 @@ namespace ouzel
                 return result;
             }
 
-            std::string parseInt(const std::vector<uint8_t>& str,
-                                 std::vector<uint8_t>::const_iterator& iterator)
+            std::string parseInt(const std::vector<std::uint8_t>& str,
+                                 std::vector<std::uint8_t>::const_iterator& iterator)
             {
                 std::string result;
-                uint32_t length = 1;
+                std::uint32_t length = 1;
 
                 if (iterator != str.end() && *iterator == '-')
                 {
@@ -126,18 +126,18 @@ namespace ouzel
                 return result;
             }
 
-            void expectToken(const std::vector<uint8_t>& str,
-                             std::vector<uint8_t>::const_iterator& iterator,
+            void expectToken(const std::vector<std::uint8_t>& str,
+                             std::vector<std::uint8_t>::const_iterator& iterator,
                              char token)
             {
-                if (iterator == str.end() || *iterator != static_cast<uint8_t>(token))
+                if (iterator == str.end() || *iterator != static_cast<std::uint8_t>(token))
                     throw std::runtime_error("Unexpected token");
 
                 ++iterator;
             }
         }
 
-        BMFont::BMFont(const std::vector<uint8_t>& data)
+        BMFont::BMFont(const std::vector<std::uint8_t>& data)
         {
             auto iterator = data.cbegin();
 
@@ -187,32 +187,32 @@ namespace ouzel
                             if (key == "lineHeight")
                             {
                                 value = parseInt(data, iterator);
-                                lineHeight = static_cast<uint16_t>(std::stoi(value));
+                                lineHeight = static_cast<std::uint16_t>(std::stoi(value));
                             }
                             else if (key == "base")
                             {
                                 value = parseInt(data, iterator);
-                                base = static_cast<uint16_t>(std::stoi(value));
+                                base = static_cast<std::uint16_t>(std::stoi(value));
                             }
                             else if (key == "scaleW")
                             {
                                 value = parseInt(data, iterator);
-                                width = static_cast<uint16_t>(std::stoi(value));
+                                width = static_cast<std::uint16_t>(std::stoi(value));
                             }
                             else if (key == "scaleH")
                             {
                                 value = parseInt(data, iterator);
-                                height = static_cast<uint16_t>(std::stoi(value));
+                                height = static_cast<std::uint16_t>(std::stoi(value));
                             }
                             else if (key == "pages")
                             {
                                 value = parseInt(data, iterator);
-                                pages = static_cast<uint16_t>(std::stoi(value));
+                                pages = static_cast<std::uint16_t>(std::stoi(value));
                             }
                             else if (key == "outline")
                             {
                                 value = parseInt(data, iterator);
-                                outline = static_cast<uint16_t>(std::stoi(value));
+                                outline = static_cast<std::uint16_t>(std::stoi(value));
                             }
                             else
                                 value = parseString(data, iterator);
@@ -235,53 +235,53 @@ namespace ouzel
                             if (key == "id")
                             {
                                 value = parseInt(data, iterator);
-                                charId = static_cast<uint32_t>(std::stoul(value));
+                                charId = static_cast<std::uint32_t>(std::stoul(value));
                             }
                             else if (key == "x")
                             {
                                 value = parseInt(data, iterator);
-                                c.x = static_cast<int16_t>(std::stoi(value));
+                                c.x = static_cast<std::int16_t>(std::stoi(value));
                             }
                             else if (key == "y")
                             {
                                 value = parseInt(data, iterator);
-                                c.y = static_cast<int16_t>(std::stoi(value));
+                                c.y = static_cast<std::int16_t>(std::stoi(value));
                             }
                             else if (key == "width")
                             {
                                 value = parseInt(data, iterator);
-                                c.width = static_cast<int16_t>(std::stoi(value));
+                                c.width = static_cast<std::int16_t>(std::stoi(value));
                             }
                             else if (key == "height")
                             {
                                 value = parseInt(data, iterator);
-                                c.height = static_cast<int16_t>(std::stoi(value));
+                                c.height = static_cast<std::int16_t>(std::stoi(value));
                             }
                             else if (key == "xoffset")
                             {
                                 value = parseInt(data, iterator);
-                                c.xOffset = static_cast<int16_t>(std::stoi(value));
+                                c.xOffset = static_cast<std::int16_t>(std::stoi(value));
                             }
                             else if (key == "yoffset")
                             {
                                 value = parseInt(data, iterator);
-                                c.yOffset = static_cast<int16_t>(std::stoi(value));
+                                c.yOffset = static_cast<std::int16_t>(std::stoi(value));
                             }
                             else if (key == "xadvance")
                             {
                                 value = parseInt(data, iterator);
-                                c.xAdvance = static_cast<int16_t>(std::stoi(value));
+                                c.xAdvance = static_cast<std::int16_t>(std::stoi(value));
                             }
                             else if (key == "page")
                             {
                                 value = parseInt(data, iterator);
-                                c.page = static_cast<int16_t>(std::stoi(value));
+                                c.page = static_cast<std::int16_t>(std::stoi(value));
                             }
                             else
                                 value = parseString(data, iterator);
                         }
 
-                        chars.insert(std::unordered_map<int32_t, CharDescriptor>::value_type(charId, c));
+                        chars.insert(std::unordered_map<std::int32_t, CharDescriptor>::value_type(charId, c));
                     }
                     else if (keyword == "kernings")
                     {
@@ -297,7 +297,7 @@ namespace ouzel
                             if (key == "count")
                             {
                                 value = parseInt(data, iterator);
-                                kernCount = static_cast<uint16_t>(std::stoi(value));
+                                kernCount = static_cast<std::uint16_t>(std::stoi(value));
                             }
                             else
                                 value = parseString(data, iterator);
@@ -305,7 +305,7 @@ namespace ouzel
                     }
                     else if (keyword == "kerning")
                     {
-                        int16_t amount = 0;
+                        std::int16_t amount = 0;
                         char32_t first = 0;
                         char32_t second = 0;
 
@@ -331,7 +331,7 @@ namespace ouzel
                             else if (key == "amount")
                             {
                                 value = parseInt(data, iterator);
-                                amount = static_cast<int16_t>(std::stoi(value));
+                                amount = static_cast<std::int16_t>(std::stoi(value));
                             }
                             else
                                 value = parseString(data, iterator);
@@ -354,14 +354,14 @@ namespace ouzel
 
             const std::u32string utf32Text = utf8::toUtf32(text);
 
-            std::vector<uint16_t> indices;
+            std::vector<std::uint16_t> indices;
             std::vector<graphics::Vertex> vertices;
             indices.reserve(utf32Text.size() * 6);
             vertices.reserve(utf32Text.size() * 4);
 
             Vector2F textCoords[4];
 
-            size_t firstChar = 0;
+            std::size_t firstChar = 0;
 
             for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
             {
@@ -371,7 +371,7 @@ namespace ouzel
                 {
                     const CharDescriptor& f = iter->second;
 
-                    auto startIndex = static_cast<uint16_t>(vertices.size());
+                    auto startIndex = static_cast<std::uint16_t>(vertices.size());
                     indices.push_back(startIndex + 0);
                     indices.push_back(startIndex + 1);
                     indices.push_back(startIndex + 2);
@@ -413,7 +413,7 @@ namespace ouzel
                     position.v[0] = 0.0F;
                     position.v[1] += lineHeight;
 
-                    for (size_t c = firstChar; c < vertices.size(); ++c)
+                    for (std::size_t c = firstChar; c < vertices.size(); ++c)
                         vertices[c].position.v[0] -= lineWidth * anchor.v[0];
 
                     firstChar = vertices.size();
@@ -433,7 +433,7 @@ namespace ouzel
             return std::make_tuple(std::move(indices), std::move(vertices), fontTexture);
         }
 
-        int16_t BMFont::getKerningPair(char32_t first, char32_t second) const
+        std::int16_t BMFont::getKerningPair(char32_t first, char32_t second) const
         {
             auto i = kern.find(std::make_pair(first, second));
 

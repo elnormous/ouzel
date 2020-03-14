@@ -200,16 +200,16 @@ namespace ouzel
                 }
             }
 
-            uint32_t read(void* buffer, uint32_t size, bool all = false) const
+            std::uint32_t read(void* buffer, std::uint32_t size, bool all = false) const
             {
                 if (all)
                 {
-                    uint8_t* dest = static_cast<uint8_t*>(buffer);
-                    uint32_t remaining = size;
+                    std::uint8_t* dest = static_cast<std::uint8_t*>(buffer);
+                    std::uint32_t remaining = size;
 
                     while (remaining > 0)
                     {
-                        const uint32_t bytesRead = read(dest, remaining);
+                        const std::uint32_t bytesRead = read(dest, remaining);
 
                         if (bytesRead == 0)
                             return 0; // End of file reached
@@ -230,28 +230,28 @@ namespace ouzel
                     if (!ReadFile(file, buffer, size, &n, nullptr))
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to read from file");
 
-                    return static_cast<uint32_t>(n);
+                    return static_cast<std::uint32_t>(n);
 #elif defined(__unix__) || defined(__APPLE__)
                     const ssize_t ret = ::read(file, buffer, size);
 
                     if (ret == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to read from file");
 
-                    return static_cast<uint32_t>(ret);
+                    return static_cast<std::uint32_t>(ret);
 #endif
                 }
             }
 
-            uint32_t write(const void* buffer, uint32_t size, bool all = false) const
+            std::uint32_t write(const void* buffer, std::uint32_t size, bool all = false) const
             {
                 if (all)
                 {
-                    const uint8_t* src = static_cast<const uint8_t*>(buffer);
-                    uint32_t remaining = size;
+                    const std::uint8_t* src = static_cast<const std::uint8_t*>(buffer);
+                    std::uint32_t remaining = size;
 
                     while (remaining > 0)
                     {
-                        const uint32_t bytesWritten = write(src, remaining, false);
+                        const std::uint32_t bytesWritten = write(src, remaining, false);
                         remaining -= bytesWritten;
                         src += bytesWritten;
                     }
@@ -268,19 +268,19 @@ namespace ouzel
                     if (!WriteFile(file, buffer, size, &n, nullptr))
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to write to file");
 
-                    return static_cast<uint32_t>(n);
+                    return static_cast<std::uint32_t>(n);
 #elif defined(__unix__) || defined(__APPLE__)
                     const ssize_t ret = ::write(file, buffer, size);
 
                     if (ret == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to write to file");
 
-                    return static_cast<uint32_t>(ret);
+                    return static_cast<std::uint32_t>(ret);
 #endif
                 }
             }
 
-            void seek(const int32_t offset, const Seek method) const
+            void seek(const std::int32_t offset, const Seek method) const
             {
                 if (file == INVALID)
                     throw std::runtime_error("File is not open");
@@ -315,12 +315,12 @@ namespace ouzel
                 DWORD ret = SetFilePointer(file, 0, nullptr, FILE_CURRENT);
                 if (ret == INVALID_SET_FILE_POINTER)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to seek file");
-                return static_cast<uint32_t>(ret);
+                return static_cast<std::uint32_t>(ret);
 #elif defined(__unix__) || defined(__APPLE__)
                 off_t ret = lseek(file, 0, SEEK_CUR);
                 if (ret == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to seek file");
-                return static_cast<uint32_t>(ret);
+                return static_cast<std::uint32_t>(ret);
 #endif
             }
 

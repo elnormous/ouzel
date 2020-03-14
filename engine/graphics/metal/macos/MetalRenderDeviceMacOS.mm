@@ -70,9 +70,9 @@ namespace ouzel
 
             void RenderDeviceMacOS::init(Window* newWindow,
                                          const Size2U& newSize,
-                                         uint32_t newSampleCount,
+                                         std::uint32_t newSampleCount,
                                          SamplerFilter newTextureFilter,
-                                         uint32_t newMaxAnisotropy,
+                                         std::uint32_t newMaxAnisotropy,
                                          bool newSrgb,
                                          bool newVerticalSync,
                                          bool newDepth,
@@ -127,8 +127,8 @@ namespace ouzel
                 {
                     const CGDisplayModeRef displayMode = (const CGDisplayModeRef)CFArrayGetValueAtIndex(displayModes, i);
 
-                    result.emplace_back(static_cast<uint32_t>(CGDisplayModeGetWidth(displayMode)),
-                                        static_cast<uint32_t>(CGDisplayModeGetHeight(displayMode)));
+                    result.emplace_back(static_cast<std::uint32_t>(CGDisplayModeGetWidth(displayMode)),
+                                        static_cast<std::uint32_t>(CGDisplayModeGetHeight(displayMode)));
                 }
 
                 CFRelease(displayModes);

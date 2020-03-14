@@ -16,7 +16,7 @@ namespace ouzel
         class VorbisClip final: public Sound
         {
         public:
-            VorbisClip(Audio& initAudio, const std::vector<uint8_t>& initData);
+            VorbisClip(Audio& initAudio, const std::vector<std::uint8_t>& initData);
 
         private:
             VorbisData* data;

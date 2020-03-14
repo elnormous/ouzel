@@ -54,8 +54,8 @@ namespace ouzel
             int width, height, isFullscreen;
             emscripten_get_canvas_size(&width, &height, &isFullscreen);
 
-            if (size.v[0] == 0) size.v[0] = static_cast<uint32_t>(width);
-            if (size.v[1] == 0) size.v[1] = static_cast<uint32_t>(height);
+            if (size.v[0] == 0) size.v[0] = static_cast<std::uint32_t>(width);
+            if (size.v[1] == 0) size.v[1] = static_cast<std::uint32_t>(height);
             fullscreen = static_cast<bool>(isFullscreen);
         }
         else
@@ -140,8 +140,8 @@ namespace ouzel
         int width, height, isFullscreen;
         emscripten_get_canvas_size(&width, &height, &isFullscreen);
 
-        Size2U newSize(static_cast<uint32_t>(width),
-                       static_cast<uint32_t>(height));
+        Size2U newSize(static_cast<std::uint32_t>(width),
+                       static_cast<std::uint32_t>(height));
 
         size = newSize;
         resolution = size;

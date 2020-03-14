@@ -85,8 +85,8 @@ namespace ouzel
             }
 
             Shader::Shader(RenderDevice& initRenderDevice,
-                           const std::vector<uint8_t>& fragmentShaderData,
-                           const std::vector<uint8_t>& vertexShaderData,
+                           const std::vector<std::uint8_t>& fragmentShaderData,
+                           const std::vector<std::uint8_t>& vertexShaderData,
                            const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
                            const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                            const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
@@ -195,7 +195,7 @@ namespace ouzel
 
                     for (const auto& info : fragmentShaderConstantInfo)
                     {
-                        const uint32_t size = getDataTypeSize(info.second);
+                        const std::uint32_t size = getDataTypeSize(info.second);
                         fragmentShaderConstantLocations.emplace_back(fragmentShaderConstantSize, size);
                         fragmentShaderConstantSize += size;
                     }
@@ -223,7 +223,7 @@ namespace ouzel
 
                     for (const auto& info : vertexShaderConstantInfo)
                     {
-                        const uint32_t size = getDataTypeSize(info.second);
+                        const std::uint32_t size = getDataTypeSize(info.second);
                         vertexShaderConstantLocations.emplace_back(vertexShaderConstantSize, size);
                         vertexShaderConstantSize += size;
                     }

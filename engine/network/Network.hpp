@@ -28,8 +28,8 @@ namespace ouzel
     {
         class Client;
 
-        constexpr uint32_t ANY_ADDRESS = 0;
-        constexpr uint16_t ANY_PORT = 0;
+        constexpr std::uint32_t ANY_ADDRESS = 0;
+        constexpr std::uint16_t ANY_PORT = 0;
 
         class Network final
         {
@@ -43,7 +43,7 @@ namespace ouzel
             Network(Network&&) = delete;
             Network& operator=(Network&&) = delete;
 
-            static uint32_t getAddress(const std::string& address);
+            static std::uint32_t getAddress(const std::string& address);
 
         private:
 #if defined(_WIN32)

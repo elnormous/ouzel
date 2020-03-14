@@ -38,7 +38,7 @@ namespace ouzel
                 else
                 {
                     const CFIndex stringLength = CFStringGetLength(productName);
-                    std::vector<char> temp(static_cast<size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
+                    std::vector<char> temp(static_cast<std::size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
                     if (CFStringGetCString(productName, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8))
                         name = temp.data();
                 }
@@ -48,7 +48,7 @@ namespace ouzel
             if (!vendor)
                 throw std::runtime_error("Failed to get vendor ID");
 
-            int32_t vendorId;
+            std::int32_t vendorId;
             if (!CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId))
                 throw std::runtime_error("Failed to get vendor ID");
 
@@ -56,13 +56,13 @@ namespace ouzel
             if (!product)
                 throw std::runtime_error("Failed to get product ID");
 
-            int32_t productId;
+            std::int32_t productId;
             if (!CFNumberGetValue(product, kCFNumberSInt32Type, &productId))
                 throw std::runtime_error("Failed to get product ID");
 
             const GamepadConfig& gamepadConfig = getGamepadConfig(vendorId, productId);
 
-            static const std::unordered_map<uint32_t, size_t> axisUsageMap = {
+            static const std::unordered_map<std::uint32_t, std::size_t> axisUsageMap = {
                 {kHIDUsage_GD_X, 0},
                 {kHIDUsage_GD_Y, 1},
                 {kHIDUsage_GD_Z, 2},
@@ -85,8 +85,8 @@ namespace ouzel
 
                 const IOHIDElementRef element = getElement(elementArray, i);
                 const IOHIDElementType type = IOHIDElementGetType(element);
-                const uint32_t usagePage = IOHIDElementGetUsagePage(element);
-                const uint32_t usage = IOHIDElementGetUsage(element);
+                const std::uint32_t usagePage = IOHIDElementGetUsagePage(element);
+                const std::uint32_t usage = IOHIDElementGetUsage(element);
 
                 if (usage == kHIDUsage_GD_Hatswitch)
                     hatElement = element;
@@ -105,7 +105,7 @@ namespace ouzel
 
                     if (usageIterator != axisUsageMap.end())
                     {
-                        const size_t index = usageIterator->second;
+                        const std::size_t index = usageIterator->second;
 
                         Axis axis;
                         axis.axis = gamepadConfig.axisMap[index];
@@ -162,11 +162,11 @@ namespace ouzel
 
             if (element == hatElement)
             {
-                const auto oldHatValue = static_cast<uint32_t>(hatValue);
-                const uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
+                const auto oldHatValue = static_cast<std::uint32_t>(hatValue);
+                const std::uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                     (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
 
-                const uint32_t newBitmask = (newValue >= 8) ? 0 : (1 << (newValue / 2)) | // first bit
+                const std::uint32_t newBitmask = (newValue >= 8) ? 0 : (1 << (newValue / 2)) | // first bit
                 (1 << (newValue / 2 + newValue % 2)) % 4; // second bit
 
                 if ((oldBitmask & 0x01) != (newBitmask & 0x01))

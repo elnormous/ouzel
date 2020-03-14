@@ -162,12 +162,12 @@ namespace ouzel
                 const ErrorCategory errorCategory{};
             }
 
-            AudioDevice::AudioDevice(uint32_t initBufferSize,
-                                     uint32_t initSampleRate,
-                                     uint32_t initChannels,
-                                     const std::function<void(uint32_t frames,
-                                                              uint32_t channels,
-                                                              uint32_t sampleRate,
+            AudioDevice::AudioDevice(std::uint32_t initBufferSize,
+                                     std::uint32_t initSampleRate,
+                                     std::uint32_t initChannels,
+                                     const std::function<void(std::uint32_t frames,
+                                                              std::uint32_t channels,
+                                                              std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
                 audio::AudioDevice(Driver::WASAPI, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
@@ -218,7 +218,7 @@ namespace ouzel
 
                 CoTaskMemFree(audioClientWaveFormat);
 
-                constexpr uint64_t TIMES_PER_SECOND = 10000000;
+                constexpr std::uint64_t TIMES_PER_SECOND = 10000000;
                 auto bufferPeriod = static_cast<REFERENCE_TIME>(512 * TIMES_PER_SECOND / waveFormat.nSamplesPerSec);
 
                 WAVEFORMATEX* closesMatch;
@@ -239,7 +239,7 @@ namespace ouzel
                                                         nullptr)))
                 {
                     waveFormat.wFormatTag = WAVE_FORMAT_PCM;
-                    waveFormat.wBitsPerSample = sizeof(int16_t) * 8;
+                    waveFormat.wBitsPerSample = sizeof(std::int16_t) * 8;
                     waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
                     waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
 
@@ -252,7 +252,7 @@ namespace ouzel
                         throw std::system_error(hr, errorCategory, "Failed to initialize audio client");
 
                     sampleFormat = SampleFormat::SignedInt16;
-                    sampleSize = sizeof(int16_t);
+                    sampleSize = sizeof(std::int16_t);
                 }
 
                 // init output device

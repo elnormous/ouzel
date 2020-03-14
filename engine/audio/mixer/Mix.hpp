@@ -24,7 +24,7 @@ namespace ouzel
                 Mix(Mix&&) = delete;
                 Mix& operator=(Mix&&) = delete;
 
-                virtual void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
+                virtual void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples) = 0;
 
             private:
                 Object* parent = nullptr;

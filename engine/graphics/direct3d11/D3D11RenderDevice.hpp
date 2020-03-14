@@ -55,7 +55,7 @@ namespace ouzel
                 void setFullscreen(bool newFullscreen);
 
                 template <class T>
-                inline auto getResource(uintptr_t id) const
+                inline auto getResource(std::uintptr_t id) const
                 {
                     return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
                 }
@@ -63,9 +63,9 @@ namespace ouzel
             private:
                 void init(Window* newWindow,
                           const Size2U& newSize,
-                          uint32_t newSampleCount,
+                          std::uint32_t newSampleCount,
                           SamplerFilter newTextureFilter,
-                          uint32_t newMaxAnisotropy,
+                          std::uint32_t newMaxAnisotropy,
                           bool newSrgb,
                           bool newVerticalSync,
                           bool newDepth,
@@ -74,7 +74,7 @@ namespace ouzel
 
                 void process() final;
                 void resizeBackBuffer(UINT newWidth, UINT newHeight);
-                void uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
+                void uploadBuffer(ID3D11Buffer* buffer, const void* data, std::uint32_t dataSize);
                 void generateScreenshot(const std::string& filename) final;
                 void renderMain();
 

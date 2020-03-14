@@ -7,12 +7,12 @@ namespace ouzel
     namespace audio
     {
         AudioDevice::AudioDevice(Driver initDriver,
-                                 uint32_t initBufferSize,
-                                 uint32_t initSampleRate,
-                                 uint32_t initChannels,
-                                 const std::function<void(uint32_t frames,
-                                                          uint32_t channels,
-                                                          uint32_t sampleRate,
+                                 std::uint32_t initBufferSize,
+                                 std::uint32_t initSampleRate,
+                                 std::uint32_t initChannels,
+                                 const std::function<void(std::uint32_t frames,
+                                                          std::uint32_t channels,
+                                                          std::uint32_t sampleRate,
                                                           std::vector<float>& samples)>& initDataGetter):
             driver(initDriver),
             bufferSize(initBufferSize),
@@ -22,7 +22,7 @@ namespace ouzel
         {
         }
 
-        void AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
+        void AudioDevice::getData(std::uint32_t frames, std::vector<std::uint8_t>& result)
         {
             dataGetter(frames, channels, sampleRate, buffer);
 
@@ -30,15 +30,15 @@ namespace ouzel
             {
                 case SampleFormat::SignedInt16:
                 {
-                    result.resize(frames * channels * sizeof(int16_t));
-                    int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
+                    result.resize(frames * channels * sizeof(std::int16_t));
+                    std::int16_t* resultPtr = reinterpret_cast<std::int16_t*>(result.data());
 
-                    for (uint32_t channel = 0; channel < channels; ++channel)
+                    for (std::uint32_t channel = 0; channel < channels; ++channel)
                     {
                         float* bufferChannel = &buffer[channel * frames];
 
-                        for (uint32_t frame = 0; frame < frames; ++frame)
-                            resultPtr[frame * channels + channel] = static_cast<int16_t>(bufferChannel[frame] * 32767.0F);
+                        for (std::uint32_t frame = 0; frame < frames; ++frame)
+                            resultPtr[frame * channels + channel] = static_cast<std::int16_t>(bufferChannel[frame] * 32767.0F);
                     }
                     break;
                 }
@@ -47,11 +47,11 @@ namespace ouzel
                     result.resize(frames * channels * sizeof(float));
                     float* resultPtr = reinterpret_cast<float*>(result.data());
 
-                    for (uint32_t channel = 0; channel < channels; ++channel)
+                    for (std::uint32_t channel = 0; channel < channels; ++channel)
                     {
                         float* bufferChannel = &buffer[channel * frames];
 
-                        for (uint32_t frame = 0; frame < frames; ++frame)
+                        for (std::uint32_t frame = 0; frame < frames; ++frame)
                             resultPtr[frame * channels + channel] = bufferChannel[frame];
                     }
                     break;

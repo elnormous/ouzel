@@ -269,22 +269,22 @@ namespace
                 switch (eventType)
                 {
                     case EMSCRIPTEN_EVENT_TOUCHSTART:
-                        touchpadDevice->handleTouchBegin(static_cast<uint64_t>(touchEvent->touches[i].identifier),
+                        touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
                                                          ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                          1.0F);
                         break;
                     case EMSCRIPTEN_EVENT_TOUCHEND:
-                        touchpadDevice->handleTouchEnd(static_cast<uint64_t>(touchEvent->touches[i].identifier),
+                        touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
                                                        ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                        1.0F);
                         break;
                     case EMSCRIPTEN_EVENT_TOUCHMOVE:
-                        touchpadDevice->handleTouchMove(static_cast<uint64_t>(touchEvent->touches[i].identifier),
+                        touchpadDevice->handleTouchMove(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
                                                         ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                         1.0F);
                         break;
                     case EMSCRIPTEN_EVENT_TOUCHCANCEL:
-                        touchpadDevice->handleTouchCancel(static_cast<uint64_t>(touchEvent->touches[i].identifier),
+                        touchpadDevice->handleTouchCancel(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
                                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                           1.0F);
                         break;

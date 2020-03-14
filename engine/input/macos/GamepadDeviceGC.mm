@@ -173,12 +173,12 @@ namespace ouzel
 #endif
         }
 
-        int32_t GamepadDeviceGC::getPlayerIndex() const
+        std::int32_t GamepadDeviceGC::getPlayerIndex() const
         {
-            return static_cast<int32_t>(controller.playerIndex);
+            return static_cast<std::int32_t>(controller.playerIndex);
         }
 
-        void GamepadDeviceGC::setPlayerIndex(int32_t playerIndex)
+        void GamepadDeviceGC::setPlayerIndex(std::int32_t playerIndex)
         {
             switch (playerIndex)
             {

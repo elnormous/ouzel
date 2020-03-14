@@ -115,9 +115,9 @@ namespace ouzel
         Thread::setCurrentThreadName("Main");
 
         Size2U size;
-        uint32_t sampleCount = 1; // MSAA sample count
+        std::uint32_t sampleCount = 1; // MSAA sample count
         graphics::SamplerFilter textureFilter = graphics::SamplerFilter::Point;
-        uint32_t maxAnisotropy = 1;
+        std::uint32_t maxAnisotropy = 1;
         bool resizable = false;
         bool fullscreen = false;
         bool verticalSync = true;
@@ -140,13 +140,13 @@ namespace ouzel
         const std::string graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
 
         const std::string widthValue = userEngineSection.getValue("width", defaultEngineSection.getValue("width"));
-        if (!widthValue.empty()) size.v[0] = static_cast<uint32_t>(std::stoul(widthValue));
+        if (!widthValue.empty()) size.v[0] = static_cast<std::uint32_t>(std::stoul(widthValue));
 
         const std::string heightValue = userEngineSection.getValue("height", defaultEngineSection.getValue("height"));
-        if (!heightValue.empty()) size.v[1] = static_cast<uint32_t>(std::stoul(heightValue));
+        if (!heightValue.empty()) size.v[1] = static_cast<std::uint32_t>(std::stoul(heightValue));
 
         const std::string sampleCountValue = userEngineSection.getValue("sampleCount", defaultEngineSection.getValue("sampleCount"));
-        if (!sampleCountValue.empty()) sampleCount = static_cast<uint32_t>(std::stoul(sampleCountValue));
+        if (!sampleCountValue.empty()) sampleCount = static_cast<std::uint32_t>(std::stoul(sampleCountValue));
 
         const std::string textureFilterValue = userEngineSection.getValue("textureFilter", defaultEngineSection.getValue("textureFilter"));
         if (!textureFilterValue.empty())
@@ -164,7 +164,7 @@ namespace ouzel
         }
 
         const std::string maxAnisotropyValue = userEngineSection.getValue("maxAnisotropy", defaultEngineSection.getValue("maxAnisotropy"));
-        if (!maxAnisotropyValue.empty()) maxAnisotropy = static_cast<uint32_t>(std::stoul(maxAnisotropyValue));
+        if (!maxAnisotropyValue.empty()) maxAnisotropy = static_cast<std::uint32_t>(std::stoul(maxAnisotropyValue));
 
         const std::string resizableValue = userEngineSection.getValue("resizable", defaultEngineSection.getValue("resizable"));
         if (!resizableValue.empty()) resizable = (resizableValue == "true" || resizableValue == "1" || resizableValue == "yes");
@@ -197,7 +197,7 @@ namespace ouzel
 
         graphics::Driver graphicsDriver = graphics::Renderer::getDriver(graphicsDriverValue);
 
-        const uint32_t windowFlags = (resizable ? Window::Flags::Resizable : 0) |
+        const std::uint32_t windowFlags = (resizable ? Window::Flags::Resizable : 0) |
             (fullscreen ? Window::Flags::Fullscreen : 0) |
             (exclusiveFullscreen ? Window::Flags::ExclusiveFullscreen : 0) |
             (highDpi ? Window::Flags::HighDpi : 0) |
@@ -239,9 +239,9 @@ namespace ouzel
 #  if OUZEL_OPENGLES
                     case 2:
                         textureShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                           std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl),
+                                                                           std::vector<std::uint8_t>(std::begin(TexturePSGLES2_glsl),
                                                                                                 std::end(TexturePSGLES2_glsl)),
-                                                                           std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl),
+                                                                           std::vector<std::uint8_t>(std::begin(TextureVSGLES2_glsl),
                                                                                                 std::end(TextureVSGLES2_glsl)),
                                                                            std::set<graphics::Vertex::Attribute::Usage>{
                                                                                graphics::Vertex::Attribute::Usage::Position,
@@ -257,9 +257,9 @@ namespace ouzel
                         break;
                     case 3:
                         textureShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                           std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl),
+                                                                           std::vector<std::uint8_t>(std::begin(TexturePSGLES3_glsl),
                                                                                                 std::end(TexturePSGLES3_glsl)),
-                                                                           std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl),
+                                                                           std::vector<std::uint8_t>(std::begin(TextureVSGLES3_glsl),
                                                                                                 std::end(TextureVSGLES3_glsl)),
                                                                            std::set<graphics::Vertex::Attribute::Usage>{
                                                                                graphics::Vertex::Attribute::Usage::Position,
@@ -276,9 +276,9 @@ namespace ouzel
 #  else
                     case 2:
                         textureShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                           std::vector<uint8_t>(std::begin(TexturePSGL2_glsl),
+                                                                           std::vector<std::uint8_t>(std::begin(TexturePSGL2_glsl),
                                                                                                 std::end(TexturePSGL2_glsl)),
-                                                                           std::vector<uint8_t>(std::begin(TextureVSGL2_glsl),
+                                                                           std::vector<std::uint8_t>(std::begin(TextureVSGL2_glsl),
                                                                                                 std::end(TextureVSGL2_glsl)),
                                                                            std::set<graphics::Vertex::Attribute::Usage>{
                                                                                graphics::Vertex::Attribute::Usage::Position,
@@ -294,9 +294,9 @@ namespace ouzel
                         break;
                     case 3:
                         textureShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                           std::vector<uint8_t>(std::begin(TexturePSGL3_glsl),
+                                                                           std::vector<std::uint8_t>(std::begin(TexturePSGL3_glsl),
                                                                                                 std::end(TexturePSGL3_glsl)),
-                                                                           std::vector<uint8_t>(std::begin(TextureVSGL3_glsl),
+                                                                           std::vector<std::uint8_t>(std::begin(TextureVSGL3_glsl),
                                                                                                 std::end(TextureVSGL3_glsl)),
                                                                            std::set<graphics::Vertex::Attribute::Usage>{
                                                                                graphics::Vertex::Attribute::Usage::Position,
@@ -312,9 +312,9 @@ namespace ouzel
                         break;
                     case 4:
                         textureShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                           std::vector<uint8_t>(std::begin(TexturePSGL4_glsl),
+                                                                           std::vector<std::uint8_t>(std::begin(TexturePSGL4_glsl),
                                                                                                 std::end(TexturePSGL4_glsl)),
-                                                                           std::vector<uint8_t>(std::begin(TextureVSGL4_glsl),
+                                                                           std::vector<std::uint8_t>(std::begin(TextureVSGL4_glsl),
                                                                                                 std::end(TextureVSGL4_glsl)),
                                                                            std::set<graphics::Vertex::Attribute::Usage>{
                                                                                graphics::Vertex::Attribute::Usage::Position,
@@ -342,9 +342,9 @@ namespace ouzel
 #  if OUZEL_OPENGLES
                     case 2:
                         colorShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                         std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl),
+                                                                         std::vector<std::uint8_t>(std::begin(ColorPSGLES2_glsl),
                                                                                               std::end(ColorPSGLES2_glsl)),
-                                                                         std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl),
+                                                                         std::vector<std::uint8_t>(std::begin(ColorVSGLES2_glsl),
                                                                                               std::end(ColorVSGLES2_glsl)),
                                                                          std::set<graphics::Vertex::Attribute::Usage>{
                                                                              graphics::Vertex::Attribute::Usage::Position,
@@ -359,9 +359,9 @@ namespace ouzel
                         break;
                     case 3:
                         colorShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                         std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl),
+                                                                         std::vector<std::uint8_t>(std::begin(ColorPSGLES3_glsl),
                                                                                               std::end(ColorPSGLES3_glsl)),
-                                                                         std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl),
+                                                                         std::vector<std::uint8_t>(std::begin(ColorVSGLES3_glsl),
                                                                                               std::end(ColorVSGLES3_glsl)),
                                                                          std::set<graphics::Vertex::Attribute::Usage>{
                                                                              graphics::Vertex::Attribute::Usage::Position,
@@ -377,9 +377,9 @@ namespace ouzel
 #  else
                     case 2:
                         colorShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                         std::vector<uint8_t>(std::begin(ColorPSGL2_glsl),
+                                                                         std::vector<std::uint8_t>(std::begin(ColorPSGL2_glsl),
                                                                                               std::end(ColorPSGL2_glsl)),
-                                                                         std::vector<uint8_t>(std::begin(ColorVSGL2_glsl),
+                                                                         std::vector<std::uint8_t>(std::begin(ColorVSGL2_glsl),
                                                                                               std::end(ColorVSGL2_glsl)),
                                                                          std::set<graphics::Vertex::Attribute::Usage>{
                                                                              graphics::Vertex::Attribute::Usage::Position,
@@ -394,9 +394,9 @@ namespace ouzel
                         break;
                     case 3:
                         colorShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                         std::vector<uint8_t>(std::begin(ColorPSGL3_glsl),
+                                                                         std::vector<std::uint8_t>(std::begin(ColorPSGL3_glsl),
                                                                                               std::end(ColorPSGL3_glsl)),
-                                                                         std::vector<uint8_t>(std::begin(ColorVSGL3_glsl),
+                                                                         std::vector<std::uint8_t>(std::begin(ColorVSGL3_glsl),
                                                                                               std::end(ColorVSGL3_glsl)),
                                                                          std::set<graphics::Vertex::Attribute::Usage>{
                                                                              graphics::Vertex::Attribute::Usage::Position,
@@ -411,9 +411,9 @@ namespace ouzel
                         break;
                     case 4:
                         colorShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                         std::vector<uint8_t>(std::begin(ColorPSGL4_glsl),
+                                                                         std::vector<std::uint8_t>(std::begin(ColorPSGL4_glsl),
                                                                                               std::end(ColorPSGL4_glsl)),
-                                                                         std::vector<uint8_t>(std::begin(ColorVSGL4_glsl),
+                                                                         std::vector<std::uint8_t>(std::begin(ColorVSGL4_glsl),
                                                                                               std::end(ColorVSGL4_glsl)),
                                                                          std::set<graphics::Vertex::Attribute::Usage>{
                                                                              graphics::Vertex::Attribute::Usage::Position,
@@ -440,9 +440,9 @@ namespace ouzel
             case graphics::Driver::Direct3D11:
             {
                 auto textureShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                        std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11),
+                                                                        std::vector<std::uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11),
                                                                                              std::end(TEXTURE_PIXEL_SHADER_D3D11)),
-                                                                        std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11),
+                                                                        std::vector<std::uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11),
                                                                                              std::end(TEXTURE_VERTEX_SHADER_D3D11)),
                                                                         std::set<graphics::Vertex::Attribute::Usage>{
                                                                             graphics::Vertex::Attribute::Usage::Position,
@@ -459,9 +459,9 @@ namespace ouzel
                 assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
 
                 auto colorShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                      std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11),
+                                                                      std::vector<std::uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11),
                                                                                            std::end(COLOR_PIXEL_SHADER_D3D11)),
-                                                                      std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11),
+                                                                      std::vector<std::uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11),
                                                                                            std::end(COLOR_VERTEX_SHADER_D3D11)),
                                                                       std::set<graphics::Vertex::Attribute::Usage>{
                                                                           graphics::Vertex::Attribute::Usage::Position,
@@ -483,9 +483,9 @@ namespace ouzel
             case graphics::Driver::Metal:
             {
                 auto textureShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                        std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL),
+                                                                        std::vector<std::uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL),
                                                                                              std::end(TEXTURE_PIXEL_SHADER_METAL)),
-                                                                        std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL),
+                                                                        std::vector<std::uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL),
                                                                                              std::end(TEXTURE_VERTEX_SHADER_METAL)),
                                                                         std::set<graphics::Vertex::Attribute::Usage>{
                                                                             graphics::Vertex::Attribute::Usage::Position,
@@ -503,9 +503,9 @@ namespace ouzel
                 assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
 
                 auto colorShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                      std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL),
+                                                                      std::vector<std::uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL),
                                                                                            std::end(COLOR_PIXEL_SHADER_METAL)),
-                                                                      std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL),
+                                                                      std::vector<std::uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL),
                                                                                            std::end(COLOR_VERTEX_SHADER_METAL)),
                                                                       std::set<graphics::Vertex::Attribute::Usage>{
                                                                           graphics::Vertex::Attribute::Usage::Position,
@@ -527,8 +527,8 @@ namespace ouzel
             default:
             {
                 auto textureShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                        std::vector<uint8_t>(),
-                                                                        std::vector<uint8_t>(),
+                                                                        std::vector<std::uint8_t>(),
+                                                                        std::vector<std::uint8_t>(),
                                                                         std::set<graphics::Vertex::Attribute::Usage>{
                                                                             graphics::Vertex::Attribute::Usage::Position,
                                                                             graphics::Vertex::Attribute::Usage::Color,
@@ -544,8 +544,8 @@ namespace ouzel
                 assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
 
                 auto colorShader = std::make_unique<graphics::Shader>(*renderer,
-                                                                      std::vector<uint8_t>(),
-                                                                      std::vector<uint8_t>(),
+                                                                      std::vector<std::uint8_t>(),
+                                                                      std::vector<std::uint8_t>(),
                                                                       std::set<graphics::Vertex::Attribute::Usage>{
                                                                           graphics::Vertex::Attribute::Usage::Position,
                                                                           graphics::Vertex::Attribute::Usage::Color
@@ -618,7 +618,7 @@ namespace ouzel
         assetBundle.setBlendState(BLEND_SCREEN, std::move(screenBlendState));
 
         auto whitePixelTexture = std::make_shared<graphics::Texture>(*renderer,
-                                                                     std::vector<uint8_t>{255, 255, 255, 255},
+                                                                     std::vector<std::uint8_t>{255, 255, 255, 255},
                                                                      Size2U(1, 1),
                                                                      0, 1);
         assetBundle.setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);

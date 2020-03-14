@@ -47,7 +47,7 @@ namespace ouzel
                 SamplerAddressMode addressX;
                 SamplerAddressMode addressY;
                 SamplerAddressMode addressZ;
-                uint32_t maxAnisotropy;
+                std::uint32_t maxAnisotropy;
 
                 bool operator<(const SamplerStateDescriptor& other) const noexcept
                 {
@@ -60,18 +60,18 @@ namespace ouzel
             {
             public:
                 Texture(RenderDevice& initRenderDevice,
-                        const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels,
+                        const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
                         TextureType type,
-                        uint32_t initFlags = 0,
-                        uint32_t initSampleCount = 1,
+                        std::uint32_t initFlags = 0,
+                        std::uint32_t initSampleCount = 1,
                         PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
 
-                void setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels);
+                void setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels);
                 void setFilter(SamplerFilter filter);
                 void setAddressX(SamplerAddressMode addressX);
                 void setAddressY(SamplerAddressMode addressY);
                 void setAddressZ(SamplerAddressMode addressZ);
-                void setMaxAnisotropy(uint32_t maxAnisotropy);
+                void setMaxAnisotropy(std::uint32_t maxAnisotropy);
 
                 inline auto getFlags() const noexcept { return flags; }
                 inline auto getMipmaps() const noexcept { return mipmaps; }
@@ -89,9 +89,9 @@ namespace ouzel
             private:
                 void updateSamplerState();
 
-                uint32_t flags = 0;
-                uint32_t mipmaps = 0;
-                uint32_t sampleCount = 1;
+                std::uint32_t flags = 0;
+                std::uint32_t mipmaps = 0;
+                std::uint32_t sampleCount = 1;
 
                 SamplerStateDescriptor samplerDescriptor;
 
@@ -104,7 +104,7 @@ namespace ouzel
                 Pointer<MTLTexturePtr> msaaTexture;
 
                 MTLPixelFormat pixelFormat;
-                uint32_t pixelSize = 0;
+                std::uint32_t pixelSize = 0;
                 bool stencilBuffer = false;
             };
         } // namespace metal

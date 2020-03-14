@@ -29,7 +29,7 @@ namespace ouzel
         class Asset final
         {
         public:
-            Asset(uint32_t initType,
+            Asset(std::uint32_t initType,
                   const std::string& initName,
                   const std::string& initFilename,
                   bool initMipmaps = true):
@@ -40,7 +40,7 @@ namespace ouzel
             {
             }
 
-            uint32_t type;
+            std::uint32_t type;
             std::string name;
             std::string filename;
             bool mipmaps;
@@ -59,7 +59,7 @@ namespace ouzel
             Bundle(Bundle&&) = delete;
             Bundle& operator=(Bundle&&) = delete;
 
-            void loadAsset(uint32_t loaderType, const std::string& name,
+            void loadAsset(std::uint32_t loaderType, const std::string& name,
                            const std::string& filename, bool mipmaps = true);
             void loadAssets(const std::string& filename);
             void loadAssets(const std::vector<Asset>& assets);
@@ -81,7 +81,7 @@ namespace ouzel
             void releaseDepthStencilStates();
 
             void preloadSpriteData(const std::string& filename, bool mipmaps = true,
-                                   uint32_t spritesX = 1, uint32_t spritesY = 1,
+                                   std::uint32_t spritesX = 1, std::uint32_t spritesY = 1,
                                    const Vector2F& pivot = Vector2F{0.5F, 0.5F});
             const scene::SpriteData* getSpriteData(const std::string& name) const;
             void setSpriteData(const std::string& name, const scene::SpriteData& newSpriteData);

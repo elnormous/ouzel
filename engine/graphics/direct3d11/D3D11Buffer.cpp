@@ -15,9 +15,9 @@ namespace ouzel
         {
             Buffer::Buffer(RenderDevice& initRenderDevice,
                            BufferType initType,
-                           uint32_t initFlags,
-                           const std::vector<uint8_t>& data,
-                           uint32_t initSize):
+                           std::uint32_t initFlags,
+                           const std::vector<std::uint8_t>& data,
+                           std::uint32_t initSize):
                 RenderResource(initRenderDevice),
                 type(initType),
                 flags(initFlags),
@@ -26,7 +26,7 @@ namespace ouzel
                 createBuffer(initSize, data);
             }
 
-            void Buffer::setData(const std::vector<uint8_t>& data)
+            void Buffer::setData(const std::vector<std::uint8_t>& data)
             {
                 if (!(flags & Flags::Dynamic))
                     throw std::runtime_error("Buffer is not dynamic");
@@ -49,14 +49,14 @@ namespace ouzel
                         if (FAILED(hr = renderDevice.getContext()->Map(buffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource)))
                             throw std::system_error(hr, getErrorCategory(), "Failed to lock Direct3D 11 buffer");
 
-                        std::copy(data.begin(), data.end(), static_cast<uint8_t*>(mappedSubresource.pData));
+                        std::copy(data.begin(), data.end(), static_cast<std::uint8_t*>(mappedSubresource.pData));
 
                         renderDevice.getContext()->Unmap(buffer.get(), 0);
                     }
                 }
             }
 
-            void Buffer::createBuffer(UINT newSize, const std::vector<uint8_t>& data)
+            void Buffer::createBuffer(UINT newSize, const std::vector<std::uint8_t>& data)
             {
                 if (newSize)
                 {

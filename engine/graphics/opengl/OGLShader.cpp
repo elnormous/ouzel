@@ -14,8 +14,8 @@ namespace ouzel
         namespace opengl
         {
             Shader::Shader(RenderDevice& initRenderDevice,
-                           const std::vector<uint8_t>& initFragmentShader,
-                           const std::vector<uint8_t>& initVertexShader,
+                           const std::vector<std::uint8_t>& initFragmentShader,
+                           const std::vector<std::uint8_t>& initVertexShader,
                            const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
                            const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                            const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
@@ -54,7 +54,7 @@ namespace ouzel
 
                 if (logLength > 0)
                 {
-                    std::vector<char> logMessage(static_cast<size_t>(logLength));
+                    std::vector<char> logMessage(static_cast<std::size_t>(logLength));
                     renderDevice.glGetShaderInfoLogProc(shaderId, logLength, nullptr, logMessage.data());
 
                     return std::string(logMessage.data());
@@ -70,7 +70,7 @@ namespace ouzel
 
                 if (logLength > 0)
                 {
-                    std::vector<char> logMessage(static_cast<size_t>(logLength));
+                    std::vector<char> logMessage(static_cast<std::size_t>(logLength));
                     renderDevice.glGetProgramInfoLogProc(programId, logLength, nullptr, logMessage.data());
 
                     return std::string("Shader linking error: ") + logMessage.data();

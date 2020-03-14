@@ -40,7 +40,7 @@ namespace ouzel
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
 
-        uint32_t noSleepAssertionID = 0;
+        std::uint32_t noSleepAssertionID = 0;
         id executeHanlder = nil;
     };
 }

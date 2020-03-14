@@ -10,46 +10,46 @@ namespace ouzel
     namespace scene
     {
         StaticMeshData::StaticMeshData(const Box3F& initBoundingBox,
-                                       const std::vector<uint32_t> indices,
+                                       const std::vector<std::uint32_t> indices,
                                        const std::vector<graphics::Vertex>& vertices,
                                        const graphics::Material* initMaterial):
             boundingBox(initBoundingBox),
             material(initMaterial)
         {
-            indexCount = static_cast<uint32_t>(indices.size());
+            indexCount = static_cast<std::uint32_t>(indices.size());
 
-            indexSize = sizeof(uint16_t);
+            indexSize = sizeof(std::uint16_t);
 
-            for (const uint32_t index : indices)
-                if (index > std::numeric_limits<uint16_t>::max())
+            for (const std::uint32_t index : indices)
+                if (index > std::numeric_limits<std::uint16_t>::max())
                 {
-                    indexSize = sizeof(uint32_t);
+                    indexSize = sizeof(std::uint32_t);
                     break;
                 }
 
-            if (indexSize == sizeof(uint16_t))
+            if (indexSize == sizeof(std::uint16_t))
             {
-                std::vector<uint16_t> convertedIndices;
+                std::vector<std::uint16_t> convertedIndices;
                 convertedIndices.reserve(indices.size());
 
-                for (const uint32_t index : indices)
-                    convertedIndices.push_back(static_cast<uint16_t>(index));
+                for (const std::uint32_t index : indices)
+                    convertedIndices.push_back(static_cast<std::uint16_t>(index));
 
                 indexBuffer = graphics::Buffer(*engine->getRenderer(),
                                                graphics::BufferType::Index, 0,
                                                convertedIndices.data(),
-                                               static_cast<uint32_t>(getVectorSize(convertedIndices)));
+                                               static_cast<std::uint32_t>(getVectorSize(convertedIndices)));
             }
-            else if (indexSize == sizeof(uint32_t))
+            else if (indexSize == sizeof(std::uint32_t))
                 indexBuffer = graphics::Buffer(*engine->getRenderer(),
                                                graphics::BufferType::Index, 0,
                                                indices.data(),
-                                               static_cast<uint32_t>(getVectorSize(indices)));
+                                               static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = graphics::Buffer(*engine->getRenderer(),
                                             graphics::BufferType::Vertex, 0,
                                             vertices.data(),
-                                            static_cast<uint32_t>(getVectorSize(vertices)));
+                                            static_cast<std::uint32_t>(getVectorSize(vertices)));
         }
 
         StaticMeshRenderer::StaticMeshRenderer(const StaticMeshData& meshData)
@@ -91,7 +91,7 @@ namespace ouzel
             std::vector<std::vector<float>> vertexShaderConstants(1);
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-            std::vector<uintptr_t> textures;
+            std::vector<std::uintptr_t> textures;
             for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
                 textures.push_back(texture ? texture->getResource() : 0);
 

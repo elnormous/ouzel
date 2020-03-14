@@ -67,7 +67,7 @@ namespace ouzel
             friend ActorContainer;
             friend Layer;
         public:
-            using Order = int32_t;
+            using Order = std::int32_t;
 
             Actor() = default;
             ~Actor() override;
@@ -140,7 +140,7 @@ namespace ouzel
             }
 
             Vector3F getWorldPosition() const;
-            virtual int32_t getWorldOrder() const { return worldOrder; }
+            virtual std::int32_t getWorldOrder() const { return worldOrder; }
 
             Vector3F convertWorldToLocal(const Vector3F& worldPosition) const;
             Vector3F convertLocalToWorld(const Vector3F& localPosition) const;

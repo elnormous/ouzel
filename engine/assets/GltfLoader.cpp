@@ -16,7 +16,7 @@ namespace ouzel
 
         bool GltfLoader::loadAsset(Bundle& bundle,
                                    const std::string& name,
-                                   const std::vector<uint8_t>& data,
+                                   const std::vector<std::uint8_t>& data,
                                    bool mipmaps)
         {
             const json::Data d(data);

@@ -24,7 +24,7 @@ namespace ouzel
                 Vorbis
             };
 
-            Sound(Audio& initAudio, uintptr_t initSourceId, Format initFormat);
+            Sound(Audio& initAudio, std::uintptr_t initSourceId, Format initFormat);
             virtual ~Sound();
 
             Sound(const Sound&) = delete;
@@ -38,7 +38,7 @@ namespace ouzel
 
         protected:
             Audio& audio;
-            uintptr_t sourceId = 0;
+            std::uintptr_t sourceId = 0;
             Format format;
         };
     } // namespace audio

@@ -590,7 +590,7 @@ namespace ouzel
 #endif
 
                 template <class T>
-                inline auto getResource(uintptr_t id) const
+                inline auto getResource(std::uintptr_t id) const
                 {
                     return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
                 }
@@ -598,9 +598,9 @@ namespace ouzel
             protected:
                 void init(Window* newWindow,
                           const Size2U& newSize,
-                          uint32_t newSampleCount,
+                          std::uint32_t newSampleCount,
                           SamplerFilter newTextureFilter,
-                          uint32_t newMaxAnisotropy,
+                          std::uint32_t newMaxAnisotropy,
                           bool newSrgb,
                           bool newVerticalSync,
                           bool newDepth,

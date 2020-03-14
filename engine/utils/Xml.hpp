@@ -22,7 +22,7 @@ namespace ouzel
 
         inline namespace detail
         {
-            constexpr uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
+            constexpr std::uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
 
             constexpr auto isWhitespace(const char32_t c) noexcept
             {
@@ -143,16 +143,16 @@ namespace ouzel
                         if (value.length() != 2 + 4)
                             throw ParseError("Invalid entity");
 
-                        for (size_t i = 0; i < 4; ++i)
+                        for (std::size_t i = 0; i < 4; ++i)
                         {
-                            uint8_t code = 0;
+                            std::uint8_t code = 0;
 
                             if (value[i + 2] >= '0' && value[i + 2] <= '9')
-                                code = static_cast<uint8_t>(value[i + 2]) - '0';
+                                code = static_cast<std::uint8_t>(value[i + 2]) - '0';
                             else if (value[i + 2] >= 'a' && value[i + 2] <='f')
-                                code = static_cast<uint8_t>(value[i + 2]) - 'a' + 10;
+                                code = static_cast<std::uint8_t>(value[i + 2]) - 'a' + 10;
                             else if (value[i + 2] >= 'A' && value[i + 2] <='F')
-                                code = static_cast<uint8_t>(value[i + 2]) - 'A' + 10;
+                                code = static_cast<std::uint8_t>(value[i + 2]) - 'A' + 10;
                             else
                                 throw ParseError("Invalid character code");
 
@@ -164,12 +164,12 @@ namespace ouzel
                         if (value.length() != 1 + 4)
                             throw ParseError("Invalid entity");
 
-                        for (size_t i = 0; i < 4; ++i)
+                        for (std::size_t i = 0; i < 4; ++i)
                         {
-                            uint8_t code = 0;
+                            std::uint8_t code = 0;
 
                             if (value[i + 1] >= '0' && value[i + 1] <= '9')
-                                code = static_cast<uint8_t>(value[i + 1]) - '0';
+                                code = static_cast<std::uint8_t>(value[i + 1]) - '0';
                             else
                                 throw ParseError("Invalid character code");
 
@@ -225,7 +225,7 @@ namespace ouzel
                 return result;
             }
 
-            inline void encodeString(std::vector<uint8_t>& data,
+            inline void encodeString(std::vector<std::uint8_t>& data,
                                      const std::u32string& str)
             {
                 for (const char32_t c : str)
@@ -552,7 +552,7 @@ namespace ouzel
                 }
             }
 
-            void encode(std::vector<uint8_t>& data) const
+            void encode(std::vector<std::uint8_t>& data) const
             {
                 switch (type)
                 {
@@ -642,7 +642,7 @@ namespace ouzel
         public:
             Data() = default;
 
-            Data(const std::vector<uint8_t>& data,
+            Data(const std::vector<std::uint8_t>& data,
                  bool preserveWhitespaces = false,
                  bool preserveComments = false,
                  bool preserveProcessingInstructions = false)
@@ -698,9 +698,9 @@ namespace ouzel
                     throw ParseError("No root tag found");
             }
 
-            std::vector<uint8_t> encode() const
+            std::vector<std::uint8_t> encode() const
             {
-                std::vector<uint8_t> result;
+                std::vector<std::uint8_t> result;
 
                 if (bom) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
 

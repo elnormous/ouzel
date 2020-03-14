@@ -56,7 +56,7 @@ namespace ouzel
 
                 const ErrorCategory errorCategory {};
 
-                constexpr DXGI_FORMAT getIndexFormat(uint32_t indexSize)
+                constexpr DXGI_FORMAT getIndexFormat(std::uint32_t indexSize)
                 {
                     switch (indexSize)
                     {
@@ -121,9 +121,9 @@ namespace ouzel
 
             void RenderDevice::init(Window* newWindow,
                                     const Size2U& newSize,
-                                    uint32_t newSampleCount,
+                                    std::uint32_t newSampleCount,
                                     SamplerFilter newTextureFilter,
-                                    uint32_t newMaxAnisotropy,
+                                    std::uint32_t newMaxAnisotropy,
                                     bool newSrgb,
                                     bool newVerticalSync,
                                     bool newDepth,
@@ -279,13 +279,13 @@ namespace ouzel
                 rasterStateDesc.MultisampleEnable = (sampleCount > 1) ? TRUE : FALSE;
                 rasterStateDesc.AntialiasedLineEnable = TRUE;
 
-                uint32_t rasterStateIndex = 0;
+                std::uint32_t rasterStateIndex = 0;
 
-                for (uint32_t fillMode = 0; fillMode < 2; ++fillMode)
+                for (std::uint32_t fillMode = 0; fillMode < 2; ++fillMode)
                 {
-                    for (uint32_t scissorEnable = 0; scissorEnable < 2; ++scissorEnable)
+                    for (std::uint32_t scissorEnable = 0; scissorEnable < 2; ++scissorEnable)
                     {
-                        for (uint32_t cullMode = 0; cullMode < 3; ++cullMode)
+                        for (std::uint32_t cullMode = 0; cullMode < 3; ++cullMode)
                         {
                             rasterStateDesc.FillMode = (fillMode == 0) ? D3D11_FILL_SOLID : D3D11_FILL_WIREFRAME;
                             rasterStateDesc.ScissorEnable = (scissorEnable == 0) ? FALSE : TRUE;
@@ -378,9 +378,9 @@ namespace ouzel
 
                 std::vector<float> shaderData;
 
-                uint32_t fillModeIndex = 0;
-                uint32_t scissorEnableIndex = 0;
-                uint32_t cullModeIndex = 0;
+                std::uint32_t fillModeIndex = 0;
+                std::uint32_t scissorEnableIndex = 0;
+                std::uint32_t cullModeIndex = 0;
                 RenderTarget* currentRenderTarget = nullptr;
                 Shader* currentShader = nullptr;
 
@@ -548,7 +548,7 @@ namespace ouzel
 
                                 scissorEnableIndex = (setScissorTestCommand->enabled) ? 1 : 0;
 
-                                const uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                                const std::uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
                                 context->RSSetState(rasterizerStates[rasterizerStateIndex].get());
 
                                 break;
@@ -657,7 +657,7 @@ namespace ouzel
                                     default: throw std::runtime_error("Invalid fill mode");
                                 }
 
-                                const uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                                const std::uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
                                 context->RSSetState(rasterizerStates[rasterizerStateIndex].get());
                                 break;
                             }
@@ -783,7 +783,7 @@ namespace ouzel
 
                                 shaderData.clear();
 
-                                for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
+                                for (std::size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                                 {
                                     const Shader::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
                                     const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
@@ -796,7 +796,7 @@ namespace ouzel
 
                                 uploadBuffer(currentShader->getFragmentShaderConstantBuffer().get(),
                                              shaderData.data(),
-                                             static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+                                             static_cast<std::uint32_t>(sizeof(float) * shaderData.size()));
 
                                 ID3D11Buffer* fragmentShaderConstantBuffers[1] = {currentShader->getFragmentShaderConstantBuffer().get()};
                                 context->PSSetConstantBuffers(0, 1, fragmentShaderConstantBuffers);
@@ -809,7 +809,7 @@ namespace ouzel
 
                                 shaderData.clear();
 
-                                for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
+                                for (std::size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
                                 {
                                     const Shader::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                                     const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
@@ -822,7 +822,7 @@ namespace ouzel
 
                                 uploadBuffer(currentShader->getVertexShaderConstantBuffer().get(),
                                              shaderData.data(),
-                                             static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+                                             static_cast<std::uint32_t>(sizeof(float) * shaderData.size()));
 
                                 ID3D11Buffer* vertexShaderConstantBuffers[1] = {currentShader->getVertexShaderConstantBuffer().get()};
                                 context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
@@ -954,8 +954,8 @@ namespace ouzel
                     output->GetDisplayModeList(format, 0, &numModes, displayModes.data());
 
                     for (const auto& displayMode : displayModes)
-                        result.emplace_back(static_cast<uint32_t>(displayMode.Width),
-                                            static_cast<uint32_t>(displayMode.Height));
+                        result.emplace_back(static_cast<std::uint32_t>(displayMode.Width),
+                                            static_cast<std::uint32_t>(displayMode.Height));
                 }
 
                 output->Release();
@@ -1091,14 +1091,14 @@ namespace ouzel
                 }
             }
 
-            void RenderDevice::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize)
+            void RenderDevice::uploadBuffer(ID3D11Buffer* buffer, const void* data, std::uint32_t dataSize)
             {
                 D3D11_MAPPED_SUBRESOURCE mappedSubresource;
                 HRESULT hr;
                 if (FAILED(hr = context->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource)))
                     throw std::system_error(hr, errorCategory, "Failed to lock Direct3D 11 buffer");
 
-                std::copy(static_cast<const uint8_t*>(data), static_cast<const uint8_t*>(data) + dataSize, static_cast<uint8_t*>(mappedSubresource.pData));
+                std::copy(static_cast<const std::uint8_t*>(data), static_cast<const std::uint8_t*>(data) + dataSize, static_cast<std::uint8_t*>(mappedSubresource.pData));
 
                 context->Unmap(buffer, 0);
             }

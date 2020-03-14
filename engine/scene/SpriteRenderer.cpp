@@ -23,8 +23,8 @@ namespace ouzel
                                  const Vector2F& pivot):
             name(frameName)
         {
-            const std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
-            indexCount = static_cast<uint32_t>(indices.size());
+            const std::vector<std::uint16_t> indices = {0, 1, 2, 1, 3, 2};
+            indexCount = static_cast<std::uint32_t>(indices.size());
 
             Vector2F textCoords[4];
             const Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
@@ -74,20 +74,20 @@ namespace ouzel
             indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::BufferType::Index, 0,
                                                              indices.data(),
-                                                             static_cast<uint32_t>(getVectorSize(indices)));
+                                                             static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                               graphics::BufferType::Vertex,0,
                                                               vertices.data(),
-                                                              static_cast<uint32_t>(getVectorSize(vertices)));
+                                                              static_cast<std::uint32_t>(getVectorSize(vertices)));
         }
 
         SpriteData::Frame::Frame(const std::string& frameName,
-                                 const std::vector<uint16_t>& indices,
+                                 const std::vector<std::uint16_t>& indices,
                                  const std::vector<graphics::Vertex>& vertices):
             name(frameName)
         {
-            indexCount = static_cast<uint32_t>(indices.size());
+            indexCount = static_cast<std::uint32_t>(indices.size());
 
             for (const graphics::Vertex& vertex : vertices)
                 boundingBox.insertPoint(Vector2F(vertex.position));
@@ -95,16 +95,16 @@ namespace ouzel
             indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::BufferType::Index, 0,
                                                              indices.data(),
-                                                             static_cast<uint32_t>(getVectorSize(indices)));
+                                                             static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                               graphics::BufferType::Vertex, 0,
                                                               vertices.data(),
-                                                              static_cast<uint32_t>(getVectorSize(vertices)));
+                                                              static_cast<std::uint32_t>(getVectorSize(vertices)));
         }
 
         SpriteData::Frame::Frame(const std::string& frameName,
-                                 const std::vector<uint16_t>& indices,
+                                 const std::vector<std::uint16_t>& indices,
                                  const std::vector<graphics::Vertex>& vertices,
                                  const RectF& frameRectangle,
                                  const Size2F& sourceSize,
@@ -112,7 +112,7 @@ namespace ouzel
                                  const Vector2F& pivot):
             name(frameName)
         {
-            indexCount = static_cast<uint32_t>(indices.size());
+            indexCount = static_cast<std::uint32_t>(indices.size());
 
             for (const graphics::Vertex& vertex : vertices)
                 boundingBox.insertPoint(Vector2F(vertex.position));
@@ -124,12 +124,12 @@ namespace ouzel
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::BufferType::Index, 0,
                                                              indices.data(),
-                                                             static_cast<uint32_t>(getVectorSize(indices)));
+                                                             static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
                                                               graphics::BufferType::Vertex, 0,
                                                               vertices.data(),
-                                                              static_cast<uint32_t>(getVectorSize(vertices)));
+                                                              static_cast<std::uint32_t>(getVectorSize(vertices)));
         }
 
         SpriteRenderer::SpriteRenderer()
@@ -155,7 +155,7 @@ namespace ouzel
         }
 
         SpriteRenderer::SpriteRenderer(std::shared_ptr<graphics::Texture> texture,
-                                       uint32_t spritesX, uint32_t spritesY,
+                                       std::uint32_t spritesX, std::uint32_t spritesY,
                                        const Vector2F& pivot):
             SpriteRenderer()
         {
@@ -215,7 +215,7 @@ namespace ouzel
         }
 
         void SpriteRenderer::init(std::shared_ptr<graphics::Texture> newTexture,
-                                  uint32_t spritesX, uint32_t spritesY,
+                                  std::uint32_t spritesX, std::uint32_t spritesY,
                                   const Vector2F& pivot)
         {
             material = std::make_shared<graphics::Material>();
@@ -234,9 +234,9 @@ namespace ouzel
             SpriteData::Animation animation;
             animation.frames.reserve(spritesX * spritesY);
 
-            for (uint32_t x = 0; x < spritesX; ++x)
+            for (std::uint32_t x = 0; x < spritesX; ++x)
             {
-                for (uint32_t y = 0; y < spritesY; ++y)
+                for (std::uint32_t y = 0; y < spritesY; ++y)
                 {
                     const RectF rectangle(spriteSize.v[0] * x,
                                           spriteSize.v[1] * y,
@@ -334,7 +334,7 @@ namespace ouzel
                 !currentAnimation->animation->frames.empty() &&
                 material)
             {
-                auto currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);
+                auto currentFrame = static_cast<std::size_t>(currentTime / currentAnimation->animation->frameInterval);
                 if (currentFrame >= currentAnimation->animation->frames.size()) currentFrame = currentAnimation->animation->frames.size() - 1;
 
                 const Matrix4F modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
@@ -351,7 +351,7 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                std::vector<uintptr_t> textures;
+                std::vector<std::uintptr_t> textures;
                 textures.reserve(graphics::Material::TEXTURE_LAYERS);
                 for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
                     textures.push_back(texture ? texture->getResource() : 0);
@@ -368,7 +368,7 @@ namespace ouzel
 
                 engine->getRenderer()->draw(frame.getIndexBuffer()->getResource(),
                                             frame.getIndexCount(),
-                                            sizeof(uint16_t),
+                                            sizeof(std::uint16_t),
                                             frame.getVertexBuffer()->getResource(),
                                             graphics::DrawMode::TriangleList,
                                             0);
@@ -490,10 +490,10 @@ namespace ouzel
             if (currentAnimation != animationQueue.end() &&
                 !currentAnimation->animation->frames.empty())
             {
-                size_t currentFrame = 0;
+                std::size_t currentFrame = 0;
 
                 if (currentAnimation->animation->frameInterval >= 0.0F)
-                    currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);
+                    currentFrame = static_cast<std::size_t>(currentTime / currentAnimation->animation->frameInterval);
 
                 if (currentFrame >= currentAnimation->animation->frames.size()) currentFrame = currentAnimation->animation->frames.size() - 1;
 

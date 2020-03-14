@@ -15,7 +15,7 @@ namespace ouzel
         {
         public:
             TTFont() = default;
-            TTFont(const std::vector<uint8_t>& newData, bool newMipmaps = true);
+            TTFont(const std::vector<std::uint8_t>& newData, bool newMipmaps = true);
 
             RenderData getRenderData(const std::string& text,
                                      Color color,
@@ -26,7 +26,7 @@ namespace ouzel
 
         private:
             std::unique_ptr<stbtt_fontinfo> font;
-            std::vector<uint8_t> data;
+            std::vector<std::uint8_t> data;
             bool mipmaps = true;
         };
     } // namespace gui

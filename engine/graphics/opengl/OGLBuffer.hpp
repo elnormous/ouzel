@@ -35,14 +35,14 @@ namespace ouzel
             public:
                 Buffer(RenderDevice& initRenderDevice,
                        BufferType initType,
-                       uint32_t initFlags,
-                       const std::vector<uint8_t>& initData,
-                       uint32_t initSize);
+                       std::uint32_t initFlags,
+                       const std::vector<std::uint8_t>& initData,
+                       std::uint32_t initSize);
                 ~Buffer() override;
 
                 void reload() final;
 
-                void setData(const std::vector<uint8_t>& newData);
+                void setData(const std::vector<std::uint8_t>& newData);
 
                 inline auto getFlags() const noexcept { return flags; }
                 inline auto getType() const noexcept { return type; }
@@ -55,8 +55,8 @@ namespace ouzel
                 void createBuffer();
 
                 BufferType type;
-                uint32_t flags = 0;
-                std::vector<uint8_t> data;
+                std::uint32_t flags = 0;
+                std::vector<std::uint8_t> data;
 
                 GLuint bufferId = 0;
                 GLsizeiptr size = 0;

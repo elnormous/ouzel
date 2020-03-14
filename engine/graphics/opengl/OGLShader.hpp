@@ -37,8 +37,8 @@ namespace ouzel
             {
             public:
                 Shader(RenderDevice& initRenderDevice,
-                       const std::vector<uint8_t>& initFragmentShader,
-                       const std::vector<uint8_t>& initVertexShader,
+                       const std::vector<std::uint8_t>& initFragmentShader,
+                       const std::vector<std::uint8_t>& initVertexShader,
                        const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
                        const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                        const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
@@ -71,8 +71,8 @@ namespace ouzel
                 std::string getShaderMessage(GLuint shaderId) const;
                 std::string getProgramMessage() const;
 
-                std::vector<uint8_t> fragmentShaderData;
-                std::vector<uint8_t> vertexShaderData;
+                std::vector<std::uint8_t> fragmentShaderData;
+                std::vector<std::uint8_t> vertexShaderData;
 
                 std::set<Vertex::Attribute::Usage> vertexAttributes;
 

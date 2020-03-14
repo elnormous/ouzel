@@ -40,7 +40,7 @@ namespace ouzel
 #endif
         }
 
-        enum class InternetProtocol: uint8_t
+        enum class InternetProtocol: std::uint8_t
         {
             V4,
             V6

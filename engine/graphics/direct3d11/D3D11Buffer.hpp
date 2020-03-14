@@ -36,11 +36,11 @@ namespace ouzel
             public:
                 Buffer(RenderDevice& initRenderDevice,
                        BufferType initType,
-                       uint32_t initFlags,
-                       const std::vector<uint8_t>& data,
-                       uint32_t initSize);
+                       std::uint32_t initFlags,
+                       const std::vector<std::uint8_t>& data,
+                       std::uint32_t initSize);
 
-                void setData(const std::vector<uint8_t>& data);
+                void setData(const std::vector<std::uint8_t>& data);
 
                 inline auto getFlags() const noexcept { return flags; }
                 inline auto getType() const noexcept { return type; }
@@ -49,10 +49,10 @@ namespace ouzel
                 inline auto& getBuffer() const noexcept { return buffer; }
 
             private:
-                void createBuffer(UINT newSize, const std::vector<uint8_t>& data);
+                void createBuffer(UINT newSize, const std::vector<std::uint8_t>& data);
 
                 BufferType type;
-                uint32_t flags = 0;
+                std::uint32_t flags = 0;
 
                 Pointer<ID3D11Buffer> buffer;
                 UINT size = 0;

@@ -28,7 +28,7 @@ namespace ouzel
         {
         public:
             explicit CursorWin(SystemCursor systemCursor);
-            CursorWin(const std::vector<uint8_t>& data,
+            CursorWin(const std::vector<std::uint8_t>& data,
                       const Size2F& size,
                       graphics::PixelFormat pixelFormat,
                       const Vector2F& hotSpot);

@@ -111,7 +111,7 @@ namespace ouzel
     struct TouchEvent final: Event
     {
         input::Touchpad* touchpad = nullptr;
-        uint64_t touchId = 0;
+        std::uint64_t touchId = 0;
         Vector2F difference;
         Vector2F position;
         float force = 1.0F;
@@ -133,7 +133,7 @@ namespace ouzel
         Size2U size;
         std::string title;
         bool fullscreen = false;
-        uint32_t screenId = 0;
+        std::uint32_t screenId = 0;
     };
 
     struct SystemEvent final: Event
@@ -161,7 +161,7 @@ namespace ouzel
     struct UIEvent final: Event
     {
         scene::Actor* actor;
-        uint64_t touchId = 0;
+        std::uint64_t touchId = 0;
         Vector2F difference;
         Vector2F position;
         Vector3F localPosition;

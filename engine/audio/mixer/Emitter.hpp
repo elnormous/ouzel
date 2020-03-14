@@ -27,7 +27,7 @@ namespace ouzel
                 virtual void play() = 0;
                 virtual void stop(bool shouldReset) = 0;
                 
-                virtual void getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples) = 0;
+                virtual void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples) = 0;
             };
         }
     } // namespace audio

@@ -87,8 +87,8 @@ namespace ouzel
             }
 
             Shader::Shader(RenderDevice& initRenderDevice,
-                           const std::vector<uint8_t>& fragmentShaderData,
-                           const std::vector<uint8_t>& vertexShaderData,
+                           const std::vector<std::uint8_t>& fragmentShaderData,
+                           const std::vector<std::uint8_t>& vertexShaderData,
                            const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
                            const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                            const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
@@ -99,7 +99,7 @@ namespace ouzel
                 fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
                 vertexShaderConstantInfo(initVertexShaderConstantInfo)
             {
-                uint32_t index = 0;
+                std::uint32_t index = 0;
                 NSUInteger offset = 0;
 
                 vertexDescriptor = [[MTLVertexDescriptor alloc] init];
@@ -146,7 +146,7 @@ namespace ouzel
 
                     for (const auto& info : fragmentShaderConstantInfo)
                     {
-                        const uint32_t size = getDataTypeSize(info.second);
+                        const std::uint32_t size = getDataTypeSize(info.second);
                         fragmentShaderConstantLocations.emplace_back(fragmentShaderConstantSize, size);
                         fragmentShaderConstantSize += size;
                     }
@@ -170,16 +170,16 @@ namespace ouzel
 
                     for (const auto& info : vertexShaderConstantInfo)
                     {
-                        const uint32_t size = getDataTypeSize(info.second);
+                        const std::uint32_t size = getDataTypeSize(info.second);
                         vertexShaderConstantLocations.emplace_back(vertexShaderConstantSize, size);
                         vertexShaderConstantSize += size;
                     }
                 }
 
 #if TARGET_OS_IOS || TARGET_OS_TV
-                constexpr uint32_t alignment = 16U; // 16 bytes on iOS and tvOS
+                constexpr std::uint32_t alignment = 16U; // 16 bytes on iOS and tvOS
 #else
-                constexpr uint32_t alignment = 256U; // 256 bytes on macOS
+                constexpr std::uint32_t alignment = 256U; // 256 bytes on macOS
 #endif
 
                 // align the size of the buffer to alignment bytes

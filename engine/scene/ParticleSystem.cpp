@@ -84,7 +84,7 @@ namespace ouzel
                 engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
                 engine->getRenderer()->draw(indexBuffer->getResource(),
                                             particleCount * 6,
-                                            sizeof(uint16_t),
+                                            sizeof(std::uint16_t),
                                             vertexBuffer->getResource(),
                                             graphics::DrawMode::TriangleList,
                                             0);
@@ -112,7 +112,7 @@ namespace ouzel
                             emitCounter = 0.0F;
                     }
 
-                    const auto emitCount = static_cast<uint32_t>(std::min(static_cast<float>(particleSystemData.maxParticles - particleCount), emitCounter / rate));
+                    const auto emitCount = static_cast<std::uint32_t>(std::min(static_cast<float>(particleSystemData.maxParticles - particleCount), emitCounter / rate));
                     emitParticles(emitCount);
                     emitCounter -= rate * emitCount;
 
@@ -140,9 +140,9 @@ namespace ouzel
 
                 if (active)
                 {
-                    for (uint32_t counter = particleCount; counter > 0; --counter)
+                    for (std::uint32_t counter = particleCount; counter > 0; --counter)
                     {
-                        const size_t i = counter - 1;
+                        const std::size_t i = counter - 1;
 
                         particles[i].life -= UPDATE_STEP;
 
@@ -223,7 +223,7 @@ namespace ouzel
                     {
                         const Matrix4F& inverseTransform = actor->getInverseTransform();
 
-                        for (uint32_t i = 0; i < particleCount; ++i)
+                        for (std::uint32_t i = 0; i < particleCount; ++i)
                         {
                             auto position = Vector3F(particles[i].position);
                             inverseTransform.transformPoint(position);
@@ -233,7 +233,7 @@ namespace ouzel
                 }
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::Grouped)
                 {
-                    for (uint32_t i = 0; i < particleCount; ++i)
+                    for (std::uint32_t i = 0; i < particleCount; ++i)
                         boundingBox.insertPoint(Vector3F(particles[i].position));
                 }
             }
@@ -294,7 +294,7 @@ namespace ouzel
             indices.reserve(particleSystemData.maxParticles * 6);
             vertices.reserve(particleSystemData.maxParticles * 4);
 
-            for (uint16_t i = 0; i < particleSystemData.maxParticles; ++i)
+            for (std::uint16_t i = 0; i < particleSystemData.maxParticles; ++i)
             {
                 indices.push_back(i * 4 + 0);
                 indices.push_back(i * 4 + 1);
@@ -316,13 +316,13 @@ namespace ouzel
             indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                              graphics::BufferType::Index, 0,
                                                              indices.data(),
-                                                             static_cast<uint32_t>(getVectorSize(indices)));
+                                                             static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                               graphics::BufferType::Vertex,
                                                               graphics::Flags::Dynamic,
                                                               vertices.data(),
-                                                              static_cast<uint32_t>(getVectorSize(vertices)));
+                                                              static_cast<std::uint32_t>(getVectorSize(vertices)));
 
             particles.resize(particleSystemData.maxParticles);
         }
@@ -331,9 +331,9 @@ namespace ouzel
         {
             if (actor)
             {
-                for (uint32_t counter = particleCount; counter > 0; --counter)
+                for (std::uint32_t counter = particleCount; counter > 0; --counter)
                 {
-                    const size_t i = counter - 1;
+                    const std::size_t i = counter - 1;
 
                     const Vector2F position = (particleSystemData.positionType == ParticleSystemData::PositionType::Free) ?
                         particles[i].position :
@@ -356,10 +356,10 @@ namespace ouzel
                     const Vector2F c(v2.v[0] * cr - v2.v[1] * sr, v2.v[0] * sr + v2.v[1] * cr);
                     const Vector2F d(v1.v[0] * cr - v2.v[1] * sr, v1.v[0] * sr + v2.v[1] * cr);
 
-                    const Color color(static_cast<uint8_t>(particles[i].colorRed * 255),
-                                      static_cast<uint8_t>(particles[i].colorGreen * 255),
-                                      static_cast<uint8_t>(particles[i].colorBlue * 255),
-                                      static_cast<uint8_t>(particles[i].colorAlpha * 255));
+                    const Color color(static_cast<std::uint8_t>(particles[i].colorRed * 255),
+                                      static_cast<std::uint8_t>(particles[i].colorGreen * 255),
+                                      static_cast<std::uint8_t>(particles[i].colorBlue * 255),
+                                      static_cast<std::uint8_t>(particles[i].colorAlpha * 255));
 
                     vertices[i * 4 + 0].position = Vector3F(a + position);
                     vertices[i * 4 + 0].color = color;
@@ -374,11 +374,11 @@ namespace ouzel
                     vertices[i * 4 + 3].color = color;
                 }
 
-                vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
+                vertexBuffer->setData(vertices.data(), static_cast<std::uint32_t>(getVectorSize(vertices)));
             }
         }
 
-        void ParticleSystem::emitParticles(uint32_t count)
+        void ParticleSystem::emitParticles(std::uint32_t count)
         {
             if (particleCount + count > particleSystemData.maxParticles)
                 count = particleSystemData.maxParticles - particleCount;
@@ -393,7 +393,7 @@ namespace ouzel
                     Vector2F() :
                     throw std::runtime_error("Invalid position type");
 
-                for (uint32_t i = particleCount; i < particleCount + count; ++i)
+                for (std::uint32_t i = particleCount; i < particleCount + count; ++i)
                 {
                     if (particleSystemData.emitterType == ParticleSystemData::EmitterType::Gravity)
                     {

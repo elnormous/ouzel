@@ -44,8 +44,8 @@
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 
-    window->handleResize(ouzel::Size2U(static_cast<uint32_t>(size.width),
-                                       static_cast<uint32_t>(size.height)));
+    window->handleResize(ouzel::Size2U(static_cast<std::uint32_t>(size.width),
+                                       static_cast<std::uint32_t>(size.height)));
 }
 @end
 
@@ -72,8 +72,8 @@ namespace ouzel
 
         const CGRect windowFrame = [window bounds];
 
-        size = Size2U(static_cast<uint32_t>(windowFrame.size.width),
-                      static_cast<uint32_t>(windowFrame.size.height));
+        size = Size2U(static_cast<std::uint32_t>(windowFrame.size.width),
+                      static_cast<std::uint32_t>(windowFrame.size.height));
 
         switch (graphicsDriver)
         {
@@ -108,7 +108,7 @@ namespace ouzel
         if (highDpi)
         {
             contentScale = static_cast<float>(screen.scale);
-            resolution = size * static_cast<uint32_t>(contentScale);
+            resolution = size * static_cast<std::uint32_t>(contentScale);
         }
         else
             resolution = size;
@@ -155,7 +155,7 @@ namespace ouzel
     void NativeWindowIOS::handleResize(const Size2U& newSize)
     {
         size = newSize;
-        resolution = size * static_cast<uint32_t>(contentScale);
+        resolution = size * static_cast<std::uint32_t>(contentScale);
 
         Event sizeChangeEvent(Event::Type::SizeChange);
         sizeChangeEvent.size = size;

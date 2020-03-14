@@ -32,7 +32,7 @@ namespace ouzel
             }
         }
 
-        CursorMacOS::CursorMacOS(const std::vector<uint8_t>& newData,
+        CursorMacOS::CursorMacOS(const std::vector<std::uint8_t>& newData,
                                  const Size2F& size,
                                  graphics::PixelFormat pixelFormat,
                                  const Vector2F& hotSpot):

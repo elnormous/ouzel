@@ -24,7 +24,7 @@ namespace ouzel
             inputManager.getInputSystem()->addCommand(command);
         }
 
-        void Gamepad::setPlayerIndex(int32_t newPlayerIndex)
+        void Gamepad::setPlayerIndex(std::int32_t newPlayerIndex)
         {
             playerIndex = newPlayerIndex;
 
@@ -40,20 +40,20 @@ namespace ouzel
             event->type = Event::Type::GamepadButtonChange;
             event->gamepad = this;
             event->button = button;
-            event->previousPressed = buttonStates[static_cast<uint32_t>(button)].pressed;
+            event->previousPressed = buttonStates[static_cast<std::uint32_t>(button)].pressed;
             event->pressed = pressed;
             event->value = value;
-            event->previousValue = buttonStates[static_cast<uint32_t>(button)].value;
+            event->previousValue = buttonStates[static_cast<std::uint32_t>(button)].value;
 
-            buttonStates[static_cast<uint32_t>(button)].pressed = pressed;
-            buttonStates[static_cast<uint32_t>(button)].value = value;
+            buttonStates[static_cast<std::uint32_t>(button)].pressed = pressed;
+            buttonStates[static_cast<std::uint32_t>(button)].value = value;
 
             return engine->getEventDispatcher().dispatchEvent(std::move(event));
         }
 
         void Gamepad::setVibration(Motor motor, float speed)
         {
-            vibration[static_cast<uint32_t>(motor)] = speed;
+            vibration[static_cast<std::uint32_t>(motor)] = speed;
 
             InputSystem::Command command(InputSystem::Command::Type::SetVibration);
             command.deviceId = deviceId;

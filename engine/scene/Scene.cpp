@@ -286,7 +286,7 @@ namespace ouzel
             return false;
         }
 
-        void Scene::pointerEnterActor(uint64_t pointerId, Actor* actor, const Vector2F& position)
+        void Scene::pointerEnterActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position)
         {
             if (actor)
             {
@@ -299,7 +299,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerLeaveActor(uint64_t pointerId, Actor* actor, const Vector2F& position)
+        void Scene::pointerLeaveActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position)
         {
             if (actor)
             {
@@ -312,7 +312,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerDownOnActor(uint64_t pointerId, Actor* actor, const Vector2F& position, const Vector3F& localPosition)
+        void Scene::pointerDownOnActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position, const Vector3F& localPosition)
         {
             if (actor)
             {
@@ -328,7 +328,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerUpOnActor(uint64_t pointerId, Actor* actor, const Vector2F& position)
+        void Scene::pointerUpOnActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position)
         {
             auto i = pointerDownOnActors.find(pointerId);
 
@@ -363,7 +363,7 @@ namespace ouzel
             pointerDownOnActors.erase(pointerId);
         }
 
-        void Scene::pointerDragActor(uint64_t pointerId, Actor* actor, const Vector2F& position,
+        void Scene::pointerDragActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position,
                                      const Vector2F& difference, const Vector3F& localPosition)
         {
             if (actor)

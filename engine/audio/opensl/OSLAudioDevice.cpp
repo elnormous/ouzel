@@ -72,12 +72,12 @@ namespace ouzel
                 }
             }
 
-            AudioDevice::AudioDevice(uint32_t initBufferSize,
-                                     uint32_t initSampleRate,
-                                     uint32_t initChannels,
-                                     const std::function<void(uint32_t frames,
-                                                              uint32_t channels,
-                                                              uint32_t sampleRate,
+            AudioDevice::AudioDevice(std::uint32_t initBufferSize,
+                                     std::uint32_t initSampleRate,
+                                     std::uint32_t initChannels,
+                                     const std::function<void(std::uint32_t frames,
+                                                              std::uint32_t channels,
+                                                              std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
                 audio::AudioDevice(Driver::OpenSL, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
@@ -114,7 +114,7 @@ namespace ouzel
                 // TODO: get speaker count
                 dataFormat.numChannels = channels;
                 dataFormat.samplesPerSec = sampleRate * 1000; // mHz
-                dataFormat.bitsPerSample = sizeof(int16_t) * 8;
+                dataFormat.bitsPerSample = sizeof(std::int16_t) * 8;
                 dataFormat.containerSize = dataFormat.bitsPerSample;
 
                 switch (channels)
@@ -167,7 +167,7 @@ namespace ouzel
 
             void AudioDevice::start()
             {
-                getData(bufferSize / (channels * sizeof(int16_t)), data);
+                getData(bufferSize / (channels * sizeof(std::int16_t)), data);
 
                 SLresult result;
                 if ((result = (*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size())) != SL_RESULT_SUCCESS)
@@ -186,7 +186,7 @@ namespace ouzel
 
             void AudioDevice::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
             {
-                getData(bufferSize / (channels * sizeof(int16_t)), data);
+                getData(bufferSize / (channels * sizeof(std::int16_t)), data);
 
                 SLresult result;
                 if ((result = (*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size())) != SL_RESULT_SUCCESS)

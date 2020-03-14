@@ -31,7 +31,7 @@ namespace ouzel
 
             // TODO: return data in a struct
 
-            using RenderData = std::tuple<std::vector<uint16_t>,
+            using RenderData = std::tuple<std::vector<std::uint16_t>,
                 std::vector<graphics::Vertex>,
                 std::shared_ptr<graphics::Texture>>;
 

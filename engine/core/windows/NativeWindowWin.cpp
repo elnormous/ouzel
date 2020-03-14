@@ -89,7 +89,7 @@ namespace
             // scan codes
             default:
             {
-                const uint8_t scanCode = (lParam >> 16) & 0xFF;
+                const std::uint8_t scanCode = (lParam >> 16) & 0xFF;
                 if (scanCode <= 127)
                 {
                     const bool isExtended = (lParam & (1 << 24)) != 0;
@@ -317,13 +317,13 @@ namespace
                         windowWin->handleMinimize();
                         break;
                     case SIZE_RESTORED:
-                        windowWin->handleResize(ouzel::Size2U(static_cast<uint32_t>(LOWORD(lParam)),
-                                                            static_cast<uint32_t>(HIWORD(lParam))));
+                        windowWin->handleResize(ouzel::Size2U(static_cast<std::uint32_t>(LOWORD(lParam)),
+                                                            static_cast<std::uint32_t>(HIWORD(lParam))));
                         windowWin->handleRestore();
                         break;
                     case SIZE_MAXIMIZED:
-                        windowWin->handleResize(ouzel::Size2U(static_cast<uint32_t>(LOWORD(lParam)),
-                                                            static_cast<uint32_t>(HIWORD(lParam))));
+                        windowWin->handleResize(ouzel::Size2U(static_cast<std::uint32_t>(LOWORD(lParam)),
+                                                            static_cast<std::uint32_t>(HIWORD(lParam))));
                         windowWin->handleMaximize();
                         break;
                 }
@@ -474,8 +474,8 @@ namespace ouzel
         if (!GetClientRect(window, &windowRect))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get client rectangle");
 
-        size.v[0] = static_cast<uint32_t>(windowRect.right - windowRect.left);
-        size.v[1] = static_cast<uint32_t>(windowRect.bottom - windowRect.top);
+        size.v[0] = static_cast<std::uint32_t>(windowRect.right - windowRect.left);
+        size.v[1] = static_cast<std::uint32_t>(windowRect.bottom - windowRect.top);
         resolution = size;
 
         if (!RegisterTouchWindow(window, 0))

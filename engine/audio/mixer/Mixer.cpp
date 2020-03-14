@@ -12,8 +12,8 @@ namespace ouzel
     {
         namespace mixer
         {
-            Mixer::Mixer(uint32_t initBufferSize,
-                         uint32_t initChannels,
+            Mixer::Mixer(std::uint32_t initBufferSize,
+                         std::uint32_t initChannels,
                          const std::function<void(const Event&)>& initCallback):
                 bufferSize(initBufferSize),
                 channels(initChannels),
@@ -210,7 +210,7 @@ namespace ouzel
                 }
             }
 
-            void Mixer::getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate, std::vector<float>& samples)
+            void Mixer::getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples)
             {
                 process();
 

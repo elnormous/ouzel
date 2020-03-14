@@ -96,14 +96,14 @@ namespace ouzel
             }
 
             Texture::Texture(RenderDevice& initRenderDevice,
-                             const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels,
+                             const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
                              TextureType type,
-                             uint32_t initFlags,
-                             uint32_t initSampleCount,
+                             std::uint32_t initFlags,
+                             std::uint32_t initSampleCount,
                              PixelFormat initPixelFormat):
                 RenderResource(initRenderDevice),
                 flags(initFlags),
-                mipmaps(static_cast<uint32_t>(levels.size())),
+                mipmaps(static_cast<std::uint32_t>(levels.size())),
                 sampleCount(initSampleCount),
                 pixelFormat(getMetalPixelFormat(initPixelFormat)),
                 pixelSize(getPixelSize(initPixelFormat)),
@@ -174,7 +174,7 @@ namespace ouzel
                 }
                 else
                 {
-                    for (size_t level = 0; level < levels.size(); ++level)
+                    for (std::size_t level = 0; level < levels.size(); ++level)
                     {
                         if (!levels[level].second.empty())
                             [texture.get() replaceRegion:MTLRegionMake2D(0, 0,
@@ -195,13 +195,13 @@ namespace ouzel
                 updateSamplerState();
             }
 
-            void Texture::setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels)
+            void Texture::setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels)
             {
                 if (!(flags & Flags::Dynamic) ||
                     flags & Flags::BindRenderTarget)
                     throw Error("Texture is not dynamic");
 
-                for (size_t level = 0; level < levels.size(); ++level)
+                for (std::size_t level = 0; level < levels.size(); ++level)
                 {
                     if (!levels[level].second.empty())
                         [texture.get() replaceRegion:MTLRegionMake2D(0, 0,
@@ -237,7 +237,7 @@ namespace ouzel
                 updateSamplerState();
             }
 
-            void Texture::setMaxAnisotropy(uint32_t maxAnisotropy)
+            void Texture::setMaxAnisotropy(std::uint32_t maxAnisotropy)
             {
                 samplerDescriptor.maxAnisotropy = maxAnisotropy;
                 updateSamplerState();

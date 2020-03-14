@@ -59,11 +59,11 @@ namespace ouzel
             bool handleMouse(const MouseEvent& event);
             bool handleTouch(const TouchEvent& event);
 
-            void pointerEnterActor(uint64_t pointerId, Actor* actor, const Vector2F& position);
-            void pointerLeaveActor(uint64_t pointerId, Actor* actor, const Vector2F& position);
-            void pointerDownOnActor(uint64_t pointerId, Actor* actor, const Vector2F& position, const Vector3F& localPosition);
-            void pointerUpOnActor(uint64_t pointerId, Actor* actor, const Vector2F& position);
-            void pointerDragActor(uint64_t pointerId, Actor* actor, const Vector2F& position,
+            void pointerEnterActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position);
+            void pointerLeaveActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position);
+            void pointerDownOnActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position, const Vector3F& localPosition);
+            void pointerUpOnActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position);
+            void pointerDragActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position,
                                   const Vector2F& difference, const Vector3F& localPosition);
 
             SceneManager* sceneManger = nullptr;
@@ -72,7 +72,7 @@ namespace ouzel
             std::vector<std::unique_ptr<Layer>> ownedLayers;
             EventHandler eventHandler;
 
-            std::unordered_map<uint64_t, std::pair<Actor*, Vector3F>> pointerDownOnActors;
+            std::unordered_map<std::uint64_t, std::pair<Actor*, Vector3F>> pointerDownOnActors;
 
             bool entered = false;
         };

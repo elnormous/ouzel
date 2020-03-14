@@ -32,7 +32,7 @@ namespace ouzel
 
             void update();
 
-            int32_t getPlayerIndex() const;
+            std::int32_t getPlayerIndex() const;
 
             void setVibration(Gamepad::Motor motor, float speed);
             float getVibration(Gamepad::Motor motor);

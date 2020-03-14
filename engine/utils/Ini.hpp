@@ -19,7 +19,7 @@ namespace ouzel
     {
         inline namespace detail
         {
-            constexpr uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
+            constexpr std::uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
         }
 
         class ParseError final: public std::logic_error
@@ -91,7 +91,7 @@ namespace ouzel
             }
 
         private:
-            void encode(std::vector<uint8_t>& data) const
+            void encode(std::vector<std::uint8_t>& data) const
             {
                 if (!name.empty())
                 {
@@ -147,7 +147,7 @@ namespace ouzel
         public:
             Data() = default;
 
-            explicit Data(const std::vector<uint8_t>& data)
+            explicit Data(const std::vector<std::uint8_t>& data)
             {
                 std::u32string str;
 
@@ -168,9 +168,9 @@ namespace ouzel
                 parse(str.begin(), str.end());
             }
 
-            std::vector<uint8_t> encode() const
+            std::vector<std::uint8_t> encode() const
             {
-                std::vector<uint8_t> result;
+                std::vector<std::uint8_t> result;
 
                 if (bom) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
 

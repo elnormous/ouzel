@@ -34,7 +34,7 @@ namespace ouzel
 
         Window(Engine& initEngine,
                const Size2U& newSize,
-               uint32_t flags,
+               std::uint32_t flags,
                const std::string& newTitle,
                graphics::Driver graphicsDriver);
         Window(const Window&) = delete;
@@ -97,7 +97,7 @@ namespace ouzel
         bool highDpi = true;
         bool visible = false;
         bool minimized = false;
-        uint32_t displayId = 0;
+        std::uint32_t displayId = 0;
 
         std::string title;
 

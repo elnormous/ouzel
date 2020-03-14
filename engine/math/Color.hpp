@@ -11,27 +11,27 @@
 
 namespace ouzel
 {
-    constexpr uint8_t hexToInt(const char c)
+    constexpr std::uint8_t hexToInt(const char c)
     {
-        return (c >= '0' && c <= '9') ? static_cast<uint8_t>(c - '0') :
-            (c >= 'a' && c <= 'f') ? static_cast<uint8_t>(c - 'a' + 10) :
-            (c >= 'A' && c <= 'F') ? static_cast<uint8_t>(c - 'A' + 10) :
+        return (c >= '0' && c <= '9') ? static_cast<std::uint8_t>(c - '0') :
+            (c >= 'a' && c <= 'f') ? static_cast<std::uint8_t>(c - 'a' + 10) :
+            (c >= 'A' && c <= 'F') ? static_cast<std::uint8_t>(c - 'A' + 10) :
             throw std::out_of_range("Invalid hex digit");
     }
 
     class Color final
     {
     public:
-        uint8_t v[4]{0};
+        std::uint8_t v[4]{0};
 
         constexpr Color() noexcept {}
 
-        explicit constexpr Color(uint32_t color) noexcept:
+        explicit constexpr Color(std::uint32_t color) noexcept:
             v{
-                static_cast<uint8_t>((color & 0xFF000000) >> 24),
-                static_cast<uint8_t>((color & 0x00FF0000) >> 16),
-                static_cast<uint8_t>((color & 0x0000FF00) >> 8),
-                static_cast<uint8_t>(color & 0x000000FF)
+                static_cast<std::uint8_t>((color & 0xFF000000) >> 24),
+                static_cast<std::uint8_t>((color & 0x00FF0000) >> 16),
+                static_cast<std::uint8_t>((color & 0x0000FF00) >> 8),
+                static_cast<std::uint8_t>(color & 0x000000FF)
             }
         {
         }
@@ -44,16 +44,16 @@ namespace ouzel
                 {
                     assert(color.length() == 4 || color.length() == 7);
 
-                    const size_t componentSize = (color.length() - 1) / 3; // exclude the #
+                    const std::size_t componentSize = (color.length() - 1) / 3; // exclude the #
 
-                    for (size_t component = 0; component < 3; ++component)
+                    for (std::size_t component = 0; component < 3; ++component)
                     {
                         v[component] = 0;
 
-                        for (size_t byte = 0; byte < 2; ++byte)
+                        for (std::size_t byte = 0; byte < 2; ++byte)
                         {
                             const char c = (byte < componentSize) ? color[component * componentSize + byte + 1] : color[component * componentSize + 1];
-                            v[component] = static_cast<uint8_t>((v[component] << 4) | hexToInt(c));
+                            v[component] = static_cast<std::uint8_t>((v[component] << 4) | hexToInt(c));
                         }
                     }
 
@@ -61,15 +61,15 @@ namespace ouzel
                 }
                 else
                 {
-                    const auto intValue = static_cast<uint32_t>(std::stoul(color));
-                    v[0] = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
-                    v[1] = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
-                    v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
-                    v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
+                    const auto intValue = static_cast<std::uint32_t>(std::stoul(color));
+                    v[0] = static_cast<std::uint8_t>((intValue & 0xFF000000) >> 24);
+                    v[1] = static_cast<std::uint8_t>((intValue & 0x00FF0000) >> 16);
+                    v[2] = static_cast<std::uint8_t>((intValue & 0x0000FF00) >> 8);
+                    v[3] = static_cast<std::uint8_t>(intValue & 0x000000FF);
                 }
             }
             else
-                for (size_t i = 0; i < 4; ++i)
+                for (std::size_t i = 0; i < 4; ++i)
                     v[i] = 0;
         }
 
@@ -78,26 +78,26 @@ namespace ouzel
         {
         }
 
-        constexpr Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 0xFF) noexcept:
+        constexpr Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue, std::uint8_t alpha = 0xFF) noexcept:
             v{red, green, blue, alpha}
         {
         }
 
         explicit Color(const float color[4]) noexcept:
             v{
-                static_cast<uint8_t>(std::round(color[0] * 255.0F)),
-                static_cast<uint8_t>(std::round(color[1] * 255.0F)),
-                static_cast<uint8_t>(std::round(color[2] * 255.0F)),
-                static_cast<uint8_t>(std::round(color[3] * 255.0F))
+                static_cast<std::uint8_t>(std::round(color[0] * 255.0F)),
+                static_cast<std::uint8_t>(std::round(color[1] * 255.0F)),
+                static_cast<std::uint8_t>(std::round(color[2] * 255.0F)),
+                static_cast<std::uint8_t>(std::round(color[3] * 255.0F))
             }
         {
         }
 
         explicit Color(const Vector<3, float>& vec) noexcept:
             v{
-                static_cast<uint8_t>(std::round(vec.v[0] * 255.0F)),
-                static_cast<uint8_t>(std::round(vec.v[1] * 255.0F)),
-                static_cast<uint8_t>(std::round(vec.v[2] * 255.0F)),
+                static_cast<std::uint8_t>(std::round(vec.v[0] * 255.0F)),
+                static_cast<std::uint8_t>(std::round(vec.v[1] * 255.0F)),
+                static_cast<std::uint8_t>(std::round(vec.v[2] * 255.0F)),
                 0
             }
         {
@@ -105,10 +105,10 @@ namespace ouzel
 
         explicit Color(const Vector<4, float>& vec) noexcept:
             v{
-                static_cast<uint8_t>(std::round(vec.v[0] * 255.0F)),
-                static_cast<uint8_t>(std::round(vec.v[1] * 255.0F)),
-                static_cast<uint8_t>(std::round(vec.v[2] * 255.0F)),
-                static_cast<uint8_t>(std::round(vec.v[3] * 255.0F))
+                static_cast<std::uint8_t>(std::round(vec.v[0] * 255.0F)),
+                static_cast<std::uint8_t>(std::round(vec.v[1] * 255.0F)),
+                static_cast<std::uint8_t>(std::round(vec.v[2] * 255.0F)),
+                static_cast<std::uint8_t>(std::round(vec.v[3] * 255.0F))
             }
         {
         }
@@ -123,20 +123,20 @@ namespace ouzel
         static constexpr Color white() noexcept { return Color(255, 255, 255, 255); }
         static constexpr Color gray() noexcept { return Color(128, 128, 128, 255); }
 
-        inline uint8_t& operator[](size_t index) noexcept { return v[index]; }
-        constexpr uint8_t operator[](size_t index) const noexcept { return v[index]; }
+        inline std::uint8_t& operator[](std::size_t index) noexcept { return v[index]; }
+        constexpr std::uint8_t operator[](std::size_t index) const noexcept { return v[index]; }
 
-        inline uint8_t& r() noexcept { return v[0]; }
-        constexpr uint8_t r() const noexcept { return v[0]; }
+        inline std::uint8_t& r() noexcept { return v[0]; }
+        constexpr std::uint8_t r() const noexcept { return v[0]; }
 
-        inline uint8_t& g() noexcept { return v[1]; }
-        constexpr uint8_t g() const noexcept { return v[1]; }
+        inline std::uint8_t& g() noexcept { return v[1]; }
+        constexpr std::uint8_t g() const noexcept { return v[1]; }
 
-        inline uint8_t& b() noexcept { return v[2]; }
-        constexpr uint8_t b() const noexcept { return v[2]; }
+        inline std::uint8_t& b() noexcept { return v[2]; }
+        constexpr std::uint8_t b() const noexcept { return v[2]; }
 
-        inline uint8_t& a() noexcept { return v[3]; }
-        constexpr uint8_t a() const noexcept { return v[3]; }
+        inline std::uint8_t& a() noexcept { return v[3]; }
+        constexpr std::uint8_t a() const noexcept { return v[3]; }
 
         constexpr std::array<float, 4> norm() const noexcept
         {
@@ -149,10 +149,10 @@ namespace ouzel
 
         constexpr auto getIntValue() const noexcept
         {
-            return (static_cast<uint32_t>(v[0]) << 24) |
-                   (static_cast<uint32_t>(v[1]) << 16) |
-                   (static_cast<uint32_t>(v[2]) << 8) |
-                   static_cast<uint32_t>(v[3]);
+            return (static_cast<std::uint32_t>(v[0]) << 24) |
+                   (static_cast<std::uint32_t>(v[1]) << 16) |
+                   (static_cast<std::uint32_t>(v[2]) << 8) |
+                   static_cast<std::uint32_t>(v[3]);
         }
 
         constexpr bool operator<(const Color& c) const noexcept

@@ -15,14 +15,14 @@ namespace ouzel
             colorTextures(initColorTextures),
             depthTexture(initDepthTexture)
         {
-            std::set<uintptr_t> colorTextureIds;
+            std::set<std::uintptr_t> colorTextureIds;
 
             for (const auto& colorTexture : colorTextures)
                 colorTextureIds.insert(colorTexture ? colorTexture->getResource() : 0);
 
             initRenderer.addCommand(std::make_unique<InitRenderTargetCommand>(resource,
                                                                               colorTextureIds,
-                                                                              depthTexture ? depthTexture->getResource() : uintptr_t(0)));
+                                                                              depthTexture ? depthTexture->getResource() : std::uintptr_t(0)));
         }
     } // namespace graphics
 } // namespace ouzel

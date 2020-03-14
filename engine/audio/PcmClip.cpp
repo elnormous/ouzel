@@ -23,16 +23,16 @@ namespace ouzel
                 position = 0;
             }
 
-            void getSamples(uint32_t frames, std::vector<float>& samples) final;
+            void getSamples(std::uint32_t frames, std::vector<float>& samples) final;
 
         private:
-            uint32_t position = 0;
+            std::uint32_t position = 0;
         };
 
         class PcmData final: public mixer::Data
         {
         public:
-            PcmData(uint32_t initChannels, uint32_t initSampleRate,
+            PcmData(std::uint32_t initChannels, std::uint32_t initSampleRate,
                     const std::vector<float>& initSamples):
                 samples(initSamples)
             {
@@ -56,33 +56,33 @@ namespace ouzel
         {
         }
 
-        void PcmStream::getSamples(uint32_t frames, std::vector<float>& samples)
+        void PcmStream::getSamples(std::uint32_t frames, std::vector<float>& samples)
         {
-            const uint32_t neededSize = frames * data.getChannels();
+            const std::uint32_t neededSize = frames * data.getChannels();
             samples.resize(neededSize);
 
             PcmData& pcmData = static_cast<PcmData&>(data);
             const std::vector<float>& data = pcmData.getSamples();
 
-            const auto sourceFrames = static_cast<uint32_t>(data.size() / pcmData.getChannels());
-            const uint32_t copyFrames = (frames > sourceFrames - position) ? sourceFrames - position : frames;
+            const auto sourceFrames = static_cast<std::uint32_t>(data.size() / pcmData.getChannels());
+            const std::uint32_t copyFrames = (frames > sourceFrames - position) ? sourceFrames - position : frames;
 
-            for (uint32_t channel = 0; channel < pcmData.getChannels(); ++channel)
+            for (std::uint32_t channel = 0; channel < pcmData.getChannels(); ++channel)
             {
                 const float* sourceChannel = &data[channel * sourceFrames];
                 float* outputChannel = &samples[channel * frames];
 
-                for (uint32_t frame = 0; frame < copyFrames; ++frame)
+                for (std::uint32_t frame = 0; frame < copyFrames; ++frame)
                     outputChannel[frame] = sourceChannel[frame + position];
             }
 
             position += copyFrames;
 
-            for (uint32_t channel = 0; channel < pcmData.getChannels(); ++channel)
+            for (std::uint32_t channel = 0; channel < pcmData.getChannels(); ++channel)
             {
                 float* outputChannel = &samples[channel * frames];
 
-                for (uint32_t frame = copyFrames; frame < frames; ++frame)
+                for (std::uint32_t frame = copyFrames; frame < frames; ++frame)
                     outputChannel[frame] = 0.0F;
             }
 
@@ -93,7 +93,7 @@ namespace ouzel
             }
         }
 
-        PcmClip::PcmClip(Audio& initAudio, uint32_t channels, uint32_t sampleRate,
+        PcmClip::PcmClip(Audio& initAudio, std::uint32_t channels, std::uint32_t sampleRate,
                           const std::vector<float>& samples):
             Sound(initAudio,
                   initAudio.initData(std::unique_ptr<mixer::Data>(data = new PcmData(channels, sampleRate, samples))),

@@ -37,8 +37,8 @@ namespace ouzel
             inline auto getFd() const noexcept { return fd; }
 
         private:
-            void handleAxisChange(int32_t oldValue, int32_t newValue,
-                                  int32_t min, int32_t range,
+            void handleAxisChange(std::int32_t oldValue, std::int32_t newValue,
+                                  std::int32_t min, std::int32_t range,
                                   Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
             int fd = -1;
@@ -52,16 +52,16 @@ namespace ouzel
 
             struct Position
             {
-                int32_t x = 0;
-                int32_t y = 0;
+                std::int32_t x = 0;
+                std::int32_t y = 0;
             };
             Position cursorPosition;
             struct Slot final
             {
-                int32_t trackingId;
-                int32_t positionX;
-                int32_t positionY;
-                int32_t pressure = 1;
+                std::int32_t trackingId;
+                std::int32_t positionX;
+                std::int32_t positionY;
+                std::int32_t pressure = 1;
                 enum class Action
                 {
                     Unknown,
@@ -72,39 +72,39 @@ namespace ouzel
                 Action action = Action::Unknown;
             };
             std::vector<Slot> touchSlots;
-            int32_t currentTouchSlot = 0;
-            int32_t touchMinX;
-            int32_t touchMaxX;
-            int32_t touchMinY;
-            int32_t touchMaxY;
-            int32_t touchRangeX;
-            int32_t touchRangeY;
-            int32_t touchMinPressure = 0;
-            int32_t touchMaxPressure = 1;
+            std::int32_t currentTouchSlot = 0;
+            std::int32_t touchMinX;
+            std::int32_t touchMaxX;
+            std::int32_t touchMinY;
+            std::int32_t touchMaxY;
+            std::int32_t touchRangeX;
+            std::int32_t touchRangeY;
+            std::int32_t touchMinPressure = 0;
+            std::int32_t touchMaxPressure = 1;
 
-            int32_t hat0XValue = 0;
-            int32_t hat0YValue = 0;
+            std::int32_t hat0XValue = 0;
+            std::int32_t hat0YValue = 0;
 
             struct Button final
             {
                 Gamepad::Button button = Gamepad::Button::Unknown;
-                int32_t value = 0;
+                std::int32_t value = 0;
             };
 
-            std::unordered_map<uint32_t, Button> buttons;
+            std::unordered_map<std::uint32_t, Button> buttons;
 
             struct Axis final
             {
                 Gamepad::Axis axis = Gamepad::Axis::Unknown;
-                int32_t min = 0;
-                int32_t max = 0;
-                int32_t range = 0;
-                int32_t value = 0;
+                std::int32_t min = 0;
+                std::int32_t max = 0;
+                std::int32_t range = 0;
+                std::int32_t value = 0;
                 Gamepad::Button negativeButton = Gamepad::Button::Unknown;
                 Gamepad::Button positiveButton = Gamepad::Button::Unknown;
             };
 
-            std::unordered_map<uint32_t, Axis> axes;
+            std::unordered_map<std::uint32_t, Axis> axes;
 
             bool hasLeftTrigger = false;
             bool hasRightTrigger = false;

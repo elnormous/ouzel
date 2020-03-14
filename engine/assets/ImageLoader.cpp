@@ -53,7 +53,7 @@ namespace ouzel
 
         bool ImageLoader::loadAsset(Bundle& bundle,
                                     const std::string& name,
-                                    const std::vector<uint8_t>& data,
+                                    const std::vector<std::uint8_t>& data,
                                     bool mipmaps)
         {
             int width;
@@ -66,7 +66,7 @@ namespace ouzel
                 throw std::runtime_error("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
 
             graphics::PixelFormat pixelFormat;
-            std::vector<uint8_t> imageData;
+            std::vector<std::uint8_t> imageData;
 
             switch (comp)
             {
@@ -74,14 +74,14 @@ namespace ouzel
                 {
                     pixelFormat = graphics::PixelFormat::RGBA8UNorm;
 
-                    imageData.resize(static_cast<size_t>(width * height * 4));
+                    imageData.resize(static_cast<std::size_t>(width * height * 4));
 
                     for (int y = 0; y < height; ++y)
                     {
                         for (int x = 0; x < width; ++x)
                         {
-                            const auto sourceOffset = static_cast<size_t>(y * width + x);
-                            const auto destinationOffset = static_cast<size_t>((y * width + x) * 4);
+                            const auto sourceOffset = static_cast<std::size_t>(y * width + x);
+                            const auto destinationOffset = static_cast<std::size_t>((y * width + x) * 4);
                             imageData[destinationOffset + 0] = tempData[sourceOffset];
                             imageData[destinationOffset + 1] = tempData[sourceOffset];
                             imageData[destinationOffset + 2] = tempData[sourceOffset];
@@ -95,14 +95,14 @@ namespace ouzel
                 {
                     pixelFormat = graphics::PixelFormat::RGBA8UNorm;
 
-                    imageData.resize(static_cast<size_t>(width * height * 4));
+                    imageData.resize(static_cast<std::size_t>(width * height * 4));
 
                     for (int y = 0; y < height; ++y)
                     {
                         for (int x = 0; x < width; ++x)
                         {
-                            const auto sourceOffset = static_cast<size_t>((y * width + x) * 2);
-                            const auto destinationOffset = static_cast<size_t>((y * width + x) * 4);
+                            const auto sourceOffset = static_cast<std::size_t>((y * width + x) * 2);
+                            const auto destinationOffset = static_cast<std::size_t>((y * width + x) * 4);
                             imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
                             imageData[destinationOffset + 1] = tempData[sourceOffset + 0];
                             imageData[destinationOffset + 2] = tempData[sourceOffset + 0];
@@ -116,14 +116,14 @@ namespace ouzel
                 {
                     pixelFormat = graphics::PixelFormat::RGBA8UNorm;
 
-                    imageData.resize(static_cast<size_t>(width * height * 4));
+                    imageData.resize(static_cast<std::size_t>(width * height * 4));
 
                     for (int y = 0; y < height; ++y)
                     {
                         for (int x = 0; x < width; ++x)
                         {
-                            const auto sourceOffset = static_cast<size_t>((y * width + x) * 3);
-                            const auto destinationOffset = static_cast<size_t>((y * width + x) * 4);
+                            const auto sourceOffset = static_cast<std::size_t>((y * width + x) * 3);
+                            const auto destinationOffset = static_cast<std::size_t>((y * width + x) * 4);
                             imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
                             imageData[destinationOffset + 1] = tempData[sourceOffset + 1];
                             imageData[destinationOffset + 2] = tempData[sourceOffset + 2];
@@ -137,7 +137,7 @@ namespace ouzel
                 {
                     pixelFormat = graphics::PixelFormat::RGBA8UNorm;
                     imageData.assign(tempData,
-                                     tempData + static_cast<size_t>(width * height) * 4);
+                                     tempData + static_cast<std::size_t>(width * height) * 4);
                     stbi_image_free(tempData);
                     break;
                 }
@@ -147,8 +147,8 @@ namespace ouzel
             }
 
             graphics::Image image(pixelFormat,
-                                  Size2U(static_cast<uint32_t>(width),
-                                         static_cast<uint32_t>(height)),
+                                  Size2U(static_cast<std::uint32_t>(width),
+                                         static_cast<std::uint32_t>(height)),
                                   imageData);
 
             auto texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),

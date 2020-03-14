@@ -24,8 +24,8 @@ namespace ouzel
                               bool initDepthWrite,
                               CompareFunction initCompareFunction,
                               bool initStencilEnabled,
-                              uint32_t initStencilReadMask,
-                              uint32_t initStencilWriteMask,
+                              std::uint32_t initStencilReadMask,
+                              std::uint32_t initStencilWriteMask,
                               StencilOperation initFrontFaceStencilFailureOperation,
                               StencilOperation initFrontFaceStencilDepthFailureOperation,
                               StencilOperation initFrontFaceStencilPassOperation,
@@ -44,8 +44,8 @@ namespace ouzel
             bool depthWrite = false;
             CompareFunction compareFunction;
             bool stencilEnabled = false;
-            uint32_t stencilReadMask = 0xFFFFFFFF;
-            uint32_t stencilWriteMask = 0xFFFFFFFF;
+            std::uint32_t stencilReadMask = 0xFFFFFFFF;
+            std::uint32_t stencilWriteMask = 0xFFFFFFFF;
             StencilOperation frontFaceStencilFailureOperation;
             StencilOperation frontFaceStencilDepthFailureOperation;
             StencilOperation frontFaceStencilPassOperation;

@@ -44,7 +44,7 @@ namespace ouzel
                 SamplerAddressMode addressX;
                 SamplerAddressMode addressY;
                 SamplerAddressMode addressZ;
-                uint32_t maxAnisotropy;
+                std::uint32_t maxAnisotropy;
 
                 bool operator<(const SamplerStateDesc& other) const
                 {
@@ -57,18 +57,18 @@ namespace ouzel
             {
             public:
                 Texture(RenderDevice& initRenderDevice,
-                        const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels,
+                        const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
                         TextureType type,
-                        uint32_t initFlags = 0,
-                        uint32_t initSampleCount = 1,
+                        std::uint32_t initFlags = 0,
+                        std::uint32_t initSampleCount = 1,
                         PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
 
-                void setData(const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& levels);
+                void setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels);
                 void setFilter(SamplerFilter filter);
                 void setAddressX(SamplerAddressMode addressX);
                 void setAddressY(SamplerAddressMode addressY);
                 void setAddressZ(SamplerAddressMode addressZ);
-                void setMaxAnisotropy(uint32_t maxAnisotropy);
+                void setMaxAnisotropy(std::uint32_t maxAnisotropy);
 
                 void resolve();
 
@@ -90,11 +90,11 @@ namespace ouzel
             private:
                 void updateSamplerState();
 
-                uint32_t flags = 0;
-                uint32_t mipmaps = 0;
-                uint32_t sampleCount = 1;
+                std::uint32_t flags = 0;
+                std::uint32_t mipmaps = 0;
+                std::uint32_t sampleCount = 1;
                 DXGI_FORMAT pixelFormat = DXGI_FORMAT_UNKNOWN;
-                uint32_t pixelSize = 0;
+                std::uint32_t pixelSize = 0;
                 SamplerStateDesc samplerDescriptor;
 
                 Pointer<ID3D11Texture2D> texture;

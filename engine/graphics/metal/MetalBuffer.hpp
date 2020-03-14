@@ -32,11 +32,11 @@ namespace ouzel
             public:
                 Buffer(RenderDevice& initRenderDevice,
                        BufferType initType,
-                       uint32_t initFlags,
-                       const std::vector<uint8_t>& initData,
-                       uint32_t initSize);
+                       std::uint32_t initFlags,
+                       const std::vector<std::uint8_t>& initData,
+                       std::uint32_t initSize);
 
-                void setData(const std::vector<uint8_t>& data);
+                void setData(const std::vector<std::uint8_t>& data);
 
                 inline auto getFlags() const noexcept { return flags; }
                 inline auto getType() const noexcept { return type; }
@@ -48,7 +48,7 @@ namespace ouzel
                 void createBuffer(NSUInteger newSize);
 
                 BufferType type;
-                uint32_t flags = 0;
+                std::uint32_t flags = 0;
 
                 Pointer<MTLBufferPtr> buffer;
                 NSUInteger size = 0;

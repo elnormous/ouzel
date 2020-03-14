@@ -23,8 +23,8 @@ namespace ouzel
             std::string getStorageDirectory(const bool user = true) const;
             std::string getTempDirectory() const;
 
-            std::vector<uint8_t> readFile(const std::string& filename, const bool searchResources = true) const;
-            void writeFile(const std::string& filename, const std::vector<uint8_t>& data) const;
+            std::vector<std::uint8_t> readFile(const std::string& filename, const bool searchResources = true) const;
+            void writeFile(const std::string& filename, const std::vector<std::uint8_t>& data) const;
 
             bool resourceFileExists(const std::string& filename) const;
 
@@ -90,7 +90,7 @@ namespace ouzel
 
             static std::string getExtensionPart(const std::string& path)
             {
-                const size_t pos = path.find_last_of('.');
+                const std::size_t pos = path.find_last_of('.');
 
                 if (pos != std::string::npos)
                     return path.substr(pos + 1);
@@ -100,7 +100,7 @@ namespace ouzel
 
             static std::string getFilenamePart(const std::string& path)
             {
-                const size_t pos = path.find_last_of("/\\");
+                const std::size_t pos = path.find_last_of("/\\");
 
                 if (pos != std::string::npos)
                     return path.substr(pos + 1);
@@ -110,7 +110,7 @@ namespace ouzel
 
             static std::string getDirectoryPart(const std::string& path)
             {
-                const size_t pos = path.find_last_of("/\\");
+                const std::size_t pos = path.find_last_of("/\\");
 
                 if (pos != std::string::npos)
                     return path.substr(0, pos);

@@ -30,9 +30,9 @@ namespace ouzel
             Renderer(Driver driver,
                      Window* newWindow,
                      const Size2U& newSize,
-                     uint32_t newSampleCount,
+                     std::uint32_t newSampleCount,
                      SamplerFilter newTextureFilter,
-                     uint32_t newMaxAnisotropy,
+                     std::uint32_t newMaxAnisotropy,
                      bool newSrgb,
                      bool newVerticalSync,
                      bool newDepth,
@@ -48,32 +48,32 @@ namespace ouzel
 
             void saveScreenshot(const std::string& filename);
 
-            void setRenderTarget(uintptr_t renderTarget);
+            void setRenderTarget(std::uintptr_t renderTarget);
             void clearRenderTarget(bool clearColorBuffer,
                                    bool clearDepthBuffer,
                                    bool clearStencilBuffer,
                                    Color clearColor,
                                    float clearDepth,
-                                   uint32_t clearStencil);
+                                   std::uint32_t clearStencil);
             void setScissorTest(bool enabled, const RectF& rectangle);
             void setViewport(const RectF& viewport);
-            void setDepthStencilState(uintptr_t depthStencilState,
-                                      uint32_t stencilReferenceValue);
-            void setPipelineState(uintptr_t blendState,
-                                  uintptr_t shader,
+            void setDepthStencilState(std::uintptr_t depthStencilState,
+                                      std::uint32_t stencilReferenceValue);
+            void setPipelineState(std::uintptr_t blendState,
+                                  std::uintptr_t shader,
                                   CullMode cullMode,
                                   FillMode fillMode);
-            void draw(uintptr_t indexBuffer,
-                      uint32_t indexCount,
-                      uint32_t indexSize,
-                      uintptr_t vertexBuffer,
+            void draw(std::uintptr_t indexBuffer,
+                      std::uint32_t indexCount,
+                      std::uint32_t indexSize,
+                      std::uintptr_t vertexBuffer,
                       DrawMode drawMode,
-                      uint32_t startIndex);
+                      std::uint32_t startIndex);
             void pushDebugMarker(const std::string& name);
             void popDebugMarker();
             void setShaderConstants(std::vector<std::vector<float>> fragmentShaderConstants,
                                     std::vector<std::vector<float>> vertexShaderConstants);
-            void setTextures(const std::vector<uintptr_t>& textures);
+            void setTextures(const std::vector<std::uintptr_t>& textures);
 
             inline void addCommand(std::unique_ptr<Command> command)
             {

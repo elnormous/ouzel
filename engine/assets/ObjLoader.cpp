@@ -16,23 +16,23 @@ namespace ouzel
     {
         namespace
         {
-            constexpr auto isWhitespace(uint8_t c)
+            constexpr auto isWhitespace(std::uint8_t c)
             {
                 return c == ' ' || c == '\t';
             }
 
-            constexpr auto isNewline(uint8_t c)
+            constexpr auto isNewline(std::uint8_t c)
             {
                 return c == '\r' || c == '\n';
             }
 
-            constexpr auto isControlChar(uint8_t c)
+            constexpr auto isControlChar(std::uint8_t c)
             {
                 return c <= 0x1F;
             }
 
-            void skipWhitespaces(std::vector<uint8_t>::const_iterator& iterator,
-                                 std::vector<uint8_t>::const_iterator end)
+            void skipWhitespaces(std::vector<std::uint8_t>::const_iterator& iterator,
+                                 std::vector<std::uint8_t>::const_iterator end)
             {
                 while (iterator != end)
                     if (isWhitespace(*iterator))
@@ -41,8 +41,8 @@ namespace ouzel
                         break;
             }
 
-            void skipLine(std::vector<uint8_t>::const_iterator& iterator,
-                          std::vector<uint8_t>::const_iterator end)
+            void skipLine(std::vector<std::uint8_t>::const_iterator& iterator,
+                          std::vector<std::uint8_t>::const_iterator end)
             {
                 while (iterator != end)
                 {
@@ -56,8 +56,8 @@ namespace ouzel
                 }
             }
 
-            std::string parseString(std::vector<uint8_t>::const_iterator& iterator,
-                                    std::vector<uint8_t>::const_iterator end)
+            std::string parseString(std::vector<std::uint8_t>::const_iterator& iterator,
+                                    std::vector<std::uint8_t>::const_iterator end)
             {
                 std::string result;
 
@@ -74,11 +74,11 @@ namespace ouzel
                 return result;
             }
 
-            int32_t parseInt32(std::vector<uint8_t>::const_iterator& iterator,
-                               std::vector<uint8_t>::const_iterator end)
+            std::int32_t parseInt32(std::vector<std::uint8_t>::const_iterator& iterator,
+                               std::vector<std::uint8_t>::const_iterator end)
             {
                 std::string value;
-                uint32_t length = 1;
+                std::uint32_t length = 1;
 
                 if (iterator != end && *iterator == '-')
                 {
@@ -99,11 +99,11 @@ namespace ouzel
                 return std::stoi(value);
             }
 
-            float parseFloat(std::vector<uint8_t>::const_iterator& iterator,
-                             std::vector<uint8_t>::const_iterator end)
+            float parseFloat(std::vector<std::uint8_t>::const_iterator& iterator,
+                             std::vector<std::uint8_t>::const_iterator end)
             {
                 std::string value;
-                uint32_t length = 1;
+                std::uint32_t length = 1;
 
                 if (iterator != end && *iterator == '-')
                 {
@@ -159,11 +159,11 @@ namespace ouzel
                 return std::stof(value);
             }
 
-            bool parseToken(const std::vector<uint8_t>& str,
-                            std::vector<uint8_t>::const_iterator& iterator,
+            bool parseToken(const std::vector<std::uint8_t>& str,
+                            std::vector<std::uint8_t>::const_iterator& iterator,
                             char token)
             {
-                if (iterator == str.end() || *iterator != static_cast<uint8_t>(token)) return false;
+                if (iterator == str.end() || *iterator != static_cast<std::uint8_t>(token)) return false;
 
                 ++iterator;
 
@@ -178,7 +178,7 @@ namespace ouzel
 
         bool ObjLoader::loadAsset(Bundle& bundle,
                                   const std::string& name,
-                                  const std::vector<uint8_t>& data,
+                                  const std::vector<std::uint8_t>& data,
                                   bool mipmaps)
         {
             std::string objectName = name;
@@ -187,11 +187,11 @@ namespace ouzel
             std::vector<Vector2F> texCoords;
             std::vector<Vector3F> normals;
             std::vector<graphics::Vertex> vertices;
-            std::map<std::tuple<uint32_t, uint32_t, uint32_t>, uint32_t> vertexMap;
-            std::vector<uint32_t> indices;
+            std::map<std::tuple<std::uint32_t, std::uint32_t, std::uint32_t>, std::uint32_t> vertexMap;
+            std::vector<std::uint32_t> indices;
             Box3F boundingBox;
 
-            uint32_t objectCount = 0;
+            std::uint32_t objectCount = 0;
 
             auto iterator = data.cbegin();
 
@@ -300,12 +300,12 @@ namespace ouzel
                     }
                     else if (keyword == "f")
                     {
-                        std::vector<uint32_t> vertexIndices;
+                        std::vector<std::uint32_t> vertexIndices;
 
-                        auto i = std::make_tuple<uint32_t, uint32_t, uint32_t>(0, 0, 0);
-                        int32_t positionIndex = 0;
-                        int32_t texCoordIndex = 0;
-                        int32_t normalIndex = 0;
+                        auto i = std::make_tuple<std::uint32_t, std::uint32_t, std::uint32_t>(0, 0, 0);
+                        std::int32_t positionIndex = 0;
+                        std::int32_t texCoordIndex = 0;
+                        std::int32_t normalIndex = 0;
 
                         while (iterator != data.end())
                         {
@@ -315,12 +315,12 @@ namespace ouzel
                             positionIndex = parseInt32(iterator, data.end());
 
                             if (positionIndex < 0)
-                                positionIndex = static_cast<int32_t>(positions.size()) + positionIndex + 1;
+                                positionIndex = static_cast<std::int32_t>(positions.size()) + positionIndex + 1;
 
-                            if (positionIndex < 1 || positionIndex > static_cast<int32_t>(positions.size()))
+                            if (positionIndex < 1 || positionIndex > static_cast<std::int32_t>(positions.size()))
                                 throw std::runtime_error("Invalid position index");
 
-                            std::get<0>(i) = static_cast<uint32_t>(positionIndex);
+                            std::get<0>(i) = static_cast<std::uint32_t>(positionIndex);
 
                             // has texture coordinates
                             if (parseToken(data, iterator, '/'))
@@ -331,12 +331,12 @@ namespace ouzel
                                     texCoordIndex = parseInt32(iterator, data.end());
 
                                     if (texCoordIndex < 0)
-                                        texCoordIndex = static_cast<int32_t>(texCoords.size()) + texCoordIndex + 1;
+                                        texCoordIndex = static_cast<std::int32_t>(texCoords.size()) + texCoordIndex + 1;
 
-                                    if (texCoordIndex < 1 || texCoordIndex > static_cast<int32_t>(texCoords.size()))
+                                    if (texCoordIndex < 1 || texCoordIndex > static_cast<std::int32_t>(texCoords.size()))
                                         throw std::runtime_error("Invalid texture coordinate index");
 
-                                    std::get<1>(i) = static_cast<uint32_t>(texCoordIndex);
+                                    std::get<1>(i) = static_cast<std::uint32_t>(texCoordIndex);
                                 }
 
                                 // has normal
@@ -345,21 +345,21 @@ namespace ouzel
                                     normalIndex = parseInt32(iterator, data.end());
 
                                     if (normalIndex < 0)
-                                        normalIndex = static_cast<int32_t>(normals.size()) + normalIndex + 1;
+                                        normalIndex = static_cast<std::int32_t>(normals.size()) + normalIndex + 1;
 
-                                    if (normalIndex < 1 || normalIndex > static_cast<int32_t>(normals.size()))
+                                    if (normalIndex < 1 || normalIndex > static_cast<std::int32_t>(normals.size()))
                                         throw std::runtime_error("Invalid normal index");
 
-                                    std::get<2>(i) = static_cast<uint32_t>(normalIndex);
+                                    std::get<2>(i) = static_cast<std::uint32_t>(normalIndex);
                                 }
                             }
 
-                            uint32_t index = 0;
+                            std::uint32_t index = 0;
 
                             auto vertexIterator = vertexMap.find(i);
                             if (vertexIterator == vertexMap.end())
                             {
-                                index = static_cast<uint32_t>(vertices.size());
+                                index = static_cast<std::uint32_t>(vertices.size());
                                 vertexMap[i] = index;
 
                                 graphics::Vertex vertex;
@@ -379,10 +379,10 @@ namespace ouzel
                         if (vertexIndices.size() < 3)
                             throw std::runtime_error("Invalid face count");
                         else if (vertexIndices.size() == 3)
-                            for (const uint32_t vertexIndex : vertexIndices)
+                            for (const std::uint32_t vertexIndex : vertexIndices)
                                 indices.push_back(vertexIndex);
                         else
-                            for (uint32_t index = 0; index < vertexIndices.size() - 2; ++index)
+                            for (std::uint32_t index = 0; index < vertexIndices.size() - 2; ++index)
                             {
                                 indices.push_back(vertexIndices[0]);
                                 indices.push_back(vertexIndices[index + 1]);

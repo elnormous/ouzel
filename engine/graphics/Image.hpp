@@ -19,7 +19,7 @@ namespace ouzel
 
             Image(PixelFormat initPixelFormat,
                   const Size2U& initSize,
-                  const std::vector<uint8_t>& initData):
+                  const std::vector<std::uint8_t>& initData):
                 pixelFormat(initPixelFormat), size(initSize), data(initData)
             {
             }
@@ -31,7 +31,7 @@ namespace ouzel
         private:
             PixelFormat pixelFormat = PixelFormat::Default;
             Size2U size;
-            std::vector<uint8_t> data;
+            std::vector<std::uint8_t> data;
         };
     } // namespace graphics
 } // namespace ouzel

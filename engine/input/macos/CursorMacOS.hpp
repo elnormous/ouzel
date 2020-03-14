@@ -25,7 +25,7 @@ namespace ouzel
         {
         public:
             explicit CursorMacOS(SystemCursor systemCursor);
-            CursorMacOS(const std::vector<uint8_t>& newData,
+            CursorMacOS(const std::vector<std::uint8_t>& newData,
                         const Size2F& size,
                         graphics::PixelFormat pixelFormat,
                         const Vector2F& hotSpot);
@@ -40,7 +40,7 @@ namespace ouzel
 
         private:
             NSCursorPtr cursor = nil;
-            std::vector<uint8_t> data;
+            std::vector<std::uint8_t> data;
         };
     } // namespace input
 } // namespace ouzel

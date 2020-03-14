@@ -86,7 +86,7 @@ namespace ouzel
             inline auto& getDepthStencilState() const noexcept { return depthStencilState; }
 
             inline auto getStencilReferenceValue() const noexcept { return stencilReferenceValue; }
-            inline void setStencilReferenceValue(uint32_t newStencilReferenceValue) { stencilReferenceValue = newStencilReferenceValue; }
+            inline void setStencilReferenceValue(std::uint32_t newStencilReferenceValue) { stencilReferenceValue = newStencilReferenceValue; }
 
             inline auto getWireframe() const noexcept { return wireframe; }
             inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
@@ -107,7 +107,7 @@ namespace ouzel
             inline void setClearDepth(float depth) { clearDepth = depth; }
 
             inline auto getClearStencil() const noexcept { return clearStencil; }
-            inline void setClearDepth(uint32_t stencil) { clearStencil = stencil; }
+            inline void setClearDepth(std::uint32_t stencil) { clearStencil = stencil; }
 
         private:
             void setActor(Actor* newActor) override;
@@ -144,14 +144,14 @@ namespace ouzel
 
             graphics::RenderTarget* renderTarget = nullptr;
             std::unique_ptr<graphics::DepthStencilState> depthStencilState;
-            uint32_t stencilReferenceValue = 0;
+            std::uint32_t stencilReferenceValue = 0;
 
             bool clearColorBuffer = false;
             bool clearDepthBuffer = false;
             bool clearStencilBuffer = false;
             Color clearColor;
             float clearDepth = 1.0F;
-            uint32_t clearStencil = 0;
+            std::uint32_t clearStencil = 0;
         };
     } // namespace scene
 } // namespace ouzel

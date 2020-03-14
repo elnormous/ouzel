@@ -39,12 +39,12 @@ namespace ouzel
 
         inline namespace detail
         {
-            constexpr uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
+            constexpr std::uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
 
-            inline void encodeString(std::vector<uint8_t>& data,
+            inline void encodeString(std::vector<std::uint8_t>& data,
                                     const std::u32string& str)
             {
-                for (const char32_t c : str)
+                for (const auto c : str)
                 {
                     if (c == '"') data.insert(data.end(), {'\\', '"'});
                     else if (c == '\\') data.insert(data.end(), {'\\', '\\'});
@@ -59,8 +59,8 @@ namespace ouzel
                         data.insert(data.end(), {'\\', 'u'});
 
                         constexpr char digits[] = "0123456789abcdef";
-                        for (uint32_t p = 0; p < 4; ++p)
-                            data.push_back(static_cast<uint8_t>(digits[(c >> (12 - p * 4)) & 0x0F]));
+                        for (std::uint32_t p = 0; p < 4; ++p)
+                            data.push_back(static_cast<std::uint8_t>(digits[(c >> (12 - p * 4)) & 0x0F]));
                     }
                     else
                     {
@@ -197,16 +197,16 @@ namespace ouzel
                                     {
                                         char32_t c = 0;
 
-                                        for (uint32_t i = 0; i < 4; ++i, ++iterator)
+                                        for (std::uint32_t i = 0; i < 4; ++i, ++iterator)
                                         {
                                             if (iterator == str.cend())
                                                 throw ParseError("Unexpected end of data");
 
-                                            uint8_t code = 0;
+                                            std::uint8_t code = 0;
 
-                                            if (*iterator >= '0' && *iterator <= '9') code = static_cast<uint8_t>(*iterator) - '0';
-                                            else if (*iterator >= 'a' && *iterator <='f') code = static_cast<uint8_t>(*iterator) - 'a' + 10;
-                                            else if (*iterator >= 'A' && *iterator <='F') code = static_cast<uint8_t>(*iterator) - 'A' + 10;
+                                            if (*iterator >= '0' && *iterator <= '9') code = static_cast<std::uint8_t>(*iterator) - '0';
+                                            else if (*iterator >= 'a' && *iterator <='f') code = static_cast<std::uint8_t>(*iterator) - 'a' + 10;
+                                            else if (*iterator >= 'A' && *iterator <='F') code = static_cast<std::uint8_t>(*iterator) - 'A' + 10;
                                             else
                                                 throw ParseError("Invalid character code");
 
@@ -306,7 +306,7 @@ namespace ouzel
             Value(const T value): type(Type::Float), doubleValue(isfinite(value) ? static_cast<double>(value) : 0.0) {}
 
             template <typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-            Value(const T value): type(Type::Integer), intValue(static_cast<int64_t>(value)) {}
+            Value(const T value): type(Type::Integer), intValue(static_cast<std::int64_t>(value)) {}
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             Value(const T& value): type(Type::String), stringValue(value) {}
@@ -345,7 +345,7 @@ namespace ouzel
             inline Value& operator=(const T value) noexcept
             {
                 type = Type::Integer;
-                intValue = static_cast<int64_t>(value);
+                intValue = static_cast<std::int64_t>(value);
                 return *this;
             }
 
@@ -520,14 +520,14 @@ namespace ouzel
                     throw RangeError("Member does not exist");
             }
 
-            inline Value& operator[](size_t index)
+            inline Value& operator[](std::size_t index)
             {
                 type = Type::Array;
                 if (index >= arrayValue.size()) arrayValue.resize(index + 1);
                 return arrayValue[index];
             }
 
-            inline const Value& operator[](size_t index) const
+            inline const Value& operator[](std::size_t index) const
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
 
@@ -696,7 +696,7 @@ namespace ouzel
                 type = Type::Array;
             }
 
-            void encodeValue(std::vector<uint8_t>& data) const
+            void encodeValue(std::vector<std::uint8_t>& data) const
             {
                 switch (type)
                 {
@@ -773,7 +773,7 @@ namespace ouzel
             union
             {
                 bool boolValue = false;
-                int64_t intValue;
+                std::int64_t intValue;
                 double doubleValue;
             };
             Object objectValue;
@@ -812,9 +812,9 @@ namespace ouzel
                 parseValue(iterator, tokens.cend());
             }
 
-            std::vector<uint8_t> encode() const
+            std::vector<std::uint8_t> encode() const
             {
-                std::vector<uint8_t> result;
+                std::vector<std::uint8_t> result;
 
                 if (bom) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
 

@@ -36,8 +36,8 @@ namespace ouzel
             {
             public:
                 Shader(RenderDevice& initRenderDevice,
-                       const std::vector<uint8_t>& fragmentShaderData,
-                       const std::vector<uint8_t>& vertexShaderData,
+                       const std::vector<std::uint8_t>& fragmentShaderData,
+                       const std::vector<std::uint8_t>& vertexShaderData,
                        const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
                        const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                        const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
@@ -46,13 +46,13 @@ namespace ouzel
 
                 struct Location final
                 {
-                    Location(uint32_t initOffset, uint32_t initSize):
+                    Location(std::uint32_t initOffset, std::uint32_t initSize):
                         offset(initOffset), size(initSize)
                     {
                     }
 
-                    uint32_t offset;
-                    uint32_t size;
+                    std::uint32_t offset;
+                    std::uint32_t size;
                 };
 
                 inline auto& getVertexAttributes() const noexcept { return vertexAttributes; }
@@ -75,9 +75,9 @@ namespace ouzel
                 std::set<Vertex::Attribute::Usage> vertexAttributes;
 
                 std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
-                uint32_t fragmentShaderAlignment = 0;
+                std::uint32_t fragmentShaderAlignment = 0;
                 std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
-                uint32_t vertexShaderAlignment = 0;
+                std::uint32_t vertexShaderAlignment = 0;
 
                 Pointer<MTLFunctionPtr> fragmentShader;
                 Pointer<MTLFunctionPtr> vertexShader;
@@ -85,9 +85,9 @@ namespace ouzel
                 Pointer<MTLVertexDescriptorPtr> vertexDescriptor;
 
                 std::vector<Location> fragmentShaderConstantLocations;
-                uint32_t fragmentShaderConstantSize = 0;
+                std::uint32_t fragmentShaderConstantSize = 0;
                 std::vector<Location> vertexShaderConstantLocations;
-                uint32_t vertexShaderConstantSize = 0;
+                std::uint32_t vertexShaderConstantSize = 0;
             };
         } // namespace metal
     } // namespace graphics

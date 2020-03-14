@@ -18,14 +18,14 @@ namespace ouzel
         public:
             StaticMeshData() = default;
             StaticMeshData(const Box3F& initBoundingBox,
-                           const std::vector<uint32_t> indices,
+                           const std::vector<std::uint32_t> indices,
                            const std::vector<graphics::Vertex>& vertices,
                            const graphics::Material* initMaterial);
 
             Box3F boundingBox;
             const graphics::Material* material = nullptr;
-            uint32_t indexCount = 0;
-            uint32_t indexSize = 0;
+            std::uint32_t indexCount = 0;
+            std::uint32_t indexSize = 0;
             graphics::Buffer indexBuffer;
             graphics::Buffer vertexBuffer;
         };
@@ -51,8 +51,8 @@ namespace ouzel
 
         private:
             const graphics::Material* material = nullptr;
-            uint32_t indexCount = 0;
-            uint32_t indexSize = 0;
+            std::uint32_t indexCount = 0;
+            std::uint32_t indexSize = 0;
             const graphics::Buffer* indexBuffer = nullptr;
             const graphics::Buffer* vertexBuffer = nullptr;
         };

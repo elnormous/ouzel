@@ -336,8 +336,8 @@ namespace ouzel
 
         void InputSystemMacOS::handleGamepadConnected(GCControllerPtr controller)
         {
-            int32_t vendorId = 0;
-            int32_t productId = 0;
+            std::int32_t vendorId = 0;
+            std::int32_t productId = 0;
 
             if (class_respondsToSelector(object_getClass(controller), sel_getUid("hidServices")))
             {
@@ -384,8 +384,8 @@ namespace ouzel
 
         void InputSystemMacOS::handleGamepadConnected(IOHIDDeviceRef device)
         {
-            int32_t vendorId = 0;
-            int32_t productId = 0;
+            std::int32_t vendorId = 0;
+            std::int32_t productId = 0;
 
             auto vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (vendor)

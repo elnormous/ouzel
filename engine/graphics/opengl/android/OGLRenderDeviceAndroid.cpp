@@ -81,9 +81,9 @@ namespace ouzel
 
             void RenderDeviceAndroid::init(Window* newWindow,
                                            const Size2U&,
-                                           uint32_t newSampleCount,
+                                           std::uint32_t newSampleCount,
                                            SamplerFilter newTextureFilter,
-                                           uint32_t newMaxAnisotropy,
+                                           std::uint32_t newMaxAnisotropy,
                                            bool newSrgb,
                                            bool newVerticalSync,
                                            bool newDepth,
@@ -177,8 +177,8 @@ namespace ouzel
                 frameBufferWidth = surfaceWidth;
                 frameBufferHeight = surfaceHeight;
 
-                auto backBufferSize = Size2U(static_cast<uint32_t>(frameBufferWidth),
-                                             static_cast<uint32_t>(frameBufferHeight));
+                auto backBufferSize = Size2U(static_cast<std::uint32_t>(frameBufferWidth),
+                                             static_cast<std::uint32_t>(frameBufferHeight));
 
                 RenderDevice::init(newWindow,
                                    backBufferSize,

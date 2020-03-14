@@ -9,8 +9,8 @@ namespace ouzel
     {
         namespace
         {
-            constexpr int32_t MAX_THUMB_VALUE = 32767;
-            constexpr int32_t MIN_THUMB_VALUE = -32768;
+            constexpr std::int32_t MAX_THUMB_VALUE = 32767;
+            constexpr std::int32_t MIN_THUMB_VALUE = -32768;
         }
 
         GamepadDeviceXI::GamepadDeviceXI(InputSystem& initInputSystem,
@@ -79,9 +79,9 @@ namespace ouzel
             }
         }
 
-        int32_t GamepadDeviceXI::getPlayerIndex() const
+        std::int32_t GamepadDeviceXI::getPlayerIndex() const
         {
-            return static_cast<int32_t>(playerIndex);
+            return static_cast<std::int32_t>(playerIndex);
         }
 
         void GamepadDeviceXI::checkThumbAxis(SHORT oldValue, SHORT newValue, Gamepad::Button negativeButton, Gamepad::Button positiveButton)

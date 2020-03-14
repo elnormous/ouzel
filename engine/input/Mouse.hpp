@@ -34,7 +34,7 @@ namespace ouzel
             void setPosition(const Vector2F& newPosition);
             inline auto isButtonDown(Button button) const
             {
-                return buttonStates[static_cast<uint32_t>(button)];
+                return buttonStates[static_cast<std::uint32_t>(button)];
             }
             inline auto isCursorVisible() const noexcept { return cursorVisible; }
             void setCursorVisible(bool visible);
@@ -53,7 +53,7 @@ namespace ouzel
 
         private:
             Vector2F position;
-            bool buttonStates[static_cast<uint32_t>(Button::Count)]{false};
+            bool buttonStates[static_cast<std::uint32_t>(Button::Count)]{false};
             bool cursorVisible = true;
             bool cursorLocked = false;
             const Cursor* cursor = nullptr;

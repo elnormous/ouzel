@@ -22,10 +22,10 @@ namespace ouzel
             cache.removeBundle(this);
         }
 
-        void Bundle::loadAsset(uint32_t loaderType, const std::string& name,
+        void Bundle::loadAsset(std::uint32_t loaderType, const std::string& name,
                                const std::string& filename, bool mipmaps)
         {
-            const std::vector<uint8_t> data = fileSystem.readFile(filename);
+            const std::vector<std::uint8_t> data = fileSystem.readFile(filename);
 
             const auto& loaders = cache.getLoaders();
 
@@ -49,7 +49,7 @@ namespace ouzel
                 const auto file = asset["filename"].as<std::string>();
                 const auto name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;
                 const auto mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
-                loadAsset(asset["type"].as<uint32_t>(), name, file, mipmaps);
+                loadAsset(asset["type"].as<std::uint32_t>(), name, file, mipmaps);
             }
         }
 
@@ -140,7 +140,7 @@ namespace ouzel
         }
 
         void Bundle::preloadSpriteData(const std::string& filename, bool mipmaps,
-                                       uint32_t spritesX, uint32_t spritesY,
+                                       std::uint32_t spritesX, std::uint32_t spritesY,
                                        const Vector2F& pivot)
         {
             auto extension = storage::FileSystem::getExtensionPart(filename);
@@ -168,9 +168,9 @@ namespace ouzel
                     scene::SpriteData::Animation animation;
                     animation.frames.reserve(spritesX * spritesY);
 
-                    for (uint32_t x = 0; x < spritesX; ++x)
+                    for (std::uint32_t x = 0; x < spritesX; ++x)
                     {
-                        for (uint32_t y = 0; y < spritesY; ++y)
+                        for (std::uint32_t y = 0; y < spritesY; ++y)
                         {
                             RectF rectangle(spriteSize.v[0] * x,
                                             spriteSize.v[1] * y,

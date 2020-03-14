@@ -16,7 +16,7 @@ namespace ouzel
         class PcmClip final: public Sound
         {
         public:
-            PcmClip(Audio& initAudio, uint32_t channels, uint32_t sampleRate,
+            PcmClip(Audio& initAudio, std::uint32_t channels, std::uint32_t sampleRate,
                     const std::vector<float>& samples);
 
         private:

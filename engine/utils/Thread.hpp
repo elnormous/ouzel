@@ -77,7 +77,7 @@ namespace ouzel
                 THREAD_PRIORITY_ABOVE_NORMAL, THREAD_PRIORITY_HIGHEST, THREAD_PRIORITY_TIME_CRITICAL
             };
 
-            if (!SetThreadPriority(t.native_handle(), priorities[static_cast<size_t>((priority + 1.0F) * 6.0F / 2.0F)]))
+            if (!SetThreadPriority(t.native_handle(), priorities[static_cast<std::size_t>((priority + 1.0F) * 6.0F / 2.0F)]))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to set thread name");
 #else
             if (priority < 0.0F) priority = 0.0F;

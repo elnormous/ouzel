@@ -24,8 +24,8 @@ namespace ouzel
         {
         }
 
-        inline T& operator[](size_t index) noexcept { return v[index]; }
-        constexpr T operator[](size_t index) const noexcept { return v[index]; }
+        inline T& operator[](std::size_t index) noexcept { return v[index]; }
+        constexpr T operator[](std::size_t index) const noexcept { return v[index]; }
 
         inline T& a() noexcept { return v[0]; }
         constexpr T a() const noexcept { return v[0]; }
@@ -47,7 +47,7 @@ namespace ouzel
             v[3] = -v[3];
         }
 
-        template<size_t N, typename std::enable_if<N >= 3>::type* = nullptr>
+        template<std::size_t N, typename std::enable_if<N >= 3>::type* = nullptr>
         constexpr T dot(const Vector<N, T>& vec) const noexcept
         {
             return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];

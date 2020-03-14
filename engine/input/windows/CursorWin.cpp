@@ -38,7 +38,7 @@ namespace ouzel
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to load cursor");
         }
 
-        CursorWin::CursorWin(const std::vector<uint8_t>& data,
+        CursorWin::CursorWin(const std::vector<std::uint8_t>& data,
                              const Size2F& size,
                              graphics::PixelFormat pixelFormat,
                              const Vector2F& hotSpot)

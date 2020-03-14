@@ -376,7 +376,7 @@ namespace ouzel
             }
         }
 
-        Repeat::Repeat(Animator& animator, uint32_t initCount):
+        Repeat::Repeat(Animator& animator, std::uint32_t initCount):
             Animator(animator.getLength() * static_cast<float>(initCount)), count(initCount)
         {
             addAnimator(&animator);
@@ -395,7 +395,7 @@ namespace ouzel
 
             if (animators.front()->getLength() != 0.0F)
             {
-                currentCount = static_cast<uint32_t>(currentTime / animators.front()->getLength());
+                currentCount = static_cast<std::uint32_t>(currentTime / animators.front()->getLength());
 
                 if (count == 0 || currentCount < count)
                 {
@@ -546,9 +546,9 @@ namespace ouzel
         Shake::Shake(float initLength, const Vector3F& initDistance, float initTimeScale):
             Animator(initLength), distance(initDistance), timeScale(initTimeScale)
         {
-            seedX = std::uniform_int_distribution<uint32_t>{0, std::numeric_limits<uint32_t>::max()}(randomEngine);
-            seedY = std::uniform_int_distribution<uint32_t>{0, std::numeric_limits<uint32_t>::max()}(randomEngine);
-            seedZ = std::uniform_int_distribution<uint32_t>{0, std::numeric_limits<uint32_t>::max()}(randomEngine);
+            seedX = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
+            seedY = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
+            seedZ = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
         }
 
         void Shake::play()
@@ -567,7 +567,7 @@ namespace ouzel
             {
                 const float x = length * progress * timeScale;
 
-                const auto x1 = static_cast<uint64_t>(x);
+                const auto x1 = static_cast<std::uint64_t>(x);
                 const auto x2 = x1 + 1;
                 const auto t = x - static_cast<float>(x1);
 
@@ -576,16 +576,16 @@ namespace ouzel
 
                 if (x1 != 0)
                 {
-                    previousPosition.v[0] = (2.0F * (static_cast<float>(fnv::hash<uint32_t>(seedX | (x1 << 32))) / std::numeric_limits<uint32_t>::max()) - 1.0F) * distance.v[0];
-                    previousPosition.v[1] = (2.0F * (static_cast<float>(fnv::hash<uint32_t>(seedY | (x1 << 32))) / std::numeric_limits<uint32_t>::max()) - 1.0F) * distance.v[1];
-                    previousPosition.v[2] = (2.0F * (static_cast<float>(fnv::hash<uint32_t>(seedZ | (x1 << 32))) / std::numeric_limits<uint32_t>::max()) - 1.0F) * distance.v[2];
+                    previousPosition.v[0] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedX | (x1 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[0];
+                    previousPosition.v[1] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedY | (x1 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[1];
+                    previousPosition.v[2] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedZ | (x1 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[2];
                 }
 
-                if (x2 != static_cast<uint32_t>(timeScale))
+                if (x2 != static_cast<std::uint32_t>(timeScale))
                 {
-                    nextPosition.v[0] = (2.0F * (static_cast<float>(fnv::hash<uint32_t>(seedX | (x2 << 32))) / std::numeric_limits<uint32_t>::max()) - 1.0F) * distance.v[0];
-                    nextPosition.v[1] = (2.0F * (static_cast<float>(fnv::hash<uint32_t>(seedY | (x2 << 32))) / std::numeric_limits<uint32_t>::max()) - 1.0F) * distance.v[1];
-                    nextPosition.v[2] = (2.0F * (static_cast<float>(fnv::hash<uint32_t>(seedZ | (x2 << 32))) / std::numeric_limits<uint32_t>::max()) - 1.0F) * distance.v[2];
+                    nextPosition.v[0] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedX | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[0];
+                    nextPosition.v[1] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedY | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[1];
+                    nextPosition.v[2] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedZ | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[2];
                 }
 
                 const Vector3F noise(smoothStep(previousPosition.v[0], nextPosition.v[0], t),

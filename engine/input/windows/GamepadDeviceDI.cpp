@@ -15,10 +15,10 @@ namespace ouzel
         namespace
         {
             constexpr float THUMB_DEADZONE = 0.2F;
-            constexpr size_t INPUT_QUEUE_SIZE = 32;
+            constexpr std::size_t INPUT_QUEUE_SIZE = 32;
 
             // converts the angle to the hat value
-            constexpr uint32_t getHatValue(uint32_t value) noexcept
+            constexpr std::uint32_t getHatValue(std::uint32_t value) noexcept
             {
                 return (value == 0xFFFFFFFF) ?
                     8 : ((value + 4500 / 2) % 36000) / 4500; // round up
@@ -31,8 +31,8 @@ namespace ouzel
             GamepadDeviceWin(initInputSystem, initId),
             instance(initInstance)
         {
-            const int32_t vendorId = LOWORD(instance->guidProduct.Data1);
-            const int32_t productId = HIWORD(instance->guidProduct.Data1);
+            const std::int32_t vendorId = LOWORD(instance->guidProduct.Data1);
+            const std::int32_t productId = HIWORD(instance->guidProduct.Data1);
 
             const int bufferSize = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr);
             if (bufferSize != 0)
@@ -55,7 +55,7 @@ namespace ouzel
 
             const GamepadConfig& gamepadConfig = getGamepadConfig(vendorId, productId);
 
-            for (size_t i = 0; i < 24; ++i)
+            for (std::size_t i = 0; i < 24; ++i)
             {
                 if (gamepadConfig.buttonMap[i] != Gamepad::Button::Unknown)
                 {
@@ -74,7 +74,7 @@ namespace ouzel
                 {HID_USAGE_GENERIC_X, static_cast<DWORD>(offsetof(DIJOYSTATE, lRz))} // DIJOFS_RZ
             }};
 
-            for (size_t i = 0; i < 6; ++i)
+            for (std::size_t i = 0; i < 6; ++i)
             {
                 if (gamepadConfig.axisMap[i] != Gamepad::Axis::Unknown)
                 {
@@ -240,13 +240,13 @@ namespace ouzel
             {
                 if (events[e].dwOfs == DIJOFS_POV(0))
                 {
-                    const uint32_t oldHatValue = getHatValue(hatValue);
-                    const uint32_t newHatValue = getHatValue(events[e].dwData);
+                    const std::uint32_t oldHatValue = getHatValue(hatValue);
+                    const std::uint32_t newHatValue = getHatValue(events[e].dwData);
 
-                    const uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
+                    const std::uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                         (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
 
-                    const uint32_t newBitmask = (newHatValue >= 8) ? 0 : (1 << (newHatValue / 2)) | // first bit
+                    const std::uint32_t newBitmask = (newHatValue >= 8) ? 0 : (1 << (newHatValue / 2)) | // first bit
                         (1 << (newHatValue / 2 + newHatValue % 2)) % 4; // second bit
 
                     if ((oldBitmask & 0x01) != (newBitmask & 0x01))
@@ -321,13 +321,13 @@ namespace ouzel
 
             if (hatValue != newDIState.rgdwPOV[0])
             {
-                const uint32_t oldHatValue = getHatValue(hatValue);
-                const uint32_t newHatValue = getHatValue(newDIState.rgdwPOV[0]);
+                const std::uint32_t oldHatValue = getHatValue(hatValue);
+                const std::uint32_t newHatValue = getHatValue(newDIState.rgdwPOV[0]);
 
-                const uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
+                const std::uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                     (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
 
-                const uint32_t newBitmask = (newHatValue >= 8) ? 0 : (1 << (newHatValue / 2)) | // first bit
+                const std::uint32_t newBitmask = (newHatValue >= 8) ? 0 : (1 << (newHatValue / 2)) | // first bit
                     (1 << (newHatValue / 2 + newHatValue % 2)) % 4; // second bit
 
                 if ((oldBitmask & 0x01) != (newBitmask & 0x01))
@@ -354,7 +354,7 @@ namespace ouzel
             {
                 const DWORD offset = buttonPair.first;
                 Button& button = buttonPair.second;
-                const BYTE newValue = *reinterpret_cast<const BYTE*>(reinterpret_cast<const uint8_t*>(&newDIState) + offset);
+                const BYTE newValue = *reinterpret_cast<const BYTE*>(reinterpret_cast<const std::uint8_t*>(&newDIState) + offset);
 
                 if (button.value != newValue)
                 {
@@ -374,7 +374,7 @@ namespace ouzel
             {
                 const DWORD offset = axisPair.first;
                 Axis& axis = axisPair.second;
-                const LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&newDIState) + offset);
+                const LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const std::uint8_t*>(&newDIState) + offset);
 
                 if (axis.value != newValue)
                 {

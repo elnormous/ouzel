@@ -20,54 +20,54 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline auto decodeBigEndian(const uint8_t* buffer) noexcept
+    inline auto decodeBigEndian(const std::uint8_t* buffer) noexcept
     {
         T result = 0;
 
-        for (uintptr_t i = 0; i < sizeof(T); ++i)
+        for (std::uintptr_t i = 0; i < sizeof(T); ++i)
             result |= static_cast<T>(buffer[sizeof(buffer) - i - 1] << (i * 8));
 
         return result;
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline auto decodeLittleEndian(const uint8_t* buffer) noexcept
+    inline auto decodeLittleEndian(const std::uint8_t* buffer) noexcept
     {
         T result = 0;
 
-        for (uintptr_t i = 0; i < sizeof(T); ++i)
+        for (std::uintptr_t i = 0; i < sizeof(T); ++i)
             result |= static_cast<T>(buffer[i] << (i * 8));
 
         return result;
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline void encodeBigEndian(uint8_t* buffer, const T value) noexcept
+    inline void encodeBigEndian(std::uint8_t* buffer, const T value) noexcept
     {
-        uint8_t* bytes = static_cast<uint8_t*>(buffer);
+        std::uint8_t* bytes = static_cast<std::uint8_t*>(buffer);
 
-        for (uintptr_t i = 0; i < sizeof(T); ++i)
-            bytes[i] = static_cast<uint8_t>(value >> ((sizeof(T) - i - 1) * 8));
+        for (std::uintptr_t i = 0; i < sizeof(T); ++i)
+            bytes[i] = static_cast<std::uint8_t>(value >> ((sizeof(T) - i - 1) * 8));
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline void encodeLittleEndian(uint8_t* buffer, const T value) noexcept
+    inline void encodeLittleEndian(std::uint8_t* buffer, const T value) noexcept
     {
-        uint8_t* bytes = static_cast<uint8_t*>(buffer);
+        std::uint8_t* bytes = static_cast<std::uint8_t*>(buffer);
 
-        for (uintptr_t i = 0; i < sizeof(T); ++i)
-            bytes[i] = static_cast<uint8_t>(value >> (i * 8));
+        for (std::uintptr_t i = 0; i < sizeof(T); ++i)
+            bytes[i] = static_cast<std::uint8_t>(value >> (i * 8));
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    auto hexToString(const T n, const size_t len = 0)
+    auto hexToString(const T n, const std::size_t len = 0)
     {
         constexpr char digits[] = "0123456789abcdef";
 
-        const size_t count = (len == 0) ? n / 16 + 1 : len;
+        const std::size_t count = (len == 0) ? n / 16 + 1 : len;
 
         std::string result(count, '0');
-        for (size_t i = 0, j = (count - 1) * 4; i < count; ++i, j -= 4)
+        for (std::size_t i = 0, j = (count - 1) * 4; i < count; ++i, j -= 4)
             result[i] = digits[(n >> j) & 0x0F];
 
         return result;
@@ -76,8 +76,8 @@ namespace ouzel
     inline auto explodeString(const std::string& str, char delimiter = ' ')
     {
         std::vector<std::string> result;
-        size_t pos;
-        size_t initialPos = 0;
+        std::size_t pos;
+        std::size_t initialPos = 0;
         while ((pos = str.find(delimiter, initialPos)) != std::string::npos)
         {
             if (pos != initialPos)

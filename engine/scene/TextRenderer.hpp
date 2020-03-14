@@ -73,7 +73,7 @@ namespace ouzel
             float fontSize = 1.0F;
             Vector2F textAnchor;
 
-            std::vector<uint16_t> indices;
+            std::vector<std::uint16_t> indices;
             std::vector<graphics::Vertex> vertices;
 
             Color color = Color::white();

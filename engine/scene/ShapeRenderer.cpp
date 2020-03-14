@@ -36,8 +36,8 @@ namespace ouzel
 
             if (dirty)
             {
-                if (!indices.empty()) indexBuffer.setData(indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
-                if (!vertices.empty()) vertexBuffer.setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
+                if (!indices.empty()) indexBuffer.setData(indices.data(), static_cast<std::uint32_t>(getVectorSize(indices)));
+                if (!vertices.empty()) vertexBuffer.setData(vertices.data(), static_cast<std::uint32_t>(getVectorSize(vertices)));
                 dirty = false;
             }
 
@@ -60,7 +60,7 @@ namespace ouzel
                                                           vertexShaderConstants);
                 engine->getRenderer()->draw(indexBuffer.getResource(),
                                             drawCommand.indexCount,
-                                            sizeof(uint16_t),
+                                            sizeof(std::uint16_t),
                                             vertexBuffer.getResource(),
                                             drawCommand.mode,
                                             drawCommand.startIndex);
@@ -83,9 +83,9 @@ namespace ouzel
             assert(thickness >= 0.0F);
 
             DrawCommand command;
-            command.startIndex = static_cast<uint32_t>(indices.size());
+            command.startIndex = static_cast<std::uint32_t>(indices.size());
 
-            auto startVertex = static_cast<uint16_t>(vertices.size());
+            auto startVertex = static_cast<std::uint16_t>(vertices.size());
 
             if (thickness == 0.0F)
             {
@@ -145,7 +145,7 @@ namespace ouzel
                                    float radius,
                                    Color color,
                                    bool fill,
-                                   uint32_t segments,
+                                   std::uint32_t segments,
                                    float thickness)
         {
             assert(radius >= 0.0F);
@@ -153,9 +153,9 @@ namespace ouzel
             assert(thickness >= 0.0F);
 
             DrawCommand command;
-            command.startIndex = static_cast<uint32_t>(indices.size());
+            command.startIndex = static_cast<std::uint32_t>(indices.size());
 
-            const auto startVertex = static_cast<uint16_t>(vertices.size());
+            const auto startVertex = static_cast<std::uint16_t>(vertices.size());
 
             if (fill)
             {
@@ -163,13 +163,13 @@ namespace ouzel
 
                 vertices.emplace_back(Vector3F(position), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F}); // center
 
-                for (uint32_t i = 0; i <= segments; ++i)
+                for (std::uint32_t i = 0; i <= segments; ++i)
                     vertices.emplace_back(Vector3F{position.v[0] + radius * std::cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + radius * std::sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
                                           color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
 
                 command.indexCount = segments * 2 + 1;
 
-                for (uint16_t i = 0; i < segments; ++i)
+                for (std::uint16_t i = 0; i < segments; ++i)
                 {
                     indices.push_back(startVertex + i + 1);
                     indices.push_back(startVertex); // center
@@ -186,7 +186,7 @@ namespace ouzel
                 {
                     command.mode = graphics::DrawMode::LineStrip;
 
-                    for (uint32_t i = 0; i <= segments; ++i)
+                    for (std::uint32_t i = 0; i <= segments; ++i)
                     {
                         vertices.emplace_back(Vector3F{position.v[0] + radius * std::cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + radius * std::sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
                                               color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
@@ -194,7 +194,7 @@ namespace ouzel
 
                     command.indexCount = segments + 1;
 
-                    for (uint16_t i = 0; i < segments; ++i)
+                    for (std::uint16_t i = 0; i < segments; ++i)
                         indices.push_back(startVertex + i);
 
                     indices.push_back(startVertex);
@@ -208,7 +208,7 @@ namespace ouzel
 
                     const float halfThickness = thickness / 2.0F;
 
-                    for (uint32_t i = 0; i <= segments; ++i)
+                    for (std::uint32_t i = 0; i <= segments; ++i)
                     {
                         vertices.emplace_back(Vector3F{position.v[0] + (radius - halfThickness) * std::cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + (radius - halfThickness) * std::sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
                                               color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
@@ -222,7 +222,7 @@ namespace ouzel
 
                     command.indexCount = segments * 6;
 
-                    for (uint16_t i = 0; i < segments; ++i)
+                    for (std::uint16_t i = 0; i < segments; ++i)
                     {
                         if (i < segments - 1)
                         {
@@ -261,9 +261,9 @@ namespace ouzel
             assert(thickness >= 0.0F);
 
             DrawCommand command;
-            command.startIndex = static_cast<uint32_t>(indices.size());
+            command.startIndex = static_cast<std::uint32_t>(indices.size());
 
-            const auto startVertex = static_cast<uint16_t>(vertices.size());
+            const auto startVertex = static_cast<std::uint16_t>(vertices.size());
 
             if (fill)
             {
@@ -409,27 +409,27 @@ namespace ouzel
             assert(thickness >= 0.0F);
 
             DrawCommand command;
-            command.startIndex = static_cast<uint32_t>(indices.size());
+            command.startIndex = static_cast<std::uint32_t>(indices.size());
 
-            const auto startVertex = static_cast<uint16_t>(vertices.size());
+            const auto startVertex = static_cast<std::uint16_t>(vertices.size());
 
             if (fill)
             {
                 command.mode = graphics::DrawMode::TriangleList;
 
-                for (uint16_t i = 0; i < edges.size(); ++i)
+                for (std::uint16_t i = 0; i < edges.size(); ++i)
                     vertices.emplace_back(Vector3F(edges[i]), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
 
-                command.indexCount = static_cast<uint32_t>(edges.size() - 2) * 3;
+                command.indexCount = static_cast<std::uint32_t>(edges.size() - 2) * 3;
 
-                for (uint16_t i = 1; i < edges.size() - 1; ++i)
+                for (std::uint16_t i = 1; i < edges.size() - 1; ++i)
                 {
                     indices.push_back(startVertex);
                     indices.push_back(startVertex + i);
                     indices.push_back(startVertex + i + 1);
                 }
 
-                for (uint16_t i = 0; i < edges.size(); ++i)
+                for (std::uint16_t i = 0; i < edges.size(); ++i)
                     boundingBox.insertPoint(Vector3F(edges[i]));
             }
             else
@@ -438,17 +438,17 @@ namespace ouzel
                 {
                     command.mode = graphics::DrawMode::LineStrip;
 
-                    for (uint16_t i = 0; i < edges.size(); ++i)
+                    for (std::uint16_t i = 0; i < edges.size(); ++i)
                         vertices.emplace_back(Vector3F(edges[i]), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
 
-                    command.indexCount = static_cast<uint32_t>(edges.size()) + 1;
+                    command.indexCount = static_cast<std::uint32_t>(edges.size()) + 1;
 
-                    for (uint16_t i = 0; i < edges.size(); ++i)
+                    for (std::uint16_t i = 0; i < edges.size(); ++i)
                         indices.push_back(startVertex + i);
 
                     indices.push_back(startVertex);
 
-                    for (uint16_t i = 0; i < edges.size(); ++i)
+                    for (std::uint16_t i = 0; i < edges.size(); ++i)
                         boundingBox.insertPoint(Vector3F(edges[i]));
                 }
                 else
@@ -464,11 +464,11 @@ namespace ouzel
 
         namespace
         {
-            std::vector<uint32_t> pascalsTriangleRow(uint32_t row)
+            std::vector<std::uint32_t> pascalsTriangleRow(std::uint32_t row)
             {
-                std::vector<uint32_t> ret;
+                std::vector<std::uint32_t> ret;
                 ret.push_back(1);
-                for (uint32_t i = 0; i < row; ++i)
+                for (std::uint32_t i = 0; i < row; ++i)
                     ret.push_back(ret[i] * (row - i) / (i + 1));
 
                 return ret;
@@ -477,16 +477,16 @@ namespace ouzel
 
         void ShapeRenderer::curve(const std::vector<Vector2F>& controlPoints,
                                   Color color,
-                                  uint32_t segments,
+                                  std::uint32_t segments,
                                   float thickness)
         {
             assert(controlPoints.size() >= 2);
             assert(thickness >= 0.0F);
 
             DrawCommand command;
-            command.startIndex = static_cast<uint32_t>(indices.size());
+            command.startIndex = static_cast<std::uint32_t>(indices.size());
 
-            const auto startVertex = static_cast<uint16_t>(vertices.size());
+            const auto startVertex = static_cast<std::uint16_t>(vertices.size());
 
             if (thickness == 0.0F)
             {
@@ -495,9 +495,9 @@ namespace ouzel
 
                 if (controlPoints.size() == 2)
                 {
-                    for (uint16_t i = 0; i < controlPoints.size(); ++i)
+                    for (std::uint16_t i = 0; i < controlPoints.size(); ++i)
                     {
-                        indices.push_back(startVertex + static_cast<uint16_t>(command.indexCount));
+                        indices.push_back(startVertex + static_cast<std::uint16_t>(command.indexCount));
                         ++command.indexCount;
                         vertices.emplace_back(Vector3F(controlPoints[i]), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
                         boundingBox.insertPoint(Vector3F(controlPoints[i]));
@@ -505,14 +505,14 @@ namespace ouzel
                 }
                 else
                 {
-                    const std::vector<uint32_t> binomialCoefficients = pascalsTriangleRow(static_cast<uint32_t>(controlPoints.size() - 1));
+                    const std::vector<std::uint32_t> binomialCoefficients = pascalsTriangleRow(static_cast<std::uint32_t>(controlPoints.size() - 1));
 
-                    for (uint32_t segment = 0; segment < segments; ++segment)
+                    for (std::uint32_t segment = 0; segment < segments; ++segment)
                     {
                         auto t = static_cast<float>(segment) / static_cast<float>(segments - 1);
                         Vector2F position;
 
-                        for (uint16_t n = 0; n < controlPoints.size(); ++n)
+                        for (std::uint16_t n = 0; n < controlPoints.size(); ++n)
                             position += static_cast<float>(binomialCoefficients[n]) *
                                 powf(t, static_cast<float>(n)) *
                                 powf(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) *
@@ -520,7 +520,7 @@ namespace ouzel
 
                         graphics::Vertex vertex(Vector3F(position), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
 
-                        indices.push_back(startVertex + static_cast<uint16_t>(command.indexCount));
+                        indices.push_back(startVertex + static_cast<std::uint16_t>(command.indexCount));
                         ++command.indexCount;
                         vertices.push_back(vertex);
                         boundingBox.insertPoint(vertex.position);

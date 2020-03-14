@@ -45,8 +45,8 @@ namespace ouzel
         Screen* screen = XDefaultScreenOfDisplay(display);
         screenNumber = XScreenNumberOfScreen(screen);
 
-        if (size.v[0] <= 0.0F) size.v[0] = static_cast<uint32_t>(XWidthOfScreen(screen) * 0.8F);
-        if (size.v[1] <= 0.0F) size.v[1] = static_cast<uint32_t>(XHeightOfScreen(screen) * 0.8F);
+        if (size.v[0] <= 0.0F) size.v[0] = static_cast<std::uint32_t>(XWidthOfScreen(screen) * 0.8F);
+        if (size.v[1] <= 0.0F) size.v[1] = static_cast<std::uint32_t>(XHeightOfScreen(screen) * 0.8F);
 
         resolution = size;
 
@@ -168,7 +168,7 @@ namespace ouzel
         DISPMANX_DISPLAY_HANDLE_T display = engineLinux->getDisplay();
 
         DISPMANX_MODEINFO_T modeInfo;
-        const int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);
+        const std::int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);
 
         if (success < 0)
             throw std::runtime_error("Failed to get display size");
@@ -203,8 +203,8 @@ namespace ouzel
         window.height = modeInfo.height;
         vc_dispmanx_update_submit_sync(dispmanUpdate);
 
-        size.v[0] = static_cast<uint32_t>(modeInfo.width);
-        size.v[1] = static_cast<uint32_t>(modeInfo.height);
+        size.v[0] = static_cast<std::uint32_t>(modeInfo.width);
+        size.v[1] = static_cast<std::uint32_t>(modeInfo.height);
         resolution = size;
 #endif
     }

@@ -162,12 +162,12 @@ namespace ouzel
             return controller.microGamepad.reportsAbsoluteDpadValues == YES;
         }
 
-        int32_t GamepadDeviceTVOS::getPlayerIndex() const
+        std::int32_t GamepadDeviceTVOS::getPlayerIndex() const
         {
-            return static_cast<int32_t>(controller.playerIndex);
+            return static_cast<std::int32_t>(controller.playerIndex);
         }
 
-        void GamepadDeviceTVOS::setPlayerIndex(int32_t playerIndex)
+        void GamepadDeviceTVOS::setPlayerIndex(std::int32_t playerIndex)
         {
             switch (playerIndex)
             {

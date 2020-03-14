@@ -17,10 +17,10 @@ namespace ouzel
             TouchpadDevice(InputSystem& initInputSystem, DeviceId initId, bool screen);
             ~TouchpadDevice() override;
 
-            std::future<bool> handleTouchBegin(uint64_t touchId, const Vector2F& position, float force = 1.0F);
-            std::future<bool> handleTouchEnd(uint64_t touchId, const Vector2F& position, float force = 1.0F);
-            std::future<bool> handleTouchMove(uint64_t touchId, const Vector2F& position, float force = 1.0F);
-            std::future<bool> handleTouchCancel(uint64_t touchId, const Vector2F& position, float force = 1.0F);
+            std::future<bool> handleTouchBegin(std::uint64_t touchId, const Vector2F& position, float force = 1.0F);
+            std::future<bool> handleTouchEnd(std::uint64_t touchId, const Vector2F& position, float force = 1.0F);
+            std::future<bool> handleTouchMove(std::uint64_t touchId, const Vector2F& position, float force = 1.0F);
+            std::future<bool> handleTouchCancel(std::uint64_t touchId, const Vector2F& position, float force = 1.0F);
         };
     } // namespace input
 } // namespace ouzel

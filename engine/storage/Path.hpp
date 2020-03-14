@@ -76,7 +76,7 @@ namespace ouzel
 
             Path getExtensionPart() const
             {
-                const size_t pos = path.find_last_of('.');
+                const std::size_t pos = path.find_last_of('.');
 
                 if (pos != std::string::npos)
                     return path.substr(pos + 1);
@@ -86,7 +86,7 @@ namespace ouzel
 
             Path getFilenamePart() const
             {
-                const size_t pos = path.find_last_of(directorySeparator);
+                const std::size_t pos = path.find_last_of(directorySeparator);
 
                 if (pos != String::npos)
                     return path.substr(pos + 1);
@@ -96,7 +96,7 @@ namespace ouzel
 
             Path getDirectoryPart() const
             {
-                const size_t pos = path.find_last_of(directorySeparator);
+                const std::size_t pos = path.find_last_of(directorySeparator);
 
                 if (pos != String::npos)
                     return path.substr(0, pos);
@@ -162,11 +162,11 @@ namespace ouzel
                 if (!ret)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
-                using hundrednanoseconds = std::chrono::duration<int64_t, std::ratio_multiply<std::hecto, std::nano>>;
+                using hundrednanoseconds = std::chrono::duration<std::int64_t, std::ratio_multiply<std::hecto, std::nano>>;
 
                 auto t = hundrednanoseconds{
-                    ((static_cast<uint64_t>(time.dwHighDateTime) << 32) |
-                     static_cast<uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
+                    ((static_cast<std::uint64_t>(time.dwHighDateTime) << 32) |
+                     static_cast<std::uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
                 };
 
                 return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};
@@ -184,11 +184,11 @@ namespace ouzel
                 if (!ret)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
-                using hundrednanoseconds = std::chrono::duration<int64_t, std::ratio_multiply<std::hecto, std::nano>>;
+                using hundrednanoseconds = std::chrono::duration<std::int64_t, std::ratio_multiply<std::hecto, std::nano>>;
 
                 auto t = hundrednanoseconds{
-                    ((static_cast<uint64_t>(time.dwHighDateTime) << 32) |
-                     static_cast<uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
+                    ((static_cast<std::uint64_t>(time.dwHighDateTime) << 32) |
+                     static_cast<std::uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
                 };
 
                 return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};

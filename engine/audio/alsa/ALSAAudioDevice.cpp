@@ -15,12 +15,12 @@ namespace ouzel
     {
         namespace alsa
         {
-            AudioDevice::AudioDevice(uint32_t initBufferSize,
-                                     uint32_t initSampleRate,
-                                     uint32_t initChannels,
-                                     const std::function<void(uint32_t frames,
-                                                              uint32_t channels,
-                                                              uint32_t sampleRate,
+            AudioDevice::AudioDevice(std::uint32_t initBufferSize,
+                                     std::uint32_t initSampleRate,
+                                     std::uint32_t initChannels,
+                                     const std::function<void(std::uint32_t frames,
+                                                              std::uint32_t channels,
+                                                              std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
                 audio::AudioDevice(Driver::ALSA, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {

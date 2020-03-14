@@ -22,7 +22,7 @@ namespace ouzel
             friend Camera;
             friend Light;
         public:
-            using Order = int32_t;
+            using Order = std::int32_t;
 
             Layer();
             ~Layer() override;

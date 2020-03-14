@@ -16,8 +16,8 @@ namespace ouzel
 
         Buffer::Buffer(Renderer& initRenderer,
                        BufferType initType,
-                       uint32_t initFlags,
-                       uint32_t initSize):
+                       std::uint32_t initFlags,
+                       std::uint32_t initSize):
             renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
             type(initType),
@@ -27,15 +27,15 @@ namespace ouzel
             initRenderer.addCommand(std::make_unique<InitBufferCommand>(resource,
                                                                         initType,
                                                                         initFlags,
-                                                                        std::vector<uint8_t>(),
+                                                                        std::vector<std::uint8_t>(),
                                                                         initSize));
         }
 
         Buffer::Buffer(Renderer& initRenderer,
                        BufferType initType,
-                       uint32_t initFlags,
+                       std::uint32_t initFlags,
                        const void* initData,
-                       uint32_t initSize):
+                       std::uint32_t initSize):
             renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
             type(initType),
@@ -45,16 +45,16 @@ namespace ouzel
             initRenderer.addCommand(std::make_unique<InitBufferCommand>(resource,
                                                                         initType,
                                                                         initFlags,
-                                                                        std::vector<uint8_t>(static_cast<const uint8_t*>(initData),
-                                                                                             static_cast<const uint8_t*>(initData) + initSize),
+                                                                        std::vector<std::uint8_t>(static_cast<const std::uint8_t*>(initData),
+                                                                                             static_cast<const std::uint8_t*>(initData) + initSize),
                                                                         initSize));
         }
 
         Buffer::Buffer(Renderer& initRenderer,
                        BufferType initType,
-                       uint32_t initFlags,
-                       const std::vector<uint8_t>& initData,
-                       uint32_t initSize):
+                       std::uint32_t initFlags,
+                       const std::vector<std::uint8_t>& initData,
+                       std::uint32_t initSize):
             renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
             type(initType),
@@ -71,15 +71,15 @@ namespace ouzel
                                                                         initSize));
         }
 
-        void Buffer::setData(const void* newData, uint32_t newSize)
+        void Buffer::setData(const void* newData, std::uint32_t newSize)
         {
             if (resource)
                 renderer->addCommand(std::make_unique<SetBufferDataCommand>(resource,
-                                                                            std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
-                                                                                                 static_cast<const uint8_t*>(newData) + newSize)));
+                                                                            std::vector<std::uint8_t>(static_cast<const std::uint8_t*>(newData),
+                                                                                                 static_cast<const std::uint8_t*>(newData) + newSize)));
         }
 
-        void Buffer::setData(const std::vector<uint8_t>& newData)
+        void Buffer::setData(const std::vector<std::uint8_t>& newData)
         {
             if (!(flags & Flags::Dynamic))
                 throw std::runtime_error("Buffer is not dynamic");
@@ -87,7 +87,7 @@ namespace ouzel
             if (newData.empty())
                 throw std::runtime_error("Invalid buffer data");
 
-            if (newData.size() > size) size = static_cast<uint32_t>(newData.size());
+            if (newData.size() > size) size = static_cast<std::uint32_t>(newData.size());
 
             if (resource)
                 renderer->addCommand(std::make_unique<SetBufferDataCommand>(resource, newData));

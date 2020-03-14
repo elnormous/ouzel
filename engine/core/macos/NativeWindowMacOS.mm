@@ -195,13 +195,13 @@ namespace ouzel
         window.contentView = view;
         [window makeKeyAndOrderFront:nil];
 
-        size.v[0] = static_cast<uint32_t>(windowSize.width);
-        size.v[1] = static_cast<uint32_t>(windowSize.height);
+        size.v[0] = static_cast<std::uint32_t>(windowSize.width);
+        size.v[1] = static_cast<std::uint32_t>(windowSize.height);
 
         if (highDpi)
         {
             contentScale = static_cast<float>(screen.backingScaleFactor);
-            resolution = size * static_cast<uint32_t>(contentScale);
+            resolution = size * static_cast<std::uint32_t>(contentScale);
         }
         else
         {
@@ -303,7 +303,7 @@ namespace ouzel
             frame.size.height != newFrame.size.height)
         {
             [window setFrame:newFrame display:YES animate:NO];
-            resolution = size * static_cast<uint32_t>(contentScale);
+            resolution = size * static_cast<std::uint32_t>(contentScale);
 
             Event resolutionChangeEvent(Event::Type::ResolutionChange);
             resolutionChangeEvent.size = resolution;
@@ -401,9 +401,9 @@ namespace ouzel
         NSRect frame = [NSWindow contentRectForFrameRect:window.frame
                                                styleMask:window.styleMask];
 
-        size = Size2U(static_cast<uint32_t>(frame.size.width),
-                      static_cast<uint32_t>(frame.size.height));
-        resolution = size * static_cast<uint32_t>(contentScale);
+        size = Size2U(static_cast<std::uint32_t>(frame.size.width),
+                      static_cast<std::uint32_t>(frame.size.height));
+        resolution = size * static_cast<std::uint32_t>(contentScale);
 
         Event sizeChangeEvent(Event::Type::SizeChange);
         sizeChangeEvent.size = size;
@@ -443,7 +443,7 @@ namespace ouzel
         if (highDpi)
         {
             contentScale = static_cast<float>(window.backingScaleFactor);
-            resolution = size * static_cast<uint32_t>(contentScale);
+            resolution = size * static_cast<std::uint32_t>(contentScale);
 
             Event resolutionChangeEvent(Event::Type::ResolutionChange);
             resolutionChangeEvent.size = resolution;

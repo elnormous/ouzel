@@ -30,7 +30,7 @@ namespace ouzel
                 Cue
             };
 
-            Loader(Cache& initCache, uint32_t initType):
+            Loader(Cache& initCache, std::uint32_t initType):
                 cache(initCache), type(initType)
             {
             }
@@ -47,12 +47,12 @@ namespace ouzel
 
             virtual bool loadAsset(Bundle& bundle,
                                    const std::string& name,
-                                   const std::vector<uint8_t>& data,
+                                   const std::vector<std::uint8_t>& data,
                                    bool mipmaps = true) = 0;
 
         protected:
             Cache& cache;
-            uint32_t type;
+            std::uint32_t type;
         };
     } // namespace assets
 } // namespace ouzel

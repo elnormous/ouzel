@@ -28,8 +28,8 @@ namespace ouzel
             void setAbsoluteDpadValues(bool absoluteDpadValues);
             bool isAbsoluteDpadValues() const;
 
-            int32_t getPlayerIndex() const;
-            void setPlayerIndex(int32_t playerIndex) final;
+            std::int32_t getPlayerIndex() const;
+            void setPlayerIndex(std::int32_t playerIndex) final;
 
             inline auto getController() const noexcept { return controller; }
 

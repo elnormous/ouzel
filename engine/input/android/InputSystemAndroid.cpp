@@ -106,7 +106,7 @@ namespace ouzel
                     {
                         const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                         const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                        touchpadDevice->handleTouchBegin(static_cast<uint64_t>(pointerId),
+                        touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(pointerId),
                                                          engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
                                                          pressure);
                         return true;
@@ -129,7 +129,7 @@ namespace ouzel
                     {
                         const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
                         const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
-                        touchpadDevice->handleTouchBegin(static_cast<uint64_t>(pointerId),
+                        touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(pointerId),
                                                          engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
                                                          pressure);
                         return true;
@@ -155,7 +155,7 @@ namespace ouzel
                     {
                         const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                         const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                        touchpadDevice->handleTouchMove(static_cast<uint64_t>(pointerId),
+                        touchpadDevice->handleTouchMove(static_cast<std::uint64_t>(pointerId),
                                                         engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
                                                         pressure);
                         return true;
@@ -177,7 +177,7 @@ namespace ouzel
                     {
                         const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                         const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                        touchpadDevice->handleTouchEnd(static_cast<uint64_t>(pointerId),
+                        touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(pointerId),
                                                        engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
                                                        pressure);
                         return true;
@@ -200,7 +200,7 @@ namespace ouzel
                     {
                         const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                         const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
-                        touchpadDevice->handleTouchEnd(static_cast<uint64_t>(pointerId),
+                        touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(pointerId),
                                                        engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
                                                        pressure);
                         return true;
@@ -226,7 +226,7 @@ namespace ouzel
                     {
                         const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                         const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                        touchpadDevice->handleTouchCancel(static_cast<uint64_t>(pointerId),
+                        touchpadDevice->handleTouchCancel(static_cast<std::uint64_t>(pointerId),
                                                           engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
                                                           pressure);
                         return true;

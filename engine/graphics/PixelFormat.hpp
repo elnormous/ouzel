@@ -44,7 +44,7 @@ namespace ouzel
             DepthStencil
         };
 
-        inline uint32_t getPixelSize(PixelFormat pixelFormat)
+        inline std::uint32_t getPixelSize(PixelFormat pixelFormat)
         {
             switch (pixelFormat)
             {
@@ -95,7 +95,7 @@ namespace ouzel
             }
         }
 
-        inline uint32_t getChannelSize(PixelFormat pixelFormat)
+        inline std::uint32_t getChannelSize(PixelFormat pixelFormat)
         {
             switch (pixelFormat)
             {
@@ -142,7 +142,7 @@ namespace ouzel
             }
         }
 
-        inline uint32_t getChannelCount(PixelFormat pixelFormat)
+        inline std::uint32_t getChannelCount(PixelFormat pixelFormat)
         {
             switch (pixelFormat)
             {

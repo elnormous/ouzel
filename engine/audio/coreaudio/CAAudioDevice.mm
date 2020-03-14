@@ -118,12 +118,12 @@ namespace ouzel
                 }
             }
 
-            AudioDevice::AudioDevice(uint32_t initBufferSize,
-                                     uint32_t initSampleRate,
-                                     uint32_t initChannels,
-                                     const std::function<void(uint32_t frames,
-                                                              uint32_t channels,
-                                                              uint32_t sampleRate,
+            AudioDevice::AudioDevice(std::uint32_t initBufferSize,
+                                     std::uint32_t initSampleRate,
+                                     std::uint32_t initChannels,
+                                     const std::function<void(std::uint32_t frames,
+                                                              std::uint32_t channels,
+                                                              std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
                 audio::AudioDevice(Driver::CoreAudio, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
@@ -149,7 +149,7 @@ namespace ouzel
                 }
 
                 if (channels > maxChannelCount)
-                    channels = static_cast<uint32_t>(maxChannelCount);
+                    channels = static_cast<std::uint32_t>(maxChannelCount);
 
                 routeChangeDelegate = [[RouteChangeDelegate alloc] initWithAudioDevice:this];
 
@@ -230,7 +230,7 @@ namespace ouzel
                     else
                     {
                         const CFIndex stringLength = CFStringGetLength(tempStringRef);
-                        std::vector<char> temp(static_cast<size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
+                        std::vector<char> temp(static_cast<std::size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
                         if (CFStringGetCString(tempStringRef, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8))
                             name = temp.data();
                     }
@@ -298,7 +298,7 @@ namespace ouzel
                     engine->log(Log::Level::Warning) << "Failed to set CoreAudio unit stream format to float, error: " << result;
 
                     streamDescription.mFormatFlags = kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger;
-                    streamDescription.mBitsPerChannel = sizeof(int16_t) * 8;
+                    streamDescription.mBitsPerChannel = sizeof(std::int16_t) * 8;
                     streamDescription.mBytesPerFrame = streamDescription.mBitsPerChannel * streamDescription.mChannelsPerFrame / 8;
                     streamDescription.mBytesPerPacket = streamDescription.mBytesPerFrame * streamDescription.mFramesPerPacket;
 
@@ -308,7 +308,7 @@ namespace ouzel
                         throw std::system_error(result, errorCategory, "Failed to set CoreAudio unit stream format");
 
                     sampleFormat = SampleFormat::SignedInt16;
-                    sampleSize = sizeof(int16_t);
+                    sampleSize = sizeof(std::int16_t);
                 }
 
                 AURenderCallbackStruct callback;
@@ -396,7 +396,7 @@ namespace ouzel
                 {
                     AudioBuffer& buffer = ioData->mBuffers[i];
                     getData(buffer.mDataByteSize / (sampleSize * channels), data);
-                    std::copy(data.begin(), data.end(), static_cast<uint8_t*>(buffer.mData));
+                    std::copy(data.begin(), data.end(), static_cast<std::uint8_t*>(buffer.mData));
                 }
             }
         } // namespace coreaudio

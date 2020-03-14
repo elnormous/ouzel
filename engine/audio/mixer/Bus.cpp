@@ -34,8 +34,8 @@ namespace ouzel
                 if (output) output->addInput(this);
             }
 
-            static void resample(uint32_t channels, uint32_t sourceFrames, const std::vector<float>& sourceSamples,
-                                 uint32_t frames, std::vector<float>& samples)
+            static void resample(std::uint32_t channels, std::uint32_t sourceFrames, const std::vector<float>& sourceSamples,
+                                 std::uint32_t frames, std::vector<float>& samples)
             {
                 if (sourceFrames != frames)
                 {
@@ -44,14 +44,14 @@ namespace ouzel
 
                     samples.resize(frames * channels);
 
-                    for (uint32_t frame = 0; frame < frames - 1; ++frame)
+                    for (std::uint32_t frame = 0; frame < frames - 1; ++frame)
                     {
-                        auto sourceCurrentFrame = static_cast<uint32_t>(sourcePosition);
+                        auto sourceCurrentFrame = static_cast<std::uint32_t>(sourcePosition);
                         auto fraction = sourcePosition - sourceCurrentFrame;
 
-                        uint32_t sourceNextFrame = sourceCurrentFrame + 1;
+                        std::uint32_t sourceNextFrame = sourceCurrentFrame + 1;
 
-                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        for (std::uint32_t channel = 0; channel < channels; ++channel)
                         {
                             const auto sourceChannel = &sourceSamples[channel * sourceFrames];
                             auto outputChannel = &samples[channel * frames];
@@ -65,7 +65,7 @@ namespace ouzel
                     }
 
                     // fill the last frame of the destination with the last frame of the source
-                    for (uint32_t channel = 0; channel < channels; ++channel)
+                    for (std::uint32_t channel = 0; channel < channels; ++channel)
                     {
                         const auto sourceChannel = &sourceSamples[channel * sourceFrames];
                         auto outputChannel = &samples[channel * frames];
@@ -76,8 +76,8 @@ namespace ouzel
                     samples = sourceSamples;
             }
 
-            static void convert(uint32_t frames, uint32_t sourceChannels, const std::vector<float>& sourceSamples,
-                                uint32_t channels, std::vector<float>& samples)
+            static void convert(std::uint32_t frames, std::uint32_t sourceChannels, const std::vector<float>& sourceSamples,
+                                std::uint32_t channels, std::vector<float>& samples)
             {
                 samples.resize(frames * channels);
 
@@ -90,14 +90,14 @@ namespace ouzel
                             switch (channels)
                             {
                                 case 2: // upmix 1 to 2
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                     {
                                         samples[0 * frames + frame] = sourceSamples[frame]; // L = M
                                         samples[1 * frames + frame] = sourceSamples[frame]; // R = M
                                     }
                                     break;
                                 case 4: // upmix 1 to 4
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                     {
                                         samples[0 * frames + frame] = sourceSamples[frame]; // L = M
                                         samples[1 * frames + frame] = sourceSamples[frame]; // R = M
@@ -106,7 +106,7 @@ namespace ouzel
                                     }
                                     break;
                                 case 6: // upmix 1 to 6
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                     {
                                         samples[0 * frames + frame] = 0.0F; // L = 0
                                         samples[1 * frames + frame] = 0.0F; // R = 0
@@ -124,12 +124,12 @@ namespace ouzel
                             switch (channels)
                             {
                                 case 1: // downmix 2 to 1
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                         samples[frame] = (sourceSamples[0 * frames + frame] +
                                                           sourceSamples[1 * frames + frame]) * 0.5F; // M = (L + R) * 0.5
                                     break;
                                 case 4: // upmix 2 to 4
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                     {
                                         samples[0 * frames + frame] = sourceSamples[0 * frames + frame]; // L = L
                                         samples[1 * frames + frame] = sourceSamples[1 * frames + frame]; // R = R
@@ -138,7 +138,7 @@ namespace ouzel
                                     }
                                     break;
                                 case 6: // upmix 2 to 6
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                     {
                                         samples[0 * frames + frame] = sourceSamples[0 * frames + frame]; // L = L
                                         samples[1 * frames + frame] = sourceSamples[1 * frames + frame]; // R = R
@@ -156,14 +156,14 @@ namespace ouzel
                             switch (channels)
                             {
                                 case 1: // downmix 4 to 1
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                         samples[frame] = (sourceSamples[0 * frames + frame] +
                                                           sourceSamples[1 * frames + frame] +
                                                           sourceSamples[2 * frames + frame] +
                                                           sourceSamples[3 * frames + frame]) * 0.25F; // M = (L + R + SL + SR) * 0.25
                                     break;
                                 case 2: // downmix 4 to 2
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                     {
                                         samples[0 * frames + frame] = (sourceSamples[0 * frames + frame] +
                                                                        sourceSamples[2 * frames + frame]) * 0.5F; // L = (L + SL) * 0.5
@@ -172,7 +172,7 @@ namespace ouzel
                                     }
                                     break;
                                 case 6: // upmix 4 to 6
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                     {
                                         samples[0 * frames + frame] = sourceSamples[0 * frames + frame]; // L = L
                                         samples[1 * frames + frame] = sourceSamples[1 * frames + frame]; // R = R
@@ -190,7 +190,7 @@ namespace ouzel
                             switch (channels)
                             {
                                 case 1: // downmix 6 to 1
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                         samples[frame] = ((sourceSamples[0 * frames + frame] +
                                                            sourceSamples[1 * frames + frame]) * 0.7071F +
                                                           sourceSamples[2 * frames + frame] +
@@ -198,7 +198,7 @@ namespace ouzel
                                                            sourceSamples[5 * frames + frame]) * 0.5F); // M = (L + R) * 0.7071 + C + (SL + SR) * 0.5
                                     break;
                                 case 2: // downmix 6 to 2
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                     {
                                         samples[frame * channels + 0] = (sourceSamples[0 * frames + frame] +
                                                                          (sourceSamples[2 * frames + frame] +
@@ -209,7 +209,7 @@ namespace ouzel
                                     }
                                     break;
                                 case 4: // downmix 6 to 4
-                                    for (uint32_t frame = 0; frame < frames; ++frame)
+                                    for (std::uint32_t frame = 0; frame < frames; ++frame)
                                     {
                                         samples[frame * channels + 0] = (sourceSamples[0 * frames + frame] +
                                                                          sourceSamples[2 * frames + frame] * 0.7071F); // L = L + C * 0.7071
@@ -228,7 +228,7 @@ namespace ouzel
                     samples = sourceSamples;
             }
 
-            void Bus::getSamples(uint32_t frames, uint32_t channels, uint32_t sampleRate,
+            void Bus::getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
                                  const Vector3F& listenerPosition, const QuaternionF& listenerRotation,
                                  std::vector<float>& samples)
             {
@@ -239,7 +239,7 @@ namespace ouzel
                 {
                     bus->getSamples(frames, channels, sampleRate, listenerPosition, listenerRotation, buffer);
 
-                    for (size_t s = 0; s < samples.size(); ++s)
+                    for (std::size_t s = 0; s < samples.size(); ++s)
                         samples[s] += buffer[s];
                 }
 
@@ -247,12 +247,12 @@ namespace ouzel
                 {
                     if (stream->isPlaying())
                     {
-                        const uint32_t sourceSampleRate = stream->getData().getSampleRate();
-                        const uint32_t sourceChannels = stream->getData().getChannels();
+                        const std::uint32_t sourceSampleRate = stream->getData().getSampleRate();
+                        const std::uint32_t sourceChannels = stream->getData().getChannels();
 
                         if (sourceSampleRate != sampleRate)
                         {
-                            uint32_t sourceFrames = (frames * sourceSampleRate + sampleRate - 1) / sampleRate; // round up
+                            std::uint32_t sourceFrames = (frames * sourceSampleRate + sampleRate - 1) / sampleRate; // round up
                             stream->getSamples(sourceFrames, resampleBuffer);
                             resample(sourceChannels, sourceFrames, resampleBuffer, frames, mixBuffer);
                         }
@@ -264,7 +264,7 @@ namespace ouzel
                         else
                             buffer = mixBuffer;
 
-                        for (size_t s = 0; s < samples.size(); ++s)
+                        for (std::size_t s = 0; s < samples.size(); ++s)
                             samples[s] += buffer[s];
                     }
                 }

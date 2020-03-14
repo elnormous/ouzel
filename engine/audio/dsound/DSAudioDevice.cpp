@@ -79,12 +79,12 @@ namespace ouzel
                 const ErrorCategory errorCategory {};
             }
 
-            AudioDevice::AudioDevice(uint32_t initBufferSize,
-                                     uint32_t initSampleRate,
-                                     uint32_t initChannels,
-                                     const std::function<void(uint32_t frames,
-                                                              uint32_t channels,
-                                                              uint32_t sampleRate,
+            AudioDevice::AudioDevice(std::uint32_t initBufferSize,
+                                     std::uint32_t initSampleRate,
+                                     std::uint32_t initChannels,
+                                     const std::function<void(std::uint32_t frames,
+                                                              std::uint32_t channels,
+                                                              std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
                 audio::AudioDevice(Driver::DirectSound, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
@@ -130,7 +130,7 @@ namespace ouzel
                 if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
                 {
                     waveFormat.wFormatTag = WAVE_FORMAT_PCM;
-                    waveFormat.wBitsPerSample = sizeof(int16_t) * 8;
+                    waveFormat.wBitsPerSample = sizeof(std::int16_t) * 8;
                     waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
                     waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
 
@@ -138,7 +138,7 @@ namespace ouzel
                         throw std::system_error(hr, errorCategory, "Failed to set DirectSound buffer format");
 
                     sampleFormat = SampleFormat::SignedInt16;
-                    sampleSize = sizeof(int16_t);
+                    sampleSize = sizeof(std::int16_t);
                 }
 
                 DSBUFFERDESC bufferDesc;
@@ -172,9 +172,9 @@ namespace ouzel
                 if (FAILED(hr = buffer->Lock(0, bufferDesc.dwBufferBytes, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0)))
                     throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
 
-                uint8_t* bufferData = static_cast<uint8_t*>(bufferDataPointer);
+                std::uint8_t* bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
 
-                getData(lockedBufferSize / (channels * sizeof(int16_t)), data);
+                getData(lockedBufferSize / (channels * sizeof(std::int16_t)), data);
                 std::copy(data.begin(), data.end(), bufferData);
 
                 if (FAILED(hr = buffer->Unlock(bufferDataPointer, lockedBufferSize, nullptr, 0)))
@@ -255,7 +255,7 @@ namespace ouzel
                             if (FAILED(hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0)))
                                 throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
 
-                            uint8_t* bufferData = static_cast<uint8_t*>(bufferDataPointer);
+                            std::uint8_t* bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
 
                             getData(lockedBufferSize / (sampleSize * channels), data);
 

@@ -23,29 +23,29 @@ namespace ouzel
             explicit Archive(const std::string& path):
                 file{File(path, File::Mode::Read)}
             {
-                constexpr uint32_t CENTRAL_DIRECTORY = 0x02014B50;
-                constexpr uint32_t HEADER_SIGNATURE = 0x04034B50;
+                constexpr std::uint32_t CENTRAL_DIRECTORY = 0x02014B50;
+                constexpr std::uint32_t HEADER_SIGNATURE = 0x04034B50;
 
                 for (;;)
                 {
-                    uint8_t signature[4];
+                    std::uint8_t signature[4];
                     file.read(signature, sizeof(signature), true);
 
-                    if (decodeLittleEndian<uint32_t>(signature) == CENTRAL_DIRECTORY)
+                    if (decodeLittleEndian<std::uint32_t>(signature) == CENTRAL_DIRECTORY)
                         break;
 
-                    if (decodeLittleEndian<uint32_t>(signature) != HEADER_SIGNATURE)
+                    if (decodeLittleEndian<std::uint32_t>(signature) != HEADER_SIGNATURE)
                         throw std::runtime_error("Bad signature");
 
-                    uint8_t version[2];
+                    std::uint8_t version[2];
 
                     file.read(version, sizeof(version), true);
 
-                    uint16_t flags;
+                    std::uint16_t flags;
 
                     file.read(&flags, sizeof(flags), true);
 
-                    uint16_t compression;
+                    std::uint16_t compression;
                     file.read(&compression, sizeof(compression), true);
 
                     if (compression != 0x00)
@@ -54,46 +54,46 @@ namespace ouzel
                     file.seek(4, File::Seek::Current); // skip modification time
                     file.seek(4, File::Seek::Current); // skip CRC-32
 
-                    uint8_t compressedSize[4];
+                    std::uint8_t compressedSize[4];
                     file.read(compressedSize, sizeof(compressedSize), true);
 
-                    uint8_t uncompressedSize[4];
+                    std::uint8_t uncompressedSize[4];
                     file.read(uncompressedSize, sizeof(uncompressedSize), true);
 
-                    uint8_t fileNameLength[2];
+                    std::uint8_t fileNameLength[2];
                     file.read(fileNameLength, sizeof(fileNameLength), true);
 
-                    uint8_t extraFieldLength[2];
+                    std::uint8_t extraFieldLength[2];
                     file.read(extraFieldLength, sizeof(extraFieldLength), true);
 
-                    std::vector<char> name(decodeLittleEndian<uint16_t>(fileNameLength) + 1);
+                    std::vector<char> name(decodeLittleEndian<std::uint16_t>(fileNameLength) + 1);
 
-                    file.read(name.data(), decodeLittleEndian<uint16_t>(fileNameLength), true);
+                    file.read(name.data(), decodeLittleEndian<std::uint16_t>(fileNameLength), true);
 
-                    name[decodeLittleEndian<uint16_t>(fileNameLength)] = '\0';
+                    name[decodeLittleEndian<std::uint16_t>(fileNameLength)] = '\0';
 
                     Entry& entry = entries[name.data()];
-                    entry.size = decodeLittleEndian<uint32_t>(uncompressedSize);
+                    entry.size = decodeLittleEndian<std::uint32_t>(uncompressedSize);
 
-                    file.seek(decodeLittleEndian<uint16_t>(extraFieldLength), File::Seek::Current); // skip extra field
+                    file.seek(decodeLittleEndian<std::uint16_t>(extraFieldLength), File::Seek::Current); // skip extra field
 
                     entry.offset = file.getOffset();
 
-                    file.seek(static_cast<int32_t>(decodeLittleEndian<uint32_t>(uncompressedSize)),
+                    file.seek(static_cast<std::int32_t>(decodeLittleEndian<std::uint32_t>(uncompressedSize)),
                               File::Seek::Current); // skip uncompressed size
                 }
             }
 
-            std::vector<uint8_t> readFile(const std::string& filename) const
+            std::vector<std::uint8_t> readFile(const std::string& filename) const
             {
-                std::vector<uint8_t> data;
+                std::vector<std::uint8_t> data;
 
                 auto i = entries.find(filename);
 
                 if (i == entries.end())
                     throw std::runtime_error("File " + filename + " does not exist");
 
-                file.seek(static_cast<int32_t>(i->second.offset), File::Seek::Begin);
+                file.seek(static_cast<std::int32_t>(i->second.offset), File::Seek::Begin);
 
                 data.resize(i->second.size);
 
@@ -112,8 +112,8 @@ namespace ouzel
 
             struct Entry final
             {
-                uint32_t offset;
-                uint32_t size;
+                std::uint32_t offset;
+                std::uint32_t size;
             };
 
             std::map<std::string, Entry> entries;

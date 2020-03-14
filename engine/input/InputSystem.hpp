@@ -58,7 +58,7 @@ namespace ouzel
                 union
                 {
                     bool absoluteDpadValues;
-                    int32_t playerIndex;
+                    std::int32_t playerIndex;
                     float speed;
                     bool visible;
                     bool locked;
@@ -66,9 +66,9 @@ namespace ouzel
 
                 Gamepad::Motor motor;
                 Vector2F position;
-                uintptr_t cursorResource;
+                std::uintptr_t cursorResource;
                 SystemCursor systemCursor;
-                std::vector<uint8_t> data;
+                std::vector<std::uint8_t> data;
                 Size2F size;
                 graphics::PixelFormat pixelFormat;
                 Vector2F hotSpot;
@@ -112,7 +112,7 @@ namespace ouzel
                     Keyboard::Key keyboardKey;
                     Mouse::Button mouseButton;
                     Gamepad::Button gamepadButton;
-                    uint64_t touchId;
+                    std::uint64_t touchId;
                 };
                 bool screen = false;
                 bool locked = false;
@@ -140,13 +140,13 @@ namespace ouzel
                     return ++lastResourceId; // zero is reserved for null resource
                 else
                 {
-                    uintptr_t resourceId = *i;
+                    std::uintptr_t resourceId = *i;
                     deletedResourceIds.erase(i);
                     return resourceId;
                 }
             }
 
-            void deleteResourceId(uintptr_t resourceId)
+            void deleteResourceId(std::uintptr_t resourceId)
             {
                 deletedResourceIds.insert(resourceId);
             }
@@ -161,8 +161,8 @@ namespace ouzel
             std::function<std::future<bool>(const Event&)> callback;
             std::unordered_map<DeviceId, InputDevice*> inputDevices;
 
-            uintptr_t lastResourceId = 0;
-            std::set<uintptr_t> deletedResourceIds;
+            std::uintptr_t lastResourceId = 0;
+            std::set<std::uintptr_t> deletedResourceIds;
         };
     } // namespace input
 } // namespace ouzel

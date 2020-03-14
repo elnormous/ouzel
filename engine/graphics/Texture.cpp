@@ -46,22 +46,22 @@ namespace ouzel
                 0.9406006932F, 0.9489649534F, 0.957369566F, 0.9658146501F, 0.9743002057F, 0.9828262329F, 0.9913928509F, 1.0F
             };
 
-            void downsample2x2A8(uint32_t width, uint32_t height,
+            void downsample2x2A8(std::uint32_t width, std::uint32_t height,
                                  const std::vector<float>& original, std::vector<float>& resized)
             {
-                const uint32_t dstWidth = width >> 1;
-                const uint32_t dstHeight = height >> 1;
-                const uint32_t pitch = width * 1;
+                const std::uint32_t dstWidth = width >> 1;
+                const std::uint32_t dstHeight = height >> 1;
+                const std::uint32_t pitch = width * 1;
                 resized.resize(dstWidth * dstHeight * 1);
                 const float* src = original.data();
                 float* dst = resized.data();
 
                 if (dstWidth > 0 && dstHeight > 0)
                 {
-                    for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
+                    for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                     {
                         const float* pixel = src;
-                        for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
+                        for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                         {
                             float a = 0.0F;
                             a += pixel[0];
@@ -74,7 +74,7 @@ namespace ouzel
                 }
                 else if (dstHeight > 0)
                 {
-                    for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 1)
+                    for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 1)
                     {
                         const float* pixel = src;
 
@@ -87,7 +87,7 @@ namespace ouzel
                 else if (dstWidth > 0)
                 {
                     const float* pixel = src;
-                    for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
+                    for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                     {
                         float a = 0.0F;
                         a += pixel[0];
@@ -97,24 +97,24 @@ namespace ouzel
                 }
             }
 
-            void downsample2x2R8(uint32_t width, uint32_t height,
+            void downsample2x2R8(std::uint32_t width, std::uint32_t height,
                                  const std::vector<float>& original, std::vector<float>& resized)
             {
                 std::vector<float> normalized(width * height * 1);
 
-                const uint32_t dstWidth = width >> 1;
-                const uint32_t dstHeight = height >> 1;
-                const uint32_t pitch = width * 1;
+                const std::uint32_t dstWidth = width >> 1;
+                const std::uint32_t dstHeight = height >> 1;
+                const std::uint32_t pitch = width * 1;
                 resized.resize(dstWidth * dstHeight * 1);
                 const float* src = original.data();
                 float* dst = resized.data();
 
                 if (dstWidth > 0 && dstHeight > 0)
                 {
-                    for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
+                    for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                     {
                         const float* pixel = src;
-                        for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
+                        for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                         {
                             float r = 0.0F;
                             r += pixel[0];
@@ -127,7 +127,7 @@ namespace ouzel
                 }
                 else if (dstHeight > 0)
                 {
-                    for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 1)
+                    for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 1)
                     {
                         const float* pixel = src;
 
@@ -140,7 +140,7 @@ namespace ouzel
                 else if (dstWidth > 0)
                 {
                     const float* pixel = src;
-                    for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
+                    for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                     {
                         float r = 0.0F;
                         r += pixel[0];
@@ -150,24 +150,24 @@ namespace ouzel
                 }
             }
 
-            void downsample2x2Rg8(uint32_t width, uint32_t height,
+            void downsample2x2Rg8(std::uint32_t width, std::uint32_t height,
                                   const std::vector<float>& original, std::vector<float>& resized)
             {
                 std::vector<float> normalized(width * height * 2);
 
-                const uint32_t dstWidth = width >> 1;
-                const uint32_t dstHeight = height >> 1;
-                const uint32_t pitch = width * 2;
+                const std::uint32_t dstWidth = width >> 1;
+                const std::uint32_t dstHeight = height >> 1;
+                const std::uint32_t pitch = width * 2;
                 resized.resize(dstWidth * dstHeight * 2);
                 const float* src = original.data();
                 float* dst = resized.data();
 
                 if (dstWidth > 0 && dstHeight > 0)
                 {
-                    for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
+                    for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                     {
                         const float* pixel = src;
-                        for (uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
+                        for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
                         {
                             float r = 0.0F;
                             float g = 0.0F;
@@ -191,7 +191,7 @@ namespace ouzel
                 }
                 else if (dstHeight > 0)
                 {
-                    for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 2)
+                    for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 2)
                     {
                         const float* pixel = src;
                         float r = 0.0F;
@@ -210,7 +210,7 @@ namespace ouzel
                 else if (dstWidth > 0)
                 {
                     const float* pixel = src;
-                    for (uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
+                    for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
                     {
                         float r = 0.0F;
                         float g = 0.0F;
@@ -227,22 +227,22 @@ namespace ouzel
                 }
             }
 
-            void downsample2x2Rgba8(uint32_t width, uint32_t height,
+            void downsample2x2Rgba8(std::uint32_t width, std::uint32_t height,
                                     const std::vector<float>& original, std::vector<float>& resized)
             {
-                const uint32_t dstWidth = width >> 1;
-                const uint32_t dstHeight = height >> 1;
-                const uint32_t pitch = width * 4;
+                const std::uint32_t dstWidth = width >> 1;
+                const std::uint32_t dstHeight = height >> 1;
+                const std::uint32_t pitch = width * 4;
                 resized.resize(dstWidth * dstHeight * 4);
                 const float* src = original.data();
                 float* dst = resized.data();
 
                 if (dstWidth > 0 && dstHeight > 0)
                 {
-                    for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
+                    for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                     {
                         const float* pixel = src;
-                        for (uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
+                        for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
                         {
                             float pixels = 0.0F;
                             float r = 0.0F;
@@ -305,7 +305,7 @@ namespace ouzel
                 }
                 else if (dstHeight > 0)
                 {
-                    for (uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 4)
+                    for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 4)
                     {
                         const float* pixel = src;
 
@@ -352,7 +352,7 @@ namespace ouzel
                 else if (dstWidth > 0)
                 {
                     const float* pixel = src;
-                    for (uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
+                    for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
                     {
                         float pixels = 0.0F;
                         float r = 0.0F;
@@ -396,35 +396,35 @@ namespace ouzel
                 }
             }
 
-            inline float gammaDecode(uint8_t value) noexcept
+            inline float gammaDecode(std::uint8_t value) noexcept
             {
                 return GAMMA_DECODE[value]; // std::pow(value / 255.0F, GAMMA);
             }
 
-            inline uint8_t gammaEncode(float value) noexcept
+            inline std::uint8_t gammaEncode(float value) noexcept
             {
-                return static_cast<uint8_t>(std::round(std::pow(value, 1.0F / GAMMA) * 255.0F));
+                return static_cast<std::uint8_t>(std::round(std::pow(value, 1.0F / GAMMA) * 255.0F));
             }
 
             void decode(const Size2U& size,
-                        const std::vector<uint8_t>& encodedData,
+                        const std::vector<std::uint8_t>& encodedData,
                         PixelFormat pixelFormat,
                         std::vector<float>& decodedData)
             {
-                const uint32_t channelCount = getChannelCount(pixelFormat);
-                const uint32_t pitch = size.width() * channelCount;
+                const std::uint32_t channelCount = getChannelCount(pixelFormat);
+                const std::uint32_t pitch = size.width() * channelCount;
                 decodedData.resize(size.width() * size.height() * channelCount);
-                const uint8_t* src = encodedData.data();
+                const std::uint8_t* src = encodedData.data();
                 float* dst = decodedData.data();
 
                 switch (pixelFormat)
                 {
                     case PixelFormat::RGBA8UNorm:
                     case PixelFormat::RGBA8UNormSRGB:
-                        for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                        for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
-                            const uint8_t* pixel = src;
-                            for (uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
+                            const std::uint8_t* pixel = src;
+                            for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
                             {
                                 dst[0] = gammaDecode(pixel[0]); // red
                                 dst[1] = gammaDecode(pixel[1]); // green
@@ -435,10 +435,10 @@ namespace ouzel
                         break;
 
                     case PixelFormat::RG8UNorm:
-                        for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                        for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
-                            const uint8_t* pixel = src;
-                            for (uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
+                            const std::uint8_t* pixel = src;
+                            for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
                             {
                                 dst[0] = gammaDecode(pixel[0]); // red
                                 dst[1] = gammaDecode(pixel[1]); // green
@@ -447,10 +447,10 @@ namespace ouzel
                         break;
 
                     case PixelFormat::R8UNorm:
-                        for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                        for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
-                            const uint8_t* pixel = src;
-                            for (uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 1)
+                            const std::uint8_t* pixel = src;
+                            for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 1)
                             {
                                 dst[0] = gammaDecode(pixel[0]); // red
                             }
@@ -458,10 +458,10 @@ namespace ouzel
                         break;
 
                     case PixelFormat::A8UNorm:
-                        for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                        for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
-                            const uint8_t* pixel = src;
-                            for (uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
+                            const std::uint8_t* pixel = src;
+                            for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
                             {
                                 dst[0] = pixel[0] / 255.0F; // alpha
                             }
@@ -476,36 +476,36 @@ namespace ouzel
             void encode(const Size2U& size,
                         const std::vector<float>& decodedData,
                         PixelFormat pixelFormat,
-                        std::vector<uint8_t>& encodedData)
+                        std::vector<std::uint8_t>& encodedData)
             {
-                const uint32_t pixelSize = getPixelSize(pixelFormat);
-                const uint32_t pitch = size.width() * pixelSize;
+                const std::uint32_t pixelSize = getPixelSize(pixelFormat);
+                const std::uint32_t pitch = size.width() * pixelSize;
                 encodedData.resize(size.width() * size.height() * pixelSize);
                 const float* src = decodedData.data();
-                uint8_t* dst = encodedData.data();
+                std::uint8_t* dst = encodedData.data();
 
                 switch (pixelFormat)
                 {
                     case PixelFormat::RGBA8UNorm:
                     case PixelFormat::RGBA8UNormSRGB:
-                        for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                        for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const float* pixel = src;
-                            for (uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
+                            for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
                             {
                                 dst[0] = gammaEncode(pixel[0]); // red
                                 dst[1] = gammaEncode(pixel[1]); // green
                                 dst[2] = gammaEncode(pixel[2]); // blue
-                                dst[3] = static_cast<uint8_t>(std::round(pixel[3] * 255.0F)); // alpha
+                                dst[3] = static_cast<std::uint8_t>(std::round(pixel[3] * 255.0F)); // alpha
                             }
                         }
                         break;
 
                     case PixelFormat::RG8UNorm:
-                        for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                        for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const float* pixel = src;
-                            for (uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
+                            for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
                             {
                                 dst[0] = gammaEncode(pixel[0]); // red
                                 dst[1] = gammaEncode(pixel[1]); // green
@@ -514,10 +514,10 @@ namespace ouzel
                         break;
 
                     case PixelFormat::R8UNorm:
-                        for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                        for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const float* pixel = src;
-                            for (uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
+                            for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
                             {
                                 dst[0] = gammaEncode(pixel[0]); // red
                             }
@@ -525,12 +525,12 @@ namespace ouzel
                         break;
 
                     case PixelFormat::A8UNorm:
-                        for (uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                        for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const float* pixel = src;
-                            for (uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
+                            for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
                             {
-                                dst[0] = static_cast<uint8_t>(std::round(pixel[0] * 255.0F)); // alpha
+                                dst[0] = static_cast<std::uint8_t>(std::round(pixel[0] * 255.0F)); // alpha
                             }
                         }
                         break;
@@ -540,18 +540,18 @@ namespace ouzel
                 }
             }
 
-            std::vector<std::pair<Size2U, std::vector<uint8_t>>> calculateSizes(const Size2U& size,
-                                                                                uint32_t mipmaps,
+            std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> calculateSizes(const Size2U& size,
+                                                                                std::uint32_t mipmaps,
                                                                                 PixelFormat pixelFormat)
             {
-                std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels;
+                std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
 
-                uint32_t newWidth = size.v[0];
-                uint32_t newHeight = size.v[1];
+                std::uint32_t newWidth = size.v[0];
+                std::uint32_t newHeight = size.v[1];
 
-                const uint32_t pixelSize = getPixelSize(pixelFormat);
-                uint32_t bufferSize = newWidth * newHeight * pixelSize;
-                levels.emplace_back(size, std::vector<uint8_t>(bufferSize));
+                const std::uint32_t pixelSize = getPixelSize(pixelFormat);
+                std::uint32_t bufferSize = newWidth * newHeight * pixelSize;
+                levels.emplace_back(size, std::vector<std::uint8_t>(bufferSize));
 
                 while ((newWidth > 1 || newHeight > 1) &&
                     (mipmaps == 0 || levels.size() < mipmaps))
@@ -565,32 +565,32 @@ namespace ouzel
                     auto mipMapSize = Size2U(newWidth, newHeight);
                     bufferSize = newWidth * newHeight * pixelSize;
 
-                    levels.emplace_back(mipMapSize, std::vector<uint8_t>(bufferSize));
+                    levels.emplace_back(mipMapSize, std::vector<std::uint8_t>(bufferSize));
                 }
 
                 return levels;
             }
 
-            std::vector<std::pair<Size2U, std::vector<uint8_t>>> calculateSizes(const Size2U& size,
-                                                                                const std::vector<uint8_t>& data,
-                                                                                uint32_t mipmaps,
+            std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> calculateSizes(const Size2U& size,
+                                                                                const std::vector<std::uint8_t>& data,
+                                                                                std::uint32_t mipmaps,
                                                                                 PixelFormat pixelFormat)
             {
-                std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels;
+                std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
 
-                uint32_t newWidth = size.v[0];
-                uint32_t newHeight = size.v[1];
+                std::uint32_t newWidth = size.v[0];
+                std::uint32_t newHeight = size.v[1];
 
                 levels.emplace_back(size, data);
 
-                uint32_t previousWidth = newWidth;
-                uint32_t previousHeight = newHeight;
+                std::uint32_t previousWidth = newWidth;
+                std::uint32_t previousHeight = newHeight;
                 std::vector<float> previousData;
 
                 decode(size, data, pixelFormat, previousData);
 
                 std::vector<float> newData;
-                std::vector<uint8_t> encodedData;
+                std::vector<std::uint8_t> encodedData;
 
                 while ((newWidth > 1 || newHeight > 1) &&
                     (mipmaps == 0 || levels.size() < mipmaps))
@@ -647,9 +647,9 @@ namespace ouzel
 
         Texture::Texture(Renderer& initRenderer,
                          const Size2U& initSize,
-                         uint32_t initFlags,
-                         uint32_t initMipmaps,
-                         uint32_t initSampleCount,
+                         std::uint32_t initFlags,
+                         std::uint32_t initMipmaps,
+                         std::uint32_t initSampleCount,
                          PixelFormat initPixelFormat):
             renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
@@ -666,7 +666,7 @@ namespace ouzel
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
                 mipmaps = 1;
 
-            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = calculateSizes(size, mipmaps, pixelFormat);
+            std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = calculateSizes(size, mipmaps, pixelFormat);
 
             initRenderer.addCommand(std::make_unique<InitTextureCommand>(resource,
                                                                         levels,
@@ -677,10 +677,10 @@ namespace ouzel
         }
 
         Texture::Texture(Renderer& initRenderer,
-                         const std::vector<uint8_t>& initData,
+                         const std::vector<std::uint8_t>& initData,
                          const Size2U& initSize,
-                         uint32_t initFlags,
-                         uint32_t initMipmaps,
+                         std::uint32_t initFlags,
+                         std::uint32_t initMipmaps,
                          PixelFormat initPixelFormat):
             renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
@@ -697,7 +697,7 @@ namespace ouzel
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
                 mipmaps = 1;
 
-            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
+            std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
 
             initRenderer.addCommand(std::make_unique<InitTextureCommand>(resource,
                                                                          levels,
@@ -708,22 +708,22 @@ namespace ouzel
         }
 
         Texture::Texture(Renderer& initRenderer,
-                         const std::vector<std::pair<Size2U, std::vector<uint8_t>>>& initLevels,
+                         const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
                          const Size2U& initSize,
-                         uint32_t initFlags,
+                         std::uint32_t initFlags,
                          PixelFormat initPixelFormat):
             renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
             size(initSize),
             flags(initFlags),
-            mipmaps(static_cast<uint32_t>(initLevels.size())),
+            mipmaps(static_cast<std::uint32_t>(initLevels.size())),
             sampleCount(1),
             pixelFormat(initPixelFormat)
         {
             if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
-            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = initLevels;
+            std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = initLevels;
 
             if (!initRenderer.getDevice()->isNPOTTexturesSupported() &&
                 (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
@@ -740,12 +740,12 @@ namespace ouzel
                                                                          pixelFormat));
         }
 
-        void Texture::setData(const std::vector<uint8_t>& newData, CubeFace face)
+        void Texture::setData(const std::vector<std::uint8_t>& newData, CubeFace face)
         {
             if (!(flags & Flags::Dynamic) || flags & Flags::BindRenderTarget)
                 throw std::runtime_error("Texture is not dynamic");
 
-            std::vector<std::pair<Size2U, std::vector<uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
+            std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
             if (resource)
                 renderer->addCommand(std::make_unique<SetTextureDataCommand>(resource,
@@ -823,7 +823,7 @@ namespace ouzel
                                                                                    maxAnisotropy));
         }
 
-        void Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        void Texture::setMaxAnisotropy(std::uint32_t newMaxAnisotropy)
         {
             maxAnisotropy = newMaxAnisotropy;
 

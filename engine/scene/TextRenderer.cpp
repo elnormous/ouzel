@@ -69,8 +69,8 @@ namespace ouzel
 
             if (needsMeshUpdate)
             {
-                indexBuffer.setData(indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
-                vertexBuffer.setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
+                indexBuffer.setData(indices.data(), static_cast<std::uint32_t>(getVectorSize(indices)));
+                vertexBuffer.setData(vertices.data(), static_cast<std::uint32_t>(getVectorSize(vertices)));
 
                 needsMeshUpdate = false;
             }
@@ -92,8 +92,8 @@ namespace ouzel
                                                       vertexShaderConstants);
             engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
             engine->getRenderer()->draw(indexBuffer.getResource(),
-                                        static_cast<uint32_t>(indices.size()),
-                                        sizeof(uint16_t),
+                                        static_cast<std::uint32_t>(indices.size()),
+                                        sizeof(std::uint16_t),
                                         vertexBuffer.getResource(),
                                         graphics::DrawMode::TriangleList,
                                         0);

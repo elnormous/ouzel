@@ -44,7 +44,7 @@ namespace ouzel
 #endif
         }
 
-        CursorLinux::CursorLinux(const std::vector<uint8_t>& data,
+        CursorLinux::CursorLinux(const std::vector<std::uint8_t>& data,
                                  const Size2F& size,
                                  graphics::PixelFormat pixelFormat,
                                  const Vector2F& hotSpot)

@@ -16,7 +16,7 @@ namespace ouzel
         {
         }
 
-        void Client::connect(const std::string& address, uint16_t port)
+        void Client::connect(const std::string& address, std::uint16_t port)
         {
         }
 

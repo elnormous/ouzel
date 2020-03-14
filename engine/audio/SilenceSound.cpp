@@ -21,10 +21,10 @@ namespace ouzel
                 position = 0;
             }
 
-            void getSamples(uint32_t frames, std::vector<float>& samples) final;
+            void getSamples(std::uint32_t frames, std::vector<float>& samples) final;
 
         private:
-            uint32_t position = 0;
+            std::uint32_t position = 0;
         };
 
         class SilenceData final: public mixer::Data
@@ -53,7 +53,7 @@ namespace ouzel
         {
         }
 
-        void SilenceStream::getSamples(uint32_t frames, std::vector<float>& samples)
+        void SilenceStream::getSamples(std::uint32_t frames, std::vector<float>& samples)
         {
             SilenceData& silenceData = static_cast<SilenceData&>(data);
 
@@ -64,7 +64,7 @@ namespace ouzel
 
             if (length > 0.0F)
             {
-                const auto frameCount = static_cast<uint32_t>(length * data.getSampleRate());
+                const auto frameCount = static_cast<std::uint32_t>(length * data.getSampleRate());
                 auto neededSize = frames;
 
                 if (neededSize > 0)

@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    template <size_t N, typename T> class Box final
+    template <std::size_t N, typename T> class Box final
     {
     public:
         Vector<N, T> min;
@@ -29,7 +29,7 @@ namespace ouzel
         {
         }
 
-        template <size_t N2>
+        template <std::size_t N2>
         explicit Box(const Box<N2, T>& box) noexcept:
             min(Vector<N, T>(box.min)), max(Vector<N, T>(box.max))
         {
@@ -42,27 +42,27 @@ namespace ouzel
 
         bool intersects(const Box& aabb) const noexcept
         {
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 if (aabb.min.v[0] > max.v[0]) return false;
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 if (aabb.max.v[0] < min.v[0]) return false;
             return true;
         }
 
         bool containsPoint(const Vector<N, T>& point) const noexcept
         {
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 if (point.v[i] < min.v[i]) return false;
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 if (point.v[i] > max.v[i]) return false;
             return true;
         }
 
         void merge(const Box& box) noexcept
         {
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 min.v[i] = std::min(min.v[i], box.min.v[i]);
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 max.v[i] = std::max(max.v[i], box.max.v[i]);
         }
 
@@ -76,7 +76,7 @@ namespace ouzel
 
         inline auto isEmpty() const noexcept
         {
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 if (min.v[i] > max.v[i])
                     return true;
             return false;
@@ -84,9 +84,9 @@ namespace ouzel
 
         inline void insertPoint(const Vector<N, T>& point) noexcept
         {
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 if (point.v[i] < min.v[i]) min.v[i] = point.v[i];
-            for (size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < N; ++i)
                 if (point.v[i] > max.v[i]) max.v[i] = point.v[i];
         }
 

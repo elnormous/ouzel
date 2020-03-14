@@ -29,7 +29,7 @@ namespace ouzel
         {
             namespace
             {
-                constexpr MTLIndexType getIndexType(uint32_t indexSize)
+                constexpr MTLIndexType getIndexType(std::uint32_t indexSize)
                 {
                     switch (indexSize)
                     {
@@ -113,9 +113,9 @@ namespace ouzel
 
             void RenderDevice::init(Window* newWindow,
                                          const Size2U& newSize,
-                                         uint32_t newSampleCount,
+                                         std::uint32_t newSampleCount,
                                          SamplerFilter newTextureFilter,
-                                         uint32_t newMaxAnisotropy,
+                                         std::uint32_t newMaxAnisotropy,
                                          bool newSrgb,
                                          bool newVerticalSync,
                                          bool newDepth,
@@ -404,11 +404,11 @@ namespace ouzel
                                 if (currentRenderCommandEncoder)
                                     [currentRenderCommandEncoder endEncoding];
 
-                                size_t colorAttachments = 1;
+                                std::size_t colorAttachments = 1;
                                 if (currentRenderTarget)
                                     colorAttachments = currentRenderTarget->getColorTextures().size();
 
-                                for (size_t i = 0; i < colorAttachments; ++i)
+                                for (std::size_t i = 0; i < colorAttachments; ++i)
                                 {
                                     currentRenderPassDescriptor.colorAttachments[i].loadAction = clearCommand->clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
                                     currentRenderPassDescriptor.colorAttachments[i].clearColor = MTLClearColorMake(clearCommand->clearColor.normR(),
@@ -688,7 +688,7 @@ namespace ouzel
 
                                 shaderData.clear();
 
-                                for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
+                                for (std::size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                                 {
                                     const Shader::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
                                     const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
@@ -729,7 +729,7 @@ namespace ouzel
                                                                         offset:shaderConstantBuffer.offset
                                                                        atIndex:1];
 
-                                shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
+                                shaderConstantBuffer.offset += static_cast<std::uint32_t>(getVectorSize(shaderData));
 
                                 // vertex shader constants
                                 const std::vector<Shader::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
@@ -739,7 +739,7 @@ namespace ouzel
 
                                 shaderData.clear();
 
-                                for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
+                                for (std::size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
                                 {
                                     const Shader::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                                     const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
@@ -780,7 +780,7 @@ namespace ouzel
                                                                       offset:shaderConstantBuffer.offset
                                                                      atIndex:1];
 
-                                shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
+                                shaderConstantBuffer.offset += static_cast<std::uint32_t>(getVectorSize(shaderData));
 
                                 break;
                             }
@@ -833,7 +833,7 @@ namespace ouzel
                                 if (!currentRenderCommandEncoder)
                                     throw Error("Metal render command encoder not initialized");
 
-                                for (uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
+                                for (std::uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
                                 {
                                     if (auto texture = getResource<Texture>(setTexturesCommand->textures[layer]))
                                     {
@@ -866,16 +866,16 @@ namespace ouzel
                 const NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.get().width);
                 const NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.get().height);
 
-                std::vector<uint8_t> data(width * height * 4);
+                std::vector<std::uint8_t> data(width * height * 4);
                 [currentMetalTexture.get() getBytes:data.data()
                                         bytesPerRow:width * 4
                                          fromRegion:MTLRegionMake2D(0, 0, width, height)
                                         mipmapLevel:0];
 
-                uint8_t temp;
-                for (uint32_t y = 0; y < height; ++y)
+                std::uint8_t temp;
+                for (std::uint32_t y = 0; y < height; ++y)
                 {
-                    for (uint32_t x = 0; x < width; ++x)
+                    for (std::uint32_t x = 0; x < width; ++x)
                     {
                         // reverse the order of channels
                         temp = data[((y * width + x) * 4)];
@@ -913,14 +913,14 @@ namespace ouzel
                         pipelineStateDescriptor.get().vertexDescriptor = desc.shader->getVertexDescriptor().get();
                     }
 
-                    for (size_t i = 0; i < desc.colorFormats.size(); ++i)
+                    for (std::size_t i = 0; i < desc.colorFormats.size(); ++i)
                         pipelineStateDescriptor.get().colorAttachments[i].pixelFormat = desc.colorFormats[i];
                     pipelineStateDescriptor.get().depthAttachmentPixelFormat = desc.depthFormat;
                     pipelineStateDescriptor.get().stencilAttachmentPixelFormat = desc.stencilFormat;
 
                     if (desc.blendState)
                     {
-                        for (size_t i = 0; i < desc.colorFormats.size(); ++i)
+                        for (std::size_t i = 0; i < desc.colorFormats.size(); ++i)
                         {
                             // blending
                             pipelineStateDescriptor.get().colorAttachments[i].blendingEnabled = desc.blendState->isBlendingEnabled() ? YES : NO;

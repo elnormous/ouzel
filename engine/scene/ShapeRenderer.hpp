@@ -36,7 +36,7 @@ namespace ouzel
                         float radius,
                         Color color,
                         bool fill = false,
-                        uint32_t segments = 16,
+                        std::uint32_t segments = 16,
                         float thickness = 0.0F);
 
             void rectangle(const RectF& rectangle,
@@ -51,7 +51,7 @@ namespace ouzel
 
             void curve(const std::vector<Vector2F>& controlPoints,
                        Color color,
-                       uint32_t segments = 16,
+                       std::uint32_t segments = 16,
                        float thickness = 0.0F);
 
             inline auto& getShader() const noexcept { return shader; }
@@ -70,8 +70,8 @@ namespace ouzel
             struct DrawCommand final
             {
                 graphics::DrawMode mode;
-                uint32_t indexCount;
-                uint32_t startIndex;
+                std::uint32_t indexCount;
+                std::uint32_t startIndex;
             };
 
             const graphics::Shader* shader = nullptr;
@@ -81,7 +81,7 @@ namespace ouzel
 
             std::vector<DrawCommand> drawCommands;
 
-            std::vector<uint16_t> indices;
+            std::vector<std::uint16_t> indices;
             std::vector<graphics::Vertex> vertices;
             bool dirty = false;
         };
