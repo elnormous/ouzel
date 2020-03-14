@@ -17,7 +17,7 @@ namespace ouzel
             std::string directory = path.getDirectoryPart();
 
             std::ifstream f(path, std::ios::binary);
-            std::vector<std::uint8_t> data{std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
+            std::vector<char> data{std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
 
             json::Data j(data);
             name = j["name"].as<std::string>();
