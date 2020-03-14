@@ -41,32 +41,31 @@ namespace ouzel
 
             Path() = default;
             Path(const std::string& p):
-#if defined(_WIN32)
-                path(convertToNative(toWchar(p)))
-#elif defined(__unix__) || defined(__APPLE__)
-                path(p)
-#endif
+                path(convertToNative(p))
             {
                 // TODO: normalize
             }
 
             Path(const std::wstring& p):
-#if defined(_WIN32)
                 path(convertToNative(p))
-#elif defined(__unix__) || defined(__APPLE__)
-                path(toUtf8(p))
-#endif
             {
                 // TODO: normalize
             }
 
             operator std::string() const
             {
-#if defined(_WIN32)
-                return toUtf8(convertToUniversal(path));
-#elif defined(__unix__) || defined(__APPLE__)
-                return path;
-#endif
+                return convertToUniversal(path);
+            }
+
+            Path& operator+=(const Path& p)
+            {
+                path += p.path;
+                return *this;
+            }
+
+            Path operator+(const Path& p)
+            {
+                return Path{path + p.path};
             }
 
             const String& getNative() const noexcept
@@ -261,6 +260,7 @@ namespace ouzel
                 return s;
             }
 
+#if defined(_WIN32)
             static std::wstring toWchar(const std::string& p)
             {
                 std::wstring s;
@@ -310,7 +310,11 @@ namespace ouzel
                 return s;
             }
 
-#if defined(_WIN32)
+            static std::wstring convertToNative(const std::string& p)
+            {
+                return convertToNative(toWchar(p));
+            }
+
             static std::wstring convertToNative(const std::wstring& p)
             {
                 std::wstring result = p;
@@ -321,14 +325,29 @@ namespace ouzel
                 return result;
             }
 
-            static std::wstring convertToUniversal(const std::wstring& p)
+            static std::string convertToUniversal(const std::wstring& p)
             {
-                std::wstring result = p;
+                std::string result = toUtf8(p);
 
                 for (auto& c : result)
-                    if (c == L'\\') c = L'/';
+                    if (c == '\\') c = '/';
 
                 return result;
+            }
+#elif defined(__unix__) || defined(__APPLE__)
+            static std::string convertToNative(const std::wstring& p)
+            {
+                return toUtf8(p);
+            }
+
+            static const std::string& convertToNative(const std::string& p)
+            {
+                return p;
+            }
+
+            static const std::string& convertToUniversal(const std::string& p)
+            {
+                return p;
             }
 #endif
 

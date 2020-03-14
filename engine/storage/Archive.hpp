@@ -97,7 +97,7 @@ namespace ouzel
 
                 data.resize(i->second.size);
 
-                file.read(reinterpret_cast<char*>(data.data()), i->second.size);
+                file.read(reinterpret_cast<char*>(data.data()), static_cast<std::streamsize>(i->second.size));
 
                 return data;
             }
