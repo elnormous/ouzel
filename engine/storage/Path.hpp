@@ -58,18 +58,6 @@ namespace ouzel
                 return *this;
             }
 
-            Path& operator+=(const char p)
-            {
-                path += Char(p);
-                return *this;
-            }
-
-            Path& operator+=(const char* p)
-            {
-                path += convertToNative(p);
-                return *this;
-            }
-
             Path& operator+=(const std::string& p)
             {
                 path += convertToNative(p);
@@ -80,20 +68,6 @@ namespace ouzel
             {
                 Path result = *this;
                 result.path += p.path;
-                return result;
-            }
-
-            Path operator+(const char p)
-            {
-                Path result = *this;
-                result.path += Char(p);
-                return result;
-            }
-
-            Path operator+(const char* p)
-            {
-                Path result = *this;
-                result.path += convertToNative(p);
                 return result;
             }
 
@@ -383,7 +357,6 @@ namespace ouzel
 
             static std::wstring convertToNative(const std::string& p)
             {
-                // TODO: normalize
                 std::wstring result = toWchar(p);
 
                 for (auto& c : result)
@@ -397,14 +370,13 @@ namespace ouzel
                 std::string result = toUtf8(p);
 
                 for (auto& c : result)
-                    if (c == '\\') c = '/';
+                    if (c == directorySeparator) c = '/';
 
                 return result;
             }
 #elif defined(__unix__) || defined(__APPLE__)
             static const std::string& convertToNative(const std::string& p)
             {
-                // TODO: normalize
                 return p;
             }
 
