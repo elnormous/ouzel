@@ -160,6 +160,20 @@ namespace ouzel
                 return result;
             }
 
+            Path getRoot() const
+            {
+                Path result;
+#if defined(_WIN32)
+                if (path.size() >= 2 &&
+                    ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
+                    path[1] == L':')
+                    result.path = path.substr(0, 2);
+#elif defined(__unix__) || defined(__APPLE__)
+                if (path.size() >= 1 && path[0] == '/') result.path = '/';
+#endif
+                return result;
+            }
+
             bool isDirectory() const noexcept
             {
 #if defined(_WIN32)
