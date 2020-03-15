@@ -45,7 +45,6 @@ namespace ouzel
             Path(const std::string& p):
                 path(convertToNative(p))
             {
-                // TODO: normalize
             }
 
             operator std::string() const
@@ -370,6 +369,7 @@ namespace ouzel
 
             static std::wstring convertToNative(const std::string& p)
             {
+                // TODO: normalize
                 return convertToNative(toWchar(p));
             }
 
@@ -393,13 +393,9 @@ namespace ouzel
                 return result;
             }
 #elif defined(__unix__) || defined(__APPLE__)
-            static std::string convertToNative(const std::wstring& p)
-            {
-                return toUtf8(p);
-            }
-
             static const std::string& convertToNative(const std::string& p)
             {
+                // TODO: normalize
                 return p;
             }
 
