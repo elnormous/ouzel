@@ -370,12 +370,7 @@ namespace ouzel
             static std::wstring convertToNative(const std::string& p)
             {
                 // TODO: normalize
-                return convertToNative(toWchar(p));
-            }
-
-            static std::wstring convertToNative(const std::wstring& p)
-            {
-                std::wstring result = p;
+                std::wstring result = toWchar(p);
 
                 for (auto& c : result)
                     if (c == L'/') c = L'\\';
