@@ -141,6 +141,35 @@ namespace ouzel
                     HDC deviceContext = 0;
                     HGLRC renderContext = 0;
                 };
+
+                std::pair<uint16_t, uint16_t> getVersion()
+                {
+                    HMODULE module = LoadLibraryW(L"opengl32.dll");
+                    if (!module)
+                        throw std::system_error(GetLastError(), std::system_category(), "Failed to load opengl32.dll");
+
+                    PFNGLGETSTRINGPROC glGetStringProc = reinterpret_cast<PFNGLGETSTRINGPROC>(GetProcAddress(module, "glGetString"));
+
+                    const GLubyte* versionPtr = glGetStringProc(GL_VERSION);
+
+                    if (!versionPtr)
+                        throw std::runtime_error("Failed to get OpenGL version");
+
+                    const std::string versionStr(reinterpret_cast<const char*>(versionPtr));
+                    std::string versionParts[2];
+                    std::uint32_t part = 0;
+
+                    for (const auto c : versionStr)
+                        if (c != '.')
+                            versionParts[part] += c;
+                        else if (++part > 1)
+                            break;
+
+                    FreeLibrary(module);
+
+                    return std::make_pair(static_cast<std::uint16_t>(std::stoi(versionParts[0])),
+                                          static_cast<std::uint16_t>(std::stoi(versionParts[1])));
+                }
             }
 
             RenderDeviceWin::RenderDeviceWin(const std::function<void(const Event&)>& initCallback):
@@ -308,6 +337,11 @@ namespace ouzel
 
                 if (!wglMakeCurrent(deviceContext, renderContext))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to set OpenGL rendering context");
+
+                std::tie(apiMajorVersion, apiMinorVersion) = getVersion();
+
+                if (apiMajorVersion < 2 || apiMajorVersion > 4)
+                    throw std::runtime_error("Unsupported OpenGL version");
 
                 RenderDevice::init(newWindow,
                                    newSize,

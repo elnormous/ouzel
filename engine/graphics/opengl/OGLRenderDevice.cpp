@@ -385,33 +385,6 @@ namespace ouzel
                 glGetIntegervProc = getCoreProcAddress<PFNGLGETINTEGERVPROC>("glGetIntegerv");
                 glGetErrorProc = getCoreProcAddress<PFNGLGETERRORPROC>("glGetError");
 
-#if OUZEL_OPENGL_INTERFACE_WGL
-                const GLubyte* versionPtr = glGetStringProc(GL_VERSION);
-
-                if (!versionPtr)
-                    throw std::runtime_error("Failed to get OpenGL version");
-
-                const std::string versionStr(reinterpret_cast<const char*>(versionPtr));
-                std::string versionParts[2];
-                std::uint32_t part = 0;
-
-                for (const auto c : versionStr)
-                {
-                    if (c == '.')
-                    {
-                        if (++part > 1) break;
-                    }
-                    else
-                        versionParts[part] += c;
-                }
-
-                apiMajorVersion = static_cast<std::uint16_t>(std::stoi(versionParts[0]));
-                apiMinorVersion = static_cast<std::uint16_t>(std::stoi(versionParts[1]));
-
-                if (apiMajorVersion < 2 || apiMajorVersion > 4)
-                    throw std::runtime_error("Unsupported OpenGL version");
-#endif
-
                 const GLubyte* deviceName = glGetStringProc(GL_RENDERER);
 
                 GLenum error;
