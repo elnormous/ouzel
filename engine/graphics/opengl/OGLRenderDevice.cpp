@@ -52,7 +52,8 @@ inline auto getCoreProcAddress(const char* name)
 #if OUZEL_OPENGL_INTERFACE_GLX
     return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
 #elif OUZEL_OPENGL_INTERFACE_WGL
-    return reinterpret_cast<T>(wglGetProcAddress(name));
+    static HMODULE module = LoadLibraryW(L"opengl32.dll");
+    return reinterpret_cast<T>(GetProcAddress(module, name));
 #else
     return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
 #endif
