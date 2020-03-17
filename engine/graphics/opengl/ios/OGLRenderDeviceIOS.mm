@@ -135,7 +135,7 @@ namespace ouzel
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to bind MSAA frame buffer");
 
-                    if (apiVersion.major >= 3)
+                    if (apiVersion.v[0] >= 3)
                         glBlitFramebufferProc(0, 0, frameBufferWidth, frameBufferHeight,
                                               0, 0, frameBufferWidth, frameBufferHeight,
                                               GL_COLOR_BUFFER_BIT, GL_NEAREST);

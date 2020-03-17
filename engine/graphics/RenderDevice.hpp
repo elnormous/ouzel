@@ -29,29 +29,24 @@ namespace ouzel
         {
             constexpr ApiVersion() = default;
             constexpr ApiVersion(std::uint16_t majorVersion, std::uint16_t minorVersion) noexcept:
-                major(majorVersion), minor(minorVersion) {}
+                v{majorVersion, minorVersion} {}
 
             constexpr bool operator==(const ApiVersion& other) const
             {
-                return major == other.major && minor == other.minor;
+                return v[0] == other.v[0] && v[1] == other.v[1];
             }
 
             constexpr bool operator>(const ApiVersion& other) const
             {
-                return (major == other.major) ?
-                    (minor > other.minor) :
-                    (major > other.major);
+                return (v[0] == other.v[0]) ? (v[1] > other.v[1]) : (v[0] > other.v[0]);
             }
 
             constexpr bool operator>=(const ApiVersion& other) const
             {
-                return (major == other.major) ?
-                    (minor >= other.minor) :
-                    (major > other.major);
+                return (v[0] == other.v[0]) ? (v[1] >= other.v[1]) : (v[0] > other.v[0]);
             }
 
-            std::uint16_t major = 0;
-            std::uint16_t minor = 0;
+            std::uint16_t v[2]{0, 0};
         };
 
         class RenderDevice
@@ -99,8 +94,8 @@ namespace ouzel
 
             inline auto getDrawCallCount() const noexcept { return drawCallCount; }
 
-            inline auto getAPIMajorVersion() const noexcept { return apiVersion.major; }
-            inline auto getAPIMinorVersion() const noexcept { return apiVersion.minor; }
+            inline auto getAPIMajorVersion() const noexcept { return apiVersion.v[0]; }
+            inline auto getAPIMinorVersion() const noexcept { return apiVersion.v[1]; }
 
             inline auto isNPOTTexturesSupported() const noexcept { return npotTexturesSupported; }
             inline auto isAnisotropicFilteringSupported() const noexcept { return anisotropicFilteringSupported; }

@@ -340,7 +340,7 @@ namespace ouzel
 
                 apiVersion = getVersion();
 
-                if (apiVersion.major < 2 || apiVersion.major > 4)
+                if (apiVersion.v[0] < 2 || apiVersion.v[0] > 4)
                     throw std::runtime_error("Unsupported OpenGL version");
 
                 RenderDevice::init(newWindow,
