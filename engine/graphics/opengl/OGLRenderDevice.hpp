@@ -78,6 +78,8 @@ namespace ouzel
                 PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc = nullptr;
                 PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparateProc = nullptr;
 
+                PFNGLACTIVETEXTUREPROC glActiveTextureProc = nullptr;
+
                 PFNGLUNIFORM1IPROC glUniform1iProc = nullptr;
                 PFNGLUNIFORM1FVPROC glUniform1fvProc = nullptr;
                 PFNGLUNIFORM2FVPROC glUniform2fvProc = nullptr;
@@ -94,7 +96,6 @@ namespace ouzel
                 PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fvProc = nullptr;
                 PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fvProc = nullptr;
 
-                PFNGLACTIVETEXTUREPROC glActiveTextureProc = nullptr;
                 PFNGLGENRENDERBUFFERSPROC glGenRenderbuffersProc = nullptr;
                 PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffersProc = nullptr;
                 PFNGLBINDRENDERBUFFERPROC glBindRenderbufferProc = nullptr;
