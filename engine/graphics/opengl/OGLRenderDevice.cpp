@@ -94,6 +94,7 @@ namespace ouzel
                     (void)procApiVersion;
                     return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
 #elif OUZEL_OPENGL_INTERFACE_WGL
+                    static HMODULE module = LoadLibraryW(L"opengl32.dll");
                     return procApiVersion > ApiVersion(1, 1) ?
                         reinterpret_cast<T>(wglGetProcAddress(name)) :
                         reinterpret_cast<T>(GetProcAddress(module, name));
@@ -597,7 +598,9 @@ namespace ouzel
                 glBindRenderbufferProc = getter.get<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer", ApiVersion(2, 0));
                 glRenderbufferStorageProc = getter.get<PFNGLRENDERBUFFERSTORAGEPROC>("glRenderbufferStorage", ApiVersion(2, 0));
 
-                glTexStorage2DMultisampleProc = getter.get<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample", ApiVersion(3, 1), "GL_EXT_multisampled_render_to_texture"); // TODO: add EXT suffix
+                glTexStorage2DMultisampleProc = getter.get<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample", ApiVersion(3, 1));
+                if (!glTexStorage2DMultisampleProc)
+                    glTexStorage2DMultisampleProc = getter.get<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisampleEXT", ApiVersion(3, 1), "GL_EXT_multisampled_render_to_texture");
 
                 glUniform1uivProc = getter.get<PFNGLUNIFORM1UIVPROC>("glUniform1uiv", ApiVersion(3, 0));
                 glUniform2uivProc = getter.get<PFNGLUNIFORM2UIVPROC>("glUniform2uiv", ApiVersion(3, 0));
