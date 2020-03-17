@@ -142,7 +142,7 @@ namespace ouzel
                     HGLRC renderContext = 0;
                 };
 
-                std::pair<uint16_t, uint16_t> getVersion()
+                ApiVersion getVersion()
                 {
                     HMODULE module = LoadLibraryW(L"opengl32.dll");
                     if (!module)
@@ -167,8 +167,8 @@ namespace ouzel
 
                     FreeLibrary(module);
 
-                    return std::make_pair(static_cast<std::uint16_t>(std::stoi(versionParts[0])),
-                                          static_cast<std::uint16_t>(std::stoi(versionParts[1])));
+                    return ApiVersion(static_cast<std::uint16_t>(std::stoi(versionParts[0])),
+                                      static_cast<std::uint16_t>(std::stoi(versionParts[1])));
                 }
             }
 
@@ -338,9 +338,9 @@ namespace ouzel
                 if (!wglMakeCurrent(deviceContext, renderContext))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to set OpenGL rendering context");
 
-                std::tie(apiMajorVersion, apiMinorVersion) = getVersion();
+                apiVersion = getVersion();
 
-                if (apiMajorVersion < 2 || apiMajorVersion > 4)
+                if (apiVersion.major < 2 || apiVersion.major > 4)
                     throw std::runtime_error("Unsupported OpenGL version");
 
                 RenderDevice::init(newWindow,

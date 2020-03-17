@@ -125,18 +125,15 @@ namespace ouzel
                         switch (openGLVersion)
                         {
                             case NSOpenGLProfileVersionLegacy:
-                                apiMajorVersion = 2;
-                                apiMinorVersion = 0;
+                                apiVersion = ApiVersion(2, 0);
                                 engine->log(Log::Level::Info) << "OpenGL 2 pixel format created";
                                 break;
                             case NSOpenGLProfileVersion3_2Core:
-                                apiMajorVersion = 3;
-                                apiMinorVersion = 2;
+                                apiVersion = ApiVersion(3, 2);
                                 engine->log(Log::Level::Info) << "OpenGL 3.2 pixel format created";
                                 break;
                             case NSOpenGLProfileVersion4_1Core:
-                                apiMajorVersion = 4;
-                                apiMinorVersion = 1;
+                                apiVersion = ApiVersion(4, 1);
                                 engine->log(Log::Level::Info) << "OpenGL 4.1 pixel format created";
                                 break;
                         }

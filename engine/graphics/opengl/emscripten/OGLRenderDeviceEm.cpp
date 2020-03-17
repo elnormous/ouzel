@@ -35,8 +35,7 @@ namespace ouzel
                                       bool newStencil,
                                       bool newDebugRenderer)
             {
-                apiMajorVersion = 2;
-                apiMinorVersion = 0;
+                apiVersion = ApiVersion(2, 0);
 
                 EmscriptenWebGLContextAttributes attrs;
                 emscripten_webgl_init_context_attributes(&attrs);

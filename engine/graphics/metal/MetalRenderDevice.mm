@@ -107,8 +107,7 @@ namespace ouzel
                 depthFormat(MTLPixelFormatInvalid),
                 stencilFormat(MTLPixelFormatInvalid)
             {
-                apiMajorVersion = 1;
-                apiMinorVersion = 0;
+                apiVersion = ApiVersion(1, 0);
             }
 
             void RenderDevice::init(Window* newWindow,

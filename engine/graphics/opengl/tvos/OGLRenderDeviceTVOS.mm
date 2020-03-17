@@ -85,8 +85,7 @@ namespace ouzel
 
                 if (context)
                 {
-                    apiMajorVersion = 3;
-                    apiMinorVersion = 0;
+                    apiVersion = ApiVersion(3, 0);
                     engine->log(Log::Level::Info) << "EAGL OpenGL ES 3 context created";
                 }
                 else
@@ -96,8 +95,7 @@ namespace ouzel
                     if (!context)
                         throw std::runtime_error("Failed to create EAGL context");
 
-                    apiMajorVersion = 2;
-                    apiMinorVersion = 0;
+                    apiVersion = ApiVersion(2, 0);
                     engine->log(Log::Level::Info) << "EAGL OpenGL ES 2 context created";
                 }
 
@@ -137,7 +135,7 @@ namespace ouzel
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to bind MSAA frame buffer");
 
-                    if (apiMajorVersion >= 3)
+                    if (apiVersion.major >= 3)
                         glBlitFramebufferProc(0, 0, frameBufferWidth, frameBufferHeight,
                                             0, 0, frameBufferWidth, frameBufferHeight,
                                             GL_COLOR_BUFFER_BIT, GL_NEAREST);

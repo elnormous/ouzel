@@ -25,6 +25,35 @@ namespace ouzel
     {
         class Renderer;
 
+        struct ApiVersion
+        {
+            constexpr ApiVersion() = default;
+            constexpr ApiVersion(std::uint16_t majorVersion, std::uint16_t minorVersion) noexcept:
+                major(majorVersion), minor(minorVersion) {}
+
+            constexpr bool operator==(const ApiVersion& other) const
+            {
+                return major == other.major && minor == other.minor;
+            }
+
+            constexpr bool operator>(const ApiVersion& other) const
+            {
+                return (major == other.major) ?
+                    (minor > other.minor) :
+                    (major > other.major);
+            }
+
+            constexpr bool operator>=(const ApiVersion& other) const
+            {
+                return (major == other.major) ?
+                    (minor >= other.minor) :
+                    (major > other.major);
+            }
+
+            std::uint16_t major = 0;
+            std::uint16_t minor = 0;
+        };
+
         class RenderDevice
         {
             friend Renderer;
@@ -70,8 +99,8 @@ namespace ouzel
 
             inline auto getDrawCallCount() const noexcept { return drawCallCount; }
 
-            inline auto getAPIMajorVersion() const noexcept { return apiMajorVersion; }
-            inline auto getAPIMinorVersion() const noexcept { return apiMinorVersion; }
+            inline auto getAPIMajorVersion() const noexcept { return apiVersion.major; }
+            inline auto getAPIMinorVersion() const noexcept { return apiVersion.minor; }
 
             inline auto isNPOTTexturesSupported() const noexcept { return npotTexturesSupported; }
             inline auto isAnisotropicFilteringSupported() const noexcept { return anisotropicFilteringSupported; }
@@ -171,8 +200,7 @@ namespace ouzel
 
             Window* window = nullptr;
 
-            std::uint16_t apiMajorVersion = 0;
-            std::uint16_t apiMinorVersion = 0;
+            ApiVersion apiVersion;
 
             std::uint32_t sampleCount = 1; // MSAA sample count
             SamplerFilter textureFilter = SamplerFilter::Point;

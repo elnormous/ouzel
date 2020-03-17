@@ -151,8 +151,7 @@ namespace ouzel
 
                     if (context != EGL_NO_CONTEXT)
                     {
-                        apiMajorVersion = version;
-                        apiMinorVersion = 0;
+                        apiVersion = ApiVersion(version, 0);
                         engine->log(Log::Level::Info) << "EGL OpenGL ES " << version << " context created";
                         break;
                     }
@@ -259,8 +258,7 @@ namespace ouzel
 
                     if (context != EGL_NO_CONTEXT)
                     {
-                        apiMajorVersion = version;
-                        apiMinorVersion = 0;
+                        apiVersion = ApiVersion(version, 0);
                         engine->log(Log::Level::Info) << "EGL OpenGL ES " << version << " context created";
                         break;
                     }

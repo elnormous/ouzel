@@ -74,14 +74,6 @@ inline auto getExtProcAddress(const char* name)
 #endif
 }
 
-constexpr auto isVersionGreaterOrEqual(std::uint16_t majorVersion, std::uint16_t minorVersion,
-                                       std::uint16_t checkMajorVersion, std::uint16_t checkMinorVersion)
-{
-    return (majorVersion == checkMajorVersion) ?
-        (minorVersion >= checkMinorVersion) :
-        (majorVersion > checkMajorVersion);
-}
-
 namespace ouzel
 {
     namespace graphics
@@ -499,7 +491,7 @@ namespace ouzel
 
                 std::vector<std::string> extensions;
 
-                if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 3, 0))
+                if (apiVersion >= ApiVersion(3, 0))
                 {
                     glGetStringiProc = getExtProcAddress<PFNGLGETSTRINGIPROC>("glGetStringi");
 
@@ -528,13 +520,13 @@ namespace ouzel
                 textureMaxLevelSupported = false;
                 uintIndicesSupported = false;
 
-                if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 4, 0))
+                if (apiVersion >= ApiVersion(4, 0))
                 {
 #if !OUZEL_OPENGLES
-                    if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 4, 6)) // at least OpenGL 4.6
+                    if (apiVersion >= ApiVersion(4, 6)) // at least OpenGL 4.6
                         anisotropicFilteringSupported = true;
 
-                    if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 4, 3)) // at least OpenGL 4.3
+                    if (apiVersion >= ApiVersion(4, 3)) // at least OpenGL 4.3
                     {
                         glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData");
                         glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
@@ -542,10 +534,10 @@ namespace ouzel
 #endif
                 }
 
-                if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 3, 0))
+                if (apiVersion >= ApiVersion(3, 0))
                 {
 #if OUZEL_OPENGLES
-                    if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 3, 1)) // at least OpenGL ES 3.1
+                    if (apiVersion >= ApiVersion(3, 1)) // at least OpenGL ES 3.1
                         glTexStorage2DMultisampleProc = getExtProcAddress<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample");
 #endif
                     npotTexturesSupported = true;
@@ -604,7 +596,7 @@ namespace ouzel
 #endif
                 }
 
-                if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 2, 0))
+                if (apiVersion >= ApiVersion(2, 0))
                 {
 #if !OUZEL_OPENGLES
                     renderTargetsSupported = true;
@@ -614,7 +606,7 @@ namespace ouzel
 #endif
                 }
 
-                if (isVersionGreaterOrEqual(apiMajorVersion, apiMinorVersion, 1, 3))
+                if (apiVersion >= ApiVersion(1, 3))
                 {
 #if !OUZEL_OPENGLES
                     clampToBorderSupported = true;
