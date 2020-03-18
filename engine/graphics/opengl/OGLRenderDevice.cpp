@@ -607,6 +607,9 @@ namespace ouzel
                 glUniform3uivProc = getter.get<PFNGLUNIFORM3UIVPROC>("glUniform3uiv", ApiVersion(3, 0));
                 glUniform4uivProc = getter.get<PFNGLUNIFORM4UIVPROC>("glUniform4uiv", ApiVersion(3, 0));
 
+                glMapBufferRangeProc = getter.get<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRange", ApiVersion(3, 0));
+                glUnmapBufferProc = getter.get<PFNGLUNMAPBUFFERPROC>("glUnmapBuffer", ApiVersion(3, 0));
+
                 if (apiVersion >= ApiVersion(3, 0))
                 {
 #if OUZEL_OPENGL_INTERFACE_EAGL
@@ -615,23 +618,15 @@ namespace ouzel
                     glDeleteVertexArraysProc = getExtProcAddress<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArraysOES");
 
                     glMapBufferProc = getExtProcAddress<PFNGLMAPBUFFEROESPROC>("glMapBufferOES");
-                    glUnmapBufferProc = getExtProcAddress<PFNGLUNMAPBUFFEROESPROC>("glUnmapBufferOES");
-                    glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRangeEXT");
 
                     glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisampleAPPLE");
 #else
-                    glGenVertexArraysProc = getExtProcAddress<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays");
-                    glBindVertexArrayProc = getExtProcAddress<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray");
-                    glDeleteVertexArraysProc = getExtProcAddress<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays");
-#  if OUZEL_OPENGL_INTERFACE_EGL
-                    glMapBufferProc = getExtProcAddress<PFNGLMAPBUFFEROESPROC>("glMapBuffer");
-                    glUnmapBufferProc = getExtProcAddress<PFNGLUNMAPBUFFEROESPROC>("glUnmapBuffer");
-#  else
-                    glMapBufferProc = getExtProcAddress<PFNGLMAPBUFFERPROC>("glMapBuffer");
-                    glUnmapBufferProc = getExtProcAddress<PFNGLUNMAPBUFFERPROC>("glUnmapBuffer");
-#  endif
-                    glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRange");
-                    glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample");
+                    glGenVertexArraysProc = getter.get<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays", ApiVersion(3, 0));
+                    glBindVertexArrayProc = getter.get<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray", ApiVersion(3, 0));
+                    glDeleteVertexArraysProc = getter.get<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays", ApiVersion(3, 0));
+                    glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBuffer", ApiVersion(3, 0));
+
+                    glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample", ApiVersion(3, 0));
 
                     glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisample");
 #endif

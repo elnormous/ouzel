@@ -111,11 +111,12 @@ namespace ouzel
                 PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc = nullptr;
                 PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc = nullptr;
 
+                PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc = nullptr;
+                PFNGLUNMAPBUFFERPROC glUnmapBufferProc = nullptr;
+
 #if OUZEL_OPENGLES
                 PFNGLCLEARDEPTHFPROC glClearDepthfProc = nullptr;
                 PFNGLMAPBUFFEROESPROC glMapBufferProc = nullptr;
-                PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc = nullptr;
-                PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc = nullptr;
                 PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc = nullptr;
                 PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc = nullptr;
 #  if OUZEL_OPENGL_INTERFACE_EAGL
@@ -127,8 +128,6 @@ namespace ouzel
                 PFNGLPOLYGONMODEPROC glPolygonModeProc = nullptr;
                 PFNGLCLEARDEPTHPROC glClearDepthProc = nullptr;
                 PFNGLMAPBUFFERPROC glMapBufferProc = nullptr;
-                PFNGLUNMAPBUFFERPROC glUnmapBufferProc = nullptr;
-                PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc = nullptr;
                 PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc = nullptr;
 #endif
 
