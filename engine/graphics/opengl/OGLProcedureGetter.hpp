@@ -90,49 +90,37 @@ namespace ouzel
                 }
 
                 template <typename T>
-                T get(const char* name,
-                      const char* procExtension) const noexcept
+                T get(const char* name, const char* extension) const noexcept
                 {
-                    if (hasExtension(procExtension))
+                    if (hasExtension(extension))
                         return getProcAddress<T>(name);
                     else
                         return nullptr;
                 }
 
                 template <typename T>
-                T get(const char* name,
-                      const std::vector<const char*>& procExtensions) const noexcept
+                T get(const std::map<const char*, const char*>& procExtensions) const noexcept
                 {
-                    if (hasExtension(procExtensions))
-                        return getProcAddress<T>(name);
-                    else
-                        return nullptr;
+                    for (const auto& extension : procExtensions)
+                        if (auto result = get<T>(extension.first, extension.second))
+                            return result;
+
+                    return nullptr;
                 }
 
                 template <typename T>
                 T get(const char* name,
                       ApiVersion procApiVersion,
-                      const char* procExtension) const noexcept
+                      const std::map<const char*, const char*>& procExtensions) const noexcept
                 {
                     if (apiVersion >= procApiVersion)
                         return getProcAddress<T>(name, procApiVersion);
-                    else if (hasExtension(procExtension))
-                        return getProcAddress<T>(name, procApiVersion);
                     else
-                        return nullptr;
-                }
+                        for (const auto& extension : procExtensions)
+                            if (auto result = get<T>(extension.first, extension.second))
+                                return result;
 
-                template <typename T>
-                T get(const char* name,
-                      ApiVersion procApiVersion,
-                      const std::vector<const char*>& procExtensions) const noexcept
-                {
-                    if (apiVersion >= procApiVersion)
-                        return getProcAddress<T>(name, procApiVersion);
-                    else if (hasExtension(procExtensions))
-                        return getProcAddress<T>(name, procApiVersion);
-                    else
-                        return nullptr;
+                    return nullptr;
                 }
 
                 bool hasExtension(const char* ext) const noexcept
