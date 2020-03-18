@@ -25,6 +25,7 @@
 #  include "GLES2/gl2ext.h"
 #  include "GLES3/gl3.h"
 #  include "GLES3/gl31.h"
+#  include "GLES3/gl32.h"
 #else
 #  include "GL/glcorearb.h"
 #  include "GL/glext.h"
@@ -114,11 +115,12 @@ namespace ouzel
                 PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc = nullptr;
                 PFNGLUNMAPBUFFERPROC glUnmapBufferProc = nullptr;
 
+                PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc = nullptr;
+
 #if OUZEL_OPENGLES
                 PFNGLCLEARDEPTHFPROC glClearDepthfProc = nullptr;
                 PFNGLMAPBUFFEROESPROC glMapBufferProc = nullptr;
                 PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc = nullptr;
-                PFNGLCOPYIMAGESUBDATAEXTPROC glCopyImageSubDataProc = nullptr;
 #  if OUZEL_OPENGL_INTERFACE_EAGL
                 PFNGLDISCARDFRAMEBUFFEREXTPROC glDiscardFramebufferEXTProc = nullptr;
                 PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC glRenderbufferStorageMultisampleAPPLEProc = nullptr;
@@ -128,7 +130,6 @@ namespace ouzel
                 PFNGLPOLYGONMODEPROC glPolygonModeProc = nullptr;
                 PFNGLCLEARDEPTHPROC glClearDepthProc = nullptr;
                 PFNGLMAPBUFFERPROC glMapBufferProc = nullptr;
-                PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc = nullptr;
 #endif
 
                 PFNGLCREATESHADERPROC glCreateShaderProc = nullptr;
