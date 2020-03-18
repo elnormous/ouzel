@@ -493,6 +493,11 @@ namespace ouzel
                 glMapBufferRangeProc = getter.get<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRange", ApiVersion(3, 0));
                 glUnmapBufferProc = getter.get<PFNGLUNMAPBUFFERPROC>("glUnmapBuffer", ApiVersion(3, 0));
 
+                glPushGroupMarkerEXTProc = getter.get<PFNGLPUSHGROUPMARKEREXTPROC>("glPushGroupMarkerEXT", "GL_EXT_debug_marker");
+                glPopGroupMarkerEXTProc = getter.get<PFNGLPOPGROUPMARKEREXTPROC>("glPopGroupMarkerEXT", "GL_EXT_debug_marker");
+
+                glCopyImageSubDataProc = getter.get<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData", ApiVersion(3, 2));
+
                 if (apiVersion >= ApiVersion(3, 0))
                 {
 #if OUZEL_OPENGL_INTERFACE_EAGL
@@ -538,6 +543,9 @@ namespace ouzel
                     if (getter.hasExtension("GL_OES_texture_npot"))
                         npotTexturesSupported = true;
                 }
+
+                if (getter.hasExtension("GL_EXT_texture_filter_anisotropic"))
+                    anisotropicFilteringSupported = true;
 #else
                 glEnableProc = getter.get<PFNGLENABLEPROC>("glEnable", ApiVersion(1, 0));
                 glDisableProc = getter.get<PFNGLDISABLEPROC>("glDisable", ApiVersion(1, 0));
@@ -643,8 +651,11 @@ namespace ouzel
                 glBindRenderbufferProc = getter.get<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer", ApiVersion(3, 0), "GL_ARB_framebuffer_object");
                 glRenderbufferStorageProc = getter.get<PFNGLRENDERBUFFERSTORAGEPROC>("glRenderbufferStorage", ApiVersion(3, 0), "GL_ARB_framebuffer_object");
 
-                glCopyImageSubDataProc = getter.get<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData", ApiVersion(4, 3), "GL_EXT_copy_image");
+                glCopyImageSubDataProc = getter.get<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData", ApiVersion(4, 3), "GL_ARB_copy_image");
                 glTexStorage2DMultisampleProc = getter.get<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample", ApiVersion(4, 3), "GL_ARB_texture_storage_multisample");
+
+                glPushGroupMarkerEXTProc = getter.get<PFNGLPUSHGROUPMARKEREXTPROC>("glPushGroupMarkerEXT", "GL_EXT_debug_marker");
+                glPopGroupMarkerEXTProc = getter.get<PFNGLPOPGROUPMARKEREXTPROC>("glPopGroupMarkerEXT", "GL_EXT_debug_marker");
 
                 if (apiVersion >= ApiVersion(1, 3))
                     clampToBorderSupported = true;
@@ -675,18 +686,16 @@ namespace ouzel
 
                 if (apiVersion >= ApiVersion(4, 6))
                     anisotropicFilteringSupported = true;
+                else
+                {
+                    if (getter.hasExtension({"GL_EXT_texture_filter_anisotropic", "GL_ARB_texture_filter_anisotropic"}))
+                        anisotropicFilteringSupported = true;
+                }
 #endif
 
                 for (const auto& extension : getter.getExtensions())
                 {
-                    if (extension == "GL_EXT_debug_marker")
-                    {
-                        glPushGroupMarkerEXTProc = getExtProcAddress<PFNGLPUSHGROUPMARKEREXTPROC>("glPushGroupMarkerEXT");
-                        glPopGroupMarkerEXTProc = getExtProcAddress<PFNGLPOPGROUPMARKEREXTPROC>("glPopGroupMarkerEXT");
-                    }
-                    else if (extension == "GL_EXT_texture_filter_anisotropic")
-                        anisotropicFilteringSupported = true;
-                    else if (extension == "GL_EXT_map_buffer_range")
+                    if (extension == "GL_EXT_map_buffer_range")
                     {
 #if OUZEL_OPENGLES
                         glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEEXTPROC>("glMapBufferRangeEXT");

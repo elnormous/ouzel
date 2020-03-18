@@ -81,6 +81,36 @@ namespace ouzel
 
                 template <typename T>
                 T get(const char* name,
+                      ApiVersion procApiVersion) const noexcept
+                {
+                    if (apiVersion >= procApiVersion)
+                        return getProcAddress<T>(name, procApiVersion);
+                    else
+                        return nullptr;
+                }
+
+                template <typename T>
+                T get(const char* name,
+                      const char* procExtension) const noexcept
+                {
+                    if (hasExtension(procExtension))
+                        return getProcAddress<T>(name);
+                    else
+                        return nullptr;
+                }
+
+                template <typename T>
+                T get(const char* name,
+                      const std::vector<const char*>& procExtensions) const noexcept
+                {
+                    if (hasExtension(procExtensions))
+                        return getProcAddress<T>(name);
+                    else
+                        return nullptr;
+                }
+
+                template <typename T>
+                T get(const char* name,
                       ApiVersion procApiVersion,
                       const char* procExtension) const noexcept
                 {
@@ -94,9 +124,12 @@ namespace ouzel
 
                 template <typename T>
                 T get(const char* name,
-                      ApiVersion procApiVersion) const noexcept
+                      ApiVersion procApiVersion,
+                      const std::vector<const char*>& procExtensions) const noexcept
                 {
                     if (apiVersion >= procApiVersion)
+                        return getProcAddress<T>(name, procApiVersion);
+                    else if (hasExtension(procExtensions))
                         return getProcAddress<T>(name, procApiVersion);
                     else
                         return nullptr;
@@ -106,6 +139,15 @@ namespace ouzel
                 {
                     for (const auto& extension : extensions)
                         if (extension == ext) return true;
+                    return false;
+                }
+
+                bool hasExtension(const std::vector<const char*>& ext) const noexcept
+                {
+                    for (const auto& extension : extensions)
+                        for (auto e : ext)
+                            if (extension == e) return true;
+
                     return false;
                 }
 
@@ -131,6 +173,20 @@ namespace ouzel
                         reinterpret_cast<T>(GetProcAddress(module.getModule(), name));
 #else
                     (void)procApiVersion;
+                    return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
+#endif
+                }
+
+                template <typename T>
+                T getProcAddress(const char* name) const noexcept
+                {
+#if OUZEL_OPENGL_INTERFACE_EGL
+                    return reinterpret_cast<T>(eglGetProcAddress(name));
+#elif OUZEL_OPENGL_INTERFACE_GLX
+                    return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
+#elif OUZEL_OPENGL_INTERFACE_WGL
+                    return reinterpret_cast<T>(wglGetProcAddress(name));
+#else
                     return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
 #endif
                 }
