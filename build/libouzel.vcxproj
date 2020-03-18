@@ -249,6 +249,7 @@
     <ClInclude Include="..\engine\graphics\opengl\OGLBlendState.hpp" />
     <ClInclude Include="..\engine\graphics\opengl\OGLBuffer.hpp" />
     <ClInclude Include="..\engine\graphics\opengl\OGLDepthStencilState.hpp" />
+    <ClInclude Include="..\engine\graphics\opengl\OGLProcedureGetter.hpp" />
     <ClInclude Include="..\engine\graphics\opengl\OGLRenderDevice.hpp" />
     <ClInclude Include="..\engine\graphics\opengl\OGLRenderResource.hpp" />
     <ClInclude Include="..\engine\graphics\opengl\OGLRenderTarget.hpp" />

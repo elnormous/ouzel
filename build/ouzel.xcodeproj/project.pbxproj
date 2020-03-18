@@ -1044,6 +1044,7 @@
 		30B8598A1F3D286600A16952 /* TTFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTFont.cpp; sourceTree = "<group>"; };
 		30B8598B1F3D286600A16952 /* TTFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TTFont.hpp; sourceTree = "<group>"; };
 		30B859931F3D2F3200A16952 /* Font.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Font.hpp; sourceTree = "<group>"; };
+		30B9CCA72421D066009E3832 /* OGLProcedureGetter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLProcedureGetter.hpp; sourceTree = "<group>"; };
 		30BA5FB22198B42D0032AC23 /* RasterizerState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RasterizerState.hpp; sourceTree = "<group>"; };
 		30BA5FB32198B4900032AC23 /* DrawMode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DrawMode.hpp; sourceTree = "<group>"; };
 		30BA5FB42198CE810032AC23 /* Driver.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Driver.hpp; sourceTree = "<group>"; };
@@ -1426,6 +1427,7 @@
 				30381F3A1D80A3EC00677CAB /* OGLBuffer.hpp */,
 				3009030C21922E1300B00BF4 /* OGLDepthStencilState.cpp */,
 				3009030D21922E1300B00BF4 /* OGLDepthStencilState.hpp */,
+				30B9CCA72421D066009E3832 /* OGLProcedureGetter.hpp */,
 				30381F3D1D80A3EC00677CAB /* OGLRenderDevice.cpp */,
 				30381F3E1D80A3EC00677CAB /* OGLRenderDevice.hpp */,
 				30AF9FC32145D6F000F9266B /* OGLRenderResource.hpp */,

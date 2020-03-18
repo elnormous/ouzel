@@ -801,6 +801,9 @@
     <ClInclude Include="..\engine\graphics\opengl\OGLDepthStencilState.hpp">
       <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\graphics\opengl\OGLProcedureGetter.hpp">
+      <Filter>engine\graphics\opengl</Filter>
+    </ClInclude>
     <ClInclude Include="..\engine\graphics\direct3d11\D3D11DepthStencilState.hpp">
       <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
