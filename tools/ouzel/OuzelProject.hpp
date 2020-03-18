@@ -1,4 +1,4 @@
-// Copyright 2015-2019 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
 #ifndef OUZEL_OUZELPROJECT_HPP
 #define OUZEL_OUZELPROJECT_HPP
@@ -25,6 +25,9 @@ namespace ouzel
             storage::Path assetsPath = directory + "/" + j["assetsPath"].as<std::string>();
             storage::Path resourcesPath = directory + "/Resources/";
 
+            std::cout << std::string(storage::Path("/aa/../../dd//bb/.././cc").getNormal()) << '\n';
+            std::cout << std::string(storage::Path("/aa/../../dd//bb/.././cc").getRoot()) << '\n';
+
             for (const auto& asset : j["assets"])
             {
                 storage::Path assetPath(assetsPath + asset["path"].as<std::string>());
@@ -32,6 +35,7 @@ namespace ouzel
                 storage::Path resourceName = asset["path"].as<std::string>();
                 storage::Path resourcePath = resourcesPath + resourceName.getStem() + ".otexture";
 
+                std::cout << std::string(assetPath) << " -> " << std::string(resourcePath) << '\n';
                 // TODO: check if input file exists
                 // TODO: check if output file exists and is older than the input file
                 // TODO: export input file to output file
