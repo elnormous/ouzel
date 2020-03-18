@@ -48,20 +48,6 @@
 #include "stb_image_write.h"
 
 template <typename T>
-inline auto getCoreProcAddress(const char* name)
-{
-#if OUZEL_OPENGL_INTERFACE_GLX
-    return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
-#elif OUZEL_OPENGL_INTERFACE_WGL
-    static HMODULE module = LoadLibraryW(L"opengl32.dll");
-    T result = reinterpret_cast<T>(wglGetProcAddress(name));
-    return result ? result : reinterpret_cast<T>(GetProcAddress(module, name));
-#else
-    return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
-#endif
-}
-
-template <typename T>
 inline auto getExtProcAddress(const char* name)
 {
 #if OUZEL_OPENGL_INTERFACE_EGL
@@ -521,11 +507,11 @@ namespace ouzel
                 }
 
 #  if OUZEL_OPENGL_INTERFACE_EAGL
-                glBlitFramebufferProc = getCoreProcAddress<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer");
+                glBlitFramebufferProc = getExtProcAddress<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer");
 
-                glDiscardFramebufferEXTProc = getCoreProcAddress<PFNGLDISCARDFRAMEBUFFEREXTPROC>("glDiscardFramebufferEXT");
-                glRenderbufferStorageMultisampleAPPLEProc = getCoreProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC>("glRenderbufferStorageMultisampleAPPLE");
-                glResolveMultisampleFramebufferAPPLEProc = getCoreProcAddress<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>("glResolveMultisampleFramebufferAPPLE");
+                glDiscardFramebufferEXTProc = getExtProcAddress<PFNGLDISCARDFRAMEBUFFEREXTPROC>("glDiscardFramebufferEXT");
+                glRenderbufferStorageMultisampleAPPLEProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC>("glRenderbufferStorageMultisampleAPPLE");
+                glResolveMultisampleFramebufferAPPLEProc = getExtProcAddress<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>("glResolveMultisampleFramebufferAPPLE");
 #  endif
 
                 if (apiVersion >= ApiVersion(3, 0))
