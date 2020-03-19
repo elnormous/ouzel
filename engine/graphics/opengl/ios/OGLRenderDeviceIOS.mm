@@ -224,11 +224,11 @@ namespace ouzel
                     glGenRenderbuffersProc(1, &msaaColorRenderBufferId);
 
                     glBindRenderbufferProc(GL_RENDERBUFFER, msaaColorRenderBufferId);
-                    glRenderbufferStorageMultisampleAPPLEProc(GL_RENDERBUFFER,
-                                                            static_cast<GLsizei>(sampleCount),
-                                                            GL_RGBA8_OES,
-                                                            frameBufferWidth,
-                                                            frameBufferHeight);
+                    glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
+                                                         static_cast<GLsizei>(sampleCount),
+                                                         GL_RGBA8_OES,
+                                                         frameBufferWidth,
+                                                         frameBufferHeight);
 
                     if ((error = glGetErrorProc()) != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to set color render buffer's multisample storage");
@@ -237,11 +237,11 @@ namespace ouzel
                     {
                         glGenRenderbuffersProc(1, &depthRenderBufferId);
                         glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
-                        glRenderbufferStorageMultisampleAPPLEProc(GL_RENDERBUFFER,
-                                                                static_cast<GLsizei>(sampleCount),
-                                                                stencil ? GL_DEPTH_COMPONENT24_OES : GL_DEPTH24_STENCIL8_OES,
-                                                                frameBufferWidth,
-                                                                frameBufferHeight);
+                        glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
+                                                             static_cast<GLsizei>(sampleCount),
+                                                             stencil ? GL_DEPTH_COMPONENT24_OES : GL_DEPTH24_STENCIL8_OES,
+                                                             frameBufferWidth,
+                                                             frameBufferHeight);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
                             throw std::system_error(makeErrorCode(error), "Failed to set depth render buffer's multisample storage");

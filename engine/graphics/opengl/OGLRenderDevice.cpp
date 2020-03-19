@@ -502,7 +502,6 @@ namespace ouzel
 
 #  if OUZEL_OPENGL_INTERFACE_EAGL
                 glDiscardFramebufferEXTProc = getter.get<PFNGLDISCARDFRAMEBUFFEREXTPROC>("glDiscardFramebufferEXT", ApiVersion(2, 0));
-                glRenderbufferStorageMultisampleAPPLEProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC>("glRenderbufferStorageMultisampleAPPLE", ApiVersion(2, 0));
                 glResolveMultisampleFramebufferAPPLEProc = getter.get<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>("glResolveMultisampleFramebufferAPPLE", ApiVersion(2, 0));
 
                 glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBufferOES", ApiVersion(3, 0),
