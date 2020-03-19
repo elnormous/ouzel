@@ -47,20 +47,6 @@
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
 
-template <typename T>
-inline auto getExtProcAddress(const char* name)
-{
-#if OUZEL_OPENGL_INTERFACE_EGL
-    return reinterpret_cast<T>(eglGetProcAddress(name));
-#elif OUZEL_OPENGL_INTERFACE_GLX
-    return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
-#elif OUZEL_OPENGL_INTERFACE_WGL
-    return reinterpret_cast<T>(wglGetProcAddress(name));
-#else
-    return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
-#endif
-}
-
 namespace ouzel
 {
     namespace graphics
@@ -462,6 +448,8 @@ namespace ouzel
                 glFramebufferRenderbufferProc = getter.get<PFNGLFRAMEBUFFERRENDERBUFFERPROC>("glFramebufferRenderbuffer", ApiVersion(2, 0));
                 glFramebufferTexture2DProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DPROC>("glFramebufferTexture2D", ApiVersion(2, 0));
 
+                glBlitFramebufferProc = getter.get<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer", ApiVersion(3, 0));
+
                 glGenRenderbuffersProc = getter.get<PFNGLGENRENDERBUFFERSPROC>("glGenRenderbuffers", ApiVersion(2, 0));
                 glDeleteRenderbuffersProc = getter.get<PFNGLDELETERENDERBUFFERSPROC>("glDeleteRenderbuffers", ApiVersion(2, 0));
                 glBindRenderbufferProc = getter.get<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer", ApiVersion(2, 0));
@@ -480,51 +468,49 @@ namespace ouzel
                 glUnmapBufferProc = getter.get<PFNGLUNMAPBUFFERPROC>("glUnmapBuffer", ApiVersion(3, 0),
                                                                      {{"glUnmapBufferOES", "GL_OES_mapbuffer"}});
 
+                glGenVertexArraysProc = getter.get<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays", ApiVersion(3, 0),
+                                                                             {{"glGenVertexArraysOES", "GL_OES_vertex_array_object"}});
+                glBindVertexArrayProc = getter.get<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray", ApiVersion(3, 0),
+                                                                             {{"glBindVertexArrayOES", "GL_OES_vertex_array_object"}});
+                glDeleteVertexArraysProc = getter.get<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays", ApiVersion(3, 0),
+                                                                                   {{"glDeleteVertexArraysOES", "GL_OES_vertex_array_object"}});
+
                 glPushGroupMarkerEXTProc = getter.get<PFNGLPUSHGROUPMARKEREXTPROC>("glPushGroupMarkerEXT", "GL_EXT_debug_marker");
                 glPopGroupMarkerEXTProc = getter.get<PFNGLPOPGROUPMARKEREXTPROC>("glPopGroupMarkerEXT", "GL_EXT_debug_marker");
 
                 glCopyImageSubDataProc = getter.get<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData", ApiVersion(3, 2));
 
-                if (apiVersion >= ApiVersion(3, 0))
-                {
-#if OUZEL_OPENGL_INTERFACE_EAGL
-                    glGenVertexArraysProc = getExtProcAddress<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArraysOES");
-                    glBindVertexArrayProc = getExtProcAddress<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArrayOES");
-                    glDeleteVertexArraysProc = getExtProcAddress<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArraysOES");
-
-                    glMapBufferProc = getExtProcAddress<PFNGLMAPBUFFEROESPROC>("glMapBufferOES");
-
-                    glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisampleAPPLE");
-#else
-                    glGenVertexArraysProc = getter.get<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays", ApiVersion(3, 0));
-                    glBindVertexArrayProc = getter.get<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray", ApiVersion(3, 0));
-                    glDeleteVertexArraysProc = getter.get<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays", ApiVersion(3, 0));
-                    glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBuffer", ApiVersion(3, 0),
-                                                                        {{"glMapBufferOES", "GL_OES_mapbuffer"}});
-
-                    glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample", ApiVersion(3, 0));
-
-                    glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisample");
-#endif
-                }
-
 #  if OUZEL_OPENGL_INTERFACE_EAGL
-                glBlitFramebufferProc = getExtProcAddress<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer");
+                glDiscardFramebufferEXTProc = getter.get<PFNGLDISCARDFRAMEBUFFEREXTPROC>("glDiscardFramebufferEXT", ApiVersion(2, 0));
+                glRenderbufferStorageMultisampleAPPLEProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC>("glRenderbufferStorageMultisampleAPPLE", ApiVersion(2, 0));
+                glResolveMultisampleFramebufferAPPLEProc = getter.get<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>("glResolveMultisampleFramebufferAPPLE", ApiVersion(2, 0));
 
-                glDiscardFramebufferEXTProc = getExtProcAddress<PFNGLDISCARDFRAMEBUFFEREXTPROC>("glDiscardFramebufferEXT");
-                glRenderbufferStorageMultisampleAPPLEProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC>("glRenderbufferStorageMultisampleAPPLE");
-                glResolveMultisampleFramebufferAPPLEProc = getExtProcAddress<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>("glResolveMultisampleFramebufferAPPLE");
+                glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBufferOES", ApiVersion(3, 0),
+                                                                    {{"glMapBufferOES", "GL_OES_mapbuffer"}});
+
+                glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisampleAPPLE", ApiVersion(3, 0),
+                                                                                                           {{"glRenderbufferStorageMultisampleAPPLE", "GL_APPLE_framebuffer_multisample"}});
+#  else
+                glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBuffer", ApiVersion(3, 0),
+                                                                    {{"glMapBufferOES", "GL_OES_mapbuffer"}});
+
+                glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample", ApiVersion(3, 0));
+
+                glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisample");
 #  endif
 
                 npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_OES_texture_npot");
                 renderTargetsSupported = apiVersion >= ApiVersion(3, 0);
                 clampToBorderSupported = apiVersion >= ApiVersion(3, 2);
-                multisamplingSupported = apiVersion >= ApiVersion(3, 0);
+                multisamplingSupported = apiVersion >= ApiVersion(3, 0) ||
+                    getter.hasExtension("GL_APPLE_framebuffer_multisample") ||
+                    getter.hasExtension("GL_EXT_multisampled_render_to_texture") ||
+                    getter.hasExtension("GL_IMG_multisampled_render_to_texture");
                 textureBaseLevelSupported = apiVersion >= ApiVersion(3, 0);
                 textureMaxLevelSupported = apiVersion >= ApiVersion(3, 0);
                 uintIndicesSupported = apiVersion >= ApiVersion(3, 0);
                 anisotropicFilteringSupported = getter.hasExtension("GL_EXT_texture_filter_anisotropic");
-#else
+#else // OUZEL_OPENGLES
                 glEnableProc = getter.get<PFNGLENABLEPROC>("glEnable", ApiVersion(1, 0));
                 glDisableProc = getter.get<PFNGLDISABLEPROC>("glDisable", ApiVersion(1, 0));
                 glFrontFaceProc = getter.get<PFNGLFRONTFACEPROC>("glFrontFace", ApiVersion(1, 0));
@@ -608,8 +594,6 @@ namespace ouzel
                 glUniform3uivProc = getter.get<PFNGLUNIFORM3UIVPROC>("glUniform3uiv", ApiVersion(3, 0));
                 glUniform4uivProc = getter.get<PFNGLUNIFORM4UIVPROC>("glUniform4uiv", ApiVersion(3, 0));
 
-                glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample", ApiVersion(3, 0));
-
                 glMapBufferRangeProc = getter.get<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRange", ApiVersion(3, 0),
                                                                            {{"glMapBufferRange", "GL_ARB_map_buffer_range"}});
 
@@ -621,33 +605,54 @@ namespace ouzel
                                                                                    {{"glDeleteVertexArrays", "GL_ARB_vertex_array_object"}});
 
                 glGenFramebuffersProc = getter.get<PFNGLGENFRAMEBUFFERSPROC>("glGenFramebuffers", ApiVersion(3, 0),
-                                                                             {{"glGenFramebuffers", "GL_ARB_framebuffer_object"}});
+                                                                             {{"glGenFramebuffers", "GL_ARB_framebuffer_object"},
+                                                                              {"glGenFramebuffersEXT", "GL_EXT_framebuffer_object"}});
                 glDeleteFramebuffersProc = getter.get<PFNGLDELETEFRAMEBUFFERSPROC>("glDeleteFramebuffers", ApiVersion(3, 0),
-                                                                                   {{"glDeleteFramebuffers", "GL_ARB_framebuffer_object"}});
+                                                                                   {{"glDeleteFramebuffers", "GL_ARB_framebuffer_object"},
+                                                                                    {"glDeleteFramebuffersEXT", "GL_EXT_framebuffer_object"}});
                 glBindFramebufferProc = getter.get<PFNGLBINDFRAMEBUFFERPROC>("glBindFramebuffer", ApiVersion(3, 0),
-                                                                             {{"glBindFramebuffer", "GL_ARB_framebuffer_object"}});
+                                                                             {{"glBindFramebuffer", "GL_ARB_framebuffer_object"},
+                                                                              {"glBindFramebufferEXT", "GL_EXT_framebuffer_object"}});
                 glCheckFramebufferStatusProc = getter.get<PFNGLCHECKFRAMEBUFFERSTATUSPROC>("glCheckFramebufferStatus", ApiVersion(3, 0),
-                                                                                           {{"glCheckFramebufferStatus", "GL_ARB_framebuffer_object"}});
+                                                                                           {{"glCheckFramebufferStatus", "GL_ARB_framebuffer_object"},
+                                                                                            {"CheckFramebufferStatusEXT", "GL_EXT_framebuffer_object"}});
                 glFramebufferRenderbufferProc = getter.get<PFNGLFRAMEBUFFERRENDERBUFFERPROC>("glFramebufferRenderbuffer", ApiVersion(3, 0),
-                                                                                             {{"glFramebufferRenderbuffer", "GL_ARB_framebuffer_object"}});
+                                                                                             {{"glFramebufferRenderbuffer", "GL_ARB_framebuffer_object"},
+                                                                                              {"glFramebufferRenderbufferEXT", "GL_EXT_framebuffer_object"}});
                 glBlitFramebufferProc = getter.get<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer", ApiVersion(3, 0),
-                                                                             {{"glBlitFramebuffer", "GL_ARB_framebuffer_object"}});
+                                                                             {{"glBlitFramebuffer", "GL_ARB_framebuffer_object"},
+                                                                              {"glBlitFramebufferEXT", "GL_EXT_framebuffer_blit"}});
                 glFramebufferTexture2DProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DPROC>("glFramebufferTexture2D", ApiVersion(3, 0),
-                                                                                       {{"glFramebufferTexture2D", "GL_ARB_framebuffer_object"}});
-
+                                                                                       {{"glFramebufferTexture2D", "GL_ARB_framebuffer_object"},
+                                                                                        {"glFramebufferTexture2DEXT", "GL_EXT_framebuffer_object"}});
                 glGenRenderbuffersProc = getter.get<PFNGLGENRENDERBUFFERSPROC>("glGenRenderbuffers", ApiVersion(3, 0),
-                                                                               {{"glGenRenderbuffers", "GL_ARB_framebuffer_object"}});
+                                                                               {{"glGenRenderbuffers", "GL_ARB_framebuffer_object"},
+                                                                                {"glGenRenderbuffersEXT", "GL_EXT_framebuffer_object"}});
                 glDeleteRenderbuffersProc = getter.get<PFNGLDELETERENDERBUFFERSPROC>("glDeleteRenderbuffers", ApiVersion(3, 0),
-                                                                                     {{"glDeleteRenderbuffers", "GL_ARB_framebuffer_object"}});
+                                                                                     {{"glDeleteRenderbuffers", "GL_ARB_framebuffer_object"},
+                                                                                      {"glDeleteRenderbuffersEXT", "GL_EXT_framebuffer_object"}});
                 glBindRenderbufferProc = getter.get<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer", ApiVersion(3, 0),
-                                                                               {{"glBindRenderbuffer", "GL_ARB_framebuffer_object"}});
+                                                                               {{"glBindRenderbuffer", "GL_ARB_framebuffer_object"},
+                                                                                {"glBindRenderbufferEXT", "GL_EXT_framebuffer_object"}});
                 glRenderbufferStorageProc = getter.get<PFNGLRENDERBUFFERSTORAGEPROC>("glRenderbufferStorage", ApiVersion(3, 0),
-                                                                                     {{"glRenderbufferStorage", "GL_ARB_framebuffer_object"}});
+                                                                                     {{"glRenderbufferStorage", "GL_ARB_framebuffer_object"},
+                                                                                      {"glRenderbufferStorageEXT", "GL_EXT_framebuffer_object"}});
 
-                glCopyImageSubDataProc = getter.get<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData", ApiVersion(4, 3),
-                                                                               {{"glCopyImageSubData", "GL_ARB_copy_image"}});
+                glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample", ApiVersion(3, 0),
+                                                                                                           {{"glRenderbufferStorageMultisampleEXT", "GL_EXT_multisampled_render_to_texture"}});
+
                 glTexStorage2DMultisampleProc = getter.get<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample", ApiVersion(4, 3),
                                                                                              {{"glTexStorage2DMultisample", "GL_ARB_texture_storage_multisample"}});
+
+                glGenVertexArraysProc = getter.get<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays", ApiVersion(3, 0),
+                                                                             {{"glGenVertexArrays", "GL_ARB_vertex_array_object"}});
+                glBindVertexArrayProc = getter.get<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray", ApiVersion(3, 0),
+                                                                             {{"glBindVertexArray", "GL_ARB_vertex_array_object"}});
+                glDeleteVertexArraysProc = getter.get<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays", ApiVersion(3, 0),
+                                                                                   {{"glDeleteVertexArrays", "GL_ARB_vertex_array_object"}});
+
+                glCopyImageSubDataProc = getter.get<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData", ApiVersion(4, 3),
+                                                                               {{"glCopyImageSubData", "GL_ARB_copy_image"}, {"glCopyImageSubDataEXT", "GL_EXT_copy_image"}});
 
                 glPushGroupMarkerEXTProc = getter.get<PFNGLPUSHGROUPMARKEREXTPROC>("glPushGroupMarkerEXT", "GL_EXT_debug_marker");
                 glPopGroupMarkerEXTProc = getter.get<PFNGLPOPGROUPMARKEREXTPROC>("glPopGroupMarkerEXT", "GL_EXT_debug_marker");
@@ -659,90 +664,14 @@ namespace ouzel
                 uintIndicesSupported = apiVersion >= ApiVersion(2, 0);
 
                 npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_ARB_texture_non_power_of_two");
-                renderTargetsSupported = apiVersion >= ApiVersion(3, 0);
+                renderTargetsSupported = apiVersion >= ApiVersion(3, 0) ||
+                    getter.hasExtension("GL_ARB_framebuffer_object") ||
+                    getter.hasExtension("GL_EXT_framebuffer_object");
                 multisamplingSupported = apiVersion >= ApiVersion(3, 0);
                 anisotropicFilteringSupported = apiVersion >= ApiVersion(4, 6) ||
                     getter.hasExtension("GL_EXT_texture_filter_anisotropic") ||
                     getter.hasExtension("GL_ARB_texture_filter_anisotropic");
 #endif
-
-                for (const auto& extension : getter.getExtensions())
-                {
-                    if (extension == "GL_EXT_map_buffer_range")
-                        glMapBufferRangeProc = getExtProcAddress<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRangeEXT");
-#if OUZEL_OPENGLES // OpenGL ES
-                    else if (extension == "GL_APPLE_framebuffer_multisample")
-                    {
-                        multisamplingSupported = true;
-                        glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisampleAPPLE");
-                    }
-                    else if (extension == "GL_APPLE_texture_max_level")
-                        textureMaxLevelSupported = true;
-                    else if (extension == "GL_OES_vertex_array_object")
-                    {
-                        glGenVertexArraysProc = getExtProcAddress<PFNGLGENVERTEXARRAYSOESPROC>("glGenVertexArraysOES");
-                        glBindVertexArrayProc = getExtProcAddress<PFNGLBINDVERTEXARRAYOESPROC>("glBindVertexArrayOES");
-                        glDeleteVertexArraysProc = getExtProcAddress<PFNGLDELETEVERTEXARRAYSOESPROC>("glDeleteVertexArraysOES");
-                    }
-                    else if (extension == "GL_OES_mapbuffer")
-                    {
-                        glMapBufferProc = getExtProcAddress<PFNGLMAPBUFFEROESPROC>("glMapBufferOES");
-                        glUnmapBufferProc = getExtProcAddress<PFNGLUNMAPBUFFEROESPROC>("glUnmapBufferOES");
-                    }
-                    else if (extension == "OES_element_index_uint")
-                        uintIndicesSupported = true;
-                    else if (extension == "GL_EXT_texture_border_clamp")
-                        clampToBorderSupported = true;
-#  if !OUZEL_OPENGL_INTERFACE_EAGL
-                    else if (extension == "GL_EXT_copy_image")
-                        glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAEXTPROC>("glCopyImageSubDataEXT");
-                    else if (extension == "GL_EXT_multisampled_render_to_texture")
-                    {
-                        multisamplingSupported = true;
-                        glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>("glRenderbufferStorageMultisampleEXT");
-                        glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisampleEXT");
-                    }
-                    else if (extension == "GL_IMG_multisampled_render_to_texture")
-                    {
-                        multisamplingSupported = true;
-                        glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>("glRenderbufferStorageMultisampleIMG");
-                        glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisampleIMG");
-                    }
-#  endif
-#else // OpenGL
-                    else if (extension == "GL_ARB_copy_image")
-                        glCopyImageSubDataProc = getExtProcAddress<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData");
-                    else if (extension == "GL_ARB_vertex_array_object")
-                    {
-                        glGenVertexArraysProc = getExtProcAddress<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays");
-                        glBindVertexArrayProc = getExtProcAddress<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray");
-                        glDeleteVertexArraysProc = getExtProcAddress<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays");
-                    }
-                    else if (extension == "GL_EXT_framebuffer_object")
-                    {
-                        renderTargetsSupported = true;
-
-                        glGenFramebuffersProc = getExtProcAddress<PFNGLGENFRAMEBUFFERSPROC>("glGenFramebuffers");
-                        glDeleteFramebuffersProc = getExtProcAddress<PFNGLDELETEFRAMEBUFFERSPROC>("glDeleteFramebuffers");
-                        glBindFramebufferProc = getExtProcAddress<PFNGLBINDFRAMEBUFFERPROC>("glBindFramebuffer");
-                        glCheckFramebufferStatusProc = getExtProcAddress<PFNGLCHECKFRAMEBUFFERSTATUSPROC>("glCheckFramebufferStatus");
-                        glFramebufferRenderbufferProc = getExtProcAddress<PFNGLFRAMEBUFFERRENDERBUFFERPROC>("glFramebufferRenderbuffer");
-                        glFramebufferTexture2DProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DPROC>("glFramebufferTexture2D");
-
-                        glGenRenderbuffersProc = getExtProcAddress<PFNGLGENRENDERBUFFERSPROC>("glGenRenderbuffers");
-                        glDeleteRenderbuffersProc = getExtProcAddress<PFNGLDELETERENDERBUFFERSPROC>("glDeleteRenderbuffers");
-                        glBindRenderbufferProc = getExtProcAddress<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer");
-                        glRenderbufferStorageProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEPROC>("glRenderbufferStorage");
-                    }
-                    else if (extension == "GL_EXT_framebuffer_blit")
-                        glBlitFramebufferProc = getExtProcAddress<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer");
-                    else if (extension == "GL_EXT_framebuffer_multisample")
-                    {
-                        multisamplingSupported = true;
-                        glRenderbufferStorageMultisampleProc = getExtProcAddress<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample");
-                    }
-#endif
-                }
 
                 if (!multisamplingSupported) sampleCount = 1;
 
