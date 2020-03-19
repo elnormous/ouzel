@@ -363,10 +363,6 @@ namespace ouzel
                 else
                     engine->log(Log::Level::Info) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
 
-                textureBaseLevelSupported = false;
-                textureMaxLevelSupported = false;
-                uintIndicesSupported = false;
-
 #if OUZEL_OPENGLES
                 npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_OES_texture_npot");
                 renderTargetsSupported = apiVersion >= ApiVersion(3, 0);
