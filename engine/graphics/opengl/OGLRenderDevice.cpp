@@ -368,6 +368,18 @@ namespace ouzel
                 uintIndicesSupported = false;
 
 #if OUZEL_OPENGLES
+                npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_OES_texture_npot");
+                renderTargetsSupported = apiVersion >= ApiVersion(3, 0);
+                clampToBorderSupported = apiVersion >= ApiVersion(3, 2) || getter.hasExtension("GL_EXT_texture_border_clamp");
+                multisamplingSupported = apiVersion >= ApiVersion(3, 0) ||
+                    getter.hasExtension("GL_APPLE_framebuffer_multisample") ||
+                    getter.hasExtension("GL_EXT_multisampled_render_to_texture") ||
+                    getter.hasExtension("GL_IMG_multisampled_render_to_texture");
+                textureBaseLevelSupported = apiVersion >= ApiVersion(3, 0);
+                textureMaxLevelSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_APPLE_texture_max_level");
+                uintIndicesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("OES_element_index_uint");
+                anisotropicFilteringSupported = getter.hasExtension("GL_EXT_texture_filter_anisotropic");
+
                 glEnableProc = getter.get<PFNGLENABLEPROC>("glEnable", ApiVersion(1, 0));
                 glDisableProc = getter.get<PFNGLDISABLEPROC>("glDisable", ApiVersion(1, 0));
                 glFrontFaceProc = getter.get<PFNGLFRONTFACEPROC>("glFrontFace", ApiVersion(1, 0));
@@ -480,6 +492,14 @@ namespace ouzel
 
                 glCopyImageSubDataProc = getter.get<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData", ApiVersion(3, 2));
 
+                glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample", ApiVersion(3, 0),
+                                                                                                           {{"glRenderbufferStorageMultisampleEXT", "GL_EXT_multisampled_render_to_texture"},
+                                                                                                            {"glRenderbufferStorageMultisampleIMG", "GL_IMG_multisampled_render_to_texture"},
+                                                                                                            {"glRenderbufferStorageMultisampleAPPLE", "GL_APPLE_framebuffer_multisample"}});
+
+                glFramebufferTexture2DMultisampleProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>({{"glFramebufferTexture2DMultisample", "GL_EXT_multisampled_render_to_texture"},
+                                                                                                                 {"glFramebufferTexture2DMultisampleIMG", "GL_IMG_multisampled_render_to_texture"}});
+
 #  if OUZEL_OPENGL_INTERFACE_EAGL
                 glDiscardFramebufferEXTProc = getter.get<PFNGLDISCARDFRAMEBUFFEREXTPROC>("glDiscardFramebufferEXT", ApiVersion(2, 0));
                 glRenderbufferStorageMultisampleAPPLEProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC>("glRenderbufferStorageMultisampleAPPLE", ApiVersion(2, 0));
@@ -488,29 +508,25 @@ namespace ouzel
                 glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBufferOES", ApiVersion(3, 0),
                                                                     {{"glMapBufferOES", "GL_OES_mapbuffer"}});
 
-                glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisampleAPPLE", ApiVersion(3, 0),
-                                                                                                           {{"glRenderbufferStorageMultisampleAPPLE", "GL_APPLE_framebuffer_multisample"}});
+                if (getter.hasExtension("GL_APPLE_framebuffer_multisample")) multisamplingSupported = true;
 #  else
                 glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBuffer", ApiVersion(3, 0),
                                                                     {{"glMapBufferOES", "GL_OES_mapbuffer"}});
-
-                glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample", ApiVersion(3, 0));
-
-                glFramebufferTexture2DMultisampleProc = getExtProcAddress<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisample");
 #  endif
-
-                npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_OES_texture_npot");
-                renderTargetsSupported = apiVersion >= ApiVersion(3, 0);
-                clampToBorderSupported = apiVersion >= ApiVersion(3, 2);
-                multisamplingSupported = apiVersion >= ApiVersion(3, 0) ||
-                    getter.hasExtension("GL_APPLE_framebuffer_multisample") ||
-                    getter.hasExtension("GL_EXT_multisampled_render_to_texture") ||
-                    getter.hasExtension("GL_IMG_multisampled_render_to_texture");
-                textureBaseLevelSupported = apiVersion >= ApiVersion(3, 0);
-                textureMaxLevelSupported = apiVersion >= ApiVersion(3, 0);
-                uintIndicesSupported = apiVersion >= ApiVersion(3, 0);
-                anisotropicFilteringSupported = getter.hasExtension("GL_EXT_texture_filter_anisotropic");
 #else // OUZEL_OPENGLES
+                clampToBorderSupported = apiVersion >= ApiVersion(1, 3) || getter.hasExtension("GL_EXT_texture_mirror_clamp");
+                textureBaseLevelSupported = apiVersion >= ApiVersion(1, 3);
+                textureMaxLevelSupported = apiVersion >= ApiVersion(1, 3);
+                uintIndicesSupported = apiVersion >= ApiVersion(2, 0);
+                npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_ARB_texture_non_power_of_two");
+                renderTargetsSupported = apiVersion >= ApiVersion(3, 0) ||
+                    getter.hasExtension("GL_ARB_framebuffer_object") ||
+                    getter.hasExtension("GL_EXT_framebuffer_object");
+                multisamplingSupported = apiVersion >= ApiVersion(3, 0);
+                anisotropicFilteringSupported = apiVersion >= ApiVersion(4, 6) ||
+                    getter.hasExtension("GL_EXT_texture_filter_anisotropic") ||
+                    getter.hasExtension("GL_ARB_texture_filter_anisotropic");
+
                 glEnableProc = getter.get<PFNGLENABLEPROC>("glEnable", ApiVersion(1, 0));
                 glDisableProc = getter.get<PFNGLDISABLEPROC>("glDisable", ApiVersion(1, 0));
                 glFrontFaceProc = getter.get<PFNGLFRONTFACEPROC>("glFrontFace", ApiVersion(1, 0));
@@ -656,21 +672,6 @@ namespace ouzel
 
                 glPushGroupMarkerEXTProc = getter.get<PFNGLPUSHGROUPMARKEREXTPROC>("glPushGroupMarkerEXT", "GL_EXT_debug_marker");
                 glPopGroupMarkerEXTProc = getter.get<PFNGLPOPGROUPMARKEREXTPROC>("glPopGroupMarkerEXT", "GL_EXT_debug_marker");
-
-                clampToBorderSupported = apiVersion >= ApiVersion(1, 3) || getter.hasExtension("GL_EXT_texture_mirror_clamp");
-                textureBaseLevelSupported = apiVersion >= ApiVersion(1, 3);
-                textureMaxLevelSupported = apiVersion >= ApiVersion(1, 3);
-
-                uintIndicesSupported = apiVersion >= ApiVersion(2, 0);
-
-                npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_ARB_texture_non_power_of_two");
-                renderTargetsSupported = apiVersion >= ApiVersion(3, 0) ||
-                    getter.hasExtension("GL_ARB_framebuffer_object") ||
-                    getter.hasExtension("GL_EXT_framebuffer_object");
-                multisamplingSupported = apiVersion >= ApiVersion(3, 0);
-                anisotropicFilteringSupported = apiVersion >= ApiVersion(4, 6) ||
-                    getter.hasExtension("GL_EXT_texture_filter_anisotropic") ||
-                    getter.hasExtension("GL_ARB_texture_filter_anisotropic");
 #endif
 
                 if (!multisamplingSupported) sampleCount = 1;

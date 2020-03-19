@@ -139,11 +139,6 @@ namespace ouzel
                     return false;
                 }
 
-                const std::vector<std::string>& getExtensions() const noexcept
-                {
-                    return extensions;
-                }
-
             private:
                 template <typename T>
                 T getProcAddress(const char* name, ApiVersion procApiVersion) const noexcept
