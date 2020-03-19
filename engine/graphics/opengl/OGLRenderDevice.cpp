@@ -516,24 +516,14 @@ namespace ouzel
                 glResolveMultisampleFramebufferAPPLEProc = getExtProcAddress<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>("glResolveMultisampleFramebufferAPPLE");
 #  endif
 
-                if (apiVersion >= ApiVersion(3, 0))
-                {
-                    npotTexturesSupported = true;
-                    renderTargetsSupported = true;
-                    clampToBorderSupported = true;
-                    multisamplingSupported = true;
-                    textureBaseLevelSupported = true;
-                    textureMaxLevelSupported = true;
-                    uintIndicesSupported = true;
-                }
-                else
-                {
-                    if (getter.hasExtension("GL_OES_texture_npot"))
-                        npotTexturesSupported = true;
-                }
-
-                if (getter.hasExtension("GL_EXT_texture_filter_anisotropic"))
-                    anisotropicFilteringSupported = true;
+                npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_OES_texture_npot");
+                renderTargetsSupported = apiVersion >= ApiVersion(3, 0);
+                clampToBorderSupported = apiVersion >= ApiVersion(3, 2);
+                multisamplingSupported = apiVersion >= ApiVersion(3, 0);
+                textureBaseLevelSupported = apiVersion >= ApiVersion(3, 0);
+                textureMaxLevelSupported = apiVersion >= ApiVersion(3, 0);
+                uintIndicesSupported = apiVersion >= ApiVersion(3, 0);
+                anisotropicFilteringSupported = getter.hasExtension("GL_EXT_texture_filter_anisotropic");
 #else
                 glEnableProc = getter.get<PFNGLENABLEPROC>("glEnable", ApiVersion(1, 0));
                 glDisableProc = getter.get<PFNGLDISABLEPROC>("glDisable", ApiVersion(1, 0));
@@ -662,40 +652,18 @@ namespace ouzel
                 glPushGroupMarkerEXTProc = getter.get<PFNGLPUSHGROUPMARKEREXTPROC>("glPushGroupMarkerEXT", "GL_EXT_debug_marker");
                 glPopGroupMarkerEXTProc = getter.get<PFNGLPOPGROUPMARKEREXTPROC>("glPopGroupMarkerEXT", "GL_EXT_debug_marker");
 
-                if (apiVersion >= ApiVersion(1, 3))
-                    clampToBorderSupported = true;
+                clampToBorderSupported = apiVersion >= ApiVersion(1, 3) || getter.hasExtension("GL_EXT_texture_mirror_clamp");
+                textureBaseLevelSupported = apiVersion >= ApiVersion(1, 3);
+                textureMaxLevelSupported = apiVersion >= ApiVersion(1, 3);
 
-                if (apiVersion >= ApiVersion(2, 0))
-                {
-                    renderTargetsSupported = true;
-                    textureBaseLevelSupported = true;
-                    textureMaxLevelSupported = true;
-                    uintIndicesSupported = true;
-                }
+                uintIndicesSupported = apiVersion >= ApiVersion(2, 0);
 
-                if (apiVersion >= ApiVersion(3, 0))
-                {
-                    npotTexturesSupported = true;
-                    renderTargetsSupported = true;
-                    clampToBorderSupported = true;
-                    multisamplingSupported = true;
-                    textureBaseLevelSupported = true;
-                    textureMaxLevelSupported = true;
-                    uintIndicesSupported = true;
-                }
-                else
-                {
-                    if (getter.hasExtension("GL_ARB_texture_non_power_of_two"))
-                        npotTexturesSupported = true;
-                }
-
-                if (apiVersion >= ApiVersion(4, 6))
-                    anisotropicFilteringSupported = true;
-                else
-                {
-                    if (getter.hasExtension({"GL_EXT_texture_filter_anisotropic", "GL_ARB_texture_filter_anisotropic"}))
-                        anisotropicFilteringSupported = true;
-                }
+                npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_ARB_texture_non_power_of_two");
+                renderTargetsSupported = apiVersion >= ApiVersion(3, 0);
+                multisamplingSupported = apiVersion >= ApiVersion(3, 0);
+                anisotropicFilteringSupported = apiVersion >= ApiVersion(4, 6) ||
+                    getter.hasExtension("GL_EXT_texture_filter_anisotropic") ||
+                    getter.hasExtension("GL_ARB_texture_filter_anisotropic");
 #endif
 
                 for (const auto& extension : getter.getExtensions())

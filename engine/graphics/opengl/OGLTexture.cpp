@@ -216,11 +216,7 @@ namespace ouzel
                         case SamplerAddressMode::ClampToEdge:
                             return GL_CLAMP_TO_EDGE;
                         case SamplerAddressMode::ClampToBorder:
-#if OUZEL_OPENGLES
-                            return GL_CLAMP_TO_BORDER_EXT;
-#else
                             return GL_CLAMP_TO_BORDER;
-#endif
                         case SamplerAddressMode::Repeat:
                             return GL_REPEAT;
                         case SamplerAddressMode::MirrorRepeat:
