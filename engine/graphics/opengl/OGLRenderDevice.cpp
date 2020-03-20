@@ -513,7 +513,7 @@ namespace ouzel
                 textureBaseLevelSupported = apiVersion >= ApiVersion(1, 3);
                 textureMaxLevelSupported = apiVersion >= ApiVersion(1, 3);
                 uintIndicesSupported = apiVersion >= ApiVersion(2, 0);
-                npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_ARB_texture_non_power_of_two");
+                npotTexturesSupported = apiVersion >= ApiVersion(2, 0);
                 renderTargetsSupported = apiVersion >= ApiVersion(3, 0) ||
                     getter.hasExtension("GL_ARB_framebuffer_object") ||
                     getter.hasExtension("GL_EXT_framebuffer_object");
