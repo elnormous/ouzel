@@ -79,7 +79,7 @@ namespace ouzel
             if (WideCharToMultiByte(CP_UTF8, 0, buffer.data(), -1, appFilename.data(), bufferSize, nullptr, nullptr) == 0)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
-            appPath = getDirectoryPart(appFilename.data());
+            appPath = Path(appFilename.data()).getDirectory();
             engine.log(Log::Level::Info) << "Application directory: " << appPath;
 
 #elif defined(__APPLE__)
@@ -114,7 +114,7 @@ namespace ouzel
                 throw std::system_error(errno, std::system_category(), "Failed to get current directory");
 
             executableDirectory[length] = '\0';
-            appPath = getDirectoryPart(executableDirectory);
+            appPath = Path(executableDirectory).getDirectory();
             engine.log(Log::Level::Info) << "Application directory: " << appPath;
 #endif
         }
