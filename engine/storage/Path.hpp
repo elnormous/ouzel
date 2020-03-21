@@ -83,32 +83,30 @@ namespace ouzel
                 return path;
             }
 
-            Path getExtension() const
+            std::string getExtension() const
             {
                 const std::size_t pos = path.find_last_of(Char('.'));
 
-                Path result;
+                String result;
 
                 if (pos != std::string::npos)
-                    result.path = path.substr(pos + 1);
-                else
-                    result.path = path;
+                    result = path.substr(pos + 1);
 
-                return result;
+                return convertToNative(result);
             }
 
-            Path getFilename() const
+            std::string getFilename() const
             {
                 const std::size_t pos = path.find_last_of(directorySeparator);
 
-                Path result;
+                String result;
 
                 if (pos != String::npos)
-                    result.path = path.substr(pos + 1);
+                    result = path.substr(pos + 1);
                 else
-                    result.path = path;
+                    result = path;
 
-                return result;
+                return convertToNative(result);
             }
 
             Path getStem() const
