@@ -92,7 +92,7 @@ namespace ouzel
                 if (pos != std::string::npos)
                     result = path.substr(pos + 1);
 
-                return convertToNative(result);
+                return convertToUniversal(result);
             }
 
             std::string getFilename() const
@@ -106,7 +106,7 @@ namespace ouzel
                 else
                     result = path;
 
-                return convertToNative(result);
+                return convertToUniversal(result);
             }
 
             Path getStem() const
