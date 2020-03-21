@@ -143,7 +143,7 @@ namespace ouzel
                                        std::uint32_t spritesX, std::uint32_t spritesY,
                                        const Vector2F& pivot)
         {
-            auto extension = storage::FileSystem::getExtensionPart(filename);
+            auto extension = storage::Path(filename).getExtension();
             std::transform(extension.begin(), extension.end(), extension.begin(),
                            [](char c) noexcept { return static_cast<char>(std::tolower(c)); });
             const std::vector<std::string> imageExtensions{"jpg", "jpeg", "png", "bmp", "tga"};

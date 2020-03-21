@@ -377,7 +377,7 @@ namespace ouzel
 
         bool FileSystem::resourceFileExists(const std::string& filename) const
         {
-            if (!pathIsRelative(filename))
+            if (Path(filename).isAbsolute())
                 return fileExists(filename);
             else
             {
@@ -389,7 +389,7 @@ namespace ouzel
                 {
                     for (const std::string& path : resourcePaths)
                     {
-                        if (!pathIsRelative(path)) // if resource path is absolute
+                        if (Path(path).isAbsolute()) // if resource path is absolute
                             str = path + Path::directorySeparator + filename;
                         else
                             str = appPath + Path::directorySeparator + path + Path::directorySeparator + filename;
@@ -480,27 +480,6 @@ namespace ouzel
                 return false;
 
             return (buf.st_mode & S_IFMT) == S_IFREG;
-#endif
-        }
-
-        bool FileSystem::pathIsRelative(const std::string& path)
-        {
-#if defined(_WIN32)
-            const int bufferSize = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, nullptr, 0);
-            if (bufferSize == 0)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
-
-            std::vector<WCHAR> buffer(bufferSize);
-            if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, buffer.data(), bufferSize) == 0)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
-
-            // relative paths longer than MAX_PATH are not supported
-            if (buffer.size() > MAX_PATH)
-                buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
-
-            return PathIsRelativeW(buffer.data()) == TRUE;
-#elif defined(__unix__) || defined(__APPLE__)
-            return path.empty() || path[0] != '/';
 #endif
         }
     } // namespace storage

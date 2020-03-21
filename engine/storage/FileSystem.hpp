@@ -30,7 +30,7 @@ namespace ouzel
 
             std::string getPath(const std::string& filename, const bool searchResources = true) const
             {
-                if (!pathIsRelative(filename))
+                if (Path(filename).isAbsolute())
                 {
                     if (fileExists(filename))
                         return filename;
@@ -45,7 +45,7 @@ namespace ouzel
                     if (searchResources)
                         for (const std::string& path : resourcePaths)
                         {
-                            if (!pathIsRelative(path)) // if resource path is absolute
+                            if (Path(path).isAbsolute()) // if resource path is absolute
                                 str = path + Path::directorySeparator + filename;
                             else
                                 str = appPath + Path::directorySeparator + path + Path::directorySeparator + filename;
@@ -87,38 +87,6 @@ namespace ouzel
                     else
                         ++i;
             }
-
-            static std::string getExtensionPart(const std::string& path)
-            {
-                const std::size_t pos = path.find_last_of('.');
-
-                if (pos != std::string::npos)
-                    return path.substr(pos + 1);
-
-                return std::string();
-            }
-
-            static std::string getFilenamePart(const std::string& path)
-            {
-                const std::size_t pos = path.find_last_of("/\\");
-
-                if (pos != std::string::npos)
-                    return path.substr(pos + 1);
-                else
-                    return path;
-            }
-
-            static std::string getDirectoryPart(const std::string& path)
-            {
-                const std::size_t pos = path.find_last_of("/\\");
-
-                if (pos != std::string::npos)
-                    return path.substr(0, pos);
-
-                return std::string();
-            }
-
-            static bool pathIsRelative(const std::string& path);
 
             bool directoryExists(const std::string& dirname) const;
             bool fileExists(const std::string& filename) const;
