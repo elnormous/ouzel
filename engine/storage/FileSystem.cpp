@@ -328,7 +328,7 @@ namespace ouzel
                         return archive.second.readFile(filename);
 
 #if defined(__ANDROID__)
-            if (pathIsRelative(filename))
+            if (!Path(filename).isAbsolute())
             {
                 EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
@@ -386,7 +386,6 @@ namespace ouzel
                 if (fileExists(str))
                     return true;
                 else
-                {
                     for (const std::string& path : resourcePaths)
                     {
                         if (Path(path).isAbsolute()) // if resource path is absolute
@@ -397,7 +396,6 @@ namespace ouzel
                         if (fileExists(str))
                             return true;
                     }
-                }
 
                 return false;
             }
