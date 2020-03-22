@@ -148,8 +148,10 @@ namespace ouzel
                         throw std::runtime_error("Unsupported channel count");
                 }
 
-                resultFrames = stb_vorbis_get_samples_float(vorbisStream, data.getChannels(),
-                                                            channelData.data(), static_cast<int>(frames));
+                resultFrames = stb_vorbis_get_samples_float(vorbisStream,
+                                                            static_cast<int>(data.getChannels()),
+                                                            channelData.data(),
+                                                            static_cast<int>(frames));
             }
 
             if (vorbisStream->eof)

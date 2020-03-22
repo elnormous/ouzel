@@ -24,6 +24,10 @@ namespace ouzel
             const json::Value& nodesValue = d["nodes"];
             const json::Value& meshesValue = d["meshes"];
 
+            (void)mipmaps;
+            (void)nodesValue;
+            (void)meshesValue;
+
             scene::SkinnedMeshData skinnedMeshData;
             bundle.setSkinnedMeshData(name, std::move(skinnedMeshData));
 

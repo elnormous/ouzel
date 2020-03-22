@@ -15,11 +15,11 @@ namespace ouzel
         class WavePlayer final: public Source
         {
         public:
-            explicit WavePlayer(const Sound* sound)
+            explicit WavePlayer(const Sound*)
             {
             }
 
-            void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples) override
+            void getSamples(std::uint32_t, std::uint32_t, std::uint32_t, std::vector<float>&) override
             {
             }
 

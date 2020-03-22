@@ -145,8 +145,8 @@ namespace ouzel
             {
             }
 
-            void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                         std::vector<float>& samples) final
+            void process(std::uint32_t, std::uint32_t, std::uint32_t,
+                         std::vector<float>&) final
             {
             }
 
@@ -302,8 +302,8 @@ namespace ouzel
             {
             }
 
-            void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                         std::vector<float>& samples) final
+            void process(std::uint32_t, std::uint32_t, std::uint32_t,
+                         std::vector<float>&) final
             {
                 // TODO: implement
             }

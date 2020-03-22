@@ -210,18 +210,18 @@ namespace ouzel
                 }
             }
 
-            void Mixer::getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples)
+            void Mixer::getSamples(std::uint32_t frames, std::uint32_t channelCount, std::uint32_t sampleRate, std::vector<float>& samples)
             {
                 process();
 
-                samples.resize(frames * channels);
+                samples.resize(frames * channelCount);
 
                 if (masterBus)
                 {
                     Vector3F listenerPosition;
                     QuaternionF listenerRotation;
 
-                    masterBus->getSamples(frames, channels, sampleRate, listenerPosition, listenerRotation, samples);
+                    masterBus->getSamples(frames, channelCount, sampleRate, listenerPosition, listenerRotation, samples);
                 }
 
                 for (float& sample : samples)
@@ -236,7 +236,7 @@ namespace ouzel
                 {
                     break; // TODO: remove
 
-                    process();
+                    /*process();
 
                     std::unique_lock<std::mutex> lock(bufferMutex);
                     bufferCondition.wait(lock);
@@ -247,7 +247,7 @@ namespace ouzel
                         //QuaternionF listenerRotation;
 
                         //masterBus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, samples);
-                    }
+                    }*/
 
                     //for (float& f : samples)
                     //    f = clamp(f, -1.0F, 1.0F);

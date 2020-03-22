@@ -212,7 +212,7 @@ namespace ouzel
             mixer.getSamples(frames, channels, sampleRate, samples);
         }
 
-        void Audio::eventCallback(const mixer::Mixer::Event& event)
+        void Audio::eventCallback(const mixer::Mixer::Event&)
         {
         }
     } // namespace audio
