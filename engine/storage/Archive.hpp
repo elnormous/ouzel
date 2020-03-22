@@ -38,17 +38,15 @@ namespace ouzel
                         throw std::runtime_error("Bad signature");
 
                     std::uint8_t version[2];
-
                     file.read(reinterpret_cast<char*>(version), sizeof(version));
 
-                    std::uint16_t flags;
-
+                    std::uint8_t flags[2];
                     file.read(reinterpret_cast<char*>(&flags), sizeof(flags));
 
-                    std::uint16_t compression;
+                    std::uint8_t compression[2];
                     file.read(reinterpret_cast<char*>(&compression), sizeof(compression));
 
-                    if (compression != 0x00)
+                    if (decodeLittleEndian<std::uint16_t>(compression) != 0x00)
                         throw std::runtime_error("Unsupported compression");
 
                     file.seekg(4, std::ios::cur); // skip modification time
