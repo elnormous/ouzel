@@ -37,11 +37,8 @@ namespace ouzel
                     if (decodeLittleEndian<std::uint32_t>(signature) != HEADER_SIGNATURE)
                         throw std::runtime_error("Bad signature");
 
-                    std::uint8_t version[2];
-                    file.read(reinterpret_cast<char*>(version), sizeof(version));
-
-                    std::uint8_t flags[2];
-                    file.read(reinterpret_cast<char*>(&flags), sizeof(flags));
+                    file.seekg(2, std::ios::cur); // skip version
+                    file.seekg(2, std::ios::cur); // skip flags
 
                     std::uint8_t compression[2];
                     file.read(reinterpret_cast<char*>(&compression), sizeof(compression));
@@ -49,7 +46,8 @@ namespace ouzel
                     if (decodeLittleEndian<std::uint16_t>(compression) != 0x00)
                         throw std::runtime_error("Unsupported compression");
 
-                    file.seekg(4, std::ios::cur); // skip modification time
+                    file.seekg(2, std::ios::cur); // skip modification time
+                    file.seekg(2, std::ios::cur); // skip modification date
                     file.seekg(4, std::ios::cur); // skip CRC-32
 
                     std::uint8_t compressedSize[4];

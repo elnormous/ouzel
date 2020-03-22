@@ -228,12 +228,12 @@ namespace ouzel
                 const Size2F halfSize(diff.v[0] / 2.0F, diff.v[1] / 2.0F);
 
                 // convert content size to world coordinates
-                Size2F halfWorldSize;
-
-                halfWorldSize.v[0] = std::max(std::fabs(halfSize.v[0] * boxTransform.m[0] + halfSize.v[1] * boxTransform.m[4]),
-                                              std::fabs(halfSize.v[0] * boxTransform.m[0] - halfSize.v[1] * boxTransform.m[4]));
-                halfWorldSize.v[1] = std::max(std::fabs(halfSize.v[0] * boxTransform.m[1] + halfSize.v[1] * boxTransform.m[5]),
-                                              std::fabs(halfSize.v[0] * boxTransform.m[1] - halfSize.v[1] * boxTransform.m[5]));
+                Size2F halfWorldSize{
+                    std::max(std::fabs(halfSize.v[0] * boxTransform.m[0] + halfSize.v[1] * boxTransform.m[4]),
+                             std::fabs(halfSize.v[0] * boxTransform.m[0] - halfSize.v[1] * boxTransform.m[4])),
+                    std::max(std::fabs(halfSize.v[0] * boxTransform.m[1] + halfSize.v[1] * boxTransform.m[5]),
+                             std::fabs(halfSize.v[0] * boxTransform.m[1] - halfSize.v[1] * boxTransform.m[5]))
+                };
 
                 // scale half size by camera projection to get the size in clip space coordinates
                 halfWorldSize.v[0] *= (std::fabs(viewProjection.m[0]) + std::fabs(viewProjection.m[4])) / 2.0F;
