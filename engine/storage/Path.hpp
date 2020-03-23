@@ -66,7 +66,7 @@ namespace ouzel
 
             Path& operator/=(const Path& p)
             {
-                path += directorySeparator + p.path;
+                path += Char(directorySeparator) + p.path;
                 return *this;
             }
 
@@ -87,7 +87,7 @@ namespace ouzel
             Path operator/(const Path& p)
             {
                 Path result = *this;
-                result.path += directorySeparator + p.path;
+                result.path += Char(directorySeparator) + p.path;
                 return result;
             }
 
