@@ -270,7 +270,7 @@ namespace ouzel
                     alGetError();
                 }
 
-                for (ALuint bufferId : bufferIds)
+                for (auto bufferId : bufferIds)
                 {
                     if (bufferId)
                     {

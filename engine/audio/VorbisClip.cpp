@@ -161,7 +161,7 @@ namespace ouzel
             }
 
             for (std::uint32_t channel = 0; channel < data.getChannels(); ++channel)
-                for (std::uint32_t frame = static_cast<std::uint32_t>(resultFrames); frame < frames; ++frame)
+                for (auto frame = static_cast<std::uint32_t>(resultFrames); frame < frames; ++frame)
                     samples[channel * frames + frame] = 0.0F;
         }
 
