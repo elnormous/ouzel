@@ -64,6 +64,12 @@ namespace ouzel
                 return *this;
             }
 
+            Path& operator/=(const Path& p)
+            {
+                path += directorySeparator + p.path;
+                return *this;
+            }
+
             Path operator+(const Path& p)
             {
                 Path result = *this;
@@ -75,6 +81,13 @@ namespace ouzel
             {
                 Path result = *this;
                 result.path += convertToNative(p);
+                return result;
+            }
+
+            Path operator/(const Path& p)
+            {
+                Path result = *this;
+                result.path += directorySeparator + p.path;
                 return result;
             }
 
