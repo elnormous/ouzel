@@ -4,8 +4,6 @@
 
 #include <algorithm>
 #include <fstream>
-#include <stdexcept>
-#include <system_error>
 #if defined(_WIN32)
 #  pragma push_macro("WIN32_LEAN_AND_MEAN")
 #  pragma push_macro("NOMINMAX")
@@ -29,10 +27,6 @@
 #  include "core/android/EngineAndroid.hpp"
 #elif defined(__linux__)
 #  include <pwd.h>
-#endif
-
-#if defined(__unix__) || defined(__APPLE__)
-#  include <sys/stat.h>
 #endif
 
 #include "FileSystem.hpp"
