@@ -23,8 +23,9 @@
 #  pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #  pragma pop_macro("NOMINMAX")
 #elif defined(__unix__) || defined(__APPLE__)
-#  include <sys/stat.h>
 #  include <limits.h>
+#  include <sys/fcntl.h>
+#  include <sys/stat.h>
 #  include <unistd.h>
 #endif
 #include "storage/Archive.hpp"
@@ -119,14 +120,14 @@ namespace ouzel
                 std::unique_ptr<wchar_t[]> buffer(new wchar_t[pathLength]);
                 if (GetCurrentDirectoryW(pathLength, buffer.get()) == 0)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get current directory");
-                return Path(std::wstring(buffer.get()), Path::Format::Native);
+                return Path(buffer.get(), Path::Format::Native);
 #elif defined(__unix__) || defined(__APPLE__)
                 const auto pathMaxConfig = pathconf(".", _PC_PATH_MAX);
                 const size_t pathMax = static_cast<size_t>(pathMaxConfig == -1 ? PATH_MAX : pathMaxConfig);
                 std::unique_ptr<char[]> buffer(new char[pathMax + 1]);
                 if (!getcwd(buffer.get(), pathMax))
                     throw std::system_error(errno, std::system_category(), "Failed to get current directory");
-                return Path(std::string(buffer.get()), Path::Format::Native);
+                return Path(buffer.get(), Path::Format::Native);
 #endif
             }
 
@@ -150,6 +151,69 @@ namespace ouzel
                 mode_t mode = 0777;
                 if (mkdir(path.getNative().c_str(), mode) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to create directory");
+#endif
+            }
+
+            static void copyFile(const Path& from, const Path& to, bool overwrite = false)
+            {
+#ifdef GHC_OS_WINDOWS
+                if (!CopyFileW(from.getNative().c_str(), to.getNative().c_str(), !overwrite))
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to copy file");
+    return true;
+#elif defined(__unix__) || defined(__APPLE__)
+                class FileDescriptor final
+                {
+                public:
+                    FileDescriptor() noexcept = default;
+                    ~FileDescriptor() { if (fd != -1) close(fd); }
+                    FileDescriptor(const FileDescriptor&) = delete;
+                    FileDescriptor& operator=(const FileDescriptor&) = delete;
+                    FileDescriptor& operator=(int f) noexcept
+                    {
+                        if (fd != -1) close(fd);
+                        fd = f;
+                        return *this;
+                    }
+                    operator int() const noexcept { return fd; }
+                private:
+                    int fd = -1;
+                };
+
+                FileDescriptor in;
+                if ((in = open(from.getNative().c_str(), O_RDONLY)) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to open file");
+
+                int mode = O_CREAT | O_WRONLY | O_TRUNC;
+                if (!overwrite) mode |= O_EXCL;
+
+                struct stat s;
+                if (fstat(in, &s) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
+
+                FileDescriptor out;
+                if ((out = open(to.getNative().c_str(), mode, s.st_mode)) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to open file");
+
+                std::vector<char> buffer(16384);
+                for (;;)
+                {
+                    ssize_t bytesRead = read(in, buffer.data(), buffer.size());
+                    if (bytesRead == -1)
+                        throw std::system_error(errno, std::system_category(), "Failed to read from file");
+
+                    if (bytesRead == 0) break;
+
+                    ssize_t offset = 0;
+                    do
+                    {
+                        ssize_t bytesWritten = write(out, buffer.data() + offset, static_cast<size_t>(bytesRead));
+                        if (bytesWritten == -1)
+                            throw std::system_error(errno, std::system_category(), "Failed to write to file");
+
+                        bytesRead -= bytesWritten;
+                        offset += bytesWritten;
+                    } while (bytesRead);
+                }
 #endif
             }
 

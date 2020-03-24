@@ -59,7 +59,17 @@ namespace ouzel
             {
             }
 
+            Path(const char* p, Format format = Format::Generic):
+                path(format == Format::Generic ? convertToNative(p) : encode(p))
+            {
+            }
+
             Path(const std::string& p, Format format = Format::Generic):
+                path(format == Format::Generic ? convertToNative(p) : encode(p))
+            {
+            }
+
+            Path(const wchar_t* p, Format format = Format::Generic):
                 path(format == Format::Generic ? convertToNative(p) : encode(p))
             {
             }
