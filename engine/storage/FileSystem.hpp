@@ -138,6 +138,18 @@ namespace ouzel
 #endif
             }
 
+            static void createDirectory(const Path& path)
+            {
+#if defined(_WIN32)
+                if (CreateDirectoryW(path.getNative().c_str(), nullptr) == 0)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create directory");
+#elif defined(__unix__) || defined(__APPLE__)
+                mode_t mode = 0777;
+                if (mkdir(path.getNative().c_str(), mode) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to create directory");
+#endif
+            }
+
         private:
             Engine& engine;
             std::string appPath;
