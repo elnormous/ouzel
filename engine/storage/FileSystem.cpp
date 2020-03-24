@@ -360,13 +360,6 @@ namespace ouzel
             return {std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
         }
 
-        void FileSystem::writeFile(const std::string& filename, const std::vector<std::uint8_t>& data) const
-        {
-            std::ofstream f(filename, std::ios::binary | std::ios::trunc);
-            f.write(reinterpret_cast<const char*>(data.data()),
-                    static_cast<std::streamsize>(data.size()));
-        }
-
         bool FileSystem::resourceFileExists(const std::string& filename) const
         {
             if (Path(filename).isAbsolute())
