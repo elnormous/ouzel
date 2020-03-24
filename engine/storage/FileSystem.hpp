@@ -127,6 +127,17 @@ namespace ouzel
 #endif
             }
 
+            static void setCurrentPath(const Path& path)
+            {
+#if defined(_WIN32)
+                if (SetCurrentDirectoryW(path.getNative().c_str()) == 0)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to set current directory");
+#elif defined(__unix__) || defined(__APPLE__)
+                if (chdir(path.getNative().c_str()) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to set current directory");
+#endif
+            }
+
         private:
             Engine& engine;
             std::string appPath;
