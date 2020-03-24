@@ -31,6 +31,12 @@ namespace ouzel
         class Path final
         {
         public:
+            enum class Format
+            {
+                Generic,
+                Native
+            };
+
 #if defined(_WIN32)
             static constexpr char directorySeparator = '\\';
             using Char = wchar_t;
@@ -42,14 +48,44 @@ namespace ouzel
 #endif
 
             Path() = default;
-            Path(const std::string& p):
-                path(convertToNative(p))
+
+            Path(const Path& p):
+                path(p.path)
             {
+            }
+
+            Path(Path&& p):
+                path(std::move(p.path))
+            {
+            }
+
+            Path(const std::string& p, Format format = Format::Generic):
+                path(format == Format::Generic ? convertToNative(p) : encode(p))
+            {
+            }
+
+            Path(const std::wstring& p, Format format = Format::Generic):
+                path(format == Format::Generic ? convertToNative(p) : encode(p))
+            {
+            }
+
+            Path& operator=(const Path& other)
+            {
+                if (this == &other) return *this;
+                path = other.path;
+                return *this;
+            }
+
+            Path& operator=(Path&& other)
+            {
+                if (this == &other) return *this;
+                path = std::move(other.path);
+                return *this;
             }
 
             operator std::string() const
             {
-                return convertToUniversal(path);
+                return convertToGeneric(path);
             }
 
             Path& operator+=(const Path& p)
@@ -105,7 +141,7 @@ namespace ouzel
                 if (pos != std::string::npos)
                     result = path.substr(pos + 1);
 
-                return convertToUniversal(result);
+                return convertToGeneric(result);
             }
 
             std::string getFilename() const
@@ -119,7 +155,7 @@ namespace ouzel
                 else
                     result = path;
 
-                return convertToUniversal(result);
+                return convertToGeneric(result);
             }
 
             Path getStem() const
@@ -370,13 +406,19 @@ namespace ouzel
             {
                 std::wstring result = toWchar(p);
 
-                for (auto& c : result)
-                    if (c == L'/') c = L'\\';
-
+                for (auto& c : result) if (c == L'/') c = L'\\';
                 return result;
             }
 
-            static std::string convertToUniversal(const std::wstring& p)
+            static std::wstring convertToNative(const std::wstring& p)
+            {
+                std::wstring result = p;
+
+                for (auto& c : result) if (c == L'/') c = L'\\';
+                return result;
+            }
+
+            static std::string convertToGeneric(const std::wstring& p)
             {
                 std::string result = toUtf8(p);
 
@@ -385,15 +427,40 @@ namespace ouzel
 
                 return result;
             }
+
+            static std::wstring encode(const std::string& p)
+            {
+                return toWchar(p);
+            }
+
+            static const std::wstring& encode(const std::wstring& p)
+            {
+                return p;
+            }
 #elif defined(__unix__) || defined(__APPLE__)
             static const std::string& convertToNative(const std::string& p)
             {
                 return p;
             }
 
-            static const std::string& convertToUniversal(const std::string& p)
+            static std::string convertToNative(const std::wstring& p)
+            {
+                return toUtf8(p);
+            }
+
+            static const std::string& convertToGeneric(const std::string& p)
             {
                 return p;
+            }
+
+            static const std::string& encode(const std::string& p)
+            {
+                return p;
+            }
+
+            static std::string encode(const std::wstring& p)
+            {
+                return toUtf8(p);
             }
 #endif
 
