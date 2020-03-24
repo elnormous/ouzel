@@ -36,7 +36,6 @@
 
 #if defined(__APPLE__)
 #  include "CfPointer.hpp"
-extern "C" id NSTemporaryDirectory();
 #endif
 
 namespace ouzel
@@ -272,41 +271,6 @@ namespace ouzel
                     throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
 
             return path;
-#else
-            return "";
-#endif
-        }
-
-        std::string FileSystem::getTempDirectory() const
-        {
-#if defined(_WIN32)
-            WCHAR buffer[MAX_PATH];
-            if (GetTempPathW(MAX_PATH, buffer))
-            {
-                const int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
-                if (bufferSize == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
-
-                std::vector<char> tempDirectoryBuffer(bufferSize);
-                if (WideCharToMultiByte(CP_UTF8, 0, buffer, -1, tempDirectoryBuffer.data(), bufferSize, nullptr, nullptr) == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
-
-                return tempDirectoryBuffer.data();
-            }
-            else
-                return "";
-#elif defined(__APPLE__)
-            id temporaryDirectory = NSTemporaryDirectory();
-            return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(temporaryDirectory, sel_getUid("UTF8String")); // [temporaryDirectory UTF8String]
-#elif defined(__ANDROID__)
-            EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
-            return engineAndroid.getCacheDirectory();
-#elif defined(__linux__)
-            char const* path = getenv("TMPDIR");
-            if (path)
-                return path;
-            else
-                return "/tmp";
 #else
             return "";
 #endif

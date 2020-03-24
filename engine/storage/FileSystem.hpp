@@ -43,7 +43,31 @@ namespace ouzel
             explicit FileSystem(Engine& initEngine);
 
             std::string getStorageDirectory(const bool user = true) const;
-            std::string getTempDirectory() const;
+
+            static Path getTempPath()
+            {
+#if defined(_WIN32)
+                WCHAR buffer[MAX_PATH];
+                if (!GetTempPathW(MAX_PATH, buffer))
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get temp directory");
+
+                return Path{buffer, Path::Format::Native};
+#elif defined(__linux__) || defined(__APPLE__)
+                char const* path = getenv("TMPDIR");
+                if (!path) path = getenv("TMP");
+                if (!path) path = getenv("TEMP");
+                if (!path) path = getenv("TEMPDIR");
+
+                if (path)
+                    return Path{path, Path::Format::Native};
+                else
+#  if defined(__ANDROID__)
+                    return Path{"/data/local/tmp", Path::Format::Native};
+#  else
+                    return Path{"/tmp", Path::Format::Native};
+#  endif
+#endif
+            }
 
             std::vector<std::uint8_t> readFile(const std::string& filename, const bool searchResources = true);
 
@@ -119,14 +143,14 @@ namespace ouzel
                 std::unique_ptr<wchar_t[]> buffer(new wchar_t[pathLength]);
                 if (GetCurrentDirectoryW(pathLength, buffer.get()) == 0)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get current directory");
-                return Path(buffer.get(), Path::Format::Native);
+                return Path{buffer.get(), Path::Format::Native};
 #elif defined(__unix__) || defined(__APPLE__)
                 const auto pathMaxConfig = pathconf(".", _PC_PATH_MAX);
                 const size_t pathMax = static_cast<size_t>(pathMaxConfig == -1 ? PATH_MAX : pathMaxConfig);
                 std::unique_ptr<char[]> buffer(new char[pathMax + 1]);
                 if (!getcwd(buffer.get(), pathMax))
                     throw std::system_error(errno, std::system_category(), "Failed to get current directory");
-                return Path(buffer.get(), Path::Format::Native);
+                return Path{buffer.get(), Path::Format::Native};
 #endif
             }
 
