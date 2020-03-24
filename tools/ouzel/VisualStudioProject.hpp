@@ -3,12 +3,20 @@
 #ifndef OUZEL_VISUALSTUDIOPROJECT_HPP
 #define OUZEL_VISUALSTUDIOPROJECT_HPP
 
+#include "OuzelProject.hpp"
+
 namespace ouzel
 {
     class VisualStudioProject final
     {
     public:
-        VisualStudioProject() = default;
+        VisualStudioProject(const OuzelProject& p):
+            project(p)
+        {
+        }
+
+    private:
+        const OuzelProject& project;
     };
 }
 

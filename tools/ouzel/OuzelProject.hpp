@@ -30,7 +30,7 @@ namespace ouzel
                 storage::Path assetPath(assetsPath / asset["path"].as<std::string>());
 
                 storage::Path resourceName = asset["path"].as<std::string>();
-                storage::Path resourcePath = resourcesPath / resourceName.getStem() + ".otexture";
+                storage::Path resourcePath = resourcesPath / resourceName.getStem() + std::string(".otexture");
 
                 // TODO: check if input file exists
                 // TODO: check if output file exists and is older than the input file

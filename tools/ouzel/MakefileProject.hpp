@@ -3,12 +3,20 @@
 #ifndef OUZEL_MAKEFILEPROJECT_HPP
 #define OUZEL_MAKEFILEPROJECT_HPP
 
+#include "OuzelProject.hpp"
+
 namespace ouzel
 {
     class MakefileProject final
     {
     public:
-        MakefileProject() = default;
+        MakefileProject(const OuzelProject& p):
+            project(p)
+        {
+        }
+
+    private:
+        const OuzelProject& project;
     };
 }
 
