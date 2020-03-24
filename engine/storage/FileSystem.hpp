@@ -3,9 +3,11 @@
 #ifndef OUZEL_STORAGE_FILESYSTEM_HPP
 #define OUZEL_STORAGE_FILESYSTEM_HPP
 
-#include <string>
-#include <vector>
 #include <cstdint>
+#include <stdexcept>
+#include <string>
+#include <system_error>
+#include <vector>
 #if defined(_WIN32)
 #  pragma push_macro("WIN32_LEAN_AND_MEAN")
 #  pragma push_macro("NOMINMAX")
@@ -21,6 +23,7 @@
 #  pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #  pragma pop_macro("NOMINMAX")
 #elif defined(__unix__) || defined(__APPLE__)
+#  include <sys/stat.h>
 #  include <limits.h>
 #  include <unistd.h>
 #endif

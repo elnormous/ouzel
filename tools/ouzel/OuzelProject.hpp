@@ -40,6 +40,11 @@ namespace ouzel
 
         const std::string& getName() const noexcept { return name; }
 
+        void exportAssets()
+        {
+            
+        }
+
     private:
         std::string name;
     };

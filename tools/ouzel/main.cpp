@@ -121,6 +121,8 @@ int main(int argc, const char* argv[])
             }
         }
 
+        ouzel::OuzelProject project(projectPath);
+
         switch (action)
         {
             case Action::None:
@@ -128,10 +130,9 @@ int main(int argc, const char* argv[])
             case Action::GenerateProject:
                 break;
             case Action::ExportAssets:
+                project.exportAssets();
                 break;
         }
-
-        ouzel::OuzelProject project(projectPath);
     }
     catch (const std::exception& e)
     {

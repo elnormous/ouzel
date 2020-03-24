@@ -5,7 +5,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tools\MakefileProject.hpp" />
-    <ClInclude Include="..\tools\Project.hpp" />
     <ClInclude Include="..\tools\VisualStudioProject.hpp" />
     <ClInclude Include="..\tools\XcodeProject.hpp" />
     <ClInclude Include="..\tools\ouzel\OuzelProject.hpp" />
