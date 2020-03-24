@@ -6,6 +6,23 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#if defined(_WIN32)
+#  pragma push_macro("WIN32_LEAN_AND_MEAN")
+#  pragma push_macro("NOMINMAX")
+#  ifndef WIN32_LEAN_AND_MEAN
+#    define WIN32_LEAN_AND_MEAN
+#  endif
+#  ifndef NOMINMAX
+#    define NOMINMAX
+#  endif
+#  include <Windows.h>
+#  include <ShlObj.h>
+#  include <Shlwapi.h>
+#  pragma pop_macro("WIN32_LEAN_AND_MEAN")
+#  pragma pop_macro("NOMINMAX")
+#elif defined(__unix__) || defined(__APPLE__)
+#  include <unistd.h>
+#endif
 #include "storage/Archive.hpp"
 #include "storage/Path.hpp"
 
@@ -90,6 +107,24 @@ namespace ouzel
 
             bool directoryExists(const std::string& dirname) const;
             bool fileExists(const std::string& filename) const;
+
+            static Path getCurrentPath()
+            {
+#if defined(_WIN32)
+                DWORD pathLength = GetCurrentDirectoryW(0, 0);
+                std::unique_ptr<wchar_t[]> buffer(new wchar_t[pathLength]);
+                if (GetCurrentDirectoryW(pathLength, buffer.get()) == 0)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get current directory");
+                return Path(std::wstring(buffer.get()), Path::Format::Native);
+#elif defined(__unix__) || defined(__APPLE__)
+                const auto pathMaxConfig = pathconf(".", _PC_PATH_MAX);
+                const size_t pathMax = static_cast<size_t>(pathMaxConfig == -1 ? PATH_MAX : pathMaxConfig);
+                std::unique_ptr<char[]> buffer(new char[pathMax + 1]);
+                if (!getcwd(buffer.get(), pathMax))
+                    throw std::system_error(errno, std::system_category(), "Failed to get current directory");
+                return Path(std::string(buffer.get()), Path::Format::Native);
+#endif
+            }
 
         private:
             Engine& engine;
