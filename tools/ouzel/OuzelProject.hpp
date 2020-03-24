@@ -22,15 +22,15 @@ namespace ouzel
             json::Data j(data);
             name = j["name"].as<std::string>();
 
-            storage::Path assetsPath = directory + "/" + j["assetsPath"].as<std::string>();
-            storage::Path resourcesPath = directory + "/Resources/";
+            storage::Path assetsPath = directory / j["assetsPath"].as<std::string>();
+            storage::Path resourcesPath = directory / storage::Path("Resources");
 
             for (const auto& asset : j["assets"])
             {
-                storage::Path assetPath(assetsPath + asset["path"].as<std::string>());
+                storage::Path assetPath(assetsPath / asset["path"].as<std::string>());
 
                 storage::Path resourceName = asset["path"].as<std::string>();
-                storage::Path resourcePath = resourcesPath + resourceName.getStem() + ".otexture";
+                storage::Path resourcePath = resourcesPath / resourceName.getStem() + ".otexture";
 
                 // TODO: check if input file exists
                 // TODO: check if output file exists and is older than the input file
