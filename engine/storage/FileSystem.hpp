@@ -159,7 +159,6 @@ namespace ouzel
 #ifdef GHC_OS_WINDOWS
                 if (!CopyFileW(from.getNative().c_str(), to.getNative().c_str(), !overwrite))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to copy file");
-    return true;
 #elif defined(__unix__) || defined(__APPLE__)
                 class FileDescriptor final
                 {
