@@ -47,8 +47,8 @@ namespace ouzel
             static Path getTempPath()
             {
 #if defined(_WIN32)
-                WCHAR buffer[MAX_PATH];
-                if (!GetTempPathW(MAX_PATH, buffer))
+                WCHAR buffer[MAX_PATH + 1];
+                if (!GetTempPathW(MAX_PATH + 1, buffer))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get temp directory");
 
                 return Path{buffer, Path::Format::Native};

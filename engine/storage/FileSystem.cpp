@@ -46,7 +46,7 @@ namespace ouzel
             engine(initEngine)
         {
 #if defined(_WIN32)
-            std::vector<WCHAR> buffer(MAX_PATH);
+            std::vector<WCHAR> buffer(MAX_PATH + 1);
             for (;;)
             {
                 HINSTANCE instance = GetModuleHandleW(nullptr);
