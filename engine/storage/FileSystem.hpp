@@ -156,7 +156,7 @@ namespace ouzel
 
             static void copyFile(const Path& from, const Path& to, bool overwrite = false)
             {
-#ifdef GHC_OS_WINDOWS
+#if defined(_WIN32)
                 if (!CopyFileW(from.getNative().c_str(), to.getNative().c_str(), !overwrite))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to copy file");
 #elif defined(__unix__) || defined(__APPLE__)
@@ -182,8 +182,7 @@ namespace ouzel
                 if ((in = open(from.getNative().c_str(), O_RDONLY)) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to open file");
 
-                int mode = O_CREAT | O_WRONLY | O_TRUNC;
-                if (!overwrite) mode |= O_EXCL;
+                const int mode = O_CREAT | O_WRONLY | O_TRUNC | (!overwrite ? O_EXCL : 0);
 
                 struct stat s;
                 if (fstat(in, &s) == -1)
@@ -205,7 +204,7 @@ namespace ouzel
                     ssize_t offset = 0;
                     do
                     {
-                        ssize_t bytesWritten = write(out, buffer.data() + offset, static_cast<size_t>(bytesRead));
+                        const ssize_t bytesWritten = write(out, buffer.data() + offset, static_cast<size_t>(bytesRead));
                         if (bytesWritten == -1)
                             throw std::system_error(errno, std::system_category(), "Failed to write to file");
 
@@ -213,6 +212,27 @@ namespace ouzel
                         offset += bytesWritten;
                     } while (bytesRead);
                 }
+#endif
+            }
+
+            void deleteFile(const Path& path)
+            {
+#if defined(_WIN32)
+                const DWORD attributes = GetFileAttributesW(path.getNative().c_str());
+                if (attributes == INVALID_FILE_ATTRIBUTES)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get file attributes");
+
+                if (attributes & FILE_ATTRIBUTE_DIRECTORY)
+                {
+                    if (!RemoveDirectoryW(path.getNative().c_str()))
+                        throw std::system_error(GetLastError(), std::system_category(), "Failed to delete directory");
+                }
+                else if (!DeleteFileW(path.getNative().c_str()))
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to delete file");
+
+#elif defined(__unix__) || defined(__APPLE__)
+                if (remove(path.getNative().c_str()) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to delete file");
 #endif
             }
 
