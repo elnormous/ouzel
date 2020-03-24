@@ -28,9 +28,7 @@
 #elif defined(__ANDROID__)
 #  include "core/android/EngineAndroid.hpp"
 #elif defined(__linux__)
-#  include <limits.h>
 #  include <pwd.h>
-#  include <unistd.h>
 #endif
 
 #if defined(__unix__) || defined(__APPLE__)
