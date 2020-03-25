@@ -54,14 +54,17 @@ namespace ouzel
         class Object
         {
         public:
-            Object(const std::string& n): name{n} {}
+            Object(const std::string& i,
+                   const std::string& n): isa{i}, name{n} {}
             virtual ~Object() = default;
 
             const std::string& getId() const noexcept { return id; }
+            const std::string& getIsa() const noexcept { return isa; }
             const std::string& getName() const noexcept { return name; }
 
         private:
             std::string id = generateId();
+            std::string isa;
             std::string name;
         };
 
@@ -83,7 +86,7 @@ namespace ouzel
             };
 
             PbxFileReference(const storage::Path& p, Type t = Type::Build):
-            Object{std::string{p}}, path{p}, type{t} {}
+                Object{"PBXFileReference", std::string{p}}, path{p}, type{t} {}
             const storage::Path& getPath() const noexcept { return path; }
 
             void output(std::ofstream& file) const
@@ -93,10 +96,10 @@ namespace ouzel
                 if (type == Type::Build)
                 {
                     auto fileType = extension == "plist" ? "text.plist.xml" : "sourcecode.cpp." + extension;
-                    file << "\t\t" << getId() << " /* " << filename << " */ = {isa = PBXFileReference; lastKnownFileType = " << fileType << "; path = " << formatString(filename) << "; sourceTree = " << formatString("<group>") << "; };\n";
+                    file << "\t\t" << getId() << " /* " << filename << " */ = {isa = " << getIsa() << "; lastKnownFileType = " << fileType << "; path = " << formatString(filename) << "; sourceTree = " << formatString("<group>") << "; };\n";
                 }
                 else if (type == Type::Product)
-                    file << "\t\t" << getId() << " /* " << filename << " */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = " << formatString(filename) << "; sourceTree = BUILT_PRODUCTS_DIR; };\n";
+                    file << "\t\t" << getId() << " /* " << filename << " */ = {isa = " << getIsa() << "; explicitFileType = wrapper.application; includeInIndex = 0; path = " << formatString(filename) << "; sourceTree = BUILT_PRODUCTS_DIR; };\n";
             }
 
         private:
@@ -108,12 +111,12 @@ namespace ouzel
         {
         public:
             PbxBuildFile(const PbxFileReference& ref):
-                Object{ref.getName()}, fileRef{ref} {}
+                Object{"PBXBuildFile", ref.getName()}, fileRef{ref} {}
 
             void output(std::ofstream& file) const
             {
                 auto filename = std::string(fileRef.getPath());
-                file << "\t\t" << getId() << " /* " << filename << " in Sources */ = {isa = PBXBuildFile; fileRef = " << formatReference(fileRef) << "; };\n";
+                file << "\t\t" << getId() << " /* " << filename << " in Sources */ = {isa = " << getIsa() << "; fileRef = " << formatReference(fileRef) << "; };\n";
             }
 
         private:
@@ -126,7 +129,7 @@ namespace ouzel
             PbxGroup(const std::string& n,
                      const storage::Path& p = {},
                      const std::vector<const Object*>& c = {}):
-            Object{n}, path{p}, children{c} {}
+                Object{"PBXGroup", n}, path{p}, children{c} {}
 
             void output(std::ofstream& file) const
             {
@@ -136,7 +139,7 @@ namespace ouzel
                     file << "/* " << getName() << " */ ";
 
                 file << "= {\n"
-                "\t\t\tisa = PBXGroup;\n"
+                "\t\t\tisa = " << getIsa() << ";\n"
                 "\t\t\tchildren = (\n";
 
                 for (auto child : children)
@@ -161,12 +164,13 @@ namespace ouzel
         class XcBuildConfiguration final: public Object
         {
         public:
-            XcBuildConfiguration(const std::string& n): Object{n} {}
+            XcBuildConfiguration(const std::string& n):
+                Object{"XCBuildConfiguration", n} {}
 
             void output(std::ofstream& file) const
             {
                 file << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
-                "\t\t\tisa = XCBuildConfiguration;\n"
+                "\t\t\tisa = " << getIsa() << ";\n"
                 "\t\t\tbuildSettings = {\n"
                 "\t\t\t};\n"
                 "\t\t\tname = " << formatString(getName()) << ";\n"
@@ -176,20 +180,20 @@ namespace ouzel
         private:
         };
 
-        class XcBuildConfigurationList final: public Object
+        class XcConfigurationList final: public Object
         {
         public:
-            XcBuildConfigurationList(const std::string& n,
-                                     const std::vector<const XcBuildConfiguration*>& c,
-                                     const XcBuildConfiguration& defaultConfig):
-                Object{n},
+            XcConfigurationList(const std::string& n,
+                                const std::vector<const XcBuildConfiguration*>& c,
+                                const XcBuildConfiguration& defaultConfig):
+                Object{"XCConfigurationList", n},
                 configurations{c},
                 defaultConfiguration{defaultConfig} {}
 
             void output(std::ofstream& file) const
             {
                 file << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
-                "\t\t\tisa = XCConfigurationList;\n"
+                "\t\t\tisa = " << getIsa() << ";\n"
                 "\t\t\tbuildConfigurations = {\n";
 
                 for (auto configuration : configurations)
@@ -206,22 +210,40 @@ namespace ouzel
             const XcBuildConfiguration& defaultConfiguration;
         };
 
+        class PbxSourcesBuildPhase final: public Object
+        {
+        public:
+            PbxSourcesBuildPhase(const std::string& n):
+                Object{"PBXSourcesBuildPhase", n} {}
+
+            void output(std::ofstream& file) const
+            {
+                file << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
+                "\t\t\tisa = " << getIsa() << ";\n";
+                file << "\t\t};\n";
+            }
+        };
+
         class PbxNativeTarget final: public Object
         {
         public:
             PbxNativeTarget(const std::string& n,
-                            const XcBuildConfigurationList& buildConfigList,
+                            const XcConfigurationList& buildConfigList,
+                            const std::vector<const Object*>& phases,
                             const PbxFileReference& product):
-                Object{n},
+                Object{"PBXNativeTarget", n},
                 buildConfigurationList{buildConfigList},
+                buildPhases{phases},
                 productReference{product} {}
 
             void output(std::ofstream& file) const
             {
                 file << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
-                "\t\t\tisa = PBXNativeTarget;\n"
+                "\t\t\tisa = " << getIsa() << ";\n"
                 "\t\t\tbuildConfigurationList = " << formatReference(buildConfigurationList) << ";\n"
                 "\t\t\tbuildPhases = (\n";
+                for (auto buildPhase : buildPhases)
+                    file << "\t\t\t\t" << formatReference(*buildPhase) << ",\n";
                 file << "\t\t\t);\n"
                 "\t\t\tbuildRules = (\n"
                 "\t\t\t);\n"
@@ -235,7 +257,8 @@ namespace ouzel
             }
 
         private:
-            const XcBuildConfigurationList& buildConfigurationList;
+            const XcConfigurationList& buildConfigurationList;
+            std::vector<const Object*> buildPhases;
             const PbxFileReference& productReference;
         };
 
@@ -244,11 +267,11 @@ namespace ouzel
         public:
             PbxProject(const std::string& n,
                        const std::string& org,
-                       const XcBuildConfigurationList& buildConfigList,
+                       const XcConfigurationList& buildConfigList,
                        const PbxGroup& mainGrp,
                        const PbxGroup& productRefGrp,
                        const std::vector<const PbxNativeTarget*>& t):
-                Object{n},
+                Object{"PBXProject", n},
                 organization{org},
                 buildConfigurationList{buildConfigList},
                 mainGroup(mainGrp),
@@ -258,7 +281,7 @@ namespace ouzel
             void output(std::ofstream& file) const
             {
                 file << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
-                "\t\t\tisa = PBXProject;\n"
+                "\t\t\tisa = " << getIsa() << ";\n"
                 "\t\t\tattributes = {\n"
                 "\t\t\t\tLastUpgradeCheck = 0800;\n"
                 "\t\t\t\tORGANIZATIONNAME = " << formatString(organization) << ";\n";
@@ -286,7 +309,7 @@ namespace ouzel
 
         private:
             std::string organization;
-            const XcBuildConfigurationList& buildConfigurationList;
+            const XcConfigurationList& buildConfigurationList;
             const PbxGroup& mainGroup;
             const PbxGroup& productRefGroup;
             std::vector<const PbxNativeTarget*> targets;
@@ -350,11 +373,13 @@ namespace ouzel
             const auto& releaseConfiguration = create<XcBuildConfiguration>("Release");
             configurations.push_back(&releaseConfiguration);
 
-            std::vector<const XcBuildConfigurationList*> configurationLists;
-            const auto& projectConfigurationList = create<XcBuildConfigurationList>("Project",
-                                                                                    std::vector<const XcBuildConfiguration*>{&debugConfiguration, &releaseConfiguration},
-                                                                                    releaseConfiguration);
+            std::vector<const XcConfigurationList*> configurationLists;
+            const auto& projectConfigurationList = create<XcConfigurationList>("Project",
+                                                                               std::vector<const XcBuildConfiguration*>{&debugConfiguration, &releaseConfiguration},
+                                                                               releaseConfiguration);
             configurationLists.push_back(&projectConfigurationList);
+
+            std::vector<const PbxSourcesBuildPhase*> sourcesBuildPhases;
 
             std::vector<const PbxNativeTarget*> nativeTargets;
             // TODO: for each architecture
@@ -365,12 +390,15 @@ namespace ouzel
                 const auto& targetReleaseConfiguration = create<XcBuildConfiguration>("Release");
                 configurations.push_back(&targetReleaseConfiguration);
 
-                const auto& targetConfigurationList = create<XcBuildConfigurationList>("Target",
-                                                                                       std::vector<const XcBuildConfiguration*>{&targetDebugConfiguration, &targetReleaseConfiguration},
-                                                                                       targetReleaseConfiguration);
+                const auto& targetConfigurationList = create<XcConfigurationList>("Target",
+                                                                                  std::vector<const XcBuildConfiguration*>{&targetDebugConfiguration, &targetReleaseConfiguration},
+                                                                                  targetReleaseConfiguration);
                 configurationLists.push_back(&targetConfigurationList);
 
-                const auto& nativeTarget = create<PbxNativeTarget>(project.getName(), targetConfigurationList, productFile);
+                const auto& nativeTarget = create<PbxNativeTarget>(project.getName(),
+                                                                   targetConfigurationList,
+                                                                   std::vector<const Object*>{},
+                                                                   productFile);
                 nativeTargets.push_back(&nativeTarget);
             }
 
@@ -428,6 +456,8 @@ namespace ouzel
 
             // source file build phase
             file << "\n/* Begin PBXSourcesBuildPhase section */\n";
+            for (const auto sourcesBuildPhase : sourcesBuildPhases)
+                sourcesBuildPhase->output(file);
             file << "/* End PBXSourcesBuildPhase section */\n";
 
             // configurations
