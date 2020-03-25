@@ -89,17 +89,20 @@ namespace ouzel
                 Object{"PBXFileReference", std::string{p}}, path{p}, type{t} {}
             const storage::Path& getPath() const noexcept { return path; }
 
-            void output(std::ofstream& file) const
+            void output(std::ostream& stream) const
             {
                 auto filename = std::string(path);
                 auto extension = path.getExtension();
                 if (type == Type::Build)
                 {
                     auto fileType = extension == "plist" ? "text.plist.xml" : "sourcecode.cpp." + extension;
-                    file << "\t\t" << getId() << " /* " << filename << " */ = {isa = " << getIsa() << "; lastKnownFileType = " << fileType << "; path = " << formatString(filename) << "; sourceTree = " << formatString("<group>") << "; };\n";
+                    stream << "\t\t" << getId() << " /* " << getName() << " */ = {isa = " << getIsa() << "; lastKnownFileType = " << fileType << "; path = " << formatString(filename) << "; sourceTree = " << formatString("<group>") << "; };\n";
                 }
                 else if (type == Type::Product)
-                    file << "\t\t" << getId() << " /* " << filename << " */ = {isa = " << getIsa() << "; explicitFileType = wrapper.application; includeInIndex = 0; path = " << formatString(filename) << "; sourceTree = BUILT_PRODUCTS_DIR; };\n";
+                {
+                    auto fileType = std::string("wrapper.application");
+                    stream << "\t\t" << getId() << " /* " << getName() << " */ = {isa = " << getIsa() << "; explicitFileType = " << fileType << "; includeInIndex = " << 0 << "; path = " << formatString(filename) << "; sourceTree = " << "BUILT_PRODUCTS_DIR" << "; };\n";
+                }
             }
 
         private:
@@ -113,10 +116,10 @@ namespace ouzel
             PbxBuildFile(const PbxFileReference& ref):
                 Object{"PBXBuildFile", ref.getName()}, fileRef{ref} {}
 
-            void output(std::ofstream& file) const
+            void output(std::ostream& stream) const
             {
                 auto filename = std::string(fileRef.getPath());
-                file << "\t\t" << getId() << " /* " << filename << " in Sources */ = {isa = " << getIsa() << "; fileRef = " << formatReference(fileRef) << "; };\n";
+                stream << "\t\t" << getId() << " /* " << getName() << " */ = {isa = " << getIsa() << "; fileRef = " << formatReference(fileRef) << "; };\n";
             }
 
         private:
@@ -131,29 +134,29 @@ namespace ouzel
                      const std::vector<const Object*>& c = {}):
                 Object{"PBXGroup", n}, path{p}, children{c} {}
 
-            void output(std::ofstream& file) const
+            void output(std::ostream& stream) const
             {
-                file << "\t\t" << getId() << " ";
+                stream << "\t\t" << getId() << " ";
 
                 if (!getName().empty())
-                    file << "/* " << getName() << " */ ";
+                    stream << "/* " << getName() << " */ ";
 
-                file << "= {\n"
-                "\t\t\tisa = " << getIsa() << ";\n"
-                "\t\t\tchildren = (\n";
+                stream << "= {\n"
+                    "\t\t\tisa = " << getIsa() << ";\n"
+                    "\t\t\tchildren = (\n";
 
                 for (auto child : children)
-                    file << "\t\t\t\t" << formatReference(*child) << ",\n";
+                    stream << "\t\t\t\t" << formatReference(*child) << ",\n";
 
-                file << "\t\t\t);\n";
+                stream << "\t\t\t);\n";
 
                 if (!std::string(path).empty())
-                    file << "\t\t\tpath = " << formatString(path) << ";\n";
+                    stream << "\t\t\tpath = " << formatString(path) << ";\n";
                 else if (!getName().empty())
-                    file << "\t\t\tname = " << formatString(getName()) << ";\n";
+                    stream << "\t\t\tname = " << formatString(getName()) << ";\n";
 
-                file << "\t\t\tsourceTree = " << formatString("<group>") << ";\n"
-                "\t\t};\n";
+                stream << "\t\t\tsourceTree = " << formatString("<group>") << ";\n"
+                    "\t\t};\n";
             }
 
         private:
@@ -167,14 +170,14 @@ namespace ouzel
             XcBuildConfiguration(const std::string& n):
                 Object{"XCBuildConfiguration", n} {}
 
-            void output(std::ofstream& file) const
+            void output(std::ostream& stream) const
             {
-                file << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
-                "\t\t\tisa = " << getIsa() << ";\n"
-                "\t\t\tbuildSettings = {\n"
-                "\t\t\t};\n"
-                "\t\t\tname = " << formatString(getName()) << ";\n"
-                "\t\t};\n";
+                stream << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
+                    "\t\t\tisa = " << getIsa() << ";\n"
+                    "\t\t\tbuildSettings = {\n"
+                    "\t\t\t};\n"
+                    "\t\t\tname = " << formatString(getName()) << ";\n"
+                    "\t\t};\n";
             }
 
         private:
@@ -190,19 +193,19 @@ namespace ouzel
                 configurations{c},
                 defaultConfiguration{defaultConfig} {}
 
-            void output(std::ofstream& file) const
+            void output(std::ostream& stream) const
             {
-                file << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
-                "\t\t\tisa = " << getIsa() << ";\n"
-                "\t\t\tbuildConfigurations = {\n";
+                stream << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
+                    "\t\t\tisa = " << getIsa() << ";\n"
+                    "\t\t\tbuildConfigurations = {\n";
 
                 for (auto configuration : configurations)
-                    file << "\t\t\t\t" << formatReference(*configuration) << ",\n";
+                    stream << "\t\t\t\t" << formatReference(*configuration) << ",\n";
 
-                file << "\t\t\t};\n"
-                "\t\t\tdefaultConfigurationIsVisible = 0;\n"
-                "\t\t\tdefaultConfigurationName = " << formatString(defaultConfiguration.getName()) << ";\n"
-                "\t\t};\n";
+                stream << "\t\t\t};\n"
+                    "\t\t\tdefaultConfigurationIsVisible = " << 0 << ";\n"
+                    "\t\t\tdefaultConfigurationName = " << formatString(defaultConfiguration.getName()) << ";\n"
+                    "\t\t};\n";
             }
 
         private:
@@ -213,15 +216,26 @@ namespace ouzel
         class PbxSourcesBuildPhase final: public Object
         {
         public:
-            PbxSourcesBuildPhase(const std::string& n):
-                Object{"PBXSourcesBuildPhase", n} {}
+            PbxSourcesBuildPhase(const std::string& n,
+                                 const std::vector<const PbxBuildFile*>& f):
+                Object{"PBXSourcesBuildPhase", n},
+                files{f} {}
 
-            void output(std::ofstream& file) const
+            void output(std::ostream& stream) const
             {
-                file << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
-                "\t\t\tisa = " << getIsa() << ";\n";
-                file << "\t\t};\n";
+                stream << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
+                    "\t\t\tisa = " << getIsa() << ";\n"
+                    "\t\t\tbuildActionMask = " << 2147483647 << ";\n"
+                    "\t\t\tfiles = (\n";
+                for (auto file : files)
+                    stream << "\t\t\t\t" << formatReference(*file) << ",\n";
+                stream << "\t\t\t);\n"
+                    "\t\t\trunOnlyForDeploymentPostprocessing = " << 0 << ";\n";
+                stream << "\t\t};\n";
             }
+
+        private:
+            std::vector<const PbxBuildFile*> files;
         };
 
         class PbxNativeTarget final: public Object
@@ -236,24 +250,24 @@ namespace ouzel
                 buildPhases{phases},
                 productReference{product} {}
 
-            void output(std::ofstream& file) const
+            void output(std::ostream& stream) const
             {
-                file << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
-                "\t\t\tisa = " << getIsa() << ";\n"
-                "\t\t\tbuildConfigurationList = " << formatReference(buildConfigurationList) << ";\n"
-                "\t\t\tbuildPhases = (\n";
+                stream << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
+                    "\t\t\tisa = " << getIsa() << ";\n"
+                    "\t\t\tbuildConfigurationList = " << formatReference(buildConfigurationList) << ";\n"
+                    "\t\t\tbuildPhases = (\n";
                 for (auto buildPhase : buildPhases)
-                    file << "\t\t\t\t" << formatReference(*buildPhase) << ",\n";
-                file << "\t\t\t);\n"
-                "\t\t\tbuildRules = (\n"
-                "\t\t\t);\n"
-                "\t\t\tdependencies = (\n"
-                "\t\t\t);\n"
-                "\t\t\tname = " << formatString(getName()) << ";\n"
-                "\t\t\tproductName = " << formatString(getName()) << ";\n"
-                "\t\t\tproductReference = " << formatReference(productReference) << ";\n"
-                "\t\t\tproductType = \"com.apple.product-type.application\";\n";
-                file << "\t\t};\n";
+                    stream << "\t\t\t\t" << formatReference(*buildPhase) << ",\n";
+                stream << "\t\t\t);\n"
+                    "\t\t\tbuildRules = (\n"
+                    "\t\t\t);\n"
+                    "\t\t\tdependencies = (\n"
+                    "\t\t\t);\n"
+                    "\t\t\tname = " << formatString(getName()) << ";\n"
+                    "\t\t\tproductName = " << formatString(getName()) << ";\n"
+                    "\t\t\tproductReference = " << formatReference(productReference) << ";\n"
+                    "\t\t\tproductType = " << "\"com.apple.product-type.application\"" << ";\n";
+                stream << "\t\t};\n";
             }
 
         private:
@@ -278,33 +292,33 @@ namespace ouzel
                 productRefGroup(productRefGrp),
                 targets{t} {}
 
-            void output(std::ofstream& file) const
+            void output(std::ostream& stream) const
             {
-                file << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
-                "\t\t\tisa = " << getIsa() << ";\n"
-                "\t\t\tattributes = {\n"
-                "\t\t\t\tLastUpgradeCheck = 0800;\n"
-                "\t\t\t\tORGANIZATIONNAME = " << formatString(organization) << ";\n";
-                file << "\t\t\t};\n"
-                "\t\t\tbuildConfigurationList = " << buildConfigurationList.getId() << " /* " << buildConfigurationList.getName() << " */;\n"
-                "\t\t\tcompatibilityVersion = \"Xcode 9.3\";\n"
-                "\t\t\tdevelopmentRegion = en;\n"
-                "\t\t\thasScannedForEncodings = 0;\n"
-                "\t\t\tknownRegions = (\n"
-                "\t\t\t\ten,\n"
-                "\t\t\t\tBase,\n"
-                "\t\t\t);\n"
-                "\t\t\tmainGroup = " << formatReference(mainGroup) << ";\n"
-                "\t\t\tproductRefGroup = " << formatReference(productRefGroup) << ";\n"
-                "\t\t\tprojectDirPath = \"\";\n"
-                "\t\t\tprojectRoot = \"\";\n"
-                "\t\t\ttargets = (\n";
+                stream << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
+                    "\t\t\tisa = " << getIsa() << ";\n"
+                    "\t\t\tattributes = {\n"
+                    "\t\t\t\tLastUpgradeCheck = " << "0800" << ";\n"
+                    "\t\t\t\tORGANIZATIONNAME = " << formatString(organization) << ";\n";
+                stream << "\t\t\t};\n"
+                    "\t\t\tbuildConfigurationList = " << buildConfigurationList.getId() << " /* " << buildConfigurationList.getName() << " */;\n"
+                    "\t\t\tcompatibilityVersion = " << "\"Xcode 9.3\"" << ";\n"
+                    "\t\t\tdevelopmentRegion = " << "en" << ";\n"
+                    "\t\t\thasScannedForEncodings = " << 0 << ";\n"
+                    "\t\t\tknownRegions = (\n"
+                    "\t\t\t\ten,\n"
+                    "\t\t\t\tBase,\n"
+                    "\t\t\t);\n"
+                    "\t\t\tmainGroup = " << formatReference(mainGroup) << ";\n"
+                    "\t\t\tproductRefGroup = " << formatReference(productRefGroup) << ";\n"
+                    "\t\t\tprojectDirPath = " << "\"\"" << ";\n"
+                    "\t\t\tprojectRoot = " << "\"\"" << ";\n"
+                    "\t\t\ttargets = (\n";
 
                 for (auto target : targets)
-                    file << "\t\t\t\t" << formatReference(*target) << ",\n";
+                    stream << "\t\t\t\t" << formatReference(*target) << ",\n";
 
-                file << "\t\t\t);\n"
-                "\t\t};\n";
+                stream << "\t\t\t);\n"
+                    "\t\t};\n";
             }
 
         private:
@@ -395,9 +409,12 @@ namespace ouzel
                                                                                   targetReleaseConfiguration);
                 configurationLists.push_back(&targetConfigurationList);
 
+                const auto& buildSourcesPhase = create<PbxSourcesBuildPhase>("Sources", buildFiles);
+                sourcesBuildPhases.push_back(&buildSourcesPhase);
+
                 const auto& nativeTarget = create<PbxNativeTarget>(project.getName(),
                                                                    targetConfigurationList,
-                                                                   std::vector<const Object*>{},
+                                                                   std::vector<const Object*>{&buildSourcesPhase},
                                                                    productFile);
                 nativeTargets.push_back(&nativeTarget);
             }
