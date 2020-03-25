@@ -23,6 +23,7 @@ namespace ouzel
             json::Data j(data);
             name = j["name"].as<std::string>();
             identifier = j["identifier"].as<std::string>();
+            organization = j["organization"].as<std::string>();
 
             ouzelPath = directoryPath / j["ouzelPath"].as<std::string>();
 
@@ -44,20 +45,22 @@ namespace ouzel
                 else
                     throw std::runtime_error("Invalid platform");
 
-            sourcePath = directoryPath / j["sourcePath"].as<std::string>();
+            sourcePath = j["sourcePath"].as<std::string>();
 
             for (const auto& sourceFile : j["sourceFiles"])
                 sourceFiles.push_back(sourceFile.as<std::string>());
 
-            assetsPath = directoryPath / j["assetsPath"].as<std::string>();
+            assetsPath = j["assetsPath"].as<std::string>();
         }
 
         const storage::Path& getDirectoryPath() const noexcept { return directoryPath; }
         const std::string& getName() const noexcept { return name; }
         const std::string& getIdentifier() const noexcept { return identifier; }
+        const std::string& getOrganization() const noexcept { return organization; }
         const storage::Path& getOuzelPath() const noexcept { return ouzelPath; }
         const std::set<Platform>& getPlatforms() const noexcept { return platforms; }
         const storage::Path& getSourcePath() const noexcept { return sourcePath; }
+        const std::vector<storage::Path>& getSourceFiles() const noexcept { return sourceFiles; }
         const storage::Path& getAssetsPath() const noexcept { return assetsPath; }
 
         void exportAssets()
@@ -81,6 +84,7 @@ namespace ouzel
         storage::Path directoryPath;
         std::string name;
         std::string identifier;
+        std::string organization;
         storage::Path ouzelPath;
         std::set<Platform> platforms;
         storage::Path sourcePath;
