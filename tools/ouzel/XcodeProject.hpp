@@ -357,10 +357,12 @@ namespace ouzel
 
             std::vector<const PbxBuildFile*> buildFiles;
             std::vector<const Object*> sourceFiles;
+            std::vector<const Object*> productFiles;
             std::vector<const PbxFileReference*> fileReferences;
 
             const auto& productFile = create<PbxFileReference>(storage::Path{project.getName() + ".app"}, PbxFileReference::Type::Product);
             fileReferences.push_back(&productFile);
+            productFiles.push_back(&productFile);
 
             for (const auto& sourceFile : project.getSourceFiles())
             {
@@ -374,7 +376,7 @@ namespace ouzel
 
             std::vector<const PbxGroup*> groups;
 
-            const auto& productRefGroup = create<PbxGroup>("Products");
+            const auto& productRefGroup = create<PbxGroup>("Products", storage::Path{}, productFiles);
             const auto& sourceGroup = create<PbxGroup>("src", storage::Path{"src"}, sourceFiles);
             const auto& mainGroup = create<PbxGroup>("", storage::Path{}, std::vector<const Object*>{&productRefGroup, &sourceGroup});
             groups.push_back(&mainGroup);
