@@ -10,6 +10,19 @@
 #include "VisualStudioProject.hpp"
 #include "XcodeProject.hpp"
 
+enum class ProjectType
+{
+    Makefile,
+    VisualStudio,
+    Xcode
+};
+
+template <class T> void generateProject(const ouzel::OuzelProject& project)
+{
+    T output(project);
+    output.generate();
+}
+
 int main(int argc, const char* argv[])
 {
     try
@@ -21,28 +34,9 @@ int main(int argc, const char* argv[])
             ExportAssets
         };
 
-        enum class Project
-        {
-            Makefile,
-            VisualStudio,
-            Xcode
-        };
-
-        enum class Platform
-        {
-            Windows,
-            MacOS,
-            Linux,
-            IOS,
-            TvOS,
-            Android,
-            Emscripten
-        };
-
         Action action = Action::None;
         ouzel::storage::Path projectPath;
-        std::set<Project> projects;
-        std::set<Platform> platforms;
+        std::set<ProjectType> projectTypes;
 
         for (int i = 1; i < argc; ++i)
         {
@@ -51,7 +45,6 @@ int main(int argc, const char* argv[])
                 std::cout << "Usage:\n";
                 std::cout << argv[0] << " [--help] [--generate-project <project-file>]"
                     " [--project <all|makefile|visualstudio|xcode>]"
-                    " [--platform <all|windows|macos|linux|ios|tvos|android|emscripten>]"
                     " [--export-assets <project-file>]\n";
                 return EXIT_SUCCESS;
             }
@@ -68,47 +61,18 @@ int main(int argc, const char* argv[])
             {
                 if (std::string(argv[i]) == "all")
                 {
-                    projects.insert(Project::Makefile);
-                    projects.insert(Project::VisualStudio);
-                    projects.insert(Project::Xcode);
+                    projectTypes.insert(ProjectType::Makefile);
+                    projectTypes.insert(ProjectType::VisualStudio);
+                    projectTypes.insert(ProjectType::Xcode);
                 }
                 else if (std::string(argv[i]) == "makefile")
-                    projects.insert(Project::Makefile);
+                    projectTypes.insert(ProjectType::Makefile);
                 else if (std::string(argv[i]) == "visualstudio")
-                    projects.insert(Project::VisualStudio);
+                    projectTypes.insert(ProjectType::VisualStudio);
                 else if (std::string(argv[i]) == "xcode")
-                    projects.insert(Project::Xcode);
+                    projectTypes.insert(ProjectType::Xcode);
                 else
                     throw std::runtime_error("Invalid project");
-            }
-            else if (std::string(argv[i]) == "--platform")
-            {
-                if (std::string(argv[i]) == "all")
-                {
-                    platforms.insert(Platform::Windows);
-                    platforms.insert(Platform::MacOS);
-                    platforms.insert(Platform::Linux);
-                    platforms.insert(Platform::IOS);
-                    platforms.insert(Platform::TvOS);
-                    platforms.insert(Platform::Android);
-                    platforms.insert(Platform::Emscripten);
-                }
-                else if (std::string(argv[i]) == "windows")
-                    platforms.insert(Platform::Windows);
-                else if (std::string(argv[i]) == "macos")
-                    platforms.insert(Platform::MacOS);
-                else if (std::string(argv[i]) == "linux")
-                    platforms.insert(Platform::Linux);
-                else if (std::string(argv[i]) == "ios")
-                    platforms.insert(Platform::IOS);
-                else if (std::string(argv[i]) == "tvos")
-                    platforms.insert(Platform::TvOS);
-                else if (std::string(argv[i]) == "android")
-                    platforms.insert(Platform::Android);
-                else if (std::string(argv[i]) == "emscripten")
-                    platforms.insert(Platform::Emscripten);
-                else
-                    throw std::runtime_error("Invalid platform");
             }
             else if (std::string(argv[i]) == "--export-assets")
             {
@@ -128,6 +92,19 @@ int main(int argc, const char* argv[])
             case Action::None:
                 throw std::runtime_error("No action selected");
             case Action::GenerateProject:
+                for (auto projectType : projectTypes)
+                    switch (projectType)
+                    {
+                        case ProjectType::Makefile:
+                            generateProject<ouzel::MakefileProject>(project);
+                            break;
+                        case ProjectType::VisualStudio:
+                            generateProject<ouzel::VisualStudioProject>(project);
+                            break;
+                        case ProjectType::Xcode:
+                            generateProject<ouzel::XcodeProject>(project);
+                            break;
+                    }
                 break;
             case Action::ExportAssets:
                 project.exportAssets();

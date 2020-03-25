@@ -153,10 +153,11 @@
     <ClCompile Include="..\tools\ouzel\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\tools\MakefileProject.hpp" />
+    <ClInclude Include="..\tools\ouzel\MakefileProject.hpp" />
     <ClInclude Include="..\tools\ouzel\OuzelProject.hpp" />
-    <ClInclude Include="..\tools\VisualStudioProject.hpp" />
-    <ClInclude Include="..\tools\XcodeProject.hpp" />
+    <ClInclude Include="..\tools\ouzel\Platform.hpp" />
+    <ClInclude Include="..\tools\ouzel\VisualStudioProject.hpp" />
+    <ClInclude Include="..\tools\ouzel\XcodeProject.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

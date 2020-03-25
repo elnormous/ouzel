@@ -15,6 +15,8 @@ namespace ouzel
         {
         }
 
+        void generate() {}
+
     private:
         const OuzelProject& project;
     };

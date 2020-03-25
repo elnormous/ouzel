@@ -994,6 +994,7 @@
 		30724D851F353A1800D915ED /* ViewTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewTVOS.h; sourceTree = "<group>"; };
 		30769B7B22DBFB17000F4EC2 /* Thread.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Thread.hpp; sourceTree = "<group>"; };
 		307726CE2187F2880050F94C /* SystemCursor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SystemCursor.hpp; sourceTree = "<group>"; };
+		3077589D242B822100BFFF67 /* Platform.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Platform.hpp; sourceTree = "<group>"; };
 		307934D222C58CFE005A6804 /* Cue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cue.cpp; sourceTree = "<group>"; };
 		307934D322C58CFE005A6804 /* Cue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cue.hpp; sourceTree = "<group>"; };
 		307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceGC.hpp; sourceTree = "<group>"; };
@@ -1176,6 +1177,7 @@
 				3023201622220C70007E0AAD /* main.cpp */,
 				30412799231174CC0054E7ED /* MakefileProject.hpp */,
 				30E2660724101F670098C124 /* OuzelProject.hpp */,
+				3077589D242B822100BFFF67 /* Platform.hpp */,
 				30412797231174B40054E7ED /* VisualStudioProject.hpp */,
 				30412798231174C00054E7ED /* XcodeProject.hpp */,
 			);
