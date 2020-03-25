@@ -15,8 +15,8 @@ namespace ouzel
         std::string generateId()
         {
             std::random_device randomDevice;
-            std::mt19937 rnadomEngine(randomDevice());
-            std::uniform_int_distribution<uint8_t> distribution(0, 255);
+            std::mt19937 randomEngine(randomDevice());
+            std::uniform_int_distribution<uint32_t> distribution(0, 255);
 
             std::string result;
             result.resize(2 * 12);
@@ -24,7 +24,7 @@ namespace ouzel
             for (size_t i = 0; i < 12; ++i)
             {
                 constexpr char digits[] = "0123456789ABCDEF";
-                uint8_t n = distribution(rnadomEngine);
+                auto n = distribution(randomEngine);
                 result[i * 2 + 0] = digits[(n >> 4) & 0x0F];
                 result[i * 2 + 1] = digits[(n >> 0) & 0x0F];
             }
