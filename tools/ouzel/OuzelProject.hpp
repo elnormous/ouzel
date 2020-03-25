@@ -24,7 +24,6 @@ namespace ouzel
             name = j["name"].as<std::string>();
             identifier = j["identifier"].as<std::string>();
 
-            assetsPath = directoryPath / j["assetsPath"].as<std::string>();
             ouzelPath = directoryPath / j["ouzelPath"].as<std::string>();
 
             for (const auto& platform : j["platforms"])
@@ -44,6 +43,9 @@ namespace ouzel
                     platforms.insert(Platform::Emscripten);
                 else
                     throw std::runtime_error("Invalid platform");
+
+            sourcePath = directoryPath / j["sourcePath"].as<std::string>();
+            assetsPath = directoryPath / j["assetsPath"].as<std::string>();
         }
 
         const storage::Path& getDirectoryPath() const noexcept { return directoryPath; }
@@ -51,6 +53,7 @@ namespace ouzel
         const std::string& getIdentifier() const noexcept { return identifier; }
         const storage::Path& getOuzelPath() const noexcept { return ouzelPath; }
         const std::set<Platform>& getPlatforms() const noexcept { return platforms; }
+        const storage::Path& getSourcePath() const noexcept { return sourcePath; }
         const storage::Path& getAssetsPath() const noexcept { return assetsPath; }
 
         void exportAssets()
@@ -76,6 +79,7 @@ namespace ouzel
         std::string identifier;
         storage::Path ouzelPath;
         std::set<Platform> platforms;
+        storage::Path sourcePath;
         storage::Path assetsPath;
     };
 }

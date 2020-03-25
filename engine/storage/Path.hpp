@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #if defined(_WIN32)
 #  pragma push_macro("WIN32_LEAN_AND_MEAN")
@@ -35,6 +36,19 @@ namespace ouzel
             {
                 Generic,
                 Native
+            };
+
+            enum class Type
+            {
+                NotFound,
+                Regular,
+                Directory,
+                Symlink,
+                Block,
+                Character,
+                Fifo,
+                Socket,
+                Unknown
             };
 
 #if defined(_WIN32)
@@ -116,21 +130,14 @@ namespace ouzel
                 return *this;
             }
 
-            Path operator+(const Path& p)
+            Path operator+(const Path& p) const
             {
                 Path result = *this;
                 result.path += p.path;
                 return result;
             }
 
-            Path operator+(const std::string& p)
-            {
-                Path result = *this;
-                result.path += convertToNative(p);
-                return result;
-            }
-
-            Path operator/(const Path& p)
+            Path operator/(const Path& p) const
             {
                 Path result = *this;
                 result.path += Char(directorySeparator) + p.path;
@@ -205,38 +212,54 @@ namespace ouzel
                 return result;
             }
 
-            bool isDirectory() const noexcept
+            Type getType() const noexcept
             {
 #if defined(_WIN32)
                 const DWORD attributes = GetFileAttributesW(path.c_str());
                 if (attributes == INVALID_FILE_ATTRIBUTES)
-                    return false;
+                    return Type::NotFound;
 
-                return (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+                if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+                    return Type::Regular;
+                else
+                    return Type::Directory;
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat buf;
                 if (stat(path.c_str(), &buf) == -1)
-                    return false;
+                    return Type::NotFound;
 
-                return (buf.st_mode & S_IFMT) == S_IFDIR;
+                if ((buf.st_mode & S_IFMT) == S_IFREG)
+                    return Type::Regular;
+                else if ((buf.st_mode & S_IFMT) == S_IFDIR)
+                    return Type::Directory;
+                else if ((buf.st_mode & S_IFMT) == S_IFLNK)
+                    return Type::Symlink;
+                else if ((buf.st_mode & S_IFMT) == S_IFBLK)
+                    return Type::Block;
+                else if ((buf.st_mode & S_IFMT) == S_IFCHR)
+                    return Type::Character;
+                else if ((buf.st_mode & S_IFMT) == S_IFIFO)
+                    return Type::Fifo;
+                else if ((buf.st_mode & S_IFMT) == S_IFSOCK)
+                    return Type::Socket;
+                else
+                    return Type::Unknown;
 #endif
             }
 
-            bool isFile() const noexcept
+            bool exists() const noexcept
             {
-#if defined(_WIN32)
-                const DWORD attributes = GetFileAttributesW(path.c_str());
-                if (attributes == INVALID_FILE_ATTRIBUTES)
-                    return false;
+                return getType() != Type::NotFound;
+            }
 
-                return (attributes & FILE_ATTRIBUTE_DIRECTORY) == 0;
-#elif defined(__unix__) || defined(__APPLE__)
-                struct stat buf;
-                if (stat(path.c_str(), &buf) == -1)
-                    return false;
+            bool isDirectory() const noexcept
+            {
+                return getType() == Type::Directory;
+            }
 
-                return (buf.st_mode & S_IFMT) == S_IFREG;
-#endif
+            bool isRegular() const noexcept
+            {
+                return getType() == Type::Regular;
             }
 
             bool isAbsolute() const noexcept
