@@ -14,7 +14,7 @@ namespace ouzel
     public:
         OuzelProject(const storage::Path& path)
         {
-            storage::Path directory = path.getDirectory();
+            directoryPath = path.getDirectory();
 
             std::ifstream f(path, std::ios::binary);
             std::vector<char> data{std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
@@ -23,34 +23,25 @@ namespace ouzel
             name = j["name"].as<std::string>();
             identifier = j["identifier"].as<std::string>();
 
-            assetsPath = directory / j["assetsPath"].as<std::string>();
-            storage::Path resourcesPath = directory / storage::Path("Resources");
-
-            for (const auto& asset : j["assets"])
-            {
-                storage::Path assetPath(assetsPath / asset["path"].as<std::string>());
-
-                storage::Path resourceName = asset["path"].as<std::string>();
-                storage::Path resourcePath = resourcesPath / resourceName.getStem() + std::string(".otexture");
-
-                // TODO: check if input file exists
-                // TODO: check if output file exists and is older than the input file
-                // TODO: export input file to output file
-            }
+            assetsPath = directoryPath / j["assetsPath"].as<std::string>();
+            ouzelPath = directoryPath / j["ouzelPath"].as<std::string>();
         }
 
+        const storage::Path& getDirectoryPath() const noexcept { return directoryPath; }
         const std::string& getName() const noexcept { return name; }
         const std::string& getIdentifier() const noexcept { return identifier; }
+        const storage::Path& getOuzelPath() const noexcept { return ouzelPath; }
         const storage::Path& getAssetsPath() const noexcept { return assetsPath; }
 
         void exportAssets()
         {
-            
         }
 
     private:
+        storage::Path directoryPath;
         std::string name;
         std::string identifier;
+        storage::Path ouzelPath;
         storage::Path assetsPath;
     };
 }
