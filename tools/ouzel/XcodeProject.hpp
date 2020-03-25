@@ -439,59 +439,49 @@ namespace ouzel
                 "\tobjectVersion = 46;\n"
                 "\tobjects = {\n";
 
-            file << "\n/* Begin PBXBuildFile section */\n";
+            // PBXBuildFile section
             for (const auto buildFile : buildFiles)
                 buildFile->output(file);
-            file << "/* End PBXBuildFile section */\n";
 
-            file << "\n/* Begin PBXFileReference section */\n";
+            // PBXFileReference section
             for (const auto fileReference : fileReferences)
                 fileReference->output(file);
-            file << "/* End PBXFileReference section */\n";
 
             // frameworks buid phase
-            //file << "\n/* Begin PBXFrameworksBuildPhase section */\n";
+            // PBXFrameworksBuildPhase section
             // TODO
-            //file << "/* End PBXFrameworksBuildPhase section */\n";
 
-            file << "\n/* Begin PBXGroup section */\n";
+            // PBXGroup section
             for (const auto group : groups)
                 group->output(file);
-            file << "/* End PBXGroup section */\n";
 
-            file << "\n/* Begin PBXNativeTarget section */\n";
+            // PBXNativeTarget section
             for (const auto nativeTarget : nativeTargets)
                 nativeTarget->output(file);
-            file << "/* End PBXNativeTarget section */\n";
 
-            file << "\n/* Begin PBXProject section */\n";
+            // PBXProject section
             pbxProject.output(file);
-            file << "/* End PBXProject section */\n";
 
             // resource build phases
-            //file << "\n/* Begin PBXResourcesBuildPhase section */\n";
+            // PBXResourcesBuildPhase section
             // TODO
-            //file << "/* End PBXResourcesBuildPhase section */\n";
 
             // source file build phase
-            file << "\n/* Begin PBXSourcesBuildPhase section */\n";
+            // PBXSourcesBuildPhase section
             for (const auto sourcesBuildPhase : sourcesBuildPhases)
                 sourcesBuildPhase->output(file);
-            file << "/* End PBXSourcesBuildPhase section */\n";
 
             // configurations
-            file << "\n/* Begin XCBuildConfiguration section */\n";
+            // XCBuildConfiguration section
             for (const auto configuration : configurations)
                 configuration->output(file);
-            file << "/* End XCBuildConfiguration section */\n";
 
-            file << "\n/* Begin XCConfigurationList section */\n";
+            // XCConfigurationList section
             for (const auto configurationList : configurationLists)
                 configurationList->output(file);
-            file << "/* End XCConfigurationList section */\n";
 
             file << "\t};\n"
-                "\trootObject = " << pbxProject.getId() << " /* " << pbxProject.getName() << " */;\n"
+                "\trootObject = " << formatReference(pbxProject) << ";\n"
                 "}\n";
         }
 
