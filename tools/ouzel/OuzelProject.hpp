@@ -45,6 +45,10 @@ namespace ouzel
                     throw std::runtime_error("Invalid platform");
 
             sourcePath = directoryPath / j["sourcePath"].as<std::string>();
+
+            for (const auto& sourceFile : j["sourceFiles"])
+                sourceFiles.push_back(sourceFile.as<std::string>());
+
             assetsPath = directoryPath / j["assetsPath"].as<std::string>();
         }
 
@@ -80,6 +84,7 @@ namespace ouzel
         storage::Path ouzelPath;
         std::set<Platform> platforms;
         storage::Path sourcePath;
+        std::vector<storage::Path> sourceFiles;
         storage::Path assetsPath;
     };
 }

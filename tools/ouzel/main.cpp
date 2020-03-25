@@ -59,6 +59,9 @@ int main(int argc, const char* argv[])
             }
             else if (std::string(argv[i]) == "--project")
             {
+                if (++i >= argc)
+                    throw std::runtime_error("Invalid command");
+
                 if (std::string(argv[i]) == "all")
                 {
                     projectTypes.insert(ProjectType::Makefile);
@@ -85,13 +88,14 @@ int main(int argc, const char* argv[])
             }
         }
 
-        ouzel::OuzelProject project(projectPath);
-
         switch (action)
         {
             case Action::None:
                 throw std::runtime_error("No action selected");
             case Action::GenerateProject:
+            {
+                ouzel::OuzelProject project(projectPath);
+
                 for (auto projectType : projectTypes)
                     switch (projectType)
                     {
@@ -106,9 +110,13 @@ int main(int argc, const char* argv[])
                             break;
                     }
                 break;
+            }
             case Action::ExportAssets:
+            {
+                ouzel::OuzelProject project(projectPath);
                 project.exportAssets();
                 break;
+            }
         }
     }
     catch (const std::exception& e)

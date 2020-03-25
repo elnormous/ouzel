@@ -34,7 +34,11 @@ namespace ouzel
 
             auto projectFile = projectDirectory / storage::Path{"project.pbxproj"};
 
-            std::ofstream file(projectFile);
+            std::ofstream file(projectFile, std::ios::trunc);
+            file << "// !$*UTF8*$!\n"
+            "{\n";
+
+            file << "}\n";
         }
 
     private:
