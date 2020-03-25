@@ -21,8 +21,9 @@ namespace ouzel
 
             json::Data j(data);
             name = j["name"].as<std::string>();
+            identifier = j["identifier"].as<std::string>();
 
-            storage::Path assetsPath = directory / j["assetsPath"].as<std::string>();
+            assetsPath = directory / j["assetsPath"].as<std::string>();
             storage::Path resourcesPath = directory / storage::Path("Resources");
 
             for (const auto& asset : j["assets"])
@@ -39,6 +40,8 @@ namespace ouzel
         }
 
         const std::string& getName() const noexcept { return name; }
+        const std::string& getIdentifier() const noexcept { return identifier; }
+        const storage::Path& getAssetsPath() const noexcept { return assetsPath; }
 
         void exportAssets()
         {
@@ -47,6 +50,8 @@ namespace ouzel
 
     private:
         std::string name;
+        std::string identifier;
+        storage::Path assetsPath;
     };
 }
 
