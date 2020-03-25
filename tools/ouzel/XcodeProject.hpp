@@ -355,16 +355,8 @@ namespace ouzel
 
             auto projectFile = projectDirectory / storage::Path{"project.pbxproj"};
 
-            std::vector<const PbxGroup*> groups;
-
-            const auto& productRefGroup = create<PbxGroup>("Products");
-            const auto& sourceGroup = create<PbxGroup>("src", storage::Path{"src"});
-            const auto& mainGroup = create<PbxGroup>("", storage::Path{}, std::vector<const Object*>{&productRefGroup, &sourceGroup});
-            groups.push_back(&mainGroup);
-            groups.push_back(&productRefGroup);
-            groups.push_back(&sourceGroup);
-
             std::vector<const PbxBuildFile*> buildFiles;
+            std::vector<const Object*> sourceFiles;
             std::vector<const PbxFileReference*> fileReferences;
 
             const auto& productFile = create<PbxFileReference>(storage::Path{project.getName() + ".app"}, PbxFileReference::Type::Product);
@@ -377,7 +369,17 @@ namespace ouzel
 
                 fileReferences.push_back(&fileReference);
                 buildFiles.push_back(&buildFile);
+                sourceFiles.push_back(&fileReference);
             }
+
+            std::vector<const PbxGroup*> groups;
+
+            const auto& productRefGroup = create<PbxGroup>("Products");
+            const auto& sourceGroup = create<PbxGroup>("src", storage::Path{"src"}, sourceFiles);
+            const auto& mainGroup = create<PbxGroup>("", storage::Path{}, std::vector<const Object*>{&productRefGroup, &sourceGroup});
+            groups.push_back(&mainGroup);
+            groups.push_back(&productRefGroup);
+            groups.push_back(&sourceGroup);
 
             std::vector<const XcBuildConfiguration*> configurations;
 
@@ -419,14 +421,12 @@ namespace ouzel
                 nativeTargets.push_back(&nativeTarget);
             }
 
-            PbxProject pbxProject{
-                "Project object",
-                project.getOrganization(),
-                projectConfigurationList,
-                mainGroup,
-                productRefGroup,
-                nativeTargets
-            };
+            const auto& pbxProject = create<PbxProject>("Project object",
+                                                        project.getOrganization(),
+                                                        projectConfigurationList,
+                                                        mainGroup,
+                                                        productRefGroup,
+                                                        nativeTargets);
 
             std::ofstream file(projectFile, std::ios::trunc);
             file << "// !$*UTF8*$!\n"
