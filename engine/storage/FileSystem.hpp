@@ -238,7 +238,7 @@ namespace ouzel
 #endif
             }
 
-            void deleteFile(const Path& path)
+            static void deleteFile(const Path& path)
             {
 #if defined(_WIN32)
                 const DWORD attributes = GetFileAttributesW(path.getNative().c_str());

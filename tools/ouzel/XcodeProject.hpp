@@ -3,7 +3,9 @@
 #ifndef OUZEL_XCODEPROJECT_HPP
 #define OUZEL_XCODEPROJECT_HPP
 
+#include <fstream>
 #include "OuzelProject.hpp"
+#include "storage/FileSystem.hpp"
 
 namespace ouzel
 {
@@ -15,7 +17,25 @@ namespace ouzel
         {
         }
 
-        void generate() {}
+        void generate()
+        {
+            auto projectDirectory = project.getDirectoryPath() / storage::Path{project.getName() + ".xcodeproj"};
+            auto projectDirectoryType = projectDirectory.getType();
+
+            if (projectDirectoryType == storage::Path::Type::NotFound)
+            {
+                storage::FileSystem::createDirectory(projectDirectory);
+            }
+            else if (projectDirectoryType != storage::Path::Type::Directory)
+            {
+                storage::FileSystem::deleteFile(projectDirectory);
+                storage::FileSystem::createDirectory(projectDirectory);
+            }
+
+            auto projectFile = projectDirectory / storage::Path{"project.pbxproj"};
+
+            std::ofstream file(projectFile);
+        }
 
     private:
         const OuzelProject& project;
