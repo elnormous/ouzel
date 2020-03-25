@@ -197,12 +197,12 @@ namespace ouzel
             {
                 stream << "\t\t" << getId() << " /* " << getName() << " */ = {\n"
                     "\t\t\tisa = " << getIsa() << ";\n"
-                    "\t\t\tbuildConfigurations = {\n";
+                    "\t\t\tbuildConfigurations = (\n";
 
                 for (auto configuration : configurations)
                     stream << "\t\t\t\t" << formatReference(*configuration) << ",\n";
 
-                stream << "\t\t\t};\n"
+                stream << "\t\t\t);\n"
                     "\t\t\tdefaultConfigurationIsVisible = " << 0 << ";\n"
                     "\t\t\tdefaultConfigurationName = " << formatString(defaultConfiguration.getName()) << ";\n"
                     "\t\t};\n";
@@ -430,12 +430,12 @@ namespace ouzel
 
             std::ofstream file(projectFile, std::ios::trunc);
             file << "// !$*UTF8*$!\n"
-            "{\n"
-            "\tarchiveVersion = 1;\n"
-            "\tclasses = {\n"
-            "\t};\n"
-            "\tobjectVersion = 46;\n"
-            "\tobjects = {\n";
+                "{\n"
+                "\tarchiveVersion = 1;\n"
+                "\tclasses = {\n"
+                "\t};\n"
+                "\tobjectVersion = 46;\n"
+                "\tobjects = {\n";
 
             file << "\n/* Begin PBXBuildFile section */\n";
             for (const auto buildFile : buildFiles)
@@ -489,8 +489,8 @@ namespace ouzel
             file << "/* End XCConfigurationList section */\n";
 
             file << "\t};\n"
-            "\trootObject = " << pbxProject.getId() << " /* " << pbxProject.getName() << " */;\n"
-            "}\n";
+                "\trootObject = " << pbxProject.getId() << " /* " << pbxProject.getName() << " */;\n"
+                "}\n";
         }
 
     private:
