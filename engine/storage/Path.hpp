@@ -219,7 +219,9 @@ namespace ouzel
                 if (attributes == INVALID_FILE_ATTRIBUTES)
                     return Type::NotFound;
 
-                if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+                if ((attributes & FILE_ATTRIBUTE_REPARSE_POINT) == 0)
+                    return Type::Symlink;
+                else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
                     return Type::Regular;
                 else
                     return Type::Directory;
