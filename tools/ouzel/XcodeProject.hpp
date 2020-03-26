@@ -84,38 +84,67 @@ namespace ouzel
                 Object{i, n} {}
         };
 
+        enum class PbxSourceTree
+        {
+            None,
+            Absolute,
+            Group,
+            SourceRoot,
+            BuildProductsDir,
+            SdkRoot,
+            DeveloperDir
+        };
+
+        std::string sourceTreeToString(PbxSourceTree sourceTree)
+        {
+            switch (sourceTree)
+            {
+                case PbxSourceTree::None: return "";
+                case PbxSourceTree::Absolute: return "<absolute>";
+                case PbxSourceTree::Group: return "<group>";
+                case PbxSourceTree::SourceRoot: return "SOURCE_ROOT";
+                case PbxSourceTree::BuildProductsDir: return "BUILT_PRODUCTS_DIR";
+                case PbxSourceTree::SdkRoot: return "SDKROOT";
+                case PbxSourceTree::DeveloperDir: return "DEVELOPER_DIR";
+            }
+        }
+
         class PbxFileReference final: public PbxFileElement
         {
         public:
-            enum class Type
-            {
-                Build,
-                Product
-            };
-
-            PbxFileReference(const storage::Path& p, Type t = Type::Build):
-                PbxFileElement{"PBXFileReference", std::string{p}}, path{p}, type{t} {}
+            PbxFileReference(const storage::Path& p, PbxSourceTree tree):
+                PbxFileElement{"PBXFileReference", std::string{p}}, path{p}, sourceTree{tree} {}
             const storage::Path& getPath() const noexcept { return path; }
 
             void output(std::ostream& stream, size_t indent) const
             {
                 auto filename = std::string(path);
                 auto extension = path.getExtension();
-                if (type == Type::Build)
+                if (sourceTree == PbxSourceTree::Group ||
+                    sourceTree == PbxSourceTree::Absolute)
                 {
                     auto fileType = extension == "plist" ? "text.plist.xml" : "sourcecode.cpp." + extension;
-                    stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {isa = " << getIsa() << "; lastKnownFileType = " << fileType << "; path = " << formatString(filename) << "; sourceTree = " << formatString("<group>") << "; };\n";
+                    stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {"
+                        "isa = " << getIsa() << "; "
+                        "lastKnownFileType = " << fileType << "; "
+                        "path = " << formatString(filename) << "; "
+                        "sourceTree = " << formatString(sourceTreeToString(sourceTree)) << "; };\n";
                 }
-                else if (type == Type::Product)
+                else
                 {
                     auto fileType = std::string("wrapper.application");
-                    stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {isa = " << getIsa() << "; explicitFileType = " << fileType << "; includeInIndex = " << 0 << "; path = " << formatString(filename) << "; sourceTree = " << "BUILT_PRODUCTS_DIR" << "; };\n";
+                    stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {"
+                        "isa = " << getIsa() << "; "
+                        "explicitFileType = " << fileType << "; "
+                        "includeInIndex = " << 0 << "; "
+                        "path = " << formatString(filename) << "; "
+                        "sourceTree = " << formatString(sourceTreeToString(sourceTree)) << "; };\n";
                 }
             }
 
         private:
             storage::Path path;
-            Type type = Type::Build;
+            PbxSourceTree sourceTree = PbxSourceTree::None;
         };
 
         class PbxBuildFile final: public Object
@@ -138,9 +167,13 @@ namespace ouzel
         {
         public:
             PbxGroup(const std::string& n,
-                     const storage::Path& p = {},
-                     const std::vector<const PbxFileElement*>& c = {}):
-                PbxFileElement{"PBXGroup", n}, path{p}, children{c} {}
+                     const storage::Path& p,
+                     const std::vector<const PbxFileElement*>& c,
+                     PbxSourceTree tree):
+                PbxFileElement{"PBXGroup", n},
+                path{p},
+                children{c},
+                sourceTree{tree} {}
 
             void output(std::ostream& stream, size_t indent) const
             {
@@ -163,13 +196,14 @@ namespace ouzel
                 else if (!getName().empty())
                     stream << std::string(indent + 1, '\t') << "name = " << formatString(getName()) << ";\n";
 
-                stream << std::string(indent + 1, '\t') << "sourceTree = " << formatString("<group>") << ";\n" <<
+                stream << std::string(indent + 1, '\t') << "sourceTree = " << formatString(sourceTreeToString(sourceTree)) << ";\n" <<
                     std::string(indent, '\t') << "};\n";
             }
 
         private:
             storage::Path path;
             std::vector<const PbxFileElement*> children;
+            PbxSourceTree sourceTree = PbxSourceTree::None;
         };
 
         class XcBuildConfiguration final: public Object
@@ -384,13 +418,13 @@ namespace ouzel
             std::vector<const PbxFileElement*> productFiles;
             std::vector<const PbxFileReference*> fileReferences;
 
-            const auto& productFile = create<PbxFileReference>(storage::Path{project.getName() + ".app"}, PbxFileReference::Type::Product);
+            const auto& productFile = create<PbxFileReference>(storage::Path{project.getName() + ".app"}, PbxSourceTree::BuildProductsDir);
             fileReferences.push_back(&productFile);
             productFiles.push_back(&productFile);
 
             for (const auto& sourceFile : project.getSourceFiles())
             {
-                const auto& fileReference = create<PbxFileReference>(sourceFile);
+                const auto& fileReference = create<PbxFileReference>(sourceFile, PbxSourceTree::Group);
                 const auto& buildFile = create<PbxBuildFile>(fileReference);
 
                 fileReferences.push_back(&fileReference);
@@ -400,9 +434,9 @@ namespace ouzel
 
             std::vector<const PbxGroup*> groups;
 
-            const auto& productRefGroup = create<PbxGroup>("Products", storage::Path{}, productFiles);
-            const auto& sourceGroup = create<PbxGroup>("src", storage::Path{"src"}, sourceFiles);
-            const auto& mainGroup = create<PbxGroup>("", storage::Path{}, std::vector<const PbxFileElement*>{&productRefGroup, &sourceGroup});
+            const auto& productRefGroup = create<PbxGroup>("Products", storage::Path{}, productFiles, PbxSourceTree::Group);
+            const auto& sourceGroup = create<PbxGroup>("src", storage::Path{"src"}, sourceFiles, PbxSourceTree::Group);
+            const auto& mainGroup = create<PbxGroup>("", storage::Path{}, std::vector<const PbxFileElement*>{&productRefGroup, &sourceGroup}, PbxSourceTree::Group);
             groups.push_back(&mainGroup);
             groups.push_back(&productRefGroup);
             groups.push_back(&sourceGroup);
