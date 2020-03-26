@@ -86,7 +86,6 @@ namespace ouzel
 
         enum class PbxSourceTree
         {
-            None,
             Absolute,
             Group,
             SourceRoot,
@@ -99,7 +98,6 @@ namespace ouzel
         {
             switch (sourceTree)
             {
-                case PbxSourceTree::None: return "";
                 case PbxSourceTree::Absolute: return "<absolute>";
                 case PbxSourceTree::Group: return "<group>";
                 case PbxSourceTree::SourceRoot: return "SOURCE_ROOT";
@@ -120,17 +118,7 @@ namespace ouzel
             {
                 auto filename = std::string(path);
                 auto extension = path.getExtension();
-                if (sourceTree == PbxSourceTree::Group ||
-                    sourceTree == PbxSourceTree::Absolute)
-                {
-                    auto fileType = extension == "plist" ? "text.plist.xml" : "sourcecode.cpp." + extension;
-                    stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {"
-                        "isa = " << getIsa() << "; "
-                        "lastKnownFileType = " << fileType << "; "
-                        "path = " << formatString(filename) << "; "
-                        "sourceTree = " << formatString(sourceTreeToString(sourceTree)) << "; };\n";
-                }
-                else
+                if (sourceTree == PbxSourceTree::BuildProductsDir)
                 {
                     auto fileType = std::string("wrapper.application");
                     stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {"
@@ -140,11 +128,21 @@ namespace ouzel
                         "path = " << formatString(filename) << "; "
                         "sourceTree = " << formatString(sourceTreeToString(sourceTree)) << "; };\n";
                 }
+                else
+                {
+                    auto fileType = extension == "plist" ? "text.plist.xml" : "sourcecode.cpp." + extension;
+                    stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {"
+                        "isa = " << getIsa() << "; "
+                        "lastKnownFileType = " << fileType << "; "
+                        "path = " << formatString(filename) << "; "
+                        "sourceTree = " << formatString(sourceTreeToString(sourceTree)) << "; };\n";
+                }
+
             }
 
         private:
             storage::Path path;
-            PbxSourceTree sourceTree = PbxSourceTree::None;
+            PbxSourceTree sourceTree;
         };
 
         class PbxBuildFile final: public Object
@@ -203,7 +201,7 @@ namespace ouzel
         private:
             storage::Path path;
             std::vector<const PbxFileElement*> children;
-            PbxSourceTree sourceTree = PbxSourceTree::None;
+            PbxSourceTree sourceTree;
         };
 
         class XcBuildConfiguration final: public Object
