@@ -76,7 +76,15 @@ namespace ouzel
             return result;
         }
 
-        class PbxFileReference final: public Object
+        class PbxFileElement: public Object
+        {
+        public:
+            PbxFileElement(const std::string& i,
+                           const std::string& n):
+                Object{i, n} {}
+        };
+
+        class PbxFileReference final: public PbxFileElement
         {
         public:
             enum class Type
@@ -86,7 +94,7 @@ namespace ouzel
             };
 
             PbxFileReference(const storage::Path& p, Type t = Type::Build):
-                Object{"PBXFileReference", std::string{p}}, path{p}, type{t} {}
+                PbxFileElement{"PBXFileReference", std::string{p}}, path{p}, type{t} {}
             const storage::Path& getPath() const noexcept { return path; }
 
             void output(std::ostream& stream, size_t indent) const
@@ -126,13 +134,13 @@ namespace ouzel
             const PbxFileReference& fileRef;
         };
 
-        class PbxGroup final: public Object
+        class PbxGroup final: public PbxFileElement
         {
         public:
             PbxGroup(const std::string& n,
                      const storage::Path& p = {},
-                     const std::vector<const Object*>& c = {}):
-                Object{"PBXGroup", n}, path{p}, children{c} {}
+                     const std::vector<const PbxFileElement*>& c = {}):
+                PbxFileElement{"PBXGroup", n}, path{p}, children{c} {}
 
             void output(std::ostream& stream, size_t indent) const
             {
@@ -161,7 +169,7 @@ namespace ouzel
 
         private:
             storage::Path path;
-            std::vector<const Object*> children;
+            std::vector<const PbxFileElement*> children;
         };
 
         class XcBuildConfiguration final: public Object
@@ -213,12 +221,20 @@ namespace ouzel
             const XcBuildConfiguration& defaultConfiguration;
         };
 
-        class PbxSourcesBuildPhase final: public Object
+        class PbxBuildPhase: public Object
+        {
+        public:
+            PbxBuildPhase(const std::string& i,
+                          const std::string& n):
+                Object{i, n} {}
+        };
+
+        class PbxSourcesBuildPhase final: public PbxBuildPhase
         {
         public:
             PbxSourcesBuildPhase(const std::string& n,
                                  const std::vector<const PbxBuildFile*>& f):
-                Object{"PBXSourcesBuildPhase", n},
+                PbxBuildPhase{"PBXSourcesBuildPhase", n},
                 files{f} {}
 
             void output(std::ostream& stream, size_t indent) const
@@ -238,14 +254,22 @@ namespace ouzel
             std::vector<const PbxBuildFile*> files;
         };
 
-        class PbxNativeTarget final: public Object
+        class PbxTarget: public Object
+        {
+        public:
+            PbxTarget(const std::string& i,
+                      const std::string& n):
+                Object{i, n} {}
+        };
+
+        class PbxNativeTarget final: public PbxTarget
         {
         public:
             PbxNativeTarget(const std::string& n,
                             const XcConfigurationList& buildConfigList,
-                            const std::vector<const Object*>& phases,
+                            const std::vector<const PbxBuildPhase*>& phases,
                             const PbxFileReference& product):
-                Object{"PBXNativeTarget", n},
+                PbxTarget{"PBXNativeTarget", n},
                 buildConfigurationList{buildConfigList},
                 buildPhases{phases},
                 productReference{product} {}
@@ -272,7 +296,7 @@ namespace ouzel
 
         private:
             const XcConfigurationList& buildConfigurationList;
-            std::vector<const Object*> buildPhases;
+            std::vector<const PbxBuildPhase*> buildPhases;
             const PbxFileReference& productReference;
         };
 
@@ -284,7 +308,7 @@ namespace ouzel
                        const XcConfigurationList& buildConfigList,
                        const PbxGroup& mainGrp,
                        const PbxGroup& productRefGrp,
-                       const std::vector<const PbxNativeTarget*>& t):
+                       const std::vector<const PbxTarget*>& t):
                 Object{"PBXProject", n},
                 organization{org},
                 buildConfigurationList{buildConfigList},
@@ -326,7 +350,7 @@ namespace ouzel
             const XcConfigurationList& buildConfigurationList;
             const PbxGroup& mainGroup;
             const PbxGroup& productRefGroup;
-            std::vector<const PbxNativeTarget*> targets;
+            std::vector<const PbxTarget*> targets;
         };
     }
 
@@ -356,8 +380,8 @@ namespace ouzel
             auto projectFile = projectDirectory / storage::Path{"project.pbxproj"};
 
             std::vector<const PbxBuildFile*> buildFiles;
-            std::vector<const Object*> sourceFiles;
-            std::vector<const Object*> productFiles;
+            std::vector<const PbxFileElement*> sourceFiles;
+            std::vector<const PbxFileElement*> productFiles;
             std::vector<const PbxFileReference*> fileReferences;
 
             const auto& productFile = create<PbxFileReference>(storage::Path{project.getName() + ".app"}, PbxFileReference::Type::Product);
@@ -378,7 +402,7 @@ namespace ouzel
 
             const auto& productRefGroup = create<PbxGroup>("Products", storage::Path{}, productFiles);
             const auto& sourceGroup = create<PbxGroup>("src", storage::Path{"src"}, sourceFiles);
-            const auto& mainGroup = create<PbxGroup>("", storage::Path{}, std::vector<const Object*>{&productRefGroup, &sourceGroup});
+            const auto& mainGroup = create<PbxGroup>("", storage::Path{}, std::vector<const PbxFileElement*>{&productRefGroup, &sourceGroup});
             groups.push_back(&mainGroup);
             groups.push_back(&productRefGroup);
             groups.push_back(&sourceGroup);
@@ -399,6 +423,7 @@ namespace ouzel
 
             std::vector<const PbxSourcesBuildPhase*> sourcesBuildPhases;
 
+            std::vector<const PbxTarget*> targets;
             std::vector<const PbxNativeTarget*> nativeTargets;
             // TODO: for each architecture
             {
@@ -418,9 +443,10 @@ namespace ouzel
 
                 const auto& nativeTarget = create<PbxNativeTarget>(project.getName(),
                                                                    targetConfigurationList,
-                                                                   std::vector<const Object*>{&buildSourcesPhase},
+                                                                   std::vector<const PbxBuildPhase*>{&buildSourcesPhase},
                                                                    productFile);
                 nativeTargets.push_back(&nativeTarget);
+                targets.push_back(&nativeTarget);
             }
 
             const auto& pbxProject = create<PbxProject>("Project object",
@@ -428,7 +454,7 @@ namespace ouzel
                                                         projectConfigurationList,
                                                         mainGroup,
                                                         productRefGroup,
-                                                        nativeTargets);
+                                                        targets);
 
             std::ofstream file(projectFile, std::ios::trunc);
             file << "// !$*UTF8*$!\n"
