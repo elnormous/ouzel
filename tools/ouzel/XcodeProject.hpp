@@ -207,20 +207,27 @@ namespace ouzel
         class XcBuildConfiguration final: public Object
         {
         public:
-            XcBuildConfiguration(const std::string& n):
-                Object{"XCBuildConfiguration", n} {}
+            XcBuildConfiguration(const std::string& n,
+                                 const std::string& p = ""):
+                Object{"XCBuildConfiguration", n},
+                productName{p} {}
 
             void output(std::ostream& stream, size_t indent) const
             {
                 stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {\n" <<
                     std::string(indent + 1, '\t') << "isa = " << getIsa() << ";\n" <<
-                    std::string(indent + 1, '\t') << "buildSettings = {\n" <<
-                    std::string(indent + 1, '\t') << "};\n" <<
+                    std::string(indent + 1, '\t') << "buildSettings = {\n";
+
+                if (!productName.empty())
+                    stream << std::string(indent + 2, '\t') << "PRODUCT_NAME = " << productName << ";\n";
+
+                stream << std::string(indent + 1, '\t') << "};\n" <<
                     std::string(indent + 1, '\t') << "name = " << formatString(getName()) << ";\n" <<
                     std::string(indent, '\t') << "};\n";
             }
 
         private:
+            std::string productName;
         };
 
         class XcConfigurationList final: public Object
@@ -459,10 +466,10 @@ namespace ouzel
             std::vector<const PbxNativeTarget*> nativeTargets;
             // TODO: for each architecture
             {
-                const auto& targetDebugConfiguration = create<XcBuildConfiguration>("Debug");
+                const auto& targetDebugConfiguration = create<XcBuildConfiguration>("Debug", project.getName());
                 configurations.push_back(&targetDebugConfiguration);
 
-                const auto& targetReleaseConfiguration = create<XcBuildConfiguration>("Release");
+                const auto& targetReleaseConfiguration = create<XcBuildConfiguration>("Release", project.getName());
                 configurations.push_back(&targetReleaseConfiguration);
 
                 const auto& targetConfigurationList = create<XcConfigurationList>("Target",
