@@ -464,28 +464,33 @@ namespace ouzel
 
             std::vector<const PbxTarget*> targets;
             std::vector<const PbxNativeTarget*> nativeTargets;
-            // TODO: for each architecture
+
+            for (Platform platform : project.getPlatforms())
             {
-                const auto& targetDebugConfiguration = create<XcBuildConfiguration>("Debug", project.getName());
-                configurations.push_back(&targetDebugConfiguration);
+                // TODO: do it for all platforms
+                if (platform == Platform::MacOs)
+                {
+                    const auto& targetDebugConfiguration = create<XcBuildConfiguration>("Debug", project.getName());
+                    configurations.push_back(&targetDebugConfiguration);
 
-                const auto& targetReleaseConfiguration = create<XcBuildConfiguration>("Release", project.getName());
-                configurations.push_back(&targetReleaseConfiguration);
+                    const auto& targetReleaseConfiguration = create<XcBuildConfiguration>("Release", project.getName());
+                    configurations.push_back(&targetReleaseConfiguration);
 
-                const auto& targetConfigurationList = create<XcConfigurationList>("Target",
-                                                                                  std::vector<const XcBuildConfiguration*>{&targetDebugConfiguration, &targetReleaseConfiguration},
-                                                                                  targetReleaseConfiguration);
-                configurationLists.push_back(&targetConfigurationList);
+                    const auto& targetConfigurationList = create<XcConfigurationList>("Target",
+                                                                                      std::vector<const XcBuildConfiguration*>{&targetDebugConfiguration, &targetReleaseConfiguration},
+                                                                                      targetReleaseConfiguration);
+                    configurationLists.push_back(&targetConfigurationList);
 
-                const auto& buildSourcesPhase = create<PbxSourcesBuildPhase>("Sources", buildFiles);
-                sourcesBuildPhases.push_back(&buildSourcesPhase);
+                    const auto& buildSourcesPhase = create<PbxSourcesBuildPhase>("Sources", buildFiles);
+                    sourcesBuildPhases.push_back(&buildSourcesPhase);
 
-                const auto& nativeTarget = create<PbxNativeTarget>(project.getName(),
-                                                                   targetConfigurationList,
-                                                                   std::vector<const PbxBuildPhase*>{&buildSourcesPhase},
-                                                                   productFile);
-                nativeTargets.push_back(&nativeTarget);
-                targets.push_back(&nativeTarget);
+                    const auto& nativeTarget = create<PbxNativeTarget>(project.getName() + " macOS",
+                                                                       targetConfigurationList,
+                                                                       std::vector<const PbxBuildPhase*>{&buildSourcesPhase},
+                                                                       productFile);
+                    nativeTargets.push_back(&nativeTarget);
+                    targets.push_back(&nativeTarget);
+                }
             }
 
             const auto& pbxProject = create<PbxProject>("Project object",

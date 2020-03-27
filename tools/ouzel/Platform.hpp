@@ -8,7 +8,7 @@ namespace ouzel
     enum class Platform
     {
         Windows,
-        MacOS,
+        MacOs,
         Linux,
         Ios,
         Tvos,

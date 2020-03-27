@@ -31,7 +31,7 @@ namespace ouzel
                 if (platform.as<std::string>() == "windows")
                     platforms.insert(Platform::Windows);
                 else if (platform.as<std::string>() == "macos")
-                    platforms.insert(Platform::MacOS);
+                    platforms.insert(Platform::MacOs);
                 else if (platform.as<std::string>() == "linux")
                     platforms.insert(Platform::Linux);
                 else if (platform.as<std::string>() == "ios")
