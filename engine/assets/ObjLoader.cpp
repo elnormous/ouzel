@@ -75,7 +75,7 @@ namespace ouzel
             }
 
             std::int32_t parseInt32(std::vector<std::uint8_t>::const_iterator& iterator,
-                               std::vector<std::uint8_t>::const_iterator end)
+                                    std::vector<std::uint8_t>::const_iterator end)
             {
                 std::string value;
                 std::uint32_t length = 1;

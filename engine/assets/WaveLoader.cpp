@@ -31,7 +31,7 @@ namespace ouzel
                 std::uint32_t channels = 0;
                 std::uint32_t sampleRate = 0;
 
-                const std::uint32_t formatOffset = 0;
+                const std::size_t formatOffset = 0;
 
                 if (data.size() < 12) // RIFF + size + WAVE
                     throw std::runtime_error("Failed to load sound file, file too small");
@@ -42,14 +42,14 @@ namespace ouzel
                     data[formatOffset + 3] != 'F')
                     throw std::runtime_error("Failed to load sound file, not a RIFF format");
 
-                const std::uint32_t lengthOffset = formatOffset + 4;
+                const std::size_t lengthOffset = formatOffset + 4;
 
                 const auto length = static_cast<std::uint32_t>(data[lengthOffset + 0] |
-                                                          (data[lengthOffset + 1] << 8) |
-                                                          (data[lengthOffset + 2] << 16) |
-                                                          (data[lengthOffset + 3] << 24));
+                                                               (data[lengthOffset + 1] << 8) |
+                                                               (data[lengthOffset + 2] << 16) |
+                                                               (data[lengthOffset + 3] << 24));
 
-                const std::uint32_t typeOffset = lengthOffset + 4;
+                const std::size_t typeOffset = lengthOffset + 4;
 
                 if (data.size() < typeOffset + length)
                     throw std::runtime_error("Failed to load sound file, size mismatch");
@@ -65,7 +65,7 @@ namespace ouzel
                 std::uint16_t formatTag = 0;
                 std::vector<std::uint8_t> soundData;
 
-                for (std::uint32_t offset = typeOffset + 4; offset < data.size();)
+                for (std::size_t offset = typeOffset + 4; offset < data.size();)
                 {
                     if (data.size() < offset + 8)
                         throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
@@ -80,9 +80,9 @@ namespace ouzel
                     offset += 4;
 
                     const auto chunkSize = static_cast<std::uint32_t>(data[offset + 0] |
-                                                                 (data[offset + 1] << 8) |
-                                                                 (data[offset + 2] << 16) |
-                                                                 (data[offset + 3] << 24));
+                                                                      (data[offset + 1] << 8) |
+                                                                      (data[offset + 2] << 16) |
+                                                                      (data[offset + 3] << 24));
                     offset += 4;
 
                     if (data.size() < offset + chunkSize)
@@ -93,35 +93,35 @@ namespace ouzel
                         if (chunkSize < 16)
                             throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
 
-                        const std::uint32_t formatTagOffset = offset;
+                        const std::size_t formatTagOffset = offset;
 
                         formatTag = static_cast<std::uint16_t>(data[formatTagOffset + 0] |
-                                                          (data[formatTagOffset + 1] << 8));
+                                                               (data[formatTagOffset + 1] << 8));
 
                         if (formatTag != PCM && formatTag != IEEE_FLOAT)
                             throw std::runtime_error("Failed to load sound file, unsupported format");
 
-                        const std::uint32_t channelsOffset = formatTagOffset + 2;
+                        const std::size_t channelsOffset = formatTagOffset + 2;
                         channels = static_cast<std::uint32_t>(data[channelsOffset + 0] |
-                                                         (data[channelsOffset + 1] << 8));
+                                                              (data[channelsOffset + 1] << 8));
 
                         if (!channels)
                             throw std::runtime_error("Failed to load sound file, invalid channel count");
 
-                        const std::uint32_t sampleRateOffset = channelsOffset + 2;
+                        const std::size_t sampleRateOffset = channelsOffset + 2;
                         sampleRate = static_cast<std::uint32_t>(data[sampleRateOffset + 0] |
-                                                           (data[sampleRateOffset + 1] << 8) |
-                                                           (data[sampleRateOffset + 2] << 16) |
-                                                           (data[sampleRateOffset + 3] << 24));
+                                                                (data[sampleRateOffset + 1] << 8) |
+                                                                (data[sampleRateOffset + 2] << 16) |
+                                                                (data[sampleRateOffset + 3] << 24));
 
                         if (!sampleRate)
                             throw std::runtime_error("Failed to load sound file, invalid sample rate");
 
-                        const std::uint32_t byteRateOffset = sampleRateOffset + 4;
-                        const std::uint32_t blockAlignOffset = byteRateOffset + 4;
-                        const std::uint32_t bitsPerSampleOffset = blockAlignOffset + 2;
+                        const std::size_t byteRateOffset = sampleRateOffset + 4;
+                        const std::size_t blockAlignOffset = byteRateOffset + 4;
+                        const std::size_t bitsPerSampleOffset = blockAlignOffset + 2;
                         bitsPerSample = static_cast<std::uint16_t>(data[bitsPerSampleOffset + 0] |
-                                                              (data[bitsPerSampleOffset + 1] << 8));
+                                                                   (data[bitsPerSampleOffset + 1] << 8));
 
                         if (bitsPerSample != 8 && bitsPerSample != 16 &&
                             bitsPerSample != 24 && bitsPerSample != 32)
