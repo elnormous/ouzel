@@ -5,7 +5,6 @@
 #if OUZEL_COMPILE_METAL
 
 #include "MetalBlendState.hpp"
-#include "MetalRenderDevice.hpp"
 
 namespace ouzel
 {
