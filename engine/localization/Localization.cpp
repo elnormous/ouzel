@@ -5,27 +5,15 @@
 
 namespace ouzel
 {
-    namespace
-    {
-        struct TranslationInfo final
-        {
-            std::uint32_t stringLength = 0;
-            std::uint32_t stringOffset = 0;
-
-            std::uint32_t translationLength = 0;
-            std::uint32_t translationOffset = 0;
-        };
-    }
-
     Language::Language(const std::vector<std::uint8_t>& data)
     {
         if (data.size() < 5 * sizeof(std::uint32_t))
             throw std::runtime_error("Not enough data");
 
-        const std::uint32_t magic = static_cast<std::uint32_t>(data[0] |
-                                                     (data[1] << 8) |
-                                                     (data[2] << 16) |
-                                                     (data[3] << 24));
+        const auto magic = static_cast<std::uint32_t>(data[0] |
+                                                      (data[1] << 8) |
+                                                      (data[2] << 16) |
+                                                      (data[3] << 24));
 
         const auto decodeUInt32 = [magic]() -> std::function<std::uint32_t(const std::uint8_t*)> {
             constexpr std::uint32_t MAGIC_BIG = 0xDE120495;
@@ -34,16 +22,16 @@ namespace ouzel
             if (magic == MAGIC_BIG)
                 return [](const std::uint8_t* bytes) noexcept {
                     return static_cast<std::uint32_t>(bytes[3] |
-                                                 (bytes[2] << 8) |
-                                                 (bytes[1] << 16) |
-                                                 (bytes[0] << 24));
+                                                      (bytes[2] << 8) |
+                                                      (bytes[1] << 16) |
+                                                      (bytes[0] << 24));
                 };
             else if (magic == MAGIC_LITTLE)
                 return [](const std::uint8_t* bytes) noexcept {
                     return static_cast<std::uint32_t>(bytes[0] |
-                                                 (bytes[1] << 8) |
-                                                 (bytes[2] << 16) |
-                                                 (bytes[3] << 24));
+                                                      (bytes[1] << 8) |
+                                                      (bytes[2] << 16) |
+                                                      (bytes[3] << 24));
                 };
             else
                 throw std::runtime_error("Wrong magic " + std::to_string(magic));
@@ -58,6 +46,14 @@ namespace ouzel
         const std::uint32_t stringCountOffset = revisionOffset + sizeof(revision);
         const std::uint32_t stringCount = decodeUInt32(data.data() + stringCountOffset);
 
+        struct TranslationInfo final
+        {
+            std::uint32_t stringLength = 0;
+            std::uint32_t stringOffset = 0;
+
+            std::uint32_t translationLength = 0;
+            std::uint32_t translationOffset = 0;
+        };
         std::vector<TranslationInfo> translations(stringCount);
 
         const std::uint32_t stringsOffsetOffset = stringCountOffset + sizeof(stringCount);

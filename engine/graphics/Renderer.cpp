@@ -266,8 +266,8 @@ namespace ouzel
             addCommand(std::make_unique<PopDebugMarkerCommand>());
         }
 
-        void Renderer::setShaderConstants(std::vector<std::vector<float>> fragmentShaderConstants,
-                                          std::vector<std::vector<float>> vertexShaderConstants)
+        void Renderer::setShaderConstants(const std::vector<std::vector<float>>& fragmentShaderConstants,
+                                          const std::vector<std::vector<float>>& vertexShaderConstants)
         {
             addCommand(std::make_unique<SetShaderConstantsCommand>(fragmentShaderConstants,
                                                                    vertexShaderConstants));

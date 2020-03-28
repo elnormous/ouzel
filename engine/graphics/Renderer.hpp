@@ -71,8 +71,8 @@ namespace ouzel
                       std::uint32_t startIndex);
             void pushDebugMarker(const std::string& name);
             void popDebugMarker();
-            void setShaderConstants(std::vector<std::vector<float>> fragmentShaderConstants,
-                                    std::vector<std::vector<float>> vertexShaderConstants);
+            void setShaderConstants(const std::vector<std::vector<float>>& fragmentShaderConstants,
+                                    const std::vector<std::vector<float>>& vertexShaderConstants);
             void setTextures(const std::vector<std::uintptr_t>& textures);
 
             inline void addCommand(std::unique_ptr<Command> command)
