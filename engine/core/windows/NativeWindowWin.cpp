@@ -456,11 +456,11 @@ namespace ouzel
         if (titleBufferSize == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
-        std::vector<WCHAR> titleBuffer(titleBufferSize);
-        if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer.data(), titleBufferSize) == 0)
+        auto titleBuffer = std::make_unique<WCHAR[]>(titleBufferSize);
+        if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer.get(), titleBufferSize) == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
-        window = CreateWindowExW(windowExStyle, WINDOW_CLASS_NAME, titleBuffer.data(), windowStyle,
+        window = CreateWindowExW(windowExStyle, WINDOW_CLASS_NAME, titleBuffer.get(), windowStyle,
                                  x, y, width, height, nullptr, nullptr, instance, nullptr);
 
         if (!window)
@@ -585,11 +585,11 @@ namespace ouzel
             if (titleBufferSize == 0)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
-            std::vector<WCHAR> titleBuffer(titleBufferSize);
-            if (MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer.data(), titleBufferSize) == 0)
+            auto titleBuffer = std::make_unique<WCHAR[]>(titleBufferSize);
+            if (MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer.get(), titleBufferSize) == 0)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
-            if (!SetWindowTextW(window, titleBuffer.data()))
+            if (!SetWindowTextW(window, titleBuffer.get()))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to set window title");
 
             title = newTitle;

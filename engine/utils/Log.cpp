@@ -93,14 +93,14 @@ namespace ouzel
         if (bufferSize == 0)
             return;
 
-        std::vector<WCHAR> buffer(bufferSize + 1); // +1 for the newline
-        if (MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer.data(), static_cast<int>(buffer.size())) == 0)
+        auto buffer = std::make_unique<WCHAR[]>(bufferSize + 1); // +1 for the newline
+        if (MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer.get(), bufferSize) == 0)
             return;
 
-        if (FAILED(StringCchCatW(buffer.data(), buffer.size(), L"\n")))
+        if (FAILED(StringCchCatW(buffer.get(), static_cast<size_t>(bufferSize), L"\n")))
             return;
 
-        OutputDebugStringW(buffer.data());
+        OutputDebugStringW(buffer.get());
 #  if DEBUG
         HANDLE handle;
         switch (level)

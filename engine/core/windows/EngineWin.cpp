@@ -198,12 +198,12 @@ namespace ouzel
         if (buferSize == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
-        std::vector<WCHAR> buffer(buferSize);
-        if (MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, buffer.data(), buferSize) == 0)
+        auto buffer = std::make_unique<WCHAR[]>(buferSize);
+        if (MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, buffer.get(), buferSize) == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
         // Result of the ShellExecuteW can be cast only to an int (https://docs.microsoft.com/en-us/windows/desktop/api/shellapi/nf-shellapi-shellexecutew)
-        HINSTANCE result = ShellExecuteW(nullptr, L"open", buffer.data(), nullptr, nullptr, SW_SHOWNORMAL);
+        HINSTANCE result = ShellExecuteW(nullptr, L"open", buffer.get(), nullptr, nullptr, SW_SHOWNORMAL);
         int status;
         memcpy(&status, &result, sizeof(status));
         if (status <= 32)
