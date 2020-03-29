@@ -31,12 +31,21 @@ namespace ouzel
 {
     namespace network
     {
-        inline int getLastError() noexcept
+        inline namespace detail
         {
+            inline int getLastError() noexcept
+            {
 #if defined(_WIN32)
-            return WSAGetLastError();
+                return WSAGetLastError();
 #elif defined(__unix__) || defined(__APPLE__)
-            return errno;
+                return errno;
+#endif
+            }
+
+#ifdef _WIN32
+            constexpr auto closeSocket = closesocket;
+#else
+            constexpr auto closeSocket = ::close;
 #endif
         }
 
@@ -78,12 +87,7 @@ namespace ouzel
 
             ~Socket()
             {
-                if (endpoint != invalid)
-#if defined(_WIN32)
-                    closesocket(endpoint);
-#elif defined(__unix__) || defined(__APPLE__)
-                    close(endpoint);
-#endif
+                if (endpoint != invalid) closeSocket(endpoint);
             }
 
             Socket(const Socket&) = delete;
@@ -99,12 +103,7 @@ namespace ouzel
             {
                 if (&other == this) return *this;
 
-                if (endpoint != invalid)
-#if defined(_WIN32)
-                    closesocket(endpoint);
-#elif defined(__unix__) || defined(__APPLE__)
-                    close(endpoint);
-#endif
+                if (endpoint != invalid) closeSocket(endpoint);
                 endpoint = other.endpoint;
                 other.endpoint = invalid;
 
