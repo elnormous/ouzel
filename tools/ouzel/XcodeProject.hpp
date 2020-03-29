@@ -465,7 +465,7 @@ namespace ouzel
             std::vector<const PbxTarget*> targets;
             std::vector<const PbxNativeTarget*> nativeTargets;
 
-            for (Platform platform : project.getPlatforms())
+            for (const auto platform : project.getPlatforms())
             {
                 // TODO: do it for all platforms
                 if (platform == Platform::MacOs)
