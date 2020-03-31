@@ -400,28 +400,28 @@ namespace ouzel
             inline auto getType() const noexcept { return type; }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            T& as() noexcept
+            inline T& as() noexcept
             {
                 type = Type::String;
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            const T& as() const
+            inline const T& as() const
             {
                 if (type != Type::String) throw TypeError("Wrong type");
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, const char*>::value>::type* = nullptr>
-            const char* as() const
+            inline const char* as() const
             {
                 if (type != Type::String) throw TypeError("Wrong type");
                 return stringValue.c_str();
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
-            T as() const
+            inline T as() const
             {
                 if (type != Type::Boolean && type != Type::Integer && type != Type::Float)
                     throw TypeError("Wrong type");
@@ -431,7 +431,7 @@ namespace ouzel
             }
 
             template <typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-            T as() const
+            inline T as() const
             {
                 if (type != Type::Boolean && type != Type::Integer && type != Type::Float)
                     throw TypeError("Wrong type");
