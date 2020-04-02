@@ -414,7 +414,7 @@ namespace ouzel
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, const char*>::value>::type* = nullptr>
-            inline const char* as() const
+            inline T as() const
             {
                 if (type != Type::String) throw TypeError("Wrong type");
                 return stringValue.c_str();
