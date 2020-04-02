@@ -4,7 +4,10 @@
 #define OUZEL_XCODEPROJECT_HPP
 
 #include <fstream>
+#include <map>
 #include <random>
+#include <stack>
+#include <type_traits>
 #include "OuzelProject.hpp"
 #include "storage/FileSystem.hpp"
 
@@ -12,6 +15,346 @@ namespace ouzel
 {
     namespace
     {
+        class TypeError final: public std::runtime_error
+        {
+        public:
+            explicit TypeError(const std::string& str): std::runtime_error(str) {}
+            explicit TypeError(const char* str): std::runtime_error(str) {}
+        };
+
+        class RangeError final: public std::runtime_error
+        {
+        public:
+            explicit RangeError(const std::string& str): std::runtime_error(str) {}
+            explicit RangeError(const char* str): std::runtime_error(str) {}
+        };
+
+        class Plist final
+        {
+        public:
+            class Value final
+            {
+            public:
+                enum class Type
+                {
+                    Dictionary,
+                    Array,
+                    String,
+                    Number,
+                    Data
+                };
+
+                using Dictionary = std::map<std::string, Value>;
+                using Array = std::vector<Value>;
+                using Data = std::vector<uint8_t>;
+
+                Value() = default;
+                Value(const Dictionary& value):type{Type::Dictionary}, dictionaryValue{value} {}
+                Value(const Array& value):type{Type::Array}, arrayValue{value} {}
+                template <class T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+                Value(T value):type{Type::Number}, numberValue{static_cast<double>(value)} {}
+                Value(const std::string& value):type{Type::String}, stringValue{value} {}
+                Value(const char* value):type{Type::String}, stringValue{value} {}
+                Value(const Data& value):type{Type::Data}, dataValue{value} {}
+
+                Value& operator=(const Dictionary& value)
+                {
+                    type = Type::Dictionary;
+                    dictionaryValue = value;
+                    return *this;
+                }
+
+                Value& operator=(const Array& value)
+                {
+                    type = Type::Array;
+                    arrayValue = value;
+                    return *this;
+                }
+
+                template <class T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+                Value& operator=(T value)
+                {
+                    type = Type::Number;
+                    numberValue = static_cast<double>(value);
+                    return *this;
+                }
+
+                Value& operator=(const std::string& value)
+                {
+                    type = Type::String;
+                    stringValue = value;
+                    return *this;
+                }
+
+                Value& operator=(const char* value)
+                {
+                    type = Type::String;
+                    stringValue = value;
+                    return *this;
+                }
+
+                Value& operator=(const Data& value)
+                {
+                    type = Type::Data;
+                    dataValue = value;
+                    return *this;
+                }
+
+                Type getType() const noexcept { return type; }
+
+                template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
+                inline T& as() noexcept
+                {
+                    type = Type::String;
+                    return stringValue;
+                }
+
+                template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
+                inline const T& as() const
+                {
+                    if (type != Type::String) throw TypeError("Wrong type");
+                    return stringValue;
+                }
+
+                template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+                inline T as() const
+                {
+                    if (type != Type::Number)
+                        throw TypeError("Wrong type");
+
+                    return static_cast<T>(numberValue);
+                }
+
+                template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
+                inline T& as() noexcept
+                {
+                    type = Type::Dictionary;
+                    return dictionaryValue;
+                }
+
+                template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
+                inline const T& as() const
+                {
+                    if (type != Type::Dictionary) throw TypeError("Wrong type");
+                    return dictionaryValue;
+                }
+
+                template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
+                inline T& as() noexcept
+                {
+                    type = Type::Array;
+                    return arrayValue;
+                }
+
+                template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
+                inline const T& as() const
+                {
+                    if (type != Type::Array) throw TypeError("Wrong type");
+                    return arrayValue;
+                }
+
+                template <typename T, typename std::enable_if<std::is_same<T, Data>::value>::type* = nullptr>
+                inline const T& as() const
+                {
+                    if (type != Type::Data) throw TypeError("Wrong type");
+                    return dataValue;
+                }
+
+                Array::iterator begin()
+                {
+                    if (type != Type::Array) throw TypeError("Wrong type");
+                    return arrayValue.begin();
+                }
+
+                Array::iterator end()
+                {
+                    if (type != Type::Array) throw TypeError("Wrong type");
+                    return arrayValue.end();
+                }
+
+                Array::const_iterator begin() const
+                {
+                    if (type != Type::Array) throw TypeError("Wrong type");
+                    return arrayValue.begin();
+                }
+
+                Array::const_iterator end() const
+                {
+                    if (type != Type::Array) throw TypeError("Wrong type");
+                    return arrayValue.end();
+                }
+
+                inline auto hasMember(const std::string& member) const
+                {
+                    if (type != Type::Dictionary) throw TypeError("Wrong type");
+                    return dictionaryValue.find(member) != dictionaryValue.end();
+                }
+
+                inline Value& operator[](const std::string& member)
+                {
+                    type = Type::Dictionary;
+                    return dictionaryValue[member];
+                }
+
+                inline const Value& operator[](const std::string& member) const
+                {
+                    if (type != Type::Dictionary) throw TypeError("Wrong type");
+
+                    auto i = dictionaryValue.find(member);
+                    if (i != dictionaryValue.end())
+                        return i->second;
+                    else
+                        throw RangeError("Member does not exist");
+                }
+
+                inline Value& operator[](std::size_t index)
+                {
+                    type = Type::Array;
+                    if (index >= arrayValue.size()) arrayValue.resize(index + 1);
+                    return arrayValue[index];
+                }
+
+                inline const Value& operator[](std::size_t index) const
+                {
+                    if (type != Type::Array) throw TypeError("Wrong type");
+
+                    if (index < arrayValue.size())
+                        return arrayValue[index];
+                    else
+                        throw RangeError("Index out of range");
+                }
+
+                inline auto getSize() const
+                {
+                    if (type != Type::Array) throw TypeError("Wrong type");
+                    return arrayValue.size();
+                }
+
+                inline void resize(std::size_t size)
+                {
+                    if (type != Type::Array) throw TypeError("Wrong type");
+                    arrayValue.resize(size);
+                }
+
+                inline void pushBack(uint8_t value)
+                {
+                    if (type != Type::Data) throw TypeError("Wrong type");
+                    dataValue.push_back(value);
+                }
+
+                inline void pushBack(const Value& value)
+                {
+                    if (type != Type::Array) throw TypeError("Wrong type");
+                    arrayValue.push_back(value);
+                }
+
+            private:
+                Type type = Type::Dictionary;
+                Dictionary dictionaryValue;
+                Array arrayValue;
+                std::string stringValue;
+                double numberValue;
+                Data dataValue;
+            };
+
+            std::string encode() const
+            {
+                std::string result = "// !$*UTF8*$!\n";
+                return encodeValue(root, result);
+            }
+
+            Value root;
+
+        private:
+            static std::string& encodeString(const std::string& s,
+                                             std::string& result)
+            {
+                if (!s.empty())
+                {
+                    bool hasSpecialChars = false;
+                    for (auto c : s)
+                        if ((c < 'a' || c > 'z') &&
+                            (c < 'A' || c > 'Z') &&
+                            (c < '0' || c > '9') &&
+                            c != '_' && c != '$' && c != '+' && c != '/' &&
+                            c != ':' && c != '.' && c != '-')
+                        {
+                            hasSpecialChars = true;
+                            break;
+                        }
+
+                    if (hasSpecialChars) result.push_back('"');
+                    for (const auto c : s)
+                    {
+                        if (c == '"') result += '\\';
+                        result += c;
+                    }
+                    if (hasSpecialChars) result.push_back('"');
+                }
+                else
+                    result += "\"\"";
+
+                return result;
+            }
+
+            static std::string& encodeValue(const Value& value,
+                                            std::string& result)
+            {
+                switch (value.getType())
+                {
+                    case Value::Type::Dictionary:
+                    {
+                        result += '{';
+                        for (const auto& entry : value.as<Value::Dictionary>())
+                        {
+                            encodeString(entry.first, result);
+                            result += '=';
+                            encodeValue(entry.second, result);
+                            result += ';';
+                        }
+                        result += '}';
+                        break;
+                    }
+                    case Value::Type::Array:
+                    {
+                        result += '(';
+                        for (const auto& child : value.as<Value::Array>())
+                        {
+                            encodeValue(child, result);
+                            result += ',';
+                        }
+                        result += ')';
+                        break;
+                    }
+                    case Value::Type::String:
+                        encodeString(value.as<std::string>(), result);
+                        break;
+                    case Value::Type::Number:
+                    {
+                        double number = value.as<double>();
+                        double intPart;
+                        if (std::modf(number, &intPart) != 0.0)
+                            result += std::to_string(number);
+                        else
+                            result += std::to_string(static_cast<int64_t>(intPart));
+                        break;
+                    }
+                    case Value::Type::Data:
+                        result += '<';
+                        for (const auto b : value.as<Value::Data>())
+                        {
+                            constexpr char digits[] = "0123456789ABCDEF";
+                            result += digits[(b >> 4) & 0x0F];
+                            result += digits[(b >> 0) & 0x0F];
+                        }
+                        result += '>';
+                        break;
+                };
+
+                return result;
+            }
+        };
+
         std::string generateId()
         {
             std::random_device randomDevice;
@@ -32,27 +375,6 @@ namespace ouzel
             return result;
         }
 
-        std::string formatString(const std::string& s)
-        {
-            bool hasSpecialChars = false;
-            for (auto c : s)
-                if ((c < 'a' || c > 'z') &&
-                    (c < 'A' || c > 'Z') &&
-                    (c < '0' || c > '9') &&
-                    c != '_' && c != '$' && c != '+' && c != '/' &&
-                    c != ':' && c != '.' && c != '-')
-                {
-                    hasSpecialChars = true;
-                    break;
-                }
-
-            std::string result;
-            if (hasSpecialChars) result.push_back('"');
-            result += s;
-            if (hasSpecialChars) result.push_back('"');
-            return result;
-        }
-
         class Object
         {
         public:
@@ -69,14 +391,6 @@ namespace ouzel
             std::string isa;
             std::string name;
         };
-
-        std::string formatReference(const Object& s)
-        {
-            std::string result = s.getId();
-            if (!s.getName().empty())
-                result += " /* " + s.getName() + " */";
-            return result;
-        }
 
         class PbxFileElement: public Object
         {
@@ -116,30 +430,20 @@ namespace ouzel
                 PbxFileElement{"PBXFileReference", std::string{p}}, path{p}, sourceTree{tree} {}
             const storage::Path& getPath() const noexcept { return path; }
 
-            void output(std::ostream& stream, size_t indent) const
+            Plist::Value getValue() const
             {
-                auto filename = std::string(path);
-                auto extension = path.getExtension();
-                if (sourceTree == PbxSourceTree::BuildProductsDir)
-                {
-                    auto fileType = std::string("wrapper.application");
-                    stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {"
-                        "isa = " << getIsa() << "; "
-                        "explicitFileType = " << fileType << "; "
-                        "includeInIndex = " << 0 << "; "
-                        "path = " << formatString(filename) << "; "
-                        "sourceTree = " << formatString(sourceTreeToString(sourceTree)) << "; };\n";
-                }
-                else
-                {
-                    auto fileType = extension == "plist" ? "text.plist.xml" : "sourcecode.cpp." + extension;
-                    stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {"
-                        "isa = " << getIsa() << "; "
-                        "lastKnownFileType = " << fileType << "; "
-                        "path = " << formatString(filename) << "; "
-                        "sourceTree = " << formatString(sourceTreeToString(sourceTree)) << "; };\n";
-                }
+                const auto extension = path.getExtension();
+                const std::string fileType = (sourceTree == PbxSourceTree::BuildProductsDir) ?
+                    "wrapper.application" :
+                    extension == "plist" ? "text.plist.xml" : "sourcecode.cpp." + extension;
 
+                return Plist::Value::Dictionary{
+                    {"isa", getIsa()},
+                    {"explicitFileType", fileType},
+                    {"includeInIndex", 0},
+                    {"path", std::string(path)},
+                    {"sourceTree", sourceTreeToString(sourceTree)}
+                };
             }
 
         private:
@@ -153,10 +457,12 @@ namespace ouzel
             PbxBuildFile(const PbxFileReference& ref):
                 Object{"PBXBuildFile", ref.getName()}, fileRef{ref} {}
 
-            void output(std::ostream& stream, size_t indent) const
+            Plist::Value getValue() const
             {
-                auto filename = std::string(fileRef.getPath());
-                stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {isa = " << getIsa() << "; fileRef = " << formatReference(fileRef) << "; };\n";
+                return Plist::Value::Dictionary{
+                    {"isa", getIsa()},
+                    {"fileRef", fileRef.getId()}
+                };
             }
 
         private:
@@ -175,29 +481,23 @@ namespace ouzel
                 children{c},
                 sourceTree{tree} {}
 
-            void output(std::ostream& stream, size_t indent) const
+            Plist::Value getValue() const
             {
-                stream << std::string(indent, '\t') << getId() << " ";
-
-                if (!getName().empty())
-                    stream << "/* " << getName() << " */ ";
-
-                stream << "= {\n" <<
-                    std::string(indent + 1, '\t') << "isa = " << getIsa() << ";\n" <<
-                    std::string(indent + 1, '\t') << "children = (\n";
-
-                for (auto child : children)
-                    stream << std::string(indent + 2, '\t') << formatReference(*child) << ",\n";
-
-                stream << std::string(indent + 1, '\t') << ");\n";
+                auto result = Plist::Value::Dictionary{
+                    {"isa", getIsa()},
+                    {"children", Plist::Value::Array{}},
+                    {"sourceTree", sourceTreeToString(sourceTree)}
+                };
 
                 if (!std::string(path).empty())
-                    stream << std::string(indent + 1, '\t') << "path = " << formatString(path) << ";\n";
+                    result["path"] = std::string(path);
                 else if (!getName().empty())
-                    stream << std::string(indent + 1, '\t') << "name = " << formatString(getName()) << ";\n";
+                    result["name"] = getName();
 
-                stream << std::string(indent + 1, '\t') << "sourceTree = " << formatString(sourceTreeToString(sourceTree)) << ";\n" <<
-                    std::string(indent, '\t') << "};\n";
+                for (auto child : children)
+                    result["children"].pushBack(child->getId());
+
+                return result;
             }
 
         private:
@@ -214,18 +514,18 @@ namespace ouzel
                 Object{"XCBuildConfiguration", n},
                 productName{p} {}
 
-            void output(std::ostream& stream, size_t indent) const
+            Plist::Value getValue() const
             {
-                stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {\n" <<
-                    std::string(indent + 1, '\t') << "isa = " << getIsa() << ";\n" <<
-                    std::string(indent + 1, '\t') << "buildSettings = {\n";
+                auto result = Plist::Value::Dictionary{
+                    {"isa", getIsa()},
+                    {"buildSettings", Plist::Value::Dictionary{}},
+                    {"name", getName()}
+                };
 
                 if (!productName.empty())
-                    stream << std::string(indent + 2, '\t') << "PRODUCT_NAME = " << productName << ";\n";
+                    result["PRODUCT_NAME"] = productName;
 
-                stream << std::string(indent + 1, '\t') << "};\n" <<
-                    std::string(indent + 1, '\t') << "name = " << formatString(getName()) << ";\n" <<
-                    std::string(indent, '\t') << "};\n";
+                return result;
             }
 
         private:
@@ -242,19 +542,19 @@ namespace ouzel
                 configurations{c},
                 defaultConfiguration{defaultConfig} {}
 
-            void output(std::ostream& stream, size_t indent) const
+            Plist::Value getValue() const
             {
-                stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {\n" <<
-                    std::string(indent + 1, '\t') << "isa = " << getIsa() << ";\n" <<
-                    std::string(indent + 1, '\t') << "buildConfigurations = (\n";
+                auto result = Plist::Value::Dictionary{
+                    {"isa", getIsa()},
+                    {"buildConfigurations", Plist::Value::Array{}},
+                    {"defaultConfigurationIsVisible", 0},
+                    {"defaultConfigurationName", defaultConfiguration.getName()},
+                };
 
                 for (auto configuration : configurations)
-                    stream << std::string(indent + 2, '\t') << formatReference(*configuration) << ",\n";
+                    result["buildConfigurations"].pushBack(configuration->getId());
 
-                stream << std::string(indent + 1, '\t') << ");\n" <<
-                    std::string(indent + 1, '\t') << "defaultConfigurationIsVisible = " << 0 << ";\n" <<
-                    std::string(indent + 1, '\t') << "defaultConfigurationName = " << formatString(defaultConfiguration.getName()) << ";\n" <<
-                    std::string(indent, '\t') << "};\n";
+                return result;
             }
 
         private:
@@ -278,17 +578,19 @@ namespace ouzel
                 PbxBuildPhase{"PBXSourcesBuildPhase", n},
                 files{f} {}
 
-            void output(std::ostream& stream, size_t indent) const
+            Plist::Value getValue() const
             {
-                stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {\n" <<
-                    std::string(indent + 1, '\t') << "isa = " << getIsa() << ";\n" <<
-                    std::string(indent + 1, '\t') << "buildActionMask = " << 2147483647 << ";\n" <<
-                    std::string(indent + 1, '\t') << "files = (\n";
+                auto result = Plist::Value::Dictionary{
+                    {"isa", getIsa()},
+                    {"buildActionMask", 2147483647},
+                    {"files", Plist::Value::Array{}},
+                    {"runOnlyForDeploymentPostprocessing", 0},
+                };
+
                 for (auto file : files)
-                    stream << std::string(indent + 2, '\t') << formatReference(*file) << ",\n";
-                stream << std::string(indent + 1, '\t') << ");\n" <<
-                    std::string(indent + 1, '\t') << "runOnlyForDeploymentPostprocessing = " << 0 << ";\n";
-                stream << std::string(indent, '\t') << "};\n";
+                    result["files"].pushBack(file->getId());
+
+                return result;
             }
 
         private:
@@ -315,24 +617,24 @@ namespace ouzel
                 buildPhases{phases},
                 productReference{product} {}
 
-            void output(std::ostream& stream, size_t indent) const
+            Plist::Value getValue() const
             {
-                stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {\n" <<
-                    std::string(indent + 1, '\t') << "isa = " << getIsa() << ";\n" <<
-                    std::string(indent + 1, '\t') << "buildConfigurationList = " << formatReference(buildConfigurationList) << ";\n" <<
-                    std::string(indent + 1, '\t') << "buildPhases = (\n";
+                auto result = Plist::Value::Dictionary{
+                    {"isa", getIsa()},
+                    {"buildConfigurationList", buildConfigurationList.getId()},
+                    {"buildPhases", Plist::Value::Array{}},
+                    {"buildRules", Plist::Value::Array{}},
+                    {"dependencies", Plist::Value::Array{}},
+                    {"name", getName()},
+                    {"productName", getName()},
+                    {"productReference", productReference.getId()},
+                    {"productType", "com.apple.product-type.application"}
+                };
+
                 for (auto buildPhase : buildPhases)
-                    stream << std::string(indent + 2, '\t') << formatReference(*buildPhase) << ",\n";
-                stream << std::string(indent + 1, '\t') << ");\n" <<
-                    std::string(indent + 1, '\t') << "buildRules = (\n" <<
-                    std::string(indent + 1, '\t') << ");\n" <<
-                    std::string(indent + 1, '\t') << "dependencies = (\n" <<
-                    std::string(indent + 1, '\t') << ");\n" <<
-                    std::string(indent + 1, '\t') << "name = " << formatString(getName()) << ";\n" <<
-                    std::string(indent + 1, '\t') << "productName = " << formatString(getName()) << ";\n" <<
-                    std::string(indent + 1, '\t') << "productReference = " << formatReference(productReference) << ";\n" <<
-                    std::string(indent + 1, '\t') << "productType = " << "\"com.apple.product-type.application\"" << ";\n";
-                stream << std::string(indent, '\t') << "};\n";
+                    result["buildPhases"].pushBack(buildPhase->getId());
+
+                return result;
             }
 
         private:
@@ -357,33 +659,30 @@ namespace ouzel
                 productRefGroup(productRefGrp),
                 targets{t} {}
 
-            void output(std::ostream& stream, size_t indent) const
+            Plist::Value getValue() const
             {
-                stream << std::string(indent, '\t') << getId() << " /* " << getName() << " */ = {\n" <<
-                    std::string(indent + 1, '\t') << "isa = " << getIsa() << ";\n" <<
-                    std::string(indent + 1, '\t') << "attributes = {\n" <<
-                    std::string(indent + 2, '\t') << "LastUpgradeCheck = " << "0800" << ";\n" <<
-                    std::string(indent + 2, '\t') << "ORGANIZATIONNAME = " << formatString(organization) << ";\n";
-                stream << std::string(indent + 1, '\t') << "};\n" <<
-                    std::string(indent + 1, '\t') << "buildConfigurationList = " << buildConfigurationList.getId() << " /* " << buildConfigurationList.getName() << " */;\n" <<
-                    std::string(indent + 1, '\t') << "compatibilityVersion = " << "\"Xcode 9.3\"" << ";\n" <<
-                    std::string(indent + 1, '\t') << "developmentRegion = " << "en" << ";\n" <<
-                    std::string(indent + 1, '\t') << "hasScannedForEncodings = " << 0 << ";\n" <<
-                    std::string(indent + 1, '\t') << "knownRegions = (\n" <<
-                    std::string(indent + 2, '\t') << "en,\n" <<
-                    std::string(indent + 2, '\t') << "Base,\n" <<
-                    std::string(indent + 1, '\t') << ");\n" <<
-                    std::string(indent + 1, '\t') << "mainGroup = " << formatReference(mainGroup) << ";\n" <<
-                    std::string(indent + 1, '\t') << "productRefGroup = " << formatReference(productRefGroup) << ";\n" <<
-                    std::string(indent + 1, '\t') << "projectDirPath = " << "\"\"" << ";\n" <<
-                    std::string(indent + 1, '\t') << "projectRoot = " << "\"\"" << ";\n" <<
-                    std::string(indent + 1, '\t') << "targets = (\n";
+                auto result = Plist::Value::Dictionary{
+                    {"isa", getIsa()},
+                    {"attributes", Plist::Value::Dictionary{
+                        {"LastUpgradeCheck", "0800"},
+                        {"ORGANIZATIONNAME", organization}
+                    }},
+                    {"buildConfigurationList", buildConfigurationList.getId()},
+                    {"compatibilityVersion", "Xcode 9.3"},
+                    {"developmentRegion", "en"},
+                    {"hasScannedForEncodings", 0},
+                    {"knownRegions", Plist::Value::Array{"en", "Base"}},
+                    {"mainGroup", mainGroup.getId()},
+                    {"productRefGroup", productRefGroup.getId()},
+                    {"projectDirPath", ""},
+                    {"projectRoot", ""},
+                    {"targets", Plist::Value::Array{}}
+                };
 
                 for (auto target : targets)
-                    stream << std::string(indent + 2, '\t') << formatReference(*target) << ",\n";
+                    result["targets"].pushBack(target->getId());
 
-                stream << std::string(indent + 1, '\t') << ");\n" <<
-                    std::string(indent, '\t') << "};\n";
+                return result;
             }
 
         private:
@@ -502,22 +801,21 @@ namespace ouzel
                                                         productRefGroup,
                                                         targets);
 
-            std::ofstream file(projectFile, std::ios::trunc);
-            file << "// !$*UTF8*$!\n"
-                "{\n" <<
-                '\t' << "archiveVersion = 1;\n" <<
-                '\t' << "classes = {\n" <<
-                '\t' << "};\n" <<
-                '\t' << "objectVersion = 46;\n" <<
-                '\t' << "objects = {\n";
+            Plist plist;
+            plist.root = Plist::Value::Dictionary{
+                {"archiveVersion", 1},
+                {"classes", Plist::Value::Dictionary{}},
+                {"objectVersion", 50},
+                {"objects", Plist::Value::Dictionary{}}
+            };
 
             // PBXBuildFile section
             for (const auto buildFile : buildFiles)
-                buildFile->output(file, 2);
+                plist.root["objects"][buildFile->getId()] = buildFile->getValue();
 
             // PBXFileReference section
             for (const auto fileReference : fileReferences)
-                fileReference->output(file, 2);
+                plist.root["objects"][fileReference->getId()] = fileReference->getValue();
 
             // frameworks buid phase
             // PBXFrameworksBuildPhase section
@@ -525,14 +823,14 @@ namespace ouzel
 
             // PBXGroup section
             for (const auto group : groups)
-                group->output(file, 2);
+                plist.root["objects"][group->getId()] = group->getValue();
 
             // PBXNativeTarget section
             for (const auto nativeTarget : nativeTargets)
-                nativeTarget->output(file, 2);
+                plist.root["objects"][nativeTarget->getId()] = nativeTarget->getValue();
 
             // PBXProject section
-            pbxProject.output(file, 2);
+            plist.root["objects"][pbxProject.getId()] = pbxProject.getValue();
 
             // resource build phases
             // PBXResourcesBuildPhase section
@@ -541,20 +839,21 @@ namespace ouzel
             // source file build phase
             // PBXSourcesBuildPhase section
             for (const auto sourcesBuildPhase : sourcesBuildPhases)
-                sourcesBuildPhase->output(file, 2);
+                plist.root["objects"][sourcesBuildPhase->getId()] = sourcesBuildPhase->getValue();
 
             // configurations
             // XCBuildConfiguration section
             for (const auto configuration : configurations)
-                configuration->output(file, 2);
+                plist.root["objects"][configuration->getId()] = configuration->getValue();
 
             // XCConfigurationList section
             for (const auto configurationList : configurationLists)
-                configurationList->output(file, 2);
+                plist.root["objects"][configurationList->getId()] = configurationList->getValue();
 
-            file << '\t' << "};\n" <<
-                '\t' << "rootObject = " << formatReference(pbxProject) << ";\n"
-                "}\n";
+            plist.root["rootObject"] = pbxProject.getId();
+
+            std::ofstream file(projectFile, std::ios::trunc);
+            file << plist.encode();
         }
 
     private:
