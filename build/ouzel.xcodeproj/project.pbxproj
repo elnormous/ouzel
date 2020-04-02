@@ -1022,6 +1022,7 @@
 		30A3821721B4BDC80043568A /* Submix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Submix.hpp; sourceTree = "<group>"; };
 		30A3821E21B4C5E90043568A /* Processor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Processor.hpp; sourceTree = "<group>"; };
 		30A3821F21B5E7B90043568A /* Commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Commands.hpp; sourceTree = "<group>"; };
+		30A395CA2436A60B00D8E28E /* Plist.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Plist.hpp; sourceTree = "<group>"; };
 		30A883631E7432DA004A033F /* Archive.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Archive.hpp; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
 		30A9C1301CAE80570084C4BF /* Localization.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Localization.hpp; sourceTree = "<group>"; };
@@ -1780,6 +1781,7 @@
 				3030D5001DAEF1FA007CC8EB /* Log.cpp */,
 				3030D5011DAEF1FA007CC8EB /* Log.hpp */,
 				304AA8BD1E1190E4006FA70E /* Obf.hpp */,
+				30A395CA2436A60B00D8E28E /* Plist.hpp */,
 				30769B7B22DBFB17000F4EC2 /* Thread.hpp */,
 				C6C9100B21AEB47E00B5FCB7 /* Utf8.hpp */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,

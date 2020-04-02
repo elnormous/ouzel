@@ -519,7 +519,13 @@
     <ClInclude Include="..\engine\scene\Actor.hpp">
       <Filter>engine\scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\utils\Json.hpp">
+      <Filter>engine\utils</Filter>
+    </ClInclude>
     <ClInclude Include="..\engine\utils\Obf.hpp">
+      <Filter>engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\utils\Plist.hpp">
       <Filter>engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\utils\Thread.hpp">
@@ -716,9 +722,6 @@
     </ClInclude>
     <ClInclude Include="..\engine\assets\WaveLoader.hpp">
       <Filter>engine\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\utils\Json.hpp">
-      <Filter>engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\utils\Xml.hpp">
       <Filter>engine\utils</Filter>

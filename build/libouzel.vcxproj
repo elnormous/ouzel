@@ -332,6 +332,7 @@
     <ClInclude Include="..\engine\utils\Json.hpp" />
     <ClInclude Include="..\engine\utils\Log.hpp" />
     <ClInclude Include="..\engine\utils\Obf.hpp" />
+    <ClInclude Include="..\engine\utils\Plist.hpp" />
     <ClInclude Include="..\engine\utils\Thread.hpp" />
     <ClInclude Include="..\engine\utils\Utf8.hpp" />
     <ClInclude Include="..\engine\utils\Utils.hpp" />
