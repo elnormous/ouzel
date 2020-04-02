@@ -184,7 +184,7 @@ namespace ouzel
                 };
 
                 if (!productName.empty())
-                    result["PRODUCT_NAME"] = productName;
+                    result["buildSettings"]["PRODUCT_NAME"] = productName;
 
                 return result;
             }
