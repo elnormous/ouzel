@@ -543,6 +543,18 @@ namespace ouzel
                 return arrayValue.size();
             }
 
+            inline void resize(std::size_t size)
+            {
+                if (type != Type::Array) throw TypeError("Wrong type");
+                arrayValue.resize(size);
+            }
+
+            inline void pushBack(const Value& value)
+            {
+                if (type != Type::Array) throw TypeError("Wrong type");
+                arrayValue.push_back(value);
+            }
+
         protected:
             template <class TokenIterator>
             void parseValue(TokenIterator& iterator,
