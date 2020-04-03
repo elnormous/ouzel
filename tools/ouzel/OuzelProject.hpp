@@ -25,7 +25,7 @@ namespace ouzel
             identifier = j["identifier"].as<std::string>();
             organization = j["organization"].as<std::string>();
 
-            ouzelPath = directoryPath / j["ouzelPath"].as<std::string>();
+            ouzelPath = j["ouzelPath"].as<std::string>();
 
             for (const auto& platform : j["platforms"])
                 if (platform.as<std::string>() == "windows")

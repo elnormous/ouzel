@@ -182,9 +182,11 @@ namespace ouzel
         {
         public:
             XcBuildConfiguration(const std::string& n,
-                                 const std::string& p = ""):
+                                 const std::string& p = "",
+                                 const std::string& h = ""):
                 Object{"XCBuildConfiguration", n},
-                productName{p} {}
+                productName{p},
+                headerSearchPath{h} {}
 
             plist::Value getValue() const
             {
@@ -197,11 +199,15 @@ namespace ouzel
                 if (!productName.empty())
                     result["buildSettings"]["PRODUCT_NAME"] = productName;
 
+                if (!headerSearchPath.empty())
+                    result["buildSettings"]["HEADER_SEARCH_PATHS"] = headerSearchPath;
+
                 return result;
             }
 
         private:
             std::string productName;
+            std::string headerSearchPath;
         };
 
         class XcConfigurationList final: public Object
@@ -439,8 +445,12 @@ namespace ouzel
                 // TODO: do it for all platforms
                 if (platform == Platform::MacOs)
                 {
-                    XcBuildConfiguration targetDebugConfiguration{"Debug", project.getName()};
-                    XcBuildConfiguration targetReleaseConfiguration{"Release", project.getName()};
+                    const auto headerSearchPath = std::string(project.getOuzelPath() / "engine");
+
+                    XcBuildConfiguration targetDebugConfiguration{"Debug",
+                        project.getName(), headerSearchPath};
+                    XcBuildConfiguration targetReleaseConfiguration{"Release",
+                        project.getName(), headerSearchPath};
                     XcConfigurationList targetConfigurationList{"Target",
                         std::vector<Id>{targetDebugConfiguration.getId(), targetReleaseConfiguration.getId()},
                         targetReleaseConfiguration.getName()};
