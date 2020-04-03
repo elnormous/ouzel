@@ -195,7 +195,7 @@ namespace ouzel
                     {"isa", getIsa()},
                     {"fileType", fileType},
                     {"path", std::string{path}},
-                    {"remoteRefId", toString(remoteRefId)},
+                    {"remoteRef", toString(remoteRefId)},
                     {"sourceTree", toString(sourceTree)}
                 };
             }
