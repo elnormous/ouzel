@@ -546,9 +546,6 @@ namespace ouzel
             };
             output.addObject(libouzelMacOsReferenceProxy);
 
-            PbxBuildFile libouzelMacOsBuildFile{libouzelMacOsReferenceProxy.getId()};
-            output.addObject(libouzelMacOsBuildFile);
-
             PbxContainerItemProxy libouzelTvosProxy{ouzelProjectFileRef.getId(),
                 libouzelTvosId, "libouzel_tvos"};
             output.addObject(libouzelTvosProxy);
@@ -660,6 +657,9 @@ namespace ouzel
                     PbxSourcesBuildPhase sourcesBuildPhase{buildFileIds};
                     output.addObject(sourcesBuildPhase);
 
+                    PbxBuildFile libouzelMacOsBuildFile{libouzelMacOsReferenceProxy.getId()};
+                    output.addObject(libouzelMacOsBuildFile);
+                    
                     PbxFrameworksBuildPhase frameworksBuildPhase{{libouzelMacOsBuildFile.getId()}};
                     output.addObject(frameworksBuildPhase);
 
