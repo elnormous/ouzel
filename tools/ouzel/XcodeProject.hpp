@@ -4,6 +4,7 @@
 #define OUZEL_XCODEPROJECT_HPP
 
 #include <array>
+#include <chrono>
 #include <fstream>
 #include <map>
 #include <random>
@@ -17,18 +18,37 @@ namespace ouzel
 {
     namespace
     {
+        std::random_device randomDevice;
+        std::mt19937 randomEngine(randomDevice());
+        std::uniform_int_distribution<uint32_t> distribution;
+        uint32_t sequence = 0;
+
         using Id = std::array<uint8_t, 12>;
 
         Id generateId()
         {
-            std::random_device randomDevice;
-            std::mt19937 randomEngine(randomDevice());
-            std::uniform_int_distribution<uint32_t> distribution(0, 255);
-
             Id result;
 
-            for (auto& i : result)
-                i = static_cast<uint8_t>(distribution(randomEngine));
+            ++sequence;
+
+            result[0] = 0x70; // to avoid collisions with Ouzel targets
+            result[1] = static_cast<uint8_t>((sequence >> 16) & 0xFF);
+            result[2] = static_cast<uint8_t>((sequence >> 8) & 0xFF);
+            result[3] = static_cast<uint8_t>((sequence >> 0) & 0xFF);
+
+            auto now = std::chrono::system_clock::now();
+            auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
+
+            result[4] = static_cast<uint8_t>((timestamp >> 24) & 0xFF);
+            result[5] = static_cast<uint8_t>((timestamp >> 16) & 0xFF);
+            result[6] = static_cast<uint8_t>((timestamp >> 8) & 0xFF);
+            result[7] = static_cast<uint8_t>((timestamp >> 0) & 0xFF);
+
+            uint32_t r = distribution(randomEngine);
+            result[8] = static_cast<uint8_t>((r >> 24) & 0xFF);
+            result[9] = static_cast<uint8_t>((r >> 16) & 0xFF);
+            result[10] = static_cast<uint8_t>((r >> 8) & 0xFF);
+            result[11] = static_cast<uint8_t>((r >> 0) & 0xFF);
 
             return result;
         }
