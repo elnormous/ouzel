@@ -144,6 +144,34 @@ namespace ouzel
             PbxSourceTree sourceTree;
         };
 
+        class PbxContainerItemProxy final: public Object
+        {
+        public:
+            PbxContainerItemProxy(const std::string& n):
+                Object{"PBXContainerItemProxy", n} {}
+
+            plist::Value getValue() const
+            {
+                return plist::Value::Dictionary{
+                    {"isa", getIsa()}
+                };
+            }
+        };
+
+        class PbxReferenceProxy final: public Object
+        {
+        public:
+            PbxReferenceProxy(const std::string& n):
+                Object{"PBXReferenceProxy", n} {}
+
+            plist::Value getValue() const
+            {
+                return plist::Value::Dictionary{
+                    {"isa", getIsa()}
+                };
+            }
+        };
+
         class PbxBuildFile final: public Object
         {
         public:
@@ -204,13 +232,9 @@ namespace ouzel
         {
         public:
             XcBuildConfiguration(const std::string& n,
-                                 const std::string& p = "",
-                                 const std::string& h = "",
-                                 const std::string& cxx = ""):
+                                 const std::map<std::string, std::string>& settings):
                 Object{"XCBuildConfiguration", n},
-                productName{p},
-                headerSearchPath{h},
-                cxxLanguageStandard{cxx} {}
+                buildSettings{settings} {}
 
             plist::Value getValue() const
             {
@@ -220,22 +244,14 @@ namespace ouzel
                     {"name", getName()}
                 };
 
-                if (!productName.empty())
-                    result["buildSettings"]["PRODUCT_NAME"] = productName;
-
-                if (!headerSearchPath.empty())
-                    result["buildSettings"]["HEADER_SEARCH_PATHS"] = headerSearchPath;
-
-                if (!cxxLanguageStandard.empty())
-                    result["buildSettings"]["CLANG_CXX_LANGUAGE_STANDARD"] = cxxLanguageStandard;
+                for (const auto& buildSetting : buildSettings)
+                    result["buildSettings"][buildSetting.first] = buildSetting.second;
 
                 return result;
             }
 
         private:
-            std::string productName;
-            std::string headerSearchPath;
-            std::string cxxLanguageStandard;
+            std::map<std::string, std::string> buildSettings;
         };
 
         class XcConfigurationList final: public Object
@@ -459,17 +475,23 @@ namespace ouzel
             PbxGroup sourceGroup{"src", storage::Path{"src"},
                 sourceFileIds, PbxSourceTree::Group};
             PbxGroup mainGroup{"", storage::Path{},
-                std::vector<Id>{productRefGroup.getId(), sourceGroup.getId()},
+                {productRefGroup.getId(), sourceGroup.getId()},
                 PbxSourceTree::Group};
 
             std::vector<XcBuildConfiguration> configurations;
             std::vector<XcConfigurationList> configurationLists;
 
             const auto headerSearchPath = std::string(project.getOuzelPath() / "engine");
-            XcBuildConfiguration debugConfiguration{"Debug", "", headerSearchPath, "c++14"};
-            XcBuildConfiguration releaseConfiguration{"Release", "", headerSearchPath, "c++14"};
+            XcBuildConfiguration debugConfiguration{"Debug", {
+                {"HEADER_SEARCH_PATHS", headerSearchPath},
+                {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"}
+            }};
+            XcBuildConfiguration releaseConfiguration{"Release", {
+                {"HEADER_SEARCH_PATHS", headerSearchPath},
+                {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"}
+            }};
             XcConfigurationList projectConfigurationList{"Project",
-                std::vector<Id>{debugConfiguration.getId(), releaseConfiguration.getId()},
+                {debugConfiguration.getId(), releaseConfiguration.getId()},
                 releaseConfiguration.getName()};
 
             std::vector<PbxSourcesBuildPhase> sourcesBuildPhases;
@@ -482,19 +504,21 @@ namespace ouzel
                 // TODO: do it for all platforms
                 if (platform == Platform::MacOs)
                 {
-                    XcBuildConfiguration targetDebugConfiguration{"Debug",
-                        project.getName()};
-                    XcBuildConfiguration targetReleaseConfiguration{"Release",
-                        project.getName()};
+                    XcBuildConfiguration targetDebugConfiguration{"Debug", {
+                        {"PRODUCT_NAME", project.getName()}
+                    }};
+                    XcBuildConfiguration targetReleaseConfiguration{"Release", {
+                        {"PRODUCT_NAME", project.getName()}
+                    }};
                     XcConfigurationList targetConfigurationList{"Target",
-                        std::vector<Id>{targetDebugConfiguration.getId(), targetReleaseConfiguration.getId()},
+                        {targetDebugConfiguration.getId(), targetReleaseConfiguration.getId()},
                         targetReleaseConfiguration.getName()};
 
                     PbxSourcesBuildPhase buildSourcesPhase{"Sources", buildFileIds};
 
                     PbxNativeTarget nativeTarget{project.getName() + " macOS",
                         targetConfigurationList.getId(),
-                        std::vector<Id>{buildSourcesPhase.getId()},
+                        {buildSourcesPhase.getId()},
                         productFile.getId()};
                     targetIds.push_back(nativeTarget.getId());
                     nativeTargets.push_back(std::move(nativeTarget));
