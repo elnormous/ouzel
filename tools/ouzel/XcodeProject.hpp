@@ -183,10 +183,12 @@ namespace ouzel
         public:
             XcBuildConfiguration(const std::string& n,
                                  const std::string& p = "",
-                                 const std::string& h = ""):
+                                 const std::string& h = "",
+                                 const std::string& cxx = ""):
                 Object{"XCBuildConfiguration", n},
                 productName{p},
-                headerSearchPath{h} {}
+                headerSearchPath{h},
+                cxxLanguageStandard{cxx} {}
 
             plist::Value getValue() const
             {
@@ -202,12 +204,16 @@ namespace ouzel
                 if (!headerSearchPath.empty())
                     result["buildSettings"]["HEADER_SEARCH_PATHS"] = headerSearchPath;
 
+                if (!cxxLanguageStandard.empty())
+                    result["buildSettings"]["CLANG_CXX_LANGUAGE_STANDARD"] = cxxLanguageStandard;
+
                 return result;
             }
 
         private:
             std::string productName;
             std::string headerSearchPath;
+            std::string cxxLanguageStandard;
         };
 
         class XcConfigurationList final: public Object
@@ -429,8 +435,9 @@ namespace ouzel
             std::vector<XcBuildConfiguration> configurations;
             std::vector<XcConfigurationList> configurationLists;
 
-            XcBuildConfiguration debugConfiguration{"Debug"};
-            XcBuildConfiguration releaseConfiguration{"Release"};
+            const auto headerSearchPath = std::string(project.getOuzelPath() / "engine");
+            XcBuildConfiguration debugConfiguration{"Debug", "", headerSearchPath, "c++14"};
+            XcBuildConfiguration releaseConfiguration{"Release", "", headerSearchPath, "c++14"};
             XcConfigurationList projectConfigurationList{"Project",
                 std::vector<Id>{debugConfiguration.getId(), releaseConfiguration.getId()},
                 releaseConfiguration.getName()};
@@ -445,12 +452,10 @@ namespace ouzel
                 // TODO: do it for all platforms
                 if (platform == Platform::MacOs)
                 {
-                    const auto headerSearchPath = std::string(project.getOuzelPath() / "engine");
-
                     XcBuildConfiguration targetDebugConfiguration{"Debug",
-                        project.getName(), headerSearchPath};
+                        project.getName()};
                     XcBuildConfiguration targetReleaseConfiguration{"Release",
-                        project.getName(), headerSearchPath};
+                        project.getName()};
                     XcConfigurationList targetConfigurationList{"Target",
                         std::vector<Id>{targetDebugConfiguration.getId(), targetReleaseConfiguration.getId()},
                         targetReleaseConfiguration.getName()};
