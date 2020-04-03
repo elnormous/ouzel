@@ -97,17 +97,18 @@ namespace ouzel
         class PbxFileReference final: public PbxFileElement
         {
         public:
-            PbxFileReference(const storage::Path& p, PbxSourceTree tree):
-                PbxFileElement{"PBXFileReference", std::string{p}}, path{p}, sourceTree{tree} {}
+            PbxFileReference(const storage::Path& p,
+                             const std::string& type,
+                             PbxSourceTree tree):
+                PbxFileElement{"PBXFileReference", std::string{p}},
+                path{p},
+                fileType{type},
+                sourceTree{tree} {}
+
             const storage::Path& getPath() const noexcept { return path; }
 
             plist::Value getValue() const
             {
-                const auto extension = path.getExtension();
-                const std::string fileType = (sourceTree == PbxSourceTree::BuildProductsDir) ?
-                    "wrapper.application" :
-                    extension == "plist" ? "text.plist.xml" : "sourcecode.cpp." + extension;
-
                 return plist::Value::Dictionary{
                     {"isa", getIsa()},
                     {"explicitFileType", fileType},
@@ -119,6 +120,7 @@ namespace ouzel
 
         private:
             storage::Path path;
+            std::string fileType;
             PbxSourceTree sourceTree;
         };
 
@@ -405,7 +407,8 @@ namespace ouzel
             std::vector<Id> productFileIds;
             std::vector<PbxFileReference> fileReferences;
 
-            PbxFileReference productFile{storage::Path{project.getName() + ".app"},
+            PbxFileReference productFile{storage::Path{project.getName() + ".app",},
+                "wrapper.application",
                 PbxSourceTree::BuildProductsDir};
             productFileIds.push_back(productFile.getId());
 
@@ -414,10 +417,17 @@ namespace ouzel
 
             for (const auto& sourceFile : project.getSourceFiles())
             {
-                PbxFileReference fileReference{sourceFile, PbxSourceTree::Group};
+                const auto extension = sourceFile.getExtension();
+                const std::string fileType = extension == "plist" ?
+                    "text.plist.xml" :
+                    "sourcecode.cpp." + extension;
+
+                PbxFileReference fileReference{sourceFile, fileType,
+                    PbxSourceTree::Group};
                 sourceFileIds.push_back(fileReference.getId());
 
-                PbxBuildFile buildFile{fileReference.getName(), fileReference.getId()};
+                PbxBuildFile buildFile{fileReference.getName(),
+                    fileReference.getId()};
                 buildFileIds.push_back(buildFile.getId());
 
                 fileReferences.push_back(std::move(fileReference));
