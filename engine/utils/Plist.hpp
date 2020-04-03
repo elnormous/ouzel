@@ -278,32 +278,36 @@ namespace ouzel
                     return result;
                 }
 
-                static std::string& encode(const Value& value, std::string& result)
+                static std::string& encode(const Value& value, std::string& result, size_t level = 0)
                 {
                     switch (value.getType())
                     {
                         case Value::Type::Dictionary:
                         {
-                            result += '{';
+                            result += "{\n";
                             for (const auto& entry : value.as<Value::Dictionary>())
                             {
+                                result.insert(result.end(), level + 1, '\t');
                                 encode(entry.first, result);
-                                result += '=';
-                                encode(entry.second, result);
-                                result += ';';
+                                result += " = ";
+                                encode(entry.second, result, level + 1);
+                                result += ";\n";
                             }
-                            result += '}';
+                            result.insert(result.end(), level, '\t');
+                            result += "}";
                             break;
                         }
                         case Value::Type::Array:
                         {
-                            result += '(';
+                            result += "(\n";
                             for (const auto& child : value.as<Value::Array>())
                             {
-                                encode(child, result);
-                                result += ',';
+                                result.insert(result.end(), level + 1, '\t');
+                                encode(child, result, level + 1);
+                                result += ",\n";
                             }
-                            result += ')';
+                            result.insert(result.end(), level, '\t');
+                            result += ")";
                             break;
                         }
                         case Value::Type::String:

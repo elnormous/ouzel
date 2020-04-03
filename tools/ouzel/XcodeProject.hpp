@@ -356,6 +356,32 @@ namespace ouzel
             std::vector<Id> fileIds;
         };
 
+        class PbxFrameworksBuildPhase final: public PbxBuildPhase
+        {
+        public:
+            PbxFrameworksBuildPhase(const std::vector<Id>& files):
+                PbxBuildPhase{"PBXFrameworksBuildPhase"},
+                fileIds{files} {}
+
+            plist::Value getValue() const
+            {
+                auto result = plist::Value::Dictionary{
+                    {"isa", getIsa()},
+                    {"buildActionMask", 2147483647},
+                    {"files", plist::Value::Array{}},
+                    {"runOnlyForDeploymentPostprocessing", 0},
+                };
+
+                for (auto fileId : fileIds)
+                    result["files"].pushBack(toString(fileId));
+
+                return result;
+            }
+
+        private:
+            std::vector<Id> fileIds;
+        };
+
         class PbxTarget: public Object
         {
         public:
@@ -515,17 +541,20 @@ namespace ouzel
             output.addObject(libouzelMacOsProxy);
 
             PbxReferenceProxy libouzelMacOsReferenceProxy{"archive.ar",
-                "libouzel_ios.a", libouzelMacOsProxy.getId(),
+                "libouzel_macos.a", libouzelMacOsProxy.getId(),
                 PbxSourceTree::BuildProductsDir
             };
             output.addObject(libouzelMacOsReferenceProxy);
+
+            PbxBuildFile libouzelMacOsBuildFile{libouzelMacOsReferenceProxy.getId()};
+            output.addObject(libouzelMacOsBuildFile);
 
             PbxContainerItemProxy libouzelTvosProxy{ouzelProjectFileRef.getId(),
                 libouzelTvosId, "libouzel_tvos"};
             output.addObject(libouzelTvosProxy);
 
             PbxReferenceProxy libouzelTvosReferenceProxy{"archive.ar",
-                "libouzel_macos.a", libouzelTvosProxy.getId(),
+                "libouzel_tvos.a", libouzelTvosProxy.getId(),
                 PbxSourceTree::BuildProductsDir
             };
             output.addObject(libouzelTvosReferenceProxy);
@@ -539,6 +568,10 @@ namespace ouzel
                 PbxSourceTree::BuildProductsDir
             };
             output.addObject(ouzelReferenceProxy);
+
+            PbxGroup frameworksGroup{"Frameworks", storage::Path{},
+                {}, PbxSourceTree::Group};
+            output.addObject(frameworksGroup);
 
             PbxGroup ouzelPoductRefGroup{"Products", storage::Path{},
                 {libouzelIosReferenceProxy.getId(), libouzelMacOsReferenceProxy.getId(), libouzelTvosReferenceProxy.getId(), ouzelReferenceProxy.getId()},
@@ -580,7 +613,7 @@ namespace ouzel
             output.addObject(sourceGroup);
 
             PbxGroup mainGroup{"", storage::Path{},
-                {ouzelProjectFileRef.getId(), productRefGroup.getId(), sourceGroup.getId()},
+                {frameworksGroup.getId(), ouzelProjectFileRef.getId(), productRefGroup.getId(), sourceGroup.getId()},
                 PbxSourceTree::Group};
             output.addObject(mainGroup);
 
@@ -627,9 +660,12 @@ namespace ouzel
                     PbxSourcesBuildPhase sourcesBuildPhase{buildFileIds};
                     output.addObject(sourcesBuildPhase);
 
+                    PbxFrameworksBuildPhase frameworksBuildPhase{{libouzelMacOsBuildFile.getId()}};
+                    output.addObject(frameworksBuildPhase);
+
                     PbxNativeTarget nativeTarget{project.getName() + " macOS",
                         targetConfigurationList.getId(),
-                        {sourcesBuildPhase.getId()},
+                        {sourcesBuildPhase.getId(), frameworksBuildPhase.getId()},
                         productFile.getId()};
                     output.addObject(nativeTarget);
                     targetIds.push_back(nativeTarget.getId());
@@ -645,7 +681,6 @@ namespace ouzel
                 targetIds};
             output.addRootObject(pbxProject);
 
-            // TODO: frameworks buid phase (PBXFrameworksBuildPhase section)
             // TODO: resource build phases (PBXResourcesBuildPhase section)
 
             std::ofstream file(projectFile, std::ios::trunc);
