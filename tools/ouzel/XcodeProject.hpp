@@ -522,6 +522,12 @@ namespace ouzel
 
             Output output;
 
+            PbxFileReference quartzCoreRef{"QuartzCore.framework",
+                storage::Path{"System/Library/Frameworks/QuartzCore.framework"},
+                "wrapper.framework", PbxSourceTree::SdkRoot
+            };
+            output.addObject(quartzCoreRef);
+
             auto ouzelProjectPath = project.getOuzelPath() / "build" / "ouzel.xcodeproj";
             PbxFileReference ouzelProjectFileRef{"ouzel.xcodeproj", ouzelProjectPath,
                 "wrapper.pb-project", PbxSourceTree::Group};
@@ -567,7 +573,7 @@ namespace ouzel
             output.addObject(ouzelReferenceProxy);
 
             PbxGroup frameworksGroup{"Frameworks", storage::Path{},
-                {}, PbxSourceTree::Group};
+                {quartzCoreRef.getId()}, PbxSourceTree::Group};
             output.addObject(frameworksGroup);
 
             PbxGroup ouzelPoductRefGroup{"Products", storage::Path{},
@@ -657,10 +663,13 @@ namespace ouzel
                     PbxSourcesBuildPhase sourcesBuildPhase{buildFileIds};
                     output.addObject(sourcesBuildPhase);
 
+                    PbxBuildFile quartzCoreBuildFile{quartzCoreRef.getId()};
+                    output.addObject(quartzCoreBuildFile);
+
                     PbxBuildFile libouzelMacOsBuildFile{libouzelMacOsReferenceProxy.getId()};
                     output.addObject(libouzelMacOsBuildFile);
-                    
-                    PbxFrameworksBuildPhase frameworksBuildPhase{{libouzelMacOsBuildFile.getId()}};
+
+                    PbxFrameworksBuildPhase frameworksBuildPhase{{quartzCoreBuildFile.getId(), libouzelMacOsBuildFile.getId()}};
                     output.addObject(frameworksBuildPhase);
 
                     PbxNativeTarget nativeTarget{project.getName() + " macOS",
