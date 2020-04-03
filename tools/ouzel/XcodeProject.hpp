@@ -69,26 +69,22 @@ namespace ouzel
         class Object
         {
         public:
-            Object(const std::string& i,
-                   const std::string& n): isa{i}, name{n} {}
+            Object(const std::string& i): isa{i} {}
             virtual ~Object() = default;
 
             const Id& getId() const noexcept { return id; }
             const std::string& getIsa() const noexcept { return isa; }
-            const std::string& getName() const noexcept { return name; }
 
         private:
             Id id = generateId();
             std::string isa;
-            std::string name;
         };
 
         class PbxFileElement: public Object
         {
         public:
-            PbxFileElement(const std::string& i,
-                           const std::string& n):
-                Object{i, n} {}
+            PbxFileElement(const std::string& i):
+                Object{i} {}
         };
 
         enum class PbxSourceTree
@@ -117,10 +113,12 @@ namespace ouzel
         class PbxFileReference final: public PbxFileElement
         {
         public:
-            PbxFileReference(const storage::Path& p,
+            PbxFileReference(const std::string n,
+                             const storage::Path& p,
                              const std::string& type,
                              PbxSourceTree tree):
-                PbxFileElement{"PBXFileReference", std::string{p}},
+                PbxFileElement{"PBXFileReference"},
+                name{n},
                 path{p},
                 fileType{type},
                 sourceTree{tree} {}
@@ -129,16 +127,22 @@ namespace ouzel
 
             plist::Value getValue() const
             {
-                return plist::Value::Dictionary{
+                auto result = plist::Value::Dictionary{
                     {"isa", getIsa()},
                     {"explicitFileType", fileType},
                     {"includeInIndex", 0},
                     {"path", std::string(path)},
                     {"sourceTree", sourceTreeToString(sourceTree)}
                 };
+
+                if (!name.empty())
+                    result["name"] = name;
+
+                return result;
             }
 
         private:
+            std::string name;
             storage::Path path;
             std::string fileType;
             PbxSourceTree sourceTree;
@@ -147,8 +151,8 @@ namespace ouzel
         class PbxContainerItemProxy final: public Object
         {
         public:
-            PbxContainerItemProxy(const std::string& n):
-                Object{"PBXContainerItemProxy", n} {}
+            PbxContainerItemProxy():
+                Object{"PBXContainerItemProxy"} {}
 
             plist::Value getValue() const
             {
@@ -161,8 +165,8 @@ namespace ouzel
         class PbxReferenceProxy final: public Object
         {
         public:
-            PbxReferenceProxy(const std::string& n):
-                Object{"PBXReferenceProxy", n} {}
+            PbxReferenceProxy():
+                Object{"PBXReferenceProxy"} {}
 
             plist::Value getValue() const
             {
@@ -175,9 +179,8 @@ namespace ouzel
         class PbxBuildFile final: public Object
         {
         public:
-            PbxBuildFile(const std::string& n,
-                         const Id& fileRef):
-                Object{"PBXBuildFile", n}, fileRefId{fileRef} {}
+            PbxBuildFile(const Id& fileRef):
+                Object{"PBXBuildFile"}, fileRefId{fileRef} {}
 
             plist::Value getValue() const
             {
@@ -198,7 +201,8 @@ namespace ouzel
                      const storage::Path& p,
                      const std::vector<Id>& children,
                      PbxSourceTree tree):
-                PbxFileElement{"PBXGroup", n},
+                PbxFileElement{"PBXGroup"},
+                name{n},
                 path{p},
                 childIds{children},
                 sourceTree{tree} {}
@@ -213,8 +217,8 @@ namespace ouzel
 
                 if (!std::string(path).empty())
                     result["path"] = std::string(path);
-                else if (!getName().empty())
-                    result["name"] = getName();
+                else if (!name.empty())
+                    result["name"] = name;
 
                 for (auto childId : childIds)
                     result["children"].pushBack(toString(childId));
@@ -223,6 +227,7 @@ namespace ouzel
             }
 
         private:
+            std::string name;
             storage::Path path;
             std::vector<Id> childIds;
             PbxSourceTree sourceTree;
@@ -233,15 +238,18 @@ namespace ouzel
         public:
             XcBuildConfiguration(const std::string& n,
                                  const std::map<std::string, std::string>& settings):
-                Object{"XCBuildConfiguration", n},
+                Object{"XCBuildConfiguration"},
+                name{n},
                 buildSettings{settings} {}
+
+            const std::string& getName() const noexcept { return name; }
 
             plist::Value getValue() const
             {
                 auto result = plist::Value::Dictionary{
                     {"isa", getIsa()},
                     {"buildSettings", plist::Value::Dictionary{}},
-                    {"name", getName()}
+                    {"name", name}
                 };
 
                 for (const auto& buildSetting : buildSettings)
@@ -251,16 +259,16 @@ namespace ouzel
             }
 
         private:
+            std::string name;
             std::map<std::string, std::string> buildSettings;
         };
 
         class XcConfigurationList final: public Object
         {
         public:
-            XcConfigurationList(const std::string& n,
-                                const std::vector<Id>& configurations,
+            XcConfigurationList(const std::vector<Id>& configurations,
                                 const std::string& defaultConfiguration):
-                Object{"XCConfigurationList", n},
+                Object{"XCConfigurationList"},
                 configurationIds{configurations},
                 defaultConfigurationName{defaultConfiguration} {}
 
@@ -287,17 +295,15 @@ namespace ouzel
         class PbxBuildPhase: public Object
         {
         public:
-            PbxBuildPhase(const std::string& i,
-                          const std::string& n):
-                Object{i, n} {}
+            PbxBuildPhase(const std::string& i):
+                Object{i} {}
         };
 
         class PbxSourcesBuildPhase final: public PbxBuildPhase
         {
         public:
-            PbxSourcesBuildPhase(const std::string& n,
-                                 const std::vector<Id>& files):
-                PbxBuildPhase{"PBXSourcesBuildPhase", n},
+            PbxSourcesBuildPhase(const std::vector<Id>& files):
+                PbxBuildPhase{"PBXSourcesBuildPhase"},
                 fileIds{files} {}
 
             plist::Value getValue() const
@@ -322,9 +328,8 @@ namespace ouzel
         class PbxTarget: public Object
         {
         public:
-            PbxTarget(const std::string& i,
-                      const std::string& n):
-                Object{i, n} {}
+            PbxTarget(const std::string& i):
+                Object{i} {}
         };
 
         class PbxNativeTarget final: public PbxTarget
@@ -334,7 +339,8 @@ namespace ouzel
                             const Id& buildConfigurationList,
                             const std::vector<Id>& buildPhases,
                             const Id& productReference):
-                PbxTarget{"PBXNativeTarget", n},
+                PbxTarget{"PBXNativeTarget"},
+                name{n},
                 buildConfigurationListId{buildConfigurationList},
                 buildPhaseIds{buildPhases},
                 productReferenceId{productReference} {}
@@ -347,8 +353,8 @@ namespace ouzel
                     {"buildPhases", plist::Value::Array{}},
                     {"buildRules", plist::Value::Array{}},
                     {"dependencies", plist::Value::Array{}},
-                    {"name", getName()},
-                    {"productName", getName()},
+                    {"name", name},
+                    {"productName", name},
                     {"productReference", toString(productReferenceId)},
                     {"productType", "com.apple.product-type.application"}
                 };
@@ -360,6 +366,7 @@ namespace ouzel
             }
 
         private:
+            std::string name;
             Id buildConfigurationListId;
             std::vector<Id> buildPhaseIds;
             Id productReferenceId;
@@ -368,13 +375,12 @@ namespace ouzel
         class PbxProject final: public Object
         {
         public:
-            PbxProject(const std::string& n,
-                       const std::string& org,
+            PbxProject(const std::string& org,
                        const Id& buildConfigurationList,
                        const Id& mainGroup,
                        const Id& productRefGroup,
                        const std::vector<Id>& targets):
-                Object{"PBXProject", n},
+                Object{"PBXProject"},
                 organization{org},
                 buildConfigurationListId{buildConfigurationList},
                 mainGroupId(mainGroup),
@@ -439,17 +445,22 @@ namespace ouzel
 
             auto projectFile = projectDirectory / storage::Path{"project.pbxproj"};
 
-            std::vector<Id> sourceFileIds;
-            std::vector<Id> productFileIds;
-            std::vector<PbxFileReference> fileReferences;
+            auto ouzelProjectPath = project.getOuzelPath() / "build" / "ouzel.xcodeproj";
+            PbxFileReference ouzelProjectFile{"ouzel.xcodeproj", ouzelProjectPath,
+                "wrapper.pb-project", PbxSourceTree::Group};
 
-            PbxFileReference productFile{storage::Path{project.getName() + ".app",},
+            std::vector<Id> productFileIds;
+
+            PbxFileReference productFile{"", storage::Path{project.getName() + ".app",},
                 "wrapper.application",
                 PbxSourceTree::BuildProductsDir};
             productFileIds.push_back(productFile.getId());
 
             std::vector<Id> buildFileIds;
             std::vector<PbxBuildFile> buildFiles;
+
+            std::vector<Id> sourceFileIds;
+            std::vector<PbxFileReference> fileReferences;
 
             for (const auto& sourceFile : project.getSourceFiles())
             {
@@ -458,12 +469,11 @@ namespace ouzel
                     "text.plist.xml" :
                     "sourcecode.cpp." + extension;
 
-                PbxFileReference fileReference{sourceFile, fileType,
+                PbxFileReference fileReference{"", sourceFile, fileType,
                     PbxSourceTree::Group};
                 sourceFileIds.push_back(fileReference.getId());
 
-                PbxBuildFile buildFile{fileReference.getName(),
-                    fileReference.getId()};
+                PbxBuildFile buildFile{fileReference.getId()};
                 buildFileIds.push_back(buildFile.getId());
 
                 fileReferences.push_back(std::move(fileReference));
@@ -490,7 +500,7 @@ namespace ouzel
                 {"HEADER_SEARCH_PATHS", headerSearchPath},
                 {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"}
             }};
-            XcConfigurationList projectConfigurationList{"Project",
+            XcConfigurationList projectConfigurationList{
                 {debugConfiguration.getId(), releaseConfiguration.getId()},
                 releaseConfiguration.getName()};
 
@@ -510,11 +520,11 @@ namespace ouzel
                     XcBuildConfiguration targetReleaseConfiguration{"Release", {
                         {"PRODUCT_NAME", project.getName()}
                     }};
-                    XcConfigurationList targetConfigurationList{"Target",
+                    XcConfigurationList targetConfigurationList{
                         {targetDebugConfiguration.getId(), targetReleaseConfiguration.getId()},
                         targetReleaseConfiguration.getName()};
 
-                    PbxSourcesBuildPhase buildSourcesPhase{"Sources", buildFileIds};
+                    PbxSourcesBuildPhase buildSourcesPhase{buildFileIds};
 
                     PbxNativeTarget nativeTarget{project.getName() + " macOS",
                         targetConfigurationList.getId(),
@@ -530,8 +540,7 @@ namespace ouzel
                 }
             }
 
-            PbxProject pbxProject{"Project object",
-                project.getOrganization(),
+            PbxProject pbxProject{project.getOrganization(),
                 projectConfigurationList.getId(),
                 mainGroup.getId(),
                 productRefGroup.getId(),
@@ -545,7 +554,9 @@ namespace ouzel
                 std::move(mainGroup),
                 std::move(productRefGroup),
                 std::move(sourceGroup)};
+
             fileReferences.push_back(std::move(productFile));
+            fileReferences.push_back(std::move(ouzelProjectFile));
 
             plist::Value root = plist::Value::Dictionary{
                 {"archiveVersion", 1},
