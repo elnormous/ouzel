@@ -1,13 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\tools\ouzel\main.cpp" />
+    <ClCompile Include="..\tools\ouzel\main.cpp">
+      <Filter>ouzel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\tools\ouzel\MakefileProject.hpp" />
-    <ClInclude Include="..\tools\ouzel\OuzelProject.hpp" />
-    <ClInclude Include="..\tools\ouzel\Platform.hpp" />
-    <ClInclude Include="..\tools\ouzel\VisualStudioProject.hpp" />
-    <ClInclude Include="..\tools\ouzel\XcodeProject.hpp" />
+    <ClInclude Include="..\tools\ouzel\makefile\Project.hpp">
+      <Filter>ouzel\makefile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\OuzelProject.hpp">
+      <Filter>ouzel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\Platform.hpp">
+      <Filter>ouzel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\visualstudio\Project.hpp">
+      <Filter>ouzel\visualstudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\Project.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

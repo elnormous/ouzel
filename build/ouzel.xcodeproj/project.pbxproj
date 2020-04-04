@@ -887,9 +887,9 @@
 		303B76061C34A92B00FEDE92 /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
 		303B76071C34A92B00FEDE92 /* InputManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManager.hpp; sourceTree = "<group>"; };
 		303B76801C355A3B00FEDE92 /* libouzel_tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_tvos.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		30412797231174B40054E7ED /* VisualStudioProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VisualStudioProject.hpp; sourceTree = "<group>"; };
-		30412798231174C00054E7ED /* XcodeProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = XcodeProject.hpp; sourceTree = "<group>"; };
-		30412799231174CC0054E7ED /* MakefileProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MakefileProject.hpp; sourceTree = "<group>"; };
+		30412797231174B40054E7ED /* Project.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
+		30412798231174C00054E7ED /* Project.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
+		30412799231174CC0054E7ED /* Project.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
 		30419DDF1D162BCF00A63759 /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Audio.cpp; sourceTree = "<group>"; };
 		30419DE01D162BCF00A63759 /* Audio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Audio.hpp; sourceTree = "<group>"; };
 		30419DE71D162BDC00A63759 /* Voice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Voice.cpp; sourceTree = "<group>"; };
@@ -1176,11 +1176,11 @@
 			isa = PBXGroup;
 			children = (
 				3023201622220C70007E0AAD /* main.cpp */,
-				30412799231174CC0054E7ED /* MakefileProject.hpp */,
+				30B15F3F2438F36E0084915E /* makefile */,
 				30E2660724101F670098C124 /* OuzelProject.hpp */,
 				3077589D242B822100BFFF67 /* Platform.hpp */,
-				30412797231174B40054E7ED /* VisualStudioProject.hpp */,
-				30412798231174C00054E7ED /* XcodeProject.hpp */,
+				30B15F3E2438F2D30084915E /* visualstudio */,
+				30B15F3D2438EBD50084915E /* xcode */,
 			);
 			path = ouzel;
 			sourceTree = "<group>";
@@ -1798,6 +1798,30 @@
 				30A9C1301CAE80570084C4BF /* Localization.hpp */,
 			);
 			path = localization;
+			sourceTree = "<group>";
+		};
+		30B15F3D2438EBD50084915E /* xcode */ = {
+			isa = PBXGroup;
+			children = (
+				30412798231174C00054E7ED /* Project.hpp */,
+			);
+			path = xcode;
+			sourceTree = "<group>";
+		};
+		30B15F3E2438F2D30084915E /* visualstudio */ = {
+			isa = PBXGroup;
+			children = (
+				30412797231174B40054E7ED /* Project.hpp */,
+			);
+			path = visualstudio;
+			sourceTree = "<group>";
+		};
+		30B15F3F2438F36E0084915E /* makefile */ = {
+			isa = PBXGroup;
+			children = (
+				30412799231174CC0054E7ED /* Project.hpp */,
+			);
+			path = makefile;
 			sourceTree = "<group>";
 		};
 		C6C9101621B54AD600B5FCB7 /* mixer */ = {

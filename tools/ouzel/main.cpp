@@ -6,9 +6,9 @@
 #include <stdexcept>
 #include "storage/Path.hpp"
 #include "OuzelProject.hpp"
-#include "MakefileProject.hpp"
-#include "VisualStudioProject.hpp"
-#include "XcodeProject.hpp"
+#include "makefile/Project.hpp"
+#include "visualstudio/Project.hpp"
+#include "xcode/Project.hpp"
 
 enum class ProjectType
 {
@@ -100,13 +100,13 @@ int main(int argc, const char* argv[])
                     switch (projectType)
                     {
                         case ProjectType::Makefile:
-                            generateProject<ouzel::MakefileProject>(project);
+                            generateProject<ouzel::makefile::Project>(project);
                             break;
                         case ProjectType::VisualStudio:
-                            generateProject<ouzel::VisualStudioProject>(project);
+                            generateProject<ouzel::visualstudio::Project>(project);
                             break;
                         case ProjectType::Xcode:
-                            generateProject<ouzel::XcodeProject>(project);
+                            generateProject<ouzel::xcode::Project>(project);
                             break;
                     }
                 break;
