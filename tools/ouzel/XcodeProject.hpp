@@ -268,7 +268,7 @@ namespace ouzel
         {
         public:
             XcBuildConfiguration(const std::string& n,
-                                 const std::map<std::string, std::string>& settings):
+                                 const std::map<std::string, plist::Value>& settings):
                 Object{"XCBuildConfiguration"},
                 name{n},
                 buildSettings{settings} {}
@@ -291,7 +291,7 @@ namespace ouzel
 
         private:
             std::string name;
-            std::map<std::string, std::string> buildSettings;
+            std::map<std::string, plist::Value> buildSettings;
         };
 
         class XcConfigurationList final: public Object
@@ -622,14 +622,15 @@ namespace ouzel
 
             const auto headerSearchPath = std::string(project.getOuzelPath() / "engine");
             XcBuildConfiguration debugConfiguration{"Debug", {
-                {"HEADER_SEARCH_PATHS", headerSearchPath},
-                {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"}
+                {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
+                {"GCC_OPTIMIZATION_LEVEL", 0},
+                {"HEADER_SEARCH_PATHS", headerSearchPath}
             }};
             output.addObject(debugConfiguration);
 
             XcBuildConfiguration releaseConfiguration{"Release", {
-                {"HEADER_SEARCH_PATHS", headerSearchPath},
-                {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"}
+                {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
+                {"HEADER_SEARCH_PATHS", headerSearchPath}
             }};
             output.addObject(releaseConfiguration);
 
@@ -690,7 +691,8 @@ namespace ouzel
                 targetIds};
             output.addRootObject(pbxProject);
 
-            // TODO: resource build phases (PBXResourcesBuildPhase section)
+            // TODO: resource build phases (PBXResourcesBuildPhase)
+            // TODO: shell script (PBXShellScriptBuildPhase)
 
             std::ofstream file(projectFile, std::ios::trunc);
             file << output.encode();
