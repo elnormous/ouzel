@@ -258,7 +258,9 @@ namespace ouzel
                         for (auto c : s)
                             if ((c < 'a' || c > 'z') &&
                                 (c < 'A' || c > 'Z') &&
-                                (c < '0' || c > '9'))
+                                (c < '0' || c > '9') &&
+                                c != '_' && c != '$' && c != '/' &&
+                                c != ':' && c != '.' && c != '-')
                             {
                                 hasSpecialChars = true;
                                 break;
