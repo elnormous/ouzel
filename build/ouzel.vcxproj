@@ -157,7 +157,23 @@
     <ClInclude Include="..\tools\ouzel\OuzelProject.hpp" />
     <ClInclude Include="..\tools\ouzel\Platform.hpp" />
     <ClInclude Include="..\tools\ouzel\visualstudio\Project.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxBuildFile.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxBuildPhase.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxContainerItemProxy.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxFileElement.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxFileReference.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxFrameworksBuildPhase.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxGroup.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxNativeTarget.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxObject.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxProject.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxReferenceProxy.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxSourcesBuildPhase.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxSourceTree.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxTarget.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\Project.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\XcBuildConfiguration.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\XcConfigurationList.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

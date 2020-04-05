@@ -18,7 +18,55 @@
     <ClInclude Include="..\tools\ouzel\visualstudio\Project.hpp">
       <Filter>ouzel\visualstudio</Filter>
     </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxBuildFile.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxBuildPhase.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxContainerItemProxy.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxFileElement.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxFileReference.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxFrameworksBuildPhase.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxGroup.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxNativeTarget.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxObject.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxProject.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxReferenceProxy.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxSourcesBuildPhase.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxSourceTree.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PbxTarget.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
     <ClInclude Include="..\tools\ouzel\xcode\Project.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\XcBuildConfiguration.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\XcConfigurationList.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
   </ItemGroup>

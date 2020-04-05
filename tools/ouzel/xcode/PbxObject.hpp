@@ -1,0 +1,74 @@
+// Copyright 2015-2020 Elviss Strazdins. All rights reserved.
+
+#ifndef OUZEL_XCODE_PBXOBJECT_HPP
+#define OUZEL_XCODE_PBXOBJECT_HPP
+
+#include <array>
+#include <chrono>
+#include <random>
+#include <string>
+
+namespace ouzel
+{
+    namespace xcode
+    {
+        using Id = std::array<uint8_t, 12>;
+
+        inline std::string toString(const Id& i)
+        {
+            std::string result;
+            result.reserve(2 * i.size());
+            for (const auto b : i)
+            {
+                constexpr char digits[] = "0123456789ABCDEF";
+                result.push_back(digits[(b >> 4) & 0x0F]);
+                result.push_back(digits[(b >> 0) & 0x0F]);
+            }
+            return result;
+        }
+
+        class PbxObject
+        {
+        public:
+            PbxObject(const std::string& i): isa{i} {}
+            virtual ~PbxObject() = default;
+
+            const Id& getId() const noexcept { return id; }
+            const std::string& getIsa() const noexcept { return isa; }
+
+        private:
+            static Id generateId()
+            {
+                static std::random_device randomDevice;
+                static std::mt19937 randomEngine(randomDevice());
+                static uint32_t sequence = 0;
+                const auto s = sequence++;
+                const auto now = std::chrono::system_clock::now();
+                const auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
+                const uint32_t r = randomEngine();
+
+                return {
+                    0x10, // to avoid collisions with Ouzel targets
+                    static_cast<uint8_t>((s >> 16) & 0xFF),
+                    static_cast<uint8_t>((s >> 8) & 0xFF),
+                    static_cast<uint8_t>((s >> 0) & 0xFF),
+
+                    static_cast<uint8_t>((timestamp >> 24) & 0xFF),
+                    static_cast<uint8_t>((timestamp >> 16) & 0xFF),
+                    static_cast<uint8_t>((timestamp >> 8) & 0xFF),
+                    static_cast<uint8_t>((timestamp >> 0) & 0xFF),
+
+                    static_cast<uint8_t>((r >> 24) & 0xFF),
+                    static_cast<uint8_t>((r >> 16) & 0xFF),
+                    static_cast<uint8_t>((r >> 8) & 0xFF),
+                    static_cast<uint8_t>((r >> 0) & 0xFF)
+                };
+            }
+
+            Id id = generateId();
+            std::string isa;
+        };
+    }
+}
+
+#endif // OUZEL_XCODE_PBXOBJECT_HPP
