@@ -4,7 +4,7 @@
 #define OUZEL_XCODE_PBXCONTAINERITEMPROXY_HPP
 
 #include "PbxObject.hpp"
-#include "utils/Plist.hpp"
+#include "PbxFileReference.hpp"
 
 namespace ouzel
 {
@@ -13,23 +13,23 @@ namespace ouzel
         class PbxContainerItemProxy final: public PbxObject
         {
         public:
-            PbxContainerItemProxy(const Id& containerPortal,
+            PbxContainerItemProxy(const PbxFileReference& containerPortal,
                                   const Id& remote,
                                   const std::string& info):
-                PbxObject{"PBXContainerItemProxy"},
-                containerPortalId{containerPortal},
+                containerPortalId{containerPortal.getId()},
                 remoteGlobalId{remote},
                 remoteInfo{info} {}
 
-            plist::Value getValue() const
+            std::string getIsa() const override { return "PBXContainerItemProxy"; }
+
+            plist::Value encode() const override
             {
-                return plist::Value::Dictionary{
-                    {"isa", getIsa()},
-                    {"containerPortal", toString(containerPortalId)},
-                    {"proxyType", 2},
-                    {"remoteGlobalIDString", toString(remoteGlobalId)},
-                    {"remoteInfo", remoteInfo}
-                };
+                auto result = PbxObject::encode();
+                result["containerPortal"] = toString(containerPortalId);
+                result["proxyType"] = 2;
+                result["remoteGlobalIDString"] = toString(remoteGlobalId);
+                result["remoteInfo"] = remoteInfo;
+                return result;
             }
 
         private:

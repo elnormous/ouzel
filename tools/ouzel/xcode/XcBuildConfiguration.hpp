@@ -5,7 +5,6 @@
 
 #include <map>
 #include "PbxObject.hpp"
-#include "utils/Plist.hpp"
 
 namespace ouzel
 {
@@ -16,19 +15,18 @@ namespace ouzel
         public:
             XcBuildConfiguration(const std::string& n,
                                  const std::map<std::string, std::string>& settings):
-                PbxObject{"XCBuildConfiguration"},
                 name{n},
                 buildSettings{settings} {}
 
+            std::string getIsa() const override { return "XCBuildConfiguration"; }
+
             const std::string& getName() const noexcept { return name; }
 
-            plist::Value getValue() const
+            plist::Value encode() const override
             {
-                auto result = plist::Value::Dictionary{
-                    {"isa", getIsa()},
-                    {"buildSettings", plist::Value::Dictionary{}},
-                    {"name", name}
-                };
+                auto result = PbxObject::encode();
+                result["buildSettings"] = plist::Value::Dictionary{};
+                result["name"] = name;
 
                 for (const auto& buildSetting : buildSettings)
                     result["buildSettings"][buildSetting.first] = buildSetting.second;

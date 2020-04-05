@@ -5,7 +5,6 @@
 
 #include <vector>
 #include "PbxBuildPhase.hpp"
-#include "utils/Plist.hpp"
 
 namespace ouzel
 {
@@ -15,17 +14,16 @@ namespace ouzel
         {
         public:
             PbxFrameworksBuildPhase(const std::vector<Id>& files):
-                PbxBuildPhase{"PBXFrameworksBuildPhase"},
                 fileIds{files} {}
 
-            plist::Value getValue() const
+            std::string getIsa() const override { return "PBXFrameworksBuildPhase"; }
+
+            plist::Value encode() const override
             {
-                auto result = plist::Value::Dictionary{
-                    {"isa", getIsa()},
-                    {"buildActionMask", 2147483647},
-                    {"files", plist::Value::Array{}},
-                    {"runOnlyForDeploymentPostprocessing", 0},
-                };
+                auto result = PbxBuildPhase::encode();
+                result["buildActionMask"] = 2147483647;
+                result["files"] = plist::Value::Array{};
+                result["runOnlyForDeploymentPostprocessing"] = 0;
 
                 for (auto fileId : fileIds)
                     result["files"].pushBack(toString(fileId));

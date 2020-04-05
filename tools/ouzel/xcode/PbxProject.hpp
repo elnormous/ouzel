@@ -6,7 +6,8 @@
 #include <map>
 #include <vector>
 #include "PbxObject.hpp"
-#include "utils/Plist.hpp"
+#include "PbxGroup.hpp"
+#include "XcConfigurationList.hpp"
 
 namespace ouzel
 {
@@ -16,38 +17,38 @@ namespace ouzel
         {
         public:
             PbxProject(const std::string& org,
-                       const Id& buildConfigurationList,
-                       const Id& mainGroup,
-                       const Id& productRefGroup,
+                       const XcConfigurationList& buildConfigurationList,
+                       const PbxGroup& mainGroup,
+                       const PbxGroup& productRefGroup,
                        const std::map<std::string, Id>& references,
                        const std::vector<Id>& targets):
-                PbxObject{"PBXProject"},
                 organization{org},
-                buildConfigurationListId{buildConfigurationList},
-                mainGroupId(mainGroup),
-                productRefGroupId(productRefGroup),
+                buildConfigurationListId{buildConfigurationList.getId()},
+                mainGroupId(mainGroup.getId()),
+                productRefGroupId(productRefGroup.getId()),
                 projectReferences{references},
                 targetIds{targets} {}
 
-            plist::Value getValue() const
+            std::string getIsa() const override { return "PBXProject"; }
+
+            plist::Value encode() const override
             {
-                auto result = plist::Value::Dictionary{
-                    {"isa", getIsa()},
-                    {"attributes", plist::Value::Dictionary{
-                        {"LastUpgradeCheck", "0800"},
-                        {"ORGANIZATIONNAME", organization}
-                    }},
-                    {"buildConfigurationList", toString(buildConfigurationListId)},
-                    {"compatibilityVersion", "Xcode 9.3"},
-                    {"developmentRegion", "en"},
-                    {"hasScannedForEncodings", 0},
-                    {"knownRegions", plist::Value::Array{"en", "Base"}},
-                    {"mainGroup", toString(mainGroupId)},
-                    {"productRefGroup", toString(productRefGroupId)},
-                    {"projectDirPath", ""},
-                    {"projectRoot", ""},
-                    {"targets", plist::Value::Array{}}
+                auto result = PbxObject::encode();
+
+                result["attributes"] = plist::Value::Dictionary{
+                    {"LastUpgradeCheck", "0800"},
+                    {"ORGANIZATIONNAME", organization}
                 };
+                result["buildConfigurationList"] = toString(buildConfigurationListId);
+                result["compatibilityVersion"] = "Xcode 9.3";
+                result["developmentRegion"] = "en";
+                result["hasScannedForEncodings"] = 0;
+                result["knownRegions"] = plist::Value::Array{"en", "Base"};
+                result["mainGroup"] = toString(mainGroupId);
+                result["productRefGroup"] = toString(productRefGroupId);
+                result["projectDirPath"] = "";
+                result["projectRoot"] = "";
+                result["targets"] = plist::Value::Array{};
 
                 if (!projectReferences.empty())
                 {

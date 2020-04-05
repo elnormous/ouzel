@@ -7,7 +7,6 @@
 #include "PbxObject.hpp"
 #include "PbxSourceTree.hpp"
 #include "storage/Path.hpp"
-#include "utils/Plist.hpp"
 
 namespace ouzel
 {
@@ -20,19 +19,18 @@ namespace ouzel
                      const storage::Path& p,
                      const std::vector<Id>& children,
                      PbxSourceTree tree):
-                PbxFileElement{"PBXGroup"},
                 name{n},
                 path{p},
                 childIds{children},
                 sourceTree{tree} {}
 
-            plist::Value getValue() const
+            std::string getIsa() const override { return "PBXGroup"; }
+
+            plist::Value encode() const override
             {
-                auto result = plist::Value::Dictionary{
-                    {"isa", getIsa()},
-                    {"children", plist::Value::Array{}},
-                    {"sourceTree", toString(sourceTree)}
-                };
+                auto result = PbxFileElement::encode();
+                result["children"] = plist::Value::Array{};
+                result["sourceTree"] = toString(sourceTree);
 
                 if (!std::string(path).empty())
                     result["path"] = std::string(path);

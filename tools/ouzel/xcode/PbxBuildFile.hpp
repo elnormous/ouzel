@@ -4,7 +4,7 @@
 #define OUZEL_XCODE_PBXBUILDFILE_HPP
 
 #include "PbxObject.hpp"
-#include "utils/Plist.hpp"
+#include "PbxFileReference.hpp"
 
 namespace ouzel
 {
@@ -13,15 +13,16 @@ namespace ouzel
         class PbxBuildFile final: public PbxObject
         {
         public:
-            PbxBuildFile(const Id& fileRef):
-                PbxObject{"PBXBuildFile"}, fileRefId{fileRef} {}
+            PbxBuildFile(const PbxFileReference& fileRef):
+                fileRefId{fileRef.getId()} {}
 
-            plist::Value getValue() const
+            std::string getIsa() const override { return "PBXBuildFile"; }
+
+            plist::Value encode() const override
             {
-                return plist::Value::Dictionary{
-                    {"isa", getIsa()},
-                    {"fileRef", toString(fileRefId)}
-                };
+                auto result = PbxObject::encode();
+                result["fileRef"] = toString(fileRefId);
+                return result;
             }
 
         private:

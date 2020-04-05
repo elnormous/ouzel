@@ -7,6 +7,7 @@
 #include <chrono>
 #include <random>
 #include <string>
+#include "utils/Plist.hpp"
 
 namespace ouzel
 {
@@ -30,11 +31,18 @@ namespace ouzel
         class PbxObject
         {
         public:
-            PbxObject(const std::string& i): isa{i} {}
+            PbxObject() = default;
             virtual ~PbxObject() = default;
 
+            virtual std::string getIsa() const { return "PBXObject"; }
             const Id& getId() const noexcept { return id; }
-            const std::string& getIsa() const noexcept { return isa; }
+
+            virtual plist::Value encode() const
+            {
+                return plist::Value::Dictionary{
+                    {"isa", getIsa()}
+                };
+            }
 
         private:
             static Id generateId()
@@ -66,7 +74,6 @@ namespace ouzel
             }
 
             Id id = generateId();
-            std::string isa;
         };
     }
 }

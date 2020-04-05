@@ -63,43 +63,47 @@ namespace ouzel
                 PbxFileReference ouzelProjectFileRef{"ouzel.xcodeproj", ouzelProjectPath,
                     "wrapper.pb-project", PbxSourceTree::Group};
                 output.addObject(ouzelProjectFileRef);
-                PbxContainerItemProxy libouzelIosProxy{ouzelProjectFileRef.getId(),
+                PbxContainerItemProxy libouzelIosProxy{ouzelProjectFileRef,
                     libouzelIosId, "libouzel_ios"};
                 output.addObject(libouzelIosProxy);
 
-                PbxReferenceProxy libouzelIosReferenceProxy{"archive.ar",
-                    "libouzel_ios.a", libouzelIosProxy.getId(),
-                    PbxSourceTree::BuildProductsDir
+                PbxReferenceProxy libouzelIosReferenceProxy{"", "libouzel_ios.a",
+                    "archive.ar",
+                    PbxSourceTree::BuildProductsDir,
+                    libouzelIosProxy
                 };
                 output.addObject(libouzelIosReferenceProxy);
 
-                PbxContainerItemProxy libouzelMacOsProxy{ouzelProjectFileRef.getId(),
+                PbxContainerItemProxy libouzelMacOsProxy{ouzelProjectFileRef,
                     libouzelMacOsId, "libouzel_macos"};
                 output.addObject(libouzelMacOsProxy);
 
-                PbxReferenceProxy libouzelMacOsReferenceProxy{"archive.ar",
-                    "libouzel_macos.a", libouzelMacOsProxy.getId(),
-                    PbxSourceTree::BuildProductsDir
+                PbxReferenceProxy libouzelMacOsReferenceProxy{"", "libouzel_macos.a",
+                    "archive.ar",
+                    PbxSourceTree::BuildProductsDir,
+                    libouzelMacOsProxy
                 };
                 output.addObject(libouzelMacOsReferenceProxy);
 
-                PbxContainerItemProxy libouzelTvosProxy{ouzelProjectFileRef.getId(),
+                PbxContainerItemProxy libouzelTvosProxy{ouzelProjectFileRef,
                     libouzelTvosId, "libouzel_tvos"};
                 output.addObject(libouzelTvosProxy);
 
-                PbxReferenceProxy libouzelTvosReferenceProxy{"archive.ar",
-                    "libouzel_tvos.a", libouzelTvosProxy.getId(),
-                    PbxSourceTree::BuildProductsDir
+                PbxReferenceProxy libouzelTvosReferenceProxy{"", "libouzel_tvos.a",
+                    "archive.ar",
+                    PbxSourceTree::BuildProductsDir,
+                    libouzelTvosProxy
                 };
                 output.addObject(libouzelTvosReferenceProxy);
 
-                PbxContainerItemProxy ouzelProxy{ouzelProjectFileRef.getId(),
+                PbxContainerItemProxy ouzelProxy{ouzelProjectFileRef,
                     ouzelId, "ouzel"};
                 output.addObject(ouzelProxy);
 
-                PbxReferenceProxy ouzelReferenceProxy{"compiled.mach-o.executable",
-                    "ouzel", ouzelProxy.getId(),
-                    PbxSourceTree::BuildProductsDir
+                PbxReferenceProxy ouzelReferenceProxy{"", "ouzel",
+                    "compiled.mach-o.executable",
+                    PbxSourceTree::BuildProductsDir,
+                    ouzelProxy
                 };
                 output.addObject(ouzelReferenceProxy);
 
@@ -114,7 +118,7 @@ namespace ouzel
 
                 std::vector<Id> productFileIds;
 
-                PbxFileReference productFile{"", storage::Path{project.getName() + ".app",},
+                PbxFileReference productFile{"", storage::Path{project.getName() + ".app"},
                     "wrapper.application",
                     PbxSourceTree::BuildProductsDir};
                 output.addObject(productFile);
@@ -137,7 +141,7 @@ namespace ouzel
                     output.addObject(fileReference);
                     sourceFileIds.push_back(fileReference.getId());
 
-                    PbxBuildFile buildFile{fileReference.getId()};
+                    PbxBuildFile buildFile{fileReference};
                     output.addObject(buildFile);
                     buildFileIds.push_back(buildFile.getId());
                 }
@@ -195,28 +199,28 @@ namespace ouzel
                         PbxSourcesBuildPhase sourcesBuildPhase{buildFileIds};
                         output.addObject(sourcesBuildPhase);
 
-                        PbxBuildFile quartzCoreBuildFile{quartzCoreRef.getId()};
+                        PbxBuildFile quartzCoreBuildFile{quartzCoreRef};
                         output.addObject(quartzCoreBuildFile);
 
-                        PbxBuildFile libouzelMacOsBuildFile{libouzelMacOsReferenceProxy.getId()};
+                        PbxBuildFile libouzelMacOsBuildFile{libouzelMacOsReferenceProxy};
                         output.addObject(libouzelMacOsBuildFile);
 
                         PbxFrameworksBuildPhase frameworksBuildPhase{{quartzCoreBuildFile.getId(), libouzelMacOsBuildFile.getId()}};
                         output.addObject(frameworksBuildPhase);
 
                         PbxNativeTarget nativeTarget{project.getName() + " macOS",
-                            targetConfigurationList.getId(),
+                            targetConfigurationList,
                             {sourcesBuildPhase.getId(), frameworksBuildPhase.getId()},
-                            productFile.getId()};
+                            productFile};
                         output.addObject(nativeTarget);
                         targetIds.push_back(nativeTarget.getId());
                     }
                 }
 
                 PbxProject pbxProject{project.getOrganization(),
-                    projectConfigurationList.getId(),
-                    mainGroup.getId(),
-                    productRefGroup.getId(),
+                    projectConfigurationList,
+                    mainGroup,
+                    productRefGroup,
                     {{"ProductGroup", ouzelPoductRefGroup.getId()},
                      {"ProjectRef", ouzelProjectFileRef.getId()}},
                     targetIds};
@@ -233,16 +237,14 @@ namespace ouzel
             class Output final
             {
             public:
-                template <class T>
-                void addObject(const T& object)
+                void addObject(const PbxObject& object)
                 {
-                    root["objects"][toString(object.getId())] = object.getValue();
+                    root["objects"][toString(object.getId())] = object.encode();
                 }
 
-                template <class T>
-                void addRootObject(const T& object)
+                void addRootObject(const PbxObject& object)
                 {
-                    root["objects"][toString(object.getId())] = object.getValue();
+                    root["objects"][toString(object.getId())] = object.encode();
                     root["rootObject"] = toString(object.getId());
                 }
 

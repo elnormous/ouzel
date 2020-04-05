@@ -3,44 +3,38 @@
 #ifndef OUZEL_XCODE_PBXREFERENCEPROXY_HPP
 #define OUZEL_XCODE_PBXREFERENCEPROXY_HPP
 
-#include "PbxObject.hpp"
+#include "PbxFileReference.hpp"
+#include "PbxContainerItemProxy.hpp"
 #include "PbxSourceTree.hpp"
 #include "storage/Path.hpp"
-#include "utils/Plist.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxReferenceProxy final: public PbxObject
+        class PbxReferenceProxy final: public PbxFileReference
         {
         public:
-            PbxReferenceProxy(const std::string& type,
+            PbxReferenceProxy(const std::string n,
                               const storage::Path& p,
-                              const Id& remoteRef,
-                              PbxSourceTree tree):
-                PbxObject{"PBXReferenceProxy"},
-                fileType{type},
-                path{p},
-                remoteRefId{remoteRef},
-                sourceTree{tree} {}
+                              const std::string& type,
+                              PbxSourceTree tree,
+                              const PbxContainerItemProxy& remoteRef):
+                PbxFileReference{n, p, type, tree},
+                remoteRefId{remoteRef.getId()}
+                {}
 
-            plist::Value getValue() const
+            std::string getIsa() const override { return "PBXReferenceProxy"; }
+
+            plist::Value encode() const override
             {
-                return plist::Value::Dictionary{
-                    {"isa", getIsa()},
-                    {"fileType", fileType},
-                    {"path", std::string{path}},
-                    {"remoteRef", toString(remoteRefId)},
-                    {"sourceTree", toString(sourceTree)}
-                };
+                auto result = PbxFileReference::encode();
+                result["remoteRef"] = toString(remoteRefId);
+                return result;
             }
 
         private:
-            std::string fileType;
-            storage::Path path;
             const Id& remoteRefId;
-            PbxSourceTree sourceTree;
         };
     }
 }

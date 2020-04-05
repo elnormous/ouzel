@@ -12,7 +12,9 @@ namespace ouzel
         class PbxFileElement: public PbxObject
         {
         public:
-            PbxFileElement(const std::string& i): PbxObject{i} {}
+            PbxFileElement() = default;
+
+            std::string getIsa() const override { return "PBXFileElement"; }
         };
     }
 }

@@ -12,7 +12,9 @@ namespace ouzel
         class PbxBuildPhase: public PbxObject
         {
         public:
-            PbxBuildPhase(const std::string& i): PbxObject{i} {}
+            PbxBuildPhase() = default;
+
+            std::string getIsa() const override { return "PBXBuildPhase"; }
         };
     }
 }

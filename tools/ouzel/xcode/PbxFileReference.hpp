@@ -6,40 +6,35 @@
 #include "PbxFileElement.hpp"
 #include "PbxSourceTree.hpp"
 #include "storage/Path.hpp"
-#include "utils/Plist.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxFileReference final: public PbxFileElement
+        class PbxFileReference: public PbxFileElement
         {
         public:
             PbxFileReference(const std::string n,
                              const storage::Path& p,
                              const std::string& type,
                              PbxSourceTree tree):
-                PbxFileElement{"PBXFileReference"},
                 name{n},
                 path{p},
                 fileType{type},
                 sourceTree{tree} {}
 
+            std::string getIsa() const override { return "PBXFileReference"; }
+
             const storage::Path& getPath() const noexcept { return path; }
 
-            plist::Value getValue() const
+            plist::Value encode() const override
             {
-                auto result = plist::Value::Dictionary{
-                    {"isa", getIsa()},
-                    {"explicitFileType", fileType},
-                    {"includeInIndex", 0},
-                    {"path", std::string(path)},
-                    {"sourceTree", toString(sourceTree)}
-                };
-
-                if (!name.empty())
-                    result["name"] = name;
-
+                auto result = PbxFileElement::encode();
+                result["explicitFileType"] = fileType;
+                result["includeInIndex"] = 0;
+                result["path"] = std::string(path);
+                result["sourceTree"] = toString(sourceTree);
+                if (!name.empty()) result["name"] = name;
                 return result;
             }
 

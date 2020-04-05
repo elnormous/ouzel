@@ -5,7 +5,8 @@
 
 #include <vector>
 #include "PbxTarget.hpp"
-#include "utils/Plist.hpp"
+#include "PbxFileReference.hpp"
+#include "XcConfigurationList.hpp"
 
 namespace ouzel
 {
@@ -15,28 +16,27 @@ namespace ouzel
         {
         public:
             PbxNativeTarget(const std::string& n,
-                            const Id& buildConfigurationList,
+                            const XcConfigurationList& buildConfigurationList,
                             const std::vector<Id>& buildPhases,
-                            const Id& productReference):
-                PbxTarget{"PBXNativeTarget"},
+                            const PbxFileReference& productReference):
                 name{n},
-                buildConfigurationListId{buildConfigurationList},
+                buildConfigurationListId{buildConfigurationList.getId()},
                 buildPhaseIds{buildPhases},
-                productReferenceId{productReference} {}
+                productReferenceId{productReference.getId()} {}
 
-            plist::Value getValue() const
+            std::string getIsa() const override { return "PBXNativeTarget"; }
+
+            plist::Value encode() const override
             {
-                auto result = plist::Value::Dictionary{
-                    {"isa", getIsa()},
-                    {"buildConfigurationList", toString(buildConfigurationListId)},
-                    {"buildPhases", plist::Value::Array{}},
-                    {"buildRules", plist::Value::Array{}},
-                    {"dependencies", plist::Value::Array{}},
-                    {"name", name},
-                    {"productName", name},
-                    {"productReference", toString(productReferenceId)},
-                    {"productType", "com.apple.product-type.application"}
-                };
+                auto result = PbxTarget::encode();
+                result["buildConfigurationList"] = toString(buildConfigurationListId);
+                result["buildPhases"] = plist::Value::Array{};
+                result["buildRules"] = plist::Value::Array{};
+                result["dependencies"] = plist::Value::Array{};
+                result["name"] = name;
+                result["productName"] = name;
+                result["productReference"] = toString(productReferenceId);
+                result["productType"] = "com.apple.product-type.application";
 
                 for (auto buildPhaseId : buildPhaseIds)
                     result["buildPhases"].pushBack(toString(buildPhaseId));

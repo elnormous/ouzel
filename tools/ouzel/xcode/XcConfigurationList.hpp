@@ -5,7 +5,6 @@
 
 #include <vector>
 #include "PbxObject.hpp"
-#include "utils/Plist.hpp"
 
 namespace ouzel
 {
@@ -16,18 +15,17 @@ namespace ouzel
         public:
             XcConfigurationList(const std::vector<Id>& configurations,
                                 const std::string& defaultConfiguration):
-                PbxObject{"XCConfigurationList"},
                 configurationIds{configurations},
                 defaultConfigurationName{defaultConfiguration} {}
 
-            plist::Value getValue() const
+            std::string getIsa() const override { return "XCConfigurationList"; }
+
+            plist::Value encode() const override
             {
-                auto result = plist::Value::Dictionary{
-                    {"isa", getIsa()},
-                    {"buildConfigurations", plist::Value::Array{}},
-                    {"defaultConfigurationIsVisible", 0},
-                    {"defaultConfigurationName", defaultConfigurationName},
-                };
+                auto result = PbxObject::encode();
+                result["buildConfigurations"] = plist::Value::Array{};
+                result["defaultConfigurationIsVisible"] = 0;
+                result["defaultConfigurationName"] = defaultConfigurationName;
 
                 for (auto configurationId : configurationIds)
                     result["buildConfigurations"].pushBack(toString(configurationId));
