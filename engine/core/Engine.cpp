@@ -128,7 +128,8 @@ namespace ouzel
         bool highDpi = true; // should high DPI resolution be used
         bool debugAudio = false;
 
-        defaultSettings = ini::Data(fileSystem.readFile("settings.ini"));
+        if (fileSystem.fileExists("settings.ini"))
+            defaultSettings = ini::Data(fileSystem.readFile("settings.ini"));
 
         auto settingsPath = fileSystem.getStorageDirectory() + storage::Path::directorySeparator + "settings.ini";
         if (fileSystem.fileExists(settingsPath))
