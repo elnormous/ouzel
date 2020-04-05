@@ -205,7 +205,7 @@ namespace ouzel
                 if ((in = open(from.getNative().c_str(), O_RDONLY)) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to open file");
 
-                const int mode = O_CREAT | O_WRONLY | O_TRUNC | (!overwrite ? O_EXCL : 0);
+                const int mode = O_CREAT | O_WRONLY | O_TRUNC | (overwrite ? 0 : O_EXCL);
 
                 struct stat s;
                 if (fstat(in, &s) == -1)
@@ -238,7 +238,7 @@ namespace ouzel
 #endif
             }
 
-            static void moveFile(const Path& from, const Path& to, bool overwrite = false)
+            static void moveFile(const Path& from, const Path& to)
             {
 #if defined(_WIN32)
                 if (!MoveFileExW(from.getNative().c_str(), to.getNative().c_str(), MOVEFILE_REPLACE_EXISTING))
