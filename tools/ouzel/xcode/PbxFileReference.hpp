@@ -4,6 +4,7 @@
 #define OUZEL_XCODE_PBXFILEREFERENCE_HPP
 
 #include "PbxFileElement.hpp"
+#include "PbxFileType.hpp"
 #include "PbxSourceTree.hpp"
 #include "storage/Path.hpp"
 
@@ -16,7 +17,7 @@ namespace ouzel
         public:
             PbxFileReference(const std::string initName,
                              const storage::Path& initPath,
-                             const std::string& initFileType,
+                             const PbxFileType& initFileType,
                              PbxSourceTree initSourceTree):
                 name{initName},
                 path{initPath},
@@ -30,7 +31,7 @@ namespace ouzel
             plist::Value encode() const override
             {
                 auto result = PbxFileElement::encode();
-                result["explicitFileType"] = fileType;
+                result["explicitFileType"] = toString(fileType);
                 result["includeInIndex"] = 0;
                 result["path"] = std::string(path);
                 result["sourceTree"] = toString(sourceTree);
@@ -41,7 +42,7 @@ namespace ouzel
         private:
             std::string name;
             storage::Path path;
-            std::string fileType;
+            PbxFileType fileType;
             PbxSourceTree sourceTree;
         };
 

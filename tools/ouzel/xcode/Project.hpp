@@ -71,7 +71,8 @@ namespace ouzel
                 {
                     const auto& frameworkFileReference = create<PbxFileReference>(framework,
                                                                                   frameworksPath / framework,
-                                                                                  "wrapper.framework", PbxSourceTree::SdkRoot);
+                                                                                  PbxFileType::WrapperFramework,
+                                                                                  PbxSourceTree::SdkRoot);
 
                     frameworkFileReferences.push_back(frameworkFileReference);
                     frameworkFiles.push_back(frameworkFileReference);
@@ -79,12 +80,13 @@ namespace ouzel
 
                 const auto ouzelProjectPath = project.getOuzelPath() / "build" / "ouzel.xcodeproj";
                 const auto& ouzelProjectFileRef = create<PbxFileReference>("ouzel.xcodeproj", ouzelProjectPath,
-                                                                           "wrapper.pb-project", PbxSourceTree::Group);
+                                                                           PbxFileType::WrapperPBProject,
+                                                                           PbxSourceTree::Group);
                 const auto& libouzelIosProxy = create<PbxContainerItemProxy>(ouzelProjectFileRef,
                                                                              libouzelIosId, "libouzel_ios");
 
                 const auto& libouzelIosReferenceProxy = create<PbxReferenceProxy>("", "libouzel_ios.a",
-                                                                                  "archive.ar",
+                                                                                  PbxFileType::ArchiveAr,
                                                                                   PbxSourceTree::BuildProductsDir,
                                                                                   libouzelIosProxy);
 
@@ -92,7 +94,7 @@ namespace ouzel
                                                                                libouzelMacOsId, "libouzel_macos");
 
                 const auto& libouzelMacOsReferenceProxy = create<PbxReferenceProxy>("", "libouzel_macos.a",
-                                                                                    "archive.ar",
+                                                                                    PbxFileType::ArchiveAr,
                                                                                     PbxSourceTree::BuildProductsDir,
                                                                                     libouzelMacOsProxy);
 
@@ -100,7 +102,7 @@ namespace ouzel
                                                                               libouzelTvosId, "libouzel_tvos");
 
                 const auto& libouzelTvosReferenceProxy = create<PbxReferenceProxy>("", "libouzel_tvos.a",
-                                                                                   "archive.ar",
+                                                                                   PbxFileType::ArchiveAr,
                                                                                    PbxSourceTree::BuildProductsDir,
                                                                                    libouzelTvosProxy);
 
@@ -108,7 +110,7 @@ namespace ouzel
                                                                        ouzelId, "ouzel");
 
                 const auto& ouzelReferenceProxy = create<PbxReferenceProxy>("", "ouzel",
-                                                                            "compiled.mach-o.executable",
+                                                                            PbxFileType::CompiledMachOExecutable,
                                                                             PbxSourceTree::BuildProductsDir,
                                                                             ouzelProxy);
 
@@ -125,7 +127,7 @@ namespace ouzel
                                                                    PbxSourceTree::Group);
 
                 const auto& productFile = create<PbxFileReference>("", storage::Path{project.getName() + ".app"},
-                                                                   "wrapper.application",
+                                                                   PbxFileType::WrapperApplication,
                                                                    PbxSourceTree::BuildProductsDir);
 
                 const auto& productRefGroup = create<PbxGroup>("Products", storage::Path{},
@@ -138,9 +140,12 @@ namespace ouzel
                 for (const auto& sourceFile : project.getSourceFiles())
                 {
                     const auto extension = sourceFile.getExtension();
-                    const std::string fileType = extension == "plist" ?
-                        "text.plist.xml" :
-                        "sourcecode.cpp." + extension;
+                    const auto fileType = extension == "plist" ? PbxFileType::TextPlistXml :
+                        extension == "c" ? PbxFileType::SourcecodeC :
+                        extension == "h" ? PbxFileType::SourcecodeCH :
+                        extension == "cpp" ? PbxFileType::SourcecodeCppCpp :
+                        extension == "hpp" ? PbxFileType::SourcecodeCppH :
+                        throw std::runtime_error("Unsupported file type");
 
                     const auto& fileReference = create<PbxFileReference>("", sourceFile, fileType, PbxSourceTree::Group);
                     sourceFiles.push_back(fileReference);

@@ -1057,6 +1057,7 @@
 		30B15F4E24395D710084915E /* PbxTarget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PbxTarget.hpp; sourceTree = "<group>"; };
 		30B15F4F24395D7E0084915E /* PbxNativeTarget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PbxNativeTarget.hpp; sourceTree = "<group>"; };
 		30B15F5024395D8B0084915E /* PbxProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PbxProject.hpp; sourceTree = "<group>"; };
+		30B15F5E243A95440084915E /* PbxFileType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PbxFileType.hpp; sourceTree = "<group>"; };
 		30B40E0022F8FC0C0056CD1A /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
 		30B8598A1F3D286600A16952 /* TTFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTFont.cpp; sourceTree = "<group>"; };
 		30B8598B1F3D286600A16952 /* TTFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TTFont.hpp; sourceTree = "<group>"; };
@@ -1824,6 +1825,7 @@
 				30B15F4524395C1E0084915E /* PbxContainerItemProxy.hpp */,
 				30B15F4224395AE30084915E /* PbxFileElement.hpp */,
 				30B15F4324395B470084915E /* PbxFileReference.hpp */,
+				30B15F5E243A95440084915E /* PbxFileType.hpp */,
 				30B15F4D24395D640084915E /* PbxFrameworksBuildPhase.hpp */,
 				30B15F4824395D230084915E /* PbxGroup.hpp */,
 				30B15F4F24395D7E0084915E /* PbxNativeTarget.hpp */,

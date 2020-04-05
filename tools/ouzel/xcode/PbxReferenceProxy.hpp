@@ -17,7 +17,7 @@ namespace ouzel
         public:
             PbxReferenceProxy(const std::string initName,
                               const storage::Path& initPath,
-                              const std::string& initFileType,
+                              const PbxFileType& initFileType,
                               PbxSourceTree initSourceTree,
                               const PbxContainerItemProxy& initRemoteRef):
                 PbxFileReference{initName, initPath, initFileType, initSourceTree},

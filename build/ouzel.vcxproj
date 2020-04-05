@@ -162,6 +162,7 @@
     <ClInclude Include="..\tools\ouzel\xcode\PbxContainerItemProxy.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PbxFileElement.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PbxFileReference.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PbxFileType.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PbxFrameworksBuildPhase.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PbxGroup.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PbxNativeTarget.hpp" />
