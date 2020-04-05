@@ -18,7 +18,7 @@ namespace ouzel
         public:
             PBXNativeTarget(const std::string& initName,
                             const XCConfigurationList& initBuildConfigurationList,
-                            const std::vector<PbxBuildPhaseRef>& initBuildPhases,
+                            const std::vector<PBXBuildPhaseRef>& initBuildPhases,
                             const PBXFileReference& initProductReference):
                 name{initName},
                 buildConfigurationList{initBuildConfigurationList},
@@ -48,7 +48,7 @@ namespace ouzel
         private:
             std::string name;
             const XCConfigurationList& buildConfigurationList;
-            std::vector<PbxBuildPhaseRef> buildPhases;
+            std::vector<PBXBuildPhaseRef> buildPhases;
             const PBXFileReference& productReference;
         };
     }

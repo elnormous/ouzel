@@ -54,6 +54,9 @@
     <ClInclude Include="..\tools\ouzel\xcode\PBXReferenceProxy.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PBXResourcesBuildPhase.hpp">
+      <Filter>ouzel\xcode</Filter>
+    </ClInclude>
     <ClInclude Include="..\tools\ouzel\xcode\PBXSourcesBuildPhase.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>

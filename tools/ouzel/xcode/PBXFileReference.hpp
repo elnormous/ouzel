@@ -46,7 +46,7 @@ namespace ouzel
             PBXSourceTree sourceTree;
         };
 
-        using PbxFileReferenceRef = std::reference_wrapper<const PBXFileReference>;
+        using PBXFileReferenceRef = std::reference_wrapper<const PBXFileReference>;
     }
 }
 

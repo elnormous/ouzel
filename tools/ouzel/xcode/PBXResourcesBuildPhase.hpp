@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_XCODE_PBXFRAMEWORKSBUILDPHASE_HPP
-#define OUZEL_XCODE_PBXFRAMEWORKSBUILDPHASE_HPP
+#ifndef OUZEL_XCODE_PBXRESOURCESBUILDPHASE_HPP
+#define OUZEL_XCODE_PBXRESOURCESBUILDPHASE_HPP
 
 #include <vector>
 #include "PBXBuildPhase.hpp"
@@ -10,13 +10,13 @@ namespace ouzel
 {
     namespace xcode
     {
-        class PBXFrameworksBuildPhase final: public PBXBuildPhase
+        class PBXResourcesBuildPhase final: public PBXBuildPhase
         {
         public:
-            PBXFrameworksBuildPhase(const std::vector<PBXBuildFileRef>& initFiles):
+            PBXResourcesBuildPhase(const std::vector<PBXBuildFileRef>& initFiles):
                 files{initFiles} {}
 
-            std::string getIsa() const override { return "PBXFrameworksBuildPhase"; }
+            std::string getIsa() const override { return "PBXResourcesBuildPhase"; }
 
             plist::Value encode() const override
             {
@@ -35,4 +35,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_XCODE_PBXFRAMEWORKSBUILDPHASE_HPP
+#endif // OUZEL_XCODE_PBXRESOURCESBUILDPHASE_HPP

@@ -20,8 +20,8 @@ namespace ouzel
                        const XCConfigurationList& initBuildConfigurationList,
                        const PBXGroup& initMainGroup,
                        const PBXGroup& initProductRefGroup,
-                       const std::map<std::string, PbxObjectRef>& initProjectReferences,
-                       const std::vector<PbxTargetRef>& initTargets):
+                       const std::map<std::string, PBXObjectRef>& initProjectReferences,
+                       const std::vector<PBXTargetRef>& initTargets):
                 organization{initOrganization},
                 buildConfigurationList{initBuildConfigurationList},
                 mainGroup(initMainGroup),
@@ -74,8 +74,8 @@ namespace ouzel
             const XCConfigurationList& buildConfigurationList;
             const PBXGroup& mainGroup;
             const PBXGroup& productRefGroup;
-            std::map<std::string, PbxObjectRef> projectReferences;
-            std::vector<PbxTargetRef> targets;
+            std::map<std::string, PBXObjectRef> projectReferences;
+            std::vector<PBXTargetRef> targets;
         };
     }
 }

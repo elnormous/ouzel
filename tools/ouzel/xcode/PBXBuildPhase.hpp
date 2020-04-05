@@ -15,9 +15,17 @@ namespace ouzel
             PBXBuildPhase() = default;
 
             std::string getIsa() const override { return "PBXBuildPhase"; }
+
+            plist::Value encode() const override
+            {
+                auto result = PBXObject::encode();
+                result["buildActionMask"] = 2147483647;
+                result["runOnlyForDeploymentPostprocessing"] = 0;
+                return result;
+            }
         };
 
-        using PbxBuildPhaseRef = std::reference_wrapper<const PBXBuildPhase>;
+        using PBXBuildPhaseRef = std::reference_wrapper<const PBXBuildPhase>;
     }
 }
 

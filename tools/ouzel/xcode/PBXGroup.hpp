@@ -4,7 +4,7 @@
 #define OUZEL_XCODE_PBXGROUP_HPP
 
 #include <vector>
-#include "PBXObject.hpp"
+#include "PBXFileElement.hpp"
 #include "PBXSourceTree.hpp"
 #include "storage/Path.hpp"
 
@@ -17,7 +17,7 @@ namespace ouzel
         public:
             PBXGroup(const std::string& initName,
                      const storage::Path& initPath,
-                     const std::vector<PbxFileElementRef>& initChildren,
+                     const std::vector<PBXFileElementRef>& initChildren,
                      PBXSourceTree initSourceTree):
                 name{initName},
                 path{initPath},
@@ -46,7 +46,7 @@ namespace ouzel
         private:
             std::string name;
             storage::Path path;
-            std::vector<PbxFileElementRef> children;
+            std::vector<PBXFileElementRef> children;
             PBXSourceTree sourceTree;
         };
     }

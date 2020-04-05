@@ -5,6 +5,7 @@
 
 #include <vector>
 #include "PBXObject.hpp"
+#include "XCBuildConfiguration.hpp"
 
 namespace ouzel
 {
@@ -13,7 +14,7 @@ namespace ouzel
         class XCConfigurationList final: public PBXObject
         {
         public:
-            XCConfigurationList(const std::vector<XcBuildConfigurationRef>& initConfigurations,
+            XCConfigurationList(const std::vector<XCBuildConfigurationRef>& initConfigurations,
                                 const std::string& initDefaultConfigurationName):
                 configurations{initConfigurations},
                 defaultConfigurationName{initDefaultConfigurationName} {}
@@ -34,7 +35,7 @@ namespace ouzel
             }
 
         private:
-            std::vector<XcBuildConfigurationRef> configurations;
+            std::vector<XCBuildConfigurationRef> configurations;
             std::string defaultConfigurationName;
         };
     }

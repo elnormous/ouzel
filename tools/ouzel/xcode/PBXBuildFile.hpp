@@ -29,7 +29,7 @@ namespace ouzel
             const PBXFileReference& fileRef;
         };
 
-        using PbxBuildFileRef = std::reference_wrapper<const PBXBuildFile>;
+        using PBXBuildFileRef = std::reference_wrapper<const PBXBuildFile>;
     }
 }
 

@@ -39,7 +39,7 @@ namespace ouzel
             std::map<std::string, std::string> buildSettings;
         };
 
-        using XcBuildConfigurationRef = std::reference_wrapper<const XCBuildConfiguration>;
+        using XCBuildConfigurationRef = std::reference_wrapper<const XCBuildConfiguration>;
     }
 }
 
