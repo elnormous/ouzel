@@ -44,6 +44,8 @@ namespace ouzel
             std::string fileType;
             PbxSourceTree sourceTree;
         };
+
+        using PbxFileReferenceRef = std::reference_wrapper<const PbxFileReference>;
     }
 }
 

@@ -51,9 +51,31 @@ namespace ouzel
                 constexpr auto libouzelTvosId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
                 constexpr auto ouzelId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
 
-                const auto& quartzCoreRef = create<PbxFileReference>("QuartzCore.framework",
-                                                                     storage::Path{"System/Library/Frameworks/QuartzCore.framework"},
-                                                                     "wrapper.framework", PbxSourceTree::SdkRoot);
+                std::vector<PbxFileReferenceRef> frameworkFileReferences;
+                std::vector<PbxFileElementRef> frameworkFiles;
+
+                const auto frameworksPath = storage::Path{"System/Library/Frameworks"};
+                for (const auto& framework : {
+                    "AudioToolbox.framework",
+                    "AudioUnit.framework",
+                    "Cocoa.framework",
+                    "CoreAudio.framework",
+                    "CoreVideo.framework",
+                    "GameController.framework",
+                    "IOKit.framework",
+                    "Metal.framework",
+                    "OpenAL.framework",
+                    "OpenGL.framework",
+                    "QuartzCore.framework"
+                })
+                {
+                    const auto& frameworkFileReference = create<PbxFileReference>(framework,
+                                                                                  frameworksPath / framework,
+                                                                                  "wrapper.framework", PbxSourceTree::SdkRoot);
+
+                    frameworkFileReferences.push_back(frameworkFileReference);
+                    frameworkFiles.push_back(frameworkFileReference);
+                }
 
                 const auto ouzelProjectPath = project.getOuzelPath() / "build" / "ouzel.xcodeproj";
                 const auto& ouzelProjectFileRef = create<PbxFileReference>("ouzel.xcodeproj", ouzelProjectPath,
@@ -91,7 +113,7 @@ namespace ouzel
                                                                             ouzelProxy);
 
                 const auto& frameworksGroup = create<PbxGroup>("Frameworks", storage::Path{},
-                                                               std::vector<PbxFileElementRef>{quartzCoreRef},
+                                                               frameworkFiles,
                                                                PbxSourceTree::Group);
 
                 const auto& ouzelPoductRefGroup = create<PbxGroup>("Products", storage::Path{},
@@ -176,10 +198,18 @@ namespace ouzel
                                                                                           targetReleaseConfiguration.getName());
 
                         const auto& sourcesBuildPhase = create<PbxSourcesBuildPhase>(buildFiles);
-                        const auto& quartzCoreBuildFile = create<PbxBuildFile>(quartzCoreRef);
-                        const auto& libouzelMacOsBuildFile = create<PbxBuildFile>(libouzelMacOsReferenceProxy);
 
-                        const auto& frameworksBuildPhase = create<PbxFrameworksBuildPhase>(std::vector<PbxBuildFileRef>{quartzCoreBuildFile, libouzelMacOsBuildFile});
+                        std::vector<PbxBuildFileRef> frameworkBuildFiles;
+                        for (const PbxFileReferenceRef& frameworkFileReference : frameworkFileReferences)
+                        {
+                            const auto& frameworkBuildFile = create<PbxBuildFile>(frameworkFileReference);
+                            frameworkBuildFiles.push_back(frameworkBuildFile);
+                        }
+
+                        const auto& libouzelMacOsBuildFile = create<PbxBuildFile>(libouzelMacOsReferenceProxy);
+                        frameworkBuildFiles.push_back(libouzelMacOsBuildFile);
+
+                        const auto& frameworksBuildPhase = create<PbxFrameworksBuildPhase>(frameworkBuildFiles);
 
                         const auto& nativeTarget = create<PbxNativeTarget>(project.getName() + " macOS",
                                                                            targetConfigurationList,
