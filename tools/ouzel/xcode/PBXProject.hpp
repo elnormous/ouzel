@@ -5,21 +5,21 @@
 
 #include <map>
 #include <vector>
-#include "PbxObject.hpp"
-#include "PbxGroup.hpp"
-#include "XcConfigurationList.hpp"
+#include "PBXObject.hpp"
+#include "PBXGroup.hpp"
+#include "XCConfigurationList.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxProject final: public PbxObject
+        class PBXProject final: public PBXObject
         {
         public:
-            PbxProject(const std::string& initOrganization,
-                       const XcConfigurationList& initBuildConfigurationList,
-                       const PbxGroup& initMainGroup,
-                       const PbxGroup& initProductRefGroup,
+            PBXProject(const std::string& initOrganization,
+                       const XCConfigurationList& initBuildConfigurationList,
+                       const PBXGroup& initMainGroup,
+                       const PBXGroup& initProductRefGroup,
                        const std::map<std::string, PbxObjectRef>& initProjectReferences,
                        const std::vector<PbxTargetRef>& initTargets):
                 organization{initOrganization},
@@ -33,7 +33,7 @@ namespace ouzel
 
             plist::Value encode() const override
             {
-                auto result = PbxObject::encode();
+                auto result = PBXObject::encode();
 
                 result["attributes"] = plist::Value::Dictionary{
                     {"LastUpgradeCheck", "0800"},
@@ -56,14 +56,14 @@ namespace ouzel
 
                     for (const auto& projectReference : projectReferences)
                     {
-                        const PbxObject& object = projectReference.second;
+                        const PBXObject& object = projectReference.second;
                         references[projectReference.first] = toString(object.getId());
                     }
 
                     result["projectReferences"] = plist::Value::Array{references};
                 }
 
-                for (const PbxTarget& target : targets)
+                for (const PBXTarget& target : targets)
                     result["targets"].pushBack(toString(target.getId()));
 
                 return result;
@@ -71,9 +71,9 @@ namespace ouzel
 
         private:
             std::string organization;
-            const XcConfigurationList& buildConfigurationList;
-            const PbxGroup& mainGroup;
-            const PbxGroup& productRefGroup;
+            const XCConfigurationList& buildConfigurationList;
+            const PBXGroup& mainGroup;
+            const PBXGroup& productRefGroup;
             std::map<std::string, PbxObjectRef> projectReferences;
             std::vector<PbxTargetRef> targets;
         };

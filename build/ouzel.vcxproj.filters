@@ -18,58 +18,58 @@
     <ClInclude Include="..\tools\ouzel\visualstudio\Project.hpp">
       <Filter>ouzel\visualstudio</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxBuildFile.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXBuildFile.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxBuildPhase.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXBuildPhase.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxContainerItemProxy.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXContainerItemProxy.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxFileElement.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXFileElement.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxFileReference.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXFileReference.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxFileType.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXFileType.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxFrameworksBuildPhase.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXFrameworksBuildPhase.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxGroup.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXGroup.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxNativeTarget.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXNativeTarget.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxObject.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXObject.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxProject.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXProject.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxReferenceProxy.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXReferenceProxy.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxSourcesBuildPhase.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXSourcesBuildPhase.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxSourceTree.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXSourceTree.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\PbxTarget.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\PBXTarget.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
     <ClInclude Include="..\tools\ouzel\xcode\Project.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\XcBuildConfiguration.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\XCBuildConfiguration.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\XcConfigurationList.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\XCConfigurationList.hpp">
       <Filter>ouzel\xcode</Filter>
     </ClInclude>
   </ItemGroup>

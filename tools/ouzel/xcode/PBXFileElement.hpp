@@ -3,21 +3,21 @@
 #ifndef OUZEL_XCODE_PBXFILEELEMENT_HPP
 #define OUZEL_XCODE_PBXFILEELEMENT_HPP
 
-#include "PbxObject.hpp"
+#include "PBXObject.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxFileElement: public PbxObject
+        class PBXFileElement: public PBXObject
         {
         public:
-            PbxFileElement() = default;
+            PBXFileElement() = default;
 
             std::string getIsa() const override { return "PBXFileElement"; }
         };
 
-        using PbxFileElementRef = std::reference_wrapper<const PbxFileElement>;
+        using PbxFileElementRef = std::reference_wrapper<const PBXFileElement>;
     }
 }
 

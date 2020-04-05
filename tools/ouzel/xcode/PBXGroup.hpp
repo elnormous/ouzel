@@ -4,21 +4,21 @@
 #define OUZEL_XCODE_PBXGROUP_HPP
 
 #include <vector>
-#include "PbxObject.hpp"
-#include "PbxSourceTree.hpp"
+#include "PBXObject.hpp"
+#include "PBXSourceTree.hpp"
 #include "storage/Path.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxGroup final: public PbxFileElement
+        class PBXGroup final: public PBXFileElement
         {
         public:
-            PbxGroup(const std::string& initName,
+            PBXGroup(const std::string& initName,
                      const storage::Path& initPath,
                      const std::vector<PbxFileElementRef>& initChildren,
-                     PbxSourceTree initSourceTree):
+                     PBXSourceTree initSourceTree):
                 name{initName},
                 path{initPath},
                 children{initChildren},
@@ -28,7 +28,7 @@ namespace ouzel
 
             plist::Value encode() const override
             {
-                auto result = PbxFileElement::encode();
+                auto result = PBXFileElement::encode();
                 result["children"] = plist::Value::Array{};
                 result["sourceTree"] = toString(sourceTree);
 
@@ -37,7 +37,7 @@ namespace ouzel
                 else if (!name.empty())
                     result["name"] = name;
 
-                for (const PbxFileElement& child : children)
+                for (const PBXFileElement& child : children)
                     result["children"].pushBack(toString(child.getId()));
 
                 return result;
@@ -47,7 +47,7 @@ namespace ouzel
             std::string name;
             storage::Path path;
             std::vector<PbxFileElementRef> children;
-            PbxSourceTree sourceTree;
+            PBXSourceTree sourceTree;
         };
     }
 }

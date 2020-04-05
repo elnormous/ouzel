@@ -4,22 +4,22 @@
 #define OUZEL_XCODE_PBXNATIVETARGET_HPP
 
 #include <vector>
-#include "PbxTarget.hpp"
-#include "PbxFileReference.hpp"
-#include "PbxBuildPhase.hpp"
-#include "XcConfigurationList.hpp"
+#include "PBXTarget.hpp"
+#include "PBXFileReference.hpp"
+#include "PBXBuildPhase.hpp"
+#include "XCConfigurationList.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxNativeTarget final: public PbxTarget
+        class PBXNativeTarget final: public PBXTarget
         {
         public:
-            PbxNativeTarget(const std::string& initName,
-                            const XcConfigurationList& initBuildConfigurationList,
+            PBXNativeTarget(const std::string& initName,
+                            const XCConfigurationList& initBuildConfigurationList,
                             const std::vector<PbxBuildPhaseRef>& initBuildPhases,
-                            const PbxFileReference& initProductReference):
+                            const PBXFileReference& initProductReference):
                 name{initName},
                 buildConfigurationList{initBuildConfigurationList},
                 buildPhases{initBuildPhases},
@@ -29,7 +29,7 @@ namespace ouzel
 
             plist::Value encode() const override
             {
-                auto result = PbxTarget::encode();
+                auto result = PBXTarget::encode();
                 result["buildConfigurationList"] = toString(buildConfigurationList.getId());
                 result["buildPhases"] = plist::Value::Array{};
                 result["buildRules"] = plist::Value::Array{};
@@ -39,7 +39,7 @@ namespace ouzel
                 result["productReference"] = toString(productReference.getId());
                 result["productType"] = "com.apple.product-type.application";
 
-                for (const PbxBuildPhase& buildPhase : buildPhases)
+                for (const PBXBuildPhase& buildPhase : buildPhases)
                     result["buildPhases"].pushBack(toString(buildPhase.getId()));
 
                 return result;
@@ -47,9 +47,9 @@ namespace ouzel
 
         private:
             std::string name;
-            const XcConfigurationList& buildConfigurationList;
+            const XCConfigurationList& buildConfigurationList;
             std::vector<PbxBuildPhaseRef> buildPhases;
-            const PbxFileReference& productReference;
+            const PBXFileReference& productReference;
         };
     }
 }

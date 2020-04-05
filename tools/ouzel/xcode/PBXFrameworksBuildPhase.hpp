@@ -4,28 +4,28 @@
 #define OUZEL_XCODE_PBXFRAMEWORKSBUILDPHASE_HPP
 
 #include <vector>
-#include "PbxBuildPhase.hpp"
+#include "PBXBuildPhase.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxFrameworksBuildPhase final: public PbxBuildPhase
+        class PBXFrameworksBuildPhase final: public PBXBuildPhase
         {
         public:
-            PbxFrameworksBuildPhase(const std::vector<PbxBuildFileRef>& initFiles):
+            PBXFrameworksBuildPhase(const std::vector<PbxBuildFileRef>& initFiles):
                 files{initFiles} {}
 
             std::string getIsa() const override { return "PBXFrameworksBuildPhase"; }
 
             plist::Value encode() const override
             {
-                auto result = PbxBuildPhase::encode();
+                auto result = PBXBuildPhase::encode();
                 result["buildActionMask"] = 2147483647;
                 result["files"] = plist::Value::Array{};
                 result["runOnlyForDeploymentPostprocessing"] = 0;
 
-                for (const PbxBuildFile& file : files)
+                for (const PBXBuildFile& file : files)
                     result["files"].pushBack(toString(file.getId()));
 
                 return result;

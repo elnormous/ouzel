@@ -3,22 +3,22 @@
 #ifndef OUZEL_XCODE_PBXFILEREFERENCE_HPP
 #define OUZEL_XCODE_PBXFILEREFERENCE_HPP
 
-#include "PbxFileElement.hpp"
-#include "PbxFileType.hpp"
-#include "PbxSourceTree.hpp"
+#include "PBXFileElement.hpp"
+#include "PBXFileType.hpp"
+#include "PBXSourceTree.hpp"
 #include "storage/Path.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxFileReference: public PbxFileElement
+        class PBXFileReference: public PBXFileElement
         {
         public:
-            PbxFileReference(const std::string initName,
+            PBXFileReference(const std::string initName,
                              const storage::Path& initPath,
-                             const PbxFileType& initFileType,
-                             PbxSourceTree initSourceTree):
+                             const PBXFileType& initFileType,
+                             PBXSourceTree initSourceTree):
                 name{initName},
                 path{initPath},
                 fileType{initFileType},
@@ -30,7 +30,7 @@ namespace ouzel
 
             plist::Value encode() const override
             {
-                auto result = PbxFileElement::encode();
+                auto result = PBXFileElement::encode();
                 result["explicitFileType"] = toString(fileType);
                 result["includeInIndex"] = 0;
                 result["path"] = std::string(path);
@@ -42,11 +42,11 @@ namespace ouzel
         private:
             std::string name;
             storage::Path path;
-            PbxFileType fileType;
-            PbxSourceTree sourceTree;
+            PBXFileType fileType;
+            PBXSourceTree sourceTree;
         };
 
-        using PbxFileReferenceRef = std::reference_wrapper<const PbxFileReference>;
+        using PbxFileReferenceRef = std::reference_wrapper<const PBXFileReference>;
     }
 }
 

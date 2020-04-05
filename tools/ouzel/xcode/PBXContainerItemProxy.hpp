@@ -3,17 +3,17 @@
 #ifndef OUZEL_XCODE_PBXCONTAINERITEMPROXY_HPP
 #define OUZEL_XCODE_PBXCONTAINERITEMPROXY_HPP
 
-#include "PbxObject.hpp"
-#include "PbxFileReference.hpp"
+#include "PBXObject.hpp"
+#include "PBXFileReference.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxContainerItemProxy final: public PbxObject
+        class PBXContainerItemProxy final: public PBXObject
         {
         public:
-            PbxContainerItemProxy(const PbxFileReference& initContainerPortal,
+            PBXContainerItemProxy(const PBXFileReference& initContainerPortal,
                                   const Id& initRemoteGlobalId,
                                   const std::string& initRemoteInfo):
                 containerPortal{initContainerPortal},
@@ -24,7 +24,7 @@ namespace ouzel
 
             plist::Value encode() const override
             {
-                auto result = PbxObject::encode();
+                auto result = PBXObject::encode();
                 result["containerPortal"] = toString(containerPortal.getId());
                 result["proxyType"] = 2;
                 result["remoteGlobalIDString"] = toString(remoteGlobalId);
@@ -33,7 +33,7 @@ namespace ouzel
             }
 
         private:
-            const PbxFileReference& containerPortal;
+            const PBXFileReference& containerPortal;
             Id remoteGlobalId;
             std::string remoteInfo;
         };

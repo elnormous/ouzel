@@ -4,16 +4,16 @@
 #define OUZEL_XCODE_XCCONFIGURATIONLIST_HPP
 
 #include <vector>
-#include "PbxObject.hpp"
+#include "PBXObject.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class XcConfigurationList final: public PbxObject
+        class XCConfigurationList final: public PBXObject
         {
         public:
-            XcConfigurationList(const std::vector<XcBuildConfigurationRef>& initConfigurations,
+            XCConfigurationList(const std::vector<XcBuildConfigurationRef>& initConfigurations,
                                 const std::string& initDefaultConfigurationName):
                 configurations{initConfigurations},
                 defaultConfigurationName{initDefaultConfigurationName} {}
@@ -22,12 +22,12 @@ namespace ouzel
 
             plist::Value encode() const override
             {
-                auto result = PbxObject::encode();
+                auto result = PBXObject::encode();
                 result["buildConfigurations"] = plist::Value::Array{};
                 result["defaultConfigurationIsVisible"] = 0;
                 result["defaultConfigurationName"] = defaultConfigurationName;
 
-                for (const XcBuildConfiguration& configuration : configurations)
+                for (const XCBuildConfiguration& configuration : configurations)
                     result["buildConfigurations"].pushBack(toString(configuration.getId()));
 
                 return result;

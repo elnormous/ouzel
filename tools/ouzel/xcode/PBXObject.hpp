@@ -28,11 +28,11 @@ namespace ouzel
             return result;
         }
 
-        class PbxObject
+        class PBXObject
         {
         public:
-            PbxObject() = default;
-            virtual ~PbxObject() = default;
+            PBXObject() = default;
+            virtual ~PBXObject() = default;
 
             virtual std::string getIsa() const { return "PBXObject"; }
             const Id& getId() const noexcept { return id; }
@@ -76,7 +76,7 @@ namespace ouzel
             Id id = generateId();
         };
 
-        using PbxObjectRef = std::reference_wrapper<const PbxObject>;
+        using PbxObjectRef = std::reference_wrapper<const PBXObject>;
     }
 }
 

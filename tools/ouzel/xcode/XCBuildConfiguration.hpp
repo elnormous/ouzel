@@ -4,16 +4,16 @@
 #define OUZEL_XCODE_XCBUILDCONFIGURATION_HPP
 
 #include <map>
-#include "PbxObject.hpp"
+#include "PBXObject.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class XcBuildConfiguration final: public PbxObject
+        class XCBuildConfiguration final: public PBXObject
         {
         public:
-            XcBuildConfiguration(const std::string& initName,
+            XCBuildConfiguration(const std::string& initName,
                                  const std::map<std::string, std::string>& initBuildSettings):
                 name{initName},
                 buildSettings{initBuildSettings} {}
@@ -24,7 +24,7 @@ namespace ouzel
 
             plist::Value encode() const override
             {
-                auto result = PbxObject::encode();
+                auto result = PBXObject::encode();
                 result["buildSettings"] = plist::Value::Dictionary{};
                 result["name"] = name;
 
@@ -39,7 +39,7 @@ namespace ouzel
             std::map<std::string, std::string> buildSettings;
         };
 
-        using XcBuildConfigurationRef = std::reference_wrapper<const XcBuildConfiguration>;
+        using XcBuildConfigurationRef = std::reference_wrapper<const XCBuildConfiguration>;
     }
 }
 

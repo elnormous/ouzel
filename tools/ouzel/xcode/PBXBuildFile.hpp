@@ -3,33 +3,33 @@
 #ifndef OUZEL_XCODE_PBXBUILDFILE_HPP
 #define OUZEL_XCODE_PBXBUILDFILE_HPP
 
-#include "PbxObject.hpp"
-#include "PbxFileReference.hpp"
+#include "PBXObject.hpp"
+#include "PBXFileReference.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxBuildFile final: public PbxObject
+        class PBXBuildFile final: public PBXObject
         {
         public:
-            PbxBuildFile(const PbxFileReference& initFileRef):
+            PBXBuildFile(const PBXFileReference& initFileRef):
                 fileRef{initFileRef} {}
 
             std::string getIsa() const override { return "PBXBuildFile"; }
 
             plist::Value encode() const override
             {
-                auto result = PbxObject::encode();
+                auto result = PBXObject::encode();
                 result["fileRef"] = toString(fileRef.getId());
                 return result;
             }
 
         private:
-            const PbxFileReference& fileRef;
+            const PBXFileReference& fileRef;
         };
 
-        using PbxBuildFileRef = std::reference_wrapper<const PbxBuildFile>;
+        using PbxBuildFileRef = std::reference_wrapper<const PBXBuildFile>;
     }
 }
 

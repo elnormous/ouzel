@@ -3,21 +3,21 @@
 #ifndef OUZEL_XCODE_PBXBUILDPHASE_HPP
 #define OUZEL_XCODE_PBXBUILDPHASE_HPP
 
-#include "PbxObject.hpp"
+#include "PBXObject.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxBuildPhase: public PbxObject
+        class PBXBuildPhase: public PBXObject
         {
         public:
-            PbxBuildPhase() = default;
+            PBXBuildPhase() = default;
 
             std::string getIsa() const override { return "PBXBuildPhase"; }
         };
 
-        using PbxBuildPhaseRef = std::reference_wrapper<const PbxBuildPhase>;
+        using PbxBuildPhaseRef = std::reference_wrapper<const PBXBuildPhase>;
     }
 }
 

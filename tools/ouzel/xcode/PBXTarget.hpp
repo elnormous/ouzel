@@ -3,21 +3,21 @@
 #ifndef OUZEL_XCODE_PBXTARGET_HPP
 #define OUZEL_XCODE_PBXTARGET_HPP
 
-#include "PbxObject.hpp"
+#include "PBXObject.hpp"
 
 namespace ouzel
 {
     namespace xcode
     {
-        class PbxTarget: public PbxObject
+        class PBXTarget: public PBXObject
         {
         public:
-            PbxTarget() = default;
+            PBXTarget() = default;
 
             std::string getIsa() const override { return "PBXTarget"; }
         };
 
-        using PbxTargetRef = std::reference_wrapper<const PbxTarget>;
+        using PbxTargetRef = std::reference_wrapper<const PBXTarget>;
     }
 }
 
