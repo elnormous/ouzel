@@ -13,10 +13,10 @@ namespace ouzel
         class XcBuildConfiguration final: public PbxObject
         {
         public:
-            XcBuildConfiguration(const std::string& n,
-                                 const std::map<std::string, std::string>& settings):
-                name{n},
-                buildSettings{settings} {}
+            XcBuildConfiguration(const std::string& initName,
+                                 const std::map<std::string, std::string>& initBuildSettings):
+                name{initName},
+                buildSettings{initBuildSettings} {}
 
             std::string getIsa() const override { return "XCBuildConfiguration"; }
 
@@ -38,6 +38,8 @@ namespace ouzel
             std::string name;
             std::map<std::string, std::string> buildSettings;
         };
+
+        using XcBuildConfigurationRef = std::reference_wrapper<const XcBuildConfiguration>;
     }
 }
 

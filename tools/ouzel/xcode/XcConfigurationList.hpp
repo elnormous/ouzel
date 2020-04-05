@@ -13,10 +13,10 @@ namespace ouzel
         class XcConfigurationList final: public PbxObject
         {
         public:
-            XcConfigurationList(const std::vector<Id>& configurations,
-                                const std::string& defaultConfiguration):
-                configurationIds{configurations},
-                defaultConfigurationName{defaultConfiguration} {}
+            XcConfigurationList(const std::vector<XcBuildConfigurationRef>& initConfigurations,
+                                const std::string& initDefaultConfigurationName):
+                configurations{initConfigurations},
+                defaultConfigurationName{initDefaultConfigurationName} {}
 
             std::string getIsa() const override { return "XCConfigurationList"; }
 
@@ -27,14 +27,14 @@ namespace ouzel
                 result["defaultConfigurationIsVisible"] = 0;
                 result["defaultConfigurationName"] = defaultConfigurationName;
 
-                for (auto configurationId : configurationIds)
-                    result["buildConfigurations"].pushBack(toString(configurationId));
+                for (const XcBuildConfiguration& configuration : configurations)
+                    result["buildConfigurations"].pushBack(toString(configuration.getId()));
 
                 return result;
             }
 
         private:
-            std::vector<Id> configurationIds;
+            std::vector<XcBuildConfigurationRef> configurations;
             std::string defaultConfigurationName;
         };
     }

@@ -15,26 +15,25 @@ namespace ouzel
         class PbxReferenceProxy final: public PbxFileReference
         {
         public:
-            PbxReferenceProxy(const std::string n,
-                              const storage::Path& p,
-                              const std::string& type,
-                              PbxSourceTree tree,
-                              const PbxContainerItemProxy& remoteRef):
-                PbxFileReference{n, p, type, tree},
-                remoteRefId{remoteRef.getId()}
-                {}
+            PbxReferenceProxy(const std::string initName,
+                              const storage::Path& initPath,
+                              const std::string& initFileType,
+                              PbxSourceTree initSourceTree,
+                              const PbxContainerItemProxy& initRemoteRef):
+                PbxFileReference{initName, initPath, initFileType, initSourceTree},
+                remoteRef{initRemoteRef} {}
 
             std::string getIsa() const override { return "PBXReferenceProxy"; }
 
             plist::Value encode() const override
             {
                 auto result = PbxFileReference::encode();
-                result["remoteRef"] = toString(remoteRefId);
+                result["remoteRef"] = toString(remoteRef.getId());
                 return result;
             }
 
         private:
-            const Id& remoteRefId;
+            const PbxContainerItemProxy& remoteRef;
         };
     }
 }

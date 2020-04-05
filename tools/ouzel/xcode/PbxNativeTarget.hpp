@@ -6,6 +6,7 @@
 #include <vector>
 #include "PbxTarget.hpp"
 #include "PbxFileReference.hpp"
+#include "PbxBuildPhase.hpp"
 #include "XcConfigurationList.hpp"
 
 namespace ouzel
@@ -15,40 +16,40 @@ namespace ouzel
         class PbxNativeTarget final: public PbxTarget
         {
         public:
-            PbxNativeTarget(const std::string& n,
-                            const XcConfigurationList& buildConfigurationList,
-                            const std::vector<Id>& buildPhases,
-                            const PbxFileReference& productReference):
-                name{n},
-                buildConfigurationListId{buildConfigurationList.getId()},
-                buildPhaseIds{buildPhases},
-                productReferenceId{productReference.getId()} {}
+            PbxNativeTarget(const std::string& initName,
+                            const XcConfigurationList& initBuildConfigurationList,
+                            const std::vector<PbxBuildPhaseRef>& initBuildPhases,
+                            const PbxFileReference& initProductReference):
+                name{initName},
+                buildConfigurationList{initBuildConfigurationList},
+                buildPhases{initBuildPhases},
+                productReference{initProductReference} {}
 
             std::string getIsa() const override { return "PBXNativeTarget"; }
 
             plist::Value encode() const override
             {
                 auto result = PbxTarget::encode();
-                result["buildConfigurationList"] = toString(buildConfigurationListId);
+                result["buildConfigurationList"] = toString(buildConfigurationList.getId());
                 result["buildPhases"] = plist::Value::Array{};
                 result["buildRules"] = plist::Value::Array{};
                 result["dependencies"] = plist::Value::Array{};
                 result["name"] = name;
                 result["productName"] = name;
-                result["productReference"] = toString(productReferenceId);
+                result["productReference"] = toString(productReference.getId());
                 result["productType"] = "com.apple.product-type.application";
 
-                for (auto buildPhaseId : buildPhaseIds)
-                    result["buildPhases"].pushBack(toString(buildPhaseId));
+                for (const PbxBuildPhase& buildPhase : buildPhases)
+                    result["buildPhases"].pushBack(toString(buildPhase.getId()));
 
                 return result;
             }
 
         private:
             std::string name;
-            Id buildConfigurationListId;
-            std::vector<Id> buildPhaseIds;
-            Id productReferenceId;
+            const XcConfigurationList& buildConfigurationList;
+            std::vector<PbxBuildPhaseRef> buildPhases;
+            const PbxFileReference& productReference;
         };
     }
 }

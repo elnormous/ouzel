@@ -75,6 +75,8 @@ namespace ouzel
 
             Id id = generateId();
         };
+
+        using PbxObjectRef = std::reference_wrapper<const PbxObject>;
     }
 }
 

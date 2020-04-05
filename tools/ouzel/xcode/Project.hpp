@@ -51,84 +51,67 @@ namespace ouzel
                 constexpr auto libouzelTvosId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
                 constexpr auto ouzelId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
 
-                Output output;
+                const auto& quartzCoreRef = create<PbxFileReference>("QuartzCore.framework",
+                                                                     storage::Path{"System/Library/Frameworks/QuartzCore.framework"},
+                                                                     "wrapper.framework", PbxSourceTree::SdkRoot);
 
-                PbxFileReference quartzCoreRef{"QuartzCore.framework",
-                    storage::Path{"System/Library/Frameworks/QuartzCore.framework"},
-                    "wrapper.framework", PbxSourceTree::SdkRoot
-                };
-                output.addObject(quartzCoreRef);
+                const auto ouzelProjectPath = project.getOuzelPath() / "build" / "ouzel.xcodeproj";
+                const auto& ouzelProjectFileRef = create<PbxFileReference>("ouzel.xcodeproj", ouzelProjectPath,
+                                                                           "wrapper.pb-project", PbxSourceTree::Group);
+                const auto& libouzelIosProxy = create<PbxContainerItemProxy>(ouzelProjectFileRef,
+                                                                             libouzelIosId, "libouzel_ios");
 
-                auto ouzelProjectPath = project.getOuzelPath() / "build" / "ouzel.xcodeproj";
-                PbxFileReference ouzelProjectFileRef{"ouzel.xcodeproj", ouzelProjectPath,
-                    "wrapper.pb-project", PbxSourceTree::Group};
-                output.addObject(ouzelProjectFileRef);
-                PbxContainerItemProxy libouzelIosProxy{ouzelProjectFileRef,
-                    libouzelIosId, "libouzel_ios"};
-                output.addObject(libouzelIosProxy);
+                const auto& libouzelIosReferenceProxy = create<PbxReferenceProxy>("", "libouzel_ios.a",
+                                                                                  "archive.ar",
+                                                                                  PbxSourceTree::BuildProductsDir,
+                                                                                  libouzelIosProxy);
 
-                PbxReferenceProxy libouzelIosReferenceProxy{"", "libouzel_ios.a",
-                    "archive.ar",
-                    PbxSourceTree::BuildProductsDir,
-                    libouzelIosProxy
-                };
-                output.addObject(libouzelIosReferenceProxy);
+                const auto& libouzelMacOsProxy = create<PbxContainerItemProxy>(ouzelProjectFileRef,
+                                                                               libouzelMacOsId, "libouzel_macos");
 
-                PbxContainerItemProxy libouzelMacOsProxy{ouzelProjectFileRef,
-                    libouzelMacOsId, "libouzel_macos"};
-                output.addObject(libouzelMacOsProxy);
+                const auto& libouzelMacOsReferenceProxy = create<PbxReferenceProxy>("", "libouzel_macos.a",
+                                                                                    "archive.ar",
+                                                                                    PbxSourceTree::BuildProductsDir,
+                                                                                    libouzelMacOsProxy);
 
-                PbxReferenceProxy libouzelMacOsReferenceProxy{"", "libouzel_macos.a",
-                    "archive.ar",
-                    PbxSourceTree::BuildProductsDir,
-                    libouzelMacOsProxy
-                };
-                output.addObject(libouzelMacOsReferenceProxy);
+                const auto& libouzelTvosProxy = create<PbxContainerItemProxy>(ouzelProjectFileRef,
+                                                                              libouzelTvosId, "libouzel_tvos");
 
-                PbxContainerItemProxy libouzelTvosProxy{ouzelProjectFileRef,
-                    libouzelTvosId, "libouzel_tvos"};
-                output.addObject(libouzelTvosProxy);
+                const auto& libouzelTvosReferenceProxy = create<PbxReferenceProxy>("", "libouzel_tvos.a",
+                                                                                   "archive.ar",
+                                                                                   PbxSourceTree::BuildProductsDir,
+                                                                                   libouzelTvosProxy);
 
-                PbxReferenceProxy libouzelTvosReferenceProxy{"", "libouzel_tvos.a",
-                    "archive.ar",
-                    PbxSourceTree::BuildProductsDir,
-                    libouzelTvosProxy
-                };
-                output.addObject(libouzelTvosReferenceProxy);
+                const auto& ouzelProxy = create<PbxContainerItemProxy>(ouzelProjectFileRef,
+                                                                       ouzelId, "ouzel");
 
-                PbxContainerItemProxy ouzelProxy{ouzelProjectFileRef,
-                    ouzelId, "ouzel"};
-                output.addObject(ouzelProxy);
+                const auto& ouzelReferenceProxy = create<PbxReferenceProxy>("", "ouzel",
+                                                                            "compiled.mach-o.executable",
+                                                                            PbxSourceTree::BuildProductsDir,
+                                                                            ouzelProxy);
 
-                PbxReferenceProxy ouzelReferenceProxy{"", "ouzel",
-                    "compiled.mach-o.executable",
-                    PbxSourceTree::BuildProductsDir,
-                    ouzelProxy
-                };
-                output.addObject(ouzelReferenceProxy);
+                const auto& frameworksGroup = create<PbxGroup>("Frameworks", storage::Path{},
+                                                               std::vector<PbxFileElementRef>{quartzCoreRef},
+                                                               PbxSourceTree::Group);
 
-                PbxGroup frameworksGroup{"Frameworks", storage::Path{},
-                    {quartzCoreRef.getId()}, PbxSourceTree::Group};
-                output.addObject(frameworksGroup);
+                const auto& ouzelPoductRefGroup = create<PbxGroup>("Products", storage::Path{},
+                                                                   std::vector<PbxFileElementRef>{
+                                                                       libouzelIosReferenceProxy,
+                                                                       libouzelMacOsReferenceProxy,
+                                                                       libouzelTvosReferenceProxy,
+                                                                       ouzelReferenceProxy},
+                                                                   PbxSourceTree::Group);
 
-                PbxGroup ouzelPoductRefGroup{"Products", storage::Path{},
-                    {libouzelIosReferenceProxy.getId(), libouzelMacOsReferenceProxy.getId(), libouzelTvosReferenceProxy.getId(), ouzelReferenceProxy.getId()},
-                    PbxSourceTree::Group};
-                output.addObject(ouzelPoductRefGroup);
+                const auto& productFile = create<PbxFileReference>("", storage::Path{project.getName() + ".app"},
+                                                                   "wrapper.application",
+                                                                   PbxSourceTree::BuildProductsDir);
 
-                std::vector<Id> productFileIds;
+                const auto& productRefGroup = create<PbxGroup>("Products", storage::Path{},
+                                                               std::vector<PbxFileElementRef>{productFile},
+                                                               PbxSourceTree::Group);
 
-                PbxFileReference productFile{"", storage::Path{project.getName() + ".app"},
-                    "wrapper.application",
-                    PbxSourceTree::BuildProductsDir};
-                output.addObject(productFile);
-
-                PbxGroup productRefGroup{"Products", storage::Path{},
-                    {productFile.getId()}, PbxSourceTree::Group};
-                output.addObject(productRefGroup);
-
-                std::vector<Id> buildFileIds;
-                std::vector<Id> sourceFileIds;
+                std::vector<PbxBuildFileRef> buildFiles;
+                std::vector<PbxFileElementRef> sourceFiles;
 
                 for (const auto& sourceFile : project.getSourceFiles())
                 {
@@ -137,129 +120,121 @@ namespace ouzel
                         "text.plist.xml" :
                         "sourcecode.cpp." + extension;
 
-                    PbxFileReference fileReference{"", sourceFile, fileType, PbxSourceTree::Group};
-                    output.addObject(fileReference);
-                    sourceFileIds.push_back(fileReference.getId());
+                    const auto& fileReference = create<PbxFileReference>("", sourceFile, fileType, PbxSourceTree::Group);
+                    sourceFiles.push_back(fileReference);
 
-                    PbxBuildFile buildFile{fileReference};
-                    output.addObject(buildFile);
-                    buildFileIds.push_back(buildFile.getId());
+                    const auto& buildFile = create<PbxBuildFile>(fileReference);
+                    buildFiles.push_back(buildFile);
                 }
 
-                PbxGroup sourceGroup{"src", storage::Path{"src"},
-                    sourceFileIds, PbxSourceTree::Group};
-                output.addObject(sourceGroup);
+                const auto& sourceGroup = create<PbxGroup>("src", storage::Path{"src"},
+                                                           sourceFiles, PbxSourceTree::Group);
 
-                PbxGroup mainGroup{"", storage::Path{},
-                    {frameworksGroup.getId(), ouzelProjectFileRef.getId(), productRefGroup.getId(), sourceGroup.getId()},
-                    PbxSourceTree::Group};
-                output.addObject(mainGroup);
+                const auto& mainGroup = create<PbxGroup>("", storage::Path{},
+                                                         std::vector<PbxFileElementRef>{
+                                                             frameworksGroup,
+                                                             ouzelProjectFileRef,
+                                                             productRefGroup,
+                                                             sourceGroup},
+                                                         PbxSourceTree::Group);
 
                 const auto headerSearchPath = std::string(project.getOuzelPath() / "engine");
-                XcBuildConfiguration debugConfiguration{"Debug", {
-                    {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
-                    {"GCC_OPTIMIZATION_LEVEL", "0"},
-                    {"HEADER_SEARCH_PATHS", headerSearchPath}
-                }};
-                output.addObject(debugConfiguration);
+                const auto& debugConfiguration = create<XcBuildConfiguration>("Debug",
+                                                                              std::map<std::string, std::string>{
+                                                                                  {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
+                                                                                  {"GCC_OPTIMIZATION_LEVEL", "0"},
+                                                                                  {"HEADER_SEARCH_PATHS", headerSearchPath}});
 
-                XcBuildConfiguration releaseConfiguration{"Release", {
-                    {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
-                    {"HEADER_SEARCH_PATHS", headerSearchPath}
-                }};
-                output.addObject(releaseConfiguration);
+                const auto& releaseConfiguration = create<XcBuildConfiguration>("Release",
+                                                                                std::map<std::string, std::string>{
+                                                                                    {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
+                                                                                    {"HEADER_SEARCH_PATHS", headerSearchPath}});
 
-                XcConfigurationList projectConfigurationList{
-                    {debugConfiguration.getId(), releaseConfiguration.getId()},
-                    releaseConfiguration.getName()};
-                output.addObject(projectConfigurationList);
+                const auto& projectConfigurationList = create<XcConfigurationList>(std::vector<XcBuildConfigurationRef>{
+                                                                                       debugConfiguration,
+                                                                                       releaseConfiguration},
+                                                                                   releaseConfiguration.getName());
 
-                std::vector<Id> targetIds;
+                std::vector<PbxTargetRef> targets;
 
                 for (const auto platform : project.getPlatforms())
                 {
                     // TODO: do it for all platforms
                     if (platform == Platform::MacOs)
                     {
-                        XcBuildConfiguration targetDebugConfiguration{"Debug", {
-                            {"PRODUCT_NAME", project.getName()}
-                        }};
-                        output.addObject(targetDebugConfiguration);
+                        const auto& targetDebugConfiguration = create<XcBuildConfiguration>("Debug",
+                                                                                            std::map<std::string, std::string>{
+                                                                                                {"PRODUCT_NAME", project.getName()}});
 
-                        XcBuildConfiguration targetReleaseConfiguration{"Release", {
-                            {"PRODUCT_NAME", project.getName()}
-                        }};
-                        output.addObject(targetReleaseConfiguration);
+                        const auto& targetReleaseConfiguration = create<XcBuildConfiguration>("Release",
+                                                                                              std::map<std::string, std::string>{
+                                                                                                  {"PRODUCT_NAME", project.getName()}});
 
-                        XcConfigurationList targetConfigurationList{
-                            {targetDebugConfiguration.getId(), targetReleaseConfiguration.getId()},
-                            targetReleaseConfiguration.getName()};
-                        output.addObject(targetConfigurationList);
+                        const auto& targetConfigurationList = create<XcConfigurationList>(std::vector<XcBuildConfigurationRef>{
+                                                                                              targetDebugConfiguration,
+                                                                                              targetReleaseConfiguration},
+                                                                                          targetReleaseConfiguration.getName());
 
-                        PbxSourcesBuildPhase sourcesBuildPhase{buildFileIds};
-                        output.addObject(sourcesBuildPhase);
+                        const auto& sourcesBuildPhase = create<PbxSourcesBuildPhase>(buildFiles);
+                        const auto& quartzCoreBuildFile = create<PbxBuildFile>(quartzCoreRef);
+                        const auto& libouzelMacOsBuildFile = create<PbxBuildFile>(libouzelMacOsReferenceProxy);
 
-                        PbxBuildFile quartzCoreBuildFile{quartzCoreRef};
-                        output.addObject(quartzCoreBuildFile);
+                        const auto& frameworksBuildPhase = create<PbxFrameworksBuildPhase>(std::vector<PbxBuildFileRef>{quartzCoreBuildFile, libouzelMacOsBuildFile});
 
-                        PbxBuildFile libouzelMacOsBuildFile{libouzelMacOsReferenceProxy};
-                        output.addObject(libouzelMacOsBuildFile);
-
-                        PbxFrameworksBuildPhase frameworksBuildPhase{{quartzCoreBuildFile.getId(), libouzelMacOsBuildFile.getId()}};
-                        output.addObject(frameworksBuildPhase);
-
-                        PbxNativeTarget nativeTarget{project.getName() + " macOS",
-                            targetConfigurationList,
-                            {sourcesBuildPhase.getId(), frameworksBuildPhase.getId()},
-                            productFile};
-                        output.addObject(nativeTarget);
-                        targetIds.push_back(nativeTarget.getId());
+                        const auto& nativeTarget = create<PbxNativeTarget>(project.getName() + " macOS",
+                                                                           targetConfigurationList,
+                                                                           std::vector<PbxBuildPhaseRef>{sourcesBuildPhase, frameworksBuildPhase},
+                                                                           productFile);
+                        targets.push_back(nativeTarget);
                     }
                 }
 
-                PbxProject pbxProject{project.getOrganization(),
-                    projectConfigurationList,
-                    mainGroup,
-                    productRefGroup,
-                    {{"ProductGroup", ouzelPoductRefGroup.getId()},
-                     {"ProjectRef", ouzelProjectFileRef.getId()}},
-                    targetIds};
-                output.addRootObject(pbxProject);
+                const auto& pbxProject = create<PbxProject>(project.getOrganization(),
+                                                            projectConfigurationList,
+                                                            mainGroup,
+                                                            productRefGroup,
+                                                            std::map<std::string, PbxObjectRef>{
+                                                                {"ProductGroup", ouzelPoductRefGroup},
+                                                                {"ProjectRef", ouzelProjectFileRef}},
+                                                            targets);
+
+                rootObject = &pbxProject;
 
                 // TODO: resource build phases (PBXResourcesBuildPhase)
                 // TODO: shell script (PBXShellScriptBuildPhase)
 
                 std::ofstream file(projectFile, std::ios::trunc);
-                file << output.encode();
+                file << plist::encode(encode());
             }
 
         private:
-            class Output final
+            template <class T, class ...Args>
+            T& create(Args&& ...args)
             {
-            public:
-                void addObject(const PbxObject& object)
-                {
-                    root["objects"][toString(object.getId())] = object.encode();
-                }
+                std::unique_ptr<T> object = std::make_unique<T>(args...);
+                T& result = *object;
+                objects.push_back(std::move(object));
+                return result;
+            }
 
-                void addRootObject(const PbxObject& object)
-                {
-                    root["objects"][toString(object.getId())] = object.encode();
-                    root["rootObject"] = toString(object.getId());
-                }
-
-                std::string encode() const { return plist::encode(root); }
-
-            private:
-                plist::Value root = plist::Value::Dictionary{
+            plist::Value encode() const {
+                plist::Value result = plist::Value::Dictionary{
                     {"archiveVersion", 1},
                     {"classes", plist::Value::Dictionary{}},
                     {"objectVersion", 50},
-                    {"objects", plist::Value::Dictionary{}}
+                    {"objects", plist::Value::Dictionary{}},
+                    {"rootObject", rootObject ? toString(rootObject->getId()): ""}
                 };
-            };
+
+                for (const auto& object : objects)
+                    result["objects"][toString(object->getId())] = object->encode();
+
+                return result;
+            }
 
             const OuzelProject& project;
+            std::vector<std::unique_ptr<PbxObject>> objects;
+            const PbxObject* rootObject;
         };
     }
 }

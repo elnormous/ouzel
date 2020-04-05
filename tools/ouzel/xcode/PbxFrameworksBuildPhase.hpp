@@ -13,8 +13,8 @@ namespace ouzel
         class PbxFrameworksBuildPhase final: public PbxBuildPhase
         {
         public:
-            PbxFrameworksBuildPhase(const std::vector<Id>& files):
-                fileIds{files} {}
+            PbxFrameworksBuildPhase(const std::vector<PbxBuildFileRef>& initFiles):
+                files{initFiles} {}
 
             std::string getIsa() const override { return "PBXFrameworksBuildPhase"; }
 
@@ -25,14 +25,14 @@ namespace ouzel
                 result["files"] = plist::Value::Array{};
                 result["runOnlyForDeploymentPostprocessing"] = 0;
 
-                for (auto fileId : fileIds)
-                    result["files"].pushBack(toString(fileId));
+                for (const PbxBuildFile& file : files)
+                    result["files"].pushBack(toString(file.getId()));
 
                 return result;
             }
 
         private:
-            std::vector<Id> fileIds;
+            std::vector<PbxBuildFileRef> files;
         };
     }
 }

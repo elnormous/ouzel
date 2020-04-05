@@ -15,14 +15,14 @@ namespace ouzel
         class PbxGroup final: public PbxFileElement
         {
         public:
-            PbxGroup(const std::string& n,
-                     const storage::Path& p,
-                     const std::vector<Id>& children,
-                     PbxSourceTree tree):
-                name{n},
-                path{p},
-                childIds{children},
-                sourceTree{tree} {}
+            PbxGroup(const std::string& initName,
+                     const storage::Path& initPath,
+                     const std::vector<PbxFileElementRef>& initChildren,
+                     PbxSourceTree initSourceTree):
+                name{initName},
+                path{initPath},
+                children{initChildren},
+                sourceTree{initSourceTree} {}
 
             std::string getIsa() const override { return "PBXGroup"; }
 
@@ -37,8 +37,8 @@ namespace ouzel
                 else if (!name.empty())
                     result["name"] = name;
 
-                for (auto childId : childIds)
-                    result["children"].pushBack(toString(childId));
+                for (const PbxFileElement& child : children)
+                    result["children"].pushBack(toString(child.getId()));
 
                 return result;
             }
@@ -46,7 +46,7 @@ namespace ouzel
         private:
             std::string name;
             storage::Path path;
-            std::vector<Id> childIds;
+            std::vector<PbxFileElementRef> children;
             PbxSourceTree sourceTree;
         };
     }

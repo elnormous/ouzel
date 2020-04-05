@@ -14,14 +14,14 @@ namespace ouzel
         class PbxFileReference: public PbxFileElement
         {
         public:
-            PbxFileReference(const std::string n,
-                             const storage::Path& p,
-                             const std::string& type,
-                             PbxSourceTree tree):
-                name{n},
-                path{p},
-                fileType{type},
-                sourceTree{tree} {}
+            PbxFileReference(const std::string initName,
+                             const storage::Path& initPath,
+                             const std::string& initFileType,
+                             PbxSourceTree initSourceTree):
+                name{initName},
+                path{initPath},
+                fileType{initFileType},
+                sourceTree{initSourceTree} {}
 
             std::string getIsa() const override { return "PBXFileReference"; }
 

@@ -13,19 +13,19 @@ namespace ouzel
         class PbxContainerItemProxy final: public PbxObject
         {
         public:
-            PbxContainerItemProxy(const PbxFileReference& containerPortal,
-                                  const Id& remote,
-                                  const std::string& info):
-                containerPortalId{containerPortal.getId()},
-                remoteGlobalId{remote},
-                remoteInfo{info} {}
+            PbxContainerItemProxy(const PbxFileReference& initContainerPortal,
+                                  const Id& initRemoteGlobalId,
+                                  const std::string& initRemoteInfo):
+                containerPortal{initContainerPortal},
+                remoteGlobalId{initRemoteGlobalId},
+                remoteInfo{initRemoteInfo} {}
 
             std::string getIsa() const override { return "PBXContainerItemProxy"; }
 
             plist::Value encode() const override
             {
                 auto result = PbxObject::encode();
-                result["containerPortal"] = toString(containerPortalId);
+                result["containerPortal"] = toString(containerPortal.getId());
                 result["proxyType"] = 2;
                 result["remoteGlobalIDString"] = toString(remoteGlobalId);
                 result["remoteInfo"] = remoteInfo;
@@ -33,7 +33,7 @@ namespace ouzel
             }
 
         private:
-            Id containerPortalId;
+            const PbxFileReference& containerPortal;
             Id remoteGlobalId;
             std::string remoteInfo;
         };

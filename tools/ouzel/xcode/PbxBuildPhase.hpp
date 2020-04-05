@@ -16,6 +16,8 @@ namespace ouzel
 
             std::string getIsa() const override { return "PBXBuildPhase"; }
         };
+
+        using PbxBuildPhaseRef = std::reference_wrapper<const PbxBuildPhase>;
     }
 }
 
