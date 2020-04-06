@@ -29,6 +29,7 @@ namespace ouzel
             AudioMidi,
             AudioMp3,
             AudioWav,
+            Compiled,
             CompiledMachO,
             CompiledMachOBundle,
             CompiledMachOCorefile,
@@ -138,6 +139,7 @@ namespace ouzel
                 case PBXFileType::AudioMidi: return "audio.midi";
                 case PBXFileType::AudioMp3: return "audio.mp3";
                 case PBXFileType::AudioWav: return "audio.wav";
+                case PBXFileType::Compiled: return "compiled";
                 case PBXFileType::CompiledMachO: return "compiled.mach-o";
                 case PBXFileType::CompiledMachOBundle: return "compiled.mach-o.bundle";
                 case PBXFileType::CompiledMachOCorefile: return "compiled.mach-o.corefile";
