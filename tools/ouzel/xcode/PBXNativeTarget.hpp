@@ -7,6 +7,7 @@
 #include "PBXTarget.hpp"
 #include "PBXFileReference.hpp"
 #include "PBXBuildPhase.hpp"
+#include "PBXTargetDependency.hpp"
 #include "XCConfigurationList.hpp"
 
 namespace ouzel
@@ -19,10 +20,12 @@ namespace ouzel
             PBXNativeTarget(const std::string& initName,
                             const XCConfigurationList& initBuildConfigurationList,
                             const std::vector<PBXBuildPhaseRef>& initBuildPhases,
+                            const std::vector<PBXTargetDependencyRef>& initDependencies,
                             const PBXFileReference& initProductReference):
                 name{initName},
                 buildConfigurationList{initBuildConfigurationList},
                 buildPhases{initBuildPhases},
+                dependencies{initDependencies},
                 productReference{initProductReference} {}
 
             std::string getIsa() const override { return "PBXNativeTarget"; }
@@ -39,6 +42,9 @@ namespace ouzel
                 result["productReference"] = toString(productReference.getId());
                 result["productType"] = "com.apple.product-type.application";
 
+                for (const PBXTargetDependency& dependency : dependencies)
+                    result["dependencies"].pushBack(toString(dependency.getId()));
+
                 for (const PBXBuildPhase& buildPhase : buildPhases)
                     result["buildPhases"].pushBack(toString(buildPhase.getId()));
 
@@ -49,6 +55,7 @@ namespace ouzel
             std::string name;
             const XCConfigurationList& buildConfigurationList;
             std::vector<PBXBuildPhaseRef> buildPhases;
+            std::vector<PBXTargetDependencyRef> dependencies;
             const PBXFileReference& productReference;
         };
     }

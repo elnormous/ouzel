@@ -16,6 +16,7 @@
 #include "PBXResourcesBuildPhase.hpp"
 #include "PBXShellScriptBuildPhase.hpp"
 #include "PBXSourcesBuildPhase.hpp"
+#include "PBXTargetDependency.hpp"
 #include "XCBuildConfiguration.hpp"
 #include "XCConfigurationList.hpp"
 #include "storage/FileSystem.hpp"
@@ -85,6 +86,7 @@ namespace ouzel
                                                                            PBXFileType::WrapperPBProject,
                                                                            PBXSourceTree::Group);
                 const auto& libouzelIosProxy = create<PBXContainerItemProxy>(ouzelProjectFileRef,
+                                                                             PBXContainerItemProxy::Reference,
                                                                              libouzelIosId, "libouzel_ios");
 
                 const auto& libouzelIosReferenceProxy = create<PBXReferenceProxy>("", "libouzel_ios.a",
@@ -93,6 +95,7 @@ namespace ouzel
                                                                                   libouzelIosProxy);
 
                 const auto& libouzelMacOsProxy = create<PBXContainerItemProxy>(ouzelProjectFileRef,
+                                                                               PBXContainerItemProxy::Reference,
                                                                                libouzelMacOsId, "libouzel_macos");
 
                 const auto& libouzelMacOsReferenceProxy = create<PBXReferenceProxy>("", "libouzel_macos.a",
@@ -101,6 +104,7 @@ namespace ouzel
                                                                                     libouzelMacOsProxy);
 
                 const auto& libouzelTvosProxy = create<PBXContainerItemProxy>(ouzelProjectFileRef,
+                                                                              PBXContainerItemProxy::Reference,
                                                                               libouzelTvosId, "libouzel_tvos");
 
                 const auto& libouzelTvosReferenceProxy = create<PBXReferenceProxy>("", "libouzel_tvos.a",
@@ -109,7 +113,12 @@ namespace ouzel
                                                                                    libouzelTvosProxy);
 
                 const auto& ouzelProxy = create<PBXContainerItemProxy>(ouzelProjectFileRef,
+                                                                       PBXContainerItemProxy::Reference,
                                                                        ouzelId, "ouzel");
+
+                const auto& ouzelNativeTargetProxy = create<PBXContainerItemProxy>(ouzelProjectFileRef,
+                                                                                   PBXContainerItemProxy::NativeTarget,
+                                                                                   ouzelId, "ouzel");
 
                 const auto& ouzelReferenceProxy = create<PBXReferenceProxy>("", "ouzel",
                                                                             PBXFileType::CompiledMachOExecutable,
@@ -230,9 +239,12 @@ namespace ouzel
                         // TODO: implement resource copy
                         const auto& resourcesBuildPhase = create<PBXResourcesBuildPhase>(std::vector<PBXBuildFileRef>{});
 
+                        const auto& ouzelDependency = create<PBXTargetDependency>("ouzel", ouzelNativeTargetProxy);
+
                         const auto& nativeTarget = create<PBXNativeTarget>(project.getName() + " macOS",
                                                                            targetConfigurationList,
                                                                            std::vector<PBXBuildPhaseRef>{sourcesBuildPhase, frameworksBuildPhase, assetsBuildPhase, resourcesBuildPhase},
+                                                                           std::vector<PBXTargetDependencyRef>{ouzelDependency},
                                                                            productFile);
                         targets.push_back(nativeTarget);
                     }

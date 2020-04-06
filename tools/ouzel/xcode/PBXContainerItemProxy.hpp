@@ -13,10 +13,18 @@ namespace ouzel
         class PBXContainerItemProxy final: public PBXObject
         {
         public:
+            enum ProxyType
+            {
+                NativeTarget = 1,
+                Reference = 2
+            };
+
             PBXContainerItemProxy(const PBXFileReference& initContainerPortal,
+                                  ProxyType initProxyType,
                                   const Id& initRemoteGlobalId,
                                   const std::string& initRemoteInfo):
                 containerPortal{initContainerPortal},
+                proxyType{initProxyType},
                 remoteGlobalId{initRemoteGlobalId},
                 remoteInfo{initRemoteInfo} {}
 
@@ -26,7 +34,7 @@ namespace ouzel
             {
                 auto result = PBXObject::encode();
                 result["containerPortal"] = toString(containerPortal.getId());
-                result["proxyType"] = 2;
+                result["proxyType"] = static_cast<uint32_t>(proxyType);
                 result["remoteGlobalIDString"] = toString(remoteGlobalId);
                 result["remoteInfo"] = remoteInfo;
                 return result;
@@ -34,6 +42,7 @@ namespace ouzel
 
         private:
             const PBXFileReference& containerPortal;
+            ProxyType proxyType;
             Id remoteGlobalId;
             std::string remoteInfo;
         };

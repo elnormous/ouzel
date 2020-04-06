@@ -15,7 +15,7 @@ namespace ouzel
         class PBXFileReference: public PBXFileElement
         {
         public:
-            PBXFileReference(const std::string initName,
+            PBXFileReference(const std::string& initName,
                              const storage::Path& initPath,
                              const PBXFileType& initFileType,
                              PBXSourceTree initSourceTree):
