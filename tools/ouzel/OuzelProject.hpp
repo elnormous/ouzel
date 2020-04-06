@@ -13,9 +13,10 @@ namespace ouzel
     class OuzelProject final
     {
     public:
-        OuzelProject(const storage::Path& path)
+        OuzelProject(const storage::Path& initPath):
+            path{initPath}
         {
-            directoryPath = path.getDirectory();
+            storage::Path directoryPath = path.getDirectory();
 
             std::ifstream f(path, std::ios::binary);
             std::vector<char> data{std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
@@ -53,7 +54,7 @@ namespace ouzel
             assetsPath = j["assetsPath"].as<std::string>();
         }
 
-        const storage::Path& getDirectoryPath() const noexcept { return directoryPath; }
+        const storage::Path& getPath() const noexcept { return path; }
         const std::string& getName() const noexcept { return name; }
         const std::string& getIdentifier() const noexcept { return identifier; }
         const std::string& getOrganization() const noexcept { return organization; }
@@ -81,7 +82,7 @@ namespace ouzel
         }
 
     private:
-        storage::Path directoryPath;
+        const storage::Path path;
         std::string name;
         std::string identifier;
         std::string organization;

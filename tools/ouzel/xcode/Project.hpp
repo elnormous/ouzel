@@ -36,18 +36,21 @@ namespace ouzel
 
             void generate()
             {
-                auto projectDirectory = project.getDirectoryPath() / storage::Path{project.getName() + ".xcodeproj"};
-                auto projectDirectoryType = projectDirectory.getType();
+                const storage::Path projectFilename = project.getPath().getFilename();
+                const storage::Path projectDirectory = project.getPath().getDirectory();
 
-                if (projectDirectoryType == storage::Path::Type::NotFound)
-                    storage::FileSystem::createDirectory(projectDirectory);
-                else if (projectDirectoryType != storage::Path::Type::Directory)
+                auto xcodeProjectDirectory = projectDirectory / storage::Path{project.getName() + ".xcodeproj"};
+                auto xcodeProjectDirectoryType = xcodeProjectDirectory.getType();
+
+                if (xcodeProjectDirectoryType == storage::Path::Type::NotFound)
+                    storage::FileSystem::createDirectory(xcodeProjectDirectory);
+                else if (xcodeProjectDirectoryType != storage::Path::Type::Directory)
                 {
-                    storage::FileSystem::deleteFile(projectDirectory);
-                    storage::FileSystem::createDirectory(projectDirectory);
+                    storage::FileSystem::deleteFile(xcodeProjectDirectory);
+                    storage::FileSystem::createDirectory(xcodeProjectDirectory);
                 }
 
-                auto projectFile = projectDirectory / storage::Path{"project.pbxproj"};
+                auto xcodeProjectFile = xcodeProjectDirectory / storage::Path{"project.pbxproj"};
 
                 constexpr auto libouzelIosId = Id{0x30, 0x3B, 0x75, 0x33, 0x1C, 0x2A, 0x3C, 0x58, 0x00, 0xFE, 0xDE, 0x92};
                 constexpr auto libouzelMacOsId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
@@ -234,7 +237,7 @@ namespace ouzel
                         const auto& frameworksBuildPhase = create<PBXFrameworksBuildPhase>(frameworkBuildFiles);
 
                         // TODO: implement asset build shell script
-                        const auto& assetsBuildPhase = create<PBXShellScriptBuildPhase>("ls -al");
+                        const auto& assetsBuildPhase = create<PBXShellScriptBuildPhase>("$BUILT_PRODUCTS_DIR/ouzel --export-assets $PROJECT_DIR/" + std::string(projectFilename));
 
                         // TODO: implement resource copy
                         const auto& resourcesBuildPhase = create<PBXResourcesBuildPhase>(std::vector<PBXBuildFileRef>{});
@@ -261,7 +264,7 @@ namespace ouzel
 
                 rootObject = &pbxProject;
 
-                std::ofstream file(projectFile, std::ios::trunc);
+                std::ofstream file(xcodeProjectFile, std::ios::trunc);
                 file << plist::encode(encode());
             }
 
