@@ -14,6 +14,7 @@
 #include "PBXProject.hpp"
 #include "PBXReferenceProxy.hpp"
 #include "PBXResourcesBuildPhase.hpp"
+#include "PBXShellScriptBuildPhase.hpp"
 #include "PBXSourcesBuildPhase.hpp"
 #include "XCBuildConfiguration.hpp"
 #include "XCConfigurationList.hpp"
@@ -223,12 +224,15 @@ namespace ouzel
 
                         const auto& frameworksBuildPhase = create<PBXFrameworksBuildPhase>(frameworkBuildFiles);
 
+                        // TODO: implement asset build shell script
+                        const auto& assetsBuildPhase = create<PBXShellScriptBuildPhase>("ls -al");
+
                         // TODO: implement resource copy
                         const auto& resourcesBuildPhase = create<PBXResourcesBuildPhase>(std::vector<PBXBuildFileRef>{});
 
                         const auto& nativeTarget = create<PBXNativeTarget>(project.getName() + " macOS",
                                                                            targetConfigurationList,
-                                                                           std::vector<PBXBuildPhaseRef>{sourcesBuildPhase, frameworksBuildPhase, resourcesBuildPhase},
+                                                                           std::vector<PBXBuildPhaseRef>{sourcesBuildPhase, frameworksBuildPhase, assetsBuildPhase, resourcesBuildPhase},
                                                                            productFile);
                         targets.push_back(nativeTarget);
                     }
@@ -244,8 +248,6 @@ namespace ouzel
                                                             targets);
 
                 rootObject = &pbxProject;
-
-                // TODO: shell script (PBXShellScriptBuildPhase)
 
                 std::ofstream file(projectFile, std::ios::trunc);
                 file << plist::encode(encode());

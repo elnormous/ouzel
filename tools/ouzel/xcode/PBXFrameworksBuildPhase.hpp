@@ -5,6 +5,7 @@
 
 #include <vector>
 #include "PBXBuildPhase.hpp"
+#include "PBXBuildFile.hpp"
 
 namespace ouzel
 {

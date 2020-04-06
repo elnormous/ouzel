@@ -170,6 +170,7 @@
     <ClInclude Include="..\tools\ouzel\xcode\PBXProject.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXReferenceProxy.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXResourcesBuildPhase.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PBXShellScriptBuildPhase.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXSourcesBuildPhase.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXSourceTree.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXTarget.hpp" />
