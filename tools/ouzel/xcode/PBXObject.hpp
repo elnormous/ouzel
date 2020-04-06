@@ -51,6 +51,7 @@ namespace ouzel
                 static std::mt19937 randomEngine(randomDevice());
                 static uint32_t sequence = 0;
                 const auto s = sequence++;
+                if (sequence >= 0x00FFFFFF) sequence = 0;
                 const auto now = std::chrono::system_clock::now();
                 const auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
                 const uint32_t r = randomEngine();
