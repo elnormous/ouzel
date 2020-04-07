@@ -50,7 +50,7 @@ namespace ouzel
                     storage::FileSystem::createDirectory(xcodeProjectDirectory);
                 }
 
-                auto xcodeProjectFile = xcodeProjectDirectory / storage::Path{"project.pbxproj"};
+                auto pbxProjectFile = xcodeProjectDirectory / storage::Path{"project.pbxproj"};
 
                 constexpr auto libouzelIosId = Id{0x30, 0x3B, 0x75, 0x33, 0x1C, 0x2A, 0x3C, 0x58, 0x00, 0xFE, 0xDE, 0x92};
                 constexpr auto libouzelMacOsId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
@@ -264,7 +264,7 @@ namespace ouzel
 
                 rootObject = &pbxProject;
 
-                std::ofstream file(xcodeProjectFile, std::ios::trunc);
+                std::ofstream file(pbxProjectFile, std::ios::trunc);
                 file << plist::encode(encode());
             }
 
