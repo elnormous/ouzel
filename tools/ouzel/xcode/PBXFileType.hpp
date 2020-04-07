@@ -226,6 +226,8 @@ namespace ouzel
                 case PBXFileType::WrapperFramework: return "wrapper.framework";
                 case PBXFileType::WrapperPBProject: return "wrapper.pb-project";
             }
+
+            throw std::runtime_error("Unsupported file type");
         }
     }
 }

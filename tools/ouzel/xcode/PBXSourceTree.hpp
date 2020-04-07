@@ -30,6 +30,8 @@ namespace ouzel
                 case PBXSourceTree::SdkRoot: return "SDKROOT";
                 case PBXSourceTree::DeveloperDir: return "DEVELOPER_DIR";
             }
+
+            throw std::runtime_error("Unsupported source tree");
         }
     }
 }
