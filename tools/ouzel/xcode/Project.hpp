@@ -57,33 +57,6 @@ namespace ouzel
                 constexpr auto libouzelTvosId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
                 constexpr auto ouzelId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
 
-                std::vector<PBXFileReferenceRef> frameworkFileReferences;
-                std::vector<PBXFileElementRef> frameworkFiles;
-
-                const auto frameworksPath = storage::Path{"System/Library/Frameworks"};
-                for (const auto& framework : {
-                    "AudioToolbox.framework",
-                    "AudioUnit.framework",
-                    "Cocoa.framework",
-                    "CoreAudio.framework",
-                    "CoreVideo.framework",
-                    "GameController.framework",
-                    "IOKit.framework",
-                    "Metal.framework",
-                    "OpenAL.framework",
-                    "OpenGL.framework",
-                    "QuartzCore.framework"
-                })
-                {
-                    const auto& frameworkFileReference = create<PBXFileReference>(framework,
-                                                                                  frameworksPath / framework,
-                                                                                  PBXFileType::WrapperFramework,
-                                                                                  PBXSourceTree::SdkRoot);
-
-                    frameworkFileReferences.push_back(frameworkFileReference);
-                    frameworkFiles.push_back(frameworkFileReference);
-                }
-
                 const auto ouzelProjectPath = project.getOuzelPath() / "build" / "ouzel.xcodeproj";
                 const auto& ouzelProjectFileRef = create<PBXFileReference>("ouzel.xcodeproj", ouzelProjectPath,
                                                                            PBXFileType::WrapperPBProject,
@@ -127,10 +100,6 @@ namespace ouzel
                                                                             PBXFileType::CompiledMachOExecutable,
                                                                             PBXSourceTree::BuildProductsDir,
                                                                             ouzelProxy);
-
-                const auto& frameworksGroup = create<PBXGroup>("Frameworks", storage::Path{},
-                                                               frameworkFiles,
-                                                               PBXSourceTree::Group);
 
                 const auto& ouzelPoductRefGroup = create<PBXGroup>("Products", storage::Path{},
                                                                    std::vector<PBXFileElementRef>{
@@ -176,15 +145,6 @@ namespace ouzel
                 const auto& sourceGroup = create<PBXGroup>("src", storage::Path{"src"},
                                                            sourceFiles, PBXSourceTree::Group);
 
-                const auto& mainGroup = create<PBXGroup>("", storage::Path{},
-                                                         std::vector<PBXFileElementRef>{
-                                                             frameworksGroup,
-                                                             ouzelProjectFileRef,
-                                                             productRefGroup,
-                                                             resourcesGroup,
-                                                             sourceGroup},
-                                                         PBXSourceTree::Group);
-
                 const auto headerSearchPath = std::string(project.getOuzelPath() / "engine");
                 const auto& debugConfiguration = create<XCBuildConfiguration>("Debug",
                                                                               std::map<std::string, std::string>{
@@ -203,6 +163,7 @@ namespace ouzel
                                                                                    releaseConfiguration.getName());
 
                 std::vector<PBXTargetRef> targets;
+                std::vector<PBXFileElementRef> frameworkFiles;
 
                 for (const auto platform : project.getPlatforms())
                 {
@@ -223,6 +184,32 @@ namespace ouzel
                                                                                           targetReleaseConfiguration.getName());
 
                         const auto& sourcesBuildPhase = create<PBXSourcesBuildPhase>(buildFiles);
+
+                        std::vector<PBXFileReferenceRef> frameworkFileReferences;
+
+                        const auto frameworksPath = storage::Path{"System/Library/Frameworks"};
+                        for (const auto& framework : {
+                            "AudioToolbox.framework",
+                            "AudioUnit.framework",
+                            "Cocoa.framework",
+                            "CoreAudio.framework",
+                            "CoreVideo.framework",
+                            "GameController.framework",
+                            "IOKit.framework",
+                            "Metal.framework",
+                            "OpenAL.framework",
+                            "OpenGL.framework",
+                            "QuartzCore.framework"
+                        })
+                        {
+                            const auto& frameworkFileReference = create<PBXFileReference>(framework,
+                                                                                          frameworksPath / framework,
+                                                                                          PBXFileType::WrapperFramework,
+                                                                                          PBXSourceTree::SdkRoot);
+
+                            frameworkFileReferences.push_back(frameworkFileReference);
+                            frameworkFiles.push_back(frameworkFileReference);
+                        }
 
                         std::vector<PBXBuildFileRef> frameworkBuildFiles;
                         for (const PBXFileReferenceRef& frameworkFileReference : frameworkFileReferences)
@@ -252,6 +239,19 @@ namespace ouzel
                         targets.push_back(nativeTarget);
                     }
                 }
+
+                const auto& frameworksGroup = create<PBXGroup>("Frameworks", storage::Path{},
+                                                               frameworkFiles,
+                                                               PBXSourceTree::Group);
+
+                const auto& mainGroup = create<PBXGroup>("", storage::Path{},
+                                                         std::vector<PBXFileElementRef>{
+                                                             frameworksGroup,
+                                                             ouzelProjectFileRef,
+                                                             productRefGroup,
+                                                             resourcesGroup,
+                                                             sourceGroup},
+                                                         PBXSourceTree::Group);
 
                 const auto& pbxProject = create<PBXProject>(project.getOrganization(),
                                                             projectConfigurationList,
