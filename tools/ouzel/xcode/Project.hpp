@@ -272,7 +272,7 @@ namespace ouzel
             template <class T, class ...Args>
             T& create(Args&& ...args)
             {
-                std::unique_ptr<T> object = std::make_unique<T>(args...);
+                std::unique_ptr<T> object = std::make_unique<T>(std::forward<Args>(args)...);
                 T& result = *object;
                 objects.push_back(std::move(object));
                 return result;
