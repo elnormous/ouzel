@@ -172,13 +172,21 @@ namespace ouzel
                         platform == Platform::Ios ||
                         platform == Platform::Tvos)
                     {
-                        const auto& targetDebugConfiguration = create<XCBuildConfiguration>("Debug",
-                                                                                            std::map<std::string, std::string>{
-                                                                                                {"PRODUCT_NAME", project.getName()}});
+                        const std::map<std::string, std::string> buildSettings =
+                            platform == Platform::MacOs ? std::map<std::string, std::string>{{"PRODUCT_NAME", project.getName()}} :
+                            platform == Platform::Ios ? std::map<std::string, std::string>{
+                                {"PRODUCT_NAME", project.getName()},
+                                {"SDKROOT", "iphoneos"}
+                            } :
+                            platform == Platform::Tvos ? std::map<std::string, std::string>{
+                                {"PRODUCT_NAME", project.getName()},
+                                {"SDKROOT", "appletvos"}
+                            } :
+                            std::map<std::string, std::string>{};
 
-                        const auto& targetReleaseConfiguration = create<XCBuildConfiguration>("Release",
-                                                                                              std::map<std::string, std::string>{
-                                                                                                  {"PRODUCT_NAME", project.getName()}});
+                        const auto& targetDebugConfiguration = create<XCBuildConfiguration>("Debug", buildSettings);
+
+                        const auto& targetReleaseConfiguration = create<XCBuildConfiguration>("Release", buildSettings);
 
                         const auto& targetConfigurationList = create<XCConfigurationList>(std::vector<XCBuildConfigurationRef>{
                                                                                               targetDebugConfiguration,
@@ -237,6 +245,9 @@ namespace ouzel
                                 frameworkBuildFiles.push_back(libouzelTvosBuildFile);
                                 break;
                             }
+
+                            default:
+                                throw std::runtime_error("Unsupported platform");
                         }
 
                         for (const PBXFileReferenceRef& frameworkFileReference : frameworkFileReferences)
