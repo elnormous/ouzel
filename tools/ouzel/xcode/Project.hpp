@@ -168,7 +168,9 @@ namespace ouzel
                 for (const auto platform : project.getPlatforms())
                 {
                     // TODO: do it for all platforms
-                    if (platform == Platform::MacOs)
+                    if (platform == Platform::MacOs ||
+                        platform == Platform::Ios ||
+                        platform == Platform::Tvos)
                     {
                         const auto& targetDebugConfiguration = create<XCBuildConfiguration>("Debug",
                                                                                             std::map<std::string, std::string>{
@@ -186,40 +188,62 @@ namespace ouzel
                         const auto& sourcesBuildPhase = create<PBXSourcesBuildPhase>(buildFiles);
 
                         std::vector<PBXFileReferenceRef> frameworkFileReferences;
+                        std::vector<PBXBuildFileRef> frameworkBuildFiles;
 
-                        const auto frameworksPath = storage::Path{"System/Library/Frameworks"};
-                        for (const auto& framework : {
-                            "AudioToolbox.framework",
-                            "AudioUnit.framework",
-                            "Cocoa.framework",
-                            "CoreAudio.framework",
-                            "CoreVideo.framework",
-                            "GameController.framework",
-                            "IOKit.framework",
-                            "Metal.framework",
-                            "OpenAL.framework",
-                            "OpenGL.framework",
-                            "QuartzCore.framework"
-                        })
+                        switch (platform)
                         {
-                            const auto& frameworkFileReference = create<PBXFileReference>(framework,
-                                                                                          frameworksPath / framework,
-                                                                                          PBXFileType::WrapperFramework,
-                                                                                          PBXSourceTree::SdkRoot);
+                            case Platform::MacOs:
+                            {
+                                const auto frameworksPath = storage::Path{"System/Library/Frameworks"};
+                                for (const auto& framework : {
+                                    "AudioToolbox.framework",
+                                    "AudioUnit.framework",
+                                    "Cocoa.framework",
+                                    "CoreAudio.framework",
+                                    "CoreVideo.framework",
+                                    "GameController.framework",
+                                    "IOKit.framework",
+                                    "Metal.framework",
+                                    "OpenAL.framework",
+                                    "OpenGL.framework",
+                                    "QuartzCore.framework"
+                                })
+                                {
+                                    const auto& frameworkFileReference = create<PBXFileReference>(framework,
+                                                                                                  frameworksPath / framework,
+                                                                                                  PBXFileType::WrapperFramework,
+                                                                                                  PBXSourceTree::SdkRoot);
 
-                            frameworkFileReferences.push_back(frameworkFileReference);
-                            frameworkFiles.push_back(frameworkFileReference);
+                                    frameworkFileReferences.push_back(frameworkFileReference);
+                                    frameworkFiles.push_back(frameworkFileReference);
+                                }
+
+                                const auto& libouzelMacOsBuildFile = create<PBXBuildFile>(libouzelMacOsReferenceProxy);
+                                frameworkBuildFiles.push_back(libouzelMacOsBuildFile);
+
+                                break;
+                            }
+
+                            case Platform::Ios:
+                            {
+                                const auto& libouzelIosBuildFile = create<PBXBuildFile>(libouzelIosReferenceProxy);
+                                frameworkBuildFiles.push_back(libouzelIosBuildFile);
+                                break;
+                            }
+
+                            case Platform::Tvos:
+                            {
+                                const auto& libouzelTvosBuildFile = create<PBXBuildFile>(libouzelTvosReferenceProxy);
+                                frameworkBuildFiles.push_back(libouzelTvosBuildFile);
+                                break;
+                            }
                         }
 
-                        std::vector<PBXBuildFileRef> frameworkBuildFiles;
                         for (const PBXFileReferenceRef& frameworkFileReference : frameworkFileReferences)
                         {
                             const auto& frameworkBuildFile = create<PBXBuildFile>(frameworkFileReference);
                             frameworkBuildFiles.push_back(frameworkBuildFile);
                         }
-
-                        const auto& libouzelMacOsBuildFile = create<PBXBuildFile>(libouzelMacOsReferenceProxy);
-                        frameworkBuildFiles.push_back(libouzelMacOsBuildFile);
 
                         const auto& frameworksBuildPhase = create<PBXFrameworksBuildPhase>(frameworkBuildFiles);
 
@@ -231,7 +255,12 @@ namespace ouzel
 
                         const auto& ouzelDependency = create<PBXTargetDependency>("ouzel", ouzelNativeTargetProxy);
 
-                        const auto& nativeTarget = create<PBXNativeTarget>(project.getName() + " macOS",
+                        const auto targetName = project.getName() + (
+                            (platform == Platform::MacOs) ? " macOS" :
+                            (platform == Platform::Ios) ? " iOS" :
+                            (platform == Platform::Tvos) ? " tvOS" : "");
+
+                        const auto& nativeTarget = create<PBXNativeTarget>(targetName,
                                                                            targetConfigurationList,
                                                                            std::vector<PBXBuildPhaseRef>{sourcesBuildPhase, frameworksBuildPhase, assetsBuildPhase, resourcesBuildPhase},
                                                                            std::vector<PBXTargetDependencyRef>{ouzelDependency},
