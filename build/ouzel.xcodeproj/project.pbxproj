@@ -2850,7 +2850,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -2861,7 +2861,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -2947,7 +2947,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2980,7 +2979,6 @@
 					../external/smbPitchShift,
 					../external/stb,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				WARNING_CFLAGS = "-Wself-assign";
 			};
@@ -3019,7 +3017,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3048,7 +3045,6 @@
 					../external/smbPitchShift,
 					../external/stb,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				WARNING_CFLAGS = "-Wself-assign";
 			};
 			name = Release;
@@ -3058,6 +3054,7 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREFIX_HEADER = Prefix.pch;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = ouzel_macos;
 				SDKROOT = macosx;
 			};
@@ -3068,6 +3065,7 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREFIX_HEADER = Prefix.pch;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = ouzel_macos;
 				SDKROOT = macosx;
 			};

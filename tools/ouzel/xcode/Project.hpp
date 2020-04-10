@@ -175,17 +175,27 @@ namespace ouzel
                         platform == Platform::Ios ||
                         platform == Platform::Tvos)
                     {
-                        const std::map<std::string, std::string> buildSettings =
-                            platform == Platform::MacOs ? std::map<std::string, std::string>{{"PRODUCT_NAME", project.getName()}} :
-                            platform == Platform::Ios ? std::map<std::string, std::string>{
-                                {"PRODUCT_NAME", project.getName()},
-                                {"SDKROOT", "iphoneos"}
-                            } :
-                            platform == Platform::Tvos ? std::map<std::string, std::string>{
-                                {"PRODUCT_NAME", project.getName()},
-                                {"SDKROOT", "appletvos"}
-                            } :
-                            std::map<std::string, std::string>{};
+                        std::map<std::string, std::string> buildSettings = {{"PRODUCT_NAME", project.getName()}};
+
+                        switch (platform)
+                        {
+                            case Platform::MacOs:
+                                buildSettings["MACOSX_DEPLOYMENT_TARGET"] = "10.8";
+                                break;
+
+                            case Platform::Ios:
+                                buildSettings["SDKROOT"] = "iphoneos";
+                                buildSettings["IPHONEOS_DEPLOYMENT_TARGET"] = "8.0";
+                                break;
+
+                            case Platform::Tvos:
+                                buildSettings["SDKROOT"] = "appletvos";
+                                buildSettings["TVOS_DEPLOYMENT_TARGET"] = "9.0";
+                                break;
+
+                            default:
+                                throw std::runtime_error("Unsupported platform");
+                        }
 
                         const auto& targetDebugConfiguration = create<XCBuildConfiguration>("Debug", buildSettings);
 
