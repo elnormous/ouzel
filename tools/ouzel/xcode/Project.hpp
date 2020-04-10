@@ -172,7 +172,6 @@ namespace ouzel
 
                 for (const auto platform : project.getPlatforms())
                 {
-                    // TODO: do it for all platforms
                     if (platform == Platform::MacOs ||
                         platform == Platform::Ios ||
                         platform == Platform::Tvos)
@@ -307,10 +306,10 @@ namespace ouzel
 
                         const auto& ouzelDependency = create<PBXTargetDependency>("ouzel", ouzelNativeTargetProxy);
 
-                        const auto targetName = project.getName() + (
-                            (platform == Platform::MacOs) ? " macOS" :
-                            (platform == Platform::Ios) ? " iOS" :
-                            (platform == Platform::Tvos) ? " tvOS" : "");
+                        const auto targetName = project.getName() + ' ' + (
+                            (platform == Platform::MacOs) ? "macOS" :
+                            (platform == Platform::Ios) ? "iOS" :
+                            (platform == Platform::Tvos) ? "tvOS" : "");
 
                         const auto& nativeTarget = create<PBXNativeTarget>(targetName,
                                                                            targetConfigurationList,
