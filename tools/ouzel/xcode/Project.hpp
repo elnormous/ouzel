@@ -149,8 +149,10 @@ namespace ouzel
                 const auto& debugConfiguration = create<XCBuildConfiguration>("Debug",
                                                                               std::map<std::string, std::string>{
                                                                                   {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
+                                                                                  {"ENABLE_TESTABILITY", "YES"},
                                                                                   {"GCC_OPTIMIZATION_LEVEL", "0"},
-                                                                                  {"HEADER_SEARCH_PATHS", headerSearchPath}});
+                                                                                  {"HEADER_SEARCH_PATHS", headerSearchPath},
+                                                                                  {"ONLY_ACTIVE_ARCH", "YES"}});
 
                 const auto& releaseConfiguration = create<XCBuildConfiguration>("Release",
                                                                                 std::map<std::string, std::string>{
