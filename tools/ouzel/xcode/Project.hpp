@@ -178,6 +178,8 @@ namespace ouzel
                         platform == Platform::Tvos)
                     {
                         std::map<std::string, std::string> buildSettings = {{"PRODUCT_NAME", project.getName()}};
+                        storage::Path sdkPath;
+                        PBXSourceTree frameworkSourceTree = PBXSourceTree::SdkRoot;
                         std::vector<const char*> frameworks;
 
                         switch (platform)
@@ -211,6 +213,8 @@ namespace ouzel
                                     "QuartzCore.framework",
                                     "UIKit.framework"
                                 };
+                                sdkPath = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk";
+                                frameworkSourceTree = PBXSourceTree::DeveloperDir;
                                 break;
 
                             case Platform::Tvos:
@@ -226,6 +230,8 @@ namespace ouzel
                                     "QuartzCore.framework",
                                     "UIKit.framework"
                                 };
+                                sdkPath = "Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk";
+                                frameworkSourceTree = PBXSourceTree::DeveloperDir;
                                 break;
 
                             default:
@@ -246,13 +252,13 @@ namespace ouzel
                         std::vector<PBXFileReferenceRef> frameworkFileReferences;
                         std::vector<PBXBuildFileRef> frameworkBuildFiles;
 
-                        const auto frameworksPath = storage::Path{"System/Library/Frameworks"};
+                        const auto frameworksPath = sdkPath / storage::Path{"System/Library/Frameworks"};
                         for (const auto& framework : frameworks)
                         {
                             const auto& frameworkFileReference = create<PBXFileReference>(framework,
                                                                                           frameworksPath / framework,
                                                                                           PBXFileType::WrapperFramework,
-                                                                                          PBXSourceTree::SdkRoot);
+                                                                                          frameworkSourceTree);
 
                             frameworkFileReferences.push_back(frameworkFileReference);
                             frameworkFiles.push_back(frameworkFileReference);

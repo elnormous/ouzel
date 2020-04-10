@@ -126,7 +126,7 @@ namespace ouzel
 
             Path& operator/=(const Path& p)
             {
-                if (path.empty() || path.back() != Char(directorySeparator))
+                if (!path.empty() && path.back() != Char(directorySeparator))
                     path += Char(directorySeparator);
                 path += p.path;
                 return *this;
@@ -142,7 +142,7 @@ namespace ouzel
             Path operator/(const Path& p) const
             {
                 Path result = *this;
-                if (result.path.empty() || result.path.back() != Char(directorySeparator))
+                if (!result.path.empty() && result.path.back() != Char(directorySeparator))
                     result.path += Char(directorySeparator);
                 result.path += p.path;
                 return result;
