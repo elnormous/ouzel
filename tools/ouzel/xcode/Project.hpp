@@ -149,6 +149,7 @@ namespace ouzel
                 const auto& debugConfiguration = create<XCBuildConfiguration>("Debug",
                                                                               std::map<std::string, std::string>{
                                                                                   {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
+                                                                                  {"CLANG_CXX_LIBRARY", "libc++"},
                                                                                   {"ENABLE_TESTABILITY", "YES"},
                                                                                   {"GCC_OPTIMIZATION_LEVEL", "0"},
                                                                                   {"GCC_PREPROCESSOR_DEFINITIONS", "DEBUG=1"},
@@ -158,6 +159,7 @@ namespace ouzel
                 const auto& releaseConfiguration = create<XCBuildConfiguration>("Release",
                                                                                 std::map<std::string, std::string>{
                                                                                     {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
+                                                                                    {"CLANG_CXX_LIBRARY", "libc++"},
                                                                                     {"HEADER_SEARCH_PATHS", headerSearchPath}});
 
                 const auto& projectConfigurationList = create<XCConfigurationList>(std::vector<XCBuildConfigurationRef>{
