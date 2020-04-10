@@ -178,21 +178,54 @@ namespace ouzel
                         platform == Platform::Tvos)
                     {
                         std::map<std::string, std::string> buildSettings = {{"PRODUCT_NAME", project.getName()}};
+                        std::vector<const char*> frameworks;
 
                         switch (platform)
                         {
                             case Platform::MacOs:
+                                buildSettings["SDKROOT"] = "macosx";
                                 buildSettings["MACOSX_DEPLOYMENT_TARGET"] = "10.8";
+                                frameworks = {"AudioToolbox.framework",
+                                    "AudioUnit.framework",
+                                    "Cocoa.framework",
+                                    "CoreAudio.framework",
+                                    "CoreVideo.framework",
+                                    "GameController.framework",
+                                    "IOKit.framework",
+                                    "Metal.framework",
+                                    "OpenAL.framework",
+                                    "OpenGL.framework",
+                                    "QuartzCore.framework"};
                                 break;
 
                             case Platform::Ios:
                                 buildSettings["SDKROOT"] = "iphoneos";
                                 buildSettings["IPHONEOS_DEPLOYMENT_TARGET"] = "8.0";
+                                frameworks = {"AudioToolbox.framework",
+                                    "AVFoundation.framework",
+                                    "Foundation.framework",
+                                    "GameController.framework",
+                                    "Metal.framework",
+                                    "OpenAL.framework",
+                                    "OpenGLES.framework",
+                                    "QuartzCore.framework",
+                                    "UIKit.framework"
+                                };
                                 break;
 
                             case Platform::Tvos:
                                 buildSettings["SDKROOT"] = "appletvos";
                                 buildSettings["TVOS_DEPLOYMENT_TARGET"] = "9.0";
+                                frameworks = {"AudioToolbox.framework",
+                                    "AVFoundation.framework",
+                                    "Foundation.framework",
+                                    "GameController.framework",
+                                    "Metal.framework",
+                                    "OpenAL.framework",
+                                    "OpenGLES.framework",
+                                    "QuartzCore.framework",
+                                    "UIKit.framework"
+                                };
                                 break;
 
                             default:
@@ -213,37 +246,24 @@ namespace ouzel
                         std::vector<PBXFileReferenceRef> frameworkFileReferences;
                         std::vector<PBXBuildFileRef> frameworkBuildFiles;
 
+                        const auto frameworksPath = storage::Path{"System/Library/Frameworks"};
+                        for (const auto& framework : frameworks)
+                        {
+                            const auto& frameworkFileReference = create<PBXFileReference>(framework,
+                                                                                          frameworksPath / framework,
+                                                                                          PBXFileType::WrapperFramework,
+                                                                                          PBXSourceTree::SdkRoot);
+
+                            frameworkFileReferences.push_back(frameworkFileReference);
+                            frameworkFiles.push_back(frameworkFileReference);
+                        }
+
                         switch (platform)
                         {
                             case Platform::MacOs:
                             {
-                                const auto frameworksPath = storage::Path{"System/Library/Frameworks"};
-                                for (const auto& framework : {
-                                    "AudioToolbox.framework",
-                                    "AudioUnit.framework",
-                                    "Cocoa.framework",
-                                    "CoreAudio.framework",
-                                    "CoreVideo.framework",
-                                    "GameController.framework",
-                                    "IOKit.framework",
-                                    "Metal.framework",
-                                    "OpenAL.framework",
-                                    "OpenGL.framework",
-                                    "QuartzCore.framework"
-                                })
-                                {
-                                    const auto& frameworkFileReference = create<PBXFileReference>(framework,
-                                                                                                  frameworksPath / framework,
-                                                                                                  PBXFileType::WrapperFramework,
-                                                                                                  PBXSourceTree::SdkRoot);
-
-                                    frameworkFileReferences.push_back(frameworkFileReference);
-                                    frameworkFiles.push_back(frameworkFileReference);
-                                }
-
                                 const auto& libouzelMacOsBuildFile = create<PBXBuildFile>(libouzelMacOsReferenceProxy);
                                 frameworkBuildFiles.push_back(libouzelMacOsBuildFile);
-
                                 break;
                             }
 
