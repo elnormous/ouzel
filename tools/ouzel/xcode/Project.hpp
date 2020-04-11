@@ -39,8 +39,8 @@ namespace ouzel
                 const storage::Path projectFilename = project.getPath().getFilename();
                 const storage::Path projectDirectory = project.getPath().getDirectory();
 
-                auto xcodeProjectDirectory = projectDirectory / storage::Path{project.getName() + ".xcodeproj"};
-                auto xcodeProjectDirectoryType = xcodeProjectDirectory.getType();
+                const auto xcodeProjectDirectory = projectDirectory / storage::Path{project.getName() + ".xcodeproj"};
+                const auto xcodeProjectDirectoryType = xcodeProjectDirectory.getType();
 
                 if (xcodeProjectDirectoryType == storage::Path::Type::NotFound)
                     storage::FileSystem::createDirectory(xcodeProjectDirectory);
@@ -50,7 +50,7 @@ namespace ouzel
                     storage::FileSystem::createDirectory(xcodeProjectDirectory);
                 }
 
-                auto pbxProjectFile = xcodeProjectDirectory / storage::Path{"project.pbxproj"};
+                const auto pbxProjectFile = xcodeProjectDirectory / storage::Path{"project.pbxproj"};
 
                 constexpr auto libouzelIosId = Id{0x30, 0x3B, 0x75, 0x33, 0x1C, 0x2A, 0x3C, 0x58, 0x00, 0xFE, 0xDE, 0x92};
                 constexpr auto libouzelMacOsId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
@@ -176,11 +176,26 @@ namespace ouzel
                         platform == Platform::Ios ||
                         platform == Platform::Tvos)
                     {
-                        std::map<std::string, std::string> buildSettings = {{"PRODUCT_NAME", project.getName()}};
+                        std::map<std::string, std::string> buildSettings = {
+                            {"PRODUCT_NAME", project.getName()},
+                            {"INFOPLIST_FILE", toString(platform) + "/Info.plist"}
+                        };
+
                         storage::Path sdkPath;
                         PBXSourceTree frameworkSourceTree = PBXSourceTree::SdkRoot;
                         std::vector<const char*> frameworks;
                         std::vector<PBXBuildFileRef> frameworkBuildFiles;
+
+                        const auto platformDirectory = projectDirectory / toString(platform);
+                        const auto plistPath = platformDirectory / "Info.plist";
+                        const auto platformDirectoryType = platformDirectory.getType();
+                        if (platformDirectoryType == storage::Path::Type::NotFound)
+                            storage::FileSystem::createDirectory(platformDirectory);
+                        else if (platformDirectoryType != storage::Path::Type::Directory)
+                        {
+                            storage::FileSystem::deleteFile(platformDirectory);
+                            storage::FileSystem::createDirectory(platformDirectory);
+                        }
 
                         switch (platform)
                         {
@@ -201,6 +216,25 @@ namespace ouzel
                                     "QuartzCore.framework"};
                                 const auto& libouzelMacOsBuildFile = create<PBXBuildFile>(libouzelMacOsReferenceProxy);
                                 frameworkBuildFiles.push_back(libouzelMacOsBuildFile);
+
+                                plist::Value plist = plist::Value::Dictionary{
+                                    {"CFBundleDevelopmentRegion", "en"},
+                                    {"CFBundleExecutable", "$(EXECUTABLE_NAME)"},
+                                    {"CFBundleIconFile", ""},
+                                    {"CFBundleIdentifier", "$(PRODUCT_BUNDLE_IDENTIFIER)"},
+                                    {"CFBundleInfoDictionaryVersion", "6.0"},
+                                    {"CFBundleName", "$(PRODUCT_NAME)"},
+                                    {"CFBundlePackageType", "APPL"},
+                                    {"CFBundleShortVersionString", "1.0"},
+                                    {"CFBundleSignature", "????"},
+                                    {"CFBundleVersion", "1"},
+                                    {"LSMinimumSystemVersion", "$(MACOSX_DEPLOYMENT_TARGET)"},
+                                    {"NSHumanReadableCopyright", "Copyright " + project.getOrganization() + ". All rights reserved."},
+                                    {"NSPrincipalClass", "NSApplication"}
+                                };
+
+                                std::ofstream plistFile(plistPath);
+                                plistFile << plist::encode(plist, plist::Format::Xml);
                                 break;
                             }
 
@@ -222,6 +256,38 @@ namespace ouzel
                                 frameworkSourceTree = PBXSourceTree::DeveloperDir;
                                 const auto& libouzelIosBuildFile = create<PBXBuildFile>(libouzelIosReferenceProxy);
                                 frameworkBuildFiles.push_back(libouzelIosBuildFile);
+
+                                plist::Value plist = plist::Value::Dictionary{
+                                    {"CFBundleDevelopmentRegion", "en"},
+                                    {"CFBundleExecutable", "$(EXECUTABLE_NAME)"},
+                                    {"CFBundleIdentifier", "$(PRODUCT_BUNDLE_IDENTIFIER)"},
+                                    {"CFBundleInfoDictionaryVersion", "6.0"},
+                                    {"CFBundleName", "$(PRODUCT_NAME)"},
+                                    {"CFBundlePackageType", "APPL"},
+                                    {"CFBundleShortVersionString", "1.0"},
+                                    {"CFBundleSignature", "????"},
+                                    {"CFBundleVersion", "1"},
+                                    {"LSRequiresIPhoneOS", true},
+                                    {"UILaunchStoryboardName", "LaunchScreen"},
+                                    {"UIRequiredDeviceCapabilities", plist::Value::Array{"armv7"}},
+                                    {"UIRequiresFullScreen", true},
+                                    {"UIStatusBarHidden", true},
+                                    {"UISupportedInterfaceOrientations", plist::Value::Array{
+                                        "UIInterfaceOrientationPortrait",
+                                        "UIInterfaceOrientationPortraitUpsideDown",
+                                        "UIInterfaceOrientationLandscapeLeft",
+                                        "UIInterfaceOrientationLandscapeRight"
+                                    }},
+                                    {"UISupportedInterfaceOrientations~ipad", plist::Value::Array{
+                                        "UIInterfaceOrientationPortrait",
+                                        "UIInterfaceOrientationPortraitUpsideDown",
+                                        "UIInterfaceOrientationLandscapeLeft",
+                                        "UIInterfaceOrientationLandscapeRight"
+                                    }}
+                                };
+
+                                std::ofstream plistFile(plistPath);
+                                plistFile << plist::encode(plist, plist::Format::Xml);
                                 break;
                             }
 
@@ -243,6 +309,25 @@ namespace ouzel
                                 frameworkSourceTree = PBXSourceTree::DeveloperDir;
                                 const auto& libouzelTvosBuildFile = create<PBXBuildFile>(libouzelTvosReferenceProxy);
                                 frameworkBuildFiles.push_back(libouzelTvosBuildFile);
+
+                                plist::Value plist = plist::Value::Dictionary{
+                                    {"CFBundleDevelopmentRegion", "en"},
+                                    {"CFBundleExecutable", "$(EXECUTABLE_NAME)"},
+                                    {"CFBundleIdentifier", "$(PRODUCT_BUNDLE_IDENTIFIER)"},
+                                    {"CFBundleInfoDictionaryVersion", "6.0"},
+                                    {"CFBundleName", "$(PRODUCT_NAME)"},
+                                    {"CFBundlePackageType", "APPL"},
+                                    {"CFBundleShortVersionString", "1.0"},
+                                    {"CFBundleSignature", "????"},
+                                    {"CFBundleVersion", "1"},
+                                    {"LSRequiresIPhoneOS", true},
+                                    {"UILaunchStoryboardName", "LaunchScreen"},
+                                    {"UIRequiredDeviceCapabilities", plist::Value::Array{"armv7"}}
+                                };
+
+                                std::ofstream plistFile(plistPath);
+                                plistFile << plist::encode(plist, plist::Format::Xml);
+
                                 break;
                             }
 
@@ -324,7 +409,7 @@ namespace ouzel
                 rootObject = &pbxProject;
 
                 std::ofstream file(pbxProjectFile, std::ios::trunc);
-                file << plist::encode(encode());
+                file << plist::encode(encode(), plist::Format::Next);
             }
 
         private:

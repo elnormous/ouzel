@@ -29,7 +29,9 @@ namespace ouzel
                 Dictionary,
                 Array,
                 String,
-                Number,
+                Real,
+                Integer,
+                Boolean,
                 Data
             };
 
@@ -40,8 +42,11 @@ namespace ouzel
             Value() = default;
             Value(const Dictionary& value):type{Type::Dictionary}, dictionaryValue{value} {}
             Value(const Array& value):type{Type::Array}, arrayValue{value} {}
-            template <class T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-            Value(T value):type{Type::Number}, numberValue{static_cast<double>(value)} {}
+            Value(bool value):type{Type::Boolean}, booleanValue{value} {}
+            template <class T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
+            Value(T value):type{Type::Real}, realValue{static_cast<double>(value)} {}
+            template <class T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
+            Value(T value):type{Type::Integer}, integerValue{static_cast<int64_t>(value)} {}
             Value(const std::string& value):type{Type::String}, stringValue{value} {}
             Value(const char* value):type{Type::String}, stringValue{value} {}
             Value(const Data& value):type{Type::Data}, dataValue{value} {}
@@ -60,11 +65,26 @@ namespace ouzel
                 return *this;
             }
 
-            template <class T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+            Value& operator=(bool value)
+            {
+                type = Type::Boolean;
+                booleanValue = value;
+                return *this;
+            }
+
+            template <class T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
             Value& operator=(T value)
             {
-                type = Type::Number;
-                numberValue = static_cast<double>(value);
+                type = Type::Real;
+                realValue = static_cast<double>(value);
+                return *this;
+            }
+
+            template <class T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
+            Value& operator=(T value)
+            {
+                type = Type::Integer;
+                integerValue = static_cast<int64_t>(value);
                 return *this;
             }
 
@@ -105,13 +125,25 @@ namespace ouzel
                 return stringValue;
             }
 
-            template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+            template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
             inline T as() const
             {
-                if (type != Type::Number)
-                    throw TypeError("Wrong type");
+                if (type != Type::Boolean) throw TypeError("Wrong type");
+                return booleanValue;
+            }
 
-                return static_cast<T>(numberValue);
+            template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
+            inline T as() const
+            {
+                if (type != Type::Real) throw TypeError("Wrong type");
+                return static_cast<T>(realValue);
+            }
+
+            template <class T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
+            inline T as() const
+            {
+                if (type != Type::Integer) throw TypeError("Wrong type");
+                return static_cast<T>(integerValue);
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
@@ -242,13 +274,21 @@ namespace ouzel
             Dictionary dictionaryValue;
             Array arrayValue;
             std::string stringValue;
-            double numberValue;
+            double realValue = 0.0;
+            int64_t integerValue = 0;
+            bool booleanValue = false;
             Data dataValue;
         };
 
-        inline std::string encode(const Value& value)
+        enum class Format
         {
-            struct Encoder final
+            Next,
+            Xml
+        };
+
+        inline std::string encode(const Value& value, Format format)
+        {
+            struct NextEncoder final
             {
                 static std::string& encode(const std::string& s, std::string& result)
                 {
@@ -309,22 +349,21 @@ namespace ouzel
                                 result += ",\n";
                             }
                             result.insert(result.end(), level, '\t');
-                            result += ")";
+                            result += ')';
                             break;
                         }
                         case Value::Type::String:
                             encode(value.as<std::string>(), result);
                             break;
-                        case Value::Type::Number:
-                        {
-                            double number = value.as<double>();
-                            double intPart;
-                            if (std::modf(number, &intPart) != 0.0)
-                                result += std::to_string(number);
-                            else
-                                result += std::to_string(static_cast<int64_t>(intPart));
+                        case Value::Type::Real:
+                            result += std::to_string(value.as<double>());
                             break;
-                        }
+                        case Value::Type::Integer:
+                            result += std::to_string(value.as<int64_t>());
+                            break;
+                        case Value::Type::Boolean:
+                            result += value.as<bool>() ? '1' : '0';
+                            break;
                         case Value::Type::Data:
                             result += '<';
                             for (const auto b : value.as<Value::Data>())
@@ -339,10 +378,136 @@ namespace ouzel
 
                     return result;
                 }
+
+                static std::string encode(const Value& value)
+                {
+                    std::string result = "// !$*UTF8*$!\n";
+                    return encode(value, result);
+                }
             };
 
-            std::string result = "// !$*UTF8*$!\n";
-            return Encoder::encode(value, result);
+            struct XmlEncoder final
+            {
+                static std::string& encode(const Value& value, std::string& result, size_t level = 0)
+                {
+                    switch (value.getType())
+                    {
+                        case Value::Type::Dictionary:
+                        {
+                            result += "<dict>\n";
+                            for (const auto& entry : value.as<Value::Dictionary>())
+                            {
+                                result.insert(result.end(), level + 1, '\t');
+                                result += "<key>";
+                                result += entry.first;
+                                result += "</key>\n";
+                                result.insert(result.end(), level + 1, '\t');
+                                encode(entry.second, result, level + 1);
+                                result += '\n';
+                            }
+                            result.insert(result.end(), level, '\t');
+                            result += "</dict>";
+                            break;
+                        }
+                        case Value::Type::Array:
+                        {
+                            result += "<array>\n";
+                            for (const auto& child : value.as<Value::Array>())
+                            {
+                                result.insert(result.end(), level + 1, '\t');
+                                encode(child, result, level + 1);
+                                result += '\n';
+                            }
+                            result.insert(result.end(), level, '\t');
+                            result += "</array>";
+                            break;
+                        }
+                        case Value::Type::String:
+                            result += "<string>";
+                            result += value.as<std::string>();
+                            result += "</string>";
+                            break;
+                        case Value::Type::Real:
+                            result += "<real>";
+                            result += std::to_string(value.as<double>());
+                            result += "</real>";
+                            break;
+                        case Value::Type::Integer:
+                            result += "<integer>";
+                            result += std::to_string(value.as<int64_t>());
+                            result += "</integer>";
+                            break;
+                        case Value::Type::Boolean:
+                            result += value.as<bool>() ? "<true/>" : "<false/>";
+                            break;
+                        case Value::Type::Data:
+                        {
+                            result += "<data>";
+                            constexpr char chars[] = {
+                                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                                'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
+                            };
+                            std::size_t c = 0;
+                            std::uint8_t charArray[3];
+                            for (const auto b : value.as<Value::Data>())
+                            {
+                                charArray[c++] = b;
+                                if (c == 3)
+                                {
+                                    result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
+                                    result += chars[static_cast<std::uint8_t>(((charArray[0] & 0x03) << 4) + ((charArray[1] & 0xF0) >> 4))];
+                                    result += chars[static_cast<std::uint8_t>(((charArray[1] & 0x0F) << 2) + ((charArray[2] & 0xC0) >> 6))];
+                                    result += chars[static_cast<std::uint8_t>(charArray[2] & 0x3f)];
+                                    c = 0;
+                                }
+                            }
+                            if (c)
+                            {
+                                result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
+
+                                if (c == 1)
+                                    result += chars[static_cast<std::uint8_t>((charArray[0] & 0x03) << 4)];
+                                else
+                                {
+                                    result += chars[static_cast<std::uint8_t>(((charArray[0] & 0x03) << 4) + ((charArray[1] & 0xF0) >> 4))];
+
+                                    if (c == 2)
+                                        result += chars[static_cast<std::uint8_t>((charArray[1] & 0x0F) << 2)];
+                                    else if (c == 3)
+                                        result += chars[static_cast<std::uint8_t>(((charArray[1] & 0x0F) << 2) + ((charArray[2] & 0xC0) >> 6))];
+                                }
+
+                                while (++c < 4) result += '=';
+                            }
+                            result += "</data>";
+                            break;
+                        }
+                    };
+
+                    return result;
+                }
+
+                static std::string encode(const Value& value)
+                {
+                    std::string result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
+                        "<plist version=\"1.0\">\n";
+                    encode(value, result);
+                    result += "\n</plist>\n";
+                    return result;
+                }
+            };
+
+            switch (format)
+            {
+                case Format::Next: return NextEncoder::encode(value);
+                case Format::Xml: return XmlEncoder::encode(value);
+            }
+
+            throw std::runtime_error("Unsupported format");
         }
     }
 }
