@@ -288,8 +288,16 @@ namespace ouzel
 
         inline std::string encode(const Value& value, Format format)
         {
-            struct NextEncoder final
+            class NextEncoder final
             {
+            public:
+                static std::string encode(const Value& value)
+                {
+                    std::string result = "// !$*UTF8*$!\n";
+                    return encode(value, result);
+                }
+
+            private:
                 static std::string& encode(const std::string& s, std::string& result)
                 {
                     if (!s.empty())
@@ -362,7 +370,7 @@ namespace ouzel
                             result += std::to_string(value.as<int64_t>());
                             break;
                         case Value::Type::Boolean:
-                            result += value.as<bool>() ? '1' : '0';
+                            result += value.as<bool>() ? "YES" : "NO";
                             break;
                         case Value::Type::Data:
                             result += '<';
@@ -378,16 +386,22 @@ namespace ouzel
 
                     return result;
                 }
-
-                static std::string encode(const Value& value)
-                {
-                    std::string result = "// !$*UTF8*$!\n";
-                    return encode(value, result);
-                }
             };
 
-            struct XmlEncoder final
+            class XmlEncoder final
             {
+            public:
+                static std::string encode(const Value& value)
+                {
+                    std::string result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
+                        "<plist version=\"1.0\">\n";
+                    encode(value, result);
+                    result += "\n</plist>\n";
+                    return result;
+                }
+
+            private:
                 static std::string& encode(const Value& value, std::string& result, size_t level = 0)
                 {
                     switch (value.getType())
@@ -487,16 +501,6 @@ namespace ouzel
                         }
                     };
 
-                    return result;
-                }
-
-                static std::string encode(const Value& value)
-                {
-                    std::string result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                        "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
-                        "<plist version=\"1.0\">\n";
-                    encode(value, result);
-                    result += "\n</plist>\n";
                     return result;
                 }
             };
