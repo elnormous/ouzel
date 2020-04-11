@@ -259,6 +259,7 @@ namespace ouzel
                             {
                                 buildSettings["SDKROOT"] = "iphoneos";
                                 buildSettings["IPHONEOS_DEPLOYMENT_TARGET"] = "8.0";
+                                buildSettings["TARGETED_DEVICE_FAMILY"] = "1,2";
                                 frameworks = {"AudioToolbox.framework",
                                     "AVFoundation.framework",
                                     "Foundation.framework",
