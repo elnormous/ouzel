@@ -421,7 +421,7 @@ namespace ouzel
                 rootObject = &pbxProject;
 
                 std::ofstream file(pbxProjectFile, std::ios::trunc);
-                file << plist::encode(encode(), plist::Format::Next);
+                file << plist::encode(encode(), plist::Format::Ascii);
             }
 
         private:

@@ -32,7 +32,8 @@ namespace ouzel
                 Real,
                 Integer,
                 Boolean,
-                Data
+                Data,
+                Date
             };
 
             using Dictionary = std::map<std::string, Value>;
@@ -282,13 +283,13 @@ namespace ouzel
 
         enum class Format
         {
-            Next,
+            Ascii,
             Xml
         };
 
         inline std::string encode(const Value& value, Format format)
         {
-            class NextEncoder final
+            class AsciiEncoder final
             {
             public:
                 static std::string encode(const Value& value)
@@ -382,6 +383,8 @@ namespace ouzel
                             }
                             result += '>';
                             break;
+                        case Value::Type::Date:
+                            throw std::runtime_error("Date fields are not supported");
                     };
 
                     return result;
@@ -499,6 +502,8 @@ namespace ouzel
                             result += "</data>";
                             break;
                         }
+                        case Value::Type::Date:
+                            throw std::runtime_error("Date fields are not supported");
                     };
 
                     return result;
@@ -507,7 +512,7 @@ namespace ouzel
 
             switch (format)
             {
-                case Format::Next: return NextEncoder::encode(value);
+                case Format::Ascii: return AsciiEncoder::encode(value);
                 case Format::Xml: return XmlEncoder::encode(value);
             }
 
