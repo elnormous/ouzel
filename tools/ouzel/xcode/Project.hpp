@@ -52,6 +52,8 @@ namespace ouzel
 
                 const auto pbxProjectFile = xcodeProjectDirectory / storage::Path{"project.pbxproj"};
 
+                std::vector<PBXFileElementRef> fileElements;
+
                 constexpr auto libouzelIosId = Id{0x30, 0x3B, 0x75, 0x33, 0x1C, 0x2A, 0x3C, 0x58, 0x00, 0xFE, 0xDE, 0x92};
                 constexpr auto libouzelMacOsId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
                 constexpr auto libouzelTvosId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
@@ -61,6 +63,8 @@ namespace ouzel
                 const auto& ouzelProjectFileRef = create<PBXFileReference>("ouzel.xcodeproj", ouzelProjectPath,
                                                                            PBXFileType::WrapperPBProject,
                                                                            PBXSourceTree::Group);
+                fileElements.push_back(ouzelProjectFileRef);
+
                 const auto& libouzelIosProxy = create<PBXContainerItemProxy>(ouzelProjectFileRef,
                                                                              PBXContainerItemProxy::Reference,
                                                                              libouzelIosId, "libouzel_ios");
@@ -116,10 +120,12 @@ namespace ouzel
                 const auto& resourcesGroup = create<PBXGroup>("", storage::Path{"Resources"},
                                                               std::vector<PBXFileElementRef>{},
                                                               PBXSourceTree::Group);
+                fileElements.push_back(resourcesGroup);
 
                 const auto& productRefGroup = create<PBXGroup>("Products", storage::Path{},
                                                                std::vector<PBXFileElementRef>{productFile},
                                                                PBXSourceTree::Group);
+                fileElements.push_back(productRefGroup);
 
                 std::vector<PBXBuildFileRef> buildFiles;
                 std::vector<PBXFileElementRef> sourceFiles;
@@ -144,6 +150,7 @@ namespace ouzel
 
                 const auto& sourceGroup = create<PBXGroup>("src", storage::Path{"src"},
                                                            sourceFiles, PBXSourceTree::Group);
+                fileElements.push_back(sourceGroup);
 
                 const auto headerSearchPath = std::string(project.getOuzelPath() / "engine");
                 const auto& debugConfiguration = create<XCBuildConfiguration>("Debug",
@@ -181,6 +188,16 @@ namespace ouzel
                             {"INFOPLIST_FILE", toString(platform) + "/Info.plist"}
                         };
 
+                        const auto& infoPlistFileReference = create<PBXFileReference>("",
+                                                                                      storage::Path{"Info.plist"},
+                                                                                      PBXFileType::TextPlistXml,
+                                                                                      PBXSourceTree::Group);
+
+                        const auto& platformGroup = create<PBXGroup>("", storage::Path{toString(platform)},
+                                                                     std::vector<PBXFileElementRef>{infoPlistFileReference},
+                                                                     PBXSourceTree::Group);
+                        fileElements.push_back(platformGroup);
+
                         storage::Path sdkPath;
                         PBXSourceTree frameworkSourceTree = PBXSourceTree::SdkRoot;
                         std::vector<const char*> frameworks;
@@ -217,7 +234,7 @@ namespace ouzel
                                 const auto& libouzelMacOsBuildFile = create<PBXBuildFile>(libouzelMacOsReferenceProxy);
                                 frameworkBuildFiles.push_back(libouzelMacOsBuildFile);
 
-                                plist::Value plist = plist::Value::Dictionary{
+                                plist::Value infoPlist = plist::Value::Dictionary{
                                     {"CFBundleDevelopmentRegion", "en"},
                                     {"CFBundleExecutable", "$(EXECUTABLE_NAME)"},
                                     {"CFBundleIconFile", ""},
@@ -233,8 +250,8 @@ namespace ouzel
                                     {"NSPrincipalClass", "NSApplication"}
                                 };
 
-                                std::ofstream plistFile(plistPath);
-                                plistFile << plist::encode(plist, plist::Format::Xml);
+                                std::ofstream infoPlistFile(plistPath);
+                                infoPlistFile << plist::encode(infoPlist, plist::Format::Xml);
                                 break;
                             }
 
@@ -257,7 +274,7 @@ namespace ouzel
                                 const auto& libouzelIosBuildFile = create<PBXBuildFile>(libouzelIosReferenceProxy);
                                 frameworkBuildFiles.push_back(libouzelIosBuildFile);
 
-                                plist::Value plist = plist::Value::Dictionary{
+                                plist::Value infoPlist = plist::Value::Dictionary{
                                     {"CFBundleDevelopmentRegion", "en"},
                                     {"CFBundleExecutable", "$(EXECUTABLE_NAME)"},
                                     {"CFBundleIdentifier", "$(PRODUCT_BUNDLE_IDENTIFIER)"},
@@ -286,8 +303,8 @@ namespace ouzel
                                     }}
                                 };
 
-                                std::ofstream plistFile(plistPath);
-                                plistFile << plist::encode(plist, plist::Format::Xml);
+                                std::ofstream infoPlistFile(plistPath);
+                                infoPlistFile << plist::encode(infoPlist, plist::Format::Xml);
                                 break;
                             }
 
@@ -310,7 +327,7 @@ namespace ouzel
                                 const auto& libouzelTvosBuildFile = create<PBXBuildFile>(libouzelTvosReferenceProxy);
                                 frameworkBuildFiles.push_back(libouzelTvosBuildFile);
 
-                                plist::Value plist = plist::Value::Dictionary{
+                                plist::Value infoPlist = plist::Value::Dictionary{
                                     {"CFBundleDevelopmentRegion", "en"},
                                     {"CFBundleExecutable", "$(EXECUTABLE_NAME)"},
                                     {"CFBundleIdentifier", "$(PRODUCT_BUNDLE_IDENTIFIER)"},
@@ -325,9 +342,8 @@ namespace ouzel
                                     {"UIRequiredDeviceCapabilities", plist::Value::Array{"armv7"}}
                                 };
 
-                                std::ofstream plistFile(plistPath);
-                                plistFile << plist::encode(plist, plist::Format::Xml);
-
+                                std::ofstream infoPlistFile(plistPath);
+                                infoPlistFile << plist::encode(infoPlist, plist::Format::Xml);
                                 break;
                             }
 
@@ -387,15 +403,10 @@ namespace ouzel
                 const auto& frameworksGroup = create<PBXGroup>("Frameworks", storage::Path{},
                                                                frameworkFiles,
                                                                PBXSourceTree::Group);
+                fileElements.push_back(frameworksGroup);
 
                 const auto& mainGroup = create<PBXGroup>("", storage::Path{},
-                                                         std::vector<PBXFileElementRef>{
-                                                             frameworksGroup,
-                                                             ouzelProjectFileRef,
-                                                             productRefGroup,
-                                                             resourcesGroup,
-                                                             sourceGroup},
-                                                         PBXSourceTree::Group);
+                                                         fileElements, PBXSourceTree::Group);
 
                 const auto& pbxProject = create<PBXProject>(project.getOrganization(),
                                                             projectConfigurationList,
