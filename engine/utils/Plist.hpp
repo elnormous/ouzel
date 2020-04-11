@@ -40,8 +40,8 @@ namespace ouzel
             using Data = std::vector<uint8_t>;
 
             Value() = default;
-            Value(const Dictionary& value):type{Type::Dictionary}, dictionaryValue{value} {}
-            Value(const Array& value):type{Type::Array}, arrayValue{value} {}
+            Value(const Dictionary& value):type{Type::Dictionary}, dictionaryValue(value) {}
+            Value(const Array& value):type{Type::Array}, arrayValue(value) {}
             Value(bool value):type{Type::Boolean}, booleanValue{value} {}
             template <class T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
             Value(T value):type{Type::Real}, realValue{static_cast<double>(value)} {}
