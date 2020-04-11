@@ -116,7 +116,7 @@ namespace ouzel
             default: return;
         }
 
-        WriteConsoleW(handle, buffer.data(), static_cast<DWORD>(wcslen(buffer.data())), nullptr, nullptr);
+        WriteConsoleW(handle, buffer.get(), static_cast<DWORD>(wcslen(buffer.get())), nullptr, nullptr);
 #  endif
 #elif defined(__EMSCRIPTEN__)
         int flags = EM_LOG_CONSOLE;
