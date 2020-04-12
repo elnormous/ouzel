@@ -14,8 +14,7 @@ namespace ouzel
         class PBXResourcesBuildPhase final: public PBXBuildPhase
         {
         public:
-            PBXResourcesBuildPhase(const std::vector<PBXBuildFileRef>& initFiles):
-                files{initFiles} {}
+            PBXResourcesBuildPhase() = default;
 
             std::string getIsa() const override { return "PBXResourcesBuildPhase"; }
 
@@ -23,14 +22,13 @@ namespace ouzel
             {
                 auto result = PBXBuildPhase::encode();
                 result["files"] = plist::Value::Array{};
-                for (const PBXBuildFile& file : files)
-                    result["files"].pushBack(toString(file.getId()));
+                for (auto file : files)
+                    if (file) result["files"].pushBack(toString(file->getId()));
 
                 return result;
             }
 
-        private:
-            std::vector<PBXBuildFileRef> files;
+            std::vector<const PBXBuildFile*> files;
         };
     }
 }

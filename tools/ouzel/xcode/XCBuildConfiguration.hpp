@@ -13,14 +13,9 @@ namespace ouzel
         class XCBuildConfiguration final: public PBXObject
         {
         public:
-            XCBuildConfiguration(const std::string& initName,
-                                 const std::map<std::string, std::string>& initBuildSettings):
-                name{initName},
-                buildSettings{initBuildSettings} {}
+            XCBuildConfiguration() = default;
 
             std::string getIsa() const override { return "XCBuildConfiguration"; }
-
-            const std::string& getName() const noexcept { return name; }
 
             plist::Value encode() const override
             {
@@ -34,12 +29,9 @@ namespace ouzel
                 return result;
             }
 
-        private:
             std::string name;
             std::map<std::string, std::string> buildSettings;
         };
-
-        using XCBuildConfigurationRef = std::reference_wrapper<const XCBuildConfiguration>;
     }
 }
 

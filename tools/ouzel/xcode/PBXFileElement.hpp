@@ -16,8 +16,6 @@ namespace ouzel
 
             std::string getIsa() const override { return "PBXFileElement"; }
         };
-
-        using PBXFileElementRef = std::reference_wrapper<const PBXFileElement>;
     }
 }
 

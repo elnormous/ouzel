@@ -19,31 +19,23 @@ namespace ouzel
                 Reference = 2
             };
 
-            PBXContainerItemProxy(const PBXFileReference& initContainerPortal,
-                                  ProxyType initProxyType,
-                                  const Id& initRemoteGlobalId,
-                                  const std::string& initRemoteInfo):
-                containerPortal{initContainerPortal},
-                proxyType{initProxyType},
-                remoteGlobalId{initRemoteGlobalId},
-                remoteInfo{initRemoteInfo} {}
+            PBXContainerItemProxy() = default;
 
             std::string getIsa() const override { return "PBXContainerItemProxy"; }
 
             plist::Value encode() const override
             {
                 auto result = PBXObject::encode();
-                result["containerPortal"] = toString(containerPortal.getId());
+                if (containerPortal) result["containerPortal"] = toString(containerPortal->getId());
                 result["proxyType"] = static_cast<uint32_t>(proxyType);
-                result["remoteGlobalIDString"] = toString(remoteGlobalId);
+                if (remoteGlobal) result["remoteGlobalIDString"] = toString(remoteGlobal->getId());
                 result["remoteInfo"] = remoteInfo;
                 return result;
             }
 
-        private:
-            const PBXFileReference& containerPortal;
-            ProxyType proxyType;
-            Id remoteGlobalId;
+            const PBXFileReference* containerPortal = nullptr;
+            ProxyType proxyType = NativeTarget;
+            const PBXObject* remoteGlobal = nullptr;
             std::string remoteInfo;
         };
     }

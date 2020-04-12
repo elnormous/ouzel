@@ -5,6 +5,7 @@
 
 #include "PBXObject.hpp"
 #include "PBXContainerItemProxy.hpp"
+#include "PBXTarget.hpp"
 
 namespace ouzel
 {
@@ -13,10 +14,7 @@ namespace ouzel
         class PBXTargetDependency: public PBXObject
         {
         public:
-            PBXTargetDependency(const std::string& initName,
-                                const PBXContainerItemProxy& initTargetProxy):
-                name{initName},
-                targetProxy{initTargetProxy} {}
+            PBXTargetDependency() = default;
 
             std::string getIsa() const override { return "PBXTargetDependency"; }
 
@@ -24,17 +22,16 @@ namespace ouzel
             {
                 auto result = PBXObject::encode();
                 result["name"] = name;
-                result["targetProxy"] = toString(targetProxy.getId());
+                if (targetProxy) result["targetProxy"] = toString(targetProxy->getId());
+                if (target) result["target"] = toString(target->getId());
 
                 return result;
             }
 
-        private:
             std::string name;
-            PBXContainerItemProxy targetProxy;
+            const PBXContainerItemProxy* targetProxy = nullptr;
+            const PBXTarget* target = nullptr;
         };
-
-        using PBXTargetDependencyRef = std::reference_wrapper<const PBXTargetDependency>;
     }
 }
 

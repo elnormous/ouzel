@@ -17,32 +17,22 @@ namespace ouzel
         class PBXLegacyTarget final: public PBXTarget
         {
         public:
-            PBXLegacyTarget(const std::string& initName,
-                            const std::string& initBuildToolPath,
-                            const std::string& initBuildArgumentsString,
-                            const XCConfigurationList& initBuildConfigurationList,
-                            const std::vector<PBXBuildPhaseRef>& initBuildPhases,
-                            const std::vector<PBXTargetDependencyRef>& initDependencies):
-                name{initName},
-                buildToolPath{initBuildToolPath},
-                buildArgumentsString{initBuildArgumentsString},
-                buildConfigurationList{initBuildConfigurationList},
-                buildPhases{initBuildPhases},
-                dependencies{initDependencies} {}
+            PBXLegacyTarget() = default;
 
             std::string getIsa() const override { return "PBXNativeTarget"; }
 
             plist::Value encode() const override
             {
                 auto result = PBXTarget::encode();
-                result["buildConfigurationList"] = toString(buildConfigurationList.getId());
+                if (buildConfigurationList)
+                    result["buildConfigurationList"] = toString(buildConfigurationList->getId());
                 result["buildPhases"] = plist::Value::Array{};
-                for (const PBXBuildPhase& buildPhase : buildPhases)
-                    result["buildPhases"].pushBack(toString(buildPhase.getId()));
+                for (auto buildPhase : buildPhases)
+                    if (buildPhase) result["buildPhases"].pushBack(toString(buildPhase->getId()));
 
                 result["dependencies"] = plist::Value::Array{};
-                for (const PBXTargetDependency& dependency : dependencies)
-                    result["dependencies"].pushBack(toString(dependency.getId()));
+                for (auto dependency : dependencies)
+                    if (dependency) result["dependencies"].pushBack(toString(dependency->getId()));
 
                 result["name"] = name;
                 result["passBuildSettingsInEnvironment"] = 1;
@@ -51,13 +41,12 @@ namespace ouzel
                 return result;
             }
 
-        private:
             std::string name;
             std::string buildToolPath;
             std::string buildArgumentsString;
-            const XCConfigurationList& buildConfigurationList;
-            std::vector<PBXBuildPhaseRef> buildPhases;
-            std::vector<PBXTargetDependencyRef> dependencies;
+            const XCConfigurationList* buildConfigurationList = nullptr;
+            std::vector<const PBXBuildPhase*> buildPhases;
+            std::vector<const PBXTargetDependency*> dependencies;
         };
     }
 }

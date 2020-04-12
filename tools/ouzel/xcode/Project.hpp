@@ -53,184 +53,218 @@ namespace ouzel
 
                 const auto pbxProjectFile = xcodeProjectDirectory / storage::Path{"project.pbxproj"};
 
-                std::vector<PBXFileElementRef> fileElements;
-
-                constexpr auto libouzelIosId = Id{0x30, 0x3B, 0x75, 0x33, 0x1C, 0x2A, 0x3C, 0x58, 0x00, 0xFE, 0xDE, 0x92};
-                constexpr auto libouzelMacOsId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
-                constexpr auto libouzelTvosId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
-                constexpr auto ouzelId = Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E};
+                std::vector<const PBXFileElement*> fileElements;
 
                 const auto ouzelProjectPath = project.getOuzelPath() / "build" / "ouzel.xcodeproj";
-                const auto& ouzelProjectFileRef = create<PBXFileReference>("ouzel.xcodeproj", ouzelProjectPath,
-                                                                           PBXFileType::WrapperPBProject,
-                                                                           PBXSourceTree::Group);
+                auto ouzelProjectFileRef = alloc<PBXFileReference>();
+                ouzelProjectFileRef->name = "ouzel.xcodeproj";
+                ouzelProjectFileRef->path = ouzelProjectPath;
+                ouzelProjectFileRef->fileType = PBXFileType::WrapperPBProject;
+                ouzelProjectFileRef->sourceTree = PBXSourceTree::Group;
                 fileElements.push_back(ouzelProjectFileRef);
 
-                const auto& libouzelIosProxy = create<PBXContainerItemProxy>(ouzelProjectFileRef,
-                                                                             PBXContainerItemProxy::Reference,
-                                                                             libouzelIosId, "libouzel_ios");
+                auto ouzelPoductRefGroup = alloc<PBXGroup>();
+                ouzelPoductRefGroup->name = "Products";
+                ouzelPoductRefGroup->path = storage::Path{};
+                ouzelPoductRefGroup->sourceTree = PBXSourceTree::Group;
 
-                const auto& libouzelIosReferenceProxy = create<PBXReferenceProxy>("", "libouzel_ios.a",
-                                                                                  PBXFileType::ArchiveAr,
-                                                                                  PBXSourceTree::BuildProductsDir,
-                                                                                  libouzelIosProxy);
+                PBXObject libouzelIos(Id{0x30, 0x3B, 0x75, 0x33, 0x1C, 0x2A, 0x3C, 0x58, 0x00, 0xFE, 0xDE, 0x92});
 
-                const auto& libouzelMacOsProxy = create<PBXContainerItemProxy>(ouzelProjectFileRef,
-                                                                               PBXContainerItemProxy::Reference,
-                                                                               libouzelMacOsId, "libouzel_macos");
+                auto libouzelIosProxy = alloc<PBXContainerItemProxy>();
+                libouzelIosProxy->containerPortal = ouzelProjectFileRef;
+                libouzelIosProxy->proxyType = PBXContainerItemProxy::Reference;
+                libouzelIosProxy->remoteGlobal = &libouzelIos;
+                libouzelIosProxy->remoteInfo = "libouzel_ios";
 
-                const auto& libouzelMacOsReferenceProxy = create<PBXReferenceProxy>("", "libouzel_macos.a",
-                                                                                    PBXFileType::ArchiveAr,
-                                                                                    PBXSourceTree::BuildProductsDir,
-                                                                                    libouzelMacOsProxy);
+                auto libouzelIosReferenceProxy = alloc<PBXReferenceProxy>();
+                libouzelIosReferenceProxy->path = "libouzel_ios.a";
+                libouzelIosReferenceProxy->fileType = PBXFileType::ArchiveAr;
+                libouzelIosReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
+                libouzelIosReferenceProxy->remoteRef = libouzelIosProxy;
+                ouzelPoductRefGroup->children.push_back(libouzelIosReferenceProxy);
 
-                const auto& libouzelTvosProxy = create<PBXContainerItemProxy>(ouzelProjectFileRef,
-                                                                              PBXContainerItemProxy::Reference,
-                                                                              libouzelTvosId, "libouzel_tvos");
+                PBXObject libouzelMacOs(Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E});
 
-                const auto& libouzelTvosReferenceProxy = create<PBXReferenceProxy>("", "libouzel_tvos.a",
-                                                                                   PBXFileType::ArchiveAr,
-                                                                                   PBXSourceTree::BuildProductsDir,
-                                                                                   libouzelTvosProxy);
+                auto libouzelMacOsProxy = alloc<PBXContainerItemProxy>();
+                libouzelMacOsProxy->containerPortal = ouzelProjectFileRef;
+                libouzelMacOsProxy->proxyType = PBXContainerItemProxy::Reference;
+                libouzelMacOsProxy->remoteGlobal = &libouzelMacOs;
+                libouzelMacOsProxy->remoteInfo = "libouzel_macos";
 
-                const auto& ouzelProxy = create<PBXContainerItemProxy>(ouzelProjectFileRef,
-                                                                       PBXContainerItemProxy::Reference,
-                                                                       ouzelId, "ouzel");
+                auto libouzelMacOsReferenceProxy = alloc<PBXReferenceProxy>();
+                libouzelMacOsReferenceProxy->path = "libouzel_macos.a";
+                libouzelMacOsReferenceProxy->fileType = PBXFileType::ArchiveAr;
+                libouzelMacOsReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
+                libouzelMacOsReferenceProxy->remoteRef = libouzelMacOsProxy;
+                ouzelPoductRefGroup->children.push_back(libouzelMacOsReferenceProxy);
 
-                const auto& ouzelNativeTargetProxy = create<PBXContainerItemProxy>(ouzelProjectFileRef,
-                                                                                   PBXContainerItemProxy::NativeTarget,
-                                                                                   ouzelId, "ouzel");
+                PBXObject libouzelTvos(Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E});
 
-                const auto& ouzelReferenceProxy = create<PBXReferenceProxy>("", "ouzel",
-                                                                            PBXFileType::CompiledMachOExecutable,
-                                                                            PBXSourceTree::BuildProductsDir,
-                                                                            ouzelProxy);
+                auto libouzelTvosProxy = alloc<PBXContainerItemProxy>();
+                libouzelTvosProxy->containerPortal = ouzelProjectFileRef;
+                libouzelTvosProxy->proxyType = PBXContainerItemProxy::Reference;
+                libouzelTvosProxy->remoteGlobal = &libouzelTvos;
+                libouzelTvosProxy->remoteInfo = "libouzel_tvos";
 
-                const auto& ouzelPoductRefGroup = create<PBXGroup>("Products", storage::Path{},
-                                                                   std::vector<PBXFileElementRef>{
-                                                                       libouzelIosReferenceProxy,
-                                                                       libouzelMacOsReferenceProxy,
-                                                                       libouzelTvosReferenceProxy,
-                                                                       ouzelReferenceProxy},
-                                                                   PBXSourceTree::Group);
+                auto libouzelTvosReferenceProxy = alloc<PBXReferenceProxy>();
+                libouzelTvosReferenceProxy->path = "libouzel_tvos.a";
+                libouzelTvosReferenceProxy->fileType = PBXFileType::ArchiveAr;
+                libouzelTvosReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
+                libouzelTvosReferenceProxy->remoteRef = libouzelTvosProxy;
+                ouzelPoductRefGroup->children.push_back(libouzelTvosReferenceProxy);
 
-                const auto& productFile = create<PBXFileReference>("", storage::Path{project.getName() + ".app"},
-                                                                   PBXFileType::WrapperApplication,
-                                                                   PBXSourceTree::BuildProductsDir);
+                PBXObject ouzel(Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E});
 
-                const auto& resourcesGroup = create<PBXGroup>("", storage::Path{"Resources"},
-                                                              std::vector<PBXFileElementRef>{},
-                                                              PBXSourceTree::Group);
+                auto ouzelProxy = alloc<PBXContainerItemProxy>();
+                ouzelProxy->containerPortal = ouzelProjectFileRef;
+                ouzelProxy->proxyType = PBXContainerItemProxy::Reference;
+                ouzelProxy->remoteGlobal = &ouzel;
+                ouzelProxy->remoteInfo = "ouzel";
+
+                auto ouzelNativeTargetProxy = alloc<PBXContainerItemProxy>();
+                ouzelNativeTargetProxy->containerPortal = ouzelProjectFileRef;
+                ouzelNativeTargetProxy->proxyType = PBXContainerItemProxy::NativeTarget;
+                ouzelNativeTargetProxy->remoteGlobal = &ouzel;
+                ouzelNativeTargetProxy->remoteInfo = "ouzel";
+
+                auto ouzelReferenceProxy = alloc<PBXReferenceProxy>();
+                ouzelReferenceProxy->path = "ouzel";
+                ouzelReferenceProxy->fileType = PBXFileType::CompiledMachOExecutable;
+                ouzelReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
+                ouzelReferenceProxy->remoteRef = ouzelProxy;
+
+                auto productFile = alloc<PBXFileReference>();
+                productFile->path = storage::Path{project.getName() + ".app"};
+                productFile->fileType = PBXFileType::WrapperApplication;
+                productFile->sourceTree = PBXSourceTree::BuildProductsDir;
+
+                auto resourcesGroup = alloc<PBXGroup>();
+                resourcesGroup->path = storage::Path{"Resources"};
+                resourcesGroup->sourceTree = PBXSourceTree::Group;
                 fileElements.push_back(resourcesGroup);
 
-                const auto& productRefGroup = create<PBXGroup>("Products", storage::Path{},
-                                                               std::vector<PBXFileElementRef>{productFile},
-                                                               PBXSourceTree::Group);
+                auto productRefGroup = alloc<PBXGroup>();
+                productRefGroup->name = "Products";
+                productRefGroup->children.push_back(productFile);
+                productRefGroup->sourceTree = PBXSourceTree::Group;
                 fileElements.push_back(productRefGroup);
 
-                std::vector<PBXBuildFileRef> buildFiles;
-                std::vector<PBXFileElementRef> sourceFiles;
+                std::vector<const PBXBuildFile*> buildFiles;
+                std::vector<const PBXFileElement*> sourceFiles;
 
-                for (const auto& sourceFile : project.getSourceFiles())
+                for (auto sourceFile : project.getSourceFiles())
                 {
                     const auto extension = sourceFile.getExtension();
+
+                    auto fileReference = alloc<PBXFileReference>();
+                    fileReference->path = sourceFile;
                     // TODO: support more file formats
-                    const auto fileType = extension == "plist" ? PBXFileType::TextPlistXml :
+                    fileReference->fileType = extension == "plist" ? PBXFileType::TextPlistXml :
                         extension == "c" ? PBXFileType::SourcecodeC :
                         extension == "h" ? PBXFileType::SourcecodeCH :
                         extension == "cpp" ? PBXFileType::SourcecodeCppCpp :
                         extension == "hpp" ? PBXFileType::SourcecodeCppH :
                         throw std::runtime_error("Unsupported file type");
+                    fileReference->sourceTree = PBXSourceTree::Group;
 
-                    const auto& fileReference = create<PBXFileReference>("", sourceFile, fileType, PBXSourceTree::Group);
                     sourceFiles.push_back(fileReference);
 
-                    const auto& buildFile = create<PBXBuildFile>(fileReference);
+                    auto buildFile = alloc<PBXBuildFile>();
+                    buildFile->fileRef = fileReference;
                     buildFiles.push_back(buildFile);
                 }
 
-                const auto& sourceGroup = create<PBXGroup>("src", storage::Path{"src"},
-                                                           sourceFiles, PBXSourceTree::Group);
+                auto sourceGroup = alloc<PBXGroup>();
+                sourceGroup->name = "src";
+                sourceGroup->path = storage::Path{"src"};
+                sourceGroup->children = sourceFiles;
+                sourceGroup->sourceTree = PBXSourceTree::Group;
                 fileElements.push_back(sourceGroup);
 
+                auto projectConfigurationList = alloc<XCConfigurationList>();
+
                 const auto headerSearchPath = std::string(project.getOuzelPath() / "engine");
-                const auto& debugConfiguration = create<XCBuildConfiguration>("Debug",
-                                                                              std::map<std::string, std::string>{
-                                                                                  {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
-                                                                                  {"CLANG_CXX_LIBRARY", "libc++"},
-                                                                                  {"ENABLE_TESTABILITY", "YES"},
-                                                                                  {"GCC_OPTIMIZATION_LEVEL", "0"},
-                                                                                  {"GCC_PREPROCESSOR_DEFINITIONS", "DEBUG=1"},
-                                                                                  {"HEADER_SEARCH_PATHS", headerSearchPath},
-                                                                                  {"ONLY_ACTIVE_ARCH", "YES"},
-                                                                                  {"CLANG_WARN_ASSIGN_ENUM", "YES"},
-                                                                                  {"CLANG_WARN_COMMA", "YES"},
-                                                                                  {"CLANG_WARN_EMPTY_BODY", "YES"},
-                                                                                  {"CLANG_WARN_IMPLICIT_SIGN_CONVERSION", "YES"},
-                                                                                  {"CLANG_WARN_INFINITE_RECURSION", "YES"},
-                                                                                  {"CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER", "YES"},
-                                                                                  {"CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY", "YES"},
-                                                                                  {"CLANG_WARN_STRICT_PROTOTYPES", "YES"},
-                                                                                  {"CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION", "YES"},
-                                                                                  {"CLANG_WARN_SUSPICIOUS_MOVE", "YES"},
-                                                                                  {"CLANG_WARN_UNREACHABLE_CODE", "YES"},
-                                                                                  {"GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS", "YES"},
-                                                                                  {"GCC_WARN_ABOUT_MISSING_NEWLINE", "YES"},
-                                                                                  {"GCC_WARN_ABOUT_MISSING_PROTOTYPES", "YES"},
-                                                                                  {"GCC_WARN_ABOUT_RETURN_TYPE", "YES"},
-                                                                                  {"GCC_WARN_FOUR_CHARACTER_CONSTANTS", "YES"},
-                                                                                  {"GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS", "YES"},
-                                                                                  {"GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED", "YES"},
-                                                                                  {"GCC_WARN_PEDANTIC", "YES"},
-                                                                                  {"GCC_WARN_SHADOW", "YES"},
-                                                                                  {"GCC_WARN_SIGN_COMPARE", "YES"},
-                                                                                  {"GCC_WARN_UNINITIALIZED_AUTOS", "YES_AGGRESSIVE"},
-                                                                                  {"GCC_WARN_UNKNOWN_PRAGMAS", "YES"},
-                                                                                  {"GCC_WARN_UNUSED_FUNCTION", "YES"},
-                                                                                  {"GCC_WARN_UNUSED_LABEL", "YES"},
-                                                                                  {"GCC_WARN_UNUSED_PARAMETER", "YES"},
-                                                                                  {"GCC_WARN_UNUSED_VARIABLE", "YES"}});
+                auto debugConfiguration = alloc<XCBuildConfiguration>();
+                debugConfiguration->name = "Debug";
+                debugConfiguration->buildSettings = {
+                    {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
+                    {"CLANG_CXX_LIBRARY", "libc++"},
+                    {"ENABLE_TESTABILITY", "YES"},
+                    {"GCC_OPTIMIZATION_LEVEL", "0"},
+                    {"GCC_PREPROCESSOR_DEFINITIONS", "DEBUG=1"},
+                    {"HEADER_SEARCH_PATHS", headerSearchPath},
+                    {"ONLY_ACTIVE_ARCH", "YES"},
+                    {"CLANG_WARN_ASSIGN_ENUM", "YES"},
+                    {"CLANG_WARN_COMMA", "YES"},
+                    {"CLANG_WARN_EMPTY_BODY", "YES"},
+                    {"CLANG_WARN_IMPLICIT_SIGN_CONVERSION", "YES"},
+                    {"CLANG_WARN_INFINITE_RECURSION", "YES"},
+                    {"CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER", "YES"},
+                    {"CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY", "YES"},
+                    {"CLANG_WARN_STRICT_PROTOTYPES", "YES"},
+                    {"CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION", "YES"},
+                    {"CLANG_WARN_SUSPICIOUS_MOVE", "YES"},
+                    {"CLANG_WARN_UNREACHABLE_CODE", "YES"},
+                    {"GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS", "YES"},
+                    {"GCC_WARN_ABOUT_MISSING_NEWLINE", "YES"},
+                    {"GCC_WARN_ABOUT_MISSING_PROTOTYPES", "YES"},
+                    {"GCC_WARN_ABOUT_RETURN_TYPE", "YES"},
+                    {"GCC_WARN_FOUR_CHARACTER_CONSTANTS", "YES"},
+                    {"GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS", "YES"},
+                    {"GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED", "YES"},
+                    {"GCC_WARN_PEDANTIC", "YES"},
+                    {"GCC_WARN_SHADOW", "YES"},
+                    {"GCC_WARN_SIGN_COMPARE", "YES"},
+                    {"GCC_WARN_UNINITIALIZED_AUTOS", "YES_AGGRESSIVE"},
+                    {"GCC_WARN_UNKNOWN_PRAGMAS", "YES"},
+                    {"GCC_WARN_UNUSED_FUNCTION", "YES"},
+                    {"GCC_WARN_UNUSED_LABEL", "YES"},
+                    {"GCC_WARN_UNUSED_PARAMETER", "YES"},
+                    {"GCC_WARN_UNUSED_VARIABLE", "YES"}
+                };
 
-                const auto& releaseConfiguration = create<XCBuildConfiguration>("Release",
-                                                                                std::map<std::string, std::string>{
-                                                                                    {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
-                                                                                    {"CLANG_CXX_LIBRARY", "libc++"},
-                                                                                    {"HEADER_SEARCH_PATHS", headerSearchPath},
-                                                                                    {"CLANG_WARN_ASSIGN_ENUM", "YES"},
-                                                                                    {"CLANG_WARN_COMMA", "YES"},
-                                                                                    {"CLANG_WARN_EMPTY_BODY", "YES"},
-                                                                                    {"CLANG_WARN_IMPLICIT_SIGN_CONVERSION", "YES"},
-                                                                                    {"CLANG_WARN_INFINITE_RECURSION", "YES"},
-                                                                                    {"CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER", "YES"},
-                                                                                    {"CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY", "YES"},
-                                                                                    {"CLANG_WARN_STRICT_PROTOTYPES", "YES"},
-                                                                                    {"CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION", "YES"},
-                                                                                    {"CLANG_WARN_SUSPICIOUS_MOVE", "YES"},
-                                                                                    {"CLANG_WARN_UNREACHABLE_CODE", "YES"},
-                                                                                    {"GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS", "YES"},
-                                                                                    {"GCC_WARN_ABOUT_MISSING_NEWLINE", "YES"},
-                                                                                    {"GCC_WARN_ABOUT_MISSING_PROTOTYPES", "YES"},
-                                                                                    {"GCC_WARN_ABOUT_RETURN_TYPE", "YES"},
-                                                                                    {"GCC_WARN_FOUR_CHARACTER_CONSTANTS", "YES"},
-                                                                                    {"GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS", "YES"},
-                                                                                    {"GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED", "YES"},
-                                                                                    {"GCC_WARN_PEDANTIC", "YES"},
-                                                                                    {"GCC_WARN_SHADOW", "YES"},
-                                                                                    {"GCC_WARN_SIGN_COMPARE", "YES"},
-                                                                                    {"GCC_WARN_UNINITIALIZED_AUTOS", "YES_AGGRESSIVE"},
-                                                                                    {"GCC_WARN_UNKNOWN_PRAGMAS", "YES"},
-                                                                                    {"GCC_WARN_UNUSED_FUNCTION", "YES"},
-                                                                                    {"GCC_WARN_UNUSED_LABEL", "YES"},
-                                                                                    {"GCC_WARN_UNUSED_PARAMETER", "YES"},
-                                                                                    {"GCC_WARN_UNUSED_VARIABLE", "YES"}});
+                projectConfigurationList->configurations.push_back(debugConfiguration);
 
-                const auto& projectConfigurationList = create<XCConfigurationList>(std::vector<XCBuildConfigurationRef>{
-                                                                                       debugConfiguration,
-                                                                                       releaseConfiguration},
-                                                                                   releaseConfiguration.getName());
+                auto releaseConfiguration = alloc<XCBuildConfiguration>();
+                releaseConfiguration->name = "Release";
+                releaseConfiguration->buildSettings = {
+                    {"CLANG_CXX_LANGUAGE_STANDARD", "c++14"},
+                    {"CLANG_CXX_LIBRARY", "libc++"},
+                    {"HEADER_SEARCH_PATHS", headerSearchPath},
+                    {"CLANG_WARN_ASSIGN_ENUM", "YES"},
+                    {"CLANG_WARN_COMMA", "YES"},
+                    {"CLANG_WARN_EMPTY_BODY", "YES"},
+                    {"CLANG_WARN_IMPLICIT_SIGN_CONVERSION", "YES"},
+                    {"CLANG_WARN_INFINITE_RECURSION", "YES"},
+                    {"CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER", "YES"},
+                    {"CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY", "YES"},
+                    {"CLANG_WARN_STRICT_PROTOTYPES", "YES"},
+                    {"CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION", "YES"},
+                    {"CLANG_WARN_SUSPICIOUS_MOVE", "YES"},
+                    {"CLANG_WARN_UNREACHABLE_CODE", "YES"},
+                    {"GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS", "YES"},
+                    {"GCC_WARN_ABOUT_MISSING_NEWLINE", "YES"},
+                    {"GCC_WARN_ABOUT_MISSING_PROTOTYPES", "YES"},
+                    {"GCC_WARN_ABOUT_RETURN_TYPE", "YES"},
+                    {"GCC_WARN_FOUR_CHARACTER_CONSTANTS", "YES"},
+                    {"GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS", "YES"},
+                    {"GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED", "YES"},
+                    {"GCC_WARN_PEDANTIC", "YES"},
+                    {"GCC_WARN_SHADOW", "YES"},
+                    {"GCC_WARN_SIGN_COMPARE", "YES"},
+                    {"GCC_WARN_UNINITIALIZED_AUTOS", "YES_AGGRESSIVE"},
+                    {"GCC_WARN_UNKNOWN_PRAGMAS", "YES"},
+                    {"GCC_WARN_UNUSED_FUNCTION", "YES"},
+                    {"GCC_WARN_UNUSED_LABEL", "YES"},
+                    {"GCC_WARN_UNUSED_PARAMETER", "YES"},
+                    {"GCC_WARN_UNUSED_VARIABLE", "YES"}
+                };
 
-                std::vector<PBXTargetRef> targets;
-                std::vector<PBXFileElementRef> frameworkFiles;
+                projectConfigurationList->configurations.push_back(releaseConfiguration);
+                projectConfigurationList->defaultConfigurationName = releaseConfiguration->name;
+
+                std::vector<const PBXTarget*> targets;
+                std::vector<const PBXFileElement*> frameworkFiles;
 
                 for (const auto platform : project.getPlatforms())
                 {
@@ -244,20 +278,21 @@ namespace ouzel
                             {"PRODUCT_NAME", project.getName()}
                         };
 
-                        const auto& infoPlistFileReference = create<PBXFileReference>("",
-                                                                                      storage::Path{"Info.plist"},
-                                                                                      PBXFileType::TextPlistXml,
-                                                                                      PBXSourceTree::Group);
+                        auto infoPlistFileReference = alloc<PBXFileReference>();
+                        infoPlistFileReference->path = storage::Path{"Info.plist"};
+                        infoPlistFileReference->fileType = PBXFileType::TextPlistXml;
+                        infoPlistFileReference->sourceTree = PBXSourceTree::Group;
 
-                        const auto& platformGroup = create<PBXGroup>("", storage::Path{toString(platform)},
-                                                                     std::vector<PBXFileElementRef>{infoPlistFileReference},
-                                                                     PBXSourceTree::Group);
+                        auto platformGroup = alloc<PBXGroup>();
+                        platformGroup->path = storage::Path{toString(platform)};
+                        platformGroup->children.push_back(infoPlistFileReference);
+                        platformGroup->sourceTree = PBXSourceTree::Group;
                         fileElements.push_back(platformGroup);
 
                         storage::Path sdkPath;
                         PBXSourceTree frameworkSourceTree = PBXSourceTree::SdkRoot;
                         std::vector<const char*> frameworks;
-                        std::vector<PBXBuildFileRef> frameworkBuildFiles;
+                        std::vector<const PBXBuildFile*> frameworkBuildFiles;
 
                         const auto platformDirectory = projectDirectory / toString(platform);
                         const auto plistPath = platformDirectory / "Info.plist";
@@ -287,7 +322,8 @@ namespace ouzel
                                     "OpenAL.framework",
                                     "OpenGL.framework",
                                     "QuartzCore.framework"};
-                                const auto& libouzelMacOsBuildFile = create<PBXBuildFile>(libouzelMacOsReferenceProxy);
+                                auto libouzelMacOsBuildFile = alloc<PBXBuildFile>();
+                                libouzelMacOsBuildFile->fileRef = libouzelMacOsReferenceProxy;
                                 frameworkBuildFiles.push_back(libouzelMacOsBuildFile);
 
                                 plist::Value infoPlist = plist::Value::Dictionary{
@@ -328,7 +364,8 @@ namespace ouzel
                                 };
                                 sdkPath = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk";
                                 frameworkSourceTree = PBXSourceTree::DeveloperDir;
-                                const auto& libouzelIosBuildFile = create<PBXBuildFile>(libouzelIosReferenceProxy);
+                                auto libouzelIosBuildFile = alloc<PBXBuildFile>();
+                                libouzelIosBuildFile->fileRef = libouzelIosReferenceProxy;
                                 frameworkBuildFiles.push_back(libouzelIosBuildFile);
 
                                 plist::Value infoPlist = plist::Value::Dictionary{
@@ -381,7 +418,8 @@ namespace ouzel
                                 };
                                 sdkPath = "Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk";
                                 frameworkSourceTree = PBXSourceTree::DeveloperDir;
-                                const auto& libouzelTvosBuildFile = create<PBXBuildFile>(libouzelTvosReferenceProxy);
+                                auto libouzelTvosBuildFile = alloc<PBXBuildFile>();
+                                libouzelTvosBuildFile->fileRef = libouzelTvosReferenceProxy;
                                 frameworkBuildFiles.push_back(libouzelTvosBuildFile);
 
                                 plist::Value infoPlist = plist::Value::Dictionary{
@@ -408,73 +446,103 @@ namespace ouzel
                                 throw std::runtime_error("Unsupported platform");
                         }
 
-                        const auto& targetDebugConfiguration = create<XCBuildConfiguration>("Debug", buildSettings);
+                        auto targetDebugConfiguration = alloc<XCBuildConfiguration>();
+                        targetDebugConfiguration->name = "Debug";
+                        targetDebugConfiguration->buildSettings = buildSettings;
 
-                        const auto& targetReleaseConfiguration = create<XCBuildConfiguration>("Release", buildSettings);
+                        auto targetReleaseConfiguration = alloc<XCBuildConfiguration>();
+                        targetReleaseConfiguration->name = "Release";
+                        targetReleaseConfiguration->buildSettings = buildSettings;
 
-                        const auto& targetConfigurationList = create<XCConfigurationList>(std::vector<XCBuildConfigurationRef>{
-                                                                                              targetDebugConfiguration,
-                                                                                              targetReleaseConfiguration},
-                                                                                          targetReleaseConfiguration.getName());
-
-                        const auto& sourcesBuildPhase = create<PBXSourcesBuildPhase>(buildFiles);
-
-                        std::vector<PBXFileReferenceRef> frameworkFileReferences;
+                        auto sourcesBuildPhase = alloc<PBXSourcesBuildPhase>();
+                        sourcesBuildPhase->files = buildFiles;
 
                         const auto frameworksPath = sdkPath / storage::Path{"System/Library/Frameworks"};
-                        for (const auto& framework : frameworks)
+                        for (auto framework : frameworks)
                         {
-                            const auto& frameworkFileReference = create<PBXFileReference>(framework,
-                                                                                          frameworksPath / framework,
-                                                                                          PBXFileType::WrapperFramework,
-                                                                                          frameworkSourceTree);
-
-                            frameworkFileReferences.push_back(frameworkFileReference);
+                            auto frameworkFileReference = alloc<PBXFileReference>();
+                            frameworkFileReference->name = framework;
+                            frameworkFileReference->path = frameworksPath / framework;
+                            frameworkFileReference->fileType = PBXFileType::WrapperFramework;
+                            frameworkFileReference->sourceTree = frameworkSourceTree;
                             frameworkFiles.push_back(frameworkFileReference);
-                        }
 
-                        for (const PBXFileReferenceRef& frameworkFileReference : frameworkFileReferences)
-                        {
-                            const auto& frameworkBuildFile = create<PBXBuildFile>(frameworkFileReference);
+                            auto frameworkBuildFile = alloc<PBXBuildFile>();
+                            frameworkBuildFile->fileRef = frameworkFileReference;
                             frameworkBuildFiles.push_back(frameworkBuildFile);
                         }
 
-                        const auto& frameworksBuildPhase = create<PBXFrameworksBuildPhase>(frameworkBuildFiles);
-
-                        const auto& assetsBuildPhase = create<PBXShellScriptBuildPhase>("$BUILD_DIR/$CONFIGURATION/ouzel --export-assets $PROJECT_DIR/" + std::string(projectFilename));
+                        auto frameworksBuildPhase = alloc<PBXFrameworksBuildPhase>();
+                        frameworksBuildPhase->files = frameworkBuildFiles; // TODO: remake to push_back
 
                         // TODO: implement resource copy
-                        const auto& resourcesBuildPhase = create<PBXResourcesBuildPhase>(std::vector<PBXBuildFileRef>{});
+                        auto resourcesBuildPhase = alloc<PBXResourcesBuildPhase>();
 
-                        const auto& ouzelDependency = create<PBXTargetDependency>("ouzel", ouzelNativeTargetProxy);
+                        auto ouzelDependency = alloc<PBXTargetDependency>();
+                        ouzelDependency->name = "ouzel";
+                        ouzelDependency->targetProxy = ouzelNativeTargetProxy;
 
-                        const auto& nativeTarget = create<PBXNativeTarget>(project.getName() + ' ' + toString(platform),
-                                                                           targetConfigurationList,
-                                                                           std::vector<PBXBuildPhaseRef>{sourcesBuildPhase, frameworksBuildPhase, assetsBuildPhase, resourcesBuildPhase},
-                                                                           std::vector<PBXTargetDependencyRef>{ouzelDependency},
-                                                                           productFile);
+                        /*
+                        auto assetGenerateTargetConfigurationList = alloc<XCConfigurationList>(std::vector<XCBuildConfigurationRef>{
+                                                                                                           targetDebugConfiguration,
+                                                                                                           targetReleaseConfiguration},
+                                                                                                       targetReleaseConfiguration.getName());
+
+                        // TODO: add platform
+                        auto assetGenerateTarget = alloc<PBXLegacyTarget>("Generate Assets " + toString(platform),
+                                                                                  "$BUILT_PRODUCTS_DIR/ouzel",
+                                                                                  "--export-assets $PROJECT_DIR/" + std::string(projectFilename),
+                                                                                  assetGenerateTargetConfigurationList,
+                                                                                  std::vector<PBXBuildPhaseRef>{},
+                                                                                  std::vector<PBXTargetDependencyRef>{ouzelDependency});
+                        targets.push_back(assetGenerateTarget);
+
+                        // TODO: get project ID
+                        auto assetGenerateTargetProxy = alloc<PBXContainerItemProxy>(PBXContainerItemProxy::ProxyType::NativeTarget,
+                                                                                             assetGenerateTarget.getId(),
+                                                                                             "Generate Assets " + toString(platform));
+
+                        auto assetGenerateTargetDependency = alloc<PBXTargetDependency>("", assetGenerateTargetProxy, &assetGenerateTarget);*/
+
+                        auto targetConfigurationList = alloc<XCConfigurationList>();
+                        targetConfigurationList->configurations = {
+                            targetDebugConfiguration,
+                            targetReleaseConfiguration
+                        }; // TODO: remake to push back
+                        targetConfigurationList->defaultConfigurationName = targetReleaseConfiguration->name;
+
+                        auto nativeTarget = alloc<PBXNativeTarget>();
+                        nativeTarget->name = project.getName() + ' ' + toString(platform);
+                        nativeTarget->buildConfigurationList = targetConfigurationList; // TODO: remake to push_back
+                        nativeTarget->buildPhases = {sourcesBuildPhase, frameworksBuildPhase, resourcesBuildPhase}; // TODO: remake to push_back
+                        //nativeTarget->dependencies.push_back(assetGenerateTargetDependency);
+                        nativeTarget->productReference = productFile;
                         targets.push_back(nativeTarget);
                     }
                 }
 
-                const auto& frameworksGroup = create<PBXGroup>("Frameworks", storage::Path{},
-                                                               frameworkFiles,
-                                                               PBXSourceTree::Group);
+                auto frameworksGroup = alloc<PBXGroup>();
+                frameworksGroup->name = "Frameworks";
+                frameworksGroup->children = frameworkFiles; // TODO: change to push back
+                frameworksGroup->sourceTree = PBXSourceTree::Group;
                 fileElements.push_back(frameworksGroup);
 
-                const auto& mainGroup = create<PBXGroup>("", storage::Path{},
-                                                         fileElements, PBXSourceTree::Group);
+                auto mainGroup = alloc<PBXGroup>();
+                mainGroup->children = fileElements; // TODO: change to push back
+                mainGroup->sourceTree = PBXSourceTree::Group;
 
-                const auto& pbxProject = create<PBXProject>(project.getOrganization(),
-                                                            projectConfigurationList,
-                                                            mainGroup,
-                                                            productRefGroup,
-                                                            std::map<std::string, PBXObjectRef>{
-                                                                {"ProductGroup", ouzelPoductRefGroup},
-                                                                {"ProjectRef", ouzelProjectFileRef}},
-                                                            targets);
+                auto pbxProject = alloc<PBXProject>();
+                pbxProject->organization = project.getOrganization();
+                pbxProject->buildConfigurationList = projectConfigurationList; // TODO: change to push back
+                pbxProject->mainGroup = mainGroup;
+                pbxProject->productRefGroup = productRefGroup;
+                pbxProject->projectReferences = {
+                    {"ProductGroup", ouzelPoductRefGroup},
+                    {"ProjectRef", ouzelProjectFileRef}
+                };
+                pbxProject->targets = targets; // TODO: change to push back
 
-                rootObject = &pbxProject;
+                rootObject = pbxProject;
 
                 std::ofstream file(pbxProjectFile, std::ios::trunc);
                 file << plist::encode(encode(), plist::Format::Ascii);
@@ -482,10 +550,10 @@ namespace ouzel
 
         private:
             template <class T, class ...Args>
-            T& create(Args&& ...args)
+            T* alloc()
             {
-                std::unique_ptr<T> object = std::make_unique<T>(std::forward<Args>(args)...);
-                T& result = *object;
+                std::unique_ptr<T> object = std::make_unique<T>();
+                T* result = object.get();
                 objects.push_back(std::move(object));
                 return result;
             }
@@ -507,7 +575,7 @@ namespace ouzel
 
             const OuzelProject& project;
             std::vector<std::unique_ptr<PBXObject>> objects;
-            const PBXObject* rootObject;
+            const PBXObject* rootObject = nullptr;
         };
     }
 }

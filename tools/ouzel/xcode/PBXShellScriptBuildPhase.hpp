@@ -13,8 +13,7 @@ namespace ouzel
         class PBXShellScriptBuildPhase final: public PBXBuildPhase
         {
         public:
-            PBXShellScriptBuildPhase(const std::string& initShellScript):
-                shellScript{initShellScript} {}
+            PBXShellScriptBuildPhase() = default;
 
             std::string getIsa() const override { return "PBXShellScriptBuildPhase"; }
 
@@ -32,7 +31,6 @@ namespace ouzel
                 return result;
             }
 
-        private:
             std::string shellScript;
         };
     }

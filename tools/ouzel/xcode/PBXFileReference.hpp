@@ -15,14 +15,7 @@ namespace ouzel
         class PBXFileReference: public PBXFileElement
         {
         public:
-            PBXFileReference(const std::string& initName,
-                             const storage::Path& initPath,
-                             const PBXFileType& initFileType,
-                             PBXSourceTree initSourceTree):
-                name{initName},
-                path{initPath},
-                fileType{initFileType},
-                sourceTree{initSourceTree} {}
+            PBXFileReference() = default;
 
             std::string getIsa() const override { return "PBXFileReference"; }
 
@@ -39,14 +32,11 @@ namespace ouzel
                 return result;
             }
 
-        private:
             std::string name;
             storage::Path path;
             PBXFileType fileType;
             PBXSourceTree sourceTree;
         };
-
-        using PBXFileReferenceRef = std::reference_wrapper<const PBXFileReference>;
     }
 }
 

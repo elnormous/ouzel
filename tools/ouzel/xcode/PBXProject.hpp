@@ -16,18 +16,7 @@ namespace ouzel
         class PBXProject final: public PBXObject
         {
         public:
-            PBXProject(const std::string& initOrganization,
-                       const XCConfigurationList& initBuildConfigurationList,
-                       const PBXGroup& initMainGroup,
-                       const PBXGroup& initProductRefGroup,
-                       const std::map<std::string, PBXObjectRef>& initProjectReferences,
-                       const std::vector<PBXTargetRef>& initTargets):
-                organization{initOrganization},
-                buildConfigurationList{initBuildConfigurationList},
-                mainGroup(initMainGroup),
-                productRefGroup(initProductRefGroup),
-                projectReferences{initProjectReferences},
-                targets{initTargets} {}
+            PBXProject() = default;
 
             std::string getIsa() const override { return "PBXProject"; }
 
@@ -39,18 +28,20 @@ namespace ouzel
                     {"LastUpgradeCheck", "0800"},
                     {"ORGANIZATIONNAME", organization}
                 };
-                result["buildConfigurationList"] = toString(buildConfigurationList.getId());
+                if (buildConfigurationList)
+                    result["buildConfigurationList"] = toString(buildConfigurationList->getId());
                 result["compatibilityVersion"] = "Xcode 9.3";
                 result["developmentRegion"] = "en";
                 result["hasScannedForEncodings"] = 0;
                 result["knownRegions"] = plist::Value::Array{"en", "Base"};
-                result["mainGroup"] = toString(mainGroup.getId());
-                result["productRefGroup"] = toString(productRefGroup.getId());
+                if (mainGroup) result["mainGroup"] = toString(mainGroup->getId());
+                if (productRefGroup)
+                    result["productRefGroup"] = toString(productRefGroup->getId());
                 result["projectDirPath"] = "";
                 result["projectRoot"] = "";
                 result["targets"] = plist::Value::Array{};
-                for (const PBXTarget& target : targets)
-                    result["targets"].pushBack(toString(target.getId()));
+                for (auto target : targets)
+                    if (target) result["targets"].pushBack(toString(target->getId()));
 
                 if (!projectReferences.empty())
                 {
@@ -58,8 +49,8 @@ namespace ouzel
 
                     for (const auto& projectReference : projectReferences)
                     {
-                        const PBXObject& object = projectReference.second;
-                        references[projectReference.first] = toString(object.getId());
+                        auto object = projectReference.second;
+                        if (object) references[projectReference.first] = toString(object->getId());
                     }
 
                     result["projectReferences"] = plist::Value::Array{references};
@@ -68,13 +59,12 @@ namespace ouzel
                 return result;
             }
 
-        private:
             std::string organization;
-            const XCConfigurationList& buildConfigurationList;
-            const PBXGroup& mainGroup;
-            const PBXGroup& productRefGroup;
-            std::map<std::string, PBXObjectRef> projectReferences;
-            std::vector<PBXTargetRef> targets;
+            const XCConfigurationList* buildConfigurationList = nullptr;
+            const PBXGroup* mainGroup = nullptr;
+            const PBXGroup* productRefGroup = nullptr;
+            std::map<std::string, const PBXObject*> projectReferences;
+            std::vector<const PBXTarget*> targets;
         };
     }
 }

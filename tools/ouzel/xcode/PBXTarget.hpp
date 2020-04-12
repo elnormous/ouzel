@@ -16,8 +16,6 @@ namespace ouzel
 
             std::string getIsa() const override { return "PBXTarget"; }
         };
-
-        using PBXTargetRef = std::reference_wrapper<const PBXTarget>;
     }
 }
 

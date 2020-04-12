@@ -14,10 +14,7 @@ namespace ouzel
         class XCConfigurationList final: public PBXObject
         {
         public:
-            XCConfigurationList(const std::vector<XCBuildConfigurationRef>& initConfigurations,
-                                const std::string& initDefaultConfigurationName):
-                configurations{initConfigurations},
-                defaultConfigurationName{initDefaultConfigurationName} {}
+            XCConfigurationList() = default;
 
             std::string getIsa() const override { return "XCConfigurationList"; }
 
@@ -25,8 +22,9 @@ namespace ouzel
             {
                 auto result = PBXObject::encode();
                 result["buildConfigurations"] = plist::Value::Array{};
-                for (const XCBuildConfiguration& configuration : configurations)
-                    result["buildConfigurations"].pushBack(toString(configuration.getId()));
+                for (auto configuration : configurations)
+                    if (configuration)
+                        result["buildConfigurations"].pushBack(toString(configuration->getId()));
 
                 result["defaultConfigurationIsVisible"] = 0;
                 result["defaultConfigurationName"] = defaultConfigurationName;
@@ -34,8 +32,7 @@ namespace ouzel
                 return result;
             }
 
-        private:
-            std::vector<XCBuildConfigurationRef> configurations;
+            std::vector<const XCBuildConfiguration*> configurations;
             std::string defaultConfigurationName;
         };
     }

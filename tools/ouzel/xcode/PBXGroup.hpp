@@ -15,14 +15,7 @@ namespace ouzel
         class PBXGroup final: public PBXFileElement
         {
         public:
-            PBXGroup(const std::string& initName,
-                     const storage::Path& initPath,
-                     const std::vector<PBXFileElementRef>& initChildren,
-                     PBXSourceTree initSourceTree):
-                name{initName},
-                path{initPath},
-                children{initChildren},
-                sourceTree{initSourceTree} {}
+            PBXGroup() = default;
 
             std::string getIsa() const override { return "PBXGroup"; }
 
@@ -30,8 +23,8 @@ namespace ouzel
             {
                 auto result = PBXFileElement::encode();
                 result["children"] = plist::Value::Array{};
-                for (const PBXFileElement& child : children)
-                    result["children"].pushBack(toString(child.getId()));
+                for (auto child : children)
+                    if (child) result["children"].pushBack(toString(child->getId()));
 
                 result["sourceTree"] = toString(sourceTree);
 
@@ -43,10 +36,9 @@ namespace ouzel
                 return result;
             }
 
-        private:
             std::string name;
             storage::Path path;
-            std::vector<PBXFileElementRef> children;
+            std::vector<const PBXFileElement*> children;
             PBXSourceTree sourceTree;
         };
     }

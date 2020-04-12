@@ -24,8 +24,6 @@ namespace ouzel
                 return result;
             }
         };
-
-        using PBXBuildPhaseRef = std::reference_wrapper<const PBXBuildPhase>;
     }
 }
 

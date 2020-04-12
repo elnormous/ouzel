@@ -32,6 +32,7 @@ namespace ouzel
         {
         public:
             PBXObject() = default;
+            PBXObject(const Id& initId): id(initId) {}
             virtual ~PBXObject() = default;
 
             virtual std::string getIsa() const { return "PBXObject"; }
@@ -76,8 +77,6 @@ namespace ouzel
 
             Id id = generateId();
         };
-
-        using PBXObjectRef = std::reference_wrapper<const PBXObject>;
     }
 }
 

@@ -13,23 +13,19 @@ namespace ouzel
         class PBXBuildFile final: public PBXObject
         {
         public:
-            PBXBuildFile(const PBXFileReference& initFileRef):
-                fileRef{initFileRef} {}
+            PBXBuildFile() = default;
 
             std::string getIsa() const override { return "PBXBuildFile"; }
 
             plist::Value encode() const override
             {
                 auto result = PBXObject::encode();
-                result["fileRef"] = toString(fileRef.getId());
+                if (fileRef) result["fileRef"] = toString(fileRef->getId());
                 return result;
             }
 
-        private:
-            const PBXFileReference& fileRef;
+            const PBXFileReference* fileRef = nullptr;
         };
-
-        using PBXBuildFileRef = std::reference_wrapper<const PBXBuildFile>;
     }
 }
 
