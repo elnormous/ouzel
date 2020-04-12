@@ -440,7 +440,7 @@ namespace ouzel
 
                         const auto& frameworksBuildPhase = create<PBXFrameworksBuildPhase>(frameworkBuildFiles);
 
-                        const auto& assetsBuildPhase = create<PBXShellScriptBuildPhase>("$BUILT_PRODUCTS_DIR/ouzel --export-assets $PROJECT_DIR/" + std::string(projectFilename));
+                        const auto& assetsBuildPhase = create<PBXShellScriptBuildPhase>("$BUILD_DIR/$CONFIGURATION/ouzel --export-assets $PROJECT_DIR/" + std::string(projectFilename));
 
                         // TODO: implement resource copy
                         const auto& resourcesBuildPhase = create<PBXResourcesBuildPhase>(std::vector<PBXBuildFileRef>{});
