@@ -179,21 +179,21 @@
 			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 304A8E251C237C30008B1151;
-			remoteInfo = ouzel_osx;
+			remoteInfo = libouzel_macos;
 		};
 		30B492A81CDF81700021E170 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 303B75331C2A3C5800FEDE92;
-			remoteInfo = ouzel_ios;
+			remoteInfo = libouzel_ios;
 		};
 		30B492AA1CDF81700021E170 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 303B76801C355A3B00FEDE92;
-			remoteInfo = ouzel_tvos;
+			remoteInfo = libouzel_tvos;
 		};
 		30E2660F2410A1890098C124 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;

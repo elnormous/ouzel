@@ -51,9 +51,13 @@ namespace ouzel
                     storage::FileSystem::createDirectory(xcodeProjectDirectory);
                 }
 
-                const auto pbxProjectFile = xcodeProjectDirectory / storage::Path{"project.pbxproj"};
+                auto pbxProject = alloc<PBXProject>();
+                pbxProject->organization = project.getOrganization();
+                rootObject = pbxProject;
 
-                std::vector<const PBXFileElement*> fileElements;
+                auto mainGroup = alloc<PBXGroup>();
+                mainGroup->sourceTree = PBXSourceTree::Group;
+                pbxProject->mainGroup = mainGroup;
 
                 const auto ouzelProjectPath = project.getOuzelPath() / "build" / "ouzel.xcodeproj";
                 auto ouzelProjectFileRef = alloc<PBXFileReference>();
@@ -61,12 +65,14 @@ namespace ouzel
                 ouzelProjectFileRef->path = ouzelProjectPath;
                 ouzelProjectFileRef->fileType = PBXFileType::WrapperPBProject;
                 ouzelProjectFileRef->sourceTree = PBXSourceTree::Group;
-                fileElements.push_back(ouzelProjectFileRef);
+                mainGroup->children.push_back(ouzelProjectFileRef);
+                pbxProject->projectReferences["ProjectRef"] = ouzelProjectFileRef;
 
                 auto ouzelPoductRefGroup = alloc<PBXGroup>();
                 ouzelPoductRefGroup->name = "Products";
                 ouzelPoductRefGroup->path = storage::Path{};
                 ouzelPoductRefGroup->sourceTree = PBXSourceTree::Group;
+                pbxProject->projectReferences["ProductGroup"] = ouzelPoductRefGroup;
 
                 PBXObject libouzelIos(Id{0x30, 0x3B, 0x75, 0x33, 0x1C, 0x2A, 0x3C, 0x58, 0x00, 0xFE, 0xDE, 0x92});
 
@@ -141,13 +147,14 @@ namespace ouzel
                 auto resourcesGroup = alloc<PBXGroup>();
                 resourcesGroup->path = storage::Path{"Resources"};
                 resourcesGroup->sourceTree = PBXSourceTree::Group;
-                fileElements.push_back(resourcesGroup);
+                mainGroup->children.push_back(resourcesGroup);
 
                 auto productRefGroup = alloc<PBXGroup>();
                 productRefGroup->name = "Products";
                 productRefGroup->children.push_back(productFile);
                 productRefGroup->sourceTree = PBXSourceTree::Group;
-                fileElements.push_back(productRefGroup);
+                mainGroup->children.push_back(productRefGroup);
+                pbxProject->productRefGroup = productRefGroup;
 
                 std::vector<const PBXBuildFile*> buildFiles;
                 std::vector<const PBXFileElement*> sourceFiles;
@@ -174,14 +181,20 @@ namespace ouzel
                     buildFiles.push_back(buildFile);
                 }
 
+                auto frameworksGroup = alloc<PBXGroup>();
+                frameworksGroup->name = "Frameworks";
+                frameworksGroup->sourceTree = PBXSourceTree::Group;
+                mainGroup->children.push_back(frameworksGroup);
+
                 auto sourceGroup = alloc<PBXGroup>();
                 sourceGroup->name = "src";
                 sourceGroup->path = storage::Path{"src"};
                 sourceGroup->children = sourceFiles;
                 sourceGroup->sourceTree = PBXSourceTree::Group;
-                fileElements.push_back(sourceGroup);
+                mainGroup->children.push_back(sourceGroup);
 
                 auto projectConfigurationList = alloc<XCConfigurationList>();
+                pbxProject->buildConfigurationList = projectConfigurationList;
 
                 const auto headerSearchPath = std::string(project.getOuzelPath() / "engine");
                 auto debugConfiguration = alloc<XCBuildConfiguration>();
@@ -263,15 +276,37 @@ namespace ouzel
                 projectConfigurationList->configurations.push_back(releaseConfiguration);
                 projectConfigurationList->defaultConfigurationName = releaseConfiguration->name;
 
-                std::vector<const PBXTarget*> targets;
-                std::vector<const PBXFileElement*> frameworkFiles;
-
                 for (const auto platform : project.getPlatforms())
                 {
                     if (platform == Platform::MacOs ||
                         platform == Platform::Ios ||
                         platform == Platform::Tvos)
                     {
+                        auto nativeTarget = alloc<PBXNativeTarget>();
+                        nativeTarget->name = project.getName() + ' ' + toString(platform);
+                        //nativeTarget->dependencies.push_back(assetGenerateTargetDependency);
+                        nativeTarget->productReference = productFile;
+                        pbxProject->targets.push_back(nativeTarget);
+
+                        auto targetConfigurationList = alloc<XCConfigurationList>();
+                        nativeTarget->buildConfigurationList = targetConfigurationList;
+
+                        auto targetDebugConfiguration = alloc<XCBuildConfiguration>();
+                        targetDebugConfiguration->name = "Debug";
+                        targetConfigurationList->configurations.push_back(targetDebugConfiguration);
+
+                        auto targetReleaseConfiguration = alloc<XCBuildConfiguration>();
+                        targetReleaseConfiguration->name = "Release";
+                        targetConfigurationList->configurations.push_back(targetReleaseConfiguration);
+                        targetConfigurationList->defaultConfigurationName = targetReleaseConfiguration->name;
+
+                        auto sourcesBuildPhase = alloc<PBXSourcesBuildPhase>();
+                        sourcesBuildPhase->files = buildFiles;
+                        nativeTarget->buildPhases.push_back(sourcesBuildPhase);
+
+                        auto frameworksBuildPhase = alloc<PBXFrameworksBuildPhase>();
+                        nativeTarget->buildPhases.push_back(frameworksBuildPhase);
+
                         std::map<std::string, std::string> buildSettings = {
                             {"INFOPLIST_FILE", toString(platform) + "/Info.plist"},
                             {"PRODUCT_BUNDLE_IDENTIFIER", project.getIdentifier()},
@@ -287,12 +322,11 @@ namespace ouzel
                         platformGroup->path = storage::Path{toString(platform)};
                         platformGroup->children.push_back(infoPlistFileReference);
                         platformGroup->sourceTree = PBXSourceTree::Group;
-                        fileElements.push_back(platformGroup);
+                        mainGroup->children.push_back(platformGroup);
 
                         storage::Path sdkPath;
                         PBXSourceTree frameworkSourceTree = PBXSourceTree::SdkRoot;
                         std::vector<const char*> frameworks;
-                        std::vector<const PBXBuildFile*> frameworkBuildFiles;
 
                         const auto platformDirectory = projectDirectory / toString(platform);
                         const auto plistPath = platformDirectory / "Info.plist";
@@ -324,7 +358,7 @@ namespace ouzel
                                     "QuartzCore.framework"};
                                 auto libouzelMacOsBuildFile = alloc<PBXBuildFile>();
                                 libouzelMacOsBuildFile->fileRef = libouzelMacOsReferenceProxy;
-                                frameworkBuildFiles.push_back(libouzelMacOsBuildFile);
+                                frameworksBuildPhase->files.push_back(libouzelMacOsBuildFile);
 
                                 plist::Value infoPlist = plist::Value::Dictionary{
                                     {"CFBundleDevelopmentRegion", "en"},
@@ -366,7 +400,7 @@ namespace ouzel
                                 frameworkSourceTree = PBXSourceTree::DeveloperDir;
                                 auto libouzelIosBuildFile = alloc<PBXBuildFile>();
                                 libouzelIosBuildFile->fileRef = libouzelIosReferenceProxy;
-                                frameworkBuildFiles.push_back(libouzelIosBuildFile);
+                                frameworksBuildPhase->files.push_back(libouzelIosBuildFile);
 
                                 plist::Value infoPlist = plist::Value::Dictionary{
                                     {"CFBundleDevelopmentRegion", "en"},
@@ -420,7 +454,7 @@ namespace ouzel
                                 frameworkSourceTree = PBXSourceTree::DeveloperDir;
                                 auto libouzelTvosBuildFile = alloc<PBXBuildFile>();
                                 libouzelTvosBuildFile->fileRef = libouzelTvosReferenceProxy;
-                                frameworkBuildFiles.push_back(libouzelTvosBuildFile);
+                                frameworksBuildPhase->files.push_back(libouzelTvosBuildFile);
 
                                 plist::Value infoPlist = plist::Value::Dictionary{
                                     {"CFBundleDevelopmentRegion", "en"},
@@ -446,16 +480,8 @@ namespace ouzel
                                 throw std::runtime_error("Unsupported platform");
                         }
 
-                        auto targetDebugConfiguration = alloc<XCBuildConfiguration>();
-                        targetDebugConfiguration->name = "Debug";
                         targetDebugConfiguration->buildSettings = buildSettings;
-
-                        auto targetReleaseConfiguration = alloc<XCBuildConfiguration>();
-                        targetReleaseConfiguration->name = "Release";
                         targetReleaseConfiguration->buildSettings = buildSettings;
-
-                        auto sourcesBuildPhase = alloc<PBXSourcesBuildPhase>();
-                        sourcesBuildPhase->files = buildFiles;
 
                         const auto frameworksPath = sdkPath / storage::Path{"System/Library/Frameworks"};
                         for (auto framework : frameworks)
@@ -465,18 +491,16 @@ namespace ouzel
                             frameworkFileReference->path = frameworksPath / framework;
                             frameworkFileReference->fileType = PBXFileType::WrapperFramework;
                             frameworkFileReference->sourceTree = frameworkSourceTree;
-                            frameworkFiles.push_back(frameworkFileReference);
+                            frameworksGroup->children.push_back(frameworkFileReference);
 
                             auto frameworkBuildFile = alloc<PBXBuildFile>();
                             frameworkBuildFile->fileRef = frameworkFileReference;
-                            frameworkBuildFiles.push_back(frameworkBuildFile);
+                            frameworksBuildPhase->files.push_back(frameworkBuildFile);
                         }
-
-                        auto frameworksBuildPhase = alloc<PBXFrameworksBuildPhase>();
-                        frameworksBuildPhase->files = frameworkBuildFiles; // TODO: remake to push_back
 
                         // TODO: implement resource copy
                         auto resourcesBuildPhase = alloc<PBXResourcesBuildPhase>();
+                        nativeTarget->buildPhases.push_back(resourcesBuildPhase);
 
                         auto ouzelDependency = alloc<PBXTargetDependency>();
                         ouzelDependency->name = "ouzel";
@@ -495,7 +519,7 @@ namespace ouzel
                                                                                   assetGenerateTargetConfigurationList,
                                                                                   std::vector<PBXBuildPhaseRef>{},
                                                                                   std::vector<PBXTargetDependencyRef>{ouzelDependency});
-                        targets.push_back(assetGenerateTarget);
+                        pbxProject->targets.push_back(assetGenerateTarget);
 
                         // TODO: get project ID
                         auto assetGenerateTargetProxy = alloc<PBXContainerItemProxy>(PBXContainerItemProxy::ProxyType::NativeTarget,
@@ -503,47 +527,10 @@ namespace ouzel
                                                                                              "Generate Assets " + toString(platform));
 
                         auto assetGenerateTargetDependency = alloc<PBXTargetDependency>("", assetGenerateTargetProxy, &assetGenerateTarget);*/
-
-                        auto targetConfigurationList = alloc<XCConfigurationList>();
-                        targetConfigurationList->configurations = {
-                            targetDebugConfiguration,
-                            targetReleaseConfiguration
-                        }; // TODO: remake to push back
-                        targetConfigurationList->defaultConfigurationName = targetReleaseConfiguration->name;
-
-                        auto nativeTarget = alloc<PBXNativeTarget>();
-                        nativeTarget->name = project.getName() + ' ' + toString(platform);
-                        nativeTarget->buildConfigurationList = targetConfigurationList; // TODO: remake to push_back
-                        nativeTarget->buildPhases = {sourcesBuildPhase, frameworksBuildPhase, resourcesBuildPhase}; // TODO: remake to push_back
-                        //nativeTarget->dependencies.push_back(assetGenerateTargetDependency);
-                        nativeTarget->productReference = productFile;
-                        targets.push_back(nativeTarget);
                     }
                 }
 
-                auto frameworksGroup = alloc<PBXGroup>();
-                frameworksGroup->name = "Frameworks";
-                frameworksGroup->children = frameworkFiles; // TODO: change to push back
-                frameworksGroup->sourceTree = PBXSourceTree::Group;
-                fileElements.push_back(frameworksGroup);
-
-                auto mainGroup = alloc<PBXGroup>();
-                mainGroup->children = fileElements; // TODO: change to push back
-                mainGroup->sourceTree = PBXSourceTree::Group;
-
-                auto pbxProject = alloc<PBXProject>();
-                pbxProject->organization = project.getOrganization();
-                pbxProject->buildConfigurationList = projectConfigurationList; // TODO: change to push back
-                pbxProject->mainGroup = mainGroup;
-                pbxProject->productRefGroup = productRefGroup;
-                pbxProject->projectReferences = {
-                    {"ProductGroup", ouzelPoductRefGroup},
-                    {"ProjectRef", ouzelProjectFileRef}
-                };
-                pbxProject->targets = targets; // TODO: change to push back
-
-                rootObject = pbxProject;
-
+                const auto pbxProjectFile = xcodeProjectDirectory / storage::Path{"project.pbxproj"};
                 std::ofstream file(pbxProjectFile, std::ios::trunc);
                 file << plist::encode(encode(), plist::Format::Ascii);
             }
