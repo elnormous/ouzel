@@ -33,7 +33,7 @@ namespace ouzel
                 return result;
             }
 
-            const PBXFileReference* containerPortal = nullptr;
+            const PBXObject* containerPortal = nullptr;
             ProxyType proxyType = NativeTarget;
             const PBXObject* remoteGlobal = nullptr;
             std::string remoteInfo;

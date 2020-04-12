@@ -19,11 +19,15 @@ namespace ouzel
         public:
             PBXLegacyTarget() = default;
 
-            std::string getIsa() const override { return "PBXNativeTarget"; }
+            std::string getIsa() const override { return "PBXLegacyTarget"; }
 
             plist::Value encode() const override
             {
                 auto result = PBXTarget::encode();
+
+                result["buildToolPath"] = buildToolPath;
+                result["buildArgumentsString"] = buildArgumentsString;
+
                 if (buildConfigurationList)
                     result["buildConfigurationList"] = toString(buildConfigurationList->getId());
                 result["buildPhases"] = plist::Value::Array{};

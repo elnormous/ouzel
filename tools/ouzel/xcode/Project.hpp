@@ -284,7 +284,6 @@ namespace ouzel
                     {
                         auto nativeTarget = alloc<PBXNativeTarget>();
                         nativeTarget->name = project.getName() + ' ' + toString(platform);
-                        //nativeTarget->dependencies.push_back(assetGenerateTargetDependency);
                         nativeTarget->productReference = productFile;
                         pbxProject->targets.push_back(nativeTarget);
 
@@ -506,27 +505,29 @@ namespace ouzel
                         ouzelDependency->name = "ouzel";
                         ouzelDependency->targetProxy = ouzelNativeTargetProxy;
 
-                        /*
-                        auto assetGenerateTargetConfigurationList = alloc<XCConfigurationList>(std::vector<XCBuildConfigurationRef>{
-                                                                                                           targetDebugConfiguration,
-                                                                                                           targetReleaseConfiguration},
-                                                                                                       targetReleaseConfiguration.getName());
-
-                        // TODO: add platform
-                        auto assetGenerateTarget = alloc<PBXLegacyTarget>("Generate Assets " + toString(platform),
-                                                                                  "$BUILT_PRODUCTS_DIR/ouzel",
-                                                                                  "--export-assets $PROJECT_DIR/" + std::string(projectFilename),
-                                                                                  assetGenerateTargetConfigurationList,
-                                                                                  std::vector<PBXBuildPhaseRef>{},
-                                                                                  std::vector<PBXTargetDependencyRef>{ouzelDependency});
+                        auto assetGenerateTarget = alloc<PBXLegacyTarget>();
+                        assetGenerateTarget->name = "Generate Assets " + toString(platform);
+                        assetGenerateTarget->buildToolPath = "$BUILT_PRODUCTS_DIR/ouzel";
+                        assetGenerateTarget->buildArgumentsString = "--export-assets $PROJECT_DIR/" + std::string(projectFilename); // TODO: add platform
+                        assetGenerateTarget->dependencies.push_back(ouzelDependency);
                         pbxProject->targets.push_back(assetGenerateTarget);
 
-                        // TODO: get project ID
-                        auto assetGenerateTargetProxy = alloc<PBXContainerItemProxy>(PBXContainerItemProxy::ProxyType::NativeTarget,
-                                                                                             assetGenerateTarget.getId(),
-                                                                                             "Generate Assets " + toString(platform));
+                        auto assetGenerateTargetConfigurationList = alloc<XCConfigurationList>();
+                        assetGenerateTargetConfigurationList->configurations.push_back(targetDebugConfiguration);
+                        assetGenerateTargetConfigurationList->configurations.push_back(targetReleaseConfiguration);
+                        assetGenerateTargetConfigurationList->defaultConfigurationName = targetReleaseConfiguration->name;
+                        assetGenerateTarget->buildConfigurationList = assetGenerateTargetConfigurationList;
 
-                        auto assetGenerateTargetDependency = alloc<PBXTargetDependency>("", assetGenerateTargetProxy, &assetGenerateTarget);*/
+                        auto assetGenerateTargetProxy = alloc<PBXContainerItemProxy>();
+                        assetGenerateTargetProxy->proxyType = PBXContainerItemProxy::NativeTarget;
+                        assetGenerateTargetProxy->containerPortal = pbxProject;
+                        assetGenerateTargetProxy->remoteGlobal = assetGenerateTarget;
+                        assetGenerateTargetProxy->remoteInfo = assetGenerateTarget->name;
+
+                        auto assetGenerateTargetDependency = alloc<PBXTargetDependency>();
+                        assetGenerateTargetDependency->targetProxy = assetGenerateTargetProxy;
+                        assetGenerateTargetDependency->target = assetGenerateTarget;
+                        nativeTarget->dependencies.push_back(assetGenerateTargetDependency);
                     }
                 }
 
