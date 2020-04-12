@@ -999,6 +999,7 @@
 		307934D322C58CFE005A6804 /* Cue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cue.hpp; sourceTree = "<group>"; };
 		307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceGC.hpp; sourceTree = "<group>"; };
 		307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceGC.mm; sourceTree = "<group>"; };
+		30805CBF2442C31C006C86B7 /* PBXLegacyTarget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXLegacyTarget.hpp; sourceTree = "<group>"; };
 		3082C3461D94A8D90090FC9D /* PixelFormat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
 		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		3085DA1F211A4A5500F4C2D0 /* Socket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Socket.hpp; sourceTree = "<group>"; };
@@ -1831,6 +1832,7 @@
 				30B15F5E243A95440084915E /* PBXFileType.hpp */,
 				30B15F4D24395D640084915E /* PBXFrameworksBuildPhase.hpp */,
 				30B15F4824395D230084915E /* PBXGroup.hpp */,
+				30805CBF2442C31C006C86B7 /* PBXLegacyTarget.hpp */,
 				30B15F4F24395D7E0084915E /* PBXNativeTarget.hpp */,
 				30B15F41243958B00084915E /* PBXObject.hpp */,
 				30B15F5024395D8B0084915E /* PBXProject.hpp */,

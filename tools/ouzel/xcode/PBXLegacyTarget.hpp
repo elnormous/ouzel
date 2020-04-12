@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_XCODE_PBXNATIVETARGET_HPP
-#define OUZEL_XCODE_PBXNATIVETARGET_HPP
+#ifndef OUZEL_XCODE_PBXLEGACYTARGET_HPP
+#define OUZEL_XCODE_PBXLEGACYTARGET_HPP
 
 #include <vector>
 #include "PBXTarget.hpp"
@@ -14,19 +14,21 @@ namespace ouzel
 {
     namespace xcode
     {
-        class PBXNativeTarget final: public PBXTarget
+        class PBXLegacyTarget final: public PBXTarget
         {
         public:
-            PBXNativeTarget(const std::string& initName,
+            PBXLegacyTarget(const std::string& initName,
+                            const std::string& initBuildToolPath,
+                            const std::string& initBuildArgumentsString,
                             const XCConfigurationList& initBuildConfigurationList,
                             const std::vector<PBXBuildPhaseRef>& initBuildPhases,
-                            const std::vector<PBXTargetDependencyRef>& initDependencies,
-                            const PBXFileReference& initProductReference):
+                            const std::vector<PBXTargetDependencyRef>& initDependencies):
                 name{initName},
+                buildToolPath{initBuildToolPath},
+                buildArgumentsString{initBuildArgumentsString},
                 buildConfigurationList{initBuildConfigurationList},
                 buildPhases{initBuildPhases},
-                dependencies{initDependencies},
-                productReference{initProductReference} {}
+                dependencies{initDependencies} {}
 
             std::string getIsa() const override { return "PBXNativeTarget"; }
 
@@ -38,27 +40,26 @@ namespace ouzel
                 for (const PBXBuildPhase& buildPhase : buildPhases)
                     result["buildPhases"].pushBack(toString(buildPhase.getId()));
 
-                result["buildRules"] = plist::Value::Array{};
                 result["dependencies"] = plist::Value::Array{};
                 for (const PBXTargetDependency& dependency : dependencies)
                     result["dependencies"].pushBack(toString(dependency.getId()));
 
                 result["name"] = name;
+                result["passBuildSettingsInEnvironment"] = 1;
                 result["productName"] = name;
-                result["productReference"] = toString(productReference.getId());
-                result["productType"] = "com.apple.product-type.application";
 
                 return result;
             }
 
         private:
             std::string name;
+            std::string buildToolPath;
+            std::string buildArgumentsString;
             const XCConfigurationList& buildConfigurationList;
             std::vector<PBXBuildPhaseRef> buildPhases;
             std::vector<PBXTargetDependencyRef> dependencies;
-            const PBXFileReference& productReference;
         };
     }
 }
 
-#endif // OUZEL_XCODE_PBXNATIVETARGET_HPP
+#endif // OUZEL_XCODE_PBXLEGACYTARGET_HPP

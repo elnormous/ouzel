@@ -23,7 +23,6 @@ namespace ouzel
             {
                 auto result = PBXBuildPhase::encode();
                 result["files"] = plist::Value::Array{};
-
                 for (const PBXBuildFile& file : files)
                     result["files"].pushBack(toString(file.getId()));
 

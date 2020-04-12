@@ -26,10 +26,10 @@ namespace ouzel
             {
                 auto result = PBXObject::encode();
                 result["buildSettings"] = plist::Value::Dictionary{};
-                result["name"] = name;
-
                 for (const auto& buildSetting : buildSettings)
                     result["buildSettings"][buildSetting.first] = buildSetting.second;
+
+                result["name"] = name;
 
                 return result;
             }

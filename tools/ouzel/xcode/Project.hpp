@@ -10,6 +10,7 @@
 #include "PBXFileReference.hpp"
 #include "PBXFrameworksBuildPhase.hpp"
 #include "PBXGroup.hpp"
+#include "PBXLegacyTarget.hpp"
 #include "PBXNativeTarget.hpp"
 #include "PBXProject.hpp"
 #include "PBXReferenceProxy.hpp"

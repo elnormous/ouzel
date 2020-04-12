@@ -30,15 +30,15 @@ namespace ouzel
             {
                 auto result = PBXFileElement::encode();
                 result["children"] = plist::Value::Array{};
+                for (const PBXFileElement& child : children)
+                    result["children"].pushBack(toString(child.getId()));
+
                 result["sourceTree"] = toString(sourceTree);
 
                 if (!std::string(path).empty())
                     result["path"] = std::string(path);
                 else if (!name.empty())
                     result["name"] = name;
-
-                for (const PBXFileElement& child : children)
-                    result["children"].pushBack(toString(child.getId()));
 
                 return result;
             }

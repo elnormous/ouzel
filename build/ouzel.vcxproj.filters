@@ -27,6 +27,9 @@
     <ClInclude Include="..\tools\ouzel\xcode\PBXGroup.hpp">
       <Filter>xcode</Filter>
     </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\PBXLegacyTarget.hpp">
+      <Filter>xcode</Filter>
+    </ClInclude>
     <ClInclude Include="..\tools\ouzel\xcode\PBXNativeTarget.hpp">
       <Filter>xcode</Filter>
     </ClInclude>

@@ -49,6 +49,8 @@ namespace ouzel
                 result["projectDirPath"] = "";
                 result["projectRoot"] = "";
                 result["targets"] = plist::Value::Array{};
+                for (const PBXTarget& target : targets)
+                    result["targets"].pushBack(toString(target.getId()));
 
                 if (!projectReferences.empty())
                 {
@@ -62,9 +64,6 @@ namespace ouzel
 
                     result["projectReferences"] = plist::Value::Array{references};
                 }
-
-                for (const PBXTarget& target : targets)
-                    result["targets"].pushBack(toString(target.getId()));
 
                 return result;
             }

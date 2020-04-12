@@ -25,11 +25,11 @@ namespace ouzel
             {
                 auto result = PBXObject::encode();
                 result["buildConfigurations"] = plist::Value::Array{};
-                result["defaultConfigurationIsVisible"] = 0;
-                result["defaultConfigurationName"] = defaultConfigurationName;
-
                 for (const XCBuildConfiguration& configuration : configurations)
                     result["buildConfigurations"].pushBack(toString(configuration.getId()));
+
+                result["defaultConfigurationIsVisible"] = 0;
+                result["defaultConfigurationName"] = defaultConfigurationName;
 
                 return result;
             }

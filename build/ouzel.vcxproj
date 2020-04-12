@@ -165,6 +165,7 @@
     <ClInclude Include="..\tools\ouzel\xcode\PBXFileType.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXFrameworksBuildPhase.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXGroup.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\PBXLegacyTarget.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXNativeTarget.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXObject.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXProject.hpp" />
