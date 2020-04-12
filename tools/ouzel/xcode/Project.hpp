@@ -238,8 +238,9 @@ namespace ouzel
                         platform == Platform::Tvos)
                     {
                         std::map<std::string, std::string> buildSettings = {
-                            {"PRODUCT_NAME", project.getName()},
-                            {"INFOPLIST_FILE", toString(platform) + "/Info.plist"}
+                            {"INFOPLIST_FILE", toString(platform) + "/Info.plist"},
+                            {"PRODUCT_BUNDLE_IDENTIFIER", project.getIdentifier()},
+                            {"PRODUCT_NAME", project.getName()}
                         };
 
                         const auto& infoPlistFileReference = create<PBXFileReference>("",
