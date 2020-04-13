@@ -127,18 +127,6 @@ namespace ouzel
                 ouzelProxy->remoteGlobal = &ouzel;
                 ouzelProxy->remoteInfo = "ouzel";
 
-                auto ouzelNativeTargetProxy = alloc<PBXContainerItemProxy>();
-                ouzelNativeTargetProxy->containerPortal = ouzelProjectFileRef;
-                ouzelNativeTargetProxy->proxyType = PBXContainerItemProxy::NativeTarget;
-                ouzelNativeTargetProxy->remoteGlobal = &ouzel;
-                ouzelNativeTargetProxy->remoteInfo = "ouzel";
-
-                auto ouzelReferenceProxy = alloc<PBXReferenceProxy>();
-                ouzelReferenceProxy->path = "ouzel";
-                ouzelReferenceProxy->fileType = PBXFileType::CompiledMachOExecutable;
-                ouzelReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
-                ouzelReferenceProxy->remoteRef = ouzelProxy;
-
                 auto productFile = alloc<PBXFileReference>();
                 productFile->path = storage::Path{project.getName() + ".app"};
                 productFile->fileType = PBXFileType::WrapperApplication;
@@ -501,6 +489,18 @@ namespace ouzel
                         auto resourcesBuildPhase = alloc<PBXResourcesBuildPhase>();
                         nativeTarget->buildPhases.push_back(resourcesBuildPhase);
 
+                        auto ouzelNativeTargetProxy = alloc<PBXContainerItemProxy>();
+                        ouzelNativeTargetProxy->containerPortal = ouzelProjectFileRef;
+                        ouzelNativeTargetProxy->proxyType = PBXContainerItemProxy::NativeTarget;
+                        ouzelNativeTargetProxy->remoteGlobal = &ouzel;
+                        ouzelNativeTargetProxy->remoteInfo = "ouzel";
+
+                        auto ouzelReferenceProxy = alloc<PBXReferenceProxy>();
+                        ouzelReferenceProxy->path = "ouzel";
+                        ouzelReferenceProxy->fileType = PBXFileType::CompiledMachOExecutable;
+                        ouzelReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
+                        ouzelReferenceProxy->remoteRef = ouzelProxy;
+                        
                         auto ouzelDependency = alloc<PBXTargetDependency>();
                         ouzelDependency->name = "ouzel";
                         ouzelDependency->targetProxy = ouzelNativeTargetProxy;
