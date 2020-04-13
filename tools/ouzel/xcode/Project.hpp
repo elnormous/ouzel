@@ -89,7 +89,7 @@ namespace ouzel
                 libouzelIosReferenceProxy->remoteRef = libouzelIosProxy;
                 ouzelPoductRefGroup->children.push_back(libouzelIosReferenceProxy);
 
-                PBXObject libouzelMacOs(Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E});
+                PBXObject libouzelMacOs(Id{0x30, 0x4A, 0x8E, 0x25, 0x1C, 0x23, 0x7C, 0x30, 0x00, 0x8B, 0x11, 0x51});
 
                 auto libouzelMacOsProxy = alloc<PBXContainerItemProxy>();
                 libouzelMacOsProxy->containerPortal = ouzelProjectFileRef;
@@ -104,7 +104,7 @@ namespace ouzel
                 libouzelMacOsReferenceProxy->remoteRef = libouzelMacOsProxy;
                 ouzelPoductRefGroup->children.push_back(libouzelMacOsReferenceProxy);
 
-                PBXObject libouzelTvos(Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E});
+                PBXObject libouzelTvos(Id{0x30, 0x3B, 0x76, 0x80, 0x1C, 0x35, 0x5A, 0x3B, 0x00, 0xFE, 0xDE, 0x92});
 
                 auto libouzelTvosProxy = alloc<PBXContainerItemProxy>();
                 libouzelTvosProxy->containerPortal = ouzelProjectFileRef;
@@ -119,7 +119,7 @@ namespace ouzel
                 libouzelTvosReferenceProxy->remoteRef = libouzelTvosProxy;
                 ouzelPoductRefGroup->children.push_back(libouzelTvosReferenceProxy);
 
-                PBXObject ouzel(Id{0x30, 0xA3, 0x96, 0x29, 0x24, 0x37, 0x73, 0xB5, 0x00, 0xD8, 0xE2, 0x8E});
+                PBXObject ouzel(Id{0x30, 0x23, 0x20, 0x0C, 0x22, 0x22, 0x0B, 0xCF, 0x00, 0x7E, 0x0A, 0xAD});
 
                 auto ouzelProxy = alloc<PBXContainerItemProxy>();
                 ouzelProxy->containerPortal = ouzelProjectFileRef;
