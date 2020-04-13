@@ -73,22 +73,8 @@ namespace ouzel
             {
             }
 
-            Path(const char* p, Format format = Format::Generic):
-                path(format == Format::Generic ? convertToNative(p) : encode(p))
-            {
-            }
-
-            Path(const std::string& p, Format format = Format::Generic):
-                path(format == Format::Generic ? convertToNative(p) : encode(p))
-            {
-            }
-
-            Path(const wchar_t* p, Format format = Format::Generic):
-                path(format == Format::Generic ? convertToNative(p) : encode(p))
-            {
-            }
-
-            Path(const std::wstring& p, Format format = Format::Generic):
+            template <class Source>
+            Path(const Source& p, Format format = Format::Generic):
                 path(format == Format::Generic ? convertToNative(p) : encode(p))
             {
             }
@@ -112,13 +98,15 @@ namespace ouzel
                 return convertToGeneric(path);
             }
 
+            template <class Source>
             Path& operator+=(const Path& p)
             {
                 path += p.path;
                 return *this;
             }
 
-            Path& operator+=(const std::string& p)
+            template <class Source>
+            Path& operator+=(const Source& p)
             {
                 path += convertToNative(p);
                 return *this;
@@ -132,10 +120,27 @@ namespace ouzel
                 return *this;
             }
 
+            template <class Source>
+            Path& operator/=(const Source& p)
+            {
+                if (!path.empty() && path.back() != Char(directorySeparator))
+                    path += Char(directorySeparator);
+                path += convertToNative(p);
+                return *this;
+            }
+
             Path operator+(const Path& p) const
             {
                 Path result = *this;
                 result.path += p.path;
+                return result;
+            }
+
+            template <class Source>
+            Path operator+(const Source& p) const
+            {
+                Path result = *this;
+                result.path += convertToNative(p);
                 return result;
             }
 
@@ -145,6 +150,16 @@ namespace ouzel
                 if (!result.path.empty() && result.path.back() != Char(directorySeparator))
                     result.path += Char(directorySeparator);
                 result.path += p.path;
+                return result;
+            }
+
+            template <class Source>
+            Path operator/(const Source& p) const
+            {
+                Path result = *this;
+                if (!result.path.empty() && result.path.back() != Char(directorySeparator))
+                    result.path += Char(directorySeparator);
+                result.path += convertToNative(p);
                 return result;
             }
 
@@ -363,7 +378,7 @@ namespace ouzel
 #endif
 
         private:
-            static std::string toUtf8(const std::wstring& p)
+            static std::string convertToUtf8(const std::wstring& p)
             {
 				std::string s;
 
@@ -397,7 +412,7 @@ namespace ouzel
             }
 
 #if defined(_WIN32)
-            static std::wstring toWchar(const std::string& p)
+            static std::wstring convertToWchar(const std::string& p)
             {
                 std::wstring s;
                 
@@ -448,7 +463,7 @@ namespace ouzel
 
             static std::wstring convertToNative(const std::string& p)
             {
-                std::wstring result = toWchar(p);
+                std::wstring result = convertToWchar(p);
 
                 for (auto& c : result) if (c == L'/') c = L'\\';
                 return result;
@@ -464,7 +479,7 @@ namespace ouzel
 
             static std::string convertToGeneric(const std::wstring& p)
             {
-                std::string result = toUtf8(p);
+                std::string result = convertToUtf8(p);
 
                 for (auto& c : result)
                     if (c == directorySeparator) c = '/';
@@ -474,7 +489,7 @@ namespace ouzel
 
             static std::wstring encode(const std::string& p)
             {
-                return toWchar(p);
+                return convertToWchar(p);
             }
 
             static const std::wstring& encode(const std::wstring& p)
@@ -489,7 +504,7 @@ namespace ouzel
 
             static std::string convertToNative(const std::wstring& p)
             {
-                return toUtf8(p);
+                return convertToUtf8(p);
             }
 
             static const std::string& convertToGeneric(const std::string& p)
@@ -504,7 +519,7 @@ namespace ouzel
 
             static std::string encode(const std::wstring& p)
             {
-                return toUtf8(p);
+                return convertToUtf8(p);
             }
 #endif
 
