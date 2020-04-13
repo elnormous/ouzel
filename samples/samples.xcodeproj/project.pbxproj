@@ -598,9 +598,6 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Elviss Strazdins";
 				TargetAttributes = {
-					303B760C1C34CFE300FEDE92 = {
-						DevelopmentTeam = XHH29823R9;
-					};
 					304A8E091C237B95008B1151 = {
 						CreatedOnToolsVersion = 7.2;
 					};
@@ -862,6 +859,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -878,6 +876,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
