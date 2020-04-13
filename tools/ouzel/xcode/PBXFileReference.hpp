@@ -19,8 +19,6 @@ namespace ouzel
 
             std::string getIsa() const override { return "PBXFileReference"; }
 
-            const storage::Path& getPath() const noexcept { return path; }
-
             plist::Value encode() const override
             {
                 auto result = PBXFileElement::encode();
