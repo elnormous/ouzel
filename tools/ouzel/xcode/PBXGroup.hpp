@@ -5,8 +5,6 @@
 
 #include <vector>
 #include "PBXFileElement.hpp"
-#include "PBXSourceTree.hpp"
-#include "storage/Path.hpp"
 
 namespace ouzel
 {
@@ -26,20 +24,10 @@ namespace ouzel
                 for (auto child : children)
                     if (child) result["children"].pushBack(toString(child->getId()));
 
-                result["sourceTree"] = toString(sourceTree);
-
-                if (!std::string(path).empty())
-                    result["path"] = std::string(path);
-                else if (!name.empty())
-                    result["name"] = name;
-
                 return result;
             }
 
-            std::string name;
-            storage::Path path;
             std::vector<const PBXFileElement*> children;
-            PBXSourceTree sourceTree;
         };
     }
 }

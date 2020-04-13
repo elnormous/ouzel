@@ -148,6 +148,11 @@ namespace ouzel
                 return result;
             }
 
+            bool isEmpty() const noexcept
+            {
+                return path.empty();
+            }
+
             const String& getNative() const noexcept
             {
                 return path;

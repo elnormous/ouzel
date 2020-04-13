@@ -5,8 +5,6 @@
 
 #include "PBXFileElement.hpp"
 #include "PBXFileType.hpp"
-#include "PBXSourceTree.hpp"
-#include "storage/Path.hpp"
 
 namespace ouzel
 {
@@ -24,16 +22,10 @@ namespace ouzel
                 auto result = PBXFileElement::encode();
                 result["explicitFileType"] = toString(fileType);
                 result["includeInIndex"] = 0;
-                result["path"] = std::string(path);
-                result["sourceTree"] = toString(sourceTree);
-                if (!name.empty()) result["name"] = name;
                 return result;
             }
 
-            std::string name;
-            storage::Path path;
             PBXFileType fileType;
-            PBXSourceTree sourceTree;
         };
     }
 }
