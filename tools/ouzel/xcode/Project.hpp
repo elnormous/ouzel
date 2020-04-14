@@ -263,14 +263,14 @@ namespace ouzel
                 projectConfigurationList->configurations.push_back(releaseConfiguration);
                 projectConfigurationList->defaultConfigurationName = releaseConfiguration->name;
 
-                for (const auto platform : project.getPlatforms())
+                for (const auto& target : project.getTargets())
                 {
-                    if (platform == Platform::MacOs ||
-                        platform == Platform::Ios ||
-                        platform == Platform::Tvos)
+                    if (target.getPlatform() == Platform::MacOs ||
+                        target.getPlatform() == Platform::Ios ||
+                        target.getPlatform() == Platform::Tvos)
                     {
                         auto nativeTarget = alloc<PBXNativeTarget>();
-                        nativeTarget->name = project.getName() + ' ' + toString(platform);
+                        nativeTarget->name = target.getName() + ' ' + toString(target.getPlatform());
                         nativeTarget->productReference = productFile;
                         pbxProject->targets.push_back(nativeTarget);
 
@@ -294,7 +294,7 @@ namespace ouzel
                         nativeTarget->buildPhases.push_back(frameworksBuildPhase);
 
                         std::map<std::string, std::string> buildSettings = {
-                            {"INFOPLIST_FILE", toString(platform) + "/Info.plist"},
+                            {"INFOPLIST_FILE", toString(target.getPlatform()) + "/Info.plist"},
                             {"PRODUCT_BUNDLE_IDENTIFIER", project.getIdentifier()},
                             {"PRODUCT_NAME", project.getName()}
                         };
@@ -305,7 +305,7 @@ namespace ouzel
                         infoPlistFileReference->sourceTree = PBXSourceTree::Group;
 
                         auto platformGroup = alloc<PBXGroup>();
-                        platformGroup->path = storage::Path{toString(platform)};
+                        platformGroup->path = storage::Path{toString(target.getPlatform())};
                         platformGroup->children.push_back(infoPlistFileReference);
                         platformGroup->sourceTree = PBXSourceTree::Group;
                         mainGroup->children.push_back(platformGroup);
@@ -314,7 +314,7 @@ namespace ouzel
                         PBXSourceTree frameworkSourceTree = PBXSourceTree::SdkRoot;
                         std::set<const char*> frameworks;
 
-                        const auto platformDirectory = projectDirectory / toString(platform);
+                        const auto platformDirectory = projectDirectory / toString(target.getPlatform());
                         const auto plistPath = platformDirectory / "Info.plist";
                         const auto platformDirectoryType = platformDirectory.getType();
                         if (platformDirectoryType == storage::Path::Type::NotFound)
@@ -325,7 +325,7 @@ namespace ouzel
                             storage::FileSystem::createDirectory(platformDirectory);
                         }
 
-                        switch (platform)
+                        switch (target.getPlatform())
                         {
                             case Platform::MacOs:
                             {
@@ -505,9 +505,9 @@ namespace ouzel
                         ouzelDependency->targetProxy = ouzelNativeTargetProxy;
 
                         auto assetGenerateTarget = alloc<PBXLegacyTarget>();
-                        assetGenerateTarget->name = "Generate Assets " + toString(platform);
+                        assetGenerateTarget->name = "Generate Assets " + toString(target.getPlatform());
                         assetGenerateTarget->buildToolPath = "$BUILT_PRODUCTS_DIR/ouzel";
-                        assetGenerateTarget->buildArgumentsString = "--export-assets $PROJECT_DIR/" + std::string(projectFilename); // TODO: add platform
+                        assetGenerateTarget->buildArgumentsString = "--export-assets $PROJECT_DIR/" + std::string(projectFilename); // TODO: add target
                         assetGenerateTarget->dependencies.push_back(ouzelDependency);
                         pbxProject->targets.push_back(assetGenerateTarget);
 

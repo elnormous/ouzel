@@ -4,9 +4,9 @@
 #define OUZEL_OUZELPROJECT_HPP
 
 #include <fstream>
+#include "Target.hpp"
 #include "storage/FileSystem.hpp"
 #include "utils/Json.hpp"
-#include "Platform.hpp"
 
 namespace ouzel
 {
@@ -28,8 +28,13 @@ namespace ouzel
 
             ouzelPath = j["ouzelPath"].as<std::string>();
 
-            for (const auto& platform : j["platforms"])
-                platforms.insert(stringToPlatform(platform.as<std::string>()));
+            if (j.hasMember("targets"))
+                for (const auto& t : j["targets"])
+                {
+                    Target target(stringToPlatform(t["platform"].as<std::string>()),
+                                  t.hasMember("name") ? t["name"].as<std::string>() : name);
+                    targets.push_back(std::move(target));
+                }
 
             sourcePath = j["sourcePath"].as<std::string>();
 
@@ -44,8 +49,8 @@ namespace ouzel
         const std::string& getIdentifier() const noexcept { return identifier; }
         const std::string& getOrganization() const noexcept { return organization; }
         const storage::Path& getOuzelPath() const noexcept { return ouzelPath; }
-        const std::set<Platform>& getPlatforms() const noexcept { return platforms; }
         const storage::Path& getSourcePath() const noexcept { return sourcePath; }
+        const std::vector<Target>& getTargets() const noexcept { return targets; }
         const std::vector<storage::Path>& getSourceFiles() const noexcept { return sourceFiles; }
         const storage::Path& getAssetsPath() const noexcept { return assetsPath; }
 
@@ -72,8 +77,8 @@ namespace ouzel
         std::string identifier;
         std::string organization;
         storage::Path ouzelPath;
-        std::set<Platform> platforms;
         storage::Path sourcePath;
+        std::vector<Target> targets;
         std::vector<storage::Path> sourceFiles;
         storage::Path assetsPath;
     };

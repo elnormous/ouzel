@@ -3,6 +3,7 @@
   <ItemGroup>
     <ClInclude Include="..\tools\ouzel\OuzelProject.hpp" />
     <ClInclude Include="..\tools\ouzel\Platform.hpp" />
+    <ClInclude Include="..\tools\ouzel\Target.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXBuildFile.hpp">
       <Filter>xcode</Filter>
     </ClInclude>

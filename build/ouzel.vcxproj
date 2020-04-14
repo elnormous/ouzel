@@ -156,6 +156,7 @@
     <ClInclude Include="..\tools\ouzel\makefile\Project.hpp" />
     <ClInclude Include="..\tools\ouzel\OuzelProject.hpp" />
     <ClInclude Include="..\tools\ouzel\Platform.hpp" />
+    <ClInclude Include="..\tools\ouzel\Target.hpp" />
     <ClInclude Include="..\tools\ouzel\visualstudio\Project.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXBuildFile.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXBuildPhase.hpp" />
