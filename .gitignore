@@ -40,3 +40,4 @@ build/pch
 *.VC.opendb
 *.sdf
 *.opensdf
+*.user
