@@ -3,8 +3,6 @@
 #ifndef OUZEL_GRAPHICS_FLAGS_HPP
 #define OUZEL_GRAPHICS_FLAGS_HPP
 
-#include <cstdint>
-
 namespace ouzel
 {
     namespace graphics

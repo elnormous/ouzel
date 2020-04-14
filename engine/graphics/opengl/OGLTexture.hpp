@@ -10,7 +10,7 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#include "graphics/opengl/OGL.h"
+#include "OGL.h"
 
 #if OUZEL_OPENGLES
 #  include "GLES/gl.h"
@@ -22,7 +22,7 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/opengl/OGLRenderResource.hpp"
+#include "OGLRenderResource.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "graphics/SamplerAddressMode.hpp"
 #include "graphics/SamplerFilter.hpp"

@@ -3,9 +3,13 @@
 #ifndef OUZEL_GRAPHICS_OGLPROCEDUREGETTER_HPP
 #define OUZEL_GRAPHICS_OGLPROCEDUREGETTER_HPP
 
+#include "core/Setup.h"
+
+#if OUZEL_COMPILE_OPENGL
+
 #include <stdexcept>
 
-#include "graphics/opengl/OGL.h"
+#include "OGL.h"
 
 #if OUZEL_OPENGLES
 #  include "GLES/gl.h"
@@ -203,5 +207,7 @@ namespace ouzel
         } // namespace opengl
     } // namespace graphics
 } // namespace ouzel
+
+#endif
 
 #endif // OUZEL_GRAPHICS_OGLPROCEDUREGETTER_HPP

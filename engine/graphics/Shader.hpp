@@ -7,9 +7,9 @@
 #include <string>
 #include <vector>
 #include <utility>
-#include "graphics/RenderDevice.hpp"
-#include "graphics/DataType.hpp"
-#include "graphics/Vertex.hpp"
+#include "RenderDevice.hpp"
+#include "DataType.hpp"
+#include "Vertex.hpp"
 
 namespace ouzel
 {

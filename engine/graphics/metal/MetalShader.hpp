@@ -19,8 +19,8 @@ typedef id MTLFunctionPtr;
 typedef id MTLVertexDescriptorPtr;
 #endif
 
-#include "graphics/metal/MetalRenderResource.hpp"
-#include "graphics/metal/MetalPointer.hpp"
+#include "MetalRenderResource.hpp"
+#include "MetalPointer.hpp"
 #include "graphics/DataType.hpp"
 #include "graphics/Vertex.hpp"
 

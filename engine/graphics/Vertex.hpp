@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_VERTEX_HPP
 #define OUZEL_GRAPHICS_VERTEX_HPP
 
-#include "graphics/DataType.hpp"
+#include "DataType.hpp"
 #include "math/Vector.hpp"
 #include "math/Color.hpp"
 

@@ -22,7 +22,7 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-#include "graphics/direct3d11/D3D11RenderResource.hpp"
+#include "D3D11RenderResource.hpp"
 #include "math/Color.hpp"
 
 namespace ouzel

@@ -11,9 +11,9 @@
 #include <queue>
 #include <set>
 #include <atomic>
-#include "graphics/Commands.hpp"
-#include "graphics/Driver.hpp"
-#include "graphics/RenderDevice.hpp"
+#include "Commands.hpp"
+#include "Driver.hpp"
+#include "RenderDevice.hpp"
 #include "math/Rect.hpp"
 #include "math/Matrix.hpp"
 #include "math/Size.hpp"

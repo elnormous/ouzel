@@ -17,8 +17,8 @@ typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 typedef id MTLDepthStencilStatePtr;
 #endif
 
-#include "graphics/metal/MetalRenderResource.hpp"
-#include "graphics/metal/MetalPointer.hpp"
+#include "MetalRenderResource.hpp"
+#include "MetalPointer.hpp"
 #include "graphics/CompareFunction.hpp"
 #include "graphics/StencilOperation.hpp"
 

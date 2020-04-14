@@ -4,9 +4,9 @@
 #define OUZEL_GRAPHICS_BUFFER_HPP
 
 #include <vector>
-#include "graphics/RenderDevice.hpp"
-#include "graphics/BufferType.hpp"
-#include "graphics/Flags.hpp"
+#include "RenderDevice.hpp"
+#include "BufferType.hpp"
+#include "Flags.hpp"
 
 namespace ouzel
 {

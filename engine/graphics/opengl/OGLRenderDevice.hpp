@@ -17,7 +17,7 @@
 #include <utility>
 #include <vector>
 
-#include "graphics/opengl/OGL.h"
+#include "OGL.h"
 
 #if OUZEL_OPENGLES
 #  include "GLES/gl.h"
@@ -32,7 +32,7 @@
 #endif
 
 #include "graphics/RenderDevice.hpp"
-#include "graphics/opengl/OGLShader.hpp"
+#include "OGLShader.hpp"
 
 namespace ouzel
 {

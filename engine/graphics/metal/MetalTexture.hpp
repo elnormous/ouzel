@@ -24,8 +24,8 @@ typedef NSUInteger MTLLoadAction;
 #endif
 
 #include <tuple>
-#include "graphics/metal/MetalRenderResource.hpp"
-#include "graphics/metal/MetalPointer.hpp"
+#include "MetalRenderResource.hpp"
+#include "MetalPointer.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "graphics/SamplerAddressMode.hpp"
 #include "graphics/SamplerFilter.hpp"

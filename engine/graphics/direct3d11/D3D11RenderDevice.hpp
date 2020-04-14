@@ -27,8 +27,8 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "graphics/RenderDevice.hpp"
-#include "graphics/direct3d11/D3D11Pointer.hpp"
-#include "graphics/direct3d11/D3D11Texture.hpp"
+#include "D3D11Pointer.hpp"
+#include "D3D11Texture.hpp"
 #include "utils/Thread.hpp"
 
 namespace ouzel

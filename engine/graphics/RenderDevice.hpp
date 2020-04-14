@@ -10,10 +10,10 @@
 #include <mutex>
 #include <queue>
 #include <set>
-#include "graphics/Commands.hpp"
-#include "graphics/Driver.hpp"
-#include "graphics/SamplerFilter.hpp"
-#include "graphics/Vertex.hpp"
+#include "Commands.hpp"
+#include "Driver.hpp"
+#include "SamplerFilter.hpp"
+#include "Vertex.hpp"
 #include "math/Matrix.hpp"
 #include "math/Size.hpp"
 

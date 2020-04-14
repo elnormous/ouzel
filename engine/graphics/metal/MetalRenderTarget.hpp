@@ -24,8 +24,8 @@ typedef struct
 #endif
 
 #include <set>
-#include "graphics/metal/MetalRenderResource.hpp"
-#include "graphics/metal/MetalPointer.hpp"
+#include "MetalRenderResource.hpp"
+#include "MetalPointer.hpp"
 #include "math/Color.hpp"
 
 namespace ouzel

@@ -44,9 +44,9 @@ typedef NSUInteger MTLLoadAction;
 #endif
 
 #include "graphics/RenderDevice.hpp"
-#include "graphics/metal/MetalPointer.hpp"
-#include "graphics/metal/MetalShader.hpp"
-#include "graphics/metal/MetalTexture.hpp"
+#include "MetalPointer.hpp"
+#include "MetalShader.hpp"
+#include "MetalTexture.hpp"
 
 namespace ouzel
 {

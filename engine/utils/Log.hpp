@@ -19,7 +19,7 @@
 #include "math/Quaternion.hpp"
 #include "math/Size.hpp"
 #include "math/Vector.hpp"
-#include "utils/Thread.hpp"
+#include "Thread.hpp"
 
 namespace ouzel
 {

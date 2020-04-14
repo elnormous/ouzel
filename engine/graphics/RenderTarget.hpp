@@ -5,7 +5,7 @@
 
 #include <memory>
 #include <vector>
-#include "graphics/RenderDevice.hpp"
+#include "RenderDevice.hpp"
 #include "math/Color.hpp"
 #include "math/Size.hpp"
 

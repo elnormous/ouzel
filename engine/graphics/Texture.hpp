@@ -5,13 +5,13 @@
 
 #include <vector>
 #include <utility>
-#include "graphics/RenderDevice.hpp"
-#include "graphics/CubeFace.hpp"
-#include "graphics/Flags.hpp"
-#include "graphics/PixelFormat.hpp"
-#include "graphics/SamplerAddressMode.hpp"
-#include "graphics/SamplerFilter.hpp"
-#include "graphics/TextureType.hpp"
+#include "RenderDevice.hpp"
+#include "CubeFace.hpp"
+#include "Flags.hpp"
+#include "PixelFormat.hpp"
+#include "SamplerAddressMode.hpp"
+#include "SamplerFilter.hpp"
+#include "TextureType.hpp"
 #include "math/Color.hpp"
 #include "math/Size.hpp"
 

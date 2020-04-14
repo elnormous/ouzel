@@ -3,9 +3,9 @@
 #ifndef OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
 #define OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
 
-#include "graphics/RenderDevice.hpp"
-#include "graphics/CompareFunction.hpp"
-#include "graphics/StencilOperation.hpp"
+#include "RenderDevice.hpp"
+#include "CompareFunction.hpp"
+#include "StencilOperation.hpp"
 
 namespace ouzel
 {

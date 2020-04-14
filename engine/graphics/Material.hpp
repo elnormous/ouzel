@@ -4,10 +4,10 @@
 #define OUZEL_GRAPHICS_MATERIAL_HPP
 
 #include <memory>
-#include "graphics/Renderer.hpp"
-#include "graphics/BlendState.hpp"
-#include "graphics/Shader.hpp"
-#include "graphics/Texture.hpp"
+#include "Renderer.hpp"
+#include "BlendState.hpp"
+#include "Shader.hpp"
+#include "Texture.hpp"
 #include "math/Color.hpp"
 
 namespace ouzel

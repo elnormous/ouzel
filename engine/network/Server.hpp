@@ -3,7 +3,7 @@
 #ifndef OUZEL_NETWORK_SERVER_HPP
 #define OUZEL_NETWORK_SERVER_HPP
 
-#include "network/Socket.hpp"
+#include "Socket.hpp"
 #include "utils/Thread.hpp"
 
 namespace ouzel

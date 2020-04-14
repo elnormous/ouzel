@@ -7,7 +7,7 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#include "graphics/opengl/OGL.h"
+#include "OGL.h"
 
 #if OUZEL_OPENGLES
 #  include "GLES/gl.h"
@@ -20,7 +20,7 @@
 #endif
 
 #include <set>
-#include "graphics/opengl/OGLRenderResource.hpp"
+#include "OGLRenderResource.hpp"
 #include "math/Color.hpp"
 
 namespace ouzel

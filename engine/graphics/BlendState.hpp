@@ -3,10 +3,10 @@
 #ifndef OUZEL_GRAPHICS_BLENDSTATE_HPP
 #define OUZEL_GRAPHICS_BLENDSTATE_HPP
 
-#include "graphics/RenderDevice.hpp"
-#include "graphics/BlendFactor.hpp"
-#include "graphics/BlendOperation.hpp"
-#include "graphics/ColorMask.hpp"
+#include "RenderDevice.hpp"
+#include "BlendFactor.hpp"
+#include "BlendOperation.hpp"
+#include "ColorMask.hpp"
 
 namespace ouzel
 {

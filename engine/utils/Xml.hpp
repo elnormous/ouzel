@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include "utils/Utf8.hpp"
+#include "Utf8.hpp"
 
 namespace ouzel
 {
