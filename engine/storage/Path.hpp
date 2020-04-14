@@ -175,28 +175,48 @@ namespace ouzel
 
             std::string getExtension() const
             {
-                const std::size_t pos = path.find_last_of(Char('.'));
-
                 String result;
 
+                const std::size_t pos = path.find_last_of(Char('.'));
                 if (pos != std::string::npos)
                     result = path.substr(pos + 1);
 
                 return convertToGeneric(result);
             }
 
+            template <class Source>
+            void replaceExtension(const Source& extension)
+            {
+                const std::size_t pos = path.find_last_of(Char('.'));
+                if (pos != std::string::npos)
+                    path.resize(pos);
+
+                path.push_back(Char('.'));
+                path += convertToNative(extension);
+            }
+
             std::string getFilename() const
             {
-                const std::size_t pos = path.find_last_of(directorySeparator);
-
                 String result;
-
+                const std::size_t pos = path.find_last_of(directorySeparator);
                 if (pos != String::npos)
                     result = path.substr(pos + 1);
                 else
                     result = path;
 
                 return convertToGeneric(result);
+            }
+
+            template <class Source>
+            void replaceFilename(const Source& filename)
+            {
+                const std::size_t pos = path.find_last_of(directorySeparator);
+                if (pos != std::string::npos)
+                    path.resize(pos + 1);
+                else
+                    path.clear();
+
+                path += convertToNative(filename);
             }
 
             Path getStem() const
@@ -213,9 +233,9 @@ namespace ouzel
 
             Path getDirectory() const
             {
-                const std::size_t pos = path.find_last_of(directorySeparator);
-
                 Path result;
+
+                const std::size_t pos = path.find_last_of(directorySeparator);
                 if (pos != String::npos)
                     result.path = path.substr(0, pos);
 

@@ -161,7 +161,6 @@ namespace ouzel
                         extension == "hpp" ? PBXFileType::SourcecodeCppH :
                         throw std::runtime_error("Unsupported file type");
                     fileReference->sourceTree = PBXSourceTree::Group;
-
                     sourceFiles.push_back(fileReference);
 
                     auto buildFile = alloc<PBXBuildFile>();
@@ -313,7 +312,7 @@ namespace ouzel
 
                         storage::Path sdkPath;
                         PBXSourceTree frameworkSourceTree = PBXSourceTree::SdkRoot;
-                        std::vector<const char*> frameworks;
+                        std::set<const char*> frameworks;
 
                         const auto platformDirectory = projectDirectory / toString(platform);
                         const auto plistPath = platformDirectory / "Info.plist";
@@ -500,7 +499,7 @@ namespace ouzel
                         ouzelReferenceProxy->fileType = PBXFileType::CompiledMachOExecutable;
                         ouzelReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
                         ouzelReferenceProxy->remoteRef = ouzelProxy;
-                        
+
                         auto ouzelDependency = alloc<PBXTargetDependency>();
                         ouzelDependency->name = "ouzel";
                         ouzelDependency->targetProxy = ouzelNativeTargetProxy;
