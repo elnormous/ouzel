@@ -55,7 +55,7 @@ int main(int argc, const char* argv[])
                 if (++i >= argc)
                     throw std::runtime_error("Invalid command");
 
-                projectPath = std::string(argv[i]);
+                projectPath = ouzel::storage::Path{argv[i], ouzel::storage::Path::Format::Native};
             }
             else if (std::string(argv[i]) == "--project")
             {
@@ -84,7 +84,7 @@ int main(int argc, const char* argv[])
                 if (++i >= argc)
                     throw std::runtime_error("Invalid command");
 
-                projectPath = std::string(argv[i]);
+                projectPath = ouzel::storage::Path{argv[i], ouzel::storage::Path::Format::Native};
             }
         }
 
