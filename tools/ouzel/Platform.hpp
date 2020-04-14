@@ -34,6 +34,26 @@ namespace ouzel
 
         throw std::runtime_error("Unknown platform");
     }
+
+    inline Platform stringToPlatform(const std::string& s)
+    {
+        if (s == "windows")
+            return Platform::Windows;
+        else if (s == "macos")
+            return Platform::MacOs;
+        else if (s == "linux")
+            return Platform::Linux;
+        else if (s == "ios")
+            return Platform::Ios;
+        else if (s == "tvos")
+            return Platform::Tvos;
+        else if (s == "android")
+            return Platform::Android;
+        else if (s == "emscripten")
+            return Platform::Emscripten;
+        else
+            throw std::runtime_error("Invalid platform");
+    }
 }
 
 #endif // OUZEL_PLATFORM_HPP

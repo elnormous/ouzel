@@ -29,22 +29,7 @@ namespace ouzel
             ouzelPath = j["ouzelPath"].as<std::string>();
 
             for (const auto& platform : j["platforms"])
-                if (platform.as<std::string>() == "windows")
-                    platforms.insert(Platform::Windows);
-                else if (platform.as<std::string>() == "macos")
-                    platforms.insert(Platform::MacOs);
-                else if (platform.as<std::string>() == "linux")
-                    platforms.insert(Platform::Linux);
-                else if (platform.as<std::string>() == "ios")
-                    platforms.insert(Platform::Ios);
-                else if (platform.as<std::string>() == "tvos")
-                    platforms.insert(Platform::Tvos);
-                else if (platform.as<std::string>() == "android")
-                    platforms.insert(Platform::Android);
-                else if (platform.as<std::string>() == "emscripten")
-                    platforms.insert(Platform::Emscripten);
-                else
-                    throw std::runtime_error("Invalid platform");
+                platforms.insert(stringToPlatform(platform.as<std::string>()));
 
             sourcePath = j["sourcePath"].as<std::string>();
 
