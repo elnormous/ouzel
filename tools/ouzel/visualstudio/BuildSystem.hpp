@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_VISUALSTUDIO_PROJECT_HPP
-#define OUZEL_VISUALSTUDIO_PROJECT_HPP
+#ifndef OUZEL_VISUALSTUDIO_BUILDSYSTEM_HPP
+#define OUZEL_VISUALSTUDIO_BUILDSYSTEM_HPP
 
 #include "Project.hpp"
 
@@ -25,4 +25,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_VISUALSTUDIO_PROJECT_HPP
+#endif // OUZEL_VISUALSTUDIO_BUILDSYSTEM_HPP

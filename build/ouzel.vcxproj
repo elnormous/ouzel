@@ -180,6 +180,7 @@
     <ClInclude Include="..\tools\ouzel\xcode\BuildSystem.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\XCBuildConfiguration.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\XCConfigurationList.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\XcodeProject.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -70,6 +70,9 @@
     <ClInclude Include="..\tools\ouzel\xcode\XCConfigurationList.hpp">
       <Filter>xcode</Filter>
     </ClInclude>
+    <ClInclude Include="..\tools\ouzel\xcode\XcodeProject.hpp">
+      <Filter>xcode</Filter>
+    </ClInclude>
     <ClInclude Include="..\tools\ouzel\visualstudio\BuildSystem.hpp">
       <Filter>visualstudio</Filter>
     </ClInclude>
