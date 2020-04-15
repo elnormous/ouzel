@@ -191,7 +191,7 @@ namespace ouzel
                     {"CLANG_CXX_LIBRARY", "libc++"},
                     {"ENABLE_TESTABILITY", "YES"},
                     {"GCC_OPTIMIZATION_LEVEL", "0"},
-                    {"GCC_PREPROCESSOR_DEFINITIONS", "DEBUG=1"},
+                    {"GCC_PREPROCESSOR_DEFINITIONS", "DEBUG"},
                     {"HEADER_SEARCH_PATHS", headerSearchPath},
                     {"ONLY_ACTIVE_ARCH", "YES"},
                     {"CLANG_WARN_ASSIGN_ENUM", "YES"},
