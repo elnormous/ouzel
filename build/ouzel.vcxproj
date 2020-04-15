@@ -153,11 +153,11 @@
     <ClCompile Include="..\tools\ouzel\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\tools\ouzel\makefile\Project.hpp" />
-    <ClInclude Include="..\tools\ouzel\OuzelProject.hpp" />
+    <ClInclude Include="..\tools\ouzel\makefile\BuildSystem.hpp" />
     <ClInclude Include="..\tools\ouzel\Platform.hpp" />
+    <ClInclude Include="..\tools\ouzel\Project.hpp" />
     <ClInclude Include="..\tools\ouzel\Target.hpp" />
-    <ClInclude Include="..\tools\ouzel\visualstudio\Project.hpp" />
+    <ClInclude Include="..\tools\ouzel\visualstudio\BuildSystem.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXBuildFile.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXBuildPhase.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXContainerItemProxy.hpp" />
@@ -177,7 +177,7 @@
     <ClInclude Include="..\tools\ouzel\xcode\PBXSourceTree.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXTarget.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXTargetDependency.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\Project.hpp" />
+    <ClInclude Include="..\tools\ouzel\xcode\BuildSystem.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\XCBuildConfiguration.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\XCConfigurationList.hpp" />
   </ItemGroup>

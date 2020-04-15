@@ -10,10 +10,10 @@
 
 namespace ouzel
 {
-    class OuzelProject final
+    class Project final
     {
     public:
-        OuzelProject(const storage::Path& initPath):
+        Project(const storage::Path& initPath):
             path{initPath}
         {
             storage::Path directoryPath = path.getDirectory();

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="..\tools\ouzel\OuzelProject.hpp" />
     <ClInclude Include="..\tools\ouzel\Platform.hpp" />
+    <ClInclude Include="..\tools\ouzel\Project.hpp" />
     <ClInclude Include="..\tools\ouzel\Target.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXBuildFile.hpp">
       <Filter>xcode</Filter>
@@ -61,7 +61,7 @@
     <ClInclude Include="..\tools\ouzel\xcode\PBXTargetDependency.hpp">
       <Filter>xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\xcode\Project.hpp">
+    <ClInclude Include="..\tools\ouzel\xcode\BuildSystem.hpp">
       <Filter>xcode</Filter>
     </ClInclude>
     <ClInclude Include="..\tools\ouzel\xcode\XCBuildConfiguration.hpp">
@@ -70,10 +70,10 @@
     <ClInclude Include="..\tools\ouzel\xcode\XCConfigurationList.hpp">
       <Filter>xcode</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\visualstudio\Project.hpp">
+    <ClInclude Include="..\tools\ouzel\visualstudio\BuildSystem.hpp">
       <Filter>visualstudio</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ouzel\makefile\Project.hpp">
+    <ClInclude Include="..\tools\ouzel\makefile\BuildSystem.hpp">
       <Filter>makefile</Filter>
     </ClInclude>
   </ItemGroup>

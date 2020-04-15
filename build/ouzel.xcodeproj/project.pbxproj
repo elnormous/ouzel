@@ -887,9 +887,9 @@
 		303B76061C34A92B00FEDE92 /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
 		303B76071C34A92B00FEDE92 /* InputManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManager.hpp; sourceTree = "<group>"; };
 		303B76801C355A3B00FEDE92 /* libouzel_tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_tvos.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		30412797231174B40054E7ED /* Project.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
-		30412798231174C00054E7ED /* Project.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
-		30412799231174CC0054E7ED /* Project.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
+		30412797231174B40054E7ED /* BuildSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BuildSystem.hpp; sourceTree = "<group>"; };
+		30412798231174C00054E7ED /* BuildSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BuildSystem.hpp; sourceTree = "<group>"; };
+		30412799231174CC0054E7ED /* BuildSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BuildSystem.hpp; sourceTree = "<group>"; };
 		30419DDF1D162BCF00A63759 /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Audio.cpp; sourceTree = "<group>"; };
 		30419DE01D162BCF00A63759 /* Audio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Audio.hpp; sourceTree = "<group>"; };
 		30419DE71D162BDC00A63759 /* Voice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Voice.cpp; sourceTree = "<group>"; };
@@ -1109,7 +1109,7 @@
 		30CEB37821A6404B00525637 /* SystemTVOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemTVOS.cpp; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cache.hpp; sourceTree = "<group>"; };
-		30E2660724101F670098C124 /* OuzelProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OuzelProject.hpp; sourceTree = "<group>"; };
+		30E2660724101F670098C124 /* Project.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
 		30E266192411CFAE0098C124 /* Path.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Path.hpp; sourceTree = "<group>"; };
 		30EA711E1D52783000AE8C3E /* EngineTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineTVOS.hpp; sourceTree = "<group>"; };
 		30EA711F1D52783000AE8C3E /* EngineTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EngineTVOS.mm; sourceTree = "<group>"; };
@@ -1199,8 +1199,8 @@
 			children = (
 				3023201622220C70007E0AAD /* main.cpp */,
 				30B15F3F2438F36E0084915E /* makefile */,
-				30E2660724101F670098C124 /* OuzelProject.hpp */,
 				3077589D242B822100BFFF67 /* Platform.hpp */,
+				30E2660724101F670098C124 /* Project.hpp */,
 				30805D3E244661E4006C86B7 /* Target.hpp */,
 				30B15F3E2438F2D30084915E /* visualstudio */,
 				30B15F3D2438EBD50084915E /* xcode */,
@@ -1826,6 +1826,7 @@
 		30B15F3D2438EBD50084915E /* xcode */ = {
 			isa = PBXGroup;
 			children = (
+				30412798231174C00054E7ED /* BuildSystem.hpp */,
 				30B15F4724395CCD0084915E /* PBXBuildFile.hpp */,
 				30B15F4B24395D470084915E /* PBXBuildPhase.hpp */,
 				30B15F4524395C1E0084915E /* PBXContainerItemProxy.hpp */,
@@ -1845,7 +1846,6 @@
 				30B15F4424395BA50084915E /* PBXSourceTree.hpp */,
 				30B15F4E24395D710084915E /* PBXTarget.hpp */,
 				30B15F8B243BE6230084915E /* PBXTargetDependency.hpp */,
-				30412798231174C00054E7ED /* Project.hpp */,
 				30B15F4924395D2F0084915E /* XCBuildConfiguration.hpp */,
 				30B15F4A24395D3B0084915E /* XCConfigurationList.hpp */,
 			);
@@ -1855,7 +1855,7 @@
 		30B15F3E2438F2D30084915E /* visualstudio */ = {
 			isa = PBXGroup;
 			children = (
-				30412797231174B40054E7ED /* Project.hpp */,
+				30412797231174B40054E7ED /* BuildSystem.hpp */,
 			);
 			path = visualstudio;
 			sourceTree = "<group>";
@@ -1863,7 +1863,7 @@
 		30B15F3F2438F36E0084915E /* makefile */ = {
 			isa = PBXGroup;
 			children = (
-				30412799231174CC0054E7ED /* Project.hpp */,
+				30412799231174CC0054E7ED /* BuildSystem.hpp */,
 			);
 			path = makefile;
 			sourceTree = "<group>";
@@ -2947,7 +2947,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG";
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;

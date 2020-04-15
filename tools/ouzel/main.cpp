@@ -5,10 +5,10 @@
 #include <set>
 #include <stdexcept>
 #include "storage/Path.hpp"
-#include "OuzelProject.hpp"
-#include "makefile/Project.hpp"
-#include "visualstudio/Project.hpp"
-#include "xcode/Project.hpp"
+#include "Project.hpp"
+#include "makefile/BuildSystem.hpp"
+#include "visualstudio/BuildSystem.hpp"
+#include "xcode/BuildSystem.hpp"
 
 enum class ProjectType
 {
@@ -16,12 +16,6 @@ enum class ProjectType
     VisualStudio,
     Xcode
 };
-
-template <class T> void generateProject(const ouzel::OuzelProject& project)
-{
-    T output(project);
-    output.generate();
-}
 
 int main(int argc, const char* argv[])
 {
@@ -94,26 +88,26 @@ int main(int argc, const char* argv[])
                 throw std::runtime_error("No action selected");
             case Action::GenerateProject:
             {
-                ouzel::OuzelProject project(projectPath);
+                ouzel::Project project(projectPath);
 
                 for (auto projectType : projectTypes)
                     switch (projectType)
                     {
                         case ProjectType::Makefile:
-                            generateProject<ouzel::makefile::Project>(project);
+                            ouzel::makefile::generateBuildFiles(project);
                             break;
                         case ProjectType::VisualStudio:
-                            generateProject<ouzel::visualstudio::Project>(project);
+                            ouzel::visualstudio::generateBuildFiles(project);
                             break;
                         case ProjectType::Xcode:
-                            generateProject<ouzel::xcode::Project>(project);
+                            ouzel::xcode::generateBuildFiles(project);
                             break;
                     }
                 break;
             }
             case Action::ExportAssets:
             {
-                ouzel::OuzelProject project(projectPath);
+                ouzel::Project project(projectPath);
                 project.exportAssets();
                 break;
             }
