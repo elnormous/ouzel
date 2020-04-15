@@ -3,7 +3,9 @@
 #ifndef OUZEL_VISUALSTUDIO_BUILDSYSTEM_HPP
 #define OUZEL_VISUALSTUDIO_BUILDSYSTEM_HPP
 
-#include "Project.hpp"
+#include "Solution.hpp"
+#include "VcxProject.hpp"
+#include "VcxProjectFilters.hpp"
 
 namespace ouzel
 {

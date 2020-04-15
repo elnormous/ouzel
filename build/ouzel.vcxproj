@@ -158,6 +158,9 @@
     <ClInclude Include="..\tools\ouzel\Project.hpp" />
     <ClInclude Include="..\tools\ouzel\Target.hpp" />
     <ClInclude Include="..\tools\ouzel\visualstudio\BuildSystem.hpp" />
+    <ClInclude Include="..\tools\ouzel\visualstudio\Solution.hpp" />
+    <ClInclude Include="..\tools\ouzel\visualstudio\VcxProject.hpp" />
+    <ClInclude Include="..\tools\ouzel\visualstudio\VcxProjectFilters.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXBuildFile.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXBuildPhase.hpp" />
     <ClInclude Include="..\tools\ouzel\xcode\PBXContainerItemProxy.hpp" />

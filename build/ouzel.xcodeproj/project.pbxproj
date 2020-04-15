@@ -1002,6 +1002,9 @@
 		30805CBF2442C31C006C86B7 /* PBXLegacyTarget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXLegacyTarget.hpp; sourceTree = "<group>"; };
 		30805D3E244661E4006C86B7 /* Target.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Target.hpp; sourceTree = "<group>"; };
 		30805D4E2447B0B7006C86B7 /* XcodeProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = XcodeProject.hpp; sourceTree = "<group>"; };
+		30805D522447B68B006C86B7 /* VcxProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VcxProject.hpp; sourceTree = "<group>"; };
+		30805D532447B6A9006C86B7 /* VcxProjectFilters.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VcxProjectFilters.hpp; sourceTree = "<group>"; };
+		30805D542447B6BB006C86B7 /* Solution.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Solution.hpp; sourceTree = "<group>"; };
 		3082C3461D94A8D90090FC9D /* PixelFormat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
 		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		3085DA1F211A4A5500F4C2D0 /* Socket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Socket.hpp; sourceTree = "<group>"; };
@@ -1858,6 +1861,9 @@
 			isa = PBXGroup;
 			children = (
 				30412797231174B40054E7ED /* BuildSystem.hpp */,
+				30805D542447B6BB006C86B7 /* Solution.hpp */,
+				30805D522447B68B006C86B7 /* VcxProject.hpp */,
+				30805D532447B6A9006C86B7 /* VcxProjectFilters.hpp */,
 			);
 			path = visualstudio;
 			sourceTree = "<group>";

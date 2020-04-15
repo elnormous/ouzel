@@ -76,6 +76,15 @@
     <ClInclude Include="..\tools\ouzel\visualstudio\BuildSystem.hpp">
       <Filter>visualstudio</Filter>
     </ClInclude>
+    <ClInclude Include="..\tools\ouzel\visualstudio\Solution.hpp">
+      <Filter>visualstudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\visualstudio\VcxProject.hpp">
+      <Filter>visualstudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\ouzel\visualstudio\VcxProjectFilters.hpp">
+      <Filter>visualstudio</Filter>
+    </ClInclude>
     <ClInclude Include="..\tools\ouzel\makefile\BuildSystem.hpp">
       <Filter>makefile</Filter>
     </ClInclude>
