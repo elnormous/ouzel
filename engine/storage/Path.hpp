@@ -55,14 +55,14 @@ namespace ouzel
             static constexpr char directorySeparator = '\\';
             using Char = wchar_t;
             using String = std::wstring;
-            static constexpr wchar_t previous[] = L"..";
-            static constexpr wchar_t current[] = L".";
+            static constexpr wchar_t* previous = L"..";
+            static constexpr wchar_t* current = L".";
 #elif defined(__unix__) || defined(__APPLE__)
             static constexpr char directorySeparator = '/';
             using Char = char;
             using String = std::string;
-            static constexpr char previous[] = "..";
-            static constexpr char current[] = ".";
+            static constexpr char* previous = "..";
+            static constexpr char* current = ".";
 #endif
 
             Path() = default;
@@ -285,22 +285,22 @@ namespace ouzel
                 {
                     if (path[previousPosition] == directorySeparator) ++previousPosition;
                     const auto length = (previousPosition == String::npos) ? String::npos : position - previousPosition;
-                    String current = path.substr(previousPosition, length);
+                    String currentPart = path.substr(previousPosition, length);
 
-                    if (current == previous)
+                    if (currentPart == previous)
                     {
                         if (!parts.empty()) parts.pop_back();
                     }
-                    else if (!current.empty() && current != current)
-                        parts.push_back(current);
+                    else if (!currentPart.empty() && currentPart != current)
+                        parts.push_back(currentPart);
 
                     previousPosition = position;
                     position = path.find(directorySeparator, position + 1);
                 }
 
                 if (path[previousPosition] == directorySeparator) ++previousPosition;
-                String current = path.substr(previousPosition);
-                parts.push_back(current);
+                String currentPart = path.substr(previousPosition);
+                parts.push_back(currentPart);
 
                 for (const auto& part : parts)
                 {
