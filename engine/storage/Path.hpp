@@ -221,7 +221,7 @@ namespace ouzel
 
             Path getStem() const
             {
-                const std::size_t directoryPos = path.find_last_of(directorySeparator);
+                const std::size_t directoryPos = path.rfind(directorySeparator);
                 const std::size_t startPos = directoryPos == String::npos ? 0 : directoryPos + 1;
                 const std::size_t extensionPos = path.find(Char('.'), startPos);
                 const std::size_t endPos = extensionPos == String::npos ? path.size() : extensionPos;
@@ -235,7 +235,7 @@ namespace ouzel
             {
                 Path result;
 
-                const std::size_t pos = path.find_last_of(directorySeparator);
+                const std::size_t pos = path.rfind(directorySeparator);
                 if (pos != String::npos)
                     result.path = path.substr(0, pos);
 
@@ -249,10 +249,70 @@ namespace ouzel
                 if (path.size() >= 2 &&
                     ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
                     path[1] == L':')
-                    result.path = path.substr(0, 2);
+                    result.path = {path[0], ':'};
 #elif defined(__unix__) || defined(__APPLE__)
                 if (path.size() >= 1 && path[0] == '/') result.path = '/';
 #endif
+                return result;
+            }
+
+            void normalize()
+            {
+                String newPath;
+                String::size_type previousPosition = 0;
+
+#if defined(_WIN32)
+                if (path.size() >= 2 &&
+                    ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
+                    path[1] == L':')
+                    newPath = {path[0], ':'};
+#elif defined(__unix__) || defined(__APPLE__)
+                if (path.size() >= 1 && path[0] == '/')
+                {
+                    newPath = '/';
+                    previousPosition = 1;
+                }
+#endif
+
+                auto position = path.find(directorySeparator, previousPosition);
+                std::vector<std::string> parts;
+
+                while (position != String::npos)
+                {
+                    if (path[previousPosition] == directorySeparator) ++previousPosition;
+                    const auto length = (previousPosition == String::npos) ? String::npos : position - previousPosition;
+                    String current = path.substr(previousPosition, length);
+
+                    if (current == "..")
+                    {
+                        if (!parts.empty()) parts.pop_back();
+                    }
+                    else if (!current.empty() && current != ".")
+                        parts.push_back(current);
+
+                    previousPosition = position;
+                    position = path.find(directorySeparator, position + 1);
+                }
+
+                if (path[previousPosition] == directorySeparator) ++previousPosition;
+                String current = path.substr(previousPosition);
+                parts.push_back(current);
+
+                for (const auto& part : parts)
+                {
+                    if (!newPath.empty() && newPath.back() != Char(directorySeparator))
+                        newPath += Char(directorySeparator);
+
+                    newPath += part;
+                }
+
+                path = newPath;
+            }
+
+            Path getNormal() const
+            {
+                Path result = *this;
+                result.normalize();
                 return result;
             }
 
