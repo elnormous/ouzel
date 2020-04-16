@@ -55,14 +55,16 @@ namespace ouzel
             static constexpr char directorySeparator = '\\';
             using Char = wchar_t;
             using String = std::wstring;
-            static constexpr const wchar_t* previous = L"..";
-            static constexpr const wchar_t* current = L".";
+            static constexpr Char preferredSeparator = '\\';
+            static constexpr const Char* previous = L"..";
+            static constexpr const Char* current = L".";
 #elif defined(__unix__) || defined(__APPLE__)
             static constexpr char directorySeparator = '/';
             using Char = char;
             using String = std::string;
-            static constexpr const char* previous = "..";
-            static constexpr const char* current = ".";
+            static constexpr Char preferredSeparator = '/';
+            static constexpr const Char* previous = "..";
+            static constexpr const Char* current = ".";
 #endif
 
             Path() = default;
@@ -118,8 +120,8 @@ namespace ouzel
 
             Path& operator/=(const Path& p)
             {
-                if (!path.empty() && path.back() != Char(directorySeparator))
-                    path += Char(directorySeparator);
+                if (!path.empty() && path.back() != preferredSeparator)
+                    path += preferredSeparator;
                 path += p.path;
                 return *this;
             }
@@ -127,8 +129,8 @@ namespace ouzel
             template <class Source>
             Path& operator/=(const Source& p)
             {
-                if (!path.empty() && path.back() != Char(directorySeparator))
-                    path += Char(directorySeparator);
+                if (!path.empty() && path.back() != preferredSeparator)
+                    path += preferredSeparator;
                 path += convertToNative(p);
                 return *this;
             }
@@ -151,8 +153,8 @@ namespace ouzel
             Path operator/(const Path& p) const
             {
                 Path result = *this;
-                if (!result.path.empty() && result.path.back() != Char(directorySeparator))
-                    result.path += Char(directorySeparator);
+                if (!result.path.empty() && result.path.back() != preferredSeparator)
+                    result.path += preferredSeparator;
                 result.path += p.path;
                 return result;
             }
@@ -161,8 +163,8 @@ namespace ouzel
             Path operator/(const Source& p) const
             {
                 Path result = *this;
-                if (!result.path.empty() && result.path.back() != Char(directorySeparator))
-                    result.path += Char(directorySeparator);
+                if (!result.path.empty() && result.path.back() != preferredSeparator)
+                    result.path += preferredSeparator;
                 result.path += convertToNative(p);
                 return result;
             }
@@ -186,7 +188,7 @@ namespace ouzel
             {
                 String result;
 
-                const std::size_t pos = path.find_last_of(Char('.'));
+                const std::size_t pos = path.rfind(Char('.'));
                 if (pos != std::string::npos)
                     result = path.substr(pos + 1);
 
@@ -196,7 +198,7 @@ namespace ouzel
             template <class Source>
             void replaceExtension(const Source& extension)
             {
-                const std::size_t pos = path.find_last_of(Char('.'));
+                const std::size_t pos = path.rfind(Char('.'));
                 if (pos != std::string::npos)
                     path.resize(pos);
 
@@ -207,7 +209,7 @@ namespace ouzel
             std::string getFilename() const
             {
                 String result;
-                const std::size_t pos = path.find_last_of(directorySeparator);
+                const std::size_t pos = path.rfind(preferredSeparator);
                 if (pos != String::npos)
                     result = path.substr(pos + 1);
                 else
@@ -219,7 +221,7 @@ namespace ouzel
             template <class Source>
             void replaceFilename(const Source& filename)
             {
-                const std::size_t pos = path.find_last_of(directorySeparator);
+                const std::size_t pos = path.rfind(preferredSeparator);
                 if (pos != std::string::npos)
                     path.resize(pos + 1);
                 else
@@ -230,7 +232,7 @@ namespace ouzel
 
             Path getStem() const
             {
-                const std::size_t directoryPos = path.rfind(directorySeparator);
+                const std::size_t directoryPos = path.rfind(preferredSeparator);
                 const std::size_t startPos = directoryPos == String::npos ? 0 : directoryPos + 1;
                 const std::size_t extensionPos = path.find(Char('.'), startPos);
                 const std::size_t endPos = extensionPos == String::npos ? path.size() : extensionPos;
@@ -244,7 +246,7 @@ namespace ouzel
             {
                 Path result;
 
-                const std::size_t pos = path.rfind(directorySeparator);
+                const std::size_t pos = path.rfind(preferredSeparator);
                 if (pos != String::npos)
                     result.path = path.substr(0, pos);
 
@@ -287,11 +289,11 @@ namespace ouzel
 #endif
 
                 std::vector<String> parts;
-                auto position = path.find(directorySeparator, previousPosition);
+                auto position = path.find(preferredSeparator, previousPosition);
 
                 while (position != String::npos)
                 {
-                    if (path[previousPosition] == directorySeparator) ++previousPosition;
+                    if (path[previousPosition] == preferredSeparator) ++previousPosition;
                     const auto length = (position > previousPosition) ? position - previousPosition : 0;
                     String currentPart = path.substr(previousPosition, length);
 
@@ -303,17 +305,17 @@ namespace ouzel
                         parts.push_back(currentPart);
 
                     previousPosition = position;
-                    position = path.find(directorySeparator, position + 1);
+                    position = path.find(preferredSeparator, position + 1);
                 }
 
-                if (path[previousPosition] == directorySeparator) ++previousPosition;
+                if (path[previousPosition] == preferredSeparator) ++previousPosition;
                 String currentPart = path.substr(previousPosition);
                 parts.push_back(currentPart);
 
                 for (const auto& part : parts)
                 {
-                    if (!newPath.empty() && newPath.back() != Char(directorySeparator))
-                        newPath += Char(directorySeparator);
+                    if (!newPath.empty() && newPath.back() != preferredSeparator)
+                        newPath += preferredSeparator;
 
                     newPath += part;
                 }
@@ -562,7 +564,7 @@ namespace ouzel
             {
                 std::wstring result = convertToWchar(p);
 
-                for (auto& c : result) if (c == L'/') c = Char(directorySeparator);
+                for (auto& c : result) if (c == L'/') c = preferredSeparator;
                 return result;
             }
 
@@ -570,7 +572,7 @@ namespace ouzel
             {
                 std::wstring result = p;
 
-                for (auto& c : result) if (c == L'/') c = Char(directorySeparator);
+                for (auto& c : result) if (c == L'/') c = preferredSeparator;
                 return result;
             }
 
@@ -579,7 +581,7 @@ namespace ouzel
                 std::string result = convertToUtf8(p);
 
                 for (auto& c : result)
-                    if (c == directorySeparator) c = '/';
+                    if (c == preferredSeparator) c = '/';
 
                 return result;
             }
