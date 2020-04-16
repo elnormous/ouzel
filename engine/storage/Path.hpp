@@ -55,14 +55,14 @@ namespace ouzel
             static constexpr char directorySeparator = '\\';
             using Char = wchar_t;
             using String = std::wstring;
-            static constexpr wchar_t* previous = L"..";
-            static constexpr wchar_t* current = L".";
+            static constexpr const wchar_t* previous = L"..";
+            static constexpr const wchar_t* current = L".";
 #elif defined(__unix__) || defined(__APPLE__)
             static constexpr char directorySeparator = '/';
             using Char = char;
             using String = std::string;
-            static constexpr char* previous = "..";
-            static constexpr char* current = ".";
+            static constexpr const char* previous = "..";
+            static constexpr const char* current = ".";
 #endif
 
             Path() = default;
@@ -470,6 +470,11 @@ namespace ouzel
 #endif
 
         private:
+            static const std::string& convertToUtf8(const std::string& p)
+            {
+                return p;
+            }
+
             static std::string convertToUtf8(const std::wstring& p)
             {
 				std::string s;
