@@ -28,54 +28,57 @@ namespace ouzel
 
                 for (;;)
                 {
-                    std::uint8_t signature[4];
-                    file.read(reinterpret_cast<char*>(signature), sizeof(signature));
+                    std::uint8_t signatureData[4];
+                    file.read(reinterpret_cast<char*>(signatureData), sizeof(signatureData));
 
-                    if (decodeLittleEndian<std::uint32_t>(signature) == CENTRAL_DIRECTORY)
+                    if (decodeLittleEndian<std::uint32_t>(signatureData) == CENTRAL_DIRECTORY)
                         break;
 
-                    if (decodeLittleEndian<std::uint32_t>(signature) != HEADER_SIGNATURE)
+                    if (decodeLittleEndian<std::uint32_t>(signatureData) != HEADER_SIGNATURE)
                         throw std::runtime_error("Bad signature");
 
                     file.seekg(2, std::ios::cur); // skip version
                     file.seekg(2, std::ios::cur); // skip flags
 
-                    std::uint8_t compression[2];
-                    file.read(reinterpret_cast<char*>(&compression), sizeof(compression));
+                    std::uint8_t compressionData[2];
+                    file.read(reinterpret_cast<char*>(&compressionData), sizeof(compressionData));
 
-                    if (decodeLittleEndian<std::uint16_t>(compression) != 0x00)
+                    if (decodeLittleEndian<std::uint16_t>(compressionData) != 0x00)
                         throw std::runtime_error("Unsupported compression");
 
                     file.seekg(2, std::ios::cur); // skip modification time
                     file.seekg(2, std::ios::cur); // skip modification date
                     file.seekg(4, std::ios::cur); // skip CRC-32
 
-                    std::uint8_t compressedSize[4];
-                    file.read(reinterpret_cast<char*>(compressedSize), sizeof(compressedSize));
+                    std::uint8_t compressedSizeData[4];
+                    file.read(reinterpret_cast<char*>(compressedSizeData), sizeof(compressedSizeData));
 
-                    std::uint8_t uncompressedSize[4];
-                    file.read(reinterpret_cast<char*>(uncompressedSize), sizeof(uncompressedSize));
+                    std::uint8_t uncompressedSizeData[4];
+                    file.read(reinterpret_cast<char*>(uncompressedSizeData), sizeof(uncompressedSizeData));
+                    const size_t uncompressedSize = decodeLittleEndian<std::uint32_t>(uncompressedSizeData);
 
-                    std::uint8_t fileNameLength[2];
-                    file.read(reinterpret_cast<char*>(fileNameLength), sizeof(fileNameLength));
+                    std::uint8_t fileNameLengthData[2];
+                    file.read(reinterpret_cast<char*>(fileNameLengthData), sizeof(fileNameLengthData));
+                    const size_t fileNameLength = decodeLittleEndian<std::uint16_t>(fileNameLengthData);
 
-                    std::uint8_t extraFieldLength[2];
-                    file.read(reinterpret_cast<char*>(extraFieldLength), sizeof(extraFieldLength));
+                    std::uint8_t extraFieldLengthData[2];
+                    file.read(reinterpret_cast<char*>(extraFieldLengthData), sizeof(extraFieldLengthData));
+                    const size_t extraFieldLength = decodeLittleEndian<std::uint16_t>(extraFieldLengthData);
 
-                    std::vector<char> name(decodeLittleEndian<std::uint16_t>(fileNameLength) + 1);
+                    auto name = std::make_unique<char[]>(fileNameLength + 1);
 
-                    file.read(name.data(), decodeLittleEndian<std::uint16_t>(fileNameLength));
+                    file.read(name.get(), fileNameLength);
 
-                    name[decodeLittleEndian<std::uint16_t>(fileNameLength)] = '\0';
+                    name[fileNameLength] = '\0';
 
-                    Entry& entry = entries[name.data()];
-                    entry.size = decodeLittleEndian<std::uint32_t>(uncompressedSize);
+                    Entry& entry = entries[name.get()];
+                    entry.size = uncompressedSize;
 
-                    file.seekg(decodeLittleEndian<std::uint16_t>(extraFieldLength), std::ios::cur); // skip extra field
+                    file.seekg(extraFieldLength, std::ios::cur); // skip extra field
 
                     entry.offset = file.tellg();
 
-                    file.seekg(static_cast<std::streamoff>(decodeLittleEndian<std::uint32_t>(uncompressedSize)),
+                    file.seekg(static_cast<std::streamoff>(uncompressedSize),
                                std::ios::cur); // skip uncompressed size
                 }
             }
