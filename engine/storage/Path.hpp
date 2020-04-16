@@ -58,6 +58,7 @@ namespace ouzel
             static constexpr Char preferredSeparator = '\\';
             static constexpr const Char* previous = L"..";
             static constexpr const Char* current = L".";
+            static constexpr const Char* rootDirectory = L"/";
 #elif defined(__unix__) || defined(__APPLE__)
             static constexpr char directorySeparator = '/';
             using Char = char;
@@ -65,6 +66,7 @@ namespace ouzel
             static constexpr Char preferredSeparator = '/';
             static constexpr const Char* previous = "..";
             static constexpr const Char* current = ".";
+            static constexpr const Char* rootDirectory = "/";
 #endif
 
             Path() = default;
@@ -269,6 +271,7 @@ namespace ouzel
 
             void normalize()
             {
+                std::vector<String> parts;
                 String newPath;
                 String::size_type previousPosition = 0;
 
@@ -277,18 +280,24 @@ namespace ouzel
                     ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
                     path[1] == L':')
                 {
-                    newPath = {path[0], ':'};
-                    previousPosition = 2;
+                    parts.push_back({path[0], ':'});
+
+                    if (path.size() >= 3 && path[2] == preferredSeparator)
+                    {
+                        parts.push_back(rootDirectory);
+                        previousPosition = 3;
+                    }
+                    else
+                        previousPosition = 2;
                 }
 #elif defined(__unix__) || defined(__APPLE__)
                 if (path.size() >= 1 && path[0] == '/')
                 {
-                    newPath = '/';
+                    parts.push_back(rootDirectory);
                     previousPosition = 1;
                 }
 #endif
 
-                std::vector<String> parts;
                 auto position = path.find(preferredSeparator, previousPosition);
 
                 while (position != String::npos)
@@ -299,7 +308,11 @@ namespace ouzel
 
                     if (currentPart == previous)
                     {
-                        if (!parts.empty()) parts.pop_back();
+                        if (parts.empty())
+                            parts.push_back(currentPart);
+                        else if (parts.back() != previous &&
+                                 parts.back() != rootDirectory)
+                            parts.pop_back();
                     }
                     else if (!currentPart.empty() && currentPart != current)
                         parts.push_back(currentPart);
@@ -317,7 +330,10 @@ namespace ouzel
                     if (!newPath.empty() && newPath.back() != preferredSeparator)
                         newPath += preferredSeparator;
 
-                    newPath += part;
+                    if (part != rootDirectory)
+                        newPath += part;
+                    else if (newPath.empty())
+                        newPath += preferredSeparator;  
                 }
 
                 path = newPath;
