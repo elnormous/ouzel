@@ -72,7 +72,7 @@ namespace ouzel
             {
             }
 
-            Path(Path&& p):
+            Path(Path&& p) noexcept:
                 path(std::move(p.path))
             {
             }
@@ -90,7 +90,7 @@ namespace ouzel
                 return *this;
             }
 
-            Path& operator=(Path&& other)
+            Path& operator=(Path&& other) noexcept
             {
                 if (this == &other) return *this;
                 path = std::move(other.path);
@@ -99,7 +99,7 @@ namespace ouzel
 
             operator std::string() const
             {
-                return convertToGeneric(path);
+                return convertToUtf8(path);
             }
 
             template <class Source>
@@ -175,6 +175,11 @@ namespace ouzel
             const String& getNative() const noexcept
             {
                 return path;
+            }
+
+            std::string getGeneric() const
+            {
+                return convertToGeneric(path);
             }
 
             std::string getExtension() const
@@ -269,7 +274,10 @@ namespace ouzel
                 if (path.size() >= 2 &&
                     ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
                     path[1] == L':')
+                {
                     newPath = {path[0], ':'};
+                    previousPosition = 2;
+                }
 #elif defined(__unix__) || defined(__APPLE__)
                 if (path.size() >= 1 && path[0] == '/')
                 {
@@ -278,13 +286,13 @@ namespace ouzel
                 }
 #endif
 
-                auto position = path.find(directorySeparator, previousPosition);
                 std::vector<String> parts;
+                auto position = path.find(directorySeparator, previousPosition);
 
                 while (position != String::npos)
                 {
                     if (path[previousPosition] == directorySeparator) ++previousPosition;
-                    const auto length = (previousPosition == String::npos) ? String::npos : position - previousPosition;
+                    const auto length = (position > previousPosition) ? position - previousPosition : 0;
                     String currentPart = path.substr(previousPosition, length);
 
                     if (currentPart == previous)
@@ -549,7 +557,7 @@ namespace ouzel
             {
                 std::wstring result = convertToWchar(p);
 
-                for (auto& c : result) if (c == L'/') c = L'\\';
+                for (auto& c : result) if (c == L'/') c = Char(directorySeparator);
                 return result;
             }
 
@@ -557,7 +565,7 @@ namespace ouzel
             {
                 std::wstring result = p;
 
-                for (auto& c : result) if (c == L'/') c = L'\\';
+                for (auto& c : result) if (c == L'/') c = Char(directorySeparator);
                 return result;
             }
 
