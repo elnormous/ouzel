@@ -55,10 +55,14 @@ namespace ouzel
             static constexpr char directorySeparator = '\\';
             using Char = wchar_t;
             using String = std::wstring;
+            static constexpr wchar_t previous[] = L"..";
+            static constexpr wchar_t current[] = L".";
 #elif defined(__unix__) || defined(__APPLE__)
             static constexpr char directorySeparator = '/';
             using Char = char;
             using String = std::string;
+            static constexpr char previous[] = "..";
+            static constexpr char current[] = ".";
 #endif
 
             Path() = default;
@@ -275,7 +279,7 @@ namespace ouzel
 #endif
 
                 auto position = path.find(directorySeparator, previousPosition);
-                std::vector<std::string> parts;
+                std::vector<String> parts;
 
                 while (position != String::npos)
                 {
@@ -283,11 +287,11 @@ namespace ouzel
                     const auto length = (previousPosition == String::npos) ? String::npos : position - previousPosition;
                     String current = path.substr(previousPosition, length);
 
-                    if (current == "..")
+                    if (current == previous)
                     {
                         if (!parts.empty()) parts.pop_back();
                     }
-                    else if (!current.empty() && current != ".")
+                    else if (!current.empty() && current != current)
                         parts.push_back(current);
 
                     previousPosition = position;
