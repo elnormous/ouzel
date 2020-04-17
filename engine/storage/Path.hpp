@@ -58,7 +58,6 @@ namespace ouzel
             static constexpr Char preferredSeparator = '\\';
             static constexpr const Char* previous = L"..";
             static constexpr const Char* current = L".";
-            static constexpr const Char* rootDirectory = L"/";
 #elif defined(__unix__) || defined(__APPLE__)
             static constexpr char directorySeparator = '/';
             using Char = char;
@@ -66,7 +65,6 @@ namespace ouzel
             static constexpr Char preferredSeparator = '/';
             static constexpr const Char* previous = "..";
             static constexpr const Char* current = ".";
-            static constexpr const Char* rootDirectory = "/";
 #endif
 
             Path() = default;
@@ -280,30 +278,27 @@ namespace ouzel
                     ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
                     path[1] == L':')
                 {
-                    parts.push_back({path[0], ':'});
+                    parts.push_back({ path[0], ':' });
+                    previousPosition = 2;
 
-                    if (path.size() >= 3 && path[2] == preferredSeparator)
-                    {
-                        parts.push_back(rootDirectory);
-                        previousPosition = 3;
-                    }
-                    else
-                        previousPosition = 2;
+                    if (path.size() >= 3)
+                        parts.push_back(String{preferredSeparator});
                 }
 #elif defined(__unix__) || defined(__APPLE__)
                 if (path.size() >= 1 && path[0] == '/')
                 {
-                    parts.push_back(rootDirectory);
+                    parts.push_back(String{preferredSeparator});
                     previousPosition = 1;
                 }
 #endif
 
-                auto position = path.find(preferredSeparator, previousPosition);
-
-                while (position != String::npos)
+                while (previousPosition < path.length())
                 {
                     if (path[previousPosition] == preferredSeparator) ++previousPosition;
-                    const auto length = (position > previousPosition) ? position - previousPosition : 0;
+                    auto position = path.find(preferredSeparator, previousPosition);
+                    if (position == String::npos) position = path.length();
+
+                    const auto length = position - previousPosition;
                     String currentPart = path.substr(previousPosition, length);
 
                     if (currentPart == previous)
@@ -311,26 +306,26 @@ namespace ouzel
                         if (parts.empty())
                             parts.push_back(currentPart);
                         else if (parts.back() != previous &&
-                                 parts.back() != rootDirectory)
+                                 parts.back() != String{preferredSeparator})
                             parts.pop_back();
                     }
-                    else if (!currentPart.empty() && currentPart != current)
+                    else if (currentPart.empty())
+                    {
+                        if (position >= path.length())
+                            parts.push_back(currentPart);
+                    }
+                    else if (currentPart != current)
                         parts.push_back(currentPart);
 
                     previousPosition = position;
-                    position = path.find(preferredSeparator, position + 1);
                 }
-
-                if (path[previousPosition] == preferredSeparator) ++previousPosition;
-                String currentPart = path.substr(previousPosition);
-                parts.push_back(currentPart);
 
                 for (const auto& part : parts)
                 {
                     if (!newPath.empty() && newPath.back() != preferredSeparator)
                         newPath += preferredSeparator;
 
-                    if (part != rootDirectory)
+                    if (part != String{preferredSeparator})
                         newPath += part;
                     else if (newPath.empty())
                         newPath += preferredSeparator;  
