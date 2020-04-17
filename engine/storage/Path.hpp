@@ -120,7 +120,7 @@ namespace ouzel
 
             Path& operator/=(const Path& p)
             {
-                if (!path.empty() && path.back() != preferredSeparator)
+                if (!path.empty() && !isDirectorySeparator(path.back()))
                     path += preferredSeparator;
                 path += p.path;
                 return *this;
@@ -129,7 +129,7 @@ namespace ouzel
             template <class Source>
             Path& operator/=(const Source& p)
             {
-                if (!path.empty() && path.back() != preferredSeparator)
+                if (!path.empty() && !isDirectorySeparator(path.back()))
                     path += preferredSeparator;
                 path += convertToNative(p);
                 return *this;
@@ -153,7 +153,7 @@ namespace ouzel
             Path operator/(const Path& p) const
             {
                 Path result = *this;
-                if (!result.path.empty() && result.path.back() != preferredSeparator)
+                if (!result.path.empty() && !isDirectorySeparator(result.path.back()))
                     result.path += preferredSeparator;
                 result.path += p.path;
                 return result;
@@ -163,7 +163,7 @@ namespace ouzel
             Path operator/(const Source& p) const
             {
                 Path result = *this;
-                if (!result.path.empty() && result.path.back() != preferredSeparator)
+                if (!result.path.empty() && !isDirectorySeparator(result.path.back()))
                     result.path += preferredSeparator;
                 result.path += convertToNative(p);
                 return result;
@@ -209,9 +209,9 @@ namespace ouzel
             std::string getFilename() const
             {
                 String result;
-                const std::size_t pos = path.rfind(preferredSeparator);
-                if (pos != String::npos)
-                    result = path.substr(pos + 1);
+                const std::size_t position = findLastDirectorySeparator(path);
+                if (position != String::npos)
+                    result = path.substr(position + 1);
                 else
                     result = path;
 
@@ -221,9 +221,9 @@ namespace ouzel
             template <class Source>
             void replaceFilename(const Source& filename)
             {
-                const std::size_t pos = path.rfind(preferredSeparator);
-                if (pos != std::string::npos)
-                    path.resize(pos + 1);
+                const std::size_t position = findLastDirectorySeparator(path);
+                if (position != std::string::npos)
+                    path.resize(position + 1);
                 else
                     path.clear();
 
@@ -232,23 +232,22 @@ namespace ouzel
 
             Path getStem() const
             {
-                const std::size_t directoryPos = path.rfind(preferredSeparator);
-                const std::size_t startPos = directoryPos == String::npos ? 0 : directoryPos + 1;
-                const std::size_t extensionPos = path.find(Char('.'), startPos);
-                const std::size_t endPos = extensionPos == String::npos ? path.size() : extensionPos;
+                const std::size_t directoryPosition = findLastDirectorySeparator(path);
+                const std::size_t startPosition = directoryPosition == String::npos ? 0 : directoryPosition + 1;
+                const std::size_t extensionPos = path.find(Char('.'), startPosition);
+                const std::size_t endPosition = extensionPos == String::npos ? path.size() : extensionPos;
 
                 Path result;
-                result.path = path.substr(startPos, endPos - startPos);
+                result.path = path.substr(startPosition, endPosition - startPosition);
                 return result;
             }
 
             Path getDirectory() const
             {
                 Path result;
-
-                const std::size_t pos = path.rfind(preferredSeparator);
-                if (pos != String::npos)
-                    result.path = path.substr(0, pos);
+                const std::size_t position = findLastDirectorySeparator(path);
+                if (position != String::npos)
+                    result.path = path.substr(0, position);
 
                 return result;
             }
@@ -278,28 +277,27 @@ namespace ouzel
                     ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
                     path[1] == L':')
                 {
-                    parts.push_back({ path[0], ':' });
+                    parts.push_back({path[0], ':'});
                     previousPosition = 2;
 
                     if (path.size() >= 3)
-                        parts.push_back(String{preferredSeparator});
+                        parts.push_back(L"\\");
                 }
 #elif defined(__unix__) || defined(__APPLE__)
                 if (path.size() >= 1 && path[0] == '/')
                 {
-                    parts.push_back(String{preferredSeparator});
+                    parts.push_back('/');
                     previousPosition = 1;
                 }
 #endif
 
                 while (previousPosition < path.length())
                 {
-                    if (path[previousPosition] == preferredSeparator) ++previousPosition;
-                    auto position = path.find(preferredSeparator, previousPosition);
-                    if (position == String::npos) position = path.length();
+                    if (isDirectorySeparator(path[previousPosition])) ++previousPosition;
 
-                    const auto length = position - previousPosition;
-                    String currentPart = path.substr(previousPosition, length);
+                    const std::size_t position = findFirstDirectorySeparator(path, previousPosition);
+                    const auto endPosition = position != String::npos ? position : path.length();
+                    const String currentPart = path.substr(previousPosition, endPosition - previousPosition);
 
                     if (currentPart == parentDirectory)
                     {
@@ -309,25 +307,25 @@ namespace ouzel
                         {
                             const auto& previousPart = parts.back();
                             if (previousPart != parentDirectory &&
-                                previousPart.length() != 1 && previousPart.back() != preferredSeparator)
+                                previousPart.length() != 1 && !isDirectorySeparator(previousPart.back()))
                                 parts.pop_back();
                         }
                     }
                     else if (currentPart.empty())
                     {
-                        if (position >= path.length())
+                        if (position == String::npos) // the last part
                             parts.push_back(currentPart);
                     }
                     else if (currentPart != currentDirectory)
                         parts.push_back(currentPart);
 
-                    previousPosition = position;
+                    previousPosition = endPosition;
                 }
 
                 for (const auto& part : parts)
                 {
-                    if (!newPath.empty() && newPath.back() != preferredSeparator &&
-                        (part.length() != 1 || part.back() != preferredSeparator))
+                    if (!newPath.empty() && !isDirectorySeparator(newPath.back()) &&
+                        (part.length() != 1 || !isDirectorySeparator(part.back())))
                         newPath += preferredSeparator;
 
                     newPath += part;
@@ -485,7 +483,36 @@ namespace ouzel
 #endif
 
         private:
-            static const std::string& convertToUtf8(const std::string& p)
+            static constexpr bool isDirectorySeparator(Char c) noexcept
+            {
+#if defined(_WIN32)
+                return c == L'\\' || c == L'/';
+#elif defined(__unix__) || defined(__APPLE__)
+                return c == '/';
+#endif
+            }
+
+            static std::size_t findLastDirectorySeparator(const String& str,
+                                                          std::size_t position = String::npos) noexcept
+            {
+#if defined(_WIN32)
+                return str.find_last_of(L"\\/", position);
+#elif defined(__unix__) || defined(__APPLE__)
+                return str.rfind('/', position);
+#endif
+            }
+
+            static std::size_t findFirstDirectorySeparator(const String& str,
+                                                           std::size_t position = 0) noexcept
+            {
+#if defined(_WIN32)
+                return str.find_first_of(L"\\/", position);
+#elif defined(__unix__) || defined(__APPLE__)
+                return str.find('/', position);
+#endif
+            }
+
+            static const std::string& convertToUtf8(const std::string& p) noexcept
             {
                 return p;
             }
@@ -577,7 +604,7 @@ namespace ouzel
             {
                 std::wstring result = convertToWchar(p);
 
-                for (auto& c : result) if (c == L'/') c = preferredSeparator;
+                for (auto& c : result) if (c == L'/') c = L'\\';
                 return result;
             }
 
@@ -585,7 +612,7 @@ namespace ouzel
             {
                 std::wstring result = p;
 
-                for (auto& c : result) if (c == L'/') c = preferredSeparator;
+                for (auto& c : result) if (c == L'/') c = L'\\';
                 return result;
             }
 
@@ -594,7 +621,7 @@ namespace ouzel
                 std::string result = convertToUtf8(p);
 
                 for (auto& c : result)
-                    if (c == preferredSeparator) c = '/';
+                    if (c == '\\') c = '/';
 
                 return result;
             }
@@ -604,12 +631,12 @@ namespace ouzel
                 return convertToWchar(p);
             }
 
-            static const std::wstring& encode(const std::wstring& p)
+            static const std::wstring& encode(const std::wstring& p) noexcept
             {
                 return p;
             }
 #elif defined(__unix__) || defined(__APPLE__)
-            static const std::string& convertToNative(const std::string& p)
+            static const std::string& convertToNative(const std::string& p) noexcept
             {
                 return p;
             }
@@ -619,12 +646,12 @@ namespace ouzel
                 return convertToUtf8(p);
             }
 
-            static const std::string& convertToGeneric(const std::string& p)
+            static const std::string& convertToGeneric(const std::string& p) noexcept
             {
                 return p;
             }
 
-            static const std::string& encode(const std::string& p)
+            static const std::string& encode(const std::string& p) noexcept
             {
                 return p;
             }
