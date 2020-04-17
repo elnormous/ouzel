@@ -56,15 +56,15 @@ namespace ouzel
             using Char = wchar_t;
             using String = std::wstring;
             static constexpr Char preferredSeparator = '\\';
-            static constexpr const Char* previous = L"..";
-            static constexpr const Char* current = L".";
+            static constexpr const Char* parentDirectory = L"..";
+            static constexpr const Char* currentDirectory = L".";
 #elif defined(__unix__) || defined(__APPLE__)
             static constexpr char directorySeparator = '/';
             using Char = char;
             using String = std::string;
             static constexpr Char preferredSeparator = '/';
-            static constexpr const Char* previous = "..";
-            static constexpr const Char* current = ".";
+            static constexpr const Char* parentDirectory = "..";
+            static constexpr const Char* currentDirectory = ".";
 #endif
 
             Path() = default;
@@ -301,20 +301,24 @@ namespace ouzel
                     const auto length = position - previousPosition;
                     String currentPart = path.substr(previousPosition, length);
 
-                    if (currentPart == previous)
+                    if (currentPart == parentDirectory)
                     {
                         if (parts.empty())
                             parts.push_back(currentPart);
-                        else if (parts.back() != previous &&
-                                 parts.back() != String{preferredSeparator})
-                            parts.pop_back();
+                        else
+                        {
+                            const auto& previousPart = parts.back();
+                            if (previousPart != parentDirectory &&
+                                previousPart.length() != 1 && previousPart.back() != preferredSeparator)
+                                parts.pop_back();
+                        }
                     }
                     else if (currentPart.empty())
                     {
                         if (position >= path.length())
                             parts.push_back(currentPart);
                     }
-                    else if (currentPart != current)
+                    else if (currentPart != currentDirectory)
                         parts.push_back(currentPart);
 
                     previousPosition = position;
@@ -322,13 +326,11 @@ namespace ouzel
 
                 for (const auto& part : parts)
                 {
-                    if (!newPath.empty() && newPath.back() != preferredSeparator)
+                    if (!newPath.empty() && newPath.back() != preferredSeparator &&
+                        (part.length() != 1 || part.back() != preferredSeparator))
                         newPath += preferredSeparator;
 
-                    if (part != String{preferredSeparator})
-                        newPath += part;
-                    else if (newPath.empty())
-                        newPath += preferredSeparator;  
+                    newPath += part;
                 }
 
                 path = newPath;
