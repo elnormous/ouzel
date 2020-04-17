@@ -286,7 +286,7 @@ namespace ouzel
 #elif defined(__unix__) || defined(__APPLE__)
                 if (path.size() >= 1 && path[0] == '/')
                 {
-                    parts.push_back('/');
+                    parts.push_back("/");
                     previousPosition = 1;
                 }
 #endif
