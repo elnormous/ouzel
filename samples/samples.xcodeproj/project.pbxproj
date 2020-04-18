@@ -155,73 +155,45 @@
 /* Begin PBXContainerItemProxy section */
 		300902ED218BC64600B00BF4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
+			containerPortal = 30B492A01CDF816F0021E170 /* libouzel.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 304A8E241C237C30008B1151;
 			remoteInfo = libouzel_macos;
 		};
 		300902EF218BC64C00B00BF4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
+			containerPortal = 30B492A01CDF816F0021E170 /* libouzel.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 303B76321C355A3B00FEDE92;
 			remoteInfo = libouzel_tvos;
 		};
 		300902F1218BC65300B00BF4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
+			containerPortal = 30B492A01CDF816F0021E170 /* libouzel.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 303B75321C2A3C5800FEDE92;
 			remoteInfo = libouzel_ios;
 		};
 		30B492A61CDF81700021E170 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
+			containerPortal = 30B492A01CDF816F0021E170 /* libouzel.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 304A8E251C237C30008B1151;
 			remoteInfo = libouzel_macos;
 		};
 		30B492A81CDF81700021E170 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
+			containerPortal = 30B492A01CDF816F0021E170 /* libouzel.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 303B75331C2A3C5800FEDE92;
 			remoteInfo = libouzel_ios;
 		};
 		30B492AA1CDF81700021E170 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
+			containerPortal = 30B492A01CDF816F0021E170 /* libouzel.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 303B76801C355A3B00FEDE92;
 			remoteInfo = libouzel_tvos;
-		};
-		30E2660F2410A1890098C124 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 3023200C22220BCF007E0AAD;
-			remoteInfo = ouzel;
-		};
-		30E266122410A18E0098C124 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 3023200C22220BCF007E0AAD;
-			remoteInfo = ouzel;
-		};
-		30E266142410A1930098C124 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 3023200C22220BCF007E0AAD;
-			remoteInfo = ouzel;
-		};
-		C6A0884B226F07EC00D6A77A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3023200D22220BCF007E0AAD;
-			remoteInfo = ouzel;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -304,7 +276,7 @@
 		30AFE14E1CB5DCF100478AA2 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		30AFE1501CB5DCF900478AA2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		30AFE1521CB5DD0400478AA2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		30B492A01CDF816F0021E170 /* ouzel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ouzel.xcodeproj; path = ../build/ouzel.xcodeproj; sourceTree = "<group>"; };
+		30B492A01CDF816F0021E170 /* libouzel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libouzel.xcodeproj; path = ../engine/libouzel.xcodeproj; sourceTree = "<group>"; };
 		30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AmosisTechnik.ttf; sourceTree = "<group>"; };
 		30C246FA211E0B98001E8DA6 /* assets.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = assets.json; sourceTree = "<group>"; };
 		30C2C33D1F817E5000B3AAC2 /* cube.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
@@ -421,7 +393,7 @@
 			isa = PBXGroup;
 			children = (
 				303B74EF1C27F6B000FEDE92 /* Frameworks */,
-				30B492A01CDF816F0021E170 /* ouzel.xcodeproj */,
+				30B492A01CDF816F0021E170 /* libouzel.xcodeproj */,
 				304A8E0B1C237B95008B1151 /* Products */,
 				304A8EB21C2765C4008B1151 /* Resources */,
 				30E75F421D7B78DB000300D4 /* samples */,
@@ -495,7 +467,6 @@
 				30B492A91CDF81700021E170 /* libouzel_ios.a */,
 				30B492A71CDF81700021E170 /* libouzel_macos.a */,
 				30B492AB1CDF81700021E170 /* libouzel_tvos.a */,
-				C6A0884C226F07EC00D6A77A /* ouzel */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -543,7 +514,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				30E266102410A1890098C124 /* PBXTargetDependency */,
 				300902F2218BC65300B00BF4 /* PBXTargetDependency */,
 			);
 			name = samples_ios;
@@ -562,7 +532,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				30E266152410A1930098C124 /* PBXTargetDependency */,
 				300902F0218BC64C00B00BF4 /* PBXTargetDependency */,
 			);
 			name = samples_tvos;
@@ -581,7 +550,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				30E266132410A18E0098C124 /* PBXTargetDependency */,
 				300902EE218BC64600B00BF4 /* PBXTargetDependency */,
 			);
 			name = samples_macos;
@@ -618,7 +586,7 @@
 			projectReferences = (
 				{
 					ProductGroup = 30B492A11CDF816F0021E170 /* Products */;
-					ProjectRef = 30B492A01CDF816F0021E170 /* ouzel.xcodeproj */;
+					ProjectRef = 30B492A01CDF816F0021E170 /* libouzel.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -650,13 +618,6 @@
 			fileType = archive.ar;
 			path = libouzel_tvos.a;
 			remoteRef = 30B492AA1CDF81700021E170 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C6A0884C226F07EC00D6A77A /* ouzel */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = ouzel;
-			remoteRef = C6A0884B226F07EC00D6A77A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -836,21 +797,6 @@
 			name = libouzel_ios;
 			targetProxy = 300902F1218BC65300B00BF4 /* PBXContainerItemProxy */;
 		};
-		30E266102410A1890098C124 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ouzel;
-			targetProxy = 30E2660F2410A1890098C124 /* PBXContainerItemProxy */;
-		};
-		30E266132410A18E0098C124 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ouzel;
-			targetProxy = 30E266122410A18E0098C124 /* PBXContainerItemProxy */;
-		};
-		30E266152410A1930098C124 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ouzel;
-			targetProxy = 30E266142410A1930098C124 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -940,9 +886,8 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG";
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -990,7 +935,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;

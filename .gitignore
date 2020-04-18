@@ -1,9 +1,14 @@
 *.o
 *.d
 *.a
-build/ouzel.xcodeproj/project.xcworkspace
-build/ouzel.xcodeproj/xcshareddata
-build/ouzel.xcodeproj/xcuserdata
+ouzel.xcworkspace/xcshareddata
+ouzel.xcworkspace/xcuserdata
+engine/libouzel.xcodeproj/project.xcworkspace
+engine/libouzel.xcodeproj/xcshareddata
+engine/libouzel.xcodeproj/xcuserdata
+tools/ouzel.xcodeproj/project.xcworkspace
+tools/ouzel.xcodeproj/xcshareddata
+tools/ouzel.xcodeproj/xcuserdata
 .vs/
 build/obj
 Win32/

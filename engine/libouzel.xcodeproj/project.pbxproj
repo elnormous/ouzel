@@ -88,7 +88,6 @@
 		3023200222184518007E0AAD /* Server.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30231FFE22184518007E0AAD /* Server.hpp */; };
 		3023200322184518007E0AAD /* Server.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30231FFE22184518007E0AAD /* Server.hpp */; };
 		3023200422184518007E0AAD /* Server.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30231FFE22184518007E0AAD /* Server.hpp */; };
-		3023201722220C70007E0AAD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3023201622220C70007E0AAD /* main.cpp */; };
 		302B728421BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
 		302B728521BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
 		302B728621BDE302006EBC59 /* SilenceSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302B728221BDE301006EBC59 /* SilenceSound.cpp */; };
@@ -756,18 +755,6 @@
 		C6DBB72F22920078009F8DF9 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6DBB72C22920078009F8DF9 /* Node.cpp */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		3023200B22220BCF007E0AAD /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		300862D12154712E00D8CC45 /* InputSystemMacOS.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = InputSystemMacOS.mm; sourceTree = "<group>"; };
 		300862D22154712E00D8CC45 /* InputSystemMacOS.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputSystemMacOS.hpp; sourceTree = "<group>"; };
@@ -805,8 +792,6 @@
 		302261801FDB8C59005279FC /* ColladaLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ColladaLoader.hpp; sourceTree = "<group>"; };
 		30231FFD22184518007E0AAD /* Server.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cpp; sourceTree = "<group>"; };
 		30231FFE22184518007E0AAD /* Server.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Server.hpp; sourceTree = "<group>"; };
-		3023200D22220BCF007E0AAD /* ouzel */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ouzel; sourceTree = BUILT_PRODUCTS_DIR; };
-		3023201622220C70007E0AAD /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		302B728221BDE301006EBC59 /* SilenceSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SilenceSound.cpp; sourceTree = "<group>"; };
 		302B728321BDE302006EBC59 /* SilenceSound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SilenceSound.hpp; sourceTree = "<group>"; };
 		302E481D230B71410069ABE8 /* Emitter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Emitter.hpp; sourceTree = "<group>"; };
@@ -887,9 +872,6 @@
 		303B76061C34A92B00FEDE92 /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
 		303B76071C34A92B00FEDE92 /* InputManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManager.hpp; sourceTree = "<group>"; };
 		303B76801C355A3B00FEDE92 /* libouzel_tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_tvos.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		30412797231174B40054E7ED /* BuildSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BuildSystem.hpp; sourceTree = "<group>"; };
-		30412798231174C00054E7ED /* BuildSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BuildSystem.hpp; sourceTree = "<group>"; };
-		30412799231174CC0054E7ED /* BuildSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BuildSystem.hpp; sourceTree = "<group>"; };
 		30419DDF1D162BCF00A63759 /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Audio.cpp; sourceTree = "<group>"; };
 		30419DE01D162BCF00A63759 /* Audio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Audio.hpp; sourceTree = "<group>"; };
 		30419DE71D162BDC00A63759 /* Voice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Voice.cpp; sourceTree = "<group>"; };
@@ -994,17 +976,10 @@
 		30724D851F353A1800D915ED /* ViewTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewTVOS.h; sourceTree = "<group>"; };
 		30769B7B22DBFB17000F4EC2 /* Thread.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Thread.hpp; sourceTree = "<group>"; };
 		307726CE2187F2880050F94C /* SystemCursor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SystemCursor.hpp; sourceTree = "<group>"; };
-		3077589D242B822100BFFF67 /* Platform.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Platform.hpp; sourceTree = "<group>"; };
 		307934D222C58CFE005A6804 /* Cue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cue.cpp; sourceTree = "<group>"; };
 		307934D322C58CFE005A6804 /* Cue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cue.hpp; sourceTree = "<group>"; };
 		307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceGC.hpp; sourceTree = "<group>"; };
 		307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceGC.mm; sourceTree = "<group>"; };
-		30805CBF2442C31C006C86B7 /* PBXLegacyTarget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXLegacyTarget.hpp; sourceTree = "<group>"; };
-		30805D3E244661E4006C86B7 /* Target.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Target.hpp; sourceTree = "<group>"; };
-		30805D4E2447B0B7006C86B7 /* XcodeProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = XcodeProject.hpp; sourceTree = "<group>"; };
-		30805D522447B68B006C86B7 /* VcxProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VcxProject.hpp; sourceTree = "<group>"; };
-		30805D532447B6A9006C86B7 /* VcxProjectFilters.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VcxProjectFilters.hpp; sourceTree = "<group>"; };
-		30805D542447B6BB006C86B7 /* Solution.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Solution.hpp; sourceTree = "<group>"; };
 		3082C3461D94A8D90090FC9D /* PixelFormat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
 		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		3085DA1F211A4A5500F4C2D0 /* Socket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Socket.hpp; sourceTree = "<group>"; };
@@ -1047,26 +1022,6 @@
 		30AEFA3220C0FD7400CDFD33 /* MetalRenderTarget.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderTarget.mm; sourceTree = "<group>"; };
 		30AEFA3320C0FD7400CDFD33 /* MetalRenderTarget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalRenderTarget.hpp; sourceTree = "<group>"; };
 		30AF9FC32145D6F000F9266B /* OGLRenderResource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLRenderResource.hpp; sourceTree = "<group>"; };
-		30B15F41243958B00084915E /* PBXObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXObject.hpp; sourceTree = "<group>"; };
-		30B15F4224395AE30084915E /* PBXFileElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXFileElement.hpp; sourceTree = "<group>"; };
-		30B15F4324395B470084915E /* PBXFileReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXFileReference.hpp; sourceTree = "<group>"; };
-		30B15F4424395BA50084915E /* PBXSourceTree.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXSourceTree.hpp; sourceTree = "<group>"; };
-		30B15F4524395C1E0084915E /* PBXContainerItemProxy.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXContainerItemProxy.hpp; sourceTree = "<group>"; };
-		30B15F4624395C730084915E /* PBXReferenceProxy.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXReferenceProxy.hpp; sourceTree = "<group>"; };
-		30B15F4724395CCD0084915E /* PBXBuildFile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXBuildFile.hpp; sourceTree = "<group>"; };
-		30B15F4824395D230084915E /* PBXGroup.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXGroup.hpp; sourceTree = "<group>"; };
-		30B15F4924395D2F0084915E /* XCBuildConfiguration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = XCBuildConfiguration.hpp; sourceTree = "<group>"; };
-		30B15F4A24395D3B0084915E /* XCConfigurationList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = XCConfigurationList.hpp; sourceTree = "<group>"; };
-		30B15F4B24395D470084915E /* PBXBuildPhase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXBuildPhase.hpp; sourceTree = "<group>"; };
-		30B15F4C24395D560084915E /* PBXSourcesBuildPhase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXSourcesBuildPhase.hpp; sourceTree = "<group>"; };
-		30B15F4D24395D640084915E /* PBXFrameworksBuildPhase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXFrameworksBuildPhase.hpp; sourceTree = "<group>"; };
-		30B15F4E24395D710084915E /* PBXTarget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXTarget.hpp; sourceTree = "<group>"; };
-		30B15F4F24395D7E0084915E /* PBXNativeTarget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXNativeTarget.hpp; sourceTree = "<group>"; };
-		30B15F5024395D8B0084915E /* PBXProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXProject.hpp; sourceTree = "<group>"; };
-		30B15F5E243A95440084915E /* PBXFileType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXFileType.hpp; sourceTree = "<group>"; };
-		30B15F73243AA3020084915E /* PBXResourcesBuildPhase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXResourcesBuildPhase.hpp; sourceTree = "<group>"; };
-		30B15F7A243AA8510084915E /* PBXShellScriptBuildPhase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXShellScriptBuildPhase.hpp; sourceTree = "<group>"; };
-		30B15F8B243BE6230084915E /* PBXTargetDependency.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXTargetDependency.hpp; sourceTree = "<group>"; };
 		30B40E0022F8FC0C0056CD1A /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
 		30B8598A1F3D286600A16952 /* TTFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTFont.cpp; sourceTree = "<group>"; };
 		30B8598B1F3D286600A16952 /* TTFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TTFont.hpp; sourceTree = "<group>"; };
@@ -1113,7 +1068,6 @@
 		30CEB37821A6404B00525637 /* SystemTVOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemTVOS.cpp; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cache.hpp; sourceTree = "<group>"; };
-		30E2660724101F670098C124 /* Project.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
 		30E266192411CFAE0098C124 /* Path.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Path.hpp; sourceTree = "<group>"; };
 		30EA711E1D52783000AE8C3E /* EngineTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineTVOS.hpp; sourceTree = "<group>"; };
 		30EA711F1D52783000AE8C3E /* EngineTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EngineTVOS.mm; sourceTree = "<group>"; };
@@ -1158,13 +1112,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3023200A22220BCF007E0AAD /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		303B75301C2A3C5800FEDE92 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1189,29 +1136,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3023201422220C03007E0AAD /* tools */ = {
-			isa = PBXGroup;
-			children = (
-				3023201522220C5C007E0AAD /* ouzel */,
-			);
-			name = tools;
-			path = ../tools;
-			sourceTree = "<group>";
-		};
-		3023201522220C5C007E0AAD /* ouzel */ = {
-			isa = PBXGroup;
-			children = (
-				3023201622220C70007E0AAD /* main.cpp */,
-				30B15F3F2438F36E0084915E /* makefile */,
-				3077589D242B822100BFFF67 /* Platform.hpp */,
-				30E2660724101F670098C124 /* Project.hpp */,
-				30805D3E244661E4006C86B7 /* Target.hpp */,
-				30B15F3E2438F2D30084915E /* visualstudio */,
-				30B15F3D2438EBD50084915E /* xcode */,
-			);
-			path = ouzel;
-			sourceTree = "<group>";
-		};
 		303820881D816EAB00677CAB /* empty */ = {
 			isa = PBXGroup;
 			children = (
@@ -1620,7 +1544,6 @@
 				304A8E291C237C51008B1151 /* engine */,
 				3017AEBD21E5815000B07B53 /* Prefix.pch */,
 				304A8E0B1C237B95008B1151 /* Products */,
-				3023201422220C03007E0AAD /* tools */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1630,7 +1553,6 @@
 				304A8E251C237C30008B1151 /* libouzel_macos.a */,
 				303B75331C2A3C5800FEDE92 /* libouzel_ios.a */,
 				303B76801C355A3B00FEDE92 /* libouzel_tvos.a */,
-				3023200D22220BCF007E0AAD /* ouzel */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1655,7 +1577,6 @@
 				30A5BF0C1CFCE3F800A977CA /* utils */,
 			);
 			name = engine;
-			path = ../engine;
 			sourceTree = "<group>";
 		};
 		304F92A21F4D89560063EEC0 /* network */ = {
@@ -1825,55 +1746,6 @@
 				30A9C1301CAE80570084C4BF /* Localization.hpp */,
 			);
 			path = localization;
-			sourceTree = "<group>";
-		};
-		30B15F3D2438EBD50084915E /* xcode */ = {
-			isa = PBXGroup;
-			children = (
-				30412798231174C00054E7ED /* BuildSystem.hpp */,
-				30B15F4724395CCD0084915E /* PBXBuildFile.hpp */,
-				30B15F4B24395D470084915E /* PBXBuildPhase.hpp */,
-				30B15F4524395C1E0084915E /* PBXContainerItemProxy.hpp */,
-				30B15F4224395AE30084915E /* PBXFileElement.hpp */,
-				30B15F4324395B470084915E /* PBXFileReference.hpp */,
-				30B15F5E243A95440084915E /* PBXFileType.hpp */,
-				30B15F4D24395D640084915E /* PBXFrameworksBuildPhase.hpp */,
-				30B15F4824395D230084915E /* PBXGroup.hpp */,
-				30805CBF2442C31C006C86B7 /* PBXLegacyTarget.hpp */,
-				30B15F4F24395D7E0084915E /* PBXNativeTarget.hpp */,
-				30B15F41243958B00084915E /* PBXObject.hpp */,
-				30B15F5024395D8B0084915E /* PBXProject.hpp */,
-				30B15F4624395C730084915E /* PBXReferenceProxy.hpp */,
-				30B15F73243AA3020084915E /* PBXResourcesBuildPhase.hpp */,
-				30B15F7A243AA8510084915E /* PBXShellScriptBuildPhase.hpp */,
-				30B15F4C24395D560084915E /* PBXSourcesBuildPhase.hpp */,
-				30B15F4424395BA50084915E /* PBXSourceTree.hpp */,
-				30B15F4E24395D710084915E /* PBXTarget.hpp */,
-				30B15F8B243BE6230084915E /* PBXTargetDependency.hpp */,
-				30B15F4924395D2F0084915E /* XCBuildConfiguration.hpp */,
-				30B15F4A24395D3B0084915E /* XCConfigurationList.hpp */,
-				30805D4E2447B0B7006C86B7 /* XcodeProject.hpp */,
-			);
-			path = xcode;
-			sourceTree = "<group>";
-		};
-		30B15F3E2438F2D30084915E /* visualstudio */ = {
-			isa = PBXGroup;
-			children = (
-				30412797231174B40054E7ED /* BuildSystem.hpp */,
-				30805D542447B6BB006C86B7 /* Solution.hpp */,
-				30805D522447B68B006C86B7 /* VcxProject.hpp */,
-				30805D532447B6A9006C86B7 /* VcxProjectFilters.hpp */,
-			);
-			path = visualstudio;
-			sourceTree = "<group>";
-		};
-		30B15F3F2438F36E0084915E /* makefile */ = {
-			isa = PBXGroup;
-			children = (
-				30412799231174CC0054E7ED /* BuildSystem.hpp */,
-			);
-			path = makefile;
 			sourceTree = "<group>";
 		};
 		C6C9101621B54AD600B5FCB7 /* mixer */ = {
@@ -2327,23 +2199,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		3023200C22220BCF007E0AAD /* ouzel */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3023201322220BCF007E0AAD /* Build configuration list for PBXNativeTarget "ouzel" */;
-			buildPhases = (
-				3023200922220BCF007E0AAD /* Sources */,
-				3023200A22220BCF007E0AAD /* Frameworks */,
-				3023200B22220BCF007E0AAD /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ouzel;
-			productName = ouzel;
-			productReference = 3023200D22220BCF007E0AAD /* ouzel */;
-			productType = "com.apple.product-type.tool";
-		};
 		303B75321C2A3C5800FEDE92 /* libouzel_ios */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 303B75341C2A3C5800FEDE92 /* Build configuration list for PBXNativeTarget "libouzel_ios" */;
@@ -2407,10 +2262,6 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Elviss Strazdins";
 				TargetAttributes = {
-					3023200C22220BCF007E0AAD = {
-						CreatedOnToolsVersion = 10.1;
-						ProvisioningStyle = Automatic;
-					};
 					303B75321C2A3C5800FEDE92 = {
 						CreatedOnToolsVersion = 7.2;
 					};
@@ -2419,7 +2270,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 304A8E051C237B95008B1151 /* Build configuration list for PBXProject "ouzel" */;
+			buildConfigurationList = 304A8E051C237B95008B1151 /* Build configuration list for PBXProject "libouzel" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -2436,7 +2287,6 @@
 				303B75321C2A3C5800FEDE92 /* libouzel_ios */,
 				304A8E241C237C30008B1151 /* libouzel_macos */,
 				303B76321C355A3B00FEDE92 /* libouzel_tvos */,
-				3023200C22220BCF007E0AAD /* ouzel */,
 			);
 		};
 /* End PBXProject section */
@@ -2484,14 +2334,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		3023200922220BCF007E0AAD /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3023201722220C70007E0AAD /* main.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		303B752F1C2A3C5800FEDE92 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2857,28 +2699,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		3023201122220BCF007E0AAD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CODE_SIGN_STYLE = Automatic;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Debug;
-		};
-		3023201222220BCF007E0AAD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CODE_SIGN_STYLE = Automatic;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
 		303B75351C2A3C5800FEDE92 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2952,7 +2772,6 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -3010,7 +2829,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
@@ -3066,15 +2884,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3023201322220BCF007E0AAD /* Build configuration list for PBXNativeTarget "ouzel" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3023201122220BCF007E0AAD /* Debug */,
-				3023201222220BCF007E0AAD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		303B75341C2A3C5800FEDE92 /* Build configuration list for PBXNativeTarget "libouzel_ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3093,7 +2902,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		304A8E051C237B95008B1151 /* Build configuration list for PBXProject "ouzel" */ = {
+		304A8E051C237B95008B1151 /* Build configuration list for PBXProject "libouzel" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				304A8E1C1C237B96008B1151 /* Debug */,
