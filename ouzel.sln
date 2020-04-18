@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libouzel", "libouzel.vcxproj", "{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libouzel", "engine/libouzel.vcxproj", "{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ouzel", "ouzel.vcxproj", "{7A4B3E2B-7010-4F64-BE2A-A3BA1E8C8C6F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ouzel", "tools/ouzel.vcxproj", "{7A4B3E2B-7010-4F64-BE2A-A3BA1E8C8C6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

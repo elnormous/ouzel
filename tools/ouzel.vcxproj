@@ -150,40 +150,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\tools\ouzel\main.cpp" />
+    <ClCompile Include="ouzel\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\tools\ouzel\makefile\BuildSystem.hpp" />
-    <ClInclude Include="..\tools\ouzel\Platform.hpp" />
-    <ClInclude Include="..\tools\ouzel\Project.hpp" />
-    <ClInclude Include="..\tools\ouzel\Target.hpp" />
-    <ClInclude Include="..\tools\ouzel\visualstudio\BuildSystem.hpp" />
-    <ClInclude Include="..\tools\ouzel\visualstudio\Solution.hpp" />
-    <ClInclude Include="..\tools\ouzel\visualstudio\VcxProject.hpp" />
-    <ClInclude Include="..\tools\ouzel\visualstudio\VcxProjectFilters.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXBuildFile.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXBuildPhase.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXContainerItemProxy.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXFileElement.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXFileReference.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXFileType.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXFrameworksBuildPhase.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXGroup.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXLegacyTarget.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXNativeTarget.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXObject.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXProject.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXReferenceProxy.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXResourcesBuildPhase.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXShellScriptBuildPhase.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXSourcesBuildPhase.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXSourceTree.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXTarget.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\PBXTargetDependency.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\BuildSystem.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\XCBuildConfiguration.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\XCConfigurationList.hpp" />
-    <ClInclude Include="..\tools\ouzel\xcode\XcodeProject.hpp" />
+    <ClInclude Include="ouzel\makefile\BuildSystem.hpp" />
+    <ClInclude Include="ouzel\Platform.hpp" />
+    <ClInclude Include="ouzel\Project.hpp" />
+    <ClInclude Include="ouzel\Target.hpp" />
+    <ClInclude Include="ouzel\visualstudio\BuildSystem.hpp" />
+    <ClInclude Include="ouzel\visualstudio\Solution.hpp" />
+    <ClInclude Include="ouzel\visualstudio\VcxProject.hpp" />
+    <ClInclude Include="ouzel\visualstudio\VcxProjectFilters.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXBuildFile.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXBuildPhase.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXContainerItemProxy.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXFileElement.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXFileReference.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXFileType.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXFrameworksBuildPhase.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXGroup.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXLegacyTarget.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXNativeTarget.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXObject.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXProject.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXReferenceProxy.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXResourcesBuildPhase.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXShellScriptBuildPhase.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXSourcesBuildPhase.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXSourceTree.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXTarget.hpp" />
+    <ClInclude Include="ouzel\xcode\PBXTargetDependency.hpp" />
+    <ClInclude Include="ouzel\xcode\BuildSystem.hpp" />
+    <ClInclude Include="ouzel\xcode\XCBuildConfiguration.hpp" />
+    <ClInclude Include="ouzel\xcode\XCConfigurationList.hpp" />
+    <ClInclude Include="ouzel\xcode\XcodeProject.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

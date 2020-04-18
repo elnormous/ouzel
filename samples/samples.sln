@@ -8,9 +8,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "samples", "samples.vcxproj"
 		{7A4B3E2B-7010-4F64-BE2A-A3BA1E8C8C6F} = {7A4B3E2B-7010-4F64-BE2A-A3BA1E8C8C6F}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libouzel", "..\build\libouzel.vcxproj", "{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libouzel", "..\engine\libouzel.vcxproj", "{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ouzel", "..\build\ouzel.vcxproj", "{7A4B3E2B-7010-4F64-BE2A-A3BA1E8C8C6F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ouzel", "..\tools\ouzel.vcxproj", "{7A4B3E2B-7010-4F64-BE2A-A3BA1E8C8C6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

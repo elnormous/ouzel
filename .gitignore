@@ -4,11 +4,11 @@
 build/ouzel.xcodeproj/project.xcworkspace
 build/ouzel.xcodeproj/xcshareddata
 build/ouzel.xcodeproj/xcuserdata
-build/.vs/
+.vs/
 build/obj
-build/Win32/
-build/x64/
-build/ipch/
+Win32/
+x64/
+ipch/
 samples/samples.xcodeproj/project.xcworkspace
 samples/samples.xcodeproj/xcshareddata
 samples/samples.xcodeproj/xcuserdata

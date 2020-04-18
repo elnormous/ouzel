@@ -195,7 +195,7 @@ copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
     <ResourceCompile Include="windows\samples.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\build\libouzel.vcxproj">
+    <ProjectReference Include="..\engine\libouzel.vcxproj">
       <Project>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</Project>
     </ProjectReference>
   </ItemGroup>
