@@ -3,8 +3,6 @@
 #ifndef OUZEL_VISUALSTUDIO_SOLUTION_HPP
 #define OUZEL_VISUALSTUDIO_SOLUTION_HPP
 
-#include "Project.hpp"
-
 namespace ouzel
 {
     namespace visualstudio

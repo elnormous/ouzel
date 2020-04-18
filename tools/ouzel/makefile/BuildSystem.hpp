@@ -3,7 +3,7 @@
 #ifndef OUZEL_MAKEFILE_BUILDSYSTEM_HPP
 #define OUZEL_MAKEFILE_BUILDSYSTEM_HPP
 
-#include "Project.hpp"
+#include "../Project.hpp"
 
 namespace ouzel
 {

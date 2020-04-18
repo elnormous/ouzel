@@ -4,7 +4,7 @@
 #define OUZEL_XCODE_XCODEPROJECT_HPP
 
 #include <fstream>
-#include "Project.hpp"
+#include "../Project.hpp"
 #include "PBXBuildFile.hpp"
 #include "PBXContainerItemProxy.hpp"
 #include "PBXFileReference.hpp"
