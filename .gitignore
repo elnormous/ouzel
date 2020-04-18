@@ -31,7 +31,7 @@ samples/samples.js
 samples/samples.js.mem
 *.gch
 samples/samples.app
-build/html
+engine/html
 samples/.vs/
 Config.h
 assetcatalog_generated_info.plist
@@ -40,7 +40,7 @@ local.properties
 *.air
 *.metalar
 *.metallib
-build/pch
+engine/pch
 *.VC.db
 *.VC.opendb
 *.sdf

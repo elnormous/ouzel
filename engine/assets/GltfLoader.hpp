@@ -3,7 +3,7 @@
 #ifndef OUZEL_ASSETS_GLTFLOADER_HPP
 #define OUZEL_ASSETS_GLTFLOADER_HPP
 
-#include "assets/Loader.hpp"
+#include "Loader.hpp"
 
 namespace ouzel
 {

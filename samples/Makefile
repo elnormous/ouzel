@@ -14,8 +14,8 @@ ifeq ($(PLATFORM),emscripten)
 CC=emcc
 CXX=em++
 endif
-CXXFLAGS=-c -std=c++14 -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast -I../engine
-LDFLAGS=-L../build -louzel
+CXXFLAGS=-c -std=c++14 -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast -iquote . -I../engine
+LDFLAGS=-L../engine -louzel
 ifeq ($(PLATFORM),windows)
 LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -ldinput8 -luser32 -lgdi32 -lshell32 -lole32 -loleaut32 -ldsound -luuid -lws2_32
 else ifeq ($(PLATFORM),linux)
@@ -38,7 +38,6 @@ LDFLAGS+=-framework AudioToolbox \
 	-framework OpenGL \
 	-framework QuartzCore
 else ifeq ($(PLATFORM),ios)
-CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 LDFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0 \
 	-framework AudioToolbox \
@@ -51,7 +50,6 @@ LDFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -mi
 	-framework QuartzCore \
 	-framework UIKit
 else ifeq ($(PLATFORM),tvos)
-CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 LDFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0 \
 	-framework AudioToolbox \
@@ -161,11 +159,11 @@ $(EXECUTABLE): ouzel $(OBJECTS)
 
 .PHONY: ouzel
 ouzel:
-	$(MAKE) -C ../build/ DEBUG=$(DEBUG) PLATFORM=$(PLATFORM) VC_DIR=$(VC_DIR) $(target)
+	$(MAKE) -C ../engine/ DEBUG=$(DEBUG) PLATFORM=$(PLATFORM) VC_DIR=$(VC_DIR) $(target)
 
 .PHONY: clean
 clean:
-	$(MAKE) -C ../build/ clean
+	$(MAKE) -C ../engine/ clean
 ifeq ($(PLATFORM),windows)
 	-del /f /q "$(EXECUTABLE).exe" "*.o" "*.d" "*.js.mem" "*.js"
 else

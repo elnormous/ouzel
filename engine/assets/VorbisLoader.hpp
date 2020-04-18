@@ -3,7 +3,7 @@
 #ifndef OUZEL_ASSETS_VORBISLOADER_HPP
 #define OUZEL_ASSETS_VORBISLOADER_HPP
 
-#include "assets/Loader.hpp"
+#include "Loader.hpp"
 
 namespace ouzel
 {

@@ -3,7 +3,7 @@
 #ifndef OUZEL_ASSETS_BMFLOADER_HPP
 #define OUZEL_ASSETS_BMFLOADER_HPP
 
-#include "assets/Loader.hpp"
+#include "Loader.hpp"
 
 namespace ouzel
 {

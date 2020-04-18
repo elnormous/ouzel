@@ -5,7 +5,7 @@
 
 #include <memory>
 #include <string>
-#include "assets/Bundle.hpp"
+#include "Bundle.hpp"
 
 namespace ouzel
 {

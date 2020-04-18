@@ -3,7 +3,7 @@
 #ifndef OUZEL_ASSETS_PARTICLESYSTEMLOADER_HPP
 #define OUZEL_ASSETS_PARTICLESYSTEMLOADER_HPP
 
-#include "assets/Loader.hpp"
+#include "Loader.hpp"
 
 namespace ouzel
 {

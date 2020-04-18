@@ -389,23 +389,23 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\engine;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
+    <IncludePath>..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\engine;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
+    <IncludePath>..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\engine;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
+    <IncludePath>..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\engine;..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
+    <IncludePath>..\shaders;..\external\khronos;..\external\smbPitchShift;..\external\stb;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
