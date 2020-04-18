@@ -67,14 +67,15 @@ namespace ouzel
 
                     auto name = std::make_unique<char[]>(fileNameLength + 1);
 
-                    file.read(name.get(), fileNameLength);
+                    file.read(name.get(), static_cast<std::streamsize>(fileNameLength));
 
                     name[fileNameLength] = '\0';
 
                     Entry& entry = entries[name.get()];
                     entry.size = uncompressedSize;
 
-                    file.seekg(extraFieldLength, std::ios::cur); // skip extra field
+                    file.seekg(static_cast<std::streamoff>(extraFieldLength),
+                               std::ios::cur); // skip extra field
 
                     entry.offset = file.tellg();
 
