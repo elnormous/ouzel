@@ -5,7 +5,7 @@
 
 #include <cstddef>
 #include <type_traits>
-#include "math/Vector.hpp"
+#include "Vector.hpp"
 
 namespace ouzel
 {

@@ -8,11 +8,11 @@
 #include <cstddef>
 #include <limits>
 #include <type_traits>
-#include "math/Constants.hpp"
-#include "math/ConvexVolume.hpp"
-#include "math/Plane.hpp"
-#include "math/Quaternion.hpp"
-#include "math/Vector.hpp"
+#include "Constants.hpp"
+#include "ConvexVolume.hpp"
+#include "Plane.hpp"
+#include "Quaternion.hpp"
+#include "Vector.hpp"
 
 namespace ouzel
 {

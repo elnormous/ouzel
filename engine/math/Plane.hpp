@@ -7,8 +7,8 @@
 #include <cstddef>
 #include <limits>
 #include <type_traits>
-#include "math/Vector.hpp"
-#include "math/MathUtils.hpp"
+#include "Vector.hpp"
+#include "MathUtils.hpp"
 
 namespace ouzel
 {

@@ -3,8 +3,8 @@
 #ifndef OUZEL_MATH_RECT_HPP
 #define OUZEL_MATH_RECT_HPP
 
-#include "math/Size.hpp"
-#include "math/Vector.hpp"
+#include "Size.hpp"
+#include "Vector.hpp"
 
 namespace ouzel
 {

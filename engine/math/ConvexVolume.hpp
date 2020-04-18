@@ -5,9 +5,9 @@
 
 #include <type_traits>
 #include <vector>
-#include "math/Box.hpp"
-#include "math/Plane.hpp"
-#include "math/Vector.hpp"
+#include "Box.hpp"
+#include "Plane.hpp"
+#include "Vector.hpp"
 
 namespace ouzel
 {

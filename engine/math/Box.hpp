@@ -5,8 +5,8 @@
 
 #include <cstdint>
 #include <limits>
-#include "math/Size.hpp"
-#include "math/Vector.hpp"
+#include "Size.hpp"
+#include "Vector.hpp"
 
 namespace ouzel
 {
