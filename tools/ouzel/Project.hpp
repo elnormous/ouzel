@@ -4,6 +4,7 @@
 #define OUZEL_OUZELPROJECT_HPP
 
 #include <fstream>
+#include "Asset.hpp"
 #include "Target.hpp"
 #include "storage/FileSystem.hpp"
 #include "utils/Json.hpp"
@@ -53,6 +54,7 @@ namespace ouzel
         const std::vector<Target>& getTargets() const noexcept { return targets; }
         const std::vector<storage::Path>& getSourceFiles() const noexcept { return sourceFiles; }
         const storage::Path& getAssetsPath() const noexcept { return assetsPath; }
+        const std::vector<Asset>& getAssets() const noexcept { return assets; }
 
         void exportAssets()
         {
@@ -81,6 +83,7 @@ namespace ouzel
         std::vector<Target> targets;
         std::vector<storage::Path> sourceFiles;
         storage::Path assetsPath;
+        std::vector<Asset> assets;
     };
 }
 

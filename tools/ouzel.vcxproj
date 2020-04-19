@@ -153,10 +153,11 @@
     <ClCompile Include="ouzel\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ouzel\makefile\BuildSystem.hpp" />
+    <ClInclude Include="ouzel\Asset.hpp" />
     <ClInclude Include="ouzel\Platform.hpp" />
     <ClInclude Include="ouzel\Project.hpp" />
     <ClInclude Include="ouzel\Target.hpp" />
+    <ClInclude Include="ouzel\makefile\BuildSystem.hpp" />
     <ClInclude Include="ouzel\visualstudio\BuildSystem.hpp" />
     <ClInclude Include="ouzel\visualstudio\Solution.hpp" />
     <ClInclude Include="ouzel\visualstudio\VcxProject.hpp" />

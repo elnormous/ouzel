@@ -35,6 +35,7 @@
 		30805D522447B68B006C86B7 /* VcxProject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VcxProject.hpp; sourceTree = "<group>"; };
 		30805D532447B6A9006C86B7 /* VcxProjectFilters.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VcxProjectFilters.hpp; sourceTree = "<group>"; };
 		30805D542447B6BB006C86B7 /* Solution.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Solution.hpp; sourceTree = "<group>"; };
+		30805D89244D0633006C86B7 /* Asset.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Asset.hpp; sourceTree = "<group>"; };
 		30B15F41243958B00084915E /* PBXObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXObject.hpp; sourceTree = "<group>"; };
 		30B15F4224395AE30084915E /* PBXFileElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXFileElement.hpp; sourceTree = "<group>"; };
 		30B15F4324395B470084915E /* PBXFileReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PBXFileReference.hpp; sourceTree = "<group>"; };
@@ -80,6 +81,7 @@
 		3023201522220C5C007E0AAD /* ouzel */ = {
 			isa = PBXGroup;
 			children = (
+				30805D89244D0633006C86B7 /* Asset.hpp */,
 				3023201622220C70007E0AAD /* main.cpp */,
 				30B15F3F2438F36E0084915E /* makefile */,
 				3077589D242B822100BFFF67 /* Platform.hpp */,
