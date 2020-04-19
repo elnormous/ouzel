@@ -5,8 +5,8 @@
 
 #include <functional>
 #include <cstdint>
-#include "events/Event.hpp"
-#include "events/EventDispatcher.hpp"
+#include "Event.hpp"
+#include "EventDispatcher.hpp"
 
 namespace ouzel
 {

@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_OGLRENDERDEVICEWIN_HPP
 #define OUZEL_GRAPHICS_OGLRENDERDEVICEWIN_HPP
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if defined(_WIN32) && OUZEL_COMPILE_OPENGL
 
@@ -21,8 +21,8 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-#include "graphics/opengl/OGLRenderDevice.hpp"
-#include "utils/Thread.hpp"
+#include "../OGLRenderDevice.hpp"
+#include "../../../utils/Thread.hpp"
 
 namespace ouzel
 {

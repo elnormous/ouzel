@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include "SystemLinux.hpp"
 #include "EngineLinux.hpp"
-#include "utils/Log.hpp"
+#include "../../utils/Log.hpp"
 
 int main(int argc, char* argv[])
 {

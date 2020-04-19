@@ -4,11 +4,12 @@
 #define OUZEL_SCENE_CAMERA_HPP
 
 #include <memory>
-#include "scene/Component.hpp"
-#include "math/Constants.hpp"
-#include "math/Rect.hpp"
-#include "graphics/DepthStencilState.hpp"
-#include "graphics/RenderTarget.hpp"
+#include "Component.hpp"
+#include "../math/Constants.hpp"
+#include "../math/Matrix.hpp"
+#include "../math/Rect.hpp"
+#include "../graphics/DepthStencilState.hpp"
+#include "../graphics/RenderTarget.hpp"
 
 namespace ouzel
 {

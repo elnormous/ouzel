@@ -3,8 +3,8 @@
 #ifndef OUZEL_SETUP_H
 #define OUZEL_SETUP_H
 
-#include "core/Platform.h"
-#include "Config.h"
+#include "Platform.h"
+#include "../Config.h"
 
 #ifndef OUZEL_DEVELOPER_NAME
 #  error "OUZEL_DEVELOPER_NAME must be set"

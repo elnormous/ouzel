@@ -14,9 +14,9 @@
 #include "TtfLoader.hpp"
 #include "VorbisLoader.hpp"
 #include "WaveLoader.hpp"
-#include "graphics/Renderer.hpp"
-#include "gui/BMFont.hpp"
-#include "gui/TTFont.hpp"
+#include "../graphics/Renderer.hpp"
+#include "../gui/BMFont.hpp"
+#include "../gui/TTFont.hpp"
 
 namespace ouzel
 {

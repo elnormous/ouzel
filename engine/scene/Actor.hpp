@@ -5,12 +5,12 @@
 
 #include <memory>
 #include <vector>
-#include "math/Box.hpp"
-#include "math/Color.hpp"
-#include "math/Matrix.hpp"
-#include "math/Quaternion.hpp"
-#include "math/Vector.hpp"
-#include "events/EventHandler.hpp"
+#include "../math/Box.hpp"
+#include "../math/Color.hpp"
+#include "../math/Matrix.hpp"
+#include "../math/Quaternion.hpp"
+#include "../math/Vector.hpp"
+#include "../events/EventHandler.hpp"
 
 namespace ouzel
 {

@@ -1,6 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../Setup.h"
 
 #include <stdexcept>
 #if OUZEL_COMPILE_OPENGL && OUZEL_SUPPORTS_X11
@@ -9,7 +9,7 @@
 
 #include "NativeWindowLinux.hpp"
 #include "EngineLinux.hpp"
-#include "graphics/RenderDevice.hpp"
+#include "../../graphics/RenderDevice.hpp"
 
 #if OUZEL_SUPPORTS_X11
 namespace

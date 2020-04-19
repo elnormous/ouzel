@@ -5,8 +5,8 @@
 #include <android/window.h>
 #include "EngineAndroid.hpp"
 #include "NativeWindowAndroid.hpp"
-#include "events/EventDispatcher.hpp"
-#include "graphics/opengl/android/OGLRenderDeviceAndroid.hpp"
+#include "../../events/EventDispatcher.hpp"
+#include "../../graphics/opengl/android/OGLRenderDeviceAndroid.hpp"
 
 namespace ouzel
 {

@@ -14,8 +14,8 @@ typedef NSCursor* NSCursorPtr;
 typedef id NSCursorPtr;
 #endif
 
-#include "input/Cursor.hpp"
-#include "math/Size.hpp"
+#include "../Cursor.hpp"
+#include "../../math/Size.hpp"
 
 namespace ouzel
 {

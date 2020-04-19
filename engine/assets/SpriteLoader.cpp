@@ -4,8 +4,8 @@
 #include "SpriteLoader.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
-#include "scene/SpriteRenderer.hpp"
-#include "utils/Json.hpp"
+#include "../scene/SpriteRenderer.hpp"
+#include "../utils/Json.hpp"
 
 namespace ouzel
 {

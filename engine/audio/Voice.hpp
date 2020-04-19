@@ -4,9 +4,9 @@
 #define OUZEL_AUDIO_VOICE_HPP
 
 #include <memory>
-#include "audio/Cue.hpp"
-#include "audio/Node.hpp"
-#include "math/Vector.hpp"
+#include "Cue.hpp"
+#include "Node.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel
 {

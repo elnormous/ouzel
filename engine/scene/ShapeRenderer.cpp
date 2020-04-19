@@ -4,9 +4,9 @@
 #include <cmath>
 #include "ShapeRenderer.hpp"
 #include "Camera.hpp"
-#include "core/Engine.hpp"
-#include "graphics/Renderer.hpp"
-#include "utils/Utils.hpp"
+#include "../core/Engine.hpp"
+#include "../graphics/Renderer.hpp"
+#include "../utils/Utils.hpp"
 
 namespace ouzel
 {

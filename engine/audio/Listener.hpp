@@ -4,10 +4,10 @@
 #define OUZEL_AUDIO_LISTENER_HPP
 
 #include <cfloat>
-#include "audio/AudioDevice.hpp"
-#include "scene/Component.hpp"
-#include "math/Quaternion.hpp"
-#include "math/Vector.hpp"
+#include "AudioDevice.hpp"
+#include "../scene/Component.hpp"
+#include "../math/Quaternion.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel
 {

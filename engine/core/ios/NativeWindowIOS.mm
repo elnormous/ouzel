@@ -3,11 +3,11 @@
 #include <stdexcept>
 #include "NativeWindowIOS.hpp"
 #include "ViewIOS.h"
-#include "graphics/RenderDevice.hpp"
-#include "graphics/opengl/ios/OpenGLView.h"
-#include "graphics/metal/ios/MetalView.h"
-#include "core/Engine.hpp"
-#include "events/EventDispatcher.hpp"
+#include "../Engine.hpp"
+#include "../../graphics/RenderDevice.hpp"
+#include "../../graphics/opengl/ios/OpenGLView.h"
+#include "../../graphics/metal/ios/MetalView.h"
+#include "../../events/EventDispatcher.hpp"
 
 @interface ViewController: UIViewController
 @end

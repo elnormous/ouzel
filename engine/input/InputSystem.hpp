@@ -8,14 +8,14 @@
 #include <set>
 #include <unordered_map>
 #include <vector>
-#include "input/GamepadDevice.hpp"
-#include "input/KeyboardDevice.hpp"
-#include "input/MouseDevice.hpp"
-#include "input/SystemCursor.hpp"
-#include "input/TouchpadDevice.hpp"
-#include "graphics/PixelFormat.hpp"
-#include "math/Size.hpp"
-#include "math/Vector.hpp"
+#include "GamepadDevice.hpp"
+#include "KeyboardDevice.hpp"
+#include "MouseDevice.hpp"
+#include "SystemCursor.hpp"
+#include "TouchpadDevice.hpp"
+#include "../graphics/PixelFormat.hpp"
+#include "../math/Size.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel
 {

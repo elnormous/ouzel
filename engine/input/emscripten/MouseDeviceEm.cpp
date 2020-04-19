@@ -3,7 +3,7 @@
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include "MouseDeviceEm.hpp"
-#include "input/InputSystem.hpp"
+#include "../InputSystem.hpp"
 
 namespace ouzel
 {

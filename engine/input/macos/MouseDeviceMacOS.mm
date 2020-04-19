@@ -2,8 +2,8 @@
 
 #import <Carbon/Carbon.h>
 #include "MouseDeviceMacOS.hpp"
-#include "core/Engine.hpp"
-#include "core/macos/NativeWindowMacOS.hpp"
+#include "../../core/Engine.hpp"
+#include "../../core/macos/NativeWindowMacOS.hpp"
 
 namespace ouzel
 {

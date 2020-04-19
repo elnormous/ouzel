@@ -3,7 +3,7 @@
 #ifndef OUZEL_GUI_TTFONT_HPP
 #define OUZEL_GUI_TTFONT_HPP
 
-#include "gui/Font.hpp"
+#include "../gui/Font.hpp"
 
 struct stbtt_fontinfo;
 

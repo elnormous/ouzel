@@ -5,15 +5,15 @@
 
 #include <memory>
 #include <unordered_map>
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 #if OUZEL_SUPPORTS_X11
 #  include <X11/X.h>
 #endif
-#include "input/InputSystem.hpp"
-#include "input/Keyboard.hpp"
-#include "input/linux/EventDevice.hpp"
-#include "input/linux/KeyboardDeviceLinux.hpp"
-#include "input/linux/MouseDeviceLinux.hpp"
+#include "../InputSystem.hpp"
+#include "../Keyboard.hpp"
+#include "EventDevice.hpp"
+#include "KeyboardDeviceLinux.hpp"
+#include "MouseDeviceLinux.hpp"
 
 namespace ouzel
 {

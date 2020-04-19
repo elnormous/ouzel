@@ -3,7 +3,7 @@
 #ifndef OUZEL_AUDIO_WASAPIAUDIODEVICE_HPP
 #define OUZEL_AUDIO_WASAPIAUDIODEVICE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_WASAPI
 
@@ -11,9 +11,9 @@
 #include <thread>
 #include <Audioclient.h>
 #include <mmdeviceapi.h>
-#include "audio/AudioDevice.hpp"
-#include "audio/wasapi/WASAPIPointer.hpp"
-#include "utils/Thread.hpp"
+#include "../AudioDevice.hpp"
+#include "WASAPIPointer.hpp"
+#include "../../utils/Thread.hpp"
 
 namespace ouzel
 {

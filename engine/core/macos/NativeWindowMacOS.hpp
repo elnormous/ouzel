@@ -21,8 +21,8 @@ typedef id NSScreenPtr;
 typedef std::uint32_t CGDirectDisplayID;
 #endif
 
-#include "core/NativeWindow.hpp"
-#include "graphics/Renderer.hpp"
+#include "../NativeWindow.hpp"
+#include "../../graphics/Renderer.hpp"
 
 namespace ouzel
 {

@@ -4,15 +4,15 @@
 #include <cstdlib>
 #include <stdexcept>
 #include "ParticleSystem.hpp"
-#include "core/Engine.hpp"
 #include "SceneManager.hpp"
-#include "assets/Cache.hpp"
-#include "storage/FileSystem.hpp"
 #include "Actor.hpp"
 #include "Camera.hpp"
 #include "Layer.hpp"
-#include "utils/Utils.hpp"
-#include "math/MathUtils.hpp"
+#include "../assets/Cache.hpp"
+#include "../core/Engine.hpp"
+#include "../storage/FileSystem.hpp"
+#include "../utils/Utils.hpp"
+#include "../math/MathUtils.hpp"
 
 namespace ouzel
 {

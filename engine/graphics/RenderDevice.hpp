@@ -14,8 +14,8 @@
 #include "Driver.hpp"
 #include "SamplerFilter.hpp"
 #include "Vertex.hpp"
-#include "math/Matrix.hpp"
-#include "math/Size.hpp"
+#include "../math/Matrix.hpp"
+#include "../math/Size.hpp"
 
 namespace ouzel
 {

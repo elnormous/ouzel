@@ -7,12 +7,12 @@
 #include <stdexcept>
 #include "Setup.h"
 #include "Engine.hpp"
-#include "utils/Utils.hpp"
-#include "graphics/Renderer.hpp"
-#include "audio/Audio.hpp"
+#include "../utils/Utils.hpp"
+#include "../graphics/Renderer.hpp"
+#include "../audio/Audio.hpp"
 
 #if OUZEL_COMPILE_OPENGL
-#  include "graphics/opengl/OGL.h"
+#  include "../graphics/opengl/OGL.h"
 #  if OUZEL_OPENGLES
 #    include "opengl/ColorPSGLES2.h"
 #    include "opengl/ColorVSGLES2.h"

@@ -3,13 +3,13 @@
 #ifndef OUZEL_CORE_ENGINELINUX_HPP
 #define OUZEL_CORE_ENGINELINUX_HPP
 
-#include "core/Setup.h"
+#include "../Setup.h"
 #if OUZEL_SUPPORTS_X11
 #  include <X11/Xlib.h>
 #else
 #  include <bcm_host.h>
 #endif
-#include "core/Engine.hpp"
+#include "../Engine.hpp"
 
 namespace ouzel
 {

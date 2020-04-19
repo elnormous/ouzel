@@ -4,8 +4,8 @@
 #define OUZEL_INPUT_TOUCHPADDEVICE_HPP
 
 #include <future>
-#include "input/InputDevice.hpp"
-#include "math/Vector.hpp"
+#include "InputDevice.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel
 {

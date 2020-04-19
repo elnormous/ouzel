@@ -1,6 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_COREAUDIO
 
@@ -10,8 +10,8 @@
 #endif
 
 #include "CAAudioDevice.hpp"
-#include "core/Engine.hpp"
-#include "utils/Log.hpp"
+#include "../../core/Engine.hpp"
+#include "../../utils/Log.hpp"
 
 #if TARGET_OS_IOS || TARGET_OS_TV
 @interface RouteChangeDelegate: NSObject

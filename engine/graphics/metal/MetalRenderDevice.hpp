@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_METALRENDERDEVICE_HPP
 #define OUZEL_GRAPHICS_METALRENDERDEVICE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
 
@@ -43,7 +43,7 @@ typedef NSUInteger MTLPixelFormat;
 typedef NSUInteger MTLLoadAction;
 #endif
 
-#include "graphics/RenderDevice.hpp"
+#include "../RenderDevice.hpp"
 #include "MetalPointer.hpp"
 #include "MetalShader.hpp"
 #include "MetalTexture.hpp"

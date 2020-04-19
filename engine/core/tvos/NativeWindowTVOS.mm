@@ -3,9 +3,9 @@
 #include <stdexcept>
 #include "NativeWindowTVOS.hpp"
 #include "ViewTVOS.h"
-#include "graphics/RenderDevice.hpp"
-#include "graphics/opengl/tvos/OpenGLView.h"
-#include "graphics/metal/tvos/MetalView.h"
+#include "../../graphics/RenderDevice.hpp"
+#include "../../graphics/opengl/tvos/OpenGLView.h"
+#include "../../graphics/metal/tvos/MetalView.h"
 
 @interface ViewController: UIViewController
 @end

@@ -4,13 +4,13 @@
 #define OUZEL_SCENE_TEXTRENDERER_HPP
 
 #include <string>
-#include "scene/Component.hpp"
-#include "math/Color.hpp"
-#include "gui/BMFont.hpp"
-#include "graphics/BlendState.hpp"
-#include "graphics/Buffer.hpp"
-#include "graphics/Shader.hpp"
-#include "graphics/Texture.hpp"
+#include "Component.hpp"
+#include "../math/Color.hpp"
+#include "../gui/BMFont.hpp"
+#include "../graphics/BlendState.hpp"
+#include "../graphics/Buffer.hpp"
+#include "../graphics/Shader.hpp"
+#include "../graphics/Texture.hpp"
 
 namespace ouzel
 {

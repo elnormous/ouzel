@@ -1,6 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_OPENAL
 
@@ -14,8 +14,8 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #endif
 
 #include "OALAudioDevice.hpp"
-#include "core/Engine.hpp"
-#include "utils/Log.hpp"
+#include "../../core/Engine.hpp"
+#include "../../utils/Log.hpp"
 
 #ifndef AL_FORMAT_MONO_FLOAT32
 #  define AL_FORMAT_MONO_FLOAT32 0x10010

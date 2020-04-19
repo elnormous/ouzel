@@ -1,6 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 #include <cstdio>
 #include <cstring>
 #include <system_error>
@@ -14,8 +14,8 @@
 #endif
 #include "InputSystemLinux.hpp"
 #include "CursorLinux.hpp"
-#include "core/linux/EngineLinux.hpp"
-#include "core/linux/NativeWindowLinux.hpp"
+#include "../../core/linux/EngineLinux.hpp"
+#include "../../core/linux/NativeWindowLinux.hpp"
 
 namespace ouzel
 {

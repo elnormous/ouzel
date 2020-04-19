@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include "utils/Utils.hpp"
+#include "../utils/Utils.hpp"
 
 namespace ouzel
 {

@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_METALRENDERDEVICETVOS_HPP
 #define OUZEL_GRAPHICS_METALRENDERDEVICETVOS_HPP
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if defined(__APPLE__)
 #  include <TargetConditionals.h>
@@ -11,8 +11,8 @@
 
 #if TARGET_OS_TV && OUZEL_COMPILE_METAL
 
-#include "graphics/metal/MetalRenderDevice.hpp"
-#include "core/tvos/DisplayLink.hpp"
+#include "../MetalRenderDevice.hpp"
+#include "../../../core/tvos/DisplayLink.hpp"
 
 namespace ouzel
 {

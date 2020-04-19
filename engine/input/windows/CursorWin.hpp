@@ -17,8 +17,8 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-#include "input/Cursor.hpp"
-#include "math/Size.hpp"
+#include "../Cursor.hpp"
+#include "../../math/Size.hpp"
 
 namespace ouzel
 {

@@ -4,10 +4,10 @@
 #define OUZEL_SCENE_STATICMESHRENDERER_HPP
 
 #include <vector>
-#include "scene/Component.hpp"
-#include "graphics/Buffer.hpp"
-#include "graphics/Material.hpp"
-#include "graphics/Vertex.hpp"
+#include "Component.hpp"
+#include "../graphics/Buffer.hpp"
+#include "../graphics/Material.hpp"
+#include "../graphics/Vertex.hpp"
 
 namespace ouzel
 {

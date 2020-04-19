@@ -2,8 +2,8 @@
 
 #include <system_error>
 #include "MouseDeviceWin.hpp"
-#include "core/Engine.hpp"
-#include "core/windows/NativeWindowWin.hpp"
+#include "../../core/Engine.hpp"
+#include "../../core/windows/NativeWindowWin.hpp"
 
 namespace ouzel
 {

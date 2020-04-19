@@ -5,8 +5,8 @@
 #include <android/input.h>
 #include "InputSystemAndroid.hpp"
 #include "GamepadDeviceAndroid.hpp"
-#include "core/android/EngineAndroid.hpp"
-#include "core/Window.hpp"
+#include "../../core/android/EngineAndroid.hpp"
+#include "../../core/Window.hpp"
 
 namespace ouzel
 {

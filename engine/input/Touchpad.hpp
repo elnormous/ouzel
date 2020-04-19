@@ -5,8 +5,8 @@
 
 #include <cstdint>
 #include <unordered_map>
-#include "input/Controller.hpp"
-#include "math/Vector.hpp"
+#include "Controller.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel
 {

@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_METALRENDERDEVICEMACOS_HPP
 #define OUZEL_GRAPHICS_METALRENDERDEVICEMACOS_HPP
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if defined(__APPLE__)
 #  include <TargetConditionals.h>
@@ -41,8 +41,8 @@ typedef id MTLTexturePtr;
 typedef id MTLDepthStencilStatePtr;
 #endif
 
-#include "graphics/metal/MetalRenderDevice.hpp"
-#include "events/EventHandler.hpp"
+#include "../MetalRenderDevice.hpp"
+#include "../../../events/EventHandler.hpp"
 
 namespace ouzel
 {

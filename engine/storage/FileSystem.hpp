@@ -28,8 +28,8 @@
 #  include <sys/stat.h>
 #  include <unistd.h>
 #endif
-#include "storage/Archive.hpp"
-#include "storage/Path.hpp"
+#include "Archive.hpp"
+#include "Path.hpp"
 
 namespace ouzel
 {

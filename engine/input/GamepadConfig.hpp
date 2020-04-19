@@ -3,7 +3,7 @@
 #ifndef OUZEL_INPUT_GAMEPADCONFIG_HPP
 #define OUZEL_INPUT_GAMEPADCONFIG_HPP
 
-#include "input/Gamepad.hpp"
+#include "Gamepad.hpp"
 
 namespace ouzel
 {

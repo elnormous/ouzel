@@ -6,11 +6,11 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-#include "input/InputSystem.hpp"
-#include "input/SystemCursor.hpp"
-#include "graphics/PixelFormat.hpp"
-#include "math/Size.hpp"
-#include "math/Vector.hpp"
+#include "InputSystem.hpp"
+#include "SystemCursor.hpp"
+#include "../graphics/PixelFormat.hpp"
+#include "../math/Size.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel
 {

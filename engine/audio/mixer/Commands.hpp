@@ -7,10 +7,10 @@
 #include <functional>
 #include <memory>
 
-#include "audio/mixer/Processor.hpp"
-#include "audio/mixer/Source.hpp"
-#include "audio/mixer/Stream.hpp"
-#include "audio/mixer/Data.hpp"
+#include "Processor.hpp"
+#include "Source.hpp"
+#include "Stream.hpp"
+#include "Data.hpp"
 
 namespace ouzel
 {

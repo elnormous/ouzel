@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_D3D11RENDERTARGET_HPP
 #define OUZEL_GRAPHICS_D3D11RENDERTARGET_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_DIRECT3D11
 
@@ -23,7 +23,7 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "D3D11RenderResource.hpp"
-#include "math/Color.hpp"
+#include "../../math/Color.hpp"
 
 namespace ouzel
 {

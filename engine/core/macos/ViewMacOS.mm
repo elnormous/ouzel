@@ -4,9 +4,9 @@
 #include <Availability.h>
 #import <Carbon/Carbon.h>
 #import "ViewMacOS.h"
-#include "core/Engine.hpp"
-#include "core/Window.hpp"
-#include "input/macos/InputSystemMacOS.hpp"
+#include "../Engine.hpp"
+#include "../Window.hpp"
+#include "../../input/macos/InputSystemMacOS.hpp"
 
 @implementation ViewMacOS
 

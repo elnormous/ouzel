@@ -1,6 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL
 
@@ -12,7 +12,7 @@
 #include <cassert>
 #include <stdexcept>
 
-#include "graphics/opengl/OGL.h"
+#include "OGL.h"
 
 #if OUZEL_OPENGLES
 #  include "GLES/gl.h"
@@ -41,10 +41,10 @@
 #include "OGLRenderTarget.hpp"
 #include "OGLShader.hpp"
 #include "OGLTexture.hpp"
-#include "core/Engine.hpp"
-#include "core/Window.hpp"
-#include "utils/Log.hpp"
-#include "utils/Utils.hpp"
+#include "../../core/Engine.hpp"
+#include "../../core/Window.hpp"
+#include "../../utils/Log.hpp"
+#include "../../utils/Utils.hpp"
 #include "stb_image_write.h"
 
 namespace ouzel

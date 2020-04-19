@@ -8,15 +8,15 @@
 #include <memory>
 #include <set>
 #include <vector>
-#include "audio/AudioDevice.hpp"
-#include "audio/Driver.hpp"
-#include "audio/Mix.hpp"
-#include "audio/Node.hpp"
-#include "audio/mixer/Commands.hpp"
-#include "audio/mixer/Processor.hpp"
-#include "audio/mixer/Mixer.hpp"
-#include "math/Quaternion.hpp"
-#include "math/Vector.hpp"
+#include "AudioDevice.hpp"
+#include "Driver.hpp"
+#include "Mix.hpp"
+#include "Node.hpp"
+#include "mixer/Commands.hpp"
+#include "mixer/Processor.hpp"
+#include "mixer/Mixer.hpp"
+#include "../math/Quaternion.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel
 {

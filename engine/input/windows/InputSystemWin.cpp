@@ -18,9 +18,9 @@
 #include "GamepadDeviceDI.hpp"
 #include "GamepadDeviceXI.hpp"
 #include "CursorWin.hpp"
-#include "core/Engine.hpp"
-#include "core/windows/NativeWindowWin.hpp"
-#include "utils/Log.hpp"
+#include "../../core/Engine.hpp"
+#include "../../core/windows/NativeWindowWin.hpp"
+#include "../../utils/Log.hpp"
 
 namespace ouzel
 {

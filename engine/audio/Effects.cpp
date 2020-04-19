@@ -3,8 +3,8 @@
 #include <cmath>
 #include "Effects.hpp"
 #include "Audio.hpp"
-#include "scene/Actor.hpp"
-#include "math/MathUtils.hpp"
+#include "../scene/Actor.hpp"
+#include "../math/MathUtils.hpp"
 #include "smbPitchShift.hpp"
 
 namespace ouzel

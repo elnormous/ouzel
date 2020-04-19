@@ -1,6 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if defined(_WIN32) && OUZEL_COMPILE_OPENGL
 
@@ -9,10 +9,10 @@
 #include "GL/glext.h"
 #include "GL/wglext.h"
 #include "OGLRenderDeviceWin.hpp"
-#include "core/Engine.hpp"
-#include "core/Window.hpp"
-#include "core/windows/NativeWindowWin.hpp"
-#include "utils/Log.hpp"
+#include "../../../core/Engine.hpp"
+#include "../../../core/Window.hpp"
+#include "../../../core/windows/NativeWindowWin.hpp"
+#include "../../../utils/Log.hpp"
 
 namespace ouzel
 {

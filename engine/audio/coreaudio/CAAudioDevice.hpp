@@ -3,7 +3,7 @@
 #ifndef OUZEL_AUDIO_CAAUDIODEVICE_HPP
 #define OUZEL_AUDIO_CAAUDIODEVICE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_COREAUDIO
 
@@ -21,7 +21,7 @@
 
 #include <AudioUnit/AudioUnit.h>
 
-#include "audio/AudioDevice.hpp"
+#include "../AudioDevice.hpp"
 
 namespace ouzel
 {

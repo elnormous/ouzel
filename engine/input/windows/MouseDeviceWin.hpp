@@ -3,7 +3,7 @@
 #ifndef OUZEL_INPUT_MOUSEDEVICEWIN_HPP
 #define OUZEL_INPUT_MOUSEDEVICEWIN_HPP
 
-#include "input/MouseDevice.hpp"
+#include "../MouseDevice.hpp"
 
 namespace ouzel
 {

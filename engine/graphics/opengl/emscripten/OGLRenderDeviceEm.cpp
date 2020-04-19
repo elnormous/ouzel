@@ -1,11 +1,11 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if defined(__EMSCRIPTEN__) && OUZEL_COMPILE_OPENGL
 
 #include "OGLRenderDeviceEm.hpp"
-#include "utils/Utils.hpp"
+#include "../../../utils/Utils.hpp"
 
 namespace ouzel
 {

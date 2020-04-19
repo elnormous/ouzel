@@ -3,7 +3,7 @@
 #ifndef OUZEL_AUDIO_OSLAUDIODEVICE_HPP
 #define OUZEL_AUDIO_OSLAUDIODEVICE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_OPENSL
 
@@ -11,8 +11,8 @@
 #include <SLES/OpenSLES_Android.h>
 #include <SLES/OpenSLES_AndroidConfiguration.h>
 
-#include "audio/AudioDevice.hpp"
-#include "audio/opensl/OSLPointer.hpp"
+#include "../AudioDevice.hpp"
+#include "OSLPointer.hpp"
 
 namespace ouzel
 {

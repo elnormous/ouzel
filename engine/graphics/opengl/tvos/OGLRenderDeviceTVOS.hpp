@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_OGLRENDERDEVICETVOS_HPP
 #define OUZEL_GRAPHICS_OGLRENDERDEVICETVOS_HPP
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if defined(__APPLE__)
 #  include <TargetConditionals.h>
@@ -11,8 +11,8 @@
 
 #if TARGET_OS_TV && OUZEL_COMPILE_OPENGL
 
-#include "graphics/opengl/OGLRenderDevice.hpp"
-#include "core/tvos/DisplayLink.hpp"
+#include "../OGLRenderDevice.hpp"
+#include "../../../core/tvos/DisplayLink.hpp"
 
 #if defined(__OBJC__)
 #  import <UIKit/UIKit.h>

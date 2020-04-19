@@ -3,9 +3,9 @@
 #include <unordered_map>
 #import <UIKit/UIPress.h>
 #import "ViewIOS.h"
-#include "core/Engine.hpp"
-#include "core/Window.hpp"
-#include "input/ios/InputSystemIOS.hpp"
+#include "../Engine.hpp"
+#include "../Window.hpp"
+#include "../../input/ios/InputSystemIOS.hpp"
 
 @implementation ViewIOS
 

@@ -3,7 +3,7 @@
 #ifndef OUZEL_AUDIO_OSCILLATOR_HPP
 #define OUZEL_AUDIO_OSCILLATOR_HPP
 
-#include "audio/Sound.hpp"
+#include "Sound.hpp"
 
 namespace ouzel
 {

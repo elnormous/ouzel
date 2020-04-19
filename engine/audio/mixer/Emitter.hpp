@@ -5,7 +5,7 @@
 
 #include <cstdint>
 #include <vector>
-#include "audio/mixer/Source.hpp"
+#include "Source.hpp"
 
 namespace ouzel
 {

@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <unistd.h>
-#include "core/Setup.h"
+#include "../Setup.h"
 #if OUZEL_SUPPORTS_X11
 #  include "GL/gl.h"
 #  include "GL/glext.h"
@@ -15,10 +15,10 @@
 #endif
 #include "EngineLinux.hpp"
 #include "NativeWindowLinux.hpp"
-#include "events/Event.hpp"
-#include "graphics/RenderDevice.hpp"
-#include "input/linux/InputSystemLinux.hpp"
-#include "utils/Log.hpp"
+#include "../../events/Event.hpp"
+#include "../../graphics/RenderDevice.hpp"
+#include "../../input/linux/InputSystemLinux.hpp"
+#include "../../utils/Log.hpp"
 
 #if OUZEL_SUPPORTS_X11
 namespace

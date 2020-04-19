@@ -2,8 +2,8 @@
 
 #include <iterator>
 #include "Gamepad.hpp"
-#include "core/Engine.hpp"
-#include "events/EventDispatcher.hpp"
+#include "../core/Engine.hpp"
+#include "../events/EventDispatcher.hpp"
 
 namespace ouzel
 {

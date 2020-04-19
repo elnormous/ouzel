@@ -3,8 +3,8 @@
 #ifndef OUZEL_INPUT_MOUSEDEVICEMACOS_HPP
 #define OUZEL_INPUT_MOUSEDEVICEMACOS_HPP
 
-#include "input/MouseDevice.hpp"
-#include "input/Mouse.hpp"
+#include "../MouseDevice.hpp"
+#include "../Mouse.hpp"
 
 namespace ouzel
 {

@@ -4,7 +4,7 @@
 #define OUZEL_NETWORK_CLIENT_HPP
 
 #include "Socket.hpp"
-#include "utils/Thread.hpp"
+#include "../utils/Thread.hpp"
 
 namespace ouzel
 {

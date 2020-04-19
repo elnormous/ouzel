@@ -4,8 +4,8 @@
 #define OUZEL_INPUT_KEYBOARDDEVICE_HPP
 
 #include <future>
-#include "input/InputDevice.hpp"
-#include "input/Keyboard.hpp"
+#include "InputDevice.hpp"
+#include "Keyboard.hpp"
 
 namespace ouzel
 {

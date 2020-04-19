@@ -7,11 +7,11 @@
 #include <functional>
 #include <memory>
 #include <vector>
-#include "scene/Animator.hpp"
-#include "scene/Component.hpp"
-#include "events/EventHandler.hpp"
-#include "math/Quaternion.hpp"
-#include "math/Vector.hpp"
+#include "Animator.hpp"
+#include "Component.hpp"
+#include "../events/EventHandler.hpp"
+#include "../math/Quaternion.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel
 {

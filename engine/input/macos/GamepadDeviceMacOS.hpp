@@ -4,7 +4,7 @@
 #define OUZEL_INPUT_GAMEPADDEVICEMACOS_HPP
 
 #include <string>
-#include "input/GamepadDevice.hpp"
+#include "../GamepadDevice.hpp"
 
 namespace ouzel
 {

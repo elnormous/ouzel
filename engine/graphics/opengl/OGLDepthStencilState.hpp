@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_OGLDEPTHSTENCILSTATE_HPP
 #define OUZEL_GRAPHICS_OGLDEPTHSTENCILSTATE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL
 
@@ -20,8 +20,8 @@
 #endif
 
 #include "OGLRenderResource.hpp"
-#include "graphics/CompareFunction.hpp"
-#include "graphics/StencilOperation.hpp"
+#include "../CompareFunction.hpp"
+#include "../StencilOperation.hpp"
 
 namespace ouzel
 {

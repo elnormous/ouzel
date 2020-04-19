@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include "SystemMacOS.hpp"
 #include "EngineMacOS.hpp"
-#include "utils/Log.hpp"
+#include "../../utils/Log.hpp"
 
 int main(int argc, char* argv[])
 {

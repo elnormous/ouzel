@@ -5,8 +5,8 @@
 #include "Mouse.hpp"
 #include "InputManager.hpp"
 #include "Cursor.hpp"
-#include "core/Engine.hpp"
-#include "events/EventDispatcher.hpp"
+#include "../core/Engine.hpp"
+#include "../events/EventDispatcher.hpp"
 
 namespace ouzel
 {

@@ -2,9 +2,9 @@
 
 #include "InputSystemIOS.hpp"
 #include "GamepadDeviceIOS.hpp"
-#include "core/Engine.hpp"
-#include "core/ios/NativeWindowIOS.hpp"
-#include "utils/Log.hpp"
+#include "../../core/Engine.hpp"
+#include "../../core/ios/NativeWindowIOS.hpp"
+#include "../../utils/Log.hpp"
 
 @interface ConnectDelegate: NSObject
 

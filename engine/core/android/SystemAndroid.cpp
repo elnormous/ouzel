@@ -5,12 +5,12 @@
 #include <jni.h>
 #include <android/keycodes.h>
 #include "SystemAndroid.hpp"
-#include "core/android/EngineAndroid.hpp"
-#include "core/android/NativeWindowAndroid.hpp"
-#include "core/Engine.hpp"
-#include "events/EventDispatcher.hpp"
-#include "input/android/InputSystemAndroid.hpp"
-#include "utils/Log.hpp"
+#include "EngineAndroid.hpp"
+#include "NativeWindowAndroid.hpp"
+#include "../Engine.hpp"
+#include "../../events/EventDispatcher.hpp"
+#include "../../input/android/InputSystemAndroid.hpp"
+#include "../../utils/Log.hpp"
 
 namespace
 {

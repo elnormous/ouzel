@@ -6,7 +6,7 @@
 #include <queue>
 #include <string>
 #include <vector>
-#include "audio/Oscillator.hpp"
+#include "Oscillator.hpp"
 
 namespace ouzel
 {

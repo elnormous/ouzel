@@ -3,6 +3,10 @@
 #ifndef OUZEL_UTILS_PLIST_HPP
 #define OUZEL_UTILS_PLIST_HPP
 
+#include <map>
+#include <string>
+#include <vector>
+
 namespace ouzel
 {
     namespace plist

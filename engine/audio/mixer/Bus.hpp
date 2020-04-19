@@ -4,7 +4,7 @@
 #define OUZEL_AUDIO_MIXER_BUS_HPP
 
 #include <vector>
-#include "audio/mixer/Object.hpp"
+#include "Object.hpp"
 
 namespace ouzel
 {

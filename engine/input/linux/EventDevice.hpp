@@ -9,7 +9,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "input/Gamepad.hpp"
+#include "../Gamepad.hpp"
 
 namespace ouzel
 {

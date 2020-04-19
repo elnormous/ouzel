@@ -6,15 +6,15 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "scene/Component.hpp"
-#include "math/Color.hpp"
-#include "math/Vector.hpp"
-#include "events/EventHandler.hpp"
-#include "graphics/Vertex.hpp"
-#include "graphics/BlendState.hpp"
-#include "graphics/Buffer.hpp"
-#include "graphics/Shader.hpp"
-#include "graphics/Texture.hpp"
+#include "Component.hpp"
+#include "../math/Color.hpp"
+#include "../math/Vector.hpp"
+#include "../events/EventHandler.hpp"
+#include "../graphics/Vertex.hpp"
+#include "../graphics/BlendState.hpp"
+#include "../graphics/Buffer.hpp"
+#include "../graphics/Shader.hpp"
+#include "../graphics/Texture.hpp"
 
 namespace ouzel
 {

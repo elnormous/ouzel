@@ -6,9 +6,9 @@
 #include <memory>
 #include <unordered_map>
 #include <emscripten/html5.h>
-#include "input/InputSystem.hpp"
-#include "input/emscripten/GamepadDeviceEm.hpp"
-#include "input/emscripten/MouseDeviceEm.hpp"
+#include "../InputSystem.hpp"
+#include "GamepadDeviceEm.hpp"
+#include "MouseDeviceEm.hpp"
 
 namespace ouzel
 {

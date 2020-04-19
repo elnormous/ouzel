@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_OGLBUFFER_HPP
 #define OUZEL_GRAPHICS_OGLBUFFER_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL
 
@@ -20,7 +20,7 @@
 #endif
 
 #include "OGLRenderResource.hpp"
-#include "graphics/BufferType.hpp"
+#include "../BufferType.hpp"
 
 namespace ouzel
 {

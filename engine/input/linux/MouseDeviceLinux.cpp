@@ -1,10 +1,10 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
 #include <stdexcept>
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 #include "MouseDeviceLinux.hpp"
-#include "core/linux/EngineLinux.hpp"
-#include "core/linux/NativeWindowLinux.hpp"
+#include "../../core/linux/EngineLinux.hpp"
+#include "../../core/linux/NativeWindowLinux.hpp"
 
 namespace ouzel
 {

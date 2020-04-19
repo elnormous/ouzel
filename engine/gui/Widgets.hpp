@@ -4,12 +4,12 @@
 #define OUZEL_GUI_BUTTON_HPP
 
 #include <functional>
-#include "gui/Widget.hpp"
-#include "scene/SpriteRenderer.hpp"
-#include "scene/TextRenderer.hpp"
-#include "events/Event.hpp"
-#include "events/EventHandler.hpp"
-#include "math/Color.hpp"
+#include "Widget.hpp"
+#include "../scene/SpriteRenderer.hpp"
+#include "../scene/TextRenderer.hpp"
+#include "../events/Event.hpp"
+#include "../events/EventHandler.hpp"
+#include "../math/Color.hpp"
 
 namespace ouzel
 {

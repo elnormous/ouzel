@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_OGLRENDERDEVICEANDROID_HPP
 #define OUZEL_GRAPHICS_OGLRENDERDEVICEANDROID_HPP
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
 
@@ -11,8 +11,8 @@
 #include <thread>
 #include "EGL/egl.h"
 #include "EGL/eglext.h"
-#include "graphics/opengl/OGLRenderDevice.hpp"
-#include "utils/Thread.hpp"
+#include "../OGLRenderDevice.hpp"
+#include "../../../utils/Thread.hpp"
 
 namespace ouzel
 {

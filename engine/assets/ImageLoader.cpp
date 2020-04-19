@@ -4,9 +4,9 @@
 #include <stdexcept>
 #include "ImageLoader.hpp"
 #include "Bundle.hpp"
-#include "core/Engine.hpp"
-#include "graphics/Image.hpp"
-#include "graphics/Texture.hpp"
+#include "../core/Engine.hpp"
+#include "../graphics/Image.hpp"
+#include "../graphics/Texture.hpp"
 
 #if defined(_MSC_VER)
 #  pragma warning( push )

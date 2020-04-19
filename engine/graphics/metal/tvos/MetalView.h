@@ -3,11 +3,11 @@
 #ifndef OUZEL_GRAPHICS_METALVIEW_H
 #define OUZEL_GRAPHICS_METALVIEW_H
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
 
-#import "core/tvos/ViewTVOS.h"
+#import "../../../core/tvos/ViewTVOS.h"
 
 @interface MetalView: ViewTVOS
 @end

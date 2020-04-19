@@ -3,8 +3,8 @@
 #ifndef OUZEL_AUDIO_WAVEPLAYER_HPP
 #define OUZEL_AUDIO_WAVEPLAYER_HPP
 
-#include "audio/Source.hpp"
-#include "audio/Sound.hpp"
+#include "Source.hpp"
+#include "Sound.hpp"
 
 namespace ouzel
 {

@@ -15,10 +15,10 @@
 #include <thread>
 #include <type_traits>
 #include <vector>
-#include "math/Matrix.hpp"
-#include "math/Quaternion.hpp"
-#include "math/Size.hpp"
-#include "math/Vector.hpp"
+#include "../math/Matrix.hpp"
+#include "../math/Quaternion.hpp"
+#include "../math/Size.hpp"
+#include "../math/Vector.hpp"
 #include "Thread.hpp"
 
 namespace ouzel

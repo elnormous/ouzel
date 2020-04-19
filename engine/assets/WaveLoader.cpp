@@ -3,8 +3,8 @@
 #include <cstring>
 #include "WaveLoader.hpp"
 #include "Bundle.hpp"
-#include "audio/PcmClip.hpp"
-#include "core/Engine.hpp"
+#include "../audio/PcmClip.hpp"
+#include "../core/Engine.hpp"
 
 enum WaveFormat
 {

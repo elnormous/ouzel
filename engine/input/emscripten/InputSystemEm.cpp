@@ -4,8 +4,8 @@
 #include <emscripten.h>
 #include "InputSystemEm.hpp"
 #include "GamepadDeviceEm.hpp"
-#include "core/Engine.hpp"
-#include "utils/Log.hpp"
+#include "../../core/Engine.hpp"
+#include "../../utils/Log.hpp"
 
 namespace
 {

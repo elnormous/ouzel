@@ -2,7 +2,7 @@
 
 #include "InputSystem.hpp"
 #include "InputManager.hpp"
-#include "core/Engine.hpp"
+#include "../core/Engine.hpp"
 
 namespace ouzel
 {

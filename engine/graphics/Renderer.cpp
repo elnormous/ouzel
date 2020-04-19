@@ -4,39 +4,39 @@
 #  include <TargetConditionals.h>
 #endif
 #include <stdexcept>
-#include "core/Setup.h"
+#include "../core/Setup.h"
 #include "Renderer.hpp"
 #include "Commands.hpp"
 #include "RenderDevice.hpp"
-#include "events/EventHandler.hpp"
-#include "events/EventDispatcher.hpp"
-#include "core/Engine.hpp"
-#include "core/Window.hpp"
-#include "utils/Log.hpp"
+#include "../events/EventHandler.hpp"
+#include "../events/EventDispatcher.hpp"
+#include "../core/Engine.hpp"
+#include "../core/Window.hpp"
+#include "../utils/Log.hpp"
 
 #if TARGET_OS_IOS
-#  include "graphics/metal/ios/MetalRenderDeviceIOS.hpp"
-#  include "graphics/opengl/ios/OGLRenderDeviceIOS.hpp"
+#  include "metal/ios/MetalRenderDeviceIOS.hpp"
+#  include "opengl/ios/OGLRenderDeviceIOS.hpp"
 #elif TARGET_OS_TV
-#  include "graphics/metal/tvos/MetalRenderDeviceTVOS.hpp"
-#  include "graphics/opengl/tvos/OGLRenderDeviceTVOS.hpp"
+#  include "metal/tvos/MetalRenderDeviceTVOS.hpp"
+#  include "opengl/tvos/OGLRenderDeviceTVOS.hpp"
 #elif TARGET_OS_MAC
-#  include "graphics/metal/macos/MetalRenderDeviceMacOS.hpp"
-#  include "graphics/opengl/macos/OGLRenderDeviceMacOS.hpp"
+#  include "metal/macos/MetalRenderDeviceMacOS.hpp"
+#  include "opengl/macos/OGLRenderDeviceMacOS.hpp"
 #elif defined(__ANDROID__)
-#  include "graphics/opengl/android/OGLRenderDeviceAndroid.hpp"
+#  include "opengl/android/OGLRenderDeviceAndroid.hpp"
 #elif defined(__linux__)
-#  include "graphics/opengl/linux/OGLRenderDeviceLinux.hpp"
+#  include "opengl/linux/OGLRenderDeviceLinux.hpp"
 #elif defined(_WIN32)
-#  include "graphics/opengl/windows/OGLRenderDeviceWin.hpp"
+#  include "opengl/windows/OGLRenderDeviceWin.hpp"
 #elif defined(__EMSCRIPTEN__)
-#  include "graphics/opengl/emscripten/OGLRenderDeviceEm.hpp"
+#  include "opengl/emscripten/OGLRenderDeviceEm.hpp"
 #endif
 
-#include "graphics/empty/EmptyRenderDevice.hpp"
-#include "graphics/opengl/OGLRenderDevice.hpp"
-#include "graphics/direct3d11/D3D11RenderDevice.hpp"
-#include "graphics/metal/MetalRenderDevice.hpp"
+#include "empty/EmptyRenderDevice.hpp"
+#include "opengl/OGLRenderDevice.hpp"
+#include "direct3d11/D3D11RenderDevice.hpp"
+#include "metal/MetalRenderDevice.hpp"
 
 namespace ouzel
 {

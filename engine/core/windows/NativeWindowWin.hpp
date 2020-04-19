@@ -16,7 +16,7 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-#include "core/NativeWindow.hpp"
+#include "../NativeWindow.hpp"
 
 namespace ouzel
 {

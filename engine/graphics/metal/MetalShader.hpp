@@ -5,7 +5,7 @@
 
 #include <utility>
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
 
@@ -21,8 +21,8 @@ typedef id MTLVertexDescriptorPtr;
 
 #include "MetalRenderResource.hpp"
 #include "MetalPointer.hpp"
-#include "graphics/DataType.hpp"
-#include "graphics/Vertex.hpp"
+#include "../DataType.hpp"
+#include "../Vertex.hpp"
 
 namespace ouzel
 {

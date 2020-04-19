@@ -4,7 +4,7 @@
 #include <cassert>
 #include "Animator.hpp"
 #include "Actor.hpp"
-#include "core/Engine.hpp"
+#include "../core/Engine.hpp"
 
 namespace ouzel
 {

@@ -1,15 +1,15 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_XAUDIO2
 
 #include <system_error>
 #include "XA2AudioDevice.hpp"
 #include "XAudio27.hpp"
-#include "core/Engine.hpp"
-#include "utils/Log.hpp"
-#include "utils/Utils.hpp"
+#include "../../core/Engine.hpp"
+#include "../../utils/Log.hpp"
+#include "../../utils/Utils.hpp"
 
 #ifndef XAUDIO2_DEBUG_ENGINE
 #  define XAUDIO2_DEBUG_ENGINE 0x0001 // Used in XAudio2Create on Windows only

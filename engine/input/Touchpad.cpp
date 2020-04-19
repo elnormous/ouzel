@@ -1,8 +1,8 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
 #include "Touchpad.hpp"
-#include "core/Engine.hpp"
-#include "events/EventDispatcher.hpp"
+#include "../core/Engine.hpp"
+#include "../events/EventDispatcher.hpp"
 
 namespace ouzel
 {

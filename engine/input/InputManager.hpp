@@ -8,8 +8,8 @@
 #include <queue>
 #include <vector>
 #include <unordered_map>
-#include "input/InputSystem.hpp"
-#include "math/Vector.hpp"
+#include "InputSystem.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel
 {

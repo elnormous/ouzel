@@ -1,14 +1,14 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
 #include "SpriteRenderer.hpp"
-#include "core/Engine.hpp"
-#include "graphics/Renderer.hpp"
 #include "Camera.hpp"
 #include "SceneManager.hpp"
-#include "storage/FileSystem.hpp"
 #include "Layer.hpp"
-#include "assets/Cache.hpp"
-#include "utils/Utils.hpp"
+#include "../assets/Cache.hpp"
+#include "../core/Engine.hpp"
+#include "../graphics/Renderer.hpp"
+#include "../storage/FileSystem.hpp"
+#include "../utils/Utils.hpp"
 
 namespace ouzel
 {

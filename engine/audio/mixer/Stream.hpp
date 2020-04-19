@@ -3,9 +3,9 @@
 #ifndef OUZEL_AUDIO_MIXER_STREAM_HPP
 #define OUZEL_AUDIO_MIXER_STREAM_HPP
 
-#include "audio/mixer/Object.hpp"
-#include "audio/mixer/Bus.hpp"
-#include "audio/mixer/Data.hpp"
+#include "Object.hpp"
+#include "Bus.hpp"
+#include "Data.hpp"
 
 namespace ouzel
 {

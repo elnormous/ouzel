@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_METALPOINTER_HPP
 #define OUZEL_GRAPHICS_METALPOINTER_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
 

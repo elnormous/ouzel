@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_D3D11BUFFER_HPP
 #define OUZEL_GRAPHICS_D3D11BUFFER_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_DIRECT3D11
 
@@ -21,7 +21,7 @@
 
 #include "D3D11RenderResource.hpp"
 #include "D3D11Pointer.hpp"
-#include "graphics/BufferType.hpp"
+#include "../BufferType.hpp"
 
 namespace ouzel
 {

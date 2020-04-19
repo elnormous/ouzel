@@ -16,8 +16,8 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-#include "input/Gamepad.hpp"
-#include "input/windows/GamepadDeviceWin.hpp"
+#include "../Gamepad.hpp"
+#include "GamepadDeviceWin.hpp"
 
 namespace ouzel
 {

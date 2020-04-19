@@ -3,8 +3,8 @@
 #include <unordered_map>
 #import <UIKit/UIPress.h>
 #import "ViewTVOS.h"
-#include "core/Engine.hpp"
-#include "input/tvos/InputSystemTVOS.hpp"
+#include "../Engine.hpp"
+#include "../../input/tvos/InputSystemTVOS.hpp"
 
 @implementation ViewTVOS
 

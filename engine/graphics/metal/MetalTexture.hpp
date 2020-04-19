@@ -5,7 +5,7 @@
 
 #include <utility>
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
 
@@ -26,11 +26,11 @@ typedef NSUInteger MTLLoadAction;
 #include <tuple>
 #include "MetalRenderResource.hpp"
 #include "MetalPointer.hpp"
-#include "graphics/PixelFormat.hpp"
-#include "graphics/SamplerAddressMode.hpp"
-#include "graphics/SamplerFilter.hpp"
-#include "graphics/TextureType.hpp"
-#include "math/Size.hpp"
+#include "../PixelFormat.hpp"
+#include "../SamplerAddressMode.hpp"
+#include "../SamplerFilter.hpp"
+#include "../TextureType.hpp"
+#include "../../math/Size.hpp"
 
 namespace ouzel
 {

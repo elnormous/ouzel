@@ -21,8 +21,8 @@
 #include "StencilOperation.hpp"
 #include "TextureType.hpp"
 #include "Vertex.hpp"
-#include "math/Color.hpp"
-#include "math/Rect.hpp"
+#include "../math/Color.hpp"
+#include "../math/Rect.hpp"
 
 namespace ouzel
 {

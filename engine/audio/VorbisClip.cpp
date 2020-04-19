@@ -5,7 +5,7 @@
 #include "Audio.hpp"
 #include "mixer/Data.hpp"
 #include "mixer/Stream.hpp"
-#include "utils/Utils.hpp"
+#include "../utils/Utils.hpp"
 
 #if defined(_MSC_VER)
 #  pragma warning( push )

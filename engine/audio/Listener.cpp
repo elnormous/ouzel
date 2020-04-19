@@ -4,8 +4,8 @@
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
 #include "Submix.hpp"
-#include "scene/Actor.hpp"
-#include "math/MathUtils.hpp"
+#include "../scene/Actor.hpp"
+#include "../math/MathUtils.hpp"
 
 namespace ouzel
 {

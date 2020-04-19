@@ -7,13 +7,13 @@
 #include <linux/input.h>
 #include "EventDevice.hpp"
 #include "InputSystemLinux.hpp"
-#include "input/GamepadConfig.hpp"
-#include "input/KeyboardDevice.hpp"
-#include "input/GamepadDevice.hpp"
-#include "input/MouseDevice.hpp"
-#include "input/TouchpadDevice.hpp"
-#include "core/Engine.hpp"
-#include "utils/Log.hpp"
+#include "../GamepadConfig.hpp"
+#include "../KeyboardDevice.hpp"
+#include "../GamepadDevice.hpp"
+#include "../MouseDevice.hpp"
+#include "../TouchpadDevice.hpp"
+#include "../../core/Engine.hpp"
+#include "../../utils/Log.hpp"
 
 namespace
 {

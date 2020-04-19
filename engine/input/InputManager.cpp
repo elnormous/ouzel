@@ -10,24 +10,24 @@
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
 #include "Touchpad.hpp"
-#include "core/Engine.hpp"
-#include "events/EventDispatcher.hpp"
-#include "math/MathUtils.hpp"
+#include "../core/Engine.hpp"
+#include "../events/EventDispatcher.hpp"
+#include "../math/MathUtils.hpp"
 
 #if TARGET_OS_IOS
-#  include "input/ios/InputSystemIOS.hpp"
+#  include "ios/InputSystemIOS.hpp"
 #elif TARGET_OS_TV
-#  include "input/tvos/InputSystemTVOS.hpp"
+#  include "tvos/InputSystemTVOS.hpp"
 #elif TARGET_OS_MAC
-#  include "input/macos/InputSystemMacOS.hpp"
+#  include "macos/InputSystemMacOS.hpp"
 #elif defined(__ANDROID__)
-#  include "input/android/InputSystemAndroid.hpp"
+#  include "android/InputSystemAndroid.hpp"
 #elif defined(__linux__)
-#  include "input/linux/InputSystemLinux.hpp"
+#  include "linux/InputSystemLinux.hpp"
 #elif defined(_WIN32)
-#  include "input/windows/InputSystemWin.hpp"
+#  include "windows/InputSystemWin.hpp"
 #elif defined(__EMSCRIPTEN__)
-#  include "input/emscripten/InputSystemEm.hpp"
+#  include "emscripten/InputSystemEm.hpp"
 #endif
 
 namespace ouzel

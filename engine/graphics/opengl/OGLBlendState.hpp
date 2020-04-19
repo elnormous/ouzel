@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_OGLBLENDSTATE_HPP
 #define OUZEL_GRAPHICS_OGLBLENDSTATE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL
 
@@ -20,9 +20,9 @@
 #endif
 
 #include "OGLRenderResource.hpp"
-#include "graphics/BlendFactor.hpp"
-#include "graphics/BlendOperation.hpp"
-#include "graphics/ColorMask.hpp"
+#include "../BlendFactor.hpp"
+#include "../BlendOperation.hpp"
+#include "../ColorMask.hpp"
 
 namespace ouzel
 {

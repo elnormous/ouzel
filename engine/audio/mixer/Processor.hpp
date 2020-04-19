@@ -3,8 +3,8 @@
 #ifndef OUZEL_AUDIO_MIXER_PROCESSOR_HPP
 #define OUZEL_AUDIO_MIXER_PROCESSOR_HPP
 
-#include "audio/mixer/Object.hpp"
-#include "audio/mixer/Bus.hpp"
+#include "Object.hpp"
+#include "Bus.hpp"
 
 namespace ouzel
 {

@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_EMPTYRENDERDEVICE_HPP
 #define OUZEL_GRAPHICS_EMPTYRENDERDEVICE_HPP
 
-#include "graphics/RenderDevice.hpp"
+#include "../RenderDevice.hpp"
 
 namespace ouzel
 {

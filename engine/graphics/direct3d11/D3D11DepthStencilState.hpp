@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_D3D11DEPTHSTENCILSTATE_HPP
 #define OUZEL_GRAPHICS_D3D11DEPTHSTENCILSTATE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_DIRECT3D11
 
@@ -21,8 +21,8 @@
 
 #include "D3D11RenderResource.hpp"
 #include "D3D11Pointer.hpp"
-#include "graphics/CompareFunction.hpp"
-#include "graphics/StencilOperation.hpp"
+#include "../CompareFunction.hpp"
+#include "../StencilOperation.hpp"
 
 namespace ouzel
 {

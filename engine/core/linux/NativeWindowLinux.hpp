@@ -3,7 +3,7 @@
 #ifndef OUZEL_CORE_NATIVEWINDOWLINUX_HPP
 #define OUZEL_CORE_NATIVEWINDOWLINUX_HPP
 
-#include "core/Setup.h"
+#include "../Setup.h"
 #include <cstdint>
 #if OUZEL_SUPPORTS_X11
 #  include <X11/Xlib.h>
@@ -18,8 +18,8 @@ typedef struct
 } EGL_DISPMANX_WINDOW_T;
 #endif
 
-#include "core/NativeWindow.hpp"
-#include "graphics/Renderer.hpp"
+#include "../NativeWindow.hpp"
+#include "../../graphics/Renderer.hpp"
 
 namespace ouzel
 {

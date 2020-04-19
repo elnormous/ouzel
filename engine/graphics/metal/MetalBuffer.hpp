@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_METALBUFFER_HPP
 #define OUZEL_GRAPHICS_METALBUFFER_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
 
@@ -17,7 +17,7 @@ typedef id MTLBufferPtr;
 
 #include "MetalRenderResource.hpp"
 #include "MetalPointer.hpp"
-#include "graphics/BufferType.hpp"
+#include "../BufferType.hpp"
 
 namespace ouzel
 {

@@ -3,13 +3,13 @@
 #ifndef OUZEL_AUDIO_XA2AUDIODEVICE_HPP
 #define OUZEL_AUDIO_XA2AUDIODEVICE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_XAUDIO2
 
 #include <vector>
 #include <xaudio2.h>
-#include "audio/AudioDevice.hpp"
+#include "../AudioDevice.hpp"
 
 namespace ouzel
 {

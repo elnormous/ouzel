@@ -4,8 +4,8 @@
 #define OUZEL_INPUT_GAMEPADDEVICE_HPP
 
 #include <future>
-#include "input/InputDevice.hpp"
-#include "input/Gamepad.hpp"
+#include "InputDevice.hpp"
+#include "Gamepad.hpp"
 
 namespace ouzel
 {

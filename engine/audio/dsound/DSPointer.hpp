@@ -3,7 +3,7 @@
 #ifndef OUZEL_AUDIO_DSPOINTER_HPP
 #define OUZEL_AUDIO_DSPOINTER_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_DIRECTSOUND
 

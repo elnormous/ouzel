@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <vector>
 #include "PixelFormat.hpp"
-#include "math/Size.hpp"
+#include "../math/Size.hpp"
 
 namespace ouzel
 {

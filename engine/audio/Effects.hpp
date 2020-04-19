@@ -5,9 +5,9 @@
 
 #include <cfloat>
 #include <utility>
-#include "audio/Effect.hpp"
-#include "math/Vector.hpp"
-#include "scene/Component.hpp"
+#include "Effect.hpp"
+#include "../math/Vector.hpp"
+#include "../scene/Component.hpp"
 
 namespace ouzel
 {

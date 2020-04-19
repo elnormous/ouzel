@@ -1,6 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
 
@@ -15,10 +15,10 @@
 #include "MetalRenderTarget.hpp"
 #include "MetalShader.hpp"
 #include "MetalTexture.hpp"
-#include "core/Engine.hpp"
-#include "events/EventDispatcher.hpp"
-#include "utils/Log.hpp"
-#include "utils/Utils.hpp"
+#include "../../core/Engine.hpp"
+#include "../../events/EventDispatcher.hpp"
+#include "../../utils/Log.hpp"
+#include "../../utils/Utils.hpp"
 #include "stb_image_write.h"
 
 namespace ouzel

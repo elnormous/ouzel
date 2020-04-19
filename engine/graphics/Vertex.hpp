@@ -4,8 +4,8 @@
 #define OUZEL_GRAPHICS_VERTEX_HPP
 
 #include "DataType.hpp"
-#include "math/Vector.hpp"
-#include "math/Color.hpp"
+#include "../math/Vector.hpp"
+#include "../math/Color.hpp"
 
 namespace ouzel
 {

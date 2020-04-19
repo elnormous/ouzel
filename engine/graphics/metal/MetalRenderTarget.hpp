@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_METALRENDERTARGET_HPP
 #define OUZEL_GRAPHICS_METALRENDERTARGET_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
 
@@ -26,7 +26,7 @@ typedef struct
 #include <set>
 #include "MetalRenderResource.hpp"
 #include "MetalPointer.hpp"
-#include "math/Color.hpp"
+#include "../../math/Color.hpp"
 
 namespace ouzel
 {

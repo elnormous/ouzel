@@ -3,13 +3,13 @@
 #include <cassert>
 #include <algorithm>
 #include "Layer.hpp"
-#include "core/Engine.hpp"
 #include "Actor.hpp"
 #include "Camera.hpp"
-#include "graphics/Renderer.hpp"
 #include "Scene.hpp"
-#include "math/Matrix.hpp"
 #include "Component.hpp"
+#include "../core/Engine.hpp"
+#include "../graphics/Renderer.hpp"
+#include "../math/Matrix.hpp"
 
 namespace ouzel
 {

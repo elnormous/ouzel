@@ -5,9 +5,9 @@
 
 #include <memory>
 #include <string>
-#include "core/NativeWindow.hpp"
-#include "graphics/Renderer.hpp"
-#include "math/Size.hpp"
+#include "NativeWindow.hpp"
+#include "../graphics/Renderer.hpp"
+#include "../math/Size.hpp"
 
 namespace ouzel
 {

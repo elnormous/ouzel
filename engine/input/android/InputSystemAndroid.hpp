@@ -5,8 +5,8 @@
 
 #include <memory>
 #include <jni.h>
-#include "input/InputSystem.hpp"
-#include "input/android/GamepadDeviceAndroid.hpp"
+#include "../InputSystem.hpp"
+#include "GamepadDeviceAndroid.hpp"
 
 namespace ouzel
 {

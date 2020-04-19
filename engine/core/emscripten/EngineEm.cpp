@@ -3,11 +3,11 @@
 #include <cstdlib>
 #include <emscripten.h>
 #include "EngineEm.hpp"
-#include "audio/AudioDevice.hpp"
-#include "audio/openal/OALAudioDevice.hpp"
-#include "graphics/RenderDevice.hpp"
-#include "input/emscripten/InputSystemEm.hpp"
-#include "utils/Log.hpp"
+#include "../../audio/AudioDevice.hpp"
+#include "../../audio/openal/OALAudioDevice.hpp"
+#include "../../graphics/RenderDevice.hpp"
+#include "../../input/emscripten/InputSystemEm.hpp"
+#include "../../utils/Log.hpp"
 
 namespace ouzel
 {

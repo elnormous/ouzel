@@ -6,8 +6,8 @@
 #include <stdexcept>
 #include "Window.hpp"
 #include "Engine.hpp"
-#include "events/EventDispatcher.hpp"
-#include "graphics/Renderer.hpp"
+#include "../events/EventDispatcher.hpp"
+#include "../graphics/Renderer.hpp"
 
 #if TARGET_OS_IOS
 #  include "ios/NativeWindowIOS.hpp"

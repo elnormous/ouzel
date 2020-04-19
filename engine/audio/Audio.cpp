@@ -1,12 +1,11 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
 #include <algorithm>
-#include "core/Setup.h"
+#include "../core/Setup.h"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
 #include "Listener.hpp"
 #include "alsa/ALSAAudioDevice.hpp"
-#include "core/Engine.hpp"
 #include "coreaudio/CAAudioDevice.hpp"
 #include "dsound/DSAudioDevice.hpp"
 #include "empty/EmptyAudioDevice.hpp"
@@ -14,7 +13,8 @@
 #include "opensl/OSLAudioDevice.hpp"
 #include "xaudio2/XA2AudioDevice.hpp"
 #include "wasapi/WASAPIAudioDevice.hpp"
-#include "utils/Log.hpp"
+#include "../core/Engine.hpp"
+#include "../utils/Log.hpp"
 
 namespace ouzel
 {

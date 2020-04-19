@@ -3,7 +3,7 @@
 #ifndef OUZEL_AUDIO_SUBMIX_HPP
 #define OUZEL_AUDIO_SUBMIX_HPP
 
-#include "audio/Mix.hpp"
+#include "Mix.hpp"
 
 namespace ouzel
 {

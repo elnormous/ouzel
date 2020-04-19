@@ -4,8 +4,8 @@
 #define OUZEL_INPUT_MOUSEDEVICE_HPP
 
 #include <future>
-#include "input/InputDevice.hpp"
-#include "input/Mouse.hpp"
+#include "InputDevice.hpp"
+#include "Mouse.hpp"
 
 namespace ouzel
 {

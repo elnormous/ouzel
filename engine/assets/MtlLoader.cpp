@@ -6,7 +6,7 @@
 #include "MtlLoader.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
-#include "core/Engine.hpp"
+#include "../core/Engine.hpp"
 
 namespace ouzel
 {

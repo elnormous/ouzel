@@ -6,19 +6,19 @@
 #include <map>
 #include <memory>
 #include <string>
-#include "audio/Cue.hpp"
-#include "audio/Sound.hpp"
-#include "graphics/BlendState.hpp"
-#include "graphics/DepthStencilState.hpp"
-#include "graphics/Material.hpp"
-#include "graphics/Shader.hpp"
-#include "graphics/Texture.hpp"
-#include "gui/Font.hpp"
-#include "scene/SkinnedMeshRenderer.hpp"
-#include "scene/StaticMeshRenderer.hpp"
-#include "scene/SpriteRenderer.hpp"
-#include "scene/ParticleSystem.hpp"
-#include "storage/FileSystem.hpp"
+#include "../audio/Cue.hpp"
+#include "../audio/Sound.hpp"
+#include "../graphics/BlendState.hpp"
+#include "../graphics/DepthStencilState.hpp"
+#include "../graphics/Material.hpp"
+#include "../graphics/Shader.hpp"
+#include "../graphics/Texture.hpp"
+#include "../gui/Font.hpp"
+#include "../scene/SkinnedMeshRenderer.hpp"
+#include "../scene/StaticMeshRenderer.hpp"
+#include "../scene/SpriteRenderer.hpp"
+#include "../scene/ParticleSystem.hpp"
+#include "../storage/FileSystem.hpp"
 
 namespace ouzel
 {

@@ -5,7 +5,7 @@
 
 #include <memory>
 #include <vector>
-#include "audio/Effect.hpp"
+#include "Effect.hpp"
 
 namespace ouzel
 {

@@ -3,7 +3,7 @@
 #ifndef OUZEL_INPUT_CONTROLLER_HPP
 #define OUZEL_INPUT_CONTROLLER_HPP
 
-#include "input/DeviceId.hpp"
+#include "DeviceId.hpp"
 
 namespace ouzel
 {

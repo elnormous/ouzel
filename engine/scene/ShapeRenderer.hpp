@@ -4,12 +4,12 @@
 #define OUZEL_SCENE_SHAPERENDERER_HPP
 
 #include <vector>
-#include "scene/Component.hpp"
-#include "graphics/Renderer.hpp"
-#include "math/Color.hpp"
-#include "graphics/BlendState.hpp"
-#include "graphics/Buffer.hpp"
-#include "graphics/Shader.hpp"
+#include "Component.hpp"
+#include "../graphics/Renderer.hpp"
+#include "../graphics/BlendState.hpp"
+#include "../graphics/Buffer.hpp"
+#include "../graphics/Shader.hpp"
+#include "../math/Color.hpp"
 
 namespace ouzel
 {

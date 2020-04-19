@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_OGLRENDERDEVICE_HPP
 #define OUZEL_GRAPHICS_OGLRENDERDEVICE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL
 
@@ -31,7 +31,7 @@
 #  include "GL/glext.h"
 #endif
 
-#include "graphics/RenderDevice.hpp"
+#include "../RenderDevice.hpp"
 #include "OGLShader.hpp"
 
 namespace ouzel

@@ -10,7 +10,7 @@ typedef NSAutoreleasePool* NSAutoreleasePoolPtr;
 typedef id NSAutoreleasePoolPtr;
 #endif
 
-#include "core/Engine.hpp"
+#include "../Engine.hpp"
 
 namespace ouzel
 {

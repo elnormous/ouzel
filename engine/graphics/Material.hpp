@@ -8,7 +8,7 @@
 #include "BlendState.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
-#include "math/Color.hpp"
+#include "../math/Color.hpp"
 
 namespace ouzel
 {

@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_OGLRENDERRESOURCE_HPP
 #define OUZEL_GRAPHICS_OGLRENDERRESOURCE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL
 

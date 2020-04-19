@@ -4,8 +4,8 @@
 #include "CueLoader.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
-#include "audio/Cue.hpp"
-#include "utils/Json.hpp"
+#include "../audio/Cue.hpp"
+#include "../utils/Json.hpp"
 
 namespace ouzel
 {

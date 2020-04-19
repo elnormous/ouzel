@@ -11,8 +11,8 @@ typedef GCController* GCControllerPtr;
 typedef id GCControllerPtr;
 #endif
 
-#include "input/macos/GamepadDeviceMacOS.hpp"
-#include "input/Gamepad.hpp"
+#include "GamepadDeviceMacOS.hpp"
+#include "../Gamepad.hpp"
 
 namespace ouzel
 {

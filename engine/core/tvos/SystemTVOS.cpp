@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include "SystemTVOS.hpp"
 #include "EngineTVOS.hpp"
-#include "utils/Log.hpp"
+#include "../../utils/Log.hpp"
 
 int main(int argc, char* argv[])
 {

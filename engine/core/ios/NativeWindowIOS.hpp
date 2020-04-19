@@ -19,8 +19,8 @@ typedef id UIViewControllerPtr;
 typedef id UITextFieldPtr;
 #endif
 
-#include "core/NativeWindow.hpp"
-#include "graphics/Renderer.hpp"
+#include "../NativeWindow.hpp"
+#include "../../graphics/Renderer.hpp"
 
 namespace ouzel
 {

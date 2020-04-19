@@ -3,7 +3,7 @@
 #ifndef OUZEL_AUDIO_EMPTYAUDIODEVICE_HPP
 #define OUZEL_AUDIO_EMPTYAUDIODEVICE_HPP
 
-#include "audio/AudioDevice.hpp"
+#include "../AudioDevice.hpp"
 
 namespace ouzel
 {

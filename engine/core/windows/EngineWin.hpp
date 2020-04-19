@@ -15,7 +15,7 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-#include "core/Engine.hpp"
+#include "../Engine.hpp"
 
 namespace ouzel
 {

@@ -7,18 +7,18 @@
 #include <map>
 #include <memory>
 #include <vector>
-#include "scene/Component.hpp"
-#include "math/Box.hpp"
-#include "math/Rect.hpp"
-#include "math/Size.hpp"
-#include "math/Vector.hpp"
-#include "events/EventHandler.hpp"
-#include "graphics/BlendState.hpp"
-#include "graphics/Buffer.hpp"
-#include "graphics/Material.hpp"
-#include "graphics/Shader.hpp"
-#include "graphics/Texture.hpp"
-#include "graphics/Vertex.hpp"
+#include "Component.hpp"
+#include "../math/Box.hpp"
+#include "../math/Rect.hpp"
+#include "../math/Size.hpp"
+#include "../math/Vector.hpp"
+#include "../events/EventHandler.hpp"
+#include "../graphics/BlendState.hpp"
+#include "../graphics/Buffer.hpp"
+#include "../graphics/Material.hpp"
+#include "../graphics/Shader.hpp"
+#include "../graphics/Texture.hpp"
+#include "../graphics/Vertex.hpp"
 
 namespace ouzel
 {

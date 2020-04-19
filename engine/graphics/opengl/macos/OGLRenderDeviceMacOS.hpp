@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_OGLRENDERDEVICEMACOS_HPP
 #define OUZEL_GRAPHICS_OGLRENDERDEVICEMACOS_HPP
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if defined(__APPLE__)
 #  include <TargetConditionals.h>
@@ -23,8 +23,8 @@ typedef id NSOpenGLContextPtr;
 typedef id NSOpenGLPixelFormatPtr;
 #endif
 
-#include "graphics/opengl/OGLRenderDevice.hpp"
-#include "events/EventHandler.hpp"
+#include "../OGLRenderDevice.hpp"
+#include "../../../events/EventHandler.hpp"
 
 namespace ouzel
 {

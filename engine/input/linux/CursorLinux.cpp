@@ -1,13 +1,13 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
 #include <stdexcept>
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 #if OUZEL_SUPPORTS_X11
 #  include <X11/cursorfont.h>
 #  include <X11/Xcursor/Xcursor.h>
 #endif
 #include "CursorLinux.hpp"
-#include "core/linux/EngineLinux.hpp"
+#include "../../core/linux/EngineLinux.hpp"
 
 namespace ouzel
 {

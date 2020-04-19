@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "EventDispatcher.hpp"
 #include "EventHandler.hpp"
-#include "utils/Utils.hpp"
+#include "../utils/Utils.hpp"
 
 namespace ouzel
 {

@@ -5,7 +5,7 @@
 
 #include <utility>
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL
 
@@ -22,8 +22,8 @@
 #endif
 
 #include "OGLRenderResource.hpp"
-#include "graphics/DataType.hpp"
-#include "graphics/Vertex.hpp"
+#include "../DataType.hpp"
+#include "../Vertex.hpp"
 
 namespace ouzel
 {

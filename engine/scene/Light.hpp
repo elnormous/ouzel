@@ -3,9 +3,9 @@
 #ifndef OUZEL_SCENE_LIGHT_HPP
 #define OUZEL_SCENE_LIGHT_HPP
 
-#include "scene/Component.hpp"
-#include "math/Color.hpp"
-#include "math/Quaternion.hpp"
+#include "../scene/Component.hpp"
+#include "../math/Color.hpp"
+#include "../math/Quaternion.hpp"
 
 namespace ouzel
 {

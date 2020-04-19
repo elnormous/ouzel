@@ -9,7 +9,7 @@
 #include "Sound.hpp"
 #include "Source.hpp"
 #include "WavePlayer.hpp"
-#include "core/Engine.hpp"
+#include "../core/Engine.hpp"
 
 namespace ouzel
 {

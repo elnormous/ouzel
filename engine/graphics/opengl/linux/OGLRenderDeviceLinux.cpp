@@ -1,6 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if defined(__linux__) && !defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
 
@@ -9,9 +9,9 @@
 #  include <X11/extensions/xf86vmode.h>
 #endif
 #include "OGLRenderDeviceLinux.hpp"
-#include "core/linux/EngineLinux.hpp"
-#include "core/linux/NativeWindowLinux.hpp"
-#include "utils/Log.hpp"
+#include "../../../core/linux/EngineLinux.hpp"
+#include "../../../core/linux/NativeWindowLinux.hpp"
+#include "../../../utils/Log.hpp"
 
 namespace ouzel
 {

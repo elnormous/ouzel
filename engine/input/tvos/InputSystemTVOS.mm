@@ -2,9 +2,9 @@
 
 #include "InputSystemTVOS.hpp"
 #include "GamepadDeviceTVOS.hpp"
-#include "core/Engine.hpp"
-#include "core/tvos/NativeWindowTVOS.hpp"
-#include "utils/Log.hpp"
+#include "../../core/Engine.hpp"
+#include "../../core/tvos/NativeWindowTVOS.hpp"
+#include "../../utils/Log.hpp"
 
 @interface ConnectDelegate: NSObject
 

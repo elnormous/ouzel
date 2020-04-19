@@ -3,8 +3,8 @@
 #ifndef OUZEL_INPUT_GAMEPADDEVICEANDROID_HPP
 #define OUZEL_INPUT_GAMEPADDEVICEANDROID_HPP
 
-#include "input/GamepadDevice.hpp"
-#include "input/Gamepad.hpp"
+#include "../GamepadDevice.hpp"
+#include "../Gamepad.hpp"
 
 namespace ouzel
 {

@@ -6,13 +6,13 @@
 #include <cstdint>
 #include <vector>
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 #if OUZEL_SUPPORTS_X11
 #  include <X11/X.h>
 #endif
 
-#include "input/Cursor.hpp"
-#include "math/Size.hpp"
+#include "../Cursor.hpp"
+#include "../../math/Size.hpp"
 
 namespace ouzel
 {

@@ -6,9 +6,9 @@
 #include <cstdint>
 #include <memory>
 #include <vector>
-#include "audio/mixer/Source.hpp"
-#include "math/Quaternion.hpp"
-#include "math/Vector.hpp"
+#include "Source.hpp"
+#include "../../math/Quaternion.hpp"
+#include "../../math/Vector.hpp"
 
 namespace ouzel
 {

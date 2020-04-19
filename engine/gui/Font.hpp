@@ -9,9 +9,9 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
-#include "math/Color.hpp"
-#include "graphics/Texture.hpp"
-#include "graphics/Vertex.hpp"
+#include "../math/Color.hpp"
+#include "../graphics/Texture.hpp"
+#include "../graphics/Vertex.hpp"
 
 namespace ouzel
 {

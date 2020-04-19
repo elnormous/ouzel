@@ -4,8 +4,8 @@
 #define OUZEL_INPUT_MOUSE_HPP
 
 #include <cstdint>
-#include "input/Controller.hpp"
-#include "math/Vector.hpp"
+#include "Controller.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel
 {

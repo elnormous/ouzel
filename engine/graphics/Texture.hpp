@@ -12,8 +12,8 @@
 #include "SamplerAddressMode.hpp"
 #include "SamplerFilter.hpp"
 #include "TextureType.hpp"
-#include "math/Color.hpp"
-#include "math/Size.hpp"
+#include "../math/Color.hpp"
+#include "../math/Size.hpp"
 
 namespace ouzel
 {

@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_OGLRENDERTARGET_HPP
 #define OUZEL_GRAPHICS_OGLRENDERTARGET_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL
 
@@ -21,7 +21,7 @@
 
 #include <set>
 #include "OGLRenderResource.hpp"
-#include "math/Color.hpp"
+#include "../../math/Color.hpp"
 
 namespace ouzel
 {

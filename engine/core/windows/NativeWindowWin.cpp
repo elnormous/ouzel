@@ -18,13 +18,13 @@
 #include "NativeWindowWin.hpp"
 #include "EngineWin.hpp"
 #include "Library.hpp"
-#include "core/Engine.hpp"
-#include "core/Window.hpp"
-#include "input/windows/InputSystemWin.hpp"
-#include "graphics/Renderer.hpp"
-#include "graphics/RenderDevice.hpp"
-#include "graphics/direct3d11/D3D11RenderDevice.hpp"
-#include "utils/Log.hpp"
+#include "../Engine.hpp"
+#include "../Window.hpp"
+#include "../../input/windows/InputSystemWin.hpp"
+#include "../../graphics/Renderer.hpp"
+#include "../../graphics/RenderDevice.hpp"
+#include "../../graphics/direct3d11/D3D11RenderDevice.hpp"
+#include "../../utils/Log.hpp"
 
 namespace
 {

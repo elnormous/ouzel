@@ -6,8 +6,8 @@
 #include <memory>
 #include <vector>
 #include "RenderDevice.hpp"
-#include "math/Color.hpp"
-#include "math/Size.hpp"
+#include "../math/Color.hpp"
+#include "../math/Size.hpp"
 
 namespace ouzel
 {

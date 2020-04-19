@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_METALDEPTHSTENCILSTATE_HPP
 #define OUZEL_GRAPHICS_METALDEPTHSTENCILSTATE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
 
@@ -19,8 +19,8 @@ typedef id MTLDepthStencilStatePtr;
 
 #include "MetalRenderResource.hpp"
 #include "MetalPointer.hpp"
-#include "graphics/CompareFunction.hpp"
-#include "graphics/StencilOperation.hpp"
+#include "../CompareFunction.hpp"
+#include "../StencilOperation.hpp"
 
 namespace ouzel
 {

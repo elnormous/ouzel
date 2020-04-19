@@ -3,8 +3,8 @@
 #include <cassert>
 #include <stdexcept>
 #include "TTFont.hpp"
-#include "core/Engine.hpp"
-#include "utils/Utf8.hpp"
+#include "../core/Engine.hpp"
+#include "../utils/Utf8.hpp"
 
 #if defined(__GNUC__)
 #  pragma GCC diagnostic push

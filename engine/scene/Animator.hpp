@@ -5,8 +5,8 @@
 
 #include <memory>
 #include <vector>
-#include "scene/Component.hpp"
-#include "events/EventHandler.hpp"
+#include "Component.hpp"
+#include "../events/EventHandler.hpp"
 
 namespace ouzel
 {

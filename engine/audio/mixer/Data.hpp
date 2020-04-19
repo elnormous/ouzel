@@ -4,7 +4,7 @@
 #define OUZEL_AUDIO_MIXER_DATA_HPP
 
 #include <memory>
-#include "audio/mixer/Object.hpp"
+#include "Object.hpp"
 
 namespace ouzel
 {

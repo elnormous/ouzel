@@ -3,7 +3,7 @@
 #ifndef OUZEL_AUDIO_OALAUDIODEVICE_HPP
 #define OUZEL_AUDIO_OALAUDIODEVICE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_OPENAL
 
@@ -18,8 +18,8 @@
 #  include <AL/alc.h>
 #endif
 
-#include "audio/AudioDevice.hpp"
-#include "utils/Thread.hpp"
+#include "../AudioDevice.hpp"
+#include "../../utils/Thread.hpp"
 
 namespace ouzel
 {

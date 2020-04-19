@@ -4,7 +4,7 @@
 #define OUZEL_INPUT_GAMEPADDEVICEWIN_HPP
 
 #include <cstdint>
-#include "input/GamepadDevice.hpp"
+#include "../GamepadDevice.hpp"
 
 namespace ouzel
 {

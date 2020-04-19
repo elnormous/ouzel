@@ -11,10 +11,10 @@
 #include <set>
 #include <thread>
 #include <vector>
-#include "audio/mixer/Commands.hpp"
-#include "audio/mixer/Object.hpp"
-#include "audio/mixer/Processor.hpp"
-#include "utils/Thread.hpp"
+#include "Commands.hpp"
+#include "Object.hpp"
+#include "Processor.hpp"
+#include "../../utils/Thread.hpp"
 
 namespace ouzel
 {

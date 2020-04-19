@@ -4,8 +4,8 @@
 #define OUZEL_SCENE_SKINNEDMESHRENDERER_HPP
 
 #include <vector>
-#include "scene/Component.hpp"
-#include "graphics/Material.hpp"
+#include "../scene/Component.hpp"
+#include "../graphics/Material.hpp"
 
 namespace ouzel
 {

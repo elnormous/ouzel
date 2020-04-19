@@ -25,27 +25,23 @@ CXX=em++
 AR=emar
 endif
 CFLAGS=-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion \
-	-iquote . \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
 	-I"../external/stb"
 CXXFLAGS=-std=c++14 \
 	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast \
-	-iquote . \
 	-I"../shaders" \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
 	-I"../external/stb"
 OBJCFLAGS=-fno-objc-arc \
 	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion \
-	-iquote . \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
 	-I"../external/stb"
 OBJCXXFLAGS=-std=c++14 \
 	-fno-objc-arc \
 	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast \
-	-iquote . \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
 	-I"../external/stb"

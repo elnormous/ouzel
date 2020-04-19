@@ -3,7 +3,7 @@
 #include <vector>
 #include "GamepadDeviceIOKit.hpp"
 #include "InputSystemMacOS.hpp"
-#include "input/GamepadConfig.hpp"
+#include "../GamepadConfig.hpp"
 
 namespace ouzel
 {

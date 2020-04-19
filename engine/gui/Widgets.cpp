@@ -7,12 +7,12 @@
 #include <functional>
 #include "Widgets.hpp"
 #include "BMFont.hpp"
-#include "core/Engine.hpp"
-#include "events/EventHandler.hpp"
-#include "events/EventDispatcher.hpp"
-#include "math/Color.hpp"
-#include "scene/Layer.hpp"
-#include "scene/Camera.hpp"
+#include "../core/Engine.hpp"
+#include "../events/EventHandler.hpp"
+#include "../events/EventDispatcher.hpp"
+#include "../math/Color.hpp"
+#include "../scene/Layer.hpp"
+#include "../scene/Camera.hpp"
 
 namespace ouzel
 {

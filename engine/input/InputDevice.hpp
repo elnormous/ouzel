@@ -4,7 +4,7 @@
 #define OUZEL_INPUT_INPUTDEVICE_HPP
 
 #include <cstdint>
-#include "input/Controller.hpp"
+#include "Controller.hpp"
 
 namespace ouzel
 {

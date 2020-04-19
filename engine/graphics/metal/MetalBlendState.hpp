@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_METALBLENDSTATE_HPP
 #define OUZEL_GRAPHICS_METALBLENDSTATE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_METAL
 
@@ -17,9 +17,9 @@ typedef NSUInteger MTLColorWriteMask;
 #endif
 
 #include "MetalRenderResource.hpp"
-#include "graphics/BlendFactor.hpp"
-#include "graphics/BlendOperation.hpp"
-#include "graphics/ColorMask.hpp"
+#include "../BlendFactor.hpp"
+#include "../BlendOperation.hpp"
+#include "../ColorMask.hpp"
 
 namespace ouzel
 {

@@ -14,8 +14,8 @@ typedef id CADisplayLinkPtr;
 typedef id NSRunLoopPtr;
 #endif
 
-#include "graphics/RenderDevice.hpp"
-#include "utils/Thread.hpp"
+#include "../../graphics/RenderDevice.hpp"
+#include "../../utils/Thread.hpp"
 
 using RenderCallback = void (*)(void*);
 

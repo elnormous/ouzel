@@ -3,7 +3,7 @@
 #ifndef OUZEL_GUI_WIDGET_HPP
 #define OUZEL_GUI_WIDGET_HPP
 
-#include "scene/Actor.hpp"
+#include "../scene/Actor.hpp"
 
 namespace ouzel
 {

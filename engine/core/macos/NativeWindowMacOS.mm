@@ -3,9 +3,9 @@
 #include <stdexcept>
 #include "NativeWindowMacOS.hpp"
 #include "ViewMacOS.h"
-#include "graphics/RenderDevice.hpp"
-#include "graphics/opengl/macos/OpenGLView.h"
-#include "graphics/metal/macos/MetalView.h"
+#include "../../graphics/RenderDevice.hpp"
+#include "../../graphics/opengl/macos/OpenGLView.h"
+#include "../../graphics/metal/macos/MetalView.h"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
 @end

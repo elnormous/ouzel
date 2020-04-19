@@ -3,7 +3,7 @@
 #ifndef OUZEL_AUDIO_ALSAAUDIODEVICE_HPP
 #define OUZEL_AUDIO_ALSAAUDIODEVICE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_ALSA
 
@@ -11,8 +11,8 @@
 #include <thread>
 #include <alsa/asoundlib.h>
 
-#include "audio/AudioDevice.hpp"
-#include "utils/Thread.hpp"
+#include "../AudioDevice.hpp"
+#include "../../utils/Thread.hpp"
 
 namespace ouzel
 {

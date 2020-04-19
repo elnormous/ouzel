@@ -3,10 +3,10 @@
 #include <array>
 #include "GamepadDeviceDI.hpp"
 #include "InputSystemWin.hpp"
-#include "core/Engine.hpp"
-#include "core/windows/NativeWindowWin.hpp"
-#include "input/GamepadConfig.hpp"
-#include "utils/Log.hpp"
+#include "../GamepadConfig.hpp"
+#include "../../core/Engine.hpp"
+#include "../../core/windows/NativeWindowWin.hpp"
+#include "../../utils/Log.hpp"
 
 namespace ouzel
 {

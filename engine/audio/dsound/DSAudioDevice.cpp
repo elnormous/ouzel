@@ -1,13 +1,13 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_DIRECTSOUND
 
 #include <system_error>
 #include "DSAudioDevice.hpp"
-#include "core/Engine.hpp"
-#include "core/Window.hpp"
+#include "../../core/Engine.hpp"
+#include "../../core/Window.hpp"
 
 #ifndef WAVE_FORMAT_IEEE_FLOAT
 #  define WAVE_FORMAT_IEEE_FLOAT 0x0003

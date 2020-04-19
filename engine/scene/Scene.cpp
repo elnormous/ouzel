@@ -6,8 +6,8 @@
 #include "Layer.hpp"
 #include "Camera.hpp"
 #include "SceneManager.hpp"
-#include "core/Engine.hpp"
-#include "events/EventDispatcher.hpp"
+#include "../core/Engine.hpp"
+#include "../events/EventDispatcher.hpp"
 
 namespace ouzel
 {

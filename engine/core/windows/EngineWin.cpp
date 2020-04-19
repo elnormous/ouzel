@@ -17,8 +17,8 @@
 
 #include "EngineWin.hpp"
 #include "NativeWindowWin.hpp"
-#include "input/windows/InputSystemWin.hpp"
-#include "utils/Log.hpp"
+#include "../../input/windows/InputSystemWin.hpp"
+#include "../../utils/Log.hpp"
 
 namespace ouzel
 {

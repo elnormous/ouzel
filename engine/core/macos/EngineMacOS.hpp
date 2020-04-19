@@ -12,7 +12,7 @@ typedef id NSApplicationPtr;
 typedef id NSAutoreleasePoolPtr;
 #endif
 
-#include "core/Engine.hpp"
+#include "../Engine.hpp"
 
 namespace ouzel
 {

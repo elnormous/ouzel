@@ -3,7 +3,7 @@
 #ifndef OUZEL_INPUT_KEYBOARDDEVICEWIN_HPP
 #define OUZEL_INPUT_KEYBOARDDEVICEWIN_HPP
 
-#include "input/KeyboardDevice.hpp"
+#include "../KeyboardDevice.hpp"
 
 namespace ouzel
 {

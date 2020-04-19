@@ -2,8 +2,8 @@
 
 #include "VorbisLoader.hpp"
 #include "Bundle.hpp"
-#include "audio/VorbisClip.hpp"
-#include "core/Engine.hpp"
+#include "../audio/VorbisClip.hpp"
+#include "../core/Engine.hpp"
 
 namespace ouzel
 {

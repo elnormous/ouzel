@@ -2,7 +2,7 @@
 
 #include "Component.hpp"
 #include "Actor.hpp"
-#include "math/MathUtils.hpp"
+#include "../math/MathUtils.hpp"
 
 namespace ouzel
 {

@@ -8,7 +8,7 @@
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
 #include <android/looper.h>
-#include "core/Engine.hpp"
+#include "../Engine.hpp"
 
 namespace ouzel
 {

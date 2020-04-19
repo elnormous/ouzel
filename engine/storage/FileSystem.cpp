@@ -1,6 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../core/Setup.h"
 
 #include <algorithm>
 #include <fstream>
@@ -24,15 +24,15 @@
 #  include <objc/NSObjCRuntime.h>
 #  include <CoreFoundation/CoreFoundation.h>
 #elif defined(__ANDROID__)
-#  include "core/android/EngineAndroid.hpp"
+#  include "../core/android/EngineAndroid.hpp"
 #elif defined(__linux__)
 #  include <pwd.h>
 #endif
 
 #include "FileSystem.hpp"
 #include "Archive.hpp"
-#include "core/Engine.hpp"
-#include "utils/Log.hpp"
+#include "../core/Engine.hpp"
+#include "../utils/Log.hpp"
 
 #if defined(__APPLE__)
 #  include "CfPointer.hpp"

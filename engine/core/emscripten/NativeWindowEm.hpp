@@ -3,7 +3,7 @@
 #ifndef OUZEL_CORE_NATIVEWINDOWEM_HPP
 #define OUZEL_CORE_NATIVEWINDOWEM_HPP
 
-#include "core/NativeWindow.hpp"
+#include "../NativeWindow.hpp"
 
 namespace ouzel
 {

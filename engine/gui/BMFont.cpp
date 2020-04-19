@@ -4,9 +4,9 @@
 #include <iterator>
 #include <stdexcept>
 #include "BMFont.hpp"
-#include "core/Engine.hpp"
-#include "assets/Cache.hpp"
-#include "utils/Utf8.hpp"
+#include "../core/Engine.hpp"
+#include "../assets/Cache.hpp"
+#include "../utils/Utf8.hpp"
 
 namespace ouzel
 {

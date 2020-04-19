@@ -14,10 +14,10 @@
 #include "Commands.hpp"
 #include "Driver.hpp"
 #include "RenderDevice.hpp"
-#include "math/Rect.hpp"
-#include "math/Matrix.hpp"
-#include "math/Size.hpp"
-#include "math/Color.hpp"
+#include "../math/Rect.hpp"
+#include "../math/Matrix.hpp"
+#include "../math/Size.hpp"
+#include "../math/Color.hpp"
 
 namespace ouzel
 {

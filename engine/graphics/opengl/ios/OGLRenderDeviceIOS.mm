@@ -1,6 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if defined(__APPLE__)
 #  include <TargetConditionals.h>
@@ -9,10 +9,10 @@
 #if TARGET_OS_IOS && OUZEL_COMPILE_OPENGL
 
 #include "OGLRenderDeviceIOS.hpp"
-#include "core/Engine.hpp"
-#include "core/Window.hpp"
-#include "core/ios/NativeWindowIOS.hpp"
-#include "utils/Log.hpp"
+#include "../../../core/Engine.hpp"
+#include "../../../core/Window.hpp"
+#include "../../../core/ios/NativeWindowIOS.hpp"
+#include "../../../utils/Log.hpp"
 
 namespace ouzel
 {

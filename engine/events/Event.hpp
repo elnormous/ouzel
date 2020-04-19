@@ -6,14 +6,14 @@
 #include <cstdint>
 #include <vector>
 #include <string>
-#include "audio/Voice.hpp"
-#include "core/Window.hpp"
-#include "math/Vector.hpp"
-#include "math/Size.hpp"
-#include "input/Gamepad.hpp"
-#include "input/Keyboard.hpp"
-#include "input/Mouse.hpp"
-#include "input/Touchpad.hpp"
+#include "../audio/Voice.hpp"
+#include "../core/Window.hpp"
+#include "../math/Vector.hpp"
+#include "../math/Size.hpp"
+#include "../input/Gamepad.hpp"
+#include "../input/Keyboard.hpp"
+#include "../input/Mouse.hpp"
+#include "../input/Touchpad.hpp"
 
 namespace ouzel
 {

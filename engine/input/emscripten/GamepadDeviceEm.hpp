@@ -3,8 +3,8 @@
 #ifndef OUZEL_INPUT_GAMEPADDEVICEEM_HPP
 #define OUZEL_INPUT_GAMEPADDEVICEEM_HPP
 
-#include "input/GamepadDevice.hpp"
-#include "input/Gamepad.hpp"
+#include "../GamepadDevice.hpp"
+#include "../Gamepad.hpp"
 
 namespace ouzel
 {

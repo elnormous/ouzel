@@ -14,7 +14,7 @@ typedef GCController* GCControllerPtr;
 typedef id GCControllerPtr;
 #endif
 
-#include "input/InputSystem.hpp"
+#include "../InputSystem.hpp"
 
 namespace ouzel
 {

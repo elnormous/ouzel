@@ -1,11 +1,11 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
 #include "TextRenderer.hpp"
-#include "core/Engine.hpp"
-#include "graphics/Renderer.hpp"
-#include "scene/Camera.hpp"
-#include "assets/Cache.hpp"
-#include "utils/Utils.hpp"
+#include "Camera.hpp"
+#include "../core/Engine.hpp"
+#include "../graphics/Renderer.hpp"
+#include "../assets/Cache.hpp"
+#include "../utils/Utils.hpp"
 
 namespace ouzel
 {

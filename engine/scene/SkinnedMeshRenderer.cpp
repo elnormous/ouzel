@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
 #include "SkinnedMeshRenderer.hpp"
-#include "core/Engine.hpp"
+#include "../core/Engine.hpp"
 
 namespace ouzel
 {

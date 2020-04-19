@@ -4,7 +4,7 @@
 #include <shellapi.h>
 #include "SystemWin.hpp"
 #include "EngineWin.hpp"
-#include "utils/Log.hpp"
+#include "../../utils/Log.hpp"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

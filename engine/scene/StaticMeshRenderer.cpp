@@ -2,8 +2,8 @@
 
 #include <limits>
 #include "StaticMeshRenderer.hpp"
-#include "core/Engine.hpp"
-#include "utils/Utils.hpp"
+#include "../core/Engine.hpp"
+#include "../utils/Utils.hpp"
 
 namespace ouzel
 {

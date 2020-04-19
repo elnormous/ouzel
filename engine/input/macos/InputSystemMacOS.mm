@@ -3,10 +3,10 @@
 #include <objc/message.h>
 #include "InputSystemMacOS.hpp"
 #include "CursorMacOS.hpp"
-#include "core/macos/NativeWindowMacOS.hpp"
-#include "core/Engine.hpp"
-#include "events/Event.hpp"
-#include "utils/Log.hpp"
+#include "../../core/macos/NativeWindowMacOS.hpp"
+#include "../../core/Engine.hpp"
+#include "../../events/Event.hpp"
+#include "../../utils/Log.hpp"
 
 typedef struct CF_BRIDGED_TYPE(id) __IOHIDServiceClient* IOHIDServiceClientRef;
 extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClientRef service, CFStringRef key);

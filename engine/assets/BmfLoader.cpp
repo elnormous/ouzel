@@ -2,7 +2,7 @@
 
 #include "BmfLoader.hpp"
 #include "Bundle.hpp"
-#include "gui/BMFont.hpp"
+#include "../gui/BMFont.hpp"
 
 namespace ouzel
 {

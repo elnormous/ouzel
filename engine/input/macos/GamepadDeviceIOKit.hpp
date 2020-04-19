@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <IOKit/hid/IOHIDManager.h>
 
-#include "input/macos/GamepadDeviceMacOS.hpp"
-#include "input/Gamepad.hpp"
+#include "GamepadDeviceMacOS.hpp"
+#include "../Gamepad.hpp"
 
 namespace ouzel
 {

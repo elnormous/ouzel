@@ -5,7 +5,7 @@
 
 #include <cstdint>
 #include <vector>
-#include "audio/Sound.hpp"
+#include "Sound.hpp"
 
 namespace ouzel
 {

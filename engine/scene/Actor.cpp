@@ -6,8 +6,8 @@
 #include "SceneManager.hpp"
 #include "Layer.hpp"
 #include "Camera.hpp"
-#include "math/MathUtils.hpp"
 #include "Component.hpp"
+#include "../math/MathUtils.hpp"
 
 namespace ouzel
 {

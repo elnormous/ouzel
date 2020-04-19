@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "Cursor.hpp"
 #include "InputManager.hpp"
-#include "core/Engine.hpp"
+#include "../core/Engine.hpp"
 #include "stb_image.h"
 
 namespace ouzel

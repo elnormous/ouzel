@@ -2,8 +2,8 @@
 
 #include "GltfLoader.hpp"
 #include "Bundle.hpp"
-#include "scene/SkinnedMeshRenderer.hpp"
-#include "utils/Json.hpp"
+#include "../scene/SkinnedMeshRenderer.hpp"
+#include "../utils/Json.hpp"
 
 namespace ouzel
 {

@@ -9,7 +9,7 @@
 #include <queue>
 #include <set>
 #include <vector>
-#include "events/Event.hpp"
+#include "Event.hpp"
 
 namespace ouzel
 {

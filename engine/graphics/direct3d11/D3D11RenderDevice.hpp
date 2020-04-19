@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_D3D11RENDERDEVICE_HPP
 #define OUZEL_GRAPHICS_D3D11RENDERDEVICE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_DIRECT3D11
 
@@ -26,10 +26,10 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-#include "graphics/RenderDevice.hpp"
+#include "../RenderDevice.hpp"
 #include "D3D11Pointer.hpp"
 #include "D3D11Texture.hpp"
-#include "utils/Thread.hpp"
+#include "../../utils/Thread.hpp"
 
 namespace ouzel
 {

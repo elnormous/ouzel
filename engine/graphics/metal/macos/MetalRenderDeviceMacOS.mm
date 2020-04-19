@@ -1,6 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include "core/Setup.h"
+#include "../../../core/Setup.h"
 
 #if defined(__APPLE__)
 #  include <TargetConditionals.h>
@@ -11,9 +11,9 @@
 #include <stdexcept>
 #include "MetalRenderDeviceMacOS.hpp"
 #include "MetalView.h"
-#include "core/Engine.hpp"
-#include "core/macos/NativeWindowMacOS.hpp"
-#include "utils/Log.hpp"
+#include "../../../core/Engine.hpp"
+#include "../../../core/macos/NativeWindowMacOS.hpp"
+#include "../../../utils/Log.hpp"
 
 namespace ouzel
 {

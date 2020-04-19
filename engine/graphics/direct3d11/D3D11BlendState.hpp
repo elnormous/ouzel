@@ -3,7 +3,7 @@
 #ifndef OUZEL_GRAPHICS_D3D11BLENDSTATE_HPP
 #define OUZEL_GRAPHICS_D3D11BLENDSTATE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_DIRECT3D11
 
@@ -21,9 +21,9 @@
 
 #include "D3D11RenderResource.hpp"
 #include "D3D11Pointer.hpp"
-#include "graphics/BlendFactor.hpp"
-#include "graphics/BlendOperation.hpp"
-#include "graphics/ColorMask.hpp"
+#include "../BlendFactor.hpp"
+#include "../BlendOperation.hpp"
+#include "../ColorMask.hpp"
 
 namespace ouzel
 {

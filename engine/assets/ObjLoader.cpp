@@ -8,7 +8,7 @@
 #include "ObjLoader.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
-#include "graphics/Material.hpp"
+#include "../graphics/Material.hpp"
 
 namespace ouzel
 {

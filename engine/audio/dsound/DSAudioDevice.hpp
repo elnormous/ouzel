@@ -3,7 +3,7 @@
 #ifndef OUZEL_AUDIO_DSAUDIODEVICE_HPP
 #define OUZEL_AUDIO_DSAUDIODEVICE_HPP
 
-#include "core/Setup.h"
+#include "../../core/Setup.h"
 
 #if OUZEL_COMPILE_DIRECTSOUND
 
@@ -22,9 +22,9 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-#include "audio/AudioDevice.hpp"
-#include "audio/dsound/DSPointer.hpp"
-#include "utils/Thread.hpp"
+#include "../AudioDevice.hpp"
+#include "DSPointer.hpp"
+#include "../../utils/Thread.hpp"
 
 namespace ouzel
 {

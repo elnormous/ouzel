@@ -19,12 +19,12 @@ typedef id NSCursorPtr;
 typedef id GCControllerPtr;
 #endif
 
-#include "input/InputSystem.hpp"
-#include "input/Keyboard.hpp"
-#include "input/macos/GamepadDeviceMacOS.hpp"
-#include "input/macos/GamepadDeviceGC.hpp"
-#include "input/macos/GamepadDeviceIOKit.hpp"
-#include "input/macos/MouseDeviceMacOS.hpp"
+#include "../InputSystem.hpp"
+#include "../Keyboard.hpp"
+#include "GamepadDeviceMacOS.hpp"
+#include "GamepadDeviceGC.hpp"
+#include "GamepadDeviceIOKit.hpp"
+#include "MouseDeviceMacOS.hpp"
 
 namespace ouzel
 {

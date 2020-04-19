@@ -3,7 +3,7 @@
 #ifndef OUZEL_CORE_ENGINEEM_HPP
 #define OUZEL_CORE_ENGINEEM_HPP
 
-#include "core/Engine.hpp"
+#include "../Engine.hpp"
 
 namespace ouzel
 {
