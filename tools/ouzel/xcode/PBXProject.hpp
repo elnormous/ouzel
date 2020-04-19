@@ -45,15 +45,20 @@ namespace ouzel
 
                 if (!projectReferences.empty())
                 {
-                    auto references = plist::Value::Dictionary{};
+                    result["projectReferences"] = plist::Value::Array{};
 
                     for (const auto& projectReference : projectReferences)
                     {
-                        auto object = projectReference.second;
-                        if (object) references[projectReference.first] = toString(object->getId());
-                    }
+                        plist::Value::Dictionary reference;
 
-                    result["projectReferences"] = plist::Value::Array{references};
+                        for (const auto& entry : projectReference)
+                        {
+                            auto object = entry.second;
+                            if (object) reference[entry.first] = toString(object->getId());
+                        }
+
+                        result["projectReferences"].pushBack(reference);
+                    }
                 }
 
                 return result;
@@ -63,7 +68,7 @@ namespace ouzel
             const XCConfigurationList* buildConfigurationList = nullptr;
             const PBXGroup* mainGroup = nullptr;
             const PBXGroup* productRefGroup = nullptr;
-            std::map<std::string, const PBXObject*> projectReferences;
+            std::vector<std::map<std::string, const PBXObject*>> projectReferences;
             std::vector<const PBXTarget*> targets;
         };
     }

@@ -43,25 +43,27 @@ namespace ouzel
                 mainGroup->sourceTree = PBXSourceTree::Group;
                 pbxProject->mainGroup = mainGroup;
 
-                const auto ouzelProjectPath = project.getOuzelPath() / "build" / "ouzel.xcodeproj";
-                auto ouzelProjectFileRef = alloc<PBXFileReference>();
-                ouzelProjectFileRef->name = "ouzel.xcodeproj";
-                ouzelProjectFileRef->path = ouzelProjectPath;
-                ouzelProjectFileRef->fileType = PBXFileType::WrapperPBProject;
-                ouzelProjectFileRef->sourceTree = PBXSourceTree::Group;
-                mainGroup->children.push_back(ouzelProjectFileRef);
-                pbxProject->projectReferences["ProjectRef"] = ouzelProjectFileRef;
+                auto engineProjectFileRef = alloc<PBXFileReference>();
+                engineProjectFileRef->name = "libouzel.xcodeproj";
+                engineProjectFileRef->path = project.getOuzelPath() / "engine" / "libouzel.xcodeproj";
+                engineProjectFileRef->fileType = PBXFileType::WrapperPBProject;
+                engineProjectFileRef->sourceTree = PBXSourceTree::Group;
+                mainGroup->children.push_back(engineProjectFileRef);
 
-                auto ouzelPoductRefGroup = alloc<PBXGroup>();
-                ouzelPoductRefGroup->name = "Products";
-                ouzelPoductRefGroup->path = storage::Path{};
-                ouzelPoductRefGroup->sourceTree = PBXSourceTree::Group;
-                pbxProject->projectReferences["ProductGroup"] = ouzelPoductRefGroup;
+                auto enginePoductRefGroup = alloc<PBXGroup>();
+                enginePoductRefGroup->name = "Products";
+                enginePoductRefGroup->path = storage::Path{};
+                enginePoductRefGroup->sourceTree = PBXSourceTree::Group;
+
+                pbxProject->projectReferences.push_back({
+                    {"ProjectRef", engineProjectFileRef},
+                    {"ProductGroup", enginePoductRefGroup}
+                });
 
                 PBXObject libouzelIos(Id{0x30, 0x3B, 0x75, 0x33, 0x1C, 0x2A, 0x3C, 0x58, 0x00, 0xFE, 0xDE, 0x92});
 
                 auto libouzelIosProxy = alloc<PBXContainerItemProxy>();
-                libouzelIosProxy->containerPortal = ouzelProjectFileRef;
+                libouzelIosProxy->containerPortal = engineProjectFileRef;
                 libouzelIosProxy->proxyType = PBXContainerItemProxy::Reference;
                 libouzelIosProxy->remoteGlobal = &libouzelIos;
                 libouzelIosProxy->remoteInfo = "libouzel_ios";
@@ -71,12 +73,12 @@ namespace ouzel
                 libouzelIosReferenceProxy->fileType = PBXFileType::ArchiveAr;
                 libouzelIosReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
                 libouzelIosReferenceProxy->remoteRef = libouzelIosProxy;
-                ouzelPoductRefGroup->children.push_back(libouzelIosReferenceProxy);
+                enginePoductRefGroup->children.push_back(libouzelIosReferenceProxy);
 
                 PBXObject libouzelMacOs(Id{0x30, 0x4A, 0x8E, 0x25, 0x1C, 0x23, 0x7C, 0x30, 0x00, 0x8B, 0x11, 0x51});
 
                 auto libouzelMacOsProxy = alloc<PBXContainerItemProxy>();
-                libouzelMacOsProxy->containerPortal = ouzelProjectFileRef;
+                libouzelMacOsProxy->containerPortal = engineProjectFileRef;
                 libouzelMacOsProxy->proxyType = PBXContainerItemProxy::Reference;
                 libouzelMacOsProxy->remoteGlobal = &libouzelMacOs;
                 libouzelMacOsProxy->remoteInfo = "libouzel_macos";
@@ -86,12 +88,12 @@ namespace ouzel
                 libouzelMacOsReferenceProxy->fileType = PBXFileType::ArchiveAr;
                 libouzelMacOsReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
                 libouzelMacOsReferenceProxy->remoteRef = libouzelMacOsProxy;
-                ouzelPoductRefGroup->children.push_back(libouzelMacOsReferenceProxy);
+                enginePoductRefGroup->children.push_back(libouzelMacOsReferenceProxy);
 
                 PBXObject libouzelTvos(Id{0x30, 0x3B, 0x76, 0x80, 0x1C, 0x35, 0x5A, 0x3B, 0x00, 0xFE, 0xDE, 0x92});
 
                 auto libouzelTvosProxy = alloc<PBXContainerItemProxy>();
-                libouzelTvosProxy->containerPortal = ouzelProjectFileRef;
+                libouzelTvosProxy->containerPortal = engineProjectFileRef;
                 libouzelTvosProxy->proxyType = PBXContainerItemProxy::Reference;
                 libouzelTvosProxy->remoteGlobal = &libouzelTvos;
                 libouzelTvosProxy->remoteInfo = "libouzel_tvos";
@@ -101,7 +103,24 @@ namespace ouzel
                 libouzelTvosReferenceProxy->fileType = PBXFileType::ArchiveAr;
                 libouzelTvosReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
                 libouzelTvosReferenceProxy->remoteRef = libouzelTvosProxy;
-                ouzelPoductRefGroup->children.push_back(libouzelTvosReferenceProxy);
+                enginePoductRefGroup->children.push_back(libouzelTvosReferenceProxy);
+
+                auto ouzelProjectFileRef = alloc<PBXFileReference>();
+                ouzelProjectFileRef->name = "ouzel.xcodeproj";
+                ouzelProjectFileRef->path = project.getOuzelPath() / "tools" / "ouzel.xcodeproj";
+                ouzelProjectFileRef->fileType = PBXFileType::WrapperPBProject;
+                ouzelProjectFileRef->sourceTree = PBXSourceTree::Group;
+                mainGroup->children.push_back(ouzelProjectFileRef);
+
+                auto ouzelPoductRefGroup = alloc<PBXGroup>();
+                ouzelPoductRefGroup->name = "Products";
+                ouzelPoductRefGroup->path = storage::Path{};
+                ouzelPoductRefGroup->sourceTree = PBXSourceTree::Group;
+
+                pbxProject->projectReferences.push_back({
+                    {"ProjectRef", ouzelProjectFileRef},
+                    {"ProductGroup", ouzelPoductRefGroup}
+                });
 
                 PBXObject ouzel(Id{0x30, 0x23, 0x20, 0x0C, 0x22, 0x22, 0x0B, 0xCF, 0x00, 0x7E, 0x0A, 0xAD});
 
