@@ -174,6 +174,13 @@
 			remoteGlobalIDString = 303B75321C2A3C5800FEDE92;
 			remoteInfo = libouzel_ios;
 		};
+		30805D8E244D2E11006C86B7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 30805D8A244D2E11006C86B7 /* ouzel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3023200D22220BCF007E0AAD;
+			remoteInfo = ouzel;
+		};
 		30B492A61CDF81700021E170 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 30B492A01CDF816F0021E170 /* libouzel.xcodeproj */;
@@ -256,6 +263,7 @@
 		30575A961C38C90F0009C8A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30575AE71C3C98F50009C8A7 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		305F6DBA1C66C50000B76A03 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		30805D8A244D2E11006C86B7 /* ouzel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ouzel.xcodeproj; path = ../tools/ouzel.xcodeproj; sourceTree = "<group>"; };
 		3089900422F1154A001C13F2 /* 8-bit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "8-bit.json"; sourceTree = "<group>"; };
 		3098A54F1EA01B4B00528A54 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		309BA3191F184198006F2240 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -394,6 +402,7 @@
 			children = (
 				303B74EF1C27F6B000FEDE92 /* Frameworks */,
 				30B492A01CDF816F0021E170 /* libouzel.xcodeproj */,
+				30805D8A244D2E11006C86B7 /* ouzel.xcodeproj */,
 				304A8E0B1C237B95008B1151 /* Products */,
 				304A8EB21C2765C4008B1151 /* Resources */,
 				30E75F421D7B78DB000300D4 /* samples */,
@@ -459,6 +468,14 @@
 				30575A961C38C90F0009C8A7 /* Info.plist */,
 			);
 			path = tvos;
+			sourceTree = "<group>";
+		};
+		30805D8B244D2E11006C86B7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				30805D8F244D2E11006C86B7 /* ouzel */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		30B492A11CDF816F0021E170 /* Products */ = {
@@ -588,6 +605,10 @@
 					ProductGroup = 30B492A11CDF816F0021E170 /* Products */;
 					ProjectRef = 30B492A01CDF816F0021E170 /* libouzel.xcodeproj */;
 				},
+				{
+					ProductGroup = 30805D8B244D2E11006C86B7 /* Products */;
+					ProjectRef = 30805D8A244D2E11006C86B7 /* ouzel.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -599,6 +620,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		30805D8F244D2E11006C86B7 /* ouzel */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = ouzel;
+			remoteRef = 30805D8E244D2E11006C86B7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		30B492A71CDF81700021E170 /* libouzel_macos.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
