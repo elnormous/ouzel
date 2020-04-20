@@ -62,17 +62,7 @@ namespace ouzel
                 const auto assetName = assetObject.hasMember("name") ?
                     assetObject["name"].as<std::string>() : assetPath.getStem();
 
-                const std::string assetTypeName = assetObject["type"].as<std::string>();
-                const Asset::Type assetType =
-                    assetTypeName == "font" ? Asset::Type::Font :
-                    assetTypeName == "mesh" ? Asset::Type::Mesh :
-                    assetTypeName == "texture" ? Asset::Type::Texture :
-                    assetTypeName == "material" ? Asset::Type::Material :
-                    assetTypeName == "particle_system" ? Asset::Type::ParticleSystem :
-                    assetTypeName == "sprite" ? Asset::Type::Sprite :
-                    assetTypeName == "sound" ? Asset::Type::Sound :
-                    assetTypeName == "cue" ? Asset::Type::Cue :
-                    throw ProjectError("Invalid asset type");
+                const Asset::Type assetType = stringToAssetType(assetObject["type"].as<std::string>());
 
                 assets.emplace_back(assetPath,
                                     assetName,
