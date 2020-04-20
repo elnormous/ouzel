@@ -186,11 +186,9 @@ namespace ouzel
 
             std::string getExtension() const
             {
-                String result;
-
                 const std::size_t pos = path.rfind(Char('.'));
-                if (pos != std::string::npos)
-                    result = path.substr(pos + 1);
+                const String result = pos != std::string::npos ?
+                    path.substr(pos + 1) : String{};
 
                 return convertToGeneric(result);
             }
@@ -208,12 +206,9 @@ namespace ouzel
 
             std::string getFilename() const
             {
-                String result;
                 const std::size_t position = findLastDirectorySeparator(path);
-                if (position != String::npos)
-                    result = path.substr(position + 1);
-                else
-                    result = path;
+                const String result = position != String::npos ?
+                    path.substr(position + 1) : path;
 
                 return convertToGeneric(result);
             }
@@ -230,16 +225,15 @@ namespace ouzel
                 path += convertToNative(filename);
             }
 
-            Path getStem() const
+            std::string getStem() const
             {
                 const std::size_t directoryPosition = findLastDirectorySeparator(path);
                 const std::size_t startPosition = directoryPosition == String::npos ? 0 : directoryPosition + 1;
                 const std::size_t extensionPos = path.find(Char('.'), startPosition);
                 const std::size_t endPosition = extensionPos == String::npos ? path.size() : extensionPos;
 
-                Path result;
-                result.path = path.substr(startPosition, endPosition - startPosition);
-                return result;
+                const String result = path.substr(startPosition, endPosition - startPosition);
+                return convertToGeneric(result);
             }
 
             Path getDirectory() const
