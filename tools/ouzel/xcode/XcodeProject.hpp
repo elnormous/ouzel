@@ -515,10 +515,16 @@ namespace ouzel
                         pbxProject->targets.push_back(assetGenerateTarget);
 
                         auto assetGenerateTargetConfigurationList = alloc<XCConfigurationList>();
-                        assetGenerateTargetConfigurationList->configurations.push_back(targetDebugConfiguration);
-                        assetGenerateTargetConfigurationList->configurations.push_back(targetReleaseConfiguration);
-                        assetGenerateTargetConfigurationList->defaultConfigurationName = targetReleaseConfiguration->name;
                         assetGenerateTarget->buildConfigurationList = assetGenerateTargetConfigurationList;
+
+                        auto assetGenerateTargetDebugConfiguration = alloc<XCBuildConfiguration>();
+                        assetGenerateTargetDebugConfiguration->name = "Debug";
+                        assetGenerateTargetConfigurationList->configurations.push_back(assetGenerateTargetDebugConfiguration);
+
+                        auto assetGenerateTargetReleaseConfiguration = alloc<XCBuildConfiguration>();
+                        assetGenerateTargetReleaseConfiguration->name = "Release";
+                        assetGenerateTargetConfigurationList->configurations.push_back(assetGenerateTargetReleaseConfiguration);
+                        assetGenerateTargetConfigurationList->defaultConfigurationName = assetGenerateTargetReleaseConfiguration->name;
 
                         auto assetGenerateTargetProxy = alloc<PBXContainerItemProxy>();
                         assetGenerateTargetProxy->proxyType = PBXContainerItemProxy::NativeTarget;
