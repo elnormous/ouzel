@@ -510,7 +510,7 @@ namespace ouzel
                         auto assetGenerateTarget = alloc<PBXLegacyTarget>();
                         assetGenerateTarget->name = "Generate Assets " + toString(target.getPlatform());
                         assetGenerateTarget->buildToolPath = "$BUILT_PRODUCTS_DIR/ouzel";
-                        assetGenerateTarget->buildArgumentsString = "--export-assets $PROJECT_DIR/" + std::string(projectFilename); // TODO: add target
+                        assetGenerateTarget->buildArgumentsString = "--export-assets $PROJECT_DIR/" + escapeForShell(projectFilename) + " --target " + escapeForShell(target.getName());
                         assetGenerateTarget->dependencies.push_back(ouzelDependency);
                         pbxProject->targets.push_back(assetGenerateTarget);
 
@@ -579,6 +579,46 @@ namespace ouzel
 
                 for (const auto& object : objects)
                     result["objects"][toString(object->getId())] = object->encode();
+
+                return result;
+            }
+
+            static std::string escapeForShell(const std::string& s)
+            {
+                std::string result;
+                result.reserve(s.length());
+
+                for (const char c : s)
+                    if ((c >= 'A' && c <= 'Z') ||
+                        (c >= 'a' && c <= 'z') ||
+                        (c >= '0' && c <= '9') ||
+                        c == '%' || c == '+' || c == '-' ||
+                        c == '.' || c == '/' || c == ':' ||
+                        c == '=' || c == '@' || c == '_')
+                        result.push_back(c);
+                    else if (c == ' ' || c == '!' || c == '"' || c == '#' ||
+                             c == '$' || c == '&' || c == '\'' || c == '(' ||
+                             c == ')' || c == '*' || c == ',' || c == ';' ||
+                             c == '<' || c == '>' || c == '?' || c == '[' ||
+                             c == '\\' || c == ']' || c == '^' || c == '`' ||
+                             c == '{' || c == '|' || c == '}' || c == '~')
+                    {
+                        result.push_back('\\');
+                        result.push_back(c);
+                    }
+                    else if (c == '\a') result += "$'\\a'";
+                    else if (c == '\b') result += "$'\\b'";
+                    else if (c == '\t') result += "$'\\t'";
+                    else if (c == '\n') result += "$'\\n'";
+                    else if (c == '\v') result += "$'\\v'";
+                    else if (c == '\f') result += "$'\\f'";
+                    else if (c == '\r') result += "$'\\r'";
+                    else if (c != '\0')
+                        result += "$'\\" + std::string{
+                            static_cast<char>('0' + ((c >> 6) & 0x07)),
+                            static_cast<char>('0' + ((c >> 3) & 0x07)),
+                            static_cast<char>('0' + ((c >> 0) & 0x07))
+                        } + "'";
 
                 return result;
             }

@@ -84,21 +84,20 @@ namespace ouzel
         const storage::Path& getAssetsPath() const noexcept { return assetsPath; }
         const std::vector<Asset>& getAssets() const noexcept { return assets; }
 
-        void exportAssets()
+        void exportAssets(const std::string& target) const
         {
-            /*storage::Path resourcesPath = directoryPath / storage::Path("Resources");
-
-            for (const auto& asset : j["assets"])
+            for (const auto& asset : assets)
             {
-                storage::Path assetPath(assetsPath / asset["path"].as<std::string>());
+                const storage::Path assetPath = assetsPath / asset.path;
 
-                storage::Path resourceName = asset["path"].as<std::string>();
-                storage::Path resourcePath = resourcesPath / resourceName.getStem() + std::string(".otexture");
+                storage::Path resourceName = asset.path;
+                resourceName.replaceExtension("otexture");
+                const storage::Path resourcePath = assetPath / resourceName;
 
                 // TODO: check if input file exists
                 // TODO: check if output file exists and is older than the input file
                 // TODO: export input file to output file
-            }*/
+            }
         }
 
     private:

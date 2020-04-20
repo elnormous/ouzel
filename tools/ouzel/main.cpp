@@ -31,6 +31,7 @@ int main(int argc, const char* argv[])
         Action action = Action::None;
         ouzel::storage::Path projectPath;
         std::set<ProjectType> projectTypes;
+        std::string targetName;
 
         for (int i = 1; i < argc; ++i)
         {
@@ -39,7 +40,8 @@ int main(int argc, const char* argv[])
                 std::cout << "Usage:\n";
                 std::cout << argv[0] << " [--help] [--generate-project <project-file>]"
                     " [--project <all|makefile|visualstudio|xcode>]"
-                    " [--export-assets <project-file>]\n";
+                    " [--export-assets <project-file>]\n"
+                    " [--target <target-name>]\n";
                 return EXIT_SUCCESS;
             }
             else if (std::string(argv[i]) == "--generate-project")
@@ -80,6 +82,13 @@ int main(int argc, const char* argv[])
 
                 projectPath = ouzel::storage::Path{argv[i], ouzel::storage::Path::Format::Native};
             }
+            else if (std::string(argv[i]) == "--target")
+            {
+                if (++i >= argc)
+                    throw std::runtime_error("Invalid command");
+
+                targetName = argv[i];
+            }
         }
 
         switch (action)
@@ -108,7 +117,7 @@ int main(int argc, const char* argv[])
             case Action::ExportAssets:
             {
                 ouzel::Project project(projectPath);
-                project.exportAssets();
+                project.exportAssets(targetName);
                 break;
             }
         }
