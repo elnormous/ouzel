@@ -15,12 +15,8 @@ namespace ouzel
                const std::string& initName):
             platform{initPlatform}, name(initName) {}
 
-        Platform getPlatform() const noexcept { return platform; }
-        const std::string& getName() const noexcept { return name; }
-
-    private:
-        Platform platform;
-        std::string name;
+        const Platform platform;
+        const std::string name;
     };
 }
 

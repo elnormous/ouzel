@@ -268,12 +268,12 @@ namespace ouzel
 
                 for (const auto& target : project.getTargets())
                 {
-                    if (target.getPlatform() == Platform::MacOs ||
-                        target.getPlatform() == Platform::Ios ||
-                        target.getPlatform() == Platform::Tvos)
+                    if (target.platform == Platform::MacOs ||
+                        target.platform == Platform::Ios ||
+                        target.platform == Platform::Tvos)
                     {
                         auto nativeTarget = alloc<PBXNativeTarget>();
-                        nativeTarget->name = target.getName() + ' ' + toString(target.getPlatform());
+                        nativeTarget->name = target.name;
                         nativeTarget->productReference = productFile;
                         pbxProject->targets.push_back(nativeTarget);
 
@@ -297,7 +297,7 @@ namespace ouzel
                         nativeTarget->buildPhases.push_back(frameworksBuildPhase);
 
                         std::map<std::string, std::string> buildSettings = {
-                            {"INFOPLIST_FILE", toString(target.getPlatform()) + "/Info.plist"},
+                            {"INFOPLIST_FILE", toString(target.platform) + "/Info.plist"},
                             {"PRODUCT_BUNDLE_IDENTIFIER", project.getIdentifier()},
                             {"PRODUCT_NAME", project.getName()}
                         };
@@ -308,7 +308,7 @@ namespace ouzel
                         infoPlistFileReference->sourceTree = PBXSourceTree::Group;
 
                         auto platformGroup = alloc<PBXGroup>();
-                        platformGroup->path = storage::Path{toString(target.getPlatform())};
+                        platformGroup->path = storage::Path{toString(target.platform)};
                         platformGroup->children.push_back(infoPlistFileReference);
                         platformGroup->sourceTree = PBXSourceTree::Group;
                         mainGroup->children.push_back(platformGroup);
@@ -317,7 +317,7 @@ namespace ouzel
                         PBXSourceTree frameworkSourceTree = PBXSourceTree::SdkRoot;
                         std::set<const char*> frameworks;
 
-                        const auto platformDirectory = projectDirectory / toString(target.getPlatform());
+                        const auto platformDirectory = projectDirectory / toString(target.platform);
                         const auto plistPath = platformDirectory / "Info.plist";
                         const auto platformDirectoryType = platformDirectory.getType();
                         if (platformDirectoryType == storage::Path::Type::NotFound)
@@ -328,7 +328,7 @@ namespace ouzel
                             storage::FileSystem::createDirectory(platformDirectory);
                         }
 
-                        switch (target.getPlatform())
+                        switch (target.platform)
                         {
                             case Platform::MacOs:
                             {
@@ -508,9 +508,9 @@ namespace ouzel
                         ouzelDependency->targetProxy = ouzelNativeTargetProxy;
 
                         auto assetGenerateTarget = alloc<PBXLegacyTarget>();
-                        assetGenerateTarget->name = "Generate Assets " + toString(target.getPlatform());
+                        assetGenerateTarget->name = "Generate Assets " + toString(target.platform);
                         assetGenerateTarget->buildToolPath = "$BUILT_PRODUCTS_DIR/ouzel";
-                        assetGenerateTarget->buildArgumentsString = "--export-assets $PROJECT_DIR/" + escapeForShell(projectFilename) + " --target " + escapeForShell(target.getName());
+                        assetGenerateTarget->buildArgumentsString = "--export-assets $PROJECT_DIR/" + escapeForShell(projectFilename) + " --target " + escapeForShell(target.name);
                         assetGenerateTarget->dependencies.push_back(ouzelDependency);
                         pbxProject->targets.push_back(assetGenerateTarget);
 

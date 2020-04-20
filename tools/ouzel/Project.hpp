@@ -37,9 +37,17 @@ namespace ouzel
             ouzelPath = j["ouzelPath"].as<std::string>();
 
             if (j.hasMember("targets"))
-                for (const auto& t : j["targets"])
-                    targets.emplace_back(stringToPlatform(t["platform"].as<std::string>()),
-                                         t.hasMember("name") ? t["name"].as<std::string>() : name);
+                for (const auto& targetObject : j["targets"])
+                {
+                    const auto platform = stringToPlatform(targetObject["platform"].as<std::string>());
+                    const auto targetName = targetObject.hasMember("name") ? targetObject["name"].as<std::string>() : name + ' ' + toString(platform);
+
+                    for (const auto& otherTarget : targets)
+                        if (otherTarget.name == targetName)
+                            throw ProjectError("Name of the target must be unique");
+
+                    targets.emplace_back(platform, targetName);
+                }
 
             sourcePath = j["sourcePath"].as<std::string>();
 
@@ -50,8 +58,8 @@ namespace ouzel
 
             for (const auto& assetObject : j["assets"])
             {
-                const storage::Path assetPath(assetsPath / assetObject["path"].as<std::string>());
-                const std::string assetName = assetObject.hasMember("name") ?
+                const auto assetPath(assetsPath / assetObject["path"].as<std::string>());
+                const auto assetName = assetObject.hasMember("name") ?
                     assetObject["name"].as<std::string>() : assetPath.getStem();
 
                 const std::string assetTypeName = assetObject["type"].as<std::string>();
