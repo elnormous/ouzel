@@ -588,7 +588,7 @@ namespace ouzel
                 std::string result;
                 result.reserve(s.length());
 
-                for (const char c : s)
+                for (const auto c : s)
                     if ((c >= 'A' && c <= 'Z') ||
                         (c >= 'a' && c <= 'z') ||
                         (c >= '0' && c <= '9') ||

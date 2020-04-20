@@ -308,7 +308,7 @@ namespace ouzel
                     if (!s.empty())
                     {
                         bool hasSpecialChars = false;
-                        for (auto c : s)
+                        for (const auto c : s)
                             if ((c < 'a' || c > 'z') &&
                                 (c < 'A' || c > 'Z') &&
                                 (c < '0' || c > '9') &&
@@ -322,7 +322,7 @@ namespace ouzel
                         if (hasSpecialChars) result.push_back('"');
                         for (const auto c : s)
                         {
-                            if (c == '"') result += '\\';
+                            if (c == '"' || c == '\\') result += '\\';
                             result += c;
                         }
                         if (hasSpecialChars) result.push_back('"');
@@ -409,6 +409,17 @@ namespace ouzel
                 }
 
             private:
+                static std::string& encode(const std::string& s, std::string& result)
+                {
+                    for (const auto c : s)
+                        if (c == '<') result += "&lt;";
+                        else if (c == '>') result += "&gt;";
+                        else if (c == '&') result += "&amp;";
+                        else result.push_back(c);
+
+                    return result;
+                }
+
                 static std::string& encode(const Value& value, std::string& result, size_t level = 0)
                 {
                     switch (value.getType())
@@ -420,7 +431,7 @@ namespace ouzel
                             {
                                 result.insert(result.end(), level + 1, '\t');
                                 result += "<key>";
-                                result += entry.first;
+                                encode(entry.first, result);
                                 result += "</key>\n";
                                 result.insert(result.end(), level + 1, '\t');
                                 encode(entry.second, result, level + 1);
@@ -445,7 +456,7 @@ namespace ouzel
                         }
                         case Value::Type::String:
                             result += "<string>";
-                            result += value.as<std::string>();
+                            encode(value.as<std::string>(), result);
                             result += "</string>";
                             break;
                         case Value::Type::Real:
