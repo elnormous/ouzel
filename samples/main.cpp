@@ -42,8 +42,6 @@ public:
                 ouzel::engine->log(ouzel::Log::Level::Warning) << "Invalid argument \"" << *arg << "\"";
         }
 
-        engine->getFileSystem().addResourcePath("Resources");
-
 #if !defined(__ANDROID__)
         ouzel::storage::Archive archive(engine->getFileSystem().getPath("gui.zip"));
         engine->getFileSystem().addArchive("gui.zip", std::move(archive));
