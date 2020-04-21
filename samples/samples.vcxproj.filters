@@ -35,10 +35,97 @@
     <Image Include="windows\icon1.ico">
       <Filter>windows</Filter>
     </Image>
+    <Image Include="Resources\ball.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\cube.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\cursor.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\fire.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\flame.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\floor.jpg">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\run.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\triangle.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\witch.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="windows">
       <UniqueIdentifier>{14a6027d-4cee-4791-b7eb-0dd111e11b91}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{e05c9abe-3ac2-4d15-ac81-cdb5330f767b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\assets.json">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Resources\cube.mtl">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Resources\fire.json">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Resources\flame.json">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Resources\gui.zip">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Resources\lv.mo">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Resources\music.ogg">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Resources\run.json">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Resources\triangle.json">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Resources\8-bit.json">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="settings.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\8-bit.wav">
+      <Filter>Resources</Filter>
+    </Media>
+    <Media Include="Resources\24-bit.wav">
+      <Filter>Resources</Filter>
+    </Media>
+    <Media Include="Resources\ambient.wav">
+      <Filter>Resources</Filter>
+    </Media>
+    <Media Include="Resources\jump.wav">
+      <Filter>Resources</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\AmosisTechnik.ttf">
+      <Filter>Resources</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Resources\cube.obj">
+      <Filter>Resources</Filter>
+    </Object>
   </ItemGroup>
 </Project>
