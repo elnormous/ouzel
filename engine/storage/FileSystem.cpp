@@ -92,7 +92,7 @@ namespace ouzel
                 throw std::runtime_error("Failed to get resource directory");
 
             appPath = resourceDirectory.data();
-            engine.log(Log::Level::Info) << "Application directory: " << appPath;
+            engine.log(Log::Level::Info) << "Application directory: " << std::string(appPath);
 
 #elif defined(__ANDROID__)
             // not available for Android
@@ -106,7 +106,7 @@ namespace ouzel
 
             executableDirectory[length] = '\0';
             appPath = Path(executableDirectory).getDirectory();
-            engine.log(Log::Level::Info) << "Application directory: " << appPath;
+            engine.log(Log::Level::Info) << "Application directory: " << std::string(appPath);
 #endif
         }
 
