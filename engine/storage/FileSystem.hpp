@@ -42,7 +42,7 @@ namespace ouzel
         public:
             explicit FileSystem(Engine& initEngine);
 
-            std::string getStorageDirectory(const bool user = true) const;
+            Path getStorageDirectory(const bool user = true) const;
 
             static Path getTempPath()
             {
@@ -69,41 +69,41 @@ namespace ouzel
 #endif
             }
 
-            std::vector<std::uint8_t> readFile(const std::string& filename, const bool searchResources = true);
+            std::vector<std::uint8_t> readFile(const Path& filename, const bool searchResources = true);
 
-            bool resourceFileExists(const std::string& filename) const;
+            bool resourceFileExists(const Path& filename) const;
 
-            std::string getPath(const std::string& filename, const bool searchResources = true) const
+            Path getPath(const Path& filename, const bool searchResources = true) const
             {
-                if (Path(filename).isAbsolute())
+                if (filename.isAbsolute())
                 {
                     if (fileExists(filename))
                         return filename;
                 }
                 else
                 {
-                    std::string str = appPath + Path::directorySeparator + filename;
+                    Path result = appPath / filename;
 
-                    if (fileExists(str))
-                        return str;
+                    if (fileExists(result))
+                        return result;
 
                     if (searchResources)
-                        for (const std::string& path : resourcePaths)
+                        for (const auto& path : resourcePaths)
                         {
-                            if (Path(path).isAbsolute()) // if resource path is absolute
-                                str = path + Path::directorySeparator + filename;
+                            if (path.isAbsolute()) // if resource path is absolute
+                                result = path / filename;
                             else
-                                str = appPath + Path::directorySeparator + path + Path::directorySeparator + filename;
+                                result = appPath / path / filename;
 
-                            if (fileExists(str))
-                                return str;
+                            if (fileExists(result))
+                                return result;
                         }
                 }
 
-                throw std::runtime_error("Could not get path for " + filename);
+                throw std::runtime_error("Could not get path for " + std::string(filename));
             }
 
-            void addResourcePath(const std::string& path)
+            void addResourcePath(const Path& path)
             {
                 const auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
 
@@ -111,7 +111,7 @@ namespace ouzel
                     resourcePaths.push_back(path);
             }
 
-            void removeResourcePath(const std::string& path)
+            void removeResourcePath(const Path& path)
             {
                 const auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
 
@@ -133,8 +133,8 @@ namespace ouzel
                         ++i;
             }
 
-            bool directoryExists(const std::string& dirname) const;
-            bool fileExists(const std::string& filename) const;
+            bool directoryExists(const Path& dirname) const;
+            bool fileExists(const Path& filename) const;
 
             static Path getCurrentPath()
             {
@@ -272,8 +272,8 @@ namespace ouzel
 
         private:
             Engine& engine;
-            std::string appPath;
-            std::vector<std::string> resourcePaths;
+            Path appPath;
+            std::vector<Path> resourcePaths;
             std::vector<std::pair<std::string, Archive>> archives;
         };
     } // namespace storage

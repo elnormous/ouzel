@@ -71,7 +71,7 @@ namespace ouzel
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
             appPath = Path(appFilename.data()).getDirectory();
-            engine.log(Log::Level::Info) << "Application directory: " << appPath;
+            engine.log(Log::Level::Info) << "Application directory: " << std::string(appPath);
 
 #elif defined(__APPLE__)
             CFBundleRef bundle = CFBundleGetMainBundle();
@@ -110,7 +110,7 @@ namespace ouzel
 #endif
         }
 
-        std::string FileSystem::getStorageDirectory(const bool user) const
+        Path FileSystem::getStorageDirectory(const bool user) const
         {
 #if defined(_WIN32)
             WCHAR appDataPath[MAX_PATH];
@@ -276,7 +276,7 @@ namespace ouzel
 #endif
         }
 
-        std::vector<std::uint8_t> FileSystem::readFile(const std::string& filename, const bool searchResources)
+        std::vector<std::uint8_t> FileSystem::readFile(const Path& filename, const bool searchResources)
         {
             if (searchResources)
                 for (auto& archive : archives)
@@ -317,32 +317,32 @@ namespace ouzel
             const auto path = getPath(filename, searchResources);
 
             // file does not exist
-            if (path.empty())
-                throw std::runtime_error("Failed to find file " + filename);
+            if (path.isEmpty())
+                throw std::runtime_error("Failed to find file " + std::string(filename));
 
             std::ifstream f(path, std::ios::binary);
             return {std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
         }
 
-        bool FileSystem::resourceFileExists(const std::string& filename) const
+        bool FileSystem::resourceFileExists(const Path& filename) const
         {
-            if (Path(filename).isAbsolute())
+            if (filename.isAbsolute())
                 return fileExists(filename);
             else
             {
-                std::string str = appPath + Path::directorySeparator + filename;
+                Path result = appPath / filename;
 
-                if (fileExists(str))
+                if (fileExists(result))
                     return true;
                 else
-                    for (const std::string& path : resourcePaths)
+                    for (const auto& path : resourcePaths)
                     {
-                        if (Path(path).isAbsolute()) // if resource path is absolute
-                            str = path + Path::directorySeparator + filename;
+                        if (path.isAbsolute()) // if resource path is absolute
+                            result = path / filename;
                         else
-                            str = appPath + Path::directorySeparator + path + Path::directorySeparator + filename;
+                            result = appPath / path / filename;
 
-                        if (fileExists(str))
+                        if (fileExists(result))
                             return true;
                     }
 
@@ -350,7 +350,7 @@ namespace ouzel
             }
         }
 
-        bool FileSystem::directoryExists(const std::string& dirname) const
+        bool FileSystem::directoryExists(const Path& dirname) const
         {
 #if defined(__ANDROID__)
             EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
@@ -362,34 +362,10 @@ namespace ouzel
             if (exists) return true;
 #endif
 
-#if defined(_WIN32)
-            const int bufferSize = MultiByteToWideChar(CP_UTF8, 0, dirname.c_str(), -1, nullptr, 0);
-            if (bufferSize == 0)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
-
-            std::vector<WCHAR> buffer(bufferSize);
-            if (MultiByteToWideChar(CP_UTF8, 0, dirname.c_str(), -1, buffer.data(), bufferSize) == 0)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
-
-            // relative paths longer than MAX_PATH are not supported
-            if (buffer.size() > MAX_PATH)
-                buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
-
-            const DWORD attributes = GetFileAttributesW(buffer.data());
-            if (attributes == INVALID_FILE_ATTRIBUTES)
-                return false;
-
-            return (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
-#elif defined(__unix__) || defined(__APPLE__)
-            struct stat buf;
-            if (stat(dirname.c_str(), &buf) == -1)
-                return false;
-
-            return (buf.st_mode & S_IFMT) == S_IFDIR;
-#endif
+            return dirname.isDirectory();
         }
 
-        bool FileSystem::fileExists(const std::string& filename) const
+        bool FileSystem::fileExists(const Path& filename) const
         {
 #if defined(__ANDROID__)
             EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
@@ -403,31 +379,7 @@ namespace ouzel
             }
 #endif
 
-#if defined(_WIN32)
-            const int bufferSize = MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, nullptr, 0);
-            if (bufferSize == 0)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
-
-            std::vector<WCHAR> buffer(bufferSize);
-            if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer.data(), bufferSize) == 0)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
-
-            // relative paths longer than MAX_PATH are not supported
-            if (buffer.size() > MAX_PATH)
-                buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
-
-            const DWORD attributes = GetFileAttributesW(buffer.data());
-            if (attributes == INVALID_FILE_ATTRIBUTES)
-                return false;
-
-            return (attributes & FILE_ATTRIBUTE_DIRECTORY) == 0;
-#elif defined(__unix__) || defined(__APPLE__)
-            struct stat buf;
-            if (stat(filename.c_str(), &buf) == -1)
-                return false;
-
-            return (buf.st_mode & S_IFMT) == S_IFREG;
-#endif
+            return filename.isRegular();
         }
     } // namespace storage
 } // namespace ouzel
