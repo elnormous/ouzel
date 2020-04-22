@@ -355,7 +355,7 @@ namespace ouzel
 #if defined(__ANDROID__)
             EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-            AAssetDir* assetDir = AAssetManager_openDir(engineAndroid.getAssetManager(), dirname.c_str());
+            AAssetDir* assetDir = AAssetManager_openDir(engineAndroid.getAssetManager(), dirname.getGeneric().c_str());
             const bool exists = AAssetDir_getNextFileName(assetDir) != nullptr;
             AAssetDir_close(assetDir);
 
