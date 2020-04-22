@@ -291,7 +291,7 @@ namespace ouzel
                 AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getGeneric().c_str(), AASSET_MODE_STREAMING);
 
                 if (!asset)
-                    throw std::runtime_error("Failed to open file " + filename);
+                    throw std::runtime_error("Failed to open file " + std::string(filename));
 
                 std::vector<std::uint8_t> data;
                 std::uint8_t buffer[1024];
