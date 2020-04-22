@@ -370,7 +370,7 @@ namespace ouzel
 #if defined(__ANDROID__)
             EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-            AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
+            AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getGeneric().c_str(), AASSET_MODE_STREAMING);
 
             if (asset)
             {
