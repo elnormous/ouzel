@@ -352,12 +352,12 @@ namespace ouzel
                 if (attributes == INVALID_FILE_ATTRIBUTES)
                     return Type::NotFound;
 
-                if ((attributes & FILE_ATTRIBUTE_REPARSE_POINT) == 0)
+                if ((attributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0)
                     return Type::Symlink;
-                else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-                    return Type::Regular;
-                else
+                else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
                     return Type::Directory;
+                else
+                    return Type::Regular;
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat buf;
                 if (stat(path.c_str(), &buf) == -1)
