@@ -19,6 +19,7 @@
 #include "../math/Quaternion.hpp"
 #include "../math/Size.hpp"
 #include "../math/Vector.hpp"
+#include "../storage/Path.hpp"
 #include "Thread.hpp"
 
 namespace ouzel
@@ -80,15 +81,13 @@ namespace ouzel
 
         ~Log();
 
-        template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
-        Log& operator<<(const T val)
+        Log& operator<<(const bool val)
         {
             s += val ? "true" : "false";
             return *this;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, std::uint8_t>::value>::type* = nullptr>
-        Log& operator<<(const T val)
+        Log& operator<<(const uint8_t val)
         {
             constexpr char digits[] = "0123456789abcdef";
 
@@ -107,15 +106,13 @@ namespace ouzel
             return *this;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-        Log& operator<<(const T& val)
+        Log& operator<<(const std::string& val)
         {
             s += val;
             return *this;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, char>::value>::type* = nullptr>
-        Log& operator<<(const T* val)
+        Log& operator<<(const char* val)
         {
             s += val;
             return *this;
@@ -132,6 +129,12 @@ namespace ouzel
             for (std::size_t i = 0; i < sizeof(val) * 2; ++i)
                 s.push_back(digits[(ptrValue >> (sizeof(ptrValue) * 2 - i - 1) * 4) & 0x0F]);
 
+            return *this;
+        }
+
+        Log& operator<<(const storage::Path& val)
+        {
+            s += val;
             return *this;
         }
 
