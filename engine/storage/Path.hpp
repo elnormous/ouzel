@@ -104,6 +104,17 @@ namespace ouzel
                 return convertToUtf8(path);
             }
 
+            bool operator==(const Path& p) const noexcept
+            {
+                return path == p.path;
+            }
+
+            template <class Source>
+            bool operator==(const Source& p) const
+            {
+                return path == convertToNative(p);
+            }
+
             Path& operator+=(const Path& p)
             {
                 path += p.path;
