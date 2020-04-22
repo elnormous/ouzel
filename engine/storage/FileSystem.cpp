@@ -288,7 +288,7 @@ namespace ouzel
             {
                 EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-                AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
+                AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getGeneric().c_str(), AASSET_MODE_STREAMING);
 
                 if (!asset)
                     throw std::runtime_error("Failed to open file " + filename);
