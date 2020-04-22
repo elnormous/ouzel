@@ -104,7 +104,6 @@ namespace ouzel
                 return convertToUtf8(path);
             }
 
-            template <class Source>
             Path& operator+=(const Path& p)
             {
                 path += p.path;
