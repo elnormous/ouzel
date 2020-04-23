@@ -29,7 +29,7 @@ namespace ouzel
         Thread() noexcept = default;
 
         Thread(const Thread&) = delete;
-        Thread(Thread&& other): t(std::move(other.t)) {}
+        Thread(Thread&& other) noexcept: t(std::move(other.t)) {}
 
         Thread(const std::thread&) = delete;
         Thread(std::thread&& other) noexcept: t(std::move(other)) {}

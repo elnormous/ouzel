@@ -57,7 +57,7 @@ namespace ouzel
 
                 union
                 {
-                    bool absoluteDpadValues;
+                    bool absoluteDpadValues = false;
                     std::int32_t playerIndex;
                     float speed;
                     bool visible;

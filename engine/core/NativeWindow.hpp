@@ -65,7 +65,7 @@ namespace ouzel
             Size2U size;
             union
             {
-                bool fullscreen;
+                bool fullscreen = false;
                 std::uint32_t displayId;
                 bool focus;
             };
