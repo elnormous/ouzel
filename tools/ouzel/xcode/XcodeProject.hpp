@@ -542,21 +542,45 @@ namespace ouzel
                 }
             }
 
-            void save(const storage::Path& path)
+            void save(const storage::Path& path) const
             {
-                const auto type = path.getType();
+                const auto projectFileType = path.getType();
 
-                if (type == storage::Path::Type::NotFound)
+                if (projectFileType == storage::Path::Type::NotFound)
                     storage::FileSystem::createDirectory(path);
-                else if (type != storage::Path::Type::Directory)
+                else if (projectFileType != storage::Path::Type::Directory)
                 {
                     storage::FileSystem::deleteFile(path);
                     storage::FileSystem::createDirectory(path);
                 }
 
-                const auto pbxProjectFile = path / storage::Path{"project.pbxproj"};
-                std::ofstream file(pbxProjectFile, std::ios::trunc);
-                file << plist::encode(encode(), plist::Format::Ascii);
+                const auto pbxProjectPath = path / storage::Path{"project.pbxproj"};
+                std::ofstream projectFile(pbxProjectPath, std::ios::trunc);
+                projectFile << plist::encode(encode(), plist::Format::Ascii);
+
+                const auto workspacePath = path / "project.xcworkspace";
+
+                const auto workspaceFileType = workspacePath.getType();
+
+                if (workspaceFileType == storage::Path::Type::NotFound)
+                    storage::FileSystem::createDirectory(workspacePath);
+                else if (workspaceFileType != storage::Path::Type::Directory)
+                {
+                    storage::FileSystem::deleteFile(workspacePath);
+                    storage::FileSystem::createDirectory(workspacePath);
+                }
+
+                const auto xcworkspacedataPath = workspacePath / storage::Path{"contents.xcworkspacedata"};
+                std::ofstream workspaceFile(xcworkspacedataPath, std::ios::trunc);
+
+                workspaceFile <<
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                    "<Workspace\n"
+                    "   version = \"1.0\">\n"
+                    "   <FileRef\n"
+                    "      location = \"self:" << path.getFilename() << "\">\n"
+                    "   </FileRef>\n"
+                    "</Workspace>\n";
             }
 
         private:
