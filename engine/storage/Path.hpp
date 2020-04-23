@@ -521,32 +521,62 @@ namespace ouzel
                 return p;
             }
 
+            static std::string convertToUtf8(wchar_t c)
+            {
+                std::string s;
+
+                if (c <= 0x7F)
+                    s.push_back(static_cast<char>(c));
+                else if (c <= 0x7FF)
+                {
+                    s.push_back(static_cast<char>(0xC0 | ((c >> 6) & 0x1F)));
+                    s.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                }
+                else if (c <= 0xFFFF)
+                {
+                    s.push_back(static_cast<char>(0xE0 | ((c >> 12) & 0x0F)));
+                    s.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                    s.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                }
+#if WCHAR_MAX > 0xFFFF
+                else
+                {
+                    s.push_back(static_cast<char>(0xF0 | ((c >> 18) & 0x07)));
+                    s.push_back(static_cast<char>(0x80 | ((c >> 12) & 0x3F)));
+                    s.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                    s.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                }
+#endif
+
+                return s;
+            }
+
             static std::string convertToUtf8(const std::wstring& p)
             {
 				std::string s;
 
-				for (wchar_t w : p)
+				for (wchar_t c : p)
 				{
-					if (w <= 0x7F)
-						s.push_back(static_cast<char>(w));
-					else if (w <= 0x7FF)
+					if (c <= 0x7F)
+						s.push_back(static_cast<char>(c));
+					else if (c <= 0x7FF)
 					{
-						s.push_back(static_cast<char>(0xC0 | ((w >> 6) & 0x1F)));
-						s.push_back(static_cast<char>(0x80 | (w & 0x3F)));
+						s.push_back(static_cast<char>(0xC0 | ((c >> 6) & 0x1F)));
+						s.push_back(static_cast<char>(0x80 | (c & 0x3F)));
 					}
-					else if (w <= 0xFFFF)
+					else if (c <= 0xFFFF)
                     {
-                        s.push_back(static_cast<char>(0xE0 | ((w >> 12) & 0x0F)));
-                        s.push_back(static_cast<char>(0x80 | ((w >> 6) & 0x3F)));
-                        s.push_back(static_cast<char>(0x80 | (w & 0x3F)));
+                        s.push_back(static_cast<char>(0xE0 | ((c >> 12) & 0x0F)));
+                        s.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                        s.push_back(static_cast<char>(0x80 | (c & 0x3F)));
                     }
 #if WCHAR_MAX > 0xFFFF
                     else
                     {
-                        s.push_back(static_cast<char>(0xF0 | ((w >> 18) & 0x07)));
-                        s.push_back(static_cast<char>(0x80 | ((w >> 12) & 0x3F)));
-                        s.push_back(static_cast<char>(0x80 | ((w >> 6) & 0x3F)));
-                        s.push_back(static_cast<char>(0x80 | (w & 0x3F)));
+                        s.push_back(static_cast<char>(0xF0 | ((c >> 18) & 0x07)));
+                        s.push_back(static_cast<char>(0x80 | ((c >> 12) & 0x3F)));
+                        s.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                        s.push_back(static_cast<char>(0x80 | (c & 0x3F)));
                     }
 #endif
 				}
@@ -604,12 +634,25 @@ namespace ouzel
                 return s;
             }
 
+            static std::wstring convertToNative(char c)
+            {
+                wchar_t result = static_cast<wchar_t>(c);
+                if (result == '/') result = '\\';
+                return std::wstring{result};
+            }
+
             static std::wstring convertToNative(const std::string& p)
             {
                 std::wstring result = convertToWchar(p);
 
                 for (auto& c : result) if (c == L'/') c = L'\\';
                 return result;
+            }
+
+            static std::wstring convertToNative(wchar_t c)
+            {
+                if (c == L'/') c = L'\\';
+                return std::wstring{c};
             }
 
             static std::wstring convertToNative(const std::wstring& p)
@@ -630,9 +673,19 @@ namespace ouzel
                 return result;
             }
 
+            static std::wstring encode(char c)
+            {
+                return std::wstring{static_cast<wchar_t>(c)};
+            }
+
             static std::wstring encode(const std::string& p)
             {
                 return convertToWchar(p);
+            }
+
+            static std::wstring encode(wchar_t c)
+            {
+                return std::wstring{c};
             }
 
             static const std::wstring& encode(const std::wstring& p) noexcept
@@ -640,9 +693,19 @@ namespace ouzel
                 return p;
             }
 #elif defined(__unix__) || defined(__APPLE__)
+            static std::string convertToNative(char c)
+            {
+                return std::string{c};
+            }
+
             static const std::string& convertToNative(const std::string& p) noexcept
             {
                 return p;
+            }
+
+            static std::string convertToNative(wchar_t c)
+            {
+                return convertToUtf8(c);
             }
 
             static std::string convertToNative(const std::wstring& p)
@@ -655,9 +718,19 @@ namespace ouzel
                 return p;
             }
 
+            static std::string encode(char c)
+            {
+                return std::string{c};
+            }
+
             static const std::string& encode(const std::string& p) noexcept
             {
                 return p;
+            }
+
+            static std::string encode(wchar_t c)
+            {
+                return convertToUtf8(c);
             }
 
             static std::string encode(const std::wstring& p)
