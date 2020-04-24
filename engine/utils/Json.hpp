@@ -299,8 +299,7 @@ namespace ouzel
 
             Value() = default;
 
-            template <typename T, typename std::enable_if<std::is_same<T, Type>::value>::type* = nullptr>
-            Value(const T initType): type(initType) {}
+            Value(const Type initType): type(initType) {}
 
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
             Value(const T value): type(Type::Float), doubleValue(isfinite(value) ? static_cast<double>(value) : 0.0) {}
@@ -308,26 +307,19 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
             Value(const T value): type(Type::Integer), intValue(static_cast<std::int64_t>(value)) {}
 
-            template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            Value(const T& value): type(Type::String), stringValue(value) {}
+            Value(const std::string& value): type(Type::String), stringValue(value) {}
 
-            template <typename T, typename std::enable_if<std::is_same<T, char>::value>::type* = nullptr>
-            Value(const T* value): type(Type::String), stringValue(value) {}
+            Value(const char* value): type(Type::String), stringValue(value) {}
 
-            template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
-            Value(const T value): type(Type::Boolean), boolValue(value) {}
+            Value(const bool value): type(Type::Boolean), boolValue(value) {}
 
-            template <typename T, typename std::enable_if<std::is_same<T, std::nullptr_t>::value>::type* = nullptr>
-            Value(const T): type(Type::Null) {}
+            Value(const std::nullptr_t): type(Type::Null) {}
 
-            template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
-            Value(const T& value): type(Type::Array), arrayValue(value) {}
+            Value(const Array& value): type(Type::Array), arrayValue(value) {}
 
-            template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
-            Value(const T& value): type(Type::Object), objectValue(value) {}
+            Value(const Object& value): type(Type::Object), objectValue(value) {}
 
-            template <typename T, typename std::enable_if<std::is_same<T, Type>::value>::type* = nullptr>
-            inline Value& operator=(const T newType) noexcept
+            inline Value& operator=(const Type newType) noexcept
             {
                 type = newType;
                 return *this;
@@ -349,48 +341,42 @@ namespace ouzel
                 return *this;
             }
 
-            template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            inline Value& operator=(const T& value)
+            inline Value& operator=(const std::string& value)
             {
                 type = Type::String;
                 stringValue = value;
                 return *this;
             }
 
-            template <typename T, typename std::enable_if<std::is_same<T, char>::value>::type* = nullptr>
-            inline Value& operator=(const T* value)
+            inline Value& operator=(const char* value)
             {
                 type = Type::String;
                 stringValue = value;
                 return *this;
             }
 
-            template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
-            inline Value& operator=(const T value) noexcept
+            inline Value& operator=(const bool value) noexcept
             {
                 type = Type::Boolean;
                 boolValue = value;
                 return *this;
             }
 
-            template <typename T, typename std::enable_if<std::is_same<T, std::nullptr_t>::value>::type* = nullptr>
-            inline Value& operator=(T) noexcept
+            inline Value& operator=(std::nullptr_t) noexcept
             {
                 type = Type::Null;
                 objectValue.clear();
                 return *this;
             }
 
-            template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
-            inline Value& operator=(const T& value)
+            inline Value& operator=(const Array& value)
             {
                 type = Type::Array;
                 arrayValue = value;
                 return *this;
             }
 
-            template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
-            inline Value& operator=(const T& value)
+            inline Value& operator=(const Object& value)
             {
                 type = Type::Object;
                 objectValue = value;
