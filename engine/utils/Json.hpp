@@ -10,7 +10,6 @@
 #include <string>
 #include <type_traits>
 #include <vector>
-#include "Utf8.hpp"
 
 namespace ouzel
 {
@@ -42,7 +41,7 @@ namespace ouzel
             constexpr std::uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
 
             inline void encodeString(std::vector<std::uint8_t>& data,
-                                    const std::u32string& str)
+                                    const std::string& str)
             {
                 for (const auto c : str)
                 {
@@ -63,10 +62,7 @@ namespace ouzel
                             data.push_back(static_cast<std::uint8_t>(digits[(c >> (12 - p * 4)) & 0x0F]));
                     }
                     else
-                    {
-                        const std::string encoded = utf8::fromUtf32(c);
-                        data.insert(data.end(), encoded.begin(), encoded.end());
-                    }
+                        data.push_back(static_cast<std::uint8_t>(c));
                 }
             }
 
@@ -89,17 +85,17 @@ namespace ouzel
                 };
 
                 Type type;
-                std::u32string value;
+                std::string value;
             };
 
-            inline std::vector<Token> tokenize(const std::u32string& str)
+            inline std::vector<Token> tokenize(const std::string& str)
             {
                 std::vector<Token> tokens;
 
-                static const std::map<std::u32string, Token::Type> keywordMap{
-                    {{'t', 'r', 'u', 'e'}, Token::Type::KeywordTrue},
-                    {{'f', 'a', 'l', 's', 'e'}, Token::Type::KeywordFalse},
-                    {{'n', 'u', 'l', 'l'}, Token::Type::KeywordNull}
+                static const std::map<std::string, Token::Type> keywordMap{
+                    {"true", Token::Type::KeywordTrue},
+                    {"false", Token::Type::KeywordFalse},
+                    {"null", Token::Type::KeywordNull}
                 };
 
                 // tokenize
@@ -213,7 +209,26 @@ namespace ouzel
                                             c = (c << 4) | code;
                                         }
 
-                                        token.value.push_back(c);
+                                        if (c <= 0x7F)
+                                            token.value.push_back(static_cast<char>(c));
+                                        else if (c <= 0x7FF)
+                                        {
+                                            token.value.push_back(static_cast<char>(0xC0 | ((c >> 6) & 0x1F)));
+                                            token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                                        }
+                                        else if (c <= 0xFFFF)
+                                        {
+                                            token.value.push_back(static_cast<char>(0xE0 | ((c >> 12) & 0x0F)));
+                                            token.value.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                                            token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                                        }
+                                        else
+                                        {
+                                            token.value.push_back(static_cast<char>(0xF0 | ((c >> 18) & 0x07)));
+                                            token.value.push_back(static_cast<char>(0x80 | ((c >> 12) & 0x3F)));
+                                            token.value.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                                            token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                                        }
                                         break;
                                     }
                                     default:
@@ -245,7 +260,7 @@ namespace ouzel
                         if (keywordIterator != keywordMap.end())
                             token.type = keywordIterator->second;
                         else
-                            throw ParseError("Unknown keyword " + utf8::fromUtf32(token.value));
+                            throw ParseError("Unknown keyword " + token.value);
                     }
                     else if (*iterator == ' ' ||
                             *iterator == '\t' ||
@@ -556,19 +571,19 @@ namespace ouzel
                 else if (iterator->type == Token::Type::LiteralInteger)
                 {
                     type = Type::Integer;
-                    intValue = std::stoll(utf8::fromUtf32(iterator->value));
+                    intValue = std::stoll(iterator->value);
                     ++iterator;
                 }
                 else if (iterator->type == Token::Type::LiteralFloat)
                 {
                     type = Type::Float;
-                    doubleValue = std::stod(utf8::fromUtf32(iterator->value));
+                    doubleValue = std::stod(iterator->value);
                     ++iterator;
                 }
                 else if (iterator->type == Token::Type::LiteralString)
                 {
                     type = Type::String;
-                    stringValue = utf8::fromUtf32(iterator->value);
+                    stringValue = iterator->value;
                     ++iterator;
                 }
                 else if (iterator->type == Token::Type::KeywordTrue ||
@@ -626,7 +641,7 @@ namespace ouzel
                     if (iterator->type != Token::Type::LiteralString)
                         throw ParseError("Expected a string literal");
 
-                    std::string key = utf8::fromUtf32(iterator->value);
+                    const std::string& key = iterator->value;
 
                     if (objectValue.find(key) != objectValue.end())
                         throw ParseError("Duplicate key value " + key);
@@ -717,7 +732,7 @@ namespace ouzel
                     }
                     case Type::String:
                         data.push_back('"');
-                        encodeString(data, utf8::toUtf32(stringValue));
+                        encodeString(data, stringValue);
                         data.push_back('"');
                         break;
                     case Type::Object:
@@ -732,7 +747,7 @@ namespace ouzel
                             else data.push_back(',');
 
                             data.push_back('"');
-                            encodeString(data, utf8::toUtf32(value.first));
+                            encodeString(data, value.first);
                             data.insert(data.end(), {'"', ':'});
                             value.second.encodeValue(data);
                         }
@@ -787,7 +802,7 @@ namespace ouzel
             template <class T>
             explicit Data(const T& data)
             {
-                std::u32string str;
+                std::string str;
 
                 // BOM
                 if (std::distance(std::begin(data), std::end(data)) >= 3 &&
@@ -795,12 +810,12 @@ namespace ouzel
                                std::begin(UTF8_BOM)))
                 {
                     bom = true;
-                    str = utf8::toUtf32(std::begin(data) + 3, std::end(data));
+                    str.assign(std::begin(data) + 3, std::end(data));
                 }
                 else
                 {
                     bom = false;
-                    str = utf8::toUtf32(data);
+                    str.assign(data.begin(), data.end());
                 }
 
                 std::vector<Token> tokens = tokenize(str);
