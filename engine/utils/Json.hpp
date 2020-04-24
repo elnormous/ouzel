@@ -88,7 +88,8 @@ namespace ouzel
                 std::string value;
             };
 
-            inline std::vector<Token> tokenize(const std::string& str)
+            template <class Iterator>
+            inline std::vector<Token> tokenize(Iterator begin, Iterator end)
             {
                 std::vector<Token> tokens;
 
@@ -99,7 +100,7 @@ namespace ouzel
                 };
 
                 // tokenize
-                for (auto iterator = str.cbegin(); iterator != str.cend();)
+                for (auto iterator = begin; iterator != end;)
                 {
                     Token token;
 
@@ -110,52 +111,52 @@ namespace ouzel
 
                         if (*iterator == '-')
                         {
-                            token.value.push_back(*iterator);
-                            if (++iterator == str.cend() ||
+                            token.value.push_back(static_cast<char>(*iterator));
+                            if (++iterator == end ||
                                 *iterator < '0' || *iterator > '9')
                                 throw ParseError("Invalid number");
                         }
 
-                        while (iterator != str.cend() &&
+                        while (iterator != end &&
                             (*iterator >= '0' && *iterator <= '9'))
                         {
-                            token.value.push_back(*iterator);
+                            token.value.push_back(static_cast<char>(*iterator));
                             ++iterator;
                         }
 
-                        if (iterator != str.cend() && *iterator == '.')
+                        if (iterator != end && *iterator == '.')
                         {
                             token.type = Token::Type::LiteralFloat;
 
-                            token.value.push_back(*iterator);
+                            token.value.push_back(static_cast<char>(*iterator));
                             ++iterator;
 
-                            while (iterator != str.cend() &&
+                            while (iterator != end &&
                                 (*iterator >= '0' && *iterator <= '9'))
                             {
-                                token.value.push_back(*iterator);
+                                token.value.push_back(static_cast<char>(*iterator));
                                 ++iterator;
                             }
                         }
 
                         // parse exponent
-                        if (iterator != str.cend() &&
+                        if (iterator != end &&
                             (*iterator == 'e' || *iterator == 'E'))
                         {
-                            token.value.push_back(*iterator);
+                            token.value.push_back(static_cast<char>(*iterator));
 
-                            if (++iterator == str.cend())
+                            if (++iterator == end)
                                 throw ParseError("Invalid exponent");
 
                             if (*iterator == '+' || *iterator == '-')
-                                token.value.push_back(*iterator++);
+                                token.value.push_back(static_cast<char>(*iterator++));
 
-                            if (iterator == str.cend() || *iterator < '0' || *iterator > '9')
+                            if (iterator == end || *iterator < '0' || *iterator > '9')
                                 throw ParseError("Invalid exponent");
 
-                            while (iterator != str.cend() && *iterator >= '0' && *iterator <= '9')
+                            while (iterator != end && *iterator >= '0' && *iterator <= '9')
                             {
-                                token.value.push_back(*iterator);
+                                token.value.push_back(static_cast<char>(*iterator));
                                 ++iterator;
                             }
                         }
@@ -166,7 +167,7 @@ namespace ouzel
 
                         for (;;)
                         {
-                            if (++iterator == str.cend())
+                            if (++iterator == end)
                                 throw ParseError("Unterminated string literal");
 
                             if (*iterator == '"')
@@ -176,7 +177,7 @@ namespace ouzel
                             }
                             else if (*iterator == '\\')
                             {
-                                if (++iterator == str.cend())
+                                if (++iterator == end)
                                     throw ParseError("Unterminated string literal");
 
                                 switch (*iterator)
@@ -195,7 +196,7 @@ namespace ouzel
 
                                         for (std::uint32_t i = 0; i < 4; ++i, ++iterator)
                                         {
-                                            if (iterator == str.cend())
+                                            if (iterator == end)
                                                 throw ParseError("Unexpected end of data");
 
                                             std::uint8_t code = 0;
@@ -235,23 +236,23 @@ namespace ouzel
                                         throw ParseError("Unrecognized escape character");
                                 }
                             }
-                            else if (*iterator <= 0x1F) // control char
+                            else if (*iterator >= 0 && *iterator <= 0x1F) // control char
                                 throw ParseError("Unterminated string literal");
                             else
-                                token.value.push_back(*iterator);
+                                token.value.push_back(static_cast<char>(*iterator));
                         }
                     }
                     else if ((*iterator >= 'a' && *iterator <= 'z') ||
                             (*iterator >= 'A' && *iterator <= 'Z') ||
                             *iterator == '_')
                     {
-                        while (iterator != str.cend() &&
+                        while (iterator != end &&
                             ((*iterator >= 'a' && *iterator <= 'z') ||
                                 (*iterator >= 'A' && *iterator <= 'Z') ||
                                 *iterator == '_' ||
                                 (*iterator >= '0' && *iterator <= '9')))
                         {
-                            token.value.push_back(*iterator);
+                            token.value.push_back(static_cast<char>(*iterator));
                             ++iterator;
                         }
 
@@ -802,23 +803,21 @@ namespace ouzel
             template <class T>
             explicit Data(const T& data)
             {
-                std::string str;
+                auto begin = std::begin(data);
+                auto end = std::end(data);
 
                 // BOM
-                if (std::distance(std::begin(data), std::end(data)) >= 3 &&
-                    std::equal(std::begin(data), std::begin(data) + 3,
+                if (std::distance(begin, end) >= 3 &&
+                    std::equal(begin, begin + 3,
                                std::begin(UTF8_BOM)))
                 {
                     bom = true;
-                    str.assign(std::begin(data) + 3, std::end(data));
+                    begin += 3;
                 }
                 else
-                {
                     bom = false;
-                    str.assign(data.begin(), data.end());
-                }
 
-                std::vector<Token> tokens = tokenize(str);
+                std::vector<Token> tokens = tokenize(begin, end);
 
                 auto iterator = tokens.cbegin();
 
