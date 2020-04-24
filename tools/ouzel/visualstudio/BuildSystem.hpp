@@ -16,12 +16,19 @@ namespace ouzel
             const storage::Path projectFilename = project.getPath().getFilename();
             const storage::Path projectDirectory = project.getPath().getDirectory();
 
-            auto vcxprojProjectPath = projectDirectory / storage::Path{project.getName() + ".vcxproj"};
-            auto filtersProjectPath = projectDirectory / storage::Path{project.getName() + ".vcxproj.filters"};
-            auto slnProjectPath = projectDirectory / storage::Path{project.getName() + ".sln"};
+            for (const auto& target : project.getTargets())
+            {
+                if (target.platform == Platform::Windows)
+                {
+                    auto vcxprojProjectPath = projectDirectory / target.name + ".vcxproj";
+                    std::ofstream vcxprojProjectFile(vcxprojProjectPath, std::ios::trunc);
+                    auto filtersProjectPath = projectDirectory / target.name + ".vcxproj.filters";
+                    std::ofstream filtersProjectFile(filtersProjectPath, std::ios::trunc);
+                }
 
-            std::ofstream vcxprojProjectFile(vcxprojProjectPath, std::ios::trunc);
-            std::ofstream filtersProjectFile(filtersProjectPath, std::ios::trunc);
+            }
+
+            auto slnProjectPath = projectDirectory / project.getName() + ".sln";
             std::ofstream slnProjectFile(slnProjectPath, std::ios::trunc);
         }
     }
