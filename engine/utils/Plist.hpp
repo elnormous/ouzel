@@ -299,11 +299,12 @@ namespace ouzel
                 static std::string encode(const Value& value)
                 {
                     std::string result = "// !$*UTF8*$!\n";
-                    return encode(value, result);
+                    encode(value, result);
+                    return result;
                 }
 
             private:
-                static std::string& encode(const std::string& s, std::string& result)
+                static void encode(const std::string& s, std::string& result)
                 {
                     if (!s.empty())
                     {
@@ -329,11 +330,9 @@ namespace ouzel
                     }
                     else
                         result += "\"\"";
-
-                    return result;
                 }
 
-                static std::string& encode(const Value& value, std::string& result, size_t level = 0)
+                static void encode(const Value& value, std::string& result, size_t level = 0)
                 {
                     switch (value.getType())
                     {
@@ -390,8 +389,6 @@ namespace ouzel
                         case Value::Type::Date:
                             throw std::runtime_error("Date fields are not supported");
                     };
-
-                    return result;
                 }
             };
 
@@ -409,18 +406,16 @@ namespace ouzel
                 }
 
             private:
-                static std::string& encode(const std::string& s, std::string& result)
+                static void encode(const std::string& s, std::string& result)
                 {
                     for (const auto c : s)
                         if (c == '<') result += "&lt;";
                         else if (c == '>') result += "&gt;";
                         else if (c == '&') result += "&amp;";
                         else result.push_back(c);
-
-                    return result;
                 }
 
-                static std::string& encode(const Value& value, std::string& result, size_t level = 0)
+                static void encode(const Value& value, std::string& result, size_t level = 0)
                 {
                     switch (value.getType())
                     {
@@ -520,8 +515,6 @@ namespace ouzel
                         case Value::Type::Date:
                             throw std::runtime_error("Date fields are not supported");
                     };
-
-                    return result;
                 }
             };
 
