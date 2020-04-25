@@ -36,266 +36,6 @@ namespace ouzel
             explicit RangeError(const char* str): std::runtime_error(str) {}
         };
 
-        inline namespace detail
-        {
-            constexpr std::uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
-
-            inline void encodeString(std::string& data,
-                                    const std::string& str)
-            {
-                for (const auto c : str)
-                {
-                    if (c == '"') data.insert(data.end(), {'\\', '"'});
-                    else if (c == '\\') data.insert(data.end(), {'\\', '\\'});
-                    else if (c == '/') data.insert(data.end(), {'\\', '/'});
-                    else if (c == '\b') data.insert(data.end(), {'\\', 'b'});
-                    else if (c == '\f') data.insert(data.end(), {'\\', 'f'});
-                    else if (c == '\n') data.insert(data.end(), {'\\', 'n'});
-                    else if (c == '\r') data.insert(data.end(), {'\\', 'r'});
-                    else if (c == '\t') data.insert(data.end(), {'\\', 't'});
-                    else if (c <= 0x1F)
-                    {
-                        data.insert(data.end(), {'\\', 'u'});
-
-                        constexpr char digits[] = "0123456789abcdef";
-                        for (std::uint32_t p = 0; p < 4; ++p)
-                            data.push_back(digits[(c >> (12 - p * 4)) & 0x0F]);
-                    }
-                    else
-                        data.push_back(c);
-                }
-            }
-
-            struct Token final
-            {
-                enum class Type
-                {
-                    LiteralInteger, // integer
-                    LiteralFloat, // float
-                    LiteralString, // string
-                    KeywordTrue, // true
-                    KeywordFalse, // false
-                    KeywordNull, // null
-                    LeftBrace, // {
-                    RightBrace, // }
-                    LeftBracket, // [
-                    RightBracket, // ]
-                    Comma, // ,
-                    Colon // :
-                };
-
-                Type type;
-                std::string value;
-            };
-
-            template <class Iterator>
-            inline std::vector<Token> tokenize(Iterator begin, Iterator end)
-            {
-                std::vector<Token> tokens;
-
-                static const std::map<std::string, Token::Type> keywordMap{
-                    {"true", Token::Type::KeywordTrue},
-                    {"false", Token::Type::KeywordFalse},
-                    {"null", Token::Type::KeywordNull}
-                };
-
-                // tokenize
-                for (auto iterator = begin; iterator != end;)
-                {
-                    Token token;
-
-                    if (*iterator == '-' ||
-                        (*iterator >= '0' && *iterator <= '9'))
-                    {
-                        token.type = Token::Type::LiteralInteger;
-
-                        if (*iterator == '-')
-                        {
-                            token.value.push_back(static_cast<char>(*iterator));
-                            if (++iterator == end ||
-                                *iterator < '0' || *iterator > '9')
-                                throw ParseError("Invalid number");
-                        }
-
-                        while (iterator != end &&
-                            (*iterator >= '0' && *iterator <= '9'))
-                        {
-                            token.value.push_back(static_cast<char>(*iterator));
-                            ++iterator;
-                        }
-
-                        if (iterator != end && *iterator == '.')
-                        {
-                            token.type = Token::Type::LiteralFloat;
-
-                            token.value.push_back(static_cast<char>(*iterator));
-                            ++iterator;
-
-                            while (iterator != end &&
-                                (*iterator >= '0' && *iterator <= '9'))
-                            {
-                                token.value.push_back(static_cast<char>(*iterator));
-                                ++iterator;
-                            }
-                        }
-
-                        // parse exponent
-                        if (iterator != end &&
-                            (*iterator == 'e' || *iterator == 'E'))
-                        {
-                            token.value.push_back(static_cast<char>(*iterator));
-
-                            if (++iterator == end)
-                                throw ParseError("Invalid exponent");
-
-                            if (*iterator == '+' || *iterator == '-')
-                                token.value.push_back(static_cast<char>(*iterator++));
-
-                            if (iterator == end || *iterator < '0' || *iterator > '9')
-                                throw ParseError("Invalid exponent");
-
-                            while (iterator != end && *iterator >= '0' && *iterator <= '9')
-                            {
-                                token.value.push_back(static_cast<char>(*iterator));
-                                ++iterator;
-                            }
-                        }
-                    }
-                    else if (*iterator == '"') // string literal
-                    {
-                        token.type = Token::Type::LiteralString;
-
-                        for (;;)
-                        {
-                            if (++iterator == end)
-                                throw ParseError("Unterminated string literal");
-
-                            if (*iterator == '"')
-                            {
-                                ++iterator;
-                                break;
-                            }
-                            else if (*iterator == '\\')
-                            {
-                                if (++iterator == end)
-                                    throw ParseError("Unterminated string literal");
-
-                                switch (*iterator)
-                                {
-                                    case '"': token.value.push_back('"'); break;
-                                    case '\\': token.value.push_back('\\'); break;
-                                    case '/': token.value.push_back('/'); break;
-                                    case 'b': token.value.push_back('\b'); break;
-                                    case 'f': token.value.push_back('\f'); break;
-                                    case 'n': token.value.push_back('\n'); break;
-                                    case 'r': token.value.push_back('\r'); break;
-                                    case 't': token.value.push_back('\t'); break;
-                                    case 'u':
-                                    {
-                                        char32_t c = 0;
-
-                                        for (std::uint32_t i = 0; i < 4; ++i, ++iterator)
-                                        {
-                                            if (iterator == end)
-                                                throw ParseError("Unexpected end of data");
-
-                                            std::uint8_t code = 0;
-
-                                            if (*iterator >= '0' && *iterator <= '9') code = static_cast<std::uint8_t>(*iterator) - '0';
-                                            else if (*iterator >= 'a' && *iterator <='f') code = static_cast<std::uint8_t>(*iterator) - 'a' + 10;
-                                            else if (*iterator >= 'A' && *iterator <='F') code = static_cast<std::uint8_t>(*iterator) - 'A' + 10;
-                                            else
-                                                throw ParseError("Invalid character code");
-
-                                            c = (c << 4) | code;
-                                        }
-
-                                        if (c <= 0x7F)
-                                            token.value.push_back(static_cast<char>(c));
-                                        else if (c <= 0x7FF)
-                                        {
-                                            token.value.push_back(static_cast<char>(0xC0 | ((c >> 6) & 0x1F)));
-                                            token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
-                                        }
-                                        else if (c <= 0xFFFF)
-                                        {
-                                            token.value.push_back(static_cast<char>(0xE0 | ((c >> 12) & 0x0F)));
-                                            token.value.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
-                                            token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
-                                        }
-                                        else
-                                        {
-                                            token.value.push_back(static_cast<char>(0xF0 | ((c >> 18) & 0x07)));
-                                            token.value.push_back(static_cast<char>(0x80 | ((c >> 12) & 0x3F)));
-                                            token.value.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
-                                            token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
-                                        }
-                                        break;
-                                    }
-                                    default:
-                                        throw ParseError("Unrecognized escape character");
-                                }
-                            }
-                            else if (*iterator >= 0 && *iterator <= 0x1F) // control char
-                                throw ParseError("Unterminated string literal");
-                            else
-                                token.value.push_back(static_cast<char>(*iterator));
-                        }
-                    }
-                    else if ((*iterator >= 'a' && *iterator <= 'z') ||
-                            (*iterator >= 'A' && *iterator <= 'Z') ||
-                            *iterator == '_')
-                    {
-                        while (iterator != end &&
-                            ((*iterator >= 'a' && *iterator <= 'z') ||
-                                (*iterator >= 'A' && *iterator <= 'Z') ||
-                                *iterator == '_' ||
-                                (*iterator >= '0' && *iterator <= '9')))
-                        {
-                            token.value.push_back(static_cast<char>(*iterator));
-                            ++iterator;
-                        }
-
-                        auto keywordIterator = keywordMap.find(token.value);
-
-                        if (keywordIterator != keywordMap.end())
-                            token.type = keywordIterator->second;
-                        else
-                            throw ParseError("Unknown keyword " + token.value);
-                    }
-                    else if (*iterator == ' ' ||
-                            *iterator == '\t' ||
-                            *iterator == '\r' ||
-                            *iterator == '\n') // whitespace or newline
-                    {
-                        ++iterator;
-                        continue;
-                    }
-                    else if (*iterator == '\0')
-                        break;
-                    else
-                    {
-                        switch (*iterator)
-                        {
-                            case '{': token.type = Token::Type::LeftBrace; break;
-                            case '}': token.type = Token::Type::RightBrace; break;
-                            case '[': token.type = Token::Type::LeftBracket; break;
-                            case ']': token.type = Token::Type::RightBracket; break;
-                            case ',': token.type = Token::Type::Comma; break;
-                            case ':': token.type = Token::Type::Colon; break;
-                            default: throw ParseError("Unknown character");
-                        }
-
-                        ++iterator;
-                    }
-
-                    tokens.push_back(token);
-                }
-
-                return tokens;
-            }
-        }
-
         class Value
         {
         public:
@@ -318,7 +58,7 @@ namespace ouzel
             Value(const Type initType): type(initType) {}
 
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
-            Value(const T value): type(Type::Float), doubleValue(isfinite(value) ? static_cast<double>(value) : 0.0) {}
+            Value(const T value): type(Type::Float), doubleValue(std::isfinite(value) ? static_cast<double>(value) : 0.0) {}
 
             template <typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
             Value(const T value): type(Type::Integer), intValue(static_cast<std::int64_t>(value)) {}
@@ -345,7 +85,7 @@ namespace ouzel
             inline Value& operator=(const T value) noexcept
             {
                 type = Type::Float;
-                doubleValue = isfinite(value) ? static_cast<double>(value) : 0.0;
+                doubleValue = std::isfinite(value) ? static_cast<double>(value) : 0.0;
                 return *this;
             }
 
@@ -557,228 +297,6 @@ namespace ouzel
                 arrayValue.push_back(value);
             }
 
-        protected:
-            void parseValue(std::vector<Token>::const_iterator& iterator,
-                            std::vector<Token>::const_iterator end)
-            {
-                if (iterator == end)
-                    throw ParseError("Unexpected end of data");
-
-                if (iterator->type == Token::Type::LeftBrace)
-                    return parseObject(iterator, end);
-                else if (iterator->type == Token::Type::LeftBracket)
-                    return parseArray(iterator, end);
-                else if (iterator->type == Token::Type::LiteralInteger)
-                {
-                    type = Type::Integer;
-                    intValue = std::stoll(iterator->value);
-                    ++iterator;
-                }
-                else if (iterator->type == Token::Type::LiteralFloat)
-                {
-                    type = Type::Float;
-                    doubleValue = std::stod(iterator->value);
-                    ++iterator;
-                }
-                else if (iterator->type == Token::Type::LiteralString)
-                {
-                    type = Type::String;
-                    stringValue = iterator->value;
-                    ++iterator;
-                }
-                else if (iterator->type == Token::Type::KeywordTrue ||
-                         iterator->type == Token::Type::KeywordFalse)
-                {
-                    type = Type::Boolean;
-                    boolValue = (iterator->type == Token::Type::KeywordTrue);
-                    ++iterator;
-                }
-                else if (iterator->type == Token::Type::KeywordNull)
-                {
-                    type = Type::Null;
-                    ++iterator;
-                }
-                else
-                    throw ParseError("Expected a value");
-            }
-
-            void parseObject(std::vector<Token>::const_iterator& iterator,
-                             std::vector<Token>::const_iterator end)
-            {
-                if (iterator == end)
-                    throw ParseError("Unexpected end of data");
-
-                if (iterator->type != Token::Type::LeftBrace)
-                    throw ParseError("Expected a left brace");
-
-                ++iterator; // skip the left brace
-
-                bool first = true;
-
-                for (;;)
-                {
-                    if (iterator == end)
-                        throw ParseError("Unexpected end of data");
-
-                    if (iterator->type == Token::Type::RightBrace)
-                    {
-                        ++iterator;// skip the right brace
-                        break;
-                    }
-
-                    if (first)
-                        first = false;
-                    else
-                    {
-                        if (iterator->type != Token::Type::Comma)
-                            throw ParseError("Expected a comma");
-
-                        if (++iterator == end)
-                            throw ParseError("Unexpected end of data");
-                    }
-
-                    if (iterator->type != Token::Type::LiteralString)
-                        throw ParseError("Expected a string literal");
-
-                    const std::string& key = iterator->value;
-
-                    if (objectValue.find(key) != objectValue.end())
-                        throw ParseError("Duplicate key value " + key);
-
-                    if (++iterator == end)
-                        throw ParseError("Unexpected end of data");
-
-                    if (iterator->type != Token::Type::Colon)
-                        throw ParseError("Expected a colon");
-
-                    if (++iterator == end)
-                        throw ParseError("Unexpected end of data");
-
-                    Value value;
-                    value.parseValue(iterator, end);
-
-                    objectValue[key] = value;
-                }
-
-                type = Type::Object;
-            }
-
-            void parseArray(std::vector<Token>::const_iterator& iterator,
-                            std::vector<Token>::const_iterator end)
-            {
-                if (iterator == end)
-                    throw ParseError("Unexpected end of data");
-
-                if (iterator->type != Token::Type::LeftBracket)
-                    throw ParseError("Expected a left bracket");
-
-                ++iterator; // skip the left bracket
-
-                bool first = true;
-
-                for (;;)
-                {
-                    if (iterator == end)
-                        throw ParseError("Unexpected end of data");
-
-                    if (iterator->type == Token::Type::RightBracket)
-                    {
-                        ++iterator;// skip the right bracket
-                        break;
-                    }
-
-                    if (first)
-                        first = false;
-                    else
-                    {
-                        if (iterator->type != Token::Type::Comma)
-                            throw ParseError("Expected a comma");
-
-                        if (++iterator == end)
-                            throw ParseError("Unexpected end of data");
-                    }
-
-                    Value value;
-                    value.parseValue(iterator, end);
-
-                    arrayValue.push_back(value);
-                }
-
-                type = Type::Array;
-            }
-
-            void encodeValue(std::string& data) const
-            {
-                switch (type)
-                {
-                    case Type::Null:
-                    {
-                        data.insert(data.end(), {'n', 'u', 'l', 'l'});
-                        break;
-                    }
-                    case Type::Integer:
-                    {
-                        std::string value = std::to_string(intValue);
-                        data.insert(data.end(), value.begin(), value.end());
-                        break;
-                    }
-                    case Type::Float:
-                    {
-                        std::string value = std::to_string(doubleValue);
-                        data.insert(data.end(), value.begin(), value.end());
-                        break;
-                    }
-                    case Type::String:
-                        data.push_back('"');
-                        encodeString(data, stringValue);
-                        data.push_back('"');
-                        break;
-                    case Type::Object:
-                    {
-                        data.push_back('{');
-
-                        bool first = true;
-
-                        for (const auto& value : objectValue)
-                        {
-                            if (first) first = false;
-                            else data.push_back(',');
-
-                            data.push_back('"');
-                            encodeString(data, value.first);
-                            data.insert(data.end(), {'"', ':'});
-                            value.second.encodeValue(data);
-                        }
-
-                        data.push_back('}');
-                        break;
-                    }
-                    case Type::Array:
-                    {
-                        data.push_back('[');
-
-                        bool first = true;
-
-                        for (const auto& value : arrayValue)
-                        {
-                            if (first) first = false;
-                            else data.push_back(',');
-
-                            value.encodeValue(data);
-                        }
-
-                        data.push_back(']');
-                        break;
-                    }
-                    case Type::Boolean:
-                        if (boolValue) data.insert(data.end(), {'t', 'r', 'u', 'e'});
-                        else data.insert(data.end(), {'f', 'a', 'l', 's', 'e'});
-                        break;
-                    default:
-                        throw ParseError("Unknown value type");
-                }
-            }
-
         private:
             Type type = Type::Object;
             union
@@ -792,45 +310,515 @@ namespace ouzel
             std::string stringValue;
         };
 
-        class Data final: public Value
+        inline namespace detail
         {
-        public:
-            Data() = default;
+            constexpr std::uint8_t utf8ByteOrderMark[] = {0xEF, 0xBB, 0xBF};
+        }
 
-            template <class T>
-            explicit Data(const T& data):
-                Data(std::begin(data), std::end(data))
-            {}
-
-            template <class Iterator>
-            Data(Iterator begin, Iterator end)
+        template <class Iterator>
+        Value parse(Iterator begin, Iterator end)
+        {
+            class Parser final
             {
-                byteOrderMark = std::distance(begin, end) >= 3 &&
-                    std::equal(begin, begin + 3,
-                               std::begin(UTF8_BOM));
+            public:
+                static Value parse(Iterator begin, Iterator end)
+                {
+                    bool byteOrderMark = std::distance(begin, end) >= 3 &&
+                        std::equal(begin, begin + 3,
+                                   std::begin(utf8ByteOrderMark));
 
-                const std::vector<Token> tokens = tokenize(byteOrderMark ? begin + 3 : begin, end);
-                auto iterator = tokens.begin();
-                parseValue(iterator, tokens.end());
-            }
+                    const std::vector<Token> tokens = tokenize(byteOrderMark ? begin + 3 : begin, end);
+                    auto iterator = tokens.begin();
+                    Value result;
+                    parse(iterator, tokens.end(), result);
+                    return result;
+                }
 
-            std::string encode() const
+            private:
+                struct Token final
+                {
+                    enum class Type
+                    {
+                        LiteralInteger, // integer
+                        LiteralFloat, // float
+                        LiteralString, // string
+                        KeywordTrue, // true
+                        KeywordFalse, // false
+                        KeywordNull, // null
+                        LeftBrace, // {
+                        RightBrace, // }
+                        LeftBracket, // [
+                        RightBracket, // ]
+                        Comma, // ,
+                        Colon // :
+                    };
+
+                    Type type;
+                    std::string value;
+                };
+
+                static std::vector<Token> tokenize(Iterator begin, Iterator end)
+                {
+                    std::vector<Token> tokens;
+
+                    static const std::map<std::string, typename Token::Type> keywordMap{
+                        {"true", Token::Type::KeywordTrue},
+                        {"false", Token::Type::KeywordFalse},
+                        {"null", Token::Type::KeywordNull}
+                    };
+
+                    for (auto iterator = begin; iterator != end;)
+                    {
+                        Token token;
+
+                        if (*iterator == '-' ||
+                            (*iterator >= '0' && *iterator <= '9'))
+                        {
+                            token.type = Token::Type::LiteralInteger;
+
+                            if (*iterator == '-')
+                            {
+                                token.value.push_back(static_cast<char>(*iterator));
+                                if (++iterator == end ||
+                                    *iterator < '0' || *iterator > '9')
+                                    throw ParseError("Invalid number");
+                            }
+
+                            while (iterator != end &&
+                                   (*iterator >= '0' && *iterator <= '9'))
+                            {
+                                token.value.push_back(static_cast<char>(*iterator));
+                                ++iterator;
+                            }
+
+                            if (iterator != end && *iterator == '.')
+                            {
+                                token.type = Token::Type::LiteralFloat;
+
+                                token.value.push_back(static_cast<char>(*iterator));
+                                ++iterator;
+
+                                while (iterator != end &&
+                                       (*iterator >= '0' && *iterator <= '9'))
+                                {
+                                    token.value.push_back(static_cast<char>(*iterator));
+                                    ++iterator;
+                                }
+                            }
+
+                            // parse exponent
+                            if (iterator != end &&
+                                (*iterator == 'e' || *iterator == 'E'))
+                            {
+                                token.value.push_back(static_cast<char>(*iterator));
+
+                                if (++iterator == end)
+                                    throw ParseError("Invalid exponent");
+
+                                if (*iterator == '+' || *iterator == '-')
+                                    token.value.push_back(static_cast<char>(*iterator++));
+
+                                if (iterator == end || *iterator < '0' || *iterator > '9')
+                                    throw ParseError("Invalid exponent");
+
+                                while (iterator != end && *iterator >= '0' && *iterator <= '9')
+                                {
+                                    token.value.push_back(static_cast<char>(*iterator));
+                                    ++iterator;
+                                }
+                            }
+                        }
+                        else if (*iterator == '"') // string literal
+                        {
+                            token.type = Token::Type::LiteralString;
+
+                            for (;;)
+                            {
+                                if (++iterator == end)
+                                    throw ParseError("Unterminated string literal");
+
+                                if (*iterator == '"')
+                                {
+                                    ++iterator;
+                                    break;
+                                }
+                                else if (*iterator == '\\')
+                                {
+                                    if (++iterator == end)
+                                        throw ParseError("Unterminated string literal");
+
+                                    switch (*iterator)
+                                    {
+                                        case '"': token.value.push_back('"'); break;
+                                        case '\\': token.value.push_back('\\'); break;
+                                        case '/': token.value.push_back('/'); break;
+                                        case 'b': token.value.push_back('\b'); break;
+                                        case 'f': token.value.push_back('\f'); break;
+                                        case 'n': token.value.push_back('\n'); break;
+                                        case 'r': token.value.push_back('\r'); break;
+                                        case 't': token.value.push_back('\t'); break;
+                                        case 'u':
+                                        {
+                                            char32_t c = 0;
+
+                                            for (std::uint32_t i = 0; i < 4; ++i, ++iterator)
+                                            {
+                                                if (iterator == end)
+                                                    throw ParseError("Unexpected end of data");
+
+                                                std::uint8_t code = 0;
+
+                                                if (*iterator >= '0' && *iterator <= '9') code = static_cast<std::uint8_t>(*iterator) - '0';
+                                                else if (*iterator >= 'a' && *iterator <='f') code = static_cast<std::uint8_t>(*iterator) - 'a' + 10;
+                                                else if (*iterator >= 'A' && *iterator <='F') code = static_cast<std::uint8_t>(*iterator) - 'A' + 10;
+                                                else
+                                                    throw ParseError("Invalid character code");
+
+                                                c = (c << 4) | code;
+                                            }
+
+                                            if (c <= 0x7F)
+                                                token.value.push_back(static_cast<char>(c));
+                                            else if (c <= 0x7FF)
+                                            {
+                                                token.value.push_back(static_cast<char>(0xC0 | ((c >> 6) & 0x1F)));
+                                                token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                                            }
+                                            else if (c <= 0xFFFF)
+                                            {
+                                                token.value.push_back(static_cast<char>(0xE0 | ((c >> 12) & 0x0F)));
+                                                token.value.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                                                token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                                            }
+                                            else
+                                            {
+                                                token.value.push_back(static_cast<char>(0xF0 | ((c >> 18) & 0x07)));
+                                                token.value.push_back(static_cast<char>(0x80 | ((c >> 12) & 0x3F)));
+                                                token.value.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                                                token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                                            }
+
+                                            break;
+                                        }
+                                        default:
+                                            throw ParseError("Unrecognized escape character");
+                                    }
+                                }
+                                else if (*iterator >= 0 && *iterator <= 0x1F) // control char
+                                    throw ParseError("Unterminated string literal");
+                                else
+                                    token.value.push_back(static_cast<char>(*iterator));
+                            }
+                        }
+                        else if ((*iterator >= 'a' && *iterator <= 'z') ||
+                                 (*iterator >= 'A' && *iterator <= 'Z') ||
+                                 *iterator == '_')
+                        {
+                            while (iterator != end &&
+                                   ((*iterator >= 'a' && *iterator <= 'z') ||
+                                    (*iterator >= 'A' && *iterator <= 'Z') ||
+                                    *iterator == '_' ||
+                                    (*iterator >= '0' && *iterator <= '9')))
+                            {
+                                token.value.push_back(static_cast<char>(*iterator));
+                                ++iterator;
+                            }
+
+                            auto keywordIterator = keywordMap.find(token.value);
+
+                            if (keywordIterator != keywordMap.end())
+                                token.type = keywordIterator->second;
+                            else
+                                throw ParseError("Unknown keyword " + token.value);
+                        }
+                        else if (*iterator == ' ' ||
+                                 *iterator == '\t' ||
+                                 *iterator == '\r' ||
+                                 *iterator == '\n') // whitespace or newline
+                        {
+                            ++iterator;
+                            continue;
+                        }
+                        else if (*iterator == '\0')
+                            break;
+                        else
+                        {
+                            switch (*iterator)
+                            {
+                                case '{': token.type = Token::Type::LeftBrace; break;
+                                case '}': token.type = Token::Type::RightBrace; break;
+                                case '[': token.type = Token::Type::LeftBracket; break;
+                                case ']': token.type = Token::Type::RightBracket; break;
+                                case ',': token.type = Token::Type::Comma; break;
+                                case ':': token.type = Token::Type::Colon; break;
+                                default: throw ParseError("Unknown character");
+                            }
+
+                            ++iterator;
+                        }
+
+                        tokens.push_back(token);
+                    }
+
+                    return tokens;
+                }
+
+                static void parse(typename std::vector<Token>::const_iterator& iterator,
+                                  typename std::vector<Token>::const_iterator end,
+                                  Value& result)
+                {
+                    if (iterator == end)
+                        throw ParseError("Unexpected end of data");
+
+                    if (iterator->type == Token::Type::LeftBrace)
+                    {
+                        result = Value::Type::Object;
+
+                        ++iterator; // skip the left brace
+
+                        bool first = true;
+
+                        for (;;)
+                        {
+                            if (iterator == end)
+                                throw ParseError("Unexpected end of data");
+
+                            if (iterator->type == Token::Type::RightBrace)
+                            {
+                                ++iterator;// skip the right brace
+                                break;
+                            }
+
+                            if (first)
+                                first = false;
+                            else
+                            {
+                                if (iterator->type != Token::Type::Comma)
+                                    throw ParseError("Expected a comma");
+
+                                if (++iterator == end)
+                                    throw ParseError("Unexpected end of data");
+                            }
+
+                            if (iterator->type != Token::Type::LiteralString)
+                                throw ParseError("Expected a string literal");
+
+                            const std::string& key = iterator->value;
+
+                            if (result.hasMember(key))
+                                throw ParseError("Duplicate key value " + key);
+
+                            if (++iterator == end)
+                                throw ParseError("Unexpected end of data");
+
+                            if (iterator->type != Token::Type::Colon)
+                                throw ParseError("Expected a colon");
+
+                            if (++iterator == end)
+                                throw ParseError("Unexpected end of data");
+
+                            Value value;
+                            parse(iterator, end, value);
+                            result[key] = value;
+                        }
+                    }
+                    else if (iterator->type == Token::Type::LeftBracket)
+                    {
+                        result = Value::Type::Array;
+
+                        ++iterator; // skip the left bracket
+
+                        bool first = true;
+
+                        for (;;)
+                        {
+                            if (iterator == end)
+                                throw ParseError("Unexpected end of data");
+
+                            if (iterator->type == Token::Type::RightBracket)
+                            {
+                                ++iterator;// skip the right bracket
+                                break;
+                            }
+
+                            if (first)
+                                first = false;
+                            else
+                            {
+                                if (iterator->type != Token::Type::Comma)
+                                    throw ParseError("Expected a comma");
+
+                                if (++iterator == end)
+                                    throw ParseError("Unexpected end of data");
+                            }
+
+                            Value value;
+                            parse(iterator, end, value);
+                            result.pushBack(value);
+                        }
+                    }
+                    else if (iterator->type == Token::Type::LiteralInteger)
+                    {
+                        result = std::stoll(iterator->value);
+                        ++iterator;
+                    }
+                    else if (iterator->type == Token::Type::LiteralFloat)
+                    {
+                        result = std::stod(iterator->value);
+                        ++iterator;
+                    }
+                    else if (iterator->type == Token::Type::LiteralString)
+                    {
+                        result = iterator->value;
+                        ++iterator;
+                    }
+                    else if (iterator->type == Token::Type::KeywordTrue ||
+                             iterator->type == Token::Type::KeywordFalse)
+                    {
+                        result = iterator->type == Token::Type::KeywordTrue;
+                        ++iterator;
+                    }
+                    else if (iterator->type == Token::Type::KeywordNull)
+                    {
+                        result = nullptr;
+                        ++iterator;
+                    }
+                    else
+                        throw ParseError("Expected a value");
+                }
+            };
+
+            return Parser::parse(begin, end);
+        }
+
+        inline Value parse(const char* data)
+        {
+            const char* end = data;
+            while (*end) ++end;
+            return parse(data, end);
+        }
+
+        template <class T>
+        Value parse(const T data)
+        {
+            return parse(std::begin(data), std::end(data));
+        }
+
+        inline std::string encode(const Value& value, bool byteOrderMark = false)
+        {
+            class Encoder final
             {
-                std::string result;
+            public:
+                static std::string encode(const Value& value, bool byteOrderMark)
+                {
+                    std::string result;
+                    if (byteOrderMark) result.assign(std::begin(utf8ByteOrderMark),
+                                                     std::end(utf8ByteOrderMark));
+                    encode(value, result);
+                    return result;
+                }
 
-                if (byteOrderMark) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
+            private:
+                static void encode(const std::string& str, std::string& result)
+                {
+                    for (const auto c : str)
+                    {
+                        if (c == '"') result.insert(result.end(), {'\\', '"'});
+                        else if (c == '\\') result.insert(result.end(), {'\\', '\\'});
+                        else if (c == '/') result.insert(result.end(), {'\\', '/'});
+                        else if (c == '\b') result.insert(result.end(), {'\\', 'b'});
+                        else if (c == '\f') result.insert(result.end(), {'\\', 'f'});
+                        else if (c == '\n') result.insert(result.end(), {'\\', 'n'});
+                        else if (c == '\r') result.insert(result.end(), {'\\', 'r'});
+                        else if (c == '\t') result.insert(result.end(), {'\\', 't'});
+                        else if (c <= 0x1F)
+                        {
+                            result.insert(result.end(), {'\\', 'u'});
 
-                encodeValue(result);
+                            constexpr char digits[] = "0123456789abcdef";
+                            for (std::uint32_t p = 0; p < 4; ++p)
+                                result.push_back(digits[(c >> (12 - p * 4)) & 0x0F]);
+                        }
+                        else
+                            result.push_back(c);
+                    }
+                }
 
-                return result;
-            }
+                static void encode(const Value& value, std::string& result)
+                {
+                    switch (value.getType())
+                    {
+                        case Value::Type::Null:
+                        {
+                            result.insert(result.end(), {'n', 'u', 'l', 'l'});
+                            break;
+                        }
+                        case Value::Type::Integer:
+                        {
+                            const auto str = std::to_string(value.as<std::int64_t>());
+                            result.insert(result.end(), str.begin(), str.end());
+                            break;
+                        }
+                        case Value::Type::Float:
+                        {
+                            const auto str = std::to_string(value.as<double>());
+                            result.insert(result.end(), str.begin(), str.end());
+                            break;
+                        }
+                        case Value::Type::String:
+                            result.push_back('"');
+                            encode(value.as<std::string>(), result);
+                            result.push_back('"');
+                            break;
+                        case Value::Type::Object:
+                        {
+                            result.push_back('{');
 
-            bool hasByteOrderMark() const noexcept { return byteOrderMark; }
-            void setByteOrderMark(const bool newByteOrderMark) noexcept { byteOrderMark = newByteOrderMark; }
+                            bool first = true;
 
-        private:
-            bool byteOrderMark = false;
-        };
+                            for (const auto& entry : value.as<Value::Object>())
+                            {
+                                if (first) first = false;
+                                else result.push_back(',');
+
+                                result.push_back('"');
+                                encode(entry.first, result);
+                                result.insert(result.end(), {'"', ':'});
+                                encode(entry.second, result);
+                            }
+
+                            result.push_back('}');
+                            break;
+                        }
+                        case Value::Type::Array:
+                        {
+                            result.push_back('[');
+
+                            bool first = true;
+
+                            for (const auto& entry : value)
+                            {
+                                if (first) first = false;
+                                else result.push_back(',');
+
+                                encode(entry, result);
+                            }
+
+                            result.push_back(']');
+                            break;
+                        }
+                        case Value::Type::Boolean:
+                            if (value.as<bool>()) result.insert(result.end(), {'t', 'r', 'u', 'e'});
+                            else result.insert(result.end(), {'f', 'a', 'l', 's', 'e'});
+                            break;
+                        default:
+                            throw ParseError("Unknown value type");
+                    }
+                }
+            };
+
+            return Encoder::encode(value, byteOrderMark);
+        }
     } // namespace json
 } // namespace ouzel
 

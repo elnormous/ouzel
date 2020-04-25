@@ -19,7 +19,7 @@ namespace ouzel
                                    const std::vector<std::uint8_t>& data,
                                    bool mipmaps)
         {
-            const json::Data d(data);
+            const json::Value d = json::parse(data);
 
             const json::Value& nodesValue = d["nodes"];
             const json::Value& meshesValue = d["meshes"];
