@@ -40,7 +40,7 @@ namespace ouzel
         {
             constexpr std::uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
 
-            inline void encodeString(std::vector<std::uint8_t>& data,
+            inline void encodeString(std::string& data,
                                     const std::string& str)
             {
                 for (const auto c : str)
@@ -59,10 +59,10 @@ namespace ouzel
 
                         constexpr char digits[] = "0123456789abcdef";
                         for (std::uint32_t p = 0; p < 4; ++p)
-                            data.push_back(static_cast<std::uint8_t>(digits[(c >> (12 - p * 4)) & 0x0F]));
+                            data.push_back(digits[(c >> (12 - p * 4)) & 0x0F]);
                     }
                     else
-                        data.push_back(static_cast<std::uint8_t>(c));
+                        data.push_back(c);
                 }
             }
 
@@ -710,7 +710,7 @@ namespace ouzel
                 type = Type::Array;
             }
 
-            void encodeValue(std::vector<std::uint8_t>& data) const
+            void encodeValue(std::string& data) const
             {
                 switch (type)
                 {
@@ -824,9 +824,9 @@ namespace ouzel
                 parseValue(iterator, tokens.cend());
             }
 
-            std::vector<std::uint8_t> encode() const
+            std::string encode() const
             {
-                std::vector<std::uint8_t> result;
+                std::string result;
 
                 if (bom) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
 

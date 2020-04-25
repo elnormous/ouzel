@@ -225,7 +225,7 @@ namespace ouzel
                 return result;
             }
 
-            inline void encodeString(std::vector<std::uint8_t>& data,
+            inline void encodeString(std::string& data,
                                      const std::u32string& str)
             {
                 for (const char32_t c : str)
@@ -552,7 +552,7 @@ namespace ouzel
                 }
             }
 
-            void encode(std::vector<std::uint8_t>& data) const
+            void encode(std::string& data) const
             {
                 switch (type)
                 {
@@ -698,9 +698,9 @@ namespace ouzel
                     throw ParseError("No root tag found");
             }
 
-            std::vector<std::uint8_t> encode() const
+            std::string encode() const
             {
-                std::vector<std::uint8_t> result;
+                std::string result;
 
                 if (bom) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
 
