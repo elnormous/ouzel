@@ -808,11 +808,11 @@ namespace ouzel
             template <class Iterator>
             Data(Iterator begin, Iterator end)
             {
-                bom = std::distance(begin, end) >= 3 &&
+                byteOrderMark = std::distance(begin, end) >= 3 &&
                     std::equal(begin, begin + 3,
                                std::begin(UTF8_BOM));
 
-                const std::vector<Token> tokens = tokenize(bom ? begin + 3 : begin, end);
+                const std::vector<Token> tokens = tokenize(byteOrderMark ? begin + 3 : begin, end);
                 auto iterator = tokens.begin();
                 parseValue(iterator, tokens.end());
             }
@@ -821,18 +821,18 @@ namespace ouzel
             {
                 std::string result;
 
-                if (bom) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
+                if (byteOrderMark) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
 
                 encodeValue(result);
 
                 return result;
             }
 
-            inline bool hasBOM() const noexcept { return bom; }
-            inline void setBOM(const bool newBOM) noexcept { bom = newBOM; }
+            bool hasByteOrderMark() const noexcept { return byteOrderMark; }
+            void setByteOrderMark(const bool newByteOrderMark) noexcept { byteOrderMark = newByteOrderMark; }
 
         private:
-            bool bom = false;
+            bool byteOrderMark = false;
         };
     } // namespace json
 } // namespace ouzel

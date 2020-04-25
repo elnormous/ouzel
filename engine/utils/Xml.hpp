@@ -657,11 +657,11 @@ namespace ouzel
                  bool preserveComments = false,
                  bool preserveProcessingInstructions = false)
             {
-                bom = std::distance(begin, end) >= 3 &&
+                byteOrderMark = std::distance(begin, end) >= 3 &&
                     std::equal(begin, begin + 3,
                                std::begin(UTF8_BOM));
 
-                const std::u32string str = utf8::toUtf32(bom ? begin + 3 : begin, end);
+                const std::u32string str = utf8::toUtf32(byteOrderMark ? begin + 3 : begin, end);
                 auto iterator = str.begin();
                 bool rootTagFound = false;
 
@@ -708,13 +708,13 @@ namespace ouzel
                 return result;
             }
 
-            inline bool hasBom() const noexcept { return bom; }
-            inline void setBom(const bool newBom) noexcept { bom = newBom; }
+            bool hasByteOrderMark() const noexcept { return byteOrderMark; }
+            void setByteOrderMark(const bool newByteOrderMark) noexcept { byteOrderMark = newByteOrderMark; }
 
             inline auto& getChildren() const noexcept { return children; }
 
         private:
-            bool bom = false;
+            bool byteOrderMark = false;
             std::vector<Node> children;
         };
     } // namespace xml

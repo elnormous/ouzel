@@ -155,11 +155,11 @@ namespace ouzel
             template <class Iterator>
             Data(Iterator begin, Iterator end)
             {
-                bom = std::distance(begin, end) >= 3 &&
+                byteOrderMark = std::distance(begin, end) >= 3 &&
                     std::equal(begin, begin + 3,
                                std::begin(UTF8_BOM));
 
-                const std::u32string str = utf8::toUtf32(bom ? begin + 3 : begin, end);
+                const std::u32string str = utf8::toUtf32(byteOrderMark ? begin + 3 : begin, end);
                 parse(str.begin(), str.end());
             }
 
@@ -167,7 +167,7 @@ namespace ouzel
             {
                 std::vector<std::uint8_t> result;
 
-                if (bom) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
+                if (byteOrderMark) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
 
                 auto i = sections.find("");
                 if (i != sections.end())
@@ -216,8 +216,8 @@ namespace ouzel
                     sections.erase(sectionIterator);
             }
 
-            inline bool hasBom() const noexcept { return bom; }
-            inline void setBom(const bool newBom) noexcept { bom = newBom; }
+            bool hasByteOrderMark() const noexcept { return byteOrderMark; }
+            void setByteOrderMark(const bool newByteOrderMark) noexcept { byteOrderMark = newByteOrderMark; }
 
         private:
             void parse(std::u32string::const_iterator begin,
@@ -361,7 +361,7 @@ namespace ouzel
                 }
             }
 
-            bool bom = false;
+            bool byteOrderMark = false;
             std::map<std::string, Section> sections;
         };
     } // namespace ini
