@@ -558,9 +558,8 @@ namespace ouzel
             }
 
         protected:
-            template <class TokenIterator>
-            void parseValue(TokenIterator& iterator,
-                            TokenIterator end)
+            void parseValue(std::vector<Token>::const_iterator& iterator,
+                            std::vector<Token>::const_iterator end)
             {
                 if (iterator == end)
                     throw ParseError("Unexpected end of data");
@@ -603,9 +602,8 @@ namespace ouzel
                     throw ParseError("Expected a value");
             }
 
-            template <class TokenIterator>
-            void parseObject(TokenIterator& iterator,
-                             TokenIterator end)
+            void parseObject(std::vector<Token>::const_iterator& iterator,
+                             std::vector<Token>::const_iterator end)
             {
                 if (iterator == end)
                     throw ParseError("Unexpected end of data");
@@ -665,9 +663,8 @@ namespace ouzel
                 type = Type::Object;
             }
 
-            template <class TokenIterator>
-            void parseArray(TokenIterator& iterator,
-                            TokenIterator end)
+            void parseArray(std::vector<Token>::const_iterator& iterator,
+                            std::vector<Token>::const_iterator end)
             {
                 if (iterator == end)
                     throw ParseError("Unexpected end of data");
