@@ -642,31 +642,30 @@ namespace ouzel
         public:
             Data() = default;
 
-            Data(const std::vector<std::uint8_t>& data,
+            template <class T>
+            Data(const T& data,
                  bool preserveWhitespaces = false,
                  bool preserveComments = false,
                  bool preserveProcessingInstructions = false)
             {
-                std::u32string str;
+                auto begin = std::begin(data);
+                auto end = std::end(data);
 
                 // BOM
-                if (data.size() >= 3 &&
-                    std::equal(data.begin(), data.begin() + 3,
-                               std::begin(UTF8_BOM), std::end(UTF8_BOM)))
+                if (std::distance(begin, end) >= 3 &&
+                    std::equal(begin, begin + 3,
+                               std::begin(UTF8_BOM)))
                 {
                     bom = true;
-                    str = utf8::toUtf32(data.begin() + 3, data.end());
+                    begin += 3;
                 }
                 else
-                {
                     bom = false;
-                    str = utf8::toUtf32(data);
-                }
 
+                const std::u32string str = utf8::toUtf32(begin, end);
+                auto iterator = str.begin();
                 bool rootTagFound = false;
-
-                auto iterator = str.cbegin();
-
+                
                 for (;;)
                 {
                     if (!preserveWhitespaces) skipWhitespaces(iterator, str.end());
