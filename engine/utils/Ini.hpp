@@ -11,7 +11,6 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include "Utf8.hpp"
 
 namespace ouzel
 {
@@ -159,8 +158,7 @@ namespace ouzel
                     std::equal(begin, begin + 3,
                                std::begin(UTF8_BOM));
 
-                const std::u32string str = utf8::toUtf32(byteOrderMark ? begin + 3 : begin, end);
-                parse(str.begin(), str.end());
+                parse(byteOrderMark ? begin + 3 : begin, end);
             }
 
             std::vector<std::uint8_t> encode() const
@@ -220,8 +218,8 @@ namespace ouzel
             void setByteOrderMark(const bool newByteOrderMark) noexcept { byteOrderMark = newByteOrderMark; }
 
         private:
-            void parse(std::u32string::const_iterator begin,
-                       std::u32string::const_iterator end)
+            template <class Iterator>
+            void parse(Iterator begin, Iterator end)
             {
                 std::map<std::string, Section>::iterator sectionIterator;
                 std::tie(sectionIterator, std::ignore) = sections.insert(std::make_pair("", Section())); // default section
@@ -234,7 +232,7 @@ namespace ouzel
                     {
                         ++iterator; // skip the left bracket
 
-                        std::u32string sectionUtf32;
+                        std::string section;
                         bool parsedSection = false;
 
                         for (;;)
@@ -275,17 +273,15 @@ namespace ouzel
                             }
 
                             if (!parsedSection)
-                                sectionUtf32.push_back(*iterator);
+                                section.push_back(static_cast<char>(*iterator));
 
                             ++iterator;
                         }
 
-                        trim(sectionUtf32);
+                        trim(section);
 
-                        if (sectionUtf32.empty())
+                        if (section.empty())
                             throw ParseError("Invalid section name");
-
-                        const std::string section = utf8::fromUtf32(sectionUtf32);
 
                         std::tie(sectionIterator, std::ignore) = sections.insert(std::make_pair(section, Section(section)));
                     }
@@ -302,8 +298,8 @@ namespace ouzel
                     }
                     else // key, value pair
                     {
-                        std::u32string keyUtf32;
-                        std::u32string valueUtf32;
+                        std::string key;
+                        std::string value;
                         bool parsedKey = false;
 
                         while (iterator != end)
@@ -339,22 +335,19 @@ namespace ouzel
                             else
                             {
                                 if (!parsedKey)
-                                    keyUtf32.push_back(*iterator);
+                                    key.push_back(static_cast<char>(*iterator));
                                 else
-                                    valueUtf32.push_back(*iterator);
+                                    value.push_back(static_cast<char>(*iterator));
                             }
 
                             ++iterator;
                         }
 
-                        if (keyUtf32.empty())
+                        if (key.empty())
                             throw ParseError("Invalid key name");
 
-                        keyUtf32 = trim(keyUtf32);
-                        valueUtf32 = trim(valueUtf32);
-
-                        const std::string key = utf8::fromUtf32(keyUtf32);
-                        const std::string value = utf8::fromUtf32(valueUtf32);
+                        trim(key);
+                        trim(value);
 
                         sectionIterator->second.values[key] = value;
                     }
