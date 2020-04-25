@@ -698,8 +698,8 @@ namespace ouzel
             return parse(data, end);
         }
 
-        template <class T>
-        Value parse(const T data)
+        template <class Data>
+        Value parse(const Data& data)
         {
             return parse(std::begin(data), std::end(data));
         }
