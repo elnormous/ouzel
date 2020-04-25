@@ -147,24 +147,26 @@ namespace ouzel
         public:
             Data() = default;
 
-            explicit Data(const std::vector<std::uint8_t>& data)
-            {
-                std::u32string str;
+            template <class T>
+            explicit Data(const T& data):
+                Data(std::begin(data), std::end(data))
+            {}
 
+            template <class Iterator>
+            Data(Iterator begin, Iterator end)
+            {
                 // BOM
-                if (data.size() >= 3 &&
-                    std::equal(data.begin(), data.begin() + 3,
-                               std::begin(UTF8_BOM), std::end(UTF8_BOM)))
+                if (std::distance(begin, end) >= 3 &&
+                    std::equal(begin, begin + 3,
+                               std::begin(UTF8_BOM)))
                 {
                     bom = true;
-                    str = utf8::toUtf32(data.begin() + 3, data.end());
+                    begin += 3;
                 }
                 else
-                {
                     bom = false;
-                    str = utf8::toUtf32(data);
-                }
 
+                const std::u32string str = utf8::toUtf32(begin, end);
                 parse(str.begin(), str.end());
             }
 

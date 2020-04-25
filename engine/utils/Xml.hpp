@@ -646,11 +646,17 @@ namespace ouzel
             Data(const T& data,
                  bool preserveWhitespaces = false,
                  bool preserveComments = false,
+                 bool preserveProcessingInstructions = false):
+                Data(std::begin(data), std::end(data), preserveWhitespaces,
+                     preserveComments, preserveProcessingInstructions)
+            {}
+
+            template <class Iterator>
+            Data(Iterator begin, Iterator end,
+                 bool preserveWhitespaces = false,
+                 bool preserveComments = false,
                  bool preserveProcessingInstructions = false)
             {
-                auto begin = std::begin(data);
-                auto end = std::end(data);
-
                 // BOM
                 if (std::distance(begin, end) >= 3 &&
                     std::equal(begin, begin + 3,
@@ -665,7 +671,7 @@ namespace ouzel
                 const std::u32string str = utf8::toUtf32(begin, end);
                 auto iterator = str.begin();
                 bool rootTagFound = false;
-                
+
                 for (;;)
                 {
                     if (!preserveWhitespaces) skipWhitespaces(iterator, str.end());

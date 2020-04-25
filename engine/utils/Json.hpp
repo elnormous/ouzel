@@ -801,11 +801,13 @@ namespace ouzel
             Data() = default;
 
             template <class T>
-            explicit Data(const T& data)
-            {
-                auto begin = std::begin(data);
-                auto end = std::end(data);
+            explicit Data(const T& data):
+                Data(std::begin(data), std::end(data))
+            {}
 
+            template <class Iterator>
+            Data(Iterator begin, Iterator end)
+            {
                 // BOM
                 if (std::distance(begin, end) >= 3 &&
                     std::equal(begin, begin + 3,
