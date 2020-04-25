@@ -700,7 +700,7 @@ namespace ouzel
             {
                 std::string result;
 
-                if (bom) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
+                if (byteOrderMark) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
 
                 for (const Node& node : children)
                     node.encode(result);
