@@ -657,18 +657,11 @@ namespace ouzel
                  bool preserveComments = false,
                  bool preserveProcessingInstructions = false)
             {
-                // BOM
-                if (std::distance(begin, end) >= 3 &&
+                bom = std::distance(begin, end) >= 3 &&
                     std::equal(begin, begin + 3,
-                               std::begin(UTF8_BOM)))
-                {
-                    bom = true;
-                    begin += 3;
-                }
-                else
-                    bom = false;
+                               std::begin(UTF8_BOM));
 
-                const std::u32string str = utf8::toUtf32(begin, end);
+                const std::u32string str = utf8::toUtf32(bom ? begin + 3 : begin, end);
                 auto iterator = str.begin();
                 bool rootTagFound = false;
 
