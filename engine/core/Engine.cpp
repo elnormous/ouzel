@@ -129,14 +129,14 @@ namespace ouzel
         bool debugAudio = false;
 
         if (fileSystem.fileExists("settings.ini"))
-            defaultSettings = ini::Data(fileSystem.readFile("settings.ini"));
+            defaultSettings = ini::parse(fileSystem.readFile("settings.ini"));
 
         auto settingsPath = fileSystem.getStorageDirectory() / "settings.ini";
         if (fileSystem.fileExists(settingsPath))
-            userSettings = ini::Data(fileSystem.readFile(settingsPath));
+            userSettings = ini::parse(fileSystem.readFile(settingsPath));
 
-        const ini::Section& userEngineSection = userSettings.getSection("engine");
-        const ini::Section& defaultEngineSection = defaultSettings.getSection("engine");
+        const ini::Section& userEngineSection = userSettings["engine"];
+        const ini::Section& defaultEngineSection = defaultSettings["engine"];
 
         const std::string graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
 

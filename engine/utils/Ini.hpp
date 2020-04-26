@@ -16,24 +16,18 @@ namespace ouzel
 {
     namespace ini
     {
-        inline namespace detail
-        {
-            constexpr std::uint8_t utf8ByteOrderMark[] = {0xEF, 0xBB, 0xBF};
-        }
-
         class ParseError final: public std::logic_error
         {
         public:
             explicit ParseError(const std::string& str): std::logic_error(str) {}
             explicit ParseError(const char* str): std::logic_error(str) {}
         };
-        
-        class Data;
 
         class Section final
         {
-            friend Data;
         public:
+            using Values = std::map<std::string, std::string>;
+
             Section() = default;
 
             explicit Section(const std::string& initName):
@@ -41,23 +35,43 @@ namespace ouzel
             {
             }
 
-            inline auto& getName() const noexcept { return name; }
-            inline void setName(const std::string& newName) { name = newName; }
+            Values::iterator begin()
+            {
+                return values.begin();
+            }
 
-            inline auto& getValues() const noexcept { return values; }
+            Values::iterator end()
+            {
+                return values.end();
+            }
 
-            inline bool hasValue(const std::string& key) const
+            Values::const_iterator begin() const
+            {
+                return values.begin();
+            }
+
+            Values::const_iterator end() const
+            {
+                return values.end();
+            }
+
+            const std::string& getName() const noexcept { return name; }
+            void setName(const std::string& newName) { name = newName; }
+
+            const Values& getValues() const noexcept { return values; }
+
+            bool hasValue(const std::string& key) const
             {
                 auto valueIterator = values.find(key);
                 return valueIterator != values.end();
             }
 
-            auto& getValue(const std::string& key)
+            std::string& operator[](const std::string& key)
             {
                 return values[key];
             }
 
-            auto getValue(const std::string& key) const
+            std::string operator[](const std::string& key) const
             {
                 auto valueIterator = values.find(key);
                 if (valueIterator != values.end())
@@ -66,7 +80,7 @@ namespace ouzel
                 return std::string();
             }
 
-            auto& getValue(const std::string& key, const std::string& defaultValue) const
+            const std::string& getValue(const std::string& key, const std::string& defaultValue = {}) const
             {
                 auto valueIterator = values.find(key);
 
@@ -89,108 +103,57 @@ namespace ouzel
                     values.erase(valueIterator);
             }
 
-        private:
-            void encode(std::vector<std::uint8_t>& data) const
+            std::size_t getSize() const noexcept
             {
-                if (!name.empty())
-                {
-                    data.push_back('[');
-                    data.insert(data.end(), name.begin(), name.end());
-                    data.push_back(']');
-                    data.push_back('\n');
-                }
-
-                for (const auto& value : values)
-                {
-                    data.insert(data.end(), value.first.begin(), value.first.end());
-                    data.push_back('=');
-                    data.insert(data.end(), value.second.begin(), value.second.end());
-                    data.push_back('\n');
-                }
+                return values.size();
             }
 
+        private:
             std::string name;
-            std::map<std::string, std::string> values;
+            Values values;
         };
-
-        template <typename T>
-        constexpr auto isWhitespace(const T c) noexcept
-        {
-            return c == ' ' || c == '\t';
-        }
-
-        template <class T>
-        inline T& leftTrim(T& s)
-        {
-            s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-                                            [](auto c) noexcept {return !isWhitespace(c);}));
-            return s;
-        }
-
-        template <class T>
-        inline T& rightTrim(T& s)
-        {
-            s.erase(std::find_if(s.rbegin(), s.rend(),
-                                 [](auto c) noexcept {return !isWhitespace(c);}).base(), s.end());
-            return s;
-        }
-
-        template <class T>
-        inline T& trim(T& s)
-        {
-            return leftTrim(rightTrim(s));
-        }
 
         class Data final
         {
         public:
+            using Sections = std::map<std::string, Section>;
+
             Data() = default;
 
-            template <class T>
-            explicit Data(const T& data):
-                Data(std::begin(data), std::end(data))
-            {}
+            const Sections& getSections() const noexcept { return sections; }
 
-            template <class Iterator>
-            Data(Iterator begin, Iterator end)
+            Sections::iterator begin()
             {
-                byteOrderMark = hasByteOrderMark(begin, end);
-                parse(byteOrderMark ? begin + 3 : begin, end);
+                return sections.begin();
             }
 
-            std::vector<std::uint8_t> encode() const
+            Sections::iterator end()
             {
-                std::vector<std::uint8_t> result;
-
-                if (byteOrderMark) result.assign(std::begin(utf8ByteOrderMark), std::end(utf8ByteOrderMark));
-
-                auto i = sections.find("");
-                if (i != sections.end())
-                    i->second.encode(result);
-
-                for (const auto& section : sections)
-                {
-                    if (!section.first.empty())
-                        section.second.encode(result);
-                }
-
-                return result;
+                return sections.end();
             }
 
-            inline auto& getSections() const noexcept { return sections; }
+            Sections::const_iterator begin() const
+            {
+                return sections.begin();
+            }
 
-            inline bool hasSection(const std::string& name) const
+            Sections::const_iterator end() const
+            {
+                return sections.end();
+            }
+
+            bool hasSection(const std::string& name) const
             {
                 auto sectionIterator = sections.find(name);
                 return sectionIterator != sections.end();
             }
 
-            inline auto& getSection(const std::string& name)
+            Section& operator[](const std::string& name)
             {
                 return sections[name];
             }
 
-            auto getSection(const std::string& name) const
+            Section operator[](const std::string& name) const
             {
                 auto sectionIterator = sections.find(name);
                 if (sectionIterator != sections.end())
@@ -199,170 +162,253 @@ namespace ouzel
                 return Section();
             }
 
-            inline void setSection(const std::string& name, const Section& section)
-            {
-                sections[name] = section;
-            }
-
-            void deleteSection(const std::string& name)
+            void eraseSection(const std::string& name)
             {
                 auto sectionIterator = sections.find(name);
                 if (sectionIterator != sections.end())
                     sections.erase(sectionIterator);
             }
 
-            bool hasByteOrderMark() const noexcept { return byteOrderMark; }
-            void setByteOrderMark(const bool newByteOrderMark) noexcept { byteOrderMark = newByteOrderMark; }
-
-        private:
-            template <class Iterator>
-            static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
+            std::size_t getSize() const noexcept
             {
-                for (auto i = std::begin(utf8ByteOrderMark); i != std::end(utf8ByteOrderMark); ++i, ++begin)
-                    if (begin == end || *begin != *i)
-                        return false;
-                return true;
+                return sections.size();
             }
 
-            template <class Iterator>
-            void parse(Iterator begin, Iterator end)
+        private:
+            Sections sections;
+        };
+
+        inline namespace detail
+        {
+            constexpr std::uint8_t utf8ByteOrderMark[] = {0xEF, 0xBB, 0xBF};
+        }
+
+        template <class Iterator>
+        inline Data parse(Iterator begin, Iterator end)
+        {
+            class Parser final
             {
-                std::map<std::string, Section>::iterator sectionIterator;
-                std::tie(sectionIterator, std::ignore) = sections.insert(std::make_pair("", Section())); // default section
-
-                for (auto iterator = begin; iterator != end;)
+            public:
+                static Data parse(Iterator begin, Iterator end)
                 {
-                    if (isWhitespace(*iterator) || *iterator == '\n' || *iterator == '\r') // line starts with a whitespace
-                        ++iterator; // skip the white space
-                    else if (*iterator == '[') // section
+                    Data result;
+
+                    std::string section;
+
+                    for (auto iterator = hasByteOrderMark(begin, end) ? begin + 3 : begin; iterator != end;)
                     {
-                        ++iterator; // skip the left bracket
-
-                        std::string section;
-                        bool parsedSection = false;
-
-                        for (;;)
+                        if (isWhitespace(static_cast<char>(*iterator)) || *iterator == '\n' || *iterator == '\r') // line starts with a whitespace
+                            ++iterator; // skip the white space
+                        else if (*iterator == '[') // section
                         {
-                            if (iterator == end || *iterator == '\n' || *iterator == '\r')
+                            ++iterator; // skip the left bracket
+
+                            bool parsedSection = false;
+
+                            for (;;)
                             {
-                                if (!parsedSection)
-                                    throw ParseError("Unexpected end of section");
-
-                                ++iterator; // skip the newline
-                                break;
-                            }
-                            else if (*iterator == ';')
-                            {
-                                ++iterator; // skip the semicolon
-
-                                if (!parsedSection)
-                                    throw ParseError("Unexpected comment");
-
-                                while (iterator != end)
+                                if (iterator == end || *iterator == '\n' || *iterator == '\r')
                                 {
-                                    if (*iterator == '\n' || *iterator == '\r')
-                                    {
-                                        ++iterator; // skip the newline
-                                        break;
-                                    }
+                                    if (!parsedSection)
+                                        throw ParseError("Unexpected end of section");
 
-                                    ++iterator;
+                                    ++iterator; // skip the newline
+                                    break;
                                 }
-                                break;
-                            }
-                            else if (*iterator == ']')
-                                parsedSection = true;
-                            else if (*iterator != ' ' && *iterator != '\t')
-                            {
-                                if (parsedSection)
-                                    throw ParseError("Unexpected character after section");
-                            }
-
-                            if (!parsedSection)
-                                section.push_back(static_cast<char>(*iterator));
-
-                            ++iterator;
-                        }
-
-                        trim(section);
-
-                        if (section.empty())
-                            throw ParseError("Invalid section name");
-
-                        std::tie(sectionIterator, std::ignore) = sections.insert(std::make_pair(section, Section(section)));
-                    }
-                    else if (*iterator == ';') // comment
-                    {
-                        while (++iterator != end)
-                        {
-                            if (*iterator == '\r' || *iterator == '\n')
-                            {
-                                ++iterator; // skip the newline
-                                break;
-                            }
-                        }
-                    }
-                    else // key, value pair
-                    {
-                        std::string key;
-                        std::string value;
-                        bool parsedKey = false;
-
-                        while (iterator != end)
-                        {
-                            if (*iterator == '\r' || *iterator == '\n')
-                            {
-                                ++iterator; // skip the newline
-                                break;
-                            }
-                            else if (*iterator == '=')
-                            {
-                                if (!parsedKey)
-                                    parsedKey = true;
-                                else
-                                    throw ParseError("Unexpected character");
-                            }
-                            else if (*iterator == ';')
-                            {
-                                ++iterator; // skip the semicolon
-
-                                while (iterator != end)
+                                else if (*iterator == ';')
                                 {
-                                    if (*iterator == '\r' || *iterator == '\n')
+                                    ++iterator; // skip the semicolon
+
+                                    if (!parsedSection)
+                                        throw ParseError("Unexpected comment");
+
+                                    while (iterator != end)
                                     {
-                                        ++iterator; // skip the newline
-                                        break;
+                                        if (*iterator == '\n' || *iterator == '\r')
+                                        {
+                                            ++iterator; // skip the newline
+                                            break;
+                                        }
+
+                                        ++iterator;
                                     }
-
-                                    ++iterator;
+                                    break;
                                 }
-                                break;
-                            }
-                            else
-                            {
-                                if (!parsedKey)
-                                    key.push_back(static_cast<char>(*iterator));
-                                else
-                                    value.push_back(static_cast<char>(*iterator));
+                                else if (*iterator == ']')
+                                    parsedSection = true;
+                                else if (*iterator != ' ' && *iterator != '\t')
+                                {
+                                    if (parsedSection)
+                                        throw ParseError("Unexpected character after section");
+                                }
+
+                                if (!parsedSection)
+                                    section.push_back(static_cast<char>(*iterator));
+
+                                ++iterator;
                             }
 
-                            ++iterator;
+                            trim(section);
+
+                            if (section.empty())
+                                throw ParseError("Invalid section name");
+
+                            result[section] = Section{};
                         }
+                        else if (*iterator == ';') // comment
+                        {
+                            while (++iterator != end)
+                            {
+                                if (*iterator == '\r' || *iterator == '\n')
+                                {
+                                    ++iterator; // skip the newline
+                                    break;
+                                }
+                            }
+                        }
+                        else // key, value pair
+                        {
+                            std::string key;
+                            std::string value;
+                            bool parsedKey = false;
 
-                        if (key.empty())
-                            throw ParseError("Invalid key name");
+                            while (iterator != end)
+                            {
+                                if (*iterator == '\r' || *iterator == '\n')
+                                {
+                                    ++iterator; // skip the newline
+                                    break;
+                                }
+                                else if (*iterator == '=')
+                                {
+                                    if (!parsedKey)
+                                        parsedKey = true;
+                                    else
+                                        throw ParseError("Unexpected character");
+                                }
+                                else if (*iterator == ';')
+                                {
+                                    ++iterator; // skip the semicolon
 
-                        trim(key);
-                        trim(value);
+                                    while (iterator != end)
+                                    {
+                                        if (*iterator == '\r' || *iterator == '\n')
+                                        {
+                                            ++iterator; // skip the newline
+                                            break;
+                                        }
 
-                        sectionIterator->second.values[key] = value;
+                                        ++iterator;
+                                    }
+                                    break;
+                                }
+                                else
+                                {
+                                    if (!parsedKey)
+                                        key.push_back(static_cast<char>(*iterator));
+                                    else
+                                        value.push_back(static_cast<char>(*iterator));
+                                }
+
+                                ++iterator;
+                            }
+
+                            if (key.empty())
+                                throw ParseError("Invalid key name");
+
+                            trim(key);
+                            trim(value);
+
+                            result[section][key] = value;
+                        }
                     }
+
+                    return result;
+                }
+
+            private:
+                static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
+                {
+                    for (auto i = std::begin(utf8ByteOrderMark); i != std::end(utf8ByteOrderMark); ++i, ++begin)
+                        if (begin == end || *begin != *i)
+                            return false;
+                    return true;
+                }
+
+                static constexpr bool isWhitespace(const char c) noexcept
+                {
+                    return c == ' ' || c == '\t';
+                }
+
+                static std::string& leftTrim(std::string& s)
+                {
+                    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+                                                    [](char c) noexcept {return !isWhitespace(c);}));
+                    return s;
+                }
+
+                static std::string& rightTrim(std::string& s)
+                {
+                    s.erase(std::find_if(s.rbegin(), s.rend(),
+                                         [](char c) noexcept {return !isWhitespace(c);}).base(), s.end());
+                    return s;
+                }
+
+                static std::string& trim(std::string& s)
+                {
+                    return leftTrim(rightTrim(s));
+                }
+            };
+
+            return Parser::parse(begin, end);
+        }
+
+        inline Data parse(const char* data)
+        {
+            const char* end = data;
+            while (*end) ++end;
+            return parse(data, end);
+        }
+
+        template <class T>
+        Data parse(const T& data)
+        {
+            return parse(std::begin(data), std::end(data));
+        }
+
+        inline std::string encode(const Data& data, bool byteOrderMark = false)
+        {
+            std::string result;
+
+            if (byteOrderMark) result.assign(std::begin(utf8ByteOrderMark),
+                                             std::end(utf8ByteOrderMark));
+
+            for (const auto& section : data)
+            {
+                const auto& name = section.first;
+
+                if (!name.empty())
+                {
+                    result.push_back('[');
+                    result.insert(result.end(), name.begin(), name.end());
+                    result.push_back(']');
+                    result.push_back('\n');
+                }
+
+                for (const auto& entry : section.second)
+                {
+                    const auto& key = entry.first;
+                    const auto& value = entry.second;
+
+                    result.insert(result.end(), key.begin(), key.end());
+                    result.push_back('=');
+                    result.insert(result.end(), value.begin(), value.end());
+                    result.push_back('\n');
                 }
             }
 
-            bool byteOrderMark = false;
-            std::map<std::string, Section> sections;
-        };
+            return result;
+        }
     } // namespace ini
 } // namespace ouzel
 
