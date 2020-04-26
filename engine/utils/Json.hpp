@@ -323,11 +323,7 @@ namespace ouzel
             public:
                 static Value parse(Iterator begin, Iterator end)
                 {
-                    bool byteOrderMark = std::distance(begin, end) >= 3 &&
-                        std::equal(begin, begin + 3,
-                                   std::begin(utf8ByteOrderMark));
-
-                    const std::vector<Token> tokens = tokenize(byteOrderMark ? begin + 3 : begin, end);
+                    const std::vector<Token> tokens = tokenize(hasByteOrderMark(begin, end) ? begin + 3 : begin, end);
                     auto iterator = tokens.begin();
                     Value result;
                     parse(iterator, tokens.end(), result);
@@ -335,6 +331,14 @@ namespace ouzel
                 }
 
             private:
+                static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
+                {
+                    for (auto i = std::begin(utf8ByteOrderMark); i != std::end(utf8ByteOrderMark); ++i, ++begin)
+                        if (begin == end || *begin != *i)
+                            return false;
+                    return true;
+                }
+
                 struct Token final
                 {
                     enum class Type

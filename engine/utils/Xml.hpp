@@ -22,7 +22,7 @@ namespace ouzel
 
         inline namespace detail
         {
-            constexpr std::uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
+            constexpr std::uint8_t utf8ByteOrderMark[] = {0xEF, 0xBB, 0xBF};
 
             constexpr auto isWhitespace(const char32_t c) noexcept
             {
@@ -657,9 +657,7 @@ namespace ouzel
                  bool preserveComments = false,
                  bool preserveProcessingInstructions = false)
             {
-                byteOrderMark = std::distance(begin, end) >= 3 &&
-                    std::equal(begin, begin + 3,
-                               std::begin(UTF8_BOM));
+                byteOrderMark = hasByteOrderMark(begin, end);
 
                 const std::u32string str = utf8::toUtf32(byteOrderMark ? begin + 3 : begin, end);
                 auto iterator = str.begin();
@@ -700,7 +698,7 @@ namespace ouzel
             {
                 std::string result;
 
-                if (byteOrderMark) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
+                if (byteOrderMark) result.assign(std::begin(utf8ByteOrderMark), std::end(utf8ByteOrderMark));
 
                 for (const Node& node : children)
                     node.encode(result);
@@ -714,6 +712,15 @@ namespace ouzel
             inline auto& getChildren() const noexcept { return children; }
 
         private:
+            template <class Iterator>
+            static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
+            {
+                for (auto i = std::begin(utf8ByteOrderMark); i != std::end(utf8ByteOrderMark); ++i, ++begin)
+                    if (begin == end || *begin != *i)
+                        return false;
+                return true;
+            }
+
             bool byteOrderMark = false;
             std::vector<Node> children;
         };

@@ -18,7 +18,7 @@ namespace ouzel
     {
         inline namespace detail
         {
-            constexpr std::uint8_t UTF8_BOM[] = {0xEF, 0xBB, 0xBF};
+            constexpr std::uint8_t utf8ByteOrderMark[] = {0xEF, 0xBB, 0xBF};
         }
 
         class ParseError final: public std::logic_error
@@ -154,10 +154,7 @@ namespace ouzel
             template <class Iterator>
             Data(Iterator begin, Iterator end)
             {
-                byteOrderMark = std::distance(begin, end) >= 3 &&
-                    std::equal(begin, begin + 3,
-                               std::begin(UTF8_BOM));
-
+                byteOrderMark = hasByteOrderMark(begin, end);
                 parse(byteOrderMark ? begin + 3 : begin, end);
             }
 
@@ -165,7 +162,7 @@ namespace ouzel
             {
                 std::vector<std::uint8_t> result;
 
-                if (byteOrderMark) result.assign(std::begin(UTF8_BOM), std::end(UTF8_BOM));
+                if (byteOrderMark) result.assign(std::begin(utf8ByteOrderMark), std::end(utf8ByteOrderMark));
 
                 auto i = sections.find("");
                 if (i != sections.end())
@@ -218,6 +215,15 @@ namespace ouzel
             void setByteOrderMark(const bool newByteOrderMark) noexcept { byteOrderMark = newByteOrderMark; }
 
         private:
+            template <class Iterator>
+            static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
+            {
+                for (auto i = std::begin(utf8ByteOrderMark); i != std::end(utf8ByteOrderMark); ++i, ++begin)
+                    if (begin == end || *begin != *i)
+                        return false;
+                return true;
+            }
+
             template <class Iterator>
             void parse(Iterator begin, Iterator end)
             {
