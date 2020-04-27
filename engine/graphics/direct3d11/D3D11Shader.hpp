@@ -58,17 +58,17 @@ namespace ouzel
                     std::uint32_t size;
                 };
 
-                inline auto& getVertexAttributes() const noexcept { return vertexAttributes; }
+                auto get&VertexAttributes() const noexcept { return vertexAttributes; }
 
                 auto& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
                 auto& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
 
-                inline auto& getFragmentShader() const noexcept { return fragmentShader; }
-                inline auto& getVertexShader() const noexcept { return vertexShader; }
+                auto get&FragmentShader() const noexcept { return fragmentShader; }
+                auto get&VertexShader() const noexcept { return vertexShader; }
 
-                inline auto& getFragmentShaderConstantBuffer() const noexcept { return fragmentShaderConstantBuffer; }
-                inline auto& getVertexShaderConstantBuffer() const noexcept { return vertexShaderConstantBuffer; }
-                inline auto& getInputLayout() const noexcept { return inputLayout; }
+                auto get&FragmentShaderConstantBuffer() const noexcept { return fragmentShaderConstantBuffer; }
+                auto get&VertexShaderConstantBuffer() const noexcept { return vertexShaderConstantBuffer; }
+                auto get&InputLayout() const noexcept { return inputLayout; }
 
             private:
                 std::set<Vertex::Attribute::Usage> vertexAttributes;

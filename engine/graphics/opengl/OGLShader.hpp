@@ -59,12 +59,12 @@ namespace ouzel
                     DataType dataType;
                 };
 
-                inline auto& getVertexAttributes() const noexcept { return vertexAttributes; }
+                auto& getVertexAttributes() const noexcept { return vertexAttributes; }
 
-                inline auto& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
-                inline auto& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
+                auto& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
+                auto& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
 
-                inline auto getProgramId() const noexcept { return programId; }
+                auto getProgramId() const noexcept { return programId; }
 
             private:
                 void compileShader();

@@ -44,7 +44,7 @@ namespace ouzel
             virtual bool hasChild(const Actor* actor, bool recursive = false) const;
             virtual const std::vector<Actor*>& getChildren() const noexcept { return children; }
 
-            inline auto getLayer() const noexcept { return layer; }
+            auto getLayer() const noexcept { return layer; }
 
             std::vector<std::pair<Actor*, Vector3F>> findActors(const Vector2F& position) const;
             std::vector<Actor*> findActors(const std::vector<Vector2F>& edges) const;
@@ -84,8 +84,8 @@ namespace ouzel
             virtual void setPosition(const Vector2F& newPosition);
             virtual void setPosition(const Vector3F& newPosition);
 
-            inline auto getOrder() const noexcept { return order; }
-            inline void setOrder(Order newOrder) { order = newOrder; }
+            auto getOrder() const noexcept { return order; }
+            void setOrder(Order newOrder) { order = newOrder; }
 
             virtual const QuaternionF& getRotation() const noexcept { return rotation; }
             virtual void setRotation(const QuaternionF& newRotation);
@@ -113,7 +113,7 @@ namespace ouzel
 
             virtual bool isHidden() const noexcept { return hidden; }
             virtual void setHidden(bool newHidden);
-            inline auto isWorldHidden() const noexcept { return worldHidden; }
+            auto isWorldHidden() const noexcept { return worldHidden; }
 
             virtual bool pointOn(const Vector2F& worldPosition) const;
             virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
@@ -145,7 +145,7 @@ namespace ouzel
             Vector3F convertWorldToLocal(const Vector3F& worldPosition) const;
             Vector3F convertLocalToWorld(const Vector3F& localPosition) const;
 
-            inline auto getParent() const noexcept { return parent; }
+            auto getParent() const noexcept { return parent; }
             void removeFromParent();
 
             void addChild(Actor* actor) override;
@@ -155,7 +155,7 @@ namespace ouzel
             bool removeComponent(Component* component);
 
             void removeAllComponents();
-            inline auto& getComponents() const noexcept { return components; }
+            auto& getComponents() const noexcept { return components; }
 
             Box3F getBoundingBox() const;
 

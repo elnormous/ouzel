@@ -31,16 +31,16 @@ namespace ouzel
 
             void addChild(Actor* actor) override;
 
-            inline auto& getCameras() const noexcept { return cameras; }
+            auto& getCameras() const noexcept { return cameras; }
 
             std::pair<Actor*, Vector3F> pickActor(const Vector2F& position, bool renderTargets = false) const;
             std::vector<std::pair<Actor*, Vector3F>> pickActors(const Vector2F& position, bool renderTargets = false) const;
             std::vector<Actor*> pickActors(const std::vector<Vector2F>& edges, bool renderTargets = false) const;
 
-            inline auto getOrder() const noexcept { return order; }
+            auto getOrder() const noexcept { return order; }
             void setOrder(Order newOrder);
 
-            inline auto getScene() const noexcept { return scene; }
+            auto getScene() const noexcept { return scene; }
             void removeFromScene();
 
         protected:

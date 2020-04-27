@@ -25,23 +25,23 @@ namespace ouzel
             explicit Light(Type initType);
             ~Light() override;
 
-            inline auto getType() const noexcept { return type; }
-            inline void setType(Type newType) { type = newType; }
+            auto getType() const noexcept { return type; }
+            void setType(Type newType) { type = newType; }
 
-            inline auto getColor() const noexcept { return color; }
-            inline void setColor(Color newColor) { color = newColor; }
+            auto getColor() const noexcept { return color; }
+            void setColor(Color newColor) { color = newColor; }
 
-            inline auto& getDirection() const noexcept { return direction; }
-            inline void setDirection(const QuaternionF& newDirection) { direction = newDirection; }
+            auto& getDirection() const noexcept { return direction; }
+            void setDirection(const QuaternionF& newDirection) { direction = newDirection; }
 
-            inline auto getAngle() const noexcept { return angle; }
-            inline void setAngle(float newAngle) { angle = newAngle; }
+            auto getAngle() const noexcept { return angle; }
+            void setAngle(float newAngle) { angle = newAngle; }
 
-            inline auto getRange() const noexcept { return range; }
-            inline void setRange(float newRange) { range = newRange; }
+            auto getRange() const noexcept { return range; }
+            void setRange(float newRange) { range = newRange; }
 
-            inline auto getIntensity() const noexcept { return intensity; }
-            inline void setIntensity(float newIntensity) { intensity = newIntensity; }
+            auto getIntensity() const noexcept { return intensity; }
+            void setIntensity(float newIntensity) { intensity = newIntensity; }
 
         private:
             void setLayer(Layer* newLayer) override;

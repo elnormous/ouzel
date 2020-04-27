@@ -106,7 +106,7 @@ namespace ouzel
                     lock.unlock();
                 }
 
-                inline auto getRootObjectId() const noexcept
+                auto getRootObjectId() const noexcept
                 {
                     return rootObjectId;
                 }

@@ -612,23 +612,23 @@ namespace ouzel
             {
             }
 
-            inline auto& getName() const noexcept { return name; }
+            auto& getName() const noexcept { return name; }
 
-            inline auto isEmpty() const noexcept { return commands.empty(); }
+            auto isEmpty() const noexcept { return commands.empty(); }
 
-            inline void pushCommand(std::unique_ptr<Command> command)
+            void pushCommand(std::unique_ptr<Command> command)
             {
                 commands.push(std::move(command));
             }
 
-            inline std::unique_ptr<Command> popCommand()
+            std::unique_ptr<Command> popCommand()
             {
                 auto result = std::move(commands.front());
                 commands.pop();
                 return result;
             }
 
-            inline auto& getCommands() const
+            auto& getCommands() const
             {
                 return commands;
             }

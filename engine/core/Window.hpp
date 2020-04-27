@@ -43,24 +43,24 @@ namespace ouzel
         Window(Window&&) = delete;
         Window& operator=(Window&&) = delete;
 
-        inline auto getNativeWindow() const noexcept { return nativeWindow.get(); }
+        auto getNativeWindow() const noexcept { return nativeWindow.get(); }
 
         void close();
         void update();
 
-        inline auto& getSize() const noexcept { return size; }
+        auto& getSize() const noexcept { return size; }
         void setSize(const Size2U& newSize);
 
-        inline auto& getResolution() const noexcept { return resolution; }
+        auto& getResolution() const noexcept { return resolution; }
 
-        inline auto isResizable() const noexcept { return resizable; }
+        auto isResizable() const noexcept { return resizable; }
 
         void setFullscreen(bool newFullscreen);
-        inline auto isFullscreen() const noexcept { return fullscreen; }
+        auto isFullscreen() const noexcept { return fullscreen; }
 
-        inline auto isExclusiveFullscreen() const noexcept { return exclusiveFullscreen; }
+        auto isExclusiveFullscreen() const noexcept { return exclusiveFullscreen; }
 
-        inline auto& getTitle() const noexcept { return title; }
+        auto& getTitle() const noexcept { return title; }
         void setTitle(const std::string& newTitle);
         void bringToFront();
         void show();
@@ -69,15 +69,15 @@ namespace ouzel
         void maximize();
         void restore();
 
-        inline auto isVisible() const noexcept { return visible; }
-        inline auto isMinimized() const noexcept { return minimized; }
+        auto isVisible() const noexcept { return visible; }
+        auto isMinimized() const noexcept { return minimized; }
 
-        inline auto convertWindowToNormalizedLocation(const Vector2F& position) const noexcept
+        auto convertWindowToNormalizedLocation(const Vector2F& position) const noexcept
         {
             return Vector2F(position.v[0] / size.v[0], position.v[1] / size.v[1]);
         }
 
-        inline auto convertNormalizedToWindowLocation(const Vector2F& position) const noexcept
+        auto convertNormalizedToWindowLocation(const Vector2F& position) const noexcept
         {
             return Vector2F(position.v[0] * size.v[0], position.v[1] * size.v[1]);
         }

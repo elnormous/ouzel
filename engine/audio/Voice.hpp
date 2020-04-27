@@ -40,19 +40,19 @@ namespace ouzel
                 return *this;
             }
 
-            inline auto& getSound() const noexcept { return sound; }
+            auto& getSound() const noexcept { return sound; }
 
-            inline auto& getPosition() const noexcept { return position; }
-            inline void setPosition(const Vector3F& newPosition) { position = newPosition; }
+            auto& getPosition() const noexcept { return position; }
+            void setPosition(const Vector3F& newPosition) { position = newPosition; }
 
-            inline auto& getVelocity() const noexcept { return velocity; }
-            inline void setVelocity(const Vector3F& newVelocity) { velocity = newVelocity; }
+            auto& getVelocity() const noexcept { return velocity; }
+            void setVelocity(const Vector3F& newVelocity) { velocity = newVelocity; }
 
             void play();
             void pause();
             void stop();
 
-            inline auto isPlaying() const noexcept { return playing; }
+            auto isPlaying() const noexcept { return playing; }
 
             void setOutput(Mix* newOutput);
 

@@ -110,7 +110,7 @@ namespace ouzel
                 return *this;
             }
 
-            inline operator Type() const noexcept { return endpoint; }
+            operator Type() const noexcept { return endpoint; }
 
         private:
             Type endpoint = invalid;

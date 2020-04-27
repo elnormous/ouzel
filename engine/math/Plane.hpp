@@ -24,19 +24,19 @@ namespace ouzel
         {
         }
 
-        inline T& operator[](std::size_t index) noexcept { return v[index]; }
+        T& operator[](std::size_t index) noexcept { return v[index]; }
         constexpr T operator[](std::size_t index) const noexcept { return v[index]; }
 
-        inline T& a() noexcept { return v[0]; }
+        T& a() noexcept { return v[0]; }
         constexpr T a() const noexcept { return v[0]; }
 
-        inline T& b() noexcept { return v[1]; }
+        T& b() noexcept { return v[1]; }
         constexpr T b() const noexcept { return v[1]; }
 
-        inline T& c() noexcept { return v[2]; }
+        T& c() noexcept { return v[2]; }
         constexpr T c() const noexcept { return v[2]; }
 
-        inline T& d() noexcept { return v[3]; }
+        T& d() noexcept { return v[3]; }
         constexpr T d() const noexcept { return v[3]; }
 
         constexpr void flip() noexcept
@@ -97,7 +97,7 @@ namespace ouzel
             return v[0] != plane.v[0] || v[1] != plane.v[1] || v[2] != plane.v[2] || v[3] != plane.v[3];
         }
 
-        static inline Plane makeFrustumPlane(const T a, const T b, const T c, const T d) noexcept
+        static Plane makeFrustumPlane(const T a, const T b, const T c, const T d) noexcept
         {
             const T length = std::sqrt(a * a + b * b + c * c);
             if (length <= std::numeric_limits<T>::min()) // too close to zero

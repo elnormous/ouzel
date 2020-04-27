@@ -45,7 +45,7 @@ namespace ouzel
                     if (output) output->addInput(this);
                 }
 
-                inline auto isPlaying() const noexcept { return playing; }
+                auto isPlaying() const noexcept { return playing; }
                 void play() { playing = true; }
 
                 void stop(bool shouldReset)

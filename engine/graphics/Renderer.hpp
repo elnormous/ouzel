@@ -42,9 +42,9 @@ namespace ouzel
             static Driver getDriver(const std::string& driver);
             static std::set<Driver> getAvailableRenderDrivers();
 
-            inline auto getDevice() const noexcept { return device.get(); }
+            auto getDevice() const noexcept { return device.get(); }
 
-            inline auto& getSize() const noexcept { return size; }
+            auto& getSize() const noexcept { return size; }
 
             void saveScreenshot(const std::string& filename);
 
@@ -75,14 +75,14 @@ namespace ouzel
                                     const std::vector<std::vector<float>>& vertexShaderConstants);
             void setTextures(const std::vector<std::uintptr_t>& textures);
 
-            inline void addCommand(std::unique_ptr<Command> command)
+            void addCommand(std::unique_ptr<Command> command)
             {
                 commandBuffer.pushCommand(std::move(command));
             }
             void present();
 
             void waitForNextFrame();
-            inline bool getRefillQueue() const noexcept { return refillQueue; }
+            bool getRefillQueue() const noexcept { return refillQueue; }
 
             Vector2F convertScreenToNormalizedLocation(const Vector2F& position)
             {

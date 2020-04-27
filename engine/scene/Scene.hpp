@@ -43,7 +43,7 @@ namespace ouzel
 
             void removeAllLayers();
             bool hasLayer(const Layer* layer) const;
-            inline auto& getLayers() const noexcept { return layers; }
+            auto& getLayers() const noexcept { return layers; }
 
             virtual void recalculateProjection();
 

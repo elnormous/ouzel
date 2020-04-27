@@ -74,13 +74,13 @@ namespace ouzel
             RenderDevice(RenderDevice&&) = delete;
             RenderDevice& operator=(RenderDevice&&) = delete;
 
-            inline auto getDriver() const noexcept { return driver; }
+            auto getDriver() const noexcept { return driver; }
 
             virtual void process();
 
-            inline auto getSampleCount() const noexcept { return sampleCount; }
-            inline auto getTextureFilter() const noexcept { return textureFilter; }
-            inline auto getMaxAnisotropy() const noexcept { return maxAnisotropy; }
+            auto getSampleCount() const noexcept { return sampleCount; }
+            auto getTextureFilter() const noexcept { return textureFilter; }
+            auto getMaxAnisotropy() const noexcept { return maxAnisotropy; }
 
             virtual std::vector<Size2U> getSupportedResolutions() const;
 
@@ -92,22 +92,22 @@ namespace ouzel
                 commandQueueCondition.notify_all();
             }
 
-            inline auto getDrawCallCount() const noexcept { return drawCallCount; }
+            auto getDrawCallCount() const noexcept { return drawCallCount; }
 
-            inline auto getAPIMajorVersion() const noexcept { return apiVersion.v[0]; }
-            inline auto getAPIMinorVersion() const noexcept { return apiVersion.v[1]; }
+            auto getAPIMajorVersion() const noexcept { return apiVersion.v[0]; }
+            auto getAPIMinorVersion() const noexcept { return apiVersion.v[1]; }
 
-            inline auto isNPOTTexturesSupported() const noexcept { return npotTexturesSupported; }
-            inline auto isAnisotropicFilteringSupported() const noexcept { return anisotropicFilteringSupported; }
-            inline auto isRenderTargetsSupported() const noexcept { return renderTargetsSupported; }
+            auto isNPOTTexturesSupported() const noexcept { return npotTexturesSupported; }
+            auto isAnisotropicFilteringSupported() const noexcept { return anisotropicFilteringSupported; }
+            auto isRenderTargetsSupported() const noexcept { return renderTargetsSupported; }
 
             auto& getProjectionTransform(bool renderTarget) const noexcept
             {
                 return renderTarget ? renderTargetProjectionTransform : projectionTransform;
             }
 
-            inline float getFPS() const noexcept { return currentFPS; }
-            inline float getAccumulatedFPS() const noexcept { return accumulatedFPS; }
+            float getFPS() const noexcept { return currentFPS; }
+            float getAccumulatedFPS() const noexcept { return accumulatedFPS; }
 
             void executeOnRenderThread(const std::function<void()>& func);
 
@@ -146,7 +146,7 @@ namespace ouzel
                     return *this;
                 }
 
-                inline operator std::uintptr_t() const noexcept
+                operator std::uintptr_t() const noexcept
                 {
                     return id;
                 }

@@ -58,47 +58,47 @@ namespace ouzel
 
         void init();
 
-        inline auto& getArgs() const noexcept { return args; }
+        auto& getArgs() const noexcept { return args; }
 
-        inline Log log(Log::Level level = Log::Level::Info) const { return logger.log(level); }
-        inline auto& getLogger() { return logger; }
-        inline auto& getLogger() const { return logger; }
+        Log log(Log::Level level = Log::Level::Info) const { return logger.log(level); }
+        auto& getLogger() { return logger; }
+        auto& getLogger() const { return logger; }
 
-        inline auto& getFileSystem() { return fileSystem; }
-        inline auto& getFileSystem() const { return fileSystem; }
+        auto& getFileSystem() { return fileSystem; }
+        auto& getFileSystem() const { return fileSystem; }
 
-        inline auto& getEventDispatcher() { return eventDispatcher; }
-        inline auto& getEventDispatcher() const { return eventDispatcher; }
+        auto& getEventDispatcher() { return eventDispatcher; }
+        auto& getEventDispatcher() const { return eventDispatcher; }
 
-        inline auto& getCache() { return cache; }
-        inline auto& getCache() const { return cache; }
+        auto& getCache() { return cache; }
+        auto& getCache() const { return cache; }
 
-        inline auto getWindow() const { return window.get(); }
+        auto getWindow() const { return window.get(); }
 
-        inline auto getRenderer() const noexcept { return renderer.get(); }
-        inline auto getAudio() const noexcept { return audio.get(); }
+        auto getRenderer() const noexcept { return renderer.get(); }
+        auto getAudio() const noexcept { return audio.get(); }
 
-        inline auto& getSceneManager() { return sceneManager; }
-        inline auto& getSceneManager() const { return sceneManager; }
+        auto& getSceneManager() { return sceneManager; }
+        auto& getSceneManager() const { return sceneManager; }
 
-        inline auto getInputManager() const noexcept { return inputManager.get(); }
+        auto getInputManager() const noexcept { return inputManager.get(); }
 
-        inline auto& getLocalization() { return localization; }
-        inline auto& getLocalization() const { return localization; }
+        auto& getLocalization() { return localization; }
+        auto& getLocalization() const { return localization; }
 
-        inline auto& getNetwork() { return network; }
-        inline auto& getNetwork() const { return network; }
+        auto& getNetwork() { return network; }
+        auto& getNetwork() const { return network; }
 
-        inline auto& getDefaultSettings() const noexcept { return defaultSettings; }
-        inline auto& getUserSettings() const noexcept { return userSettings; }
+        auto& getDefaultSettings() const noexcept { return defaultSettings; }
+        auto& getUserSettings() const noexcept { return userSettings; }
 
         void start();
         void pause();
         void resume();
         void exit();
 
-        inline bool isPaused() const noexcept { return paused; }
-        inline bool isActive() const noexcept { return active; }
+        bool isPaused() const noexcept { return paused; }
+        bool isActive() const noexcept { return active; }
 
         void update();
 
@@ -106,11 +106,11 @@ namespace ouzel
 
         virtual void openUrl(const std::string& url);
 
-        inline bool isScreenSaverEnabled() const noexcept { return screenSaverEnabled; }
+        bool isScreenSaverEnabled() const noexcept { return screenSaverEnabled; }
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
 
-        inline bool isOneUpdatePerFrame() const noexcept { return oneUpdatePerFrame; }
-        inline void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
+        bool isOneUpdatePerFrame() const noexcept { return oneUpdatePerFrame; }
+        void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
 
     protected:
         class Command final

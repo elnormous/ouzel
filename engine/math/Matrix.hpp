@@ -374,37 +374,37 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getFrustumLeftPlane() const noexcept
+        auto getFrustumLeftPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getFrustumRightPlane() const noexcept
+        auto getFrustumRightPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getFrustumBottomPlane() const noexcept
+        auto getFrustumBottomPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getFrustumTopPlane() const noexcept
+        auto getFrustumTopPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getFrustumNearPlane() const noexcept
+        auto getFrustumNearPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getFrustumFarPlane() const noexcept
+        auto getFrustumFarPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14]);
         }
@@ -512,37 +512,37 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getUpVector() const noexcept
+        auto getUpVector() const noexcept
         {
             return Vector<3, T>(m[4], m[5], m[6]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getDownVector() const noexcept
+        auto getDownVector() const noexcept
         {
             return Vector<3, T>(-m[4], -m[5], -m[6]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getLeftVector() const noexcept
+        auto getLeftVector() const noexcept
         {
             return Vector<3, T>(-m[0], -m[1], -m[2]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getRightVector() const noexcept
+        auto getRightVector() const noexcept
         {
             return Vector<3, T>(m[0], m[1], m[2]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getForwardVector() const noexcept
+        auto getForwardVector() const noexcept
         {
             return Vector<3, T>(-m[8], -m[9], -m[10]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline auto getBackVector() const noexcept
+        auto getBackVector() const noexcept
         {
             return Vector<3, T>(m[8], m[9], m[10]);
         }
@@ -647,7 +647,7 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == Y)>::type* = nullptr>
-        inline auto isIdentity() const noexcept
+        auto isIdentity() const noexcept
         {
             for (std::size_t r = 0; r < R; ++r)
                 for (std::size_t c = 0; c < C; ++c)
@@ -734,14 +734,14 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == Y)>::type* = nullptr>
-        inline void setIdentity() noexcept
+        void setIdentity() noexcept
         {
             for (std::size_t r = 0; r < R; ++r)
                 for (std::size_t c = 0; c < C; ++c)
                     m[r * C + c] = static_cast<T>(r == c ? T(1) : T(0));
         }
 
-        inline void setZero() noexcept
+        void setZero() noexcept
         {
             for (T& c : m)
                 c = T(0);
@@ -813,7 +813,7 @@ namespace ouzel
             transformVector(v, v);
         }
 
-        inline void transformVector(const Vector<4, T>& v, Vector<4, T>& dst) const noexcept
+        void transformVector(const Vector<4, T>& v, Vector<4, T>& dst) const noexcept
         {
             assert(&v != &dst);
             dst.v[0] = v.v[0] * m[0] + v.v[1] * m[4] + v.v[2] * m[8] + v.v[3] * m[12];
@@ -904,60 +904,60 @@ namespace ouzel
             return result;
         }
 
-        inline const Matrix operator+(const Matrix& matrix) const noexcept
+        const Matrix operator+(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
             result.add(matrix);
             return result;
         }
 
-        inline Matrix& operator+=(const Matrix& matrix) noexcept
+        Matrix& operator+=(const Matrix& matrix) noexcept
         {
             add(matrix);
             return *this;
         }
 
-        inline const Matrix operator-(const Matrix& matrix) const noexcept
+        const Matrix operator-(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
             result.subtract(matrix);
             return result;
         }
 
-        inline Matrix& operator-=(const Matrix& matrix) noexcept
+        Matrix& operator-=(const Matrix& matrix) noexcept
         {
             subtract(matrix);
             return *this;
         }
 
-        inline const Matrix operator-() const noexcept
+        const Matrix operator-() const noexcept
         {
             Matrix result(*this);
             result.negate();
             return result;
         }
 
-        inline const Matrix operator*(const Matrix& matrix) const noexcept
+        const Matrix operator*(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
             result.multiply(matrix);
             return result;
         }
 
-        inline Matrix& operator*=(const Matrix& matrix) noexcept
+        Matrix& operator*=(const Matrix& matrix) noexcept
         {
             multiply(matrix);
             return *this;
         }
 
-        inline const Matrix operator*(float scalar) const noexcept
+        const Matrix operator*(float scalar) const noexcept
         {
             Matrix result(*this);
             result.multiply(scalar);
             return result;
         }
 
-        inline Matrix& operator*=(float scalar) noexcept
+        Matrix& operator*=(float scalar) noexcept
         {
             multiply(scalar);
             return *this;
@@ -982,7 +982,7 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline const Vector<3, T> operator*(const Vector<3, T>& v) const noexcept
+        const Vector<3, T> operator*(const Vector<3, T>& v) const noexcept
         {
             Vector<3, T> x;
             transformVector(v, x);
@@ -990,7 +990,7 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, typename std::enable_if<(X == 4 && Y == 4)>::type* = nullptr>
-        inline const Vector<4, T> operator*(const Vector<4, T>& v) const noexcept
+        const Vector<4, T> operator*(const Vector<4, T>& v) const noexcept
         {
             Vector<4, T> x;
             transformVector(v, x);
@@ -999,21 +999,21 @@ namespace ouzel
     };
 
     template <typename T>
-    inline Vector<3, T>& operator*=(Vector<3, T>& v, const Matrix<4, 4, T>& m) noexcept
+    Vector<3, T>& operator*=(Vector<3, T>& v, const Matrix<4, 4, T>& m) noexcept
     {
         m.transformVector(v);
         return v;
     }
 
     template <typename T>
-    inline Vector<4, T>& operator*=(Vector<4, T>& v, const Matrix<4, 4, T>& m) noexcept
+    Vector<4, T>& operator*=(Vector<4, T>& v, const Matrix<4, 4, T>& m) noexcept
     {
         m.transformVector(v);
         return v;
     }
 
     template <std::size_t C, std::size_t R, typename T>
-    inline const Matrix<C, R, T> operator*(const T scalar, const Matrix<C, R, T>& m) noexcept
+    const Matrix<C, R, T> operator*(const T scalar, const Matrix<C, R, T>& m) noexcept
     {
         return m * scalar;
     }

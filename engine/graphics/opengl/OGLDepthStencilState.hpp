@@ -52,21 +52,21 @@ namespace ouzel
 
                 void reload() final {}
 
-                inline auto getDepthTest() const noexcept { return depthTest; }
-                inline auto getDepthMask() const noexcept { return depthMask; }
-                inline auto getCompareFunction() const noexcept { return compareFunction; }
+                auto getDepthTest() const noexcept { return depthTest; }
+                auto getDepthMask() const noexcept { return depthMask; }
+                auto getCompareFunction() const noexcept { return compareFunction; }
 
-                inline auto getStencilTest() const noexcept { return stencilTest; }
-                inline auto getStencilReadMask() const noexcept { return stencilReadMask; }
-                inline auto getStencilWriteMask() const noexcept { return stencilWriteMask; }
-                inline auto getFrontFaceFail() const noexcept { return frontFaceFail; }
-                inline auto getFrontFaceDepthFail() const noexcept { return frontFaceDepthFail; }
-                inline auto getFrontFacePass() const noexcept { return frontFacePass; }
-                inline auto getFrontFaceFunction() const noexcept { return frontFaceFunction; }
-                inline auto getBackFaceFail() const noexcept { return backFaceFail; }
-                inline auto getBackFaceDepthFail() const noexcept { return backFaceDepthFail; }
-                inline auto getBackFacePass() const noexcept { return backFacePass; }
-                inline auto getBackFaceFunction() const noexcept { return backFaceFunction; }
+                auto getStencilTest() const noexcept { return stencilTest; }
+                auto getStencilReadMask() const noexcept { return stencilReadMask; }
+                auto getStencilWriteMask() const noexcept { return stencilWriteMask; }
+                auto getFrontFaceFail() const noexcept { return frontFaceFail; }
+                auto getFrontFaceDepthFail() const noexcept { return frontFaceDepthFail; }
+                auto getFrontFacePass() const noexcept { return frontFacePass; }
+                auto getFrontFaceFunction() const noexcept { return frontFaceFunction; }
+                auto getBackFaceFail() const noexcept { return backFaceFail; }
+                auto getBackFaceDepthFail() const noexcept { return backFaceDepthFail; }
+                auto getBackFacePass() const noexcept { return backFacePass; }
+                auto getBackFaceFunction() const noexcept { return backFaceFunction; }
 
             private:
                 bool depthTest = false;

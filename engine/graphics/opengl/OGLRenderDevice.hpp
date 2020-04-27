@@ -169,10 +169,10 @@ namespace ouzel
                 explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
                 ~RenderDevice() override;
 
-                inline auto isTextureBaseLevelSupported() const noexcept { return textureBaseLevelSupported; }
-                inline auto isTextureMaxLevelSupported() const noexcept { return textureMaxLevelSupported; }
+                auto isTextureBaseLevelSupported() const noexcept { return textureBaseLevelSupported; }
+                auto isTextureMaxLevelSupported() const noexcept { return textureMaxLevelSupported; }
 
-                inline void setFrontFace(GLenum mode)
+                void setFrontFace(GLenum mode)
                 {
                     if (stateCache.frontFace != mode)
                     {
@@ -185,7 +185,7 @@ namespace ouzel
                     }
                 }
 
-                inline void bindTexture(GLenum target, GLenum layer, GLuint textureId)
+                void bindTexture(GLenum target, GLenum layer, GLuint textureId)
                 {
                     if (stateCache.textures[target][layer] != textureId)
                     {
@@ -199,7 +199,7 @@ namespace ouzel
                     }
                 }
 
-                inline void useProgram(GLuint programId)
+                void useProgram(GLuint programId)
                 {
                     if (stateCache.programId != programId)
                     {
@@ -212,7 +212,7 @@ namespace ouzel
                     }
                 }
 
-                inline void bindFrameBuffer(GLuint bufferId)
+                void bindFrameBuffer(GLuint bufferId)
                 {
                     if (stateCache.frameBufferId != bufferId)
                     {
@@ -225,7 +225,7 @@ namespace ouzel
                     }
                 }
 
-                inline void bindBuffer(GLuint target, GLuint bufferId)
+                void bindBuffer(GLuint target, GLuint bufferId)
                 {
                     GLuint& currentBufferId = stateCache.bufferId[target];
 
@@ -240,7 +240,7 @@ namespace ouzel
                     }
                 }
 
-                inline void setScissorTest(bool scissorTestEnabled,
+                void setScissorTest(bool scissorTestEnabled,
                                            GLint x,
                                            GLint y,
                                            GLsizei width,
@@ -280,7 +280,7 @@ namespace ouzel
                     }
                 }
 
-                inline void enableDepthTest(bool enable)
+                void enableDepthTest(bool enable)
                 {
                     if (stateCache.depthTestEnabled != enable)
                     {
@@ -297,7 +297,7 @@ namespace ouzel
                     }
                 }
 
-                inline void enableStencilTest(bool enable)
+                void enableStencilTest(bool enable)
                 {
                     if (stateCache.stencilTestEnabled != enable)
                     {
@@ -314,7 +314,7 @@ namespace ouzel
                     }
                 }
 
-                inline void setViewport(GLint x,
+                void setViewport(GLint x,
                                         GLint y,
                                         GLsizei width,
                                         GLsizei height)
@@ -336,7 +336,7 @@ namespace ouzel
                     }
                 }
 
-                inline void setBlendState(bool blendEnabled,
+                void setBlendState(bool blendEnabled,
                                           GLenum modeRGB,
                                           GLenum modeAlpha,
                                           GLenum sfactorRGB,
@@ -392,7 +392,7 @@ namespace ouzel
                     }
                 }
 
-                inline void setColorMask(GLboolean redMask,
+                void setColorMask(GLboolean redMask,
                                          GLboolean greenMask,
                                          GLboolean blueMask,
                                          GLboolean alphaMask)
@@ -415,7 +415,7 @@ namespace ouzel
                     }
                 }
 
-                inline void setDepthMask(GLboolean flag)
+                void setDepthMask(GLboolean flag)
                 {
                     if (stateCache.depthMask != flag)
                     {
@@ -429,7 +429,7 @@ namespace ouzel
                     }
                 }
 
-                inline void setDepthFunc(GLenum depthFunc)
+                void setDepthFunc(GLenum depthFunc)
                 {
                     if (stateCache.depthFunc != depthFunc)
                     {
@@ -443,7 +443,7 @@ namespace ouzel
                     }
                 }
 
-                inline void setStencilMask(GLuint stencilMask)
+                void setStencilMask(GLuint stencilMask)
                 {
                     if (stateCache.stencilMask != stencilMask)
                     {
@@ -457,7 +457,7 @@ namespace ouzel
                     }
                 }
 
-                inline void setCullFace(bool cullEnabled,
+                void setCullFace(bool cullEnabled,
                                         GLenum cullFace)
                 {
                     if (stateCache.cullEnabled != cullEnabled)
@@ -488,7 +488,7 @@ namespace ouzel
                     }
                 }
 
-                inline void setClearColorValue(const std::array<GLfloat, 4>& clearColorValue)
+                void setClearColorValue(const std::array<GLfloat, 4>& clearColorValue)
                 {
                     if (stateCache.clearColor != clearColorValue)
                     {
@@ -505,7 +505,7 @@ namespace ouzel
                     }
                 }
 
-                inline void setClearDepthValue(GLfloat clearDepthValue)
+                void setClearDepthValue(GLfloat clearDepthValue)
                 {
                     if (stateCache.clearDepth != clearDepthValue)
                     {
@@ -523,7 +523,7 @@ namespace ouzel
                     }
                 }
 
-                inline void setClearStencilValue(GLint clearStencilValue)
+                void setClearStencilValue(GLint clearStencilValue)
                 {
                     if (stateCache.clearStencil != clearStencilValue)
                     {
@@ -573,7 +573,7 @@ namespace ouzel
                 }
 
 #if !OUZEL_OPENGLES
-                inline void setPolygonFillMode(GLenum polygonFillMode)
+                void setPolygonFillMode(GLenum polygonFillMode)
                 {
                     if (stateCache.polygonFillMode != polygonFillMode)
                     {
@@ -590,7 +590,7 @@ namespace ouzel
 #endif
 
                 template <class T>
-                inline auto getResource(std::uintptr_t id) const
+                auto getResource(std::uintptr_t id) const
                 {
                     return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
                 }

@@ -276,25 +276,25 @@ namespace ouzel
             Node(Type initType): type(initType) {}
             Node(const std::string& val): type(Type::Text), value(val) {}
 
-            inline Node& operator=(Type newType) noexcept
+            Node& operator=(Type newType) noexcept
             {
                 type = newType;
                 return *this;
             }
 
-            inline Node& operator=(const std::string& val)
+            Node& operator=(const std::string& val)
             {
                 type = Type::Text;
                 value = val;
                 return *this;
             }
 
-            inline auto getType() const noexcept { return type; }
+            auto getType() const noexcept { return type; }
 
-            inline auto& getValue() const noexcept { return value; }
-            inline void setValue(const std::string& newValue) { value = newValue; }
+            auto& getValue() const noexcept { return value; }
+            void setValue(const std::string& newValue) { value = newValue; }
 
-            inline auto& getChildren() const noexcept { return children; }
+            auto& getChildren() const noexcept { return children; }
 
             std::vector<Node>::iterator begin() { return children.begin(); }
             std::vector<Node>::iterator end() { return children.end(); }
@@ -709,7 +709,7 @@ namespace ouzel
             bool hasByteOrderMark() const noexcept { return byteOrderMark; }
             void setByteOrderMark(const bool newByteOrderMark) noexcept { byteOrderMark = newByteOrderMark; }
 
-            inline auto& getChildren() const noexcept { return children; }
+            auto& getChildren() const noexcept { return children; }
 
         private:
             template <class Iterator>

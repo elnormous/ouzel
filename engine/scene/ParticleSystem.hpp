@@ -132,15 +132,15 @@ namespace ouzel
             void stop();
             void reset();
 
-            inline auto isRunning() const noexcept { return running; }
-            inline auto isActive() const noexcept { return active; }
+            auto isRunning() const noexcept { return running; }
+            auto isActive() const noexcept { return active; }
 
-            inline auto getPositionType() const noexcept
+            auto getPositionType() const noexcept
             {
                 return particleSystemData.positionType;
             }
 
-            inline void setPositionType(ParticleSystemData::PositionType newPositionType)
+            void setPositionType(ParticleSystemData::PositionType newPositionType)
             {
                 particleSystemData.positionType = newPositionType;
             }

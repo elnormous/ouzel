@@ -28,18 +28,18 @@ namespace ouzel
                        BlendOperation initAlphaOperation,
                        ColorMask initColorMask = ColorMask::All);
 
-            inline auto& getResource() const noexcept { return resource; }
+            auto& getResource() const noexcept { return resource; }
 
-            inline auto isBlendingEnabled() const noexcept { return enableBlending; }
+            auto isBlendingEnabled() const noexcept { return enableBlending; }
 
-            inline auto getColorBlendSource() const noexcept { return colorBlendSource; }
-            inline auto getColorBlendDest() const noexcept { return colorBlendDest; }
-            inline auto getColorOperation() const noexcept { return colorOperation; }
-            inline auto getAlphaBlendSource() const noexcept { return alphaBlendSource; }
-            inline auto getAlphaBlendDest() const noexcept { return alphaBlendDest; }
-            inline auto getAlphaOperation() const noexcept { return alphaOperation; }
+            auto getColorBlendSource() const noexcept { return colorBlendSource; }
+            auto getColorBlendDest() const noexcept { return colorBlendDest; }
+            auto getColorOperation() const noexcept { return colorOperation; }
+            auto getAlphaBlendSource() const noexcept { return alphaBlendSource; }
+            auto getAlphaBlendDest() const noexcept { return alphaBlendDest; }
+            auto getAlphaOperation() const noexcept { return alphaOperation; }
 
-            inline auto getColorMask() const noexcept { return colorMask; }
+            auto getColorMask() const noexcept { return colorMask; }
 
         private:
             RenderDevice::Resource resource;

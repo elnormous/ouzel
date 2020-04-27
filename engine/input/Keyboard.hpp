@@ -188,7 +188,7 @@ namespace ouzel
 
             Keyboard(InputManager& initInputManager, DeviceId initDeviceId);
 
-            inline auto isKeyDown(Key key) const noexcept { return keyStates[static_cast<std::uint32_t>(key)]; }
+            auto isKeyDown(Key key) const noexcept { return keyStates[static_cast<std::uint32_t>(key)]; }
 
         protected:
             bool handleKeyPress(Keyboard::Key key);

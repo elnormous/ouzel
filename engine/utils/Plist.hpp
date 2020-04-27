@@ -117,70 +117,70 @@ namespace ouzel
             Type getType() const noexcept { return type; }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            inline T& as() noexcept
+            T& as() noexcept
             {
                 type = Type::String;
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            inline const T& as() const
+            const T& as() const
             {
                 if (type != Type::String) throw TypeError("Wrong type");
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
-            inline T as() const
+            T as() const
             {
                 if (type != Type::Boolean) throw TypeError("Wrong type");
                 return booleanValue;
             }
 
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
-            inline T as() const
+            T as() const
             {
                 if (type != Type::Real) throw TypeError("Wrong type");
                 return static_cast<T>(realValue);
             }
 
             template <class T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-            inline T as() const
+            T as() const
             {
                 if (type != Type::Integer) throw TypeError("Wrong type");
                 return static_cast<T>(integerValue);
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
-            inline T& as() noexcept
+            T& as() noexcept
             {
                 type = Type::Dictionary;
                 return dictionaryValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
-            inline const T& as() const
+            const T& as() const
             {
                 if (type != Type::Dictionary) throw TypeError("Wrong type");
                 return dictionaryValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
-            inline T& as() noexcept
+            T& as() noexcept
             {
                 type = Type::Array;
                 return arrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
-            inline const T& as() const
+            const T& as() const
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
                 return arrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Data>::value>::type* = nullptr>
-            inline const T& as() const
+            const T& as() const
             {
                 if (type != Type::Data) throw TypeError("Wrong type");
                 return dataValue;
@@ -210,19 +210,19 @@ namespace ouzel
                 return arrayValue.end();
             }
 
-            inline auto hasMember(const std::string& member) const
+            auto hasMember(const std::string& member) const
             {
                 if (type != Type::Dictionary) throw TypeError("Wrong type");
                 return dictionaryValue.find(member) != dictionaryValue.end();
             }
 
-            inline Value& operator[](const std::string& member)
+            Value& operator[](const std::string& member)
             {
                 type = Type::Dictionary;
                 return dictionaryValue[member];
             }
 
-            inline const Value& operator[](const std::string& member) const
+            const Value& operator[](const std::string& member) const
             {
                 if (type != Type::Dictionary) throw TypeError("Wrong type");
 
@@ -233,14 +233,14 @@ namespace ouzel
                     throw RangeError("Member does not exist");
             }
 
-            inline Value& operator[](std::size_t index)
+            Value& operator[](std::size_t index)
             {
                 type = Type::Array;
                 if (index >= arrayValue.size()) arrayValue.resize(index + 1);
                 return arrayValue[index];
             }
 
-            inline const Value& operator[](std::size_t index) const
+            const Value& operator[](std::size_t index) const
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
 
@@ -250,25 +250,25 @@ namespace ouzel
                     throw RangeError("Index out of range");
             }
 
-            inline auto getSize() const
+            auto getSize() const
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
                 return arrayValue.size();
             }
 
-            inline void resize(std::size_t size)
+            void resize(std::size_t size)
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
                 arrayValue.resize(size);
             }
 
-            inline void pushBack(uint8_t value)
+            void pushBack(uint8_t value)
             {
                 if (type != Type::Data) throw TypeError("Wrong type");
                 dataValue.push_back(value);
             }
 
-            inline void pushBack(const Value& value)
+            void pushBack(const Value& value)
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
                 arrayValue.push_back(value);

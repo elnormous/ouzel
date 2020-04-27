@@ -89,13 +89,13 @@ namespace ouzel
         void addCommand(const Command& command);
         virtual void executeCommand(const Command&) {}
 
-        inline auto& getSize() const noexcept { return size; }
-        inline auto& getResolution() const noexcept { return resolution; }
-        inline auto getContentScale() const noexcept { return contentScale; }
-        inline auto isResizable() const noexcept { return resizable; }
-        inline auto isFullscreen() const noexcept { return fullscreen; }
-        inline auto isExclusiveFullscreen() const noexcept { return exclusiveFullscreen; }
-        inline auto& getTitle() const noexcept { return title; }
+        auto& getSize() const noexcept { return size; }
+        auto& getResolution() const noexcept { return resolution; }
+        auto getContentScale() const noexcept { return contentScale; }
+        auto isResizable() const noexcept { return resizable; }
+        auto isFullscreen() const noexcept { return fullscreen; }
+        auto isExclusiveFullscreen() const noexcept { return exclusiveFullscreen; }
+        auto& getTitle() const noexcept { return title; }
 
     protected:
         void sendEvent(const Event& event);

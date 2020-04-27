@@ -33,8 +33,8 @@ namespace ouzel
             Sound(Sound&&) = delete;
             Sound& operator=(Sound&&) = delete;
 
-            inline auto getSourceId() const noexcept { return sourceId; }
-            inline auto getFormat() const noexcept { return format; }
+            auto getSourceId() const noexcept { return sourceId; }
+            auto getFormat() const noexcept { return format; }
 
         protected:
             Audio& audio;

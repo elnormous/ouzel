@@ -24,10 +24,10 @@ namespace ouzel
             Delay(Delay&&) = delete;
             Delay& operator=(Delay&&) = delete;
 
-            inline auto getDelay() const noexcept { return delay; }
+            auto getDelay() const noexcept { return delay; }
             void setDelay(float newDelay);
 
-            inline const std::pair<float, float>& getDelayRandom() const noexcept { return delayRandom; }
+            auto& getDelayRandom() const noexcept { return delayRandom; }
             void setDelayRandom(const std::pair<float, float>& newDelayRandom);
 
         private:
@@ -46,10 +46,10 @@ namespace ouzel
             Gain(Gain&&) = delete;
             Gain& operator=(Gain&&) = delete;
 
-            inline auto getGain() const noexcept { return gain; }
+            auto getGain() const noexcept { return gain; }
             void setGain(float newGain);
 
-            inline const std::pair<float, float>& getGainRandom() const noexcept { return gainRandom; }
+            auto& getGainRandom() const noexcept { return gainRandom; }
             void setGainRandom(const std::pair<float, float>& newGainRandom);
 
         private:
@@ -68,16 +68,16 @@ namespace ouzel
             Panner(Panner&&) = delete;
             Panner& operator=(Panner&&) = delete;
 
-            inline auto& getPosition() const noexcept { return position; }
+            auto& getPosition() const noexcept { return position; }
             void setPosition(const Vector3F& newPosition);
 
-            inline auto getRolloffFactor() const noexcept { return rolloffFactor; }
+            auto getRolloffFactor() const noexcept { return rolloffFactor; }
             void setRolloffFactor(float newRolloffFactor);
 
-            inline auto getMinDistance() const noexcept { return minDistance; }
+            auto getMinDistance() const noexcept { return minDistance; }
             void setMinDistance(float newMinDistance);
 
-            inline auto getMaxDistance() const noexcept { return maxDistance; }
+            auto getMaxDistance() const noexcept { return maxDistance; }
             void setMaxDistance(float newMaxDistance);
 
         private:
@@ -100,10 +100,10 @@ namespace ouzel
             PitchScale(PitchScale&&) = delete;
             PitchScale& operator=(PitchScale&&) = delete;
 
-            inline auto getScale() const noexcept { return scale; }
+            auto getScale() const noexcept { return scale; }
             void setScale(float newScale);
 
-            inline const std::pair<float, float>& getScaleRandom() const noexcept { return scaleRandom; }
+            auto& getScaleRandom() const noexcept { return scaleRandom; }
             void setScaleRandom(const std::pair<float, float>& newScaleRandom);
 
         private:
@@ -122,10 +122,10 @@ namespace ouzel
             PitchShift(PitchShift&&) = delete;
             PitchShift& operator=(PitchShift&&) = delete;
 
-            inline auto getShift() const noexcept { return shift; }
+            auto getShift() const noexcept { return shift; }
             void setShift(float newShift);
 
-            inline const std::pair<float, float>& getShiftRandom() const noexcept { return shiftRandom; }
+            auto& getShiftRandom() const noexcept { return shiftRandom; }
             void setShiftRandom(const std::pair<float, float>& newShiftRandom);
 
         private:
@@ -144,8 +144,8 @@ namespace ouzel
             Reverb(Reverb&&) = delete;
             Reverb& operator=(Reverb&&) = delete;
 
-            inline auto getDelay() const noexcept { return delay; }
-            inline auto getDecay() const noexcept { return decay; }
+            auto getDelay() const noexcept { return delay; }
+            auto getDecay() const noexcept { return decay; }
 
         private:
             float delay = 0.1F;

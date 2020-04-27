@@ -49,7 +49,7 @@ namespace ouzel
                                   StencilOperation initBackFaceStencilPassOperation,
                                   CompareFunction initBackFaceStencilCompareFunction);
 
-                inline auto& getDepthStencilState() const noexcept { return depthStencilState; }
+                auto& getDepthStencilState() const noexcept { return depthStencilState; }
 
             private:
                 Pointer<MTLDepthStencilStatePtr> depthStencilState;

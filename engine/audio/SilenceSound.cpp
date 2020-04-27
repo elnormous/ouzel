@@ -37,7 +37,7 @@ namespace ouzel
                 sampleRate = 44100;
             }
 
-            inline auto getLength() const noexcept { return length; }
+            auto getLength() const noexcept { return length; }
 
             std::unique_ptr<mixer::Stream> createStream() final
             {

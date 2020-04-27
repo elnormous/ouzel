@@ -42,7 +42,7 @@ namespace ouzel
 
                 void reload() final;
 
-                inline auto getFrameBufferId() const noexcept { return frameBufferId; }
+                auto getFrameBufferId() const noexcept { return frameBufferId; }
 
             private:
                 void createFrameBuffer();

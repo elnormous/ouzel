@@ -22,7 +22,7 @@ namespace ouzel
         }
 
         template<std::size_t N, typename std::enable_if<N>= 3>::type* = nullptr>
-        inline auto isPointInside(const Vector<N, T>& position) const noexcept
+        auto isPointInside(const Vector<N, T>& position) const noexcept
         {
             for (const Plane<T>& plane : planes)
                 if (plane.dot(position) < T(0))
@@ -32,7 +32,7 @@ namespace ouzel
         }
 
         template<std::size_t N, typename std::enable_if<N>= 3>::type* = nullptr>
-        inline auto isSphereInside(const Vector<N, T>& position, const T radius) const noexcept
+        auto isSphereInside(const Vector<N, T>& position, const T radius) const noexcept
         {
             for (const Plane<T>& plane : planes)
                 if (plane.dot(position) < -radius)

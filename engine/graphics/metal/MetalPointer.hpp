@@ -24,8 +24,8 @@ namespace ouzel
             public:
                 Pointer() noexcept = default;
 
-                inline Pointer(T a) noexcept: p(a) {}
-                inline Pointer& operator=(T a) noexcept
+                Pointer(T a) noexcept: p(a) {}
+                Pointer& operator=(T a) noexcept
                 {
                     if (p)
 #ifdef __OBJC__
@@ -41,12 +41,12 @@ namespace ouzel
                 Pointer(const Pointer&) = delete;
                 Pointer& operator=(const Pointer&) = delete;
 
-                inline Pointer(Pointer&& other) noexcept: p(other.p)
+                Pointer(Pointer&& other) noexcept: p(other.p)
                 {
                     other.p = nil;
                 }
 
-                inline Pointer& operator=(Pointer&& other) noexcept
+                Pointer& operator=(Pointer&& other) noexcept
                 {
                     if (this == &other) return *this;
                     if (p)
@@ -70,12 +70,12 @@ namespace ouzel
 #endif
                 }
 
-                inline T get() const noexcept
+                T get() const noexcept
                 {
                     return p;
                 }
 
-                explicit inline operator bool() const noexcept
+                explicit operator bool() const noexcept
                 {
                     return p != nil;
                 }

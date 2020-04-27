@@ -44,12 +44,12 @@ namespace ouzel
 
                 void setData(const std::vector<std::uint8_t>& newData);
 
-                inline auto getFlags() const noexcept { return flags; }
-                inline auto getType() const noexcept { return type; }
-                inline auto getSize() const noexcept { return size; }
+                auto getFlags() const noexcept { return flags; }
+                auto getType() const noexcept { return type; }
+                auto getSize() const noexcept { return size; }
 
-                inline auto getBufferId() const noexcept { return bufferId; }
-                inline auto getBufferType() const noexcept { return bufferType; }
+                auto getBufferId() const noexcept { return bufferId; }
+                auto getBufferType() const noexcept { return bufferType; }
 
             private:
                 void createBuffer();

@@ -36,7 +36,7 @@ namespace ouzel
 
                 void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
-                inline auto getEngine() const noexcept { return engine; }
+                auto getEngine() const noexcept { return engine; }
 
             private:
                 Pointer<SLObjectItf> engineObject;

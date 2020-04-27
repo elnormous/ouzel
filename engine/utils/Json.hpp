@@ -75,14 +75,14 @@ namespace ouzel
 
             Value(const Object& value): type(Type::Object), objectValue(value) {}
 
-            inline Value& operator=(const Type newType) noexcept
+            Value& operator=(const Type newType) noexcept
             {
                 type = newType;
                 return *this;
             }
 
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
-            inline Value& operator=(const T value) noexcept
+            Value& operator=(const T value) noexcept
             {
                 type = Type::Float;
                 doubleValue = std::isfinite(value) ? static_cast<double>(value) : 0.0;
@@ -90,80 +90,80 @@ namespace ouzel
             }
 
             template <typename T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-            inline Value& operator=(const T value) noexcept
+            Value& operator=(const T value) noexcept
             {
                 type = Type::Integer;
                 intValue = static_cast<std::int64_t>(value);
                 return *this;
             }
 
-            inline Value& operator=(const std::string& value)
+            Value& operator=(const std::string& value)
             {
                 type = Type::String;
                 stringValue = value;
                 return *this;
             }
 
-            inline Value& operator=(const char* value)
+            Value& operator=(const char* value)
             {
                 type = Type::String;
                 stringValue = value;
                 return *this;
             }
 
-            inline Value& operator=(const bool value) noexcept
+            Value& operator=(const bool value) noexcept
             {
                 type = Type::Boolean;
                 boolValue = value;
                 return *this;
             }
 
-            inline Value& operator=(std::nullptr_t) noexcept
+            Value& operator=(std::nullptr_t) noexcept
             {
                 type = Type::Null;
                 objectValue.clear();
                 return *this;
             }
 
-            inline Value& operator=(const Array& value)
+            Value& operator=(const Array& value)
             {
                 type = Type::Array;
                 arrayValue = value;
                 return *this;
             }
 
-            inline Value& operator=(const Object& value)
+            Value& operator=(const Object& value)
             {
                 type = Type::Object;
                 objectValue = value;
                 return *this;
             }
 
-            inline auto getType() const noexcept { return type; }
+            auto getType() const noexcept { return type; }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            inline T& as() noexcept
+            T& as() noexcept
             {
                 type = Type::String;
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            inline const T& as() const
+            const T& as() const
             {
                 if (type != Type::String) throw TypeError("Wrong type");
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, const char*>::value>::type* = nullptr>
-            inline T as() const
+            T as() const
             {
                 if (type != Type::String) throw TypeError("Wrong type");
                 return stringValue.c_str();
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
-            inline T as() const
+            T as() const
             {
                 if (type != Type::Boolean && type != Type::Integer && type != Type::Float)
                     throw TypeError("Wrong type");
@@ -173,7 +173,7 @@ namespace ouzel
             }
 
             template <typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-            inline T as() const
+            T as() const
             {
                 if (type != Type::Boolean && type != Type::Integer && type != Type::Float)
                     throw TypeError("Wrong type");
@@ -183,28 +183,28 @@ namespace ouzel
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
-            inline T& as() noexcept
+            T& as() noexcept
             {
                 type = Type::Object;
                 return objectValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
-            inline const T& as() const
+            const T& as() const
             {
                 if (type != Type::Object) throw TypeError("Wrong type");
                 return objectValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
-            inline T& as() noexcept
+            T& as() noexcept
             {
                 type = Type::Array;
                 return arrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
-            inline const T& as() const
+            const T& as() const
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
                 return arrayValue;
@@ -234,24 +234,24 @@ namespace ouzel
                 return arrayValue.end();
             }
 
-            inline auto isNull() const noexcept
+            auto isNull() const noexcept
             {
                 return type == Type::Null;
             }
 
-            inline auto hasMember(const std::string& member) const
+            auto hasMember(const std::string& member) const
             {
                 if (type != Type::Object) throw TypeError("Wrong type");
                 return objectValue.find(member) != objectValue.end();
             }
 
-            inline Value& operator[](const std::string& member)
+            Value& operator[](const std::string& member)
             {
                 type = Type::Object;
                 return objectValue[member];
             }
 
-            inline const Value& operator[](const std::string& member) const
+            const Value& operator[](const std::string& member) const
             {
                 if (type != Type::Object) throw TypeError("Wrong type");
 
@@ -262,14 +262,14 @@ namespace ouzel
                     throw RangeError("Member does not exist");
             }
 
-            inline Value& operator[](std::size_t index)
+            Value& operator[](std::size_t index)
             {
                 type = Type::Array;
                 if (index >= arrayValue.size()) arrayValue.resize(index + 1);
                 return arrayValue[index];
             }
 
-            inline const Value& operator[](std::size_t index) const
+            const Value& operator[](std::size_t index) const
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
 
@@ -279,19 +279,19 @@ namespace ouzel
                     throw RangeError("Index out of range");
             }
 
-            inline auto getSize() const
+            auto getSize() const
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
                 return arrayValue.size();
             }
 
-            inline void resize(std::size_t size)
+            void resize(std::size_t size)
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
                 arrayValue.resize(size);
             }
 
-            inline void pushBack(const Value& value)
+            void pushBack(const Value& value)
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
                 arrayValue.push_back(value);

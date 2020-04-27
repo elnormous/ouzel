@@ -43,8 +43,8 @@ namespace ouzel
 
                 void resolve();
 
-                inline auto& getRenderTargetViews() const noexcept { return renderTargetViews; }
-                inline auto getDepthStencilView() const noexcept { return depthStencilView; }
+                auto get&RenderTargetViews() const noexcept { return renderTargetViews; }
+                auto getDepthStencilView() const noexcept { return depthStencilView; }
 
             private:
                 std::set<Texture*> colorTextures;

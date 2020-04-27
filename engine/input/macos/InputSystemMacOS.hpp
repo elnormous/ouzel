@@ -42,9 +42,9 @@ namespace ouzel
 
             void executeCommand(const Command& command) final;
 
-            inline auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
-            inline auto getMouseDevice() const noexcept { return mouseDevice.get(); }
-            inline auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
+            auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
+            auto getMouseDevice() const noexcept { return mouseDevice.get(); }
+            auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
 
             void handleGamepadDiscoveryCompleted();
 
@@ -56,7 +56,7 @@ namespace ouzel
             NSCursorPtr getCursor() const;
 
         private:
-            inline auto getNextDeviceId() noexcept
+            auto getNextDeviceId() noexcept
             {
                 ++lastDeviceId.value;
                 return lastDeviceId;

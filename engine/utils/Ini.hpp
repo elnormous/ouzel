@@ -184,7 +184,7 @@ namespace ouzel
         }
 
         template <class Iterator>
-        inline Data parse(Iterator begin, Iterator end)
+        Data parse(Iterator begin, Iterator end)
         {
             class Parser final
             {

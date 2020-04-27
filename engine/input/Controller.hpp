@@ -27,8 +27,8 @@ namespace ouzel
             {}
             virtual ~Controller() = default;
 
-            inline auto getType() const noexcept { return type; }
-            inline auto getDeviceId() const noexcept { return deviceId; }
+            auto getType() const noexcept { return type; }
+            auto getDeviceId() const noexcept { return deviceId; }
 
         protected:
             InputManager& inputManager;

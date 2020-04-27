@@ -34,7 +34,7 @@ namespace ouzel
 
             void update();
 
-            inline auto getFd() const noexcept { return fd; }
+            auto getFd() const noexcept { return fd; }
 
         private:
             void handleAxisChange(std::int32_t oldValue, std::int32_t newValue,

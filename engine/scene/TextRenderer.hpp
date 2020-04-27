@@ -32,26 +32,26 @@ namespace ouzel
 
             void setFont(const std::string& fontFile);
 
-            inline auto getFontSize() const noexcept { return fontSize; }
+            auto getFontSize() const noexcept { return fontSize; }
             void setFontSize(float newFontSize);
 
-            inline auto& getTextAnchor() const noexcept { return textAnchor; }
+            auto& getTextAnchor() const noexcept { return textAnchor; }
             void setTextAnchor(const Vector2F& newTextAnchor);
 
-            inline auto& getText() const noexcept { return text; }
+            auto& getText() const noexcept { return text; }
             void setText(const std::string& newText);
 
-            inline auto getColor() const noexcept { return color; }
+            auto getColor() const noexcept { return color; }
             void setColor(Color newColor);
 
-            inline auto& getShader() const noexcept { return shader; }
-            inline void setShader(const graphics::Shader* newShader)
+            auto& getShader() const noexcept { return shader; }
+            void setShader(const graphics::Shader* newShader)
             {
                 shader = newShader;
             }
 
-            inline auto& getBlendState() const noexcept { return blendState; }
-            inline void setBlendState(const graphics::BlendState* newBlendState)
+            auto& getBlendState() const noexcept { return blendState; }
+            void setBlendState(const graphics::BlendState* newBlendState)
             {
                 blendState = newBlendState;
             }

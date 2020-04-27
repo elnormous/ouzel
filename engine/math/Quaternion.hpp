@@ -22,19 +22,19 @@ namespace ouzel
         {
         }
 
-        inline T& operator[](std::size_t index) noexcept { return v[index]; }
+        T& operator[](std::size_t index) noexcept { return v[index]; }
         constexpr T operator[](std::size_t index) const noexcept { return v[index]; }
 
-        inline T& x() noexcept { return v[0]; }
+        T& x() noexcept { return v[0]; }
         constexpr T x() const noexcept { return v[0]; }
 
-        inline T& y() noexcept { return v[1]; }
+        T& y() noexcept { return v[1]; }
         constexpr T y() const noexcept { return v[1]; }
 
-        inline T& z() noexcept { return v[2]; }
+        T& z() noexcept { return v[2]; }
         constexpr T z() const noexcept { return v[2]; }
 
-        inline T& w() noexcept { return v[3]; }
+        T& w() noexcept { return v[3]; }
         constexpr T w() const noexcept { return v[3]; }
 
         static constexpr Quaternion identity() noexcept
@@ -181,7 +181,7 @@ namespace ouzel
             v[3] = v[3] * multiplier;
         }
 
-        inline auto getNorm() const noexcept
+        auto getNorm() const noexcept
         {
             constexpr T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (n == T(1)) // already normalized
@@ -264,17 +264,17 @@ namespace ouzel
             return result;
         }
 
-        inline auto getEulerAngleX() const noexcept
+        auto getEulerAngleX() const noexcept
         {
             return std::atan2(T(2) * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
         }
 
-        inline auto getEulerAngleY() const noexcept
+        auto getEulerAngleY() const noexcept
         {
             return std::asin(T(-2) * (v[0] * v[2] - v[3] * v[1]));
         }
 
-        inline auto getEulerAngleZ() const noexcept
+        auto getEulerAngleZ() const noexcept
         {
             return std::atan2(T(2) * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }
@@ -304,29 +304,29 @@ namespace ouzel
             v[3] = cr * cpcy + sr * spsy;
         }
 
-        inline const Vector<3, T> operator*(const Vector<3, T>& vector) const noexcept
+        const Vector<3, T> operator*(const Vector<3, T>& vector) const noexcept
         {
             return rotateVector(vector);
         }
 
-        inline Vector<3, T> rotateVector(const Vector<3, T>& vector) const noexcept
+        Vector<3, T> rotateVector(const Vector<3, T>& vector) const noexcept
         {
             constexpr Vector<3, T> q(v[0], v[1], v[2]);
             const Vector<3, T> t = T(2) * q.cross(vector);
             return vector + (v[3] * t) + q.cross(t);
         }
 
-        inline Vector<3, T> getRightVector() const noexcept
+        Vector<3, T> getRightVector() const noexcept
         {
             return rotateVector(Vector<3, T>(1, 0, 0));
         }
 
-        inline Vector<3, T> getUpVector() const noexcept
+        Vector<3, T> getUpVector() const noexcept
         {
             return rotateVector(Vector<3, T>(0, 1, 0));
         }
 
-        inline Vector<3, T> getForwardVector() const noexcept
+        Vector<3, T> getForwardVector() const noexcept
         {
             return rotateVector(Vector<3, T>(0, 0, 1));
         }

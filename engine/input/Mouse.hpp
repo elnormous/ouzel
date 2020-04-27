@@ -30,17 +30,17 @@ namespace ouzel
 
             Mouse(InputManager& initInputManager, DeviceId initDeviceId);
 
-            inline auto& getPosition() const noexcept { return position; }
+            auto& getPosition() const noexcept { return position; }
             void setPosition(const Vector2F& newPosition);
-            inline auto isButtonDown(Button button) const
+            auto isButtonDown(Button button) const
             {
                 return buttonStates[static_cast<std::uint32_t>(button)];
             }
-            inline auto isCursorVisible() const noexcept { return cursorVisible; }
+            auto isCursorVisible() const noexcept { return cursorVisible; }
             void setCursorVisible(bool visible);
-            inline auto isCursorLocked() const noexcept { return cursorLocked; }
+            auto isCursorLocked() const noexcept { return cursorLocked; }
             void setCursorLocked(bool locked);
-            inline auto getCursor() const noexcept { return cursor; }
+            auto getCursor() const noexcept { return cursor; }
             void setCursor(const Cursor* newCursor);
 
         protected:

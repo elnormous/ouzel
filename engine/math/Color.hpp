@@ -123,19 +123,19 @@ namespace ouzel
         static constexpr Color white() noexcept { return Color(255, 255, 255, 255); }
         static constexpr Color gray() noexcept { return Color(128, 128, 128, 255); }
 
-        inline std::uint8_t& operator[](std::size_t index) noexcept { return v[index]; }
+        std::uint8_t& operator[](std::size_t index) noexcept { return v[index]; }
         constexpr std::uint8_t operator[](std::size_t index) const noexcept { return v[index]; }
 
-        inline std::uint8_t& r() noexcept { return v[0]; }
+        std::uint8_t& r() noexcept { return v[0]; }
         constexpr std::uint8_t r() const noexcept { return v[0]; }
 
-        inline std::uint8_t& g() noexcept { return v[1]; }
+        std::uint8_t& g() noexcept { return v[1]; }
         constexpr std::uint8_t g() const noexcept { return v[1]; }
 
-        inline std::uint8_t& b() noexcept { return v[2]; }
+        std::uint8_t& b() noexcept { return v[2]; }
         constexpr std::uint8_t b() const noexcept { return v[2]; }
 
-        inline std::uint8_t& a() noexcept { return v[3]; }
+        std::uint8_t& a() noexcept { return v[3]; }
         constexpr std::uint8_t a() const noexcept { return v[3]; }
 
         constexpr std::array<float, 4> norm() const noexcept

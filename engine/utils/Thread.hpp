@@ -59,16 +59,16 @@ namespace ouzel
             if (t.joinable()) t.join();
         }
 
-        inline auto isJoinable() const { return t.joinable(); }
-        inline auto getId() const noexcept { return t.get_id(); }
-        inline auto getNativeHandle() { return t.native_handle(); }
+        auto isJoinable() const { return t.joinable(); }
+        auto getId() const noexcept { return t.get_id(); }
+        auto getNativeHandle() { return t.native_handle(); }
 
         void join()
         {
             t.join();
         }
 
-        inline void setPriority(float priority, bool realtime)
+        void setPriority(float priority, bool realtime)
         {
 #if defined(_MSC_VER)
             static_cast<void>(realtime);
@@ -100,7 +100,7 @@ namespace ouzel
 #endif
         }
 
-        static inline void setCurrentThreadName(const std::string& name)
+        static void setCurrentThreadName(const std::string& name)
         {
 #if defined(_MSC_VER)
             constexpr DWORD MS_VC_EXCEPTION = 0x406D1388;

@@ -73,18 +73,18 @@ namespace ouzel
                 void setAddressZ(SamplerAddressMode addressZ);
                 void setMaxAnisotropy(std::uint32_t maxAnisotropy);
 
-                inline auto getFlags() const noexcept { return flags; }
-                inline auto getMipmaps() const noexcept { return mipmaps; }
-                inline auto getSampleCount() const noexcept { return sampleCount; }
+                auto getFlags() const noexcept { return flags; }
+                auto getMipmaps() const noexcept { return mipmaps; }
+                auto getSampleCount() const noexcept { return sampleCount; }
 
-                inline auto& getTexture() const noexcept { return texture; }
-                inline auto getPixelFormat() const noexcept { return pixelFormat; }
-                inline auto getStencilBuffer() const noexcept { return stencilBuffer; }
+                auto& getTexture() const noexcept { return texture; }
+                auto getPixelFormat() const noexcept { return pixelFormat; }
+                auto getStencilBuffer() const noexcept { return stencilBuffer; }
 
-                inline auto getSamplerState() const noexcept { return samplerState; }
+                auto getSamplerState() const noexcept { return samplerState; }
 
-                inline auto getWidth() const noexcept { return width; }
-                inline auto getHeight() const noexcept { return height; }
+                auto getWidth() const noexcept { return width; }
+                auto getHeight() const noexcept { return height; }
 
             private:
                 void updateSamplerState();

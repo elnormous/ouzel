@@ -25,10 +25,10 @@ namespace ouzel
                          const std::vector<Texture*>& initColorTextures,
                          Texture* initDepthTexture);
 
-            inline auto& getResource() const noexcept { return resource; }
+            auto& getResource() const noexcept { return resource; }
 
-            inline auto& getColorTextures() const noexcept { return colorTextures; }
-            inline auto getDepthTexture() const noexcept { return depthTexture; }
+            auto& getColorTextures() const noexcept { return colorTextures; }
+            auto getDepthTexture() const noexcept { return depthTexture; }
 
         private:
             RenderDevice::Resource resource;

@@ -43,8 +43,8 @@ namespace ouzel
                       const Matrix4F& renderViewProjection,
                       bool wireframe) override;
 
-            inline auto& getMaterial() const noexcept { return material; }
-            inline void setMaterial(const graphics::Material* newMaterial)
+            auto& getMaterial() const noexcept { return material; }
+            void setMaterial(const graphics::Material* newMaterial)
             {
                 material = newMaterial;
             }

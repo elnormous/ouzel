@@ -32,12 +32,12 @@ namespace ouzel
             InputManager& operator=(InputManager&&) = delete;
 
             void update();
-            inline auto getInputSystem() const noexcept { return inputSystem.get(); }
+            auto getInputSystem() const noexcept { return inputSystem.get(); }
 
-            inline auto& getControllers() const noexcept { return controllers; }
-            inline auto getKeyboard() const noexcept { return keyboard; }
-            inline auto getMouse() const noexcept { return mouse; }
-            inline auto getTouchpad() const noexcept { return touchpad; }
+            auto& getControllers() const noexcept { return controllers; }
+            auto getKeyboard() const noexcept { return keyboard; }
+            auto getMouse() const noexcept { return mouse; }
+            auto getTouchpad() const noexcept { return touchpad; }
 
             void startDeviceDiscovery();
             void stopDeviceDiscovery();

@@ -23,7 +23,7 @@ namespace ouzel
         void handleSurfaceChange(jobject surface);
         void handleSurfaceDestroy();
 
-        inline auto getNativeWindow() const noexcept { return window; }
+        auto getNativeWindow() const noexcept { return window; }
 
     private:
         ANativeWindow* window = nullptr;

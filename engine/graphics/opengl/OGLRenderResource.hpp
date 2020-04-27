@@ -30,10 +30,10 @@ namespace ouzel
                 RenderResource(RenderResource&&) = delete;
                 RenderResource& operator=(RenderResource&&) = delete;
 
-                inline auto isInvalid() const noexcept { return invalid; }
-                inline void invalidate() { invalid = true; }
+                auto isInvalid() const noexcept { return invalid; }
+                void invalidate() { invalid = true; }
 
-                inline void restore()
+                void restore()
                 {
                     if (invalid) reload();
                     invalid = false;

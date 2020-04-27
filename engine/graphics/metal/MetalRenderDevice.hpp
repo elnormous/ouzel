@@ -66,12 +66,12 @@ namespace ouzel
 
                 static bool available();
 
-                inline auto& getDevice() const noexcept { return device; }
+                auto& getDevice() const noexcept { return device; }
 
                 MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
                 template <class T>
-                inline auto getResource(std::uintptr_t id) const
+                auto getResource(std::uintptr_t id) const
                 {
                     return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
                 }

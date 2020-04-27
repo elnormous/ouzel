@@ -14,13 +14,13 @@ namespace ouzel
     extern std::mt19937 randomEngine;
 
     template <class T>
-    inline auto getVectorSize(const T& vec) noexcept
+    auto getVectorSize(const T& vec) noexcept
     {
         return sizeof(typename T::value_type) * vec.size();
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline auto decodeBigEndian(const std::uint8_t* buffer) noexcept
+    auto decodeBigEndian(const std::uint8_t* buffer) noexcept
     {
         T result = 0;
 
@@ -31,7 +31,7 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline auto decodeLittleEndian(const std::uint8_t* buffer) noexcept
+    auto decodeLittleEndian(const std::uint8_t* buffer) noexcept
     {
         T result = 0;
 
@@ -42,7 +42,7 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline void encodeBigEndian(std::uint8_t* buffer, const T value) noexcept
+    void encodeBigEndian(std::uint8_t* buffer, const T value) noexcept
     {
         std::uint8_t* bytes = static_cast<std::uint8_t*>(buffer);
 
@@ -51,7 +51,7 @@ namespace ouzel
     }
 
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    inline void encodeLittleEndian(std::uint8_t* buffer, const T value) noexcept
+    void encodeLittleEndian(std::uint8_t* buffer, const T value) noexcept
     {
         std::uint8_t* bytes = static_cast<std::uint8_t*>(buffer);
 

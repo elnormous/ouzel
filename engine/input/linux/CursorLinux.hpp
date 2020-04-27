@@ -34,7 +34,7 @@ namespace ouzel
             CursorLinux& operator=(CursorLinux&&) = delete;
 
 #if OUZEL_SUPPORTS_X11
-            inline auto getCursor() const noexcept { return cursor; }
+            auto getCursor() const noexcept { return cursor; }
 #endif
 
         private:

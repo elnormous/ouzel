@@ -32,13 +32,13 @@ namespace ouzel
             static Driver getDriver(const std::string& driver);
             static std::set<Driver> getAvailableAudioDrivers();
 
-            inline auto getDevice() const noexcept { return device.get(); }
-            inline mixer::Mixer& getMixer() { return mixer; }
-            inline Mix& getMasterMix() { return masterMix; }
+            auto getDevice() const noexcept { return device.get(); }
+            mixer::Mixer& getMixer() { return mixer; }
+            Mix& getMasterMix() { return masterMix; }
 
             void update();
 
-            inline void addCommand(std::unique_ptr<mixer::Command> command)
+            void addCommand(std::unique_ptr<mixer::Command> command)
             {
                 commandBuffer.pushCommand(std::move(command));
             }

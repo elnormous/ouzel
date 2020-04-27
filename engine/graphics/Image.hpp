@@ -24,9 +24,9 @@ namespace ouzel
             {
             }
 
-            inline auto getPixelFormat() const noexcept { return pixelFormat; }
-            inline auto& getSize() const noexcept { return size; }
-            inline auto& getData() const noexcept { return data; }
+            auto getPixelFormat() const noexcept { return pixelFormat; }
+            auto& getSize() const noexcept { return size; }
+            auto& getData() const noexcept { return data; }
 
         private:
             PixelFormat pixelFormat = PixelFormat::Default;

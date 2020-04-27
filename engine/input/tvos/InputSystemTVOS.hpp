@@ -30,14 +30,14 @@ namespace ouzel
 
             void executeCommand(const Command& command) final;
 
-            inline auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
+            auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
 
             void handleGamepadDiscoveryCompleted();
             void handleGamepadConnected(GCControllerPtr controller);
             void handleGamepadDisconnected(GCControllerPtr controller);
 
         private:
-            inline auto getNextDeviceId() noexcept
+            auto getNextDeviceId() noexcept
             {
                 ++lastDeviceId.value;
                 return lastDeviceId;

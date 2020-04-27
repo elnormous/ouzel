@@ -41,19 +41,19 @@ namespace ouzel
             explicit Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
             ~Camera() override;
 
-            inline auto getProjectionMode() const noexcept { return projectionMode; }
-            inline void setProjectionMode(ProjectionMode newProjectionMode) { projectionMode = newProjectionMode; }
+            auto getProjectionMode() const noexcept { return projectionMode; }
+            void setProjectionMode(ProjectionMode newProjectionMode) { projectionMode = newProjectionMode; }
 
-            inline auto getFOV() const noexcept { return fov; }
-            inline void setFOV(float newFOV) { fov = newFOV; }
+            auto getFOV() const noexcept { return fov; }
+            void setFOV(float newFOV) { fov = newFOV; }
 
-            inline auto getNearPlane() const noexcept { return nearPlane; }
-            inline void setNearPlane(float newNearPlane) { nearPlane = newNearPlane; }
+            auto getNearPlane() const noexcept { return nearPlane; }
+            void setNearPlane(float newNearPlane) { nearPlane = newNearPlane; }
 
-            inline auto getFarPlane() const noexcept { return farPlane; }
-            inline void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
+            auto getFarPlane() const noexcept { return farPlane; }
+            void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
 
-            inline auto& getProjection() const noexcept { return projection; }
+            auto& getProjection() const noexcept { return projection; }
             void recalculateProjection();
 
             const Matrix4F& getViewProjection() const;
@@ -65,50 +65,50 @@ namespace ouzel
 
             bool checkVisibility(const Matrix4F& boxTransform, const Box3F& box) const;
 
-            inline auto& getViewport() const noexcept { return viewport; }
-            inline auto& getRenderViewport() const noexcept { return renderViewport; }
+            auto& getViewport() const noexcept { return viewport; }
+            auto& getRenderViewport() const noexcept { return renderViewport; }
             void setViewport(const RectF& newViewport);
 
-            inline auto getScaleMode() const noexcept { return scaleMode; }
+            auto getScaleMode() const noexcept { return scaleMode; }
             void setScaleMode(ScaleMode newScaleMode);
 
-            inline auto& getTargetContentSize() const noexcept { return targetContentSize; }
+            auto& getTargetContentSize() const noexcept { return targetContentSize; }
             void setTargetContentSize(const Size2F& newTargetContentSize);
 
-            inline auto& getContentSize() const noexcept { return contentSize; }
-            inline auto& getContentScale() const noexcept { return contentScale; }
-            inline auto& getContentPosition() const noexcept { return contentPosition; }
+            auto& getContentSize() const noexcept { return contentSize; }
+            auto& getContentScale() const noexcept { return contentScale; }
+            auto& getContentPosition() const noexcept { return contentPosition; }
 
-            inline auto getRenderTarget() const noexcept { return renderTarget; }
+            auto getRenderTarget() const noexcept { return renderTarget; }
             void setRenderTarget(graphics::RenderTarget* newRenderTarget);
 
-            inline auto getDepthTest() const noexcept { return depthTest; }
+            auto getDepthTest() const noexcept { return depthTest; }
             void setDepthTest(bool newDepthTest);
-            inline auto& getDepthStencilState() const noexcept { return depthStencilState; }
+            auto& getDepthStencilState() const noexcept { return depthStencilState; }
 
-            inline auto getStencilReferenceValue() const noexcept { return stencilReferenceValue; }
-            inline void setStencilReferenceValue(std::uint32_t newStencilReferenceValue) { stencilReferenceValue = newStencilReferenceValue; }
+            auto getStencilReferenceValue() const noexcept { return stencilReferenceValue; }
+            void setStencilReferenceValue(std::uint32_t newStencilReferenceValue) { stencilReferenceValue = newStencilReferenceValue; }
 
-            inline auto getWireframe() const noexcept { return wireframe; }
-            inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
+            auto getWireframe() const noexcept { return wireframe; }
+            void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
-            inline auto getClearColorBuffer() const noexcept { return clearColorBuffer; }
-            inline void setClearColorBuffer(bool clear) { clearColorBuffer = clear; }
+            auto getClearColorBuffer() const noexcept { return clearColorBuffer; }
+            void setClearColorBuffer(bool clear) { clearColorBuffer = clear; }
 
-            inline auto getClearDepthBuffer() const noexcept { return clearDepthBuffer; }
-            inline void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
+            auto getClearDepthBuffer() const noexcept { return clearDepthBuffer; }
+            void setClearDepthBuffer(bool clear) { clearDepthBuffer = clear; }
 
-            inline auto getClearStencilBuffer() const noexcept { return clearStencilBuffer; }
-            inline void setClearStencilBuffer(bool clear) { clearStencilBuffer = clear; }
+            auto getClearStencilBuffer() const noexcept { return clearStencilBuffer; }
+            void setClearStencilBuffer(bool clear) { clearStencilBuffer = clear; }
 
-            inline auto getClearColor() const noexcept { return clearColor; }
-            inline void setClearColor(Color color) { clearColor = color; }
+            auto getClearColor() const noexcept { return clearColor; }
+            void setClearColor(Color color) { clearColor = color; }
 
-            inline auto getClearDepth() const noexcept { return clearDepth; }
-            inline void setClearDepth(float depth) { clearDepth = depth; }
+            auto getClearDepth() const noexcept { return clearDepth; }
+            void setClearDepth(float depth) { clearDepth = depth; }
 
-            inline auto getClearStencil() const noexcept { return clearStencil; }
-            inline void setClearDepth(std::uint32_t stencil) { clearStencil = stencil; }
+            auto getClearStencil() const noexcept { return clearStencil; }
+            void setClearDepth(std::uint32_t stencil) { clearStencil = stencil; }
 
         private:
             void setActor(Actor* newActor) override;

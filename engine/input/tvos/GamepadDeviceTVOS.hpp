@@ -32,7 +32,7 @@ namespace ouzel
             std::int32_t getPlayerIndex() const;
             void setPlayerIndex(std::int32_t playerIndex);
 
-            inline auto getController() const noexcept { return controller; }
+            auto getController() const noexcept { return controller; }
 
         private:
             GCControllerPtr controller = nil;

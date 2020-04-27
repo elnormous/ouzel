@@ -57,22 +57,22 @@ namespace ouzel
                 void setAddressZ(SamplerAddressMode newAddressZ);
                 void setMaxAnisotropy(std::uint32_t newMaxAnisotropy);
 
-                inline auto getFlags() const noexcept { return flags; }
-                inline auto getMipmaps() const noexcept { return mipmaps; }
+                auto getFlags() const noexcept { return flags; }
+                auto getMipmaps() const noexcept { return mipmaps; }
 
-                inline auto getFilter() const noexcept { return filter; }
-                inline auto getAddressX() const noexcept { return addressX; }
-                inline auto getAddressY() const noexcept { return addressY; }
-                inline auto getMaxAnisotropy() const noexcept { return maxAnisotropy; }
-                inline auto getSampleCount() const noexcept { return sampleCount; }
+                auto getFilter() const noexcept { return filter; }
+                auto getAddressX() const noexcept { return addressX; }
+                auto getAddressY() const noexcept { return addressY; }
+                auto getMaxAnisotropy() const noexcept { return maxAnisotropy; }
+                auto getSampleCount() const noexcept { return sampleCount; }
 
-                inline auto getTextureId() const noexcept { return textureId; }
-                inline auto getBufferId() const noexcept { return bufferId; }
+                auto getTextureId() const noexcept { return textureId; }
+                auto getBufferId() const noexcept { return bufferId; }
 
-                inline auto getWidth() const noexcept { return width; }
-                inline auto getHeight() const noexcept { return height; }
+                auto getWidth() const noexcept { return width; }
+                auto getHeight() const noexcept { return height; }
 
-                inline auto getPixelFormat() const noexcept { return pixelFormat; }
+                auto getPixelFormat() const noexcept { return pixelFormat; }
 
             private:
                 void createTexture();

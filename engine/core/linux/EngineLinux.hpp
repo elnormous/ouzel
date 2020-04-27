@@ -25,7 +25,7 @@ namespace ouzel
 
         void setScreenSaverEnabled(bool newScreenSaverEnabled) final;
 
-        inline auto getDisplay() const noexcept { return display; }
+        auto getDisplay() const noexcept { return display; }
 
     private:
         void runOnMainThread(const std::function<void()>& func) final;
