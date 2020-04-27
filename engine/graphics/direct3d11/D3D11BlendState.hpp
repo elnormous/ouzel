@@ -46,7 +46,7 @@ namespace ouzel
                            BlendOperation alphaOperation,
                            ColorMask colorMask);
 
-                auto get&BlendState() const noexcept { return blendState; }
+                auto& getBlendState() const noexcept { return blendState; }
 
             private:
                 Pointer<ID3D11BlendState> blendState;

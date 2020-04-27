@@ -39,8 +39,8 @@ namespace ouzel
         auto getSurface() const noexcept { return surface; }
         auto getAssetManager() const noexcept { return assetManager; }
 
-        auto get&FilesDirectory() const noexcept { return filesDirectory; }
-        auto get&CacheDirectory() const noexcept { return cacheDirectory; }
+        auto& getFilesDirectory() const noexcept { return filesDirectory; }
+        auto& getCacheDirectory() const noexcept { return cacheDirectory; }
 
         void executeAll();
 

@@ -46,7 +46,7 @@ namespace ouzel
                 auto getType() const noexcept { return type; }
                 auto getSize() const noexcept { return size; }
 
-                auto get&Buffer() const noexcept { return buffer; }
+                auto& getBuffer() const noexcept { return buffer; }
 
             private:
                 void createBuffer(UINT newSize, const std::vector<std::uint8_t>& data);

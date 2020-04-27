@@ -77,12 +77,12 @@ namespace ouzel
                 auto getSampleCount() const noexcept { return sampleCount; }
                 auto getPixelFormat() const noexcept { return pixelFormat; }
 
-                auto get&Texture() const noexcept { return texture; }
-                auto get&ResourceView() const noexcept { return resourceView; }
+                auto& getTexture() const noexcept { return texture; }
+                auto& getResourceView() const noexcept { return resourceView; }
                 auto getSamplerState() const noexcept { return samplerState; }
 
-                auto get&RenderTargetView() const noexcept { return renderTargetView; }
-                auto get&DepthStencilView() const noexcept { return depthStencilView; }
+                auto& getRenderTargetView() const noexcept { return renderTargetView; }
+                auto& getDepthStencilView() const noexcept { return depthStencilView; }
 
                 auto getWidth() const noexcept { return width; }
                 auto getHeight() const noexcept { return height; }

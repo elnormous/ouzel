@@ -48,8 +48,8 @@ namespace ouzel
 
                 std::vector<Size2U> getSupportedResolutions() const final;
 
-                auto get&Device() const noexcept { return device; }
-                auto get&Context() const noexcept { return context; }
+                auto& getDevice() const noexcept { return device; }
+                auto& getContext() const noexcept { return context; }
 
                 ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
                 void setFullscreen(bool newFullscreen);

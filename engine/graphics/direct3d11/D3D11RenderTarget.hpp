@@ -43,7 +43,7 @@ namespace ouzel
 
                 void resolve();
 
-                auto get&RenderTargetViews() const noexcept { return renderTargetViews; }
+                auto& getRenderTargetViews() const noexcept { return renderTargetViews; }
                 auto getDepthStencilView() const noexcept { return depthStencilView; }
 
             private:
