@@ -23,8 +23,18 @@ namespace ouzel
                 return *this;
             }
 
-            CfPointer(const CfPointer& o) = delete;
-            CfPointer& operator=(const CfPointer& o) = delete;
+            CfPointer(const CfPointer& o) noexcept:
+                p(o.p)
+            {
+                if (p) CFRetain(p);
+            }
+
+            CfPointer& operator=(const CfPointer& o) noexcept
+            {
+                if (p) CFRelease(p);
+                p = o.p;
+                if (p) CFRetain(p);
+            }
 
             CfPointer(CfPointer&& o) noexcept: p(o.p)
             {
