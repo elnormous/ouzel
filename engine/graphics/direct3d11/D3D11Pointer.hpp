@@ -59,7 +59,7 @@ namespace ouzel
                     if (p) p->Release();
                 }
 
-                inline T* operator->() const
+                inline T* operator->() const noexcept
                 {
                     return p;
                 }
