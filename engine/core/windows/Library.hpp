@@ -20,7 +20,7 @@ namespace ouzel
     class Library final
     {
     public:
-        Library() = default;
+        Library() noexcept = default;
         Library(const std::string& filename) noexcept:
             handle(LoadLibraryA(filename.c_str()))
         {
@@ -48,12 +48,12 @@ namespace ouzel
             if (handle) FreeLibrary(handle);
         }
 
-        explicit inline operator bool() const noexcept
+        explicit operator bool() const noexcept
         {
             return handle != nullptr;
         }
 
-        inline HMODULE get() const noexcept
+        HMODULE get() const noexcept
         {
             return handle;
         }

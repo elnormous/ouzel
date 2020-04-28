@@ -19,23 +19,33 @@ namespace ouzel
             public:
                 Pointer() noexcept = default;
 
-                inline Pointer(T* a) noexcept : p(a) {}
-                inline Pointer& operator=(T* a) noexcept
+                Pointer(T* a) noexcept : p(a) {}
+                Pointer& operator=(T* a) noexcept
                 {
                     if (p) p->Release();
                     p = a;
                     return *this;
                 }
 
-                Pointer(const Pointer&) = delete;
-                Pointer& operator=(const Pointer&) = delete;
+                Pointer(const Pointer& other) noexcept: p(other.p)
+                {
+                    if (p) p->AddRef();
+                }
 
-                inline Pointer(Pointer&& other) noexcept : p(other.p)
+                Pointer& operator=(const Pointer& other) noexcept
+                {
+                    if (this == &other) return *this;
+                    if (p) p->Release();
+                    p = other.p;
+                    if (p) p->AddRef();
+                }
+
+                Pointer(Pointer&& other) noexcept : p(other.p)
                 {
                     other.p = nullptr;
                 }
 
-                inline Pointer& operator=(Pointer&& other) noexcept
+                Pointer& operator=(Pointer&& other) noexcept
                 {
                     if (this == &other) return *this;
                     if (p) p->Release();
@@ -49,17 +59,17 @@ namespace ouzel
                     if (p) p->Release();
                 }
 
-                inline T* operator->() const
+                T* operator->() const noexcept
                 {
                     return p;
                 }
 
-                inline T* get() const noexcept
+                T* get() const noexcept
                 {
                     return p;
                 }
 
-                explicit inline operator bool() const noexcept
+                explicit operator bool() const noexcept
                 {
                     return p != nullptr;
                 }

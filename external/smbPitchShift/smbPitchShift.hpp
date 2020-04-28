@@ -94,7 +94,7 @@ namespace smb
                 return *this;
             }
 
-            inline T magnitude() const noexcept
+            T magnitude() const noexcept
             {
                 return sqrt(real * real + imag * imag);
             }
