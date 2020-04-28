@@ -19,7 +19,7 @@ namespace ouzel
             public:
                 Pointer() noexcept = default;
 
-                inline Pointer(T* a) noexcept : p(a) {}
+                inline Pointer(T* a) noexcept: p(a) {}
                 inline Pointer& operator=(T* a) noexcept
                 {
                     if (p) p->Release();
@@ -27,10 +27,20 @@ namespace ouzel
                     return *this;
                 }
 
-                Pointer(const Pointer&) = delete;
-                Pointer& operator=(const Pointer&) = delete;
+                Pointer(const Pointer& other) noexcept: p(other.p)
+                {
+                    if (p) p->AddRef();
+                }
 
-                inline Pointer(Pointer&& other) noexcept : p(other.p)
+                Pointer& operator=(const Pointer& other) noexcept
+                {
+                    if (this == &other) return *this;
+                    if (p) p->Release();
+                    p = other.p;
+                    if (p) p->AddRef();
+                }
+
+                inline Pointer(Pointer&& other) noexcept: p(other.p)
                 {
                     other.p = nullptr;
                 }
