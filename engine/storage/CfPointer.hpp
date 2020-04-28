@@ -10,13 +10,13 @@ namespace ouzel
     namespace storage
     {
         template <class T>
-        class CfPointer
+        class CfPointer final
         {
         public:
             CfPointer() noexcept = default;
 
-            inline CfPointer(T a) noexcept: p(a) {}
-            inline CfPointer& operator=(T a) noexcept
+            CfPointer(T a) noexcept: p(a) {}
+            CfPointer& operator=(T a) noexcept
             {
                 if (p) CFRelease(p);
                 p = a;
@@ -26,16 +26,16 @@ namespace ouzel
             CfPointer(const CfPointer& o) = delete;
             CfPointer& operator=(const CfPointer& o) = delete;
 
-            inline CfPointer(CfPointer&& o) noexcept: p(o.p)
+            CfPointer(CfPointer&& o) noexcept: p(o.p)
             {
-                o.p = NULL;
+                o.p = nil;
             }
 
-            inline CfPointer& operator=(CfPointer&& o) noexcept
+            CfPointer& operator=(CfPointer&& o) noexcept
             {
                 if (p) CFRelease(p);
                 p = o.p;
-                o.p = NULL;
+                o.p = nil;
                 return *this;
             }
 
@@ -44,18 +44,18 @@ namespace ouzel
                 if (p) CFRelease(p);
             }
 
-            inline T get() const noexcept
+            T get() const noexcept
             {
                 return p;
             }
 
-            explicit inline operator bool() const noexcept
+            explicit operator bool() const noexcept
             {
                 return p != nil;
             }
 
         private:
-            T p = NULL;
+            T p = nil;
         };
     } // namespace storage
 } // namespace ouzel
