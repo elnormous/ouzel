@@ -27,19 +27,42 @@ namespace ouzel
                 Pointer(T a) noexcept: p(a) {}
                 Pointer& operator=(T a) noexcept
                 {
-                    if (p)
 #ifdef __OBJC__
-                        [p release];
+                    [p release];
 #else
-                        objc_msgSend(p, sel_getUid("release"));
+                    if (p) objc_msgSend(p, sel_getUid("release"));
 #endif
 
                     p = a;
                     return *this;
                 }
 
-                Pointer(const Pointer&) = delete;
-                Pointer& operator=(const Pointer&) = delete;
+                Pointer(const Pointer& other) noexcept: p(other.p)
+                {
+#ifdef __OBJC__
+                    [p retain];
+#else
+                    if (p) objc_msgSend(p, sel_getUid("retain"));
+#endif
+                }
+
+                Pointer& operator=(const Pointer& other) noexcept
+                {
+                    if (this == &other) return *this;
+#ifdef __OBJC__
+                    [p release];
+#else
+                    if (p) objc_msgSend(p, sel_getUid("release"));
+#endif
+
+                    p = other.p;
+
+#ifdef __OBJC__
+                    [p retain];
+#else
+                    if (p) objc_msgSend(p, sel_getUid("retain"));
+#endif
+                }
 
                 Pointer(Pointer&& other) noexcept: p(other.p)
                 {
@@ -49,11 +72,10 @@ namespace ouzel
                 Pointer& operator=(Pointer&& other) noexcept
                 {
                     if (this == &other) return *this;
-                    if (p)
 #ifdef __OBJC__
-                        [p release];
+                    [p release];
 #else
-                        objc_msgSend(p, sel_getUid("release"));
+                    if (p) objc_msgSend(p, sel_getUid("release"));
 #endif
                     p = other.p;
                     other.p = nil;
@@ -62,11 +84,10 @@ namespace ouzel
 
                 ~Pointer()
                 {
-                    if (p)
 #ifdef __OBJC__
-                        [p release];
+                    [p release];
 #else
-                        objc_msgSend(p, sel_getUid("release"));
+                    if (p) objc_msgSend(p, sel_getUid("release"));
 #endif
                 }
 

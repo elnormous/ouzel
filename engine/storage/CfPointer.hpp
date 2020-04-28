@@ -23,29 +23,31 @@ namespace ouzel
                 return *this;
             }
 
-            CfPointer(const CfPointer& o) noexcept:
-                p(o.p)
+            CfPointer(const CfPointer& other) noexcept:
+                p(other.p)
             {
                 if (p) CFRetain(p);
             }
 
-            CfPointer& operator=(const CfPointer& o) noexcept
+            CfPointer& operator=(const CfPointer& other) noexcept
             {
+                if (this == &other) return *this;
                 if (p) CFRelease(p);
-                p = o.p;
+                p = other.p;
                 if (p) CFRetain(p);
             }
 
-            CfPointer(CfPointer&& o) noexcept: p(o.p)
+            CfPointer(CfPointer&& other) noexcept: p(other.p)
             {
-                o.p = nil;
+                other.p = nil;
             }
 
-            CfPointer& operator=(CfPointer&& o) noexcept
+            CfPointer& operator=(CfPointer&& other) noexcept
             {
+                if (this == &other) return *this;
                 if (p) CFRelease(p);
-                p = o.p;
-                o.p = nil;
+                p = other.p;
+                other.p = nil;
                 return *this;
             }
 
