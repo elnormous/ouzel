@@ -53,7 +53,7 @@ namespace ouzel
 
                 T operator->() const noexcept
                 {
-                    return *p;
+                    return p;
                 }
 
                 T get() const noexcept
