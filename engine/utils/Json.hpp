@@ -139,17 +139,17 @@ namespace ouzel
                 return *this;
             }
 
-            auto getType() const noexcept { return type; }
+            Type getType() const noexcept { return type; }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            T& as() noexcept
+            std::string& as() noexcept
             {
                 type = Type::String;
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
-            const T& as() const
+            const std::string& as() const
             {
                 if (type != Type::String) throw TypeError("Wrong type");
                 return stringValue;
@@ -234,12 +234,12 @@ namespace ouzel
                 return arrayValue.end();
             }
 
-            auto isNull() const noexcept
+            bool isNull() const noexcept
             {
                 return type == Type::Null;
             }
 
-            auto hasMember(const std::string& member) const
+            bool hasMember(const std::string& member) const
             {
                 if (type != Type::Object) throw TypeError("Wrong type");
                 return objectValue.find(member) != objectValue.end();
@@ -279,7 +279,7 @@ namespace ouzel
                     throw RangeError("Index out of range");
             }
 
-            auto getSize() const
+            std::size_t getSize() const
             {
                 if (type != Type::Array) throw TypeError("Wrong type");
                 return arrayValue.size();
@@ -708,17 +708,17 @@ namespace ouzel
             return parse(std::begin(data), std::end(data));
         }
 
-        inline std::string encode(const Value& value, bool byteOrderMark = false)
+        inline std::string encode(const Value& value, bool whitespaces = false, bool byteOrderMark = false)
         {
             class Encoder final
             {
             public:
-                static std::string encode(const Value& value, bool byteOrderMark)
+                static std::string encode(const Value& value, bool whitespaces, bool byteOrderMark)
                 {
                     std::string result;
                     if (byteOrderMark) result.assign(std::begin(utf8ByteOrderMark),
                                                      std::end(utf8ByteOrderMark));
-                    encode(value, result);
+                    encode(value, result, whitespaces);
                     return result;
                 }
 
@@ -726,7 +726,6 @@ namespace ouzel
                 static void encode(const std::string& str, std::string& result)
                 {
                     for (const auto c : str)
-                    {
                         if (c == '"') result.insert(result.end(), {'\\', '"'});
                         else if (c == '\\') result.insert(result.end(), {'\\', '\\'});
                         else if (c == '/') result.insert(result.end(), {'\\', '/'});
@@ -745,10 +744,9 @@ namespace ouzel
                         }
                         else
                             result.push_back(c);
-                    }
                 }
 
-                static void encode(const Value& value, std::string& result)
+                static void encode(const Value& value, std::string& result, bool whitespaces, size_t level = 0)
                 {
                     switch (value.getType())
                     {
@@ -777,37 +775,43 @@ namespace ouzel
                         case Value::Type::Object:
                         {
                             result.push_back('{');
+                            if (whitespaces) result.push_back('\n');
 
-                            bool first = true;
+                            const auto& entries = value.as<Value::Object>();
 
-                            for (const auto& entry : value.as<Value::Object>())
+                            for (auto entryIterator = entries.begin(); entryIterator != entries.end();)
                             {
-                                if (first) first = false;
-                                else result.push_back(',');
-
+                                const auto& entry = *entryIterator;
+                                if (whitespaces) result.insert(result.end(), level + 1, '\t');
                                 result.push_back('"');
                                 encode(entry.first, result);
                                 result.insert(result.end(), {'"', ':'});
-                                encode(entry.second, result);
+                                encode(entry.second, result, whitespaces, level + 1);
+                                if (++entryIterator != entries.end()) result.push_back(',');
+                                if (whitespaces) result.push_back('\n');
                             }
 
+                            if (whitespaces) result.insert(result.end(), level, '\t');
                             result.push_back('}');
                             break;
                         }
                         case Value::Type::Array:
                         {
                             result.push_back('[');
+                            if (whitespaces) result.push_back('\n');
 
-                            bool first = true;
+                            const auto& entries = value.as<Value::Array>();
 
-                            for (const auto& entry : value)
+                            for (auto entryIterator = entries.begin(); entryIterator != entries.end();)
                             {
-                                if (first) first = false;
-                                else result.push_back(',');
-
-                                encode(entry, result);
+                                const auto& entry = *entryIterator;
+                                if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                                encode(entry, result, whitespaces, level + 1);
+                                if (++entryIterator != entries.end()) result.push_back(',');
+                                if (whitespaces) result.push_back('\n');
                             }
 
+                            if (whitespaces) result.insert(result.end(), level, '\t');
                             result.push_back(']');
                             break;
                         }
@@ -821,7 +825,7 @@ namespace ouzel
                 }
             };
 
-            return Encoder::encode(value, byteOrderMark);
+            return Encoder::encode(value, whitespaces, byteOrderMark);
         }
     } // namespace json
 } // namespace ouzel
