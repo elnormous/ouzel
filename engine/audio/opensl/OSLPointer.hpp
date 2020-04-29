@@ -51,12 +51,12 @@ namespace ouzel
                     if (p) (*p)->Destroy(p);
                 }
 
-                T operator->() const noexcept
+                auto operator->() const noexcept
                 {
-                    return p;
+                    return *p;
                 }
 
-                T get() const noexcept
+                auto get() const noexcept
                 {
                     return p;
                 }
