@@ -291,15 +291,15 @@ namespace ouzel
             Xml
         };
 
-        inline std::string encode(const Value& value, Format format)
+        inline std::string encode(const Value& value, Format format, bool whitespaces = false)
         {
             class AsciiEncoder final
             {
             public:
-                static std::string encode(const Value& value)
+                static std::string encode(const Value& value, bool whitespaces)
                 {
                     std::string result = "// !$*UTF8*$!\n";
-                    encode(value, result);
+                    encode(value, result, whitespaces);
                     return result;
                 }
 
@@ -332,35 +332,41 @@ namespace ouzel
                         result += "\"\"";
                 }
 
-                static void encode(const Value& value, std::string& result, size_t level = 0)
+                static void encode(const Value& value, std::string& result, bool whitespaces, size_t level = 0)
                 {
                     switch (value.getType())
                     {
                         case Value::Type::Dictionary:
                         {
-                            result += "{\n";
+                            result.push_back('{');
+                            if (whitespaces) result.push_back('\n');
                             for (const auto& entry : value.as<Value::Dictionary>())
                             {
-                                result.insert(result.end(), level + 1, '\t');
+                                if (whitespaces) result.insert(result.end(), level + 1, '\t');
                                 encode(entry.first, result);
-                                result += " = ";
-                                encode(entry.second, result, level + 1);
-                                result += ";\n";
+                                if (whitespaces) result.push_back(' ');
+                                result.push_back('=');
+                                if (whitespaces) result.push_back(' ');
+                                encode(entry.second, result, whitespaces, level + 1);
+                                result.push_back(';');
+                                if (whitespaces) result.push_back('\n');
                             }
-                            result.insert(result.end(), level, '\t');
+                            if (whitespaces) result.insert(result.end(), level, '\t');
                             result += "}";
                             break;
                         }
                         case Value::Type::Array:
                         {
-                            result += "(\n";
+                            result.push_back('(');
+                            if (whitespaces) result.push_back('\n');
                             for (const auto& child : value.as<Value::Array>())
                             {
-                                result.insert(result.end(), level + 1, '\t');
-                                encode(child, result, level + 1);
-                                result += ",\n";
+                                if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                                encode(child, result, whitespaces, level + 1);
+                                result.push_back(',');
+                                if (whitespaces) result.push_back('\n');
                             }
-                            result.insert(result.end(), level, '\t');
+                            if (whitespaces) result.insert(result.end(), level, '\t');
                             result += ')';
                             break;
                         }
@@ -395,13 +401,18 @@ namespace ouzel
             class XmlEncoder final
             {
             public:
-                static std::string encode(const Value& value)
+                static std::string encode(const Value& value, bool whitespaces)
                 {
-                    std::string result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                        "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
-                        "<plist version=\"1.0\">\n";
-                    encode(value, result);
-                    result += "\n</plist>\n";
+                    std::string result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+                    if (whitespaces) result.push_back('\n');
+                    result += "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">";
+                    if (whitespaces) result.push_back('\n');
+                    result += "<plist version=\"1.0\">";
+                    if (whitespaces) result.push_back('\n');
+                    encode(value, result, whitespaces);
+                    if (whitespaces) result.push_back('\n');
+                    result += "</plist>";
+                    if (whitespaces) result.push_back('\n');
                     return result;
                 }
 
@@ -415,22 +426,24 @@ namespace ouzel
                         else result.push_back(c);
                 }
 
-                static void encode(const Value& value, std::string& result, size_t level = 0)
+                static void encode(const Value& value, std::string& result, bool whitespaces, size_t level = 0)
                 {
                     switch (value.getType())
                     {
                         case Value::Type::Dictionary:
                         {
-                            result += "<dict>\n";
+                            result += "<dict>";
+                            if (whitespaces) result.push_back('\n');
                             for (const auto& entry : value.as<Value::Dictionary>())
                             {
-                                result.insert(result.end(), level + 1, '\t');
+                                if (whitespaces) result.insert(result.end(), level + 1, '\t');
                                 result += "<key>";
                                 encode(entry.first, result);
-                                result += "</key>\n";
-                                result.insert(result.end(), level + 1, '\t');
-                                encode(entry.second, result, level + 1);
-                                result += '\n';
+                                result += "</key>";
+                                if (whitespaces) result += '\n';
+                                if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                                encode(entry.second, result, whitespaces, level + 1);
+                                if (whitespaces) result += '\n';
                             }
                             result.insert(result.end(), level, '\t');
                             result += "</dict>";
@@ -438,14 +451,15 @@ namespace ouzel
                         }
                         case Value::Type::Array:
                         {
-                            result += "<array>\n";
+                            result += "<array>";
+                            if (whitespaces) result.push_back('\n');
                             for (const auto& child : value.as<Value::Array>())
                             {
-                                result.insert(result.end(), level + 1, '\t');
-                                encode(child, result, level + 1);
-                                result += '\n';
+                                if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                                encode(child, result, whitespaces, level + 1);
+                                if (whitespaces) result.push_back('\n');
                             }
-                            result.insert(result.end(), level, '\t');
+                            if (whitespaces) result.insert(result.end(), level, '\t');
                             result += "</array>";
                             break;
                         }
@@ -520,8 +534,8 @@ namespace ouzel
 
             switch (format)
             {
-                case Format::Ascii: return AsciiEncoder::encode(value);
-                case Format::Xml: return XmlEncoder::encode(value);
+                case Format::Ascii: return AsciiEncoder::encode(value, whitespaces);
+                case Format::Xml: return XmlEncoder::encode(value, whitespaces);
             }
 
             throw std::runtime_error("Unsupported format");
