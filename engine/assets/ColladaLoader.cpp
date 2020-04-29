@@ -20,7 +20,7 @@ namespace ouzel
                                       const std::vector<std::uint8_t>& data,
                                       bool)
         {
-            xml::Data colladaData(data);
+            xml::Data colladaData = xml::parse(data);
 
             if (colladaData.getChildren().empty())
                 throw std::runtime_error("Invalid Collada file");
