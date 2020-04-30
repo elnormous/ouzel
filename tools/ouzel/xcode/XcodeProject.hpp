@@ -267,7 +267,6 @@ namespace ouzel
                 projectConfigurationList->defaultConfigurationName = releaseConfiguration->name;
 
                 for (const auto& target : project.getTargets())
-                {
                     if (target.platform == Platform::MacOs ||
                         target.platform == Platform::Ios ||
                         target.platform == Platform::Tvos)
@@ -539,7 +538,6 @@ namespace ouzel
                         assetGenerateTargetDependency->target = assetGenerateTarget;
                         nativeTarget->dependencies.push_back(assetGenerateTargetDependency);
                     }
-                }
             }
 
             void save(const storage::Path& path) const
