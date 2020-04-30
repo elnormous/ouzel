@@ -7,6 +7,10 @@ namespace ouzel
 {
     namespace visualstudio
     {
+        class VcxProjectFilters final
+        {
+        public:
+        };
     }
 }
 

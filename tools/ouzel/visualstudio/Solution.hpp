@@ -7,6 +7,11 @@ namespace ouzel
 {
     namespace visualstudio
     {
+        class Solution final
+        {
+        public:
+
+        };
     }
 }
 
