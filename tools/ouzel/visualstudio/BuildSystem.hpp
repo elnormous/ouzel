@@ -6,6 +6,7 @@
 #include "Solution.hpp"
 #include "VcxProject.hpp"
 #include "VcxProjectFilters.hpp"
+#include "storage/Path.hpp"
 
 namespace ouzel
 {
@@ -13,28 +14,41 @@ namespace ouzel
     {
         inline void generateBuildFiles(const Project& project)
         {
+
+            const Uuid libouzelUuid = {0xC60AB6A6, 0x67FF, 0x4704, 0xBD, 0xCD, 0xDE, 0x2F, 0x38, 0x2F, 0xE2, 0x51};
+            const Uuid ouzelUuid = {0x8BC9CEB8, 0x8B4A, 0x11D0, 0x8D, 0x11, 0x00, 0xA0, 0xC9, 0x1B, 0xC9, 0x42};
+
+            std::vector<VcxProject> projects;
+            projects.emplace_back(libouzelUuid, "libouzel", storage::Path{"libouzel.vxxproj"}, std::vector<Uuid>{});
+            projects.emplace_back(ouzelUuid, "ouzel", storage::Path{"ouzel.vxxproj"},  std::vector<Uuid>{});
+
             const storage::Path projectFilename = project.getPath().getFilename();
             const storage::Path projectDirectory = project.getPath().getDirectory();
+
+            std::vector<std::unique_ptr<VcxProject>> projectPointers;
 
             for (const auto& target : project.getTargets())
                 if (target.platform == Platform::Windows)
                 {
-                    VcxProject vcxProject;
+                    const auto vcxprojProjectPath = projectDirectory / target.name + ".vcxproj";
+
+                    auto vcxProject = VcxProject{project.getName(), vcxprojProjectPath, {libouzelUuid}};
                     VcxProjectFilters vcxProjectFilters;
 
-                    const auto vcxprojProjectPath = projectDirectory / target.name + ".vcxproj";
                     std::ofstream vcxprojProjectFile(vcxprojProjectPath, std::ios::trunc);
                     vcxprojProjectFile << vcxProject.encode();
 
                     const auto filtersProjectPath = projectDirectory / target.name + ".vcxproj.filters";
                     std::ofstream vcxProjectFiltersFile(filtersProjectPath, std::ios::trunc);
                     vcxProjectFiltersFile << vcxProjectFilters.encode();
+
+                    projects.push_back(std::move(vcxProject));
                 }
 
-            auto solution = Solution{};
-            auto slnProjectPath = projectDirectory / project.getName() + ".sln";
-            std::ofstream slnProjectFile(slnProjectPath, std::ios::trunc);
-            slnProjectFile << solution.encode();
+            const auto solution = Solution{projects};
+            const auto solutionPath = projectDirectory / project.getName() + ".sln";
+            std::ofstream solutionFile(solutionPath, std::ios::trunc);
+            solutionFile << solution.encode();
         }
     }
 }

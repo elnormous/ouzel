@@ -110,7 +110,15 @@ namespace ouzel
         class VcxProject final
         {
         public:
-            VcxProject() = default;
+            VcxProject(const std::string& n,
+                       const storage::Path& p,
+                       const std::vector<Uuid>& d):
+                dependencies(d), name{n}, path{p} {}
+            explicit VcxProject(const Uuid& u,
+                                const std::string& n,
+                                const storage::Path& p,
+                                const std::vector<Uuid>& d):
+                uuid{u}, name{n}, dependencies(d), path{p} {}
 
             std::string encode() const
             {
@@ -118,6 +126,9 @@ namespace ouzel
             }
 
             const Uuid uuid = generateUuid();
+            const std::string name;
+            const storage::Path path;
+            const std::vector<Uuid> dependencies;
         };
     }
 }
