@@ -576,7 +576,7 @@ namespace ouzel
                     "<Workspace\n"
                     "   version = \"1.0\">\n"
                     "   <FileRef\n"
-                    "      location = \"self:" << path.getFilename() << "\">\n"
+                    "      location = \"self:" << std::string(path.getFilename()) << "\">\n"
                     "   </FileRef>\n"
                     "</Workspace>\n";
             }

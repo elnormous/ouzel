@@ -110,7 +110,12 @@ namespace ouzel
         class VcxProject final
         {
         public:
+            VcxProject() = default;
 
+            std::string encode() const
+            {
+                return std::string{};
+            }
 
             const Uuid uuid = generateUuid();
         };

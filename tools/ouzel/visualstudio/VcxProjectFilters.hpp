@@ -10,6 +10,12 @@ namespace ouzel
         class VcxProjectFilters final
         {
         public:
+            VcxProjectFilters() = default;
+
+            std::string encode() const
+            {
+                return std::string{};
+            }
         };
     }
 }

@@ -10,7 +10,12 @@ namespace ouzel
         class Solution final
         {
         public:
+            Solution() = default;
 
+            std::string encode() const
+            {
+                return std::string{};
+            }
         };
     }
 }

@@ -194,13 +194,12 @@ namespace ouzel
                 return convertToGeneric(path);
             }
 
-            std::string getExtension() const
+            Path getExtension() const
             {
                 const std::size_t pos = path.rfind(Char('.'));
-                const String result = pos != std::string::npos ?
-                    path.substr(pos + 1) : String{};
-
-                return convertToGeneric(result);
+                Path result;
+                result.path = pos != std::string::npos ? path.substr(pos + 1) : String{};
+                return result;
             }
 
             template <class Source>
@@ -214,13 +213,12 @@ namespace ouzel
                 path += convertToNative(extension);
             }
 
-            std::string getFilename() const
+            Path getFilename() const
             {
                 const std::size_t position = findLastDirectorySeparator(path);
-                const String result = position != String::npos ?
-                    path.substr(position + 1) : path;
-
-                return convertToGeneric(result);
+                Path result;
+                result.path = position != String::npos ? path.substr(position + 1) : path;
+                return result;
             }
 
             template <class Source>
@@ -235,15 +233,16 @@ namespace ouzel
                 path += convertToNative(filename);
             }
 
-            std::string getStem() const
+            Path getStem() const
             {
                 const std::size_t directoryPosition = findLastDirectorySeparator(path);
                 const std::size_t startPosition = directoryPosition == String::npos ? 0 : directoryPosition + 1;
                 const std::size_t extensionPos = path.find(Char('.'), startPosition);
                 const std::size_t endPosition = extensionPos == String::npos ? path.size() : extensionPos;
 
-                const String result = path.substr(startPosition, endPosition - startPosition);
-                return convertToGeneric(result);
+                Path result;
+                result.path = path.substr(startPosition, endPosition - startPosition);
+                return result;
             }
 
             Path getDirectory() const

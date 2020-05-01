@@ -20,16 +20,21 @@ namespace ouzel
                 if (target.platform == Platform::Windows)
                 {
                     VcxProject vcxProject;
+                    VcxProjectFilters vcxProjectFilters;
 
-                    auto vcxprojProjectPath = projectDirectory / target.name + ".vcxproj";
+                    const auto vcxprojProjectPath = projectDirectory / target.name + ".vcxproj";
                     std::ofstream vcxprojProjectFile(vcxprojProjectPath, std::ios::trunc);
-                    auto filtersProjectPath = projectDirectory / target.name + ".vcxproj.filters";
-                    std::ofstream filtersProjectFile(filtersProjectPath, std::ios::trunc);
+                    vcxprojProjectFile << vcxProject.encode();
+
+                    const auto filtersProjectPath = projectDirectory / target.name + ".vcxproj.filters";
+                    std::ofstream vcxProjectFiltersFile(filtersProjectPath, std::ios::trunc);
+                    vcxProjectFiltersFile << vcxProjectFilters.encode();
                 }
 
             auto solution = Solution{};
             auto slnProjectPath = projectDirectory / project.getName() + ".sln";
             std::ofstream slnProjectFile(slnProjectPath, std::ios::trunc);
+            slnProjectFile << solution.encode();
         }
     }
 }
