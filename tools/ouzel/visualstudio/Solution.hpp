@@ -13,7 +13,7 @@ namespace ouzel
         class Solution final
         {
         public:
-            explicit Solution(const std::vector<VcxProject>& p):
+            explicit Solution(const std::vector<std::reference_wrapper<const VcxProject>>& p):
                 projects(p) {}
 
             std::string encode() const
@@ -21,7 +21,7 @@ namespace ouzel
                 return std::string{};
             }
 
-            std::vector<VcxProject> projects;
+            std::vector<std::reference_wrapper<const VcxProject>> projects;
         };
     }
 }

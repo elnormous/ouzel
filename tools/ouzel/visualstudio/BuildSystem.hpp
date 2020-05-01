@@ -18,14 +18,13 @@ namespace ouzel
             const Uuid libouzelUuid = {0xC60AB6A6, 0x67FF, 0x4704, 0xBD, 0xCD, 0xDE, 0x2F, 0x38, 0x2F, 0xE2, 0x51};
             const Uuid ouzelUuid = {0x8BC9CEB8, 0x8B4A, 0x11D0, 0x8D, 0x11, 0x00, 0xA0, 0xC9, 0x1B, 0xC9, 0x42};
 
-            std::vector<VcxProject> projects;
-            projects.emplace_back(libouzelUuid, "libouzel", storage::Path{"libouzel.vxxproj"}, std::vector<Uuid>{});
-            projects.emplace_back(ouzelUuid, "ouzel", storage::Path{"ouzel.vxxproj"},  std::vector<Uuid>{});
+            const auto libouzelProject = VcxProject(libouzelUuid, "libouzel", storage::Path{"libouzel.vxxproj"}, std::vector<Uuid>{});
+            const auto ouzelProject = VcxProject(ouzelUuid, "ouzel", storage::Path{"ouzel.vxxproj"},  std::vector<Uuid>{});
 
             const storage::Path projectFilename = project.getPath().getFilename();
             const storage::Path projectDirectory = project.getPath().getDirectory();
 
-            std::vector<std::unique_ptr<VcxProject>> projectPointers;
+            std::vector<VcxProject> platformProjects;
 
             for (const auto& target : project.getTargets())
                 if (target.platform == Platform::Windows)
@@ -42,8 +41,15 @@ namespace ouzel
                     std::ofstream vcxProjectFiltersFile(filtersProjectPath, std::ios::trunc);
                     vcxProjectFiltersFile << vcxProjectFilters.encode();
 
-                    projects.push_back(std::move(vcxProject));
+                    platformProjects.push_back(vcxProject);
                 }
+
+            std::vector<std::reference_wrapper<const VcxProject>> projects;
+            projects.push_back(libouzelProject);
+            projects.push_back(ouzelProject);
+
+            for (const auto& project : platformProjects)
+                projects.push_back(project);
 
             const auto solution = Solution{projects};
             const auto solutionPath = projectDirectory / project.getName() + ".sln";
