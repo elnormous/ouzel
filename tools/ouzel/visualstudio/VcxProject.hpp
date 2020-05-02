@@ -9,17 +9,17 @@ namespace ouzel
 {
     namespace visualstudio
     {
-        struct Uuid final
+        struct Guid final
         {
-            std::uint32_t  timeLow;
-            std::uint16_t  timeMid;
-            std::uint16_t  timeHiAndVersion;
-            std::uint8_t   clockSeqHiAndReserved;
-            std::uint8_t   clockSeqLow;
-            std::uint8_t   node[6];
+            std::uint32_t timeLow;
+            std::uint16_t timeMid;
+            std::uint16_t timeHiAndVersion;
+            std::uint8_t clockSeqHiAndReserved;
+            std::uint8_t clockSeqLow;
+            std::uint8_t node[6];
         };
 
-        inline Uuid generateUuid()
+        inline Guid generateGuid()
         {
             static std::random_device rd;
             static std::mt19937_64 mt(rd());
@@ -63,72 +63,75 @@ namespace ouzel
             };
         }
 
-        inline std::string toString(const Uuid& uuid)
+        inline std::string toString(const Guid& guid)
         {
             constexpr char digits[] = "0123456789abcdef";
 
             return {
-                digits[(uuid.timeLow >> 28) & 0x0F],
-                digits[(uuid.timeLow >> 24) & 0x0F],
-                digits[(uuid.timeLow >> 20) & 0x0F],
-                digits[(uuid.timeLow >> 16) & 0x0F],
-                digits[(uuid.timeLow >> 12) & 0x0F],
-                digits[(uuid.timeLow >> 8) & 0x0F],
-                digits[(uuid.timeLow >> 4) & 0x0F],
-                digits[(uuid.timeLow >> 0) & 0x0F],
+                digits[(guid.timeLow >> 28) & 0x0F],
+                digits[(guid.timeLow >> 24) & 0x0F],
+                digits[(guid.timeLow >> 20) & 0x0F],
+                digits[(guid.timeLow >> 16) & 0x0F],
+                digits[(guid.timeLow >> 12) & 0x0F],
+                digits[(guid.timeLow >> 8) & 0x0F],
+                digits[(guid.timeLow >> 4) & 0x0F],
+                digits[(guid.timeLow >> 0) & 0x0F],
                 '-',
-                digits[(uuid.timeMid >> 12) & 0x0F],
-                digits[(uuid.timeMid >> 8) & 0x0F],
-                digits[(uuid.timeMid >> 4) & 0x0F],
-                digits[(uuid.timeMid >> 0) & 0x0F],
+                digits[(guid.timeMid >> 12) & 0x0F],
+                digits[(guid.timeMid >> 8) & 0x0F],
+                digits[(guid.timeMid >> 4) & 0x0F],
+                digits[(guid.timeMid >> 0) & 0x0F],
                 '-',
-                digits[(uuid.timeHiAndVersion >> 12) & 0x0F],
-                digits[(uuid.timeHiAndVersion >> 8) & 0x0F],
-                digits[(uuid.timeHiAndVersion >> 4) & 0x0F],
-                digits[(uuid.timeHiAndVersion >> 0) & 0x0F],
+                digits[(guid.timeHiAndVersion >> 12) & 0x0F],
+                digits[(guid.timeHiAndVersion >> 8) & 0x0F],
+                digits[(guid.timeHiAndVersion >> 4) & 0x0F],
+                digits[(guid.timeHiAndVersion >> 0) & 0x0F],
                 '-',
-                digits[(uuid.clockSeqHiAndReserved >> 4) & 0x0F],
-                digits[(uuid.clockSeqHiAndReserved >> 0) & 0x0F],
-                digits[(uuid.clockSeqLow >> 4) & 0x0F],
-                digits[(uuid.clockSeqLow >> 0) & 0x0F],
+                digits[(guid.clockSeqHiAndReserved >> 4) & 0x0F],
+                digits[(guid.clockSeqHiAndReserved >> 0) & 0x0F],
+                digits[(guid.clockSeqLow >> 4) & 0x0F],
+                digits[(guid.clockSeqLow >> 0) & 0x0F],
                 '-',
-                digits[(uuid.node[0] >> 4) & 0x0F],
-                digits[(uuid.node[0] >> 0) & 0x0F],
-                digits[(uuid.node[1] >> 4) & 0x0F],
-                digits[(uuid.node[1] >> 0) & 0x0F],
-                digits[(uuid.node[2] >> 4) & 0x0F],
-                digits[(uuid.node[2] >> 0) & 0x0F],
-                digits[(uuid.node[3] >> 4) & 0x0F],
-                digits[(uuid.node[3] >> 0) & 0x0F],
-                digits[(uuid.node[4] >> 4) & 0x0F],
-                digits[(uuid.node[4] >> 0) & 0x0F],
-                digits[(uuid.node[5] >> 4) & 0x0F],
-                digits[(uuid.node[5] >> 0) & 0x0F]
+                digits[(guid.node[0] >> 4) & 0x0F],
+                digits[(guid.node[0] >> 0) & 0x0F],
+                digits[(guid.node[1] >> 4) & 0x0F],
+                digits[(guid.node[1] >> 0) & 0x0F],
+                digits[(guid.node[2] >> 4) & 0x0F],
+                digits[(guid.node[2] >> 0) & 0x0F],
+                digits[(guid.node[3] >> 4) & 0x0F],
+                digits[(guid.node[3] >> 0) & 0x0F],
+                digits[(guid.node[4] >> 4) & 0x0F],
+                digits[(guid.node[4] >> 0) & 0x0F],
+                digits[(guid.node[5] >> 4) & 0x0F],
+                digits[(guid.node[5] >> 0) & 0x0F]
             };
         }
 
         class VcxProject final
         {
         public:
-            VcxProject(const std::string& n,
+            VcxProject(const Guid& t,
+                       const std::string& n,
                        const storage::Path& p,
-                       const std::vector<Uuid>& d):
-                dependencies(d), name{n}, path{p} {}
-            explicit VcxProject(const Uuid& u,
+                       const std::vector<Guid>& d):
+                type{t}, name{n}, path{p}, dependencies(d) {}
+            explicit VcxProject(const Guid& g,
+                                const Guid& t,
                                 const std::string& n,
                                 const storage::Path& p,
-                                const std::vector<Uuid>& d):
-                uuid{u}, name{n}, dependencies(d), path{p} {}
+                                const std::vector<Guid>& d):
+                guid{g}, type{t}, name{n}, path{p}, dependencies(d) {}
 
             std::string encode() const
             {
                 return std::string{};
             }
 
-            const Uuid uuid = generateUuid();
+            const Guid guid = generateGuid();
+            const Guid type;
             const std::string name;
             const storage::Path path;
-            const std::vector<Uuid> dependencies;
+            const std::vector<Guid> dependencies;
         };
     }
 }
