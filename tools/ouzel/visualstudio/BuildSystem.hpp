@@ -33,7 +33,7 @@ namespace ouzel
                     const auto vcxprojProjectPath = projectDirectory / target.name + ".vcxproj";
 
                     auto vcxProject = VcxProject{cppProjectGuid, project.getName(), vcxprojProjectPath, {ouzelUuid}};
-                    VcxProjectFilters vcxProjectFilters;
+                    VcxProjectFilters vcxProjectFilters{vcxProject};
 
                     std::ofstream vcxprojProjectFile(vcxprojProjectPath, std::ios::trunc);
                     vcxprojProjectFile << vcxProject.encode();

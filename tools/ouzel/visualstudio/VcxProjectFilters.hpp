@@ -3,6 +3,8 @@
 #ifndef OUZEL_VISUALSTUDIO_VCXPROJECTFILTERS_HPP
 #define OUZEL_VISUALSTUDIO_VCXPROJECTFILTERS_HPP
 
+#include "VcxProject.hpp"
+
 namespace ouzel
 {
     namespace visualstudio
@@ -10,12 +12,19 @@ namespace ouzel
         class VcxProjectFilters final
         {
         public:
-            VcxProjectFilters() = default;
+            VcxProjectFilters(const VcxProject& p): project{p} {}
 
             std::string encode() const
             {
-                return std::string{};
+                std::string result = "<?xml version=\"1.0\" encoding=\"utf - 8\"?>\n"
+                    "<Project ToolsVersion=\"15.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\n";
+
+                result += "</Project>";
+
+                return result;
             }
+
+            const VcxProject& project;
         };
     }
 }
