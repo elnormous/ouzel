@@ -3,7 +3,10 @@
 #ifndef OUZEL_VISUALSTUDIO_VCXPROJECT_HPP
 #define OUZEL_VISUALSTUDIO_VCXPROJECT_HPP
 
+#include <map>
+#include <string>
 #include <random>
+#include <vector>
 
 namespace ouzel
 {
@@ -113,14 +116,16 @@ namespace ouzel
             VcxProject(const Guid& t,
                        const std::string& n,
                        const storage::Path& p,
-                       const std::vector<Guid>& d):
-                type{t}, name{n}, path{p}, dependencies(d) {}
+                       const std::vector<Guid>& d,
+                       const std::map<std::string, std::string>& c):
+                type{t}, name{n}, path{p}, dependencies(d), configurations(c) {}
             explicit VcxProject(const Guid& g,
                                 const Guid& t,
                                 const std::string& n,
                                 const storage::Path& p,
-                                const std::vector<Guid>& d):
-                guid{g}, type{t}, name{n}, path{p}, dependencies(d) {}
+                                const std::vector<Guid>& d,
+                                const std::map<std::string, std::string>& c):
+                guid{g}, type{t}, name{n}, path{p}, dependencies(d), configurations(c) {}
 
             std::string encode() const
             {
@@ -137,6 +142,7 @@ namespace ouzel
             const std::string name;
             const storage::Path path;
             const std::vector<Guid> dependencies;
+            const std::map<std::string, std::string> configurations;
         };
     }
 }
