@@ -29,6 +29,104 @@ namespace ouzel
 {
     namespace storage
     {
+        class FileTime final
+        {
+        public:
+#if defined(_WIN32)
+            using Type = FILETIME;
+#elif defined(__unix__) || defined(__APPLE__)
+            using Type = timespec;
+#endif
+
+            FileTime() noexcept = default;
+            FileTime(const Type& t) noexcept: time{t} {}
+
+            operator std::chrono::system_clock::time_point() const noexcept
+            {
+#if defined(_WIN32)
+                using hundrednanoseconds = std::chrono::duration<std::int64_t, std::ratio_multiply<std::hecto, std::nano>>;
+
+                auto t = hundrednanoseconds{
+                    ((static_cast<std::uint64_t>(time.dwHighDateTime) << 32) |
+                     static_cast<std::uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
+                };
+
+                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};
+#elif defined(__unix__) || defined(__APPLE__)
+                auto nanoseconds = std::chrono::seconds{time.tv_sec} +
+                    std::chrono::nanoseconds{time.tv_nsec};
+
+                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
+#endif
+            }
+
+            bool operator==(const FileTime& other) const noexcept
+            {
+#if defined(_WIN32)
+                return time.dwHighDateTime == other.time.dwHighDateTime &&
+                    time.dwLowDateTime == other.time.dwLowDateTime;
+#elif defined(__unix__) || defined(__APPLE__)
+                return time.tv_sec == other.time.tv_sec &&
+                    time.tv_nsec == other.time.tv_nsec;
+#endif
+            }
+
+            bool operator>(const FileTime& other) const noexcept
+            {
+#if defined(_WIN32)
+                return time.dwHighDateTime == other.time.dwHighDateTime ?
+                    time.dwLowDateTime > other.time.dwLowDateTime :
+                    time.dwHighDateTime > other.time.dwHighDateTime
+#elif defined(__unix__) || defined(__APPLE__)
+                return time.tv_sec == other.time.tv_sec ?
+                    time.tv_nsec > other.time.tv_nsec :
+                    time.tv_sec > other.time.tv_sec;
+#endif
+            }
+
+            bool operator<(const FileTime& other) const noexcept
+            {
+#if defined(_WIN32)
+                return time.dwHighDateTime == other.time.dwHighDateTime ?
+                   time.dwLowDateTime < other.time.dwLowDateTime :
+                   time.dwHighDateTime < other.time.dwHighDateTime
+#elif defined(__unix__) || defined(__APPLE__)
+                return time.tv_sec == other.time.tv_sec ?
+                    time.tv_nsec < other.time.tv_nsec :
+                    time.tv_sec < other.time.tv_sec;
+#endif
+            }
+
+            bool operator>=(const FileTime& other) const noexcept
+            {
+#if defined(_WIN32)
+                return time.dwHighDateTime == other.time.dwHighDateTime ?
+                    time.dwLowDateTime >= other.time.dwLowDateTime :
+                    time.dwHighDateTime > other.time.dwHighDateTime
+#elif defined(__unix__) || defined(__APPLE__)
+                return time.tv_sec == other.time.tv_sec ?
+                    time.tv_nsec >= other.time.tv_nsec :
+                    time.tv_sec > other.time.tv_sec;
+#endif
+            }
+
+            bool operator<=(const FileTime& other) const noexcept
+            {
+#if defined(_WIN32)
+                return time.dwHighDateTime == other.time.dwHighDateTime ?
+                    time.dwLowDateTime <= other.time.dwLowDateTime :
+                    time.dwHighDateTime < other.time.dwHighDateTime
+#elif defined(__unix__) || defined(__APPLE__)
+                return time.tv_sec == other.time.tv_sec ?
+                    time.tv_nsec <= other.time.tv_nsec :
+                    time.tv_sec < other.time.tv_sec;
+#endif
+            }
+
+        private:
+            Type time;
+        };
+
         class Path final
         {
         public:
@@ -408,7 +506,7 @@ namespace ouzel
             }
 
 #if defined(_WIN32)
-            std::chrono::system_clock::time_point getAccessTime() const
+            FileTime getAccessTime() const
             {
                 HANDLE file = CreateFileW(path.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
                 if (file == INVALID_HANDLE_VALUE)
@@ -420,17 +518,10 @@ namespace ouzel
                 if (!ret)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
-                using hundrednanoseconds = std::chrono::duration<std::int64_t, std::ratio_multiply<std::hecto, std::nano>>;
-
-                auto t = hundrednanoseconds{
-                    ((static_cast<std::uint64_t>(time.dwHighDateTime) << 32) |
-                     static_cast<std::uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
-                };
-
-                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};
+                return FileTime{time};
             }
 
-            std::chrono::system_clock::time_point getModifyTime() const
+            FileTime getModifyTime() const
             {
                 HANDLE file = CreateFileW(path.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
                 if (file == INVALID_HANDLE_VALUE)
@@ -442,46 +533,33 @@ namespace ouzel
                 if (!ret)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
-                using hundrednanoseconds = std::chrono::duration<std::int64_t, std::ratio_multiply<std::hecto, std::nano>>;
-
-                auto t = hundrednanoseconds{
-                    ((static_cast<std::uint64_t>(time.dwHighDateTime) << 32) |
-                     static_cast<std::uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
-                };
-
-                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};
+                return FileTime{time};
             }
 #elif defined(__unix__) || defined(__APPLE__)
-            std::chrono::system_clock::time_point getAccessTime() const
+            FileTime getAccessTime() const
             {
                 struct stat s;
                 if (lstat(path.c_str(), &s) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to get file stats");
 
 #  if defined(__APPLE__)
-                auto nanoseconds = std::chrono::seconds{s.st_atimespec.tv_sec} +
-                    std::chrono::nanoseconds{s.st_atimespec.tv_nsec};
+                return FileTime{s.st_atimespec};
 #  else
-                auto nanoseconds = std::chrono::seconds{s.st_atim.tv_sec} +
-                    std::chrono::nanoseconds{s.st_atim.tv_nsec};
+                return FileTime{s.st_atim};
 #  endif
-                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
             }
 
-            std::chrono::system_clock::time_point getModifyTime() const
+            FileTime getModifyTime() const
             {
                 struct stat s;
                 if (lstat(path.c_str(), &s) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to get file stats");
 
 #  if defined(__APPLE__)
-                auto nanoseconds = std::chrono::seconds{s.st_mtimespec.tv_sec} +
-                    std::chrono::nanoseconds{s.st_mtimespec.tv_nsec};
+                return FileTime{s.st_mtimespec};
 #  else
-                auto nanoseconds = std::chrono::seconds{s.st_mtim.tv_sec} +
-                    std::chrono::nanoseconds{s.st_mtim.tv_nsec};
+                return FileTime{s.st_mtim};
 #  endif
-                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
             }
 #endif
 
