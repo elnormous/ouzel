@@ -76,7 +76,7 @@ namespace ouzel
 #if defined(_WIN32)
                 return time.dwHighDateTime == other.time.dwHighDateTime ?
                     time.dwLowDateTime > other.time.dwLowDateTime :
-                    time.dwHighDateTime > other.time.dwHighDateTime
+                    time.dwHighDateTime > other.time.dwHighDateTime;
 #elif defined(__unix__) || defined(__APPLE__)
                 return time.tv_sec == other.time.tv_sec ?
                     time.tv_nsec > other.time.tv_nsec :
@@ -88,8 +88,8 @@ namespace ouzel
             {
 #if defined(_WIN32)
                 return time.dwHighDateTime == other.time.dwHighDateTime ?
-                   time.dwLowDateTime < other.time.dwLowDateTime :
-                   time.dwHighDateTime < other.time.dwHighDateTime
+                    time.dwLowDateTime < other.time.dwLowDateTime :
+                    time.dwHighDateTime < other.time.dwHighDateTime;
 #elif defined(__unix__) || defined(__APPLE__)
                 return time.tv_sec == other.time.tv_sec ?
                     time.tv_nsec < other.time.tv_nsec :
@@ -102,7 +102,7 @@ namespace ouzel
 #if defined(_WIN32)
                 return time.dwHighDateTime == other.time.dwHighDateTime ?
                     time.dwLowDateTime >= other.time.dwLowDateTime :
-                    time.dwHighDateTime > other.time.dwHighDateTime
+                    time.dwHighDateTime > other.time.dwHighDateTime;
 #elif defined(__unix__) || defined(__APPLE__)
                 return time.tv_sec == other.time.tv_sec ?
                     time.tv_nsec >= other.time.tv_nsec :
@@ -115,7 +115,7 @@ namespace ouzel
 #if defined(_WIN32)
                 return time.dwHighDateTime == other.time.dwHighDateTime ?
                     time.dwLowDateTime <= other.time.dwLowDateTime :
-                    time.dwHighDateTime < other.time.dwHighDateTime
+                    time.dwHighDateTime < other.time.dwHighDateTime;
 #elif defined(__unix__) || defined(__APPLE__)
                 return time.tv_sec == other.time.tv_sec ?
                     time.tv_nsec <= other.time.tv_nsec :
