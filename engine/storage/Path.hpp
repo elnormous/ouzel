@@ -505,9 +505,9 @@ namespace ouzel
 #endif
             }
 
-#if defined(_WIN32)
             FileTime getAccessTime() const
             {
+#if defined(_WIN32)
                 HANDLE file = CreateFileW(path.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
                 if (file == INVALID_HANDLE_VALUE)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
@@ -519,10 +519,22 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
                 return FileTime{time};
+#elif defined(__unix__) || defined(__APPLE__)
+                struct stat s;
+                if (lstat(path.c_str(), &s) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
+
+#  if defined(__APPLE__)
+                return FileTime{s.st_atimespec};
+#  else
+                return FileTime{s.st_atim};
+#  endif
+#endif
             }
 
             FileTime getModifyTime() const
             {
+#if defined(_WIN32)
                 HANDLE file = CreateFileW(path.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
                 if (file == INVALID_HANDLE_VALUE)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
@@ -534,23 +546,7 @@ namespace ouzel
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
 
                 return FileTime{time};
-            }
 #elif defined(__unix__) || defined(__APPLE__)
-            FileTime getAccessTime() const
-            {
-                struct stat s;
-                if (lstat(path.c_str(), &s) == -1)
-                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
-
-#  if defined(__APPLE__)
-                return FileTime{s.st_atimespec};
-#  else
-                return FileTime{s.st_atim};
-#  endif
-            }
-
-            FileTime getModifyTime() const
-            {
                 struct stat s;
                 if (lstat(path.c_str(), &s) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to get file stats");
@@ -560,8 +556,8 @@ namespace ouzel
 #  else
                 return FileTime{s.st_mtim};
 #  endif
-            }
 #endif
+            }
 
         private:
             static constexpr bool isDirectorySeparator(Char c) noexcept
