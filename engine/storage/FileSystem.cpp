@@ -226,7 +226,7 @@ namespace ouzel
 #elif defined(__linux__)
             std::string path;
 
-            const char* homeDirectory = getenv("XDG_DATA_HOME");
+            const char* homeDirectory = std::getenv("XDG_DATA_HOME");
 
             if (homeDirectory)
                 path = homeDirectory;

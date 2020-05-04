@@ -53,10 +53,10 @@ namespace ouzel
 
                 return Path{buffer, Path::Format::Native};
 #elif defined(__linux__) || defined(__APPLE__)
-                char const* path = getenv("TMPDIR");
-                if (!path) path = getenv("TMP");
-                if (!path) path = getenv("TEMP");
-                if (!path) path = getenv("TEMPDIR");
+                char const* path = std::getenv("TMPDIR");
+                if (!path) path = std::getenv("TMP");
+                if (!path) path = std::getenv("TEMP");
+                if (!path) path = std::getenv("TEMPDIR");
 
                 if (path)
                     return Path{path, Path::Format::Native};
