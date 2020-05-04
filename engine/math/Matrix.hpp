@@ -1018,8 +1018,6 @@ namespace ouzel
         return m * scalar;
     }
 
-    // TODO: scalar * matrix
-
     using Matrix4F = Matrix<4, 4, float>;
 }
 

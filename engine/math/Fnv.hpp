@@ -16,8 +16,8 @@ namespace ouzel
 
             template <> constexpr std::uint32_t prime<std::uint32_t>() { return 16777619u; }
             template <> constexpr std::uint32_t offsetBasis<std::uint32_t>() { return 2166136261u; }
-                template <> constexpr std::uint64_t prime<std::uint64_t>() { return 1099511628211u; }
-                template <> constexpr std::uint64_t offsetBasis<std::uint64_t>() { return 14695981039346656037u; }
+            template <> constexpr std::uint64_t prime<std::uint64_t>() { return 1099511628211u; }
+            template <> constexpr std::uint64_t offsetBasis<std::uint64_t>() { return 14695981039346656037u; }
         }
 
         // Fowler / Noll / Vo (FNV) hash
