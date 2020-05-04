@@ -37,9 +37,10 @@ namespace ouzel
 #elif defined(__unix__) || defined(__APPLE__)
             using Type = timespec;
 #endif
-
             FileTime() noexcept = default;
             FileTime(const Type& t) noexcept: time{t} {}
+
+            operator Type() const noexcept { return time; }
 
             operator std::chrono::system_clock::time_point() const noexcept
             {
