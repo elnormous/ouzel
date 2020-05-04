@@ -288,7 +288,7 @@ namespace ouzel
             {
                 EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-                AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getGeneric().c_str(), AASSET_MODE_STREAMING);
+                AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);
 
                 if (!asset)
                     throw std::runtime_error("Failed to open file " + std::string(filename));
@@ -355,7 +355,7 @@ namespace ouzel
 #if defined(__ANDROID__)
             EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-            AAssetDir* assetDir = AAssetManager_openDir(engineAndroid.getAssetManager(), dirname.getGeneric().c_str());
+            AAssetDir* assetDir = AAssetManager_openDir(engineAndroid.getAssetManager(), dirname.getNative().c_str());
             const bool exists = AAssetDir_getNextFileName(assetDir) != nullptr;
             AAssetDir_close(assetDir);
 
@@ -370,7 +370,7 @@ namespace ouzel
 #if defined(__ANDROID__)
             EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-            AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getGeneric().c_str(), AASSET_MODE_STREAMING);
+            AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);
 
             if (asset)
             {
