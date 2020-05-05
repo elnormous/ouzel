@@ -151,14 +151,12 @@ namespace ouzel
             };
 
 #if defined(_WIN32)
-            static constexpr char directorySeparator = '\\';
             using Char = wchar_t;
             using String = std::wstring;
             static constexpr Char preferredSeparator = '\\';
             static constexpr const Char* parentDirectory = L"..";
             static constexpr const Char* currentDirectory = L".";
 #elif defined(__unix__) || defined(__APPLE__)
-            static constexpr char directorySeparator = '/';
             using Char = char;
             using String = std::string;
             static constexpr Char preferredSeparator = '/';
