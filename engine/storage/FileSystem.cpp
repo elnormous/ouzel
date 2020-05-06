@@ -62,7 +62,7 @@ namespace ouzel
                     break;
             }
 
-            const auto executablePath = Path(buffer.data());
+            const auto executablePath = Path(buffer.data(), Path::Format::Native);
             appPath = executablePath.getDirectory();
             engine.log(Log::Level::Info) << "Application directory: " << appPath;
 
@@ -84,7 +84,7 @@ namespace ouzel
             if (!result)
                 throw std::runtime_error("Failed to get resource directory");
 
-            appPath = resourceDirectory.data();
+            appPath = Path(resourceDirectory.data(), Path::Format::Native);
             engine.log(Log::Level::Info) << "Application directory: " << appPath;
 
 #elif defined(__ANDROID__)
@@ -98,7 +98,7 @@ namespace ouzel
                 throw std::system_error(errno, std::system_category(), "Failed to get current directory");
 
             executableDirectory[length] = '\0';
-            const auto executablePath = Path(executableDirectory);
+            const auto executablePath = Path(executableDirectory, Path::Format::Native);
             appPath = executablePath.getDirectory();
             engine.log(Log::Level::Info) << "Application directory: " << appPath;
 #endif
@@ -175,7 +175,7 @@ namespace ouzel
                     throw std::runtime_error(path + " is not a directory");
             }
 
-            return path;
+            return Path(path, Path::Format::Native);
 #elif TARGET_OS_IOS || TARGET_OS_TV
             id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
@@ -189,7 +189,8 @@ namespace ouzel
                 throw std::runtime_error("Failed to get document directory");
 
             id documentDirectoryString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(documentDirectory, sel_getUid("path"));
-            return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));
+            auto path = reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));
+            return Path(path, Path::Format::Native);
 #elif TARGET_OS_MAC
             id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
@@ -211,7 +212,8 @@ namespace ouzel
             id path = reinterpret_cast<id (*)(id, SEL, CFStringRef)>(&objc_msgSend)(applicationSupportDirectory, sel_getUid("URLByAppendingPathComponent:"), identifier);
             reinterpret_cast<void (*)(id, SEL, id, BOOL, id, id)>(&objc_msgSend)(fileManager, sel_getUid("createDirectoryAtURL:withIntermediateDirectories:attributes:error:"), path, YES, nil, nil);
             id pathString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(path, sel_getUid("path"));
-            return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(pathString, sel_getUid("UTF8String"));
+            auto path = reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(pathString, sel_getUid("UTF8String"));
+            return Path(path, Path::Format::Native);
 #elif defined(__ANDROID__)
             static_cast<void>(user);
 
@@ -223,7 +225,7 @@ namespace ouzel
             const char* homeDirectory = std::getenv("XDG_DATA_HOME");
 
             if (homeDirectory)
-                path = homeDirectory;
+                path = PahomeDirectory;
             else
             {
                 struct passwd pwent;
@@ -264,7 +266,7 @@ namespace ouzel
                 if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
 
-            return path;
+            return Path(path, Path::Format::Native);
 #else
             return "";
 #endif
