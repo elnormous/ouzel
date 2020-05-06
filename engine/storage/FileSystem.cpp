@@ -62,7 +62,7 @@ namespace ouzel
                     break;
             }
 
-            const auto executablePath = Path(buffer.data(), Path::Format::Native);
+            const auto executablePath = Path{buffer.data(), Path::Format::Native};
             appPath = executablePath.getDirectory();
             engine.log(Log::Level::Info) << "Application directory: " << appPath;
 
@@ -84,7 +84,7 @@ namespace ouzel
             if (!result)
                 throw std::runtime_error("Failed to get resource directory");
 
-            appPath = Path(resourceDirectory.data(), Path::Format::Native);
+            appPath = Path{resourceDirectory.data(), Path::Format::Native};
             engine.log(Log::Level::Info) << "Application directory: " << appPath;
 
 #elif defined(__ANDROID__)
@@ -98,7 +98,7 @@ namespace ouzel
                 throw std::system_error(errno, std::system_category(), "Failed to get current directory");
 
             executableDirectory[length] = '\0';
-            const auto executablePath = Path(executableDirectory, Path::Format::Native);
+            const auto executablePath = Path{executableDirectory, Path::Format::Native};
             appPath = executablePath.getDirectory();
             engine.log(Log::Level::Info) << "Application directory: " << appPath;
 #endif
@@ -121,61 +121,19 @@ namespace ouzel
             if (WideCharToMultiByte(CP_UTF8, 0, appDataPath, -1, appDataBuffer.data(), appDataBufferSize, nullptr, nullptr) == 0)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
-            std::string path = appDataBuffer.data();
+            Path path = Path{appDataBuffer.data(), Path::Format::Native};
 
-            path += '\\' + OUZEL_DEVELOPER_NAME;
+            path /= OUZEL_DEVELOPER_NAME;
 
-            if (!directoryExists(path))
-            {
-                const int bufferSize = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, nullptr, 0);
-                if (bufferSize == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
+            if (!path.isDirectory())
+                createDirectory(path);
 
-                std::vector<WCHAR> buffer(bufferSize);
-                if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, buffer.data(), bufferSize) == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
+            path /= OUZEL_APPLICATION_NAME;
 
-                // relative paths longer than MAX_PATH are not supported
-                if (buffer.size() > MAX_PATH)
-                    buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
+            if (!path.isDirectory())
+                createDirectory(path);
 
-                const DWORD attributes = GetFileAttributesW(buffer.data());
-                if (attributes == INVALID_FILE_ATTRIBUTES)
-                {
-                    if (!CreateDirectoryW(buffer.data(), nullptr))
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to create directory " + path);
-                }
-                else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-                    throw std::runtime_error(path + " is not a directory");
-            }
-
-            path += '\\' + OUZEL_APPLICATION_NAME;
-
-            if (!directoryExists(path))
-            {
-                const int bufferSize = MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, nullptr, 0);
-                if (bufferSize == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
-
-                std::vector<WCHAR> buffer(bufferSize);
-                if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, buffer.data(), bufferSize) == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
-
-                // relative paths longer than MAX_PATH are not supported
-                if (buffer.size() > MAX_PATH)
-                    buffer.insert(buffer.begin(), {L'\\', L'\\', L'?', L'\\'});
-
-                const DWORD attributes = GetFileAttributesW(buffer.data());
-                if (attributes == INVALID_FILE_ATTRIBUTES)
-                {
-                    if (!CreateDirectoryW(buffer.data(), nullptr))
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to create directory " + path);
-                }
-                else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-                    throw std::runtime_error(path + " is not a directory");
-            }
-
-            return Path(path, Path::Format::Native);
+            return path;
 #elif TARGET_OS_IOS || TARGET_OS_TV
             id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
@@ -190,7 +148,7 @@ namespace ouzel
 
             id documentDirectoryString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(documentDirectory, sel_getUid("path"));
             auto path = reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));
-            return Path(path, Path::Format::Native);
+            return Path{path, Path::Format::Native};
 #elif TARGET_OS_MAC
             id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
@@ -213,19 +171,19 @@ namespace ouzel
             reinterpret_cast<void (*)(id, SEL, id, BOOL, id, id)>(&objc_msgSend)(fileManager, sel_getUid("createDirectoryAtURL:withIntermediateDirectories:attributes:error:"), path, YES, nil, nil);
             id pathString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(path, sel_getUid("path"));
             auto path = reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(pathString, sel_getUid("UTF8String"));
-            return Path(path, Path::Format::Native);
+            return Path{path, Path::Format::Native};
 #elif defined(__ANDROID__)
             static_cast<void>(user);
 
             EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
             return engineAndroid.getFilesDirectory();
 #elif defined(__linux__)
-            std::string path;
+            Path path;
 
             const char* homeDirectory = std::getenv("XDG_DATA_HOME");
 
             if (homeDirectory)
-                path = PahomeDirectory;
+                path = Path{homeDirectory, Path::Format::Native};
             else
             {
                 struct passwd pwent;
@@ -239,36 +197,32 @@ namespace ouzel
                 if (e != 0)
                     throw std::runtime_error("Failed to get home directory");
                 else
-                    path = pwent.pw_dir;
+                    path = Path{pwent.pw_dir, Path::Format::Native};
 
-                path += "/.local";
-
-                if (!directoryExists(path))
-                    if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
-                        throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
-
-                path += "/share";
+                path /= ".local";
 
                 if (!directoryExists(path))
-                    if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
-                        throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
+                    createDirectory(path);
+
+                path /= "share";
+
+                if (!directoryExists(path))
+                    createDirectory(path);
             }
 
-            path += '/' + OUZEL_DEVELOPER_NAME;
+            path /= OUZEL_DEVELOPER_NAME;
 
             if (!directoryExists(path))
-                if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
-                    throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
+                createDirectory(path);
 
-            path += '/' + OUZEL_APPLICATION_NAME;
+            path /= OUZEL_APPLICATION_NAME;
 
             if (!directoryExists(path))
-                if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
-                    throw std::system_error(errno, std::system_category(), "Failed to create directory " + path);
+                createDirectory(path);
 
-            return Path(path, Path::Format::Native);
+            return path;
 #else
-            return "";
+            return Path{};
 #endif
         }
 
@@ -280,7 +234,7 @@ namespace ouzel
                         return archive.second.readFile(filename);
 
 #if defined(__ANDROID__)
-            if (!Path(filename).isAbsolute())
+            if (!filename.isAbsolute())
             {
                 EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
 
