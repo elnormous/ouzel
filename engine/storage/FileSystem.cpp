@@ -16,6 +16,7 @@
 #  include <Windows.h>
 #  include <ShlObj.h>
 #  include <Shlwapi.h>
+#  include <strsafe.h>
 #  pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #  pragma pop_macro("NOMINMAX")
 #elif defined(__APPLE__)
@@ -114,12 +115,97 @@ namespace ouzel
 
             Path path = Path{appDataPath, Path::Format::Native};
 
-            path /= OUZEL_DEVELOPER_NAME;
+            HINSTANCE instance = GetModuleHandleW(nullptr);
+            if (!instance)
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
+            std::vector<WCHAR> buffer(MAX_PATH + 1);
+            for (;;)
+            {
+                if (!GetModuleFileNameW(instance, buffer.data(), static_cast<DWORD>(buffer.size())))
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get module filename");
+
+                if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)
+                    buffer.resize(buffer.size() * 2);
+                else
+                    break;
+            }
+
+            const auto executablePath = Path{buffer.data(), Path::Format::Native};
+            DWORD handle;
+            const DWORD fileVersionSize = GetFileVersionInfoSizeW(executablePath.getNative().c_str(), &handle);
+            if (!fileVersionSize)
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to get file version size");
+
+            auto fileVersionBuffer = std::make_unique<char[]>(fileVersionSize);
+            if (!GetFileVersionInfoW(executablePath.getNative().c_str(),
+                                     handle, fileVersionSize,
+                                     fileVersionBuffer.get()))
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to get file version");
+
+            LPWSTR companyName = nullptr;
+            LPWSTR productName = nullptr;
+
+            struct LANGANDCODEPAGE final
+            {
+                WORD wLanguage;
+                WORD wCodePage;
+            };
+            LPVOID translationPointer;
+            UINT translationLength;
+
+            if (VerQueryValueW(fileVersionBuffer.get(),
+                               L"\\VarFileInfo\\Translation",
+                               &translationPointer,
+                               &translationLength))
+            {
+                auto translation = static_cast<const LANGANDCODEPAGE*>(translationPointer);
+
+                for (UINT i = 0; i < translationLength / sizeof(LANGANDCODEPAGE); ++i)
+                {
+                    constexpr size_t subBlockSize = 37;
+                    WCHAR subBlock[subBlockSize];
+
+                    StringCchPrintfW(subBlock, subBlockSize,
+                                     L"\\StringFileInfo\\040904b0\\CompanyName",
+                                     translation[i].wLanguage,
+                                     translation[i].wCodePage);
+
+                    LPVOID companyNamePointer;
+                    UINT companyNameLength;
+                    if (VerQueryValueW(fileVersionBuffer.get(),
+                                       subBlock,
+                                       &companyNamePointer,
+                                       &companyNameLength))
+                        companyName = static_cast<LPWSTR>(companyNamePointer);
+
+
+                    StringCchPrintfW(subBlock, subBlockSize,
+                                     L"\\StringFileInfo\\040904b0\\ProductName",
+                                     translation[i].wLanguage,
+                                     translation[i].wCodePage);
+
+                    LPVOID productNamePointer;
+                    UINT productNameLength;
+                    if (VerQueryValueW(fileVersionBuffer.get(),
+                                       subBlock,
+                                       &productNamePointer,
+                                       &productNameLength))
+                        productName = static_cast<LPWSTR>(productNamePointer);
+                }
+            }
+
+            if (companyName)
+                path /= companyName;
+            else
+                path /= OUZEL_DEVELOPER_NAME;
 
             if (!path.isDirectory())
                 createDirectory(path);
 
-            path /= OUZEL_APPLICATION_NAME;
+            if (productName)
+                path /= productName;
+            else
+                path /= OUZEL_APPLICATION_NAME;
 
             if (!path.isDirectory())
                 createDirectory(path);

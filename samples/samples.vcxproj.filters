@@ -35,33 +35,6 @@
     <Image Include="windows\icon1.ico">
       <Filter>windows</Filter>
     </Image>
-    <Image Include="Resources\ball.png">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="Resources\cube.png">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="Resources\cursor.png">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="Resources\fire.png">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="Resources\flame.png">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="Resources\floor.jpg">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="Resources\run.png">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="Resources\triangle.png">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="Resources\witch.png">
-      <Filter>Resources</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="windows">
@@ -72,60 +45,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\assets.json">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Resources\cube.mtl">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Resources\fire.json">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Resources\flame.json">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Resources\gui.zip">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Resources\lv.mo">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Resources\music.ogg">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Resources\run.json">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Resources\triangle.json">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Resources\8-bit.json">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="settings.ini" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="Resources\8-bit.wav">
-      <Filter>Resources</Filter>
-    </Media>
-    <Media Include="Resources\24-bit.wav">
-      <Filter>Resources</Filter>
-    </Media>
-    <Media Include="Resources\ambient.wav">
-      <Filter>Resources</Filter>
-    </Media>
-    <Media Include="Resources\jump.wav">
-      <Filter>Resources</Filter>
-    </Media>
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="Resources\AmosisTechnik.ttf">
-      <Filter>Resources</Filter>
-    </Font>
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="Resources\cube.obj">
-      <Filter>Resources</Filter>
-    </Object>
+    <CopyFileToFolders Include="Resources\ball.png" />
+    <CopyFileToFolders Include="Resources\cube.png" />
+    <CopyFileToFolders Include="Resources\cursor.png" />
+    <CopyFileToFolders Include="Resources\fire.png" />
+    <CopyFileToFolders Include="Resources\flame.png" />
+    <CopyFileToFolders Include="Resources\floor.jpg" />
+    <CopyFileToFolders Include="Resources\run.png" />
+    <CopyFileToFolders Include="Resources\triangle.png" />
+    <CopyFileToFolders Include="Resources\witch.png" />
+    <CopyFileToFolders Include="Resources\8-bit.json" />
+    <CopyFileToFolders Include="Resources\assets.json" />
+    <CopyFileToFolders Include="Resources\cube.mtl" />
+    <CopyFileToFolders Include="Resources\fire.json" />
+    <CopyFileToFolders Include="Resources\flame.json" />
+    <CopyFileToFolders Include="Resources\gui.zip" />
+    <CopyFileToFolders Include="Resources\lv.mo" />
+    <CopyFileToFolders Include="Resources\music.ogg" />
+    <CopyFileToFolders Include="Resources\run.json" />
+    <CopyFileToFolders Include="Resources\triangle.json" />
+    <CopyFileToFolders Include="Resources\24-bit.wav" />
+    <CopyFileToFolders Include="Resources\8-bit.wav" />
+    <CopyFileToFolders Include="Resources\ambient.wav" />
+    <CopyFileToFolders Include="Resources\jump.wav" />
+    <CopyFileToFolders Include="Resources\AmosisTechnik.ttf" />
+    <CopyFileToFolders Include="Resources\cube.obj" />
+    <CopyFileToFolders Include="settings.ini" />
   </ItemGroup>
 </Project>
