@@ -46,13 +46,12 @@ namespace ouzel
             engine(initEngine)
         {
 #if defined(_WIN32)
+            HINSTANCE instance = GetModuleHandleW(nullptr);
+            if (!instance)
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
             std::vector<WCHAR> buffer(MAX_PATH + 1);
             for (;;)
             {
-                HINSTANCE instance = GetModuleHandleW(nullptr);
-                if (!instance)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
-
                 if (!GetModuleFileNameW(instance, buffer.data(), static_cast<DWORD>(buffer.size())))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get module filename");
 
@@ -113,15 +112,7 @@ namespace ouzel
             if (FAILED(hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, appDataPath)))
                 throw std::system_error(hr, std::system_category(), "Failed to get the path of the AppData directory");
 
-            const int appDataBufferSize = WideCharToMultiByte(CP_UTF8, 0, appDataPath, -1, nullptr, 0, nullptr, nullptr);
-            if (appDataBufferSize == 0)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
-
-            std::vector<char> appDataBuffer(appDataBufferSize);
-            if (WideCharToMultiByte(CP_UTF8, 0, appDataPath, -1, appDataBuffer.data(), appDataBufferSize, nullptr, nullptr) == 0)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
-
-            Path path = Path{appDataBuffer.data(), Path::Format::Native};
+            Path path = Path{appDataPath, Path::Format::Native};
 
             path /= OUZEL_DEVELOPER_NAME;
 
