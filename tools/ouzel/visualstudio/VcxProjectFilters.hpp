@@ -16,8 +16,8 @@ namespace ouzel
 
             std::string encode() const
             {
-                std::string result = "<?xml version=\"1.0\" encoding=\"utf - 8\"?>\n"
-                    "<Project ToolsVersion=\"15.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\n";
+                std::string result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+                    "<Project ToolsVersion=\"14.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\n";
 
                 result += "</Project>";
 
