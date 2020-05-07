@@ -50,7 +50,7 @@ namespace ouzel
             std::unique_ptr<MouseDevice> mouseDevice;
             std::unique_ptr<TouchpadDevice> touchpadDevice;
 
-            struct Position
+            struct Position final
             {
                 std::int32_t x = 0;
                 std::int32_t y = 0;
