@@ -187,13 +187,18 @@ namespace ouzel
                 {
                 public:
                     FileDescriptor() noexcept = default;
+                    FileDescriptor(int f) noexcept: fd{f} {}
                     ~FileDescriptor() { if (fd != -1) close(fd); }
-                    FileDescriptor(const FileDescriptor&) = delete;
-                    FileDescriptor& operator=(const FileDescriptor&) = delete;
-                    FileDescriptor& operator=(int f) noexcept
+                    FileDescriptor(FileDescriptor&& other) noexcept: fd{other.fd}
                     {
+                        other.fd = -1;
+                    }
+                    FileDescriptor& operator=(FileDescriptor&& other) noexcept
+                    {
+                        if (this == &other) return *this;
                         if (fd != -1) close(fd);
-                        fd = f;
+                        fd = other.fd;
+                        other.fd = -1;
                         return *this;
                     }
                     operator int() const noexcept { return fd; }
@@ -201,8 +206,8 @@ namespace ouzel
                     int fd = -1;
                 };
 
-                FileDescriptor in;
-                if ((in = open(from.getNative().c_str(), O_RDONLY)) == -1)
+                const FileDescriptor in = open(from.getNative().c_str(), O_RDONLY);
+                if (in == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to open file");
 
                 const int mode = O_CREAT | O_WRONLY | O_TRUNC | (overwrite ? 0 : O_EXCL);
@@ -211,8 +216,8 @@ namespace ouzel
                 if (fstat(in, &s) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to get file stats");
 
-                FileDescriptor out;
-                if ((out = open(to.getNative().c_str(), mode, s.st_mode)) == -1)
+                const FileDescriptor out = open(to.getNative().c_str(), mode, s.st_mode);
+                if (out == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to open file");
 
                 std::vector<char> buffer(16384);
