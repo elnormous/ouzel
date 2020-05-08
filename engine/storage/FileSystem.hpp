@@ -37,6 +37,105 @@ namespace ouzel
 
     namespace storage
     {
+        class FileTime final
+        {
+        public:
+#if defined(_WIN32)
+            using Type = FILETIME;
+#elif defined(__unix__) || defined(__APPLE__)
+            using Type = timespec;
+#endif
+            FileTime() noexcept = default;
+            FileTime(const Type& t) noexcept: time{t} {}
+
+            operator Type() const noexcept { return time; }
+
+            operator std::chrono::system_clock::time_point() const noexcept
+            {
+#if defined(_WIN32)
+                using hundrednanoseconds = std::chrono::duration<std::int64_t, std::ratio_multiply<std::hecto, std::nano>>;
+
+                auto t = hundrednanoseconds{
+                    ((static_cast<std::uint64_t>(time.dwHighDateTime) << 32) |
+                     static_cast<std::uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
+                };
+
+                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};
+#elif defined(__unix__) || defined(__APPLE__)
+                auto nanoseconds = std::chrono::seconds{time.tv_sec} +
+                    std::chrono::nanoseconds{time.tv_nsec};
+
+                return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
+#endif
+            }
+
+            bool operator==(const FileTime& other) const noexcept
+            {
+#if defined(_WIN32)
+                return time.dwHighDateTime == other.time.dwHighDateTime &&
+                    time.dwLowDateTime == other.time.dwLowDateTime;
+#elif defined(__unix__) || defined(__APPLE__)
+                return time.tv_sec == other.time.tv_sec &&
+                    time.tv_nsec == other.time.tv_nsec;
+#endif
+            }
+
+            bool operator>(const FileTime& other) const noexcept
+            {
+#if defined(_WIN32)
+                return time.dwHighDateTime == other.time.dwHighDateTime ?
+                    time.dwLowDateTime > other.time.dwLowDateTime :
+                    time.dwHighDateTime > other.time.dwHighDateTime;
+#elif defined(__unix__) || defined(__APPLE__)
+                return time.tv_sec == other.time.tv_sec ?
+                    time.tv_nsec > other.time.tv_nsec :
+                    time.tv_sec > other.time.tv_sec;
+#endif
+            }
+
+            bool operator<(const FileTime& other) const noexcept
+            {
+#if defined(_WIN32)
+                return time.dwHighDateTime == other.time.dwHighDateTime ?
+                    time.dwLowDateTime < other.time.dwLowDateTime :
+                    time.dwHighDateTime < other.time.dwHighDateTime;
+#elif defined(__unix__) || defined(__APPLE__)
+                return time.tv_sec == other.time.tv_sec ?
+                    time.tv_nsec < other.time.tv_nsec :
+                    time.tv_sec < other.time.tv_sec;
+#endif
+            }
+
+            bool operator>=(const FileTime& other) const noexcept
+            {
+#if defined(_WIN32)
+                return time.dwHighDateTime == other.time.dwHighDateTime ?
+                    time.dwLowDateTime >= other.time.dwLowDateTime :
+                    time.dwHighDateTime > other.time.dwHighDateTime;
+#elif defined(__unix__) || defined(__APPLE__)
+                return time.tv_sec == other.time.tv_sec ?
+                    time.tv_nsec >= other.time.tv_nsec :
+                    time.tv_sec > other.time.tv_sec;
+#endif
+            }
+
+            bool operator<=(const FileTime& other) const noexcept
+            {
+#if defined(_WIN32)
+                return time.dwHighDateTime == other.time.dwHighDateTime ?
+                    time.dwLowDateTime <= other.time.dwLowDateTime :
+                    time.dwHighDateTime < other.time.dwHighDateTime;
+#elif defined(__unix__) || defined(__APPLE__)
+                return time.tv_sec == other.time.tv_sec ?
+                    time.tv_nsec <= other.time.tv_nsec :
+                    time.tv_sec < other.time.tv_sec;
+#endif
+            }
+
+        private:
+            Type time;
+        };
+
         class FileSystem final
         {
         public:
@@ -272,6 +371,60 @@ namespace ouzel
 #elif defined(__unix__) || defined(__APPLE__)
                 if (remove(path.getNative().c_str()) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to delete file");
+#endif
+            }
+
+            static FileTime getAccessTime(const Path& path)
+            {
+#if defined(_WIN32)
+                HANDLE file = CreateFileW(path.getNative().c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+                if (file == INVALID_HANDLE_VALUE)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
+
+                FILETIME time;
+                auto ret = GetFileTime(file, nullptr, &time, nullptr);
+                CloseHandle(file);
+                if (!ret)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
+
+                return FileTime{time};
+#elif defined(__unix__) || defined(__APPLE__)
+                struct stat s;
+                if (lstat(path.getNative().c_str(), &s) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
+
+#  if defined(__APPLE__)
+                return FileTime{s.st_atimespec};
+#  else
+                return FileTime{s.st_atim};
+#  endif
+#endif
+            }
+
+            static FileTime getModifyTime(const Path& path)
+            {
+#if defined(_WIN32)
+                HANDLE file = CreateFileW(path.getNative().c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+                if (file == INVALID_HANDLE_VALUE)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
+
+                FILETIME time;
+                auto ret = GetFileTime(file, nullptr, nullptr, &time);
+                CloseHandle(file);
+                if (!ret)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
+
+                return FileTime{time};
+#elif defined(__unix__) || defined(__APPLE__)
+                struct stat s;
+                if (lstat(path.getNative().c_str(), &s) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
+
+#  if defined(__APPLE__)
+                return FileTime{s.st_mtimespec};
+#  else
+                return FileTime{s.st_mtim};
+#  endif
 #endif
             }
 
