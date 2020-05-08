@@ -320,10 +320,10 @@ namespace ouzel
 
                         const auto platformDirectory = projectDirectory / targetPath;
                         const auto plistPath = platformDirectory / "Info.plist";
-                        const auto platformDirectoryType = platformDirectory.getType();
-                        if (platformDirectoryType == storage::Path::Type::NotFound)
+                        const auto platformDirectoryType = storage::FileSystem::getFileType(platformDirectory);
+                        if (platformDirectoryType == storage::FileType::NotFound)
                             storage::FileSystem::createDirectory(platformDirectory);
-                        else if (platformDirectoryType != storage::Path::Type::Directory)
+                        else if (platformDirectoryType != storage::FileType::Directory)
                         {
                             storage::FileSystem::deleteFile(platformDirectory);
                             storage::FileSystem::createDirectory(platformDirectory);
@@ -542,11 +542,11 @@ namespace ouzel
 
             void save(const storage::Path& path) const
             {
-                const auto projectFileType = path.getType();
+                const auto projectFileType = storage::FileSystem::getFileType(path);
 
-                if (projectFileType == storage::Path::Type::NotFound)
+                if (projectFileType == storage::FileType::NotFound)
                     storage::FileSystem::createDirectory(path);
-                else if (projectFileType != storage::Path::Type::Directory)
+                else if (projectFileType != storage::FileType::Directory)
                 {
                     storage::FileSystem::deleteFile(path);
                     storage::FileSystem::createDirectory(path);
@@ -558,11 +558,11 @@ namespace ouzel
 
                 const auto workspacePath = path / "project.xcworkspace";
 
-                const auto workspaceFileType = workspacePath.getType();
+                const auto workspaceFileType = storage::FileSystem::getFileType(workspacePath);
 
-                if (workspaceFileType == storage::Path::Type::NotFound)
+                if (workspaceFileType == storage::FileType::NotFound)
                     storage::FileSystem::createDirectory(workspacePath);
-                else if (workspaceFileType != storage::Path::Type::Directory)
+                else if (workspaceFileType != storage::FileType::Directory)
                 {
                     storage::FileSystem::deleteFile(workspacePath);
                     storage::FileSystem::createDirectory(workspacePath);
