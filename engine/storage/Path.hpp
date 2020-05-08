@@ -300,14 +300,21 @@ namespace ouzel
             }
 
             template <class Source>
-            void replaceExtension(const Source& extension)
+            Path& replaceExtension(const Source& extension)
+            {
+                const std::size_t pos = path.rfind(Char('.'));
+                if (pos != std::string::npos)
+                    path.resize(pos + 1);
+                path += convertToNative(extension);
+                return *this;
+            }
+
+            Path& removeExtension()
             {
                 const std::size_t pos = path.rfind(Char('.'));
                 if (pos != std::string::npos)
                     path.resize(pos);
-
-                path.push_back(Char('.'));
-                path += convertToNative(extension);
+                return *this;
             }
 
             Path getFilename() const
@@ -319,15 +326,25 @@ namespace ouzel
             }
 
             template <class Source>
-            void replaceFilename(const Source& filename)
+            Path& replaceFilename(const Source& filename)
             {
                 const std::size_t position = findLastDirectorySeparator(path);
                 if (position != std::string::npos)
                     path.resize(position + 1);
                 else
                     path.clear();
-
                 path += convertToNative(filename);
+                return *this;
+            }
+
+            Path& removeFilename()
+            {
+                const std::size_t position = findLastDirectorySeparator(path);
+                if (position != std::string::npos)
+                    path.resize(position + 1);
+                else
+                    path.clear();
+                return *this;
             }
 
             Path getStem() const
