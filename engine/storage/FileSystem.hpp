@@ -298,7 +298,6 @@ namespace ouzel
                 class FileDescriptor final
                 {
                 public:
-                    FileDescriptor() noexcept = default;
                     FileDescriptor(int f) noexcept: fd{f} {}
                     ~FileDescriptor() { if (fd != -1) close(fd); }
                     FileDescriptor(FileDescriptor&& other) noexcept: fd{other.fd}
@@ -322,13 +321,13 @@ namespace ouzel
                 if (in == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to open file");
 
-                const int mode = O_CREAT | O_WRONLY | O_TRUNC | (overwrite ? 0 : O_EXCL);
+                const int flags = O_CREAT | O_WRONLY | O_TRUNC | (overwrite ? 0 : O_EXCL);
 
                 struct stat s;
                 if (fstat(in, &s) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to get file stats");
 
-                const FileDescriptor out = open(to.getNative().c_str(), mode, s.st_mode);
+                const FileDescriptor out = open(to.getNative().c_str(), flags, s.st_mode);
                 if (out == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to open file");
 
