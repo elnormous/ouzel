@@ -522,6 +522,11 @@ namespace ouzel
 #endif
             }
 
+            bool isRelative() const noexcept
+            {
+                return !isAbsolute();
+            }
+
             FileTime getAccessTime() const
             {
 #if defined(_WIN32)
