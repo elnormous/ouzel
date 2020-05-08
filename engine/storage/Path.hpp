@@ -9,22 +9,6 @@
 #include <string>
 #include <vector>
 
-#if defined(_WIN32)
-#  pragma push_macro("WIN32_LEAN_AND_MEAN")
-#  pragma push_macro("NOMINMAX")
-#  ifndef WIN32_LEAN_AND_MEAN
-#    define WIN32_LEAN_AND_MEAN
-#  endif
-#  ifndef NOMINMAX
-#    define NOMINMAX
-#  endif
-#  include <Windows.h>
-#  pragma pop_macro("WIN32_LEAN_AND_MEAN")
-#  pragma pop_macro("NOMINMAX")
-#elif defined(__unix__) || defined(__APPLE__)
-#  include <sys/stat.h>
-#endif
-
 namespace ouzel
 {
     namespace storage
@@ -36,19 +20,6 @@ namespace ouzel
             {
                 Generic,
                 Native
-            };
-
-            enum class Type
-            {
-                NotFound,
-                Regular,
-                Directory,
-                Symlink,
-                Block,
-                Character,
-                Fifo,
-                Socket,
-                Unknown
             };
 
 #if defined(_WIN32)
@@ -358,58 +329,6 @@ namespace ouzel
                 Path result = *this;
                 result.normalize();
                 return result;
-            }
-
-            Type getType() const noexcept
-            {
-#if defined(_WIN32)
-                const DWORD attributes = GetFileAttributesW(path.c_str());
-                if (attributes == INVALID_FILE_ATTRIBUTES)
-                    return Type::NotFound;
-
-                if ((attributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0)
-                    return Type::Symlink;
-                else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
-                    return Type::Directory;
-                else
-                    return Type::Regular;
-#elif defined(__unix__) || defined(__APPLE__)
-                struct stat buf;
-                if (stat(path.c_str(), &buf) == -1)
-                    return Type::NotFound;
-
-                if ((buf.st_mode & S_IFMT) == S_IFREG)
-                    return Type::Regular;
-                else if ((buf.st_mode & S_IFMT) == S_IFDIR)
-                    return Type::Directory;
-                else if ((buf.st_mode & S_IFMT) == S_IFLNK)
-                    return Type::Symlink;
-                else if ((buf.st_mode & S_IFMT) == S_IFBLK)
-                    return Type::Block;
-                else if ((buf.st_mode & S_IFMT) == S_IFCHR)
-                    return Type::Character;
-                else if ((buf.st_mode & S_IFMT) == S_IFIFO)
-                    return Type::Fifo;
-                else if ((buf.st_mode & S_IFMT) == S_IFSOCK)
-                    return Type::Socket;
-                else
-                    return Type::Unknown;
-#endif
-            }
-
-            bool exists() const noexcept
-            {
-                return getType() != Type::NotFound;
-            }
-
-            bool isDirectory() const noexcept
-            {
-                return getType() == Type::Directory;
-            }
-
-            bool isRegular() const noexcept
-            {
-                return getType() == Type::Regular;
             }
 
             bool isAbsolute() const noexcept

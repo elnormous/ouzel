@@ -37,6 +37,19 @@ namespace ouzel
 
     namespace storage
     {
+        enum class FileType
+        {
+            NotFound,
+            Regular,
+            Directory,
+            Symlink,
+            Block,
+            Character,
+            Fifo,
+            Socket,
+            Unknown
+        };
+
         class FileTime final
         {
         public:
@@ -372,6 +385,58 @@ namespace ouzel
                 if (remove(path.getNative().c_str()) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to delete file");
 #endif
+            }
+
+            static FileType getFileType(const Path& path) noexcept
+            {
+#if defined(_WIN32)
+                const DWORD attributes = GetFileAttributesW(path.getNative().c_str());
+                if (attributes == INVALID_FILE_ATTRIBUTES)
+                    return Type::NotFound;
+
+                if ((attributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0)
+                    return FileType::Symlink;
+                else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
+                    return FileType::Directory;
+                else
+                    return Type::Regular;
+#elif defined(__unix__) || defined(__APPLE__)
+                struct stat buf;
+                if (stat(path.getNative().c_str(), &buf) == -1)
+                    return FileType::NotFound;
+
+                if ((buf.st_mode & S_IFMT) == S_IFREG)
+                    return FileType::Regular;
+                else if ((buf.st_mode & S_IFMT) == S_IFDIR)
+                    return FileType::Directory;
+                else if ((buf.st_mode & S_IFMT) == S_IFLNK)
+                    return FileType::Symlink;
+                else if ((buf.st_mode & S_IFMT) == S_IFBLK)
+                    return FileType::Block;
+                else if ((buf.st_mode & S_IFMT) == S_IFCHR)
+                    return FileType::Character;
+                else if ((buf.st_mode & S_IFMT) == S_IFIFO)
+                    return FileType::Fifo;
+                else if ((buf.st_mode & S_IFMT) == S_IFSOCK)
+                    return FileType::Socket;
+                else
+                    return FileType::Unknown;
+#endif
+            }
+
+            static bool isFile(const Path& path) noexcept
+            {
+                return getFileType(path) != FileType::NotFound;
+            }
+
+            static bool isDirectory(const Path& path) noexcept
+            {
+                return getFileType(path) == FileType::Directory;
+            }
+
+            static bool isRegular(const Path& path) noexcept
+            {
+                return getFileType(path) == FileType::Regular;
             }
 
             static FileTime getAccessTime(const Path& path)
