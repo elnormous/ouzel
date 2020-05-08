@@ -283,7 +283,7 @@ namespace ouzel
                 if (CreateDirectoryW(path.getNative().c_str(), nullptr) == 0)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to create directory");
 #elif defined(__unix__) || defined(__APPLE__)
-                mode_t mode = 0777;
+                const mode_t mode = S_IRWXU | S_IRWXG | S_IRWXO;
                 if (mkdir(path.getNative().c_str(), mode) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to create directory");
 #endif
