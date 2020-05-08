@@ -392,14 +392,14 @@ namespace ouzel
 #if defined(_WIN32)
                 const DWORD attributes = GetFileAttributesW(path.getNative().c_str());
                 if (attributes == INVALID_FILE_ATTRIBUTES)
-                    return Type::NotFound;
+                    return FileType::NotFound;
 
                 if ((attributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0)
                     return FileType::Symlink;
                 else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
                     return FileType::Directory;
                 else
-                    return Type::Regular;
+                    return FileType::Regular;
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat buf;
                 if (stat(path.getNative().c_str(), &buf) == -1)
