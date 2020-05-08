@@ -293,27 +293,28 @@ namespace ouzel
 
             Path getExtension() const
             {
-                const std::size_t pos = path.rfind(Char('.'));
+                const std::size_t position = path.rfind(Char('.'));
                 Path result;
-                result.path = pos != std::string::npos ? path.substr(pos + 1) : String{};
+                result.path = position != std::string::npos ?
+                    path.substr(position + 1) : String{};
                 return result;
             }
 
             template <class Source>
             Path& replaceExtension(const Source& extension)
             {
-                const std::size_t pos = path.rfind(Char('.'));
-                if (pos != std::string::npos)
-                    path.resize(pos + 1);
+                const std::size_t position = path.rfind(Char('.'));
+                if (position != std::string::npos)
+                    path.resize(position + 1);
                 path += convertToNative(extension);
                 return *this;
             }
 
             Path& removeExtension()
             {
-                const std::size_t pos = path.rfind(Char('.'));
-                if (pos != std::string::npos)
-                    path.resize(pos);
+                const std::size_t position = path.rfind(Char('.'));
+                if (position != std::string::npos)
+                    path.resize(position);
                 return *this;
             }
 
@@ -351,8 +352,8 @@ namespace ouzel
             {
                 const std::size_t directoryPosition = findLastDirectorySeparator(path);
                 const std::size_t startPosition = directoryPosition == String::npos ? 0 : directoryPosition + 1;
-                const std::size_t extensionPos = path.find(Char('.'), startPosition);
-                const std::size_t endPosition = extensionPos == String::npos ? path.size() : extensionPos;
+                const std::size_t extensionPosition = path.find(Char('.'), startPosition);
+                const std::size_t endPosition = extensionPosition == String::npos ? path.size() : extensionPosition;
 
                 Path result;
                 result.path = path.substr(startPosition, endPosition - startPosition);
