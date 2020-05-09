@@ -445,7 +445,7 @@ namespace ouzel
                 else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
                     return FileType::directory;
                 else
-                    return FileType::Regular;
+                    return FileType::regular;
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat s;
                 if (stat(path.getNative().c_str(), &s) == -1)

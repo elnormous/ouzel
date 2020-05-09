@@ -10,26 +10,26 @@ namespace ouzel
 {
     enum class Platform
     {
-        Windows,
-        MacOs,
-        Linux,
-        Ios,
-        Tvos,
-        Android,
-        Emscripten
+        windows,
+        macOs,
+        linux,
+        iOs,
+        tvOs,
+        android,
+        emscripten
     };
 
     inline std::string toString(Platform platform)
     {
         switch (platform)
         {
-            case Platform::Windows: return "Windows";
-            case Platform::MacOs: return "macOS";
-            case Platform::Linux: return "Linux";
-            case Platform::Ios: return "iOS";
-            case Platform::Tvos: return "tvOS";
-            case Platform::Android: return "Android";
-            case Platform::Emscripten: return "Emscriptem";
+            case Platform::windows: return "Windows";
+            case Platform::macOs: return "macOS";
+            case Platform::linux: return "Linux";
+            case Platform::iOs: return "iOS";
+            case Platform::tvOs: return "tvOS";
+            case Platform::android: return "Android";
+            case Platform::emscripten: return "Emscriptem";
         }
 
         throw std::runtime_error("Unknown platform");
@@ -38,19 +38,19 @@ namespace ouzel
     inline Platform stringToPlatform(const std::string& s)
     {
         if (s == "windows")
-            return Platform::Windows;
+            return Platform::windows;
         else if (s == "macos")
-            return Platform::MacOs;
+            return Platform::macOs;
         else if (s == "linux")
-            return Platform::Linux;
+            return Platform::linux;
         else if (s == "ios")
-            return Platform::Ios;
+            return Platform::iOs;
         else if (s == "tvos")
-            return Platform::Tvos;
+            return Platform::tvOs;
         else if (s == "android")
-            return Platform::Android;
+            return Platform::android;
         else if (s == "emscripten")
-            return Platform::Emscripten;
+            return Platform::emscripten;
         else
             throw std::runtime_error("Invalid platform");
     }

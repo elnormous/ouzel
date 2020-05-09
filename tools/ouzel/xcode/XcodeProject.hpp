@@ -267,9 +267,9 @@ namespace ouzel
                 projectConfigurationList->defaultConfigurationName = releaseConfiguration->name;
 
                 for (const auto& target : project.getTargets())
-                    if (target.platform == Platform::MacOs ||
-                        target.platform == Platform::Ios ||
-                        target.platform == Platform::Tvos)
+                    if (target.platform == Platform::macOs ||
+                        target.platform == Platform::iOs ||
+                        target.platform == Platform::tvOs)
                     {
                         const storage::Path targetPath = target.name;
 
@@ -331,7 +331,7 @@ namespace ouzel
 
                         switch (target.platform)
                         {
-                            case Platform::MacOs:
+                            case Platform::macOs:
                             {
                                 buildSettings["SDKROOT"] = "macosx";
                                 buildSettings["MACOSX_DEPLOYMENT_TARGET"] = "10.8";
@@ -371,7 +371,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Platform::Ios:
+                            case Platform::iOs:
                             {
                                 buildSettings["SDKROOT"] = "iphoneos";
                                 buildSettings["IPHONEOS_DEPLOYMENT_TARGET"] = "8.0";
@@ -426,7 +426,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Platform::Tvos:
+                            case Platform::tvOs:
                             {
                                 buildSettings["SDKROOT"] = "appletvos";
                                 buildSettings["TVOS_DEPLOYMENT_TARGET"] = "9.0";

@@ -35,7 +35,7 @@ namespace ouzel
             std::vector<VcxProject> platformProjects;
 
             for (const auto& target : project.getTargets())
-                if (target.platform == Platform::Windows)
+                if (target.platform == Platform::windows)
                 {
                     const auto vcxprojProjectPath = projectDirectory / target.name + ".vcxproj";
 

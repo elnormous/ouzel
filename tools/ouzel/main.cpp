@@ -23,12 +23,12 @@ int main(int argc, const char* argv[])
     {
         enum class Action
         {
-            None,
-            GenerateProject,
-            ExportAssets
+            none,
+            generateProject,
+            exportAssets
         };
 
-        Action action = Action::None;
+        Action action = Action::none;
         ouzel::storage::Path projectPath;
         std::set<ProjectType> projectTypes;
         std::string targetName;
@@ -46,7 +46,7 @@ int main(int argc, const char* argv[])
             }
             else if (std::string(argv[i]) == "--generate-project")
             {
-                action = Action::GenerateProject;
+                action = Action::generateProject;
 
                 if (++i >= argc)
                     throw std::runtime_error("Invalid command");
@@ -75,7 +75,7 @@ int main(int argc, const char* argv[])
             }
             else if (std::string(argv[i]) == "--export-assets")
             {
-                action = Action::ExportAssets;
+                action = Action::exportAssets;
 
                 if (++i >= argc)
                     throw std::runtime_error("Invalid command");
@@ -93,9 +93,9 @@ int main(int argc, const char* argv[])
 
         switch (action)
         {
-            case Action::None:
+            case Action::none:
                 throw std::runtime_error("No action selected");
-            case Action::GenerateProject:
+            case Action::generateProject:
             {
                 ouzel::Project project(projectPath);
 
@@ -114,7 +114,7 @@ int main(int argc, const char* argv[])
                     }
                 break;
             }
-            case Action::ExportAssets:
+            case Action::exportAssets:
             {
                 ouzel::Project project(projectPath);
                 project.exportAssets(targetName);

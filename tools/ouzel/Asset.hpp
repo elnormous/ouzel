@@ -12,15 +12,15 @@ namespace ouzel
     public:
         enum class Type
         {
-            Font,
-            Mesh,
-            Texture,
-            Material,
-            ParticleSystem,
-            Sprite,
-            Sound,
-            Cue,
-            Shader
+            font,
+            mesh,
+            texture,
+            material,
+            particleSystem,
+            sprite,
+            sound,
+            cue,
+            shader
         };
 
         Asset(const storage::Path& initPath,
@@ -41,23 +41,23 @@ namespace ouzel
     inline Asset::Type stringToAssetType(const std::string& s)
     {
         if (s == "font")
-            return Asset::Type::Font;
+            return Asset::Type::font;
         else if (s == "mesh")
-            return Asset::Type::Mesh;
+            return Asset::Type::mesh;
         else if (s == "texture")
-            return Asset::Type::Texture;
+            return Asset::Type::texture;
         else if (s == "material")
-            return Asset::Type::Material;
+            return Asset::Type::material;
         else if (s == "particle_system")
-            return Asset::Type::ParticleSystem;
+            return Asset::Type::particleSystem;
         else if (s == "sprite")
-            return Asset::Type::Sprite;
+            return Asset::Type::sprite;
         else if (s == "sound")
-            return Asset::Type::Sound;
+            return Asset::Type::sound;
         else if (s == "cue")
-            return Asset::Type::Cue;
+            return Asset::Type::cue;
         else if (s == "shader")
-            return Asset::Type::Shader;
+            return Asset::Type::shader;
         else
             throw std::runtime_error("Invalid asset type");
     }
