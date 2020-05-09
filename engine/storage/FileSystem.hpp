@@ -325,7 +325,7 @@ namespace ouzel
 
                 struct stat s;
                 if (fstat(in, &s) == -1)
-                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
+                    throw std::system_error(errno, std::system_category(), "Failed to get file status");
 
                 const FileDescriptor out = open(to.getNative().c_str(), flags, s.st_mode);
                 if (out == -1)
@@ -400,23 +400,23 @@ namespace ouzel
                 else
                     return FileType::Regular;
 #elif defined(__unix__) || defined(__APPLE__)
-                struct stat buf;
-                if (stat(path.getNative().c_str(), &buf) == -1)
+                struct stat s;
+                if (stat(path.getNative().c_str(), &s) == -1)
                     return FileType::NotFound;
 
-                if ((buf.st_mode & S_IFMT) == S_IFREG)
+                if ((s.st_mode & S_IFMT) == S_IFREG)
                     return FileType::Regular;
-                else if ((buf.st_mode & S_IFMT) == S_IFDIR)
+                else if ((s.st_mode & S_IFMT) == S_IFDIR)
                     return FileType::Directory;
-                else if ((buf.st_mode & S_IFMT) == S_IFLNK)
+                else if ((s.st_mode & S_IFMT) == S_IFLNK)
                     return FileType::Symlink;
-                else if ((buf.st_mode & S_IFMT) == S_IFBLK)
+                else if ((s.st_mode & S_IFMT) == S_IFBLK)
                     return FileType::Block;
-                else if ((buf.st_mode & S_IFMT) == S_IFCHR)
+                else if ((s.st_mode & S_IFMT) == S_IFCHR)
                     return FileType::Character;
-                else if ((buf.st_mode & S_IFMT) == S_IFIFO)
+                else if ((s.st_mode & S_IFMT) == S_IFIFO)
                     return FileType::Fifo;
-                else if ((buf.st_mode & S_IFMT) == S_IFSOCK)
+                else if ((s.st_mode & S_IFMT) == S_IFSOCK)
                     return FileType::Socket;
                 else
                     return FileType::Unknown;
@@ -438,6 +438,21 @@ namespace ouzel
                 return getFileType(path) == FileType::Regular;
             }
 
+            static size_t getFileSize(const Path& path)
+            {
+#if defined(_WIN32)
+                WIN32_FILE_ATTRIBUTE_DATA attributes;
+                if (!GetFileAttributesExW(path.getNative().c_str(), GetFileExInfoStandard, &attributes))
+                    throw std::system_error(errno, std::system_category(), "Failed to get file attributes");
+                return static_cast<size_t>(attr.nFileSizeHigh) << (sizeof(attr.nFileSizeHigh) * 8) | attr.nFileSizeLow;
+#elif defined(__unix__) || defined(__APPLE__)
+                struct stat s;
+                if (stat(path.getNative().c_str(), &s) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to get file status");
+                return static_cast<size_t>(s.st_size);
+#endif
+            }
+
             static FileTime getAccessTime(const Path& path)
             {
 #if defined(_WIN32)
@@ -455,7 +470,7 @@ namespace ouzel
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat s;
                 if (lstat(path.getNative().c_str(), &s) == -1)
-                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
+                    throw std::system_error(errno, std::system_category(), "Failed to get file status");
 
 #  if defined(__APPLE__)
                 return FileTime{s.st_atimespec};
@@ -482,7 +497,7 @@ namespace ouzel
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat s;
                 if (lstat(path.getNative().c_str(), &s) == -1)
-                    throw std::system_error(errno, std::system_category(), "Failed to get file stats");
+                    throw std::system_error(errno, std::system_category(), "Failed to get file status");
 
 #  if defined(__APPLE__)
                 return FileTime{s.st_mtimespec};
