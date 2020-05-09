@@ -39,33 +39,33 @@ namespace ouzel
     {
         enum class FileType
         {
-            NotFound,
-            Regular,
-            Directory,
-            Symlink,
-            Block,
-            Character,
-            Fifo,
-            Socket,
-            Unknown
+            notFound,
+            regular,
+            directory,
+            symlink,
+            block,
+            character,
+            fifo,
+            socket,
+            unknown
         };
 
         enum class Permissions
         {
-            None = 0,
-            OwnerRead = 0400,
-            OwnerWrite = 0200,
-            OwnerExecute = 0100,
-            OwnerAll = 0700,
-            GroupRead = 040,
-            GroupWrite = 020,
-            GroupExecute = 010,
-            GroupAll = 070,
-            OthersRead = 04,
-            OthersWrite = 02,
-            OthersExecute = 01,
-            OthersAll = 07,
-            All = 0777
+            none = 0,
+            ownerRead = 0400,
+            ownerWrite = 0200,
+            ownerExecute = 0100,
+            ownerAll = 0700,
+            groupRead = 040,
+            groupWrite = 020,
+            groupExecute = 010,
+            groupAll = 070,
+            othersRead = 04,
+            othersWrite = 02,
+            othersExecute = 01,
+            othersAll = 07,
+            all = 0777
         };
 
         inline constexpr Permissions operator&(const Permissions a, const Permissions b) noexcept
@@ -438,51 +438,51 @@ namespace ouzel
 #if defined(_WIN32)
                 const DWORD attributes = GetFileAttributesW(path.getNative().c_str());
                 if (attributes == INVALID_FILE_ATTRIBUTES)
-                    return FileType::NotFound;
+                    return FileType::notFound;
 
                 if ((attributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0)
-                    return FileType::Symlink;
+                    return FileType::symlink;
                 else if ((attributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
-                    return FileType::Directory;
+                    return FileType::directory;
                 else
                     return FileType::Regular;
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat s;
                 if (stat(path.getNative().c_str(), &s) == -1)
-                    return FileType::NotFound;
+                    return FileType::notFound;
 
                 if ((s.st_mode & S_IFMT) == S_IFREG)
-                    return FileType::Regular;
+                    return FileType::regular;
                 else if ((s.st_mode & S_IFMT) == S_IFDIR)
-                    return FileType::Directory;
+                    return FileType::directory;
                 else if ((s.st_mode & S_IFMT) == S_IFLNK)
-                    return FileType::Symlink;
+                    return FileType::symlink;
                 else if ((s.st_mode & S_IFMT) == S_IFBLK)
-                    return FileType::Block;
+                    return FileType::block;
                 else if ((s.st_mode & S_IFMT) == S_IFCHR)
-                    return FileType::Character;
+                    return FileType::character;
                 else if ((s.st_mode & S_IFMT) == S_IFIFO)
-                    return FileType::Fifo;
+                    return FileType::fifo;
                 else if ((s.st_mode & S_IFMT) == S_IFSOCK)
-                    return FileType::Socket;
+                    return FileType::socket;
                 else
-                    return FileType::Unknown;
+                    return FileType::unknown;
 #endif
             }
 
             static bool isFile(const Path& path) noexcept
             {
-                return getFileType(path) != FileType::NotFound;
+                return getFileType(path) != FileType::notFound;
             }
 
             static bool isDirectory(const Path& path) noexcept
             {
-                return getFileType(path) == FileType::Directory;
+                return getFileType(path) == FileType::directory;
             }
 
             static bool isRegular(const Path& path) noexcept
             {
-                return getFileType(path) == FileType::Regular;
+                return getFileType(path) == FileType::regular;
             }
 
             static size_t getFileSize(const Path& path)
@@ -508,9 +508,9 @@ namespace ouzel
                     throw std::system_error(errno, std::system_category(), "Failed to get file attributes");
 
                 return (attributes & FILE_ATTRIBUTE_READONLY) ?
-                    Permissions::OwnerRead | Permissions::GroupRead | Permissions::OthersRead |
-                    Permissions::OwnerExecute | Permissions::GroupExecute | Permissions::OthersExecute :
-                    Permissions::All;
+                    Permissions::ownerRead | Permissions::groupRead | Permissions::othersRead |
+                    Permissions::ownerExecute | Permissions::groupExecute | Permissions::othersExecute :
+                    Permissions::all;
 
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat s;
@@ -523,7 +523,7 @@ namespace ouzel
             static void setPermissions(const Path& path, Permissions permissions)
             {
 #if defined(_WIN32)
-                const DWORD attributes = (permissions & Permissions::OwnerWrite) == Permissions::OwnerWrite ?
+                const DWORD attributes = (permissions & Permissions::ownerWrite) == Permissions::ownerWrite ?
                     FILE_ATTRIBUTE_NORMAL : FILE_ATTRIBUTE_READONLY;
                 if (!SetFileAttributesW(path.getNative().c_str(), attributes))
                     throw std::system_error(errno, std::system_category(), "Failed to set file attributes");
