@@ -3,6 +3,7 @@
 #ifndef OUZEL_STORAGE_FILESYSTEM_HPP
 #define OUZEL_STORAGE_FILESYSTEM_HPP
 
+#include <cctype>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
@@ -513,10 +514,10 @@ namespace ouzel
                     result |= Permissions::OwnerWrite | Permissions::GroupWrite | Permissions::OthersWrite;
 
                 const auto extension = path.getExtension().getNative();
-                if (compareCaseInsesitive(extension.c_str(), "bat") ||
-                    compareCaseInsesitive(extension.c_str(), "cmd") ||
-                    compareCaseInsesitive(extension.c_str(), "com") ||
-                    compareCaseInsesitive(extension.c_str(), "exe"))
+                if (compareCaseInsesitive(extension.c_str(), L"bat") ||
+                    compareCaseInsesitive(extension.c_str(), L"cmd") ||
+                    compareCaseInsesitive(extension.c_str(), L"com") ||
+                    compareCaseInsesitive(extension.c_str(), L"exe"))
                     result |= Permissions::OwnerExecute | Permissions::GroupExecute | Permissions::OthersExecute;
 
                 return result;
