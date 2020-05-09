@@ -50,6 +50,53 @@ namespace ouzel
             Unknown
         };
 
+        enum class Permissions
+        {
+            None = 0,
+            OwnerRead = 0400,
+            OwnerWrite = 0200,
+            OwnerExecute = 0100,
+            OwnerAll = 0700,
+            GroupRead = 040,
+            GroupWrite = 020,
+            GroupExecute = 010,
+            GroupAll = 070,
+            OthersRead = 04,
+            OthersWrite = 02,
+            OthersExecute = 01,
+            OthersAll = 07,
+            All = 0777
+        };
+
+        inline constexpr Permissions operator&(const Permissions a, const Permissions b) noexcept
+        {
+            return static_cast<Permissions>(static_cast<std::underlying_type_t<Permissions>>(a) & static_cast<std::underlying_type_t<Permissions>>(b));
+        }
+        inline constexpr Permissions operator|(const Permissions a, const Permissions b) noexcept
+        {
+            return static_cast<Permissions>(static_cast<std::underlying_type_t<Permissions>>(a) | static_cast<std::underlying_type_t<Permissions>>(b));
+        }
+        inline constexpr Permissions operator^(const Permissions a, const Permissions b) noexcept
+        {
+            return static_cast<Permissions>(static_cast<std::underlying_type_t<Permissions>>(a) ^ static_cast<std::underlying_type_t<Permissions>>(b));
+        }
+        inline constexpr Permissions operator~(const Permissions a) noexcept
+        {
+            return static_cast<Permissions>(~static_cast<std::underlying_type_t<Permissions>>(a));
+        }
+        inline constexpr Permissions& operator&=(Permissions& a, const Permissions b) noexcept
+        {
+            return a = static_cast<Permissions>(static_cast<std::underlying_type_t<Permissions>>(a) & static_cast<std::underlying_type_t<Permissions>>(b));
+        }
+        inline constexpr Permissions& operator|=(Permissions& a, const Permissions b) noexcept
+        {
+            return a = static_cast<Permissions>(static_cast<std::underlying_type_t<Permissions>>(a) | static_cast<std::underlying_type_t<Permissions>>(b));
+        }
+        inline constexpr Permissions& operator^=(Permissions& a, const Permissions b) noexcept
+        {
+            return a = static_cast<Permissions>(static_cast<std::underlying_type_t<Permissions>>(a) ^ static_cast<std::underlying_type_t<Permissions>>(b));
+        }
+
         class FileTime final
         {
         public:
@@ -453,6 +500,49 @@ namespace ouzel
 #endif
             }
 
+            static Permissions getPermissions(const Path& path)
+            {
+#if defined(_WIN32)
+                const auto attributes = GetFileAttributesW(path.getNative().c_str());
+                if (attributes == INVALID_FILE_ATTRIBUTES)
+                    throw std::system_error(errno, std::system_category(), "Failed to get file attributes");
+
+                Permissions result = Permissions::OwnerRead | Permissions::GroupRead | Permissions::OthersRead;
+
+                if (!(attributes & FILE_ATTRIBUTE_READONLY))
+                    result |= Permissions::OwnerWrite | Permissions::GroupWrite | Permissions::OthersWrite;
+
+                const auto extension = path.getExtension().getNative();
+                if (compareCaseInsesitive(extension.c_str(), "bat") ||
+                    compareCaseInsesitive(extension.c_str(), "cmd") ||
+                    compareCaseInsesitive(extension.c_str(), "com") ||
+                    compareCaseInsesitive(extension.c_str(), "exe"))
+                    result |= Permissions::OwnerExecute | Permissions::GroupExecute | Permissions::OthersExecute;
+
+                return result;
+
+#elif defined(__unix__) || defined(__APPLE__)
+                struct stat s;
+                if (stat(path.getNative().c_str(), &s) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to get file status");
+                return static_cast<Permissions>(s.st_mode);
+#endif
+            }
+
+            static void setPermissions(const Path& path, Permissions permissions)
+            {
+#if defined(_WIN32)
+                const DWORD attributes = (permissions & Permissions::OwnerWrite) == Permissions::OwnerWrite ?
+                    FILE_ATTRIBUTE_NORMAL : FILE_ATTRIBUTE_READONLY;
+                if (!SetFileAttributesW(path.getNative().c_str(), attributes))
+                    throw std::system_error(errno, std::system_category(), "Failed to set file attributes");
+#elif defined(__unix__) || defined(__APPLE__)
+                const mode_t mode = static_cast<mode_t>(permissions);
+                if (chmod(path.getNative().c_str(), mode) == -1)
+                    throw std::system_error(errno, std::system_category(), "Failed to set file permissions");
+#endif
+            }
+
             static FileTime getAccessTime(const Path& path)
             {
 #if defined(_WIN32)
@@ -508,6 +598,19 @@ namespace ouzel
             }
 
         private:
+            template <class Char>
+            static bool compareCaseInsesitive(Char* a, Char* b) noexcept
+            {
+                for (;;)
+                {
+                    if (*a == '\0' && *b == '\0') return true;
+                    else if (*a == '\0' || *b == '\0' ||
+                             std::tolower(*a) != std::tolower(*b)) return false;
+                    ++a;
+                    ++b;
+                }
+            };
+
             Engine& engine;
             Path appPath;
             std::vector<Path> resourcePaths;
