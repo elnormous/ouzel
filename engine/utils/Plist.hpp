@@ -30,14 +30,14 @@ namespace ouzel
         public:
             enum class Type
             {
-                Dictionary,
-                Array,
-                String,
-                Real,
-                Integer,
-                Boolean,
-                Data,
-                Date
+                dictionary,
+                array,
+                string,
+                real,
+                integer,
+                boolean,
+                data,
+                date
             };
 
             using Dictionary = std::map<std::string, Value>;
@@ -45,34 +45,34 @@ namespace ouzel
             using Data = std::vector<uint8_t>;
 
             Value() = default;
-            Value(const Dictionary& value):type{Type::Dictionary}, dictionaryValue(value) {}
-            Value(const Array& value):type{Type::Array}, arrayValue(value) {}
-            Value(bool value):type{Type::Boolean}, booleanValue{value} {}
+            Value(const Dictionary& value):type{Type::dictionary}, dictionaryValue(value) {}
+            Value(const Array& value):type{Type::array}, arrayValue(value) {}
+            Value(bool value):type{Type::boolean}, booleanValue{value} {}
             template <class T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
-            Value(T value):type{Type::Real}, realValue{static_cast<double>(value)} {}
+            Value(T value):type{Type::real}, realValue{static_cast<double>(value)} {}
             template <class T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-            Value(T value):type{Type::Integer}, integerValue{static_cast<int64_t>(value)} {}
-            Value(const std::string& value):type{Type::String}, stringValue{value} {}
-            Value(const char* value):type{Type::String}, stringValue{value} {}
-            Value(const Data& value):type{Type::Data}, dataValue{value} {}
+            Value(T value):type{Type::integer}, integerValue{static_cast<int64_t>(value)} {}
+            Value(const std::string& value):type{Type::string}, stringValue{value} {}
+            Value(const char* value):type{Type::string}, stringValue{value} {}
+            Value(const Data& value):type{Type::data}, dataValue{value} {}
 
             Value& operator=(const Dictionary& value)
             {
-                type = Type::Dictionary;
+                type = Type::dictionary;
                 dictionaryValue = value;
                 return *this;
             }
 
             Value& operator=(const Array& value)
             {
-                type = Type::Array;
+                type = Type::array;
                 arrayValue = value;
                 return *this;
             }
 
             Value& operator=(bool value)
             {
-                type = Type::Boolean;
+                type = Type::boolean;
                 booleanValue = value;
                 return *this;
             }
@@ -80,7 +80,7 @@ namespace ouzel
             template <class T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
             Value& operator=(T value)
             {
-                type = Type::Real;
+                type = Type::real;
                 realValue = static_cast<double>(value);
                 return *this;
             }
@@ -88,28 +88,28 @@ namespace ouzel
             template <class T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
             Value& operator=(T value)
             {
-                type = Type::Integer;
+                type = Type::integer;
                 integerValue = static_cast<int64_t>(value);
                 return *this;
             }
 
             Value& operator=(const std::string& value)
             {
-                type = Type::String;
+                type = Type::string;
                 stringValue = value;
                 return *this;
             }
 
             Value& operator=(const char* value)
             {
-                type = Type::String;
+                type = Type::string;
                 stringValue = value;
                 return *this;
             }
 
             Value& operator=(const Data& value)
             {
-                type = Type::Data;
+                type = Type::data;
                 dataValue = value;
                 return *this;
             }
@@ -119,112 +119,112 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             T& as() noexcept
             {
-                type = Type::String;
+                type = Type::string;
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             const T& as() const
             {
-                if (type != Type::String) throw TypeError("Wrong type");
+                if (type != Type::string) throw TypeError("Wrong type");
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
-                if (type != Type::Boolean) throw TypeError("Wrong type");
+                if (type != Type::boolean) throw TypeError("Wrong type");
                 return booleanValue;
             }
 
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
             T as() const
             {
-                if (type != Type::Real) throw TypeError("Wrong type");
+                if (type != Type::real) throw TypeError("Wrong type");
                 return static_cast<T>(realValue);
             }
 
             template <class T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
             T as() const
             {
-                if (type != Type::Integer) throw TypeError("Wrong type");
+                if (type != Type::integer) throw TypeError("Wrong type");
                 return static_cast<T>(integerValue);
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
             T& as() noexcept
             {
-                type = Type::Dictionary;
+                type = Type::dictionary;
                 return dictionaryValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
             const T& as() const
             {
-                if (type != Type::Dictionary) throw TypeError("Wrong type");
+                if (type != Type::dictionary) throw TypeError("Wrong type");
                 return dictionaryValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             T& as() noexcept
             {
-                type = Type::Array;
+                type = Type::array;
                 return arrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             const T& as() const
             {
-                if (type != Type::Array) throw TypeError("Wrong type");
+                if (type != Type::array) throw TypeError("Wrong type");
                 return arrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Data>::value>::type* = nullptr>
             const T& as() const
             {
-                if (type != Type::Data) throw TypeError("Wrong type");
+                if (type != Type::data) throw TypeError("Wrong type");
                 return dataValue;
             }
 
             Array::iterator begin()
             {
-                if (type != Type::Array) throw TypeError("Wrong type");
+                if (type != Type::array) throw TypeError("Wrong type");
                 return arrayValue.begin();
             }
 
             Array::iterator end()
             {
-                if (type != Type::Array) throw TypeError("Wrong type");
+                if (type != Type::array) throw TypeError("Wrong type");
                 return arrayValue.end();
             }
 
             Array::const_iterator begin() const
             {
-                if (type != Type::Array) throw TypeError("Wrong type");
+                if (type != Type::array) throw TypeError("Wrong type");
                 return arrayValue.begin();
             }
 
             Array::const_iterator end() const
             {
-                if (type != Type::Array) throw TypeError("Wrong type");
+                if (type != Type::array) throw TypeError("Wrong type");
                 return arrayValue.end();
             }
 
             auto hasMember(const std::string& member) const
             {
-                if (type != Type::Dictionary) throw TypeError("Wrong type");
+                if (type != Type::dictionary) throw TypeError("Wrong type");
                 return dictionaryValue.find(member) != dictionaryValue.end();
             }
 
             Value& operator[](const std::string& member)
             {
-                type = Type::Dictionary;
+                type = Type::dictionary;
                 return dictionaryValue[member];
             }
 
             const Value& operator[](const std::string& member) const
             {
-                if (type != Type::Dictionary) throw TypeError("Wrong type");
+                if (type != Type::dictionary) throw TypeError("Wrong type");
 
                 auto i = dictionaryValue.find(member);
                 if (i != dictionaryValue.end())
@@ -235,14 +235,14 @@ namespace ouzel
 
             Value& operator[](std::size_t index)
             {
-                type = Type::Array;
+                type = Type::array;
                 if (index >= arrayValue.size()) arrayValue.resize(index + 1);
                 return arrayValue[index];
             }
 
             const Value& operator[](std::size_t index) const
             {
-                if (type != Type::Array) throw TypeError("Wrong type");
+                if (type != Type::array) throw TypeError("Wrong type");
 
                 if (index < arrayValue.size())
                     return arrayValue[index];
@@ -252,30 +252,30 @@ namespace ouzel
 
             auto getSize() const
             {
-                if (type != Type::Array) throw TypeError("Wrong type");
+                if (type != Type::array) throw TypeError("Wrong type");
                 return arrayValue.size();
             }
 
             void resize(std::size_t size)
             {
-                if (type != Type::Array) throw TypeError("Wrong type");
+                if (type != Type::array) throw TypeError("Wrong type");
                 arrayValue.resize(size);
             }
 
             void pushBack(uint8_t value)
             {
-                if (type != Type::Data) throw TypeError("Wrong type");
+                if (type != Type::data) throw TypeError("Wrong type");
                 dataValue.push_back(value);
             }
 
             void pushBack(const Value& value)
             {
-                if (type != Type::Array) throw TypeError("Wrong type");
+                if (type != Type::array) throw TypeError("Wrong type");
                 arrayValue.push_back(value);
             }
 
         private:
-            Type type = Type::Dictionary;
+            Type type = Type::dictionary;
             Dictionary dictionaryValue;
             Array arrayValue;
             std::string stringValue;
@@ -336,7 +336,7 @@ namespace ouzel
                 {
                     switch (value.getType())
                     {
-                        case Value::Type::Dictionary:
+                        case Value::Type::dictionary:
                         {
                             result.push_back('{');
                             if (whitespaces) result.push_back('\n');
@@ -355,7 +355,7 @@ namespace ouzel
                             result += "}";
                             break;
                         }
-                        case Value::Type::Array:
+                        case Value::Type::array:
                         {
                             result.push_back('(');
                             if (whitespaces) result.push_back('\n');
@@ -370,19 +370,19 @@ namespace ouzel
                             result += ')';
                             break;
                         }
-                        case Value::Type::String:
+                        case Value::Type::string:
                             encode(value.as<std::string>(), result);
                             break;
-                        case Value::Type::Real:
+                        case Value::Type::real:
                             result += std::to_string(value.as<double>());
                             break;
-                        case Value::Type::Integer:
+                        case Value::Type::integer:
                             result += std::to_string(value.as<int64_t>());
                             break;
-                        case Value::Type::Boolean:
+                        case Value::Type::boolean:
                             result += value.as<bool>() ? "YES" : "NO";
                             break;
-                        case Value::Type::Data:
+                        case Value::Type::data:
                             result += '<';
                             for (const auto b : value.as<Value::Data>())
                             {
@@ -392,7 +392,7 @@ namespace ouzel
                             }
                             result += '>';
                             break;
-                        case Value::Type::Date:
+                        case Value::Type::date:
                             throw std::runtime_error("Date fields are not supported");
                     };
                 }
@@ -430,7 +430,7 @@ namespace ouzel
                 {
                     switch (value.getType())
                     {
-                        case Value::Type::Dictionary:
+                        case Value::Type::dictionary:
                         {
                             result += "<dict>";
                             if (whitespaces) result.push_back('\n');
@@ -449,7 +449,7 @@ namespace ouzel
                             result += "</dict>";
                             break;
                         }
-                        case Value::Type::Array:
+                        case Value::Type::array:
                         {
                             result += "<array>";
                             if (whitespaces) result.push_back('\n');
@@ -463,25 +463,25 @@ namespace ouzel
                             result += "</array>";
                             break;
                         }
-                        case Value::Type::String:
+                        case Value::Type::string:
                             result += "<string>";
                             encode(value.as<std::string>(), result);
                             result += "</string>";
                             break;
-                        case Value::Type::Real:
+                        case Value::Type::real:
                             result += "<real>";
                             result += std::to_string(value.as<double>());
                             result += "</real>";
                             break;
-                        case Value::Type::Integer:
+                        case Value::Type::integer:
                             result += "<integer>";
                             result += std::to_string(value.as<int64_t>());
                             result += "</integer>";
                             break;
-                        case Value::Type::Boolean:
+                        case Value::Type::boolean:
                             result += value.as<bool>() ? "<true/>" : "<false/>";
                             break;
-                        case Value::Type::Data:
+                        case Value::Type::data:
                         {
                             result += "<data>";
                             constexpr char chars[] = {
@@ -526,7 +526,7 @@ namespace ouzel
                             result += "</data>";
                             break;
                         }
-                        case Value::Type::Date:
+                        case Value::Type::date:
                             throw std::runtime_error("Date fields are not supported");
                     };
                 }

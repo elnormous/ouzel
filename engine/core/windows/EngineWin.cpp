@@ -84,7 +84,7 @@ namespace ouzel
 
 #ifdef DEBUG
         if (!AllocConsole())
-            log(Log::Level::Info) << "Attached to console";
+            log(Log::Level::info) << "Attached to console";
 #endif
     }
 

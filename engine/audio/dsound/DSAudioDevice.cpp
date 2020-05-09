@@ -22,7 +22,7 @@ namespace
         {
             std::vector<char> buffer(bufferSize);
             if (WideCharToMultiByte(CP_UTF8, 0, description, -1, buffer.data(), bufferSize, nullptr, nullptr) != 0)
-                ouzel::engine->log(ouzel::Log::Level::Info) << "Using " << buffer.data() << " for audio";
+                ouzel::engine->log(ouzel::Log::Level::info) << "Using " << buffer.data() << " for audio";
         }
         return FALSE;
     }
@@ -269,7 +269,7 @@ namespace ouzel
                     }
                     catch (const std::exception& e)
                     {
-                        engine->log(Log::Level::Error) << e.what();
+                        engine->log(Log::Level::error) << e.what();
                     }
                 }
             }

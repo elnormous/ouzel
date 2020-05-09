@@ -36,10 +36,10 @@ public:
                 if (++arg != args.end())
                     sample = *arg;
                 else
-                    ouzel::engine->log(ouzel::Log::Level::Warning) << "No sample specified";
+                    ouzel::engine->log(ouzel::Log::Level::warning) << "No sample specified";
             }
             else
-                ouzel::engine->log(ouzel::Log::Level::Warning) << "Invalid argument \"" << *arg << "\"";
+                ouzel::engine->log(ouzel::Log::Level::warning) << "Invalid argument \"" << *arg << "\"";
         }
 
 #if !defined(__ANDROID__)

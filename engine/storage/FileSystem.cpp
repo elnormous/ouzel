@@ -64,7 +64,7 @@ namespace ouzel
 
             const auto executablePath = Path{buffer.data(), Path::Format::Native};
             appPath = executablePath.getDirectory();
-            engine.log(Log::Level::Info) << "Application directory: " << appPath;
+            engine.log(Log::Level::info) << "Application directory: " << appPath;
 
 #elif defined(__APPLE__)
             CFBundleRef bundle = CFBundleGetMainBundle();
@@ -85,7 +85,7 @@ namespace ouzel
                 throw std::runtime_error("Failed to get resource directory");
 
             appPath = Path{resourceDirectory.data(), Path::Format::Native};
-            engine.log(Log::Level::Info) << "Application directory: " << appPath;
+            engine.log(Log::Level::info) << "Application directory: " << appPath;
 
 #elif defined(__ANDROID__)
             // not available for Android
@@ -100,7 +100,7 @@ namespace ouzel
             executableDirectory[length] = '\0';
             const auto executablePath = Path{executableDirectory, Path::Format::Native};
             appPath = executablePath.getDirectory();
-            engine.log(Log::Level::Info) << "Application directory: " << appPath;
+            engine.log(Log::Level::info) << "Application directory: " << appPath;
 #endif
         }
 

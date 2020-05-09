@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     }
     catch (const std::exception& e)
     {
-        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
+        ouzel::engine->log(ouzel::Log::Level::error) << e.what();
         return EXIT_FAILURE;
     }
 }

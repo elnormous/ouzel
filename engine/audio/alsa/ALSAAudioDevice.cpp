@@ -28,7 +28,7 @@ namespace ouzel
                 if ((result = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
                     throw std::system_error(result, std::system_category(), "Failed to connect to audio interface");
 
-                engine->log(Log::Level::Info) << "Using " << snd_pcm_name(playbackHandle) << " for audio";
+                engine->log(Log::Level::info) << "Using " << snd_pcm_name(playbackHandle) << " for audio";
 
                 if ((result = snd_pcm_hw_params_malloc(&hwParams)) < 0)
                     throw std::system_error(result, std::system_category(), "Failed to allocate memory for hardware parameters");
@@ -144,7 +144,7 @@ namespace ouzel
                         {
                             if (frames == -EPIPE)
                             {
-                                engine->log(Log::Level::Warning) << "Buffer underrun occurred";
+                                engine->log(Log::Level::warning) << "Buffer underrun occurred";
 
                                 if ((result = snd_pcm_prepare(playbackHandle)) < 0)
                                     throw std::system_error(result, std::system_category(), "Failed to prepare audio interface");
@@ -157,7 +157,7 @@ namespace ouzel
 
                         if (static_cast<snd_pcm_uframes_t>(frames) > periods * periodSize)
                         {
-                            engine->log(Log::Level::Warning) << "Buffer size exceeded, error: " << frames;
+                            engine->log(Log::Level::warning) << "Buffer size exceeded, error: " << frames;
                             snd_pcm_reset(playbackHandle);
                             continue;
                         }
@@ -171,7 +171,7 @@ namespace ouzel
                         {
                             if (result == -EPIPE)
                             {
-                                engine->log(Log::Level::Warning) << "Buffer underrun occurred";
+                                engine->log(Log::Level::warning) << "Buffer underrun occurred";
 
                                 if ((result = snd_pcm_prepare(playbackHandle)) < 0)
                                     throw std::system_error(result, std::system_category(), "Failed to prepare audio interface");
@@ -182,7 +182,7 @@ namespace ouzel
                     }
                     catch (const std::exception& e)
                     {
-                        engine->log(Log::Level::Error) << e.what();
+                        engine->log(Log::Level::error) << e.what();
                     }
                 }
             }

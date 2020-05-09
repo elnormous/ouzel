@@ -43,10 +43,10 @@ namespace ouzel
         int priority = 0;
         switch (level)
         {
-            case Log::Level::Error: priority = ANDROID_LOG_ERROR; break;
-            case Log::Level::Warning: priority = ANDROID_LOG_WARN; break;
-            case Log::Level::Info: priority = ANDROID_LOG_INFO; break;
-            case Log::Level::All: priority = ANDROID_LOG_DEBUG; break;
+            case Log::Level::error: priority = ANDROID_LOG_ERROR; break;
+            case Log::Level::warning: priority = ANDROID_LOG_WARN; break;
+            case Log::Level::info: priority = ANDROID_LOG_INFO; break;
+            case Log::Level::all: priority = ANDROID_LOG_DEBUG; break;
             default: return;
         }
         __android_log_print(priority, "Ouzel", "%s", str.c_str());
@@ -54,10 +54,10 @@ namespace ouzel
         int priority = 0;
         switch (level)
         {
-            case Log::Level::Error: priority = LOG_ERR; break;
-            case Log::Level::Warning: priority = LOG_WARNING; break;
-            case Log::Level::Info: priority = LOG_INFO; break;
-            case Log::Level::All: priority = LOG_DEBUG; break;
+            case Log::Level::error: priority = LOG_ERR; break;
+            case Log::Level::warning: priority = LOG_WARNING; break;
+            case Log::Level::info: priority = LOG_INFO; break;
+            case Log::Level::all: priority = LOG_DEBUG; break;
             default: return;
         }
         syslog(priority, "%s", str.c_str());
@@ -65,12 +65,12 @@ namespace ouzel
         int fd = 0;
         switch (level)
         {
-            case Log::Level::Error:
-            case Log::Level::Warning:
+            case Log::Level::error:
+            case Log::Level::warning:
                 fd = STDERR_FILENO;
                 break;
-            case Log::Level::Info:
-            case Log::Level::All:
+            case Log::Level::info:
+            case Log::Level::all:
                 fd = STDOUT_FILENO;
                 break;
             default: return;
@@ -105,12 +105,12 @@ namespace ouzel
         HANDLE handle;
         switch (level)
         {
-            case Log::Level::Error:
-            case Log::Level::Warning:
+            case Log::Level::error:
+            case Log::Level::warning:
                 handle = GetStdHandle(STD_ERROR_HANDLE);
                 break;
-            case Log::Level::Info:
-            case Log::Level::All:
+            case Log::Level::info:
+            case Log::Level::all:
                 handle = GetStdHandle(STD_OUTPUT_HANDLE);
                 break;
             default: return;
@@ -122,14 +122,14 @@ namespace ouzel
         int flags = EM_LOG_CONSOLE;
         switch (level)
         {
-            case Log::Level::Error:
+            case Log::Level::error:
                 flags |= EM_LOG_ERROR;
                 break;
-            case Log::Level::Warning:
+            case Log::Level::warning:
                 flags |= EM_LOG_WARN;
                 break;
-            case Log::Level::Info:
-            case Log::Level::All:
+            case Log::Level::info:
+            case Log::Level::all:
                 break;
             default: return;
         }

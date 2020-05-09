@@ -60,7 +60,7 @@ namespace ouzel
 
         auto& getArgs() const noexcept { return args; }
 
-        Log log(Log::Level level = Log::Level::Info) const { return logger.log(level); }
+        Log log(Log::Level level = Log::Level::info) const { return logger.log(level); }
         auto& getLogger() { return logger; }
         auto& getLogger() const { return logger; }
 

@@ -38,7 +38,7 @@ namespace ouzel
                     }
                     catch (const std::exception& e)
                     {
-                        engine->log(Log::Level::Error) << e.what();
+                        engine->log(Log::Level::error) << e.what();
                         return kCVReturnError;
                     }
 
@@ -126,15 +126,15 @@ namespace ouzel
                         {
                             case NSOpenGLProfileVersionLegacy:
                                 apiVersion = ApiVersion(2, 0);
-                                engine->log(Log::Level::Info) << "OpenGL 2 pixel format created";
+                                engine->log(Log::Level::info) << "OpenGL 2 pixel format created";
                                 break;
                             case NSOpenGLProfileVersion3_2Core:
                                 apiVersion = ApiVersion(3, 2);
-                                engine->log(Log::Level::Info) << "OpenGL 3.2 pixel format created";
+                                engine->log(Log::Level::info) << "OpenGL 3.2 pixel format created";
                                 break;
                             case NSOpenGLProfileVersion4_1Core:
                                 apiVersion = ApiVersion(4, 1);
-                                engine->log(Log::Level::Info) << "OpenGL 4.1 pixel format created";
+                                engine->log(Log::Level::info) << "OpenGL 4.1 pixel format created";
                                 break;
                         }
                         break;

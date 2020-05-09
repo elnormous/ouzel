@@ -92,7 +92,7 @@ namespace ouzel
                 }
                 else
                 {
-                    engine->log(Log::Level::Info) << "Failed to load " << XAUDIO2_DLL_28;
+                    engine->log(Log::Level::info) << "Failed to load " << XAUDIO2_DLL_28;
 
                     xAudio2Library = LoadLibraryA(XAUDIO2_DLL_27);
 

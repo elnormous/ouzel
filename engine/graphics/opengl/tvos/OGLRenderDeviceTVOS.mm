@@ -31,7 +31,7 @@ namespace ouzel
                     }
                     catch (const std::exception& e)
                     {
-                        engine->log(Log::Level::Error) << e.what();
+                        engine->log(Log::Level::error) << e.what();
                     }
                 }
             }
@@ -86,7 +86,7 @@ namespace ouzel
                 if (context)
                 {
                     apiVersion = ApiVersion(3, 0);
-                    engine->log(Log::Level::Info) << "EAGL OpenGL ES 3 context created";
+                    engine->log(Log::Level::info) << "EAGL OpenGL ES 3 context created";
                 }
                 else
                 {
@@ -96,7 +96,7 @@ namespace ouzel
                         throw std::runtime_error("Failed to create EAGL context");
 
                     apiVersion = ApiVersion(2, 0);
-                    engine->log(Log::Level::Info) << "EAGL OpenGL ES 2 context created";
+                    engine->log(Log::Level::info) << "EAGL OpenGL ES 2 context created";
                 }
 
                 if (![EAGLContext setCurrentContext:context])

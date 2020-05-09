@@ -56,14 +56,14 @@ namespace ouzel
 
                         GLuint error;
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            engine->log(Log::Level::Warning) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
+                            engine->log(Log::Level::warning) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
                         else
                             for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
                             {
                                 const GLubyte* extensionPtr = glGetStringiProc(GL_EXTENSIONS, i);
 
                                 if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionPtr)
-                                    engine->log(Log::Level::Warning) << "Failed to get OpenGL extension, error: " + std::to_string(error);
+                                    engine->log(Log::Level::warning) << "Failed to get OpenGL extension, error: " + std::to_string(error);
                                 else
                                     extensions.emplace_back(reinterpret_cast<const char*>(extensionPtr));
                             }
@@ -75,12 +75,12 @@ namespace ouzel
 
                         GLuint error;
                         if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionsPtr)
-                            engine->log(Log::Level::Warning) << "Failed to get OpenGL extensions, error: " + std::to_string(error);
+                            engine->log(Log::Level::warning) << "Failed to get OpenGL extensions, error: " + std::to_string(error);
                         else
                             extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
                     }
 
-                    engine->log(Log::Level::All) << "Supported OpenGL extensions: " << extensions;
+                    engine->log(Log::Level::all) << "Supported OpenGL extensions: " << extensions;
                 }
 
                 template <typename T>

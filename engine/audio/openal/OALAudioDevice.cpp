@@ -116,7 +116,7 @@ namespace ouzel
 
                 const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
-                engine->log(Log::Level::Info) << "Using " << deviceName << " for audio";
+                engine->log(Log::Level::info) << "Using " << deviceName << " for audio";
 
                 device = alcOpenDevice(deviceName);
 
@@ -147,19 +147,19 @@ namespace ouzel
                 ALenum error;
 
                 if ((error = alGetError()) != AL_NO_ERROR || !audioRenderer)
-                    engine->log(Log::Level::Warning) << "Failed to get OpenAL renderer, error: " + std::to_string(error);
+                    engine->log(Log::Level::warning) << "Failed to get OpenAL renderer, error: " + std::to_string(error);
                 else
-                    engine->log(Log::Level::Info) << "Using " << audioRenderer << " audio renderer";
+                    engine->log(Log::Level::info) << "Using " << audioRenderer << " audio renderer";
 
                 std::vector<std::string> extensions;
                 const ALchar* extensionsPtr = alGetString(AL_EXTENSIONS);
 
                 if ((error = alGetError()) != AL_NO_ERROR || !extensionsPtr)
-                    engine->log(Log::Level::Warning) << "Failed to get OpenGL extensions";
+                    engine->log(Log::Level::warning) << "Failed to get OpenGL extensions";
                 else
                     extensions = explodeString(std::string(extensionsPtr), ' ');
 
-                engine->log(Log::Level::All) << "Supported OpenAL extensions: " << extensions;
+                engine->log(Log::Level::all) << "Supported OpenAL extensions: " << extensions;
 
                 auto float32Supported = false;
                 for (const std::string& extension : extensions)
@@ -175,7 +175,7 @@ namespace ouzel
                 format71 = alGetEnumValue("AL_FORMAT_71CHN16");
 
                 if ((error = alGetError()) != AL_NO_ERROR)
-                    engine->log(Log::Level::Warning) << "Failed to get OpenAL enum values";
+                    engine->log(Log::Level::warning) << "Failed to get OpenAL enum values";
 #endif
 
                 alGenSources(1, &sourceId);
@@ -404,7 +404,7 @@ namespace ouzel
                     }
                     catch (const std::exception& e)
                     {
-                        ouzel::engine->log(ouzel::Log::Level::Error) << e.what();
+                        ouzel::engine->log(ouzel::Log::Level::error) << e.what();
                     }
                 }
 #endif

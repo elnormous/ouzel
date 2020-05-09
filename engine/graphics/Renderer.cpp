@@ -108,7 +108,7 @@ namespace ouzel
             {
 #if OUZEL_COMPILE_OPENGL
                 case Driver::OpenGL:
-                    engine->log(Log::Level::Info) << "Using OpenGL render driver";
+                    engine->log(Log::Level::info) << "Using OpenGL render driver";
 #  if TARGET_OS_IOS
                     device = std::make_unique<opengl::RenderDeviceIOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_TV
@@ -130,13 +130,13 @@ namespace ouzel
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
                 case Driver::Direct3D11:
-                    engine->log(Log::Level::Info) << "Using Direct3D 11 render driver";
+                    engine->log(Log::Level::info) << "Using Direct3D 11 render driver";
                     device = std::make_unique<d3d11::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
                     break;
 #endif
 #if OUZEL_COMPILE_METAL
                 case Driver::Metal:
-                    engine->log(Log::Level::Info) << "Using Metal render driver";
+                    engine->log(Log::Level::info) << "Using Metal render driver";
 #  if TARGET_OS_IOS
                     device = std::make_unique<metal::RenderDeviceIOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_TV
@@ -147,7 +147,7 @@ namespace ouzel
                     break;
 #endif
                 default:
-                    engine->log(Log::Level::Info) << "Not using render driver";
+                    engine->log(Log::Level::info) << "Not using render driver";
                     device = std::make_unique<empty::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
                     break;
             }
