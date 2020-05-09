@@ -3,7 +3,6 @@
 #ifndef OUZEL_STORAGE_FILESYSTEM_HPP
 #define OUZEL_STORAGE_FILESYSTEM_HPP
 
-#include <cctype>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
@@ -508,19 +507,10 @@ namespace ouzel
                 if (attributes == INVALID_FILE_ATTRIBUTES)
                     throw std::system_error(errno, std::system_category(), "Failed to get file attributes");
 
-                Permissions result = Permissions::OwnerRead | Permissions::GroupRead | Permissions::OthersRead;
-
-                if (!(attributes & FILE_ATTRIBUTE_READONLY))
-                    result |= Permissions::OwnerWrite | Permissions::GroupWrite | Permissions::OthersWrite;
-
-                const auto extension = path.getExtension().getNative();
-                if (compareCaseInsesitive(extension.c_str(), L"bat") ||
-                    compareCaseInsesitive(extension.c_str(), L"cmd") ||
-                    compareCaseInsesitive(extension.c_str(), L"com") ||
-                    compareCaseInsesitive(extension.c_str(), L"exe"))
-                    result |= Permissions::OwnerExecute | Permissions::GroupExecute | Permissions::OthersExecute;
-
-                return result;
+                return (attributes & FILE_ATTRIBUTE_READONLY) ?
+                    Permissions::OwnerRead | Permissions::GroupRead | Permissions::OthersRead |
+                    Permissions::OwnerExecute | Permissions::GroupExecute | Permissions::OthersExecute :
+                    Permissions::All;
 
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat s;
@@ -599,19 +589,6 @@ namespace ouzel
             }
 
         private:
-            template <class Char>
-            static bool compareCaseInsesitive(Char* a, Char* b) noexcept
-            {
-                for (;;)
-                {
-                    if (*a == '\0' && *b == '\0') return true;
-                    else if (*a == '\0' || *b == '\0' ||
-                             std::tolower(*a) != std::tolower(*b)) return false;
-                    ++a;
-                    ++b;
-                }
-            };
-
             Engine& engine;
             Path appPath;
             std::vector<Path> resourcePaths;
