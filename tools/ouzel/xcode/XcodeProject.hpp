@@ -321,9 +321,9 @@ namespace ouzel
                         const auto platformDirectory = projectDirectory / targetPath;
                         const auto plistPath = platformDirectory / "Info.plist";
                         const auto platformDirectoryType = storage::FileSystem::getFileType(platformDirectory);
-                        if (platformDirectoryType == storage::FileType::NotFound)
+                        if (platformDirectoryType == storage::FileType::notFound)
                             storage::FileSystem::createDirectory(platformDirectory);
-                        else if (platformDirectoryType != storage::FileType::Directory)
+                        else if (platformDirectoryType != storage::FileType::directory)
                         {
                             storage::FileSystem::deleteFile(platformDirectory);
                             storage::FileSystem::createDirectory(platformDirectory);
@@ -544,9 +544,9 @@ namespace ouzel
             {
                 const auto projectFileType = storage::FileSystem::getFileType(path);
 
-                if (projectFileType == storage::FileType::NotFound)
+                if (projectFileType == storage::FileType::notFound)
                     storage::FileSystem::createDirectory(path);
-                else if (projectFileType != storage::FileType::Directory)
+                else if (projectFileType != storage::FileType::directory)
                 {
                     storage::FileSystem::deleteFile(path);
                     storage::FileSystem::createDirectory(path);
@@ -560,9 +560,9 @@ namespace ouzel
 
                 const auto workspaceFileType = storage::FileSystem::getFileType(workspacePath);
 
-                if (workspaceFileType == storage::FileType::NotFound)
+                if (workspaceFileType == storage::FileType::notFound)
                     storage::FileSystem::createDirectory(workspacePath);
-                else if (workspaceFileType != storage::FileType::Directory)
+                else if (workspaceFileType != storage::FileType::directory)
                 {
                     storage::FileSystem::deleteFile(workspacePath);
                     storage::FileSystem::createDirectory(workspacePath);

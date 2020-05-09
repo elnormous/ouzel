@@ -21,10 +21,10 @@ namespace ouzel
                 {"Release|x86", "Release|Win32"}
             };
 
-            constexpr auto cppProjectGuid = Guid{0x8BC9CEB8, 0x8B4A, 0x11D0, 0x8D, 0x11, 0x00, 0xA0, 0xC9, 0x1B, 0xC9, 0x42};
+            constexpr auto cppProjectGuid = Guid{0x8BC9CEB8, 0x8B4A, 0x11D0, 0x8D, 0x11, {0x00, 0xA0, 0xC9, 0x1B, 0xC9, 0x42}};
 
-            const Guid libouzelUuid = {0xC60AB6A6, 0x67FF, 0x4704, 0xBD, 0xCD, 0xDE, 0x2F, 0x38, 0x2F, 0xE2, 0x51};
-            const Guid ouzelUuid = {0x7A4B3E2B, 0x7010, 0x4F64, 0xBE, 0x2A, 0xA3, 0xBA, 0x1E, 0x8C, 0x8C, 0x6F};
+            const Guid libouzelUuid = {0xC60AB6A6, 0x67FF, 0x4704, 0xBD, 0xCD, {0xDE, 0x2F, 0x38, 0x2F, 0xE2, 0x51}};
+            const Guid ouzelUuid = {0x7A4B3E2B, 0x7010, 0x4F64, 0xBE, 0x2A, {0xA3, 0xBA, 0x1E, 0x8C, 0x8C, 0x6F}};
 
             const auto libouzelProject = VcxProject(libouzelUuid, cppProjectGuid, "libouzel", storage::Path{"libouzel.vxxproj"}, {}, configurations);
             const auto ouzelProject = VcxProject(ouzelUuid, cppProjectGuid, "ouzel", storage::Path{"ouzel.vxxproj"}, {}, configurations);
@@ -53,8 +53,8 @@ namespace ouzel
                 }
 
             std::vector<std::reference_wrapper<const VcxProject>> projects;
-            for (const auto& project : platformProjects)
-                projects.push_back(project);
+            for (const auto& platformProject : platformProjects)
+                projects.push_back(platformProject);
 
             projects.push_back(libouzelProject);
             projects.push_back(ouzelProject);
