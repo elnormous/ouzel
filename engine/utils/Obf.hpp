@@ -26,60 +26,60 @@ namespace ouzel
 
             enum class Marker: std::uint8_t
             {
-                Int8 = 1,
-                Int16 = 2,
-                Int32 = 3,
-                Int64 = 4,
-                Float = 5,
-                Double = 6,
-                String = 7,
-                LongString = 8,
-                ByteArray = 9,
-                Object = 10,
-                Array = 11,
-                Dictionary = 12
+                int8 = 1,
+                int16 = 2,
+                int32 = 3,
+                int64 = 4,
+                floatingPoint = 5,
+                doublePrecision = 6,
+                string = 7,
+                longString = 8,
+                byteArray = 9,
+                object = 10,
+                array = 11,
+                dictionary = 12
             };
 
             enum class Type
             {
-                Int,
-                Float,
-                Double,
-                String,
-                ByteArray,
-                Object,
-                Array,
-                Dictionary
+                integer,
+                floatingPoint,
+                doublePrecision,
+                string,
+                byteArray,
+                object,
+                array,
+                dictionary
             };
 
             Value() = default;
             Value(Type initType): type(initType) {}
             Value(std::uint8_t value):
-                type(Type::Int), intValue(value)
+                type(Type::integer), intValue(value)
             {
             }
             Value(std::uint16_t value):
-                type(Type::Int), intValue(value)
+                type(Type::integer), intValue(value)
             {
             }
             Value(std::uint32_t value):
-                type(Type::Int), intValue(value)
+                type(Type::integer), intValue(value)
             {
             }
             Value(std::uint64_t value):
-                type(Type::Int), intValue(value)
+                type(Type::integer), intValue(value)
             {
             }
-            Value(float value): type(Type::Float), doubleValue(value) {}
-            Value(double value): type(Type::Double), doubleValue(value) {}
+            Value(float value): type(Type::floatingPoint), doubleValue(value) {}
+            Value(double value): type(Type::doublePrecision), doubleValue(value) {}
             Value(const std::string& value):
-                type(Type::String), stringValue(value)
+                type(Type::string), stringValue(value)
             {
             }
-            Value(const ByteArray& value): type(Type::ByteArray), byteArrayValue(value) {}
-            Value(const Object& value): type(Type::Object), objectValue(value) {}
-            Value(const Array& value): type(Type::Array), arrayValue(value) {}
-            Value(const Dictionary& value): type(Type::Dictionary), dictionaryValue(value) {}
+            Value(const ByteArray& value): type(Type::byteArray), byteArrayValue(value) {}
+            Value(const Object& value): type(Type::object), objectValue(value) {}
+            Value(const Array& value): type(Type::array), arrayValue(value) {}
+            Value(const Dictionary& value): type(Type::dictionary), dictionaryValue(value) {}
 
             Value& operator=(Type newType)
             {
@@ -87,26 +87,26 @@ namespace ouzel
 
                 switch (type)
                 {
-                    case Type::Int:
+                    case Type::integer:
                         intValue = 0;
                         break;
-                    case Type::Float:
-                    case Type::Double:
+                    case Type::floatingPoint:
+                    case Type::doublePrecision:
                         doubleValue = 0.0;
                         break;
-                    case Type::String:
+                    case Type::string:
                         stringValue.clear();
                         break;
-                    case Type::ByteArray:
+                    case Type::byteArray:
                         byteArrayValue.clear();
                         break;
-                    case Type::Object:
+                    case Type::object:
                         objectValue.clear();
                         break;
-                    case Type::Array:
+                    case Type::array:
                         arrayValue.clear();
                         break;
-                    case Type::Dictionary:
+                    case Type::dictionary:
                         dictionaryValue.clear();
                         break;
                     default:
@@ -118,7 +118,7 @@ namespace ouzel
 
             Value& operator=(std::uint8_t value)
             {
-                type = Type::Int;
+                type = Type::integer;
                 intValue = value;
 
                 return *this;
@@ -126,7 +126,7 @@ namespace ouzel
 
             Value& operator=(std::uint16_t value)
             {
-                type = Type::Int;
+                type = Type::integer;
                 intValue = value;
 
                 return *this;
@@ -134,7 +134,7 @@ namespace ouzel
 
             Value& operator=(std::uint32_t value)
             {
-                type = Type::Int;
+                type = Type::integer;
                 intValue = value;
 
                 return *this;
@@ -142,7 +142,7 @@ namespace ouzel
 
             Value& operator=(std::uint64_t value)
             {
-                type = Type::Int;
+                type = Type::integer;
                 intValue = value;
 
                 return *this;
@@ -150,7 +150,7 @@ namespace ouzel
 
             Value& operator=(float value)
             {
-                type = Type::Float;
+                type = Type::floatingPoint;
                 doubleValue = value;
 
                 return *this;
@@ -158,7 +158,7 @@ namespace ouzel
 
             Value& operator=(double value)
             {
-                type = Type::Double;
+                type = Type::doublePrecision;
                 doubleValue = value;
 
                 return *this;
@@ -166,7 +166,7 @@ namespace ouzel
 
             Value& operator=(const std::string& value)
             {
-                type = Type::String;
+                type = Type::string;
                 stringValue = value;
 
                 return *this;
@@ -174,7 +174,7 @@ namespace ouzel
 
             Value& operator=(const ByteArray& value)
             {
-                type = Type::ByteArray;
+                type = Type::byteArray;
                 byteArrayValue = value;
 
                 return *this;
@@ -182,7 +182,7 @@ namespace ouzel
 
             Value& operator=(const Object& value)
             {
-                type = Type::Object;
+                type = Type::object;
                 objectValue = value;
 
                 return *this;
@@ -190,7 +190,7 @@ namespace ouzel
 
             Value& operator=(const Array& value)
             {
-                type = Type::Array;
+                type = Type::array;
                 arrayValue = value;
 
                 return *this;
@@ -198,16 +198,16 @@ namespace ouzel
 
             Value& operator=(const Dictionary& value)
             {
-                type = Type::Dictionary;
+                type = Type::dictionary;
                 dictionaryValue = value;
 
                 return *this;
             }
 
             auto getType() const noexcept { return type; }
-            auto isIntType() const noexcept { return type == Type::Int; }
-            auto isFloatType() const noexcept { return type == Type::Float || type == Type::Double; }
-            auto isStringType() const noexcept { return type == Type::String; }
+            auto isIntType() const noexcept { return type == Type::integer; }
+            auto isFloatType() const noexcept { return type == Type::floatingPoint || type == Type::doublePrecision; }
+            auto isStringType() const noexcept { return type == Type::string; }
 
             std::uint32_t decode(const std::vector<std::uint8_t>& buffer, std::uint32_t offset)
             {
@@ -224,83 +224,83 @@ namespace ouzel
 
                 switch (marker)
                 {
-                    case Marker::Int8:
+                    case Marker::int8:
                     {
-                        type = Type::Int;
+                        type = Type::integer;
                         std::uint8_t int8Value;
                         ret = readInt8(buffer, offset, int8Value);
                         intValue = int8Value;
                         break;
                     }
-                    case Marker::Int16:
+                    case Marker::int16:
                     {
-                        type = Type::Int;
+                        type = Type::integer;
                         std::uint16_t int16Value;
                         ret = readInt16(buffer, offset, int16Value);
                         intValue = int16Value;
                         break;
                     }
-                    case Marker::Int32:
+                    case Marker::int32:
                     {
-                        type = Type::Int;
+                        type = Type::integer;
                         std::uint32_t int32Value;
                         ret = readInt32(buffer, offset, int32Value);
                         intValue = int32Value;
                         break;
                     }
-                    case Marker::Int64:
+                    case Marker::int64:
                     {
-                        type = Type::Int;
+                        type = Type::integer;
                         ret = readInt64(buffer, offset, intValue);
                         break;
                     }
-                    case Marker::Float:
+                    case Marker::floatingPoint:
                     {
-                        type = Type::Float;
+                        type = Type::floatingPoint;
                         float floatValue;
                         ret = readFloat(buffer, offset, floatValue);
                         doubleValue = floatValue;
                         break;
                     }
-                    case Marker::Double:
+                    case Marker::doublePrecision:
                     {
-                        type = Type::Double;
+                        type = Type::doublePrecision;
                         ret = readDouble(buffer, offset, doubleValue);
                         break;
                     }
-                    case Marker::String:
+                    case Marker::string:
                     {
-                        type = Type::String;
+                        type = Type::string;
                         ret = readString(buffer, offset, stringValue);
                         break;
                     }
-                    case Marker::LongString:
+                    case Marker::longString:
                     {
-                        type = Type::String;
+                        type = Type::string;
                         ret = readLongString(buffer, offset, stringValue);
                         break;
                     }
-                    case Marker::ByteArray:
+                    case Marker::byteArray:
                     {
-                        type = Type::ByteArray;
+                        type = Type::byteArray;
                         ret = readByteArray(buffer, offset, byteArrayValue);
                         break;
                     }
-                    case Marker::Object:
+                    case Marker::object:
                     {
-                        type = Type::Object;
+                        type = Type::object;
                         ret = readObject(buffer, offset, objectValue);
                         break;
                     }
-                    case Marker::Array:
+                    case Marker::array:
                     {
-                        type = Type::Array;
+                        type = Type::array;
                         ret = readArray(buffer, offset, arrayValue);
                         break;
                     }
-                    case Marker::Dictionary:
+                    case Marker::dictionary:
                     {
-                        type = Type::Dictionary;
+                        type = Type::dictionary;
                         ret = readDictionary(buffer, offset, dictionaryValue);
                         break;
                     }
@@ -321,88 +321,88 @@ namespace ouzel
 
                 switch (type)
                 {
-                    case Type::Int:
+                    case Type::integer:
                     {
                         if (intValue > std::numeric_limits<std::uint32_t>::max())
                         {
-                            buffer.push_back(static_cast<std::uint8_t>(Marker::Int64));
+                            buffer.push_back(static_cast<std::uint8_t>(Marker::int64));
                             size += 1;
                             ret = writeInt64(buffer, intValue);
                         }
                         else if (intValue > std::numeric_limits<std::uint16_t>::max())
                         {
-                            buffer.push_back(static_cast<std::uint8_t>(Marker::Int32));
+                            buffer.push_back(static_cast<std::uint8_t>(Marker::int32));
                             size += 1;
                             ret = writeInt32(buffer, static_cast<std::uint32_t>(intValue));
                         }
                         else if (intValue > std::numeric_limits<std::uint8_t>::max())
                         {
-                            buffer.push_back(static_cast<std::uint8_t>(Marker::Int16));
+                            buffer.push_back(static_cast<std::uint8_t>(Marker::int16));
                             size += 1;
                             ret = writeInt16(buffer, static_cast<std::uint16_t>(intValue));
                         }
                         else
                         {
-                            buffer.push_back(static_cast<std::uint8_t>(Marker::Int8));
+                            buffer.push_back(static_cast<std::uint8_t>(Marker::int8));
                             size += 1;
                             ret = writeInt8(buffer, static_cast<std::uint8_t>(intValue));
                         }
                         break;
                     }
-                    case Type::Float:
+                    case Type::floatingPoint:
                     {
-                        buffer.push_back(static_cast<std::uint8_t>(Marker::Float));
+                        buffer.push_back(static_cast<std::uint8_t>(Marker::floatingPoint));
                         size += 1;
                         ret = writeFloat(buffer, static_cast<float>(doubleValue));
                         break;
                     }
-                    case Type::Double:
+                    case Type::doublePrecision:
                     {
-                        buffer.push_back(static_cast<std::uint8_t>(Marker::Double));
+                        buffer.push_back(static_cast<std::uint8_t>(Marker::doublePrecision));
                         size += 1;
                         ret = writeDouble(buffer, doubleValue);
                         break;
                     }
-                    case Type::String:
+                    case Type::string:
                     {
                         if (stringValue.length() > std::numeric_limits<std::uint16_t>::max())
                         {
-                            buffer.push_back(static_cast<std::uint8_t>(Marker::LongString));
+                            buffer.push_back(static_cast<std::uint8_t>(Marker::longString));
                             size += 1;
                             ret = writeLongString(buffer, stringValue);
                         }
                         else
                         {
-                            buffer.push_back(static_cast<std::uint8_t>(Marker::String));
+                            buffer.push_back(static_cast<std::uint8_t>(Marker::string));
                             size += 1;
                             ret = writeString(buffer, stringValue);
                         }
                         break;
                     }
-                    case Type::ByteArray:
+                    case Type::byteArray:
                     {
-                        buffer.push_back(static_cast<std::uint8_t>(Marker::ByteArray));
+                        buffer.push_back(static_cast<std::uint8_t>(Marker::byteArray));
                         size += 1;
                         ret = writeByteArray(buffer, byteArrayValue);
                         break;
                     }
-                    case Type::Object:
+                    case Type::object:
                     {
-                        buffer.push_back(static_cast<std::uint8_t>(Marker::Object));
+                        buffer.push_back(static_cast<std::uint8_t>(Marker::object));
                         size += 1;
                         ret = writeObject(buffer, objectValue);
                         break;
                     }
-                    case Type::Array:
+                    case Type::array:
                     {
-                        buffer.push_back(static_cast<std::uint8_t>(Marker::Array));
+                        buffer.push_back(static_cast<std::uint8_t>(Marker::array));
                         size += 1;
                         ret = writeArray(buffer, arrayValue);
                         break;
                     }
-                    case Type::Dictionary:
+                    case Type::dictionary:
                     {
-                        buffer.push_back(static_cast<std::uint8_t>(Marker::Dictionary));
+                        buffer.push_back(static_cast<std::uint8_t>(Marker::dictionary));
                         size += 1;
                         ret = writeDictionary(buffer, dictionaryValue);
                         break;
@@ -420,16 +420,16 @@ namespace ouzel
             {
                 switch (type)
                 {
-                    case Type::Int:
+                    case Type::integer:
                         return intValue == 0;
-                    case Type::Float:
-                    case Type::Double:
+                    case Type::floatingPoint:
+                    case Type::doublePrecision:
                         return doubleValue == 0.0;
-                    case Type::String:
-                    case Type::ByteArray:
-                    case Type::Object:
-                    case Type::Array:
-                    case Type::Dictionary:
+                    case Type::string:
+                    case Type::byteArray:
+                    case Type::object:
+                    case Type::array:
+                    case Type::dictionary:
                         return false;
                     default:
                         return true;
@@ -439,129 +439,129 @@ namespace ouzel
             template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
             const std::string& as() const
             {
-                assert(type == Type::String);
+                assert(type == Type::string);
                 return stringValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, const char*>::value>::type* = nullptr>
             const char* as() const
             {
-                assert(type == Type::String);
+                assert(type == Type::string);
                 return stringValue.c_str();
             }
 
             template <typename T, typename std::enable_if<std::is_integral<T>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::Int);
+                assert(type == Type::integer);
                 return static_cast<T>(intValue);
             }
 
             template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
             T as() const
             {
-                assert(type == Type::Float || type == Type::Double);
+                assert(type == Type::floatingPoint || type == Type::doublePrecision);
                 return static_cast<T>(doubleValue);
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, ByteArray>::value>::type* = nullptr>
             T& as()
             {
-                type = Type::ByteArray;
+                type = Type::byteArray;
                 return byteArrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, ByteArray>::value>::type* = nullptr>
             const T& as() const
             {
-                assert(type == Type::ByteArray);
+                assert(type == Type::byteArray);
                 return byteArrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
             T& as()
             {
-                type = Type::Object;
+                type = Type::object;
                 return objectValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
             const T& as() const
             {
-                assert(type == Type::Object);
+                assert(type == Type::object);
                 return objectValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             T& as()
             {
-                type = Type::Array;
+                type = Type::array;
                 return arrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
             const T& as() const
             {
-                assert(type == Type::Array);
+                assert(type == Type::array);
                 return arrayValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
             T& as()
             {
-                type = Type::Dictionary;
+                type = Type::dictionary;
                 return dictionaryValue;
             }
 
             template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
             const T& as() const
             {
-                assert(type == Type::Dictionary);
+                assert(type == Type::dictionary);
                 return dictionaryValue;
             }
 
             Array::iterator begin()
             {
-                assert(type == Type::Array);
+                assert(type == Type::array);
                 return arrayValue.begin();
             }
 
             Array::const_iterator begin() const
             {
-                assert(type == Type::Array);
+                assert(type == Type::array);
                 return arrayValue.begin();
             }
 
             Array::iterator end()
             {
-                assert(type == Type::Array);
+                assert(type == Type::array);
                 return arrayValue.end();
             }
 
             Array::const_iterator end() const
             {
-                assert(type == Type::Array);
+                assert(type == Type::array);
                 return arrayValue.end();
             }
 
             auto getSize() const noexcept
             {
-                assert(type == Type::Array);
+                assert(type == Type::array);
                 return static_cast<std::uint32_t>(arrayValue.size());
             }
 
             Value operator[](std::uint32_t key) const
             {
-                assert(type == Type::Object || type == Type::Array);
+                assert(type == Type::object || type == Type::array);
 
-                if (type == Type::Object)
+                if (type == Type::object)
                 {
                     auto i = objectValue.find(key);
 
                     if (i != objectValue.end())
                         return i->second;
                 }
-                else if (type == Type::Array)
+                else if (type == Type::array)
                 {
                     if (key < arrayValue.size())
                         return arrayValue[key];
@@ -572,20 +572,20 @@ namespace ouzel
 
             Value& operator[](std::uint32_t key)
             {
-                assert(type == Type::Object || type == Type::Array);
+                assert(type == Type::object || type == Type::array);
 
-                if (type == Type::Object)
+                if (type == Type::object)
                     return objectValue[key];
                 else
                 {
-                    type = Type::Array;
+                    type = Type::array;
                     return arrayValue[key];
                 }
             }
 
             Value operator[](const std::string& key) const
             {
-                assert(type == Type::Dictionary);
+                assert(type == Type::dictionary);
 
                 auto i = dictionaryValue.find(key);
 
@@ -597,18 +597,18 @@ namespace ouzel
 
             Value& operator[](const std::string& key)
             {
-                assert(type == Type::Dictionary);
+                assert(type == Type::dictionary);
 
                 return dictionaryValue[key];
             }
 
             bool hasElement(std::uint32_t key) const
             {
-                assert(type == Type::Object || type == Type::Array);
+                assert(type == Type::object || type == Type::array);
 
-                if (type == Type::Object)
+                if (type == Type::object)
                     return objectValue.find(key) != objectValue.end();
-                else if (type == Type::Array)
+                else if (type == Type::array)
                     return key < arrayValue.size();
                 else
                     return false;
@@ -616,7 +616,7 @@ namespace ouzel
 
             bool hasElement(const std::string& key) const
             {
-                assert(type == Type::Dictionary);
+                assert(type == Type::dictionary);
 
                 return dictionaryValue.find(key) != dictionaryValue.end();
             }
@@ -629,8 +629,8 @@ namespace ouzel
         private:
             // reading
             static std::uint32_t readInt8(const std::vector<std::uint8_t>& buffer,
-                                     std::uint32_t offset,
-                                     std::uint8_t& result)
+                                          std::uint32_t offset,
+                                          std::uint8_t& result)
             {
                 if (buffer.size() - offset < sizeof(result))
                     throw std::runtime_error("Not enough data");
@@ -641,8 +641,8 @@ namespace ouzel
             }
 
             static std::uint32_t readInt16(const std::vector<std::uint8_t>& buffer,
-                                      std::uint32_t offset,
-                                      std::uint16_t& result)
+                                           std::uint32_t offset,
+                                           std::uint16_t& result)
             {
                 if (buffer.size() - offset < sizeof(result))
                     throw std::runtime_error("Not enough data");
@@ -653,8 +653,8 @@ namespace ouzel
             }
 
             static std::uint32_t readInt32(const std::vector<std::uint8_t>& buffer,
-                                      std::uint32_t offset,
-                                      std::uint32_t& result)
+                                           std::uint32_t offset,
+                                           std::uint32_t& result)
             {
                 if (buffer.size() - offset < sizeof(result))
                     throw std::runtime_error("Not enough data");
@@ -665,8 +665,8 @@ namespace ouzel
             }
 
             static std::uint32_t readInt64(const std::vector<std::uint8_t>& buffer,
-                                      std::uint32_t offset,
-                                      std::uint64_t& result)
+                                           std::uint32_t offset,
+                                           std::uint64_t& result)
             {
                 if (buffer.size() - offset < sizeof(result))
                     throw std::runtime_error("Not enough data");
@@ -677,8 +677,8 @@ namespace ouzel
             }
 
             static std::uint32_t readFloat(const std::vector<std::uint8_t>& buffer,
-                                      std::uint32_t offset,
-                                      float& result)
+                                           std::uint32_t offset,
+                                           float& result)
             {
                 if (buffer.size() - offset < sizeof(float))
                     throw std::runtime_error("Not enough data");
@@ -689,8 +689,8 @@ namespace ouzel
             }
 
             static std::uint32_t readDouble(const std::vector<std::uint8_t>& buffer,
-                                       std::uint32_t offset,
-                                       double& result)
+                                            std::uint32_t offset,
+                                            double& result)
             {
                 if (buffer.size() - offset < sizeof(double))
                     throw std::runtime_error("Not enough data");
@@ -701,8 +701,8 @@ namespace ouzel
             }
 
             static std::uint32_t readString(const std::vector<std::uint8_t>& buffer,
-                                       std::uint32_t offset,
-                                       std::string& result)
+                                            std::uint32_t offset,
+                                            std::string& result)
             {
                 const std::uint32_t originalOffset = offset;
 
@@ -723,8 +723,8 @@ namespace ouzel
             }
 
             static std::uint32_t readLongString(const std::vector<std::uint8_t>& buffer,
-                                           std::uint32_t offset,
-                                           std::string& result)
+                                                std::uint32_t offset,
+                                                std::string& result)
             {
                 const std::uint32_t originalOffset = offset;
 
@@ -745,8 +745,8 @@ namespace ouzel
             }
 
             static std::uint32_t readByteArray(const std::vector<std::uint8_t>& buffer,
-                                          std::uint32_t offset,
-                                          ByteArray& result)
+                                               std::uint32_t offset,
+                                               ByteArray& result)
             {
                 const std::uint32_t originalOffset = offset;
 
@@ -768,8 +768,8 @@ namespace ouzel
             }
 
             static std::uint32_t readObject(const std::vector<std::uint8_t>& buffer,
-                                       std::uint32_t offset,
-                                       Object& result)
+                                            std::uint32_t offset,
+                                            Object& result)
             {
                 const std::uint32_t originalOffset = offset;
 
@@ -802,8 +802,8 @@ namespace ouzel
             }
 
             static std::uint32_t readArray(const std::vector<std::uint8_t>& buffer,
-                                      std::uint32_t offset,
-                                      Array& result)
+                                           std::uint32_t offset,
+                                           Array& result)
             {
                 const std::uint32_t originalOffset = offset;
 
@@ -828,8 +828,8 @@ namespace ouzel
             }
 
             static std::uint32_t readDictionary(const std::vector<std::uint8_t>& buffer,
-                                           std::uint32_t offset,
-                                           Dictionary& result)
+                                                std::uint32_t offset,
+                                                Dictionary& result)
             {
                 const std::uint32_t originalOffset = offset;
 
@@ -927,7 +927,7 @@ namespace ouzel
             }
 
             static std::uint32_t writeString(std::vector<std::uint8_t>& buffer,
-                                        const std::string& value)
+                                             const std::string& value)
             {
                 std::uint8_t lengthData[sizeof(std::uint16_t)];
 
@@ -946,7 +946,7 @@ namespace ouzel
             }
 
             static std::uint32_t writeLongString(std::vector<std::uint8_t>& buffer,
-                                            const std::string& value)
+                                                 const std::string& value)
             {
                 std::uint8_t lengthData[sizeof(std::uint32_t)];
 
@@ -965,7 +965,7 @@ namespace ouzel
             }
 
             static std::uint32_t writeByteArray(std::vector<std::uint8_t>& buffer,
-                                           const ByteArray& value)
+                                                const ByteArray& value)
             {
                 std::uint8_t lengthData[sizeof(std::uint32_t)];
 
@@ -982,7 +982,7 @@ namespace ouzel
             }
 
             static std::uint32_t writeObject(std::vector<std::uint8_t>& buffer,
-                                        const Object& value)
+                                             const Object& value)
             {
                 std::uint8_t lengthData[sizeof(std::uint32_t)];
 
@@ -1009,7 +1009,7 @@ namespace ouzel
             }
 
             static std::uint32_t writeArray(std::vector<std::uint8_t>& buffer,
-                                       const Array& value)
+                                            const Array& value)
             {
                 std::uint8_t lengthData[sizeof(std::uint32_t)];
 
@@ -1026,7 +1026,7 @@ namespace ouzel
             }
 
             static std::uint32_t writeDictionary(std::vector<std::uint8_t>& buffer,
-                                            const Dictionary& value)
+                                                 const Dictionary& value)
             {
                 std::uint8_t sizeData[sizeof(std::uint32_t)];
 
@@ -1057,7 +1057,7 @@ namespace ouzel
                 return size;
             }
 
-            Type type = Type::Object;
+            Type type = Type::object;
             union
             {
                 std::uint64_t intValue = 0;
