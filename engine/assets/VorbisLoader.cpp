@@ -10,7 +10,7 @@ namespace ouzel
     namespace assets
     {
         VorbisLoader::VorbisLoader(Cache& initCache):
-            Loader(initCache, Loader::Sound)
+            Loader(initCache, Loader::sound)
         {
         }
 

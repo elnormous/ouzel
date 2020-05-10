@@ -133,7 +133,7 @@ namespace ouzel
         }
 
         MtlLoader::MtlLoader(Cache& initCache):
-            Loader(initCache, Loader::Material)
+            Loader(initCache, Loader::material)
         {
         }
 
@@ -218,7 +218,7 @@ namespace ouzel
 
                         if (!diffuseTexture)
                         {
-                            bundle.loadAsset(Loader::Image, value, value, mipmaps);
+                            bundle.loadAsset(Loader::image, value, value, mipmaps);
                             diffuseTexture = cache.getTexture(value);
                         }
                     }

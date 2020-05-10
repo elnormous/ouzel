@@ -64,12 +64,12 @@ namespace ouzel
                 std::int32_t pressure = 1;
                 enum class Action
                 {
-                    Unknown,
-                    Begin,
-                    End,
-                    Move
+                    none,
+                    begin,
+                    end,
+                    move
                 };
-                Action action = Action::Unknown;
+                Action action = Action::none;
             };
             std::vector<Slot> touchSlots;
             std::int32_t currentTouchSlot = 0;

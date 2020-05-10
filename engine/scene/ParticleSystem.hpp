@@ -24,15 +24,15 @@ namespace ouzel
         {
             enum class EmitterType
             {
-                Gravity,
-                Radius
+                gravity,
+                radius
             };
 
             enum class PositionType
             {
-                Free,
-                Parent, // relative to parent
-                Grouped
+                free,
+                parent, // relative to parent
+                grouped
             };
 
             std::string name;
@@ -40,7 +40,7 @@ namespace ouzel
             std::uint32_t blendFuncSource = 0;
             std::uint32_t blendFuncDestination = 0;
 
-            EmitterType emitterType = EmitterType::Gravity;
+            EmitterType emitterType = EmitterType::gravity;
             std::uint32_t maxParticles = 0;
             float duration = 0.0F;
             float particleLifespan = 0.0F;
@@ -52,7 +52,7 @@ namespace ouzel
             Vector2F sourcePosition;
             Vector2F sourcePositionVariance;
 
-            PositionType positionType = PositionType::Free;
+            PositionType positionType = PositionType::free;
 
             float startParticleSize = 0.0F;
             float startParticleSizeVariance = 0.0F;

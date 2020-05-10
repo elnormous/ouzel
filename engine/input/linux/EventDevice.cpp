@@ -520,22 +520,22 @@ namespace ouzel
                                     if (event.value >= 0)
                                     {
                                         touchSlots[currentTouchSlot].trackingId = event.value;
-                                        touchSlots[currentTouchSlot].action = Slot::Action::Begin;
+                                        touchSlots[currentTouchSlot].action = Slot::Action::begin;
                                     }
                                     else
-                                        touchSlots[currentTouchSlot].action = Slot::Action::End;
+                                        touchSlots[currentTouchSlot].action = Slot::Action::end;
                                     break;
                                 }
                                 case ABS_MT_POSITION_X:
                                 {
                                     touchSlots[currentTouchSlot].positionX = event.value;
-                                    touchSlots[currentTouchSlot].action = Slot::Action::Move;
+                                    touchSlots[currentTouchSlot].action = Slot::Action::move;
                                     break;
                                 }
                                 case ABS_MT_POSITION_Y:
                                 {
                                     touchSlots[currentTouchSlot].positionY = event.value;
-                                    touchSlots[currentTouchSlot].action = Slot::Action::Move;
+                                    touchSlots[currentTouchSlot].action = Slot::Action::move;
                                     break;
                                 }
                                 case ABS_MT_PRESSURE:
@@ -553,7 +553,7 @@ namespace ouzel
                                 case SYN_REPORT:
                                 {
                                     for (Slot& slot : touchSlots)
-                                        if (slot.action != Slot::Action::Unknown)
+                                        if (slot.action != Slot::Action::none)
                                         {
                                             Vector2F position(static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
                                                               static_cast<float>(slot.positionY - touchMinY) / touchRangeY);
@@ -561,20 +561,20 @@ namespace ouzel
 
                                             switch (slot.action)
                                             {
-                                                case Slot::Action::Unknown:
+                                                case Slot::Action::none:
                                                     break;
-                                                case Slot::Action::Begin:
+                                                case Slot::Action::begin:
                                                     touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(slot.trackingId), position, pressure);
                                                     break;
-                                                case Slot::Action::End:
+                                                case Slot::Action::end:
                                                     touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(slot.trackingId), position, pressure);
                                                     break;
-                                                case Slot::Action::Move:
+                                                case Slot::Action::move:
                                                     touchpadDevice->handleTouchMove(static_cast<std::uint64_t>(slot.trackingId), position, pressure);
                                                     break;
                                             }
 
-                                            slot.action = Slot::Action::Unknown;
+                                            slot.action = Slot::Action::none;
                                         }
                                     break;
                                 }
@@ -601,13 +601,13 @@ namespace ouzel
                                             request->values[touchNum] >= 0)
                                         {
                                             touchSlots[touchNum].trackingId = request->values[touchNum];
-                                            touchSlots[touchNum].action = Slot::Action::Begin;
+                                            touchSlots[touchNum].action = Slot::Action::begin;
                                         }
                                         else if (touchSlots[touchNum].trackingId >= 0 &&
                                                  request->values[touchNum] < 0)
                                         {
                                             touchSlots[touchNum].trackingId = request->values[touchNum];
-                                            touchSlots[touchNum].action = Slot::Action::End;
+                                            touchSlots[touchNum].action = Slot::Action::end;
                                         }
                                     }
 
@@ -621,8 +621,8 @@ namespace ouzel
                                             touchSlots[touchNum].positionX != request->values[touchNum])
                                         {
                                             touchSlots[touchNum].positionX = request->values[touchNum];
-                                            if (touchSlots[touchNum].action == Slot::Action::Unknown)
-                                                touchSlots[touchNum].action = Slot::Action::Move;
+                                            if (touchSlots[touchNum].action == Slot::Action::none)
+                                                touchSlots[touchNum].action = Slot::Action::move;
                                         }
                                     }
 
@@ -636,8 +636,8 @@ namespace ouzel
                                             touchSlots[touchNum].positionY != request->values[touchNum])
                                         {
                                             touchSlots[touchNum].positionY = request->values[touchNum];
-                                            if (touchSlots[touchNum].action == Slot::Action::Unknown)
-                                                touchSlots[touchNum].action = Slot::Action::Move;
+                                            if (touchSlots[touchNum].action == Slot::Action::none)
+                                                touchSlots[touchNum].action = Slot::Action::move;
                                         }
                                     }
 
@@ -650,8 +650,8 @@ namespace ouzel
                                                 touchSlots[touchNum].pressure != request->values[touchNum])
                                             {
                                                 touchSlots[touchNum].pressure = request->values[touchNum];
-                                                if (touchSlots[touchNum].action == Slot::Action::Unknown)
-                                                    touchSlots[touchNum].action = Slot::Action::Move;
+                                                if (touchSlots[touchNum].action == Slot::Action::none)
+                                                    touchSlots[touchNum].action = Slot::Action::move;
                                             }
                                         }
                                     }

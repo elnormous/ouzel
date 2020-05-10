@@ -61,7 +61,7 @@ AnimationsSample::AnimationsSample():
 
     camera.setClearColorBuffer(true);
     camera.setClearColor(ouzel::Color(64, 0, 0));
-    camera.setScaleMode(scene::Camera::ScaleMode::ShowAll);
+    camera.setScaleMode(scene::Camera::ScaleMode::showAll);
     camera.setTargetContentSize(Size2F(800.0F, 600.0F));
     cameraActor.addComponent(&camera);
     layer.addChild(&cameraActor);
@@ -130,7 +130,7 @@ AnimationsSample::AnimationsSample():
 
     ballDelay = std::make_unique<scene::Animator>(1.0F);
     ballMove = std::make_unique<scene::Move>(2.0F, Vector3F(0.0F, -240.0F, 0.0F), false);
-    ballEase = std::make_unique<scene::Ease>(*ballMove, scene::Ease::Mode::EaseOut, scene::Ease::Func::Bounce);
+    ballEase = std::make_unique<scene::Ease>(*ballMove, scene::Ease::Mode::easeOut, scene::Ease::Func::bounce);
 
     std::vector<scene::Animator*> sequence2 = {
         ballDelay.get(),
@@ -142,7 +142,7 @@ AnimationsSample::AnimationsSample():
     ball.addComponent(ballSequence.get());
     ballSequence->start();
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::ShowAll);
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
     guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);

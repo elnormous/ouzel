@@ -12,7 +12,7 @@ namespace ouzel
     namespace assets
     {
         CueLoader::CueLoader(Cache& initCache):
-            Loader(initCache, Loader::Cue)
+            Loader(initCache, Loader::cue)
         {
         }
 
@@ -25,14 +25,14 @@ namespace ouzel
                 auto& valueType = value["type"].as<std::string>();
 
                 if (valueType == "Parallel")
-                    sourceDefinition.type = audio::SourceDefinition::Type::Parallel;
+                    sourceDefinition.type = audio::SourceDefinition::Type::parallel;
                 else if (valueType == "Random")
-                    sourceDefinition.type = audio::SourceDefinition::Type::Random;
+                    sourceDefinition.type = audio::SourceDefinition::Type::random;
                 else if (valueType == "Sequence")
-                    sourceDefinition.type = audio::SourceDefinition::Type::Sequence;
+                    sourceDefinition.type = audio::SourceDefinition::Type::sequence;
                 else if (valueType == "Oscillator")
                 {
-                    sourceDefinition.type = audio::SourceDefinition::Type::Oscillator;
+                    sourceDefinition.type = audio::SourceDefinition::Type::oscillator;
 
                     auto& oscillatorType = value["oscillatorType"].as<std::string>();
 
@@ -56,14 +56,14 @@ namespace ouzel
                 }
                 else if (valueType == "Silence")
                 {
-                    sourceDefinition.type = audio::SourceDefinition::Type::Silence;
+                    sourceDefinition.type = audio::SourceDefinition::Type::silence;
 
                     if (value.hasMember("length"))
                         sourceDefinition.length = value["length"].as<float>();
                 }
                 else if (valueType == "WavePlayer")
                 {
-                    sourceDefinition.type = audio::SourceDefinition::Type::WavePlayer;
+                    sourceDefinition.type = audio::SourceDefinition::Type::wavePlayer;
 
                     if (value.hasMember("source"))
                         sourceDefinition.sound = cache.getSound(value["source"].as<std::string>());
@@ -79,19 +79,19 @@ namespace ouzel
                         auto& effectType = effectValue["type"].as<std::string>();
 
                         if (effectType == "Delay")
-                            effectDefinition.type = audio::EffectDefinition::Type::Delay;
+                            effectDefinition.type = audio::EffectDefinition::Type::delay;
                         else if (effectType == "Gain")
-                            effectDefinition.type = audio::EffectDefinition::Type::Gain;
+                            effectDefinition.type = audio::EffectDefinition::Type::gain;
                         else if (effectType == "PitchScale")
-                            effectDefinition.type = audio::EffectDefinition::Type::PitchScale;
+                            effectDefinition.type = audio::EffectDefinition::Type::pitchScale;
                         else if (effectType == "PitchShift")
-                            effectDefinition.type = audio::EffectDefinition::Type::PitchShift;
+                            effectDefinition.type = audio::EffectDefinition::Type::pitchShift;
                         else if (effectType == "Reverb")
-                            effectDefinition.type = audio::EffectDefinition::Type::Reverb;
+                            effectDefinition.type = audio::EffectDefinition::Type::reverb;
                         else if (effectType == "LowPass")
-                            effectDefinition.type = audio::EffectDefinition::Type::LowPass;
+                            effectDefinition.type = audio::EffectDefinition::Type::lowPass;
                         else if (effectType == "HighPass")
-                            effectDefinition.type = audio::EffectDefinition::Type::HighPass;
+                            effectDefinition.type = audio::EffectDefinition::Type::highPass;
                         else
                             throw std::runtime_error("Invalid effect type " + effectType);
 

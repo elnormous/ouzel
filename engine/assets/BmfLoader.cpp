@@ -9,7 +9,7 @@ namespace ouzel
     namespace assets
     {
         BmfLoader::BmfLoader(Cache& initCache):
-            Loader(initCache, Loader::Font)
+            Loader(initCache, Loader::font)
         {
         }
 

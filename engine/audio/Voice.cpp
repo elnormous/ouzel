@@ -53,23 +53,23 @@ namespace ouzel
 
             switch (sourceDefinition.type)
             {
-                case SourceDefinition::Type::Empty:
+                case SourceDefinition::Type::empty:
                 {
                     break;
                 }
-                case SourceDefinition::Type::Parallel:
+                case SourceDefinition::Type::parallel:
                 {
                     break;
                 }
-                case SourceDefinition::Type::Random:
+                case SourceDefinition::Type::random:
                 {
                     break;
                 }
-                case SourceDefinition::Type::Sequence:
+                case SourceDefinition::Type::sequence:
                 {
                     break;
                 }
-                case SourceDefinition::Type::Oscillator:
+                case SourceDefinition::Type::oscillator:
                 {
                     std::unique_ptr<Oscillator> oscillator = std::make_unique<Oscillator>(initAudio,
                                                                                           sourceDefinition.frequency,
@@ -78,13 +78,13 @@ namespace ouzel
                                                                                           sourceDefinition.length);
                     break;
                 }
-                case SourceDefinition::Type::Silence:
+                case SourceDefinition::Type::silence:
                 {
                     std::unique_ptr<SilenceSound> silence = std::make_unique<SilenceSound>(initAudio,
                                                                                            sourceDefinition.length);
                     break;
                 }
-                case SourceDefinition::Type::WavePlayer:
+                case SourceDefinition::Type::wavePlayer:
                 {
                     std::unique_ptr<WavePlayer> silence = std::make_unique<WavePlayer>(sourceDefinition.sound);
                     break;
@@ -97,25 +97,25 @@ namespace ouzel
             {
                 switch (effectDefinition.type)
                 {
-                    case EffectDefinition::Type::Delay:
+                    case EffectDefinition::Type::delay:
                         effects.push_back(std::make_unique<Delay>(initAudio, effectDefinition.delay));
                         break;
-                    case EffectDefinition::Type::Gain:
+                    case EffectDefinition::Type::gain:
                         effects.push_back(std::make_unique<Gain>(initAudio, effectDefinition.gain));
                         break;
-                    case EffectDefinition::Type::PitchScale:
+                    case EffectDefinition::Type::pitchScale:
                         effects.push_back(std::make_unique<PitchScale>(initAudio, effectDefinition.scale));
                         break;
-                    case EffectDefinition::Type::PitchShift:
+                    case EffectDefinition::Type::pitchShift:
                         effects.push_back(std::make_unique<PitchShift>(initAudio, effectDefinition.shift));
                         break;
-                    case EffectDefinition::Type::Reverb:
+                    case EffectDefinition::Type::reverb:
                         effects.push_back(std::make_unique<Reverb>(initAudio, effectDefinition.delay, effectDefinition.decay));
                         break;
-                    case EffectDefinition::Type::LowPass:
+                    case EffectDefinition::Type::lowPass:
                         effects.push_back(std::make_unique<LowPass>(initAudio));
                         break;
-                    case EffectDefinition::Type::HighPass:
+                    case EffectDefinition::Type::highPass:
                         effects.push_back(std::make_unique<HighPass>(initAudio));
                         break;
                 }

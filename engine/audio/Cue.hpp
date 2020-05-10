@@ -25,13 +25,13 @@ namespace ouzel
         {
             enum class Type
             {
-                Delay,
-                Gain,
-                PitchScale,
-                PitchShift,
-                Reverb,
-                LowPass,
-                HighPass
+                delay,
+                gain,
+                pitchScale,
+                pitchShift,
+                reverb,
+                lowPass,
+                highPass
             };
 
             Type type;
@@ -51,13 +51,13 @@ namespace ouzel
         {
             enum class Type
             {
-                Empty,
-                Parallel,
-                Random,
-                Sequence,
-                Oscillator,
-                Silence,
-                WavePlayer
+                empty,
+                parallel,
+                random,
+                sequence,
+                oscillator,
+                silence,
+                wavePlayer
             };
 
             Type type;

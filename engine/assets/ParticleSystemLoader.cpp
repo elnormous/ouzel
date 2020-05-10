@@ -11,7 +11,7 @@ namespace ouzel
     namespace assets
     {
         ParticleSystemLoader::ParticleSystemLoader(Cache& initCache):
-            Loader(initCache, Loader::ParticleSystem)
+            Loader(initCache, Loader::particleSystem)
         {
         }
 
@@ -37,8 +37,8 @@ namespace ouzel
             {
                 switch (d["emitterType"].as<std::uint32_t>())
                 {
-                    case 0: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::Gravity; break;
-                    case 1: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::Radius; break;
+                    case 0: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::gravity; break;
+                    case 1: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::radius; break;
                     default: return false;
                 }
             }
@@ -115,7 +115,7 @@ namespace ouzel
 
                 if (!particleSystemData.texture)
                 {
-                    bundle.loadAsset(Loader::Image, textureFileName, textureFileName, mipmaps);
+                    bundle.loadAsset(Loader::image, textureFileName, textureFileName, mipmaps);
                     particleSystemData.texture = cache.getTexture(textureFileName);
                 }
             }

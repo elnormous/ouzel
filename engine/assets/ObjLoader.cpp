@@ -172,7 +172,7 @@ namespace ouzel
         }
 
         ObjLoader::ObjLoader(Cache& initCache):
-            Loader(initCache, Loader::StaticMesh)
+            Loader(initCache, Loader::staticMesh)
         {
         }
 
@@ -224,7 +224,7 @@ namespace ouzel
 
                         //if (!cache.getMaterial(filename))
                         // TODO don't load material lib every time
-                        bundle.loadAsset(Loader::Material, value, value, mipmaps);
+                        bundle.loadAsset(Loader::material, value, value, mipmaps);
                     }
                     else if (keyword == "usemtl")
                     {

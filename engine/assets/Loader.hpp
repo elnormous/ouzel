@@ -18,16 +18,16 @@ namespace ouzel
         public:
             enum Type
             {
-                Bank,
-                Font,
-                StaticMesh,
-                SkinnedMesh,
-                Image,
-                Material,
-                ParticleSystem,
-                Sprite,
-                Sound,
-                Cue
+                bank,
+                font,
+                staticMesh,
+                skinnedMesh,
+                image,
+                material,
+                particleSystem,
+                sprite,
+                sound,
+                cue
             };
 
             Loader(Cache& initCache, std::uint32_t initType):

@@ -51,14 +51,14 @@ namespace ouzel
 
         enum class InternetProtocol: std::uint8_t
         {
-            V4,
-            V6
+            v4,
+            v6
         };
 
         constexpr int getAddressFamily(InternetProtocol internetProtocol)
         {
-            return (internetProtocol == InternetProtocol::V4) ? AF_INET :
-                (internetProtocol == InternetProtocol::V6) ? AF_INET6 :
+            return (internetProtocol == InternetProtocol::v4) ? AF_INET :
+                (internetProtocol == InternetProtocol::v6) ? AF_INET6 :
                 throw std::runtime_error("Unsupported protocol");
         }
 
@@ -73,7 +73,7 @@ namespace ouzel
             static constexpr Type invalid = -1;
 #endif
 
-            explicit Socket(InternetProtocol internetProtocol = InternetProtocol::V4):
+            explicit Socket(InternetProtocol internetProtocol = InternetProtocol::v4):
                 endpoint(socket(getAddressFamily(internetProtocol), SOCK_STREAM, IPPROTO_TCP))
             {
                 if (endpoint == invalid)

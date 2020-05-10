@@ -14,21 +14,21 @@ namespace ouzel
     namespace scene
     {
         Camera::Camera(const Matrix4F& initProjection):
-            projectionMode(ProjectionMode::Custom), projection(initProjection)
+            projectionMode(ProjectionMode::custom), projection(initProjection)
 
         {
             calculateViewProjection();
         }
 
         Camera::Camera(const Size2F& initTargetContentSize, ScaleMode initScaleMode):
-            projectionMode(ProjectionMode::Orthographic), targetContentSize(initTargetContentSize),
+            projectionMode(ProjectionMode::orthographic), targetContentSize(initTargetContentSize),
             scaleMode(initScaleMode)
         {
             calculateViewProjection();
         }
 
         Camera::Camera(float initFov, float initNearPlane, float initFarPlane):
-            projectionMode(ProjectionMode::Perspective), fov(initFov),
+            projectionMode(ProjectionMode::perspective), fov(initFov),
             nearPlane(initNearPlane), farPlane(initFarPlane)
         {
             calculateViewProjection();
@@ -86,22 +86,22 @@ namespace ouzel
 
                 switch (scaleMode)
                 {
-                    case ScaleMode::NoScale:
+                    case ScaleMode::noScale:
                     {
                         break;
                     }
-                    case ScaleMode::ExactFit:
+                    case ScaleMode::exactFit:
                     {
                         contentScale.v[0] = 1.0F;
                         contentScale.v[1] = 1.0F;
                         break;
                     }
-                    case ScaleMode::NoBorder:
+                    case ScaleMode::noBorder:
                     {
                         contentScale.v[0] = contentScale.v[1] = std::max(contentScale.v[0], contentScale.v[1]);
                         break;
                     }
-                    case ScaleMode::ShowAll:
+                    case ScaleMode::showAll:
                     {
                         contentScale.v[0] = contentScale.v[1] = std::min(contentScale.v[0], contentScale.v[1]);
                         break;
@@ -123,13 +123,13 @@ namespace ouzel
 
             switch (projectionMode)
             {
-                case ProjectionMode::Custom:
+                case ProjectionMode::custom:
                     // do nothing
                     break;
-                case ProjectionMode::Orthographic:
+                case ProjectionMode::orthographic:
                     projection.setOrthographicFromSize(contentSize.v[0], contentSize.v[1], -1.0F, 1.0F);
                     break;
-                case ProjectionMode::Perspective:
+                case ProjectionMode::perspective:
                     projection.setPerspective(fov, contentSize.v[0] / contentSize.v[1], nearPlane, farPlane);
                     break;
                 default:
@@ -202,7 +202,7 @@ namespace ouzel
 
         bool Camera::checkVisibility(const Matrix4F& boxTransform, const Box3F& box) const
         {
-            if (projectionMode == ProjectionMode::Orthographic)
+            if (projectionMode == ProjectionMode::orthographic)
             {
                 // calculate center point of the box
                 const auto diff = Vector2F(box.max - box.min);

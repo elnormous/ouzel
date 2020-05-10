@@ -60,10 +60,10 @@ namespace ouzel
                 }
 
                 const Matrix4F transform =
-                    (particleSystemData.positionType == ParticleSystemData::PositionType::Free ||
-                     particleSystemData.positionType == ParticleSystemData::PositionType::Parent) ?
+                    (particleSystemData.positionType == ParticleSystemData::PositionType::free ||
+                     particleSystemData.positionType == ParticleSystemData::PositionType::parent) ?
                     renderViewProjection :
-                    (particleSystemData.positionType == ParticleSystemData::PositionType::Grouped) ?
+                    (particleSystemData.positionType == ParticleSystemData::PositionType::grouped) ?
                     renderViewProjection * transformMatrix :
                     throw std::runtime_error("Invalid position type");
 
@@ -148,7 +148,7 @@ namespace ouzel
 
                         if (particles[i].life >= 0.0F)
                         {
-                            if (particleSystemData.emitterType == ParticleSystemData::EmitterType::Gravity)
+                            if (particleSystemData.emitterType == ParticleSystemData::EmitterType::gravity)
                             {
                                 Vector2F tmp;
                                 Vector2F radial;
@@ -216,8 +216,8 @@ namespace ouzel
                 // Update bounding box
                 boundingBox.reset();
 
-                if (particleSystemData.positionType == ParticleSystemData::PositionType::Free ||
-                    particleSystemData.positionType == ParticleSystemData::PositionType::Parent)
+                if (particleSystemData.positionType == ParticleSystemData::PositionType::free ||
+                    particleSystemData.positionType == ParticleSystemData::PositionType::parent)
                 {
                     if (actor)
                     {
@@ -231,7 +231,7 @@ namespace ouzel
                         }
                     }
                 }
-                else if (particleSystemData.positionType == ParticleSystemData::PositionType::Grouped)
+                else if (particleSystemData.positionType == ParticleSystemData::PositionType::grouped)
                 {
                     for (std::uint32_t i = 0; i < particleCount; ++i)
                         boundingBox.insertPoint(Vector3F(particles[i].position));
@@ -335,11 +335,11 @@ namespace ouzel
                 {
                     const std::size_t i = counter - 1;
 
-                    const Vector2F position = (particleSystemData.positionType == ParticleSystemData::PositionType::Free) ?
+                    const Vector2F position = (particleSystemData.positionType == ParticleSystemData::PositionType::free) ?
                         particles[i].position :
-                        (particleSystemData.positionType == ParticleSystemData::PositionType::Parent) ?
+                        (particleSystemData.positionType == ParticleSystemData::PositionType::parent) ?
                         Vector2F(actor->getPosition()) + particles[i].position :
-                        (particleSystemData.positionType == ParticleSystemData::PositionType::Grouped) ?
+                        (particleSystemData.positionType == ParticleSystemData::PositionType::grouped) ?
                         Vector2F() :
                         throw std::runtime_error("Invalid position type");
 
@@ -385,17 +385,17 @@ namespace ouzel
 
             if (count && actor)
             {
-                const Vector2F position = (particleSystemData.positionType == ParticleSystemData::PositionType::Free) ?
+                const Vector2F position = (particleSystemData.positionType == ParticleSystemData::PositionType::free) ?
                     Vector2F(actor->convertLocalToWorld(Vector3F())) :
-                    (particleSystemData.positionType == ParticleSystemData::PositionType::Parent) ?
+                    (particleSystemData.positionType == ParticleSystemData::PositionType::parent) ?
                     Vector2F(actor->convertLocalToWorld(Vector3F()) - actor->getPosition()) :
-                    (particleSystemData.positionType == ParticleSystemData::PositionType::Grouped) ?
+                    (particleSystemData.positionType == ParticleSystemData::PositionType::grouped) ?
                     Vector2F() :
                     throw std::runtime_error("Invalid position type");
 
                 for (std::uint32_t i = particleCount; i < particleCount + count; ++i)
                 {
-                    if (particleSystemData.emitterType == ParticleSystemData::EmitterType::Gravity)
+                    if (particleSystemData.emitterType == ParticleSystemData::EmitterType::gravity)
                     {
                         particles[i].life = std::max(particleSystemData.particleLifespan + particleSystemData.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
 
