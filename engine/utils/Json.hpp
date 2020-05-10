@@ -614,7 +614,7 @@ namespace ouzel
                             if (++iterator == end)
                                 throw ParseError("Unexpected end of data");
 
-                            if (iterator->type != Token::Type::Colon)
+                            if (iterator->type != Token::Type::colon)
                                 throw ParseError("Expected a colon");
 
                             if (++iterator == end)
