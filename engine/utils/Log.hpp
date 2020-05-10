@@ -238,7 +238,7 @@ namespace ouzel
         {
 #if !defined(__EMSCRIPTEN__)
             std::unique_lock<std::mutex> lock(queueMutex);
-            commandQueue.push(Command(Command::Type::Quit));
+            commandQueue.push(Command(Command::Type::quit));
             lock.unlock();
             queueCondition.notify_all();
 #endif
@@ -257,7 +257,7 @@ namespace ouzel
                 logString(str, level);
 #else
                 std::unique_lock<std::mutex> lock(queueMutex);
-                commandQueue.push(Command(Command::Type::LogString, level, str));
+                commandQueue.push(Command(Command::Type::logString, level, str));
                 lock.unlock();
                 queueCondition.notify_all();
 #endif
@@ -279,8 +279,8 @@ namespace ouzel
         public:
             enum class Type
             {
-                LogString,
-                Quit
+                logString,
+                quit
             };
 
             explicit Command(const Type initType):
@@ -311,9 +311,9 @@ namespace ouzel
                 commandQueue.pop();
                 lock.unlock();
 
-                if (command.type == Command::Type::LogString)
+                if (command.type == Command::Type::logString)
                     logString(command.str, command.level);
-                else if (command.type == Command::Type::Quit)
+                else if (command.type == Command::Type::quit)
                     break;
             }
         }

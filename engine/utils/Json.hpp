@@ -341,18 +341,18 @@ namespace ouzel
                 {
                     enum class Type
                     {
-                        LiteralInteger, // integer
-                        LiteralFloat, // float
-                        LiteralString, // string
-                        KeywordTrue, // true
-                        KeywordFalse, // false
-                        KeywordNull, // null
-                        LeftBrace, // {
-                        RightBrace, // }
-                        LeftBracket, // [
-                        RightBracket, // ]
-                        Comma, // ,
-                        Colon // :
+                        literalInteger, // integer
+                        literalFloat, // float
+                        literalString, // string
+                        keywordTrue, // true
+                        keywordFalse, // false
+                        keywordNull, // null
+                        leftBrace, // {
+                        rightBrace, // }
+                        leftBracket, // [
+                        rightBracket, // ]
+                        comma, // ,
+                        colon // :
                     };
 
                     Type type;
@@ -364,9 +364,9 @@ namespace ouzel
                     std::vector<Token> tokens;
 
                     static const std::map<std::string, typename Token::Type> keywordMap{
-                        {"true", Token::Type::KeywordTrue},
-                        {"false", Token::Type::KeywordFalse},
-                        {"null", Token::Type::KeywordNull}
+                        {"true", Token::Type::keywordTrue},
+                        {"false", Token::Type::keywordFalse},
+                        {"null", Token::Type::keywordNull}
                     };
 
                     for (auto iterator = begin; iterator != end;)
@@ -376,7 +376,7 @@ namespace ouzel
                         if (*iterator == '-' ||
                             (*iterator >= '0' && *iterator <= '9'))
                         {
-                            token.type = Token::Type::LiteralInteger;
+                            token.type = Token::Type::literalInteger;
 
                             if (*iterator == '-')
                             {
@@ -395,7 +395,7 @@ namespace ouzel
 
                             if (iterator != end && *iterator == '.')
                             {
-                                token.type = Token::Type::LiteralFloat;
+                                token.type = Token::Type::literalFloat;
 
                                 token.value.push_back(static_cast<char>(*iterator));
                                 ++iterator;
@@ -432,7 +432,7 @@ namespace ouzel
                         }
                         else if (*iterator == '"') // string literal
                         {
-                            token.type = Token::Type::LiteralString;
+                            token.type = Token::Type::literalString;
 
                             for (;;)
                             {
@@ -547,12 +547,12 @@ namespace ouzel
                         {
                             switch (*iterator)
                             {
-                                case '{': token.type = Token::Type::LeftBrace; break;
-                                case '}': token.type = Token::Type::RightBrace; break;
-                                case '[': token.type = Token::Type::LeftBracket; break;
-                                case ']': token.type = Token::Type::RightBracket; break;
-                                case ',': token.type = Token::Type::Comma; break;
-                                case ':': token.type = Token::Type::Colon; break;
+                                case '{': token.type = Token::Type::leftBrace; break;
+                                case '}': token.type = Token::Type::rightBrace; break;
+                                case '[': token.type = Token::Type::leftBracket; break;
+                                case ']': token.type = Token::Type::rightBracket; break;
+                                case ',': token.type = Token::Type::comma; break;
+                                case ':': token.type = Token::Type::colon; break;
                                 default: throw ParseError("Unknown character");
                             }
 
@@ -573,7 +573,7 @@ namespace ouzel
                     if (iterator == end)
                         throw ParseError("Unexpected end of data");
 
-                    if (iterator->type == Token::Type::LeftBrace)
+                    if (iterator->type == Token::Type::leftBrace)
                     {
                         result = Value::Type::object;
 
@@ -586,7 +586,7 @@ namespace ouzel
                             if (iterator == end)
                                 throw ParseError("Unexpected end of data");
 
-                            if (iterator->type == Token::Type::RightBrace)
+                            if (iterator->type == Token::Type::rightBrace)
                             {
                                 ++iterator;// skip the right brace
                                 break;
@@ -596,14 +596,14 @@ namespace ouzel
                                 first = false;
                             else
                             {
-                                if (iterator->type != Token::Type::Comma)
+                                if (iterator->type != Token::Type::comma)
                                     throw ParseError("Expected a comma");
 
                                 if (++iterator == end)
                                     throw ParseError("Unexpected end of data");
                             }
 
-                            if (iterator->type != Token::Type::LiteralString)
+                            if (iterator->type != Token::Type::literalString)
                                 throw ParseError("Expected a string literal");
 
                             const std::string& key = iterator->value;
@@ -623,7 +623,7 @@ namespace ouzel
                             result[key] = parse(iterator, end);
                         }
                     }
-                    else if (iterator->type == Token::Type::LeftBracket)
+                    else if (iterator->type == Token::Type::leftBracket)
                     {
                         result = Value::Type::array;
 
@@ -636,7 +636,7 @@ namespace ouzel
                             if (iterator == end)
                                 throw ParseError("Unexpected end of data");
 
-                            if (iterator->type == Token::Type::RightBracket)
+                            if (iterator->type == Token::Type::rightBracket)
                             {
                                 ++iterator;// skip the right bracket
                                 break;
@@ -646,7 +646,7 @@ namespace ouzel
                                 first = false;
                             else
                             {
-                                if (iterator->type != Token::Type::Comma)
+                                if (iterator->type != Token::Type::comma)
                                     throw ParseError("Expected a comma");
 
                                 if (++iterator == end)
@@ -656,28 +656,28 @@ namespace ouzel
                             result.pushBack(parse(iterator, end));
                         }
                     }
-                    else if (iterator->type == Token::Type::LiteralInteger)
+                    else if (iterator->type == Token::Type::literalInteger)
                     {
                         result = std::stoll(iterator->value);
                         ++iterator;
                     }
-                    else if (iterator->type == Token::Type::LiteralFloat)
+                    else if (iterator->type == Token::Type::literalFloat)
                     {
                         result = std::stod(iterator->value);
                         ++iterator;
                     }
-                    else if (iterator->type == Token::Type::LiteralString)
+                    else if (iterator->type == Token::Type::literalString)
                     {
                         result = iterator->value;
                         ++iterator;
                     }
-                    else if (iterator->type == Token::Type::KeywordTrue ||
-                             iterator->type == Token::Type::KeywordFalse)
+                    else if (iterator->type == Token::Type::keywordTrue ||
+                             iterator->type == Token::Type::keywordFalse)
                     {
-                        result = iterator->type == Token::Type::KeywordTrue;
+                        result = iterator->type == Token::Type::keywordTrue;
                         ++iterator;
                     }
-                    else if (iterator->type == Token::Type::KeywordNull)
+                    else if (iterator->type == Token::Type::keywordNull)
                     {
                         result = nullptr;
                         ++iterator;

@@ -367,7 +367,7 @@ namespace ouzel
                                 };
 
                                 std::ofstream infoPlistFile(plistPath);
-                                infoPlistFile << plist::encode(infoPlist, plist::Format::Xml, true);
+                                infoPlistFile << plist::encode(infoPlist, plist::Format::xml, true);
                                 break;
                             }
 
@@ -422,7 +422,7 @@ namespace ouzel
                                 };
 
                                 std::ofstream infoPlistFile(plistPath);
-                                infoPlistFile << plist::encode(infoPlist, plist::Format::Xml, true);
+                                infoPlistFile << plist::encode(infoPlist, plist::Format::xml, true);
                                 break;
                             }
 
@@ -462,7 +462,7 @@ namespace ouzel
                                 };
 
                                 std::ofstream infoPlistFile(plistPath);
-                                infoPlistFile << plist::encode(infoPlist, plist::Format::Xml, true);
+                                infoPlistFile << plist::encode(infoPlist, plist::Format::xml, true);
                                 break;
                             }
 
@@ -554,7 +554,7 @@ namespace ouzel
 
                 const auto pbxProjectPath = path / storage::Path{"project.pbxproj"};
                 std::ofstream projectFile(pbxProjectPath, std::ios::trunc);
-                projectFile << plist::encode(encode(), plist::Format::Ascii, true);
+                projectFile << plist::encode(encode(), plist::Format::ascii, true);
 
                 const auto workspacePath = path / "project.xcworkspace";
 

@@ -287,8 +287,8 @@ namespace ouzel
 
         enum class Format
         {
-            Ascii,
-            Xml
+            ascii,
+            xml
         };
 
         inline std::string encode(const Value& value, Format format, bool whitespaces = false)
@@ -534,8 +534,8 @@ namespace ouzel
 
             switch (format)
             {
-                case Format::Ascii: return AsciiEncoder::encode(value, whitespaces);
-                case Format::Xml: return XmlEncoder::encode(value, whitespaces);
+                case Format::ascii: return AsciiEncoder::encode(value, whitespaces);
+                case Format::xml: return XmlEncoder::encode(value, whitespaces);
             }
 
             throw std::runtime_error("Unsupported format");
