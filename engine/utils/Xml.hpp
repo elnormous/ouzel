@@ -33,7 +33,7 @@ namespace ouzel
             enum class Type
             {
                 comment,
-                cData,
+                characterData,
                 typeDeclaration,
                 processingInstruction,
                 tag,
@@ -465,7 +465,7 @@ namespace ouzel
                                 if (*iterator != '[')
                                     throw ParseError("Expected a left bracket");
 
-                                result = Node::Type::cData;
+                                result = Node::Type::characterData;
 
                                 std::string value;
                                 for (;;)
@@ -737,7 +737,7 @@ namespace ouzel
                             result.insert(result.end(), {'-', '-', '>'});
                             break;
                         }
-                        case Node::Type::cData:
+                        case Node::Type::characterData:
                         {
                             const auto& value = node.getValue();
                             result.insert(result.end(), {'<', '!', '[', 'C', 'D', 'A', 'T', 'A', '['});
