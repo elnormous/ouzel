@@ -11,220 +11,220 @@ namespace ouzel
     {
         enum class PBXFileType
         {
-            ArchiveAr,
-            ArchiveAsdictionary,
-            ArchiveBinhex,
-            ArchiveEar,
-            ArchiveGzip,
-            ArchiveJar,
-            ArchiveMacbinary,
-            ArchivePpob,
-            ArchiveRsrc,
-            ArchiveStuffit,
-            ArchiveTar,
-            ArchiveWar,
-            ArchiveZip,
-            AudioAiff,
-            AudioAu,
-            AudioMidi,
-            AudioMp3,
-            AudioWav,
-            Compiled,
-            CompiledMachO,
-            CompiledMachOBundle,
-            CompiledMachOCorefile,
-            CompiledMachODylib,
-            CompiledMachOExecutable,
-            CompiledMachOFvmlib,
-            CompiledMachOObjfile,
-            CompiledMachOPreload,
-            FileBplist,
-            FileXib,
-            ImageBmp,
-            ImageGif,
-            ImageIcns,
-            ImageIco,
-            ImageJpeg,
-            ImagePdf,
-            ImagePict,
-            ImagePng,
-            ImageTiff,
-            PatternProxy,
-            SourcecodeAda,
-            SourcecodeApplescript,
-            SourcecodeAsm,
-            SourcecodeAsmAsm,
-            SourcecodeAsmLlvm,
-            SourcecodeC,
-            SourcecodeCCPreprocessed,
-            SourcecodeCH,
-            SourcecodeCObjc,
-            SourcecodeCObjcPreprocessed,
-            SourcecodeCppCpp,
-            SourcecodeCppCppPreprocessed,
-            SourcecodeCppH,
-            SourcecodeCppObjcpp,
-            SourcecodeCppObjcppPreprocessed,
-            SourcecodeDtrace,
-            SourcecodeExports,
-            SourcecodeFortran,
-            SourcecodeFortranF77,
-            SourcecodeFortranF90,
-            SourcecodeGlsl,
-            SourcecodeJam,
-            SourcecodeJava,
-            SourcecodeJavascript,
-            SourcecodeLex,
-            SourcecodeMake,
-            SourcecodeMig,
-            SourcecodeNasm,
-            SourcecodeOpencl,
-            SourcecodePascal,
-            SourcecodeRez,
-            SourcecodeYacc,
-            Text,
-            TextCss,
-            TextHtmlDocumentation,
-            TextMan,
-            TextPbxproject,
-            TextPlist,
-            TextPlistInfo,
-            TextPlistScriptSuite,
-            TextPlistScriptTerminology,
-            TextPlistStrings,
-            TextPlistXclangspec,
-            TextPlistXcsynspec,
-            TextPlistXctxtmacro,
-            TextPlistXml,
-            TextRtf,
-            TextScript,
-            TextScriptCsh,
-            TextScriptPerl,
-            TextScriptPhp,
-            TextScriptPython,
-            TextScriptRuby,
-            TextScriptSh,
-            TextScriptWorksheet,
-            TextXcconfig,
-            TextXml,
-            VideoAvi,
-            VideoMpeg,
-            VideoQuartzComposer,
-            VideoQuicktime,
-            WrapperApplication,
-            WrapperCFBundle,
-            WrapperFramework,
-            WrapperPBProject
+            archiveAr,
+            archiveAsdictionary,
+            archiveBinhex,
+            archiveEar,
+            archiveGzip,
+            archiveJar,
+            archiveMacbinary,
+            archivePpob,
+            archiveRsrc,
+            archiveStuffit,
+            archiveTar,
+            archiveWar,
+            archiveZip,
+            audioAiff,
+            audioAu,
+            audioMidi,
+            audioMp3,
+            audioWav,
+            compiled,
+            compiledMachO,
+            compiledMachOBundle,
+            compiledMachOCorefile,
+            compiledMachODylib,
+            compiledMachOExecutable,
+            compiledMachOFvmlib,
+            compiledMachOObjfile,
+            compiledMachOPreload,
+            fileBplist,
+            fileXib,
+            imageBmp,
+            imageGif,
+            imageIcns,
+            imageIco,
+            imageJpeg,
+            imagePdf,
+            imagePict,
+            imagePng,
+            imageTiff,
+            patternProxy,
+            sourcecodeAda,
+            sourcecodeApplescript,
+            sourcecodeAsm,
+            sourcecodeAsmAsm,
+            sourcecodeAsmLlvm,
+            sourcecodeC,
+            sourcecodeCCPreprocessed,
+            sourcecodeCH,
+            sourcecodeCObjc,
+            sourcecodeCObjcPreprocessed,
+            sourcecodeCppCpp,
+            sourcecodeCppCppPreprocessed,
+            sourcecodeCppH,
+            sourcecodeCppObjcpp,
+            sourcecodeCppObjcppPreprocessed,
+            sourcecodeDtrace,
+            sourcecodeExports,
+            sourcecodeFortran,
+            sourcecodeFortranF77,
+            sourcecodeFortranF90,
+            sourcecodeGlsl,
+            sourcecodeJam,
+            sourcecodeJava,
+            sourcecodeJavascript,
+            sourcecodeLex,
+            sourcecodeMake,
+            sourcecodeMig,
+            sourcecodeNasm,
+            sourcecodeOpencl,
+            sourcecodePascal,
+            sourcecodeRez,
+            sourcecodeYacc,
+            text,
+            textCss,
+            textHtmlDocumentation,
+            textMan,
+            textPbxproject,
+            textPlist,
+            textPlistInfo,
+            textPlistScriptSuite,
+            textPlistScriptTerminology,
+            textPlistStrings,
+            textPlistXclangspec,
+            textPlistXcsynspec,
+            textPlistXctxtmacro,
+            textPlistXml,
+            textRtf,
+            textScript,
+            textScriptCsh,
+            textScriptPerl,
+            textScriptPhp,
+            textScriptPython,
+            textScriptRuby,
+            textScriptSh,
+            textScriptWorksheet,
+            textXcconfig,
+            textXml,
+            videoAvi,
+            videoMpeg,
+            videoQuartzComposer,
+            videoQuicktime,
+            wrapperApplication,
+            wrapperCFBundle,
+            wrapperFramework,
+            wrapperPBProject
         };
 
         inline std::string toString(PBXFileType fileType)
         {
             switch (fileType)
             {
-                case PBXFileType::ArchiveAr: return "archive.ar";
-                case PBXFileType::ArchiveAsdictionary: return "archive.asdictionary";
-                case PBXFileType::ArchiveBinhex: return "archive.binhex";
-                case PBXFileType::ArchiveEar: return "archive.ear";
-                case PBXFileType::ArchiveGzip: return "archive.gzip";
-                case PBXFileType::ArchiveJar: return "archive.jar";
-                case PBXFileType::ArchiveMacbinary: return "archive.macbinary";
-                case PBXFileType::ArchivePpob: return "archive.ppob";
-                case PBXFileType::ArchiveRsrc: return "archive.rsrc";
-                case PBXFileType::ArchiveStuffit: return "archive.stuffit";
-                case PBXFileType::ArchiveTar: return "archive.tar";
-                case PBXFileType::ArchiveWar: return "archive.war";
-                case PBXFileType::ArchiveZip: return "archive.zip";
-                case PBXFileType::AudioAiff: return "audio.aiff";
-                case PBXFileType::AudioAu: return "audio.au";
-                case PBXFileType::AudioMidi: return "audio.midi";
-                case PBXFileType::AudioMp3: return "audio.mp3";
-                case PBXFileType::AudioWav: return "audio.wav";
-                case PBXFileType::Compiled: return "compiled";
-                case PBXFileType::CompiledMachO: return "compiled.mach-o";
-                case PBXFileType::CompiledMachOBundle: return "compiled.mach-o.bundle";
-                case PBXFileType::CompiledMachOCorefile: return "compiled.mach-o.corefile";
-                case PBXFileType::CompiledMachODylib: return "compiled.mach-o.dylib";
-                case PBXFileType::CompiledMachOExecutable: return "compiled.mach-o.executable";
-                case PBXFileType::CompiledMachOFvmlib: return "compiled.mach-o.fvmlib";
-                case PBXFileType::CompiledMachOObjfile: return "compiled.mach-o.objfile";
-                case PBXFileType::CompiledMachOPreload: return "compiled.mach-o.preload";
-                case PBXFileType::FileBplist: return "file.bplist";
-                case PBXFileType::FileXib: return "file.xib";
-                case PBXFileType::ImageBmp: return "image.bmp";
-                case PBXFileType::ImageGif: return "image.gif";
-                case PBXFileType::ImageIcns: return "image.icns";
-                case PBXFileType::ImageIco: return "image.ico";
-                case PBXFileType::ImageJpeg: return "image.jpeg";
-                case PBXFileType::ImagePdf: return "image.pdf";
-                case PBXFileType::ImagePict: return "image.pict";
-                case PBXFileType::ImagePng: return "image.png";
-                case PBXFileType::ImageTiff: return "image.tiff";
-                case PBXFileType::PatternProxy: return "pattern.proxy";
-                case PBXFileType::SourcecodeAda: return "sourcecode.ada";
-                case PBXFileType::SourcecodeApplescript: return "sourcecode.applescript";
-                case PBXFileType::SourcecodeAsm: return "sourcecode.asm";
-                case PBXFileType::SourcecodeAsmAsm: return "sourcecode.asm.asm";
-                case PBXFileType::SourcecodeAsmLlvm: return "sourcecode.asm.llvm";
-                case PBXFileType::SourcecodeC: return "sourcecode.c";
-                case PBXFileType::SourcecodeCCPreprocessed: return "sourcecode.c.c.preprocessed";
-                case PBXFileType::SourcecodeCH: return "sourcecode.c.h";
-                case PBXFileType::SourcecodeCObjc: return "sourcecode.c.objc";
-                case PBXFileType::SourcecodeCObjcPreprocessed: return "sourcecode.c.objc.preprocessed";
-                case PBXFileType::SourcecodeCppCpp: return "sourcecode.cpp.cpp";
-                case PBXFileType::SourcecodeCppCppPreprocessed: return "sourcecode.cpp.cpp.preprocessed";
-                case PBXFileType::SourcecodeCppH: return "sourcecode.cpp.h";
-                case PBXFileType::SourcecodeCppObjcpp: return "sourcecode.cpp.objcpp";
-                case PBXFileType::SourcecodeCppObjcppPreprocessed: return "sourcecode.cpp.objcpp.preprocessed";
-                case PBXFileType::SourcecodeDtrace: return "sourcecode.dtrace";
-                case PBXFileType::SourcecodeExports: return "sourcecode.exports";
-                case PBXFileType::SourcecodeFortran: return "sourcecode.fortran";
-                case PBXFileType::SourcecodeFortranF77: return "sourcecode.fortran.f77";
-                case PBXFileType::SourcecodeFortranF90: return "sourcecode.fortran.f90";
-                case PBXFileType::SourcecodeGlsl: return "sourcecode.glsl";
-                case PBXFileType::SourcecodeJam: return "sourcecode.jam";
-                case PBXFileType::SourcecodeJava: return "sourcecode.java";
-                case PBXFileType::SourcecodeJavascript: return "sourcecode.javascript";
-                case PBXFileType::SourcecodeLex: return "sourcecode.lex";
-                case PBXFileType::SourcecodeMake: return "sourcecode.make";
-                case PBXFileType::SourcecodeMig: return "sourcecode.mig";
-                case PBXFileType::SourcecodeNasm: return "sourcecode.nasm";
-                case PBXFileType::SourcecodeOpencl: return "sourcecode.opencl";
-                case PBXFileType::SourcecodePascal: return "sourcecode.pascal";
-                case PBXFileType::SourcecodeRez: return "sourcecode.rez";
-                case PBXFileType::SourcecodeYacc: return "sourcecode.yacc";
-                case PBXFileType::Text: return "text";
-                case PBXFileType::TextCss: return "text.css";
-                case PBXFileType::TextHtmlDocumentation: return "text.html.documentation";
-                case PBXFileType::TextMan: return "text.man";
-                case PBXFileType::TextPbxproject: return "text.pbxproject";
-                case PBXFileType::TextPlist: return "text.plist";
-                case PBXFileType::TextPlistInfo: return "text.plist.info";
-                case PBXFileType::TextPlistScriptSuite: return "text.plist.scriptSuite";
-                case PBXFileType::TextPlistScriptTerminology: return "text.plist.scriptTerminology";
-                case PBXFileType::TextPlistStrings: return "text.plist.strings";
-                case PBXFileType::TextPlistXclangspec: return "text.plist.xclangspec";
-                case PBXFileType::TextPlistXcsynspec: return "text.plist.xcsynspec";
-                case PBXFileType::TextPlistXctxtmacro: return "text.plist.xctxtmacro";
-                case PBXFileType::TextPlistXml: return "text.plist.xml";
-                case PBXFileType::TextRtf: return "text.rtf";
-                case PBXFileType::TextScript: return "text.script";
-                case PBXFileType::TextScriptCsh: return "text.script.csh";
-                case PBXFileType::TextScriptPerl: return "text.script.perl";
-                case PBXFileType::TextScriptPhp: return "text.script.php";
-                case PBXFileType::TextScriptPython: return "text.script.python";
-                case PBXFileType::TextScriptRuby: return "textScript.ruby";
-                case PBXFileType::TextScriptSh: return "text.scriptSh";
-                case PBXFileType::TextScriptWorksheet: return "text.script.worksheet";
-                case PBXFileType::TextXcconfig: return "text.xcconfig";
-                case PBXFileType::TextXml: return "text.xml";
-                case PBXFileType::VideoAvi: return "video.avi";
-                case PBXFileType::VideoMpeg: return "video.mpeg";
-                case PBXFileType::VideoQuartzComposer: return "video.quartz-composer";
-                case PBXFileType::VideoQuicktime: return "video.quicktime";
-                case PBXFileType::WrapperApplication: return "wrapper.application";
-                case PBXFileType::WrapperCFBundle: return "wrapper.cfbundle";
-                case PBXFileType::WrapperFramework: return "wrapper.framework";
-                case PBXFileType::WrapperPBProject: return "wrapper.pb-project";
+                case PBXFileType::archiveAr: return "archive.ar";
+                case PBXFileType::archiveAsdictionary: return "archive.asdictionary";
+                case PBXFileType::archiveBinhex: return "archive.binhex";
+                case PBXFileType::archiveEar: return "archive.ear";
+                case PBXFileType::archiveGzip: return "archive.gzip";
+                case PBXFileType::archiveJar: return "archive.jar";
+                case PBXFileType::archiveMacbinary: return "archive.macbinary";
+                case PBXFileType::archivePpob: return "archive.ppob";
+                case PBXFileType::archiveRsrc: return "archive.rsrc";
+                case PBXFileType::archiveStuffit: return "archive.stuffit";
+                case PBXFileType::archiveTar: return "archive.tar";
+                case PBXFileType::archiveWar: return "archive.war";
+                case PBXFileType::archiveZip: return "archive.zip";
+                case PBXFileType::audioAiff: return "audio.aiff";
+                case PBXFileType::audioAu: return "audio.au";
+                case PBXFileType::audioMidi: return "audio.midi";
+                case PBXFileType::audioMp3: return "audio.mp3";
+                case PBXFileType::audioWav: return "audio.wav";
+                case PBXFileType::compiled: return "compiled";
+                case PBXFileType::compiledMachO: return "compiled.mach-o";
+                case PBXFileType::compiledMachOBundle: return "compiled.mach-o.bundle";
+                case PBXFileType::compiledMachOCorefile: return "compiled.mach-o.corefile";
+                case PBXFileType::compiledMachODylib: return "compiled.mach-o.dylib";
+                case PBXFileType::compiledMachOExecutable: return "compiled.mach-o.executable";
+                case PBXFileType::compiledMachOFvmlib: return "compiled.mach-o.fvmlib";
+                case PBXFileType::compiledMachOObjfile: return "compiled.mach-o.objfile";
+                case PBXFileType::compiledMachOPreload: return "compiled.mach-o.preload";
+                case PBXFileType::fileBplist: return "file.bplist";
+                case PBXFileType::fileXib: return "file.xib";
+                case PBXFileType::imageBmp: return "image.bmp";
+                case PBXFileType::imageGif: return "image.gif";
+                case PBXFileType::imageIcns: return "image.icns";
+                case PBXFileType::imageIco: return "image.ico";
+                case PBXFileType::imageJpeg: return "image.jpeg";
+                case PBXFileType::imagePdf: return "image.pdf";
+                case PBXFileType::imagePict: return "image.pict";
+                case PBXFileType::imagePng: return "image.png";
+                case PBXFileType::imageTiff: return "image.tiff";
+                case PBXFileType::patternProxy: return "pattern.proxy";
+                case PBXFileType::sourcecodeAda: return "sourcecode.ada";
+                case PBXFileType::sourcecodeApplescript: return "sourcecode.applescript";
+                case PBXFileType::sourcecodeAsm: return "sourcecode.asm";
+                case PBXFileType::sourcecodeAsmAsm: return "sourcecode.asm.asm";
+                case PBXFileType::sourcecodeAsmLlvm: return "sourcecode.asm.llvm";
+                case PBXFileType::sourcecodeC: return "sourcecode.c";
+                case PBXFileType::sourcecodeCCPreprocessed: return "sourcecode.c.c.preprocessed";
+                case PBXFileType::sourcecodeCH: return "sourcecode.c.h";
+                case PBXFileType::sourcecodeCObjc: return "sourcecode.c.objc";
+                case PBXFileType::sourcecodeCObjcPreprocessed: return "sourcecode.c.objc.preprocessed";
+                case PBXFileType::sourcecodeCppCpp: return "sourcecode.cpp.cpp";
+                case PBXFileType::sourcecodeCppCppPreprocessed: return "sourcecode.cpp.cpp.preprocessed";
+                case PBXFileType::sourcecodeCppH: return "sourcecode.cpp.h";
+                case PBXFileType::sourcecodeCppObjcpp: return "sourcecode.cpp.objcpp";
+                case PBXFileType::sourcecodeCppObjcppPreprocessed: return "sourcecode.cpp.objcpp.preprocessed";
+                case PBXFileType::sourcecodeDtrace: return "sourcecode.dtrace";
+                case PBXFileType::sourcecodeExports: return "sourcecode.exports";
+                case PBXFileType::sourcecodeFortran: return "sourcecode.fortran";
+                case PBXFileType::sourcecodeFortranF77: return "sourcecode.fortran.f77";
+                case PBXFileType::sourcecodeFortranF90: return "sourcecode.fortran.f90";
+                case PBXFileType::sourcecodeGlsl: return "sourcecode.glsl";
+                case PBXFileType::sourcecodeJam: return "sourcecode.jam";
+                case PBXFileType::sourcecodeJava: return "sourcecode.java";
+                case PBXFileType::sourcecodeJavascript: return "sourcecode.javascript";
+                case PBXFileType::sourcecodeLex: return "sourcecode.lex";
+                case PBXFileType::sourcecodeMake: return "sourcecode.make";
+                case PBXFileType::sourcecodeMig: return "sourcecode.mig";
+                case PBXFileType::sourcecodeNasm: return "sourcecode.nasm";
+                case PBXFileType::sourcecodeOpencl: return "sourcecode.opencl";
+                case PBXFileType::sourcecodePascal: return "sourcecode.pascal";
+                case PBXFileType::sourcecodeRez: return "sourcecode.rez";
+                case PBXFileType::sourcecodeYacc: return "sourcecode.yacc";
+                case PBXFileType::text: return "text";
+                case PBXFileType::textCss: return "text.css";
+                case PBXFileType::textHtmlDocumentation: return "text.html.documentation";
+                case PBXFileType::textMan: return "text.man";
+                case PBXFileType::textPbxproject: return "text.pbxproject";
+                case PBXFileType::textPlist: return "text.plist";
+                case PBXFileType::textPlistInfo: return "text.plist.info";
+                case PBXFileType::textPlistScriptSuite: return "text.plist.scriptSuite";
+                case PBXFileType::textPlistScriptTerminology: return "text.plist.scriptTerminology";
+                case PBXFileType::textPlistStrings: return "text.plist.strings";
+                case PBXFileType::textPlistXclangspec: return "text.plist.xclangspec";
+                case PBXFileType::textPlistXcsynspec: return "text.plist.xcsynspec";
+                case PBXFileType::textPlistXctxtmacro: return "text.plist.xctxtmacro";
+                case PBXFileType::textPlistXml: return "text.plist.xml";
+                case PBXFileType::textRtf: return "text.rtf";
+                case PBXFileType::textScript: return "text.script";
+                case PBXFileType::textScriptCsh: return "text.script.csh";
+                case PBXFileType::textScriptPerl: return "text.script.perl";
+                case PBXFileType::textScriptPhp: return "text.script.php";
+                case PBXFileType::textScriptPython: return "text.script.python";
+                case PBXFileType::textScriptRuby: return "textScript.ruby";
+                case PBXFileType::textScriptSh: return "text.scriptSh";
+                case PBXFileType::textScriptWorksheet: return "text.script.worksheet";
+                case PBXFileType::textXcconfig: return "text.xcconfig";
+                case PBXFileType::textXml: return "text.xml";
+                case PBXFileType::videoAvi: return "video.avi";
+                case PBXFileType::videoMpeg: return "video.mpeg";
+                case PBXFileType::videoQuartzComposer: return "video.quartz-composer";
+                case PBXFileType::videoQuicktime: return "video.quicktime";
+                case PBXFileType::wrapperApplication: return "wrapper.application";
+                case PBXFileType::wrapperCFBundle: return "wrapper.cfbundle";
+                case PBXFileType::wrapperFramework: return "wrapper.framework";
+                case PBXFileType::wrapperPBProject: return "wrapper.pb-project";
             }
 
             throw std::runtime_error("Unsupported file type");

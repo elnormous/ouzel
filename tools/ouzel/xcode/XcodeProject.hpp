@@ -40,20 +40,20 @@ namespace ouzel
                 rootObject = pbxProject;
 
                 auto mainGroup = alloc<PBXGroup>();
-                mainGroup->sourceTree = PBXSourceTree::Group;
+                mainGroup->sourceTree = PBXSourceTree::group;
                 pbxProject->mainGroup = mainGroup;
 
                 auto engineProjectFileRef = alloc<PBXFileReference>();
                 engineProjectFileRef->name = "libouzel.xcodeproj";
                 engineProjectFileRef->path = project.getOuzelPath() / "engine" / "libouzel.xcodeproj";
-                engineProjectFileRef->fileType = PBXFileType::WrapperPBProject;
-                engineProjectFileRef->sourceTree = PBXSourceTree::Group;
+                engineProjectFileRef->fileType = PBXFileType::wrapperPBProject;
+                engineProjectFileRef->sourceTree = PBXSourceTree::group;
                 mainGroup->children.push_back(engineProjectFileRef);
 
                 auto enginePoductRefGroup = alloc<PBXGroup>();
                 enginePoductRefGroup->name = "Products";
                 enginePoductRefGroup->path = storage::Path{};
-                enginePoductRefGroup->sourceTree = PBXSourceTree::Group;
+                enginePoductRefGroup->sourceTree = PBXSourceTree::group;
 
                 pbxProject->projectReferences.push_back({
                     {"ProjectRef", engineProjectFileRef},
@@ -70,8 +70,8 @@ namespace ouzel
 
                 auto libouzelIosReferenceProxy = alloc<PBXReferenceProxy>();
                 libouzelIosReferenceProxy->path = "libouzel_ios.a";
-                libouzelIosReferenceProxy->fileType = PBXFileType::ArchiveAr;
-                libouzelIosReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
+                libouzelIosReferenceProxy->fileType = PBXFileType::archiveAr;
+                libouzelIosReferenceProxy->sourceTree = PBXSourceTree::buildProductsDir;
                 libouzelIosReferenceProxy->remoteRef = libouzelIosProxy;
                 enginePoductRefGroup->children.push_back(libouzelIosReferenceProxy);
 
@@ -85,8 +85,8 @@ namespace ouzel
 
                 auto libouzelMacOsReferenceProxy = alloc<PBXReferenceProxy>();
                 libouzelMacOsReferenceProxy->path = "libouzel_macos.a";
-                libouzelMacOsReferenceProxy->fileType = PBXFileType::ArchiveAr;
-                libouzelMacOsReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
+                libouzelMacOsReferenceProxy->fileType = PBXFileType::archiveAr;
+                libouzelMacOsReferenceProxy->sourceTree = PBXSourceTree::buildProductsDir;
                 libouzelMacOsReferenceProxy->remoteRef = libouzelMacOsProxy;
                 enginePoductRefGroup->children.push_back(libouzelMacOsReferenceProxy);
 
@@ -100,22 +100,22 @@ namespace ouzel
 
                 auto libouzelTvosReferenceProxy = alloc<PBXReferenceProxy>();
                 libouzelTvosReferenceProxy->path = "libouzel_tvos.a";
-                libouzelTvosReferenceProxy->fileType = PBXFileType::ArchiveAr;
-                libouzelTvosReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
+                libouzelTvosReferenceProxy->fileType = PBXFileType::archiveAr;
+                libouzelTvosReferenceProxy->sourceTree = PBXSourceTree::buildProductsDir;
                 libouzelTvosReferenceProxy->remoteRef = libouzelTvosProxy;
                 enginePoductRefGroup->children.push_back(libouzelTvosReferenceProxy);
 
                 auto ouzelProjectFileRef = alloc<PBXFileReference>();
                 ouzelProjectFileRef->name = "ouzel.xcodeproj";
                 ouzelProjectFileRef->path = project.getOuzelPath() / "tools" / "ouzel.xcodeproj";
-                ouzelProjectFileRef->fileType = PBXFileType::WrapperPBProject;
-                ouzelProjectFileRef->sourceTree = PBXSourceTree::Group;
+                ouzelProjectFileRef->fileType = PBXFileType::wrapperPBProject;
+                ouzelProjectFileRef->sourceTree = PBXSourceTree::group;
                 mainGroup->children.push_back(ouzelProjectFileRef);
 
                 auto ouzelPoductRefGroup = alloc<PBXGroup>();
                 ouzelPoductRefGroup->name = "Products";
                 ouzelPoductRefGroup->path = storage::Path{};
-                ouzelPoductRefGroup->sourceTree = PBXSourceTree::Group;
+                ouzelPoductRefGroup->sourceTree = PBXSourceTree::group;
 
                 pbxProject->projectReferences.push_back({
                     {"ProjectRef", ouzelProjectFileRef},
@@ -132,18 +132,18 @@ namespace ouzel
 
                 auto productFile = alloc<PBXFileReference>();
                 productFile->path = storage::Path{project.getName() + ".app"};
-                productFile->fileType = PBXFileType::WrapperApplication;
-                productFile->sourceTree = PBXSourceTree::BuildProductsDir;
+                productFile->fileType = PBXFileType::wrapperApplication;
+                productFile->sourceTree = PBXSourceTree::buildProductsDir;
 
                 auto resourcesGroup = alloc<PBXGroup>();
                 resourcesGroup->path = storage::Path{"Resources"};
-                resourcesGroup->sourceTree = PBXSourceTree::Group;
+                resourcesGroup->sourceTree = PBXSourceTree::group;
                 mainGroup->children.push_back(resourcesGroup);
 
                 auto productRefGroup = alloc<PBXGroup>();
                 productRefGroup->name = "Products";
                 productRefGroup->children.push_back(productFile);
-                productRefGroup->sourceTree = PBXSourceTree::Group;
+                productRefGroup->sourceTree = PBXSourceTree::group;
                 mainGroup->children.push_back(productRefGroup);
                 pbxProject->productRefGroup = productRefGroup;
 
@@ -157,13 +157,13 @@ namespace ouzel
                     auto fileReference = alloc<PBXFileReference>();
                     fileReference->path = sourceFile;
                     // TODO: support more file formats
-                    fileReference->fileType = extension == "plist" ? PBXFileType::TextPlistXml :
-                        extension == "c" ? PBXFileType::SourcecodeC :
-                        extension == "h" ? PBXFileType::SourcecodeCH :
-                        extension == "cpp" ? PBXFileType::SourcecodeCppCpp :
-                        extension == "hpp" ? PBXFileType::SourcecodeCppH :
+                    fileReference->fileType = extension == "plist" ? PBXFileType::textPlistXml :
+                        extension == "c" ? PBXFileType::sourcecodeC :
+                        extension == "h" ? PBXFileType::sourcecodeCH :
+                        extension == "cpp" ? PBXFileType::sourcecodeCppCpp :
+                        extension == "hpp" ? PBXFileType::sourcecodeCppH :
                         throw std::runtime_error("Unsupported file type");
-                    fileReference->sourceTree = PBXSourceTree::Group;
+                    fileReference->sourceTree = PBXSourceTree::group;
                     sourceFiles.push_back(fileReference);
 
                     auto buildFile = alloc<PBXBuildFile>();
@@ -173,14 +173,14 @@ namespace ouzel
 
                 auto frameworksGroup = alloc<PBXGroup>();
                 frameworksGroup->name = "Frameworks";
-                frameworksGroup->sourceTree = PBXSourceTree::Group;
+                frameworksGroup->sourceTree = PBXSourceTree::group;
                 mainGroup->children.push_back(frameworksGroup);
 
                 auto sourceGroup = alloc<PBXGroup>();
                 sourceGroup->name = "src";
                 sourceGroup->path = storage::Path{"src"};
                 sourceGroup->children = sourceFiles;
-                sourceGroup->sourceTree = PBXSourceTree::Group;
+                sourceGroup->sourceTree = PBXSourceTree::group;
                 mainGroup->children.push_back(sourceGroup);
 
                 auto projectConfigurationList = alloc<XCConfigurationList>();
@@ -305,17 +305,17 @@ namespace ouzel
 
                         auto infoPlistFileReference = alloc<PBXFileReference>();
                         infoPlistFileReference->path = storage::Path{"Info.plist"};
-                        infoPlistFileReference->fileType = PBXFileType::TextPlistXml;
-                        infoPlistFileReference->sourceTree = PBXSourceTree::Group;
+                        infoPlistFileReference->fileType = PBXFileType::textPlistXml;
+                        infoPlistFileReference->sourceTree = PBXSourceTree::group;
 
                         auto platformGroup = alloc<PBXGroup>();
                         platformGroup->path = targetPath;
                         platformGroup->children.push_back(infoPlistFileReference);
-                        platformGroup->sourceTree = PBXSourceTree::Group;
+                        platformGroup->sourceTree = PBXSourceTree::group;
                         mainGroup->children.push_back(platformGroup);
 
                         storage::Path sdkPath;
-                        PBXSourceTree frameworkSourceTree = PBXSourceTree::SdkRoot;
+                        PBXSourceTree frameworkSourceTree = PBXSourceTree::sdkRoot;
                         std::set<const char*> frameworks;
 
                         const auto platformDirectory = projectDirectory / targetPath;
@@ -387,7 +387,7 @@ namespace ouzel
                                     "UIKit.framework"
                                 };
                                 sdkPath = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk";
-                                frameworkSourceTree = PBXSourceTree::DeveloperDir;
+                                frameworkSourceTree = PBXSourceTree::developerDir;
                                 auto libouzelIosBuildFile = alloc<PBXBuildFile>();
                                 libouzelIosBuildFile->fileRef = libouzelIosReferenceProxy;
                                 frameworksBuildPhase->files.push_back(libouzelIosBuildFile);
@@ -441,7 +441,7 @@ namespace ouzel
                                     "UIKit.framework"
                                 };
                                 sdkPath = "Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk";
-                                frameworkSourceTree = PBXSourceTree::DeveloperDir;
+                                frameworkSourceTree = PBXSourceTree::developerDir;
                                 auto libouzelTvosBuildFile = alloc<PBXBuildFile>();
                                 libouzelTvosBuildFile->fileRef = libouzelTvosReferenceProxy;
                                 frameworksBuildPhase->files.push_back(libouzelTvosBuildFile);
@@ -479,7 +479,7 @@ namespace ouzel
                             auto frameworkFileReference = alloc<PBXFileReference>();
                             frameworkFileReference->name = framework;
                             frameworkFileReference->path = frameworksPath / framework;
-                            frameworkFileReference->fileType = PBXFileType::WrapperFramework;
+                            frameworkFileReference->fileType = PBXFileType::wrapperFramework;
                             frameworkFileReference->sourceTree = frameworkSourceTree;
                             frameworksGroup->children.push_back(frameworkFileReference);
 
@@ -500,8 +500,8 @@ namespace ouzel
 
                         auto ouzelReferenceProxy = alloc<PBXReferenceProxy>();
                         ouzelReferenceProxy->path = "ouzel";
-                        ouzelReferenceProxy->fileType = PBXFileType::CompiledMachOExecutable;
-                        ouzelReferenceProxy->sourceTree = PBXSourceTree::BuildProductsDir;
+                        ouzelReferenceProxy->fileType = PBXFileType::compiledMachOExecutable;
+                        ouzelReferenceProxy->sourceTree = PBXSourceTree::buildProductsDir;
                         ouzelReferenceProxy->remoteRef = ouzelProxy;
 
                         auto ouzelDependency = alloc<PBXTargetDependency>();

@@ -11,24 +11,24 @@ namespace ouzel
     {
         enum class PBXSourceTree
         {
-            Absolute,
-            Group,
-            SourceRoot,
-            BuildProductsDir,
-            SdkRoot,
-            DeveloperDir
+            absolute,
+            group,
+            sourceRoot,
+            buildProductsDir,
+            sdkRoot,
+            developerDir
         };
 
         inline std::string toString(PBXSourceTree sourceTree)
         {
             switch (sourceTree)
             {
-                case PBXSourceTree::Absolute: return "<absolute>";
-                case PBXSourceTree::Group: return "<group>";
-                case PBXSourceTree::SourceRoot: return "SOURCE_ROOT";
-                case PBXSourceTree::BuildProductsDir: return "BUILT_PRODUCTS_DIR";
-                case PBXSourceTree::SdkRoot: return "SDKROOT";
-                case PBXSourceTree::DeveloperDir: return "DEVELOPER_DIR";
+                case PBXSourceTree::absolute: return "<absolute>";
+                case PBXSourceTree::group: return "<group>";
+                case PBXSourceTree::sourceRoot: return "SOURCE_ROOT";
+                case PBXSourceTree::buildProductsDir: return "BUILT_PRODUCTS_DIR";
+                case PBXSourceTree::sdkRoot: return "SDKROOT";
+                case PBXSourceTree::developerDir: return "DEVELOPER_DIR";
             }
 
             throw std::runtime_error("Unsupported source tree");

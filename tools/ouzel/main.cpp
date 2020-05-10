@@ -12,9 +12,9 @@
 
 enum class ProjectType
 {
-    Makefile,
-    VisualStudio,
-    Xcode
+    makefile,
+    visualStudio,
+    xcode
 };
 
 int main(int argc, const char* argv[])
@@ -51,7 +51,7 @@ int main(int argc, const char* argv[])
                 if (++i >= argc)
                     throw std::runtime_error("Invalid command");
 
-                projectPath = ouzel::storage::Path{argv[i], ouzel::storage::Path::Format::Native};
+                projectPath = ouzel::storage::Path{argv[i], ouzel::storage::Path::Format::native};
             }
             else if (std::string(argv[i]) == "--project")
             {
@@ -60,16 +60,16 @@ int main(int argc, const char* argv[])
 
                 if (std::string(argv[i]) == "all")
                 {
-                    projectTypes.insert(ProjectType::Makefile);
-                    projectTypes.insert(ProjectType::VisualStudio);
-                    projectTypes.insert(ProjectType::Xcode);
+                    projectTypes.insert(ProjectType::makefile);
+                    projectTypes.insert(ProjectType::visualStudio);
+                    projectTypes.insert(ProjectType::xcode);
                 }
                 else if (std::string(argv[i]) == "makefile")
-                    projectTypes.insert(ProjectType::Makefile);
+                    projectTypes.insert(ProjectType::makefile);
                 else if (std::string(argv[i]) == "visualstudio")
-                    projectTypes.insert(ProjectType::VisualStudio);
+                    projectTypes.insert(ProjectType::visualStudio);
                 else if (std::string(argv[i]) == "xcode")
-                    projectTypes.insert(ProjectType::Xcode);
+                    projectTypes.insert(ProjectType::xcode);
                 else
                     throw std::runtime_error("Invalid project");
             }
@@ -80,7 +80,7 @@ int main(int argc, const char* argv[])
                 if (++i >= argc)
                     throw std::runtime_error("Invalid command");
 
-                projectPath = ouzel::storage::Path{argv[i], ouzel::storage::Path::Format::Native};
+                projectPath = ouzel::storage::Path{argv[i], ouzel::storage::Path::Format::native};
             }
             else if (std::string(argv[i]) == "--target")
             {
@@ -102,13 +102,13 @@ int main(int argc, const char* argv[])
                 for (auto projectType : projectTypes)
                     switch (projectType)
                     {
-                        case ProjectType::Makefile:
+                        case ProjectType::makefile:
                             ouzel::makefile::generateBuildFiles(project);
                             break;
-                        case ProjectType::VisualStudio:
+                        case ProjectType::visualStudio:
                             ouzel::visualstudio::generateBuildFiles(project);
                             break;
-                        case ProjectType::Xcode:
+                        case ProjectType::xcode:
                             ouzel::xcode::generateBuildFiles(project);
                             break;
                     }

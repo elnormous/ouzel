@@ -62,7 +62,7 @@ namespace ouzel
                     break;
             }
 
-            const auto executablePath = Path{buffer.data(), Path::Format::Native};
+            const auto executablePath = Path{buffer.data(), Path::Format::native};
             appPath = executablePath.getDirectory();
             engine.log(Log::Level::info) << "Application directory: " << appPath;
 
@@ -84,7 +84,7 @@ namespace ouzel
             if (!result)
                 throw std::runtime_error("Failed to get resource directory");
 
-            appPath = Path{resourceDirectory.data(), Path::Format::Native};
+            appPath = Path{resourceDirectory.data(), Path::Format::native};
             engine.log(Log::Level::info) << "Application directory: " << appPath;
 
 #elif defined(__ANDROID__)
@@ -98,7 +98,7 @@ namespace ouzel
                 throw std::system_error(errno, std::system_category(), "Failed to get current directory");
 
             executableDirectory[length] = '\0';
-            const auto executablePath = Path{executableDirectory, Path::Format::Native};
+            const auto executablePath = Path{executableDirectory, Path::Format::native};
             appPath = executablePath.getDirectory();
             engine.log(Log::Level::info) << "Application directory: " << appPath;
 #endif
@@ -113,7 +113,7 @@ namespace ouzel
             if (FAILED(hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, appDataPath)))
                 throw std::system_error(hr, std::system_category(), "Failed to get the path of the AppData directory");
 
-            Path path = Path{appDataPath, Path::Format::Native};
+            Path path = Path{appDataPath, Path::Format::native};
 
             HINSTANCE instance = GetModuleHandleW(nullptr);
             if (!instance)
@@ -130,7 +130,7 @@ namespace ouzel
                     break;
             }
 
-            const auto executablePath = Path{buffer.data(), Path::Format::Native};
+            const auto executablePath = Path{buffer.data(), Path::Format::native};
             DWORD handle;
             const DWORD fileVersionSize = GetFileVersionInfoSizeW(executablePath.getNative().c_str(), &handle);
             if (!fileVersionSize)
@@ -225,7 +225,7 @@ namespace ouzel
 
             id documentDirectoryString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(documentDirectory, sel_getUid("path"));
             auto pathUtf8String = reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));
-            return Path{pathUtf8String, Path::Format::Native};
+            return Path{pathUtf8String, Path::Format::native};
 #elif TARGET_OS_MAC
             id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
@@ -248,7 +248,7 @@ namespace ouzel
             reinterpret_cast<void (*)(id, SEL, id, BOOL, id, id)>(&objc_msgSend)(fileManager, sel_getUid("createDirectoryAtURL:withIntermediateDirectories:attributes:error:"), path, YES, nil, nil);
             id pathString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(path, sel_getUid("path"));
             auto pathUtf8String = reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(pathString, sel_getUid("UTF8String"));
-            return Path{pathUtf8String, Path::Format::Native};
+            return Path{pathUtf8String, Path::Format::native};
 #elif defined(__ANDROID__)
             static_cast<void>(user);
 
@@ -260,7 +260,7 @@ namespace ouzel
             const char* homeDirectory = std::getenv("XDG_DATA_HOME");
 
             if (homeDirectory)
-                path = Path{homeDirectory, Path::Format::Native};
+                path = Path{homeDirectory, Path::Format::native};
             else
             {
                 struct passwd pwent;
@@ -274,7 +274,7 @@ namespace ouzel
                 if (e != 0)
                     throw std::runtime_error("Failed to get home directory");
                 else
-                    path = Path{pwent.pw_dir, Path::Format::Native};
+                    path = Path{pwent.pw_dir, Path::Format::native};
 
                 path /= ".local";
 

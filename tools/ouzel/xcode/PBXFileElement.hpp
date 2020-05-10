@@ -30,7 +30,7 @@ namespace ouzel
 
             std::string name;
             storage::Path path;
-            PBXSourceTree sourceTree = PBXSourceTree::Absolute;
+            PBXSourceTree sourceTree = PBXSourceTree::absolute;
         };
     }
 }

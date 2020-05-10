@@ -18,8 +18,8 @@ namespace ouzel
         public:
             enum class Format
             {
-                Generic,
-                Native
+                generic,
+                native
             };
 
 #if defined(_WIN32)
@@ -49,8 +49,8 @@ namespace ouzel
             }
 
             template <class Source>
-            Path(const Source& p, Format format = Format::Generic):
-                path(format == Format::Generic ? convertToNative(p) : encode(p))
+            Path(const Source& p, Format format = Format::generic):
+                path(format == Format::generic ? convertToNative(p) : encode(p))
             {
             }
 

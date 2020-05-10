@@ -210,7 +210,7 @@ namespace ouzel
                 if (!GetTempPathW(MAX_PATH + 1, buffer))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get temp directory");
 
-                return Path{buffer, Path::Format::Native};
+                return Path{buffer, Path::Format::native};
 #elif defined(__linux__) || defined(__APPLE__)
                 char const* path = std::getenv("TMPDIR");
                 if (!path) path = std::getenv("TMP");
@@ -218,12 +218,12 @@ namespace ouzel
                 if (!path) path = std::getenv("TEMPDIR");
 
                 if (path)
-                    return Path{path, Path::Format::Native};
+                    return Path{path, Path::Format::native};
                 else
 #  if defined(__ANDROID__)
-                    return Path{"/data/local/tmp", Path::Format::Native};
+                    return Path{"/data/local/tmp", Path::Format::native};
 #  else
-                    return Path{"/tmp", Path::Format::Native};
+                    return Path{"/tmp", Path::Format::native};
 #  endif
 #endif
             }
@@ -302,14 +302,14 @@ namespace ouzel
                 std::unique_ptr<wchar_t[]> buffer(new wchar_t[pathLength]);
                 if (GetCurrentDirectoryW(pathLength, buffer.get()) == 0)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get current directory");
-                return Path{buffer.get(), Path::Format::Native};
+                return Path{buffer.get(), Path::Format::native};
 #elif defined(__unix__) || defined(__APPLE__)
                 const auto pathMaxConfig = pathconf(".", _PC_PATH_MAX);
                 const size_t pathMax = static_cast<size_t>(pathMaxConfig == -1 ? PATH_MAX : pathMaxConfig);
                 std::unique_ptr<char[]> buffer(new char[pathMax + 1]);
                 if (!getcwd(buffer.get(), pathMax))
                     throw std::system_error(errno, std::system_category(), "Failed to get current directory");
-                return Path{buffer.get(), Path::Format::Native};
+                return Path{buffer.get(), Path::Format::native};
 #endif
             }
 
