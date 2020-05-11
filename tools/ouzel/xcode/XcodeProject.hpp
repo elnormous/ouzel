@@ -64,7 +64,7 @@ namespace ouzel
 
                 auto libouzelIosProxy = alloc<PBXContainerItemProxy>();
                 libouzelIosProxy->containerPortal = engineProjectFileRef;
-                libouzelIosProxy->proxyType = PBXContainerItemProxy::Reference;
+                libouzelIosProxy->proxyType = PBXContainerItemProxy::ProxyType::reference;
                 libouzelIosProxy->remoteGlobal = &libouzelIos;
                 libouzelIosProxy->remoteInfo = "libouzel_ios";
 
@@ -79,7 +79,7 @@ namespace ouzel
 
                 auto libouzelMacOsProxy = alloc<PBXContainerItemProxy>();
                 libouzelMacOsProxy->containerPortal = engineProjectFileRef;
-                libouzelMacOsProxy->proxyType = PBXContainerItemProxy::Reference;
+                libouzelMacOsProxy->proxyType = PBXContainerItemProxy::ProxyType::reference;
                 libouzelMacOsProxy->remoteGlobal = &libouzelMacOs;
                 libouzelMacOsProxy->remoteInfo = "libouzel_macos";
 
@@ -94,7 +94,7 @@ namespace ouzel
 
                 auto libouzelTvosProxy = alloc<PBXContainerItemProxy>();
                 libouzelTvosProxy->containerPortal = engineProjectFileRef;
-                libouzelTvosProxy->proxyType = PBXContainerItemProxy::Reference;
+                libouzelTvosProxy->proxyType = PBXContainerItemProxy::ProxyType::reference;
                 libouzelTvosProxy->remoteGlobal = &libouzelTvos;
                 libouzelTvosProxy->remoteInfo = "libouzel_tvos";
 
@@ -126,7 +126,7 @@ namespace ouzel
 
                 auto ouzelProxy = alloc<PBXContainerItemProxy>();
                 ouzelProxy->containerPortal = ouzelProjectFileRef;
-                ouzelProxy->proxyType = PBXContainerItemProxy::Reference;
+                ouzelProxy->proxyType = PBXContainerItemProxy::ProxyType::reference;
                 ouzelProxy->remoteGlobal = &ouzel;
                 ouzelProxy->remoteInfo = "ouzel";
 
@@ -494,7 +494,7 @@ namespace ouzel
 
                         auto ouzelNativeTargetProxy = alloc<PBXContainerItemProxy>();
                         ouzelNativeTargetProxy->containerPortal = ouzelProjectFileRef;
-                        ouzelNativeTargetProxy->proxyType = PBXContainerItemProxy::NativeTarget;
+                        ouzelNativeTargetProxy->proxyType = PBXContainerItemProxy::ProxyType::nativeTarget;
                         ouzelNativeTargetProxy->remoteGlobal = &ouzel;
                         ouzelNativeTargetProxy->remoteInfo = "ouzel";
 
@@ -528,7 +528,7 @@ namespace ouzel
                         assetGenerateTargetConfigurationList->defaultConfigurationName = assetGenerateTargetReleaseConfiguration->name;
 
                         auto assetGenerateTargetProxy = alloc<PBXContainerItemProxy>();
-                        assetGenerateTargetProxy->proxyType = PBXContainerItemProxy::NativeTarget;
+                        assetGenerateTargetProxy->proxyType = PBXContainerItemProxy::ProxyType::nativeTarget;
                         assetGenerateTargetProxy->containerPortal = pbxProject;
                         assetGenerateTargetProxy->remoteGlobal = assetGenerateTarget;
                         assetGenerateTargetProxy->remoteInfo = assetGenerateTarget->name;

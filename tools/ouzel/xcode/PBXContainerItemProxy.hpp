@@ -13,10 +13,10 @@ namespace ouzel
         class PBXContainerItemProxy final: public PBXObject
         {
         public:
-            enum ProxyType
+            enum class ProxyType
             {
-                NativeTarget = 1,
-                Reference = 2
+                nativeTarget = 1,
+                reference = 2
             };
 
             PBXContainerItemProxy() = default;
@@ -34,7 +34,7 @@ namespace ouzel
             }
 
             const PBXObject* containerPortal = nullptr;
-            ProxyType proxyType = NativeTarget;
+            ProxyType proxyType = ProxyType::nativeTarget;
             const PBXObject* remoteGlobal = nullptr;
             std::string remoteInfo;
         };
