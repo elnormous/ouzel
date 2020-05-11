@@ -9,13 +9,12 @@ namespace ouzel
     {
         enum class SystemCursor
         {
-            Default,
-            Arrow,
-            Hand,
-            HorizontalResize,
-            VerticalResize,
-            Cross,
-            IBeam
+            arrow,
+            hand,
+            horizontalResize,
+            verticalResize,
+            cross,
+            iBeam
         };
     } // namespace input
 } // namespace ouzel

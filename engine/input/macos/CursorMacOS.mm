@@ -10,23 +10,22 @@ namespace ouzel
         {
             switch (systemCursor)
             {
-                case SystemCursor::Default:
-                case SystemCursor::Arrow:
+                case SystemCursor::arrow:
                     cursor = [[NSCursor arrowCursor] retain];
                     break;
-                case SystemCursor::Hand:
+                case SystemCursor::hand:
                     cursor = [[NSCursor openHandCursor] retain];
                     break;
-                case SystemCursor::HorizontalResize:
+                case SystemCursor::horizontalResize:
                     cursor = [[NSCursor resizeLeftRightCursor] retain];
                     break;
-                case SystemCursor::VerticalResize:
+                case SystemCursor::verticalResize:
                     cursor = [[NSCursor resizeUpDownCursor] retain];
                     break;
-                case SystemCursor::Cross:
+                case SystemCursor::cross:
                     cursor = [[NSCursor crosshairCursor] retain];
                     break;
-                case SystemCursor::IBeam:
+                case SystemCursor::iBeam:
                     cursor = [[NSCursor IBeamCursor] retain];
                     break;
             }

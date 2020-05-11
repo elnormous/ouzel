@@ -17,7 +17,7 @@ PerspectiveSample::PerspectiveSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
     cursor(*engine->getInputManager())
 {
-    cursor.init(SystemCursor::Cross);
+    cursor.init(SystemCursor::cross);
 
     if (Mouse* mouse = engine->getInputManager()->getMouse())
         mouse->setCursor(&cursor);

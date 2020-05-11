@@ -21,23 +21,22 @@ namespace ouzel
 
             switch (systemCursor)
             {
-                case SystemCursor::Default:
-                case SystemCursor::Arrow:
+                case SystemCursor::arrow:
                     cursor = XcursorLibraryLoadCursor(display, "arrow");
                     break;
-                case SystemCursor::Hand:
+                case SystemCursor::hand:
                     cursor = XcursorLibraryLoadCursor(display, "hand1");
                     break;
-                case SystemCursor::HorizontalResize:
+                case SystemCursor::horizontalResize:
                     cursor = XcursorLibraryLoadCursor(display, "sb_h_double_arrow");
                     break;
-                case SystemCursor::VerticalResize:
+                case SystemCursor::verticalResize:
                     cursor = XcursorLibraryLoadCursor(display, "sb_v_double_arrow");
                     break;
-                case SystemCursor::Cross:
+                case SystemCursor::cross:
                     cursor = XcursorLibraryLoadCursor(display, "crosshair");
                     break;
-                case SystemCursor::IBeam:
+                case SystemCursor::iBeam:
                     cursor = XcursorLibraryLoadCursor(display, "xterm");
                     break;
             }
