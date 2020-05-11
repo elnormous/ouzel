@@ -51,7 +51,7 @@ namespace ouzel
             std::uint16_t apiMajorVersion = 0;
             std::uint16_t apiMinorVersion = 0;
 
-            SampleFormat sampleFormat = SampleFormat::SignedInt16;
+            SampleFormat sampleFormat = SampleFormat::signedInt16;
             std::uint32_t bufferSize; // in frames
             std::uint32_t sampleRate;
             std::uint32_t channels;

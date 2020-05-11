@@ -26,39 +26,39 @@ namespace ouzel
             {
                 auto availableDrivers = Audio::getAvailableAudioDrivers();
 
-                if (availableDrivers.find(Driver::WASAPI) != availableDrivers.end())
-                    return Driver::WASAPI;
-                else if (availableDrivers.find(Driver::CoreAudio) != availableDrivers.end())
-                    return Driver::CoreAudio;
-                else if (availableDrivers.find(Driver::ALSA) != availableDrivers.end())
-                    return Driver::ALSA;
-                else if (availableDrivers.find(Driver::OpenAL) != availableDrivers.end())
-                    return Driver::OpenAL;
-                else if (availableDrivers.find(Driver::XAudio2) != availableDrivers.end())
-                    return Driver::XAudio2;
-                else if (availableDrivers.find(Driver::DirectSound) != availableDrivers.end())
-                    return Driver::DirectSound;
-                else if (availableDrivers.find(Driver::OpenSL) != availableDrivers.end())
-                    return Driver::OpenSL;
+                if (availableDrivers.find(Driver::wasapi) != availableDrivers.end())
+                    return Driver::wasapi;
+                else if (availableDrivers.find(Driver::coreAudio) != availableDrivers.end())
+                    return Driver::coreAudio;
+                else if (availableDrivers.find(Driver::alsa) != availableDrivers.end())
+                    return Driver::alsa;
+                else if (availableDrivers.find(Driver::openAL) != availableDrivers.end())
+                    return Driver::openAL;
+                else if (availableDrivers.find(Driver::xAudio2) != availableDrivers.end())
+                    return Driver::xAudio2;
+                else if (availableDrivers.find(Driver::directSound) != availableDrivers.end())
+                    return Driver::directSound;
+                else if (availableDrivers.find(Driver::openSL) != availableDrivers.end())
+                    return Driver::openSL;
                 else
-                    return Driver::Empty;
+                    return Driver::empty;
             }
             else if (driver == "empty")
-                return Driver::Empty;
+                return Driver::empty;
             else if (driver == "openal")
-                return Driver::OpenAL;
+                return Driver::openAL;
             else if (driver == "directsound")
-                return Driver::DirectSound;
+                return Driver::directSound;
             else if (driver == "xaudio2")
-                return Driver::XAudio2;
+                return Driver::xAudio2;
             else if (driver == "opensl")
-                return Driver::OpenSL;
+                return Driver::openSL;
             else if (driver == "coreaudio")
-                return Driver::CoreAudio;
+                return Driver::coreAudio;
             else if (driver == "alsa")
-                return Driver::ALSA;
+                return Driver::alsa;
             else if (driver == "wasapi")
-                return Driver::WASAPI;
+                return Driver::wasapi;
             else
                 throw std::runtime_error("Invalid audio driver");
         }
@@ -69,28 +69,28 @@ namespace ouzel
 
             if (availableDrivers.empty())
             {
-                availableDrivers.insert(Driver::Empty);
+                availableDrivers.insert(Driver::empty);
 
 #if OUZEL_COMPILE_OPENAL
-                availableDrivers.insert(Driver::OpenAL);
+                availableDrivers.insert(Driver::openAL);
 #endif
 #if OUZEL_COMPILE_DIRECTSOUND
-                availableDrivers.insert(Driver::DirectSound);
+                availableDrivers.insert(Driver::directSound);
 #endif
 #if OUZEL_COMPILE_XAUDIO2
-                availableDrivers.insert(Driver::XAudio2);
+                availableDrivers.insert(Driver::xAudio2);
 #endif
 #if OUZEL_COMPILE_OPENSL
-                availableDrivers.insert(Driver::OpenSL);
+                availableDrivers.insert(Driver::openSL);
 #endif
 #if OUZEL_COMPILE_COREAUDIO
-                availableDrivers.insert(Driver::CoreAudio);
+                availableDrivers.insert(Driver::coreAudio);
 #endif
 #if OUZEL_COMPILE_ALSA
-                availableDrivers.insert(Driver::ALSA);
+                availableDrivers.insert(Driver::alsa);
 #endif
 #if OUZEL_COMPILE_WASAPI
-                availableDrivers.insert(Driver::WASAPI);
+                availableDrivers.insert(Driver::wasapi);
 #endif
             }
 
@@ -106,37 +106,37 @@ namespace ouzel
                 switch (driver)
                 {
 #if OUZEL_COMPILE_OPENAL
-                    case Driver::OpenAL:
+                    case Driver::openAL:
                         engine->log(Log::Level::info) << "Using OpenAL audio driver";
                         return std::make_unique<openal::AudioDevice>(512, 44100, 0, dataGetter);
 #endif
 #if OUZEL_COMPILE_DIRECTSOUND
-                    case Driver::DirectSound:
+                    case Driver::directSound:
                         engine->log(Log::Level::info) << "Using DirectSound audio driver";
                         return std::make_unique<directsound::AudioDevice>(512, 44100, 0, dataGetter);
 #endif
 #if OUZEL_COMPILE_XAUDIO2
-                    case Driver::XAudio2:
+                    case Driver::xAudio2:
                         engine->log(Log::Level::info) << "Using XAudio 2 audio driver";
                         return std::make_unique<xaudio2::AudioDevice>(512, 44100, 0, dataGetter, debugAudio);
 #endif
 #if OUZEL_COMPILE_OPENSL
-                    case Driver::OpenSL:
+                    case Driver::openSL:
                         engine->log(Log::Level::info) << "Using OpenSL ES audio driver";
                         return std::make_unique<opensl::AudioDevice>(512, 44100, 0, dataGetter);
 #endif
 #if OUZEL_COMPILE_COREAUDIO
-                    case Driver::CoreAudio:
+                    case Driver::coreAudio:
                         engine->log(Log::Level::info) << "Using CoreAudio audio driver";
                         return std::make_unique<coreaudio::AudioDevice>(512, 44100, 0, dataGetter);
 #endif
 #if OUZEL_COMPILE_ALSA
-                    case Driver::ALSA:
+                    case Driver::alsa:
                         engine->log(Log::Level::info) << "Using ALSA audio driver";
                         return std::make_unique<alsa::AudioDevice>(512, 44100, 0, dataGetter);
 #endif
 #if OUZEL_COMPILE_WASAPI
-                    case Driver::WASAPI:
+                    case Driver::wasapi:
                         engine->log(Log::Level::info) << "Using WASAPI audio driver";
                         return std::make_unique<wasapi::AudioDevice>(512, 44100, 0, dataGetter);
 #endif

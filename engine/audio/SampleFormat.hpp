@@ -9,8 +9,8 @@ namespace ouzel
     {
         enum class SampleFormat
         {
-            SignedInt16,
-            Float32
+            signedInt16,
+            float32
         };
     } // namespace audio
 } // namespace ouzel

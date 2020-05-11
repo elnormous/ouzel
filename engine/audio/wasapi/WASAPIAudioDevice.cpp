@@ -169,7 +169,7 @@ namespace ouzel
                                                               std::uint32_t channels,
                                                               std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
-                audio::AudioDevice(Driver::WASAPI, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::wasapi, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
                 HRESULT hr;
 
@@ -210,7 +210,7 @@ namespace ouzel
                 waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
                 waveFormat.cbSize = 0;
 
-                sampleFormat = SampleFormat::Float32;
+                sampleFormat = SampleFormat::float32;
                 sampleSize = sizeof(float);
 
                 const DWORD streamFlags = AUDCLNT_STREAMFLAGS_EVENTCALLBACK |
@@ -251,7 +251,7 @@ namespace ouzel
                                                             nullptr)))
                         throw std::system_error(hr, errorCategory, "Failed to initialize audio client");
 
-                    sampleFormat = SampleFormat::SignedInt16;
+                    sampleFormat = SampleFormat::signedInt16;
                     sampleSize = sizeof(std::int16_t);
                 }
 

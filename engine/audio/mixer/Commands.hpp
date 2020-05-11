@@ -23,24 +23,24 @@ namespace ouzel
             public:
                 enum class Type
                 {
-                    InitObject,
-                    DeleteObject,
-                    AddChild,
-                    RemoveChild,
-                    Play,
-                    Stop,
-                    InitBus,
-                    SetBusOutput,
-                    AddProcessor,
-                    RemoveProcessor,
-                    SetMasterBus,
-                    InitStream,
-                    PlayStream,
-                    StopStream,
-                    SetStreamOutput,
-                    InitData,
-                    InitProcessor,
-                    UpdateProcessor
+                    initObject,
+                    deleteObject,
+                    addChild,
+                    removeChild,
+                    play,
+                    stop,
+                    initBus,
+                    setBusOutput,
+                    addProcessor,
+                    removeProcessor,
+                    setMasterBus,
+                    initStream,
+                    playStream,
+                    stopStream,
+                    setStreamOutput,
+                    initData,
+                    initProcessor,
+                    updateProcessor
                 };
 
                 explicit constexpr Command(Type initType) noexcept: type(initType) {}
@@ -53,13 +53,13 @@ namespace ouzel
             {
             public:
                 explicit constexpr InitObjectCommand(std::uintptr_t initObjectId) noexcept:
-                    Command(Command::Type::InitObject),
+                    Command(Command::Type::initObject),
                     objectId(initObjectId)
                 {}
 
                 InitObjectCommand(std::uintptr_t initObjectId,
                                   std::unique_ptr<Source> initSource) noexcept:
-                    Command(Command::Type::InitObject),
+                    Command(Command::Type::initObject),
                     objectId(initObjectId),
                     source(std::move(initSource))
                 {}
@@ -72,7 +72,7 @@ namespace ouzel
             {
             public:
                 explicit constexpr DeleteObjectCommand(std::uintptr_t initObjectId) noexcept:
-                    Command(Command::Type::DeleteObject),
+                    Command(Command::Type::deleteObject),
                     objectId(initObjectId)
                 {}
 
@@ -84,7 +84,7 @@ namespace ouzel
             public:
                 constexpr AddChildCommand(std::uintptr_t initObjectId,
                                           std::uintptr_t initChildId) noexcept:
-                    Command(Command::Type::AddChild),
+                    Command(Command::Type::addChild),
                     objectId(initObjectId),
                     childId(initChildId)
                 {}
@@ -98,7 +98,7 @@ namespace ouzel
             public:
                 constexpr RemoveChildCommand(std::uintptr_t initObjectId,
                                              std::uintptr_t initChildId) noexcept:
-                    Command(Command::Type::RemoveChild),
+                    Command(Command::Type::removeChild),
                     objectId(initObjectId),
                     childId(initChildId)
                 {}
@@ -111,7 +111,7 @@ namespace ouzel
             {
             public:
                 explicit constexpr PlayCommand(std::uintptr_t initObjectId) noexcept:
-                    Command(Command::Type::Play),
+                    Command(Command::Type::play),
                     objectId(initObjectId)
                 {}
 
@@ -123,7 +123,7 @@ namespace ouzel
             public:
                 constexpr StopCommand(std::uintptr_t initObjectId,
                                       bool initReset) noexcept:
-                    Command(Command::Type::Stop),
+                    Command(Command::Type::stop),
                     objectId(initObjectId),
                     reset(initReset)
                 {}
@@ -136,7 +136,7 @@ namespace ouzel
             {
             public:
                 explicit constexpr InitBusCommand(std::uintptr_t initBusId) noexcept:
-                    Command(Command::Type::InitBus),
+                    Command(Command::Type::initBus),
                     busId(initBusId)
                 {}
 
@@ -148,7 +148,7 @@ namespace ouzel
             public:
                 constexpr SetBusOutputCommand(std::uintptr_t initBusId,
                                               std::uintptr_t initOutputBusId) noexcept:
-                    Command(Command::Type::SetBusOutput),
+                    Command(Command::Type::setBusOutput),
                     busId(initBusId),
                     outputBusId(initOutputBusId)
                 {}
@@ -162,7 +162,7 @@ namespace ouzel
             public:
                 constexpr AddProcessorCommand(std::uintptr_t initBusId,
                                               std::uintptr_t initProcessorId) noexcept:
-                    Command(Command::Type::AddProcessor),
+                    Command(Command::Type::addProcessor),
                     busId(initBusId),
                     processorId(initProcessorId)
                 {}
@@ -176,7 +176,7 @@ namespace ouzel
             public:
                 constexpr RemoveProcessorCommand(std::uintptr_t initBusId,
                                                  std::uintptr_t initProcessorId) noexcept:
-                    Command(Command::Type::RemoveProcessor),
+                    Command(Command::Type::removeProcessor),
                     busId(initBusId),
                     processorId(initProcessorId)
                 {}
@@ -189,7 +189,7 @@ namespace ouzel
             {
             public:
                 explicit constexpr SetMasterBusCommand(std::uintptr_t initBusId) noexcept:
-                    Command(Command::Type::SetMasterBus),
+                    Command(Command::Type::setMasterBus),
                     busId(initBusId)
                 {}
 
@@ -201,7 +201,7 @@ namespace ouzel
             public:
                 constexpr InitStreamCommand(std::uintptr_t initStreamId,
                                             std::uintptr_t initDataId) noexcept:
-                    Command(Command::Type::InitStream),
+                    Command(Command::Type::initStream),
                     streamId(initStreamId),
                     dataId(initDataId)
                 {}
@@ -214,7 +214,7 @@ namespace ouzel
             {
             public:
                 explicit constexpr PlayStreamCommand(std::uintptr_t initStreamId) noexcept:
-                    Command(Command::Type::PlayStream),
+                    Command(Command::Type::playStream),
                     streamId(initStreamId)
                 {}
 
@@ -226,7 +226,7 @@ namespace ouzel
             public:
                 constexpr StopStreamCommand(std::uintptr_t initStreamId,
                                             bool initReset) noexcept:
-                    Command(Command::Type::StopStream),
+                    Command(Command::Type::stopStream),
                     streamId(initStreamId),
                     reset(initReset)
                 {}
@@ -240,7 +240,7 @@ namespace ouzel
             public:
                 constexpr SetStreamOutputCommand(std::uintptr_t initStreamId,
                                                  std::uintptr_t initBusId) noexcept:
-                    Command(Command::Type::SetStreamOutput),
+                    Command(Command::Type::setStreamOutput),
                     streamId(initStreamId),
                     busId(initBusId)
                 {}
@@ -254,7 +254,7 @@ namespace ouzel
             public:
                 InitDataCommand(std::uintptr_t initDataId,
                                 std::unique_ptr<Data> initData) noexcept:
-                    Command(Command::Type::InitData),
+                    Command(Command::Type::initData),
                     dataId(initDataId),
                     data(std::move(initData))
                 {}
@@ -268,7 +268,7 @@ namespace ouzel
             public:
                 InitProcessorCommand(std::uintptr_t initProcessorId,
                                     std::unique_ptr<Processor> initProcessor) noexcept:
-                    Command(Command::Type::InitProcessor),
+                    Command(Command::Type::initProcessor),
                     processorId(initProcessorId),
                     processor(std::move(initProcessor))
                 {}
@@ -282,7 +282,7 @@ namespace ouzel
             public:
                 UpdateProcessorCommand(std::uintptr_t initProcessorId,
                                        const std::function<void(Processor*)>& initUpdateFunction) noexcept:
-                    Command(Command::Type::UpdateProcessor),
+                    Command(Command::Type::updateProcessor),
                     processorId(initProcessorId),
                     updateFunction(initUpdateFunction)
                 {}

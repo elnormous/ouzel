@@ -231,7 +231,7 @@ namespace ouzel
         switch (graphicsDriver)
         {
 #if OUZEL_COMPILE_OPENGL
-            case graphics::Driver::OpenGL:
+            case graphics::Driver::openGL:
             {
                 std::unique_ptr<graphics::Shader> textureShader;
 
@@ -438,7 +438,7 @@ namespace ouzel
 #endif
 
 #if OUZEL_COMPILE_DIRECT3D11
-            case graphics::Driver::Direct3D11:
+            case graphics::Driver::direct3D11:
             {
                 auto textureShader = std::make_unique<graphics::Shader>(*renderer,
                                                                         std::vector<std::uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11),
@@ -481,7 +481,7 @@ namespace ouzel
 #endif
 
 #if OUZEL_COMPILE_METAL
-            case graphics::Driver::Metal:
+            case graphics::Driver::metal:
             {
                 auto textureShader = std::make_unique<graphics::Shader>(*renderer,
                                                                         std::vector<std::uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL),

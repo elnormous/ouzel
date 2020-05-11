@@ -77,16 +77,16 @@ namespace ouzel
 
         switch (graphicsDriver)
         {
-            case graphics::Driver::Empty:
+            case graphics::Driver::empty:
                 view = [[ViewIOS alloc] initWithFrame:windowFrame];
                 break;
 #if OUZEL_COMPILE_OPENGL
-            case graphics::Driver::OpenGL:
+            case graphics::Driver::openGL:
                 view = [[OpenGLView alloc] initWithFrame:windowFrame];
                 break;
 #endif
 #if OUZEL_COMPILE_METAL
-            case graphics::Driver::Metal:
+            case graphics::Driver::metal:
                 view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;
 #endif

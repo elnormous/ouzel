@@ -79,7 +79,7 @@ namespace ouzel
                                                               std::uint32_t channels,
                                                               std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
-                audio::AudioDevice(Driver::OpenSL, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::openSL, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
                 SLresult result;
                 constexpr SLuint32 engineMixIIDCount = 1;
@@ -144,7 +144,7 @@ namespace ouzel
 
                 playerObject = playerObjectPointer;
 
-                sampleFormat = SampleFormat::SignedInt16;
+                sampleFormat = SampleFormat::signedInt16;
 
                 if ((result = playerObject->Realize(playerObject.get(), SL_BOOLEAN_FALSE)) != SL_RESULT_SUCCESS)
                     throw std::system_error(makeErrorCode(result), "Failed to create OpenSL player object");

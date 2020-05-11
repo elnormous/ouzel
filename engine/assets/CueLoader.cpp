@@ -37,13 +37,13 @@ namespace ouzel
                     auto& oscillatorType = value["oscillatorType"].as<std::string>();
 
                     if (oscillatorType == "Sine")
-                        sourceDefinition.oscillatorType = audio::Oscillator::Type::Sine;
+                        sourceDefinition.oscillatorType = audio::Oscillator::Type::sine;
                     else if (oscillatorType == "Square")
-                        sourceDefinition.oscillatorType = audio::Oscillator::Type::Square;
+                        sourceDefinition.oscillatorType = audio::Oscillator::Type::square;
                     else if (oscillatorType == "Sawtooth")
-                        sourceDefinition.oscillatorType = audio::Oscillator::Type::Sawtooth;
+                        sourceDefinition.oscillatorType = audio::Oscillator::Type::sawtooth;
                     else if (oscillatorType == "Triangle")
-                        sourceDefinition.oscillatorType = audio::Oscillator::Type::Triangle;
+                        sourceDefinition.oscillatorType = audio::Oscillator::Type::triangle;
 
                     if (value.hasMember("frequency"))
                         sourceDefinition.length = value["frequency"].as<float>();

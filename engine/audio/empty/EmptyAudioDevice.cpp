@@ -15,7 +15,7 @@ namespace ouzel
                                                               std::uint32_t channels,
                                                               std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
-                audio::AudioDevice(Driver::Empty, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::empty, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
             }
         } // namespace empty

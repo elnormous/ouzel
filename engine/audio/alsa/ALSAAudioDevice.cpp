@@ -22,7 +22,7 @@ namespace ouzel
                                                               std::uint32_t channels,
                                                               std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
-                audio::AudioDevice(Driver::ALSA, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::alsa, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
                 int result;
                 if ((result = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
@@ -44,14 +44,14 @@ namespace ouzel
                     if ((result = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_FLOAT_LE)) < 0)
                         throw std::system_error(result, std::system_category(), "Failed to set sample format");
 
-                    sampleFormat = SampleFormat::Float32;
+                    sampleFormat = SampleFormat::float32;
                 }
                 else if (snd_pcm_hw_params_test_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE) == 0)
                 {
                     if ((result = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE)) < 0)
                         throw std::system_error(result, std::system_category(), "Failed to set sample format");
 
-                    sampleFormat = SampleFormat::SignedInt16;
+                    sampleFormat = SampleFormat::signedInt16;
                 }
                 else
                     throw std::runtime_error("No supported format");

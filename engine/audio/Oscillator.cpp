@@ -74,16 +74,16 @@ namespace ouzel
 
                     switch (type)
                     {
-                        case Oscillator::Type::Sine:
+                        case Oscillator::Type::sine:
                             samples[i] = std::sin(t * tau<float>);
                             break;
-                        case Oscillator::Type::Square:
+                        case Oscillator::Type::square:
                             samples[i] = std::fmod(std::round(t * 2.0F + 0.5F), 2.0F) * 2.0F - 1.0F;
                             break;
-                        case Oscillator::Type::Sawtooth:
+                        case Oscillator::Type::sawtooth:
                             samples[i] = std::fmod(t + 0.5F, 1.0F) * 2.0F - 1.0F;
                             break;
-                        case Oscillator::Type::Triangle:
+                        case Oscillator::Type::triangle:
                             samples[i] = std::fabs(std::fmod(t + 0.75F, 1.0F) * 2.0F - 1.0F) * 2.0F - 1.0F;
                             break;
                     }
@@ -156,7 +156,7 @@ namespace ouzel
                                Type initType, float initAmplitude, float initLength):
             Sound(initAudio,
                   initAudio.initData(std::unique_ptr<mixer::Data>(data = new OscillatorData(initFrequency, initType, initAmplitude, initLength))),
-                  Sound::Format::Pcm),
+                  Sound::Format::pcm),
             type(initType),
             frequency(initFrequency),
             amplitude(initAmplitude),

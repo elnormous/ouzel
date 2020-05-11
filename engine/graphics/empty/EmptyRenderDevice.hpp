@@ -15,7 +15,7 @@ namespace ouzel
             {
             public:
                 explicit RenderDevice(const std::function<void(const Event&)>& initCallback):
-                    graphics::RenderDevice(Driver::Empty, initCallback)
+                    graphics::RenderDevice(Driver::empty, initCallback)
                 {
                 }
 

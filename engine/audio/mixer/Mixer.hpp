@@ -52,10 +52,10 @@ namespace ouzel
                 public:
                     enum class Type
                     {
-                        StreamStarted,
-                        StreamReset,
-                        StreamStopped,
-                        Starvation
+                        streamStarted,
+                        streamReset,
+                        streamStopped,
+                        starvation
                     };
 
                     Event() noexcept = default;

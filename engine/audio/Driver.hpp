@@ -9,14 +9,14 @@ namespace ouzel
     {
         enum class Driver
         {
-            Empty,
-            OpenAL,
-            DirectSound,
-            XAudio2,
-            OpenSL,
-            CoreAudio,
-            ALSA,
-            WASAPI
+            empty,
+            openAL,
+            directSound,
+            xAudio2,
+            openSL,
+            coreAudio,
+            alsa,
+            wasapi
         };
     } // namespace audio
 } // namespace ouzel

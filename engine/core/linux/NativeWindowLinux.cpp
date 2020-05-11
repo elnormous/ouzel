@@ -55,7 +55,7 @@ namespace ouzel
 
         switch (graphicsDriver)
         {
-            case graphics::Driver::Empty:
+            case graphics::Driver::empty:
             {
                 XSetWindowAttributes swa;
                 swa.background_pixel = XWhitePixel(display, screenNumber);
@@ -70,7 +70,7 @@ namespace ouzel
                 break;
             }
 #  if OUZEL_COMPILE_OPENGL
-            case graphics::Driver::OpenGL:
+            case graphics::Driver::openGL:
             {
                 // find an OpenGL-capable RGB visual
                 static int doubleBuffer[] = {

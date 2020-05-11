@@ -9,10 +9,10 @@ namespace ouzel
     {
         enum class Driver
         {
-            Empty,
-            OpenGL,
-            Direct3D11,
-            Metal
+            empty,
+            openGL,
+            direct3D11,
+            metal
         };
     } // namespace graphics
 } // namespace ouzel

@@ -103,7 +103,7 @@ namespace ouzel
             }
 
             RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-                graphics::RenderDevice(Driver::Direct3D11, initCallback)
+                graphics::RenderDevice(Driver::direct3D11, initCallback)
             {
                 apiVersion = ApiVersion(11, 0);
             }

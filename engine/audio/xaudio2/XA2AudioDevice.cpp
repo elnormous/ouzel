@@ -55,7 +55,7 @@ namespace ouzel
                                                               std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter,
                                      bool debugAudio):
-                audio::AudioDevice(Driver::XAudio2, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::xAudio2, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
                 constexpr char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
                 constexpr char* XAUDIO2_DLL_27 = "xaudio2_7.dll";
@@ -140,7 +140,7 @@ namespace ouzel
                         throw std::system_error(hr, errorCategory, "Failed to create source voice");
                 }
 
-                sampleFormat = SampleFormat::Float32;
+                sampleFormat = SampleFormat::float32;
             }
 
             AudioDevice::~AudioDevice()

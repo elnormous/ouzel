@@ -86,7 +86,7 @@ namespace ouzel
                                                               std::uint32_t channels,
                                                               std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
-                audio::AudioDevice(Driver::DirectSound, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::directSound, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
                 HRESULT hr;
                 if (FAILED(hr = DirectSoundEnumerateW(enumCallback, this)))
@@ -124,7 +124,7 @@ namespace ouzel
                 waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
                 waveFormat.cbSize = 0;
 
-                sampleFormat = SampleFormat::Float32;
+                sampleFormat = SampleFormat::float32;
                 sampleSize = sizeof(float);
 
                 if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
@@ -137,7 +137,7 @@ namespace ouzel
                     if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
                         throw std::system_error(hr, errorCategory, "Failed to set DirectSound buffer format");
 
-                    sampleFormat = SampleFormat::SignedInt16;
+                    sampleFormat = SampleFormat::signedInt16;
                     sampleSize = sizeof(std::int16_t);
                 }
 

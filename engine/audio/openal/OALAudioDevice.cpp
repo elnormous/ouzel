@@ -89,7 +89,7 @@ namespace ouzel
                                                               std::uint32_t channels,
                                                               std::uint32_t sampleRate,
                                                               std::vector<float>& samples)>& initDataGetter):
-                audio::AudioDevice(Driver::OpenAL, initBufferSize, initSampleRate, initChannels, initDataGetter)
+                audio::AudioDevice(Driver::openAL, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
 #if TARGET_OS_IOS || TARGET_OS_TV
                 id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance")); // [AVAudioSession sharedInstance]
@@ -195,13 +195,13 @@ namespace ouzel
                         if (float32Supported)
                         {
                             format = AL_FORMAT_MONO_FLOAT32;
-                            sampleFormat = SampleFormat::Float32;
+                            sampleFormat = SampleFormat::float32;
                             sampleSize = sizeof(float);
                         }
                         else
                         {
                             format = AL_FORMAT_MONO16;
-                            sampleFormat = SampleFormat::SignedInt16;
+                            sampleFormat = SampleFormat::signedInt16;
                             sampleSize = sizeof(std::int16_t);
                         }
                         break;
@@ -211,13 +211,13 @@ namespace ouzel
                         if (float32Supported)
                         {
                             format = AL_FORMAT_STEREO_FLOAT32;
-                            sampleFormat = SampleFormat::Float32;
+                            sampleFormat = SampleFormat::float32;
                             sampleSize = sizeof(float);
                         }
                         else
                         {
                             format = AL_FORMAT_STEREO16;
-                            sampleFormat = SampleFormat::SignedInt16;
+                            sampleFormat = SampleFormat::signedInt16;
                             sampleSize = sizeof(std::int16_t);
                         }
                         break;
@@ -225,28 +225,28 @@ namespace ouzel
                     case 4:
                     {
                         format = format40;
-                        sampleFormat = SampleFormat::SignedInt16;
+                        sampleFormat = SampleFormat::signedInt16;
                         sampleSize = sizeof(std::int16_t);
                         break;
                     }
                     case 6:
                     {
                         format = format51;
-                        sampleFormat = SampleFormat::SignedInt16;
+                        sampleFormat = SampleFormat::signedInt16;
                         sampleSize = sizeof(std::int16_t);
                         break;
                     }
                     case 7:
                     {
                         format = format61;
-                        sampleFormat = SampleFormat::SignedInt16;
+                        sampleFormat = SampleFormat::signedInt16;
                         sampleSize = sizeof(std::int16_t);
                         break;
                     }
                     case 8:
                     {
                         format = format71;
-                        sampleFormat = SampleFormat::SignedInt16;
+                        sampleFormat = SampleFormat::signedInt16;
                         sampleSize = sizeof(std::int16_t);
                         break;
                     }
