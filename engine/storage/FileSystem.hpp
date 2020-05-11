@@ -470,21 +470,6 @@ namespace ouzel
 #endif
             }
 
-            static bool isFile(const Path& path) noexcept
-            {
-                return getFileType(path) != FileType::notFound;
-            }
-
-            static bool isDirectory(const Path& path) noexcept
-            {
-                return getFileType(path) == FileType::directory;
-            }
-
-            static bool isRegular(const Path& path) noexcept
-            {
-                return getFileType(path) == FileType::regular;
-            }
-
             static size_t getFileSize(const Path& path)
             {
 #if defined(_WIN32)

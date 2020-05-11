@@ -389,7 +389,7 @@ namespace ouzel
             if (exists) return true;
 #endif
 
-            return isDirectory(dirname);
+            return getFileType(dirname) == FileType::directory;
         }
 
         bool FileSystem::fileExists(const Path& filename) const
@@ -406,7 +406,7 @@ namespace ouzel
             }
 #endif
 
-            return isRegular(filename);
+            return getFileType(filename) == FileType::regular;
         }
     } // namespace storage
 } // namespace ouzel
