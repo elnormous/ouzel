@@ -199,7 +199,7 @@ namespace ouzel
             else
                 path /= OUZEL_DEVELOPER_NAME;
 
-            if (!isDirectory(path))
+            if (getFileType(path) != FileType::directory)
                 createDirectory(path);
 
             if (productName)
@@ -207,7 +207,7 @@ namespace ouzel
             else
                 path /= OUZEL_APPLICATION_NAME;
 
-            if (!isDirectory(path))
+            if (getFileType(path) != FileType::directory)
                 createDirectory(path);
 
             return path;
@@ -278,23 +278,23 @@ namespace ouzel
 
                 path /= ".local";
 
-                if (!isDirectory(path))
+                if (getFileType(path) != FileType::directory)
                     createDirectory(path);
 
                 path /= "share";
 
-                if (!isDirectory(path))
+                if (getFileType(path) != FileType::directory)
                     createDirectory(path);
             }
 
             path /= OUZEL_DEVELOPER_NAME;
 
-            if (!isDirectory(path))
+            if (getFileType(path) != FileType::directory)
                 createDirectory(path);
 
             path /= OUZEL_APPLICATION_NAME;
 
-            if (!isDirectory(path))
+            if (getFileType(path) != FileType::directory)
                 createDirectory(path);
 
             return path;
