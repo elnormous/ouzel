@@ -448,7 +448,7 @@ namespace ouzel
                     return FileType::regular;
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat s;
-                if (stat(path.getNative().c_str(), &s) == -1)
+                if (lstat(path.getNative().c_str(), &s) == -1)
                     return FileType::notFound;
 
                 if ((s.st_mode & S_IFMT) == S_IFREG)
@@ -479,7 +479,7 @@ namespace ouzel
                 return static_cast<size_t>(attributes.nFileSizeHigh) << (sizeof(attributes.nFileSizeHigh) * 8) | attributes.nFileSizeLow;
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat s;
-                if (stat(path.getNative().c_str(), &s) == -1)
+                if (lstat(path.getNative().c_str(), &s) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to get file status");
                 return static_cast<size_t>(s.st_size);
 #endif
@@ -499,7 +499,7 @@ namespace ouzel
 
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat s;
-                if (stat(path.getNative().c_str(), &s) == -1)
+                if (lstat(path.getNative().c_str(), &s) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to get file status");
                 return static_cast<Permissions>(s.st_mode);
 #endif
