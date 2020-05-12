@@ -9,10 +9,10 @@ namespace ouzel
     {
         enum class TextureType
         {
-            OneDimensional,
-            TwoDimensional,
-            ThreeDimensional,
-            Cube
+            oneDimensional,
+            twoDimensional,
+            threeDimensional,
+            cube
         };
     } // namespace graphics
 } // namespace ouzel

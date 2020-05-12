@@ -83,9 +83,9 @@ namespace ouzel
                 std::uint32_t mipmaps = 0;
                 std::uint32_t sampleCount = 1;
                 SamplerFilter filter = SamplerFilter::Default;
-                SamplerAddressMode addressX = SamplerAddressMode::ClampToEdge;
-                SamplerAddressMode addressY = SamplerAddressMode::ClampToEdge;
-                SamplerAddressMode addressZ = SamplerAddressMode::ClampToEdge;
+                SamplerAddressMode addressX = SamplerAddressMode::clampToEdge;
+                SamplerAddressMode addressY = SamplerAddressMode::clampToEdge;
+                SamplerAddressMode addressZ = SamplerAddressMode::clampToEdge;
                 std::uint32_t maxAnisotropy = 0;
 
                 GLenum textureTarget = 0;

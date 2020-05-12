@@ -35,14 +35,14 @@ namespace ouzel
                 {
                     switch (stencilOperation)
                     {
-                        case StencilOperation::Keep: return MTLStencilOperationKeep;
-                        case StencilOperation::Zero: return MTLStencilOperationZero;
-                        case StencilOperation::Replace: return MTLStencilOperationReplace;
-                        case StencilOperation::IncrementClamp: return MTLStencilOperationIncrementClamp;
-                        case StencilOperation::DecrementClamp: return MTLStencilOperationDecrementClamp;
-                        case StencilOperation::Invert: return MTLStencilOperationInvert;
-                        case StencilOperation::IncrementWrap: return MTLStencilOperationIncrementWrap;
-                        case StencilOperation::DecrementWrap: return MTLStencilOperationDecrementWrap;
+                        case StencilOperation::keep: return MTLStencilOperationKeep;
+                        case StencilOperation::zero: return MTLStencilOperationZero;
+                        case StencilOperation::replace: return MTLStencilOperationReplace;
+                        case StencilOperation::incrementClamp: return MTLStencilOperationIncrementClamp;
+                        case StencilOperation::decrementClamp: return MTLStencilOperationDecrementClamp;
+                        case StencilOperation::invert: return MTLStencilOperationInvert;
+                        case StencilOperation::incrementWrap: return MTLStencilOperationIncrementWrap;
+                        case StencilOperation::decrementWrap: return MTLStencilOperationDecrementWrap;
                         default: return MTLStencilOperationKeep;
                     }
                 }

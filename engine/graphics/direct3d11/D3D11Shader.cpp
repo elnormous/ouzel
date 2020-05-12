@@ -130,37 +130,37 @@ namespace ouzel
 
                         switch (vertexAttribute.usage)
                         {
-                            case Vertex::Attribute::Usage::Binormal:
+                            case Vertex::Attribute::Usage::binormal:
                                 semantic = "BINORMAL";
                                 break;
-                            case Vertex::Attribute::Usage::BlendIndices:
+                            case Vertex::Attribute::Usage::blendIndices:
                                 semantic = "BLENDINDICES";
                                 break;
-                            case Vertex::Attribute::Usage::BlendWeight:
+                            case Vertex::Attribute::Usage::blendWeight:
                                 semantic = "BLENDWEIGHT";
                                 break;
-                            case Vertex::Attribute::Usage::Color:
+                            case Vertex::Attribute::Usage::color:
                                 semantic = "COLOR";
                                 break;
-                            case Vertex::Attribute::Usage::Normal:
+                            case Vertex::Attribute::Usage::normal:
                                 semantic = "NORMAL";
                                 break;
-                            case Vertex::Attribute::Usage::Position:
+                            case Vertex::Attribute::Usage::position:
                                 semantic = "POSITION";
                                 break;
-                            case Vertex::Attribute::Usage::PositionTransformed:
+                            case Vertex::Attribute::Usage::positionTransformed:
                                 semantic = "POSITIONT";
                                 break;
-                            case Vertex::Attribute::Usage::PointSize:
+                            case Vertex::Attribute::Usage::pointSize:
                                 semantic = "PSIZE";
                                 break;
-                            case Vertex::Attribute::Usage::Tangent:
+                            case Vertex::Attribute::Usage::tangent:
                                 semantic = "TANGENT";
                                 break;
-                            case Vertex::Attribute::Usage::TextureCoordinates0:
+                            case Vertex::Attribute::Usage::textureCoordinates0:
                                 semantic = "TEXCOORD";
                                 break;
-                            case Vertex::Attribute::Usage::TextureCoordinates1:
+                            case Vertex::Attribute::Usage::textureCoordinates1:
                                 semantic = "TEXCOORD";
                                 index = 1;
                                 break;

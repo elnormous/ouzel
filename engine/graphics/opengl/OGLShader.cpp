@@ -126,37 +126,37 @@ namespace ouzel
 
                         switch (vertexAttribute.usage)
                         {
-                            case Vertex::Attribute::Usage::Binormal:
+                            case Vertex::Attribute::Usage::binormal:
                                 name = "binormal0";
                                 break;
-                            case Vertex::Attribute::Usage::BlendIndices:
+                            case Vertex::Attribute::Usage::blendIndices:
                                 name = "blendIndices0";
                                 break;
-                            case Vertex::Attribute::Usage::BlendWeight:
+                            case Vertex::Attribute::Usage::blendWeight:
                                 name = "blendWeight0";
                                 break;
-                            case Vertex::Attribute::Usage::Color:
+                            case Vertex::Attribute::Usage::color:
                                 name = "color0";
                                 break;
-                            case Vertex::Attribute::Usage::Normal:
+                            case Vertex::Attribute::Usage::normal:
                                 name = "normal0";
                                 break;
-                            case Vertex::Attribute::Usage::Position:
+                            case Vertex::Attribute::Usage::position:
                                 name = "position0";
                                 break;
-                            case Vertex::Attribute::Usage::PositionTransformed:
+                            case Vertex::Attribute::Usage::positionTransformed:
                                 name = "positionT0";
                                 break;
-                            case Vertex::Attribute::Usage::PointSize:
+                            case Vertex::Attribute::Usage::pointSize:
                                 name = "pointSize0";
                                 break;
-                            case Vertex::Attribute::Usage::Tangent:
+                            case Vertex::Attribute::Usage::tangent:
                                 name = "tangent0";
                                 break;
-                            case Vertex::Attribute::Usage::TextureCoordinates0:
+                            case Vertex::Attribute::Usage::textureCoordinates0:
                                 name = "texCoord0";
                                 break;
-                            case Vertex::Attribute::Usage::TextureCoordinates1:
+                            case Vertex::Attribute::Usage::textureCoordinates1:
                                 name = "texCoord1";
                                 break;
                             default:

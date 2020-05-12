@@ -9,10 +9,10 @@ namespace ouzel
     {
         enum class SamplerAddressMode
         {
-            ClampToEdge,
-            ClampToBorder,
-            Repeat,
-            MirrorRepeat
+            clampToEdge,
+            clampToBorder,
+            repeat,
+            mirrorRepeat
         };
     } // namespace graphics
 } // namespace ouzel

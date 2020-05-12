@@ -36,18 +36,18 @@ namespace ouzel
                     convertedIndices.push_back(static_cast<std::uint16_t>(index));
 
                 indexBuffer = graphics::Buffer(*engine->getRenderer(),
-                                               graphics::BufferType::Index, 0,
+                                               graphics::BufferType::index, 0,
                                                convertedIndices.data(),
                                                static_cast<std::uint32_t>(getVectorSize(convertedIndices)));
             }
             else if (indexSize == sizeof(std::uint32_t))
                 indexBuffer = graphics::Buffer(*engine->getRenderer(),
-                                               graphics::BufferType::Index, 0,
+                                               graphics::BufferType::index, 0,
                                                indices.data(),
                                                static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = graphics::Buffer(*engine->getRenderer(),
-                                            graphics::BufferType::Vertex, 0,
+                                            graphics::BufferType::vertex, 0,
                                             vertices.data(),
                                             static_cast<std::uint32_t>(getVectorSize(vertices)));
         }
@@ -106,7 +106,7 @@ namespace ouzel
                                         indexCount,
                                         indexSize,
                                         vertexBuffer->getResource(),
-                                        graphics::DrawMode::TriangleList,
+                                        graphics::DrawMode::triangleList,
                                         0);
         }
     } // namespace scene

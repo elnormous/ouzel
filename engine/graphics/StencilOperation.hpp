@@ -9,14 +9,14 @@ namespace ouzel
     {
         enum class StencilOperation
         {
-            Keep,
-            Zero,
-            Replace,
-            IncrementClamp,
-            DecrementClamp,
-            Invert,
-            IncrementWrap,
-            DecrementWrap
+            keep,
+            zero,
+            replace,
+            incrementClamp,
+            decrementClamp,
+            invert,
+            incrementWrap,
+            decrementWrap
         };
     } // namespace graphics
 } // namespace ouzel

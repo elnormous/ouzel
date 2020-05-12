@@ -68,10 +68,10 @@ namespace ouzel
 
                     switch (type)
                     {
-                        case BufferType::Index:
+                        case BufferType::index:
                             bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
                             break;
-                        case BufferType::Vertex:
+                        case BufferType::vertex:
                             bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
                             break;
                         default:

@@ -35,14 +35,14 @@ namespace ouzel
                 {
                     switch (stencilOperation)
                     {
-                        case StencilOperation::Keep: return GL_KEEP;
-                        case StencilOperation::Zero: return GL_ZERO;
-                        case StencilOperation::Replace: return GL_REPLACE;
-                        case StencilOperation::IncrementClamp: return GL_INCR;
-                        case StencilOperation::DecrementClamp: return GL_DECR;
-                        case StencilOperation::Invert: return GL_INVERT;
-                        case StencilOperation::IncrementWrap: return GL_INCR_WRAP;
-                        case StencilOperation::DecrementWrap: return GL_DECR_WRAP;
+                        case StencilOperation::keep: return GL_KEEP;
+                        case StencilOperation::zero: return GL_ZERO;
+                        case StencilOperation::replace: return GL_REPLACE;
+                        case StencilOperation::incrementClamp: return GL_INCR;
+                        case StencilOperation::decrementClamp: return GL_DECR;
+                        case StencilOperation::invert: return GL_INVERT;
+                        case StencilOperation::incrementWrap: return GL_INCR_WRAP;
+                        case StencilOperation::decrementWrap: return GL_DECR_WRAP;
                         default: return GL_KEEP;
                     }
                 }

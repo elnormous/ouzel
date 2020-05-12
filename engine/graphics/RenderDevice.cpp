@@ -8,11 +8,11 @@ namespace ouzel
     namespace graphics
     {
         const std::array<Vertex::Attribute, 5> RenderDevice::VERTEX_ATTRIBUTES{
-            Vertex::Attribute{Vertex::Attribute::Usage::Position, DataType::FloatVector3},
-            Vertex::Attribute{Vertex::Attribute::Usage::Color, DataType::UnsignedByteVector4Norm},
-            Vertex::Attribute{Vertex::Attribute::Usage::TextureCoordinates0, DataType::FloatVector2},
-            Vertex::Attribute{Vertex::Attribute::Usage::TextureCoordinates1, DataType::FloatVector2},
-            Vertex::Attribute{Vertex::Attribute::Usage::Normal, DataType::FloatVector3}
+            Vertex::Attribute{Vertex::Attribute::Usage::position, DataType::FloatVector3},
+            Vertex::Attribute{Vertex::Attribute::Usage::color, DataType::UnsignedByteVector4Norm},
+            Vertex::Attribute{Vertex::Attribute::Usage::textureCoordinates0, DataType::FloatVector2},
+            Vertex::Attribute{Vertex::Attribute::Usage::textureCoordinates1, DataType::FloatVector2},
+            Vertex::Attribute{Vertex::Attribute::Usage::normal, DataType::FloatVector3}
         };
 
         RenderDevice::RenderDevice(Driver initDriver,
@@ -55,7 +55,7 @@ namespace ouzel
         void RenderDevice::process()
         {
             Event event;
-            event.type = Event::Type::Frame;
+            event.type = Event::Type::frame;
             callback(event);
 
             auto currentTime = std::chrono::steady_clock::now();

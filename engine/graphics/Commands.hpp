@@ -542,7 +542,7 @@ namespace ouzel
                 Command(Command::Type::SetTextureData),
                 texture(initTexture),
                 levels(initLevels),
-                face(CubeFace::PositiveX)
+                face(CubeFace::positiveX)
             {
             }
 

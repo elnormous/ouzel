@@ -35,14 +35,14 @@ namespace ouzel
                 {
                     switch (stencilOperation)
                     {
-                        case StencilOperation::Keep: return D3D11_STENCIL_OP_KEEP;
-                        case StencilOperation::Zero: return D3D11_STENCIL_OP_ZERO;
-                        case StencilOperation::Replace: return D3D11_STENCIL_OP_REPLACE;
-                        case StencilOperation::IncrementClamp: return D3D11_STENCIL_OP_INCR_SAT;
-                        case StencilOperation::DecrementClamp: return D3D11_STENCIL_OP_DECR_SAT;
-                        case StencilOperation::Invert: return D3D11_STENCIL_OP_INVERT;
-                        case StencilOperation::IncrementWrap: return D3D11_STENCIL_OP_INCR;
-                        case StencilOperation::DecrementWrap: return D3D11_STENCIL_OP_DECR;
+                        case StencilOperation::keep: return D3D11_STENCIL_OP_KEEP;
+                        case StencilOperation::zero: return D3D11_STENCIL_OP_ZERO;
+                        case StencilOperation::replace: return D3D11_STENCIL_OP_REPLACE;
+                        case StencilOperation::incrementClamp: return D3D11_STENCIL_OP_INCR_SAT;
+                        case StencilOperation::decrementClamp: return D3D11_STENCIL_OP_DECR_SAT;
+                        case StencilOperation::invert: return D3D11_STENCIL_OP_INVERT;
+                        case StencilOperation::incrementWrap: return D3D11_STENCIL_OP_INCR;
+                        case StencilOperation::decrementWrap: return D3D11_STENCIL_OP_DECR;
                         default: return D3D11_STENCIL_OP_KEEP;
                     }
                 }

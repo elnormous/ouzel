@@ -43,11 +43,11 @@ namespace ouzel
                 {
                     switch (drawMode)
                     {
-                        case DrawMode::PointList: return MTLPrimitiveTypePoint;
-                        case DrawMode::LineList: return MTLPrimitiveTypeLine;
-                        case DrawMode::LineStrip: return MTLPrimitiveTypeLineStrip;
-                        case DrawMode::TriangleList: return MTLPrimitiveTypeTriangle;
-                        case DrawMode::TriangleStrip: return MTLPrimitiveTypeTriangleStrip;
+                        case DrawMode::pointList: return MTLPrimitiveTypePoint;
+                        case DrawMode::lineList: return MTLPrimitiveTypeLine;
+                        case DrawMode::lineStrip: return MTLPrimitiveTypeLineStrip;
+                        case DrawMode::triangleList: return MTLPrimitiveTypeTriangle;
+                        case DrawMode::triangleStrip: return MTLPrimitiveTypeTriangleStrip;
                         default: throw Error("Invalid draw mode");
                     }
                 }
@@ -77,16 +77,16 @@ namespace ouzel
                 {
                     switch (address)
                     {
-                        case SamplerAddressMode::ClampToEdge:
+                        case SamplerAddressMode::clampToEdge:
                             return MTLSamplerAddressModeClampToEdge;
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
                         // MTLSamplerAddressModeClampToBorderColor is not defined in macOS SDK older than 10.12
-                        case SamplerAddressMode::ClampToBorder:
+                        case SamplerAddressMode::clampToBorder:
                             return MTLSamplerAddressModeClampToBorderColor;
 #endif
-                        case SamplerAddressMode::Repeat:
+                        case SamplerAddressMode::repeat:
                             return MTLSamplerAddressModeRepeat;
-                        case SamplerAddressMode::MirrorRepeat:
+                        case SamplerAddressMode::mirrorRepeat:
                             return MTLSamplerAddressModeMirrorRepeat;
                         default:
                             throw Error("Invalid address mode");

@@ -670,7 +670,7 @@ namespace ouzel
 
             initRenderer.addCommand(std::make_unique<InitTextureCommand>(resource,
                                                                         levels,
-                                                                        TextureType::TwoDimensional,
+                                                                        TextureType::twoDimensional,
                                                                         flags,
                                                                         sampleCount,
                                                                         pixelFormat));
@@ -701,7 +701,7 @@ namespace ouzel
 
             initRenderer.addCommand(std::make_unique<InitTextureCommand>(resource,
                                                                          levels,
-                                                                         TextureType::TwoDimensional,
+                                                                         TextureType::twoDimensional,
                                                                          flags,
                                                                          sampleCount,
                                                                          pixelFormat));
@@ -734,7 +734,7 @@ namespace ouzel
 
             initRenderer.addCommand(std::make_unique<InitTextureCommand>(resource,
                                                                          levels,
-                                                                         TextureType::TwoDimensional,
+                                                                         TextureType::twoDimensional,
                                                                          flags,
                                                                          sampleCount,
                                                                          pixelFormat));

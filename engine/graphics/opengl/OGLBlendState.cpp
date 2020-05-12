@@ -19,19 +19,19 @@ namespace ouzel
                 {
                     switch (blendFactor)
                     {
-                        case BlendFactor::Zero: return GL_ZERO;
-                        case BlendFactor::One: return GL_ONE;
-                        case BlendFactor::SrcColor: return GL_SRC_COLOR;
-                        case BlendFactor::InvSrcColor: return GL_ONE_MINUS_SRC_COLOR;
-                        case BlendFactor::SrcAlpha: return GL_SRC_ALPHA;
-                        case BlendFactor::InvSrcAlpha: return GL_ONE_MINUS_SRC_ALPHA;
-                        case BlendFactor::DestAlpha: return GL_DST_ALPHA;
-                        case BlendFactor::InvDestAlpha: return GL_ONE_MINUS_DST_ALPHA;
-                        case BlendFactor::DestColor: return GL_DST_COLOR;
-                        case BlendFactor::InvDestColor: return GL_ONE_MINUS_DST_COLOR;
-                        case BlendFactor::SrcAlphaSat: return GL_SRC_ALPHA_SATURATE;
-                        case BlendFactor::BlendFactor: return GL_CONSTANT_COLOR;
-                        case BlendFactor::InvBlendFactor: return GL_ONE_MINUS_CONSTANT_COLOR;
+                        case BlendFactor::zero: return GL_ZERO;
+                        case BlendFactor::one: return GL_ONE;
+                        case BlendFactor::srcColor: return GL_SRC_COLOR;
+                        case BlendFactor::invSrcColor: return GL_ONE_MINUS_SRC_COLOR;
+                        case BlendFactor::srcAlpha: return GL_SRC_ALPHA;
+                        case BlendFactor::invSrcAlpha: return GL_ONE_MINUS_SRC_ALPHA;
+                        case BlendFactor::destAlpha: return GL_DST_ALPHA;
+                        case BlendFactor::invDestAlpha: return GL_ONE_MINUS_DST_ALPHA;
+                        case BlendFactor::destColor: return GL_DST_COLOR;
+                        case BlendFactor::invDestColor: return GL_ONE_MINUS_DST_COLOR;
+                        case BlendFactor::srcAlphaSat: return GL_SRC_ALPHA_SATURATE;
+                        case BlendFactor::blendFactor: return GL_CONSTANT_COLOR;
+                        case BlendFactor::invBlendFactor: return GL_ONE_MINUS_CONSTANT_COLOR;
                         default:
                             return GL_NONE;
                     }
@@ -41,12 +41,12 @@ namespace ouzel
                 {
                     switch (blendOperation)
                     {
-                        case BlendOperation::Add: return GL_FUNC_ADD;
-                        case BlendOperation::Subtract: return GL_FUNC_SUBTRACT;
-                        case BlendOperation::RevSubtract: return GL_FUNC_REVERSE_SUBTRACT;
+                        case BlendOperation::add: return GL_FUNC_ADD;
+                        case BlendOperation::subtract: return GL_FUNC_SUBTRACT;
+                        case BlendOperation::reverseSubtract: return GL_FUNC_REVERSE_SUBTRACT;
 #if !OUZEL_OPENGLES
-                        case BlendOperation::Min: return GL_MIN;
-                        case BlendOperation::Max: return GL_MAX;
+                        case BlendOperation::min: return GL_MIN;
+                        case BlendOperation::max: return GL_MAX;
 #endif
                         default:
                             return GL_NONE;
@@ -74,10 +74,10 @@ namespace ouzel
                 sourceFactorAlpha = getBlendFactor(alphaBlendSource);
                 destFactorAlpha = getBlendFactor(alphaBlendDest);
 
-                redMask = ((colorMask & ColorMask::Red) == ColorMask::Red) ? GL_TRUE : GL_FALSE;
-                greenMask = ((colorMask & ColorMask::Green) == ColorMask::Green) ? GL_TRUE : GL_FALSE;
-                blueMask = ((colorMask & ColorMask::Blue) == ColorMask::Blue) ? GL_TRUE : GL_FALSE;
-                alphaMask = ((colorMask & ColorMask::Alpha) == ColorMask::Alpha) ? GL_TRUE : GL_FALSE;
+                redMask = ((colorMask & ColorMask::red) == ColorMask::red) ? GL_TRUE : GL_FALSE;
+                greenMask = ((colorMask & ColorMask::green) == ColorMask::green) ? GL_TRUE : GL_FALSE;
+                blueMask = ((colorMask & ColorMask::blue) == ColorMask::blue) ? GL_TRUE : GL_FALSE;
+                alphaMask = ((colorMask & ColorMask::alpha) == ColorMask::alpha) ? GL_TRUE : GL_FALSE;
             }
         } // namespace opengl
     } // namespace graphics

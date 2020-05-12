@@ -63,7 +63,7 @@ namespace ouzel
                     {
                         switch (type)
                         {
-                            case TextureType::TwoDimensional: return MTLTextureType2DMultisample;
+                            case TextureType::twoDimensional: return MTLTextureType2DMultisample;
                             default: throw Error("Invalid multisample texture type");
                         }
                     }
@@ -71,10 +71,10 @@ namespace ouzel
                     {
                         switch (type)
                         {
-                            case TextureType::OneDimensional: return MTLTextureType1D;
-                            case TextureType::TwoDimensional: return MTLTextureType2D;
-                            case TextureType::ThreeDimensional: return MTLTextureType3D;
-                            case TextureType::Cube: return MTLTextureTypeCube;
+                            case TextureType::oneDimensional: return MTLTextureType1D;
+                            case TextureType::twoDimensional: return MTLTextureType2D;
+                            case TextureType::threeDimensional: return MTLTextureType3D;
+                            case TextureType::cube: return MTLTextureTypeCube;
                             default: throw Error("Invalid texture type");
                         }
                     }
@@ -84,12 +84,12 @@ namespace ouzel
                 {
                     switch (face)
                     {
-                        case CubeFace::PositiveX: return 0;
-                        case CubeFace::NegativeX: return 1;
-                        case CubeFace::PositiveY: return 2;
-                        case CubeFace::NegativeY: return 3;
-                        case CubeFace::PositiveZ: return 4;
-                        case CubeFace::NegativeZ: return 5;
+                        case CubeFace::positiveX: return 0;
+                        case CubeFace::negativeX: return 1;
+                        case CubeFace::positiveY: return 2;
+                        case CubeFace::negativeY: return 3;
+                        case CubeFace::positiveZ: return 4;
+                        case CubeFace::negativeZ: return 5;
                         default: throw Error("Invalid cube face");
                     }
                 }
@@ -187,9 +187,9 @@ namespace ouzel
                 }
 
                 samplerDescriptor.filter = renderDevice.getTextureFilter();
-                samplerDescriptor.addressX = SamplerAddressMode::ClampToEdge;
-                samplerDescriptor.addressY = SamplerAddressMode::ClampToEdge;
-                samplerDescriptor.addressZ = SamplerAddressMode::ClampToEdge;
+                samplerDescriptor.addressX = SamplerAddressMode::clampToEdge;
+                samplerDescriptor.addressY = SamplerAddressMode::clampToEdge;
+                samplerDescriptor.addressZ = SamplerAddressMode::clampToEdge;
                 samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
 
                 updateSamplerState();

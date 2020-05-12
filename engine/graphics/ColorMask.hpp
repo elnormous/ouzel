@@ -11,11 +11,11 @@ namespace ouzel
     {
         enum class ColorMask: std::uint8_t
         {
-            Red = 0x01,
-            Green = 0x02,
-            Blue = 0x04,
-            Alpha = 0x08,
-            All = Red | Green | Blue | Alpha
+            red = 0x01,
+            green = 0x02,
+            blue = 0x04,
+            alpha = 0x08,
+            all = red | green | blue | alpha
         };
 
         inline constexpr ColorMask operator&(const ColorMask a, const ColorMask b) noexcept

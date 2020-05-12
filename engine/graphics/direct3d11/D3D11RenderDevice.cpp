@@ -70,11 +70,11 @@ namespace ouzel
                 {
                     switch (drawMode)
                     {
-                        case DrawMode::PointList: return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
-                        case DrawMode::LineList: return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
-                        case DrawMode::LineStrip: return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
-                        case DrawMode::TriangleList: return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-                        case DrawMode::TriangleStrip: return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+                        case DrawMode::pointList: return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
+                        case DrawMode::lineList: return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
+                        case DrawMode::lineStrip: return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
+                        case DrawMode::triangleList: return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+                        case DrawMode::triangleStrip: return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
                         default: throw std::runtime_error("Invalid draw mode");
                     }
                 }
@@ -83,13 +83,13 @@ namespace ouzel
                 {
                     switch (address)
                     {
-                        case SamplerAddressMode::ClampToEdge:
+                        case SamplerAddressMode::clampToEdge:
                             return D3D11_TEXTURE_ADDRESS_CLAMP;
-                        case SamplerAddressMode::ClampToBorder:
+                        case SamplerAddressMode::clampToBorder:
                             return D3D11_TEXTURE_ADDRESS_BORDER;
-                        case SamplerAddressMode::Repeat:
+                        case SamplerAddressMode::repeat:
                             return D3D11_TEXTURE_ADDRESS_WRAP;
-                        case SamplerAddressMode::MirrorRepeat:
+                        case SamplerAddressMode::mirrorRepeat:
                             return D3D11_TEXTURE_ADDRESS_MIRROR;
                         default:
                             throw std::runtime_error("Invalid address mode");

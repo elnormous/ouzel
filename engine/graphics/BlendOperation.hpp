@@ -9,11 +9,11 @@ namespace ouzel
     {
         enum class BlendOperation
         {
-            Add,
-            Subtract,
-            RevSubtract,
-            Min,
-            Max
+            add,
+            subtract,
+            reverseSubtract,
+            min,
+            max
         };
     } // namespace graphics
 } // namespace ouzel

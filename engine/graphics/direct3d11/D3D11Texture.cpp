@@ -62,7 +62,7 @@ namespace ouzel
                     {
                         switch (type)
                         {
-                            case TextureType::TwoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2DMS;
+                            case TextureType::twoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2DMS;
                             default: throw std::runtime_error("Invalid multisample texture type");
                         }
                     }
@@ -70,10 +70,10 @@ namespace ouzel
                     {
                         switch (type)
                         {
-                            case TextureType::OneDimensional: return D3D11_SRV_DIMENSION_TEXTURE1D;
-                            case TextureType::TwoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2D;
-                            case TextureType::ThreeDimensional: return D3D11_SRV_DIMENSION_TEXTURE3D;
-                            case TextureType::Cube: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                            case TextureType::oneDimensional: return D3D11_SRV_DIMENSION_TEXTURE1D;
+                            case TextureType::twoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2D;
+                            case TextureType::threeDimensional: return D3D11_SRV_DIMENSION_TEXTURE3D;
+                            case TextureType::cube: return D3D11_SRV_DIMENSION_TEXTURE3D;
                             default: throw std::runtime_error("Invalid texture type");
                         }
                     }
@@ -83,12 +83,12 @@ namespace ouzel
                 {
                     switch (face)
                     {
-                        case CubeFace::PositiveX: return D3D11_TEXTURECUBE_FACE_POSITIVE_X;
-                        case CubeFace::NegativeX: return D3D11_TEXTURECUBE_FACE_NEGATIVE_X;
-                        case CubeFace::PositiveY: return D3D11_TEXTURECUBE_FACE_POSITIVE_Y;
-                        case CubeFace::NegativeY: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Y;
-                        case CubeFace::PositiveZ: return D3D11_TEXTURECUBE_FACE_POSITIVE_Z;
-                        case CubeFace::NegativeZ: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Z;
+                        case CubeFace::positiveX: return D3D11_TEXTURECUBE_FACE_POSITIVE_X;
+                        case CubeFace::negativeX: return D3D11_TEXTURECUBE_FACE_NEGATIVE_X;
+                        case CubeFace::positiveY: return D3D11_TEXTURECUBE_FACE_POSITIVE_Y;
+                        case CubeFace::negativeY: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Y;
+                        case CubeFace::positiveZ: return D3D11_TEXTURECUBE_FACE_POSITIVE_Z;
+                        case CubeFace::negativeZ: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Z;
                         default: throw std::runtime_error("Invalid cube face");
                     }
                 }
@@ -325,9 +325,9 @@ namespace ouzel
                 }
 
                 samplerDescriptor.filter = renderDevice.getTextureFilter();
-                samplerDescriptor.addressX = SamplerAddressMode::ClampToEdge;
-                samplerDescriptor.addressY = SamplerAddressMode::ClampToEdge;
-                samplerDescriptor.addressZ = SamplerAddressMode::ClampToEdge;
+                samplerDescriptor.addressX = SamplerAddressMode::clampToEdge;
+                samplerDescriptor.addressY = SamplerAddressMode::clampToEdge;
+                samplerDescriptor.addressZ = SamplerAddressMode::clampToEdge;
                 samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
 
                 updateSamplerState();

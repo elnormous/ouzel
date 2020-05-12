@@ -290,13 +290,13 @@ namespace ouzel
                                                                                   false,
                                                                                   0xFFFFFFFF,
                                                                                   0xFFFFFFFF,
-                                                                                  graphics::StencilOperation::Keep,
-                                                                                  graphics::StencilOperation::Keep,
-                                                                                  graphics::StencilOperation::Keep,
+                                                                                  graphics::StencilOperation::keep,
+                                                                                  graphics::StencilOperation::keep,
+                                                                                  graphics::StencilOperation::keep,
                                                                                   graphics::CompareFunction::AlwaysPass,
-                                                                                  graphics::StencilOperation::Keep,
-                                                                                  graphics::StencilOperation::Keep,
-                                                                                  graphics::StencilOperation::Keep,
+                                                                                  graphics::StencilOperation::keep,
+                                                                                  graphics::StencilOperation::keep,
+                                                                                  graphics::StencilOperation::keep,
                                                                                   graphics::CompareFunction::AlwaysPass);
             else
                 depthStencilState.reset();

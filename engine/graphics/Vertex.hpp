@@ -19,17 +19,17 @@ namespace ouzel
             public:
                 enum class Usage
                 {
-                    Binormal,
-                    BlendIndices,
-                    BlendWeight,
-                    Color,
-                    Normal,
-                    Position,
-                    PositionTransformed,
-                    PointSize,
-                    Tangent,
-                    TextureCoordinates0,
-                    TextureCoordinates1
+                    binormal,
+                    blendIndices,
+                    blendWeight,
+                    color,
+                    normal,
+                    position,
+                    positionTransformed,
+                    pointSize,
+                    tangent,
+                    textureCoordinates0,
+                    textureCoordinates1
                 };
 
                 Attribute(Usage initUsage, DataType initDataType) noexcept:

@@ -261,11 +261,11 @@ namespace ouzel
                 {
                     switch (drawMode)
                     {
-                        case DrawMode::PointList: return GL_POINTS;
-                        case DrawMode::LineList: return GL_LINES;
-                        case DrawMode::LineStrip: return GL_LINE_STRIP;
-                        case DrawMode::TriangleList: return GL_TRIANGLES;
-                        case DrawMode::TriangleStrip: return GL_TRIANGLE_STRIP;
+                        case DrawMode::pointList: return GL_POINTS;
+                        case DrawMode::lineList: return GL_LINES;
+                        case DrawMode::lineStrip: return GL_LINE_STRIP;
+                        case DrawMode::triangleList: return GL_TRIANGLES;
+                        case DrawMode::triangleStrip: return GL_TRIANGLE_STRIP;
                         default: throw std::runtime_error("Invalid draw mode");
                     }
                 }

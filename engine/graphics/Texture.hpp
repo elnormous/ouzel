@@ -49,7 +49,7 @@ namespace ouzel
 
             auto& getSize() const noexcept { return size; }
 
-            void setData(const std::vector<std::uint8_t>& newData, CubeFace face = CubeFace::PositiveX);
+            void setData(const std::vector<std::uint8_t>& newData, CubeFace face = CubeFace::positiveX);
 
             auto getFlags() const noexcept { return flags; }
             auto getMipmaps() const noexcept { return mipmaps; }
@@ -80,16 +80,16 @@ namespace ouzel
             Renderer* renderer = nullptr;
             RenderDevice::Resource resource;
 
-            TextureType type = TextureType::TwoDimensional;
+            TextureType type = TextureType::twoDimensional;
             Size2U size;
             std::uint32_t flags = 0;
             std::uint32_t mipmaps = 0;
             std::uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8UNorm;
             SamplerFilter filter = SamplerFilter::Default;
-            SamplerAddressMode addressX = SamplerAddressMode::ClampToEdge;
-            SamplerAddressMode addressY = SamplerAddressMode::ClampToEdge;
-            SamplerAddressMode addressZ = SamplerAddressMode::ClampToEdge;
+            SamplerAddressMode addressX = SamplerAddressMode::clampToEdge;
+            SamplerAddressMode addressY = SamplerAddressMode::clampToEdge;
+            SamplerAddressMode addressZ = SamplerAddressMode::clampToEdge;
             Color borderColor;
             std::uint32_t maxAnisotropy = 0;
         };

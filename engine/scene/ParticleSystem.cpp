@@ -86,7 +86,7 @@ namespace ouzel
                                             particleCount * 6,
                                             sizeof(std::uint16_t),
                                             vertexBuffer->getResource(),
-                                            graphics::DrawMode::TriangleList,
+                                            graphics::DrawMode::triangleList,
                                             0);
             }
         }
@@ -314,12 +314,12 @@ namespace ouzel
             }
 
             indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
-                                                             graphics::BufferType::Index, 0,
+                                                             graphics::BufferType::index, 0,
                                                              indices.data(),
                                                              static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
-                                                              graphics::BufferType::Vertex,
+                                                              graphics::BufferType::vertex,
                                                               graphics::Flags::Dynamic,
                                                               vertices.data(),
                                                               static_cast<std::uint32_t>(getVectorSize(vertices)));

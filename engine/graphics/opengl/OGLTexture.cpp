@@ -213,13 +213,13 @@ namespace ouzel
                 {
                     switch (address)
                     {
-                        case SamplerAddressMode::ClampToEdge:
+                        case SamplerAddressMode::clampToEdge:
                             return GL_CLAMP_TO_EDGE;
-                        case SamplerAddressMode::ClampToBorder:
+                        case SamplerAddressMode::clampToBorder:
                             return GL_CLAMP_TO_BORDER;
-                        case SamplerAddressMode::Repeat:
+                        case SamplerAddressMode::repeat:
                             return GL_REPEAT;
-                        case SamplerAddressMode::MirrorRepeat:
+                        case SamplerAddressMode::mirrorRepeat:
                             return GL_MIRRORED_REPEAT;
                         default:
                             throw std::runtime_error("Invalid texture address mode");
@@ -231,11 +231,11 @@ namespace ouzel
                     switch (type)
                     {
 #if !OUZEL_OPENGLES
-                        case TextureType::OneDimensional: return GL_TEXTURE_1D;
+                        case TextureType::oneDimensional: return GL_TEXTURE_1D;
 #endif
-                        case TextureType::TwoDimensional: return GL_TEXTURE_2D;
-                        case TextureType::ThreeDimensional: return GL_TEXTURE_3D;
-                        case TextureType::Cube: return GL_TEXTURE_CUBE_MAP;
+                        case TextureType::twoDimensional: return GL_TEXTURE_2D;
+                        case TextureType::threeDimensional: return GL_TEXTURE_3D;
+                        case TextureType::cube: return GL_TEXTURE_CUBE_MAP;
                         default: throw std::runtime_error("Invalid texture type");
                     }
                 }
@@ -244,12 +244,12 @@ namespace ouzel
                 {
                     switch (face)
                     {
-                        case CubeFace::PositiveX: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
-                        case CubeFace::NegativeX: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
-                        case CubeFace::PositiveY: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
-                        case CubeFace::NegativeY: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
-                        case CubeFace::PositiveZ: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
-                        case CubeFace::NegativeZ: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+                        case CubeFace::positiveX: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+                        case CubeFace::negativeX: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+                        case CubeFace::positiveY: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+                        case CubeFace::negativeY: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+                        case CubeFace::positiveZ: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+                        case CubeFace::negativeZ: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
                         default: throw std::runtime_error("Invalid cube face");
                     }
                 }

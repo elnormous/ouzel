@@ -19,10 +19,10 @@ namespace ouzel
             shader(engine->getCache().getShader(SHADER_TEXTURE)),
             blendState(engine->getCache().getBlendState(BLEND_ALPHA)),
             indexBuffer(*engine->getRenderer(),
-                        graphics::BufferType::Index,
+                        graphics::BufferType::index,
                         graphics::Flags::Dynamic),
             vertexBuffer(*engine->getRenderer(),
-                         graphics::BufferType::Vertex,
+                         graphics::BufferType::vertex,
                          graphics::Flags::Dynamic),
             text(initText),
             fontSize(initFontSize),
@@ -95,7 +95,7 @@ namespace ouzel
                                         static_cast<std::uint32_t>(indices.size()),
                                         sizeof(std::uint16_t),
                                         vertexBuffer.getResource(),
-                                        graphics::DrawMode::TriangleList,
+                                        graphics::DrawMode::triangleList,
                                         0);
         }
 

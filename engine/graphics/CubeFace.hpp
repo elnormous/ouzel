@@ -9,12 +9,12 @@ namespace ouzel
     {
         enum class CubeFace
         {
-            PositiveX,
-            NegativeX,
-            PositiveY,
-            NegativeY,
-            PositiveZ,
-            NegativeZ
+            positiveX,
+            negativeX,
+            positiveY,
+            negativeY,
+            positiveZ,
+            negativeZ
         };
     } // namespace graphics
 } // namespace ouzel

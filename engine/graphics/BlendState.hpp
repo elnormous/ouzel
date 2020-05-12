@@ -26,7 +26,7 @@ namespace ouzel
                        BlendOperation initColorOperation,
                        BlendFactor initAlphaBlendSource, BlendFactor initAlphaBlendDest,
                        BlendOperation initAlphaOperation,
-                       ColorMask initColorMask = ColorMask::All);
+                       ColorMask initColorMask = ColorMask::all);
 
             auto& getResource() const noexcept { return resource; }
 
@@ -44,13 +44,13 @@ namespace ouzel
         private:
             RenderDevice::Resource resource;
 
-            BlendFactor colorBlendSource = BlendFactor::One;
-            BlendFactor colorBlendDest = BlendFactor::Zero;
-            BlendOperation colorOperation = BlendOperation::Add;
-            BlendFactor alphaBlendSource = BlendFactor::One;
-            BlendFactor alphaBlendDest = BlendFactor::Zero;
-            BlendOperation alphaOperation = BlendOperation::Add;
-            ColorMask colorMask = ColorMask::All;
+            BlendFactor colorBlendSource = BlendFactor::one;
+            BlendFactor colorBlendDest = BlendFactor::zero;
+            BlendOperation colorOperation = BlendOperation::add;
+            BlendFactor alphaBlendSource = BlendFactor::one;
+            BlendFactor alphaBlendDest = BlendFactor::zero;
+            BlendOperation alphaOperation = BlendOperation::add;
+            ColorMask colorMask = ColorMask::all;
             bool enableBlending = false;
         };
     } // namespace graphics

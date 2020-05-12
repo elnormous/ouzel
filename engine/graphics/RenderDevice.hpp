@@ -59,7 +59,7 @@ namespace ouzel
             {
                 enum class Type
                 {
-                    Frame
+                    frame
                 };
 
                 Type type;

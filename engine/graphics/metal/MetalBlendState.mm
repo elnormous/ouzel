@@ -18,19 +18,19 @@ namespace ouzel
                 {
                     switch (blendFactor)
                     {
-                        case BlendFactor::Zero: return MTLBlendFactorZero;
-                        case BlendFactor::One: return MTLBlendFactorOne;
-                        case BlendFactor::SrcColor: return MTLBlendFactorSourceColor;
-                        case BlendFactor::InvSrcColor: return MTLBlendFactorOneMinusSourceColor;
-                        case BlendFactor::SrcAlpha: return MTLBlendFactorSourceAlpha;
-                        case BlendFactor::InvSrcAlpha: return MTLBlendFactorOneMinusSourceAlpha;
-                        case BlendFactor::DestAlpha: return MTLBlendFactorDestinationAlpha;
-                        case BlendFactor::InvDestAlpha: return MTLBlendFactorOneMinusDestinationAlpha;
-                        case BlendFactor::DestColor: return MTLBlendFactorDestinationColor;
-                        case BlendFactor::InvDestColor: return MTLBlendFactorOneMinusDestinationColor;
-                        case BlendFactor::SrcAlphaSat: return MTLBlendFactorSourceAlphaSaturated;
-                        case BlendFactor::BlendFactor: return MTLBlendFactorBlendColor;
-                        case BlendFactor::InvBlendFactor: return MTLBlendFactorOneMinusBlendColor;
+                        case BlendFactor::zero: return MTLBlendFactorZero;
+                        case BlendFactor::one: return MTLBlendFactorOne;
+                        case BlendFactor::srcColor: return MTLBlendFactorSourceColor;
+                        case BlendFactor::invSrcColor: return MTLBlendFactorOneMinusSourceColor;
+                        case BlendFactor::srcAlpha: return MTLBlendFactorSourceAlpha;
+                        case BlendFactor::invSrcAlpha: return MTLBlendFactorOneMinusSourceAlpha;
+                        case BlendFactor::destAlpha: return MTLBlendFactorDestinationAlpha;
+                        case BlendFactor::invDestAlpha: return MTLBlendFactorOneMinusDestinationAlpha;
+                        case BlendFactor::destColor: return MTLBlendFactorDestinationColor;
+                        case BlendFactor::invDestColor: return MTLBlendFactorOneMinusDestinationColor;
+                        case BlendFactor::srcAlphaSat: return MTLBlendFactorSourceAlphaSaturated;
+                        case BlendFactor::blendFactor: return MTLBlendFactorBlendColor;
+                        case BlendFactor::invBlendFactor: return MTLBlendFactorOneMinusBlendColor;
                     }
 
                     return MTLBlendFactorZero;
@@ -40,11 +40,11 @@ namespace ouzel
                 {
                     switch (blendOperation)
                     {
-                        case BlendOperation::Add: return MTLBlendOperationAdd;
-                        case BlendOperation::Subtract: return MTLBlendOperationSubtract;
-                        case BlendOperation::RevSubtract: return MTLBlendOperationReverseSubtract;
-                        case BlendOperation::Min: return MTLBlendOperationMin;
-                        case BlendOperation::Max: return MTLBlendOperationMax;
+                        case BlendOperation::add: return MTLBlendOperationAdd;
+                        case BlendOperation::subtract: return MTLBlendOperationSubtract;
+                        case BlendOperation::reverseSubtract: return MTLBlendOperationReverseSubtract;
+                        case BlendOperation::min: return MTLBlendOperationMin;
+                        case BlendOperation::max: return MTLBlendOperationMax;
                     }
 
                     return MTLBlendOperationAdd;
@@ -70,10 +70,10 @@ namespace ouzel
                 blendingEnabled(enableBlending)
             {
                 colorWriteMask = MTLColorWriteMaskNone;
-                if ((colorMask & ColorMask::Red) == ColorMask::Red) colorWriteMask |= MTLColorWriteMaskRed;
-                if ((colorMask & ColorMask::Green) == ColorMask::Green) colorWriteMask |= MTLColorWriteMaskGreen;
-                if ((colorMask & ColorMask::Blue) == ColorMask::Blue) colorWriteMask |= MTLColorWriteMaskBlue;
-                if ((colorMask & ColorMask::Alpha) == ColorMask::Alpha) colorWriteMask |= MTLColorWriteMaskAlpha;
+                if ((colorMask & ColorMask::red) == ColorMask::red) colorWriteMask |= MTLColorWriteMaskRed;
+                if ((colorMask & ColorMask::green) == ColorMask::green) colorWriteMask |= MTLColorWriteMaskGreen;
+                if ((colorMask & ColorMask::blue) == ColorMask::blue) colorWriteMask |= MTLColorWriteMaskBlue;
+                if ((colorMask & ColorMask::alpha) == ColorMask::alpha) colorWriteMask |= MTLColorWriteMaskAlpha;
             }
         } // namespace metal
     } // namespace graphics
