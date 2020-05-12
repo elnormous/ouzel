@@ -92,7 +92,7 @@ namespace ouzel
         if (active)
         {
             auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::EngineStop;
+            event->type = Event::Type::engineStop;
             eventDispatcher.postEvent(std::move(event));
         }
 
@@ -198,11 +198,12 @@ namespace ouzel
 
         graphics::Driver graphicsDriver = graphics::Renderer::getDriver(graphicsDriverValue);
 
-        const std::uint32_t windowFlags = (resizable ? Window::Flags::Resizable : 0) |
-            (fullscreen ? Window::Flags::Fullscreen : 0) |
-            (exclusiveFullscreen ? Window::Flags::ExclusiveFullscreen : 0) |
-            (highDpi ? Window::Flags::HighDpi : 0) |
-            (depth ? Window::Flags::Depth : 0);
+        const Window::Flags windowFlags =
+            (resizable ? Window::Flags::resizable : Window::Flags::none) |
+            (fullscreen ? Window::Flags::fullscreen : Window::Flags::none) |
+            (exclusiveFullscreen ? Window::Flags::exclusiveFullscreen : Window::Flags::none) |
+            (highDpi ? Window::Flags::highDpi : Window::Flags::none) |
+            (depth ? Window::Flags::depth : Window::Flags::none);
 
         window = std::make_unique<Window>(*this,
                                           size,
@@ -250,10 +251,10 @@ namespace ouzel
                                                                                graphics::Vertex::Attribute::Usage::textureCoordinates0
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"color",graphics::DataType::FloatVector4}
+                                                                               {"color",graphics::DataType::float32Vector4}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                               {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                            });
                         break;
                     case 3:
@@ -268,10 +269,10 @@ namespace ouzel
                                                                                graphics::Vertex::Attribute::Usage::textureCoordinates0
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"color", graphics::DataType::FloatVector4}
+                                                                               {"color", graphics::DataType::float32Vector4}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                               {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                            });
                         break;
 #  else
@@ -287,10 +288,10 @@ namespace ouzel
                                                                                graphics::Vertex::Attribute::Usage::textureCoordinates0
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"color", graphics::DataType::FloatVector4}
+                                                                               {"color", graphics::DataType::float32Vector4}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                               {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                            });
                         break;
                     case 3:
@@ -305,10 +306,10 @@ namespace ouzel
                                                                                graphics::Vertex::Attribute::Usage::textureCoordinates0
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"color", graphics::DataType::FloatVector4}
+                                                                               {"color", graphics::DataType::float32Vector4}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                               {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                            });
                         break;
                     case 4:
@@ -323,10 +324,10 @@ namespace ouzel
                                                                                graphics::Vertex::Attribute::Usage::textureCoordinates0
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"color", graphics::DataType::FloatVector4}
+                                                                               {"color", graphics::DataType::float32Vector4}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                               {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                               {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                            });
                         break;
 #  endif
@@ -352,10 +353,10 @@ namespace ouzel
                                                                              graphics::Vertex::Attribute::Usage::color
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"color", graphics::DataType::FloatVector4}
+                                                                             {"color", graphics::DataType::float32Vector4}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                             {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                          });
                         break;
                     case 3:
@@ -369,10 +370,10 @@ namespace ouzel
                                                                              graphics::Vertex::Attribute::Usage::color
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"color", graphics::DataType::FloatVector4}
+                                                                             {"color", graphics::DataType::float32Vector4}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                             {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                          });
                         break;
 #  else
@@ -387,10 +388,10 @@ namespace ouzel
                                                                              graphics::Vertex::Attribute::Usage::color
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"color", graphics::DataType::FloatVector4}
+                                                                             {"color", graphics::DataType::float32Vector4}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                             {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                          });
                         break;
                     case 3:
@@ -404,10 +405,10 @@ namespace ouzel
                                                                              graphics::Vertex::Attribute::Usage::color
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"color", graphics::DataType::FloatVector4}
+                                                                             {"color", graphics::DataType::float32Vector4}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                             {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                          });
                         break;
                     case 4:
@@ -421,10 +422,10 @@ namespace ouzel
                                                                              graphics::Vertex::Attribute::Usage::color
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"color", graphics::DataType::FloatVector4}
+                                                                             {"color", graphics::DataType::float32Vector4}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                             {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                             {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                          });
                         break;
 #  endif
@@ -451,10 +452,10 @@ namespace ouzel
                                                                             graphics::Vertex::Attribute::Usage::textureCoordinates0
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"color", graphics::DataType::FloatVector4}
+                                                                            {"color", graphics::DataType::float32Vector4}
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                            {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                         });
 
                 assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
@@ -469,10 +470,10 @@ namespace ouzel
                                                                           graphics::Vertex::Attribute::Usage::color
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"color", graphics::DataType::FloatVector4}
+                                                                          {"color", graphics::DataType::float32Vector4}
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                          {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                       });
 
                 assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
@@ -494,10 +495,10 @@ namespace ouzel
                                                                             graphics::Vertex::Attribute::Usage::textureCoordinates0
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"color", graphics::DataType::FloatVector4}
+                                                                            {"color", graphics::DataType::float32Vector4}
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                            {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                         },
                                                                         "mainPS", "mainVS");
 
@@ -513,10 +514,10 @@ namespace ouzel
                                                                           graphics::Vertex::Attribute::Usage::color
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"color", graphics::DataType::FloatVector4}
+                                                                          {"color", graphics::DataType::float32Vector4}
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                          {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                       },
                                                                       "mainPS", "mainVS");
 
@@ -536,10 +537,10 @@ namespace ouzel
                                                                             graphics::Vertex::Attribute::Usage::textureCoordinates0
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"color", graphics::DataType::FloatVector4}
+                                                                            {"color", graphics::DataType::float32Vector4}
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                            {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                            {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                         });
 
                 assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
@@ -552,10 +553,10 @@ namespace ouzel
                                                                           graphics::Vertex::Attribute::Usage::color
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"color", graphics::DataType::FloatVector4}
+                                                                          {"color", graphics::DataType::float32Vector4}
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
-                                                                          {"modelViewProj", graphics::DataType::FloatMatrix4}
+                                                                          {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                       });
 
                 assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
@@ -621,7 +622,7 @@ namespace ouzel
         auto whitePixelTexture = std::make_shared<graphics::Texture>(*renderer,
                                                                      std::vector<std::uint8_t>{255, 255, 255, 255},
                                                                      Size2U(1, 1),
-                                                                     0, 1);
+                                                                     graphics::Flags::none, 1);
         assetBundle.setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
     }
 
@@ -630,7 +631,7 @@ namespace ouzel
         if (!active)
         {
             auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::EngineStart;
+            event->type = Event::Type::engineStart;
             eventDispatcher.postEvent(std::move(event));
 
             active = true;
@@ -649,7 +650,7 @@ namespace ouzel
         if (active && !paused)
         {
             auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::EnginePause;
+            event->type = Event::Type::enginePause;
             eventDispatcher.postEvent(std::move(event));
 
             paused = true;
@@ -661,7 +662,7 @@ namespace ouzel
         if (active && paused)
         {
             auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::EngineResume;
+            event->type = Event::Type::engineResume;
             eventDispatcher.postEvent(std::move(event));
 
             paused = false;
@@ -679,7 +680,7 @@ namespace ouzel
         if (active)
         {
             auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::EngineStop;
+            event->type = Event::Type::engineStop;
             eventDispatcher.postEvent(std::move(event));
 
             active = false;
@@ -712,7 +713,7 @@ namespace ouzel
             const float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
 
             auto updateEvent = std::make_unique<UpdateEvent>();
-            updateEvent->type = Event::Type::Update;
+            updateEvent->type = Event::Type::update;
             updateEvent->delta = delta;
             eventDispatcher.dispatchEvent(std::move(updateEvent));
         }

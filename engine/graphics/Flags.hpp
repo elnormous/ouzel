@@ -7,13 +7,43 @@ namespace ouzel
 {
     namespace graphics
     {
-        enum Flags
+        enum class Flags
         {
-            Dynamic = 0x01,
-            BindRenderTarget = 0x02,
-            BindShader = 0x04,
-            BindShaderMsaa = 0x08
+            none = 0x00,
+            dynamic = 0x01,
+            bindRenderTarget = 0x02,
+            bindShader = 0x04,
+            bindShaderMsaa = 0x08
         };
+
+        inline constexpr Flags operator&(const Flags a, const Flags b) noexcept
+        {
+            return static_cast<Flags>(static_cast<std::underlying_type_t<Flags>>(a) & static_cast<std::underlying_type_t<Flags>>(b));
+        }
+        inline constexpr Flags operator|(const Flags a, const Flags b) noexcept
+        {
+            return static_cast<Flags>(static_cast<std::underlying_type_t<Flags>>(a) | static_cast<std::underlying_type_t<Flags>>(b));
+        }
+        inline constexpr Flags operator^(const Flags a, const Flags b) noexcept
+        {
+            return static_cast<Flags>(static_cast<std::underlying_type_t<Flags>>(a) ^ static_cast<std::underlying_type_t<Flags>>(b));
+        }
+        inline constexpr Flags operator~(const Flags a) noexcept
+        {
+            return static_cast<Flags>(~static_cast<std::underlying_type_t<Flags>>(a));
+        }
+        inline constexpr Flags& operator&=(Flags& a, const Flags b) noexcept
+        {
+            return a = static_cast<Flags>(static_cast<std::underlying_type_t<Flags>>(a) & static_cast<std::underlying_type_t<Flags>>(b));
+        }
+        inline constexpr Flags& operator|=(Flags& a, const Flags b) noexcept
+        {
+            return a = static_cast<Flags>(static_cast<std::underlying_type_t<Flags>>(a) | static_cast<std::underlying_type_t<Flags>>(b));
+        }
+        inline constexpr Flags& operator^=(Flags& a, const Flags b) noexcept
+        {
+            return a = static_cast<Flags>(static_cast<std::underlying_type_t<Flags>>(a) ^ static_cast<std::underlying_type_t<Flags>>(b));
+        }
     } // namespace graphics
 } // namespace ouzel
 

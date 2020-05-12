@@ -245,7 +245,7 @@ namespace
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::Left,
+    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::left,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                  static_cast<float>(location.y))));
 }
@@ -256,7 +256,7 @@ namespace
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::Left,
+    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::left,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                    static_cast<float>(location.y))));
 }
@@ -267,7 +267,7 @@ namespace
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::Right,
+    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::right,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                  static_cast<float>(location.y))));
 }
@@ -278,7 +278,7 @@ namespace
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::Right,
+    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::right,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                    static_cast<float>(location.y))));
 }
@@ -289,7 +289,7 @@ namespace
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::Middle,
+    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::middle,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                  static_cast<float>(location.y))));
 }
@@ -300,7 +300,7 @@ namespace
 
     ouzel::input::InputSystemMacOS* inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
     ouzel::input::MouseDeviceMacOS* mouseDevice = inputSystemMacOS->getMouseDevice();
-    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::Middle,
+    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::middle,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                                    static_cast<float>(location.y))));
 }

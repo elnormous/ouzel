@@ -34,19 +34,19 @@ namespace ouzel
             public:
                 enum class Type
                 {
-                    StartDeviceDiscovery,
-                    StopDeviceDiscovery,
-                    SetAbsoluteDpad_VALUES,
-                    SetPlayerIndex,
-                    SetVibration,
-                    SetPosition,
-                    InitCursor,
-                    DestroyCursor,
-                    SetCursor,
-                    SetCursorVisible,
-                    SetCursorLocked,
-                    ShowVirtualKeyboard,
-                    HideVirtualKeyboard
+                    startDeviceDiscovery,
+                    stopDeviceDiscovery,
+                    setAbsoluteDpadValues,
+                    setPlayerIndex,
+                    setVibration,
+                    setPosition,
+                    initCursor,
+                    destroyCursor,
+                    setCursor,
+                    setCursorVisible,
+                    setCursorLocked,
+                    showVirtualKeyboard,
+                    hideVirtualKeyboard
                 };
 
                 Command() = default;
@@ -79,26 +79,26 @@ namespace ouzel
             public:
                 enum class Type
                 {
-                    DeviceConnect,
-                    DeviceDisconnect,
-                    DeviceDiscoveryComplete,
+                    deviceConnect,
+                    deviceDisconnect,
+                    deviceDiscoveryComplete,
 
-                    GamepadButtonChange,
+                    gamepadButtonChange,
 
-                    KeyboardKeyPress,
-                    KeyboardKeyRelease,
+                    keyboardKeyPress,
+                    keyboardKeyRelease,
 
-                    MousePress,
-                    MouseRelease,
-                    MouseScroll,
-                    MouseMove,
-                    MouseRelativeMove,
-                    MouseLockChanged,
+                    mousePress,
+                    mouseRelease,
+                    mouseScroll,
+                    mouseMove,
+                    mouseRelativeMove,
+                    mouseLockChanged,
 
-                    TouchBegin,
-                    TouchMove,
-                    TouchEnd,
-                    TouchCancel
+                    touchBegin,
+                    touchMove,
+                    touchEnd,
+                    touchCancel
                 };
 
                 Event() = default;

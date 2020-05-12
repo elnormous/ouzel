@@ -15,7 +15,7 @@ InputSample::InputSample():
     cursor.init("cursor.png", Vector2F(0.0F, 63.0F));
 
     handler.keyboardHandler = [this](const KeyboardEvent& event) {
-        if (event.type == Event::Type::KeyboardKeyPress)
+        if (event.type == Event::Type::keyboardKeyPress)
         {
             Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
@@ -54,7 +54,7 @@ InputSample::InputSample():
 
             flame.setPosition(worldLocation);
         }
-        else if (event.type == Event::Type::KeyboardKeyRelease)
+        else if (event.type == Event::Type::keyboardKeyRelease)
         {
             switch (event.key)
             {
@@ -73,7 +73,7 @@ InputSample::InputSample():
     handler.mouseHandler = [this](const MouseEvent& event) {
         switch (event.type)
         {
-            case Event::Type::MouseMove:
+            case Event::Type::mouseMove:
             {
                 auto worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
                 flame.setPosition(worldLocation);
@@ -97,33 +97,33 @@ InputSample::InputSample():
     };
 
     handler.gamepadHandler = [this](const GamepadEvent& event) {
-        if (event.type == Event::Type::GamepadButtonChange)
+        if (event.type == Event::Type::gamepadButtonChange)
         {
             Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
             switch (event.button)
             {
-                case Gamepad::Button::FaceRight:
+                case Gamepad::Button::faceRight:
                     if (event.pressed) engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                     return false;
-                case Gamepad::Button::DpadUp:
-                case Gamepad::Button::LeftThumbUp:
-                case Gamepad::Button::RightThumbUp:
+                case Gamepad::Button::dPadUp:
+                case Gamepad::Button::leftThumbUp:
+                case Gamepad::Button::rightThumbUp:
                     flamePosition.y() = event.value / 2.0F + 0.5F;
                     break;
-                case Gamepad::Button::DpadDown:
-                case Gamepad::Button::LeftThumbDown:
-                case Gamepad::Button::RightThumbDown:
+                case Gamepad::Button::dPadDown:
+                case Gamepad::Button::leftThumbDown:
+                case Gamepad::Button::rightThumbDown:
                     flamePosition.y() = -event.value / 2.0F + 0.5F;
                     break;
-                case Gamepad::Button::DpadLeft:
-                case Gamepad::Button::LeftThumbLeft:
-                case Gamepad::Button::RightThumbLeft:
+                case Gamepad::Button::dPadLeft:
+                case Gamepad::Button::leftThumbLeft:
+                case Gamepad::Button::rightThumbLeft:
                     flamePosition.x() = -event.value / 2.0F + 0.5F;
                     break;
-                case Gamepad::Button::DpadRight:
-                case Gamepad::Button::LeftThumbRight:
-                case Gamepad::Button::RightThumbRight:
+                case Gamepad::Button::dPadRight:
+                case Gamepad::Button::leftThumbRight:
+                case Gamepad::Button::rightThumbRight:
                     flamePosition.x() = event.value / 2.0F + 0.5F;
                     break;
                 default:
@@ -138,7 +138,7 @@ InputSample::InputSample():
     };
 
     handler.uiHandler = [this](const UIEvent& event) {
-        if (event.type == Event::Type::ActorClick)
+        if (event.type == Event::Type::actorClick)
         {
             if (event.actor == &backButton)
             {

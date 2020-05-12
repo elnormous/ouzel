@@ -19,52 +19,52 @@ namespace ouzel
         public:
             enum class Axis
             {
-                Unknown,
-                LeftThumbX,
-                LeftThumbY,
-                RightThumbX,
-                RightThumbY,
-                LeftTrigger,
-                RightTrigger
+                none,
+                leftThumbX,
+                leftThumbY,
+                rightThumbX,
+                rightThumbY,
+                leftTrigger,
+                rightTrigger
             };
 
             enum class Button
             {
-                Unknown,
-                DpadLeft,
-                DpadRight,
-                DpadUp,
-                DpadDown,
-                FaceBottom, // A on Xbox controller, cross on PS controller, B on Nintendo controller
-                FaceRight, // B on Xbox controller, circle on PS controller, A on Nintendo controller
-                FaceLeft, // X on Xbox controller, square on PS controller, Y on Nintendo controller
-                FaceTop, // Y on Xbox controller, triangle on PS controller, X on Nintendo controller
-                LeftShoulder, // L1 for Apple and PS controller
-                LeftTrigger, // L2 for Apple and PS controller
-                RightShoulder, // R1 for Apple and PS controller
-                RightTrigger, // R2 for Apple and PS controller
-                LeftThumb,
-                RightThumb,
-                Start,
-                Back,
-                Pause,
-                LeftThumbLeft,
-                LeftThumbRight,
-                LeftThumbUp,
-                LeftThumbDown,
-                RightThumbLeft,
-                RightThumbRight,
-                RightThumbUp,
-                RightThumbDown,
-                Count
+                none,
+                dPadLeft,
+                dPadRight,
+                dPadUp,
+                dPadDown,
+                faceBottom, // A on Xbox controller, cross on PS controller, B on Nintendo controller
+                faceRight, // B on Xbox controller, circle on PS controller, A on Nintendo controller
+                faceLeft, // X on Xbox controller, square on PS controller, Y on Nintendo controller
+                faceTop, // Y on Xbox controller, triangle on PS controller, X on Nintendo controller
+                leftShoulder, // L1 for Apple and PS controller
+                leftTrigger, // L2 for Apple and PS controller
+                rightShoulder, // R1 for Apple and PS controller
+                rightTrigger, // R2 for Apple and PS controller
+                leftThumb,
+                rightThumb,
+                start,
+                back,
+                pause,
+                leftThumbLeft,
+                leftThumbRight,
+                leftThumbUp,
+                leftThumbDown,
+                rightThumbLeft,
+                rightThumbRight,
+                rightThumbUp,
+                rightThumbDown,
+                count
             };
 
             enum class Motor
             {
-                All,
-                Left,
-                Right,
-                Count
+                all,
+                left,
+                right,
+                count
             };
 
             struct ButtonState final
@@ -101,11 +101,11 @@ namespace ouzel
             bool handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
 
         private:
-            ButtonState buttonStates[static_cast<std::uint32_t>(Button::Count)];
+            ButtonState buttonStates[static_cast<std::uint32_t>(Button::count)];
             std::int32_t playerIndex = -1;
             bool absoluteDpadValues = false;
             bool attached = false;
-            float vibration[static_cast<std::uint32_t>(Motor::Count)]{0.0F};
+            float vibration[static_cast<std::uint32_t>(Motor::count)]{0.0F};
         };
     } // namespace input
 } // namespace ouzel

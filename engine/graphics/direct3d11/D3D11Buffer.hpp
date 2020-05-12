@@ -22,6 +22,7 @@
 #include "D3D11RenderResource.hpp"
 #include "D3D11Pointer.hpp"
 #include "../BufferType.hpp"
+#include "../Flags.hpp"
 
 namespace ouzel
 {
@@ -36,7 +37,7 @@ namespace ouzel
             public:
                 Buffer(RenderDevice& initRenderDevice,
                        BufferType initType,
-                       std::uint32_t initFlags,
+                       Flags initFlags,
                        const std::vector<std::uint8_t>& data,
                        std::uint32_t initSize);
 
@@ -52,7 +53,7 @@ namespace ouzel
                 void createBuffer(UINT newSize, const std::vector<std::uint8_t>& data);
 
                 BufferType type;
-                std::uint32_t flags = 0;
+                Flags flags = Flags::none;
 
                 Pointer<ID3D11Buffer> buffer;
                 UINT size = 0;

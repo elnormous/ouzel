@@ -403,7 +403,7 @@ namespace ouzel
 
                         switch (command->type)
                         {
-                            case Command::Type::Resize:
+                            case Command::Type::resize:
                             {
                                 auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
                                 resizeBackBuffer(static_cast<UINT>(resizeCommand->size.v[0]),
@@ -411,7 +411,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::Present:
+                            case Command::Type::present:
                             {
                                 if (currentRenderTarget)
                                     currentRenderTarget->resolve();
@@ -420,14 +420,14 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::DeleteResource:
+                            case Command::Type::deleteResource:
                             {
                                 auto deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
                                 resources[deleteResourceCommand->resource - 1].reset();
                                 break;
                             }
 
-                            case Command::Type::InitRenderTarget:
+                            case Command::Type::initRenderTarget:
                             {
                                 auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
 
@@ -445,7 +445,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SetRenderTarget:
+                            case Command::Type::setRenderTarget:
                             {
                                 auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
@@ -468,7 +468,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::ClearRenderTarget:
+                            case Command::Type::clearRenderTarget:
                             {
                                 auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
@@ -505,7 +505,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::Blit:
+                            case Command::Type::blit:
                             {
                                 auto blitCommand = static_cast<const BlitCommand*>(command.get());
 
@@ -531,7 +531,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SetScissorTest:
+                            case Command::Type::setScissorTest:
                             {
                                 auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
@@ -553,7 +553,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SetViewport:
+                            case Command::Type::setViewport:
                             {
                                 auto setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
 
@@ -569,7 +569,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::InitDepthStencilState:
+                            case Command::Type::initDepthStencilState:
                             {
                                 auto initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
                                 auto depthStencilState = std::make_unique<DepthStencilState>(*this,
@@ -594,7 +594,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SetDepthStencilState:
+                            case Command::Type::setDepthStencilState:
                             {
                                 auto setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
 
@@ -611,7 +611,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SetPipelineState:
+                            case Command::Type::setPipelineState:
                             {
                                 auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
@@ -643,16 +643,16 @@ namespace ouzel
 
                                 switch (setPipelineStateCommand->cullMode)
                                 {
-                                    case CullMode::NoCull: cullModeIndex = 0; break;
-                                    case CullMode::Front: cullModeIndex = 1; break;
-                                    case CullMode::Back: cullModeIndex = 2; break;
+                                    case CullMode::none: cullModeIndex = 0; break;
+                                    case CullMode::front: cullModeIndex = 1; break;
+                                    case CullMode::back: cullModeIndex = 2; break;
                                     default: throw std::runtime_error("Invalid cull mode");
                                 }
 
                                 switch (setPipelineStateCommand->fillMode)
                                 {
-                                    case FillMode::Solid: fillModeIndex = 0; break;
-                                    case FillMode::Wireframe: fillModeIndex = 1; break;
+                                    case FillMode::solid: fillModeIndex = 0; break;
+                                    case FillMode::wireframe: fillModeIndex = 1; break;
                                     default: throw std::runtime_error("Invalid fill mode");
                                 }
 
@@ -661,7 +661,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::Draw:
+                            case Command::Type::draw:
                             {
                                 auto drawCommand = static_cast<const DrawCommand*>(command.get());
 
@@ -691,19 +691,19 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::PushDebugMarker:
+                            case Command::Type::pushDebugMarker:
                             {
                                 // D3D11 does not support debug markers
                                 break;
                             }
 
-                            case Command::Type::PopDebugMarker:
+                            case Command::Type::popDebugMarker:
                             {
                                 // D3D11 does not support debug markers
                                 break;
                             }
 
-                            case Command::Type::InitBlendState:
+                            case Command::Type::initBlendState:
                             {
                                 auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
@@ -723,7 +723,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::InitBuffer:
+                            case Command::Type::initBuffer:
                             {
                                 auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
@@ -739,7 +739,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SetBufferData:
+                            case Command::Type::setBufferData:
                             {
                                 auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
@@ -748,7 +748,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::InitShader:
+                            case Command::Type::initShader:
                             {
                                 auto initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
@@ -767,7 +767,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SetShaderConstants:
+                            case Command::Type::setShaderConstants:
                             {
                                 auto setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
@@ -829,7 +829,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::InitTexture:
+                            case Command::Type::initTexture:
                             {
                                 auto initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
@@ -846,7 +846,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SetTextureData:
+                            case Command::Type::setTextureData:
                             {
                                 auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
@@ -856,7 +856,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SetTextureParameters:
+                            case Command::Type::setTextureParameters:
                             {
                                 auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
@@ -870,7 +870,7 @@ namespace ouzel
                                 break;
                             }
 
-                            case Command::Type::SetTextures:
+                            case Command::Type::setTextures:
                             {
                                 auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
@@ -899,7 +899,7 @@ namespace ouzel
                                 throw std::runtime_error("Invalid command");
                         }
 
-                        if (command->type == Command::Type::Present) return;
+                        if (command->type == Command::Type::present) return;
                     }
                 }
             }

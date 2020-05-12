@@ -29,20 +29,20 @@ namespace ouzel
             explicit Texture(Renderer& initRenderer);
             Texture(Renderer& initRenderer,
                     const Size2U& initSize,
-                    std::uint32_t initFlags = 0,
+                    Flags initFlags = Flags::none,
                     std::uint32_t initMipmaps = 0,
                     std::uint32_t initSampleCount = 1,
                     PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
             Texture(Renderer& initRenderer,
                     const std::vector<std::uint8_t>& initData,
                     const Size2U& initSize,
-                    std::uint32_t initFlags = 0,
+                    Flags initFlags = Flags::none,
                     std::uint32_t initMipmaps = 0,
                     PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
             Texture(Renderer& initRenderer,
                     const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
                     const Size2U& initSize,
-                    std::uint32_t initFlags = 0,
+                    Flags initFlags = Flags::none,
                     PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
 
             auto& getResource() const noexcept { return resource; }
@@ -82,7 +82,7 @@ namespace ouzel
 
             TextureType type = TextureType::twoDimensional;
             Size2U size;
-            std::uint32_t flags = 0;
+            Flags flags = Flags::none;
             std::uint32_t mipmaps = 0;
             std::uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8UNorm;

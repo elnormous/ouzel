@@ -11,22 +11,22 @@ RTSample::RTSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
     renderTexture(std::make_shared<graphics::Texture>(*engine->getRenderer(),
                                                       Size2U(256, 256),
-                                                      graphics::Flags::BindRenderTarget |
-                                                      graphics::Flags::BindShader, 1, 1)),
+                                                      graphics::Flags::bindRenderTarget |
+                                                      graphics::Flags::bindShader, 1, 1)),
     depthTexture(*engine->getRenderer(),
                  Size2U(256, 256),
-                 graphics::Flags::BindRenderTarget |
-                 graphics::Flags::BindShader, 1, 1,
+                 graphics::Flags::bindRenderTarget |
+                 graphics::Flags::bindShader, 1, 1,
                  graphics::PixelFormat::Depth),
     renderTarget(*engine->getRenderer(),
                  {renderTexture.get()},
                  &depthTexture)
 {
     handler.gamepadHandler = [](const GamepadEvent& event) {
-        if (event.type == Event::Type::GamepadButtonChange)
+        if (event.type == Event::Type::gamepadButtonChange)
         {
             if (event.pressed &&
-                event.button == Gamepad::Button::FaceRight)
+                event.button == Gamepad::Button::faceRight)
                 engine->getSceneManager().setScene(std::make_unique<MainMenu>());
         }
 
@@ -34,14 +34,14 @@ RTSample::RTSample():
     };
 
     handler.uiHandler = [this](const UIEvent& event) {
-        if (event.type == Event::Type::ActorClick && event.actor == &backButton)
+        if (event.type == Event::Type::actorClick && event.actor == &backButton)
             engine->getSceneManager().setScene(std::make_unique<MainMenu>());
 
         return false;
     };
 
     handler.keyboardHandler = [](const KeyboardEvent& event) {
-        if (event.type == Event::Type::KeyboardKeyPress)
+        if (event.type == Event::Type::keyboardKeyPress)
         {
             switch (event.key)
             {
@@ -54,7 +54,7 @@ RTSample::RTSample():
                     break;
             }
         }
-        else if (event.type == Event::Type::KeyboardKeyRelease)
+        else if (event.type == Event::Type::keyboardKeyRelease)
         {
             switch (event.key)
             {

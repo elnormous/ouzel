@@ -231,34 +231,34 @@ namespace ouzel
     {
         switch (command.type)
         {
-            case Command::Type::ChangeSize:
+            case Command::Type::changeSize:
                 setSize(command.size);
                 break;
-            case Command::Type::ChangeFullscreen:
+            case Command::Type::changeFullscreen:
                 setFullscreen(command.fullscreen);
                 break;
-            case Command::Type::Close:
+            case Command::Type::close:
                 close();
                 break;
-            case Command::Type::SetTitle:
+            case Command::Type::setTitle:
                 setTitle(command.title);
                 break;
-            case Command::Type::BringToFront:
+            case Command::Type::bringToFront:
                 bringToFront();
                 break;
-            case Command::Type::Show:
+            case Command::Type::show:
                 show();
                 break;
-            case Command::Type::Hide:
+            case Command::Type::hide:
                 hide();
                 break;
-            case Command::Type::Minimize:
+            case Command::Type::minimize:
                 minimize();
                 break;
-            case Command::Type::Maximize:
+            case Command::Type::maximize:
                 maximize();
                 break;
-            case Command::Type::Restore:
+            case Command::Type::restore:
                 restore();
                 break;
             default:
@@ -305,7 +305,7 @@ namespace ouzel
             [window setFrame:newFrame display:YES animate:NO];
             resolution = size * static_cast<std::uint32_t>(contentScale);
 
-            Event resolutionChangeEvent(Event::Type::ResolutionChange);
+            Event resolutionChangeEvent(Event::Type::resolutionChange);
             resolutionChangeEvent.size = resolution;
             sendEvent(resolutionChangeEvent);
         }
@@ -405,35 +405,35 @@ namespace ouzel
                       static_cast<std::uint32_t>(frame.size.height));
         resolution = size * static_cast<std::uint32_t>(contentScale);
 
-        Event sizeChangeEvent(Event::Type::SizeChange);
+        Event sizeChangeEvent(Event::Type::sizeChange);
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::ResolutionChange);
+        Event resolutionChangeEvent(Event::Type::resolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
 
     void NativeWindowMacOS::handleClose()
     {
-        sendEvent(Event(Event::Type::Close));
+        sendEvent(Event(Event::Type::close));
     }
 
     void NativeWindowMacOS::handleMinituarize()
     {
-        sendEvent(Event(Event::Type::Minimize));
+        sendEvent(Event(Event::Type::minimize));
     }
 
     void NativeWindowMacOS::handleDeminituarize()
     {
-        sendEvent(Event(Event::Type::Restore));
+        sendEvent(Event(Event::Type::restore));
     }
 
     void NativeWindowMacOS::handleFullscreenChange(bool newFullscreen)
     {
         fullscreen = newFullscreen;
 
-        Event fullscreenChangeEvent(Event::Type::FullscreenChange);
+        Event fullscreenChangeEvent(Event::Type::fullscreenChange);
         fullscreenChangeEvent.fullscreen = fullscreen;
         sendEvent(fullscreenChangeEvent);
     }
@@ -445,7 +445,7 @@ namespace ouzel
             contentScale = static_cast<float>(window.backingScaleFactor);
             resolution = size * static_cast<std::uint32_t>(contentScale);
 
-            Event resolutionChangeEvent(Event::Type::ResolutionChange);
+            Event resolutionChangeEvent(Event::Type::resolutionChange);
             resolutionChangeEvent.size = resolution;
             sendEvent(resolutionChangeEvent);
         }
@@ -456,21 +456,21 @@ namespace ouzel
         screen = [window screen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
-        Event screenChangeEvent(Event::Type::ScreenChange);
+        Event screenChangeEvent(Event::Type::screenChange);
         screenChangeEvent.displayId = displayId;
         sendEvent(screenChangeEvent);
     }
 
     void NativeWindowMacOS::handleBecomeKeyChange()
     {
-        Event focusChangeEvent(Event::Type::FocusChange);
+        Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
     }
 
     void NativeWindowMacOS::handleResignKeyChange()
     {
-        Event focusChangeEvent(Event::Type::FocusChange);
+        Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = false;
         sendEvent(focusChangeEvent);
     }

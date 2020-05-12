@@ -13,7 +13,7 @@ public:
         handler.keyboardHandler = [this](const ouzel::KeyboardEvent& event) {
             if (actor)
             {
-                if (event.type == ouzel::Event::Type::KeyboardKeyPress)
+                if (event.type == ouzel::Event::Type::keyboardKeyPress)
                 {
                     ouzel::Vector2F position = ouzel::Vector2F(actor->getPosition());
 

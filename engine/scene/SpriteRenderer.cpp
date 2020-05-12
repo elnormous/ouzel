@@ -72,12 +72,14 @@ namespace ouzel
             boundingBox.max = finalOffset + Vector2F(frameRectangle.size.v[0], frameRectangle.size.v[1]);
 
             indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
-                                                             graphics::BufferType::index, 0,
+                                                             graphics::BufferType::index,
+                                                             graphics::Flags::none,
                                                              indices.data(),
                                                              static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
-                                                              graphics::BufferType::vertex,0,
+                                                              graphics::BufferType::vertex,
+                                                              graphics::Flags::none,
                                                               vertices.data(),
                                                               static_cast<std::uint32_t>(getVectorSize(vertices)));
         }
@@ -93,12 +95,14 @@ namespace ouzel
                 boundingBox.insertPoint(Vector2F(vertex.position));
 
             indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
-                                                             graphics::BufferType::index, 0,
+                                                             graphics::BufferType::index,
+                                                             graphics::Flags::none,
                                                              indices.data(),
                                                              static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
-                                                              graphics::BufferType::vertex, 0,
+                                                              graphics::BufferType::vertex,
+                                                              graphics::Flags::none,
                                                               vertices.data(),
                                                               static_cast<std::uint32_t>(getVectorSize(vertices)));
         }
@@ -122,12 +126,14 @@ namespace ouzel
                                        -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
 
             indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                             graphics::BufferType::index, 0,
+                                                             graphics::BufferType::index,
+                                                             graphics::Flags::none,
                                                              indices.data(),
                                                              static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
-                                                              graphics::BufferType::vertex, 0,
+                                                              graphics::BufferType::vertex,
+                                                              graphics::Flags::none,
                                                               vertices.data(),
                                                               static_cast<std::uint32_t>(getVectorSize(vertices)));
         }
@@ -165,7 +171,7 @@ namespace ouzel
         void SpriteRenderer::init(const SpriteData& spriteData)
         {
             material = std::make_shared<graphics::Material>();
-            material->cullMode = graphics::CullMode::NoCull;
+            material->cullMode = graphics::CullMode::none;
             material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache().getBlendState(BLEND_ALPHA);
             material->shader = spriteData.shader ? spriteData.shader : engine->getCache().getShader(SHADER_TEXTURE);
             material->textures[0] = spriteData.texture;
@@ -182,7 +188,7 @@ namespace ouzel
         void SpriteRenderer::init(const std::string& filename)
         {
             material = std::make_shared<graphics::Material>();
-            material->cullMode = graphics::CullMode::NoCull;
+            material->cullMode = graphics::CullMode::none;
             material->shader = engine->getCache().getShader(SHADER_TEXTURE);
             material->blendState = engine->getCache().getBlendState(BLEND_ALPHA);
 
@@ -219,7 +225,7 @@ namespace ouzel
                                   const Vector2F& pivot)
         {
             material = std::make_shared<graphics::Material>();
-            material->cullMode = graphics::CullMode::NoCull;
+            material->cullMode = graphics::CullMode::none;
             material->shader = engine->getCache().getShader(SHADER_TEXTURE);
             material->blendState = engine->getCache().getBlendState(BLEND_ALPHA);
             material->textures[0] = newTexture;
@@ -276,7 +282,7 @@ namespace ouzel
                                 currentTime = std::fmod(currentTime, length);
 
                                 auto resetEvent = std::make_unique<AnimationEvent>();
-                                resetEvent->type = Event::Type::AnimationReset;
+                                resetEvent->type = Event::Type::animationReset;
                                 resetEvent->component = this;
                                 resetEvent->name = currentAnimation->animation->name;
                                 engine->getEventDispatcher().dispatchEvent(std::move(resetEvent));
@@ -287,7 +293,7 @@ namespace ouzel
                                 if (running)
                                 {
                                     auto finishEvent = std::make_unique<AnimationEvent>();
-                                    finishEvent->type = Event::Type::AnimationFinish;
+                                    finishEvent->type = Event::Type::animationFinish;
                                     finishEvent->component = this;
                                     finishEvent->name = currentAnimation->animation->name;
                                     engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
@@ -305,7 +311,7 @@ namespace ouzel
                                     currentTime -= length;
 
                                     auto startEvent = std::make_unique<AnimationEvent>();
-                                    startEvent->type = Event::Type::AnimationStart;
+                                    startEvent->type = Event::Type::animationStart;
                                     startEvent->component = this;
                                     startEvent->name = nextAnimation->animation->name;
                                     engine->getEventDispatcher().dispatchEvent(std::move(startEvent));
@@ -358,8 +364,8 @@ namespace ouzel
 
                 engine->getRenderer()->setPipelineState(material->blendState->getResource(),
                                                         material->shader->getResource(),
-                                                        graphics::CullMode::NoCull,
-                                                        wireframe ? graphics::FillMode::Wireframe : graphics::FillMode::Solid);
+                                                        graphics::CullMode::none,
+                                                        wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
                 engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                           vertexShaderConstants);
                 engine->getRenderer()->setTextures(textures);

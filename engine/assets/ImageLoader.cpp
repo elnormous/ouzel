@@ -153,7 +153,8 @@ namespace ouzel
 
             auto texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
                                                                image.getData(),
-                                                               image.getSize(), 0,
+                                                               image.getSize(),
+                                                               graphics::Flags::none,
                                                                mipmaps ? 0 : 1,
                                                                image.getPixelFormat());
 

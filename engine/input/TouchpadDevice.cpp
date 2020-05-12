@@ -8,10 +8,10 @@ namespace ouzel
     namespace input
     {
         TouchpadDevice::TouchpadDevice(InputSystem& initInputSystem, DeviceId initId, bool screen):
-            InputDevice(initInputSystem, initId, Controller::Type::Touchpad)
+            InputDevice(initInputSystem, initId, Controller::Type::touchpad)
         {
             InputSystem::Event deviceConnectEvent;
-            deviceConnectEvent.type = InputSystem::Event::Type::DeviceConnect;
+            deviceConnectEvent.type = InputSystem::Event::Type::deviceConnect;
             deviceConnectEvent.deviceId = id;
             deviceConnectEvent.deviceType = type;
             deviceConnectEvent.screen = screen;
@@ -21,7 +21,7 @@ namespace ouzel
         TouchpadDevice::~TouchpadDevice()
         {
             InputSystem::Event deviceDisconnectEvent;
-            deviceDisconnectEvent.type = InputSystem::Event::Type::DeviceDisconnect;
+            deviceDisconnectEvent.type = InputSystem::Event::Type::deviceDisconnect;
             deviceDisconnectEvent.deviceId = id;
             deviceDisconnectEvent.deviceType = type;
             inputSystem.sendEvent(deviceDisconnectEvent);
@@ -29,7 +29,7 @@ namespace ouzel
 
         std::future<bool> TouchpadDevice::handleTouchBegin(std::uint64_t touchId, const Vector2F& position, float force)
         {
-            InputSystem::Event event(InputSystem::Event::Type::TouchBegin);
+            InputSystem::Event event(InputSystem::Event::Type::touchBegin);
             event.deviceId = id;
             event.touchId = touchId;
             event.position = position;
@@ -39,7 +39,7 @@ namespace ouzel
 
         std::future<bool> TouchpadDevice::handleTouchEnd(std::uint64_t touchId, const Vector2F& position, float force)
         {
-            InputSystem::Event event(InputSystem::Event::Type::TouchEnd);
+            InputSystem::Event event(InputSystem::Event::Type::touchEnd);
             event.deviceId = id;
             event.touchId = touchId;
             event.position = position;
@@ -49,7 +49,7 @@ namespace ouzel
 
         std::future<bool> TouchpadDevice::handleTouchMove(std::uint64_t touchId, const Vector2F& position, float force)
         {
-            InputSystem::Event event(InputSystem::Event::Type::TouchMove);
+            InputSystem::Event event(InputSystem::Event::Type::touchMove);
             event.deviceId = id;
             event.touchId = touchId;
             event.position = position;
@@ -59,7 +59,7 @@ namespace ouzel
 
         std::future<bool> TouchpadDevice::handleTouchCancel(std::uint64_t touchId, const Vector2F& position, float force)
         {
-            InputSystem::Event event(InputSystem::Event::Type::TouchCancel);
+            InputSystem::Event event(InputSystem::Event::Type::touchCancel);
             event.deviceId = id;
             event.touchId = touchId;
             event.position = position;

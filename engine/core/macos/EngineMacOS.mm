@@ -35,7 +35,7 @@
     if (ouzel::engine)
     {
         auto event = std::make_unique<ouzel::SystemEvent>();
-        event->type = ouzel::Event::Type::OpenFile;
+        event->type = ouzel::Event::Type::openFile;
         event->filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];
         ouzel::engine->getEventDispatcher().postEvent(std::move(event));
     }

@@ -36,18 +36,21 @@ namespace ouzel
                     convertedIndices.push_back(static_cast<std::uint16_t>(index));
 
                 indexBuffer = graphics::Buffer(*engine->getRenderer(),
-                                               graphics::BufferType::index, 0,
+                                               graphics::BufferType::index,
+                                               graphics::Flags::none,
                                                convertedIndices.data(),
                                                static_cast<std::uint32_t>(getVectorSize(convertedIndices)));
             }
             else if (indexSize == sizeof(std::uint32_t))
                 indexBuffer = graphics::Buffer(*engine->getRenderer(),
-                                               graphics::BufferType::index, 0,
+                                               graphics::BufferType::index,
+                                               graphics::Flags::none,
                                                indices.data(),
                                                static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = graphics::Buffer(*engine->getRenderer(),
-                                            graphics::BufferType::vertex, 0,
+                                            graphics::BufferType::vertex,
+                                            graphics::Flags::none,
                                             vertices.data(),
                                             static_cast<std::uint32_t>(getVectorSize(vertices)));
         }
@@ -98,7 +101,7 @@ namespace ouzel
             engine->getRenderer()->setPipelineState(material->blendState->getResource(),
                                                     material->shader->getResource(),
                                                     material->cullMode,
-                                                    wireframe ? graphics::FillMode::Wireframe : graphics::FillMode::Solid);
+                                                    wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
             engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
             engine->getRenderer()->setTextures(textures);

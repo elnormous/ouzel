@@ -12,10 +12,10 @@ SpritesSample::SpritesSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
 {
     handler.gamepadHandler = [](const GamepadEvent& event) {
-        if (event.type == Event::Type::GamepadButtonChange)
+        if (event.type == Event::Type::gamepadButtonChange)
         {
             if (event.pressed &&
-                event.button == Gamepad::Button::FaceRight)
+                event.button == Gamepad::Button::faceRight)
                 engine->getSceneManager().setScene(std::make_unique<MainMenu>());
         }
 
@@ -23,7 +23,7 @@ SpritesSample::SpritesSample():
     };
 
     handler.uiHandler = [this](const UIEvent& event) {
-        if (event.type == Event::Type::ActorClick)
+        if (event.type == Event::Type::actorClick)
         {
             if (event.actor == &backButton)
                 engine->getSceneManager().setScene(std::make_unique<MainMenu>());
@@ -37,7 +37,7 @@ SpritesSample::SpritesSample():
     };
 
     handler.keyboardHandler = [](const KeyboardEvent& event) {
-        if (event.type == Event::Type::KeyboardKeyPress)
+        if (event.type == Event::Type::keyboardKeyPress)
         {
             switch (event.key)
             {
@@ -50,7 +50,7 @@ SpritesSample::SpritesSample():
                     break;
             }
         }
-        else if (event.type == Event::Type::KeyboardKeyRelease)
+        else if (event.type == Event::Type::keyboardKeyRelease)
         {
             switch (event.key)
             {

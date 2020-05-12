@@ -22,16 +22,16 @@ namespace ouzel
             explicit Buffer(Renderer& initRenderer);
             Buffer(Renderer& initRenderer,
                    BufferType initType,
-                   std::uint32_t initFlags,
+                   Flags initFlags,
                    std::uint32_t initSize = 0);
             Buffer(Renderer& initRenderer,
                    BufferType initType,
-                   std::uint32_t initFlags,
+                   Flags initFlags,
                    const void* initData,
                    std::uint32_t initSize);
             Buffer(Renderer& initRenderer,
                    BufferType initType,
-                   std::uint32_t initFlags,
+                   Flags initFlags,
                    const std::vector<std::uint8_t>& initData,
                    std::uint32_t initSize);
 
@@ -49,7 +49,7 @@ namespace ouzel
             RenderDevice::Resource resource;
 
             BufferType type;
-            std::uint32_t flags = 0;
+            Flags flags = Flags::none;
             std::uint32_t size = 0;
         };
     } // namespace graphics

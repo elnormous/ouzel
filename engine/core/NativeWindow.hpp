@@ -18,16 +18,16 @@ namespace ouzel
         public:
             enum class Type
             {
-                ChangeSize,
-                ChangeFullscreen,
-                Close,
-                SetTitle,
-                BringToFront,
-                Show,
-                Hide,
-                Minimize,
-                Maximize,
-                Restore
+                changeSize,
+                changeFullscreen,
+                close,
+                setTitle,
+                bringToFront,
+                show,
+                hide,
+                minimize,
+                maximize,
+                restore
             };
 
             Command() = default;
@@ -44,17 +44,17 @@ namespace ouzel
         public:
             enum class Type
             {
-                SizeChange,
-                ResolutionChange,
-                FullscreenChange,
-                ScreenChange,
-                FocusChange,
-                Close,
-                Show,
-                Hide,
-                Minimize,
-                Maximize,
-                Restore
+                sizeChange,
+                resolutionChange,
+                fullscreenChange,
+                screenChange,
+                focusChange,
+                close,
+                show,
+                hide,
+                minimize,
+                maximize,
+                restore
             };
 
             Event() = default;

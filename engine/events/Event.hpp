@@ -22,71 +22,71 @@ namespace ouzel
         enum class Type
         {
             // gamepad events
-            GamepadConnect,
-            GamepadDisconnect,
-            GamepadButtonChange,
+            gamepadConnect,
+            gamepadDisconnect,
+            gamepadButtonChange,
 
             // keyboard events
-            KeyboardConnect,
-            KeyboardDisconnect,
-            KeyboardKeyPress,
-            KeyboardKeyRelease,
+            keyboardConnect,
+            keyboardDisconnect,
+            keyboardKeyPress,
+            keyboardKeyRelease,
 
             // mouse events
-            MouseConnect,
-            MouseDisconnect,
-            MousePress,
-            MouseRelease,
-            MouseScroll,
-            MouseMove,
-            MouseCursorLockChange,
+            mouseConnect,
+            mouseDisconnect,
+            mousePress,
+            mouseRelease,
+            mouseScroll,
+            mouseMove,
+            mouseCursorLockChange,
 
             // touch events
-            TouchpadConnect,
-            TouchpadDisconnect,
-            TouchBegin,
-            TouchMove,
-            TouchEnd,
-            TouchCancel,
+            touchpadConnect,
+            touchpadDisconnect,
+            touchBegin,
+            touchMove,
+            touchEnd,
+            touchCancel,
 
             // window events
-            WindowSizeChange,
-            WindowTitleChange,
-            FullscreenChange,
-            ScreenChange,
-            ResolutionChange,
+            windowSizeChange,
+            windowTitleChange,
+            fullscreenChange,
+            screenChange,
+            resolutionChange,
 
             // system events
-            EngineStart, // engine started running (sent only once)
-            EngineStop, // engine stopped running (sent only once)
-            EngineResume, // engine resumed running
-            EnginePause, // engine paused running
-            OrientationChange,
-            LowMemory,
-            OpenFile,
+            engineStart, // engine started running (sent only once)
+            engineStop, // engine stopped running (sent only once)
+            engineResume, // engine resumed running
+            enginePause, // engine paused running
+            orientationChange,
+            lowMemory,
+            openFile,
 
             // UI events
-            ActorEnter, // mouse or touch entered the scene actor
-            ActorLeave, // mouse or touch left the scene actor
-            ActorPress, // mouse or touch pressed on scene actor
-            ActorRelease, // mouse or touch released on scene actor
-            ActorClick, // mouse or touch clicked on scene actor
-            ActorDrag, // mouse or touch dragged scene actor
-            WidgetChange, // widget changed its value
+            actorEnter, // mouse or touch entered the scene actor
+            actorLeave, // mouse or touch left the scene actor
+            actorPress, // mouse or touch pressed on scene actor
+            actorRelease, // mouse or touch released on scene actor
+            actorClick, // mouse or touch clicked on scene actor
+            actorDrag, // mouse or touch dragged scene actor
+            widgetChange, // widget changed its value
 
             // animation events
-            AnimationStart, // animation has started
-            AnimationReset, // animation has reset
-            AnimationFinish, // animation has finished
+            animationStart, // animation has started
+            animationReset, // animation has reset
+            animationFinish, // animation has finished
 
             // sound events
-            SoundStart,
-            SoundReset,
-            SoundFinish,
+            soundStart,
+            soundReset,
+            soundFinish,
 
-            Update,
+            update,
 
-            User // user defined event
+            user // user defined event
         };
 
         Type type;
@@ -101,7 +101,7 @@ namespace ouzel
     struct MouseEvent final: Event
     {
         input::Mouse* mouse = nullptr;
-        input::Mouse::Button button = input::Mouse::Button::Unknown;
+        input::Mouse::Button button = input::Mouse::Button::none;
         Vector2F difference;
         Vector2F position;
         Vector2F scroll;
@@ -120,7 +120,7 @@ namespace ouzel
     struct GamepadEvent final: Event
     {
         input::Gamepad* gamepad = nullptr;
-        input::Gamepad::Button button = input::Gamepad::Button::Unknown;
+        input::Gamepad::Button button = input::Gamepad::Button::none;
         bool pressed = false;
         bool previousPressed = false;
         float value = 0.0F;
@@ -140,12 +140,12 @@ namespace ouzel
     {
         enum class Orientation
         {
-            Portrait,
-            PortraitReverse,
-            Landscape,
-            LandscapeReverse,
-            FaceUp,
-            FaceDown
+            portrait,
+            portraitReverse,
+            landscape,
+            landscapeReverse,
+            faceUp,
+            faceDown
         };
 
         Orientation orientation;

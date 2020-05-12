@@ -17,7 +17,7 @@ namespace ouzel
         {
             Buffer::Buffer(RenderDevice& initRenderDevice,
                            BufferType initType,
-                           std::uint32_t initFlags,
+                           Flags initFlags,
                            const std::vector<std::uint8_t>& data,
                            std::uint32_t initSize):
                 RenderResource(initRenderDevice),
@@ -32,7 +32,7 @@ namespace ouzel
 
             void Buffer::setData(const std::vector<std::uint8_t>& data)
             {
-                if (!(flags & Flags::Dynamic))
+                if ((flags & Flags::dynamic) != Flags::dynamic)
                     throw Error("Buffer is not dynamic");
 
                 if (data.empty())

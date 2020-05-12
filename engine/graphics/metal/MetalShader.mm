@@ -22,64 +22,64 @@ namespace ouzel
                 {
                     switch (dataType)
                     {
-                        case DataType::Byte: return MTLVertexFormatInvalid;
-                        case DataType::ByteNorm: return MTLVertexFormatInvalid;
-                        case DataType::UnsignedByte: return MTLVertexFormatInvalid;
-                        case DataType::UnsignedByteNorm: return MTLVertexFormatInvalid;
+                        case DataType::byte: return MTLVertexFormatInvalid;
+                        case DataType::byteNorm: return MTLVertexFormatInvalid;
+                        case DataType::unsignedByte: return MTLVertexFormatInvalid;
+                        case DataType::unsignedByteNorm: return MTLVertexFormatInvalid;
 
-                        case DataType::ByteVector2: return MTLVertexFormatChar2;
-                        case DataType::ByteVector2Norm: return MTLVertexFormatChar2Normalized;
-                        case DataType::UnsignedByteVector2: return MTLVertexFormatUChar2;
-                        case DataType::UnsignedByteVector2Norm: return MTLVertexFormatUChar2Normalized;
+                        case DataType::byteVector2: return MTLVertexFormatChar2;
+                        case DataType::byteVector2Norm: return MTLVertexFormatChar2Normalized;
+                        case DataType::unsignedByteVector2: return MTLVertexFormatUChar2;
+                        case DataType::unsignedByteVector2Norm: return MTLVertexFormatUChar2Normalized;
 
-                        case DataType::ByteVector3: return MTLVertexFormatChar3;
-                        case DataType::ByteVector3Norm: return MTLVertexFormatChar3Normalized;
-                        case DataType::UnsignedByteVector3: return MTLVertexFormatUChar3;
-                        case DataType::UnsignedByteVector3Norm: return MTLVertexFormatUChar3Normalized;
+                        case DataType::byteVector3: return MTLVertexFormatChar3;
+                        case DataType::byteVector3Norm: return MTLVertexFormatChar3Normalized;
+                        case DataType::unsignedByteVector3: return MTLVertexFormatUChar3;
+                        case DataType::unsignedByteVector3Norm: return MTLVertexFormatUChar3Normalized;
 
-                        case DataType::ByteVector4: return MTLVertexFormatChar4;
-                        case DataType::ByteVector4Norm: return MTLVertexFormatChar4Normalized;
-                        case DataType::UnsignedByteVector4: return MTLVertexFormatUChar4;
-                        case DataType::UnsignedByteVector4Norm: return MTLVertexFormatUChar4Normalized;
+                        case DataType::byteVector4: return MTLVertexFormatChar4;
+                        case DataType::byteVector4Norm: return MTLVertexFormatChar4Normalized;
+                        case DataType::unsignedByteVector4: return MTLVertexFormatUChar4;
+                        case DataType::unsignedByteVector4Norm: return MTLVertexFormatUChar4Normalized;
 
-                        case DataType::Short: return MTLVertexFormatInvalid;
-                        case DataType::ShortNorm: return MTLVertexFormatInvalid;
-                        case DataType::UnsignedShort: return MTLVertexFormatInvalid;
-                        case DataType::UnsignedShortNorm: return MTLVertexFormatInvalid;
+                        case DataType::integer16: return MTLVertexFormatInvalid;
+                        case DataType::integer16Norm: return MTLVertexFormatInvalid;
+                        case DataType::unsignedInteger16: return MTLVertexFormatInvalid;
+                        case DataType::unsignedInteger16Norm: return MTLVertexFormatInvalid;
 
-                        case DataType::ShortVector2: return MTLVertexFormatShort2;
-                        case DataType::ShortVector2Norm: return MTLVertexFormatShort2Normalized;
-                        case DataType::UnsignedShortVector2: return MTLVertexFormatUShort2;
-                        case DataType::UnsignedShortVector2Norm: return MTLVertexFormatUShort2Normalized;
+                        case DataType::integer16Vector2: return MTLVertexFormatShort2;
+                        case DataType::integer16Vector2Norm: return MTLVertexFormatShort2Normalized;
+                        case DataType::unsignedInteger16Vector2: return MTLVertexFormatUShort2;
+                        case DataType::unsignedInteger16Vector2Norm: return MTLVertexFormatUShort2Normalized;
 
-                        case DataType::ShortVector3: return MTLVertexFormatShort3;
-                        case DataType::ShortVector3Norm: return MTLVertexFormatShort3Normalized;
-                        case DataType::UnsignedShortVector3: return MTLVertexFormatUShort3;
-                        case DataType::UnsignedShortVector3Norm: return MTLVertexFormatUShort3Normalized;
+                        case DataType::integer16Vector3: return MTLVertexFormatShort3;
+                        case DataType::integer16Vector3Norm: return MTLVertexFormatShort3Normalized;
+                        case DataType::unsignedInteger16Vector3: return MTLVertexFormatUShort3;
+                        case DataType::unsignedInteger16Vector3Norm: return MTLVertexFormatUShort3Normalized;
 
-                        case DataType::ShortVector4: return MTLVertexFormatShort4;
-                        case DataType::ShortVector4Norm: return MTLVertexFormatShort4Normalized;
-                        case DataType::UnsignedShortVector4: return MTLVertexFormatUShort4;
-                        case DataType::UnsignedShortVector4Norm: return MTLVertexFormatUShort4Normalized;
+                        case DataType::integer16Vector4: return MTLVertexFormatShort4;
+                        case DataType::integer16Vector4Norm: return MTLVertexFormatShort4Normalized;
+                        case DataType::unsignedInteger16Vector4: return MTLVertexFormatUShort4;
+                        case DataType::unsignedInteger16Vector4Norm: return MTLVertexFormatUShort4Normalized;
 
-                        case DataType::Integer: return MTLVertexFormatInt;
-                        case DataType::UnsignedInteger: return MTLVertexFormatUInt;
+                        case DataType::integer32: return MTLVertexFormatInt;
+                        case DataType::unsignedInteger32: return MTLVertexFormatUInt;
 
-                        case DataType::IntegerVector2: return MTLVertexFormatInt2;
-                        case DataType::UnsignedIntegerVector2: return MTLVertexFormatUInt2;
+                        case DataType::integer32Vector2: return MTLVertexFormatInt2;
+                        case DataType::unsignedInteger32Vector2: return MTLVertexFormatUInt2;
 
-                        case DataType::IntegerVector3: return MTLVertexFormatInt3;
-                        case DataType::UnsignedIntegerVector3: return MTLVertexFormatUInt3;
+                        case DataType::integer32Vector3: return MTLVertexFormatInt3;
+                        case DataType::unsignedInteger32Vector3: return MTLVertexFormatUInt3;
 
-                        case DataType::IntegerVector4: return MTLVertexFormatInt4;
-                        case DataType::UnsignedIntegerVector4: return MTLVertexFormatUInt4;
+                        case DataType::integer32Vector4: return MTLVertexFormatInt4;
+                        case DataType::unsignedInteger32Vector4: return MTLVertexFormatUInt4;
 
-                        case DataType::Float: return MTLVertexFormatFloat;
-                        case DataType::FloatVector2: return MTLVertexFormatFloat2;
-                        case DataType::FloatVector3: return MTLVertexFormatFloat3;
-                        case DataType::FloatVector4: return MTLVertexFormatFloat4;
-                        case DataType::FloatMatrix3: return MTLVertexFormatInvalid;
-                        case DataType::FloatMatrix4: return MTLVertexFormatInvalid;
+                        case DataType::float32: return MTLVertexFormatFloat;
+                        case DataType::float32Vector2: return MTLVertexFormatFloat2;
+                        case DataType::float32Vector3: return MTLVertexFormatFloat3;
+                        case DataType::float32Vector4: return MTLVertexFormatFloat4;
+                        case DataType::float32Matrix3: return MTLVertexFormatInvalid;
+                        case DataType::float32Matrix4: return MTLVertexFormatInvalid;
 
                         default: throw Error("Invalid data type");
                     }

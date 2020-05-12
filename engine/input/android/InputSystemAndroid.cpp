@@ -57,21 +57,21 @@ namespace ouzel
         {
             switch (command.type)
             {
-            case Command::Type::StartDeviceDiscovery:
+            case Command::Type::startDeviceDiscovery:
                 break;
-            case Command::Type::StopDeviceDiscovery:
+            case Command::Type::stopDeviceDiscovery:
                 break;
-            case Command::Type::SetPlayerIndex:
+            case Command::Type::setPlayerIndex:
             {
                 break;
             }
-            case Command::Type::SetVibration:
+            case Command::Type::setVibration:
             {
                 break;
             }
-            case Command::Type::ShowVirtualKeyboard:
+            case Command::Type::showVirtualKeyboard:
                 break;
-            case Command::Type::HideVirtualKeyboard:
+            case Command::Type::hideVirtualKeyboard:
                 break;
             default:
                 break;
@@ -217,7 +217,7 @@ namespace ouzel
                     if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                     {
                         if (!updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y))
-                            mouseDevice->handleButtonRelease(Mouse::Button::Left, engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+                            mouseDevice->handleButtonRelease(Mouse::Button::left, engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
                         return true;
                     }
                     else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -288,11 +288,11 @@ namespace ouzel
             bool result = false;
 
             constexpr std::array<std::pair<jint, Mouse::Button>, 5> buttons = {{
-                {AMOTION_EVENT_BUTTON_PRIMARY, Mouse::Button::Left},
-                {AMOTION_EVENT_BUTTON_SECONDARY, Mouse::Button::Right},
-                {AMOTION_EVENT_BUTTON_TERTIARY, Mouse::Button::Middle},
-                {AMOTION_EVENT_BUTTON_BACK, Mouse::Button::X1},
-                {AMOTION_EVENT_BUTTON_FORWARD, Mouse::Button::X2}
+                {AMOTION_EVENT_BUTTON_PRIMARY, Mouse::Button::left},
+                {AMOTION_EVENT_BUTTON_SECONDARY, Mouse::Button::right},
+                {AMOTION_EVENT_BUTTON_TERTIARY, Mouse::Button::middle},
+                {AMOTION_EVENT_BUTTON_BACK, Mouse::Button::x1},
+                {AMOTION_EVENT_BUTTON_FORWARD, Mouse::Button::x2}
             }};
 
             for (const auto& button : buttons)

@@ -75,13 +75,13 @@ namespace ouzel
         {
             switch (command.type)
             {
-                case Command::Type::StartDeviceDiscovery:
+                case Command::Type::startDeviceDiscovery:
                     startGamepadDiscovery();
                     break;
-                case Command::Type::StopDeviceDiscovery:
+                case Command::Type::stopDeviceDiscovery:
                     stopGamepadDiscovery();
                     break;
-                case Command::Type::SetAbsoluteDpad_VALUES:
+                case Command::Type::setAbsoluteDpadValues:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
@@ -90,7 +90,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::SetPlayerIndex:
+                case Command::Type::setPlayerIndex:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
@@ -99,14 +99,14 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::SetVibration:
+                case Command::Type::setVibration:
                 {
                     break;
                 }
-                case Command::Type::ShowVirtualKeyboard:
+                case Command::Type::showVirtualKeyboard:
                     showVirtualKeyboard();
                     break;
-                case Command::Type::HideVirtualKeyboard:
+                case Command::Type::hideVirtualKeyboard:
                     hideVirtualKeyboard();
                     break;
                 default:
@@ -127,7 +127,7 @@ namespace ouzel
 
         void InputSystemTVOS::handleGamepadDiscoveryCompleted()
         {
-            sendEvent(Event(Event::Type::DeviceDiscoveryComplete));
+            sendEvent(Event(Event::Type::deviceDiscoveryComplete));
         }
 
         void InputSystemTVOS::handleGamepadConnected(GCControllerPtr controller)

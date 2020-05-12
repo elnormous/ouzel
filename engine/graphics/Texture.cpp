@@ -647,7 +647,7 @@ namespace ouzel
 
         Texture::Texture(Renderer& initRenderer,
                          const Size2U& initSize,
-                         std::uint32_t initFlags,
+                         Flags initFlags,
                          std::uint32_t initMipmaps,
                          std::uint32_t initSampleCount,
                          PixelFormat initPixelFormat):
@@ -659,7 +659,8 @@ namespace ouzel
             sampleCount(initSampleCount),
             pixelFormat(initPixelFormat)
         {
-            if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
+            if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
+                (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
             if (!initRenderer.getDevice()->isNPOTTexturesSupported() &&
@@ -679,7 +680,7 @@ namespace ouzel
         Texture::Texture(Renderer& initRenderer,
                          const std::vector<std::uint8_t>& initData,
                          const Size2U& initSize,
-                         std::uint32_t initFlags,
+                         Flags initFlags,
                          std::uint32_t initMipmaps,
                          PixelFormat initPixelFormat):
             renderer(&initRenderer),
@@ -690,7 +691,8 @@ namespace ouzel
             sampleCount(1),
             pixelFormat(initPixelFormat)
         {
-            if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
+            if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
+                (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
             if (!initRenderer.getDevice()->isNPOTTexturesSupported() &&
@@ -710,7 +712,7 @@ namespace ouzel
         Texture::Texture(Renderer& initRenderer,
                          const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
                          const Size2U& initSize,
-                         std::uint32_t initFlags,
+                         Flags initFlags,
                          PixelFormat initPixelFormat):
             renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
@@ -720,7 +722,8 @@ namespace ouzel
             sampleCount(1),
             pixelFormat(initPixelFormat)
         {
-            if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
+            if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
+                (mipmaps == 0 || mipmaps > 1))
                 throw std::runtime_error("Invalid mip map count");
 
             std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = initLevels;
@@ -742,7 +745,8 @@ namespace ouzel
 
         void Texture::setData(const std::vector<std::uint8_t>& newData, CubeFace face)
         {
-            if (!(flags & Flags::Dynamic) || flags & Flags::BindRenderTarget)
+            if ((flags & Flags::dynamic) != Flags::dynamic ||
+                (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
                 throw std::runtime_error("Texture is not dynamic");
 
             std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);

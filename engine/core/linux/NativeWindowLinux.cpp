@@ -224,34 +224,34 @@ namespace ouzel
     {
         switch (command.type)
         {
-            case Command::Type::ChangeSize:
+            case Command::Type::changeSize:
                 setSize(command.size);
                 break;
-            case Command::Type::ChangeFullscreen:
+            case Command::Type::changeFullscreen:
                 setFullscreen(command.fullscreen);
                 break;
-            case Command::Type::Close:
+            case Command::Type::close:
                 close();
                 break;
-            case Command::Type::SetTitle:
+            case Command::Type::setTitle:
                 setTitle(command.title);
                 break;
-            case Command::Type::BringToFront:
+            case Command::Type::bringToFront:
                 bringToFront();
                 break;
-            case Command::Type::Show:
+            case Command::Type::show:
                 show();
                 break;
-            case Command::Type::Hide:
+            case Command::Type::hide:
                 hide();
                 break;
-            case Command::Type::Minimize:
+            case Command::Type::minimize:
                 minimize();
                 break;
-            case Command::Type::Maximize:
+            case Command::Type::maximize:
                 maximize();
                 break;
-            case Command::Type::Restore:
+            case Command::Type::restore:
                 restore();
                 break;
             default:
@@ -302,7 +302,7 @@ namespace ouzel
 
         resolution = size;
 
-        Event resolutionChangeEvent(Event::Type::ResolutionChange);
+        Event resolutionChangeEvent(Event::Type::resolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
 #endif
@@ -426,14 +426,14 @@ namespace ouzel
 #if OUZEL_SUPPORTS_X11
     void NativeWindowLinux::handleFocusIn()
     {
-        Event focusChangeEvent(Event::Type::FocusChange);
+        Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
     }
 
     void NativeWindowLinux::handleFocusOut()
     {
-        Event focusChangeEvent(Event::Type::FocusChange);
+        Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = false;
         sendEvent(focusChangeEvent);
     }
@@ -443,23 +443,23 @@ namespace ouzel
         size = newSize;
         resolution = size;
 
-        Event sizeChangeEvent(Event::Type::SizeChange);
+        Event sizeChangeEvent(Event::Type::sizeChange);
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::ResolutionChange);
+        Event resolutionChangeEvent(Event::Type::resolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
 
     void NativeWindowLinux::handleMap()
     {
-        sendEvent(Event(Event::Type::Restore));
+        sendEvent(Event(Event::Type::restore));
     }
 
     void NativeWindowLinux::handleUnmap()
     {
-        sendEvent(Event(Event::Type::Minimize));
+        sendEvent(Event(Event::Type::minimize));
     }
 
     bool NativeWindowLinux::isMapped() const

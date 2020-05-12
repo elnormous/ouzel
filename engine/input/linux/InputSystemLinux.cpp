@@ -86,21 +86,21 @@ namespace ouzel
         {
             switch (command.type)
             {
-                case Command::Type::StartDeviceDiscovery:
+                case Command::Type::startDeviceDiscovery:
                     discovering = true;
                     break;
-                case Command::Type::StopDeviceDiscovery:
+                case Command::Type::stopDeviceDiscovery:
                     discovering = false;
                     break;
-                case Command::Type::SetPlayerIndex:
+                case Command::Type::setPlayerIndex:
                 {
                     break;
                 }
-                case Command::Type::SetVibration:
+                case Command::Type::setVibration:
                 {
                     break;
                 }
-                case Command::Type::SetPosition:
+                case Command::Type::setPosition:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
@@ -109,7 +109,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::InitCursor:
+                case Command::Type::initCursor:
                 {
                     if (command.cursorResource > cursors.size())
                         cursors.resize(command.cursorResource);
@@ -127,7 +127,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::DestroyCursor:
+                case Command::Type::destroyCursor:
                 {
 #if OUZEL_SUPPORTS_X11
                     CursorLinux* cursor = cursors[command.cursorResource - 1].get();
@@ -142,7 +142,7 @@ namespace ouzel
                     cursors[command.cursorResource - 1].reset();
                     break;
                 }
-                case Command::Type::SetCursor:
+                case Command::Type::setCursor:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
@@ -159,7 +159,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::SetCursorVisible:
+                case Command::Type::setCursorVisible:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
@@ -168,7 +168,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::SetCursorLocked:
+                case Command::Type::setCursorLocked:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {

@@ -16,7 +16,7 @@ namespace ouzel
 
         Buffer::Buffer(Renderer& initRenderer,
                        BufferType initType,
-                       std::uint32_t initFlags,
+                       Flags initFlags,
                        std::uint32_t initSize):
             renderer(&initRenderer),
             resource(initRenderer.getDevice()->createResource()),
@@ -33,7 +33,7 @@ namespace ouzel
 
         Buffer::Buffer(Renderer& initRenderer,
                        BufferType initType,
-                       std::uint32_t initFlags,
+                       Flags initFlags,
                        const void* initData,
                        std::uint32_t initSize):
             renderer(&initRenderer),
@@ -52,7 +52,7 @@ namespace ouzel
 
         Buffer::Buffer(Renderer& initRenderer,
                        BufferType initType,
-                       std::uint32_t initFlags,
+                       Flags initFlags,
                        const std::vector<std::uint8_t>& initData,
                        std::uint32_t initSize):
             renderer(&initRenderer),
@@ -81,7 +81,7 @@ namespace ouzel
 
         void Buffer::setData(const std::vector<std::uint8_t>& newData)
         {
-            if (!(flags & Flags::Dynamic))
+            if ((flags & Flags::dynamic) != Flags::dynamic)
                 throw std::runtime_error("Buffer is not dynamic");
 
             if (newData.empty())

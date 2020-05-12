@@ -172,16 +172,16 @@ namespace
         switch (mouseEvent->button)
         {
             case 0:
-                button = ouzel::input::Mouse::Button::Left;
+                button = ouzel::input::Mouse::Button::left;
                 break;
             case 1:
-                button = ouzel::input::Mouse::Button::Middle;
+                button = ouzel::input::Mouse::Button::middle;
                 break;
             case 2:
-                button = ouzel::input::Mouse::Button::Right;
+                button = ouzel::input::Mouse::Button::right;
                 break;
             default:
-                button = ouzel::input::Mouse::Button::Unknown;
+                button = ouzel::input::Mouse::Button::none;
                 break;
         }
 
@@ -339,23 +339,23 @@ namespace ouzel
         {
             switch (command.type)
             {
-                case Command::Type::SetPlayerIndex:
+                case Command::Type::setPlayerIndex:
                 {
                     break;
                 }
-                case Command::Type::SetVibration:
+                case Command::Type::setVibration:
                 {
                     break;
                 }
-                case Command::Type::SetPosition:
+                case Command::Type::setPosition:
                 {
                     break;
                 }
-                case Command::Type::SetCursor:
+                case Command::Type::setCursor:
                 {
                     break;
                 }
-                case Command::Type::SetCursorVisible:
+                case Command::Type::setCursorVisible:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
@@ -364,7 +364,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::SetCursorLocked:
+                case Command::Type::setCursorLocked:
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
@@ -373,9 +373,9 @@ namespace ouzel
                     }
                     break;
                 }
-                case Command::Type::ShowVirtualKeyboard:
+                case Command::Type::showVirtualKeyboard:
                     break;
-                case Command::Type::HideVirtualKeyboard:
+                case Command::Type::hideVirtualKeyboard:
                     break;
                 default:
                     break;

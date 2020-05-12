@@ -220,18 +220,18 @@ namespace ouzel
             orientation = newOrientation;
 
             auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::OrientationChange;
+            event->type = Event::Type::orientationChange;
 
             switch (orientation)
             {
                 case ORIENTATION_PORTRAIT:
-                    event->orientation = SystemEvent::Orientation::Portrait;
+                    event->orientation = SystemEvent::Orientation::portrait;
                     break;
                 case ORIENTATION_LANDSCAPE:
-                    event->orientation = SystemEvent::Orientation::Landscape;
+                    event->orientation = SystemEvent::Orientation::landscape;
                     break;
                 default: // unsupported orientation, assume portrait
-                    event->orientation = SystemEvent::Orientation::Portrait;
+                    event->orientation = SystemEvent::Orientation::portrait;
                     break;
             }
 

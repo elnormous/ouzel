@@ -23,7 +23,7 @@ MainMenu::MainMenu():
     perspectiveButton("button.png", "button_selected.png", "button_down.png", "", "Perspective", "Arial", 1.0F, Color(20, 0, 0, 255), Color::black(), Color::black())
 {
     handler.uiHandler = [this](const UIEvent& event) {
-        if (event.type == Event::Type::ActorClick)
+        if (event.type == Event::Type::actorClick)
         {
             if (event.actor == &gitHubButton)
                 engine->openUrl("https://github.com/elnormous/ouzel");
@@ -47,7 +47,7 @@ MainMenu::MainMenu():
     };
 
     handler.keyboardHandler = [](const KeyboardEvent& event) {
-        if (event.type == Event::Type::KeyboardKeyPress)
+        if (event.type == Event::Type::keyboardKeyPress)
         {
             switch (event.key)
             {
@@ -61,7 +61,7 @@ MainMenu::MainMenu():
                     break;
             }
         }
-        else if (event.type == Event::Type::KeyboardKeyRelease)
+        else if (event.type == Event::Type::keyboardKeyRelease)
         {
             switch (event.key)
             {

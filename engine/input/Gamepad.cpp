@@ -10,7 +10,7 @@ namespace ouzel
     namespace input
     {
         Gamepad::Gamepad(InputManager& initInputManager, DeviceId initDeviceId):
-            Controller(initInputManager, Controller::Type::Gamepad, initDeviceId)
+            Controller(initInputManager, Controller::Type::gamepad, initDeviceId)
         {
         }
 
@@ -18,7 +18,7 @@ namespace ouzel
         {
             absoluteDpadValues = newAbsoluteDpadValues;
 
-            InputSystem::Command command(InputSystem::Command::Type::SetAbsoluteDpad_VALUES);
+            InputSystem::Command command(InputSystem::Command::Type::setAbsoluteDpadValues);
             command.deviceId = deviceId;
             command.absoluteDpadValues = absoluteDpadValues;
             inputManager.getInputSystem()->addCommand(command);
@@ -28,7 +28,7 @@ namespace ouzel
         {
             playerIndex = newPlayerIndex;
 
-            InputSystem::Command command(InputSystem::Command::Type::SetPlayerIndex);
+            InputSystem::Command command(InputSystem::Command::Type::setPlayerIndex);
             command.deviceId = deviceId;
             command.playerIndex = playerIndex;
             inputManager.getInputSystem()->addCommand(command);
@@ -37,7 +37,7 @@ namespace ouzel
         bool Gamepad::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
         {
             auto event = std::make_unique<GamepadEvent>();
-            event->type = Event::Type::GamepadButtonChange;
+            event->type = Event::Type::gamepadButtonChange;
             event->gamepad = this;
             event->button = button;
             event->previousPressed = buttonStates[static_cast<std::uint32_t>(button)].pressed;
@@ -55,7 +55,7 @@ namespace ouzel
         {
             vibration[static_cast<std::uint32_t>(motor)] = speed;
 
-            InputSystem::Command command(InputSystem::Command::Type::SetVibration);
+            InputSystem::Command command(InputSystem::Command::Type::setVibration);
             command.deviceId = deviceId;
             command.motor = motor;
             command.speed = speed;

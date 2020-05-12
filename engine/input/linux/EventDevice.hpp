@@ -87,7 +87,7 @@ namespace ouzel
 
             struct Button final
             {
-                Gamepad::Button button = Gamepad::Button::Unknown;
+                Gamepad::Button button = Gamepad::Button::none;
                 std::int32_t value = 0;
             };
 
@@ -95,13 +95,13 @@ namespace ouzel
 
             struct Axis final
             {
-                Gamepad::Axis axis = Gamepad::Axis::Unknown;
+                Gamepad::Axis axis = Gamepad::Axis::none;
                 std::int32_t min = 0;
                 std::int32_t max = 0;
                 std::int32_t range = 0;
                 std::int32_t value = 0;
-                Gamepad::Button negativeButton = Gamepad::Button::Unknown;
-                Gamepad::Button positiveButton = Gamepad::Button::Unknown;
+                Gamepad::Button negativeButton = Gamepad::Button::none;
+                Gamepad::Button positiveButton = Gamepad::Button::none;
             };
 
             std::unordered_map<std::uint32_t, Axis> axes;

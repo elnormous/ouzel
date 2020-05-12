@@ -98,7 +98,7 @@ namespace ouzel
             Texture::Texture(RenderDevice& initRenderDevice,
                              const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
                              TextureType type,
-                             std::uint32_t initFlags,
+                             Flags initFlags,
                              std::uint32_t initSampleCount,
                              PixelFormat initPixelFormat):
                 RenderResource(initRenderDevice),
@@ -109,7 +109,8 @@ namespace ouzel
                 pixelSize(getPixelSize(initPixelFormat)),
                 stencilBuffer(initPixelFormat == PixelFormat::DepthStencil)
             {
-                if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
+                if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
+                    (mipmaps == 0 || mipmaps > 1))
                     throw Error("Invalid mip map count");
 
                 if (pixelFormat == MTLPixelFormatInvalid)
@@ -134,11 +135,11 @@ namespace ouzel
                     initPixelFormat == PixelFormat::DepthStencil)
                     textureDescriptor.get().storageMode = MTLStorageModePrivate;
 
-                if (flags & Flags::BindRenderTarget)
+                if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
                 {
                     textureDescriptor.get().usage = MTLTextureUsageRenderTarget;
-                    if (flags & Flags::BindShader &&
-                        !(flags & Flags::BindShaderMsaa))
+                    if ((flags & Flags::bindShader) == Flags::bindShader &&
+                        (flags & Flags::bindShaderMsaa) != Flags::bindShaderMsaa)
                         textureDescriptor.get().usage |= MTLTextureUsageShaderRead;
                 }
                 else
@@ -149,7 +150,7 @@ namespace ouzel
                 if (!texture)
                     throw Error("Failed to create Metal texture");
 
-                if (flags & Flags::BindRenderTarget)
+                if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
                 {
                     if (sampleCount > 1)
                     {
@@ -163,7 +164,7 @@ namespace ouzel
                         msaaTextureDescriptor.get().mipmapLevelCount = 1;
                         msaaTextureDescriptor.get().usage = MTLTextureUsageRenderTarget;
 
-                        if (flags & Flags::BindShaderMsaa)
+                        if ((flags & Flags::bindShaderMsaa) == Flags::bindShaderMsaa)
                             msaaTextureDescriptor.get().usage |= MTLTextureUsageShaderRead;
 
                         msaaTexture = [renderDevice.getDevice().get() newTextureWithDescriptor:msaaTextureDescriptor.get()];
@@ -197,8 +198,8 @@ namespace ouzel
 
             void Texture::setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels)
             {
-                if (!(flags & Flags::Dynamic) ||
-                    flags & Flags::BindRenderTarget)
+                if ((flags & Flags::dynamic) != Flags::dynamic ||
+                    (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
                     throw Error("Texture is not dynamic");
 
                 for (std::size_t level = 0; level < levels.size(); ++level)

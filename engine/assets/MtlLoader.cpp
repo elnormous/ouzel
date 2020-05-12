@@ -183,7 +183,7 @@ namespace ouzel
                             material->textures[1] = ambientTexture;
                             material->diffuseColor = diffuseColor;
                             material->opacity = opacity;
-                            material->cullMode = graphics::CullMode::Back;
+                            material->cullMode = graphics::CullMode::back;
 
                             bundle.setMaterial(materialName, std::move(material));
                         }
@@ -282,7 +282,7 @@ namespace ouzel
                 material->textures[1] = ambientTexture;
                 material->diffuseColor = diffuseColor;
                 material->opacity = opacity;
-                material->cullMode = graphics::CullMode::Back;
+                material->cullMode = graphics::CullMode::back;
 
                 bundle.setMaterial(materialName, std::move(material));
             }

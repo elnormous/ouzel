@@ -10,7 +10,7 @@ namespace ouzel
     namespace input
     {
         Keyboard::Keyboard(InputManager& initInputManager, DeviceId initDeviceId):
-            Controller(initInputManager, Controller::Type::Keyboard, initDeviceId)
+            Controller(initInputManager, Controller::Type::keyboard, initDeviceId)
         {
         }
 
@@ -24,7 +24,7 @@ namespace ouzel
             {
                 keyStates[static_cast<std::uint32_t>(key)] = true;
 
-                event->type = Event::Type::KeyboardKeyPress;
+                event->type = Event::Type::keyboardKeyPress;
                 return engine->getEventDispatcher().dispatchEvent(std::move(event));
             }
 
@@ -36,7 +36,7 @@ namespace ouzel
             keyStates[static_cast<std::uint32_t>(key)] = false;
 
             auto event = std::make_unique<KeyboardEvent>();
-            event->type = Event::Type::KeyboardKeyRelease;
+            event->type = Event::Type::keyboardKeyRelease;
             event->keyboard = this;
             event->key = key;
 

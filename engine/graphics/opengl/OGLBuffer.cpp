@@ -15,7 +15,7 @@ namespace ouzel
         {
             Buffer::Buffer(RenderDevice& initRenderDevice,
                            BufferType initType,
-                           std::uint32_t initFlags,
+                           Flags initFlags,
                            const std::vector<std::uint8_t>& initData,
                            std::uint32_t initSize):
                 RenderResource(initRenderDevice),
@@ -32,10 +32,10 @@ namespace ouzel
 
                     if (data.empty())
                         renderDevice.glBufferDataProc(bufferType, size, nullptr,
-                                                      (flags & Flags::Dynamic) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                                                      (flags & Flags::dynamic) == Flags::dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
                     else
                         renderDevice.glBufferDataProc(bufferType, size, data.data(),
-                                                      (flags & Flags::Dynamic) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                                                      (flags & Flags::dynamic) == Flags::dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                     GLenum error;
 
@@ -62,10 +62,10 @@ namespace ouzel
 
                     if (data.empty())
                         renderDevice.glBufferDataProc(bufferType, size, nullptr,
-                                                      (flags & Flags::Dynamic) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                                                      (flags & Flags::dynamic) == Flags::dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
                     else
                         renderDevice.glBufferDataProc(bufferType, size, data.data(),
-                                                      (flags & Flags::Dynamic) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                                                      (flags & Flags::dynamic) == Flags::dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                     GLenum error;
 
@@ -76,7 +76,7 @@ namespace ouzel
 
             void Buffer::setData(const std::vector<std::uint8_t>& newData)
             {
-                if (!(flags & Flags::Dynamic))
+                if ((flags & Flags::dynamic) != Flags::dynamic)
                     throw std::runtime_error("Buffer is not dynamic");
 
                 if (newData.empty())

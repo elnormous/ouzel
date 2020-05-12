@@ -242,7 +242,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onConfigurat
 extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onLowMemory(JNIEnv*, jclass)
 {
     auto event = std::make_unique<ouzel::SystemEvent>();
-    event->type = ouzel::Event::Type::LowMemory;
+    event->type = ouzel::Event::Type::lowMemory;
     engine->getEventDispatcher().postEvent(std::move(event));
 }
 

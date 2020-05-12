@@ -97,7 +97,7 @@ namespace ouzel
             Texture::Texture(RenderDevice& initRenderDevice,
                              const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
                              TextureType type,
-                             std::uint32_t initFlags,
+                             Flags initFlags,
                              std::uint32_t initSampleCount,
                              PixelFormat initPixelFormat):
                 RenderResource(initRenderDevice),
@@ -107,7 +107,8 @@ namespace ouzel
                 pixelFormat(d3d11::getPixelFormat(initPixelFormat)),
                 pixelSize(getPixelSize(initPixelFormat))
             {
-                if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
+                if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
+                    (mipmaps == 0 || mipmaps > 1))
                     throw std::runtime_error("Invalid mip map count");
 
                 if (pixelFormat == DXGI_FORMAT_UNKNOWN)
@@ -116,7 +117,8 @@ namespace ouzel
                 DXGI_FORMAT texturePixelFormat = pixelFormat;
                 DXGI_FORMAT shaderViewPixelFormat = pixelFormat;
 
-                if (flags & Flags::BindShader || flags & Flags::BindShaderMsaa)
+                if ((flags & Flags::bindShader) == Flags::bindShader ||
+                    (flags & Flags::bindShaderMsaa) == Flags::bindShaderMsaa)
                 {
                     if (initPixelFormat == PixelFormat::Depth)
                     {
@@ -144,28 +146,29 @@ namespace ouzel
                 textureDescriptor.Format = texturePixelFormat;
                 textureDescriptor.SampleDesc.Count = 1;
                 textureDescriptor.SampleDesc.Quality = 0;
-                if (flags & Flags::BindRenderTarget) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
-                else if (flags & Flags::Dynamic) textureDescriptor.Usage = D3D11_USAGE_DYNAMIC;
+                if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
+                else if ((flags & Flags::dynamic) == Flags::dynamic) textureDescriptor.Usage = D3D11_USAGE_DYNAMIC;
                 else textureDescriptor.Usage = D3D11_USAGE_IMMUTABLE;
 
-                if (flags & Flags::BindRenderTarget)
+                if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
                 {
                     if (initPixelFormat == PixelFormat::Depth || initPixelFormat == PixelFormat::DepthStencil)
                         textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_DEPTH_STENCIL : 0;
                     else
                         textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_RENDER_TARGET : 0;
 
-                    if (flags & Flags::BindShader &&
-                        !(flags & Flags::BindShaderMsaa))
+                    if ((flags & Flags::bindShader) == Flags::bindShader &&
+                        (flags & Flags::bindShaderMsaa) != Flags::bindShaderMsaa)
                         textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
                 }
                 else
                     textureDescriptor.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
-                textureDescriptor.CPUAccessFlags = (flags & Flags::Dynamic && !(flags & Flags::BindRenderTarget)) ? D3D11_CPU_ACCESS_WRITE : 0;
+                textureDescriptor.CPUAccessFlags = ((flags & Flags::dynamic) == Flags::dynamic && (flags & Flags::bindRenderTarget) != Flags::bindRenderTarget) ? D3D11_CPU_ACCESS_WRITE : 0;
                 textureDescriptor.MiscFlags = 0;
 
-                if (levels.empty() || flags & Flags::BindRenderTarget)
+                if (levels.empty() ||
+                    (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
                 {
 					ID3D11Texture2D* newTexture;
 
@@ -195,7 +198,7 @@ namespace ouzel
 					texture = newTexture;
                 }
 
-                if (flags & Flags::BindRenderTarget)
+                if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
                 {
                     if (sampleCount > 1)
                     {
@@ -212,7 +215,7 @@ namespace ouzel
                             msaaTextureDescriptor.BindFlags = D3D11_BIND_DEPTH_STENCIL;
                         else
                             msaaTextureDescriptor.BindFlags = D3D11_BIND_RENDER_TARGET;
-                        if (flags & Flags::BindShaderMsaa)
+                        if ((flags & Flags::bindShaderMsaa) == Flags::bindShaderMsaa)
                             msaaTextureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
                         msaaTextureDescriptor.CPUAccessFlags = 0;
                         msaaTextureDescriptor.MiscFlags = 0;
@@ -290,11 +293,12 @@ namespace ouzel
                         }
                     }
 
-                    if (flags & Flags::BindShader || flags & Flags::BindShaderMsaa)
+                    if ((flags & Flags::bindShader) == Flags::bindShader ||
+                        (flags & Flags::bindShaderMsaa) == Flags::bindShaderMsaa)
                     {
                         D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
                         resourceViewDesc.Format = shaderViewPixelFormat;
-                        resourceViewDesc.ViewDimension = getShaderViewDimension(type, (flags & Flags::BindShaderMsaa) != 0);
+                        resourceViewDesc.ViewDimension = getShaderViewDimension(type, (flags & Flags::bindShaderMsaa) == Flags::bindShaderMsaa);
                         resourceViewDesc.Texture2D.MostDetailedMip = 0;
                         resourceViewDesc.Texture2D.MipLevels = 1;
 
@@ -335,7 +339,8 @@ namespace ouzel
 
             void Texture::setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels)
             {
-                if (!(flags & Flags::Dynamic) || flags & Flags::BindRenderTarget)
+                if ((flags & Flags::dynamic) != Flags::dynamic ||
+                    (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
                     throw std::runtime_error("Texture is not dynamic");
 
                 for (std::size_t level = 0; level < levels.size(); ++level)

@@ -234,12 +234,12 @@ namespace
     {
         switch (buttonCode)
         {
-            case Button1: return ouzel::input::Mouse::Button::Left;
-            case Button2: return ouzel::input::Mouse::Button::Middle;
-            case Button3: return ouzel::input::Mouse::Button::Right;
-            case 8: return ouzel::input::Mouse::Button::X1;
-            case 9: return ouzel::input::Mouse::Button::X2;
-            default: return ouzel::input::Mouse::Button::Unknown;
+            case Button1: return ouzel::input::Mouse::Button::left;
+            case Button2: return ouzel::input::Mouse::Button::middle;
+            case Button3: return ouzel::input::Mouse::Button::right;
+            case 8: return ouzel::input::Mouse::Button::x1;
+            case 9: return ouzel::input::Mouse::Button::x2;
+            default: return ouzel::input::Mouse::Button::none;
         }
     }
 }

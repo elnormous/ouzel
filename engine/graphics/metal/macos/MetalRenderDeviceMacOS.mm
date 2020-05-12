@@ -138,7 +138,7 @@ namespace ouzel
 
             bool RenderDeviceMacOS::handleWindow(const WindowEvent& event)
             {
-                if (event.type == ouzel::Event::Type::ScreenChange)
+                if (event.type == ouzel::Event::Type::screenChange)
                 {
                     engine->executeOnMainThread([this, event]() {
                         running = false;

@@ -9,7 +9,7 @@ using namespace input;
 GameSample::GameSample()
 {
     handler.keyboardHandler = [](const KeyboardEvent& event) {
-        if (event.type == Event::Type::KeyboardKeyPress)
+        if (event.type == Event::Type::keyboardKeyPress)
         {
             switch (event.key)
             {
@@ -22,7 +22,7 @@ GameSample::GameSample()
                     break;
             }
         }
-        else if (event.type == Event::Type::KeyboardKeyRelease)
+        else if (event.type == Event::Type::keyboardKeyRelease)
         {
             switch (event.key)
             {
@@ -39,7 +39,7 @@ GameSample::GameSample()
     };
 
     handler.mouseHandler = [](const MouseEvent& event) {
-        if (event.type == Event::Type::MousePress)
+        if (event.type == Event::Type::mousePress)
         {
 
         }
@@ -47,7 +47,7 @@ GameSample::GameSample()
     };
 
     handler.touchHandler = [](const TouchEvent& event) {
-        if (event.type == Event::Type::TouchBegin)
+        if (event.type == Event::Type::touchBegin)
         {
 
         }
@@ -55,10 +55,10 @@ GameSample::GameSample()
     };
 
     handler.gamepadHandler = [](const GamepadEvent& event) {
-        if (event.type == Event::Type::GamepadButtonChange)
+        if (event.type == Event::Type::gamepadButtonChange)
         {
             if (event.pressed &&
-                event.button == Gamepad::Button::FaceRight)
+                event.button == Gamepad::Button::faceRight)
                 engine->getSceneManager().setScene(std::make_unique<MainMenu>());
         }
 

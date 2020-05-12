@@ -77,8 +77,8 @@ namespace ouzel
 
                 engine->getRenderer()->setPipelineState(blendState->getResource(),
                                                         shader->getResource(),
-                                                        graphics::CullMode::NoCull,
-                                                        wireframe ? graphics::FillMode::Wireframe : graphics::FillMode::Solid);
+                                                        graphics::CullMode::none,
+                                                        wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
                 engine->getRenderer()->setShaderConstants(pixelShaderConstants,
                                                           vertexShaderConstants);
                 engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
@@ -131,7 +131,7 @@ namespace ouzel
                     updateHandler.remove();
 
                     auto finishEvent = std::make_unique<AnimationEvent>();
-                    finishEvent->type = Event::Type::AnimationFinish;
+                    finishEvent->type = Event::Type::animationFinish;
                     finishEvent->component = this;
                     engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
 
@@ -268,7 +268,7 @@ namespace ouzel
                 if (particleCount == 0)
                 {
                     auto startEvent = std::make_unique<AnimationEvent>();
-                    startEvent->type = Event::Type::AnimationStart;
+                    startEvent->type = Event::Type::animationStart;
                     startEvent->component = this;
                     engine->getEventDispatcher().dispatchEvent(std::move(startEvent));
                 }
@@ -314,13 +314,14 @@ namespace ouzel
             }
 
             indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
-                                                             graphics::BufferType::index, 0,
+                                                             graphics::BufferType::index,
+                                                             graphics::Flags::none,
                                                              indices.data(),
                                                              static_cast<std::uint32_t>(getVectorSize(indices)));
 
             vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
                                                               graphics::BufferType::vertex,
-                                                              graphics::Flags::Dynamic,
+                                                              graphics::Flags::dynamic,
                                                               vertices.data(),
                                                               static_cast<std::uint32_t>(getVectorSize(vertices)));
 

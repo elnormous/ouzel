@@ -42,26 +42,26 @@ namespace ouzel
     {
         switch (command.type)
         {
-            case Command::Type::ChangeSize:
+            case Command::Type::changeSize:
                 break;
-            case Command::Type::ChangeFullscreen:
+            case Command::Type::changeFullscreen:
                 // TODO: implement (hide status bar and UI buttons)
                 break;
-            case Command::Type::Close:
+            case Command::Type::close:
                 break;
-            case Command::Type::SetTitle:
+            case Command::Type::setTitle:
                 break;
-            case Command::Type::BringToFront:
+            case Command::Type::bringToFront:
                 break;
-            case Command::Type::Show:
+            case Command::Type::show:
                 break;
-            case Command::Type::Hide:
+            case Command::Type::hide:
                 break;
-            case Command::Type::Minimize:
+            case Command::Type::minimize:
                 break;
-            case Command::Type::Maximize:
+            case Command::Type::maximize:
                 break;
-            case Command::Type::Restore:
+            case Command::Type::restore:
                 break;
             default:
                 throw std::runtime_error("Invalid command");
@@ -73,11 +73,11 @@ namespace ouzel
         size = newSize;
         resolution = size;
 
-        Event sizeChangeEvent(Event::Type::SizeChange);
+        Event sizeChangeEvent(Event::Type::sizeChange);
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::ResolutionChange);
+        Event resolutionChangeEvent(Event::Type::resolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }

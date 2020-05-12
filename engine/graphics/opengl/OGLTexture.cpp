@@ -258,7 +258,7 @@ namespace ouzel
             Texture::Texture(RenderDevice& initRenderDevice,
                              const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
                              TextureType type,
-                             std::uint32_t initFlags,
+                             Flags initFlags,
                              std::uint32_t initSampleCount,
                              PixelFormat initPixelFormat):
                 RenderResource(initRenderDevice),
@@ -271,7 +271,8 @@ namespace ouzel
                 pixelFormat(getOpenGlPixelFormat(initPixelFormat)),
                 pixelType(getOpenGlPixelType(initPixelFormat))
             {
-                if ((flags & Flags::BindRenderTarget) && (mipmaps == 0 || mipmaps > 1))
+                if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
+                    (mipmaps == 0 || mipmaps > 1))
                     throw std::runtime_error("Invalid mip map count");
 
                 if (internalPixelFormat == GL_NONE)
@@ -287,7 +288,7 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                if (!(flags & Flags::BindRenderTarget))
+                if ((flags & Flags::bindRenderTarget) != Flags::bindRenderTarget)
                 {
                     if (!levels.empty())
                     {
@@ -339,7 +340,7 @@ namespace ouzel
 
                 createTexture();
 
-                if (!(flags & Flags::BindRenderTarget))
+                if ((flags & Flags::bindRenderTarget) != Flags::bindRenderTarget)
                 {
                     renderDevice.bindTexture(textureTarget, 0, textureId);
 
@@ -379,7 +380,8 @@ namespace ouzel
 
             void Texture::setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& newLevels)
             {
-                if (!(flags & Flags::Dynamic) || flags & Flags::BindRenderTarget)
+                if ((flags & Flags::dynamic) != Flags::dynamic ||
+                    (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
                     throw std::runtime_error("Texture is not dynamic");
 
                 levels = newLevels;
@@ -517,9 +519,10 @@ namespace ouzel
                 width = static_cast<GLsizei>(levels.front().first.v[0]);
                 height = static_cast<GLsizei>(levels.front().first.v[1]);
 
-                if ((flags & Flags::BindRenderTarget) && renderDevice.isRenderTargetsSupported())
+                if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
+                    renderDevice.isRenderTargetsSupported())
                 {
-                    if (flags & Flags::BindShader)
+                    if ((flags & Flags::bindShader) == Flags::bindShader)
                     {
                         renderDevice.glGenTexturesProc(1, &textureId);
 

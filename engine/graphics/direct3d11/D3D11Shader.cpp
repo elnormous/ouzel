@@ -20,64 +20,64 @@ namespace ouzel
                 {
                     switch (dataType)
                     {
-                        case DataType::Byte: return DXGI_FORMAT_R8_SINT;
-                        case DataType::ByteNorm: return DXGI_FORMAT_R8_SNORM;
-                        case DataType::UnsignedByte: return DXGI_FORMAT_R8_UINT;
-                        case DataType::UnsignedByteNorm: return DXGI_FORMAT_R8_UNORM;
+                        case DataType::byte: return DXGI_FORMAT_R8_SINT;
+                        case DataType::byteNorm: return DXGI_FORMAT_R8_SNORM;
+                        case DataType::unsignedByte: return DXGI_FORMAT_R8_UINT;
+                        case DataType::unsignedByteNorm: return DXGI_FORMAT_R8_UNORM;
 
-                        case DataType::ByteVector2: return DXGI_FORMAT_R8G8_SINT;
-                        case DataType::ByteVector2Norm: return DXGI_FORMAT_R8G8_SNORM;
-                        case DataType::UnsignedByteVector2: return DXGI_FORMAT_R8G8_UINT;
-                        case DataType::UnsignedByteVector2Norm: return DXGI_FORMAT_R8G8_UNORM;
+                        case DataType::byteVector2: return DXGI_FORMAT_R8G8_SINT;
+                        case DataType::byteVector2Norm: return DXGI_FORMAT_R8G8_SNORM;
+                        case DataType::unsignedByteVector2: return DXGI_FORMAT_R8G8_UINT;
+                        case DataType::unsignedByteVector2Norm: return DXGI_FORMAT_R8G8_UNORM;
 
-                        case DataType::ByteVector3: return DXGI_FORMAT_UNKNOWN;
-                        case DataType::ByteVector3Norm: return DXGI_FORMAT_UNKNOWN;
-                        case DataType::UnsignedByteVector3: return DXGI_FORMAT_UNKNOWN;
-                        case DataType::UnsignedByteVector3Norm: return DXGI_FORMAT_UNKNOWN;
+                        case DataType::byteVector3: return DXGI_FORMAT_UNKNOWN;
+                        case DataType::byteVector3Norm: return DXGI_FORMAT_UNKNOWN;
+                        case DataType::unsignedByteVector3: return DXGI_FORMAT_UNKNOWN;
+                        case DataType::unsignedByteVector3Norm: return DXGI_FORMAT_UNKNOWN;
 
-                        case DataType::ByteVector4: return DXGI_FORMAT_R8G8B8A8_SINT;
-                        case DataType::ByteVector4Norm: return DXGI_FORMAT_R8G8B8A8_SNORM;
-                        case DataType::UnsignedByteVector4: return DXGI_FORMAT_R8G8B8A8_UINT;
-                        case DataType::UnsignedByteVector4Norm: return DXGI_FORMAT_R8G8B8A8_UNORM;
+                        case DataType::byteVector4: return DXGI_FORMAT_R8G8B8A8_SINT;
+                        case DataType::byteVector4Norm: return DXGI_FORMAT_R8G8B8A8_SNORM;
+                        case DataType::unsignedByteVector4: return DXGI_FORMAT_R8G8B8A8_UINT;
+                        case DataType::unsignedByteVector4Norm: return DXGI_FORMAT_R8G8B8A8_UNORM;
 
-                        case DataType::Short: return DXGI_FORMAT_R16_SINT;
-                        case DataType::ShortNorm: return DXGI_FORMAT_R16_SNORM;
-                        case DataType::UnsignedShort: return DXGI_FORMAT_R16_UINT;
-                        case DataType::UnsignedShortNorm: return DXGI_FORMAT_R16_UNORM;
+                        case DataType::integer16: return DXGI_FORMAT_R16_SINT;
+                        case DataType::integer16Norm: return DXGI_FORMAT_R16_SNORM;
+                        case DataType::unsignedInteger16: return DXGI_FORMAT_R16_UINT;
+                        case DataType::unsignedInteger16Norm: return DXGI_FORMAT_R16_UNORM;
 
-                        case DataType::ShortVector2: return DXGI_FORMAT_R16G16_SINT;
-                        case DataType::ShortVector2Norm: return DXGI_FORMAT_R16G16_SNORM;
-                        case DataType::UnsignedShortVector2: return DXGI_FORMAT_R16G16_UINT;
-                        case DataType::UnsignedShortVector2Norm: return DXGI_FORMAT_R16G16_UNORM;
+                        case DataType::integer16Vector2: return DXGI_FORMAT_R16G16_SINT;
+                        case DataType::integer16Vector2Norm: return DXGI_FORMAT_R16G16_SNORM;
+                        case DataType::unsignedInteger16Vector2: return DXGI_FORMAT_R16G16_UINT;
+                        case DataType::unsignedInteger16Vector2Norm: return DXGI_FORMAT_R16G16_UNORM;
 
-                        case DataType::ShortVector3: return DXGI_FORMAT_UNKNOWN;
-                        case DataType::ShortVector3Norm: return DXGI_FORMAT_UNKNOWN;
-                        case DataType::UnsignedShortVector3: return DXGI_FORMAT_UNKNOWN;
-                        case DataType::UnsignedShortVector3Norm: return DXGI_FORMAT_UNKNOWN;
+                        case DataType::integer16Vector3: return DXGI_FORMAT_UNKNOWN;
+                        case DataType::integer16Vector3Norm: return DXGI_FORMAT_UNKNOWN;
+                        case DataType::unsignedInteger16Vector3: return DXGI_FORMAT_UNKNOWN;
+                        case DataType::unsignedInteger16Vector3Norm: return DXGI_FORMAT_UNKNOWN;
 
-                        case DataType::ShortVector4: return DXGI_FORMAT_R16G16B16A16_SINT;
-                        case DataType::ShortVector4Norm: return DXGI_FORMAT_R16G16B16A16_SNORM;
-                        case DataType::UnsignedShortVector4: return DXGI_FORMAT_R16G16B16A16_UINT;
-                        case DataType::UnsignedShortVector4Norm: return DXGI_FORMAT_R16G16B16A16_UNORM;
+                        case DataType::integer16Vector4: return DXGI_FORMAT_R16G16B16A16_SINT;
+                        case DataType::integer16Vector4Norm: return DXGI_FORMAT_R16G16B16A16_SNORM;
+                        case DataType::unsignedInteger16Vector4: return DXGI_FORMAT_R16G16B16A16_UINT;
+                        case DataType::unsignedInteger16Vector4Norm: return DXGI_FORMAT_R16G16B16A16_UNORM;
 
-                        case DataType::Integer: return DXGI_FORMAT_R32_SINT;
-                        case DataType::UnsignedInteger: return DXGI_FORMAT_R32_UINT;
+                        case DataType::integer32: return DXGI_FORMAT_R32_SINT;
+                        case DataType::unsignedInteger32: return DXGI_FORMAT_R32_UINT;
 
-                        case DataType::IntegerVector2: return DXGI_FORMAT_R32G32_SINT;
-                        case DataType::UnsignedIntegerVector2: return DXGI_FORMAT_R32G32_UINT;
+                        case DataType::integer32Vector2: return DXGI_FORMAT_R32G32_SINT;
+                        case DataType::unsignedInteger32Vector2: return DXGI_FORMAT_R32G32_UINT;
 
-                        case DataType::IntegerVector3: return DXGI_FORMAT_R32G32B32_SINT;
-                        case DataType::UnsignedIntegerVector3: return DXGI_FORMAT_R32G32B32_UINT;
+                        case DataType::integer32Vector3: return DXGI_FORMAT_R32G32B32_SINT;
+                        case DataType::unsignedInteger32Vector3: return DXGI_FORMAT_R32G32B32_UINT;
 
-                        case DataType::IntegerVector4: return DXGI_FORMAT_R32G32B32A32_SINT;
-                        case DataType::UnsignedIntegerVector4: return DXGI_FORMAT_R32G32B32A32_UINT;
+                        case DataType::integer32Vector4: return DXGI_FORMAT_R32G32B32A32_SINT;
+                        case DataType::unsignedInteger32Vector4: return DXGI_FORMAT_R32G32B32A32_UINT;
 
-                        case DataType::Float: return DXGI_FORMAT_R32_FLOAT;
-                        case DataType::FloatVector2: return DXGI_FORMAT_R32G32_FLOAT;
-                        case DataType::FloatVector3: return DXGI_FORMAT_R32G32B32_FLOAT;
-                        case DataType::FloatVector4: return DXGI_FORMAT_R32G32B32A32_FLOAT;
-                        case DataType::FloatMatrix3: return DXGI_FORMAT_UNKNOWN;
-                        case DataType::FloatMatrix4: return DXGI_FORMAT_UNKNOWN;
+                        case DataType::float32: return DXGI_FORMAT_R32_FLOAT;
+                        case DataType::float32Vector2: return DXGI_FORMAT_R32G32_FLOAT;
+                        case DataType::float32Vector3: return DXGI_FORMAT_R32G32B32_FLOAT;
+                        case DataType::float32Vector4: return DXGI_FORMAT_R32G32B32A32_FLOAT;
+                        case DataType::float32Matrix3: return DXGI_FORMAT_UNKNOWN;
+                        case DataType::float32Matrix4: return DXGI_FORMAT_UNKNOWN;
 
                         default: throw std::runtime_error("Invalid data type");
                     }

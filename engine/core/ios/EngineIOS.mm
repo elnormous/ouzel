@@ -56,7 +56,7 @@
     if (ouzel::engine)
     {
         auto event = std::make_unique<ouzel::SystemEvent>();
-        event->type = ouzel::Event::Type::LowMemory;
+        event->type = ouzel::Event::Type::lowMemory;
 
         ouzel::engine->getEventDispatcher().postEvent(std::move(event));
     }
@@ -68,30 +68,30 @@
     const UIDeviceOrientation orientation = device.orientation;
 
     auto event = std::make_unique<ouzel::SystemEvent>();
-    event->type = ouzel::Event::Type::OrientationChange;
+    event->type = ouzel::Event::Type::orientationChange;
 
     switch (orientation)
     {
         case UIDeviceOrientationPortrait:
-            event->orientation = ouzel::SystemEvent::Orientation::Portrait;
+            event->orientation = ouzel::SystemEvent::Orientation::portrait;
             break;
         case UIDeviceOrientationPortraitUpsideDown:
-            event->orientation = ouzel::SystemEvent::Orientation::PortraitReverse;
+            event->orientation = ouzel::SystemEvent::Orientation::portraitReverse;
             break;
         case UIDeviceOrientationLandscapeLeft:
-            event->orientation = ouzel::SystemEvent::Orientation::Landscape;
+            event->orientation = ouzel::SystemEvent::Orientation::landscape;
             break;
         case UIDeviceOrientationLandscapeRight:
-            event->orientation = ouzel::SystemEvent::Orientation::LandscapeReverse;
+            event->orientation = ouzel::SystemEvent::Orientation::landscapeReverse;
             break;
         case UIDeviceOrientationFaceUp:
-            event->orientation = ouzel::SystemEvent::Orientation::FaceUp;
+            event->orientation = ouzel::SystemEvent::Orientation::faceUp;
             break;
         case UIDeviceOrientationFaceDown:
-            event->orientation = ouzel::SystemEvent::Orientation::FaceDown;
+            event->orientation = ouzel::SystemEvent::Orientation::faceDown;
             break;
         default: // unsupported orientation, assume portrait
-            event->orientation = ouzel::SystemEvent::Orientation::Portrait;
+            event->orientation = ouzel::SystemEvent::Orientation::portrait;
             break;
     }
 

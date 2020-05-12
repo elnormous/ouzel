@@ -16,25 +16,26 @@ namespace ouzel
     class Window final
     {
     public:
-        enum Flags
+        enum class Flags
         {
-            Resizable = 0x01,
-            Fullscreen = 0x02,
-            ExclusiveFullscreen = 0x04,
-            HighDpi = 0x08,
-            Depth = 0x10
+            none = 0x00,
+            resizable = 0x01,
+            fullscreen = 0x02,
+            exclusiveFullscreen = 0x04,
+            highDpi = 0x08,
+            depth = 0x10
         };
 
         enum class Mode
         {
-            Windowed,
-            WindowedFullscreen,
-            Fullscreen
+            windowed,
+            windowedFullscreen,
+            fullscreen
         };
 
         Window(Engine& initEngine,
                const Size2U& newSize,
-               std::uint32_t flags,
+               Flags flags,
                const std::string& newTitle,
                graphics::Driver graphicsDriver);
         Window(const Window&) = delete;
@@ -104,6 +105,35 @@ namespace ouzel
         std::mutex eventQueueMutex;
         std::queue<NativeWindow::Event> eventQueue;
     };
+
+    inline constexpr Window::Flags operator&(const Window::Flags a, const Window::Flags b) noexcept
+    {
+        return static_cast<Window::Flags>(static_cast<std::underlying_type_t<Window::Flags>>(a) & static_cast<std::underlying_type_t<Window::Flags>>(b));
+    }
+    inline constexpr Window::Flags operator|(const Window::Flags a, const Window::Flags b) noexcept
+    {
+        return static_cast<Window::Flags>(static_cast<std::underlying_type_t<Window::Flags>>(a) | static_cast<std::underlying_type_t<Window::Flags>>(b));
+    }
+    inline constexpr Window::Flags operator^(const Window::Flags a, const Window::Flags b) noexcept
+    {
+        return static_cast<Window::Flags>(static_cast<std::underlying_type_t<Window::Flags>>(a) ^ static_cast<std::underlying_type_t<Window::Flags>>(b));
+    }
+    inline constexpr Window::Flags operator~(const Window::Flags a) noexcept
+    {
+        return static_cast<Window::Flags>(~static_cast<std::underlying_type_t<Window::Flags>>(a));
+    }
+    inline constexpr Window::Flags& operator&=(Window::Flags& a, const Window::Flags b) noexcept
+    {
+        return a = static_cast<Window::Flags>(static_cast<std::underlying_type_t<Window::Flags>>(a) & static_cast<std::underlying_type_t<Window::Flags>>(b));
+    }
+    inline constexpr Window::Flags& operator|=(Window::Flags& a, const Window::Flags b) noexcept
+    {
+        return a = static_cast<Window::Flags>(static_cast<std::underlying_type_t<Window::Flags>>(a) | static_cast<std::underlying_type_t<Window::Flags>>(b));
+    }
+    inline constexpr Window::Flags& operator^=(Window::Flags& a, const Window::Flags b) noexcept
+    {
+        return a = static_cast<Window::Flags>(static_cast<std::underlying_type_t<Window::Flags>>(a) ^ static_cast<std::underlying_type_t<Window::Flags>>(b));
+    }
 }
 
 #endif // OUZEL_CORE_WINDOW_HPP

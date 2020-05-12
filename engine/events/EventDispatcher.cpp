@@ -85,83 +85,83 @@ namespace ouzel
             {
                 switch (event->type)
                 {
-                    case Event::Type::KeyboardConnect:
-                    case Event::Type::KeyboardDisconnect:
-                    case Event::Type::KeyboardKeyPress:
-                    case Event::Type::KeyboardKeyRelease:
+                    case Event::Type::keyboardConnect:
+                    case Event::Type::keyboardDisconnect:
+                    case Event::Type::keyboardKeyPress:
+                    case Event::Type::keyboardKeyRelease:
                         if (eventHandler->keyboardHandler)
                             handled = eventHandler->keyboardHandler(*static_cast<KeyboardEvent*>(event.get()));
                         break;
-                    case Event::Type::MouseConnect:
-                    case Event::Type::MouseDisconnect:
-                    case Event::Type::MousePress:
-                    case Event::Type::MouseRelease:
-                    case Event::Type::MouseScroll:
-                    case Event::Type::MouseMove:
-                    case Event::Type::MouseCursorLockChange:
+                    case Event::Type::mouseConnect:
+                    case Event::Type::mouseDisconnect:
+                    case Event::Type::mousePress:
+                    case Event::Type::mouseRelease:
+                    case Event::Type::mouseScroll:
+                    case Event::Type::mouseMove:
+                    case Event::Type::mouseCursorLockChange:
                         if (eventHandler->mouseHandler)
                             handled = eventHandler->mouseHandler(*static_cast<MouseEvent*>(event.get()));
                         break;
-                    case Event::Type::TouchpadConnect:
-                    case Event::Type::TouchpadDisconnect:
-                    case Event::Type::TouchBegin:
-                    case Event::Type::TouchMove:
-                    case Event::Type::TouchEnd:
-                    case Event::Type::TouchCancel:
+                    case Event::Type::touchpadConnect:
+                    case Event::Type::touchpadDisconnect:
+                    case Event::Type::touchBegin:
+                    case Event::Type::touchMove:
+                    case Event::Type::touchEnd:
+                    case Event::Type::touchCancel:
                         if (eventHandler->touchHandler)
                             handled = eventHandler->touchHandler(*static_cast<TouchEvent*>(event.get()));
                         break;
-                    case Event::Type::GamepadConnect:
-                    case Event::Type::GamepadDisconnect:
-                    case Event::Type::GamepadButtonChange:
+                    case Event::Type::gamepadConnect:
+                    case Event::Type::gamepadDisconnect:
+                    case Event::Type::gamepadButtonChange:
                         if (eventHandler->gamepadHandler)
                             handled = eventHandler->gamepadHandler(*static_cast<GamepadEvent*>(event.get()));
                         break;
-                    case Event::Type::WindowSizeChange:
-                    case Event::Type::WindowTitleChange:
-                    case Event::Type::FullscreenChange:
-                    case Event::Type::ScreenChange:
-                    case Event::Type::ResolutionChange:
+                    case Event::Type::windowSizeChange:
+                    case Event::Type::windowTitleChange:
+                    case Event::Type::fullscreenChange:
+                    case Event::Type::screenChange:
+                    case Event::Type::resolutionChange:
                         if (eventHandler->windowHandler)
                             handled = eventHandler->windowHandler(*static_cast<WindowEvent*>(event.get()));
                         break;
-                    case Event::Type::EngineStart:
-                    case Event::Type::EngineStop:
-                    case Event::Type::EngineResume:
-                    case Event::Type::EnginePause:
-                    case Event::Type::OrientationChange:
-                    case Event::Type::LowMemory:
-                    case Event::Type::OpenFile:
+                    case Event::Type::engineStart:
+                    case Event::Type::engineStop:
+                    case Event::Type::engineResume:
+                    case Event::Type::enginePause:
+                    case Event::Type::orientationChange:
+                    case Event::Type::lowMemory:
+                    case Event::Type::openFile:
                         if (eventHandler->systemHandler)
                             handled = eventHandler->systemHandler(*static_cast<SystemEvent*>(event.get()));
                         break;
-                    case Event::Type::ActorEnter:
-                    case Event::Type::ActorLeave:
-                    case Event::Type::ActorPress:
-                    case Event::Type::ActorRelease:
-                    case Event::Type::ActorClick:
-                    case Event::Type::ActorDrag:
-                    case Event::Type::WidgetChange:
+                    case Event::Type::actorEnter:
+                    case Event::Type::actorLeave:
+                    case Event::Type::actorPress:
+                    case Event::Type::actorRelease:
+                    case Event::Type::actorClick:
+                    case Event::Type::actorDrag:
+                    case Event::Type::widgetChange:
                         if (eventHandler->uiHandler)
                             handled = eventHandler->uiHandler(*static_cast<UIEvent*>(event.get()));
                         break;
-                    case Event::Type::AnimationStart:
-                    case Event::Type::AnimationReset:
-                    case Event::Type::AnimationFinish:
+                    case Event::Type::animationStart:
+                    case Event::Type::animationReset:
+                    case Event::Type::animationFinish:
                         if (eventHandler->animationHandler)
                             handled = eventHandler->animationHandler(*static_cast<AnimationEvent*>(event.get()));
                         break;
-                    case Event::Type::SoundStart:
-                    case Event::Type::SoundReset:
-                    case Event::Type::SoundFinish:
+                    case Event::Type::soundStart:
+                    case Event::Type::soundReset:
+                    case Event::Type::soundFinish:
                         if (eventHandler->soundHandler)
                             handled = eventHandler->soundHandler(*static_cast<SoundEvent*>(event.get()));
                         break;
-                    case Event::Type::Update:
+                    case Event::Type::update:
                         if (eventHandler->updateHandler)
                             handled = eventHandler->updateHandler(*static_cast<UpdateEvent*>(event.get()));
                         break;
-                    case Event::Type::User:
+                    case Event::Type::user:
                         if (eventHandler->userHandler)
                             handled = eventHandler->userHandler(*static_cast<UserEvent*>(event.get()));
                         break;

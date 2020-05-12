@@ -30,7 +30,7 @@ namespace ouzel
             const BlendState* blendState = nullptr;
             const Shader* shader = nullptr;
             std::shared_ptr<Texture> textures[TEXTURE_LAYERS];
-            CullMode cullMode = CullMode::Back;
+            CullMode cullMode = CullMode::back;
             Color diffuseColor = Color::white();
             float opacity = 1.0F;
         };

@@ -87,56 +87,56 @@ namespace ouzel
         {
             switch (event.type)
             {
-                case InputSystem::Event::Type::DeviceConnect:
+                case InputSystem::Event::Type::deviceConnect:
                 {
                     switch (event.deviceType)
                     {
-                        case Controller::Type::Gamepad:
+                        case Controller::Type::gamepad:
                         {
                             auto controller = std::make_unique<Gamepad>(*this, event.deviceId);
                             controllers.push_back(controller.get());
 
                             auto connectEvent = std::make_unique<GamepadEvent>();
-                            connectEvent->type = Event::Type::GamepadConnect;
+                            connectEvent->type = Event::Type::gamepadConnect;
                             connectEvent->gamepad = controller.get();
 
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                             return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
-                        case Controller::Type::Keyboard:
+                        case Controller::Type::keyboard:
                         {
                             auto controller = std::make_unique<Keyboard>(*this, event.deviceId);
                             controllers.push_back(controller.get());
                             if (!keyboard) keyboard = controller.get();
 
                             auto connectEvent = std::make_unique<KeyboardEvent>();
-                            connectEvent->type = Event::Type::KeyboardConnect;
+                            connectEvent->type = Event::Type::keyboardConnect;
                             connectEvent->keyboard = controller.get();
 
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                             return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
-                        case Controller::Type::Mouse:
+                        case Controller::Type::mouse:
                         {
                             auto controller = std::make_unique<Mouse>(*this, event.deviceId);
                             controllers.push_back(controller.get());
                             if (!mouse) mouse = controller.get();
 
                             auto connectEvent = std::make_unique<MouseEvent>();
-                            connectEvent->type = Event::Type::MouseConnect;
+                            connectEvent->type = Event::Type::mouseConnect;
                             connectEvent->mouse = controller.get();
 
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                             return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                         }
-                        case Controller::Type::Touchpad:
+                        case Controller::Type::touchpad:
                         {
                             auto controller = std::make_unique<Touchpad>(*this, event.deviceId, event.screen);
                             controllers.push_back(controller.get());
                             if (!touchpad) touchpad = controller.get();
 
                             auto connectEvent = std::make_unique<TouchEvent>();
-                            connectEvent->type = Event::Type::TouchpadConnect;
+                            connectEvent->type = Event::Type::touchpadConnect;
                             connectEvent->touchpad = controller.get();
 
                             controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
@@ -146,7 +146,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::DeviceDisconnect:
+                case InputSystem::Event::Type::deviceDisconnect:
                 {
                     bool handled = false;
 
@@ -159,46 +159,46 @@ namespace ouzel
 
                         switch (i->second->getType())
                         {
-                            case Controller::Type::Gamepad:
+                            case Controller::Type::gamepad:
                             {
                                 auto disconnectEvent = std::make_unique<GamepadEvent>();
-                                disconnectEvent->type = Event::Type::GamepadDisconnect;
+                                disconnectEvent->type = Event::Type::gamepadDisconnect;
                                 disconnectEvent->gamepad = static_cast<Gamepad*>(i->second.get());
                                 handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
                                 break;
                             }
-                            case Controller::Type::Keyboard:
+                            case Controller::Type::keyboard:
                             {
                                 auto disconnectEvent = std::make_unique<KeyboardEvent>();
-                                disconnectEvent->type = Event::Type::KeyboardDisconnect;
+                                disconnectEvent->type = Event::Type::keyboardDisconnect;
                                 disconnectEvent->keyboard = static_cast<Keyboard*>(i->second.get());
                                 keyboard = nullptr;
                                 for (Controller* controller : controllers)
-                                    if (controller->getType() == Controller::Type::Keyboard)
+                                    if (controller->getType() == Controller::Type::keyboard)
                                         keyboard = static_cast<Keyboard*>(controller);
                                 handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
                                 break;
                             }
-                            case Controller::Type::Mouse:
+                            case Controller::Type::mouse:
                             {
                                 auto disconnectEvent = std::make_unique<MouseEvent>();
-                                disconnectEvent->type = Event::Type::MouseDisconnect;
+                                disconnectEvent->type = Event::Type::mouseDisconnect;
                                 disconnectEvent->mouse = static_cast<Mouse*>(i->second.get());
                                 mouse = nullptr;
                                 for (Controller* controller : controllers)
-                                    if (controller->getType() == Controller::Type::Mouse)
+                                    if (controller->getType() == Controller::Type::mouse)
                                         mouse = static_cast<Mouse*>(controller);
                                 handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
                                 break;
                             }
-                            case Controller::Type::Touchpad:
+                            case Controller::Type::touchpad:
                             {
                                 auto disconnectEvent = std::make_unique<TouchEvent>();
-                                disconnectEvent->type = Event::Type::TouchpadDisconnect;
+                                disconnectEvent->type = Event::Type::touchpadDisconnect;
                                 disconnectEvent->touchpad = static_cast<Touchpad*>(i->second.get());
                                 touchpad = nullptr;
                                 for (Controller* controller : controllers)
-                                    if (controller->getType() == Controller::Type::Touchpad)
+                                    if (controller->getType() == Controller::Type::touchpad)
                                         touchpad = static_cast<Touchpad*>(controller);
                                 handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
                                 break;
@@ -211,12 +211,12 @@ namespace ouzel
 
                     return handled;
                 }
-                case InputSystem::Event::Type::DeviceDiscoveryComplete:
+                case InputSystem::Event::Type::deviceDiscoveryComplete:
                 {
                     discovering = false;
                     return true;
                 }
-                case InputSystem::Event::Type::GamepadButtonChange:
+                case InputSystem::Event::Type::gamepadButtonChange:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -226,7 +226,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::KeyboardKeyPress:
+                case InputSystem::Event::Type::keyboardKeyPress:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -236,7 +236,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::KeyboardKeyRelease:
+                case InputSystem::Event::Type::keyboardKeyRelease:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -246,7 +246,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MousePress:
+                case InputSystem::Event::Type::mousePress:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -256,7 +256,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MouseRelease:
+                case InputSystem::Event::Type::mouseRelease:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -266,7 +266,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MouseScroll:
+                case InputSystem::Event::Type::mouseScroll:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -276,7 +276,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MouseMove:
+                case InputSystem::Event::Type::mouseMove:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -286,7 +286,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MouseRelativeMove:
+                case InputSystem::Event::Type::mouseRelativeMove:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -296,7 +296,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::MouseLockChanged:
+                case InputSystem::Event::Type::mouseLockChanged:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -306,7 +306,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::TouchBegin:
+                case InputSystem::Event::Type::touchBegin:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -316,7 +316,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::TouchMove:
+                case InputSystem::Event::Type::touchMove:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -326,7 +326,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::TouchEnd:
+                case InputSystem::Event::Type::touchEnd:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -336,7 +336,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case InputSystem::Event::Type::TouchCancel:
+                case InputSystem::Event::Type::touchCancel:
                 {
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
@@ -357,7 +357,7 @@ namespace ouzel
         {
             discovering = true;
 
-            InputSystem::Command command(InputSystem::Command::Type::StartDeviceDiscovery);
+            InputSystem::Command command(InputSystem::Command::Type::startDeviceDiscovery);
             inputSystem->addCommand(command);
         }
 
@@ -365,19 +365,19 @@ namespace ouzel
         {
             discovering = false;
 
-            InputSystem::Command command(InputSystem::Command::Type::StopDeviceDiscovery);
+            InputSystem::Command command(InputSystem::Command::Type::stopDeviceDiscovery);
             inputSystem->addCommand(command);
         }
 
         void InputManager::showVirtualKeyboard()
         {
-            InputSystem::Command command(InputSystem::Command::Type::ShowVirtualKeyboard);
+            InputSystem::Command command(InputSystem::Command::Type::showVirtualKeyboard);
             inputSystem->addCommand(command);
         }
 
         void InputManager::hideVirtualKeyboard()
         {
-            InputSystem::Command command(InputSystem::Command::Type::HideVirtualKeyboard);
+            InputSystem::Command command(InputSystem::Command::Type::hideVirtualKeyboard);
             inputSystem->addCommand(command);
         }
     } // namespace input

@@ -23,6 +23,7 @@
 #endif
 
 #include "OGLRenderResource.hpp"
+#include "../Flags.hpp"
 #include "../PixelFormat.hpp"
 #include "../SamplerAddressMode.hpp"
 #include "../SamplerFilter.hpp"
@@ -43,7 +44,7 @@ namespace ouzel
                 Texture(RenderDevice& initRenderDevice,
                         const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
                         TextureType type,
-                        std::uint32_t initFlags = 0,
+                        Flags initFlags = Flags::none,
                         std::uint32_t initSampleCount = 1,
                         PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
                 ~Texture() override;
@@ -79,7 +80,7 @@ namespace ouzel
                 void setTextureParameters();
 
                 std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
-                std::uint32_t flags = 0;
+                Flags flags = Flags::none;
                 std::uint32_t mipmaps = 0;
                 std::uint32_t sampleCount = 1;
                 SamplerFilter filter = SamplerFilter::Default;

@@ -20,10 +20,10 @@ namespace ouzel
             blendState(engine->getCache().getBlendState(BLEND_ALPHA)),
             indexBuffer(*engine->getRenderer(),
                         graphics::BufferType::index,
-                        graphics::Flags::Dynamic),
+                        graphics::Flags::dynamic),
             vertexBuffer(*engine->getRenderer(),
                          graphics::BufferType::vertex,
-                         graphics::Flags::Dynamic),
+                         graphics::Flags::dynamic),
             text(initText),
             fontSize(initFontSize),
             textAnchor(initTextAnchor),
@@ -86,8 +86,8 @@ namespace ouzel
 
             engine->getRenderer()->setPipelineState(blendState->getResource(),
                                                     shader->getResource(),
-                                                    graphics::CullMode::NoCull,
-                                                    wireframe ? graphics::FillMode::Wireframe : graphics::FillMode::Solid);
+                                                    graphics::CullMode::none,
+                                                    wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
             engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
             engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});

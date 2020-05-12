@@ -507,34 +507,34 @@ namespace ouzel
     {
         switch (command.type)
         {
-            case Command::Type::ChangeSize:
+            case Command::Type::changeSize:
                 setSize(command.size);
                 break;
-            case Command::Type::ChangeFullscreen:
+            case Command::Type::changeFullscreen:
                 setFullscreen(command.fullscreen);
                 break;
-            case Command::Type::Close:
+            case Command::Type::close:
                 close();
                 break;
-            case Command::Type::SetTitle:
+            case Command::Type::setTitle:
                 setTitle(command.title);
                 break;
-            case Command::Type::BringToFront:
+            case Command::Type::bringToFront:
                 bringToFront();
                 break;
-            case Command::Type::Show:
+            case Command::Type::show:
                 show();
                 break;
-            case Command::Type::Hide:
+            case Command::Type::hide:
                 hide();
                 break;
-            case Command::Type::Minimize:
+            case Command::Type::minimize:
                 minimize();
                 break;
-            case Command::Type::Maximize:
+            case Command::Type::maximize:
                 maximize();
                 break;
-            case Command::Type::Restore:
+            case Command::Type::restore:
                 restore();
                 break;
             default:
@@ -565,7 +565,7 @@ namespace ouzel
 
         resolution = size;
 
-        Event resolutionChangeEvent(Event::Type::ResolutionChange);
+        Event resolutionChangeEvent(Event::Type::resolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
@@ -680,11 +680,11 @@ namespace ouzel
         size = newSize;
         resolution = size;
 
-        Event sizeChangeEvent(Event::Type::SizeChange);
+        Event sizeChangeEvent(Event::Type::sizeChange);
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::ResolutionChange);
+        Event resolutionChangeEvent(Event::Type::resolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
@@ -696,7 +696,7 @@ namespace ouzel
 
     void NativeWindowWin::handleActivate(WPARAM wParam)
     {
-        Event focusChangeEvent(Event::Type::FocusChange);
+        Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = wParam != 0;
         sendEvent(focusChangeEvent);
 
@@ -717,26 +717,26 @@ namespace ouzel
 
     void NativeWindowWin::handleShowWindow(BOOL shown)
     {
-        sendEvent(Event(shown ? Event::Type::Show : Event::Type::Hide));
+        sendEvent(Event(shown ? Event::Type::show : Event::Type::hide));
     }
 
     void NativeWindowWin::handleMinimize()
     {
-        Event focusChangeEvent(Event::Type::FocusChange);
+        Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = false;
         sendEvent(focusChangeEvent);
 
-        sendEvent(Event(Event::Type::Minimize));
+        sendEvent(Event(Event::Type::minimize));
     }
 
     void NativeWindowWin::handleMaximize()
     {
-        sendEvent(Event(Event::Type::Maximize));
+        sendEvent(Event(Event::Type::maximize));
     }
 
     void NativeWindowWin::handleRestore()
     {
-        Event focusChangeEvent(Event::Type::FocusChange);
+        Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
 
@@ -751,7 +751,7 @@ namespace ouzel
                           static_cast<float>(cursorPos.y));
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
 
-        sendEvent(Event(Event::Type::Restore));
+        sendEvent(Event(Event::Type::restore));
     }
 
     void NativeWindowWin::handleKey(UINT message, WPARAM wParam, LPARAM lParam)
@@ -787,17 +787,17 @@ namespace ouzel
         input::Mouse::Button button;
 
         if (message == WM_LBUTTONDOWN || message == WM_LBUTTONUP)
-            button = input::Mouse::Button::Left;
+            button = input::Mouse::Button::left;
         else if (message == WM_RBUTTONDOWN || message == WM_RBUTTONUP)
-            button = input::Mouse::Button::Right;
+            button = input::Mouse::Button::right;
         else if (message == WM_MBUTTONDOWN || message == WM_MBUTTONUP)
-            button = input::Mouse::Button::Middle;
+            button = input::Mouse::Button::middle;
         else if (message == WM_XBUTTONDOWN || message == WM_XBUTTONUP)
         {
             if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1)
-                button = input::Mouse::Button::X1;
+                button = input::Mouse::Button::x1;
             else if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2)
-                button = input::Mouse::Button::X2;
+                button = input::Mouse::Button::x2;
             else
                 return;
         }
