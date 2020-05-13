@@ -99,14 +99,14 @@ namespace
     {
         switch (keyCode)
         {
-            case UIPressTypeUpArrow: return ouzel::input::Keyboard::Key::Up;
-            case UIPressTypeDownArrow: return ouzel::input::Keyboard::Key::Down;
-            case UIPressTypeLeftArrow: return ouzel::input::Keyboard::Key::Left;
-            case UIPressTypeRightArrow: return ouzel::input::Keyboard::Key::Right;
-            case UIPressTypeSelect: return ouzel::input::Keyboard::Key::Select;
-            case UIPressTypeMenu: return ouzel::input::Keyboard::Key::Menu;
-            case UIPressTypePlayPause: return ouzel::input::Keyboard::Key::Pause;
-            default: return ouzel::input::Keyboard::Key::Unknown;
+            case UIPressTypeUpArrow: return ouzel::input::Keyboard::Key::up;
+            case UIPressTypeDownArrow: return ouzel::input::Keyboard::Key::down;
+            case UIPressTypeLeftArrow: return ouzel::input::Keyboard::Key::left;
+            case UIPressTypeRightArrow: return ouzel::input::Keyboard::Key::right;
+            case UIPressTypeSelect: return ouzel::input::Keyboard::Key::select;
+            case UIPressTypeMenu: return ouzel::input::Keyboard::Key::menu;
+            case UIPressTypePlayPause: return ouzel::input::Keyboard::Key::pause;
+            default: return ouzel::input::Keyboard::Key::none;
         }
     }
 }

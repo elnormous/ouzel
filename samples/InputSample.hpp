@@ -19,16 +19,16 @@ public:
 
                     switch (event.key)
                     {
-                        case ouzel::input::Keyboard::Key::W:
+                        case ouzel::input::Keyboard::Key::w:
                             position.y() += 10.0F;
                             break;
-                        case ouzel::input::Keyboard::Key::S:
+                        case ouzel::input::Keyboard::Key::s:
                             position.y() -= 10.0F;
                             break;
-                        case ouzel::input::Keyboard::Key::A:
+                        case ouzel::input::Keyboard::Key::a:
                             position.x() -= 10.0F;
                             break;
-                        case ouzel::input::Keyboard::Key::D:
+                        case ouzel::input::Keyboard::Key::d:
                             position.x() += 10.0F;
                             break;
                         default:

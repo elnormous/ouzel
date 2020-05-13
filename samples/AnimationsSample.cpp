@@ -32,9 +32,9 @@ AnimationsSample::AnimationsSample():
         {
             switch (event.key)
             {
-                case Keyboard::Key::Escape:
-                case Keyboard::Key::Menu:
-                case Keyboard::Key::Back:
+                case Keyboard::Key::escape:
+                case Keyboard::Key::menu:
+                case Keyboard::Key::back:
                     engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                     return true;
                 default:
@@ -45,9 +45,9 @@ AnimationsSample::AnimationsSample():
         {
             switch (event.key)
             {
-                case Keyboard::Key::Escape:
-                case Keyboard::Key::Menu:
-                case Keyboard::Key::Back:
+                case Keyboard::Key::escape:
+                case Keyboard::Key::menu:
+                case Keyboard::Key::back:
                     return true;
                 default:
                     break;

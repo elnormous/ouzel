@@ -518,17 +518,17 @@ namespace ouzel
             {
                 switch (event.key)
                 {
-                    case input::Keyboard::Key::Left:
-                    case input::Keyboard::Key::Up:
+                    case input::Keyboard::Key::left:
+                    case input::Keyboard::Key::up:
                         selectPreviousWidget();
                         break;
-                    case input::Keyboard::Key::Right:
-                    case input::Keyboard::Key::Down:
+                    case input::Keyboard::Key::right:
+                    case input::Keyboard::Key::down:
                         selectNextWidget();
                         break;
-                    case input::Keyboard::Key::Enter:
-                    case input::Keyboard::Key::Space:
-                    case input::Keyboard::Key::Select:
+                    case input::Keyboard::Key::enter:
+                    case input::Keyboard::Key::space:
+                    case input::Keyboard::Key::select:
                     {
                         if (selectedWidget)
                         {

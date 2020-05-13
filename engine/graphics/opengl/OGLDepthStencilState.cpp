@@ -19,14 +19,14 @@ namespace ouzel
                 {
                     switch (compareFunction)
                     {
-                        case CompareFunction::NeverPass: return GL_NEVER;
-                        case CompareFunction::PassIfLess: return GL_LESS;
-                        case CompareFunction::PassIfEqual: return GL_EQUAL;
-                        case CompareFunction::PassIfLessEqual: return GL_LEQUAL;
-                        case CompareFunction::PassIfGreater: return GL_GREATER;
-                        case CompareFunction::PassIfNotEqual: return GL_NOTEQUAL;
-                        case CompareFunction::PassIfGreaterEqual: return GL_GEQUAL;
-                        case CompareFunction::AlwaysPass: return GL_ALWAYS;
+                        case CompareFunction::never: return GL_NEVER;
+                        case CompareFunction::less: return GL_LESS;
+                        case CompareFunction::equal: return GL_EQUAL;
+                        case CompareFunction::lessEqual: return GL_LEQUAL;
+                        case CompareFunction::greater: return GL_GREATER;
+                        case CompareFunction::notEqual: return GL_NOTEQUAL;
+                        case CompareFunction::greaterEqual: return GL_GEQUAL;
+                        case CompareFunction::always: return GL_ALWAYS;
                         default: return GL_NEVER;
                     }
                 }

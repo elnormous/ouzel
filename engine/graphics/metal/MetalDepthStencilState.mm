@@ -19,14 +19,14 @@ namespace ouzel
                 {
                     switch (compareFunction)
                     {
-                        case CompareFunction::NeverPass: return MTLCompareFunctionNever;
-                        case CompareFunction::PassIfLess: return MTLCompareFunctionLess;
-                        case CompareFunction::PassIfEqual: return MTLCompareFunctionEqual;
-                        case CompareFunction::PassIfLessEqual: return MTLCompareFunctionLessEqual;
-                        case CompareFunction::PassIfGreater: return MTLCompareFunctionGreater;
-                        case CompareFunction::PassIfNotEqual: return MTLCompareFunctionNotEqual;
-                        case CompareFunction::PassIfGreaterEqual: return MTLCompareFunctionGreaterEqual;
-                        case CompareFunction::AlwaysPass: return MTLCompareFunctionAlways;
+                        case CompareFunction::never: return MTLCompareFunctionNever;
+                        case CompareFunction::less: return MTLCompareFunctionLess;
+                        case CompareFunction::equal: return MTLCompareFunctionEqual;
+                        case CompareFunction::lessEqual: return MTLCompareFunctionLessEqual;
+                        case CompareFunction::greater: return MTLCompareFunctionGreater;
+                        case CompareFunction::notEqual: return MTLCompareFunctionNotEqual;
+                        case CompareFunction::greaterEqual: return MTLCompareFunctionGreaterEqual;
+                        case CompareFunction::always: return MTLCompareFunctionAlways;
                         default: return MTLCompareFunctionNever;
                     }
                 }

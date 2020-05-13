@@ -286,18 +286,18 @@ namespace ouzel
             if (depthTest)
                 depthStencilState = std::make_unique<graphics::DepthStencilState>(*engine->getRenderer(),
                                                                                   true, true,
-                                                                                  graphics::CompareFunction::PassIfLessEqual,
+                                                                                  graphics::CompareFunction::lessEqual,
                                                                                   false,
                                                                                   0xFFFFFFFF,
                                                                                   0xFFFFFFFF,
                                                                                   graphics::StencilOperation::keep,
                                                                                   graphics::StencilOperation::keep,
                                                                                   graphics::StencilOperation::keep,
-                                                                                  graphics::CompareFunction::AlwaysPass,
+                                                                                  graphics::CompareFunction::always,
                                                                                   graphics::StencilOperation::keep,
                                                                                   graphics::StencilOperation::keep,
                                                                                   graphics::StencilOperation::keep,
-                                                                                  graphics::CompareFunction::AlwaysPass);
+                                                                                  graphics::CompareFunction::always);
             else
                 depthStencilState.reset();
         }

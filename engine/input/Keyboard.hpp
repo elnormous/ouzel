@@ -18,172 +18,172 @@ namespace ouzel
         public:
             enum class Key
             {
-                Unknown,
-                Cancel, // Control-break processing
-                Backspace, // Backspace key
-                Tab, // Tab key
-                Clear, // Clear key
-                Enter, // Enter key
-                Pause, // Pause key
-                CapsLock, // Caps Lock key
-                Kana, // Japanese kana key
-                Hanja, // Japanese Hanja key
-                Kanji, // Japanese Kanji key
-                Yen, // Japanese Yen key
-                Ro, // Japanese Ro key
-                Katakana, // Japanese Katakana key
-                Hiragana, // Japanese Hiragana key
-                KatakanaHiragana, // Japanese Katakana / Hiragana key
-                Henkan, // Japanese Henkan key
-                Muhenkan, // Japanese non-conversion key
-                NumpadJpcomma, // Japanese numeric keypad comma key
-                Escape, // Esc key
-                Space, // Spacebar
-                PageUp, // Page Up key
-                PageDown, // Page Down key
-                End, // End key
-                Home, // Home key
-                Left, // Left Arrow key
-                Up, // Up Arrow key
-                Right, // Right Arrow key
-                Down, // Down Arrow key
-                Select, // Select key
-                Print, // Print key
-                Execute, // Execute key
-                PrintScreen, // Print Screen key
-                Insert, // Ins key
-                Del, // Delete key
-                Equal, // Equal key
-                Help, // Help key
-                Num0, // 0 key
-                Num1, // 1 key
-                Num2, // 2 key
-                Num3, // 3 key
-                Num4, // 4 key
-                Num5, // 5 key
-                Num6, // 6 key
-                Num7, // 7 key
-                Num8, // 8 key
-                Num9, // 9 key
-                A, // A key
-                B, // B key
-                C, // C key
-                D, // D key
-                E, // E key
-                F, // F key
-                G, // G key
-                H, // H key
-                I, // I key
-                J, // J key
-                K, // K key
-                L, // L key
-                M, // M key
-                N, // N key
-                O, // O key
-                P, // P key
-                Q, // Q key
-                R, // R key
-                S, // S key
-                T, // T key
-                U, // U key
-                V, // V key
-                W, // W key
-                X, // X key
-                Y, // Y key
-                Z, // Z key
-                LeftSuper, // Left Windows key (Microsoft Natural keyboard) on Windows, left Command key on macOs
-                RightSuper, // Right Windows key (Natural keyboard) on Windows, right Command key on macOs
-                Menu, // Applications key (Natural keyboard)
-                Sleep, // Computer sleep key
-                Power, // Computer power key
-                Numpad0, // Numeric keypad 0 key
-                Numpad1, // Numeric keypad 1 key
-                Numpad2, // Numeric keypad 2 key
-                Numpad3, // Numeric keypad 3 key
-                Numpad4, // Numeric keypad 4 key
-                Numpad5, // Numeric keypad 5 key
-                Numpad6, // Numeric keypad 6 key
-                Numpad7, // Numeric keypad 7 key
-                Numpad8, // Numeric keypad 8 key
-                Numpad9, // Numeric keypad 9 key
-                NumpadMultiply, // Numeric keypad multiply key
-                NumpadPlus, // Numeric keypad plus key
-                NumpadSeparator, // Numeric keypad comma key
-                NumpadMinus, // Numeric keypad minus key
-                NumpadDecimal, // Numeric keypad decimal key
-                NumpadDivide, // Numeric keypad divide key
-                NumpadEnter, // Numeric keypad enter key
-                NumpadEqual, // Numeric keypad comma key
-                NumpadPlusminus, // Numeric keypad plus/minus key
-                NumpadLeftParen, // Numeric keypad comma key
-                NumpadRightParen, // Numeric keypad comma key
-                F1, // F1 key
-                F2, // F2 key
-                F3, // F3 key
-                F4, // F4 key
-                F5, // F5 key
-                F6, // F6 key
-                F7, // F7 key
-                F8, // F8 key
-                F9, // F9 key
-                F10, // F10 key
-                F11, // F11 key
-                F12, // F12 key
-                F13, // F13 key
-                F14, // F14 key
-                F15, // F15 key
-                F16, // F16 key
-                F17, // F17 key
-                F18, // F18 key
-                F19, // F19 key
-                F20, // F20 key
-                F21, // F21 key
-                F22, // F22 key
-                F23, // F23 key
-                F24, // F24 key
-                NumLock, // Num Lock key
-                ScrollLock, // Scroll Lock key
-                LeftShift, // Left Shift key
-                RightShift, // Right Shift key
-                LeftControl, // Left Control key
-                RightControl, // Right Control key
-                LeftAlt, // Left alt key
-                RightAlt, // Right alt key
-                ModeChange, // Mode change key
-                Semicolon, // for US ";:"
-                Plus, // Plus Key "+"
-                Comma, // Comma Key ","
-                Minus, // Minus Key "-"
-                Period, // Period Key "."
-                Slash, // for US "/?"
-                Grave, // for US "`~"
-                LeftBracket, // for US "[{"
-                Backslash, // for US "\|"
-                RightBracket, // for US "]}"
-                Quote, // for US "'""
-                OemAx, // for Japan "AX"
-                IntlBackslash, // "<>" or "\|"
-                Crsel, // CrSel key
-                Exsel, // ExSel key
-                App1, // Launch application 1 key
-                App2, // Launch application 2 key
-                Back, // AC back key
-                Forward, // AC forward key
-                Refresh, // AC refresh key
-                Stop, // AC stop key
-                Search, // AC search key
-                Bookmarks, // AC bookmarks key
-                Homepage, // AC home key
-                Mute, // Audio mute button
-                VolumeDown, // Audio volume down button
-                VolumeUp, // Audio volume up button
-                AudioPlay, // Play/pause media key
-                AudioStop, // Stop media key
-                AudioNext, // Play next media key
-                AudioPrevious, // Play previous media key
-                MediaSelect, // Launch media select key
-                Mail, // Mail function key
-                Count
+                none,
+                cancel, // Control-break processing
+                backspace, // Backspace key
+                tab, // Tab key
+                clear, // Clear key
+                enter, // Enter key
+                pause, // Pause key
+                capsLock, // Caps Lock key
+                kana, // Japanese kana key
+                hanja, // Japanese Hanja key
+                kanji, // Japanese Kanji key
+                yen, // Japanese Yen key
+                ro, // Japanese Ro key
+                katakana, // Japanese Katakana key
+                hiragana, // Japanese Hiragana key
+                katakanaHiragana, // Japanese Katakana / Hiragana key
+                henkan, // Japanese Henkan key
+                muhenkan, // Japanese non-conversion key
+                numpadJpcomma, // Japanese numeric keypad comma key
+                escape, // Esc key
+                space, // Spacebar
+                pageUp, // Page Up key
+                pageDown, // Page Down key
+                end, // End key
+                home, // Home key
+                left, // Left Arrow key
+                up, // Up Arrow key
+                right, // Right Arrow key
+                down, // Down Arrow key
+                select, // Select key
+                print, // Print key
+                execute, // Execute key
+                printScreen, // Print Screen key
+                insert, // Ins key
+                del, // Delete key
+                equal, // Equal key
+                help, // Help key
+                num0, // 0 key
+                num1, // 1 key
+                num2, // 2 key
+                num3, // 3 key
+                num4, // 4 key
+                num5, // 5 key
+                num6, // 6 key
+                num7, // 7 key
+                num8, // 8 key
+                num9, // 9 key
+                a, // A key
+                b, // B key
+                c, // C key
+                d, // D key
+                e, // E key
+                f, // F key
+                g, // G key
+                h, // H key
+                i, // I key
+                j, // J key
+                k, // K key
+                l, // L key
+                m, // M key
+                n, // N key
+                o, // O key
+                p, // P key
+                q, // Q key
+                r, // R key
+                s, // S key
+                t, // T key
+                u, // U key
+                v, // V key
+                w, // W key
+                x, // X key
+                y, // Y key
+                z, // Z key
+                leftSuper, // Left Windows key (Microsoft Natural keyboard) on Windows, left Command key on macOs
+                rightSuper, // Right Windows key (Natural keyboard) on Windows, right Command key on macOs
+                menu, // Applications key (Natural keyboard)
+                sleep, // Computer sleep key
+                power, // Computer power key
+                numpad0, // Numeric keypad 0 key
+                numpad1, // Numeric keypad 1 key
+                numpad2, // Numeric keypad 2 key
+                numpad3, // Numeric keypad 3 key
+                numpad4, // Numeric keypad 4 key
+                numpad5, // Numeric keypad 5 key
+                numpad6, // Numeric keypad 6 key
+                numpad7, // Numeric keypad 7 key
+                numpad8, // Numeric keypad 8 key
+                numpad9, // Numeric keypad 9 key
+                numpadMultiply, // Numeric keypad multiply key
+                numpadPlus, // Numeric keypad plus key
+                numpadSeparator, // Numeric keypad comma key
+                numpadMinus, // Numeric keypad minus key
+                numpadDecimal, // Numeric keypad decimal key
+                numpadDivide, // Numeric keypad divide key
+                numpadEnter, // Numeric keypad enter key
+                numpadEqual, // Numeric keypad comma key
+                numpadPlusminus, // Numeric keypad plus/minus key
+                numpadLeftParen, // Numeric keypad comma key
+                numpadRightParen, // Numeric keypad comma key
+                f1, // F1 key
+                f2, // F2 key
+                f3, // F3 key
+                f4, // F4 key
+                f5, // F5 key
+                f6, // F6 key
+                f7, // F7 key
+                f8, // F8 key
+                f9, // F9 key
+                f10, // F10 key
+                f11, // F11 key
+                f12, // F12 key
+                f13, // F13 key
+                f14, // F14 key
+                f15, // F15 key
+                f16, // F16 key
+                f17, // F17 key
+                f18, // F18 key
+                f19, // F19 key
+                f20, // F20 key
+                f21, // F21 key
+                f22, // F22 key
+                f23, // F23 key
+                f24, // F24 key
+                numLock, // Num Lock key
+                scrollLock, // Scroll Lock key
+                leftShift, // Left Shift key
+                rightShift, // Right Shift key
+                leftControl, // Left Control key
+                rightControl, // Right Control key
+                leftAlt, // Left alt key
+                rightAlt, // Right alt key
+                modeChange, // Mode change key
+                semicolon, // for US ";:"
+                plus, // Plus Key "+"
+                comma, // Comma Key ","
+                minus, // Minus Key "-"
+                period, // Period Key "."
+                slash, // for US "/?"
+                grave, // for US "`~"
+                leftBracket, // for US "[{"
+                backslash, // for US "\|"
+                rightBracket, // for US "]}"
+                quote, // for US "'""
+                oemAx, // for Japan "AX"
+                intlBackslash, // "<>" or "\|"
+                crsel, // CrSel key
+                exsel, // ExSel key
+                app1, // Launch application 1 key
+                app2, // Launch application 2 key
+                back, // AC back key
+                forward, // AC forward key
+                refresh, // AC refresh key
+                stop, // AC stop key
+                search, // AC search key
+                bookmarks, // AC bookmarks key
+                homepage, // AC home key
+                mute, // Audio mute button
+                volumeDown, // Audio volume down button
+                volumeUp, // Audio volume up button
+                audioPlay, // Play/pause media key
+                audioStop, // Stop media key
+                audioNext, // Play next media key
+                audioPrevious, // Play previous media key
+                mediaSelect, // Launch media select key
+                mail, // Mail function key
+                count
             };
 
             Keyboard(InputManager& initInputManager, DeviceId initDeviceId);
@@ -195,7 +195,7 @@ namespace ouzel
             bool handleKeyRelease(Keyboard::Key key);
 
         private:
-            bool keyStates[static_cast<std::uint32_t>(Key::Count)]{false};
+            bool keyStates[static_cast<std::uint32_t>(Key::count)]{false};
         };
     } // namespace input
 } // namespace ouzel

@@ -19,14 +19,14 @@ namespace ouzel
                 {
                     switch (compareFunction)
                     {
-                        case CompareFunction::NeverPass: return D3D11_COMPARISON_NEVER;
-                        case CompareFunction::PassIfLess: return D3D11_COMPARISON_LESS;
-                        case CompareFunction::PassIfEqual: return D3D11_COMPARISON_EQUAL;
-                        case CompareFunction::PassIfLessEqual: return D3D11_COMPARISON_LESS_EQUAL;
-                        case CompareFunction::PassIfGreater: return D3D11_COMPARISON_GREATER;
-                        case CompareFunction::PassIfNotEqual: return D3D11_COMPARISON_NOT_EQUAL;
-                        case CompareFunction::PassIfGreaterEqual: return D3D11_COMPARISON_GREATER_EQUAL;
-                        case CompareFunction::AlwaysPass: return D3D11_COMPARISON_ALWAYS;
+                        case CompareFunction::never: return D3D11_COMPARISON_NEVER;
+                        case CompareFunction::less: return D3D11_COMPARISON_LESS;
+                        case CompareFunction::equal: return D3D11_COMPARISON_EQUAL;
+                        case CompareFunction::lessEqual: return D3D11_COMPARISON_LESS_EQUAL;
+                        case CompareFunction::greater: return D3D11_COMPARISON_GREATER;
+                        case CompareFunction::notEqual: return D3D11_COMPARISON_NOT_EQUAL;
+                        case CompareFunction::greaterEqual: return D3D11_COMPARISON_GREATER_EQUAL;
+                        case CompareFunction::always: return D3D11_COMPARISON_ALWAYS;
                         default: return D3D11_COMPARISON_NEVER;
                     }
                 }

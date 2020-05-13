@@ -95,7 +95,7 @@ namespace ouzel
     struct KeyboardEvent final: Event
     {
         input::Keyboard* keyboard = nullptr;
-        input::Keyboard::Key key = input::Keyboard::Key::Unknown;
+        input::Keyboard::Key key = input::Keyboard::Key::none;
     };
 
     struct MouseEvent final: Event

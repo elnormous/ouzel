@@ -21,27 +21,27 @@ InputSample::InputSample():
 
             switch (event.key)
             {
-                case Keyboard::Key::Up:
+                case Keyboard::Key::up:
                     flamePosition.y() += 0.01F;
                     break;
-                case Keyboard::Key::Down:
+                case Keyboard::Key::down:
                     flamePosition.y() -= 0.01F;
                     break;
-                case Keyboard::Key::Left:
+                case Keyboard::Key::left:
                     flamePosition.x() -= 0.01F;
                     break;
-                case Keyboard::Key::Right:
+                case Keyboard::Key::right:
                     flamePosition.x() += 0.01F;
                     break;
-                case Keyboard::Key::R:
+                case Keyboard::Key::r:
                     engine->getWindow()->setSize(Size2U(640, 480));
                     break;
-                case Keyboard::Key::Tab:
+                case Keyboard::Key::tab:
                     hideButton.setEnabled(!hideButton.isEnabled());
                     break;
-                case Keyboard::Key::Escape:
-                case Keyboard::Key::Menu:
-                case Keyboard::Key::Back:
+                case Keyboard::Key::escape:
+                case Keyboard::Key::menu:
+                case Keyboard::Key::back:
                     if (Mouse* mouse = engine->getInputManager()->getMouse())
                         mouse->setCursorVisible(true);
                     engine->getSceneManager().setScene(std::make_unique<MainMenu>());
@@ -58,9 +58,9 @@ InputSample::InputSample():
         {
             switch (event.key)
             {
-                case Keyboard::Key::Escape:
-                case Keyboard::Key::Menu:
-                case Keyboard::Key::Back:
+                case Keyboard::Key::escape:
+                case Keyboard::Key::menu:
+                case Keyboard::Key::back:
                     return true;
                 default:
                     break;

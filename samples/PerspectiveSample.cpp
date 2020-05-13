@@ -27,27 +27,27 @@ PerspectiveSample::PerspectiveSample():
         {
             switch (event.key)
             {
-                case Keyboard::Key::Up:
+                case Keyboard::Key::up:
                     cameraRotation.x() -= tau<float> / 100.0F;
                     break;
-                case Keyboard::Key::Down:
+                case Keyboard::Key::down:
                     cameraRotation.x() += tau<float> / 100.0F;
                     break;
-                case Keyboard::Key::Left:
+                case Keyboard::Key::left:
                     cameraRotation.y() -= tau<float> / 100.0F;
                     break;
-                case Keyboard::Key::Right:
+                case Keyboard::Key::right:
                     cameraRotation.y() += tau<float> / 100.0F;
                     break;
-                case Keyboard::Key::Escape:
-                case Keyboard::Key::Menu:
-                case Keyboard::Key::Back:
+                case Keyboard::Key::escape:
+                case Keyboard::Key::menu:
+                case Keyboard::Key::back:
                     engine->getSceneManager().setScene(std::make_unique<MainMenu>());
                     return true;
-                case Keyboard::Key::Tab:
+                case Keyboard::Key::tab:
                     jumpVoice.play();
                     break;
-                case Keyboard::Key::S:
+                case Keyboard::Key::s:
                     engine->getRenderer()->saveScreenshot("test.png");
                     break;
                 default:
@@ -63,9 +63,9 @@ PerspectiveSample::PerspectiveSample():
         {
             switch (event.key)
             {
-                case Keyboard::Key::Escape:
-                case Keyboard::Key::Menu:
-                case Keyboard::Key::Back:
+                case Keyboard::Key::escape:
+                case Keyboard::Key::menu:
+                case Keyboard::Key::back:
                     return true;
                 default:
                     break;

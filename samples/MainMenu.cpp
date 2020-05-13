@@ -51,11 +51,11 @@ MainMenu::MainMenu():
         {
             switch (event.key)
             {
-                case Keyboard::Key::Escape:
+                case Keyboard::Key::escape:
                     engine->exit();
                     break;
-                case Keyboard::Key::Menu:
-                case Keyboard::Key::Back:
+                case Keyboard::Key::menu:
+                case Keyboard::Key::back:
                     return false;
                 default:
                     break;
@@ -65,9 +65,9 @@ MainMenu::MainMenu():
         {
             switch (event.key)
             {
-                case Keyboard::Key::Escape:
-                case Keyboard::Key::Menu:
-                case Keyboard::Key::Back:
+                case Keyboard::Key::escape:
+                case Keyboard::Key::menu:
+                case Keyboard::Key::back:
                     return false;
                 default:
                     break;
