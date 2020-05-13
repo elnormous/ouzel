@@ -34,18 +34,19 @@ namespace ouzel
                 ((randomTime << 8) & 0x00FF0000) |
                 ((randomTime << 24) & 0xFF000000);
 
-            const std::uint16_t timeMid = static_cast<std::uint16_t>(((randomTime >> 40) & 0x00FF) |
-                ((randomTime >> 24) & 0xFF00));
+            const auto timeMid = static_cast<std::uint16_t>(((randomTime >> 40) & 0x00FF) |
+                                                            ((randomTime >> 24) & 0xFF00));
 
-            const std::uint16_t timeHiAndVersion = static_cast<std::uint16_t>(((0x04 << 12) & 0xF000) |
-                ((randomTime >> 56) & 0x00FF) |
-                ((randomTime >> 40) & 0x0F00));
+            const auto timeHiAndVersion = static_cast<std::uint16_t>(((0x04 << 12) & 0xF000) |
+                                                                     ((randomTime >> 56) & 0x00FF) |
+                                                                     ((randomTime >> 40) & 0x0F00));
 
-            const std::uint16_t clockSequence = static_cast<std::uint16_t>(mt() & 0x3FFF); // 14-bit random
+            const auto clockSequence = static_cast<std::uint16_t>(mt() & 0x3FFF); // 14-bit random
 
-            const std::uint8_t clockSeqHiAndReserved = static_cast<std::uint8_t>(0x80 | // bit 6 and 7
-                ((clockSequence >> 8) & 0x3F));
-            const std::uint8_t clockSeqLow = static_cast<std::uint8_t>(clockSequence & 0xFF);
+            const auto clockSeqHiAndReserved = static_cast<std::uint8_t>(0x80 | // bit 6 and 7
+                                                                         ((clockSequence >> 8) & 0x3F));
+
+            const auto clockSeqLow = static_cast<std::uint8_t>(clockSequence & 0xFF);
 
             const std::uint64_t random = mt();
 

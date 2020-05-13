@@ -221,7 +221,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Gamepad* gamepad = static_cast<Gamepad*>(i->second.get());
+                        auto gamepad = static_cast<Gamepad*>(i->second.get());
                         return gamepad->handleButtonValueChange(event.gamepadButton, event.pressed, event.value);
                     }
                     break;
@@ -231,7 +231,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Keyboard* keyboardController = static_cast<Keyboard*>(i->second.get());
+                        auto keyboardController = static_cast<Keyboard*>(i->second.get());
                         return keyboardController->handleKeyPress(event.keyboardKey);
                     }
                     break;
@@ -241,7 +241,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Keyboard* keyboardController = static_cast<Keyboard*>(i->second.get());
+                        auto keyboardController = static_cast<Keyboard*>(i->second.get());
                         return keyboardController->handleKeyRelease(event.keyboardKey);
                     }
                     break;
@@ -251,7 +251,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        auto mouseController = static_cast<Mouse*>(i->second.get());
                         return mouseController->handleButtonPress(event.mouseButton, event.position);
                     }
                     break;
@@ -261,7 +261,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        auto mouseController = static_cast<Mouse*>(i->second.get());
                         return mouseController->handleButtonRelease(event.mouseButton, event.position);
                     }
                     break;
@@ -271,7 +271,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        auto mouseController = static_cast<Mouse*>(i->second.get());
                         return mouseController->handleScroll(event.scroll, event.position);
                     }
                     break;
@@ -281,7 +281,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        auto mouseController = static_cast<Mouse*>(i->second.get());
                         return mouseController->handleMove(event.position);
                     }
                     break;
@@ -291,7 +291,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        auto mouseController = static_cast<Mouse*>(i->second.get());
                         return mouseController->handleRelativeMove(event.position);
                     }
                     break;
@@ -301,7 +301,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Mouse* mouseController = static_cast<Mouse*>(i->second.get());
+                        auto mouseController = static_cast<Mouse*>(i->second.get());
                         return mouseController->handleCursorLockChange(event.locked);
                     }
                     break;
@@ -311,7 +311,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
+                        auto touchpadController = static_cast<Touchpad*>(i->second.get());
                         return touchpadController->handleTouchBegin(event.touchId, event.position);
                     }
                     break;
@@ -321,7 +321,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
+                        auto touchpadController = static_cast<Touchpad*>(i->second.get());
                         return touchpadController->handleTouchMove(event.touchId, event.position);
                     }
                     break;
@@ -331,7 +331,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
+                        auto touchpadController = static_cast<Touchpad*>(i->second.get());
                         return touchpadController->handleTouchEnd(event.touchId, event.position);
                     }
                     break;
@@ -341,7 +341,7 @@ namespace ouzel
                     auto i = controllerMap.find(event.deviceId);
                     if (i != controllerMap.end())
                     {
-                        Touchpad* touchpadController = static_cast<Touchpad*>(i->second.get());
+                        auto touchpadController = static_cast<Touchpad*>(i->second.get());
                         return touchpadController->handleTouchCancel(event.touchId, event.position);
                     }
                     break;

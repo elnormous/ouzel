@@ -86,7 +86,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        GamepadDeviceIOS* gamepadDevice = static_cast<GamepadDeviceIOS*>(inputDevice);
+                        auto gamepadDevice = static_cast<GamepadDeviceIOS*>(inputDevice);
                         gamepadDevice->setPlayerIndex(command.playerIndex);
                     }
                     break;
@@ -148,14 +148,14 @@ namespace ouzel
 
         void InputSystemIOS::showVirtualKeyboard()
         {
-            NativeWindowIOS* windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
+            auto windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
             UITextField* textField = windowIOS->getTextField();
             [textField becomeFirstResponder];
         }
 
         void InputSystemIOS::hideVirtualKeyboard()
         {
-            NativeWindowIOS* windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
+            auto windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
             UITextField* textField = windowIOS->getTextField();
             [textField resignFirstResponder];
         }

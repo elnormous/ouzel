@@ -862,8 +862,8 @@ namespace ouzel
                 if (!currentMetalTexture)
                     throw Error("No back buffer");
 
-                const NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.get().width);
-                const NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.get().height);
+                const auto width = static_cast<NSUInteger>(currentMetalTexture.get().width);
+                const auto height = static_cast<NSUInteger>(currentMetalTexture.get().height);
 
                 std::vector<std::uint8_t> data(width * height * 4);
                 [currentMetalTexture.get() getBytes:data.data()

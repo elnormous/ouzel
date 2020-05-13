@@ -13,10 +13,10 @@ namespace ouzel
         void MouseDeviceLinux::setPosition(const Vector2F& position)
         {
 #if OUZEL_SUPPORTS_X11
-            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-            Display* display = engineLinux->getDisplay();
-            ::Window window = windowLinux->getNativeWindow();
+            auto engineLinux = static_cast<EngineLinux*>(engine);
+            auto windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
+            auto display = engineLinux->getDisplay();
+            auto window = windowLinux->getNativeWindow();
 
             XWindowAttributes attributes;
             XGetWindowAttributes(display, window, &attributes);
@@ -38,10 +38,10 @@ namespace ouzel
         void MouseDeviceLinux::setCursorLocked(bool locked)
         {
 #if OUZEL_SUPPORTS_X11
-            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-            Display* display = engineLinux->getDisplay();
-            ::Window window = windowLinux->getNativeWindow();
+            auto engineLinux = static_cast<EngineLinux*>(engine);
+            auto windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
+            auto display = engineLinux->getDisplay();
+            auto window = windowLinux->getNativeWindow();
 
             if (locked)
             {

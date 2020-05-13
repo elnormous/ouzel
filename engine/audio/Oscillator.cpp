@@ -97,7 +97,7 @@ namespace ouzel
 
         void OscillatorStream::getSamples(std::uint32_t frames, std::vector<float>& samples)
         {
-            OscillatorData& oscillatorData = static_cast<OscillatorData&>(data);
+            auto& oscillatorData = static_cast<OscillatorData&>(data);
 
             samples.resize(frames);
 

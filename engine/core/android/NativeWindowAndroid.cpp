@@ -16,15 +16,15 @@ namespace ouzel
                      newTitle,
                      true)
     {
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
-        JavaVM* javaVm = engineAndroid->getJavaVm();
+        auto engineAndroid = static_cast<EngineAndroid*>(engine);
+        auto javaVm = engineAndroid->getJavaVm();
         void* jniEnvPointer;
 
         jint result;
         if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
             throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
 
-        JNIEnv* jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+        auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
         window = ANativeWindow_fromSurface(jniEnv, engineAndroid->getSurface());
 
@@ -84,15 +84,15 @@ namespace ouzel
 
     void NativeWindowAndroid::handleSurfaceChange(jobject surface)
     {
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
-        JavaVM* javaVm = engineAndroid->getJavaVm();
+        auto engineAndroid = static_cast<EngineAndroid*>(engine);
+        auto javaVm = engineAndroid->getJavaVm();
         void* jniEnvPointer;
 
         jint result;
         if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
             throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
 
-        JNIEnv* jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+        auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
         if (window) ANativeWindow_release(window);
         window = ANativeWindow_fromSurface(jniEnv, surface);

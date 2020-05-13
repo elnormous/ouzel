@@ -44,7 +44,7 @@ namespace ouzel
     template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
     void encodeBigEndian(std::uint8_t* buffer, const T value) noexcept
     {
-        std::uint8_t* bytes = static_cast<std::uint8_t*>(buffer);
+        auto bytes = static_cast<std::uint8_t*>(buffer);
 
         for (std::uintptr_t i = 0; i < sizeof(T); ++i)
             bytes[i] = static_cast<std::uint8_t>(value >> ((sizeof(T) - i - 1) * 8));

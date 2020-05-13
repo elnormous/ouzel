@@ -15,7 +15,7 @@ namespace ouzel
 
             void deviceInput(void* ctx, IOReturn, void*, IOHIDValueRef value)
             {
-                GamepadDeviceIOKit* gamepadDevice = static_cast<GamepadDeviceIOKit*>(ctx);
+                auto gamepadDevice = static_cast<GamepadDeviceIOKit*>(ctx);
                 gamepadDevice->handleInput(value);
             }
         }

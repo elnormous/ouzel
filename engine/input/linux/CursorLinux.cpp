@@ -16,8 +16,8 @@ namespace ouzel
         CursorLinux::CursorLinux(SystemCursor systemCursor)
         {
 #if OUZEL_SUPPORTS_X11
-            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-            Display* display = engineLinux->getDisplay();
+            auto engineLinux = static_cast<EngineLinux*>(engine);
+            auto display = engineLinux->getDisplay();
 
             switch (systemCursor)
             {
@@ -49,8 +49,8 @@ namespace ouzel
                                  const Vector2F& hotSpot)
         {
 #if OUZEL_SUPPORTS_X11
-            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-            Display* display = engineLinux->getDisplay();
+            auto engineLinux = static_cast<EngineLinux*>(engine);
+            auto display = engineLinux->getDisplay();
 
             if (!data.empty())
             {
@@ -87,8 +87,8 @@ namespace ouzel
         CursorLinux::~CursorLinux()
         {
 #if OUZEL_SUPPORTS_X11
-            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-            Display* display = engineLinux->getDisplay();
+            auto engineLinux = static_cast<EngineLinux*>(engine);
+            auto display = engineLinux->getDisplay();
             if (cursor != None) XFreeCursor(display, cursor);
 #endif
         }

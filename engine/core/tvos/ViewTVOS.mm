@@ -48,8 +48,8 @@ namespace
 {
     bool forward = false;
 
-    ouzel::input::InputSystemTVOS* inputSystemTVOS = static_cast<ouzel::input::InputSystemTVOS*>(ouzel::engine->getInputManager()->getInputSystem());
-    ouzel::input::KeyboardDevice* keyboardDevice = inputSystemTVOS->getKeyboardDevice();
+    auto inputSystemTVOS = static_cast<ouzel::input::InputSystemTVOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto keyboardDevice = inputSystemTVOS->getKeyboardDevice();
     for (UIPress* press in presses)
     {
         std::future<bool> f = keyboardDevice->handleKeyPress(convertKeyCode(press.type));
@@ -65,8 +65,8 @@ namespace
 {
     bool forward = false;
 
-    ouzel::input::InputSystemTVOS* inputSystemTVOS = static_cast<ouzel::input::InputSystemTVOS*>(ouzel::engine->getInputManager()->getInputSystem());
-    ouzel::input::KeyboardDevice* keyboardDevice = inputSystemTVOS->getKeyboardDevice();
+    auto inputSystemTVOS = static_cast<ouzel::input::InputSystemTVOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto keyboardDevice = inputSystemTVOS->getKeyboardDevice();
     for (UIPress* press in presses)
     {
         std::future<bool> f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));
@@ -82,8 +82,8 @@ namespace
 {
     bool forward = false;
 
-    ouzel::input::InputSystemTVOS* inputSystemTVOS = static_cast<ouzel::input::InputSystemTVOS*>(ouzel::engine->getInputManager()->getInputSystem());
-    ouzel::input::KeyboardDevice* keyboardDevice = inputSystemTVOS->getKeyboardDevice();
+    auto inputSystemTVOS = static_cast<ouzel::input::InputSystemTVOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto keyboardDevice = inputSystemTVOS->getKeyboardDevice();
     for (UIPress* press in presses)
     {
         std::future<bool> f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));

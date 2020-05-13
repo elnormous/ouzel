@@ -34,7 +34,7 @@ namespace ouzel
 
                     try
                     {
-                        RenderDeviceMacOS* renderDevice = static_cast<RenderDeviceMacOS*>(userInfo);
+                        auto renderDevice = static_cast<RenderDeviceMacOS*>(userInfo);
                         renderDevice->renderCallback();
                     }
                     catch (const std::exception& e)
@@ -90,7 +90,7 @@ namespace ouzel
                                    newStencil,
                                    newDebugRenderer);
 
-                NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());
+                auto windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());
                 MetalView* view = (MetalView*)windowMacOS->getNativeView();
 
                 metalLayer = (CAMetalLayer*)view.layer;

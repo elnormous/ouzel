@@ -102,7 +102,7 @@ namespace ouzel
                                         UInt32, UInt32,
                                         AudioBufferList* ioData)
                 {
-                    ouzel::audio::coreaudio::AudioDevice* audioDevice = static_cast<ouzel::audio::coreaudio::AudioDevice*>(inRefCon);
+                    auto audioDevice = static_cast<ouzel::audio::coreaudio::AudioDevice*>(inRefCon);
 
                     try
                     {

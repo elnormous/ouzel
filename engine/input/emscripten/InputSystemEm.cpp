@@ -148,7 +148,7 @@ namespace
 
     EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
     {
-        ouzel::input::KeyboardDevice* keyboardDevice = static_cast<ouzel::input::KeyboardDevice*>(userData);
+        auto keyboardDevice = static_cast<ouzel::input::KeyboardDevice*>(userData);
 
         switch (eventType)
         {
@@ -166,7 +166,7 @@ namespace
 
     EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData)
     {
-        ouzel::input::MouseDevice* mouseDevice = static_cast<ouzel::input::MouseDevice*>(userData);
+        auto mouseDevice = static_cast<ouzel::input::MouseDevice*>(userData);
         ouzel::input::Mouse::Button button;
 
         switch (mouseEvent->button)
@@ -208,7 +208,7 @@ namespace
 
     EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelEvent, void* userData)
     {
-        ouzel::input::MouseDevice* mouseDevice = static_cast<ouzel::input::MouseDevice*>(userData);
+        auto mouseDevice = static_cast<ouzel::input::MouseDevice*>(userData);
 
         if (eventType == EMSCRIPTEN_EVENT_WHEEL)
         {
@@ -226,7 +226,7 @@ namespace
 
     EM_BOOL emPointerLockChangeCallback(int eventType, const EmscriptenPointerlockChangeEvent* pointerlockChangeEvent, void* userData)
     {
-        ouzel::input::MouseDevice* mouseDevice = static_cast<ouzel::input::MouseDevice*>(userData);
+        auto mouseDevice = static_cast<ouzel::input::MouseDevice*>(userData);
 
         if (eventType == EMSCRIPTEN_EVENT_POINTERLOCKCHANGE)
         {
@@ -239,7 +239,7 @@ namespace
 
     EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* gamepadEvent, void* userData)
     {
-        ouzel::input::InputSystemEm* inputEm = static_cast<ouzel::input::InputSystemEm*>(userData);
+        auto inputEm = static_cast<ouzel::input::InputSystemEm*>(userData);
 
         if (eventType == EMSCRIPTEN_EVENT_GAMEPADCONNECTED)
         {
@@ -257,7 +257,7 @@ namespace
 
     EM_BOOL emTouchCallback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData)
     {
-        ouzel::input::TouchpadDevice* touchpadDevice = static_cast<ouzel::input::TouchpadDevice*>(userData);
+        auto touchpadDevice = static_cast<ouzel::input::TouchpadDevice*>(userData);
 
         for (int i = 0; i < touchEvent->numTouches; ++i)
         {
@@ -386,7 +386,7 @@ namespace ouzel
         {
             for (const auto& i : gamepadDevices)
             {
-                GamepadDeviceEm* gamepadDevice = static_cast<GamepadDeviceEm*>(i.second.get());
+                auto gamepadDevice = static_cast<GamepadDeviceEm*>(i.second.get());
                 gamepadDevice->update();
             }
         }

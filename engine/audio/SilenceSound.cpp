@@ -55,7 +55,7 @@ namespace ouzel
 
         void SilenceStream::getSamples(std::uint32_t frames, std::vector<float>& samples)
         {
-            SilenceData& silenceData = static_cast<SilenceData&>(data);
+            auto& silenceData = static_cast<SilenceData&>(data);
 
             samples.resize(frames);
             std::fill(samples.begin(), samples.end(), 0.0F); // TODO: fill only the needed samples

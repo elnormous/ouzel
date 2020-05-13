@@ -195,7 +195,7 @@ namespace ouzel
 
                 if (deviceContext)
                 {
-                    NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
+                    auto windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
                     ReleaseDC(windowWin->getNativeWindow(), deviceContext);
                 }
             }
@@ -213,7 +213,7 @@ namespace ouzel
             {
                 TempContext tempContext;
 
-                NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(newWindow->getNativeWindow());
+                auto windowWin = static_cast<NativeWindowWin*>(newWindow->getNativeWindow());
 
                 deviceContext = GetDC(windowWin->getNativeWindow());
                 if (!deviceContext)

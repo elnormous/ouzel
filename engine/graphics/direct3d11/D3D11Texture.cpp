@@ -358,7 +358,7 @@ namespace ouzel
                                                                        0, &mappedSubresource)))
                             throw std::system_error(hr, getErrorCategory(), "Failed to map Direct3D 11 texture");
 
-                        std::uint8_t* destination = static_cast<std::uint8_t*>(mappedSubresource.pData);
+                        auto destination = static_cast<std::uint8_t*>(mappedSubresource.pData);
 
                         if (mappedSubresource.RowPitch == levels[level].first.v[0] * pixelSize)
                         {

@@ -288,10 +288,10 @@ namespace ouzel
         init();
         start();
 
-        input::InputSystemLinux* inputLinux = static_cast<input::InputSystemLinux*>(inputManager->getInputSystem());
+        auto inputLinux = static_cast<input::InputSystemLinux*>(inputManager->getInputSystem());
 
 #if OUZEL_SUPPORTS_X11
-        NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
+        auto windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
 
         int xInputOpCode = 0;
         int eventCode;
@@ -354,8 +354,8 @@ namespace ouzel
                     case KeyPress: // keyboard
                     case KeyRelease:
                     {
-                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
-                        ouzel::input::KeyboardDevice* keyboardDevice = inputSystemLinux->getKeyboardDevice();
+                        auto inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
+                        auto keyboardDevice = inputSystemLinux->getKeyboardDevice();
 
                         const KeySym keySym = XkbKeycodeToKeysym(display,
                                                                  event.xkey.keycode, 0,
@@ -370,8 +370,8 @@ namespace ouzel
                     case ButtonPress: // mouse button
                     case ButtonRelease:
                     {
-                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
-                        ouzel::input::MouseDeviceLinux* mouseDevice = inputSystemLinux->getMouseDevice();
+                        auto inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
+                        auto mouseDevice = inputSystemLinux->getMouseDevice();
 
                         Vector2F pos(static_cast<float>(event.xbutton.x),
                                      static_cast<float>(event.xbutton.y));
@@ -396,8 +396,8 @@ namespace ouzel
                     }
                     case MotionNotify:
                     {
-                        ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
-                        ouzel::input::MouseDeviceLinux* mouseDevice = inputSystemLinux->getMouseDevice();
+                        auto inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
+                        auto mouseDevice = inputSystemLinux->getMouseDevice();
 
                         Vector2F pos(static_cast<float>(event.xmotion.x),
                                      static_cast<float>(event.xmotion.y));
@@ -422,14 +422,14 @@ namespace ouzel
                         XGenericEventCookie* cookie = &event.xcookie;
                         if (cookie->extension == xInputOpCode)
                         {
-                            ouzel::input::InputSystemLinux* inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
-                            ouzel::input::TouchpadDevice* touchpadDevice = inputSystemLinux->getTouchpadDevice();
+                            auto inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
+                            auto touchpadDevice = inputSystemLinux->getTouchpadDevice();
 
                             switch (cookie->evtype)
                             {
                                 case XI_TouchBegin:
                                 {
-                                    XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchBegin(xievent->detail,
                                                                      window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
                                                                                                                         static_cast<float>(xievent->event_y))));
@@ -437,7 +437,7 @@ namespace ouzel
                                 }
                                 case XI_TouchEnd:
                                 {
-                                    XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchEnd(xievent->detail,
                                                                    window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
                                                                                                                       static_cast<float>(xievent->event_y))));
@@ -445,7 +445,7 @@ namespace ouzel
                                 }
                                 case XI_TouchUpdate:
                                 {
-                                    XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchMove(xievent->detail,
                                                                     window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
                                                                                                                        static_cast<float>(xievent->event_y))));

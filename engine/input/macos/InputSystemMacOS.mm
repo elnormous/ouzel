@@ -120,13 +120,13 @@ namespace ouzel
 
             void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
             {
-                InputSystemMacOS* inputMacOS = static_cast<InputSystemMacOS*>(ctx);
+                auto inputMacOS = static_cast<InputSystemMacOS*>(ctx);
                 inputMacOS->handleGamepadConnected(device);
             }
 
             void deviceRemoved(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
             {
-                InputSystemMacOS* inputMacOS = static_cast<InputSystemMacOS*>(ctx);
+                auto inputMacOS = static_cast<InputSystemMacOS*>(ctx);
                 inputMacOS->handleGamepadDisconnected(device);
             }
         }
@@ -228,7 +228,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        GamepadDeviceMacOS* gamepadDevice = static_cast<GamepadDeviceMacOS*>(inputDevice);
+                        auto gamepadDevice = static_cast<GamepadDeviceMacOS*>(inputDevice);
                         gamepadDevice->setPlayerIndex(command.playerIndex);
                     }
                     break;
@@ -271,7 +271,7 @@ namespace ouzel
                     if (mouseDevice->getCursor() == cursor)
                     {
                         mouseDevice->setCursor(nullptr);
-                        NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
+                        auto windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
                         [windowMacOS->getNativeWindow() invalidateCursorRectsForView:windowMacOS->getNativeView()];
                     }
 
@@ -289,7 +289,7 @@ namespace ouzel
                             else
                                 mouseDevice->setCursor(nullptr);
 
-                            NativeWindowMacOS* windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
+                            auto windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
                             [windowMacOS->getNativeWindow() invalidateCursorRectsForView:windowMacOS->getNativeView()];
                         }
                     }

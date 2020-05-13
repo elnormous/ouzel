@@ -39,10 +39,10 @@ namespace ouzel
                      true)
     {
 #if OUZEL_SUPPORTS_X11
-        EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+        auto engineLinux = static_cast<EngineLinux*>(engine);
         display = engineLinux->getDisplay();
 
-        Screen* screen = XDefaultScreenOfDisplay(display);
+        auto screen = XDefaultScreenOfDisplay(display);
         screenNumber = XScreenNumberOfScreen(screen);
 
         if (size.v[0] <= 0.0F) size.v[0] = static_cast<std::uint32_t>(XWidthOfScreen(screen) * 0.8F);
@@ -164,8 +164,8 @@ namespace ouzel
                 throw std::runtime_error("Failed to send X11 fullscreen message");
         }
 #elif OUZEL_SUPPORTS_DISPMANX
-        EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-        DISPMANX_DISPLAY_HANDLE_T display = engineLinux->getDisplay();
+        auto engineLinux = static_cast<EngineLinux*>(engine);
+        auto display = engineLinux->getDisplay();
 
         DISPMANX_MODEINFO_T modeInfo;
         const std::int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);

@@ -26,7 +26,7 @@ namespace ouzel
                 {
                     try
                     {
-                        RenderDeviceTVOS* renderDevice = static_cast<RenderDeviceTVOS*>(userInfo);
+                        auto renderDevice = static_cast<RenderDeviceTVOS*>(userInfo);
                         renderDevice->renderCallback();
                     }
                     catch (const std::exception& e)
@@ -73,7 +73,7 @@ namespace ouzel
                                         bool newStencil,
                                         bool newDebugRenderer)
             {
-                UIView* view = static_cast<NativeWindowTVOS*>(newWindow->getNativeWindow())->getNativeView();
+                auto view = static_cast<NativeWindowTVOS*>(newWindow->getNativeWindow())->getNativeView();
 
                 eaglLayer = (CAEAGLLayer*)view.layer;
                 eaglLayer.opaque = YES;

@@ -35,7 +35,7 @@ namespace ouzel
 
     void EngineEm::step()
     {
-        input::InputSystemEm* inputEm = static_cast<input::InputSystemEm*>(inputManager->getInputSystem());
+        auto inputEm = static_cast<input::InputSystemEm*>(inputManager->getInputSystem());
 
         if (active)
         {
@@ -69,7 +69,7 @@ namespace ouzel
 
             if (audio->getDevice()->getDriver() == audio::Driver::openAL)
             {
-                audio::OALAudioDevice* audioDevice = static_cast<audio::OALAudioDevice*>(audio->getDevice());
+                auto audioDevice = static_cast<audio::OALAudioDevice*>(audio->getDevice());
                 try
                 {
                     audioDevice->process();

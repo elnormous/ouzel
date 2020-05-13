@@ -124,7 +124,7 @@ namespace ouzel
                 if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
                     throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
 
-                NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(newWindow->getNativeWindow());
+                auto windowAndroid = static_cast<NativeWindowAndroid*>(newWindow->getNativeWindow());
 
                 ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 
@@ -231,7 +231,7 @@ namespace ouzel
                 if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
                     throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
 
-                NativeWindowAndroid* windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
+                auto windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
 
                 ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 

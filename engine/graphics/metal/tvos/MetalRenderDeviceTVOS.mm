@@ -23,7 +23,7 @@ namespace ouzel
                 {
                     try
                     {
-                        RenderDeviceTVOS* renderDevice = static_cast<RenderDeviceTVOS*>(userInfo);
+                        auto renderDevice = static_cast<RenderDeviceTVOS*>(userInfo);
                         renderDevice->renderCallback();
                     }
                     catch (const std::exception& e)
@@ -69,7 +69,7 @@ namespace ouzel
                                    newStencil,
                                    newDebugRenderer);
 
-                NativeWindowTVOS* windowTVOS = static_cast<NativeWindowTVOS*>(newWindow->getNativeWindow());
+                auto windowTVOS = static_cast<NativeWindowTVOS*>(newWindow->getNativeWindow());
                 MetalView* view = (MetalView*)windowTVOS->getNativeView();
 
                 metalLayer = (CAMetalLayer*)view.layer;

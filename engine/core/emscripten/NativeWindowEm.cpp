@@ -13,7 +13,7 @@ namespace ouzel
         {
             if (eventType == EMSCRIPTEN_EVENT_RESIZE)
             {
-                NativeWindowEm* nativeWindowEm = static_cast<NativeWindowEm*>(userData);
+                auto nativeWindowEm = static_cast<NativeWindowEm*>(userData);
                 nativeWindowEm->handleResize();
                 return true;
             }
@@ -25,7 +25,7 @@ namespace ouzel
         {
             if (eventType == EMSCRIPTEN_EVENT_CANVASRESIZED)
             {
-                NativeWindowEm* nativeWindowEm = static_cast<NativeWindowEm*>(userData);
+                auto nativeWindowEm = static_cast<NativeWindowEm*>(userData);
                 nativeWindowEm->handleResize();
                 return true;
             }

@@ -252,7 +252,7 @@ namespace ouzel
 #elif defined(__ANDROID__)
             static_cast<void>(user);
 
-            EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
+            auto& engineAndroid = static_cast<EngineAndroid&>(engine);
             return engineAndroid.getFilesDirectory();
 #elif defined(__linux__)
             Path path;
@@ -313,9 +313,9 @@ namespace ouzel
 #if defined(__ANDROID__)
             if (!filename.isAbsolute())
             {
-                EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
+                auto& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-                AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);
+                auto asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);
 
                 if (!asset)
                     throw std::runtime_error("Failed to open file " + std::string(filename));
@@ -380,10 +380,10 @@ namespace ouzel
         bool FileSystem::directoryExists(const Path& dirname) const
         {
 #if defined(__ANDROID__)
-            EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
+            auto& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-            AAssetDir* assetDir = AAssetManager_openDir(engineAndroid.getAssetManager(), dirname.getNative().c_str());
-            const bool exists = AAssetDir_getNextFileName(assetDir) != nullptr;
+            auto assetDir = AAssetManager_openDir(engineAndroid.getAssetManager(), dirname.getNative().c_str());
+            const auto exists = AAssetDir_getNextFileName(assetDir) != nullptr;
             AAssetDir_close(assetDir);
 
             if (exists) return true;
@@ -395,9 +395,9 @@ namespace ouzel
         bool FileSystem::fileExists(const Path& filename) const
         {
 #if defined(__ANDROID__)
-            EngineAndroid& engineAndroid = static_cast<EngineAndroid&>(engine);
+            auto& engineAndroid = static_cast<EngineAndroid&>(engine);
 
-            AAsset* asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);
+            auto asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);
 
             if (asset)
             {

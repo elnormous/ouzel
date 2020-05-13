@@ -85,7 +85,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        GamepadDeviceTVOS* gamepadDevice = static_cast<GamepadDeviceTVOS*>(inputDevice);
+                        auto gamepadDevice = static_cast<GamepadDeviceTVOS*>(inputDevice);
                         gamepadDevice->setAbsoluteDpadValues(command.absoluteDpadValues);
                     }
                     break;
@@ -94,7 +94,7 @@ namespace ouzel
                 {
                     if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                     {
-                        GamepadDeviceTVOS* gamepadDevice = static_cast<GamepadDeviceTVOS*>(inputDevice);
+                        auto gamepadDevice = static_cast<GamepadDeviceTVOS*>(inputDevice);
                         gamepadDevice->setPlayerIndex(command.playerIndex);
                     }
                     break;
@@ -156,15 +156,15 @@ namespace ouzel
 
         void InputSystemTVOS::showVirtualKeyboard()
         {
-            NativeWindowTVOS* windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
-            UITextField* textField = windowTVOS->getTextField();
+            auto windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
+            auto textField = windowTVOS->getTextField();
             [textField becomeFirstResponder];
         }
 
         void InputSystemTVOS::hideVirtualKeyboard()
         {
-            NativeWindowTVOS* windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
-            UITextField* textField = windowTVOS->getTextField();
+            auto windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
+            auto textField = windowTVOS->getTextField();
             [textField resignFirstResponder];
         }
     } // namespace input

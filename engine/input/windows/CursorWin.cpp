@@ -71,7 +71,7 @@ namespace ouzel
                 if (!color)
                     throw std::runtime_error("Failed to create RGBA bitmap");
 
-                unsigned char* target = static_cast<unsigned char*>(targetPointer);
+                auto target = static_cast<unsigned char*>(targetPointer);
 
                 mask = CreateBitmap(width, height, 1, 1, nullptr);
                 if (!mask)

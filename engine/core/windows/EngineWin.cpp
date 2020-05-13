@@ -115,8 +115,8 @@ namespace ouzel
         init();
         start();
 
-        input::InputSystemWin* inputWin = static_cast<input::InputSystemWin*>(inputManager->getInputSystem());
-        NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
+        auto inputWin = static_cast<input::InputSystemWin*>(inputManager->getInputSystem());
+        auto windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
         MSG message;
 
@@ -162,7 +162,7 @@ namespace ouzel
 
     void EngineWin::runOnMainThread(const std::function<void()>& func)
     {
-        NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
+        auto windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
         std::unique_lock<std::mutex> lock(executeMutex);
         executeQueue.push(func);

@@ -172,7 +172,7 @@ namespace ouzel
                 if (FAILED(hr = buffer->Lock(0, bufferDesc.dwBufferBytes, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0)))
                     throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
 
-                std::uint8_t* bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
+                auto bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
 
                 getData(lockedBufferSize / (channels * sizeof(std::int16_t)), data);
                 std::copy(data.begin(), data.end(), bufferData);
@@ -255,7 +255,7 @@ namespace ouzel
                             if (FAILED(hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0)))
                                 throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
 
-                            std::uint8_t* bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
+                            auto bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
 
                             getData(lockedBufferSize / (sampleSize * channels), data);
 

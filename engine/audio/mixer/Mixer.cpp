@@ -111,7 +111,7 @@ namespace ouzel
                             {
                                 auto setBusOutputCommand = static_cast<const SetBusOutputCommand*>(command.get());
 
-                                Bus* bus = static_cast<Bus*>(objects[setBusOutputCommand->busId - 1].get());
+                                auto bus = static_cast<Bus*>(objects[setBusOutputCommand->busId - 1].get());
                                 bus->setOutput(setBusOutputCommand->outputBusId ? static_cast<Bus*>(objects[setBusOutputCommand->outputBusId - 1].get()) : nullptr);
                                 break;
                             }
@@ -119,8 +119,8 @@ namespace ouzel
                             {
                                 auto addProcessorCommand = static_cast<const AddProcessorCommand*>(command.get());
 
-                                Bus* bus = static_cast<Bus*>(objects[addProcessorCommand->busId - 1].get());
-                                Processor* processor = static_cast<Processor*>(objects[addProcessorCommand->processorId - 1].get());
+                                auto bus = static_cast<Bus*>(objects[addProcessorCommand->busId - 1].get());
+                                auto processor = static_cast<Processor*>(objects[addProcessorCommand->processorId - 1].get());
                                 bus->addProcessor(processor);
                                 break;
                             }
@@ -128,8 +128,8 @@ namespace ouzel
                             {
                                 auto removeProcessorCommand = static_cast<const RemoveProcessorCommand*>(command.get());
 
-                                Bus* bus = static_cast<Bus*>(objects[removeProcessorCommand->busId - 1].get());
-                                Processor* processor = static_cast<Processor*>(objects[removeProcessorCommand->processorId - 1].get());
+                                auto bus = static_cast<Bus*>(objects[removeProcessorCommand->busId - 1].get());
+                                auto processor = static_cast<Processor*>(objects[removeProcessorCommand->processorId - 1].get());
                                 bus->removeProcessor(processor);
                                 break;
                             }
@@ -147,7 +147,7 @@ namespace ouzel
                                 if (initStreamCommand->streamId > objects.size())
                                     objects.resize(initStreamCommand->streamId);
 
-                                Data* data = static_cast<Data*>(objects[initStreamCommand->dataId - 1].get());
+                                auto data = static_cast<Data*>(objects[initStreamCommand->dataId - 1].get());
                                 objects[initStreamCommand->streamId - 1] = data->createStream();
                                 break;
                             }
@@ -155,7 +155,7 @@ namespace ouzel
                             {
                                 auto playStreamCommand = static_cast<const PlayStreamCommand*>(command.get());
 
-                                Stream* stream = static_cast<Stream*>(objects[playStreamCommand->streamId - 1].get());
+                                auto stream = static_cast<Stream*>(objects[playStreamCommand->streamId - 1].get());
                                 stream->play();
                                 break;
                             }
@@ -163,7 +163,7 @@ namespace ouzel
                             {
                                 auto stopStreamCommand = static_cast<const StopStreamCommand*>(command.get());
 
-                                Stream* stream = static_cast<Stream*>(objects[stopStreamCommand->streamId - 1].get());
+                                auto stream = static_cast<Stream*>(objects[stopStreamCommand->streamId - 1].get());
                                 stream->stop(stopStreamCommand->reset);
                                 break;
                             }
@@ -171,7 +171,7 @@ namespace ouzel
                             {
                                 auto setStreamOutputCommand = static_cast<const SetStreamOutputCommand*>(command.get());
 
-                                Stream* stream = static_cast<Stream*>(objects[setStreamOutputCommand->streamId - 1].get());
+                                auto stream = static_cast<Stream*>(objects[setStreamOutputCommand->streamId - 1].get());
                                 stream->setOutput(setStreamOutputCommand->busId ? static_cast<Bus*>(objects[setStreamOutputCommand->busId - 1].get()) : nullptr);
                                 break;
                             }
@@ -199,7 +199,7 @@ namespace ouzel
                             {
                                 auto updateProcessorCommand = static_cast<const UpdateProcessorCommand*>(command.get());
 
-                                Processor* processor = static_cast<Processor*>(objects[updateProcessorCommand->processorId - 1].get());
+                                auto processor = static_cast<Processor*>(objects[updateProcessorCommand->processorId - 1].get());
                                 updateProcessorCommand->updateFunction(processor);
                                 break;
                             }

@@ -32,8 +32,8 @@ namespace ouzel
 #endif
         {
 #if OUZEL_SUPPORTS_X11
-            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-            Display* display = engineLinux->getDisplay();
+            auto engineLinux = static_cast<EngineLinux*>(engine);
+            auto display = engineLinux->getDisplay();
 
             char data[1] = {0};
 
@@ -77,7 +77,7 @@ namespace ouzel
         InputSystemLinux::~InputSystemLinux()
         {
 #if OUZEL_SUPPORTS_X11
-            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
+            auto engineLinux = static_cast<EngineLinux*>(engine);
             if (emptyCursor != None) XFreeCursor(engineLinux->getDisplay(), emptyCursor);
 #endif
         }
@@ -257,10 +257,10 @@ namespace ouzel
 #if OUZEL_SUPPORTS_X11
         void InputSystemLinux::updateCursor() const
         {
-            EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
-            NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
-            Display* display = engineLinux->getDisplay();
-            ::Window window = windowLinux->getNativeWindow();
+            auto engineLinux = static_cast<EngineLinux*>(engine);
+            auto windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
+            auto display = engineLinux->getDisplay();
+            auto window = windowLinux->getNativeWindow();
 
             if (mouseDevice->isCursorVisible())
             {

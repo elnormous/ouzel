@@ -18,7 +18,7 @@ namespace ouzel
             mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
             touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
         {
-            EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
+            auto engineAndroid = static_cast<EngineAndroid*>(engine);
             javaVm = engineAndroid->getJavaVm();
             void* jniEnvPointer;
 
@@ -26,7 +26,7 @@ namespace ouzel
             if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
                 throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
 
-            JNIEnv* jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+            auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
             inputDeviceClass = static_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/view/InputDevice")));
             getDeviceIdsMethod = jniEnv->GetStaticMethodID(inputDeviceClass, "getDeviceIds", "()[I");
@@ -48,7 +48,7 @@ namespace ouzel
 
             if (javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6) == JNI_OK)
             {
-                JNIEnv* jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+                auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
                 if (inputDeviceClass) jniEnv->DeleteGlobalRef(inputDeviceClass);
             }
         }
@@ -86,7 +86,7 @@ namespace ouzel
             if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
                 throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
 
-            JNIEnv* jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+            auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
             const jint action = jniEnv->CallIntMethod(event, getActionMethod);
 
@@ -247,7 +247,7 @@ namespace ouzel
             if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
                 throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
 
-            JNIEnv* jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+            auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
             const jint action = jniEnv->CallIntMethod(event, getActionMethod);
             const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);

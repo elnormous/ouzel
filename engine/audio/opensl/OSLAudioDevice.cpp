@@ -61,7 +61,7 @@ namespace ouzel
                 {
                     try
                     {
-                        AudioDevice* audioDevice = static_cast<AudioDevice*>(context);
+                        auto audioDevice = static_cast<AudioDevice*>(context);
 
                         audioDevice->enqueue(bufferQueue);
                     }

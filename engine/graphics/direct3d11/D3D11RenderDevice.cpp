@@ -206,7 +206,7 @@ namespace ouzel
                     }
                 }
 
-                NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
+                auto windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
 
                 frameBufferWidth = static_cast<UINT>(newSize.v[0]);
                 frameBufferHeight = static_cast<UINT>(newSize.v[1]);
@@ -906,9 +906,8 @@ namespace ouzel
 
             IDXGIOutput* RenderDevice::getOutput() const
             {
-                NativeWindowWin* windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
-
-                HMONITOR monitor = windowWin->getMonitor();
+                auto windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
+                auto monitor = windowWin->getMonitor();
 
                 if (!monitor)
                     throw std::runtime_error("Window is not on any monitor");
