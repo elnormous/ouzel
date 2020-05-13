@@ -67,7 +67,7 @@ namespace
             case KEY_A: return ouzel::input::Keyboard::Key::a;
             case KEY_S: return ouzel::input::Keyboard::Key::s;
             case KEY_D: return ouzel::input::Keyboard::Key::d;
-            case KEY_F: return ouzel::input::Keyboard::Key::F;
+            case KEY_F: return ouzel::input::Keyboard::Key::f;
             case KEY_G: return ouzel::input::Keyboard::Key::g;
             case KEY_H: return ouzel::input::Keyboard::Key::h;
             case KEY_J: return ouzel::input::Keyboard::Key::j;
@@ -93,16 +93,16 @@ namespace
             case KEY_LEFTALT: return ouzel::input::Keyboard::Key::leftAlt;
             case KEY_SPACE: return ouzel::input::Keyboard::Key::space;
             case KEY_CAPSLOCK: return ouzel::input::Keyboard::Key::capsLock;
-            case KEY_F1: return ouzel::input::Keyboard::Key::F1;
-            case KEY_F2: return ouzel::input::Keyboard::Key::F2;
-            case KEY_F3: return ouzel::input::Keyboard::Key::F3;
-            case KEY_F4: return ouzel::input::Keyboard::Key::F4;
-            case KEY_F5: return ouzel::input::Keyboard::Key::F5;
-            case KEY_F6: return ouzel::input::Keyboard::Key::F6;
-            case KEY_F7: return ouzel::input::Keyboard::Key::F7;
-            case KEY_F8: return ouzel::input::Keyboard::Key::F8;
-            case KEY_F9: return ouzel::input::Keyboard::Key::F9;
-            case KEY_F10: return ouzel::input::Keyboard::Key::F10;
+            case KEY_F1: return ouzel::input::Keyboard::Key::f1;
+            case KEY_F2: return ouzel::input::Keyboard::Key::f2;
+            case KEY_F3: return ouzel::input::Keyboard::Key::f3;
+            case KEY_F4: return ouzel::input::Keyboard::Key::f4;
+            case KEY_F5: return ouzel::input::Keyboard::Key::f5;
+            case KEY_F6: return ouzel::input::Keyboard::Key::f6;
+            case KEY_F7: return ouzel::input::Keyboard::Key::f7;
+            case KEY_F8: return ouzel::input::Keyboard::Key::f8;
+            case KEY_F9: return ouzel::input::Keyboard::Key::f9;
+            case KEY_F10: return ouzel::input::Keyboard::Key::f10;
             case KEY_NUMLOCK: return ouzel::input::Keyboard::Key::numLock;
             case KEY_SCROLLLOCK: return ouzel::input::Keyboard::Key::scrollLock;
             case KEY_KP7: return ouzel::input::Keyboard::Key::numpad7;
@@ -121,8 +121,8 @@ namespace
 
             case KEY_ZENKAKUHANKAKU: return ouzel::input::Keyboard::Key::none; // ??
             case KEY_102ND: return ouzel::input::Keyboard::Key::intlBackslash;
-            case KEY_F11: return ouzel::input::Keyboard::Key::F11;
-            case KEY_F12: return ouzel::input::Keyboard::Key::F12;
+            case KEY_F11: return ouzel::input::Keyboard::Key::f11;
+            case KEY_F12: return ouzel::input::Keyboard::Key::f12;
             case KEY_RO: return ouzel::input::Keyboard::Key::ro;
             case KEY_KATAKANA: return ouzel::input::Keyboard::Key::katakana;
             case KEY_HIRAGANA: return ouzel::input::Keyboard::Key::hiragana;
@@ -170,18 +170,18 @@ namespace
             case KEY_RIGHTMETA: return ouzel::input::Keyboard::Key::rightSuper;
             case KEY_COMPOSE: return ouzel::input::Keyboard::Key::none; // ??
 
-            case KEY_F13: return ouzel::input::Keyboard::Key::F13;
-            case KEY_F14: return ouzel::input::Keyboard::Key::F14;
-            case KEY_F15: return ouzel::input::Keyboard::Key::F15;
-            case KEY_F16: return ouzel::input::Keyboard::Key::F16;
-            case KEY_F17: return ouzel::input::Keyboard::Key::F17;
-            case KEY_F18: return ouzel::input::Keyboard::Key::F18;
-            case KEY_F19: return ouzel::input::Keyboard::Key::F19;
-            case KEY_F20: return ouzel::input::Keyboard::Key::F20;
-            case KEY_F21: return ouzel::input::Keyboard::Key::F21;
-            case KEY_F22: return ouzel::input::Keyboard::Key::F22;
-            case KEY_F23: return ouzel::input::Keyboard::Key::F23;
-            case KEY_F24: return ouzel::input::Keyboard::Key::F24;
+            case KEY_F13: return ouzel::input::Keyboard::Key::f13;
+            case KEY_F14: return ouzel::input::Keyboard::Key::f14;
+            case KEY_F15: return ouzel::input::Keyboard::Key::f15;
+            case KEY_F16: return ouzel::input::Keyboard::Key::f16;
+            case KEY_F17: return ouzel::input::Keyboard::Key::f17;
+            case KEY_F18: return ouzel::input::Keyboard::Key::f18;
+            case KEY_F19: return ouzel::input::Keyboard::Key::f19;
+            case KEY_F20: return ouzel::input::Keyboard::Key::f20;
+            case KEY_F21: return ouzel::input::Keyboard::Key::f21;
+            case KEY_F22: return ouzel::input::Keyboard::Key::f22;
+            case KEY_F23: return ouzel::input::Keyboard::Key::f23;
+            case KEY_F24: return ouzel::input::Keyboard::Key::f24;
 
             case KEY_MENU: return ouzel::input::Keyboard::Key::menu;
             case KEY_CLEAR: return ouzel::input::Keyboard::Key::clear;
@@ -191,7 +191,7 @@ namespace
             case KEY_HELP: return ouzel::input::Keyboard::Key::help;
 
             case KEY_BACK: return ouzel::input::Keyboard::Key::back;
-            case KEY_FORWARD: return ouzel::input::Keyboard::Key::Forward;
+            case KEY_FORWARD: return ouzel::input::Keyboard::Key::forward;
             case KEY_REFRESH: return ouzel::input::Keyboard::Key::refresh;
             case KEY_STOP: return ouzel::input::Keyboard::Key::stop;
             case KEY_FIND: return ouzel::input::Keyboard::Key::search;
