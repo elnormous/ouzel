@@ -476,7 +476,8 @@ namespace ouzel
                 WIN32_FILE_ATTRIBUTE_DATA attributes;
                 if (!GetFileAttributesExW(path.getNative().c_str(), GetFileExInfoStandard, &attributes))
                     throw std::system_error(errno, std::system_category(), "Failed to get file attributes");
-                return static_cast<size_t>(attributes.nFileSizeHigh) << (sizeof(attributes.nFileSizeHigh) * 8) | attributes.nFileSizeLow;
+                uint64_t fileSize = static_cast<uint64_t>(attributes.nFileSizeHigh) << (sizeof(attributes.nFileSizeHigh) * 8) | attributes.nFileSizeLow;
+                return static_cast<size_t>(fileSize);
 #elif defined(__unix__) || defined(__APPLE__)
                 struct stat s;
                 if (lstat(path.getNative().c_str(), &s) == -1)
