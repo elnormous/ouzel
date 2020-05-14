@@ -455,6 +455,7 @@ namespace ouzel
                                 if (setRenderTargetCommand->renderTarget)
                                 {
                                     currentRenderTarget = getResource<RenderTarget>(setRenderTargetCommand->renderTarget);
+                                    assert(currentRenderTarget);
                                     context->OMSetRenderTargets(static_cast<UINT>(currentRenderTarget->getRenderTargetViews().size()),
                                                                 currentRenderTarget->getRenderTargetViews().data(),
                                                                 currentRenderTarget->getDepthStencilView());

@@ -138,7 +138,7 @@ namespace ouzel
 
             auto fileVersionBuffer = std::make_unique<char[]>(fileVersionSize);
             if (!GetFileVersionInfoW(executablePath.getNative().c_str(),
-                                     handle, fileVersionSize,
+                                     0, fileVersionSize,
                                      fileVersionBuffer.get()))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get file version");
 
@@ -166,7 +166,7 @@ namespace ouzel
                     WCHAR subBlock[subBlockSize];
 
                     StringCchPrintfW(subBlock, subBlockSize,
-                                     L"\\StringFileInfo\\040904b0\\CompanyName",
+                                     L"\\StringFileInfo\\%04x%04x\\CompanyName",
                                      translation[i].wLanguage,
                                      translation[i].wCodePage);
 
@@ -180,7 +180,7 @@ namespace ouzel
 
 
                     StringCchPrintfW(subBlock, subBlockSize,
-                                     L"\\StringFileInfo\\040904b0\\ProductName",
+                                     L"\\StringFileInfo\\%04x%04x\\ProductName",
                                      translation[i].wLanguage,
                                      translation[i].wCodePage);
 
