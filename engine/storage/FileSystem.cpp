@@ -347,8 +347,14 @@ namespace ouzel
             if (path.isEmpty())
                 throw std::runtime_error("Failed to find file " + std::string(filename));
 
-            std::ifstream f(path, std::ios::binary);
-            return {std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
+            std::ifstream file(path, std::ios::binary);
+
+            file.seekg(0, std::ios::end);
+            std::vector<std::uint8_t> data(static_cast<size_t>(file.tellg()));
+            file.seekg(0, std::ios::beg);
+            file.read(reinterpret_cast<char*>(data.data()), static_cast<std::streamsize>(data.size()));
+
+            return data;
         }
 
         bool FileSystem::resourceFileExists(const Path& filename) const
