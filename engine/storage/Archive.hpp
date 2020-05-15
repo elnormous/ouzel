@@ -86,8 +86,6 @@ namespace ouzel
 
             std::vector<std::uint8_t> readFile(const std::string& filename)
             {
-                std::vector<std::uint8_t> data;
-
                 auto i = entries.find(filename);
 
                 if (i == entries.end())
@@ -95,8 +93,7 @@ namespace ouzel
 
                 file.seekg(i->second.offset, std::ios::beg);
 
-                data.resize(i->second.size);
-
+                std::vector<std::uint8_t> data(i->second.size);
                 file.read(reinterpret_cast<char*>(data.data()), static_cast<std::streamsize>(i->second.size));
 
                 return data;
