@@ -17,7 +17,7 @@ RTSample::RTSample():
                  Size2U(256, 256),
                  graphics::Flags::bindRenderTarget |
                  graphics::Flags::bindShader, 1, 1,
-                 graphics::PixelFormat::Depth),
+                 graphics::PixelFormat::depth),
     renderTarget(*engine->getRenderer(),
                  {renderTexture.get()},
                  &depthTexture)

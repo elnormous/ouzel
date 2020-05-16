@@ -419,8 +419,8 @@ namespace ouzel
 
                 switch (pixelFormat)
                 {
-                    case PixelFormat::RGBA8UNorm:
-                    case PixelFormat::RGBA8UNormSRGB:
+                    case PixelFormat::rgba8UnsignedNorm:
+                    case PixelFormat::rgba8UnsignedNormSRGB:
                         for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const std::uint8_t* pixel = src;
@@ -434,7 +434,7 @@ namespace ouzel
                         }
                         break;
 
-                    case PixelFormat::RG8UNorm:
+                    case PixelFormat::rg8UnsignedNorm:
                         for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const std::uint8_t* pixel = src;
@@ -446,7 +446,7 @@ namespace ouzel
                         }
                         break;
 
-                    case PixelFormat::R8UNorm:
+                    case PixelFormat::r8UnsignedNorm:
                         for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const std::uint8_t* pixel = src;
@@ -457,7 +457,7 @@ namespace ouzel
                         }
                         break;
 
-                    case PixelFormat::A8UNorm:
+                    case PixelFormat::a8UnsignedNorm:
                         for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const std::uint8_t* pixel = src;
@@ -486,8 +486,8 @@ namespace ouzel
 
                 switch (pixelFormat)
                 {
-                    case PixelFormat::RGBA8UNorm:
-                    case PixelFormat::RGBA8UNormSRGB:
+                    case PixelFormat::rgba8UnsignedNorm:
+                    case PixelFormat::rgba8UnsignedNormSRGB:
                         for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const float* pixel = src;
@@ -501,7 +501,7 @@ namespace ouzel
                         }
                         break;
 
-                    case PixelFormat::RG8UNorm:
+                    case PixelFormat::rg8UnsignedNorm:
                         for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const float* pixel = src;
@@ -513,7 +513,7 @@ namespace ouzel
                         }
                         break;
 
-                    case PixelFormat::R8UNorm:
+                    case PixelFormat::r8UnsignedNorm:
                         for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const float* pixel = src;
@@ -524,7 +524,7 @@ namespace ouzel
                         }
                         break;
 
-                    case PixelFormat::A8UNorm:
+                    case PixelFormat::a8UnsignedNorm:
                         for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                         {
                             const float* pixel = src;
@@ -605,20 +605,20 @@ namespace ouzel
 
                     switch (pixelFormat)
                     {
-                        case PixelFormat::RGBA8UNorm:
-                        case PixelFormat::RGBA8UNormSRGB:
+                        case PixelFormat::rgba8UnsignedNorm:
+                        case PixelFormat::rgba8UnsignedNormSRGB:
                             downsample2x2Rgba8(previousWidth, previousHeight, previousData, newData);
                             break;
 
-                        case PixelFormat::RG8UNorm:
+                        case PixelFormat::rg8UnsignedNorm:
                             downsample2x2Rg8(previousWidth, previousHeight, previousData, newData);
                             break;
 
-                        case PixelFormat::R8UNorm:
+                        case PixelFormat::r8UnsignedNorm:
                             downsample2x2R8(previousWidth, previousHeight, previousData, newData);
                             break;
 
-                        case PixelFormat::A8UNorm:
+                        case PixelFormat::a8UnsignedNorm:
                             downsample2x2A8(previousWidth, previousHeight, previousData, newData);
                             break;
 

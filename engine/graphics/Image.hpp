@@ -29,7 +29,7 @@ namespace ouzel
             auto& getData() const noexcept { return data; }
 
         private:
-            PixelFormat pixelFormat = PixelFormat::RGBA8UNorm;
+            PixelFormat pixelFormat = PixelFormat::rgba8UnsignedNorm;
             Size2U size;
             std::vector<std::uint8_t> data;
         };

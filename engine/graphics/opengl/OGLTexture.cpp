@@ -23,38 +23,38 @@ namespace ouzel
                     {
                         switch (pixelFormat)
                         {
-                            case PixelFormat::A8UNorm: return GL_ALPHA8_OES;
-                            case PixelFormat::R8UNorm: return GL_R8;
-                            case PixelFormat::R8SNorm: return GL_R8_SNORM;
-                            case PixelFormat::R8UInt: return GL_R8UI;
-                            case PixelFormat::R8SInt: return GL_R8I;
-                            case PixelFormat::R16UNorm: return GL_NONE;
-                            case PixelFormat::R16SNorm: return GL_NONE;
-                            case PixelFormat::R16UInt: return GL_R16UI;
-                            case PixelFormat::R16SInt: return GL_R16I;
-                            case PixelFormat::R16Float: return GL_R16F;
-                            case PixelFormat::R32UInt: return GL_R32UI;
-                            case PixelFormat::R32SInt: return GL_R32I;
-                            case PixelFormat::R32Float: return GL_R32F;
-                            case PixelFormat::RG8UNorm: return GL_RG8;
-                            case PixelFormat::RG8SNorm: return GL_RG8_SNORM;
-                            case PixelFormat::RG8UInt: return GL_RG8UI;
-                            case PixelFormat::RG8SInt: return GL_RG8I;
-                            case PixelFormat::RGBA8UNorm: return GL_RGBA8;
-                            case PixelFormat::RGBA8UNormSRGB: return GL_SRGB8_ALPHA8;
-                            case PixelFormat::RGBA8SNorm: return GL_RGBA8_SNORM;
-                            case PixelFormat::RGBA8UInt: return GL_RGBA8UI;
-                            case PixelFormat::RGBA8SInt: return GL_RGBA8I;
-                            case PixelFormat::RGBA16UNorm: return GL_NONE;
-                            case PixelFormat::RGBA16SNorm: return GL_NONE;
-                            case PixelFormat::RGBA16UInt: return GL_RGBA16UI;
-                            case PixelFormat::RGBA16SInt: return GL_RGBA16I;
-                            case PixelFormat::RGBA16Float: return GL_RGBA16F;
-                            case PixelFormat::RGBA32UInt: return GL_RGBA32UI;
-                            case PixelFormat::RGBA32SInt: return GL_RGBA32I;
-                            case PixelFormat::RGBA32Float: return GL_RGBA32F;
-                            case PixelFormat::Depth: return GL_DEPTH_COMPONENT24;
-                            case PixelFormat::DepthStencil: return GL_DEPTH24_STENCIL8;
+                            case PixelFormat::a8UnsignedNorm: return GL_ALPHA8_OES;
+                            case PixelFormat::r8UnsignedNorm: return GL_R8;
+                            case PixelFormat::r8SignedNorm: return GL_R8_SNORM;
+                            case PixelFormat::r8UnsignedInt: return GL_R8UI;
+                            case PixelFormat::r8SignedInt: return GL_R8I;
+                            case PixelFormat::r16UnsignedNorm: return GL_NONE;
+                            case PixelFormat::r16SignedNorm: return GL_NONE;
+                            case PixelFormat::r16UnsignedInt: return GL_R16UI;
+                            case PixelFormat::r16SignedInt: return GL_R16I;
+                            case PixelFormat::r16Float: return GL_R16F;
+                            case PixelFormat::r32UnsignedInt: return GL_R32UI;
+                            case PixelFormat::r32SignedInt: return GL_R32I;
+                            case PixelFormat::r32Float: return GL_R32F;
+                            case PixelFormat::rg8UnsignedNorm: return GL_RG8;
+                            case PixelFormat::rg8SignedNorm: return GL_RG8_SNORM;
+                            case PixelFormat::rg8UnsignedInt: return GL_RG8UI;
+                            case PixelFormat::rg8SignedInt: return GL_RG8I;
+                            case PixelFormat::rgba8UnsignedNorm: return GL_RGBA8;
+                            case PixelFormat::rgba8UnsignedNormSRGB: return GL_SRGB8_ALPHA8;
+                            case PixelFormat::rgba8SignedNorm: return GL_RGBA8_SNORM;
+                            case PixelFormat::rgba8UnsignedInt: return GL_RGBA8UI;
+                            case PixelFormat::rgba8SignedInt: return GL_RGBA8I;
+                            case PixelFormat::rgba16UnsignedNorm: return GL_NONE;
+                            case PixelFormat::rgba16SignedNorm: return GL_NONE;
+                            case PixelFormat::rgba16UnsignedInt: return GL_RGBA16UI;
+                            case PixelFormat::rgba16SignedInt: return GL_RGBA16I;
+                            case PixelFormat::rgba16Float: return GL_RGBA16F;
+                            case PixelFormat::rgba32UnsignedInt: return GL_RGBA32UI;
+                            case PixelFormat::rgba32SignedInt: return GL_RGBA32I;
+                            case PixelFormat::rgba32Float: return GL_RGBA32F;
+                            case PixelFormat::depth: return GL_DEPTH_COMPONENT24;
+                            case PixelFormat::depthStencil: return GL_DEPTH24_STENCIL8;
                             default: return GL_NONE;
                         }
                     }
@@ -62,10 +62,10 @@ namespace ouzel
                     {
                         switch (pixelFormat)
                         {
-                            case PixelFormat::A8UNorm: return GL_ALPHA;
-                            case PixelFormat::RGBA8UNorm: return GL_RGBA;
-                            case PixelFormat::Depth: return GL_DEPTH_COMPONENT24;
-                            case PixelFormat::DepthStencil: return GL_DEPTH24_STENCIL8;
+                            case PixelFormat::a8UnsignedNorm: return GL_ALPHA;
+                            case PixelFormat::rgba8UnsignedNorm: return GL_RGBA;
+                            case PixelFormat::depth: return GL_DEPTH_COMPONENT24;
+                            case PixelFormat::depthStencil: return GL_DEPTH24_STENCIL8;
                             default: return GL_NONE;
                         }
                     }
@@ -74,39 +74,39 @@ namespace ouzel
 
                     switch (pixelFormat)
                     {
-                        case PixelFormat::A8UNorm: return GL_ALPHA8_EXT;
+                        case PixelFormat::a8UnsignedNorm: return GL_ALPHA8_EXT;
 
-                        case PixelFormat::R8UNorm: return GL_R8;
-                        case PixelFormat::R8SNorm: return GL_R8_SNORM;
-                        case PixelFormat::R8UInt: return GL_R8UI;
-                        case PixelFormat::R8SInt: return GL_R8I;
-                        case PixelFormat::R16UNorm: return GL_R16;
-                        case PixelFormat::R16SNorm: return GL_R16_SNORM;
-                        case PixelFormat::R16UInt: return GL_R16UI;
-                        case PixelFormat::R16SInt: return GL_R16I;
-                        case PixelFormat::R16Float: return GL_R16F;
-                        case PixelFormat::R32UInt: return GL_R32UI;
-                        case PixelFormat::R32SInt: return GL_R32I;
-                        case PixelFormat::R32Float: return GL_R32F;
-                        case PixelFormat::RG8UNorm: return GL_RG8;
-                        case PixelFormat::RG8SNorm: return GL_RG8_SNORM;
-                        case PixelFormat::RG8UInt: return GL_RG8UI;
-                        case PixelFormat::RG8SInt: return GL_RG8I;
-                        case PixelFormat::RGBA8UNorm: return GL_RGBA8;
-                        case PixelFormat::RGBA8UNormSRGB: return GL_SRGB8_ALPHA8;
-                        case PixelFormat::RGBA8SNorm: return GL_RGBA8_SNORM;
-                        case PixelFormat::RGBA8UInt: return GL_RGBA8UI;
-                        case PixelFormat::RGBA8SInt: return GL_RGBA8I;
-                        case PixelFormat::RGBA16UNorm: return GL_RGBA16;
-                        case PixelFormat::RGBA16SNorm: return GL_RGBA16_SNORM;
-                        case PixelFormat::RGBA16UInt: return GL_RGBA16UI;
-                        case PixelFormat::RGBA16SInt: return GL_RGBA16I;
-                        case PixelFormat::RGBA16Float: return GL_RGBA16F;
-                        case PixelFormat::RGBA32UInt: return GL_RGBA32UI;
-                        case PixelFormat::RGBA32SInt: return GL_RGBA32I;
-                        case PixelFormat::RGBA32Float: return GL_RGBA32F;
-                        case PixelFormat::Depth: return GL_DEPTH_COMPONENT24;
-                        case PixelFormat::DepthStencil: return GL_DEPTH24_STENCIL8;
+                        case PixelFormat::r8UnsignedNorm: return GL_R8;
+                        case PixelFormat::r8SignedNorm: return GL_R8_SNORM;
+                        case PixelFormat::r8UnsignedInt: return GL_R8UI;
+                        case PixelFormat::r8SignedInt: return GL_R8I;
+                        case PixelFormat::r16UnsignedNorm: return GL_R16;
+                        case PixelFormat::r16SignedNorm: return GL_R16_SNORM;
+                        case PixelFormat::r16UnsignedInt: return GL_R16UI;
+                        case PixelFormat::r16SignedInt: return GL_R16I;
+                        case PixelFormat::r16Float: return GL_R16F;
+                        case PixelFormat::r32UnsignedInt: return GL_R32UI;
+                        case PixelFormat::r32SignedInt: return GL_R32I;
+                        case PixelFormat::r32Float: return GL_R32F;
+                        case PixelFormat::rg8UnsignedNorm: return GL_RG8;
+                        case PixelFormat::rg8SignedNorm: return GL_RG8_SNORM;
+                        case PixelFormat::rg8UnsignedInt: return GL_RG8UI;
+                        case PixelFormat::rg8SignedInt: return GL_RG8I;
+                        case PixelFormat::rgba8UnsignedNorm: return GL_RGBA8;
+                        case PixelFormat::rgba8UnsignedNormSRGB: return GL_SRGB8_ALPHA8;
+                        case PixelFormat::rgba8SignedNorm: return GL_RGBA8_SNORM;
+                        case PixelFormat::rgba8UnsignedInt: return GL_RGBA8UI;
+                        case PixelFormat::rgba8SignedInt: return GL_RGBA8I;
+                        case PixelFormat::rgba16UnsignedNorm: return GL_RGBA16;
+                        case PixelFormat::rgba16SignedNorm: return GL_RGBA16_SNORM;
+                        case PixelFormat::rgba16UnsignedInt: return GL_RGBA16UI;
+                        case PixelFormat::rgba16SignedInt: return GL_RGBA16I;
+                        case PixelFormat::rgba16Float: return GL_RGBA16F;
+                        case PixelFormat::rgba32UnsignedInt: return GL_RGBA32UI;
+                        case PixelFormat::rgba32SignedInt: return GL_RGBA32I;
+                        case PixelFormat::rgba32Float: return GL_RGBA32F;
+                        case PixelFormat::depth: return GL_DEPTH_COMPONENT24;
+                        case PixelFormat::depthStencil: return GL_DEPTH24_STENCIL8;
                         default: return GL_NONE;
                     }
 #endif
@@ -116,46 +116,46 @@ namespace ouzel
                 {
                     switch (pixelFormat)
                     {
-                        case PixelFormat::A8UNorm:
+                        case PixelFormat::a8UnsignedNorm:
                             return GL_ALPHA;
-                        case PixelFormat::R8UNorm:
-                        case PixelFormat::R8SNorm:
-                        case PixelFormat::R16UNorm:
-                        case PixelFormat::R16SNorm:
-                        case PixelFormat::R16Float:
-                        case PixelFormat::R32Float:
+                        case PixelFormat::r8UnsignedNorm:
+                        case PixelFormat::r8SignedNorm:
+                        case PixelFormat::r16UnsignedNorm:
+                        case PixelFormat::r16SignedNorm:
+                        case PixelFormat::r16Float:
+                        case PixelFormat::r32Float:
                             return GL_RED;
-                        case PixelFormat::R8UInt:
-                        case PixelFormat::R8SInt:
-                        case PixelFormat::R16UInt:
-                        case PixelFormat::R16SInt:
-                        case PixelFormat::R32UInt:
-                        case PixelFormat::R32SInt:
+                        case PixelFormat::r8UnsignedInt:
+                        case PixelFormat::r8SignedInt:
+                        case PixelFormat::r16UnsignedInt:
+                        case PixelFormat::r16SignedInt:
+                        case PixelFormat::r32UnsignedInt:
+                        case PixelFormat::r32SignedInt:
                             return GL_RED_INTEGER;
-                        case PixelFormat::RG8UNorm:
-                        case PixelFormat::RG8SNorm:
+                        case PixelFormat::rg8UnsignedNorm:
+                        case PixelFormat::rg8SignedNorm:
                             return GL_RG;
-                        case PixelFormat::RG8UInt:
-                        case PixelFormat::RG8SInt:
+                        case PixelFormat::rg8UnsignedInt:
+                        case PixelFormat::rg8SignedInt:
                             return GL_RG_INTEGER;
-                        case PixelFormat::RGBA8UNorm:
-                        case PixelFormat::RGBA8UNormSRGB:
-                        case PixelFormat::RGBA8SNorm:
-                        case PixelFormat::RGBA16UNorm:
-                        case PixelFormat::RGBA16SNorm:
-                        case PixelFormat::RGBA16Float:
-                        case PixelFormat::RGBA32Float:
+                        case PixelFormat::rgba8UnsignedNorm:
+                        case PixelFormat::rgba8UnsignedNormSRGB:
+                        case PixelFormat::rgba8SignedNorm:
+                        case PixelFormat::rgba16UnsignedNorm:
+                        case PixelFormat::rgba16SignedNorm:
+                        case PixelFormat::rgba16Float:
+                        case PixelFormat::rgba32Float:
                             return GL_RGBA;
-                        case PixelFormat::RGBA8UInt:
-                        case PixelFormat::RGBA8SInt:
-                        case PixelFormat::RGBA16UInt:
-                        case PixelFormat::RGBA16SInt:
-                        case PixelFormat::RGBA32UInt:
-                        case PixelFormat::RGBA32SInt:
+                        case PixelFormat::rgba8UnsignedInt:
+                        case PixelFormat::rgba8SignedInt:
+                        case PixelFormat::rgba16UnsignedInt:
+                        case PixelFormat::rgba16SignedInt:
+                        case PixelFormat::rgba32UnsignedInt:
+                        case PixelFormat::rgba32SignedInt:
                             return GL_RGBA_INTEGER;
-                        case PixelFormat::Depth:
+                        case PixelFormat::depth:
                             return GL_DEPTH_COMPONENT;
-                        case PixelFormat::DepthStencil:
+                        case PixelFormat::depthStencil:
                             return GL_DEPTH_STENCIL;
                         default:
                             return 0;
@@ -166,43 +166,43 @@ namespace ouzel
                 {
                     switch (pixelFormat)
                     {
-                        case PixelFormat::A8UNorm:
-                        case PixelFormat::R8UNorm:
-                        case PixelFormat::R16UNorm:
-                        case PixelFormat::RG8UNorm:
-                        case PixelFormat::RGBA8UNorm:
-                        case PixelFormat::RGBA8UNormSRGB:
-                        case PixelFormat::RGBA16UNorm:
+                        case PixelFormat::a8UnsignedNorm:
+                        case PixelFormat::r8UnsignedNorm:
+                        case PixelFormat::r16UnsignedNorm:
+                        case PixelFormat::rg8UnsignedNorm:
+                        case PixelFormat::rgba8UnsignedNorm:
+                        case PixelFormat::rgba8UnsignedNormSRGB:
+                        case PixelFormat::rgba16UnsignedNorm:
                             return GL_UNSIGNED_BYTE;
-                        case PixelFormat::R8SNorm:
-                        case PixelFormat::R16SNorm:
-                        case PixelFormat::RG8SNorm:
-                        case PixelFormat::RGBA8SNorm:
-                        case PixelFormat::RGBA16SNorm:
+                        case PixelFormat::r8SignedNorm:
+                        case PixelFormat::r16SignedNorm:
+                        case PixelFormat::rg8SignedNorm:
+                        case PixelFormat::rgba8SignedNorm:
+                        case PixelFormat::rgba16SignedNorm:
                             return GL_BYTE;
-                        case PixelFormat::R8UInt:
-                        case PixelFormat::R16UInt:
-                        case PixelFormat::R32UInt:
-                        case PixelFormat::RG8UInt:
-                        case PixelFormat::RGBA8UInt:
-                        case PixelFormat::RGBA16UInt:
-                        case PixelFormat::RGBA32UInt:
+                        case PixelFormat::r8UnsignedInt:
+                        case PixelFormat::r16UnsignedInt:
+                        case PixelFormat::r32UnsignedInt:
+                        case PixelFormat::rg8UnsignedInt:
+                        case PixelFormat::rgba8UnsignedInt:
+                        case PixelFormat::rgba16UnsignedInt:
+                        case PixelFormat::rgba32UnsignedInt:
                             return GL_UNSIGNED_INT;
-                        case PixelFormat::R8SInt:
-                        case PixelFormat::R16SInt:
-                        case PixelFormat::R32SInt:
-                        case PixelFormat::RG8SInt:
-                        case PixelFormat::RGBA8SInt:
-                        case PixelFormat::RGBA16SInt:
-                        case PixelFormat::RGBA32SInt:
+                        case PixelFormat::r8SignedInt:
+                        case PixelFormat::r16SignedInt:
+                        case PixelFormat::r32SignedInt:
+                        case PixelFormat::rg8SignedInt:
+                        case PixelFormat::rgba8SignedInt:
+                        case PixelFormat::rgba16SignedInt:
+                        case PixelFormat::rgba32SignedInt:
                             return GL_INT;
-                        case PixelFormat::R16Float:
-                        case PixelFormat::R32Float:
-                        case PixelFormat::RGBA16Float:
-                        case PixelFormat::RGBA32Float:
-                        case PixelFormat::Depth:
+                        case PixelFormat::r16Float:
+                        case PixelFormat::r32Float:
+                        case PixelFormat::rgba16Float:
+                        case PixelFormat::rgba32Float:
+                        case PixelFormat::depth:
                             return GL_UNSIGNED_INT;
-                        case PixelFormat::DepthStencil:
+                        case PixelFormat::depthStencil:
                             return GL_UNSIGNED_INT_24_8;
                         default:
                             return 0;

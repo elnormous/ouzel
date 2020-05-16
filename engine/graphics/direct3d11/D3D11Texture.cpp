@@ -20,38 +20,38 @@ namespace ouzel
                 {
                     switch (pixelFormat)
                     {
-                        case PixelFormat::A8UNorm: return DXGI_FORMAT_A8_UNORM;
-                        case PixelFormat::R8UNorm: return DXGI_FORMAT_R8_UNORM;
-                        case PixelFormat::R8SNorm: return DXGI_FORMAT_R8_SNORM;
-                        case PixelFormat::R8UInt: return DXGI_FORMAT_R8_UINT;
-                        case PixelFormat::R8SInt: return DXGI_FORMAT_R8_SINT;
-                        case PixelFormat::R16UNorm: return DXGI_FORMAT_R16_UNORM;
-                        case PixelFormat::R16SNorm: return DXGI_FORMAT_R16_SNORM;
-                        case PixelFormat::R16UInt: return DXGI_FORMAT_R16_UINT;
-                        case PixelFormat::R16SInt: return DXGI_FORMAT_R16_SINT;
-                        case PixelFormat::R16Float: return DXGI_FORMAT_R16_FLOAT;
-                        case PixelFormat::R32UInt: return DXGI_FORMAT_R32_UINT;
-                        case PixelFormat::R32SInt: return DXGI_FORMAT_R32_SINT;
-                        case PixelFormat::R32Float: return DXGI_FORMAT_R32_FLOAT;
-                        case PixelFormat::RG8UNorm: return DXGI_FORMAT_R8G8_UNORM;
-                        case PixelFormat::RG8SNorm: return DXGI_FORMAT_R8G8_SNORM;
-                        case PixelFormat::RG8UInt: return DXGI_FORMAT_R8G8_UINT;
-                        case PixelFormat::RG8SInt: return DXGI_FORMAT_R8G8_SINT;
-                        case PixelFormat::RGBA8UNorm: return DXGI_FORMAT_R8G8B8A8_UNORM;
-                        case PixelFormat::RGBA8UNormSRGB: return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-                        case PixelFormat::RGBA8SNorm: return DXGI_FORMAT_R8G8B8A8_SNORM;
-                        case PixelFormat::RGBA8UInt: return DXGI_FORMAT_R8G8B8A8_UINT;
-                        case PixelFormat::RGBA8SInt: return DXGI_FORMAT_R8G8B8A8_SINT;
-                        case PixelFormat::RGBA16UNorm: return DXGI_FORMAT_R16G16B16A16_UNORM;
-                        case PixelFormat::RGBA16SNorm: return DXGI_FORMAT_R16G16B16A16_SNORM;
-                        case PixelFormat::RGBA16UInt: return DXGI_FORMAT_R16G16B16A16_UINT;
-                        case PixelFormat::RGBA16SInt: return DXGI_FORMAT_R16G16B16A16_SINT;
-                        case PixelFormat::RGBA16Float: return DXGI_FORMAT_R16G16B16A16_FLOAT;
-                        case PixelFormat::RGBA32UInt: return DXGI_FORMAT_R32G32B32A32_UINT;
-                        case PixelFormat::RGBA32SInt: return DXGI_FORMAT_R32G32B32A32_SINT;
-                        case PixelFormat::RGBA32Float: return DXGI_FORMAT_R32G32B32A32_FLOAT;
-                        case PixelFormat::Depth: return DXGI_FORMAT_D32_FLOAT;
-                        case PixelFormat::DepthStencil: return DXGI_FORMAT_D24_UNORM_S8_UINT;
+                        case PixelFormat::a8UnsignedNorm: return DXGI_FORMAT_A8_UNORM;
+                        case PixelFormat::r8UnsignedNorm: return DXGI_FORMAT_R8_UNORM;
+                        case PixelFormat::r8SignedNorm: return DXGI_FORMAT_R8_SNORM;
+                        case PixelFormat::r8UnsignedInt: return DXGI_FORMAT_R8_UINT;
+                        case PixelFormat::r8SignedInt: return DXGI_FORMAT_R8_SINT;
+                        case PixelFormat::r16UnsignedNorm: return DXGI_FORMAT_R16_UNORM;
+                        case PixelFormat::r16SignedNorm: return DXGI_FORMAT_R16_SNORM;
+                        case PixelFormat::r16UnsignedInt: return DXGI_FORMAT_R16_UINT;
+                        case PixelFormat::r16SignedInt: return DXGI_FORMAT_R16_SINT;
+                        case PixelFormat::r16Float: return DXGI_FORMAT_R16_FLOAT;
+                        case PixelFormat::r32UnsignedInt: return DXGI_FORMAT_R32_UINT;
+                        case PixelFormat::r32SignedInt: return DXGI_FORMAT_R32_SINT;
+                        case PixelFormat::r32Float: return DXGI_FORMAT_R32_FLOAT;
+                        case PixelFormat::rg8UnsignedNorm: return DXGI_FORMAT_R8G8_UNORM;
+                        case PixelFormat::rg8SignedNorm: return DXGI_FORMAT_R8G8_SNORM;
+                        case PixelFormat::rg8UnsignedInt: return DXGI_FORMAT_R8G8_UINT;
+                        case PixelFormat::rg8SignedInt: return DXGI_FORMAT_R8G8_SINT;
+                        case PixelFormat::rgba8UnsignedNorm: return DXGI_FORMAT_R8G8B8A8_UNORM;
+                        case PixelFormat::rgba8UnsignedNormSRGB: return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+                        case PixelFormat::rgba8SignedNorm: return DXGI_FORMAT_R8G8B8A8_SNORM;
+                        case PixelFormat::rgba8UnsignedInt: return DXGI_FORMAT_R8G8B8A8_UINT;
+                        case PixelFormat::rgba8SignedInt: return DXGI_FORMAT_R8G8B8A8_SINT;
+                        case PixelFormat::rgba16UnsignedNorm: return DXGI_FORMAT_R16G16B16A16_UNORM;
+                        case PixelFormat::rgba16SignedNorm: return DXGI_FORMAT_R16G16B16A16_SNORM;
+                        case PixelFormat::rgba16UnsignedInt: return DXGI_FORMAT_R16G16B16A16_UINT;
+                        case PixelFormat::rgba16SignedInt: return DXGI_FORMAT_R16G16B16A16_SINT;
+                        case PixelFormat::rgba16Float: return DXGI_FORMAT_R16G16B16A16_FLOAT;
+                        case PixelFormat::rgba32UnsignedInt: return DXGI_FORMAT_R32G32B32A32_UINT;
+                        case PixelFormat::rgba32SignedInt: return DXGI_FORMAT_R32G32B32A32_SINT;
+                        case PixelFormat::rgba32Float: return DXGI_FORMAT_R32G32B32A32_FLOAT;
+                        case PixelFormat::depth: return DXGI_FORMAT_D32_FLOAT;
+                        case PixelFormat::depthStencil: return DXGI_FORMAT_D24_UNORM_S8_UINT;
                         default: return DXGI_FORMAT_UNKNOWN;
                     }
                 }
@@ -122,12 +122,12 @@ namespace ouzel
                 if ((flags & Flags::bindShader) == Flags::bindShader ||
                     (flags & Flags::bindShaderMsaa) == Flags::bindShaderMsaa)
                 {
-                    if (initPixelFormat == PixelFormat::Depth)
+                    if (initPixelFormat == PixelFormat::depth)
                     {
                         texturePixelFormat = DXGI_FORMAT_R32_TYPELESS;
                         shaderViewPixelFormat = DXGI_FORMAT_R32_FLOAT;
                     }
-                    else if (initPixelFormat == PixelFormat::DepthStencil)
+                    else if (initPixelFormat == PixelFormat::depthStencil)
                     {
                         texturePixelFormat = DXGI_FORMAT_R24G8_TYPELESS;
                         shaderViewPixelFormat = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
@@ -154,7 +154,7 @@ namespace ouzel
 
                 if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
                 {
-                    if (initPixelFormat == PixelFormat::Depth || initPixelFormat == PixelFormat::DepthStencil)
+                    if (initPixelFormat == PixelFormat::depth || initPixelFormat == PixelFormat::depthStencil)
                         textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_DEPTH_STENCIL : 0;
                     else
                         textureDescriptor.BindFlags = (sampleCount == 1) ? D3D11_BIND_RENDER_TARGET : 0;
@@ -213,7 +213,7 @@ namespace ouzel
                         msaaTextureDescriptor.SampleDesc.Count = sampleCount;
                         msaaTextureDescriptor.SampleDesc.Quality = 0;
                         msaaTextureDescriptor.Usage = D3D11_USAGE_DEFAULT;
-                        if (initPixelFormat == PixelFormat::Depth || initPixelFormat == PixelFormat::DepthStencil)
+                        if (initPixelFormat == PixelFormat::depth || initPixelFormat == PixelFormat::depthStencil)
                             msaaTextureDescriptor.BindFlags = D3D11_BIND_DEPTH_STENCIL;
                         else
                             msaaTextureDescriptor.BindFlags = D3D11_BIND_RENDER_TARGET;
@@ -230,7 +230,7 @@ namespace ouzel
 
 						msaaTexture = newMsaaTexture;
 
-                        if (initPixelFormat == PixelFormat::Depth || initPixelFormat == PixelFormat::DepthStencil)
+                        if (initPixelFormat == PixelFormat::depth || initPixelFormat == PixelFormat::depthStencil)
                         {
                             D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
                             depthStencilViewDesc.Format = pixelFormat;
@@ -262,7 +262,7 @@ namespace ouzel
                     }
                     else
                     {
-                        if (initPixelFormat == PixelFormat::Depth || initPixelFormat == PixelFormat::DepthStencil)
+                        if (initPixelFormat == PixelFormat::depth || initPixelFormat == PixelFormat::depthStencil)
                         {
                             D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
                             depthStencilViewDesc.Format = pixelFormat;
