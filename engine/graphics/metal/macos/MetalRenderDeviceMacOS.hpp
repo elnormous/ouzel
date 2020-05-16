@@ -65,8 +65,6 @@ namespace ouzel
                 void init(Window* newWindow,
                           const Size2U& newSize,
                           std::uint32_t newSampleCount,
-                          SamplerFilter newTextureFilter,
-                          std::uint32_t newMaxAnisotropy,
                           bool newSrgb,
                           bool newVerticalSync,
                           bool newDepth,

@@ -79,8 +79,6 @@ namespace ouzel
             virtual void process();
 
             auto getSampleCount() const noexcept { return sampleCount; }
-            auto getTextureFilter() const noexcept { return textureFilter; }
-            auto getMaxAnisotropy() const noexcept { return maxAnisotropy; }
 
             virtual std::vector<Size2U> getSupportedResolutions() const;
 
@@ -178,8 +176,6 @@ namespace ouzel
             virtual void init(Window* newWindow,
                               const Size2U& newSize,
                               std::uint32_t newSampleCount,
-                              SamplerFilter newTextureFilter,
-                              std::uint32_t newMaxAnisotropy,
                               bool newSrgb,
                               bool newVerticalSync,
                               bool newDepth,
@@ -198,8 +194,6 @@ namespace ouzel
             ApiVersion apiVersion;
 
             std::uint32_t sampleCount = 1; // MSAA sample count
-            SamplerFilter textureFilter = SamplerFilter::Point;
-            std::uint32_t maxAnisotropy = 1;
 
             bool verticalSync = true;
             bool srgb = false;

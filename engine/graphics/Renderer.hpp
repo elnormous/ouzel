@@ -46,6 +46,9 @@ namespace ouzel
 
             auto& getSize() const noexcept { return size; }
 
+            auto getTextureFilter() const noexcept { return textureFilter; }
+            auto getMaxAnisotropy() const noexcept { return maxAnisotropy; }
+
             void saveScreenshot(const std::string& filename);
 
             void setRenderTarget(std::uintptr_t renderTarget);
@@ -101,6 +104,9 @@ namespace ouzel
             void setSize(const Size2U& newSize);
 
             std::unique_ptr<RenderDevice> device;
+
+            SamplerFilter textureFilter = SamplerFilter::point;
+            std::uint32_t maxAnisotropy = 1;
 
             Size2U size;
             CommandBuffer commandBuffer;

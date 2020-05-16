@@ -113,8 +113,6 @@ namespace ouzel
             void RenderDevice::init(Window* newWindow,
                                          const Size2U& newSize,
                                          std::uint32_t newSampleCount,
-                                         SamplerFilter newTextureFilter,
-                                         std::uint32_t newMaxAnisotropy,
                                          bool newSrgb,
                                          bool newVerticalSync,
                                          bool newDepth,
@@ -124,8 +122,6 @@ namespace ouzel
                 graphics::RenderDevice::init(newWindow,
                                              newSize,
                                              newSampleCount,
-                                             newTextureFilter,
-                                             newMaxAnisotropy,
                                              newSrgb,
                                              newVerticalSync,
                                              newDepth,
@@ -793,7 +789,9 @@ namespace ouzel
                                                                          initTextureCommand->textureType,
                                                                          initTextureCommand->flags,
                                                                          initTextureCommand->sampleCount,
-                                                                         initTextureCommand->pixelFormat);
+                                                                         initTextureCommand->pixelFormat,
+                                                                         initTextureCommand->filter,
+                                                                         initTextureCommand->maxAnisotropy);
 
                                 if (initTextureCommand->texture > resources.size())
                                     resources.resize(initTextureCommand->texture);
@@ -816,11 +814,11 @@ namespace ouzel
                                 auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
                                 auto texture = getResource<Texture>(setTextureParametersCommand->texture);
-                                texture->setFilter(setTextureParametersCommand->filter == SamplerFilter::Default ? textureFilter : setTextureParametersCommand->filter);
+                                texture->setFilter(setTextureParametersCommand->filter);
                                 texture->setAddressX(setTextureParametersCommand->addressX);
                                 texture->setAddressY(setTextureParametersCommand->addressY);
                                 texture->setAddressZ(setTextureParametersCommand->addressZ);
-                                texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy == 0 ? maxAnisotropy : setTextureParametersCommand->maxAnisotropy);
+                                texture->setMaxAnisotropy(setTextureParametersCommand->maxAnisotropy);
 
                                 break;
                             }
@@ -962,23 +960,22 @@ namespace ouzel
                     Pointer<MTLSamplerDescriptor*> samplerDescriptor = [[MTLSamplerDescriptor alloc] init];
                     switch (descriptor.filter)
                     {
-                        case SamplerFilter::Default:
-                        case SamplerFilter::Point:
+                        case SamplerFilter::point:
                             samplerDescriptor.get().minFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.get().magFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.get().mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case SamplerFilter::Linear:
+                        case SamplerFilter::linear:
                             samplerDescriptor.get().minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.get().magFilter = MTLSamplerMinMagFilterNearest;
                             samplerDescriptor.get().mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case SamplerFilter::Bilinear:
+                        case SamplerFilter::bilinear:
                             samplerDescriptor.get().minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.get().magFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.get().mipFilter = MTLSamplerMipFilterNearest;
                             break;
-                        case SamplerFilter::Trilinear:
+                        case SamplerFilter::trilinear:
                             samplerDescriptor.get().minFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.get().magFilter = MTLSamplerMinMagFilterLinear;
                             samplerDescriptor.get().mipFilter = MTLSamplerMipFilterLinear;

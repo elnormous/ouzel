@@ -515,14 +515,18 @@ namespace ouzel
                                TextureType initTextureType,
                                Flags initFlags,
                                std::uint32_t initSampleCount,
-                               PixelFormat initPixelFormat) noexcept:
+                               PixelFormat initPixelFormat,
+                               SamplerFilter initFilter,
+                               std::uint32_t initMaxAnisotropy) noexcept:
                 Command(Command::Type::initTexture),
                 texture(initTexture),
                 levels(initLevels),
                 textureType(initTextureType),
                 flags(initFlags),
                 sampleCount(initSampleCount),
-                pixelFormat(initPixelFormat)
+                pixelFormat(initPixelFormat),
+                filter(initFilter),
+                maxAnisotropy(initMaxAnisotropy)
             {
             }
 
@@ -532,6 +536,8 @@ namespace ouzel
             const Flags flags;
             const std::uint32_t sampleCount;
             const PixelFormat pixelFormat;
+            const SamplerFilter filter;
+            const std::uint32_t maxAnisotropy;
         };
 
         class SetTextureDataCommand final: public Command

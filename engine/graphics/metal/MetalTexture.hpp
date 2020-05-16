@@ -63,9 +63,11 @@ namespace ouzel
                 Texture(RenderDevice& initRenderDevice,
                         const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
                         TextureType type,
-                        Flags initFlags = Flags::none,
-                        std::uint32_t initSampleCount = 1,
-                        PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
+                        Flags initFlags,
+                        std::uint32_t initSampleCount,
+                        PixelFormat initPixelFormat,
+                        SamplerFilter initFilter,
+                        std::uint32_t initMaxAnisotropy);
 
                 void setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels);
                 void setFilter(SamplerFilter filter);

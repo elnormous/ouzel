@@ -102,7 +102,9 @@ namespace ouzel
                            bool newVerticalSync,
                            bool newDepth,
                            bool newStencil,
-                           bool newDebugRenderer)
+                           bool newDebugRenderer):
+            textureFilter(newTextureFilter),
+            maxAnisotropy(newMaxAnisotropy)
         {
             switch (driver)
             {
@@ -157,8 +159,6 @@ namespace ouzel
             device->init(newWindow,
                          newSize,
                          newSampleCount,
-                         newTextureFilter,
-                         newMaxAnisotropy,
                          newSrgb,
                          newVerticalSync,
                          newDepth,

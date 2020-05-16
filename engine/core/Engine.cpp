@@ -116,7 +116,7 @@ namespace ouzel
 
         Size2U size;
         std::uint32_t sampleCount = 1; // MSAA sample count
-        graphics::SamplerFilter textureFilter = graphics::SamplerFilter::Point;
+        graphics::SamplerFilter textureFilter = graphics::SamplerFilter::point;
         std::uint32_t maxAnisotropy = 1;
         bool resizable = false;
         bool fullscreen = false;
@@ -153,13 +153,13 @@ namespace ouzel
         if (!textureFilterValue.empty())
         {
             if (textureFilterValue == "point")
-                textureFilter = graphics::SamplerFilter::Point;
+                textureFilter = graphics::SamplerFilter::point;
             else if (textureFilterValue == "linear")
-                textureFilter = graphics::SamplerFilter::Linear;
+                textureFilter = graphics::SamplerFilter::linear;
             else if (textureFilterValue == "bilinear")
-                textureFilter = graphics::SamplerFilter::Bilinear;
+                textureFilter = graphics::SamplerFilter::bilinear;
             else if (textureFilterValue == "trilinear")
-                textureFilter = graphics::SamplerFilter::Trilinear;
+                textureFilter = graphics::SamplerFilter::trilinear;
             else
                 throw std::runtime_error("Invalid texture filter specified");
         }

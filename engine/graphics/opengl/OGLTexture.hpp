@@ -44,9 +44,11 @@ namespace ouzel
                 Texture(RenderDevice& initRenderDevice,
                         const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
                         TextureType type,
-                        Flags initFlags = Flags::none,
-                        std::uint32_t initSampleCount = 1,
-                        PixelFormat initPixelFormat = PixelFormat::RGBA8UNorm);
+                        Flags initFlags,
+                        std::uint32_t initSampleCount,
+                        PixelFormat initPixelFormat,
+                        SamplerFilter initFilter,
+                        std::uint32_t initMaxAnisotropy);
                 ~Texture() override;
 
                 void reload() final;
@@ -83,11 +85,11 @@ namespace ouzel
                 Flags flags = Flags::none;
                 std::uint32_t mipmaps = 0;
                 std::uint32_t sampleCount = 1;
-                SamplerFilter filter = SamplerFilter::Default;
+                SamplerFilter filter = SamplerFilter::point;
                 SamplerAddressMode addressX = SamplerAddressMode::clampToEdge;
                 SamplerAddressMode addressY = SamplerAddressMode::clampToEdge;
                 SamplerAddressMode addressZ = SamplerAddressMode::clampToEdge;
-                std::uint32_t maxAnisotropy = 0;
+                GLint maxAnisotropy = 0;
 
                 GLenum textureTarget = 0;
                 GLuint textureId = 0;

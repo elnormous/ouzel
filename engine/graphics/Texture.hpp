@@ -86,7 +86,7 @@ namespace ouzel
             std::uint32_t mipmaps = 0;
             std::uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8UNorm;
-            SamplerFilter filter = SamplerFilter::Default;
+            SamplerFilter filter = SamplerFilter::point;
             SamplerAddressMode addressX = SamplerAddressMode::clampToEdge;
             SamplerAddressMode addressY = SamplerAddressMode::clampToEdge;
             SamplerAddressMode addressZ = SamplerAddressMode::clampToEdge;

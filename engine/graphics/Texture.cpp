@@ -641,7 +641,9 @@ namespace ouzel
 
         Texture::Texture(Renderer& initRenderer):
             renderer(&initRenderer),
-            resource(initRenderer.getDevice()->createResource())
+            resource(initRenderer.getDevice()->createResource()),
+            filter(renderer->getTextureFilter()),
+            maxAnisotropy(renderer->getMaxAnisotropy())
         {
         }
 
@@ -657,7 +659,9 @@ namespace ouzel
             flags(initFlags),
             mipmaps(initMipmaps),
             sampleCount(initSampleCount),
-            pixelFormat(initPixelFormat)
+            pixelFormat(initPixelFormat),
+            filter(renderer->getTextureFilter()),
+            maxAnisotropy(renderer->getMaxAnisotropy())
         {
             if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
                 (mipmaps == 0 || mipmaps > 1))
@@ -674,7 +678,9 @@ namespace ouzel
                                                                         TextureType::twoDimensional,
                                                                         flags,
                                                                         sampleCount,
-                                                                        pixelFormat));
+                                                                        pixelFormat,
+                                                                        filter,
+                                                                        maxAnisotropy));
         }
 
         Texture::Texture(Renderer& initRenderer,
@@ -689,7 +695,9 @@ namespace ouzel
             flags(initFlags),
             mipmaps(initMipmaps),
             sampleCount(1),
-            pixelFormat(initPixelFormat)
+            pixelFormat(initPixelFormat),
+            filter(renderer->getTextureFilter()),
+            maxAnisotropy(renderer->getMaxAnisotropy())
         {
             if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
                 (mipmaps == 0 || mipmaps > 1))
@@ -706,7 +714,9 @@ namespace ouzel
                                                                          TextureType::twoDimensional,
                                                                          flags,
                                                                          sampleCount,
-                                                                         pixelFormat));
+                                                                         pixelFormat,
+                                                                         filter,
+                                                                         maxAnisotropy));
         }
 
         Texture::Texture(Renderer& initRenderer,
@@ -720,7 +730,9 @@ namespace ouzel
             flags(initFlags),
             mipmaps(static_cast<std::uint32_t>(initLevels.size())),
             sampleCount(1),
-            pixelFormat(initPixelFormat)
+            pixelFormat(initPixelFormat),
+            filter(renderer->getTextureFilter()),
+            maxAnisotropy(renderer->getMaxAnisotropy())
         {
             if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
                 (mipmaps == 0 || mipmaps > 1))
@@ -740,7 +752,9 @@ namespace ouzel
                                                                          TextureType::twoDimensional,
                                                                          flags,
                                                                          sampleCount,
-                                                                         pixelFormat));
+                                                                         pixelFormat,
+                                                                         filter,
+                                                                         maxAnisotropy));
         }
 
         void Texture::setData(const std::vector<std::uint8_t>& newData, CubeFace face)

@@ -260,7 +260,9 @@ namespace ouzel
                              TextureType type,
                              Flags initFlags,
                              std::uint32_t initSampleCount,
-                             PixelFormat initPixelFormat):
+                             PixelFormat initPixelFormat,
+                             SamplerFilter initFilter,
+                             std::uint32_t initMaxAnisotropy):
                 RenderResource(initRenderDevice),
                 levels(initLevels),
                 flags(initFlags),
@@ -269,7 +271,9 @@ namespace ouzel
                 textureTarget(getTextureTarget(type)),
                 internalPixelFormat(getOpenGlInternalPixelFormat(initPixelFormat, renderDevice.getAPIMajorVersion())),
                 pixelFormat(getOpenGlPixelFormat(initPixelFormat)),
-                pixelType(getOpenGlPixelType(initPixelFormat))
+                pixelType(getOpenGlPixelType(initPixelFormat)),
+                filter(initFilter),
+                maxAnisotropy(static_cast<GLint>(initMaxAnisotropy))
             {
                 if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
                     (mipmaps == 0 || mipmaps > 1))
@@ -416,23 +420,21 @@ namespace ouzel
 
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                const SamplerFilter finalFilter = (filter == SamplerFilter::Default) ? renderDevice.getTextureFilter() : filter;
-
-                switch (finalFilter)
+                switch (filter)
                 {
-                    case SamplerFilter::Point:
+                    case SamplerFilter::point:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case SamplerFilter::Linear:
+                    case SamplerFilter::linear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case SamplerFilter::Bilinear:
+                    case SamplerFilter::bilinear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
-                    case SamplerFilter::Trilinear:
+                    case SamplerFilter::trilinear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
@@ -496,7 +498,7 @@ namespace ouzel
 
             void Texture::setMaxAnisotropy(std::uint32_t newMaxAnisotropy)
             {
-                maxAnisotropy = newMaxAnisotropy;
+                maxAnisotropy = static_cast<GLint>(newMaxAnisotropy);
 
                 if (!textureId)
                     throw std::runtime_error("Texture not initialized");
@@ -592,24 +594,21 @@ namespace ouzel
             {
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
-                const SamplerFilter finalFilter = (filter == SamplerFilter::Default) ? renderDevice.getTextureFilter() : filter;
-
-                switch (finalFilter)
+                switch (filter)
                 {
-                    case SamplerFilter::Default:
-                    case SamplerFilter::Point:
+                    case SamplerFilter::point:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case SamplerFilter::Linear:
+                    case SamplerFilter::linear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
-                    case SamplerFilter::Bilinear:
+                    case SamplerFilter::bilinear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
-                    case SamplerFilter::Trilinear:
+                    case SamplerFilter::trilinear:
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
@@ -640,11 +639,9 @@ namespace ouzel
                         throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
                 }
 
-                const auto finalMaxAnisotropy = static_cast<GLint>((maxAnisotropy == 0) ? renderDevice.getMaxAnisotropy() : maxAnisotropy);
-
-                if (finalMaxAnisotropy > 1 && renderDevice.isAnisotropicFilteringSupported())
+                if (maxAnisotropy > 1 && renderDevice.isAnisotropicFilteringSupported())
                 {
-                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, finalMaxAnisotropy);
+                    renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnisotropy);
 
                     if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to set texture max anisotrophy");

@@ -99,7 +99,9 @@ namespace ouzel
                              TextureType type,
                              Flags initFlags,
                              std::uint32_t initSampleCount,
-                             PixelFormat initPixelFormat):
+                             PixelFormat initPixelFormat,
+                             SamplerFilter initFilter,
+                             std::uint32_t initMaxAnisotropy):
                 RenderResource(initRenderDevice),
                 flags(initFlags),
                 mipmaps(static_cast<std::uint32_t>(levels.size())),
@@ -328,11 +330,11 @@ namespace ouzel
 					resourceView = newResourceView;
                 }
 
-                samplerDescriptor.filter = renderDevice.getTextureFilter();
+                samplerDescriptor.filter = initFilter;
                 samplerDescriptor.addressX = SamplerAddressMode::clampToEdge;
                 samplerDescriptor.addressY = SamplerAddressMode::clampToEdge;
                 samplerDescriptor.addressZ = SamplerAddressMode::clampToEdge;
-                samplerDescriptor.maxAnisotropy = renderDevice.getMaxAnisotropy();
+                samplerDescriptor.maxAnisotropy = initMaxAnisotropy;
 
                 updateSamplerState();
             }

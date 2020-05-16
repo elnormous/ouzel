@@ -9,11 +9,10 @@ namespace ouzel
     {
         enum class SamplerFilter
         {
-            Default,
-            Point,
-            Linear,
-            Bilinear,
-            Trilinear
+            point,
+            linear,
+            bilinear,
+            trilinear
         };
     } // namespace graphics
 } // namespace ouzel
