@@ -65,11 +65,9 @@ namespace ouzel
                     file.read(reinterpret_cast<char*>(extraFieldLengthData), sizeof(extraFieldLengthData));
                     const size_t extraFieldLength = decodeLittleEndian<std::uint16_t>(extraFieldLengthData);
 
-                    auto name = std::make_unique<char[]>(fileNameLength + 1);
+                    auto name = std::make_unique<char[]>(fileNameLength + 1); // +1 for null character
 
                     file.read(name.get(), static_cast<std::streamsize>(fileNameLength));
-
-                    name[fileNameLength] = '\0';
 
                     Entry& entry = entries[name.get()];
                     entry.size = uncompressedSize;
