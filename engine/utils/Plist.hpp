@@ -42,7 +42,7 @@ namespace ouzel
 
             using Dictionary = std::map<std::string, Value>;
             using Array = std::vector<Value>;
-            using Data = std::vector<uint8_t>;
+            using Data = std::vector<std::uint8_t>;
 
             Value() = default;
             Value(const Dictionary& value):type{Type::dictionary}, dictionaryValue(value) {}
@@ -262,7 +262,7 @@ namespace ouzel
                 arrayValue.resize(size);
             }
 
-            void pushBack(uint8_t value)
+            void pushBack(std::uint8_t value)
             {
                 if (type != Type::data) throw TypeError("Wrong type");
                 dataValue.push_back(value);
