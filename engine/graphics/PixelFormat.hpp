@@ -9,7 +9,6 @@ namespace ouzel
     {
         enum class PixelFormat
         {
-            Default,
             A8UNorm,
             R8UNorm,
             R8SNorm,
@@ -88,8 +87,6 @@ namespace ouzel
                 case PixelFormat::Depth:
                 case PixelFormat::DepthStencil:
                     return 4;
-                case PixelFormat::Default:
-                    return 0;
                 default:
                     return 0;
             }
@@ -135,8 +132,6 @@ namespace ouzel
                 case PixelFormat::Depth:
                 case PixelFormat::DepthStencil:
                     return 4;
-                case PixelFormat::Default:
-                    return 0;
                 default:
                     return 0;
             }
@@ -182,8 +177,6 @@ namespace ouzel
                 case PixelFormat::Depth:
                 case PixelFormat::DepthStencil:
                     return 1;
-                case PixelFormat::Default:
-                    return 0;
                 default:
                     return 0;
             }
