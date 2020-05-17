@@ -53,7 +53,11 @@ namespace ouzel
                 }
                 else
                 {
-                    const auto intValue = static_cast<std::uint32_t>(std::stoul(color));
+                    uint32_t intValue = 0;
+
+                    for (const auto c : color)
+                        intValue = intValue * 10 + decToInt(c);
+
                     v[0] = static_cast<std::uint8_t>((intValue & 0xFF000000) >> 24);
                     v[1] = static_cast<std::uint8_t>((intValue & 0x00FF0000) >> 16);
                     v[2] = static_cast<std::uint8_t>((intValue & 0x0000FF00) >> 8);
@@ -190,6 +194,12 @@ namespace ouzel
             return (c >= '0' && c <= '9') ? static_cast<std::uint8_t>(c - '0') :
                 (c >= 'a' && c <= 'f') ? static_cast<std::uint8_t>(c - 'a' + 10) :
                 (c >= 'A' && c <= 'F') ? static_cast<std::uint8_t>(c - 'A' + 10) :
+                throw std::out_of_range("Invalid hex digit");
+        }
+
+        static constexpr std::uint8_t decToInt(const char c)
+        {
+            return (c >= '0' && c <= '9') ? static_cast<std::uint8_t>(c - '0') :
                 throw std::out_of_range("Invalid hex digit");
         }
     };
