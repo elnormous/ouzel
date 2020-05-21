@@ -227,6 +227,8 @@ namespace ouzel
             filename(initFilename)
         {
             fd = open(filename.c_str(), O_RDONLY);
+            while (fd == -1 && errno == EINTR)
+                fd = open(filename.c_str(), O_RDONLY);
 
             if (fd == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to open device file");
@@ -324,14 +326,12 @@ namespace ouzel
                 const GamepadConfig& gamepadConfig = getGamepadConfig(id.vendor, id.product);
 
                 for (std::size_t buttonNum = 0; buttonNum < 24; ++buttonNum)
-                {
                     if (gamepadConfig.buttonMap[buttonNum] != Gamepad::Button::none)
                     {
                         Button button;
                         button.button = gamepadConfig.buttonMap[buttonNum];
                         buttons.insert(std::make_pair(BTN_GAMEPAD + buttonNum, button));
                     }
-                }
 
                 constexpr std::array<std::uint32_t, 6> axisUsageMap = {
                     ABS_X,
@@ -343,7 +343,6 @@ namespace ouzel
                 };
 
                 for (std::size_t axisNum = 0; axisNum < 6; ++axisNum)
-                {
                     if (gamepadConfig.axisMap[axisNum] != Gamepad::Axis::none)
                     {
                         const std::uint32_t usage = axisUsageMap[axisNum];
@@ -394,7 +393,6 @@ namespace ouzel
 
                         axes.insert(std::make_pair(usage, axis));
                     }
-                }
             }
         }
 
@@ -413,6 +411,8 @@ namespace ouzel
         {
             input_event events[32];
             ssize_t bytesRead = read(fd, events, sizeof(events));
+            while (bytesRead == -1 && errno == EINTR)
+                bytesRead = read(fd, events, sizeof(events));
 
             if (bytesRead == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to read from " + filename);
