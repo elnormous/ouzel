@@ -14,8 +14,8 @@ namespace ouzel
     {
         namespace
         {
-            constexpr float THUMB_DEADZONE = 0.2F;
-            constexpr std::size_t INPUT_QUEUE_SIZE = 32;
+            constexpr float thumbDeadzone = 0.2F;
+            constexpr std::size_t inputQueueSize = 32;
 
             // converts the angle to the hat value
             constexpr std::uint32_t getHatValue(std::uint32_t value) noexcept
@@ -185,7 +185,7 @@ namespace ouzel
             propertyBufferSize.diph.dwHeaderSize = sizeof(propertyBufferSize.diph);
             propertyBufferSize.diph.dwHow = DIPH_DEVICE;
             propertyBufferSize.diph.dwObj = 0;
-            propertyBufferSize.dwData = INPUT_QUEUE_SIZE;
+            propertyBufferSize.dwData = inputQueueSize;
 
             if (FAILED(hr = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph)))
                 throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device buffer size property");
@@ -220,8 +220,8 @@ namespace ouzel
 
         void GamepadDeviceDI::checkInputBuffered()
         {
-            DWORD eventCount = INPUT_QUEUE_SIZE;
-            DIDEVICEOBJECTDATA events[INPUT_QUEUE_SIZE];
+            DWORD eventCount = inputQueueSize;
+            DIDEVICEOBJECTDATA events[inputQueueSize];
 
             HRESULT hr = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
 
@@ -407,13 +407,13 @@ namespace ouzel
                 if (floatValue > 0.0F)
                 {
                     handleButtonValueChange(positiveButton,
-                                            floatValue > THUMB_DEADZONE,
+                                            floatValue > thumbDeadzone,
                                             floatValue);
                 }
                 else if (floatValue < 0.0F)
                 {
                     handleButtonValueChange(negativeButton,
-                                            -floatValue > THUMB_DEADZONE,
+                                            -floatValue > thumbDeadzone,
                                             -floatValue);
                 }
                 else // thumbstick is 0

@@ -17,18 +17,17 @@
 
 namespace
 {
-    constexpr float THUMB_DEADZONE = 0.2F;
-
-    constexpr std::uint32_t BITS_PER_LONG = 8 * sizeof(long);
+    constexpr float thumbDeadzone = 0.2F;
+    constexpr std::uint32_t bitsPerLong = 8 * sizeof(long);
 
     constexpr std::size_t bitsToLongs(std::size_t n)
     {
-        return (n + BITS_PER_LONG - 1) / BITS_PER_LONG; // rounded up
+        return (n + bitsPerLong - 1) / bitsPerLong; // rounded up
     }
 
     inline auto isBitSet(const unsigned long* array, int bit)
     {
-        return (array[bit / BITS_PER_LONG] & (1LL << (bit % BITS_PER_LONG))) != 0;
+        return (array[bit / bitsPerLong] & (1LL << (bit % bitsPerLong))) != 0;
     }
 
     ouzel::input::Keyboard::Key convertKeyCode(std::uint16_t keyCode)
@@ -586,7 +585,7 @@ namespace ouzel
                                         __s32 values[1];
                                     };
 
-                                    std::size_t size = sizeof(input_mt_request_layout::code) +
+                                    const std::size_t size = sizeof(input_mt_request_layout::code) +
                                         sizeof(*input_mt_request_layout::values) * touchSlots.size();
 
                                     std::unique_ptr<input_mt_request_layout, decltype(&free)> request(static_cast<input_mt_request_layout*>(malloc(size)), free);
@@ -718,9 +717,7 @@ namespace ouzel
 
                                 if ((button.button != Gamepad::Button::leftTrigger || !hasLeftTrigger) &&
                                     (button.button != Gamepad::Button::rightTrigger || !hasRightTrigger))
-                                {
                                     gamepadDevice->handleButtonValueChange(button.button, event.value > 0, (event.value > 0) ? 1.0F : 0.0F);
-                                }
 
                                 button.value = event.value;
                             }
@@ -751,13 +748,13 @@ namespace ouzel
                 if (floatValue > 0.0F)
                 {
                     gamepadDevice->handleButtonValueChange(positiveButton,
-                                                           floatValue > THUMB_DEADZONE,
+                                                           floatValue > thumbDeadzone,
                                                            floatValue);
                 }
                 else if (floatValue < 0.0F)
                 {
                     gamepadDevice->handleButtonValueChange(negativeButton,
-                                                           -floatValue > THUMB_DEADZONE,
+                                                           -floatValue > thumbDeadzone,
                                                            -floatValue);
                 }
                 else // thumbstick is 0

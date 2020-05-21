@@ -9,28 +9,31 @@ namespace ouzel
 {
     namespace input
     {
-        static constexpr float THUMB_DEADZONE = 0.2F;
+        namespace
+        {
+            constexpr float thumbDeadzone = 0.2F;
 
-        // based on https://w3c.github.io/gamepad/#remapping
-        static Gamepad::Button buttonMap[17] = {
-            Gamepad::Button::faceBottom, // 0
-            Gamepad::Button::faceRight, // 1
-            Gamepad::Button::faceLeft, // 2
-            Gamepad::Button::faceTop, // 3
-            Gamepad::Button::leftShoulder, // 4
-            Gamepad::Button::rightShoulder, // 5
-            Gamepad::Button::leftTrigger, // 6
-            Gamepad::Button::rightTrigger, // 7
-            Gamepad::Button::back, // 8
-            Gamepad::Button::start, // 9
-            Gamepad::Button::leftThumb, // 10
-            Gamepad::Button::rightThumb, // 11
-            Gamepad::Button::dPadUp, // 12
-            Gamepad::Button::dPadDown, // 13
-            Gamepad::Button::dPadLeft, // 14
-            Gamepad::Button::dPadRight, // 15
-            Gamepad::Button::pause // 16
-        };
+            // based on https://w3c.github.io/gamepad/#remapping
+            static Gamepad::Button buttonMap[17] = {
+                Gamepad::Button::faceBottom, // 0
+                Gamepad::Button::faceRight, // 1
+                Gamepad::Button::faceLeft, // 2
+                Gamepad::Button::faceTop, // 3
+                Gamepad::Button::leftShoulder, // 4
+                Gamepad::Button::rightShoulder, // 5
+                Gamepad::Button::leftTrigger, // 6
+                Gamepad::Button::rightTrigger, // 7
+                Gamepad::Button::back, // 8
+                Gamepad::Button::start, // 9
+                Gamepad::Button::leftThumb, // 10
+                Gamepad::Button::rightThumb, // 11
+                Gamepad::Button::dPadUp, // 12
+                Gamepad::Button::dPadDown, // 13
+                Gamepad::Button::dPadLeft, // 14
+                Gamepad::Button::dPadRight, // 15
+                Gamepad::Button::pause // 16
+            };
+        }
 
         GamepadDeviceEm::GamepadDeviceEm(InputSystem& initInputSystem,
                                          DeviceId initId,
@@ -89,13 +92,13 @@ namespace ouzel
             if (newValue > 0.0)
             {
                 handleButtonValueChange(positiveButton,
-                                        static_cast<float>(newValue) > THUMB_DEADZONE,
+                                        static_cast<float>(newValue) > thumbDeadzone,
                                         static_cast<float>(newValue));
             }
             else if (newValue < 0.0)
             {
                 handleButtonValueChange(negativeButton,
-                                        -static_cast<float>(newValue) > THUMB_DEADZONE,
+                                        -static_cast<float>(newValue) > thumbDeadzone,
                                         -static_cast<float>(newValue));
             }
             else // thumbstick is 0

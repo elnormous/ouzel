@@ -11,7 +11,7 @@ namespace ouzel
     {
         namespace
         {
-            constexpr float THUMB_DEADZONE = 0.2F;
+            constexpr float thumbDeadzone = 0.2F;
 
             void deviceInput(void* ctx, IOReturn, void*, IOHIDValueRef value)
             {
@@ -236,11 +236,11 @@ namespace ouzel
 
                 if (floatValue > 0.0F)
                     handleButtonValueChange(positiveButton,
-                                            floatValue > THUMB_DEADZONE,
+                                            floatValue > thumbDeadzone,
                                             floatValue);
                 else if (floatValue < 0.0F)
                     handleButtonValueChange(negativeButton,
-                                            -floatValue > THUMB_DEADZONE,
+                                            -floatValue > thumbDeadzone,
                                             -floatValue);
                 else // thumbstick is 0
                 {
