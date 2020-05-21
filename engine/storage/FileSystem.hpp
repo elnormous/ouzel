@@ -364,9 +364,14 @@ namespace ouzel
                     int fd = -1;
                 };
 
-                const FileDescriptor in = open(from.getNative().c_str(), O_RDONLY);
-                if (in == -1)
+                int inFileDescriptor = open(from.getNative().c_str(), O_RDONLY);
+                while (inFileDescriptor == -1 && errno == EINTR)
+                    inFileDescriptor = open(from.getNative().c_str(), O_RDONLY);
+
+                if (inFileDescriptor == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to open file");
+
+                const FileDescriptor in = inFileDescriptor;
 
                 const int flags = O_CREAT | O_WRONLY | O_TRUNC | (overwrite ? 0 : O_EXCL);
 
@@ -374,23 +379,34 @@ namespace ouzel
                 if (fstat(in, &s) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to get file status");
 
-                const FileDescriptor out = open(to.getNative().c_str(), flags, s.st_mode);
-                if (out == -1)
+                int outFileDescriptor = open(to.getNative().c_str(), flags, s.st_mode);
+                while (outFileDescriptor == -1 && errno == EINTR)
+                    outFileDescriptor = open(to.getNative().c_str(), flags, s.st_mode);
+
+                if (outFileDescriptor == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to open file");
+
+                const FileDescriptor out = outFileDescriptor;
 
                 std::vector<char> buffer(16384);
                 for (;;)
                 {
                     ssize_t bytesRead = read(in, buffer.data(), buffer.size());
+                    while (bytesRead == -1 && errno == EINTR)
+                        bytesRead = read(in, buffer.data(), buffer.size());
+
                     if (bytesRead == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to read from file");
-
-                    if (bytesRead == 0) break;
+                    else
+                        if (bytesRead == 0) break;
 
                     ssize_t offset = 0;
                     do
                     {
-                        const ssize_t bytesWritten = write(out, buffer.data() + offset, static_cast<size_t>(bytesRead));
+                        ssize_t bytesWritten = write(out, buffer.data() + offset, static_cast<size_t>(bytesRead));
+                        while (bytesWritten == -1 && errno == EINTR)
+                            bytesWritten = write(out, buffer.data() + offset, static_cast<size_t>(bytesRead));
+
                         if (bytesWritten == -1)
                             throw std::system_error(errno, std::system_category(), "Failed to write to file");
 
