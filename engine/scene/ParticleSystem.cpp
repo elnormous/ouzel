@@ -20,7 +20,7 @@ namespace ouzel
     {
         namespace
         {
-            constexpr float UPDATE_STEP = 1.0F / 60.0F;
+            constexpr float updateStep = 1.0F / 60.0F;
         }
 
         ParticleSystem::ParticleSystem():
@@ -97,9 +97,9 @@ namespace ouzel
 
             bool needsBoundingBoxUpdate = false;
 
-            while (timeSinceUpdate >= UPDATE_STEP)
+            while (timeSinceUpdate >= updateStep)
             {
-                timeSinceUpdate -= UPDATE_STEP;
+                timeSinceUpdate -= updateStep;
 
                 if (running && particleSystemData.emissionRate > 0.0F)
                 {
@@ -107,7 +107,7 @@ namespace ouzel
 
                     if (particleCount < particleSystemData.maxParticles)
                     {
-                        emitCounter += UPDATE_STEP;
+                        emitCounter += updateStep;
                         if (emitCounter < 0.0F)
                             emitCounter = 0.0F;
                     }
@@ -116,7 +116,7 @@ namespace ouzel
                     emitParticles(emitCount);
                     emitCounter -= rate * emitCount;
 
-                    elapsed += UPDATE_STEP;
+                    elapsed += updateStep;
                     if (elapsed < 0.0F)
                         elapsed = 0.0F;
                     if (particleSystemData.duration >= 0.0F && particleSystemData.duration < elapsed)
@@ -144,7 +144,7 @@ namespace ouzel
                     {
                         const std::size_t i = counter - 1;
 
-                        particles[i].life -= UPDATE_STEP;
+                        particles[i].life -= updateStep;
 
                         if (particles[i].life >= 0.0F)
                         {
@@ -166,38 +166,38 @@ namespace ouzel
                                 tangential.v[0] *= - particles[i].tangentialAcceleration;
                                 tangential.v[1] *= particles[i].tangentialAcceleration;
 
-                                // (gravity + radial + tangential) * UPDATE_STEP
+                                // (gravity + radial + tangential) * updateStep
                                 tmp.v[0] = radial.v[0] + tangential.v[0] + particleSystemData.gravity.v[0];
                                 tmp.v[1] = radial.v[1] + tangential.v[1] + particleSystemData.gravity.v[1];
-                                tmp *= UPDATE_STEP;
+                                tmp *= updateStep;
 
                                 particles[i].direction.v[0] += tmp.v[0];
                                 particles[i].direction.v[1] += tmp.v[1];
-                                tmp.v[0] = particles[i].direction.v[0] * UPDATE_STEP * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F);
-                                tmp.v[1] = particles[i].direction.v[1] * UPDATE_STEP * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F);
+                                tmp.v[0] = particles[i].direction.v[0] * updateStep * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F);
+                                tmp.v[1] = particles[i].direction.v[1] * updateStep * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F);
                                 particles[i].position.v[0] += tmp.v[0];
                                 particles[i].position.v[1] += tmp.v[1];
                             }
                             else
                             {
-                                particles[i].angle += particles[i].degreesPerSecond * UPDATE_STEP;
-                                particles[i].radius += particles[i].deltaRadius * UPDATE_STEP;
+                                particles[i].angle += particles[i].degreesPerSecond * updateStep;
+                                particles[i].radius += particles[i].deltaRadius * updateStep;
                                 particles[i].position.v[0] = -std::cos(particles[i].angle) * particles[i].radius;
                                 particles[i].position.v[1] = -std::sin(particles[i].angle) * particles[i].radius * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F);
                             }
 
                             // color r,g,b,a
-                            particles[i].colorRed += particles[i].deltaColorRed * UPDATE_STEP;
-                            particles[i].colorGreen += particles[i].deltaColorGreen * UPDATE_STEP;
-                            particles[i].colorBlue += particles[i].deltaColorBlue * UPDATE_STEP;
-                            particles[i].colorAlpha += particles[i].deltaColorAlpha * UPDATE_STEP;
+                            particles[i].colorRed += particles[i].deltaColorRed * updateStep;
+                            particles[i].colorGreen += particles[i].deltaColorGreen * updateStep;
+                            particles[i].colorBlue += particles[i].deltaColorBlue * updateStep;
+                            particles[i].colorAlpha += particles[i].deltaColorAlpha * updateStep;
 
                             // size
-                            particles[i].size += (particles[i].deltaSize * UPDATE_STEP);
+                            particles[i].size += (particles[i].deltaSize * updateStep);
                             particles[i].size = std::max(0.0F, particles[i].size);
 
                             // angle
-                            particles[i].rotation += particles[i].deltaRotation * UPDATE_STEP;
+                            particles[i].rotation += particles[i].deltaRotation * updateStep;
                         }
                         else
                         {

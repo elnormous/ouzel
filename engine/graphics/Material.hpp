@@ -17,7 +17,7 @@ namespace ouzel
         class Material final
         {
         public:
-            static constexpr std::uint32_t TEXTURE_LAYERS = 4;
+            static constexpr std::uint32_t textureLayers = 4;
 
             Material() = default;
 
@@ -29,7 +29,7 @@ namespace ouzel
 
             const BlendState* blendState = nullptr;
             const Shader* shader = nullptr;
-            std::shared_ptr<Texture> textures[TEXTURE_LAYERS];
+            std::shared_ptr<Texture> textures[textureLayers];
             CullMode cullMode = CullMode::back;
             Color diffuseColor = Color::white();
             float opacity = 1.0F;

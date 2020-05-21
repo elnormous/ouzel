@@ -218,8 +218,8 @@ namespace ouzel
 
                 CoTaskMemFree(audioClientWaveFormat);
 
-                constexpr std::uint64_t TIMES_PER_SECOND = 10000000;
-                auto bufferPeriod = static_cast<REFERENCE_TIME>(512 * TIMES_PER_SECOND / waveFormat.nSamplesPerSec);
+                constexpr std::uint64_t timesPerSecond = 10000000;
+                auto bufferPeriod = static_cast<REFERENCE_TIME>(512 * timesPerSecond / waveFormat.nSamplesPerSec);
 
                 WAVEFORMATEX* closesMatch;
                 if (!FAILED(audioClient->IsFormatSupported(AUDCLNT_SHAREMODE_SHARED,

@@ -234,15 +234,15 @@ namespace ouzel
 
         namespace
         {
-            constexpr float MIN_PITCH = 0.5F;
-            constexpr float MAX_PITCH = 2.0F;
+            constexpr float minPitch = 0.5F;
+            constexpr float maxPitch = 2.0F;
         }
 
         class PitchScaleProcessor final: public mixer::Processor
         {
         public:
             explicit PitchScaleProcessor(float initScale):
-                scale(clamp(initScale, MIN_PITCH, MAX_PITCH))
+                scale(clamp(initScale, minPitch, maxPitch))
             {
             }
 
@@ -259,7 +259,7 @@ namespace ouzel
 
             void setScale(float newScale)
             {
-                scale = clamp(newScale, MIN_PITCH, MAX_PITCH);
+                scale = clamp(newScale, minPitch, maxPitch);
             }
 
         private:
