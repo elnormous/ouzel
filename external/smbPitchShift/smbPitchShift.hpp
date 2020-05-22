@@ -89,7 +89,7 @@ namespace smb
             constexpr Complex<T>& operator*=(const Complex& other) noexcept
             {
                 float tempReal = real;
-                real = tempReal * other.real - imag * other.imag;
+                real = real * other.real - imag * other.imag;
                 imag = tempReal * other.imag + imag * other.real;
                 return *this;
             }
