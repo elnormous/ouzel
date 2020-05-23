@@ -29,8 +29,8 @@
 
 namespace
 {
-    constexpr LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
-    constexpr LONG_PTR MOUSEEVENTF_FROMTOUCH = 0x0FF515700;
+    constexpr LONG_PTR SIGNATURE_MASK = 0xFFFFFF00;
+    constexpr LONG_PTR MI_WP_SIGNATURE = 0xFF515700;
 
     ouzel::input::Keyboard::Key convertKeyCode(LPARAM lParam, WPARAM wParam) noexcept
     {
@@ -263,8 +263,8 @@ namespace
             {
                 LONG_PTR extraInfo = GetMessageExtraInfo();
 
-                // don't handle mouse event that came from touch
-                if ((extraInfo & SIGNATURE_MASK) != MOUSEEVENTF_FROMTOUCH)
+                // don't handle mouse event that came from pen or touch
+                if ((extraInfo & SIGNATURE_MASK) != MI_WP_SIGNATURE)
                 {
                     windowWin->handleMouseButton(message, wParam, lParam);
 
@@ -280,8 +280,8 @@ namespace
             {
                 LONG_PTR extraInfo = GetMessageExtraInfo();
 
-                // don't handle mouse event that came from touch
-                if ((extraInfo & SIGNATURE_MASK) != MOUSEEVENTF_FROMTOUCH)
+                // don't handle mouse event that came from pen or touch
+                if ((extraInfo & SIGNATURE_MASK) != MI_WP_SIGNATURE)
                 {
                     windowWin->handleMouseMove(lParam);
                     return 0;

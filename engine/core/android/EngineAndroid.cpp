@@ -222,6 +222,9 @@ namespace ouzel
             auto event = std::make_unique<SystemEvent>();
             event->type = Event::Type::orientationChange;
 
+            static constexpr jint ORIENTATION_PORTRAIT = 0x00000001;
+            static constexpr jint ORIENTATION_LANDSCAPE = 0x00000002;
+
             switch (orientation)
             {
                 case ORIENTATION_PORTRAIT:

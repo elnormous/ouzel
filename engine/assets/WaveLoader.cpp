@@ -6,10 +6,10 @@
 #include "../audio/PcmClip.hpp"
 #include "../core/Engine.hpp"
 
-enum WaveFormat
+namespace
 {
-    PCM = 1,
-    IEEE_FLOAT = 3
+    constexpr uint16_t WAVE_FORMAT_PCM = 1;
+    constexpr uint16_t WAVE_FORMAT_IEEE_FLOAT = 3;
 };
 
 namespace ouzel
@@ -98,7 +98,7 @@ namespace ouzel
                         formatTag = static_cast<std::uint16_t>(data[formatTagOffset + 0] |
                                                                (data[formatTagOffset + 1] << 8));
 
-                        if (formatTag != PCM && formatTag != IEEE_FLOAT)
+                        if (formatTag != WAVE_FORMAT_PCM && formatTag != WAVE_FORMAT_IEEE_FLOAT)
                             throw std::runtime_error("Failed to load sound file, unsupported format");
 
                         const std::size_t channelsOffset = formatTagOffset + 2;
@@ -144,7 +144,7 @@ namespace ouzel
                 const auto frames = sampleCount / channels;
                 std::vector<float> samples(sampleCount);
 
-                if (formatTag == PCM)
+                if (formatTag == WAVE_FORMAT_PCM)
                 {
                     switch (bitsPerSample)
                     {
@@ -214,7 +214,7 @@ namespace ouzel
                             throw std::runtime_error("Failed to load sound file, unsupported bit depth");
                     }
                 }
-                else if (formatTag == IEEE_FLOAT)
+                else if (formatTag == WAVE_FORMAT_IEEE_FLOAT)
                 {
                     if (bitsPerSample == 32)
                     {

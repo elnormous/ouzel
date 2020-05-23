@@ -14,9 +14,9 @@
 #if OUZEL_SUPPORTS_X11
 namespace
 {
-    constexpr long _NET_WM_STATE_REMOVE = 0L;
-    constexpr long _NET_WM_STATE_ADD = 1L;
-    constexpr long _NET_WM_STATE_TOGGLE = 2L;
+    constexpr long NET_WM_STATE_REMOVE = 0L;
+    constexpr long NET_WM_STATE_ADD = 1L;
+    constexpr long NET_WM_STATE_TOGGLE = 2L;
 }
 #endif
 
@@ -154,7 +154,7 @@ namespace ouzel
             event.xclient.window = window;
             event.xclient.message_type = stateAtom;
             event.xclient.format = 32;
-            event.xclient.data.l[0] = _NET_WM_STATE_ADD;
+            event.xclient.data.l[0] = NET_WM_STATE_ADD;
             event.xclient.data.l[1] = stateFullscreenAtom;
             event.xclient.data.l[2] = 0; // no second property to toggle
             event.xclient.data.l[3] = 1; // source indication: application
@@ -324,7 +324,7 @@ namespace ouzel
             event.xclient.window = window;
             event.xclient.message_type = stateAtom;
             event.xclient.format = 32;
-            event.xclient.data.l[0] = newFullscreen ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
+            event.xclient.data.l[0] = newFullscreen ? NET_WM_STATE_ADD : NET_WM_STATE_REMOVE;
             event.xclient.data.l[1] = stateFullscreenAtom;
             event.xclient.data.l[2] = 0; // no second property to toggle
             event.xclient.data.l[3] = 1; // source indication: application
