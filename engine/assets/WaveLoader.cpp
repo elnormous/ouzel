@@ -172,7 +172,7 @@ namespace ouzel
                                 {
                                     std::uint8_t* sourceData = &soundData[(frame * channels + channel) * 2];
                                     outputChannel[frame] = static_cast<std::int16_t>(sourceData[0] |
-                                                                                (sourceData[1] << 8)) / 32767.0F;
+                                                                                     (sourceData[1] << 8)) / 32767.0F;
                                 }
                             }
                             break;
@@ -187,8 +187,8 @@ namespace ouzel
                                 {
                                     const std::uint8_t* sourceData = &soundData[(frame * channels + channel) * 3];
                                     outputChannel[frame] = static_cast<float>(static_cast<std::int32_t>((sourceData[0] << 8) |
-                                                                                                   (sourceData[1] << 16) |
-                                                                                                   (sourceData[2] << 24)) / 2147483648.0);
+                                                                                                        (sourceData[1] << 16) |
+                                                                                                        (sourceData[2] << 24)) / 2147483648.0);
                                 }
                             }
                             break;
@@ -203,9 +203,9 @@ namespace ouzel
                                 {
                                     const std::uint8_t* sourceData = &soundData[(frame * channels + channel) * 4];
                                     outputChannel[frame] = static_cast<float>(static_cast<std::int32_t>(sourceData[0] |
-                                                                                                   (sourceData[1] << 8) |
-                                                                                                   (sourceData[2] << 16) |
-                                                                                                   (sourceData[3] << 24)) / 2147483648.0);
+                                                                                                        (sourceData[1] << 8) |
+                                                                                                        (sourceData[2] << 16) |
+                                                                                                        (sourceData[3] << 24)) / 2147483648.0);
                                 }
                             }
                             break;

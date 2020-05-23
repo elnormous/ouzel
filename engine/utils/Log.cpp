@@ -82,7 +82,10 @@ namespace ouzel
         std::size_t offset = 0;
         while (offset < output.size())
         {
-            const ssize_t written = write(fd, output.data() + offset, output.size() - offset);
+            ssize_t written = write(fd, output.data() + offset, output.size() - offset);
+            while (written == -1 && errno == EINTR)
+                written = write(fd, output.data() + offset, output.size() - offset);
+
             if (written == -1)
                 return;
 
