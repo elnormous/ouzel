@@ -12,6 +12,7 @@
 #endif
 #include <Windows.h>
 #include <windowsx.h>
+#include <shellscalingapi.h>
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
@@ -403,7 +404,6 @@ namespace ouzel
                 using SetProcessDpiAwarenessProc = HRESULT(STDAPICALLTYPE *)(int value);
                 SetProcessDpiAwarenessProc setProcessDpiAwarenessProc = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcoreModule.get(), "SetProcessDpiAwareness"));
 
-                constexpr int PROCESS_PER_MONITOR_DPI_AWARE = 2;
                 if (setProcessDpiAwarenessProc)
                     setProcessDpiAwarenessProc(PROCESS_PER_MONITOR_DPI_AWARE);
             }
