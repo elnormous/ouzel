@@ -57,10 +57,10 @@ namespace ouzel
                                      bool debugAudio):
                 audio::AudioDevice(Driver::xAudio2, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
-                constexpr char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
-                constexpr char* XAUDIO2_DLL_27 = "xaudio2_7.dll";
+                constexpr char* xaudio2dll28 = "xaudio2_8.dll";
+                constexpr char* xaudio2dll27 = "xaudio2_7.dll";
 
-                xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
+                xAudio2Library = LoadLibraryA(xaudio2dll28);
 
                 if (xAudio2Library)
                 {
@@ -92,9 +92,9 @@ namespace ouzel
                 }
                 else
                 {
-                    engine->log(Log::Level::info) << "Failed to load " << XAUDIO2_DLL_28;
+                    engine->log(Log::Level::info) << "Failed to load " << xaudio2dll28;
 
-                    xAudio2Library = LoadLibraryA(XAUDIO2_DLL_27);
+                    xAudio2Library = LoadLibraryA(xaudio2dll27);
 
                     if (xAudio2Library)
                     {
@@ -102,7 +102,7 @@ namespace ouzel
                         apiMinorVersion = 7;
                     }
                     else
-                        throw std::runtime_error("Failed to load " + std::string(XAUDIO2_DLL_27));
+                        throw std::runtime_error("Failed to load " + std::string(xaudio2dll27));
 
                     UINT32 flags = 0;
                     if (debugAudio) flags |= XAUDIO2_DEBUG_ENGINE;

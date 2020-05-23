@@ -16,17 +16,17 @@ namespace ouzel
                                                       (data[3] << 24));
 
         const auto decodeUInt32 = [magic]() -> std::function<std::uint32_t(const std::uint8_t*)> {
-            constexpr std::uint32_t MAGIC_BIG = 0xDE120495;
-            constexpr std::uint32_t MAGIC_LITTLE = 0x950412DE;
+            constexpr std::uint32_t magicBig = 0xDE120495;
+            constexpr std::uint32_t magicLittle = 0x950412DE;
 
-            if (magic == MAGIC_BIG)
+            if (magic == magicBig)
                 return [](const std::uint8_t* bytes) noexcept {
                     return static_cast<std::uint32_t>(bytes[3] |
                                                       (bytes[2] << 8) |
                                                       (bytes[1] << 16) |
                                                       (bytes[0] << 24));
                 };
-            else if (magic == MAGIC_LITTLE)
+            else if (magic == magicLittle)
                 return [](const std::uint8_t* bytes) noexcept {
                     return static_cast<std::uint32_t>(bytes[0] |
                                                       (bytes[1] << 8) |

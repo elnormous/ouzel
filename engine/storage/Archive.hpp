@@ -23,18 +23,18 @@ namespace ouzel
             explicit Archive(const std::string& path):
                 file{path, std::ios::binary}
             {
-                constexpr std::uint32_t CENTRAL_DIRECTORY = 0x02014B50;
-                constexpr std::uint32_t HEADER_SIGNATURE = 0x04034B50;
+                constexpr std::uint32_t centralDirectory = 0x02014B50;
+                constexpr std::uint32_t headerSignature = 0x04034B50;
 
                 for (;;)
                 {
                     std::uint8_t signatureData[4];
                     file.read(reinterpret_cast<char*>(signatureData), sizeof(signatureData));
 
-                    if (decodeLittleEndian<std::uint32_t>(signatureData) == CENTRAL_DIRECTORY)
+                    if (decodeLittleEndian<std::uint32_t>(signatureData) == centralDirectory)
                         break;
 
-                    if (decodeLittleEndian<std::uint32_t>(signatureData) != HEADER_SIGNATURE)
+                    if (decodeLittleEndian<std::uint32_t>(signatureData) != headerSignature)
                         throw std::runtime_error("Bad signature");
 
                     file.seekg(2, std::ios::cur); // skip version

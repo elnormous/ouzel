@@ -16,7 +16,7 @@ namespace ouzel
         };
 
         // Playstation 3 controller
-        constexpr GamepadConfig PLAYSTATION_3_CONFIG = {
+        constexpr GamepadConfig playstation3Config = {
             {
                 Gamepad::Button::back, // Select
                 Gamepad::Button::leftThumb, // L3
@@ -54,7 +54,7 @@ namespace ouzel
         };
 
         // Playstation 4 controller
-        constexpr GamepadConfig PLAYSTATION_4_CONFIG = {
+        constexpr GamepadConfig playstation4Config = {
             {
                 Gamepad::Button::faceLeft, // Square
                 Gamepad::Button::faceBottom, // Cross
@@ -92,7 +92,7 @@ namespace ouzel
         };
 
         // Xbox One controller
-        constexpr GamepadConfig XBOX_ONE_CONFIG = {
+        constexpr GamepadConfig xboxOneConfig = {
             {
                 Gamepad::Button::faceBottom, // A
                 Gamepad::Button::faceRight, // B
@@ -130,7 +130,7 @@ namespace ouzel
         };
 
         // Xbox 360 controller
-        constexpr GamepadConfig XBOX_360_CONFIG = {
+        constexpr GamepadConfig xbox360Config = {
             {
                 Gamepad::Button::faceBottom, // A
                 Gamepad::Button::faceRight, // B
@@ -168,7 +168,7 @@ namespace ouzel
         };
 
         // Acme GA07 controller
-        constexpr GamepadConfig ACME_GA07_CONFIG = {
+        constexpr GamepadConfig acmeGa07Config = {
             {
                 Gamepad::Button::faceTop, // 1
                 Gamepad::Button::faceRight, // 2
@@ -206,7 +206,7 @@ namespace ouzel
         };
 
         // Generic controller
-        constexpr GamepadConfig GENERIC_CONFIG = {
+        constexpr GamepadConfig genericConfig = {
             {
                 Gamepad::Button::faceLeft,
                 Gamepad::Button::faceBottom,
@@ -246,15 +246,15 @@ namespace ouzel
         auto& getGamepadConfig(std::int32_t vendorId, std::int32_t productId)
         {
             if (vendorId == 0x054C && (productId == 0x0268 || productId == 0x02EA)) // Sony Playstation 3 controller
-                return PLAYSTATION_3_CONFIG;
+                return playstation3Config;
             else if (vendorId == 0x054C && (productId == 0x05C4 || productId == 0x09CC)) // Sony Playstation 4 controller
-                return PLAYSTATION_4_CONFIG;
+                return playstation4Config;
             else if (vendorId == 0x045E && (productId == 0x02D1 || // Microsoft Xbox One controller
                                             productId == 0x02DD || // Microsoft Xbox One Controller (Firmware 2015)
                                             productId == 0x02E3 || // Microsoft Xbox One Elite Controller
                                             productId == 0x02EA || // Microsoft Xbox One S Controller
                                             productId == 0x02FD)) // Microsoft Xbox One S Controller [Bluetooth]
-                return XBOX_ONE_CONFIG;
+                return xboxOneConfig;
             else if ((vendorId == 0x0E6F && productId == 0x0113) || // AfterglowGamepadforXbox360
                      (vendorId == 0x0E6F && productId == 0x0213) || // AfterglowGamepadforXbox360
                      (vendorId == 0x1BAD && productId == 0xF900) || // AfterglowGamepadforXbox360
@@ -327,11 +327,11 @@ namespace ouzel
                      (vendorId == 0x1BAD && productId == 0x5500) || // USBGamepad
                      (vendorId == 0x1BAD && productId == 0xF906) || // XB360MortalKombatFightStick
                      (vendorId == 0x15E4 && productId == 0x3F0A)) // XboxAirflowiredcontroller
-                return XBOX_360_CONFIG;
+                return xbox360Config;
             else if (vendorId == 0x0079 && productId == 0x0006) // Acme GA07
-                return ACME_GA07_CONFIG;
+                return acmeGa07Config;
             else // Generic (based on Logitech RumblePad 2)
-                return GENERIC_CONFIG;
+                return genericConfig;
         }
     }
 }
