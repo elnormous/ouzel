@@ -33,16 +33,16 @@ namespace ouzel
 {
     std::unique_ptr<Application> main(const std::vector<std::string>& args);
 
-    const std::string SHADER_TEXTURE = "shaderTexture";
-    const std::string SHADER_COLOR = "shaderColor";
+    const std::string shaderTexture = "shaderTexture";
+    const std::string shaderColor = "shaderColor";
 
-    const std::string BLEND_NO_BLEND = "blendNoBlend";
-    const std::string BLEND_ADD = "blendAdd";
-    const std::string BLEND_MULTIPLY = "blendMultiply";
-    const std::string BLEND_ALPHA = "blendAlpha";
-    const std::string BLEND_SCREEN = "blendScreen";
+    const std::string blendNoBlend = "blendNoBlend";
+    const std::string blendAdd = "blendAdd";
+    const std::string blendMultiply = "blendMultiply";
+    const std::string blendAlpha = "blendAlpha";
+    const std::string blendScreen = "blendScreen";
 
-    const std::string TEXTURE_WHITE_PIXEL = "textureWhitePixel";
+    const std::string textureWhitePixel = "textureWhitePixel";
 
     class Engine
     {

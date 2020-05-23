@@ -28,8 +28,8 @@ namespace ouzel
     {
         class Client;
 
-        constexpr std::uint32_t ANY_ADDRESS = 0;
-        constexpr std::uint16_t ANY_PORT = 0;
+        constexpr std::uint32_t anyAddress = 0;
+        constexpr std::uint16_t anyPort = 0;
 
         class Network final
         {

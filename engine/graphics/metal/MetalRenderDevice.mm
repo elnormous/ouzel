@@ -134,7 +134,7 @@ namespace ouzel
                 multisamplingSupported = true;
                 uintIndicesSupported = true;
 
-                inflightSemaphore = dispatch_semaphore_create(BUFFER_COUNT);
+                inflightSemaphore = dispatch_semaphore_create(bufferCount);
 
                 device = MTLCreateSystemDefaultDevice();
 
@@ -275,7 +275,7 @@ namespace ouzel
                 PipelineStateDesc currentPipelineStateDesc;
                 std::vector<float> shaderData;
 
-                if (++shaderConstantBufferIndex >= BUFFER_COUNT) shaderConstantBufferIndex = 0;
+                if (++shaderConstantBufferIndex >= bufferCount) shaderConstantBufferIndex = 0;
                 ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
                 shaderConstantBuffer.index = 0;
                 shaderConstantBuffer.offset = 0;
@@ -697,7 +697,7 @@ namespace ouzel
                                 shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getFragmentShaderAlignment() - 1) /
                                                                currentShader->getFragmentShaderAlignment()) * currentShader->getFragmentShaderAlignment(); // round up to nearest aligned pointer
 
-                                if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
+                                if (shaderConstantBuffer.offset + getVectorSize(shaderData) > bufferSize)
                                 {
                                     ++shaderConstantBuffer.index;
                                     shaderConstantBuffer.offset = 0;
@@ -705,7 +705,7 @@ namespace ouzel
 
                                 if (shaderConstantBuffer.index >= shaderConstantBuffer.buffers.size())
                                 {
-                                    MTLBufferPtr buffer = [device.get() newBufferWithLength:BUFFER_SIZE
+                                    MTLBufferPtr buffer = [device.get() newBufferWithLength:bufferSize
                                                                                     options:MTLResourceCPUCacheModeWriteCombined];
 
                                     if (!buffer)
@@ -748,7 +748,7 @@ namespace ouzel
                                 shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getVertexShaderAlignment() - 1) /
                                                                currentShader->getVertexShaderAlignment()) * currentShader->getVertexShaderAlignment(); // round up to nearest aligned pointer
 
-                                if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
+                                if (shaderConstantBuffer.offset + getVectorSize(shaderData) > bufferSize)
                                 {
                                     ++shaderConstantBuffer.index;
                                     shaderConstantBuffer.offset = 0;
@@ -756,7 +756,7 @@ namespace ouzel
 
                                 if (shaderConstantBuffer.index >= shaderConstantBuffer.buffers.size())
                                 {
-                                    MTLBufferPtr buffer = [device.get() newBufferWithLength:BUFFER_SIZE
+                                    MTLBufferPtr buffer = [device.get() newBufferWithLength:bufferSize
                                                                                     options:MTLResourceCPUCacheModeWriteCombined];
 
                                     if (!buffer)

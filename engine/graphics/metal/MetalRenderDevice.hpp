@@ -61,8 +61,8 @@ namespace ouzel
             {
                 friend Renderer;
             public:
-                static constexpr std::size_t BUFFER_SIZE = 1024 * 1024; // size of shader constant buffer
-                static constexpr std::size_t BUFFER_COUNT = 3; // allow encoding up to 3 command buffers simultaneously
+                static constexpr std::size_t bufferSize = 1024 * 1024; // size of shader constant buffer
+                static constexpr std::size_t bufferCount = 3; // allow encoding up to 3 command buffers simultaneously
 
                 static bool available();
 
@@ -123,7 +123,7 @@ namespace ouzel
                 };
 
                 std::uint32_t shaderConstantBufferIndex = 0;
-                ShaderConstantBuffer shaderConstantBuffers[BUFFER_COUNT];
+                ShaderConstantBuffer shaderConstantBuffers[bufferCount];
 
                 Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
                 Pointer<MTLDepthStencilStatePtr> defaultDepthStencilState;

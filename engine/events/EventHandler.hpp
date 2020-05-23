@@ -15,7 +15,7 @@ namespace ouzel
         friend EventDispatcher;
     public:
         using Priority = std::int32_t;
-        static constexpr Priority PRIORITY_MAX = 0x1000;
+        static constexpr Priority priorityMax = 0x1000;
 
         explicit EventHandler(Priority initPriority = 0): priority(initPriority) {}
         ~EventHandler()

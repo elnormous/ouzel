@@ -172,8 +172,8 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::CullMode::none;
-            material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache().getBlendState(BLEND_ALPHA);
-            material->shader = spriteData.shader ? spriteData.shader : engine->getCache().getShader(SHADER_TEXTURE);
+            material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache().getBlendState(blendAlpha);
+            material->shader = spriteData.shader ? spriteData.shader : engine->getCache().getShader(shaderTexture);
             material->textures[0] = spriteData.texture;
 
             animations = spriteData.animations;
@@ -189,8 +189,8 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::CullMode::none;
-            material->shader = engine->getCache().getShader(SHADER_TEXTURE);
-            material->blendState = engine->getCache().getBlendState(BLEND_ALPHA);
+            material->shader = engine->getCache().getShader(shaderTexture);
+            material->blendState = engine->getCache().getBlendState(blendAlpha);
 
             if (const SpriteData* spriteData = engine->getCache().getSpriteData(filename))
             {
@@ -226,8 +226,8 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::CullMode::none;
-            material->shader = engine->getCache().getShader(SHADER_TEXTURE);
-            material->blendState = engine->getCache().getBlendState(BLEND_ALPHA);
+            material->shader = engine->getCache().getShader(shaderTexture);
+            material->blendState = engine->getCache().getBlendState(blendAlpha);
             material->textures[0] = newTexture;
             animations.clear();
 

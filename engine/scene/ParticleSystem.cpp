@@ -24,10 +24,10 @@ namespace ouzel
         }
 
         ParticleSystem::ParticleSystem():
-            shader(engine->getCache().getShader(SHADER_TEXTURE)),
-            blendState(engine->getCache().getBlendState(BLEND_ALPHA))
+            shader(engine->getCache().getShader(shaderTexture)),
+            blendState(engine->getCache().getBlendState(blendAlpha))
         {
-            whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
+            whitePixelTexture = engine->getCache().getTexture(textureWhitePixel);
 
             updateHandler.updateHandler = [this](const UpdateEvent& event) {
                 update(event.delta);

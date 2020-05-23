@@ -9,8 +9,8 @@ namespace ouzel
     {
         namespace
         {
-            constexpr std::int32_t MAX_THUMB_VALUE = 32767;
-            constexpr std::int32_t MIN_THUMB_VALUE = -32768;
+            constexpr std::int32_t minThumbValue = -32768;
+            constexpr std::int32_t maxThumbValue = 32767;
         }
 
         GamepadDeviceXI::GamepadDeviceXI(InputSystem& initInputSystem,
@@ -92,13 +92,13 @@ namespace ouzel
                 {
                     handleButtonValueChange(positiveButton,
                                             newValue > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
-                                            static_cast<float>(newValue) / static_cast<float>(MAX_THUMB_VALUE));
+                                            static_cast<float>(newValue) / static_cast<float>(maxThumbValue));
                 }
                 else if (newValue < 0)
                 {
                     handleButtonValueChange(negativeButton,
                                             newValue < -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
-                                            static_cast<float>(newValue) / static_cast<float>(MIN_THUMB_VALUE));
+                                            static_cast<float>(newValue) / static_cast<float>(minThumbValue));
                 }
                 else // thumbstick is 0
                 {

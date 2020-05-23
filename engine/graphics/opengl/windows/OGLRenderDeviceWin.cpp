@@ -22,7 +22,7 @@ namespace ouzel
         {
             namespace
             {
-                constexpr LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
+                constexpr LPCWSTR tempWindowClassName = L"TempWindow";
 
                 LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
                 {
@@ -48,13 +48,13 @@ namespace ouzel
                         wc.hCursor = 0;
                         wc.hbrBackground = 0;
                         wc.lpszMenuName = nullptr;
-                        wc.lpszClassName = TEMP_WINDOW_CLASS_NAME;
+                        wc.lpszClassName = tempWindowClassName;
 
                         windowClass = RegisterClassW(&wc);
                         if (!windowClass)
                             throw std::system_error(GetLastError(), std::system_category(), "Failed to register window class");
 
-                        window = CreateWindowW(TEMP_WINDOW_CLASS_NAME, L"TempWindow", 0,
+                        window = CreateWindowW(tempWindowClassName, L"TempWindow", 0,
                                             CW_USEDEFAULT, CW_USEDEFAULT,
                                             CW_USEDEFAULT, CW_USEDEFAULT,
                                             0, 0, instance, 0);
@@ -127,7 +127,7 @@ namespace ouzel
                         }
 
                         if (windowClass)
-                            UnregisterClassW(TEMP_WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
+                            UnregisterClassW(tempWindowClassName, GetModuleHandleW(nullptr));
                     }
 
                     TempContext(const TempContext&) = delete;

@@ -19,7 +19,7 @@ namespace ouzel
     namespace gui
     {
         Button::Button():
-            eventHandler(EventHandler::PRIORITY_MAX + 1)
+            eventHandler(EventHandler::priorityMax + 1)
         {
             eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1);
             engine->getEventDispatcher().addEventHandler(eventHandler);
@@ -38,7 +38,7 @@ namespace ouzel
                        Color initLabelSelectedColor,
                        Color initLabelPressedColor,
                        Color initLabelDisabledColor):
-            eventHandler(EventHandler::PRIORITY_MAX + 1),
+            eventHandler(EventHandler::priorityMax + 1),
             labelColor(initLabelColor),
             labelSelectedColor(initLabelSelectedColor),
             labelPressedColor(initLabelPressedColor),
@@ -192,7 +192,7 @@ namespace ouzel
                            const std::string& pressedImage,
                            const std::string& disabledImage,
                            const std::string& tickImage):
-            eventHandler(EventHandler::PRIORITY_MAX + 1)
+            eventHandler(EventHandler::priorityMax + 1)
         {
             eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1);
             engine->getEventDispatcher().addEventHandler(eventHandler);
@@ -369,7 +369,7 @@ namespace ouzel
         }
 
         Menu::Menu():
-            eventHandler(EventHandler::PRIORITY_MAX + 1)
+            eventHandler(EventHandler::priorityMax + 1)
         {
             eventHandler.keyboardHandler = std::bind(&Menu::handleKeyboard, this, std::placeholders::_1);
             eventHandler.gamepadHandler = std::bind(&Menu::handleGamepad, this, std::placeholders::_1);

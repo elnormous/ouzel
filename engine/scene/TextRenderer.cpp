@@ -16,8 +16,8 @@ namespace ouzel
                                    const std::string& initText,
                                    Color initColor,
                                    const Vector2F& initTextAnchor):
-            shader(engine->getCache().getShader(SHADER_TEXTURE)),
-            blendState(engine->getCache().getBlendState(BLEND_ALPHA)),
+            shader(engine->getCache().getShader(shaderTexture)),
+            blendState(engine->getCache().getBlendState(blendAlpha)),
             indexBuffer(*engine->getRenderer(),
                         graphics::BufferType::index,
                         graphics::Flags::dynamic),
@@ -29,7 +29,7 @@ namespace ouzel
             textAnchor(initTextAnchor),
             color(initColor)
         {
-            whitePixelTexture = engine->getCache().getTexture(TEXTURE_WHITE_PIXEL);
+            whitePixelTexture = engine->getCache().getTexture(textureWhitePixel);
 
             font = engine->getCache().getFont(fontFile);
 

@@ -374,7 +374,7 @@ namespace
         return DefWindowProcW(window, message, wParam, lParam);
     }
 
-    constexpr LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
+    constexpr LPCWSTR windowClassName = L"OuzelWindow";
 }
 
 namespace ouzel
@@ -425,7 +425,7 @@ namespace ouzel
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         wc.hbrBackground = nullptr;
         wc.lpszMenuName = nullptr;
-        wc.lpszClassName = WINDOW_CLASS_NAME;
+        wc.lpszClassName = windowClassName;
         wc.hIconSm = nullptr;
 
         windowClass = RegisterClassExW(&wc);
@@ -460,7 +460,7 @@ namespace ouzel
         if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer.get(), titleBufferSize) == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
-        window = CreateWindowExW(windowExStyle, WINDOW_CLASS_NAME, titleBuffer.get(), windowStyle,
+        window = CreateWindowExW(windowExStyle, windowClassName, titleBuffer.get(), windowStyle,
                                  x, y, width, height, nullptr, nullptr, instance, nullptr);
 
         if (!window)
@@ -500,7 +500,7 @@ namespace ouzel
             DestroyWindow(window);
 
         if (windowClass)
-            UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
+            UnregisterClassW(windowClassName, GetModuleHandleW(nullptr));
     }
 
     void NativeWindowWin::executeCommand(const Command& command)

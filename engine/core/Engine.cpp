@@ -335,7 +335,7 @@ namespace ouzel
                         throw std::runtime_error("Unsupported OpenGL version");
                 }
 
-                assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
+                assetBundle.setShader(shaderTexture, std::move(textureShader));
 
                 auto colorShader = std::make_unique<graphics::Shader>(*renderer);
 
@@ -433,7 +433,7 @@ namespace ouzel
                         throw std::runtime_error("Unsupported OpenGL version");
                 }
 
-                assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
+                assetBundle.setShader(shaderColor, std::move(colorShader));
                 break;
             }
 #endif
@@ -458,7 +458,7 @@ namespace ouzel
                                                                             {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                         });
 
-                assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
+                assetBundle.setShader(shaderTexture, std::move(textureShader));
 
                 auto colorShader = std::make_unique<graphics::Shader>(*renderer,
                                                                       std::vector<std::uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11),
@@ -476,7 +476,7 @@ namespace ouzel
                                                                           {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                       });
 
-                assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
+                assetBundle.setShader(shaderColor, std::move(colorShader));
                 break;
             }
 #endif
@@ -502,7 +502,7 @@ namespace ouzel
                                                                         },
                                                                         "mainPS", "mainVS");
 
-                assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
+                assetBundle.setShader(shaderTexture, std::move(textureShader));
 
                 auto colorShader = std::make_unique<graphics::Shader>(*renderer,
                                                                       std::vector<std::uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL),
@@ -521,7 +521,7 @@ namespace ouzel
                                                                       },
                                                                       "mainPS", "mainVS");
 
-                assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
+                assetBundle.setShader(shaderColor, std::move(colorShader));
                 break;
             }
 #endif
@@ -543,7 +543,7 @@ namespace ouzel
                                                                             {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                         });
 
-                assetBundle.setShader(SHADER_TEXTURE, std::move(textureShader));
+                assetBundle.setShader(shaderTexture, std::move(textureShader));
 
                 auto colorShader = std::make_unique<graphics::Shader>(*renderer,
                                                                       std::vector<std::uint8_t>(),
@@ -559,7 +559,7 @@ namespace ouzel
                                                                           {"modelViewProj", graphics::DataType::float32Matrix4}
                                                                       });
 
-                assetBundle.setShader(SHADER_COLOR, std::move(colorShader));
+                assetBundle.setShader(shaderColor, std::move(colorShader));
                 break;
             }
         }
@@ -573,7 +573,7 @@ namespace ouzel
                                                                    graphics::BlendFactor::zero,
                                                                    graphics::BlendOperation::add);
 
-        assetBundle.setBlendState(BLEND_NO_BLEND, std::move(noBlendState));
+        assetBundle.setBlendState(blendNoBlend, std::move(noBlendState));
 
         auto addBlendState = std::make_unique<graphics::BlendState>(*renderer,
                                                                     true,
@@ -584,7 +584,7 @@ namespace ouzel
                                                                     graphics::BlendFactor::one,
                                                                     graphics::BlendOperation::add);
 
-        assetBundle.setBlendState(BLEND_ADD, std::move(addBlendState));
+        assetBundle.setBlendState(blendAdd, std::move(addBlendState));
 
         auto multiplyBlendState = std::make_unique<graphics::BlendState>(*renderer,
                                                                          true,
@@ -595,7 +595,7 @@ namespace ouzel
                                                                          graphics::BlendFactor::one,
                                                                          graphics::BlendOperation::add);
 
-        assetBundle.setBlendState(BLEND_MULTIPLY, std::move(multiplyBlendState));
+        assetBundle.setBlendState(blendMultiply, std::move(multiplyBlendState));
 
         auto alphaBlendState = std::make_unique<graphics::BlendState>(*renderer,
                                                                       true,
@@ -606,7 +606,7 @@ namespace ouzel
                                                                       graphics::BlendFactor::one,
                                                                       graphics::BlendOperation::add);
 
-        assetBundle.setBlendState(BLEND_ALPHA, std::move(alphaBlendState));
+        assetBundle.setBlendState(blendAlpha, std::move(alphaBlendState));
 
         auto screenBlendState = std::make_unique<graphics::BlendState>(*renderer,
                                                                        true,
@@ -617,13 +617,13 @@ namespace ouzel
                                                                        graphics::BlendFactor::one,
                                                                        graphics::BlendOperation::add);
 
-        assetBundle.setBlendState(BLEND_SCREEN, std::move(screenBlendState));
+        assetBundle.setBlendState(blendScreen, std::move(screenBlendState));
 
         auto whitePixelTexture = std::make_shared<graphics::Texture>(*renderer,
                                                                      std::vector<std::uint8_t>{255, 255, 255, 255},
                                                                      Size2U(1, 1),
                                                                      graphics::Flags::none, 1);
-        assetBundle.setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
+        assetBundle.setTexture(textureWhitePixel, whitePixelTexture);
     }
 
     void Engine::start()
