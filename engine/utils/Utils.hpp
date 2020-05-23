@@ -55,20 +55,6 @@ namespace ouzel
             buffer[i] = static_cast<std::uint8_t>(value >> (i * 8));
     }
 
-    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    auto hexToString(const T n, const std::size_t len = 0)
-    {
-        constexpr char digits[] = "0123456789abcdef";
-
-        const std::size_t count = (len == 0) ? n / 16 + 1 : len;
-
-        std::string result(count, '0');
-        for (std::size_t i = 0, j = (count - 1) * 4; i < count; ++i, j -= 4)
-            result[i] = digits[(n >> j) & 0x0F];
-
-        return result;
-    }
-
     inline auto explodeString(const std::string& str, char delimiter = ' ')
     {
         std::vector<std::string> result;
