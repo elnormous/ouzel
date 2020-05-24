@@ -11,6 +11,7 @@ namespace ouzel
     {
         enum class ColorMask: std::uint8_t
         {
+            none = 0x00,
             red = 0x01,
             green = 0x02,
             blue = 0x04,
