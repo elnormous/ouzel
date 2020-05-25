@@ -36,7 +36,7 @@ namespace ouzel
             explicit RangeError(const char* str): std::runtime_error(str) {}
         };
 
-        class Value
+        class Value final
         {
         public:
             using Array = std::vector<Value>;
