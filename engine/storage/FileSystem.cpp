@@ -348,11 +348,13 @@ namespace ouzel
                 throw std::runtime_error("Failed to find file " + std::string(filename));
 
             std::ifstream file(path, std::ios::binary);
+            if (!file)
+                throw std::runtime_error("Failed to open file " + std::string(filename));
 
             std::vector<uint8_t> data;
             char buffer[1024];
 
-            while (file && !file.eof())
+            while (!file.eof())
             {
                 file.read(buffer, sizeof(buffer));
                 data.insert(data.end(), buffer, buffer + file.gcount());
