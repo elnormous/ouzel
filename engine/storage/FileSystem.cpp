@@ -349,10 +349,14 @@ namespace ouzel
 
             std::ifstream file(path, std::ios::binary);
 
-            file.seekg(0, std::ios::end);
-            std::vector<std::uint8_t> data(static_cast<size_t>(file.tellg()));
-            file.seekg(0, std::ios::beg);
-            file.read(reinterpret_cast<char*>(data.data()), static_cast<std::streamsize>(data.size()));
+            std::vector<uint8_t> data;
+            char buffer[1024];
+
+            while (file && !file.eof())
+            {
+                file.read(buffer, sizeof(buffer));
+                data.insert(data.end(), buffer, buffer + file.gcount());
+            }
 
             return data;
         }
