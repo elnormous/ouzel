@@ -79,12 +79,12 @@ namespace ouzel
             CfPointer<CFStringRef> path = CFURLCopyFileSystemPath(absolutePath.get(), kCFURLPOSIXPathStyle);
 
             const CFIndex maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path.get());
-            std::vector<char> resourceDirectory(static_cast<std::size_t>(maximumSize));
-            const Boolean result = CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.data(), maximumSize);
+            auto resourceDirectory = std::make_unique<char[]>(static_cast<std::size_t>(maximumSize));
+            const Boolean result = CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.get(), maximumSize);
             if (!result)
                 throw std::runtime_error("Failed to get resource directory");
 
-            appPath = Path{resourceDirectory.data(), Path::Format::native};
+            appPath = Path{resourceDirectory.get(), Path::Format::native};
             engine.log(Log::Level::info) << "Application directory: " << appPath;
 
 #elif defined(__ANDROID__)
