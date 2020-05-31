@@ -346,10 +346,7 @@ namespace ouzel
                 {
                 public:
                     FileDescriptor(int f) noexcept: fd{f} {}
-                    ~FileDescriptor()
-                    {
-                        if (fd != -1) while (close(fd) == -1 && errno == EINTR);
-                    }
+                    ~FileDescriptor() { if (fd != -1) close(fd); }
                     FileDescriptor(FileDescriptor&& other) noexcept: fd{other.fd}
                     {
                         other.fd = -1;
@@ -357,7 +354,7 @@ namespace ouzel
                     FileDescriptor& operator=(FileDescriptor&& other) noexcept
                     {
                         if (this == &other) return *this;
-                        if (fd != -1) while (close(fd) == -1 && errno == EINTR);
+                        if (fd != -1) close(fd);
                         fd = other.fd;
                         other.fd = -1;
                         return *this;

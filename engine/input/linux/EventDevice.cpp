@@ -402,7 +402,7 @@ namespace ouzel
                 if (ioctl(fd, EVIOCGRAB, 0) == -1)
                     engine->log(Log::Level::warning) << "Failed to release device";
 
-                while (close(fd) == -1 && errno == EINTR);
+                close(fd);
             }
         }
 
