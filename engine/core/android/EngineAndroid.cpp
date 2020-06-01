@@ -166,7 +166,11 @@ namespace ouzel
             throw std::runtime_error("Main thread has no looper");
 
         ALooper_acquire(looper);
-        if (pipe(looperPipe) == -1)
+        int result = pipe(looperPipe);
+        while (result == -1 && errno == EINTR)
+            result = pipe(looperPipe);
+
+        if (result == -1)
             throw std::system_error(errno, std::system_category(), "Failed to create pipe");
 
         if (ALooper_addFd(looper, looperPipe[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
