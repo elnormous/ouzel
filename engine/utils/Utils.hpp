@@ -58,16 +58,13 @@ namespace ouzel
     inline auto explodeString(const std::string& str, char delimiter = ' ')
     {
         std::vector<std::string> result;
-        std::size_t pos;
-        std::size_t initialPos = 0;
-        while ((pos = str.find(delimiter, initialPos)) != std::string::npos)
+        for (std::size_t position = 0, beginPosition = 0; position != std::string::npos; beginPosition = position + 1)
         {
-            if (pos != initialPos)
-                result.push_back(str.substr(initialPos, pos - initialPos));
-            initialPos = pos + 1;
+            position = str.find(delimiter, beginPosition);
+            const std::size_t endPosition = (position == std::string::npos) ? str.size() : position;
+            if (endPosition != beginPosition)
+                result.push_back(str.substr(beginPosition, endPosition - beginPosition));
         }
-        if (initialPos < str.size())
-            result.push_back(str.substr(initialPos, str.size() - initialPos + 1));
         return result;
     }
 }
