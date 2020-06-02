@@ -122,7 +122,7 @@ namespace ouzel
 
             const DWORD numberOfArguments = sizeof(info) / sizeof(ULONG_PTR);
             ULONG_PTR arguments[numberOfArguments];
-            memcpy(arguments, &info, sizeof(info));
+            std::memcpy(arguments, &info, sizeof(info));
 
             __try
             {

@@ -239,7 +239,7 @@ namespace
         if (!userData) return DefWindowProcW(window, message, wParam, lParam);
 
         ouzel::NativeWindowWin* windowWin;
-        memcpy(&windowWin, &userData, sizeof(windowWin));
+        std::memcpy(&windowWin, &userData, sizeof(windowWin));
 
         switch (message)
         {
@@ -487,7 +487,7 @@ namespace ouzel
 
         ouzel::NativeWindowWin* windowWin = this;
         LONG_PTR userData;
-        memcpy(&userData, &windowWin, sizeof(windowWin));
+        std::memcpy(&userData, &windowWin, sizeof(windowWin));
 
         if (!SetWindowLongPtr(window, GWLP_USERDATA, userData))
             if (DWORD error = GetLastError())

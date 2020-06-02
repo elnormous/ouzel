@@ -21,7 +21,7 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         std::uint64_t touchId;
-        memcpy(&touchId, &touch, sizeof(touch));
+        std::memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchBegin(touchId,
                                          ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
@@ -42,7 +42,7 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         std::uint64_t touchId;
-        memcpy(&touchId, &touch, sizeof(touch));
+        std::memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchMove(touchId,
                                         ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
@@ -63,7 +63,7 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         std::uint64_t touchId;
-        memcpy(&touchId, &touch, sizeof(touch));
+        std::memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchEnd(touchId,
                                        ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),
@@ -84,7 +84,7 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         std::uint64_t touchId;
-        memcpy(&touchId, &touch, sizeof(touch));
+        std::memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchCancel(touchId,
                                           ouzel::Vector2F(static_cast<float>(location.x / self.bounds.size.width),

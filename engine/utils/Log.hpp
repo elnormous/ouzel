@@ -124,7 +124,7 @@ namespace ouzel
             constexpr char digits[] = "0123456789abcdef";
 
             std::uintptr_t ptrValue;
-            memcpy(&ptrValue, &val, sizeof(ptrValue));
+            std::memcpy(&ptrValue, &val, sizeof(ptrValue));
 
             for (std::size_t i = 0; i < sizeof(val) * 2; ++i)
                 s.push_back(digits[(ptrValue >> (sizeof(ptrValue) * 2 - i - 1) * 4) & 0x0F]);

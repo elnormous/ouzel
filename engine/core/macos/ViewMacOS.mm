@@ -368,7 +368,7 @@ namespace
         const CGPoint location = touch.normalizedPosition;
 
         std::uint64_t touchId;
-        memcpy(&touchId, &touch, sizeof(touch));
+        std::memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchBegin(touchId,
                                          ouzel::Vector2F(static_cast<float>(location.x),
@@ -388,7 +388,7 @@ namespace
         const CGPoint location = touch.normalizedPosition;
 
         std::uint64_t touchId;
-        memcpy(&touchId, &touch, sizeof(touch));
+        std::memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchMove(touchId,
                                         ouzel::Vector2F(static_cast<float>(location.x),
@@ -408,7 +408,7 @@ namespace
         const CGPoint location = touch.normalizedPosition;
 
         std::uint64_t touchId;
-        memcpy(&touchId, &touch, sizeof(touch));
+        std::memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchEnd(touchId,
                                        ouzel::Vector2F(static_cast<float>(location.x),
@@ -428,7 +428,7 @@ namespace
         const CGPoint location = touch.normalizedPosition;
 
         std::uint64_t touchId;
-        memcpy(&touchId, &touch, sizeof(touch));
+        std::memcpy(&touchId, &touch, sizeof(touch));
 
         touchpadDevice->handleTouchCancel(touchId,
                                           ouzel::Vector2F(static_cast<float>(location.x),

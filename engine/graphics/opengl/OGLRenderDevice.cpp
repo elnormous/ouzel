@@ -1100,7 +1100,7 @@ namespace ouzel
                                     const Vertex::Attribute& vertexAttribute = RenderDevice::VERTEX_ATTRIBUTES[index];
 
                                     void* vertexOffsetPointer;
-                                    memcpy(&vertexOffsetPointer, &vertexOffset, sizeof(vertexOffset));
+                                    std::memcpy(&vertexOffsetPointer, &vertexOffset, sizeof(vertexOffset));
 
                                     glEnableVertexAttribArrayProc(index);
                                     glVertexAttribPointerProc(index,
@@ -1124,7 +1124,7 @@ namespace ouzel
                                 std::uintptr_t indexOffset = drawCommand->startIndex * drawCommand->indexSize;
 
                                 void* indexOffsetPointer;
-                                memcpy(&indexOffsetPointer, &indexOffset, sizeof(indexOffset));
+                                std::memcpy(&indexOffsetPointer, &indexOffset, sizeof(indexOffset));
 
                                 glDrawElementsProc(getDrawMode(drawCommand->drawMode),
                                                    static_cast<GLsizei>(drawCommand->indexCount),

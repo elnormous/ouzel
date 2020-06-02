@@ -225,7 +225,7 @@ namespace ouzel
                             for (std::uint32_t frame = 0; frame < frames; ++frame)
                             {
                                 std::uint8_t* sourceData = &soundData[(frame * channels + channel) * 4];
-                                memcpy(&outputChannel[frame], sourceData, sizeof(float));
+                                std::memcpy(&outputChannel[frame], sourceData, sizeof(float));
                             }
                         }
                     }

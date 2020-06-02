@@ -205,7 +205,7 @@ namespace ouzel
         // Result of the ShellExecuteW can be cast only to an int (https://docs.microsoft.com/en-us/windows/desktop/api/shellapi/nf-shellapi-shellexecutew)
         HINSTANCE result = ShellExecuteW(nullptr, L"open", buffer.get(), nullptr, nullptr, SW_SHOWNORMAL);
         int status;
-        memcpy(&status, &result, sizeof(status));
+        std::memcpy(&status, &result, sizeof(status));
         if (status <= 32)
             throw std::system_error(status, shellExecuteErrorCategory, "Failed to execute open");
     }
