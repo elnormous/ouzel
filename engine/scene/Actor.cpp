@@ -132,7 +132,7 @@ namespace ouzel
         {
             for (auto i = children.cbegin(); i != children.cend(); ++i)
             {
-                Actor* child = *i;
+                const Actor* child = *i;
 
                 if (child == actor || (recursive && child->hasChild(actor, true)))
                     return true;
@@ -410,7 +410,7 @@ namespace ouzel
                 transformedEdges.emplace_back(transformedEdge.v[0], transformedEdge.v[1]);
             }
 
-            for (Component* component : components)
+            for (const Component* component : components)
             {
                 if (component->shapeOverlaps(transformedEdges))
                     return true;
@@ -471,9 +471,9 @@ namespace ouzel
 
             localTransform *= rotationMatrix;
 
-            auto finalScale = Vector3F{scale.v[0] * (flipX ? -1.0F : 1.0F),
-                                       scale.v[1] * (flipY ? -1.0F : 1.0F),
-                                       scale.v[2]};
+            const auto finalScale = Vector3F{scale.v[0] * (flipX ? -1.0F : 1.0F),
+                                             scale.v[1] * (flipY ? -1.0F : 1.0F),
+                                             scale.v[2]};
 
             Matrix4F scaleMatrix;
             scaleMatrix.setScale(finalScale);
@@ -522,6 +522,8 @@ namespace ouzel
 
         bool Actor::removeComponent(Component* component)
         {
+            assert(component);
+
             bool result = false;
 
             auto componentIterator = std::find(components.begin(), components.end(), component);
@@ -563,7 +565,7 @@ namespace ouzel
         {
             Box3F boundingBox;
 
-            for (Component* component : components)
+            for (const Component* component : components)
                 if (!component->isHidden())
                     boundingBox.merge(component->getBoundingBox());
 
