@@ -408,19 +408,20 @@ namespace ouzel
 
         void EventDevice::update()
         {
-            input_event events[32];
-            ssize_t bytesRead = read(fd, events, sizeof(events));
+            ssize_t bytesRead = read(fd, buffer + bufferSize, sizeof(buffer) - bufferSize);
             while (bytesRead == -1 && errno == EINTR)
-                bytesRead = read(fd, events, sizeof(events));
+                bytesRead = read(fd, buffer + bufferSize, sizeof(buffer) - bufferSize);
 
             if (bytesRead == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to read from " + filename);
 
-            const int eventCount = bytesRead / sizeof(input_event);
+            bufferSize += static_cast<std::size_t>(bytesRead);
 
-            for (int eventNum = 0; eventNum < eventCount; ++eventNum)
+            const auto eventCount = bufferSize / sizeof(input_event);
+            for (std::size_t eventNum = 0; eventNum < eventCount; ++eventNum)
             {
-                input_event& event = events[eventNum];
+                input_event event;
+                std::memcpy(&event, buffer + eventNum * sizeof(input_event), sizeof(input_event));
 
                 if (keyboardDevice)
                 {
@@ -726,6 +727,10 @@ namespace ouzel
                     }
                 }
             }
+
+            if (eventCount > 0)
+                std::memcpy(buffer, buffer + eventCount * sizeof(input_event),
+                            bufferSize - eventCount * sizeof(input_event));
         }
 
         void EventDevice::handleAxisChange(std::int32_t oldValue, std::int32_t newValue,

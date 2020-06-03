@@ -108,6 +108,9 @@ namespace ouzel
 
             bool hasLeftTrigger = false;
             bool hasRightTrigger = false;
+
+            std::uint8_t buffer[1024];
+            std::size_t bufferSize = 0;
         };
     } // namespace input
 } // namespace ouzel
