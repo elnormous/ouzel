@@ -57,7 +57,7 @@ namespace smb
                 return Complex{real + other.real, imag + other.imag};
             }
 
-            constexpr Complex<T>& operator+=(const Complex& other)
+            constexpr Complex<T>& operator+=(const Complex& other) noexcept
             {
                 real += other.real;
                 imag += other.imag;
