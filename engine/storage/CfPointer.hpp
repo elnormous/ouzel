@@ -35,6 +35,7 @@ namespace ouzel
                 if (p) CFRelease(p);
                 p = other.p;
                 if (p) CFRetain(p);
+                return *this;
             }
 
             CfPointer(CfPointer&& other) noexcept: p(other.p)
