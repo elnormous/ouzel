@@ -23,4 +23,4 @@ LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -lEGL -llog -landroid -lOpenSLES -latomic
 
 include $(BUILD_SHARED_LIBRARY)
 
-include $(LOCAL_PATH)/../../../../../build/jni/Android.mk
+include $(LOCAL_PATH)/../../../../../engine/jni/Android.mk
