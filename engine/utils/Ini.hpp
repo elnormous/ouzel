@@ -35,22 +35,22 @@ namespace ouzel
             {
             }
 
-            Values::iterator begin()
+            Values::iterator begin() noexcept
             {
                 return values.begin();
             }
 
-            Values::iterator end()
+            Values::iterator end() noexcept
             {
                 return values.end();
             }
 
-            Values::const_iterator begin() const
+            Values::const_iterator begin() const noexcept
             {
                 return values.begin();
             }
 
-            Values::const_iterator end() const
+            Values::const_iterator end() const noexcept
             {
                 return values.end();
             }
@@ -122,22 +122,22 @@ namespace ouzel
 
             const Sections& getSections() const noexcept { return sections; }
 
-            Sections::iterator begin()
+            Sections::iterator begin() noexcept
             {
                 return sections.begin();
             }
 
-            Sections::iterator end()
+            Sections::iterator end() noexcept
             {
                 return sections.end();
             }
 
-            Sections::const_iterator begin() const
+            Sections::const_iterator begin() const noexcept
             {
                 return sections.begin();
             }
 
-            Sections::const_iterator end() const
+            Sections::const_iterator end() const noexcept
             {
                 return sections.end();
             }

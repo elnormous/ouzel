@@ -60,11 +60,25 @@ namespace ouzel
             Type getType() const noexcept { return type; }
             void setType(Type newType) noexcept { type = newType; }
 
-            std::vector<Node>::iterator begin() { return children.begin(); }
-            std::vector<Node>::iterator end() { return children.end(); }
+            std::vector<Node>::iterator begin() noexcept
+            {
+                return children.begin();
+            }
 
-            std::vector<Node>::const_iterator begin() const { return children.begin(); }
-            std::vector<Node>::const_iterator end() const { return children.end(); }
+            std::vector<Node>::iterator end() noexcept
+            {
+                return children.end();
+            }
+
+            std::vector<Node>::const_iterator begin() const noexcept
+            {
+                return children.begin();
+            }
+
+            std::vector<Node>::const_iterator end() const noexcept
+            {
+                return children.end();
+            }
 
             const std::string& operator[](const std::string& attribute) const
             {
@@ -96,22 +110,22 @@ namespace ouzel
         public:
             Data() = default;
 
-            std::vector<Node>::iterator begin()
+            std::vector<Node>::iterator begin() noexcept
             {
                 return children.begin();
             }
 
-            std::vector<Node>::iterator end()
+            std::vector<Node>::iterator end() noexcept
             {
                 return children.end();
             }
 
-            std::vector<Node>::const_iterator begin() const
+            std::vector<Node>::const_iterator begin() const noexcept
             {
                 return children.begin();
             }
 
-            std::vector<Node>::const_iterator end() const
+            std::vector<Node>::const_iterator end() const noexcept
             {
                 return children.end();
             }

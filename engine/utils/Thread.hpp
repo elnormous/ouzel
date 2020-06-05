@@ -96,7 +96,6 @@ namespace ouzel
             const int error = pthread_setschedparam(t.native_handle(), policy, &param);
             if (error != 0)
                 throw std::system_error(error, std::system_category(), "Failed to set thread priority");
-
 #endif
         }
 
