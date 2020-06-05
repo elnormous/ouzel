@@ -59,7 +59,7 @@ namespace ouzel
             if (t.joinable()) t.join();
         }
 
-        auto isJoinable() const { return t.joinable(); }
+        auto isJoinable() const noexcept { return t.joinable(); }
         auto getId() const noexcept { return t.get_id(); }
         auto getNativeHandle() { return t.native_handle(); }
 
