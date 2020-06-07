@@ -85,7 +85,7 @@ namespace ouzel
             DrawCommand command;
             command.startIndex = static_cast<std::uint32_t>(indices.size());
 
-            auto startVertex = static_cast<std::uint16_t>(vertices.size());
+            const auto startVertex = static_cast<std::uint16_t>(vertices.size());
 
             if (thickness == 0.0F)
             {
