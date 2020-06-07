@@ -110,8 +110,10 @@ namespace ouzel
                 {
                     renderDevice.bindFrameBuffer(frameBufferId);
 
+                    const GLenum attachment = (depthTexture->getPixelFormat() == GL_DEPTH_STENCIL) ? GL_DEPTH_STENCIL_ATTACHMENT : GL_DEPTH_ATTACHMENT;
+
                     renderDevice.glFramebufferTexture2DProc(GL_FRAMEBUFFER,
-                                                            (depthTexture->getPixelFormat() == GL_DEPTH_STENCIL) ? GL_DEPTH_STENCIL_ATTACHMENT : GL_DEPTH_ATTACHMENT,
+                                                            attachment,
                                                             GL_TEXTURE_2D,
                                                             depthTexture->getTextureId(), 0);
                     //glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, texture->getBufferId());

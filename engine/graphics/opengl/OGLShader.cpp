@@ -119,7 +119,6 @@ namespace ouzel
                 GLuint index = 0;
 
                 for (const auto& vertexAttribute : RenderDevice::VERTEX_ATTRIBUTES)
-                {
                     if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
                     {
                         const GLchar* name;
@@ -166,7 +165,6 @@ namespace ouzel
                         renderDevice.glBindAttribLocationProc(programId, index, name);
                         ++index;
                     }
-                }
 
                 renderDevice.glLinkProgramProc(programId);
 

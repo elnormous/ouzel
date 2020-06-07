@@ -241,10 +241,8 @@ namespace ouzel
                 }
 
                 void setScissorTest(bool scissorTestEnabled,
-                                           GLint x,
-                                           GLint y,
-                                           GLsizei width,
-                                           GLsizei height)
+                                    GLint x, GLint y,
+                                    GLsizei width, GLsizei height)
                 {
                     if (stateCache.scissorTestEnabled != scissorTestEnabled)
                     {
@@ -314,10 +312,8 @@ namespace ouzel
                     }
                 }
 
-                void setViewport(GLint x,
-                                        GLint y,
-                                        GLsizei width,
-                                        GLsizei height)
+                void setViewport(GLint x, GLint y,
+                                 GLsizei width, GLsizei height)
                 {
                     if (stateCache.viewportX != x ||
                         stateCache.viewportY != y ||
@@ -337,12 +333,12 @@ namespace ouzel
                 }
 
                 void setBlendState(bool blendEnabled,
-                                          GLenum modeRGB,
-                                          GLenum modeAlpha,
-                                          GLenum sfactorRGB,
-                                          GLenum dfactorRGB,
-                                          GLenum sfactorAlpha,
-                                          GLenum dfactorAlpha)
+                                   GLenum modeRGB,
+                                   GLenum modeAlpha,
+                                   GLenum sfactorRGB,
+                                   GLenum dfactorRGB,
+                                   GLenum sfactorAlpha,
+                                   GLenum dfactorAlpha)
                 {
                     if (stateCache.blendEnabled != blendEnabled)
                     {
@@ -393,9 +389,9 @@ namespace ouzel
                 }
 
                 void setColorMask(GLboolean redMask,
-                                         GLboolean greenMask,
-                                         GLboolean blueMask,
-                                         GLboolean alphaMask)
+                                  GLboolean greenMask,
+                                  GLboolean blueMask,
+                                  GLboolean alphaMask)
                 {
                     if (stateCache.redMask != redMask ||
                         stateCache.greenMask != greenMask ||
@@ -457,8 +453,7 @@ namespace ouzel
                     }
                 }
 
-                void setCullFace(bool cullEnabled,
-                                        GLenum cullFace)
+                void setCullFace(bool cullEnabled, GLenum cullFace)
                 {
                     if (stateCache.cullEnabled != cullEnabled)
                     {

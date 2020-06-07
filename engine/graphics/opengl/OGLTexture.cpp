@@ -396,14 +396,12 @@ namespace ouzel
                 renderDevice.bindTexture(textureTarget, 0, textureId);
 
                 for (std::size_t level = 0; level < levels.size(); ++level)
-                {
                     if (!levels[level].second.empty())
                         renderDevice.glTexSubImage2DProc(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
                                                          static_cast<GLsizei>(levels[level].first.v[0]),
                                                          static_cast<GLsizei>(levels[level].first.v[1]),
                                                          pixelFormat, pixelType,
                                                          levels[level].second.data());
-                }
 
                 GLenum error;
 
