@@ -25,7 +25,7 @@ namespace std
 {
     template <> struct hash<ouzel::input::DeviceId>
     {
-        std::size_t operator()(const ouzel::input::DeviceId& deviceId) const
+        std::size_t operator()(const ouzel::input::DeviceId& deviceId) const noexcept
         {
             return hash<std::uintptr_t>()(deviceId.value);
         }
