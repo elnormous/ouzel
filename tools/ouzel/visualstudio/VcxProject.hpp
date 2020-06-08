@@ -133,6 +133,37 @@ namespace ouzel
                 std::string result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
                     "<Project DefaultTargets=\"Build\" ToolsVersion=\"14.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\n";
 
+                // project configurations
+                result += "  <ItemGroup Label=\"ProjectConfigurations\">\n";
+                result += "  </ItemGroup>\n";
+
+                // globals
+                result += "  <PropertyGroup Label=\"Globals\">\n";
+                result += "  </PropertyGroup>\n";
+
+                result += "  <Import Project=\"$(VCTargetsPath)\Microsoft.Cpp.Default.props\" />\n";
+
+                // TODO: configurations
+
+                result += "  <Import Project=\"$(VCTargetsPath)\Microsoft.Cpp.props\" />\n";
+
+                result += "  <ImportGroup Label=\"ExtensionSettings\">\n";
+                result += "  </ImportGroup>\n";
+                result += "  <ImportGroup Label=\"Shared\">\n";
+                result += "  </ImportGroup>\n";
+
+                // TODO: property sheets
+
+                result += "  <PropertyGroup Label=\"UserMacros\" />\n";
+
+                // TODO: configuration settings
+                // TODO: compile files
+                // TODO: include files
+
+                result += "  <Import Project=\"$(VCTargetsPath)\Microsoft.Cpp.targets\" />\n";
+                result += "  <ImportGroup Label=\"ExtensionTargets\">\n";
+                result += "  </ImportGroup>\n";
+
                 result += "</Project>";
 
                 return result;
