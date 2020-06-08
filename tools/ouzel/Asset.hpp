@@ -12,6 +12,7 @@ namespace ouzel
     public:
         enum class Type
         {
+            empty,
             font,
             mesh,
             texture,
@@ -34,12 +35,14 @@ namespace ouzel
 
         const storage::Path path;
         const std::string name;
-        const Type type;
+        const Type type = Type::empty;
         const bool mipmaps = false;
     };
 
     inline Asset::Type stringToAssetType(const std::string& s)
     {
+        if (s == "empty")
+            return Asset::Type::empty;
         if (s == "font")
             return Asset::Type::font;
         else if (s == "mesh")
