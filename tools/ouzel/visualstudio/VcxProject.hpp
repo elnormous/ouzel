@@ -111,6 +111,13 @@ namespace ouzel
             };
         }
 
+        struct Configuration final
+        {
+            std::string name;
+            std::string platform;
+            std::string architecture;
+        };
+
         class VcxProject final
         {
         public:
@@ -118,14 +125,14 @@ namespace ouzel
                        const std::string& n,
                        const storage::Path& p,
                        const std::vector<Guid>& d,
-                       const std::map<std::string, std::string>& c):
+                       const std::vector<Configuration>& c):
                 type{t}, name{n}, path{p}, dependencies(d), configurations(c) {}
             explicit VcxProject(const Guid& g,
                                 const Guid& t,
                                 const std::string& n,
                                 const storage::Path& p,
                                 const std::vector<Guid>& d,
-                                const std::map<std::string, std::string>& c):
+                                const std::vector<Configuration>& c):
                 guid{g}, type{t}, name{n}, path{p}, dependencies(d), configurations(c) {}
 
             std::string encode() const
@@ -135,17 +142,26 @@ namespace ouzel
 
                 // project configurations
                 result += "  <ItemGroup Label=\"ProjectConfigurations\">\n";
+
+                for (const auto& configuration : configurations)
+                {
+                    result += "    <ProjectConfiguration Include=\"" + configuration.name + "|" + configuration.platform + "\">\n";
+                    result += "      <Configuration>" + configuration.name + "</Configuration>\n";
+                    result += "      <Platform>" + configuration.platform + "</Platform>\n";
+                    result += "    </ProjectConfiguration>\n";
+                }
+
                 result += "  </ItemGroup>\n";
 
                 // globals
                 result += "  <PropertyGroup Label=\"Globals\">\n";
                 result += "  </PropertyGroup>\n";
 
-                result += "  <Import Project=\"$(VCTargetsPath)\Microsoft.Cpp.Default.props\" />\n";
+                result += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.Default.props\" />\n";
 
                 // TODO: configurations
 
-                result += "  <Import Project=\"$(VCTargetsPath)\Microsoft.Cpp.props\" />\n";
+                result += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.props\" />\n";
 
                 result += "  <ImportGroup Label=\"ExtensionSettings\">\n";
                 result += "  </ImportGroup>\n";
@@ -160,7 +176,7 @@ namespace ouzel
                 // TODO: compile files
                 // TODO: include files
 
-                result += "  <Import Project=\"$(VCTargetsPath)\Microsoft.Cpp.targets\" />\n";
+                result += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.targets\" />\n";
                 result += "  <ImportGroup Label=\"ExtensionTargets\">\n";
                 result += "  </ImportGroup>\n";
 
@@ -174,7 +190,7 @@ namespace ouzel
             const std::string name;
             const storage::Path path;
             const std::vector<Guid> dependencies;
-            const std::map<std::string, std::string> configurations;
+            const std::vector<Configuration> configurations;
         };
     }
 }

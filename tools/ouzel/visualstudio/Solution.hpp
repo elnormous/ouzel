@@ -44,15 +44,15 @@ namespace ouzel
                 result += "Gloabl\n"
                     "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution\n";
                     
-                const std::vector<std::string> configurations = {
-                    "Debug|x64",
-                    "Debug|x86",
-                    "Release|x64",
-                    "Release|x86"
+                const std::vector<Configuration> configurations = {
+                    {"Debug", "x64", "x64"},
+                    {"Debug", "Win32", "x86"},
+                    {"Release", "x64", "x64"},
+                    {"Release", "Win32", "x86"}
                 };
 
                 for (const auto& configuration : configurations)
-                    result += "\t\t" + configuration + " = " + configuration + "\n";
+                    result += "\t\t" + configuration.name + "|" + configuration.architecture + " = " + configuration.name + "|" + configuration.architecture + "\n";
 
                 result += "\tEndGlobalSection\n"
                     "\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n";
@@ -60,8 +60,8 @@ namespace ouzel
                 for (const VcxProject& project : projects)
                     for (const auto& configuration : project.configurations)
                     {
-                        result += "\t\t{" + toString(project.guid) + "}." + configuration.first + ".ActiveCfg = " + configuration.second + "\n";
-                        result += "\t\t{" + toString(project.guid) + "}." + configuration.first + ".Build.0 = " + configuration.second + "\n";
+                        result += "\t\t{" + toString(project.guid) + "}." + configuration.name + "|" + configuration.architecture + ".ActiveCfg = " + configuration.name + "|" + configuration.platform + "\n";
+                        result += "\t\t{" + toString(project.guid) + "}." + configuration.name + "|" + configuration.architecture + ".Build.0 = " + configuration.name + "|" + configuration.platform + "\n";
                     }
 
                 result += "\tEndGlobalSection\n"

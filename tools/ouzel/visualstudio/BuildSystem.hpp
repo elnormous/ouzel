@@ -14,11 +14,11 @@ namespace ouzel
     {
         inline void generateBuildFiles(const Project& project)
         {
-            const std::map<std::string, std::string> configurations = {
-                {"Debug|x64", "Debug|x64"},
-                {"Debug|x86", "Debug|Win32"},
-                {"Release|x64", "Release|x64"},
-                {"Release|x86", "Release|Win32"}
+            const std::vector<Configuration> configurations = {
+                {"Debug", "x64", "x64"},
+                {"Debug", "Win32", "x86"},
+                {"Release", "x64", "x64"},
+                {"Release", "Win32", "x86"}
             };
 
             constexpr auto cppProjectGuid = Guid{0x8BC9CEB8, 0x8B4A, 0x11D0, 0x8D, 0x11, {0x00, 0xA0, 0xC9, 0x1B, 0xC9, 0x42}};
