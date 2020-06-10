@@ -116,6 +116,13 @@ namespace ouzel
             std::string name;
             std::string platform;
             std::string architecture;
+
+            enum class Type
+            {
+                Debug,
+                Release
+            };
+            Type type = Type::Debug;
         };
 
         class VcxProject final
@@ -155,11 +162,24 @@ namespace ouzel
 
                 // globals
                 result += "  <PropertyGroup Label=\"Globals\">\n";
+                result += "    <ProjectGuid>{" + toString(guid) + "}</ProjectGuid>\n";
+                result += "    <RootNamespace>ouzel</RootNamespace>\n";
+                result += "    <ProjectName>" + name + "</ProjectName>\n";
                 result += "  </PropertyGroup>\n";
 
                 result += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.Default.props\" />\n";
 
-                // TODO: configurations
+                for (const auto& configuration : configurations)
+                {
+                    result += "  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='" + configuration.name + "|" + configuration.platform + "'\" Label=\"Configuration\">\n";
+                    result += "    <ConfigurationType>Application</ConfigurationType>\n";
+                    result += "    <UseDebugLibraries>false</UseDebugLibraries>\n";
+                    result += "    <PlatformToolset>v141</PlatformToolset>\n";
+                    if (configuration.type == Configuration::Type::Release)
+                        result += "    <WholeProgramOptimization>true</WholeProgramOptimization>\n";
+                    result += "    <CharacterSet>MultiByte</CharacterSet>\n";
+                    result += "  </PropertyGroup>\n";
+                }
 
                 result += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.props\" />\n";
 

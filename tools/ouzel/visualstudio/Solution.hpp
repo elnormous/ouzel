@@ -45,10 +45,10 @@ namespace ouzel
                     "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution\n";
                     
                 const std::vector<Configuration> configurations = {
-                    {"Debug", "x64", "x64"},
-                    {"Debug", "Win32", "x86"},
-                    {"Release", "x64", "x64"},
-                    {"Release", "Win32", "x86"}
+                    {"Debug", "x64", "x64", Configuration::Type::Debug},
+                    {"Debug", "Win32", "x86", Configuration::Type::Debug},
+                    {"Release", "x64", "x64", Configuration::Type::Release},
+                    {"Release", "Win32", "x86", Configuration::Type::Release}
                 };
 
                 for (const auto& configuration : configurations)
