@@ -188,7 +188,12 @@ namespace ouzel
                 result += "  <ImportGroup Label=\"Shared\">\n";
                 result += "  </ImportGroup>\n";
 
-                // TODO: property sheets
+                for (const auto& configuration : configurations)
+                {
+                    result += "  <ImportGroup Label=\"PropertySheets\" Condition=\"'$(Configuration)|$(Platform)'=='" + configuration.name + "|" + configuration.platform + "'\">\n";
+                    result += "    <Import Project=\"$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props\" Condition=\"exists('$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props')\" Label=\"LocalAppDataPlatform\" />\n";
+                    result += "  </ImportGroup>\n";
+                }
 
                 result += "  <PropertyGroup Label=\"UserMacros\" />\n";
 
