@@ -47,7 +47,7 @@ namespace ouzel
             class Mixer final
             {
             public:
-                class Event
+                class Event final
                 {
                 public:
                     enum class Type

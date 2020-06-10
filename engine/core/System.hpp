@@ -18,7 +18,7 @@ namespace ouzel
             };
         };
 
-        class Event
+        class Event final
         {
         public:
             enum class Type
@@ -28,7 +28,6 @@ namespace ouzel
                 lowMemory,
                 openFile
             };
-
         };
 
         System();

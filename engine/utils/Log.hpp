@@ -275,7 +275,7 @@ namespace ouzel
 #endif
 
 #if !defined(__EMSCRIPTEN__)
-        class Command
+        class Command final
         {
         public:
             enum class Type
