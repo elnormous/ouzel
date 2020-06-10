@@ -58,7 +58,13 @@ namespace ouzel
                 initTexture,
                 setTextureData,
                 setTextureParameters,
-                setTextures
+                setTextures,
+
+                initMaterial,
+                setMaterialParameter,
+                initObject,
+                renderObject,
+                setObjectParameters
             };
 
             explicit constexpr Command(Type initType) noexcept:
