@@ -773,7 +773,7 @@ namespace ouzel
 
                 for (;;)
                 {
-                    std::unique_lock<std::mutex> lock(commandQueueMutex);
+                    std::unique_lock lock(commandQueueMutex);
                     while (commandQueue.empty()) commandQueueCondition.wait(lock);
                     commandBuffer = std::move(commandQueue.front());
                     commandQueue.pop();

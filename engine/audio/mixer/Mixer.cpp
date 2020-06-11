@@ -43,7 +43,7 @@ namespace ouzel
 
                 for (;;)
                 {
-                    std::unique_lock<std::mutex> lock(commandQueueMutex);
+                    std::unique_lock lock(commandQueueMutex);
                     if (commandQueue.empty()) break;
                     commandBuffer = std::move(commandQueue.front());
                     commandQueue.pop();
@@ -238,7 +238,7 @@ namespace ouzel
 
                     /*process();
 
-                    std::unique_lock<std::mutex> lock(bufferMutex);
+                    std::unique_lock lock(bufferMutex);
                     bufferCondition.wait(lock);
 
                     if (masterBus)

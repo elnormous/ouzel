@@ -58,7 +58,7 @@ namespace ouzel
 
         for (;;)
         {
-            std::unique_lock<std::mutex> lock(eventQueueMutex);
+            std::unique_lock lock(eventQueueMutex);
             if (eventQueue.empty()) break;
 
             event = std::move(eventQueue.front());
@@ -212,7 +212,7 @@ namespace ouzel
 #if defined(__EMSCRIPTEN__)
         promise.set_value(dispatchEvent(std::move(event)));
 #else
-        std::lock_guard<std::mutex> lock(eventQueueMutex);
+        std::lock_guard lock(eventQueueMutex);
         eventQueue.push(std::pair<std::promise<bool>, std::unique_ptr<Event>>(std::move(promise), std::move(event)));
 #endif
 

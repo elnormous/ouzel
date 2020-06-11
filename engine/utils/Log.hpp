@@ -238,7 +238,7 @@ namespace ouzel
         ~Logger()
         {
 #if !defined(__EMSCRIPTEN__)
-            std::unique_lock<std::mutex> lock(queueMutex);
+            std::unique_lock lock(queueMutex);
             commandQueue.push(Command(Command::Type::quit));
             lock.unlock();
             queueCondition.notify_all();
@@ -257,7 +257,7 @@ namespace ouzel
 #if defined(__EMSCRIPTEN__)
                 logString(str, level);
 #else
-                std::unique_lock<std::mutex> lock(queueMutex);
+                std::unique_lock lock(queueMutex);
                 commandQueue.push(Command(Command::Type::logString, level, str));
                 lock.unlock();
                 queueCondition.notify_all();
@@ -306,7 +306,7 @@ namespace ouzel
         {
             for (;;)
             {
-                std::unique_lock<std::mutex> lock(queueMutex);
+                std::unique_lock lock(queueMutex);
                 while (commandQueue.empty()) queueCondition.wait(lock);
                 auto command = std::move(commandQueue.front());
                 commandQueue.pop();

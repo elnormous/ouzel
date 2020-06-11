@@ -105,7 +105,7 @@ namespace ouzel
 
     void EngineTVOS::runOnMainThread(const std::function<void()>& func)
     {
-        std::unique_lock<std::mutex> lock(executeMutex);
+        std::unique_lock lock(executeMutex);
         executeQueue.push(func);
         lock.unlock();
 
@@ -137,7 +137,7 @@ namespace ouzel
 
         for (;;)
         {
-            std::unique_lock<std::mutex> lock(executeMutex);
+            std::unique_lock lock(executeMutex);
 
             if (executeQueue.empty()) break;
 

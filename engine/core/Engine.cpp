@@ -102,7 +102,7 @@ namespace ouzel
 #if !defined(__EMSCRIPTEN__)
         if (updateThread.isJoinable())
         {
-            std::unique_lock<std::mutex> lock(updateMutex);
+            std::unique_lock lock(updateMutex);
             updateCondition.notify_all();
             lock.unlock();
             updateThread.join();
@@ -690,7 +690,7 @@ namespace ouzel
         if (updateThread.isJoinable() &&
             updateThread.getId() != std::this_thread::get_id())
         {
-            std::unique_lock<std::mutex> lock(updateMutex);
+            std::unique_lock lock(updateMutex);
             updateCondition.notify_all();
             lock.unlock();
             updateThread.join();
@@ -748,7 +748,7 @@ namespace ouzel
                     update();
                 else
                 {
-                    std::unique_lock<std::mutex> lock(updateMutex);
+                    std::unique_lock lock(updateMutex);
                     while (active && paused)
                         updateCondition.wait(lock);
                 }

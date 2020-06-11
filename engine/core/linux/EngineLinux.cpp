@@ -488,7 +488,7 @@ namespace ouzel
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
 
-        std::unique_lock<std::mutex> lock(executeMutex);
+        std::unique_lock lock(executeMutex);
         executeQueue.push(func);
         lock.unlock();
 
@@ -497,7 +497,7 @@ namespace ouzel
 
         XFlush(display);
 #else
-        std::lock_guard<std::mutex> lock(executeMutex);
+        std::lock_guard lock(executeMutex);
         executeQueue.push(func);
 #endif
     }
@@ -526,7 +526,7 @@ namespace ouzel
 
         for (;;)
         {
-            std::unique_lock<std::mutex> lock(executeMutex);
+            std::unique_lock lock(executeMutex);
 
             if (executeQueue.empty()) break;
 
