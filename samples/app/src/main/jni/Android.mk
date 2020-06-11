@@ -4,7 +4,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := main
 LOCAL_CFLAGS := -Wall -Wextra -Wshadow -Wdouble-promotion
-LOCAL_CPPFLAGS += -std=c++14 -fexceptions
+LOCAL_CPPFLAGS += -std=c++17 -fexceptions
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../../../engine
 
 LOCAL_SRC_FILES := ../../../../AnimationsSample.cpp \
