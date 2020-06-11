@@ -80,6 +80,7 @@ namespace ouzel
                     }
                 }
 
+                [[maybe_unused]]
                 constexpr NSUInteger getCubeFace(CubeFace face)
                 {
                     switch (face)

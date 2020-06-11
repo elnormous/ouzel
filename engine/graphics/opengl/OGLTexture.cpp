@@ -240,6 +240,7 @@ namespace ouzel
                     }
                 }
 
+                [[maybe_unused]]
                 constexpr GLenum getCubeFace(CubeFace face)
                 {
                     switch (face)

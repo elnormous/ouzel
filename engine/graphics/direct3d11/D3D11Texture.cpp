@@ -79,6 +79,7 @@ namespace ouzel
                     }
                 }
 
+                [[maybe_unused]]
                 constexpr D3D11_TEXTURECUBE_FACE getCubeFace(CubeFace face)
                 {
                     switch (face)
