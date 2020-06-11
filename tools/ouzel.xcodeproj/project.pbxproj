@@ -227,7 +227,6 @@
 		3023201122220BCF007E0AAD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -238,7 +237,6 @@
 		3023201222220BCF007E0AAD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
