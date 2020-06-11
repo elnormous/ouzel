@@ -36,10 +36,10 @@ namespace ouzel
                 if (data.size() < 12) // RIFF + size + WAVE
                     throw std::runtime_error("Failed to load sound file, file too small");
 
-                if (data[formatOffset + 0] != 'R' ||
-                    data[formatOffset + 1] != 'I' ||
-                    data[formatOffset + 2] != 'F' ||
-                    data[formatOffset + 3] != 'F')
+                if (static_cast<char>(data[formatOffset + 0]) != 'R' ||
+                    static_cast<char>(data[formatOffset + 1]) != 'I' ||
+                    static_cast<char>(data[formatOffset + 2]) != 'F' ||
+                    static_cast<char>(data[formatOffset + 3]) != 'F')
                     throw std::runtime_error("Failed to load sound file, not a RIFF format");
 
                 const std::size_t lengthOffset = formatOffset + 4;
@@ -55,10 +55,10 @@ namespace ouzel
                     throw std::runtime_error("Failed to load sound file, size mismatch");
 
                 if (length < 4 ||
-                    data[typeOffset + 0] != 'W' ||
-                    data[typeOffset + 1] != 'A' ||
-                    data[typeOffset + 2] != 'V' ||
-                    data[typeOffset + 3] != 'E')
+                    static_cast<char>(data[typeOffset + 0]) != 'W' ||
+                    static_cast<char>(data[typeOffset + 1]) != 'A' ||
+                    static_cast<char>(data[typeOffset + 2]) != 'V' ||
+                    static_cast<char>(data[typeOffset + 3]) != 'E')
                     throw std::runtime_error("Failed to load sound file, not a WAVE file");
 
                 std::uint16_t bitsPerSample = 0;
@@ -88,7 +88,10 @@ namespace ouzel
                     if (data.size() < offset + chunkSize)
                         throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
 
-                    if (chunkHeader[0] == 'f' && chunkHeader[1] == 'm' && chunkHeader[2] == 't' && chunkHeader[3] == ' ')
+                    if (static_cast<char>(chunkHeader[0]) == 'f' &&
+                        static_cast<char>(chunkHeader[1]) == 'm' &&
+                        static_cast<char>(chunkHeader[2]) == 't' &&
+                        static_cast<char>(chunkHeader[3]) == ' ')
                     {
                         if (chunkSize < 16)
                             throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
@@ -127,7 +130,10 @@ namespace ouzel
                             bitsPerSample != 24 && bitsPerSample != 32)
                             throw std::runtime_error("Failed to load sound file, unsupported bit depth");
                     }
-                    else if (chunkHeader[0] == 'd' && chunkHeader[1] == 'a' && chunkHeader[2] == 't' && chunkHeader[3] == 'a')
+                    else if (static_cast<char>(chunkHeader[0]) == 'd' &&
+                             static_cast<char>(chunkHeader[1]) == 'a' &&
+                             static_cast<char>(chunkHeader[2]) == 't' &&
+                             static_cast<char>(chunkHeader[3]) == 'a')
                         soundData.assign(data.begin() + static_cast<int>(offset), data.begin() + static_cast<int>(offset + chunkSize));
 
                     // padding
@@ -156,8 +162,8 @@ namespace ouzel
 
                                 for (std::uint32_t frame = 0; frame < frames; ++frame)
                                 {
-                                    std::uint8_t* sourceData = &soundData[frame * channels + channel];
-                                    outputChannel[frame] = 2.0F * sourceData[0] / 255.0F - 1.0F;
+                                    const auto* sourceData = &soundData[frame * channels + channel];
+                                    outputChannel[frame] = 2.0F * static_cast<std::uint8_t>(sourceData[0]) / 255.0F - 1.0F;
                                 }
                             }
                             break;
@@ -170,7 +176,7 @@ namespace ouzel
 
                                 for (std::uint32_t frame = 0; frame < frames; ++frame)
                                 {
-                                    std::uint8_t* sourceData = &soundData[(frame * channels + channel) * 2];
+                                    const auto* sourceData = &soundData[(frame * channels + channel) * 2];
                                     outputChannel[frame] = static_cast<std::int16_t>(sourceData[0] |
                                                                                      (sourceData[1] << 8)) / 32767.0F;
                                 }
@@ -185,7 +191,7 @@ namespace ouzel
 
                                 for (std::uint32_t frame = 0; frame < frames; ++frame)
                                 {
-                                    const std::uint8_t* sourceData = &soundData[(frame * channels + channel) * 3];
+                                    const auto* sourceData = &soundData[(frame * channels + channel) * 3];
                                     outputChannel[frame] = static_cast<float>(static_cast<std::int32_t>((sourceData[0] << 8) |
                                                                                                         (sourceData[1] << 16) |
                                                                                                         (sourceData[2] << 24)) / 2147483648.0);
@@ -201,7 +207,7 @@ namespace ouzel
 
                                 for (std::uint32_t frame = 0; frame < frames; ++frame)
                                 {
-                                    const std::uint8_t* sourceData = &soundData[(frame * channels + channel) * 4];
+                                    const auto* sourceData = &soundData[(frame * channels + channel) * 4];
                                     outputChannel[frame] = static_cast<float>(static_cast<std::int32_t>(sourceData[0] |
                                                                                                         (sourceData[1] << 8) |
                                                                                                         (sourceData[2] << 16) |
@@ -224,7 +230,7 @@ namespace ouzel
 
                             for (std::uint32_t frame = 0; frame < frames; ++frame)
                             {
-                                std::uint8_t* sourceData = &soundData[(frame * channels + channel) * 4];
+                                const auto* sourceData = &soundData[(frame * channels + channel) * 4];
                                 std::memcpy(&outputChannel[frame], sourceData, sizeof(float));
                             }
                         }
