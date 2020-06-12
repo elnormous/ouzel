@@ -8,7 +8,7 @@ fi))
 
 LOCAL_MODULE := ouzel
 LOCAL_ARM_MODE := arm
-LOCAL_CFLAGS := -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wimplicit-fallthrough
+LOCAL_CFLAGS := -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wself-assign -Wimplicit-fallthrough
 LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
 LOCAL_CPPFLAGS += -Wold-style-cast -std=c++17 -fexceptions
 LOCAL_PCH := ../Prefix.pch

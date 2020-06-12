@@ -10,7 +10,7 @@ else ifeq ($(os),Darwin)
 PLATFORM=macos
 endif
 endif
-CXXFLAGS=-c -std=c++17 -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast -Wimplicit-fallthrough -I../engine
+CXXFLAGS=-c -std=c++17 -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast -Wself-assign -Wimplicit-fallthrough -I../engine
 SOURCES=ouzel/main.cpp
 BASE_NAMES=$(basename $(SOURCES))
 OBJECTS=$(BASE_NAMES:=.o)
