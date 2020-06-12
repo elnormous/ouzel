@@ -24,24 +24,24 @@ CC=emcc
 CXX=em++
 AR=emar
 endif
-CFLAGS=-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wself-assign -Wimplicit-fallthrough \
+CFLAGS=-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
 	-I"../external/stb"
 CXXFLAGS=-std=c++17 \
-	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast -Wself-assign -Wimplicit-fallthrough \
+	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast \
 	-I"../shaders" \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
 	-I"../external/stb"
 OBJCFLAGS=-fno-objc-arc \
-	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wself-assign -Wimplicit-fallthrough \
+	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
 	-I"../external/stb"
 OBJCXXFLAGS=-std=c++17 \
 	-fno-objc-arc \
-	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast -Wself-assign -Wimplicit-fallthrough \
+	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Wold-style-cast \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
 	-I"../external/stb"
