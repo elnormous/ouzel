@@ -1,5 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
+#include <algorithm>
 #include "Mixer.hpp"
 #include "Bus.hpp"
 #include "Data.hpp"
@@ -225,7 +226,7 @@ namespace ouzel
                 }
 
                 for (float& sample : samples)
-                    sample = clamp(sample, -1.0F, 1.0F);
+                    sample = std::clamp(sample, -1.0F, 1.0F);
             }
 
             void Mixer::mixerMain()
@@ -250,7 +251,7 @@ namespace ouzel
                     }*/
 
                     //for (float& f : samples)
-                    //    f = clamp(f, -1.0F, 1.0F);
+                    //    f = std::clamp(f, -1.0F, 1.0F);
                 }
             }
         }

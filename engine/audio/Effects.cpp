@@ -1,5 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
+#include <algorithm>
 #include <cmath>
 #include "Effects.hpp"
 #include "Audio.hpp"
@@ -242,7 +243,7 @@ namespace ouzel
         {
         public:
             explicit PitchScaleProcessor(float initScale):
-                scale(clamp(initScale, minPitch, maxPitch))
+                scale(std::clamp(initScale, minPitch, maxPitch))
             {
             }
 
@@ -259,7 +260,7 @@ namespace ouzel
 
             void setScale(float newScale)
             {
-                scale = clamp(newScale, minPitch, maxPitch);
+                scale = std::clamp(newScale, minPitch, maxPitch);
             }
 
         private:

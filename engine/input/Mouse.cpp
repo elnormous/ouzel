@@ -100,8 +100,8 @@ namespace ouzel
         {
             Vector2F newPosition = position + pos;
 
-            newPosition.v[0] = clamp(newPosition.v[0], 0.0F, 1.0F);
-            newPosition.v[1] = clamp(newPosition.v[1], 0.0F, 1.0F);
+            newPosition.v[0] = std::clamp(newPosition.v[0], 0.0F, 1.0F);
+            newPosition.v[1] = std::clamp(newPosition.v[1], 0.0F, 1.0F);
 
             return handleMove(newPosition);
         }

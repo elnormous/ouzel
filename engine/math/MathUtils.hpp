@@ -70,12 +70,6 @@ namespace ouzel
     }
 
     template <typename T>
-    constexpr T clamp(const T x, const T lo, const T hi) noexcept
-    {
-        return (x < lo) ? lo : ((x > hi) ? hi : x);
-    }
-
-    template <typename T>
     constexpr auto isNearlyEqual(const T a, const T b,
                                  const T tolerance = std::numeric_limits<T>::min()) noexcept
     {

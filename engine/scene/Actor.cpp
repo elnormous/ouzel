@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include "Actor.hpp"
 #include "SceneManager.hpp"
 #include "Layer.hpp"
@@ -360,7 +360,7 @@ namespace ouzel
 
         void Actor::setOpacity(float newOpacity)
         {
-            opacity = clamp(newOpacity, 0.0F, 1.0F);
+            opacity = std::clamp(newOpacity, 0.0F, 1.0F);
         }
 
         void Actor::setFlipX(bool newFlipX)
