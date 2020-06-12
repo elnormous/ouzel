@@ -16,12 +16,14 @@ namespace ouzel
         {
             constexpr auto isWhitespace(std::uint8_t c)
             {
-                return c == ' ' || c == '\t';
+                return static_cast<char>(c) == ' ' ||
+                    static_cast<char>(c) == '\t';
             }
 
             constexpr auto isNewline(std::uint8_t c)
             {
-                return c == '\r' || c == '\n';
+                return static_cast<char>(c) == '\r' ||
+                    static_cast<char>(c) == '\n';
             }
 
             constexpr auto isControlChar(std::uint8_t c)
@@ -62,13 +64,13 @@ namespace ouzel
 
                 std::string result;
 
-                if (*iterator == '"')
+                if (static_cast<char>(*iterator) == '"')
                 {
                     ++iterator;
 
                     for (;;)
                     {
-                        if (*iterator == '"' &&
+                        if (static_cast<char>(*iterator) == '"' &&
                             (iterator + 1 == str.end() ||
                              isWhitespace(*(iterator + 1)) ||
                              isNewline(*(iterator + 1))))
@@ -86,7 +88,10 @@ namespace ouzel
                 }
                 else
                 {
-                    while (iterator != str.end() && !isControlChar(*iterator) && !isWhitespace(*iterator) && *iterator != '=')
+                    while (iterator != str.end() &&
+                           !isControlChar(*iterator) &&
+                           !isWhitespace(*iterator) &&
+                           static_cast<char>(*iterator) != '=')
                     {
                         result.push_back(static_cast<char>(*iterator));
 
@@ -106,14 +111,17 @@ namespace ouzel
                 std::string result;
                 std::uint32_t length = 1;
 
-                if (iterator != str.end() && *iterator == '-')
+                if (iterator != str.end() &&
+                    static_cast<char>(*iterator) == '-')
                 {
                     result.push_back(static_cast<char>(*iterator));
                     ++length;
                     ++iterator;
                 }
 
-                while (iterator != str.end() && *iterator >= '0' && *iterator <= '9')
+                while (iterator != str.end() &&
+                       static_cast<char>(*iterator) >= '0' &&
+                       static_cast<char>(*iterator) <= '9')
                 {
                     result.push_back(static_cast<char>(*iterator));
 
@@ -130,7 +138,8 @@ namespace ouzel
                              std::vector<std::uint8_t>::const_iterator& iterator,
                              char token)
             {
-                if (iterator == str.end() || *iterator != static_cast<std::uint8_t>(token))
+                if (iterator == str.end() ||
+                    static_cast<char>(*iterator) != token)
                     throw std::runtime_error("Unexpected token");
 
                 ++iterator;

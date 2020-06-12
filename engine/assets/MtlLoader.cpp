@@ -16,12 +16,14 @@ namespace ouzel
         {
             constexpr auto isWhitespace(std::uint8_t c)
             {
-                return c == ' ' || c == '\t';
+                return static_cast<char>(c) == ' ' ||
+                    static_cast<char>(c) == '\t';
             }
 
             constexpr auto isNewline(std::uint8_t c)
             {
-                return c == '\r' || c == '\n';
+                return static_cast<char>(c) == '\r' ||
+                    static_cast<char>(c) == '\n';
             }
 
             constexpr auto isControlChar(std::uint8_t c)
@@ -77,27 +79,33 @@ namespace ouzel
                 std::string value;
                 std::uint32_t length = 1;
 
-                if (iterator != end && *iterator == '-')
+                if (iterator != end &&
+                    static_cast<char>(*iterator) == '-')
                 {
                     value.push_back(static_cast<char>(*iterator));
                     ++length;
                     ++iterator;
                 }
 
-                while (iterator != end && *iterator >= '0' && *iterator <= '9')
+                while (iterator != end &&
+                       static_cast<char>(*iterator) >= '0' &&
+                       static_cast<char>(*iterator) <= '9')
                 {
                     value.push_back(static_cast<char>(*iterator));
 
                     ++iterator;
                 }
 
-                if (iterator != end && *iterator == '.')
+                if (iterator != end &&
+                    static_cast<char>(*iterator) == '.')
                 {
                     value.push_back(static_cast<char>(*iterator));
                     ++length;
                     ++iterator;
 
-                    while (iterator != end && *iterator >= '0' && *iterator <= '9')
+                    while (iterator != end &&
+                           static_cast<char>(*iterator) >= '0' &&
+                           static_cast<char>(*iterator) <= '9')
                     {
                         value.push_back(static_cast<char>(*iterator));
 
@@ -107,19 +115,25 @@ namespace ouzel
 
                 // parse exponent
                 if (iterator != end &&
-                    (*iterator == 'e' || *iterator == 'E'))
+                    (static_cast<char>(*iterator) == 'e' ||
+                     static_cast<char>(*iterator) == 'E'))
                 {
                     value.push_back(static_cast<char>(*iterator));
                     if (++iterator == end)
                         throw std::runtime_error("Invalid exponent");
 
-                    if (*iterator == '+' || *iterator == '-')
+                    if (static_cast<char>(*iterator) == '+' ||
+                        static_cast<char>(*iterator) == '-')
                         value.push_back(static_cast<char>(*iterator++));
 
-                    if (iterator == end || *iterator < '0' || *iterator > '9')
+                    if (iterator == end ||
+                        static_cast<char>(*iterator) < '0' ||
+                        static_cast<char>(*iterator) > '9')
                         throw std::runtime_error("Invalid exponent");
 
-                    while (iterator != end && *iterator >= '0' && *iterator <= '9')
+                    while (iterator != end &&
+                           static_cast<char>(*iterator) >= '0' &&
+                           static_cast<char>(*iterator) <= '9')
                     {
                         value.push_back(static_cast<char>(*iterator));
                         ++iterator;
@@ -162,7 +176,7 @@ namespace ouzel
                     // skip empty lines
                     ++iterator;
                 }
-                else if (*iterator == '#')
+                else if (static_cast<char>(*iterator) == '#')
                 {
                     // skip the comment
                     skipLine(iterator, data.end());
