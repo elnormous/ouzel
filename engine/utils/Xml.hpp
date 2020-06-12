@@ -684,9 +684,15 @@ namespace ouzel
         }
 
         template <class T>
-        Data parse(const T& data)
+        Data parse(const T& data,
+                   bool preserveWhitespaces = false,
+                   bool preserveComments = false,
+                   bool preserveProcessingInstructions = false)
         {
-            return parse(std::begin(data), std::end(data));
+            return parse(std::begin(data), std::end(data),
+                         preserveWhitespaces,
+                         preserveComments,
+                         preserveProcessingInstructions);
         }
 
         inline std::string encode(const Data& data, bool whitespaces = false, bool byteOrderMark = false)
