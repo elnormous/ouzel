@@ -90,7 +90,7 @@ namespace ouzel
                     ++iterator;
                 }
 
-                while (iterator != end &
+                while (iterator != end &&
                        static_cast<char>(*iterator) >= '0' &&
                        static_cast<char>(*iterator) <= '9')
                 {
