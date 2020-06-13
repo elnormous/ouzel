@@ -197,9 +197,11 @@ namespace ouzel
 
                     for (auto iterator = hasByteOrderMark(begin, end) ? begin + 3 : begin; iterator != end;)
                     {
-                        if (isWhitespace(static_cast<char>(*iterator)) || *iterator == '\n' || *iterator == '\r') // line starts with a whitespace
+                        if (isWhitespace(static_cast<char>(*iterator)) ||
+                            static_cast<char>(*iterator) == '\n' ||
+                            static_cast<char>(*iterator) == '\r') // line starts with a whitespace
                             ++iterator; // skip the white space
-                        else if (*iterator == '[') // section
+                        else if (static_cast<char>(*iterator) == '[') // section
                         {
                             ++iterator; // skip the left bracket
 
@@ -207,7 +209,9 @@ namespace ouzel
 
                             for (;;)
                             {
-                                if (iterator == end || *iterator == '\n' || *iterator == '\r')
+                                if (iterator == end ||
+                                    static_cast<char>(*iterator) == '\n' ||
+                                    static_cast<char>(*iterator) == '\r')
                                 {
                                     if (!parsedSection)
                                         throw ParseError("Unexpected end of section");
@@ -215,7 +219,7 @@ namespace ouzel
                                     ++iterator; // skip the newline
                                     break;
                                 }
-                                else if (*iterator == ';')
+                                else if (static_cast<char>(*iterator) == ';')
                                 {
                                     ++iterator; // skip the semicolon
 
@@ -224,7 +228,8 @@ namespace ouzel
 
                                     while (iterator != end)
                                     {
-                                        if (*iterator == '\n' || *iterator == '\r')
+                                        if (static_cast<char>(*iterator) == '\n' ||
+                                            static_cast<char>(*iterator) == '\r')
                                         {
                                             ++iterator; // skip the newline
                                             break;
@@ -234,9 +239,10 @@ namespace ouzel
                                     }
                                     break;
                                 }
-                                else if (*iterator == ']')
+                                else if (static_cast<char>(*iterator) == ']')
                                     parsedSection = true;
-                                else if (*iterator != ' ' && *iterator != '\t')
+                                else if (static_cast<char>(*iterator) != ' ' &&
+                                         static_cast<char>(*iterator) != '\t')
                                 {
                                     if (parsedSection)
                                         throw ParseError("Unexpected character after section");
@@ -255,11 +261,12 @@ namespace ouzel
 
                             result[section] = Section{};
                         }
-                        else if (*iterator == ';') // comment
+                        else if (static_cast<char>(*iterator) == ';') // comment
                         {
                             while (++iterator != end)
                             {
-                                if (*iterator == '\r' || *iterator == '\n')
+                                if (static_cast<char>(*iterator) == '\r' ||
+                                    static_cast<char>(*iterator) == '\n')
                                 {
                                     ++iterator; // skip the newline
                                     break;
@@ -274,25 +281,27 @@ namespace ouzel
 
                             while (iterator != end)
                             {
-                                if (*iterator == '\r' || *iterator == '\n')
+                                if (static_cast<char>(*iterator) == '\r' ||
+                                    static_cast<char>(*iterator) == '\n')
                                 {
                                     ++iterator; // skip the newline
                                     break;
                                 }
-                                else if (*iterator == '=')
+                                else if (static_cast<char>(*iterator) == '=')
                                 {
                                     if (!parsedKey)
                                         parsedKey = true;
                                     else
                                         throw ParseError("Unexpected character");
                                 }
-                                else if (*iterator == ';')
+                                else if (static_cast<char>(*iterator) == ';')
                                 {
                                     ++iterator; // skip the semicolon
 
                                     while (iterator != end)
                                     {
-                                        if (*iterator == '\r' || *iterator == '\n')
+                                        if (static_cast<char>(*iterator) == '\r' ||
+                                            static_cast<char>(*iterator) == '\n')
                                         {
                                             ++iterator; // skip the newline
                                             break;
@@ -330,7 +339,7 @@ namespace ouzel
                 static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
                 {
                     for (auto i = std::begin(utf8ByteOrderMark); i != std::end(utf8ByteOrderMark); ++i, ++begin)
-                        if (begin == end || *begin != *i)
+                        if (begin == end || static_cast<char>(*begin) != *i)
                             return false;
                     return true;
                 }
