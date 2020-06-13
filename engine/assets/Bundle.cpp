@@ -25,7 +25,7 @@ namespace ouzel
         void Bundle::loadAsset(std::uint32_t loaderType, const std::string& name,
                                const std::string& filename, bool mipmaps)
         {
-            const std::vector<std::uint8_t> data = fileSystem.readFile(filename);
+            const auto data = fileSystem.readFile(filename);
 
             const auto& loaders = cache.getLoaders();
 
