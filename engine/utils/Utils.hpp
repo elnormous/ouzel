@@ -19,24 +19,24 @@ namespace ouzel
         return sizeof(typename T::value_type) * vec.size();
     }
 
-    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    auto decodeBigEndian(const std::uint8_t* buffer) noexcept
+    template <typename T, typename Iterator, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    auto decodeBigEndian(Iterator iterator) noexcept
     {
-        T result = 0;
+        T result = T(0);
 
-        for (std::uintptr_t i = 0; i < sizeof(T); ++i)
-            result |= static_cast<T>(buffer[sizeof(buffer) - i - 1] << (i * 8));
+        for (std::uintptr_t i = 0; i < sizeof(T); ++i, ++iterator)
+            result |= static_cast<T>(static_cast<std::uint8_t>(*iterator) << ((sizeof(T) - i - 1) * 8));
 
         return result;
     }
 
-    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
-    auto decodeLittleEndian(const std::uint8_t* buffer) noexcept
+    template <typename T, typename Iterator, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    auto decodeLittleEndian(Iterator iterator) noexcept
     {
-        T result = 0;
+        T result = T(0);
 
-        for (std::uintptr_t i = 0; i < sizeof(T); ++i)
-            result |= static_cast<T>(buffer[i] << (i * 8));
+        for (std::uintptr_t i = 0; i < sizeof(T); ++i, ++iterator)
+            result |= static_cast<T>(static_cast<std::uint8_t>(*iterator) << (i * 8));
 
         return result;
     }
