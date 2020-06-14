@@ -269,12 +269,12 @@ namespace ouzel
                 flags(initFlags),
                 mipmaps(static_cast<std::uint32_t>(initLevels.size())),
                 sampleCount(initSampleCount),
+                filter(initFilter),
+                maxAnisotropy(static_cast<GLint>(initMaxAnisotropy)),
                 textureTarget(getTextureTarget(type)),
                 internalPixelFormat(getOpenGlInternalPixelFormat(initPixelFormat, renderDevice.getAPIMajorVersion())),
                 pixelFormat(getOpenGlPixelFormat(initPixelFormat)),
-                pixelType(getOpenGlPixelType(initPixelFormat)),
-                filter(initFilter),
-                maxAnisotropy(static_cast<GLint>(initMaxAnisotropy))
+                pixelType(getOpenGlPixelType(initPixelFormat))
             {
                 if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
                     (mipmaps == 0 || mipmaps > 1))
