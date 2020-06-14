@@ -44,10 +44,10 @@ namespace ouzel
 
                 const std::size_t lengthOffset = formatOffset + 4;
 
-                const auto length = static_cast<std::uint32_t>(data[lengthOffset + 0] |
-                                                               (data[lengthOffset + 1] << 8) |
-                                                               (data[lengthOffset + 2] << 16) |
-                                                               (data[lengthOffset + 3] << 24));
+                const auto length = static_cast<std::uint32_t>(data[lengthOffset + 0]) |
+                    static_cast<std::uint32_t>(data[lengthOffset + 1] << 8) |
+                    static_cast<std::uint32_t>(data[lengthOffset + 2] << 16) |
+                    static_cast<std::uint32_t>(data[lengthOffset + 3] << 24);
 
                 const std::size_t typeOffset = lengthOffset + 4;
 
@@ -79,10 +79,11 @@ namespace ouzel
 
                     offset += 4;
 
-                    const auto chunkSize = static_cast<std::uint32_t>(data[offset + 0] |
-                                                                      (data[offset + 1] << 8) |
-                                                                      (data[offset + 2] << 16) |
-                                                                      (data[offset + 3] << 24));
+                    const auto chunkSize = static_cast<std::uint32_t>(data[offset + 0]) |
+                        (static_cast<std::uint32_t>(data[offset + 1]) << 8) |
+                        (static_cast<std::uint32_t>(data[offset + 2]) << 16) |
+                        (static_cast<std::uint32_t>(data[offset + 3]) << 24);
+
                     offset += 4;
 
                     if (data.size() < offset + chunkSize)
@@ -98,24 +99,24 @@ namespace ouzel
 
                         const std::size_t formatTagOffset = offset;
 
-                        formatTag = static_cast<std::uint16_t>(data[formatTagOffset + 0] |
-                                                               (data[formatTagOffset + 1] << 8));
+                        formatTag = static_cast<std::uint16_t>(static_cast<std::uint32_t>(data[formatTagOffset + 0]) |
+                                                               (static_cast<std::uint32_t>(data[formatTagOffset + 1]) << 8));
 
                         if (formatTag != WAVE_FORMAT_PCM && formatTag != WAVE_FORMAT_IEEE_FLOAT)
                             throw std::runtime_error("Failed to load sound file, unsupported format");
 
                         const std::size_t channelsOffset = formatTagOffset + 2;
-                        channels = static_cast<std::uint32_t>(data[channelsOffset + 0] |
-                                                              (data[channelsOffset + 1] << 8));
+                        channels = static_cast<std::uint32_t>(data[channelsOffset + 0]) |
+                            (static_cast<std::uint32_t>(data[channelsOffset + 1]) << 8);
 
                         if (!channels)
                             throw std::runtime_error("Failed to load sound file, invalid channel count");
 
                         const std::size_t sampleRateOffset = channelsOffset + 2;
-                        sampleRate = static_cast<std::uint32_t>(data[sampleRateOffset + 0] |
-                                                                (data[sampleRateOffset + 1] << 8) |
-                                                                (data[sampleRateOffset + 2] << 16) |
-                                                                (data[sampleRateOffset + 3] << 24));
+                        sampleRate = static_cast<std::uint32_t>(data[sampleRateOffset + 0]) |
+                            (static_cast<std::uint32_t>(data[sampleRateOffset + 1]) << 8) |
+                            (static_cast<std::uint32_t>(data[sampleRateOffset + 2]) << 16) |
+                            (static_cast<std::uint32_t>(data[sampleRateOffset + 3]) << 24);
 
                         if (!sampleRate)
                             throw std::runtime_error("Failed to load sound file, invalid sample rate");
@@ -123,8 +124,8 @@ namespace ouzel
                         const std::size_t byteRateOffset = sampleRateOffset + 4;
                         const std::size_t blockAlignOffset = byteRateOffset + 4;
                         const std::size_t bitsPerSampleOffset = blockAlignOffset + 2;
-                        bitsPerSample = static_cast<std::uint16_t>(data[bitsPerSampleOffset + 0] |
-                                                                   (data[bitsPerSampleOffset + 1] << 8));
+                        bitsPerSample = static_cast<std::uint16_t>(static_cast<std::uint32_t>(data[bitsPerSampleOffset + 0]) |
+                                                                   static_cast<std::uint32_t>(data[bitsPerSampleOffset + 1] << 8));
 
                         if (bitsPerSample != 8 && bitsPerSample != 16 &&
                             bitsPerSample != 24 && bitsPerSample != 32)
@@ -163,7 +164,8 @@ namespace ouzel
                                 for (std::uint32_t frame = 0; frame < frames; ++frame)
                                 {
                                     const auto* sourceData = &soundData[frame * channels + channel];
-                                    outputChannel[frame] = 2.0F * static_cast<std::uint8_t>(sourceData[0]) / 255.0F - 1.0F;
+                                    const auto value = static_cast<std::uint8_t>(sourceData[0]);
+                                    outputChannel[frame] = 2.0F * value / 255.0F - 1.0F;
                                 }
                             }
                             break;
@@ -177,8 +179,9 @@ namespace ouzel
                                 for (std::uint32_t frame = 0; frame < frames; ++frame)
                                 {
                                     const auto* sourceData = &soundData[(frame * channels + channel) * 2];
-                                    outputChannel[frame] = static_cast<std::int16_t>(sourceData[0] |
-                                                                                     (sourceData[1] << 8)) / 32767.0F;
+                                    const auto value = static_cast<std::int32_t>(sourceData[0]) |
+                                        static_cast<std::int32_t>(sourceData[1] << 8);
+                                    outputChannel[frame] = value / 32767.0F;
                                 }
                             }
                             break;
@@ -192,9 +195,10 @@ namespace ouzel
                                 for (std::uint32_t frame = 0; frame < frames; ++frame)
                                 {
                                     const auto* sourceData = &soundData[(frame * channels + channel) * 3];
-                                    outputChannel[frame] = static_cast<float>(static_cast<std::int32_t>((sourceData[0] << 8) |
-                                                                                                        (sourceData[1] << 16) |
-                                                                                                        (sourceData[2] << 24)) / 2147483648.0);
+                                    const auto value = static_cast<std::int32_t>(sourceData[0] << 8) |
+                                        static_cast<std::int32_t>(sourceData[1] << 16) |
+                                        static_cast<std::int32_t>(sourceData[2] << 24);
+                                    outputChannel[frame] = static_cast<float>(value / 2147483648.0);
                                 }
                             }
                             break;
@@ -208,10 +212,11 @@ namespace ouzel
                                 for (std::uint32_t frame = 0; frame < frames; ++frame)
                                 {
                                     const auto* sourceData = &soundData[(frame * channels + channel) * 4];
-                                    outputChannel[frame] = static_cast<float>(static_cast<std::int32_t>(sourceData[0] |
-                                                                                                        (sourceData[1] << 8) |
-                                                                                                        (sourceData[2] << 16) |
-                                                                                                        (sourceData[3] << 24)) / 2147483648.0);
+                                    const auto value = static_cast<std::int32_t>(sourceData[0]) |
+                                        static_cast<std::int32_t>(sourceData[1] << 8) |
+                                        static_cast<std::int32_t>(sourceData[2] << 16) |
+                                        static_cast<std::int32_t>(sourceData[3] << 24);
+                                    outputChannel[frame] = static_cast<float>(value / 2147483648.0);
                                 }
                             }
                             break;
