@@ -298,7 +298,7 @@ namespace ouzel
             }
 
             Type type;
-            Log::Level level;
+            Log::Level level = Log::Level::all;
             std::string str;
         };
 
