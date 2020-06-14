@@ -228,7 +228,7 @@ namespace ouzel
 #endif
             }
 
-            std::vector<std::uint8_t> readFile(const Path& filename, const bool searchResources = true);
+            std::vector<std::byte> readFile(const Path& filename, const bool searchResources = true);
 
             bool resourceFileExists(const Path& filename) const;
 

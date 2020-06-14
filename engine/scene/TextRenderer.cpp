@@ -90,7 +90,7 @@ namespace ouzel
                                                     wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
             engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
-            engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
+            engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture ? texture->getResource() : 0U});
             engine->getRenderer()->draw(indexBuffer.getResource(),
                                         static_cast<std::uint32_t>(indices.size()),
                                         sizeof(std::uint16_t),

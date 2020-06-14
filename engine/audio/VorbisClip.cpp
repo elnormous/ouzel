@@ -72,10 +72,12 @@ namespace ouzel
         class VorbisData final: public mixer::Data
         {
         public:
-            explicit VorbisData(const std::vector<std::uint8_t>& initData):
+            explicit VorbisData(const std::vector<std::byte>& initData):
                 data(initData)
             {
-                stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
+                stb_vorbis* vorbisStream = stb_vorbis_open_memory(reinterpret_cast<const unsigned char*>(data.data()),
+                                                                  static_cast<int>(data.size()),
+                                                                  nullptr, nullptr);
 
                 if (!vorbisStream)
                     throw std::runtime_error("Failed to load Vorbis stream");
@@ -96,13 +98,13 @@ namespace ouzel
             }
 
         private:
-            std::vector<std::uint8_t> data;
+            std::vector<std::byte> data;
         };
 
         VorbisStream::VorbisStream(VorbisData& vorbisData):
             Stream(vorbisData)
         {
-            vorbisStream = stb_vorbis_open_memory(vorbisData.getData().data(),
+            vorbisStream = stb_vorbis_open_memory(reinterpret_cast<const unsigned char*>(vorbisData.getData().data()),
                                                   static_cast<int>(vorbisData.getData().size()),
                                                   nullptr, nullptr);
         }
@@ -165,7 +167,7 @@ namespace ouzel
                     samples[channel * frames + frame] = 0.0F;
         }
 
-        VorbisClip::VorbisClip(Audio& initAudio, const std::vector<std::uint8_t>& initData):
+        VorbisClip::VorbisClip(Audio& initAudio, const std::vector<std::byte>& initData):
             Sound(initAudio,
                   initAudio.initData(std::unique_ptr<mixer::Data>(data = new VorbisData(initData))),
                   Sound::Format::vorbis)

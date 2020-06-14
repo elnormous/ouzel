@@ -14,25 +14,25 @@ namespace ouzel
     {
         namespace
         {
-            constexpr auto isWhitespace(std::uint8_t c)
+            constexpr auto isWhitespace(std::byte c)
             {
                 return static_cast<char>(c) == ' ' ||
                     static_cast<char>(c) == '\t';
             }
 
-            constexpr auto isNewline(std::uint8_t c)
+            constexpr auto isNewline(std::byte c)
             {
                 return static_cast<char>(c) == '\r' ||
                     static_cast<char>(c) == '\n';
             }
 
-            constexpr auto isControlChar(std::uint8_t c)
+            constexpr auto isControlChar(std::byte c)
             {
-                return c <= 0x1F;
+                return static_cast<std::uint8_t>(c) <= 0x1F;
             }
 
-            void skipWhitespaces(const std::vector<std::uint8_t>& str,
-                                 std::vector<std::uint8_t>::const_iterator& iterator)
+            void skipWhitespaces(const std::vector<std::byte>& str,
+                                 std::vector<std::byte>::const_iterator& iterator)
             {
                 while (iterator != str.end())
                     if (isWhitespace(*iterator))
@@ -41,8 +41,8 @@ namespace ouzel
                         break;
             }
 
-            void skipLine(const std::vector<std::uint8_t>& str,
-                          std::vector<std::uint8_t>::const_iterator& iterator)
+            void skipLine(const std::vector<std::byte>& str,
+                          std::vector<std::byte>::const_iterator& iterator)
             {
                 while (iterator != str.end())
                 {
@@ -56,8 +56,8 @@ namespace ouzel
                 }
             }
 
-            std::string parseString(const std::vector<std::uint8_t>& str,
-                                    std::vector<std::uint8_t>::const_iterator& iterator)
+            std::string parseString(const std::vector<std::byte>& str,
+                                    std::vector<std::byte>::const_iterator& iterator)
             {
                 if (iterator == str.end())
                     throw std::runtime_error("Invalid string");
@@ -105,8 +105,8 @@ namespace ouzel
                 return result;
             }
 
-            std::string parseInt(const std::vector<std::uint8_t>& str,
-                                 std::vector<std::uint8_t>::const_iterator& iterator)
+            std::string parseInt(const std::vector<std::byte>& str,
+                                 std::vector<std::byte>::const_iterator& iterator)
             {
                 std::string result;
                 std::uint32_t length = 1;
@@ -134,8 +134,8 @@ namespace ouzel
                 return result;
             }
 
-            void expectToken(const std::vector<std::uint8_t>& str,
-                             std::vector<std::uint8_t>::const_iterator& iterator,
+            void expectToken(const std::vector<std::byte>& str,
+                             std::vector<std::byte>::const_iterator& iterator,
                              char token)
             {
                 if (iterator == str.end() ||
@@ -146,7 +146,7 @@ namespace ouzel
             }
         }
 
-        BMFont::BMFont(const std::vector<std::uint8_t>& data)
+        BMFont::BMFont(const std::vector<std::byte>& data)
         {
             auto iterator = data.cbegin();
 

@@ -303,7 +303,7 @@ namespace ouzel
 #endif
         }
 
-        std::vector<std::uint8_t> FileSystem::readFile(const Path& filename, const bool searchResources)
+        std::vector<std::byte> FileSystem::readFile(const Path& filename, const bool searchResources)
         {
             if (searchResources)
                 for (auto& archive : archives)
@@ -320,8 +320,8 @@ namespace ouzel
                 if (!asset)
                     throw std::runtime_error("Failed to open file " + std::string(filename));
 
-                std::vector<std::uint8_t> data;
-                std::uint8_t buffer[1024];
+                std::vector<std::byte> data;
+                std::byte buffer[1024];
 
                 for (;;)
                 {
@@ -351,12 +351,12 @@ namespace ouzel
             if (!file)
                 throw std::runtime_error("Failed to open file " + std::string(filename));
 
-            std::vector<uint8_t> data;
-            char buffer[1024];
+            std::vector<std::byte> data;
+            std::byte buffer[1024];
 
             while (!file.eof())
             {
-                file.read(buffer, sizeof(buffer));
+                file.read(reinterpret_cast<char*>(buffer), sizeof(buffer));
                 data.insert(data.end(), buffer, buffer + file.gcount());
             }
 

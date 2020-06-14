@@ -17,7 +17,7 @@ namespace ouzel
 
         bool ParticleSystemLoader::loadAsset(Bundle& bundle,
                                              const std::string& name,
-                                             const std::vector<std::uint8_t>& data,
+                                             const std::vector<std::byte>& data,
                                              bool mipmaps)
         {
             scene::ParticleSystemData particleSystemData;

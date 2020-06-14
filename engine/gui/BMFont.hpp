@@ -13,7 +13,7 @@ namespace ouzel
         {
         public:
             BMFont() = default;
-            explicit BMFont(const std::vector<std::uint8_t>& data);
+            explicit BMFont(const std::vector<std::byte>& data);
 
             RenderData getRenderData(const std::string& text,
                                      Color color,

@@ -51,13 +51,18 @@ namespace ouzel
         void Cursor::init(const std::string& filename, const Vector2F& hotSpot)
         {
             // TODO: load with asset loader
-            const std::vector<std::uint8_t> data = engine->getFileSystem().readFile(filename);
+            const auto data = engine->getFileSystem().readFile(filename);
 
             int width;
             int height;
             int comp;
 
-            stbi_uc* tempData = stbi_load_from_memory(data.data(), static_cast<int>(data.size()), &width, &height, &comp, STBI_default);
+            stbi_uc* tempData = stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(data.data()),
+                                                      static_cast<int>(data.size()),
+                                                      &width,
+                                                      &height,
+                                                      &comp,
+                                                      STBI_default);
 
             if (!tempData)
                 throw std::runtime_error("Failed to load texture, reason: " + std::string(stbi_failure_reason()));

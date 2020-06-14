@@ -28,18 +28,18 @@ namespace ouzel
 {
     namespace gui
     {
-        TTFont::TTFont(const std::vector<std::uint8_t>& initData, bool initMipmaps):
+        TTFont::TTFont(const std::vector<std::byte>& initData, bool initMipmaps):
             data(initData),
             mipmaps(initMipmaps)
         {
-            const int offset = stbtt_GetFontOffsetForIndex(data.data(), 0);
+            const int offset = stbtt_GetFontOffsetForIndex(reinterpret_cast<const unsigned char*>(data.data()), 0);
 
             if (offset == -1)
                 throw std::runtime_error("Not a font");
 
             font = std::make_unique<stbtt_fontinfo>();
 
-            if (!stbtt_InitFont(font.get(), data.data(), offset))
+            if (!stbtt_InitFont(font.get(), reinterpret_cast<const unsigned char*>(data.data()), offset))
                 throw std::runtime_error("Failed to load font");
         }
 

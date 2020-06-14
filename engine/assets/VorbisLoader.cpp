@@ -16,7 +16,7 @@ namespace ouzel
 
         bool VorbisLoader::loadAsset(Bundle& bundle,
                                      const std::string& name,
-                                     const std::vector<std::uint8_t>& data,
+                                     const std::vector<std::byte>& data,
                                      bool)
         {
             try

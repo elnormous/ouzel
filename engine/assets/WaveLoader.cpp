@@ -23,7 +23,7 @@ namespace ouzel
 
         bool WaveLoader::loadAsset(Bundle& bundle,
                                    const std::string& name,
-                                   const std::vector<std::uint8_t>& data,
+                                   const std::vector<std::byte>& data,
                                    bool)
         {
             try
@@ -63,14 +63,14 @@ namespace ouzel
 
                 std::uint16_t bitsPerSample = 0;
                 std::uint16_t formatTag = 0;
-                std::vector<std::uint8_t> soundData;
+                std::vector<std::byte> soundData;
 
                 for (std::size_t offset = typeOffset + 4; offset < data.size();)
                 {
                     if (data.size() < offset + 8)
                         throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
 
-                    const std::uint8_t chunkHeader[4] = {
+                    const std::byte chunkHeader[4] = {
                         data[offset + 0],
                         data[offset + 1],
                         data[offset + 2],

@@ -14,25 +14,25 @@ namespace ouzel
     {
         namespace
         {
-            constexpr auto isWhitespace(std::uint8_t c)
+            constexpr auto isWhitespace(std::byte c)
             {
                 return static_cast<char>(c) == ' ' ||
                     static_cast<char>(c) == '\t';
             }
 
-            constexpr auto isNewline(std::uint8_t c)
+            constexpr auto isNewline(std::byte c)
             {
                 return static_cast<char>(c) == '\r' ||
                     static_cast<char>(c) == '\n';
             }
 
-            constexpr auto isControlChar(std::uint8_t c)
+            constexpr auto isControlChar(std::byte c)
             {
-                return c <= 0x1F;
+                return static_cast<std::uint8_t>(c) <= 0x1F;
             }
 
-            void skipWhitespaces(std::vector<std::uint8_t>::const_iterator& iterator,
-                                 std::vector<std::uint8_t>::const_iterator end)
+            void skipWhitespaces(std::vector<std::byte>::const_iterator& iterator,
+                                 std::vector<std::byte>::const_iterator end)
             {
                 while (iterator != end)
                     if (isWhitespace(*iterator))
@@ -41,8 +41,8 @@ namespace ouzel
                         break;
             }
 
-            void skipLine(std::vector<std::uint8_t>::const_iterator& iterator,
-                          std::vector<std::uint8_t>::const_iterator end)
+            void skipLine(std::vector<std::byte>::const_iterator& iterator,
+                          std::vector<std::byte>::const_iterator end)
             {
                 while (iterator != end)
                 {
@@ -56,8 +56,8 @@ namespace ouzel
                 }
             }
 
-            std::string parseString(std::vector<std::uint8_t>::const_iterator& iterator,
-                                    std::vector<std::uint8_t>::const_iterator end)
+            std::string parseString(std::vector<std::byte>::const_iterator& iterator,
+                                    std::vector<std::byte>::const_iterator end)
             {
                 std::string result;
 
@@ -73,8 +73,8 @@ namespace ouzel
                 return result;
             }
 
-            float parseFloat(std::vector<std::uint8_t>::const_iterator& iterator,
-                             std::vector<std::uint8_t>::const_iterator end)
+            float parseFloat(std::vector<std::byte>::const_iterator& iterator,
+                             std::vector<std::byte>::const_iterator end)
             {
                 std::string value;
                 std::uint32_t length = 1;
@@ -153,7 +153,7 @@ namespace ouzel
 
         bool MtlLoader::loadAsset(Bundle& bundle,
                                   const std::string& name,
-                                  const std::vector<std::uint8_t>& data,
+                                  const std::vector<std::byte>& data,
                                   bool mipmaps)
         {
             std::string materialName = name;
