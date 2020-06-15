@@ -42,7 +42,7 @@ namespace ouzel
 
             using Dictionary = std::map<std::string, Value>;
             using Array = std::vector<Value>;
-            using Data = std::vector<std::uint8_t>;
+            using Data = std::vector<std::byte>;
 
             Value() = default;
             Value(const Dictionary& value):type{Type::dictionary}, dictionaryValue(value) {}
@@ -262,7 +262,7 @@ namespace ouzel
                 arrayValue.resize(size);
             }
 
-            void pushBack(std::uint8_t value)
+            void pushBack(std::byte value)
             {
                 if (type != Type::data) throw TypeError("Wrong type");
                 dataValue.push_back(value);
@@ -387,8 +387,8 @@ namespace ouzel
                             for (const auto b : value.as<Value::Data>())
                             {
                                 constexpr char digits[] = "0123456789ABCDEF";
-                                result += digits[(b >> 4) & 0x0F];
-                                result += digits[(b >> 0) & 0x0F];
+                                result += digits[static_cast<std::size_t>(b >> 4) & 0x0F];
+                                result += digits[static_cast<std::size_t>(b >> 0) & 0x0F];
                             }
                             result += '>';
                             break;
@@ -495,7 +495,7 @@ namespace ouzel
                             std::uint8_t charArray[3];
                             for (const auto b : value.as<Value::Data>())
                             {
-                                charArray[c++] = b;
+                                charArray[c++] = static_cast<char>(b);
                                 if (c == 3)
                                 {
                                     result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
