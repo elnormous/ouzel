@@ -93,8 +93,8 @@ namespace ouzel
 #elif defined(__linux__)
             char executableDirectory[PATH_MAX];
 
-            ssize_t length;
-            if ((length = readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory) - 1)) == -1)
+            const ssize_t length = readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory) - 1);
+            if (length == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to get current directory");
 
             executableDirectory[length] = '\0';
