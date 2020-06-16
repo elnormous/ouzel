@@ -3,6 +3,7 @@
 #ifndef OUZEL_UTILS_UTILS_HPP
 #define OUZEL_UTILS_UTILS_HPP
 
+#include <cstring>
 #include <cstdint>
 #include <random>
 #include <string>
@@ -66,6 +67,15 @@ namespace ouzel
                 result.push_back(str.substr(beginPosition, endPosition - beginPosition));
         }
         return result;
+    }
+
+    template <class To, class From>
+    typename std::enable_if<(sizeof(To) == sizeof(From)) && std::is_trivially_copyable<From>::value && std::is_trivial<To>::value && (std::is_copy_constructible<To>::value || std::is_move_constructible<To>::value), To>::type
+    bitCast(const From& src) noexcept
+    {
+        To dst;
+        std::memcpy(&dst, &src, sizeof(To));
+        return dst;
     }
 }
 
