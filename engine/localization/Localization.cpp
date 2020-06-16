@@ -10,10 +10,10 @@ namespace ouzel
         if (data.size() < 5 * sizeof(std::uint32_t))
             throw std::runtime_error("Not enough data");
 
-        const auto magic = static_cast<std::uint32_t>(data[0] |
-                                                      (data[1] << 8) |
-                                                      (data[2] << 16) |
-                                                      (data[3] << 24));
+        const auto magic = static_cast<std::uint32_t>(data[0]) |
+            (static_cast<std::uint32_t>(data[1]) << 8) |
+            (static_cast<std::uint32_t>(data[2]) << 16) |
+            (static_cast<std::uint32_t>(data[3]) << 24);
 
         const auto decodeUInt32 = [magic]() -> std::function<std::uint32_t(const std::byte*)> {
             constexpr std::uint32_t magicBig = 0xDE120495U;
@@ -21,17 +21,17 @@ namespace ouzel
 
             if (magic == magicBig)
                 return [](const std::byte* bytes) noexcept {
-                    return static_cast<std::uint32_t>(bytes[3] |
-                                                      (bytes[2] << 8) |
-                                                      (bytes[1] << 16) |
-                                                      (bytes[0] << 24));
+                    return static_cast<std::uint32_t>(bytes[3]) |
+                        (static_cast<std::uint32_t>(bytes[2]) << 8) |
+                        (static_cast<std::uint32_t>(bytes[1]) << 16) |
+                        (static_cast<std::uint32_t>(bytes[0]) << 24);
                 };
             else if (magic == magicLittle)
                 return [](const std::byte* bytes) noexcept {
-                    return static_cast<std::uint32_t>(bytes[0] |
-                                                      (bytes[1] << 8) |
-                                                      (bytes[2] << 16) |
-                                                      (bytes[3] << 24));
+                    return static_cast<std::uint32_t>(bytes[0]) |
+                        (static_cast<std::uint32_t>(bytes[1]) << 8) |
+                        (static_cast<std::uint32_t>(bytes[2]) << 16) |
+                        (static_cast<std::uint32_t>(bytes[3]) << 24);
                 };
             else
                 throw std::runtime_error("Wrong magic " + std::to_string(magic));
