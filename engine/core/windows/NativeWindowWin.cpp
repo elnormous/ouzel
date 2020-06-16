@@ -239,7 +239,7 @@ namespace
         auto userData = GetWindowLongPtr(window, GWLP_USERDATA);
         if (!userData) return DefWindowProcW(window, message, wParam, lParam);
 
-        auto windowWin = ouzel::bitCast<const ouzel::NativeWindowWin*>(userData);
+        auto windowWin = ouzel::bitCast<ouzel::NativeWindowWin*>(userData);
 
         switch (message)
         {
