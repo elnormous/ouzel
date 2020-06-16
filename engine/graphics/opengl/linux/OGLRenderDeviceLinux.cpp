@@ -12,6 +12,7 @@
 #include "../../../core/linux/EngineLinux.hpp"
 #include "../../../core/linux/NativeWindowLinux.hpp"
 #include "../../../utils/Log.hpp"
+#include "../../../utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -252,8 +253,7 @@ namespace ouzel
                     throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API");
 
                 const EGL_DISPMANX_WINDOW_T* dispmanxWindow = &windowLinux->getNativeWindow();
-                EGLNativeWindowType nativeWindow;
-                std::memcpy(&nativeWindow, &dispmanxWindow, sizeof(dispmanxWindow));
+                const EGLNativeWindowType nativeWindow = bitCast<EGLNativeWindowType>(dispmanxWindow);
                 surface = eglCreateWindowSurface(display, config, nativeWindow, nullptr);
                 if (surface == EGL_NO_SURFACE)
                     throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");

@@ -26,6 +26,7 @@
 #include "../../graphics/RenderDevice.hpp"
 #include "../../graphics/direct3d11/D3D11RenderDevice.hpp"
 #include "../../utils/Log.hpp"
+#include "../../utils/Utils.hpp"
 
 namespace
 {
@@ -238,8 +239,7 @@ namespace
         auto userData = GetWindowLongPtr(window, GWLP_USERDATA);
         if (!userData) return DefWindowProcW(window, message, wParam, lParam);
 
-        ouzel::NativeWindowWin* windowWin;
-        std::memcpy(&windowWin, &userData, sizeof(windowWin));
+        auto windowWin = ouzel::bitCast<const ouzel::NativeWindowWin*>(userData);
 
         switch (message)
         {
@@ -486,8 +486,7 @@ namespace ouzel
         SetLastError(ERROR_SUCCESS);
 
         ouzel::NativeWindowWin* windowWin = this;
-        LONG_PTR userData;
-        std::memcpy(&userData, &windowWin, sizeof(windowWin));
+        const LONG_PTR userData = bitCast<LONG_PTR>(windowWin);
 
         if (!SetWindowLongPtr(window, GWLP_USERDATA, userData))
             if (DWORD error = GetLastError())
