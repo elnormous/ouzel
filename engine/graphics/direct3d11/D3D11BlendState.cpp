@@ -83,9 +83,7 @@ namespace ouzel
                 if (blendState) blendState->Release();
 
 				ID3D11BlendState* newBlendState;
-
-                HRESULT hr;
-                if (FAILED(hr = renderDevice.getDevice()->CreateBlendState(&blendStateDesc, &newBlendState)))
+                if (const auto hr = renderDevice.getDevice()->CreateBlendState(&blendStateDesc, &newBlendState); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 blend state");
 
 				blendState = newBlendState;

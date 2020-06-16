@@ -82,9 +82,7 @@ namespace ouzel
                 depthStencilStateDesc.BackFace.StencilFunc = getCompareFunction(initBackFaceStencilCompareFunction);
 
 				ID3D11DepthStencilState* newDepthStencilState;
-
-                HRESULT hr;
-                if (FAILED(hr = renderDevice.getDevice()->CreateDepthStencilState(&depthStencilStateDesc, &newDepthStencilState)))
+                if (const auto hr = renderDevice.getDevice()->CreateDepthStencilState(&depthStencilStateDesc, &newDepthStencilState); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 depth stencil state");
 
 				depthStencilState = newDepthStencilState;
