@@ -1099,16 +1099,13 @@ namespace ouzel
                                 {
                                     const Vertex::Attribute& vertexAttribute = RenderDevice::VERTEX_ATTRIBUTES[index];
 
-                                    void* vertexOffsetPointer;
-                                    std::memcpy(&vertexOffsetPointer, &vertexOffset, sizeof(vertexOffset));
-
                                     glEnableVertexAttribArrayProc(index);
                                     glVertexAttribPointerProc(index,
                                                               getArraySize(vertexAttribute.dataType),
                                                               getVertexType(vertexAttribute.dataType),
                                                               isNormalized(vertexAttribute.dataType),
                                                               static_cast<GLsizei>(sizeof(Vertex)),
-                                                              vertexOffsetPointer);
+                                                              bitCast<void*>(vertexOffset));
 
                                     vertexOffset += getDataTypeSize(vertexAttribute.dataType);
                                 }
@@ -1123,13 +1120,10 @@ namespace ouzel
 
                                 std::uintptr_t indexOffset = drawCommand->startIndex * drawCommand->indexSize;
 
-                                void* indexOffsetPointer;
-                                std::memcpy(&indexOffsetPointer, &indexOffset, sizeof(indexOffset));
-
                                 glDrawElementsProc(getDrawMode(drawCommand->drawMode),
                                                    static_cast<GLsizei>(drawCommand->indexCount),
                                                    getIndexType(drawCommand->indexSize),
-                                                   indexOffsetPointer);
+                                                   bitCast<void*>(indexOffset));
 
                                 if ((error = glGetErrorProc()) != GL_NO_ERROR)
                                     throw std::system_error(makeErrorCode(error), "Failed to draw elements");

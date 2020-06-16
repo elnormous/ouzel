@@ -7,6 +7,7 @@
 #include "../Engine.hpp"
 #include "../Window.hpp"
 #include "../../input/macos/InputSystemMacOS.hpp"
+#include "../../utils/Utils.hpp"
 
 @implementation ViewMacOS
 
@@ -366,11 +367,7 @@ namespace
     for (NSTouch* touch in touches)
     {
         const CGPoint location = touch.normalizedPosition;
-
-        std::uint64_t touchId;
-        std::memcpy(&touchId, &touch, sizeof(touch));
-
-        touchpadDevice->handleTouchBegin(touchId,
+        touchpadDevice->handleTouchBegin(ouzel::bitCast<std::uint64_t>(&touch),
                                          ouzel::Vector2F(static_cast<float>(location.x),
                                                          static_cast<float>(location.y)),
                                          1.0F);
@@ -386,11 +383,7 @@ namespace
     for (NSTouch* touch in touches)
     {
         const CGPoint location = touch.normalizedPosition;
-
-        std::uint64_t touchId;
-        std::memcpy(&touchId, &touch, sizeof(touch));
-
-        touchpadDevice->handleTouchMove(touchId,
+        touchpadDevice->handleTouchMove(ouzel::bitCast<std::uint64_t>(&touch),
                                         ouzel::Vector2F(static_cast<float>(location.x),
                                                         static_cast<float>(location.y)),
                                         1.0F);
@@ -406,11 +399,7 @@ namespace
     for (NSTouch* touch in touches)
     {
         const CGPoint location = touch.normalizedPosition;
-
-        std::uint64_t touchId;
-        std::memcpy(&touchId, &touch, sizeof(touch));
-
-        touchpadDevice->handleTouchEnd(touchId,
+        touchpadDevice->handleTouchEnd(ouzel::bitCast<std::uint64_t>(&touch),
                                        ouzel::Vector2F(static_cast<float>(location.x),
                                                        static_cast<float>(location.y)),
                                        1.0F);
@@ -426,11 +415,7 @@ namespace
     for (NSTouch* touch in touches)
     {
         const CGPoint location = touch.normalizedPosition;
-
-        std::uint64_t touchId;
-        std::memcpy(&touchId, &touch, sizeof(touch));
-
-        touchpadDevice->handleTouchCancel(touchId,
+        touchpadDevice->handleTouchCancel(ouzel::bitCast<std::uint64_t>(&touch),
                                           ouzel::Vector2F(static_cast<float>(location.x),
                                                           static_cast<float>(location.y)),
                                           1.0F);

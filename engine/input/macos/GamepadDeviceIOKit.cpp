@@ -4,6 +4,7 @@
 #include "GamepadDeviceIOKit.hpp"
 #include "InputSystemMacOS.hpp"
 #include "../GamepadConfig.hpp"
+#include "../../utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -78,9 +79,7 @@ namespace ouzel
             {
                 auto getElement = [](CFArrayRef elementArray, CFIndex i) noexcept {
                     auto arrayValue = CFArrayGetValueAtIndex(elementArray, i);
-                    IOHIDElementRef element;
-                    std::memcpy(&element, &arrayValue, sizeof(IOHIDElementRef));
-                    return element;
+                    return bitCast<IOHIDElementRef>(arrayValue);
                 };
 
                 const IOHIDElementRef element = getElement(elementArray, i);
