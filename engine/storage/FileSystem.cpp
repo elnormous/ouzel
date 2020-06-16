@@ -109,13 +109,12 @@ namespace ouzel
 #if defined(_WIN32)
             WCHAR appDataPath[MAX_PATH];
 
-            HRESULT hr;
-            if (FAILED(hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, appDataPath)))
+            if (const auto hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, appDataPath); FAILED(hr))
                 throw std::system_error(hr, std::system_category(), "Failed to get the path of the AppData directory");
 
             Path path = Path{appDataPath, Path::Format::native};
 
-            HINSTANCE instance = GetModuleHandleW(nullptr);
+            const HINSTANCE instance = GetModuleHandleW(nullptr);
             if (!instance)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
             std::vector<WCHAR> buffer(MAX_PATH + 1);
