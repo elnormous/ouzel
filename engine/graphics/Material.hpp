@@ -17,7 +17,7 @@ namespace ouzel
         class Material final
         {
         public:
-            static constexpr std::uint32_t textureLayers = 4;
+            static constexpr std::uint32_t textureLayers = 4U;
 
             Material() = default;
 

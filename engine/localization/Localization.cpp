@@ -16,8 +16,8 @@ namespace ouzel
                                                       (data[3] << 24));
 
         const auto decodeUInt32 = [magic]() -> std::function<std::uint32_t(const std::byte*)> {
-            constexpr std::uint32_t magicBig = 0xDE120495;
-            constexpr std::uint32_t magicLittle = 0x950412DE;
+            constexpr std::uint32_t magicBig = 0xDE120495U;
+            constexpr std::uint32_t magicLittle = 0x950412DEU;
 
             if (magic == magicBig)
                 return [](const std::byte* bytes) noexcept {

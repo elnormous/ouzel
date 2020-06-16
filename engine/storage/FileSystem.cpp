@@ -162,7 +162,7 @@ namespace ouzel
 
                 for (UINT i = 0; i < translationLength / sizeof(LANGANDCODEPAGE); ++i)
                 {
-                    constexpr size_t subBlockSize = 37;
+                    constexpr size_t subBlockSize = 37U;
                     WCHAR subBlock[subBlockSize];
 
                     StringCchPrintfW(subBlock, subBlockSize,
@@ -214,9 +214,9 @@ namespace ouzel
 #elif TARGET_OS_IOS || TARGET_OS_TV
             id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
-            constexpr NSUInteger NSDocumentDirectory = 9;
-            constexpr NSUInteger NSUserDomainMask = 1;
-            constexpr NSUInteger NSLocalDomainMask = 2;
+            constexpr NSUInteger NSDocumentDirectory = 9U;
+            constexpr NSUInteger NSUserDomainMask = 1U;
+            constexpr NSUInteger NSLocalDomainMask = 2U;
 
             id documentDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
 
@@ -229,9 +229,9 @@ namespace ouzel
 #elif TARGET_OS_MAC
             id fileManager = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("NSFileManager"), sel_getUid("defaultManager"));
 
-            constexpr NSUInteger NSApplicationSupportDirectory = 14;
-            constexpr NSUInteger NSUserDomainMask = 1;
-            constexpr NSUInteger NSLocalDomainMask = 2;
+            constexpr NSUInteger NSApplicationSupportDirectory = 14U;
+            constexpr NSUInteger NSUserDomainMask = 1U;
+            constexpr NSUInteger NSLocalDomainMask = 2U;
 
             id applicationSupportDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSApplicationSupportDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
 

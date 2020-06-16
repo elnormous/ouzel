@@ -23,8 +23,8 @@ namespace ouzel
             explicit Archive(const std::string& path):
                 file{path, std::ios::binary}
             {
-                constexpr std::uint32_t centralDirectory = 0x02014B50;
-                constexpr std::uint32_t headerSignature = 0x04034B50;
+                constexpr std::uint32_t centralDirectory = 0x02014B50U;
+                constexpr std::uint32_t headerSignature = 0x04034B50U;
 
                 for (;;)
                 {
