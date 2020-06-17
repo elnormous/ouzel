@@ -126,15 +126,15 @@ namespace ouzel
                 sampleFormat = SampleFormat::float32;
                 sampleSize = sizeof(float);
 
-                if (const auto hr = primaryBuffer->SetFormat(&waveFormat); FAILED(hr))
+                if (const auto floatResult = primaryBuffer->SetFormat(&waveFormat); FAILED(floatResult))
                 {
                     waveFormat.wFormatTag = WAVE_FORMAT_PCM;
                     waveFormat.wBitsPerSample = sizeof(std::int16_t) * 8;
                     waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
                     waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
 
-                    if (const auto hr = primaryBuffer->SetFormat(&waveFormat); FAILED(hr))
-                        throw std::system_error(hr, errorCategory, "Failed to set DirectSound buffer format");
+                    if (const auto intResult = primaryBuffer->SetFormat(&waveFormat); FAILED(intResult))
+                        throw std::system_error(intResult, errorCategory, "Failed to set DirectSound buffer format");
 
                     sampleFormat = SampleFormat::signedInt16;
                     sampleSize = sizeof(std::int16_t);

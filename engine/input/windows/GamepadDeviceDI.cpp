@@ -82,9 +82,8 @@ namespace ouzel
 
                     DIDEVICEOBJECTINSTANCEW didObjectInstance;
                     didObjectInstance.dwSize = sizeof(didObjectInstance);
-                    hr = device->GetObjectInfo(&didObjectInstance, axisUsageMap[i].second, DIPH_BYOFFSET);
 
-                    if (SUCCEEDED(hr) &&
+                    if (SUCCEEDED(device->GetObjectInfo(&didObjectInstance, axisUsageMap[i].second, DIPH_BYOFFSET)) &&
                         didObjectInstance.wUsage == usage &&
                         (didObjectInstance.dwType & DIDFT_AXIS))
                     {
@@ -186,7 +185,8 @@ namespace ouzel
             propertyBufferSize.diph.dwObj = 0;
             propertyBufferSize.dwData = inputQueueSize;
 
-            if (const auto hr = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph); FAILED(hr))
+            const auto hr = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph);
+            if (FAILED(hr))
                 throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device buffer size property");
 
             buffered = (hr != DI_POLLEDDEVICE);
