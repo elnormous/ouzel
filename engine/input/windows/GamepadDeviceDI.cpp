@@ -42,15 +42,14 @@ namespace ouzel
                     name = buffer.data();
             }
 
-            HRESULT hr;
-            if (FAILED(hr = directInput->CreateDevice(instance->guidInstance, &device, nullptr)))
+            if (const auto hr = directInput->CreateDevice(instance->guidInstance, &device, nullptr); FAILED(hr))
                 throw std::system_error(hr, getErrorCategory(), "Failed to create DirectInput device");
 
             // Exclusive access is needed for force feedback
-            if (FAILED(hr = device->SetCooperativeLevel(window, DISCL_BACKGROUND | DISCL_EXCLUSIVE)))
+            if (const auto hr = device->SetCooperativeLevel(window, DISCL_BACKGROUND | DISCL_EXCLUSIVE); FAILED(hr))
                 throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device format");
 
-            if (FAILED(hr = device->SetDataFormat(&c_dfDIJoystick)))
+            if (const auto hr = device->SetDataFormat(&c_dfDIJoystick); FAILED(hr))
                 throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device format");
 
             const GamepadConfig& gamepadConfig = getGamepadConfig(vendorId, productId);
@@ -100,7 +99,7 @@ namespace ouzel
                         propertyDeadZone.dwData = 0;
 
                         // Set the range for the axis
-                        if (FAILED(hr = device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph)))
+                        if (const auto hr = device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph); FAILED(hr))
                             engine->log(Log::Level::warning) << "Failed to set DirectInput device dead zone property, error: " << hr;
 
                         DIPROPRANGE propertyAxisRange;
@@ -109,7 +108,7 @@ namespace ouzel
                         propertyAxisRange.diph.dwObj = offset;
                         propertyAxisRange.diph.dwHow = DIPH_BYOFFSET;
 
-                        if (FAILED(hr = device->GetProperty(DIPROP_RANGE, &propertyAxisRange.diph)))
+                        if (const auto hr = device->GetProperty(DIPROP_RANGE, &propertyAxisRange.diph); FAILED(hr))
                             throw std::system_error(hr, getErrorCategory(), "Failed to get DirectInput device axis range property");
 
                         axis.min = propertyAxisRange.lMin;
@@ -155,18 +154,18 @@ namespace ouzel
 
             DIDEVCAPS capabilities;
             capabilities.dwSize = sizeof(capabilities);
-            if (FAILED(hr = device->GetCapabilities(&capabilities)))
+            if (const auto hr = device->GetCapabilities(&capabilities); FAILED(hr))
                 throw std::system_error(hr, getErrorCategory(), "Failed to get DirectInput device capabilities");
 
             if (capabilities.dwFlags & DIDC_FORCEFEEDBACK)
             {
-                if (FAILED(hr = device->Acquire()))
+                if (const auto hr = device->Acquire(); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to acquire DirectInput device");
 
-                if (FAILED(hr = device->SendForceFeedbackCommand(DISFFC_RESET)))
+                if (const auto hr = device->SendForceFeedbackCommand(DISFFC_RESET); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device force feedback command");
 
-                if (FAILED(hr = device->Unacquire()))
+                if (const auto hr = device->Unacquire(); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to unacquire DirectInput device");
 
                 DIPROPDWORD propertyAutoCenter;
@@ -176,7 +175,7 @@ namespace ouzel
                 propertyAutoCenter.diph.dwObj = 0;
                 propertyAutoCenter.dwData = DIPROPAUTOCENTER_ON;
 
-                if (FAILED(hr = device->SetProperty(DIPROP_AUTOCENTER, &propertyAutoCenter.diph)))
+                if (const auto hr = device->SetProperty(DIPROP_AUTOCENTER, &propertyAutoCenter.diph); FAILED(hr))
                     engine->log(Log::Level::warning) << "Failed to set DirectInput device autocenter property, error: " << hr;
             }
 
@@ -187,7 +186,7 @@ namespace ouzel
             propertyBufferSize.diph.dwObj = 0;
             propertyBufferSize.dwData = inputQueueSize;
 
-            if (FAILED(hr = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph)))
+            if (const auto hr = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph); FAILED(hr))
                 throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device buffer size property");
 
             buffered = (hr != DI_POLLEDDEVICE);

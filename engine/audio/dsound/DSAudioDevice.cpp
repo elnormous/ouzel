@@ -88,17 +88,16 @@ namespace ouzel
                                                               std::vector<float>& samples)>& initDataGetter):
                 audio::AudioDevice(Driver::directSound, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
-                HRESULT hr;
-                if (FAILED(hr = DirectSoundEnumerateW(enumCallback, this)))
+                if (const auto hr = DirectSoundEnumerateW(enumCallback, this); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to enumerate DirectSound 8 devices");
 
                 IDirectSound8* directSoundPointer;
-                if (FAILED(hr = DirectSoundCreate8(&DSDEVID_DefaultPlayback, &directSoundPointer, nullptr)))
+                if (const auto hr = DirectSoundCreate8(&DSDEVID_DefaultPlayback, &directSoundPointer, nullptr); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to create DirectSound 8 instance");
 
                 directSound = directSoundPointer;
 
-                if (FAILED(hr = directSound->SetCooperativeLevel(GetDesktopWindow(), DSSCL_PRIORITY)))
+                if (const auto hr = directSound->SetCooperativeLevel(GetDesktopWindow(), DSSCL_PRIORITY); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to set cooperative level for DirectSound 8");
 
                 DSBUFFERDESC primaryBufferDesc;
@@ -110,7 +109,7 @@ namespace ouzel
                 primaryBufferDesc.guid3DAlgorithm = GUID_NULL;
 
                 IDirectSoundBuffer* primaryBufferPointer;
-                if (FAILED(hr = directSound->CreateSoundBuffer(&primaryBufferDesc, &primaryBufferPointer, nullptr)))
+                if (const auto hr = directSound->CreateSoundBuffer(&primaryBufferDesc, &primaryBufferPointer, nullptr); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
 
                 primaryBuffer = primaryBufferPointer;
@@ -127,14 +126,14 @@ namespace ouzel
                 sampleFormat = SampleFormat::float32;
                 sampleSize = sizeof(float);
 
-                if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
+                if (const auto hr = primaryBuffer->SetFormat(&waveFormat); FAILED(hr))
                 {
                     waveFormat.wFormatTag = WAVE_FORMAT_PCM;
                     waveFormat.wBitsPerSample = sizeof(std::int16_t) * 8;
                     waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
                     waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
 
-                    if (FAILED(hr = primaryBuffer->SetFormat(&waveFormat)))
+                    if (const auto hr = primaryBuffer->SetFormat(&waveFormat); FAILED(hr))
                         throw std::system_error(hr, errorCategory, "Failed to set DirectSound buffer format");
 
                     sampleFormat = SampleFormat::signedInt16;
@@ -150,26 +149,26 @@ namespace ouzel
                 bufferDesc.guid3DAlgorithm = GUID_NULL;
 
                 IDirectSoundBuffer* tempBufferPointer;
-                if (FAILED(hr = directSound->CreateSoundBuffer(&bufferDesc, &tempBufferPointer, nullptr)))
+                if (const auto hr = directSound->CreateSoundBuffer(&bufferDesc, &tempBufferPointer, nullptr); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
 
                 Pointer<IDirectSoundBuffer> tempBuffer = tempBufferPointer;
 
                 void* bufferPointer;
-                if (FAILED(hr = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, &bufferPointer)))
+                if (const auto hr = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, &bufferPointer); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
 
                 buffer = static_cast<IDirectSoundBuffer8*>(bufferPointer);
 
                 void* notifyPointer;
-                if (FAILED(hr = tempBuffer->QueryInterface(IID_IDirectSoundNotify, &notifyPointer)))
+                if (const auto hr = tempBuffer->QueryInterface(IID_IDirectSoundNotify, &notifyPointer); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to get DirectSound notify interface");
 
                 notify = static_cast<IDirectSoundNotify*>(notifyPointer);
 
                 void* bufferDataPointer;
                 DWORD lockedBufferSize;
-                if (FAILED(hr = buffer->Lock(0, bufferDesc.dwBufferBytes, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0)))
+                if (const auto hr = buffer->Lock(0, bufferDesc.dwBufferBytes, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
 
                 auto bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
@@ -177,7 +176,7 @@ namespace ouzel
                 getData(lockedBufferSize / (channels * sizeof(std::int16_t)), data);
                 std::copy(data.begin(), data.end(), bufferData);
 
-                if (FAILED(hr = buffer->Unlock(bufferDataPointer, lockedBufferSize, nullptr, 0)))
+                if (const auto hr = buffer->Unlock(bufferDataPointer, lockedBufferSize, nullptr, 0); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to unlock DirectSound buffer");
 
                 nextBuffer = 0;
@@ -197,7 +196,7 @@ namespace ouzel
                 positionNotifyEvents[1].dwOffset = 2 * bufferSize - 1;
                 positionNotifyEvents[1].hEventNotify = notifyEvents[1];
 
-                if (FAILED(hr = notify->SetNotificationPositions(2, positionNotifyEvents)))
+                if (const auto hr = notify->SetNotificationPositions(2, positionNotifyEvents); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to set DirectSound notification positions");
             }
 
@@ -215,8 +214,7 @@ namespace ouzel
 
             void AudioDevice::start()
             {
-                HRESULT hr;
-                if (FAILED(hr = buffer->Play(0, 0, DSBPLAY_LOOPING)))
+                if (const auto hr = buffer->Play(0, 0, DSBPLAY_LOOPING); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to play DirectSound buffer");
 
                 running = true;
@@ -228,8 +226,7 @@ namespace ouzel
                 running = false;
                 if (audioThread.isJoinable()) audioThread.join();
 
-                HRESULT hr;
-                if (FAILED(hr = buffer->Stop()))
+                if (const auto hr = buffer->Stop(); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to stop DirectSound buffer");
             }
 
@@ -251,8 +248,7 @@ namespace ouzel
 
                             void* bufferDataPointer;
                             DWORD lockedBufferSize;
-                            HRESULT hr;
-                            if (FAILED(hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0)))
+                            if (const auto hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0); FAILED(hr))
                                 throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
 
                             auto bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
@@ -261,7 +257,7 @@ namespace ouzel
 
                             std::copy(data.begin(), data.end(), bufferData);
 
-                            if (FAILED(hr = buffer->Unlock(bufferDataPointer, lockedBufferSize, nullptr, 0)))
+                            if (const auto hr = buffer->Unlock(bufferDataPointer, lockedBufferSize, nullptr, 0); FAILED(hr))
                                 throw std::system_error(hr, errorCategory, "Failed to unlock DirectSound buffer");
 
                             nextBuffer = (nextBuffer + 1) % 2;

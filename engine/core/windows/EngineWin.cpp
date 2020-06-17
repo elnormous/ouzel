@@ -79,8 +79,7 @@ namespace ouzel
             }
         }
 
-        HRESULT hr;
-        if (FAILED(hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED)))
+        if (const auto hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED); FAILED(hr))
             throw std::system_error(hr, std::system_category(), "Failed to initialize COM");
 
 #ifdef DEBUG

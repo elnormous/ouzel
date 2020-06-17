@@ -105,9 +105,7 @@ namespace ouzel
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
 
             void* directInputPointer;
-
-            HRESULT hr;
-            if (FAILED(hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, &directInputPointer, nullptr)))
+            if (const auto hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, &directInputPointer, nullptr); FAILED(hr))
                 throw std::system_error(hr, errorCategory, "Failed to initialize DirectInput");
 
             directInput = static_cast<IDirectInput8W*>(directInputPointer);
@@ -123,7 +121,7 @@ namespace ouzel
                     throw std::system_error(result, std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex));
             }
 
-            if (FAILED(hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)))
+            if (const auto hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY); FAILED(hr))
                 throw std::system_error(hr, errorCategory, "Failed to enumerate devices");
         }
 
@@ -277,8 +275,7 @@ namespace ouzel
                     }
                 }
 
-                HRESULT hr;
-                if (FAILED(hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)))
+                if (const auto hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to enumerate devices");
             }
         }
@@ -288,10 +285,8 @@ namespace ouzel
             bool isXInputDevice = false;
 
             void* wbemLocatorPointer;
-            HRESULT hr;
-
-            if (FAILED(hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
-                                             __uuidof(IWbemLocator), &wbemLocatorPointer)))
+            if (const auto hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
+                                                 __uuidof(IWbemLocator), &wbemLocatorPointer); FAILED(hr))
                 throw std::system_error(hr, errorCategory, "Failed to create WMI locator instance");
 
             auto wbemLocator = static_cast<IWbemLocator*>(wbemLocatorPointer);
@@ -303,17 +298,16 @@ namespace ouzel
             if (className && namespaceStr && deviceID)
             {
                 IWbemServices* wbemServices = nullptr;
-
-                if (FAILED(hr = wbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
-                                                           0L, nullptr, nullptr, &wbemServices)))
+                if (const auto hr = wbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
+                                                               0L, nullptr, nullptr, &wbemServices); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to create a connection to the WMI namespace");
 
-                if (FAILED(hr = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
-                                                  RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE)))
+                if (const auto hr = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
+                                                      RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to set authentication information");
 
                 IEnumWbemClassObject* enumDevices = nullptr;
-                if (FAILED(hr = wbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices)))
+                if (const auto hr = wbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to create the device enumerator");
 
                 // Get 20 at a time
@@ -325,7 +319,7 @@ namespace ouzel
                     {
                         // For each device, get its device ID
                         VARIANT var;
-                        hr = devices[device]->Get(deviceID, 0L, &var, nullptr, nullptr);
+                        const auto hr = devices[device]->Get(deviceID, 0L, &var, nullptr, nullptr);
                         if (SUCCEEDED(hr) && var.vt == VT_BSTR && var.bstrVal != nullptr)
                         {
                             // Check if the device ID contains "IG_". If it does, then it's an XInput device

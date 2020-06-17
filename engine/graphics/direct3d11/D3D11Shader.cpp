@@ -98,16 +98,13 @@ namespace ouzel
                 vertexShaderConstantInfo(initVertexShaderConstantInfo)
             {
 				ID3D11PixelShader* newPixelShader;
-
-                HRESULT hr;
-                if (FAILED(hr = renderDevice.getDevice()->CreatePixelShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &newPixelShader)))
+                if (const auto hr = renderDevice.getDevice()->CreatePixelShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &newPixelShader); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to create a Direct3D 11 pixel shader");
 
 				fragmentShader = newPixelShader;
 
 				ID3D11VertexShader* newVertexShader;
-
-                if (FAILED(hr = renderDevice.getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &newVertexShader)))
+                if (const auto hr = renderDevice.getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &newVertexShader); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to create a Direct3D 11 vertex shader");
 
 				vertexShader = newVertexShader;
@@ -180,11 +177,11 @@ namespace ouzel
 
 				ID3D11InputLayout* newInputLayout;
 
-                if (FAILED(hr = renderDevice.getDevice()->CreateInputLayout(vertexInputElements.data(),
-                                                                            static_cast<UINT>(vertexInputElements.size()),
-                                                                            vertexShaderData.data(),
-                                                                            vertexShaderData.size(),
-                                                                            &newInputLayout)))
+                if (const auto hr = renderDevice.getDevice()->CreateInputLayout(vertexInputElements.data(),
+                                                                                static_cast<UINT>(vertexInputElements.size()),
+                                                                                vertexShaderData.data(),
+                                                                                vertexShaderData.size(),
+                                                                                &newInputLayout); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 input layout for vertex shader");
 
 				inputLayout = newInputLayout;
@@ -211,8 +208,8 @@ namespace ouzel
 
 				ID3D11Buffer* newFragmentShaderConstantBuffer;
 
-                if (FAILED(hr = renderDevice.getDevice()->CreateBuffer(&fragmentShaderConstantBufferDesc, nullptr,
-					                                                   &newFragmentShaderConstantBuffer)))
+                if (const auto hr = renderDevice.getDevice()->CreateBuffer(&fragmentShaderConstantBufferDesc, nullptr,
+					                                                       &newFragmentShaderConstantBuffer); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 constant buffer");
 
 				fragmentShaderConstantBuffer = newFragmentShaderConstantBuffer;
@@ -239,8 +236,8 @@ namespace ouzel
 
 				ID3D11Buffer* newVertexShaderConstantBuffer;
 
-                if (FAILED(hr = renderDevice.getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr,
-					                                                   &newVertexShaderConstantBuffer)))
+                if (const auto hr = renderDevice.getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr,
+					                                                       &newVertexShaderConstantBuffer); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 constant buffer");
 
 				vertexShaderConstantBuffer = newVertexShaderConstantBuffer;

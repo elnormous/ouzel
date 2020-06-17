@@ -171,34 +171,32 @@ namespace ouzel
                                                               std::vector<float>& samples)>& initDataGetter):
                 audio::AudioDevice(Driver::wasapi, initBufferSize, initSampleRate, initChannels, initDataGetter)
             {
-                HRESULT hr;
-
                 LPVOID enumeratorPointer;
-                if (FAILED(hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, &enumeratorPointer)))
+                if (const auto hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, &enumeratorPointer); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to create device enumerator");
 
                 enumerator = static_cast<IMMDeviceEnumerator*>(enumeratorPointer);
 
                 IMMDevice* devicePointer;
-                if (FAILED(hr = enumerator->GetDefaultAudioEndpoint(eRender, eConsole, &devicePointer)))
+                if (const auto hr = enumerator->GetDefaultAudioEndpoint(eRender, eConsole, &devicePointer); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to get audio endpoint");
 
                 device = devicePointer;
 
                 notificationClient = new NotificationClient();
 
-                if (FAILED(hr = enumerator->RegisterEndpointNotificationCallback(notificationClient.get())))
+                if (const auto hr = enumerator->RegisterEndpointNotificationCallback(notificationClient.get()); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to get audio endpoint");
 
                 void* audioClientPointer;
-                if (FAILED(hr = device->Activate(IID_IAudioClient, CLSCTX_ALL, nullptr, &audioClientPointer)))
+                if (const auto hr = device->Activate(IID_IAudioClient, CLSCTX_ALL, nullptr, &audioClientPointer); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to activate audio device");
 
                 audioClient = static_cast<IAudioClient*>(audioClientPointer);
 
                 WAVEFORMATEX* audioClientWaveFormat;
 
-                if (FAILED(hr = audioClient->GetMixFormat(&audioClientWaveFormat)))
+                if (const auto hr = audioClient->GetMixFormat(&audioClientWaveFormat); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to get audio mix format");
 
                 WAVEFORMATEX waveFormat;
@@ -231,24 +229,24 @@ namespace ouzel
 
                 CoTaskMemFree(closesMatch);
 
-                if (FAILED(hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED,
-                                                        streamFlags,
-                                                        bufferPeriod,
-                                                        0,
-                                                        &waveFormat,
-                                                        nullptr)))
+                if (const auto hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED,
+                                                            streamFlags,
+                                                            bufferPeriod,
+                                                            0,
+                                                            &waveFormat,
+                                                            nullptr); FAILED(hr))
                 {
                     waveFormat.wFormatTag = WAVE_FORMAT_PCM;
                     waveFormat.wBitsPerSample = sizeof(std::int16_t) * 8;
                     waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
                     waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
 
-                    if (FAILED(hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED,
-                                                            streamFlags,
-															bufferPeriod,
-                                                            0,
-                                                            &waveFormat,
-                                                            nullptr)))
+                    if (const auto hr = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED,
+                                                                streamFlags,
+															    bufferPeriod,
+                                                                0,
+                                                                &waveFormat,
+                                                                nullptr); FAILED(hr))
                         throw std::system_error(hr, errorCategory, "Failed to initialize audio client");
 
                     sampleFormat = SampleFormat::signedInt16;
@@ -256,12 +254,12 @@ namespace ouzel
                 }
 
                 // init output device
-                if (FAILED(hr = audioClient->GetBufferSize(&bufferFrameCount)))
+                if (const auto hr = audioClient->GetBufferSize(&bufferFrameCount); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to get audio buffer size");
                 bufferSize = bufferFrameCount * channels;
 
                 void* renderClientPointer;
-                if (FAILED(hr = audioClient->GetService(IID_IAudioRenderClient, &renderClientPointer)))
+                if (const auto hr = audioClient->GetService(IID_IAudioRenderClient, &renderClientPointer); FAILED(hr))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get render client service");
 
                 renderClient = static_cast<IAudioRenderClient*>(renderClientPointer);
@@ -270,7 +268,7 @@ namespace ouzel
                 if (!notifyEvent)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to create event");
 
-                if (FAILED(hr = audioClient->SetEventHandle(notifyEvent)))
+                if (const auto hr = audioClient->SetEventHandle(notifyEvent); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to set event handle");
             }
 
@@ -288,8 +286,7 @@ namespace ouzel
 
             void AudioDevice::start()
             {
-                HRESULT hr;
-                if (FAILED(hr = audioClient->Start()))
+                if (const auto hr = audioClient->Start(); FAILED(hr))
                     throw std::system_error(hr, errorCategory, "Failed to start audio");
 
                 started = true;
@@ -304,8 +301,7 @@ namespace ouzel
 
                 if (started)
                 {
-                    HRESULT hr;
-                    if (FAILED(hr = audioClient->Stop()))
+                    if (const auto hr = audioClient->Stop(); FAILED(hr))
                         throw std::system_error(hr, errorCategory, "Failed to stop audio");
                     
                     started = false;
@@ -328,23 +324,22 @@ namespace ouzel
                         {
                             if (!running) break;
 
-                            HRESULT hr;
                             UINT32 bufferPadding;
-                            if (FAILED(hr = audioClient->GetCurrentPadding(&bufferPadding)))
+                            if (const auto hr = audioClient->GetCurrentPadding(&bufferPadding); FAILED(hr))
                                 throw std::system_error(hr, errorCategory, "Failed to get buffer padding");
 
                             const UINT32 frameCount = bufferFrameCount - bufferPadding;
                             if (frameCount != 0)
                             {
                                 BYTE* renderBuffer;
-                                if (FAILED(hr = renderClient->GetBuffer(frameCount, &renderBuffer)))
+                                if (const auto hr = renderClient->GetBuffer(frameCount, &renderBuffer); FAILED(hr))
                                     throw std::system_error(hr, errorCategory, "Failed to get buffer");
 
                                 getData(frameCount, data);
 
                                 std::copy(data.begin(), data.end(), renderBuffer);
 
-                                if (FAILED(hr = renderClient->ReleaseBuffer(frameCount, 0)))
+                                if (const auto hr = renderClient->ReleaseBuffer(frameCount, 0); FAILED(hr))
                                     throw std::system_error(hr, errorCategory, "Failed to release buffer");
                             }
                         }
