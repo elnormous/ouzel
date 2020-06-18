@@ -33,7 +33,7 @@ matrix:
     - name: macOS
       compiler: clang
       os: osx
-      osx_image: xcode7.3
+      osx_image: xcode9.4
       addons:
         sonarcloud:
           organization: "elnormous-github"
@@ -41,7 +41,8 @@ matrix:
             secure: "L4nEr4rHuk4Le7jFQyAFNVsI+m7rsInUHPwhQMVPfUQq1gYdy2NzijLVY2Y/DMvmuxn0NgI/AN2b/FcY+qD8vWa4tz07BrRL5PAu+uISSQayVdKE7ELS8ENVrwGPIbpuk5RQpBVCpJOn1SbOmjSPcqHwfedLVt6cqAk/mCXbGBQd0As8YhGTDFwFtxXMD1TNwqpXCSLnUQKsatbtAb1BUH6erBCzTvFquevx70S/c0zv40gB1slla5MQwXrs14IQqJT05TQqJVgls5t4p+C4aZg0nZ3XRIGfpNyUkedod3cW7YW8UJX4brzFjqHyA2EiND3um9ov9aj7ZwRtmlavJs6w/cMS+eFBjAQmW3TZythe7oPYFZAc3c86KDQo0z9h836e7Sav/sGz/BvCpEa9ofTJJoROV8TobP2bWWFqoz0hPj3t8PDnuaoEuQeFdAh5ZjIuQ8OcGJrRMKoowqSWLiFs1XSUSvTU6f+Vhm7BWHuZc+FvmnpXxkJfG+0o4hzOSsQuspKhSrcy5bMJAi5rkxnkMheNKQBS8HZ6tpKwlJYVPX8gJQvfCwX6Z+Srfv22mPuWv/JpPG/NKPrxOHDa7aAQx6irGj+oDjucNmu0L9bkMhPuK3eNwtd6m0eoGAxDdq017gvY7EdczF00TbDNpwUDF4cqEeb7Fg5AQ5F48Tc="
       before_install:
         - curl --insecure https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.3.0.2102-macosx.zip -o sonar-scanner-cli-4.3.0.2102-macosx.zip
-        - mv sonar-scanner-cli-4.3.0.2102-macosx.zip ${TRAVIS_HOME}/.sonarscanner/sonar-scanner.zip
+        - unzip sonar-scanner-cli-4.3.0.2102-macosx.zip -d ${TRAVIS_HOME}/.sonarscanner/
+        - export PATH=${TRAVIS_HOME}/.sonarscanner/sonar-scanner-4.3.0.2102-macosx/bin:$PATH
       before_script:
         - export CXX=clang++
       script:
@@ -50,7 +51,7 @@ matrix:
     - name: iOS
       compiler: clang
       os: osx
-      osx_image: xcode7.3
+      osx_image: xcode9.4
       addons:
         sonarcloud:
           organization: "elnormous-github"
@@ -58,7 +59,8 @@ matrix:
             secure: "L4nEr4rHuk4Le7jFQyAFNVsI+m7rsInUHPwhQMVPfUQq1gYdy2NzijLVY2Y/DMvmuxn0NgI/AN2b/FcY+qD8vWa4tz07BrRL5PAu+uISSQayVdKE7ELS8ENVrwGPIbpuk5RQpBVCpJOn1SbOmjSPcqHwfedLVt6cqAk/mCXbGBQd0As8YhGTDFwFtxXMD1TNwqpXCSLnUQKsatbtAb1BUH6erBCzTvFquevx70S/c0zv40gB1slla5MQwXrs14IQqJT05TQqJVgls5t4p+C4aZg0nZ3XRIGfpNyUkedod3cW7YW8UJX4brzFjqHyA2EiND3um9ov9aj7ZwRtmlavJs6w/cMS+eFBjAQmW3TZythe7oPYFZAc3c86KDQo0z9h836e7Sav/sGz/BvCpEa9ofTJJoROV8TobP2bWWFqoz0hPj3t8PDnuaoEuQeFdAh5ZjIuQ8OcGJrRMKoowqSWLiFs1XSUSvTU6f+Vhm7BWHuZc+FvmnpXxkJfG+0o4hzOSsQuspKhSrcy5bMJAi5rkxnkMheNKQBS8HZ6tpKwlJYVPX8gJQvfCwX6Z+Srfv22mPuWv/JpPG/NKPrxOHDa7aAQx6irGj+oDjucNmu0L9bkMhPuK3eNwtd6m0eoGAxDdq017gvY7EdczF00TbDNpwUDF4cqEeb7Fg5AQ5F48Tc="
       before_install:
         - curl --insecure https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.3.0.2102-macosx.zip -o sonar-scanner-cli-4.3.0.2102-macosx.zip
-        - mv sonar-scanner-cli-4.3.0.2102-macosx.zip ${TRAVIS_HOME}/.sonarscanner/sonar-scanner.zip
+        - unzip sonar-scanner-cli-4.3.0.2102-macosx.zip -d ${TRAVIS_HOME}/.sonarscanner/
+        - export PATH=${TRAVIS_HOME}/.sonarscanner/sonar-scanner-4.3.0.2102-macosx/bin:$PATH
       before_script:
         - export CXX=clang++
       script:
@@ -67,7 +69,7 @@ matrix:
     - name: tvOS
       compiler: clang
       os: osx
-      osx_image: xcode7.3
+      osx_image: xcode9.4
       addons:
         sonarcloud:
           organization: "elnormous-github"
@@ -75,7 +77,8 @@ matrix:
             secure: "L4nEr4rHuk4Le7jFQyAFNVsI+m7rsInUHPwhQMVPfUQq1gYdy2NzijLVY2Y/DMvmuxn0NgI/AN2b/FcY+qD8vWa4tz07BrRL5PAu+uISSQayVdKE7ELS8ENVrwGPIbpuk5RQpBVCpJOn1SbOmjSPcqHwfedLVt6cqAk/mCXbGBQd0As8YhGTDFwFtxXMD1TNwqpXCSLnUQKsatbtAb1BUH6erBCzTvFquevx70S/c0zv40gB1slla5MQwXrs14IQqJT05TQqJVgls5t4p+C4aZg0nZ3XRIGfpNyUkedod3cW7YW8UJX4brzFjqHyA2EiND3um9ov9aj7ZwRtmlavJs6w/cMS+eFBjAQmW3TZythe7oPYFZAc3c86KDQo0z9h836e7Sav/sGz/BvCpEa9ofTJJoROV8TobP2bWWFqoz0hPj3t8PDnuaoEuQeFdAh5ZjIuQ8OcGJrRMKoowqSWLiFs1XSUSvTU6f+Vhm7BWHuZc+FvmnpXxkJfG+0o4hzOSsQuspKhSrcy5bMJAi5rkxnkMheNKQBS8HZ6tpKwlJYVPX8gJQvfCwX6Z+Srfv22mPuWv/JpPG/NKPrxOHDa7aAQx6irGj+oDjucNmu0L9bkMhPuK3eNwtd6m0eoGAxDdq017gvY7EdczF00TbDNpwUDF4cqEeb7Fg5AQ5F48Tc="
       before_install:
         - curl --insecure https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.3.0.2102-macosx.zip -o sonar-scanner-cli-4.3.0.2102-macosx.zip
-        - mv sonar-scanner-cli-4.3.0.2102-macosx.zip ${TRAVIS_HOME}/.sonarscanner/sonar-scanner.zip
+        - unzip sonar-scanner-cli-4.3.0.2102-macosx.zip -d ${TRAVIS_HOME}/.sonarscanner/
+        - export PATH=${TRAVIS_HOME}/.sonarscanner/sonar-scanner-4.3.0.2102-macosx/bin:$PATH
       before_script:
         - export CXX=clang++
       script:
