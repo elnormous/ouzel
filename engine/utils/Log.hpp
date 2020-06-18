@@ -22,6 +22,7 @@
 #include "../math/Vector.hpp"
 #include "../storage/Path.hpp"
 #include "Thread.hpp"
+#include "Utils.hpp"
 
 namespace ouzel
 {
@@ -124,8 +125,7 @@ namespace ouzel
         {
             constexpr char digits[] = "0123456789abcdef";
 
-            std::uintptr_t ptrValue;
-            std::memcpy(&ptrValue, &val, sizeof(ptrValue));
+            const auto ptrValue = bitCast<std::uintptr_t>(val);
 
             for (std::size_t i = 0; i < sizeof(val) * 2; ++i)
                 s.push_back(digits[(ptrValue >> (sizeof(ptrValue) * 2 - i - 1) * 4) & 0x0F]);
