@@ -107,14 +107,14 @@ namespace ouzel
                 explicit Event(Type initType): type(initType) {}
 
                 Type type = Type::none;
-                Controller::Type deviceType;
+                Controller::Type deviceType = Controller::Type::none;
                 DeviceId deviceId;
                 union
                 {
                     Keyboard::Key keyboardKey;
                     Mouse::Button mouseButton;
                     Gamepad::Button gamepadButton;
-                    std::uint64_t touchId;
+                    std::uint64_t touchId = 0;
                 };
                 bool screen = false;
                 bool locked = false;

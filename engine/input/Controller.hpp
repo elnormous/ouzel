@@ -16,6 +16,7 @@ namespace ouzel
         public:
             enum class Type
             {
+                none,
                 keyboard,
                 mouse,
                 touchpad,
