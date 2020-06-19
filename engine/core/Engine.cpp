@@ -710,7 +710,7 @@ namespace ouzel
             if (diff > std::chrono::seconds(1000 / 20)) diff = std::chrono::milliseconds(1000 / 20); // limit the update rate to a minimum 20 FPS
 
             previousUpdateTime = currentTime;
-            const float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
+            const float delta = static_cast<float>(std::chrono::duration_cast<std::chrono::microseconds>(diff).count()) / 1000000.0F;
 
             auto updateEvent = std::make_unique<UpdateEvent>();
             updateEvent->type = Event::Type::update;

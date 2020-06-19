@@ -75,12 +75,14 @@ namespace ouzel
 
         auto convertWindowToNormalizedLocation(const Vector2F& position) const noexcept
         {
-            return Vector2F(position.v[0] / size.v[0], position.v[1] / size.v[1]);
+            return Vector2F(position.v[0] / static_cast<float>(size.v[0]),
+                            position.v[1] / static_cast<float>(size.v[1]));
         }
 
         auto convertNormalizedToWindowLocation(const Vector2F& position) const noexcept
         {
-            return Vector2F(position.v[0] * size.v[0], position.v[1] * size.v[1]);
+            return Vector2F(position.v[0] * static_cast<float>(size.v[0]),
+                            position.v[1] * static_cast<float>(size.v[1]));
         }
 
     private:
