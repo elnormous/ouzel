@@ -14,6 +14,7 @@
 #include "../TouchpadDevice.hpp"
 #include "../../core/Engine.hpp"
 #include "../../utils/Log.hpp"
+#include "../../utils/Utils.hpp"
 
 namespace
 {
@@ -420,8 +421,7 @@ namespace ouzel
             const auto eventCount = bufferSize / sizeof(input_event);
             for (std::size_t eventNum = 0; eventNum < eventCount; ++eventNum)
             {
-                input_event event;
-                std::memcpy(&event, buffer + eventNum * sizeof(input_event), sizeof(input_event));
+                const input_event& event = *bitCast<input_event*>(buffer + eventNum * sizeof(input_event));
 
                 if (keyboardDevice)
                 {
