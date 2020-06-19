@@ -495,7 +495,7 @@ namespace ouzel
                             std::uint8_t charArray[3];
                             for (const auto b : value.as<Value::Data>())
                             {
-                                charArray[c++] = static_cast<char>(b);
+                                charArray[c++] = static_cast<std::uint8_t>(b);
                                 if (c == 3)
                                 {
                                     result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
