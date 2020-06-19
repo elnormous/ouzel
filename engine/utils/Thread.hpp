@@ -92,7 +92,7 @@ namespace ouzel
                 throw std::system_error(errno, std::system_category(), "Failed to get thread max priority");
 
             sched_param param;
-            param.sched_priority = static_cast<int>(priority * (maxPriority - minPriority)) + minPriority;
+            param.sched_priority = static_cast<int>(priority * static_cast<float>(maxPriority - minPriority)) + minPriority;
             const int error = pthread_setschedparam(t.native_handle(), policy, &param);
             if (error != 0)
                 throw std::system_error(error, std::system_category(), "Failed to set thread priority");
