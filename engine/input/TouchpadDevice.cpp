@@ -10,8 +10,7 @@ namespace ouzel
         TouchpadDevice::TouchpadDevice(InputSystem& initInputSystem, DeviceId initId, bool screen):
             InputDevice(initInputSystem, initId, Controller::Type::touchpad)
         {
-            InputSystem::Event deviceConnectEvent;
-            deviceConnectEvent.type = InputSystem::Event::Type::deviceConnect;
+            InputSystem::Event deviceConnectEvent(InputSystem::Event::Type::deviceConnect);
             deviceConnectEvent.deviceId = id;
             deviceConnectEvent.deviceType = type;
             deviceConnectEvent.screen = screen;
@@ -20,8 +19,7 @@ namespace ouzel
 
         TouchpadDevice::~TouchpadDevice()
         {
-            InputSystem::Event deviceDisconnectEvent;
-            deviceDisconnectEvent.type = InputSystem::Event::Type::deviceDisconnect;
+            InputSystem::Event deviceDisconnectEvent(InputSystem::Event::Type::deviceDisconnect);
             deviceDisconnectEvent.deviceId = id;
             deviceDisconnectEvent.deviceType = type;
             inputSystem.sendEvent(deviceDisconnectEvent);

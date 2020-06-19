@@ -10,8 +10,7 @@ namespace ouzel
         MouseDevice::MouseDevice(InputSystem& initInputSystem, DeviceId initId):
             InputDevice(initInputSystem, initId, Controller::Type::mouse)
         {
-            InputSystem::Event deviceConnectEvent;
-            deviceConnectEvent.type = InputSystem::Event::Type::deviceConnect;
+            InputSystem::Event deviceConnectEvent(InputSystem::Event::Type::deviceConnect);
             deviceConnectEvent.deviceId = id;
             deviceConnectEvent.deviceType = type;
             inputSystem.sendEvent(deviceConnectEvent);
@@ -19,8 +18,7 @@ namespace ouzel
 
         MouseDevice::~MouseDevice()
         {
-            InputSystem::Event deviceDisconnectEvent;
-            deviceDisconnectEvent.type = InputSystem::Event::Type::deviceDisconnect;
+            InputSystem::Event deviceDisconnectEvent(InputSystem::Event::Type::deviceDisconnect);
             deviceDisconnectEvent.deviceId = id;
             deviceDisconnectEvent.deviceType = type;
             inputSystem.sendEvent(deviceDisconnectEvent);

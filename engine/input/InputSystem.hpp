@@ -79,6 +79,8 @@ namespace ouzel
             public:
                 enum class Type
                 {
+                    none,
+
                     deviceConnect,
                     deviceDisconnect,
                     deviceDiscoveryComplete,
@@ -104,7 +106,7 @@ namespace ouzel
                 Event() = default;
                 explicit Event(Type initType): type(initType) {}
 
-                Type type;
+                Type type = Type::none;
                 Controller::Type deviceType;
                 DeviceId deviceId;
                 union
