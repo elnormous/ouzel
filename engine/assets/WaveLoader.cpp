@@ -181,7 +181,7 @@ namespace ouzel
                                     const auto* sourceData = &soundData[(frame * channels + channel) * 2];
                                     const auto value = static_cast<std::int32_t>(sourceData[0]) |
                                         static_cast<std::int32_t>(sourceData[1] << 8);
-                                    outputChannel[frame] = value / 32767.0F;
+                                    outputChannel[frame] = static_cast<float>(value) / 32767.0F;
                                 }
                             }
                             break;
