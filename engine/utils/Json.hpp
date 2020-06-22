@@ -331,9 +331,11 @@ namespace ouzel
             private:
                 static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
                 {
-                    for (auto i = std::begin(utf8ByteOrderMark); i != std::end(utf8ByteOrderMark); ++i, ++begin)
+                    for (auto i = std::begin(utf8ByteOrderMark); i != std::end(utf8ByteOrderMark); ++i)
                         if (begin == end || static_cast<std::uint8_t>(*begin) != *i)
                             return false;
+                        else
+                            ++begin;
                     return true;
                 }
 
@@ -474,7 +476,7 @@ namespace ouzel
                                         {
                                             char32_t c = 0;
 
-                                            for (std::uint32_t i = 0; i < 4; ++i, ++iterator)
+                                            for (std::uint32_t i = 0; i < 4; ++i)
                                             {
                                                 if (iterator == end)
                                                     throw ParseError("Unexpected end of data");
@@ -491,6 +493,8 @@ namespace ouzel
                                                     throw ParseError("Invalid character code");
 
                                                 c = (c << 4) | code;
+
+                                                ++iterator;
                                             }
 
                                             if (c <= 0x7F)
