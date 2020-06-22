@@ -12,75 +12,72 @@
 #include "../graphics/Shader.hpp"
 #include "../graphics/Texture.hpp"
 
-namespace ouzel
+namespace ouzel::scene
 {
-    namespace scene
+    class TextRenderer: public Component
     {
-        class TextRenderer: public Component
+    public:
+        TextRenderer(const std::string& fontFile,
+                     float initFontSize = 1.0F,
+                     const std::string& initText = std::string(),
+                     Color initColor = Color::white(),
+                     const Vector2F& initTextAnchor = Vector2F{0.5F, 0.5F});
+
+        void draw(const Matrix4F& transformMatrix,
+                  float opacity,
+                  const Matrix4F& renderViewProjection,
+                  bool wireframe) override;
+
+        void setFont(const std::string& fontFile);
+
+        auto getFontSize() const noexcept { return fontSize; }
+        void setFontSize(float newFontSize);
+
+        auto& getTextAnchor() const noexcept { return textAnchor; }
+        void setTextAnchor(const Vector2F& newTextAnchor);
+
+        auto& getText() const noexcept { return text; }
+        void setText(const std::string& newText);
+
+        auto getColor() const noexcept { return color; }
+        void setColor(Color newColor);
+
+        auto& getShader() const noexcept { return shader; }
+        void setShader(const graphics::Shader* newShader)
         {
-        public:
-            TextRenderer(const std::string& fontFile,
-                         float initFontSize = 1.0F,
-                         const std::string& initText = std::string(),
-                         Color initColor = Color::white(),
-                         const Vector2F& initTextAnchor = Vector2F{0.5F, 0.5F});
+            shader = newShader;
+        }
 
-            void draw(const Matrix4F& transformMatrix,
-                      float opacity,
-                      const Matrix4F& renderViewProjection,
-                      bool wireframe) override;
+        auto& getBlendState() const noexcept { return blendState; }
+        void setBlendState(const graphics::BlendState* newBlendState)
+        {
+            blendState = newBlendState;
+        }
 
-            void setFont(const std::string& fontFile);
+    private:
+        void updateText();
 
-            auto getFontSize() const noexcept { return fontSize; }
-            void setFontSize(float newFontSize);
+        const graphics::Shader* shader = nullptr;
+        const graphics::BlendState* blendState = nullptr;
 
-            auto& getTextAnchor() const noexcept { return textAnchor; }
-            void setTextAnchor(const Vector2F& newTextAnchor);
+        graphics::Buffer indexBuffer;
+        graphics::Buffer vertexBuffer;
 
-            auto& getText() const noexcept { return text; }
-            void setText(const std::string& newText);
+        std::shared_ptr<graphics::Texture> texture;
+        std::shared_ptr<graphics::Texture> whitePixelTexture;
 
-            auto getColor() const noexcept { return color; }
-            void setColor(Color newColor);
+        const gui::Font* font = nullptr;
+        std::string text;
+        float fontSize = 1.0F;
+        Vector2F textAnchor;
 
-            auto& getShader() const noexcept { return shader; }
-            void setShader(const graphics::Shader* newShader)
-            {
-                shader = newShader;
-            }
+        std::vector<std::uint16_t> indices;
+        std::vector<graphics::Vertex> vertices;
 
-            auto& getBlendState() const noexcept { return blendState; }
-            void setBlendState(const graphics::BlendState* newBlendState)
-            {
-                blendState = newBlendState;
-            }
+        Color color = Color::white();
 
-        private:
-            void updateText();
-
-            const graphics::Shader* shader = nullptr;
-            const graphics::BlendState* blendState = nullptr;
-
-            graphics::Buffer indexBuffer;
-            graphics::Buffer vertexBuffer;
-
-            std::shared_ptr<graphics::Texture> texture;
-            std::shared_ptr<graphics::Texture> whitePixelTexture;
-
-            const gui::Font* font = nullptr;
-            std::string text;
-            float fontSize = 1.0F;
-            Vector2F textAnchor;
-
-            std::vector<std::uint16_t> indices;
-            std::vector<graphics::Vertex> vertices;
-
-            Color color = Color::white();
-
-            bool needsMeshUpdate = false;
-        };
-    } // namespace scene
-} // namespace ouzel
+        bool needsMeshUpdate = false;
+    };
+}
 
 #endif // OUZEL_SCENE_TEXTRENDERER_HPP

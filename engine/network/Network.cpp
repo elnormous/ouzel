@@ -25,50 +25,47 @@
 #include "Network.hpp"
 #include "Client.hpp"
 
-namespace ouzel
+namespace ouzel::network
 {
-    namespace network
+    Network::Network()
     {
-        Network::Network()
-        {
 #if defined(_WIN32)
-            const WORD sockVersion = MAKEWORD(2, 2);
-            WSADATA wsaData;
-            const int error = WSAStartup(sockVersion, &wsaData);
-            if (error != 0)
-                throw std::system_error(error, std::system_category(), "Failed to start WinSock failed");
+        const WORD sockVersion = MAKEWORD(2, 2);
+        WSADATA wsaData;
+        const int error = WSAStartup(sockVersion, &wsaData);
+        if (error != 0)
+            throw std::system_error(error, std::system_category(), "Failed to start WinSock failed");
 
-            if (wsaData.wVersion != sockVersion)
-            {
-                WSACleanup();
-                throw std::runtime_error("Invalid WinSock version");
-            }
-
-            wsaVersion = wsaData.wVersion;
-#endif
+        if (wsaData.wVersion != sockVersion)
+        {
+            WSACleanup();
+            throw std::runtime_error("Invalid WinSock version");
         }
 
-        Network::~Network()
-        {
+        wsaVersion = wsaData.wVersion;
+#endif
+    }
+
+    Network::~Network()
+    {
 #if defined(_WIN32)
-            if (wsaVersion) WSACleanup();
+        if (wsaVersion) WSACleanup();
 #endif
-        }
+    }
 
-        std::uint32_t Network::getAddress(const std::string& address)
-        {
-            addrinfo* info;
-            const int ret = getaddrinfo(address.c_str(), nullptr, nullptr, &info);
+    std::uint32_t Network::getAddress(const std::string& address)
+    {
+        addrinfo* info;
+        const int ret = getaddrinfo(address.c_str(), nullptr, nullptr, &info);
 
-            if (ret != 0)
-                throw std::system_error(errno, std::system_category(), "Failed to get address info of " + address);
+        if (ret != 0)
+            throw std::system_error(errno, std::system_category(), "Failed to get address info of " + address);
 
-            sockaddr_in* addr = reinterpret_cast<sockaddr_in*>(info->ai_addr);
-            const std::uint32_t result = ntohl(addr->sin_addr.s_addr);
+        sockaddr_in* addr = reinterpret_cast<sockaddr_in*>(info->ai_addr);
+        const std::uint32_t result = ntohl(addr->sin_addr.s_addr);
 
-            freeaddrinfo(info);
+        freeaddrinfo(info);
 
-            return result;
-        }
-    } // namespace network
-} // namespace ouzel
+        return result;
+    }
+}

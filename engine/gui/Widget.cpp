@@ -2,18 +2,15 @@
 
 #include "Widget.hpp"
 
-namespace ouzel
+namespace ouzel::gui
 {
-    namespace gui
+    void Widget::setEnabled(bool newEnabled)
     {
-        void Widget::setEnabled(bool newEnabled)
-        {
-            enabled = newEnabled;
-        }
+        enabled = newEnabled;
+    }
 
-        void Widget::setSelected(bool newSelected)
-        {
-            selected = newSelected;
-        }
-    } // namespace gui
-} // namespace ouzel
+    void Widget::setSelected(bool newSelected)
+    {
+        selected = newSelected;
+    }
+}

@@ -11,55 +11,52 @@
 #include "../math/Rect.hpp"
 #include "../graphics/Texture.hpp"
 
-namespace ouzel
+namespace ouzel::scene
 {
-    namespace scene
+    class Actor;
+    class Layer;
+
+    class Component
     {
-        class Actor;
-        class Layer;
+        friend Actor;
+    public:
+        Component() = default;
+        virtual ~Component();
 
-        class Component
-        {
-            friend Actor;
-        public:
-            Component() = default;
-            virtual ~Component();
+        Component(const Component&) = delete;
+        Component& operator=(const Component&) = delete;
 
-            Component(const Component&) = delete;
-            Component& operator=(const Component&) = delete;
+        Component(Component&&) = delete;
+        Component& operator=(Component&&) = delete;
 
-            Component(Component&&) = delete;
-            Component& operator=(Component&&) = delete;
+        virtual void draw(const Matrix4F& transformMatrix,
+                          float opacity,
+                          const Matrix4F& renderViewProjection,
+                          bool wireframe);
 
-            virtual void draw(const Matrix4F& transformMatrix,
-                              float opacity,
-                              const Matrix4F& renderViewProjection,
-                              bool wireframe);
+        virtual const Box3F& getBoundingBox() const noexcept { return boundingBox; }
+        virtual void setBoundingBox(const Box3F& newBoundingBox) { boundingBox = newBoundingBox; }
 
-            virtual const Box3F& getBoundingBox() const noexcept { return boundingBox; }
-            virtual void setBoundingBox(const Box3F& newBoundingBox) { boundingBox = newBoundingBox; }
+        virtual bool pointOn(const Vector2F& position) const;
+        virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
 
-            virtual bool pointOn(const Vector2F& position) const;
-            virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
+        auto isHidden() const noexcept { return hidden; }
+        void setHidden(bool newHidden) { hidden = newHidden; }
 
-            auto isHidden() const noexcept { return hidden; }
-            void setHidden(bool newHidden) { hidden = newHidden; }
+        auto getActor() const noexcept { return actor; }
+        void removeFromActor();
 
-            auto getActor() const noexcept { return actor; }
-            void removeFromActor();
+    protected:
+        virtual void setActor(Actor* newActor);
+        virtual void setLayer(Layer* newLayer);
+        virtual void updateTransform();
 
-        protected:
-            virtual void setActor(Actor* newActor);
-            virtual void setLayer(Layer* newLayer);
-            virtual void updateTransform();
+        Box3F boundingBox;
+        bool hidden = false;
 
-            Box3F boundingBox;
-            bool hidden = false;
-
-            Layer* layer = nullptr;
-            Actor* actor = nullptr;
-        };
-    } // namespace scene
-} // namespace ouzel
+        Layer* layer = nullptr;
+        Actor* actor = nullptr;
+    };
+}
 
 #endif // OUZEL_SCENE_COMPONENT_HPP

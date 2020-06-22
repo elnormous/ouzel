@@ -11,81 +11,78 @@
 #include "../graphics/Shader.hpp"
 #include "../math/Color.hpp"
 
-namespace ouzel
+namespace ouzel::scene
 {
-    namespace scene
+    class ShapeRenderer: public Component
     {
-        class ShapeRenderer: public Component
-        {
-        public:
-            ShapeRenderer();
+    public:
+        ShapeRenderer();
 
-            void draw(const Matrix4F& transformMatrix,
-                      float opacity,
-                      const Matrix4F& renderViewProjection,
-                      bool wireframe) override;
+        void draw(const Matrix4F& transformMatrix,
+                  float opacity,
+                  const Matrix4F& renderViewProjection,
+                  bool wireframe) override;
 
-            void clear();
+        void clear();
 
-            void line(const Vector2F& start,
-                      const Vector2F& finish,
-                      Color color,
-                      float thickness = 0.0F);
+        void line(const Vector2F& start,
+                  const Vector2F& finish,
+                  Color color,
+                  float thickness = 0.0F);
 
-            void circle(const Vector2F& position,
-                        float radius,
-                        Color color,
-                        bool fill = false,
-                        std::uint32_t segments = 16,
-                        float thickness = 0.0F);
+        void circle(const Vector2F& position,
+                    float radius,
+                    Color color,
+                    bool fill = false,
+                    std::uint32_t segments = 16,
+                    float thickness = 0.0F);
 
-            void rectangle(const RectF& rectangle,
-                           Color color,
-                           bool fill = false,
-                           float thickness = 0.0F);
-
-            void polygon(const std::vector<Vector2F>& edges,
-                         Color color,
-                         bool fill = false,
-                         float thickness = 0.0F);
-
-            void curve(const std::vector<Vector2F>& controlPoints,
+        void rectangle(const RectF& rectangle,
                        Color color,
-                       std::uint32_t segments = 16,
+                       bool fill = false,
                        float thickness = 0.0F);
 
-            auto& getShader() const noexcept { return shader; }
-            void setShader(const graphics::Shader* newShader)
-            {
-                shader = newShader;
-            }
+        void polygon(const std::vector<Vector2F>& edges,
+                     Color color,
+                     bool fill = false,
+                     float thickness = 0.0F);
 
-            auto& getBlendState() const noexcept { return blendState; }
-            void setBlendState(const graphics::BlendState* newBlendState)
-            {
-                blendState = newBlendState;
-            }
+        void curve(const std::vector<Vector2F>& controlPoints,
+                   Color color,
+                   std::uint32_t segments = 16,
+                   float thickness = 0.0F);
 
-        private:
-            struct DrawCommand final
-            {
-                graphics::DrawMode mode;
-                std::uint32_t indexCount;
-                std::uint32_t startIndex;
-            };
+        auto& getShader() const noexcept { return shader; }
+        void setShader(const graphics::Shader* newShader)
+        {
+            shader = newShader;
+        }
 
-            const graphics::Shader* shader = nullptr;
-            const graphics::BlendState* blendState = nullptr;
-            graphics::Buffer indexBuffer;
-            graphics::Buffer vertexBuffer;
+        auto& getBlendState() const noexcept { return blendState; }
+        void setBlendState(const graphics::BlendState* newBlendState)
+        {
+            blendState = newBlendState;
+        }
 
-            std::vector<DrawCommand> drawCommands;
-
-            std::vector<std::uint16_t> indices;
-            std::vector<graphics::Vertex> vertices;
-            bool dirty = false;
+    private:
+        struct DrawCommand final
+        {
+            graphics::DrawMode mode;
+            std::uint32_t indexCount;
+            std::uint32_t startIndex;
         };
-    } // namespace scene
-} // namespace ouzel
+
+        const graphics::Shader* shader = nullptr;
+        const graphics::BlendState* blendState = nullptr;
+        graphics::Buffer indexBuffer;
+        graphics::Buffer vertexBuffer;
+
+        std::vector<DrawCommand> drawCommands;
+
+        std::vector<std::uint16_t> indices;
+        std::vector<graphics::Vertex> vertices;
+        bool dirty = false;
+    };
+}
 
 #endif // OUZEL_SCENE_SHAPERENDERER_HPP

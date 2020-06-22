@@ -27,95 +27,92 @@
 #  include <errno.h>
 #endif
 
-namespace ouzel
+namespace ouzel::network
 {
-    namespace network
+    inline namespace detail
     {
-        inline namespace detail
+        inline int getLastError() noexcept
         {
-            inline int getLastError() noexcept
-            {
 #if defined(_WIN32)
-                return WSAGetLastError();
+            return WSAGetLastError();
 #elif defined(__unix__) || defined(__APPLE__)
-                return errno;
+            return errno;
 #endif
-            }
+        }
 
 #ifdef _WIN32
-            constexpr auto closeSocket = closesocket;
+        constexpr auto closeSocket = closesocket;
 #else
-            constexpr auto closeSocket = ::close;
+        constexpr auto closeSocket = ::close;
 #endif
-        }
+    }
 
-        enum class InternetProtocol: std::uint8_t
-        {
-            v4,
-            v6
-        };
+    enum class InternetProtocol: std::uint8_t
+    {
+        v4,
+        v6
+    };
 
-        constexpr int getAddressFamily(InternetProtocol internetProtocol)
-        {
-            return (internetProtocol == InternetProtocol::v4) ? AF_INET :
-                (internetProtocol == InternetProtocol::v6) ? AF_INET6 :
-                throw std::runtime_error("Unsupported protocol");
-        }
+    constexpr int getAddressFamily(InternetProtocol internetProtocol)
+    {
+        return (internetProtocol == InternetProtocol::v4) ? AF_INET :
+            (internetProtocol == InternetProtocol::v6) ? AF_INET6 :
+            throw std::runtime_error("Unsupported protocol");
+    }
 
-        class Socket final
-        {
-        public:
+    class Socket final
+    {
+    public:
 #if defined(_WIN32)
-            using Type = SOCKET;
-            static constexpr Type invalid = INVALID_SOCKET;
+        using Type = SOCKET;
+        static constexpr Type invalid = INVALID_SOCKET;
 #elif defined(__unix__) || defined(__APPLE__)
-            using Type = int;
-            static constexpr Type invalid = -1;
+        using Type = int;
+        static constexpr Type invalid = -1;
 #endif
 
-            explicit Socket(InternetProtocol internetProtocol = InternetProtocol::v4):
-                endpoint(socket(getAddressFamily(internetProtocol), SOCK_STREAM, IPPROTO_TCP))
-            {
-                if (endpoint == invalid)
-                    throw std::system_error(getLastError(), std::system_category(), "Failed to create socket");
-            }
+        explicit Socket(InternetProtocol internetProtocol = InternetProtocol::v4):
+            endpoint(socket(getAddressFamily(internetProtocol), SOCK_STREAM, IPPROTO_TCP))
+        {
+            if (endpoint == invalid)
+                throw std::system_error(getLastError(), std::system_category(), "Failed to create socket");
+        }
 
-            explicit constexpr Socket(Type s) noexcept:
-                endpoint(s)
-            {
-            }
+        explicit constexpr Socket(Type s) noexcept:
+            endpoint(s)
+        {
+        }
 
-            ~Socket()
-            {
-                if (endpoint != invalid) closeSocket(endpoint);
-            }
+        ~Socket()
+        {
+            if (endpoint != invalid) closeSocket(endpoint);
+        }
 
-            Socket(const Socket&) = delete;
-            Socket& operator=(const Socket&) = delete;
+        Socket(const Socket&) = delete;
+        Socket& operator=(const Socket&) = delete;
 
-            Socket(Socket&& other) noexcept:
-                endpoint(other.endpoint)
-            {
-                other.endpoint = invalid;
-            }
+        Socket(Socket&& other) noexcept:
+            endpoint(other.endpoint)
+        {
+            other.endpoint = invalid;
+        }
 
-            Socket& operator=(Socket&& other) noexcept
-            {
-                if (&other == this) return *this;
+        Socket& operator=(Socket&& other) noexcept
+        {
+            if (&other == this) return *this;
 
-                if (endpoint != invalid) closeSocket(endpoint);
-                endpoint = other.endpoint;
-                other.endpoint = invalid;
+            if (endpoint != invalid) closeSocket(endpoint);
+            endpoint = other.endpoint;
+            other.endpoint = invalid;
 
-                return *this;
-            }
+            return *this;
+        }
 
-            operator Type() const noexcept { return endpoint; }
+        operator Type() const noexcept { return endpoint; }
 
-        private:
-            Type endpoint = invalid;
-        };
-    } // namespace network
-} // namespace ouzel
+    private:
+        Type endpoint = invalid;
+    };
+}
 
 #endif // OUZEL_NETWORK_SOCKET_HPP

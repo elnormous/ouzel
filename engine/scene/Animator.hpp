@@ -8,63 +8,60 @@
 #include "Component.hpp"
 #include "../events/EventHandler.hpp"
 
-namespace ouzel
+namespace ouzel::scene
 {
-    namespace scene
+    class Animator: public Component
     {
-        class Animator: public Component
-        {
-            friend Actor;
-        public:
-            explicit Animator(float initLength);
-            ~Animator() override;
+        friend Actor;
+    public:
+        explicit Animator(float initLength);
+        ~Animator() override;
 
-            virtual void update(float delta);
+        virtual void update(float delta);
 
-            virtual void start();
-            virtual void play();
+        virtual void start();
+        virtual void play();
 
-            virtual void resume();
-            virtual void stop(bool resetAnimation = false);
-            virtual void reset();
+        virtual void resume();
+        virtual void stop(bool resetAnimation = false);
+        virtual void reset();
 
-            auto isRunning() const noexcept { return running; }
-            auto isDone() const noexcept { return done; }
+        auto isRunning() const noexcept { return running; }
+        auto isDone() const noexcept { return done; }
 
-            auto getLength() const noexcept { return length; }
-            auto getCurrentTime() const noexcept { return currentTime; }
+        auto getLength() const noexcept { return length; }
+        auto getCurrentTime() const noexcept { return currentTime; }
 
-            auto getProgress() const noexcept { return progress; }
-            virtual void setProgress(float newProgress);
+        auto getProgress() const noexcept { return progress; }
+        virtual void setProgress(float newProgress);
 
-            auto getTargetActor() const noexcept { return targetActor; }
+        auto getTargetActor() const noexcept { return targetActor; }
 
-            void addAnimator(std::unique_ptr<Animator> animator);
-            void addAnimator(Animator* animator);
-            bool removeAnimator(const Animator* animator);
-            void removeAllAnimators();
+        void addAnimator(std::unique_ptr<Animator> animator);
+        void addAnimator(Animator* animator);
+        bool removeAnimator(const Animator* animator);
+        void removeAllAnimators();
 
-            auto getParent() const noexcept { return parent; }
-            void removeFromParent();
+        auto getParent() const noexcept { return parent; }
+        void removeFromParent();
 
-        protected:
-            virtual void updateProgress() {}
+    protected:
+        virtual void updateProgress() {}
 
-            float length = 0.0F;
-            float currentTime = 0.0F;
-            float progress = 0.0F;
-            bool done = false;
-            bool running = false;
+        float length = 0.0F;
+        float currentTime = 0.0F;
+        float progress = 0.0F;
+        bool done = false;
+        bool running = false;
 
-            Animator* parent = nullptr;
-            Actor* targetActor = nullptr;
+        Animator* parent = nullptr;
+        Actor* targetActor = nullptr;
 
-            EventHandler updateHandler;
+        EventHandler updateHandler;
 
-            std::vector<Animator*> animators;
-            std::vector<std::unique_ptr<Animator>> ownedAnimators;
-        };
-    } // namespace scene
-} // namespace ouzel
+        std::vector<Animator*> animators;
+        std::vector<std::unique_ptr<Animator>> ownedAnimators;
+    };
+}
 
 #endif // OUZEL_SCENE_ANIMATOR_HPP

@@ -42,128 +42,125 @@
 #  pragma GCC diagnostic pop
 #endif
 
-namespace ouzel
+namespace ouzel::assets
 {
-    namespace assets
+    ImageLoader::ImageLoader(Cache& initCache):
+        Loader(initCache, Loader::image)
     {
-        ImageLoader::ImageLoader(Cache& initCache):
-            Loader(initCache, Loader::image)
+    }
+
+    bool ImageLoader::loadAsset(Bundle& bundle,
+                                const std::string& name,
+                                const std::vector<std::byte>& data,
+                                bool mipmaps)
+    {
+        int width;
+        int height;
+        int comp;
+
+        stbi_uc* tempData = stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(data.data()),
+                                                  static_cast<int>(data.size()),
+                                                  &width, &height,
+                                                  &comp, STBI_default);
+
+        if (!tempData)
+            throw std::runtime_error("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
+
+        graphics::PixelFormat pixelFormat;
+        std::vector<std::uint8_t> imageData;
+
+        switch (comp)
         {
-        }
-
-        bool ImageLoader::loadAsset(Bundle& bundle,
-                                    const std::string& name,
-                                    const std::vector<std::byte>& data,
-                                    bool mipmaps)
-        {
-            int width;
-            int height;
-            int comp;
-
-            stbi_uc* tempData = stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(data.data()),
-                                                      static_cast<int>(data.size()),
-                                                      &width, &height,
-                                                      &comp, STBI_default);
-
-            if (!tempData)
-                throw std::runtime_error("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
-
-            graphics::PixelFormat pixelFormat;
-            std::vector<std::uint8_t> imageData;
-
-            switch (comp)
+            case STBI_grey:
             {
-                case STBI_grey:
+                pixelFormat = graphics::PixelFormat::rgba8UnsignedNorm;
+
+                imageData.resize(static_cast<std::size_t>(width * height * 4));
+
+                for (int y = 0; y < height; ++y)
                 {
-                    pixelFormat = graphics::PixelFormat::rgba8UnsignedNorm;
-
-                    imageData.resize(static_cast<std::size_t>(width * height * 4));
-
-                    for (int y = 0; y < height; ++y)
+                    for (int x = 0; x < width; ++x)
                     {
-                        for (int x = 0; x < width; ++x)
-                        {
-                            const auto sourceOffset = static_cast<std::size_t>(y * width + x);
-                            const auto destinationOffset = static_cast<std::size_t>((y * width + x) * 4);
-                            imageData[destinationOffset + 0] = tempData[sourceOffset];
-                            imageData[destinationOffset + 1] = tempData[sourceOffset];
-                            imageData[destinationOffset + 2] = tempData[sourceOffset];
-                            imageData[destinationOffset + 3] = 255;
-                        }
+                        const auto sourceOffset = static_cast<std::size_t>(y * width + x);
+                        const auto destinationOffset = static_cast<std::size_t>((y * width + x) * 4);
+                        imageData[destinationOffset + 0] = tempData[sourceOffset];
+                        imageData[destinationOffset + 1] = tempData[sourceOffset];
+                        imageData[destinationOffset + 2] = tempData[sourceOffset];
+                        imageData[destinationOffset + 3] = 255;
                     }
-                    stbi_image_free(tempData);
-                    break;
                 }
-                case STBI_grey_alpha:
-                {
-                    pixelFormat = graphics::PixelFormat::rgba8UnsignedNorm;
-
-                    imageData.resize(static_cast<std::size_t>(width * height * 4));
-
-                    for (int y = 0; y < height; ++y)
-                    {
-                        for (int x = 0; x < width; ++x)
-                        {
-                            const auto sourceOffset = static_cast<std::size_t>((y * width + x) * 2);
-                            const auto destinationOffset = static_cast<std::size_t>((y * width + x) * 4);
-                            imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
-                            imageData[destinationOffset + 1] = tempData[sourceOffset + 0];
-                            imageData[destinationOffset + 2] = tempData[sourceOffset + 0];
-                            imageData[destinationOffset + 3] = tempData[sourceOffset + 1];
-                        }
-                    }
-                    stbi_image_free(tempData);
-                    break;
-                }
-                case STBI_rgb:
-                {
-                    pixelFormat = graphics::PixelFormat::rgba8UnsignedNorm;
-
-                    imageData.resize(static_cast<std::size_t>(width * height * 4));
-
-                    for (int y = 0; y < height; ++y)
-                    {
-                        for (int x = 0; x < width; ++x)
-                        {
-                            const auto sourceOffset = static_cast<std::size_t>((y * width + x) * 3);
-                            const auto destinationOffset = static_cast<std::size_t>((y * width + x) * 4);
-                            imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
-                            imageData[destinationOffset + 1] = tempData[sourceOffset + 1];
-                            imageData[destinationOffset + 2] = tempData[sourceOffset + 2];
-                            imageData[destinationOffset + 3] = 255;
-                        }
-                    }
-                    stbi_image_free(tempData);
-                    break;
-                }
-                case STBI_rgb_alpha:
-                {
-                    pixelFormat = graphics::PixelFormat::rgba8UnsignedNorm;
-                    imageData.assign(tempData,
-                                     tempData + static_cast<std::size_t>(width * height) * 4);
-                    stbi_image_free(tempData);
-                    break;
-                }
-                default:
-                    stbi_image_free(tempData);
-                    throw std::runtime_error("Unsupported pixel format");
+                stbi_image_free(tempData);
+                break;
             }
+            case STBI_grey_alpha:
+            {
+                pixelFormat = graphics::PixelFormat::rgba8UnsignedNorm;
 
-            graphics::Image image(pixelFormat,
-                                  Size2U(static_cast<std::uint32_t>(width),
-                                         static_cast<std::uint32_t>(height)),
-                                  imageData);
+                imageData.resize(static_cast<std::size_t>(width * height * 4));
 
-            auto texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
-                                                               image.getData(),
-                                                               image.getSize(),
-                                                               graphics::Flags::none,
-                                                               mipmaps ? 0 : 1,
-                                                               image.getPixelFormat());
+                for (int y = 0; y < height; ++y)
+                {
+                    for (int x = 0; x < width; ++x)
+                    {
+                        const auto sourceOffset = static_cast<std::size_t>((y * width + x) * 2);
+                        const auto destinationOffset = static_cast<std::size_t>((y * width + x) * 4);
+                        imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
+                        imageData[destinationOffset + 1] = tempData[sourceOffset + 0];
+                        imageData[destinationOffset + 2] = tempData[sourceOffset + 0];
+                        imageData[destinationOffset + 3] = tempData[sourceOffset + 1];
+                    }
+                }
+                stbi_image_free(tempData);
+                break;
+            }
+            case STBI_rgb:
+            {
+                pixelFormat = graphics::PixelFormat::rgba8UnsignedNorm;
 
-            bundle.setTexture(name, texture);
+                imageData.resize(static_cast<std::size_t>(width * height * 4));
 
-            return true;
+                for (int y = 0; y < height; ++y)
+                {
+                    for (int x = 0; x < width; ++x)
+                    {
+                        const auto sourceOffset = static_cast<std::size_t>((y * width + x) * 3);
+                        const auto destinationOffset = static_cast<std::size_t>((y * width + x) * 4);
+                        imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
+                        imageData[destinationOffset + 1] = tempData[sourceOffset + 1];
+                        imageData[destinationOffset + 2] = tempData[sourceOffset + 2];
+                        imageData[destinationOffset + 3] = 255;
+                    }
+                }
+                stbi_image_free(tempData);
+                break;
+            }
+            case STBI_rgb_alpha:
+            {
+                pixelFormat = graphics::PixelFormat::rgba8UnsignedNorm;
+                imageData.assign(tempData,
+                                 tempData + static_cast<std::size_t>(width * height) * 4);
+                stbi_image_free(tempData);
+                break;
+            }
+            default:
+                stbi_image_free(tempData);
+                throw std::runtime_error("Unsupported pixel format");
         }
-    } // namespace assets
-} // namespace ouzel
+
+        graphics::Image image(pixelFormat,
+                              Size2U(static_cast<std::uint32_t>(width),
+                                     static_cast<std::uint32_t>(height)),
+                              imageData);
+
+        auto texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
+                                                           image.getData(),
+                                                           image.getSize(),
+                                                           graphics::Flags::none,
+                                                           mipmaps ? 0 : 1,
+                                                           image.getPixelFormat());
+
+        bundle.setTexture(name, texture);
+
+        return true;
+    }
+}

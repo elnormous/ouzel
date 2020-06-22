@@ -22,37 +22,34 @@
 #include <string>
 #include <vector>
 
-namespace ouzel
+namespace ouzel::network
 {
-    namespace network
+    class Client;
+
+    constexpr std::uint32_t anyAddress = 0;
+    constexpr std::uint16_t anyPort = 0;
+
+    class Network final
     {
-        class Client;
+    public:
+        Network();
+        ~Network();
 
-        constexpr std::uint32_t anyAddress = 0;
-        constexpr std::uint16_t anyPort = 0;
+        Network(const Network&) = delete;
+        Network& operator=(const Network&) = delete;
 
-        class Network final
-        {
-        public:
-            Network();
-            ~Network();
+        Network(Network&&) = delete;
+        Network& operator=(Network&&) = delete;
 
-            Network(const Network&) = delete;
-            Network& operator=(const Network&) = delete;
+        static std::uint32_t getAddress(const std::string& address);
 
-            Network(Network&&) = delete;
-            Network& operator=(Network&&) = delete;
-
-            static std::uint32_t getAddress(const std::string& address);
-
-        private:
+    private:
 #if defined(_WIN32)
-            WORD wsaVersion = 0;
+        WORD wsaVersion = 0;
 #endif
 
-            std::vector<std::unique_ptr<Client>> clients;
-        };
-    } // namespace network
-} // namespace ouzel
+        std::vector<std::unique_ptr<Client>> clients;
+    };
+}
 
 #endif // OUZEL_NETWORK_NETWORK_HPP

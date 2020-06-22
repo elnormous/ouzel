@@ -4,111 +4,108 @@
 #include "Actor.hpp"
 #include "../math/MathUtils.hpp"
 
-namespace ouzel
+namespace ouzel::scene
 {
-    namespace scene
+    Component::~Component()
     {
-        Component::~Component()
-        {
-            if (actor) actor->removeComponent(this);
-        }
+        if (actor) actor->removeComponent(this);
+    }
 
-        void Component::draw(const Matrix4F&,
-                             float,
-                             const Matrix4F&,
-                             bool)
-        {
-        }
+    void Component::draw(const Matrix4F&,
+                         float,
+                         const Matrix4F&,
+                         bool)
+    {
+    }
 
-        bool Component::pointOn(const Vector2F& position) const
-        {
-            return boundingBox.containsPoint(Vector3F(position));
-        }
+    bool Component::pointOn(const Vector2F& position) const
+    {
+        return boundingBox.containsPoint(Vector3F(position));
+    }
 
-        namespace
+    namespace
+    {
+        void gatherPolygonProjectionExtents(const std::vector<Vector2F>& vertList,
+                                            const Vector2F& v,
+                                            float& outMin, float& outMax)
         {
-            void gatherPolygonProjectionExtents(const std::vector<Vector2F>& vertList,
-                                                const Vector2F& v,
-                                                float& outMin, float& outMax)
+            auto i = vertList.begin();
+            if (i != vertList.end())
             {
-                auto i = vertList.begin();
-                if (i != vertList.end())
-                {
-                    outMin = outMax = v.dot(*i);
-                    ++i;
+                outMin = outMax = v.dot(*i);
+                ++i;
 
-                    for (; i != vertList.end(); ++i)
-                    {
-                        const float d = v.dot(*i);
-                        if (d < outMin) outMin = d;
-                        else if (d > outMax) outMax = d;
-                    }
+                for (; i != vertList.end(); ++i)
+                {
+                    const float d = v.dot(*i);
+                    if (d < outMin) outMin = d;
+                    else if (d > outMax) outMax = d;
                 }
             }
+        }
 
-            bool findSeparatingAxis(const std::vector<Vector2F>& aVertList,
-                                    const std::vector<Vector2F>& bVertList)
+        bool findSeparatingAxis(const std::vector<Vector2F>& aVertList,
+                                const std::vector<Vector2F>& bVertList)
+        {
+            Vector2F v;
+            auto prev = aVertList.end() - 1;
+            for (auto cur = aVertList.begin(); cur != aVertList.end(); ++cur)
             {
-                Vector2F v;
-                auto prev = aVertList.end() - 1;
-                for (auto cur = aVertList.begin(); cur != aVertList.end(); ++cur)
-                {
-                    const Vector2F edge = *cur - *prev;
-                    v.v[0] = edge.v[1];
-                    v.v[1] = -edge.v[0];
+                const Vector2F edge = *cur - *prev;
+                v.v[0] = edge.v[1];
+                v.v[1] = -edge.v[0];
 
-                    float aMin = 0.0F;
-                    float aMax = 0.0F;
-                    float bMin = 0.0F;
-                    float bMax = 0.0F;
-                    gatherPolygonProjectionExtents(aVertList, v, aMin, aMax);
-                    gatherPolygonProjectionExtents(bVertList, v, bMin, bMax);
+                float aMin = 0.0F;
+                float aMax = 0.0F;
+                float bMin = 0.0F;
+                float bMax = 0.0F;
+                gatherPolygonProjectionExtents(aVertList, v, aMin, aMax);
+                gatherPolygonProjectionExtents(bVertList, v, bMin, bMax);
 
-                    if (aMax < bMin) return true;
-                    if (bMax < aMin) return true;
+                if (aMax < bMin) return true;
+                if (bMax < aMin) return true;
 
-                    prev = cur;
-                }
-
-                return false;
+                prev = cur;
             }
+
+            return false;
         }
+    }
 
-        bool Component::shapeOverlaps(const std::vector<Vector2F>& edges) const
-        {
-            const std::vector<Vector2F> boundingBoxEdges = {
-                Vector2F(boundingBox.min),
-                Vector2F(boundingBox.max.v[0], boundingBox.min.v[1]),
-                Vector2F(boundingBox.max),
-                Vector2F(boundingBox.min.v[0], boundingBox.max.v[1])
-            };
+    bool Component::shapeOverlaps(const std::vector<Vector2F>& edges) const
+    {
+        const std::vector<Vector2F> boundingBoxEdges = {
+            Vector2F(boundingBox.min),
+            Vector2F(boundingBox.max.v[0], boundingBox.min.v[1]),
+            Vector2F(boundingBox.max),
+            Vector2F(boundingBox.min.v[0], boundingBox.max.v[1])
+        };
 
-            if (findSeparatingAxis(boundingBoxEdges, edges))
-                return false;
+        if (findSeparatingAxis(boundingBoxEdges, edges))
+            return false;
 
-            if (findSeparatingAxis(edges, boundingBoxEdges))
-                return false;
+        if (findSeparatingAxis(edges, boundingBoxEdges))
+            return false;
 
-            return true;
-        }
+        return true;
+    }
 
-        void Component::removeFromActor()
-        {
-            if (actor) actor->removeComponent(this);
-        }
+    void Component::removeFromActor()
+    {
+        if (actor) actor->removeComponent(this);
+    }
 
-        void Component::setActor(Actor* newActor)
-        {
-            actor = newActor;
-        }
+    void Component::setActor(Actor* newActor)
+    {
+        actor = newActor;
+    }
 
-        void Component::setLayer(Layer* newLayer)
-        {
-            layer = newLayer;
-        }
+    void Component::setLayer(Layer* newLayer)
+    {
+        layer = newLayer;
+    }
 
-        void Component::updateTransform()
-        {
-        }
-    } // namespace scene
-} // namespace ouzel
+    void Component::updateTransform()
+    {
+    }
+}

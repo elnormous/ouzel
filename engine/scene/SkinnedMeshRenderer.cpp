@@ -3,35 +3,32 @@
 #include "SkinnedMeshRenderer.hpp"
 #include "../core/Engine.hpp"
 
-namespace ouzel
+namespace ouzel::scene
 {
-    namespace scene
+    SkinnedMeshRenderer::SkinnedMeshRenderer()
     {
-        SkinnedMeshRenderer::SkinnedMeshRenderer()
-        {
-            whitePixelTexture = engine->getCache().getTexture(textureWhitePixel);
-        }
+        whitePixelTexture = engine->getCache().getTexture(textureWhitePixel);
+    }
 
-        SkinnedMeshRenderer::SkinnedMeshRenderer(const SkinnedMeshData& meshData)
-        {
-            init(meshData);
-        }
+    SkinnedMeshRenderer::SkinnedMeshRenderer(const SkinnedMeshData& meshData)
+    {
+        init(meshData);
+    }
 
-        void SkinnedMeshRenderer::init(const SkinnedMeshData& meshData)
-        {
-            boundingBox = meshData.boundingBox;
-            material = meshData.material;
-        }
+    void SkinnedMeshRenderer::init(const SkinnedMeshData& meshData)
+    {
+        boundingBox = meshData.boundingBox;
+        material = meshData.material;
+    }
 
-        void SkinnedMeshRenderer::draw(const Matrix4F& transformMatrix,
-                                       float opacity,
-                                       const Matrix4F& renderViewProjection,
-                                       bool wireframe)
-        {
-            Component::draw(transformMatrix,
-                            opacity,
-                            renderViewProjection,
-                            wireframe);
-        }
-    } // namespace scene
-} // namespace ouzel
+    void SkinnedMeshRenderer::draw(const Matrix4F& transformMatrix,
+                                   float opacity,
+                                   const Matrix4F& renderViewProjection,
+                                   bool wireframe)
+    {
+        Component::draw(transformMatrix,
+                        opacity,
+                        renderViewProjection,
+                        wireframe);
+    }
+}

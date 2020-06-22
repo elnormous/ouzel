@@ -3,33 +3,30 @@
 #include "Client.hpp"
 #include "Network.hpp"
 
-namespace ouzel
+namespace ouzel::network
 {
-    namespace network
+    Client::Client(Network& initNetwork):
+        network(&initNetwork)
     {
-        Client::Client(Network& initNetwork):
-            network(&initNetwork)
-        {
-        }
+    }
 
-        Client::~Client()
-        {
-        }
+    Client::~Client()
+    {
+    }
 
-        void Client::connect(const std::string&, std::uint16_t)
-        {
-        }
+    void Client::connect(const std::string&, std::uint16_t)
+    {
+    }
 
-        void Client::disconnect()
-        {
-            if (connected)
+    void Client::disconnect()
+    {
+        if (connected)
 #if defined(_WIN32)
-                if (shutdown(sock, SD_BOTH) == SOCKET_ERROR)
-                    throw std::system_error(WSAGetLastError(), std::system_category(), "Failed to shutdown socket");
+            if (shutdown(sock, SD_BOTH) == SOCKET_ERROR)
+                throw std::system_error(WSAGetLastError(), std::system_category(), "Failed to shutdown socket");
 #elif defined(__unix__) || defined(__APPLE__)
-                if (shutdown(sock, SHUT_RDWR) == -1)
-                    throw std::system_error(errno, std::system_category(), "Failed to shutdown socket");
+            if (shutdown(sock, SHUT_RDWR) == -1)
+                throw std::system_error(errno, std::system_category(), "Failed to shutdown socket");
 #endif
-        }
-    } // namespace network
-} // namespace ouzel
+    }
+}

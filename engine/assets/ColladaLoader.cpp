@@ -6,37 +6,34 @@
 #include "../scene/SkinnedMeshRenderer.hpp"
 #include "../utils/Xml.hpp"
 
-namespace ouzel
+namespace ouzel::assets
 {
-    namespace assets
+    ColladaLoader::ColladaLoader(Cache& initCache):
+        Loader(initCache, Loader::skinnedMesh)
     {
-        ColladaLoader::ColladaLoader(Cache& initCache):
-            Loader(initCache, Loader::skinnedMesh)
-        {
-        }
+    }
 
-        bool ColladaLoader::loadAsset(Bundle& bundle,
-                                      const std::string& name,
-                                      const std::vector<std::byte>& data,
-                                      bool)
-        {
-            xml::Data colladaData = xml::parse(data);
+    bool ColladaLoader::loadAsset(Bundle& bundle,
+                                  const std::string& name,
+                                  const std::vector<std::byte>& data,
+                                  bool)
+    {
+        xml::Data colladaData = xml::parse(data);
 
-            if (colladaData.getChildren().empty())
-                throw std::runtime_error("Invalid Collada file");
+        if (colladaData.getChildren().empty())
+            throw std::runtime_error("Invalid Collada file");
 
-            xml::Node rootNode = colladaData.getChildren().front();
+        xml::Node rootNode = colladaData.getChildren().front();
 
-            if (rootNode.getValue() != "COLLADA")
-                throw std::runtime_error("Invalid Collada file");
+        if (rootNode.getValue() != "COLLADA")
+            throw std::runtime_error("Invalid Collada file");
 
-            scene::SkinnedMeshData meshData;
+        scene::SkinnedMeshData meshData;
 
-            // TODO: load the model
+        // TODO: load the model
 
-            bundle.setSkinnedMeshData(name, std::move(meshData));
+        bundle.setSkinnedMeshData(name, std::move(meshData));
 
-            return true;
-        }
-    } // namespace assets
-} // namespace ouzel
+        return true;
+    }
+}

@@ -6,55 +6,52 @@
 #include <string>
 #include <vector>
 
-namespace ouzel
+namespace ouzel::assets
 {
-    namespace assets
+    class Cache;
+    class Bundle;
+
+    class Loader
     {
-        class Cache;
-        class Bundle;
-
-        class Loader
+    public:
+        enum Type
         {
-        public:
-            enum Type
-            {
-                bank,
-                font,
-                staticMesh,
-                skinnedMesh,
-                image,
-                material,
-                particleSystem,
-                sprite,
-                sound,
-                cue
-            };
-
-            Loader(Cache& initCache, std::uint32_t initType):
-                cache(initCache), type(initType)
-            {
-            }
-
-            virtual ~Loader() = default;
-
-            Loader(const Loader&) = delete;
-            Loader& operator=(const Loader&) = delete;
-
-            Loader(Loader&&) = delete;
-            Loader& operator=(Loader&&) = delete;
-
-            auto getType() const noexcept { return type; }
-
-            virtual bool loadAsset(Bundle& bundle,
-                                   const std::string& name,
-                                   const std::vector<std::byte>& data,
-                                   bool mipmaps = true) = 0;
-
-        protected:
-            Cache& cache;
-            std::uint32_t type;
+            bank,
+            font,
+            staticMesh,
+            skinnedMesh,
+            image,
+            material,
+            particleSystem,
+            sprite,
+            sound,
+            cue
         };
-    } // namespace assets
-} // namespace ouzel
+
+        Loader(Cache& initCache, std::uint32_t initType):
+            cache(initCache), type(initType)
+        {
+        }
+
+        virtual ~Loader() = default;
+
+        Loader(const Loader&) = delete;
+        Loader& operator=(const Loader&) = delete;
+
+        Loader(Loader&&) = delete;
+        Loader& operator=(Loader&&) = delete;
+
+        auto getType() const noexcept { return type; }
+
+        virtual bool loadAsset(Bundle& bundle,
+                               const std::string& name,
+                               const std::vector<std::byte>& data,
+                               bool mipmaps = true) = 0;
+
+    protected:
+        Cache& cache;
+        std::uint32_t type;
+    };
+}
 
 #endif // OUZEL_ASSETS_LOADER_HPP

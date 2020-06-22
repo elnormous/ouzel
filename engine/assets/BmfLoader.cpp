@@ -4,32 +4,29 @@
 #include "Bundle.hpp"
 #include "../gui/BMFont.hpp"
 
-namespace ouzel
+namespace ouzel::assets
 {
-    namespace assets
+    BmfLoader::BmfLoader(Cache& initCache):
+        Loader(initCache, Loader::font)
     {
-        BmfLoader::BmfLoader(Cache& initCache):
-            Loader(initCache, Loader::font)
+    }
+
+    bool BmfLoader::loadAsset(Bundle& bundle,
+                              const std::string& name,
+                              const std::vector<std::byte>& data,
+                              bool)
+    {
+        try
         {
+            // TODO: move the loader here
+            auto font = std::make_unique<gui::BMFont>(data);
+            bundle.setFont(name, std::move(font));
+        }
+        catch (const std::exception&)
+        {
+            return false;
         }
 
-        bool BmfLoader::loadAsset(Bundle& bundle,
-                                  const std::string& name,
-                                  const std::vector<std::byte>& data,
-                                  bool)
-        {
-            try
-            {
-                // TODO: move the loader here
-                auto font = std::make_unique<gui::BMFont>(data);
-                bundle.setFont(name, std::move(font));
-            }
-            catch (const std::exception&)
-            {
-                return false;
-            }
-
-            return true;
-        }
-    } // namespace assets
-} // namespace ouzel
+        return true;
+    }
+}

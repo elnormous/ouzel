@@ -6,32 +6,29 @@
 #include "Socket.hpp"
 #include "../utils/Thread.hpp"
 
-namespace ouzel
+namespace ouzel::network
 {
-    namespace network
+    class Network;
+
+    class Server final
     {
-        class Network;
+    public:
+        explicit Server(Network& initNetwork);
+        ~Server();
 
-        class Server final
-        {
-        public:
-            explicit Server(Network& initNetwork);
-            ~Server();
+        Server(const Server&) = delete;
+        Server& operator=(const Server&) = delete;
 
-            Server(const Server&) = delete;
-            Server& operator=(const Server&) = delete;
+        void listen(const std::string& address, std::uint16_t port);
+        void disconnect();
 
-            void listen(const std::string& address, std::uint16_t port);
-            void disconnect();
-
-        private:
-            Network* network = nullptr;
-            Socket sock;
-            Thread readThread;
-            Thread writeThread;
-            bool connected = false;
-        };
-    } // namespace network
-} // namespace ouzel
+    private:
+        Network* network = nullptr;
+        Socket sock;
+        Thread readThread;
+        Thread writeThread;
+        bool connected = false;
+    };
+}
 
 #endif // OUZEL_NETWORK_SERVER_HPP

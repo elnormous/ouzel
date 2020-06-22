@@ -5,33 +5,30 @@
 
 #include "../scene/Actor.hpp"
 
-namespace ouzel
+namespace ouzel::gui
 {
-    namespace gui
+    class Menu;
+
+    class Widget: public scene::Actor
     {
-        class Menu;
+        friend Menu;
+    public:
+        Widget() = default;
 
-        class Widget: public scene::Actor
-        {
-            friend Menu;
-        public:
-            Widget() = default;
+        auto getMenu() const noexcept { return menu; }
 
-            auto getMenu() const noexcept { return menu; }
+        virtual void setEnabled(bool newEnabled);
+        auto isEnabled() const noexcept { return enabled; }
 
-            virtual void setEnabled(bool newEnabled);
-            auto isEnabled() const noexcept { return enabled; }
+        auto isSelected() const noexcept { return selected; }
 
-            auto isSelected() const noexcept { return selected; }
+    protected:
+        virtual void setSelected(bool newSelected);
 
-        protected:
-            virtual void setSelected(bool newSelected);
-
-            Menu* menu = nullptr;
-            bool enabled = true;
-            bool selected = false;
-        };
-    } // namespace gui
-} // namespace ouzel
+        Menu* menu = nullptr;
+        bool enabled = true;
+        bool selected = false;
+    };
+}
 
 #endif // OUZEL_GUI_WIDGET_HPP

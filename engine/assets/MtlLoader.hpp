@@ -5,20 +5,17 @@
 
 #include "Loader.hpp"
 
-namespace ouzel
+namespace ouzel::assets
 {
-    namespace assets
+    class MtlLoader final: public Loader
     {
-        class MtlLoader final: public Loader
-        {
-        public:
-            explicit MtlLoader(Cache& initCache);
-            bool loadAsset(Bundle& bundle,
-                           const std::string& name,
-                           const std::vector<std::byte>& data,
-                           bool mipmaps = true) final;
-        };
-    } // namespace assets
-} // namespace ouzel
+    public:
+        explicit MtlLoader(Cache& initCache);
+        bool loadAsset(Bundle& bundle,
+                       const std::string& name,
+                       const std::vector<std::byte>& data,
+                       bool mipmaps = true) final;
+    };
+}
 
 #endif // OUZEL_ASSETS_MTLLOADER_HPP

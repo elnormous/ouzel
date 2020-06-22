@@ -10,43 +10,40 @@
 #include <set>
 #include <vector>
 
-namespace ouzel
+namespace ouzel::scene
 {
-    namespace scene
+    class Scene;
+
+    class SceneManager final
     {
-        class Scene;
+    public:
+        SceneManager() = default;
+        ~SceneManager();
 
-        class SceneManager final
+        SceneManager(const SceneManager&) = delete;
+        SceneManager& operator=(const SceneManager&) = delete;
+
+        SceneManager(SceneManager&&) = delete;
+        SceneManager& operator=(SceneManager&&) = delete;
+
+        void draw();
+
+        void setScene(Scene* scene);
+
+        template <class T> void setScene(std::unique_ptr<T> scene)
         {
-        public:
-            SceneManager() = default;
-            ~SceneManager();
+            setScene(scene.get());
+            ownedScenes.push_back(std::move(scene));
+        }
 
-            SceneManager(const SceneManager&) = delete;
-            SceneManager& operator=(const SceneManager&) = delete;
+        bool removeScene(const Scene* scene);
 
-            SceneManager(SceneManager&&) = delete;
-            SceneManager& operator=(SceneManager&&) = delete;
+        auto getScene() const noexcept { return scenes.empty() ? nullptr : scenes.back(); }
 
-            void draw();
-
-            void setScene(Scene* scene);
-
-            template <class T> void setScene(std::unique_ptr<T> scene)
-            {
-                setScene(scene.get());
-                ownedScenes.push_back(std::move(scene));
-            }
-
-            bool removeScene(const Scene* scene);
-
-            auto getScene() const noexcept { return scenes.empty() ? nullptr : scenes.back(); }
-
-        private:
-            std::vector<Scene*> scenes;
-            std::vector<std::unique_ptr<Scene>> ownedScenes;
-        };
-    } // namespace scene
-} // namespace ouzel
+    private:
+        std::vector<Scene*> scenes;
+        std::vector<std::unique_ptr<Scene>> ownedScenes;
+    };
+}
 
 #endif // OUZEL_SCENE_SCENEMANAGER_HPP

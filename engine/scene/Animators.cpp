@@ -8,592 +8,589 @@
 #include "../math/Fnv.hpp"
 #include "../utils/Utils.hpp"
 
-namespace ouzel
+namespace ouzel::scene
 {
-    namespace scene
+    namespace
     {
-        namespace
+        float sineIn(const float t)
         {
-            float sineIn(const float t)
-            {
-                return 1.0F - std::cos(t * pi<float> / 2.0F);
-            }
-
-            float sineOut(const float t)
-            {
-                return std::sin(t * pi<float> / 2.0F);
-            }
-
-            float sineInOut(const float t)
-            {
-                return -0.5F * (std::cos(pi<float> * t) - 1.0F);
-            }
-
-            constexpr float quadIn(const float t)
-            {
-                return t * t;
-            }
-
-            constexpr float quadOut(const float t)
-            {
-                return t * (2.0F - t);
-            }
-
-            constexpr float quadInOut(const float t)
-            {
-                return (t < 0.5F) ?
-                    2.0F * t * t :
-                    -1.0F + (4.0F - 2.0F * t) * t;
-            }
-
-            constexpr float cubicIn(const float t)
-            {
-                return t * t * t;
-            }
-
-            constexpr float cubicOut(const float t)
-            {
-                return (t - 1.0F) * (t - 1.0F) * (t - 1.0F) + 1.0F;
-            }
-
-            constexpr float cubicInOut(const float t)
-            {
-                return (t < 0.5F) ?
-                    4.0F * t * t * t :
-                    (t - 1.0F) * (2.0F * t - 2.0F) * (2.0F * t - 2.0F) + 1.0F;
-            }
-
-            constexpr float quartIn(const float t)
-            {
-                return t * t * t * t;
-            }
-
-            constexpr float quartOut(const float t)
-            {
-                return 1.0F - (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
-            }
-
-            constexpr float quartInOut(const float t)
-            {
-                return (t < 0.5F) ?
-                    8.0F * t * t * t * t :
-                    1.0F - 8.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
-            }
-
-            constexpr float quintIn(const float t)
-            {
-                return t * t * t * t * t;
-            }
-
-            constexpr float quintOut(const float t)
-            {
-                return 1.0F + (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
-            }
-
-            constexpr float quintInOut(const float t)
-            {
-                return (t < 0.5F) ?
-                    16.0F * t * t * t * t * t :
-                    1.0F + 16.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
-            }
-
-            float expoIn(const float t)
-            {
-                return std::pow(2.0F, 10.0F * (t - 1.0F));
-            }
-
-            float expoOut(const float t)
-            {
-                return 1.0F - std::pow(2.0F, -10.0F * t);
-            }
-
-            float expoInOut(const float t)
-            {
-                return (t < 0.5F) ?
-                    0.5F * std::pow(2.0F, 10.0F * (2.0F * t - 1.0F)) :
-                    0.5F * (std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
-            }
-
-            float circIn(const float t)
-            {
-                return 1.0F - std::sqrt(1.0F - t * t);
-            }
-
-            float circOut(const float t)
-            {
-                return std::sqrt(1.0F - (t - 1.0F) * (t - 1.0F));
-            }
-
-            float circInOut(const float t)
-            {
-                return (t < 0.5F) ?
-                    0.5F * (-std::sqrt(1.0F - (t * 2.0F) * (t * 2.0F)) + 1.0F) :
-                    0.5F * (std::sqrt(1.0F - (t * 2.0F - 2.0F) * (t * 2.0F - 2.0F)) + 1.0F);
-            }
-
-            float backIn(const float t)
-            {
-                static constexpr float s = 1.70158F;
-                return t * t * ((s + 1.0F) * t - s);
-            }
-
-            float backOut(const float t)
-            {
-                static constexpr float s = 1.70158F;
-                return (t - 1.0F) * (t - 1.0F) * ((s + 1.0F) * (t - 1.0F) + s) + 1.0F;
-            }
-
-            float backInOut(const float t)
-            {
-                static constexpr float s = 1.70158F * 1.525F;
-                return (t < 0.5F) ?
-                    0.5F * ((t * 2.0F) * (t * 2.0F) * ((s + 1.0F) * (t * 2.0F) - s)):
-                    0.5F * ((t * 2.0F - 2.0F) * (t * 2.0F - 2.0F) * ((s + 1.0F) * (t * 2.0F - 2.0F) + s) + 2.0F);
-            }
-
-            float elasticIn(const float t)
-            {
-                if (t == 0.0F) return 0.0F;
-                if (t == 1.0F) return 1.0F;
-
-                static constexpr float p = 0.3F;
-
-                return -std::pow(2.0F, 10.0F * (t - 1.0F)) * std::sin(((t - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p);
-            }
-
-            float elasticOut(const float t)
-            {
-                if (t == 0.0F) return 0.0F;
-                if (t == 1.0F) return 1.0F;
-
-                static constexpr float p = 0.3F;
-
-                return std::pow(2.0F, -10.0F * t) * std::sin((t - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
-            }
-
-            float elasticInOut(const float t)
-            {
-                if (t == 0.0F) return 0.0F;
-                if (t == 1.0F) return 1.0F;
-
-                static constexpr float p = 0.3F * 1.5F;
-
-                return (t < 0.5F) ?
-                    -0.5F * std::pow(2.0F, 10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) :
-                    0.5F * std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
-            }
-
-            float bounceOut(const float t)
-            {
-                if (t < 1.0F / 2.75F)
-                    return 7.5625F * t * t;
-                else if (t < 2.0F / 2.75F)
-                    return 7.5625F * (t - 1.5F / 2.75F) * (t - 1.5F / 2.75F) + 0.75F;
-                else if (t < 2.5F / 2.75F)
-                    return 7.5625F * (t - 2.25F / 2.75F) * (t - 2.25F / 2.75F) + 0.9375F;
-                else
-                    return 7.5625F * (t - 2.625F / 2.75F) * (t - 2.625F / 2.75F) + 0.984375F;
-            }
-
-            float bounceIn(const float t)
-            {
-                return 1.0F - bounceOut(1.0F - t);
-            }
-
-            float bounceInOut(const float t)
-            {
-                return (t < 0.5F) ?
-                    bounceOut(t * 2.0F) * 0.5F :
-                    bounceOut(t * 2.0F - 1.0F) * 0.5F + 0.5F;
-            }
+            return 1.0F - std::cos(t * pi<float> / 2.0F);
         }
 
-        Ease::Ease(Animator& animator, Mode initMode, Func initFunc):
-            Animator(animator.getLength()), mode(initMode), func(initFunc)
+        float sineOut(const float t)
         {
-            addAnimator(&animator);
+            return std::sin(t * pi<float> / 2.0F);
         }
 
-        void Ease::updateProgress()
+        float sineInOut(const float t)
         {
-            Animator::updateProgress();
+            return -0.5F * (std::cos(pi<float> * t) - 1.0F);
+        }
 
-            if (animators.empty()) return;
+        constexpr float quadIn(const float t)
+        {
+            return t * t;
+        }
 
-            switch (mode)
+        constexpr float quadOut(const float t)
+        {
+            return t * (2.0F - t);
+        }
+
+        constexpr float quadInOut(const float t)
+        {
+            return (t < 0.5F) ?
+                2.0F * t * t :
+                -1.0F + (4.0F - 2.0F * t) * t;
+        }
+
+        constexpr float cubicIn(const float t)
+        {
+            return t * t * t;
+        }
+
+        constexpr float cubicOut(const float t)
+        {
+            return (t - 1.0F) * (t - 1.0F) * (t - 1.0F) + 1.0F;
+        }
+
+        constexpr float cubicInOut(const float t)
+        {
+            return (t < 0.5F) ?
+                4.0F * t * t * t :
+                (t - 1.0F) * (2.0F * t - 2.0F) * (2.0F * t - 2.0F) + 1.0F;
+        }
+
+        constexpr float quartIn(const float t)
+        {
+            return t * t * t * t;
+        }
+
+        constexpr float quartOut(const float t)
+        {
+            return 1.0F - (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
+        }
+
+        constexpr float quartInOut(const float t)
+        {
+            return (t < 0.5F) ?
+                8.0F * t * t * t * t :
+                1.0F - 8.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
+        }
+
+        constexpr float quintIn(const float t)
+        {
+            return t * t * t * t * t;
+        }
+
+        constexpr float quintOut(const float t)
+        {
+            return 1.0F + (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
+        }
+
+        constexpr float quintInOut(const float t)
+        {
+            return (t < 0.5F) ?
+                16.0F * t * t * t * t * t :
+                1.0F + 16.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
+        }
+
+        float expoIn(const float t)
+        {
+            return std::pow(2.0F, 10.0F * (t - 1.0F));
+        }
+
+        float expoOut(const float t)
+        {
+            return 1.0F - std::pow(2.0F, -10.0F * t);
+        }
+
+        float expoInOut(const float t)
+        {
+            return (t < 0.5F) ?
+                0.5F * std::pow(2.0F, 10.0F * (2.0F * t - 1.0F)) :
+                0.5F * (std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
+        }
+
+        float circIn(const float t)
+        {
+            return 1.0F - std::sqrt(1.0F - t * t);
+        }
+
+        float circOut(const float t)
+        {
+            return std::sqrt(1.0F - (t - 1.0F) * (t - 1.0F));
+        }
+
+        float circInOut(const float t)
+        {
+            return (t < 0.5F) ?
+                0.5F * (-std::sqrt(1.0F - (t * 2.0F) * (t * 2.0F)) + 1.0F) :
+                0.5F * (std::sqrt(1.0F - (t * 2.0F - 2.0F) * (t * 2.0F - 2.0F)) + 1.0F);
+        }
+
+        float backIn(const float t)
+        {
+            static constexpr float s = 1.70158F;
+            return t * t * ((s + 1.0F) * t - s);
+        }
+
+        float backOut(const float t)
+        {
+            static constexpr float s = 1.70158F;
+            return (t - 1.0F) * (t - 1.0F) * ((s + 1.0F) * (t - 1.0F) + s) + 1.0F;
+        }
+
+        float backInOut(const float t)
+        {
+            static constexpr float s = 1.70158F * 1.525F;
+            return (t < 0.5F) ?
+                0.5F * ((t * 2.0F) * (t * 2.0F) * ((s + 1.0F) * (t * 2.0F) - s)):
+                0.5F * ((t * 2.0F - 2.0F) * (t * 2.0F - 2.0F) * ((s + 1.0F) * (t * 2.0F - 2.0F) + s) + 2.0F);
+        }
+
+        float elasticIn(const float t)
+        {
+            if (t == 0.0F) return 0.0F;
+            if (t == 1.0F) return 1.0F;
+
+            static constexpr float p = 0.3F;
+
+            return -std::pow(2.0F, 10.0F * (t - 1.0F)) * std::sin(((t - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p);
+        }
+
+        float elasticOut(const float t)
+        {
+            if (t == 0.0F) return 0.0F;
+            if (t == 1.0F) return 1.0F;
+
+            static constexpr float p = 0.3F;
+
+            return std::pow(2.0F, -10.0F * t) * std::sin((t - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
+        }
+
+        float elasticInOut(const float t)
+        {
+            if (t == 0.0F) return 0.0F;
+            if (t == 1.0F) return 1.0F;
+
+            static constexpr float p = 0.3F * 1.5F;
+
+            return (t < 0.5F) ?
+                -0.5F * std::pow(2.0F, 10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) :
+                0.5F * std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
+        }
+
+        float bounceOut(const float t)
+        {
+            if (t < 1.0F / 2.75F)
+                return 7.5625F * t * t;
+            else if (t < 2.0F / 2.75F)
+                return 7.5625F * (t - 1.5F / 2.75F) * (t - 1.5F / 2.75F) + 0.75F;
+            else if (t < 2.5F / 2.75F)
+                return 7.5625F * (t - 2.25F / 2.75F) * (t - 2.25F / 2.75F) + 0.9375F;
+            else
+                return 7.5625F * (t - 2.625F / 2.75F) * (t - 2.625F / 2.75F) + 0.984375F;
+        }
+
+        float bounceIn(const float t)
+        {
+            return 1.0F - bounceOut(1.0F - t);
+        }
+
+        float bounceInOut(const float t)
+        {
+            return (t < 0.5F) ?
+                bounceOut(t * 2.0F) * 0.5F :
+                bounceOut(t * 2.0F - 1.0F) * 0.5F + 0.5F;
+        }
+    }
+
+    Ease::Ease(Animator& animator, Mode initMode, Func initFunc):
+        Animator(animator.getLength()), mode(initMode), func(initFunc)
+    {
+        addAnimator(&animator);
+    }
+
+    void Ease::updateProgress()
+    {
+        Animator::updateProgress();
+
+        if (animators.empty()) return;
+
+        switch (mode)
+        {
+            case Mode::easeIn:
             {
-                case Mode::easeIn:
+                switch (func)
                 {
-                    switch (func)
-                    {
-                        case Func::sine: progress = sineIn(progress); break;
-                        case Func::quad: progress = quadIn(progress); break;
-                        case Func::cubic: progress = cubicIn(progress); break;
-                        case Func::quart: progress = quartIn(progress); break;
-                        case Func::quint: progress = quintIn(progress); break;
-                        case Func::expo: progress = expoIn(progress); break;
-                        case Func::circ: progress = circIn(progress); break;
-                        case Func::back: progress = backIn(progress); break;
-                        case Func::elastic: progress = elasticIn(progress); break;
-                        case Func::bounce: progress = bounceIn(progress); break;
-                        default: return;
-                    }
-                    break;
+                    case Func::sine: progress = sineIn(progress); break;
+                    case Func::quad: progress = quadIn(progress); break;
+                    case Func::cubic: progress = cubicIn(progress); break;
+                    case Func::quart: progress = quartIn(progress); break;
+                    case Func::quint: progress = quintIn(progress); break;
+                    case Func::expo: progress = expoIn(progress); break;
+                    case Func::circ: progress = circIn(progress); break;
+                    case Func::back: progress = backIn(progress); break;
+                    case Func::elastic: progress = elasticIn(progress); break;
+                    case Func::bounce: progress = bounceIn(progress); break;
+                    default: return;
                 }
+                break;
+            }
 
-                case Mode::easeOut:
+            case Mode::easeOut:
+            {
+                switch (func)
                 {
-                    switch (func)
-                    {
-                        case Func::sine: progress = sineOut(progress); break;
-                        case Func::quad: progress = quadOut(progress); break;
-                        case Func::cubic: progress = cubicOut(progress); break;
-                        case Func::quart: progress = quartOut(progress); break;
-                        case Func::quint: progress = quintOut(progress); break;
-                        case Func::expo: progress = expoOut(progress); break;
-                        case Func::circ: progress = circOut(progress); break;
-                        case Func::back: progress = backOut(progress); break;
-                        case Func::elastic: progress = elasticOut(progress); break;
-                        case Func::bounce: progress = bounceOut(progress); break;
-                        default: return;
-                    }
-                    break;
+                    case Func::sine: progress = sineOut(progress); break;
+                    case Func::quad: progress = quadOut(progress); break;
+                    case Func::cubic: progress = cubicOut(progress); break;
+                    case Func::quart: progress = quartOut(progress); break;
+                    case Func::quint: progress = quintOut(progress); break;
+                    case Func::expo: progress = expoOut(progress); break;
+                    case Func::circ: progress = circOut(progress); break;
+                    case Func::back: progress = backOut(progress); break;
+                    case Func::elastic: progress = elasticOut(progress); break;
+                    case Func::bounce: progress = bounceOut(progress); break;
+                    default: return;
                 }
+                break;
+            }
 
-                case Mode::easeInOut:
+            case Mode::easeInOut:
+            {
+                switch (func)
                 {
-                    switch (func)
-                    {
-                        case Func::sine: progress = sineInOut(progress); break;
-                        case Func::quad: progress = quadInOut(progress); break;
-                        case Func::cubic: progress = cubicInOut(progress); break;
-                        case Func::quart: progress = quartInOut(progress); break;
-                        case Func::quint: progress = quintInOut(progress); break;
-                        case Func::expo: progress = expoInOut(progress); break;
-                        case Func::circ: progress = circInOut(progress); break;
-                        case Func::back: progress = backInOut(progress); break;
-                        case Func::elastic: progress = elasticInOut(progress); break;
-                        case Func::bounce: progress = bounceInOut(progress); break;
-                        default: return;
-                    }
-                    break;
+                    case Func::sine: progress = sineInOut(progress); break;
+                    case Func::quad: progress = quadInOut(progress); break;
+                    case Func::cubic: progress = cubicInOut(progress); break;
+                    case Func::quart: progress = quartInOut(progress); break;
+                    case Func::quint: progress = quintInOut(progress); break;
+                    case Func::expo: progress = expoInOut(progress); break;
+                    case Func::circ: progress = circInOut(progress); break;
+                    case Func::back: progress = backInOut(progress); break;
+                    case Func::elastic: progress = elasticInOut(progress); break;
+                    case Func::bounce: progress = bounceInOut(progress); break;
+                    default: return;
                 }
-
-                default: return;
+                break;
             }
 
-            animators.front()->setProgress(progress);
+            default: return;
         }
 
-        Fade::Fade(float initLength, float initOpacity, bool initRelative):
-            Animator(initLength), opacity(initOpacity), relative(initRelative)
+        animators.front()->setProgress(progress);
+    }
+
+    Fade::Fade(float initLength, float initOpacity, bool initRelative):
+        Animator(initLength), opacity(initOpacity), relative(initRelative)
+    {
+    }
+
+    void Fade::play()
+    {
+        Animator::play();
+
+        if (targetActor)
         {
+            startOpacity = targetActor->getOpacity();
+            targetOpacity = relative ? startOpacity + opacity : opacity;
+
+            diff = targetOpacity - startOpacity;
         }
+    }
 
-        void Fade::play()
+    void Fade::updateProgress()
+    {
+        Animator::updateProgress();
+
+        if (targetActor)
+            targetActor->setOpacity(startOpacity + (diff * progress));
+    }
+
+    Move::Move(float initLength, const Vector3F& initPosition, bool initRelative):
+        Animator(initLength), position(initPosition), relative(initRelative)
+    {
+    }
+
+    void Move::play()
+    {
+        Animator::play();
+
+        if (targetActor)
         {
-            Animator::play();
+            startPosition = targetActor->getPosition();
+            targetPosition = relative ? startPosition + position : position;
 
-            if (targetActor)
+            diff = targetPosition - startPosition;
+        }
+    }
+
+    void Move::updateProgress()
+    {
+        Animator::updateProgress();
+
+        if (targetActor)
+            targetActor->setPosition(startPosition + (diff * progress));
+    }
+
+    Parallel::Parallel(const std::vector<Animator*>& initAnimators):
+        Animator(0.0F)
+    {
+        for (Animator* animator : initAnimators)
+        {
+            addAnimator(animator);
+
+            if (animator->getLength() > length)
+                length = animator->getLength();
+        }
+    }
+
+    Parallel::Parallel(const std::vector<std::unique_ptr<Animator>>& initAnimators):
+        Animator(0.0F)
+    {
+        for (const std::unique_ptr<Animator>& animator : initAnimators)
+        {
+            addAnimator(animator.get());
+
+            if (animator->getLength() > length)
+                length = animator->getLength();
+        }
+    }
+
+    void Parallel::updateProgress()
+    {
+        Animator::updateProgress();
+
+        for (Animator* animator : animators)
+        {
+            const float animationLength = animator->getLength();
+
+            if (animationLength <= 0.0F || currentTime > animationLength)
+                animator->setProgress(1.0F);
+            else
+                animator->setProgress(currentTime / animationLength);
+        }
+    }
+
+    Repeat::Repeat(Animator& animator, std::uint32_t initCount):
+        Animator(animator.getLength() * static_cast<float>(initCount)), count(initCount)
+    {
+        addAnimator(&animator);
+    }
+
+    void Repeat::reset()
+    {
+        Animator::reset();
+
+        currentCount = 0;
+    }
+
+    void Repeat::updateProgress()
+    {
+        if (animators.empty()) return;
+
+        if (animators.front()->getLength() != 0.0F)
+        {
+            currentCount = static_cast<std::uint32_t>(currentTime / animators.front()->getLength());
+
+            if (count == 0 || currentCount < count)
             {
-                startOpacity = targetActor->getOpacity();
-                targetOpacity = relative ? startOpacity + opacity : opacity;
+                done = false;
+                running = true;
 
-                diff = targetOpacity - startOpacity;
-            }
-        }
+                const float remainingTime = currentTime - animators.front()->getLength() * static_cast<float>(currentCount);
+                animators.front()->setProgress(remainingTime / animators.front()->getLength());
 
-        void Fade::updateProgress()
-        {
-            Animator::updateProgress();
-
-            if (targetActor)
-                targetActor->setOpacity(startOpacity + (diff * progress));
-        }
-
-        Move::Move(float initLength, const Vector3F& initPosition, bool initRelative):
-            Animator(initLength), position(initPosition), relative(initRelative)
-        {
-        }
-
-        void Move::play()
-        {
-            Animator::play();
-
-            if (targetActor)
-            {
-                startPosition = targetActor->getPosition();
-                targetPosition = relative ? startPosition + position : position;
-
-                diff = targetPosition - startPosition;
-            }
-        }
-
-        void Move::updateProgress()
-        {
-            Animator::updateProgress();
-
-            if (targetActor)
-                targetActor->setPosition(startPosition + (diff * progress));
-        }
-
-        Parallel::Parallel(const std::vector<Animator*>& initAnimators):
-            Animator(0.0F)
-        {
-            for (Animator* animator : initAnimators)
-            {
-                addAnimator(animator);
-
-                if (animator->getLength() > length)
-                    length = animator->getLength();
-            }
-        }
-
-        Parallel::Parallel(const std::vector<std::unique_ptr<Animator>>& initAnimators):
-            Animator(0.0F)
-        {
-            for (const std::unique_ptr<Animator>& animator : initAnimators)
-            {
-                addAnimator(animator.get());
-
-                if (animator->getLength() > length)
-                    length = animator->getLength();
-            }
-        }
-
-        void Parallel::updateProgress()
-        {
-            Animator::updateProgress();
-
-            for (Animator* animator : animators)
-            {
-                const float animationLength = animator->getLength();
-
-                if (animationLength <= 0.0F || currentTime > animationLength)
-                    animator->setProgress(1.0F);
-                else
-                    animator->setProgress(currentTime / animationLength);
-            }
-        }
-
-        Repeat::Repeat(Animator& animator, std::uint32_t initCount):
-            Animator(animator.getLength() * static_cast<float>(initCount)), count(initCount)
-        {
-            addAnimator(&animator);
-        }
-
-        void Repeat::reset()
-        {
-            Animator::reset();
-
-            currentCount = 0;
-        }
-
-        void Repeat::updateProgress()
-        {
-            if (animators.empty()) return;
-
-            if (animators.front()->getLength() != 0.0F)
-            {
-                currentCount = static_cast<std::uint32_t>(currentTime / animators.front()->getLength());
-
-                if (count == 0 || currentCount < count)
-                {
-                    done = false;
-                    running = true;
-
-                    const float remainingTime = currentTime - animators.front()->getLength() * static_cast<float>(currentCount);
-                    animators.front()->setProgress(remainingTime / animators.front()->getLength());
-
-                    auto resetEvent = std::make_unique<AnimationEvent>();
-                    resetEvent->type = Event::Type::animationReset;
-                    resetEvent->component = this;
-                    engine->getEventDispatcher().dispatchEvent(std::move(resetEvent));
-                }
-                else
-                {
-                    done = true;
-                    running = false;
-                    currentTime = length;
-                    progress = 1.0F;
-
-                    auto finishEvent = std::make_unique<AnimationEvent>();
-                    finishEvent->type = Event::Type::animationFinish;
-                    finishEvent->component = this;
-                    engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
-                }
-            }
-        }
-
-        Rotate::Rotate(float initLength, const Vector3F& initRotation, bool initRelative):
-            Animator(initLength), rotation(initRotation), relative(initRelative)
-        {
-        }
-
-        void Rotate::play()
-        {
-            Animator::play();
-
-            if (targetActor)
-            {
-                startRotation = targetActor->getRotation().getEulerAngles();
-
-                targetRotation = relative ? startRotation + rotation : rotation;
-
-                diff = targetRotation - startRotation;
-            }
-        }
-
-        void Rotate::updateProgress()
-        {
-            Animator::updateProgress();
-
-            if (targetActor)
-                targetActor->setRotation(startRotation + diff * progress);
-        }
-
-        Scale::Scale(float initLength, const Vector3F& initScale, bool initRelative):
-            Animator(initLength), scale(initScale), relative(initRelative)
-        {
-        }
-
-        void Scale::play()
-        {
-            Animator::play();
-
-            if (targetActor)
-            {
-                startScale = targetActor->getScale();
-                targetScale = relative ? startScale + scale : scale;
-
-                diff = targetScale - startScale;
-            }
-        }
-
-        void Scale::updateProgress()
-        {
-            Animator::updateProgress();
-
-            if (targetActor)
-                targetActor->setScale(startScale + (diff * progress));
-        }
-
-        Sequence::Sequence(const std::vector<Animator*>& initAnimators):
-            Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, Animator* b) noexcept { return a + b->getLength(); }))
-        {
-            for (Animator* animator : initAnimators)
-                addAnimator(animator);
-        }
-
-        Sequence::Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators):
-            Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, const std::unique_ptr<Animator>& b) noexcept { return a + b->getLength(); }))
-        {
-            for (const std::unique_ptr<Animator>& animator : initAnimators)
-                addAnimator(animator.get());
-        }
-
-        void Sequence::play()
-        {
-            setProgress(0.0F);
-            done = false;
-            running = true;
-
-            targetActor = actor;
-
-            if (!targetActor && parent)
-                targetActor = parent->getTargetActor();
-
-            if (!animators.empty())
-            {
-                currentAnimator = animators.front();
-                currentAnimator->play();
+                auto resetEvent = std::make_unique<AnimationEvent>();
+                resetEvent->type = Event::Type::animationReset;
+                resetEvent->component = this;
+                engine->getEventDispatcher().dispatchEvent(std::move(resetEvent));
             }
             else
-                currentAnimator = nullptr;
-        }
-
-        void Sequence::updateProgress()
-        {
-            Animator::updateProgress();
-
-            float time = 0.0F;
-
-            for (Animator* animator : animators)
             {
-                if (animator->getLength() <= 0.0F || currentTime > time + animator->getLength())
-                {
-                    if (animator == currentAnimator) animator->setProgress(1.0F);
-                }
-                else if (currentTime <= time)
-                {
-                    if (animator == currentAnimator) animator->setProgress(0.0F);
-                }
-                else
-                {
-                    if (currentAnimator != animator)
-                    {
-                        currentAnimator = animator;
-                        animator->play();
-                    }
+                done = true;
+                running = false;
+                currentTime = length;
+                progress = 1.0F;
 
-                    animator->setProgress((currentTime - time) / animator->getLength());
-                }
-
-                time += animator->getLength();
+                auto finishEvent = std::make_unique<AnimationEvent>();
+                finishEvent->type = Event::Type::animationFinish;
+                finishEvent->component = this;
+                engine->getEventDispatcher().dispatchEvent(std::move(finishEvent));
             }
         }
+    }
 
-        Shake::Shake(float initLength, const Vector3F& initDistance, float initTimeScale):
-            Animator(initLength), distance(initDistance), timeScale(initTimeScale)
+    Rotate::Rotate(float initLength, const Vector3F& initRotation, bool initRelative):
+        Animator(initLength), rotation(initRotation), relative(initRelative)
+    {
+    }
+
+    void Rotate::play()
+    {
+        Animator::play();
+
+        if (targetActor)
         {
-            seedX = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
-            seedY = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
-            seedZ = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
+            startRotation = targetActor->getRotation().getEulerAngles();
+
+            targetRotation = relative ? startRotation + rotation : rotation;
+
+            diff = targetRotation - startRotation;
         }
+    }
 
-        void Shake::play()
+    void Rotate::updateProgress()
+    {
+        Animator::updateProgress();
+
+        if (targetActor)
+            targetActor->setRotation(startRotation + diff * progress);
+    }
+
+    Scale::Scale(float initLength, const Vector3F& initScale, bool initRelative):
+        Animator(initLength), scale(initScale), relative(initRelative)
+    {
+    }
+
+    void Scale::play()
+    {
+        Animator::play();
+
+        if (targetActor)
         {
-            Animator::play();
+            startScale = targetActor->getScale();
+            targetScale = relative ? startScale + scale : scale;
 
-            if (targetActor)
-                startPosition = targetActor->getPosition();
+            diff = targetScale - startScale;
         }
+    }
 
-        void Shake::updateProgress()
+    void Scale::updateProgress()
+    {
+        Animator::updateProgress();
+
+        if (targetActor)
+            targetActor->setScale(startScale + (diff * progress));
+    }
+
+    Sequence::Sequence(const std::vector<Animator*>& initAnimators):
+        Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, Animator* b) noexcept { return a + b->getLength(); }))
+    {
+        for (Animator* animator : initAnimators)
+            addAnimator(animator);
+    }
+
+    Sequence::Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators):
+        Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, const std::unique_ptr<Animator>& b) noexcept { return a + b->getLength(); }))
+    {
+        for (const std::unique_ptr<Animator>& animator : initAnimators)
+            addAnimator(animator.get());
+    }
+
+    void Sequence::play()
+    {
+        setProgress(0.0F);
+        done = false;
+        running = true;
+
+        targetActor = actor;
+
+        if (!targetActor && parent)
+            targetActor = parent->getTargetActor();
+
+        if (!animators.empty())
         {
-            Animator::updateProgress();
+            currentAnimator = animators.front();
+            currentAnimator->play();
+        }
+        else
+            currentAnimator = nullptr;
+    }
 
-            if (targetActor)
+    void Sequence::updateProgress()
+    {
+        Animator::updateProgress();
+
+        float time = 0.0F;
+
+        for (Animator* animator : animators)
+        {
+            if (animator->getLength() <= 0.0F || currentTime > time + animator->getLength())
             {
-                const float x = length * progress * timeScale;
-
-                const auto x1 = static_cast<std::uint64_t>(x);
-                const auto x2 = x1 + 1;
-                const auto t = x - static_cast<float>(x1);
-
-                Vector3F previousPosition;
-                Vector3F nextPosition;
-
-                if (x1 != 0)
-                {
-                    previousPosition.v[0] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedX | (x1 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[0];
-                    previousPosition.v[1] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedY | (x1 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[1];
-                    previousPosition.v[2] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedZ | (x1 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[2];
-                }
-
-                if (x2 != static_cast<std::uint32_t>(timeScale))
-                {
-                    nextPosition.v[0] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedX | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[0];
-                    nextPosition.v[1] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedY | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[1];
-                    nextPosition.v[2] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedZ | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[2];
-                }
-
-                const Vector3F noise(smoothStep(previousPosition.v[0], nextPosition.v[0], t),
-                                     smoothStep(previousPosition.v[1], nextPosition.v[1], t),
-                                     smoothStep(previousPosition.v[2], nextPosition.v[2], t));
-
-                targetActor->setPosition(startPosition + noise);
+                if (animator == currentAnimator) animator->setProgress(1.0F);
             }
+            else if (currentTime <= time)
+            {
+                if (animator == currentAnimator) animator->setProgress(0.0F);
+            }
+            else
+            {
+                if (currentAnimator != animator)
+                {
+                    currentAnimator = animator;
+                    animator->play();
+                }
+
+                animator->setProgress((currentTime - time) / animator->getLength());
+            }
+
+            time += animator->getLength();
         }
-    } // namespace scene
-} // namespace ouzel
+    }
+
+    Shake::Shake(float initLength, const Vector3F& initDistance, float initTimeScale):
+        Animator(initLength), distance(initDistance), timeScale(initTimeScale)
+    {
+        seedX = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
+        seedY = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
+        seedZ = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
+    }
+
+    void Shake::play()
+    {
+        Animator::play();
+
+        if (targetActor)
+            startPosition = targetActor->getPosition();
+    }
+
+    void Shake::updateProgress()
+    {
+        Animator::updateProgress();
+
+        if (targetActor)
+        {
+            const float x = length * progress * timeScale;
+
+            const auto x1 = static_cast<std::uint64_t>(x);
+            const auto x2 = x1 + 1;
+            const auto t = x - static_cast<float>(x1);
+
+            Vector3F previousPosition;
+            Vector3F nextPosition;
+
+            if (x1 != 0)
+            {
+                previousPosition.v[0] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedX | (x1 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[0];
+                previousPosition.v[1] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedY | (x1 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[1];
+                previousPosition.v[2] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedZ | (x1 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[2];
+            }
+
+            if (x2 != static_cast<std::uint32_t>(timeScale))
+            {
+                nextPosition.v[0] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedX | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[0];
+                nextPosition.v[1] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedY | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[1];
+                nextPosition.v[2] = (2.0F * (static_cast<float>(fnv::hash<std::uint32_t>(seedZ | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[2];
+            }
+
+            const Vector3F noise(smoothStep(previousPosition.v[0], nextPosition.v[0], t),
+                                 smoothStep(previousPosition.v[1], nextPosition.v[1], t),
+                                 smoothStep(previousPosition.v[2], nextPosition.v[2], t));
+
+            targetActor->setPosition(startPosition + noise);
+        }
+    }
+}

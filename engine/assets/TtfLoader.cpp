@@ -5,32 +5,29 @@
 #include "../gui/TTFont.hpp"
 #include "stb_truetype.h"
 
-namespace ouzel
+namespace ouzel::assets
 {
-    namespace assets
+    TtfLoader::TtfLoader(Cache& initCache):
+        Loader(initCache, Loader::font)
     {
-        TtfLoader::TtfLoader(Cache& initCache):
-            Loader(initCache, Loader::font)
+    }
+
+    bool TtfLoader::loadAsset(Bundle& bundle,
+                              const std::string& name,
+                              const std::vector<std::byte>& data,
+                              bool mipmaps)
+    {
+        try
         {
+            // TODO: move the loader here
+            auto font = std::make_unique<gui::TTFont>(data, mipmaps);
+            bundle.setFont(name, std::move(font));
+        }
+        catch (const std::exception&)
+        {
+            return false;
         }
 
-        bool TtfLoader::loadAsset(Bundle& bundle,
-                                  const std::string& name,
-                                  const std::vector<std::byte>& data,
-                                  bool mipmaps)
-        {
-            try
-            {
-                // TODO: move the loader here
-                auto font = std::make_unique<gui::TTFont>(data, mipmaps);
-                bundle.setFont(name, std::move(font));
-            }
-            catch (const std::exception&)
-            {
-                return false;
-            }
-
-            return true;
-        }
-    } // namespace assets
-} // namespace ouzel
+        return true;
+    }
+}

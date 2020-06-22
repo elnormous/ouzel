@@ -5,33 +5,30 @@
 #include "../scene/SkinnedMeshRenderer.hpp"
 #include "../utils/Json.hpp"
 
-namespace ouzel
+namespace ouzel::assets
 {
-    namespace assets
+    GltfLoader::GltfLoader(Cache& initCache):
+        Loader(initCache, Loader::skinnedMesh)
     {
-        GltfLoader::GltfLoader(Cache& initCache):
-            Loader(initCache, Loader::skinnedMesh)
-        {
-        }
+    }
 
-        bool GltfLoader::loadAsset(Bundle& bundle,
-                                   const std::string& name,
-                                   const std::vector<std::byte>& data,
-                                   bool mipmaps)
-        {
-            const json::Value d = json::parse(data);
+    bool GltfLoader::loadAsset(Bundle& bundle,
+                               const std::string& name,
+                               const std::vector<std::byte>& data,
+                               bool mipmaps)
+    {
+        const json::Value d = json::parse(data);
 
-            const json::Value& nodesValue = d["nodes"];
-            const json::Value& meshesValue = d["meshes"];
+        const json::Value& nodesValue = d["nodes"];
+        const json::Value& meshesValue = d["meshes"];
 
-            (void)mipmaps;
-            (void)nodesValue;
-            (void)meshesValue;
+        (void)mipmaps;
+        (void)nodesValue;
+        (void)meshesValue;
 
-            scene::SkinnedMeshData skinnedMeshData;
-            bundle.setSkinnedMeshData(name, std::move(skinnedMeshData));
+        scene::SkinnedMeshData skinnedMeshData;
+        bundle.setSkinnedMeshData(name, std::move(skinnedMeshData));
 
-            return true;
-        }
-    } // namespace assets
-} // namespace ouzel
+        return true;
+    }
+}

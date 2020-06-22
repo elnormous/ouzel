@@ -4,27 +4,24 @@
 #include "Camera.hpp"
 #include "Layer.hpp"
 
-namespace ouzel
+namespace ouzel::scene
 {
-    namespace scene
+    Light::Light(Type initType):
+        type(initType)
     {
-        Light::Light(Type initType):
-            type(initType)
-        {
-        }
+    }
 
-        Light::~Light()
-        {
-            if (layer) layer->removeLight(this);
-        }
+    Light::~Light()
+    {
+        if (layer) layer->removeLight(this);
+    }
 
-        void Light::setLayer(Layer* newLayer)
-        {
-            if (layer) layer->addLight(this);
+    void Light::setLayer(Layer* newLayer)
+    {
+        if (layer) layer->addLight(this);
 
-            Component::setLayer(newLayer);
+        Component::setLayer(newLayer);
 
-            if (layer) layer->removeLight(this);
-        }
-    } // namespace scene
-} // namespace ouzel
+        if (layer) layer->removeLight(this);
+    }
+}
