@@ -203,6 +203,6 @@ namespace ouzel
                 throw std::out_of_range("Invalid hex digit");
         }
     };
-} // namespace ouzel
+}
 
 #endif // OUZEL_MATH_COLOR_HPP
