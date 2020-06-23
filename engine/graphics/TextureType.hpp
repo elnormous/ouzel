@@ -3,18 +3,15 @@
 #ifndef OUZEL_GRAPHICS_TEXTURETYPE_HPP
 #define OUZEL_GRAPHICS_TEXTURETYPE_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class TextureType
     {
-        enum class TextureType
-        {
-            oneDimensional,
-            twoDimensional,
-            threeDimensional,
-            cube
-        };
-    } // namespace graphics
-} // namespace ouzel
+        oneDimensional,
+        twoDimensional,
+        threeDimensional,
+        cube
+    };
+}
 
 #endif // OUZEL_GRAPHICS_TEXTURETYPE_HPP

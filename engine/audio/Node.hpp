@@ -7,42 +7,39 @@
 #include <algorithm>
 #include <vector>
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    class Audio;
+
+    class Node
     {
-        class Audio;
-
-        class Node
+    public:
+        explicit Node(Audio& initAudio):
+            audio(initAudio)
         {
-        public:
-            explicit Node(Audio& initAudio):
-                audio(initAudio)
-            {
-            }
+        }
 
-            virtual ~Node()
-            {
-                if (parent)
-                    parent->removeChild(*this);
-            }
+        virtual ~Node()
+        {
+            if (parent)
+                parent->removeChild(*this);
+        }
 
-            Node(const Node&) = delete;
-            Node& operator=(const Node&) = delete;
+        Node(const Node&) = delete;
+        Node& operator=(const Node&) = delete;
 
-            Node(Node&&) = delete;
-            Node& operator=(Node&&) = delete;
+        Node(Node&&) = delete;
+        Node& operator=(Node&&) = delete;
 
-            void addChild(Node& child);
-            void removeChild(Node& child);
+        void addChild(Node& child);
+        void removeChild(Node& child);
 
-        private:
-            Audio& audio;
-            std::uintptr_t objectId = 0;
-            Node* parent = nullptr;
-            std::vector<Node*> children;
-        };
-    } // namespace audio
-} // namespace ouzel
+    private:
+        Audio& audio;
+        std::uintptr_t objectId = 0;
+        Node* parent = nullptr;
+        std::vector<Node*> children;
+    };
+}
 
 #endif // OUZEL_AUDIO_NODE_HPP

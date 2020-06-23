@@ -7,22 +7,19 @@
 #include <vector>
 #include "Sound.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    class PcmData;
+
+    class PcmClip final: public Sound
     {
-        class PcmData;
+    public:
+        PcmClip(Audio& initAudio, std::uint32_t channels, std::uint32_t sampleRate,
+                const std::vector<float>& samples);
 
-        class PcmClip final: public Sound
-        {
-        public:
-            PcmClip(Audio& initAudio, std::uint32_t channels, std::uint32_t sampleRate,
-                    const std::vector<float>& samples);
-
-        private:
-            PcmData* data;
-        };
-    } // namespace audio
-} // namespace ouzel
+    private:
+        PcmData* data;
+    };
+}
 
 #endif // OUZEL_AUDIO_PCMCLIP_HPP

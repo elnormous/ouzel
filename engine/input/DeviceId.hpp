@@ -5,21 +5,18 @@
 
 #include <typeindex> 
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    struct DeviceId
     {
-        struct DeviceId
-        {
-            std::uintptr_t value = 0;
+        std::uintptr_t value = 0;
 
-            constexpr bool operator==(DeviceId other) const noexcept
-            {
-                return value == other.value;
-            }
-        };
-    } // namespace input
-} // namespace ouzel
+        constexpr bool operator==(DeviceId other) const noexcept
+        {
+            return value == other.value;
+        }
+    };
+}
 
 namespace std
 {

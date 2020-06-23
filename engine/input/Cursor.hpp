@@ -12,38 +12,35 @@
 #include "../math/Size.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class Cursor final
     {
-        class Cursor final
-        {
-        public:
-            explicit Cursor(InputManager& initInputManager);
-            Cursor(InputManager& initInputManager, SystemCursor systemCursor);
-            Cursor(InputManager& initInputManager, const std::string& filename, const Vector2F& hotSpot = Vector2F());
-            ~Cursor();
+    public:
+        explicit Cursor(InputManager& initInputManager);
+        Cursor(InputManager& initInputManager, SystemCursor systemCursor);
+        Cursor(InputManager& initInputManager, const std::string& filename, const Vector2F& hotSpot = Vector2F());
+        ~Cursor();
 
-            Cursor(const Cursor&) = delete;
-            Cursor& operator=(const Cursor&) = delete;
+        Cursor(const Cursor&) = delete;
+        Cursor& operator=(const Cursor&) = delete;
 
-            Cursor(Cursor&&) = delete;
-            Cursor& operator=(Cursor&&) = delete;
+        Cursor(Cursor&&) = delete;
+        Cursor& operator=(Cursor&&) = delete;
 
-            void init(SystemCursor systemCursor);
-            void init(const std::string& filename, const Vector2F& hotSpot = Vector2F());
-            void init(const std::vector<std::uint8_t>& data,
-                      const Size2F& size,
-                      graphics::PixelFormat pixelFormat,
-                      const Vector2F& hotSpot);
+        void init(SystemCursor systemCursor);
+        void init(const std::string& filename, const Vector2F& hotSpot = Vector2F());
+        void init(const std::vector<std::uint8_t>& data,
+                  const Size2F& size,
+                  graphics::PixelFormat pixelFormat,
+                  const Vector2F& hotSpot);
 
-            auto getCursorResource() const noexcept { return cursorResource; }
+        auto getCursorResource() const noexcept { return cursorResource; }
 
-        private:
-            InputManager& inputManager;
-            std::uintptr_t cursorResource = 0;
-        };
-    } // namespace input
-} // namespace ouzel
+    private:
+        InputManager& inputManager;
+        std::uintptr_t cursorResource = 0;
+    };
+}
 
 #endif // OUZEL_INPUT_CURSOR_HPP

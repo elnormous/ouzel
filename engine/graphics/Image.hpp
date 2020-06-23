@@ -8,32 +8,29 @@
 #include "PixelFormat.hpp"
 #include "../math/Size.hpp"
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    class Image final
     {
-        class Image final
+    public:
+        Image() = default;
+
+        Image(PixelFormat initPixelFormat,
+              const Size2U& initSize,
+              const std::vector<std::uint8_t>& initData):
+            pixelFormat(initPixelFormat), size(initSize), data(initData)
         {
-        public:
-            Image() = default;
+        }
 
-            Image(PixelFormat initPixelFormat,
-                  const Size2U& initSize,
-                  const std::vector<std::uint8_t>& initData):
-                pixelFormat(initPixelFormat), size(initSize), data(initData)
-            {
-            }
+        auto getPixelFormat() const noexcept { return pixelFormat; }
+        auto& getSize() const noexcept { return size; }
+        auto& getData() const noexcept { return data; }
 
-            auto getPixelFormat() const noexcept { return pixelFormat; }
-            auto& getSize() const noexcept { return size; }
-            auto& getData() const noexcept { return data; }
-
-        private:
-            PixelFormat pixelFormat = PixelFormat::rgba8UnsignedNorm;
-            Size2U size;
-            std::vector<std::uint8_t> data;
-        };
-    } // namespace graphics
-} // namespace ouzel
+    private:
+        PixelFormat pixelFormat = PixelFormat::rgba8UnsignedNorm;
+        Size2U size;
+        std::vector<std::uint8_t> data;
+    };
+}
 
 #endif // OUZEL_GRAPHICS_IMAGEDATA_HPP

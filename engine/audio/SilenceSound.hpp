@@ -5,22 +5,19 @@
 
 #include "Sound.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    class SilenceData;
+
+    class SilenceSound final: public Sound
     {
-        class SilenceData;
+    public:
+        SilenceSound(Audio& initAudio, float initLength = 0.0F);
 
-        class SilenceSound final: public Sound
-        {
-        public:
-            SilenceSound(Audio& initAudio, float initLength = 0.0F);
-
-        private:
-            SilenceData* data;
-            float length;
-        };
-    } // namespace audio
-} // namespace ouzel
+    private:
+        SilenceData* data;
+        float length;
+    };
+}
 
 #endif // OUZEL_AUDIO_SILENCESOUND_HPP

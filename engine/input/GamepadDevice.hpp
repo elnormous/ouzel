@@ -7,19 +7,16 @@
 #include "InputDevice.hpp"
 #include "Gamepad.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class GamepadDevice: public InputDevice
     {
-        class GamepadDevice: public InputDevice
-        {
-        public:
-            GamepadDevice(InputSystem& initInputSystem, DeviceId initId);
-            ~GamepadDevice() override;
+    public:
+        GamepadDevice(InputSystem& initInputSystem, DeviceId initId);
+        ~GamepadDevice() override;
 
-            std::future<bool> handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
-        };
-    } // namespace input
-} // namespace ouzel
+        std::future<bool> handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
+    };
+}
 
 #endif // OUZEL_INPUT_GAMEPADDEVICE_HPP

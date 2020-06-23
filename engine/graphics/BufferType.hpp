@@ -3,16 +3,13 @@
 #ifndef OUZEL_GRAPHICS_BUFFERTYPE_HPP
 #define OUZEL_GRAPHICS_BUFFERTYPE_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class BufferType
     {
-        enum class BufferType
-        {
-            index,
-            vertex
-        };
-    } // namespace graphics
-} // namespace ouzel
+        index,
+        vertex
+    };
+}
 
 #endif // OUZEL_GRAPHICS_BUFFERTYPE_HPP

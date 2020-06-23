@@ -18,51 +18,48 @@
 #include "../math/Quaternion.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    class Listener;
+
+    class Audio final
     {
-        class Listener;
+    public:
+        Audio(Driver driver, bool debugAudio);
 
-        class Audio final
+        static Driver getDriver(const std::string& driver);
+        static std::set<Driver> getAvailableAudioDrivers();
+
+        auto getDevice() const noexcept { return device.get(); }
+        mixer::Mixer& getMixer() { return mixer; }
+        Mix& getMasterMix() { return masterMix; }
+
+        void update();
+
+        void addCommand(std::unique_ptr<mixer::Command> command)
         {
-        public:
-            Audio(Driver driver, bool debugAudio);
+            commandBuffer.pushCommand(std::move(command));
+        }
 
-            static Driver getDriver(const std::string& driver);
-            static std::set<Driver> getAvailableAudioDrivers();
+        void deleteObject(std::uintptr_t objectId);
+        std::uintptr_t initBus();
+        std::uintptr_t initStream(std::uintptr_t sourceId);
+        std::uintptr_t initData(std::unique_ptr<mixer::Data> data);
+        std::uintptr_t initProcessor(std::unique_ptr<mixer::Processor> processor);
+        void updateProcessor(std::uintptr_t processorId, const std::function<void(mixer::Processor*)>& updateFunction);
 
-            auto getDevice() const noexcept { return device.get(); }
-            mixer::Mixer& getMixer() { return mixer; }
-            Mix& getMasterMix() { return masterMix; }
+        auto& getRootNode() { return rootNode; }
 
-            void update();
+    private:
+        void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples);
+        void eventCallback(const mixer::Mixer::Event& event);
 
-            void addCommand(std::unique_ptr<mixer::Command> command)
-            {
-                commandBuffer.pushCommand(std::move(command));
-            }
-
-            void deleteObject(std::uintptr_t objectId);
-            std::uintptr_t initBus();
-            std::uintptr_t initStream(std::uintptr_t sourceId);
-            std::uintptr_t initData(std::unique_ptr<mixer::Data> data);
-            std::uintptr_t initProcessor(std::unique_ptr<mixer::Processor> processor);
-            void updateProcessor(std::uintptr_t processorId, const std::function<void(mixer::Processor*)>& updateFunction);
-
-            auto& getRootNode() { return rootNode; }
-
-        private:
-            void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples);
-            void eventCallback(const mixer::Mixer::Event& event);
-
-            std::unique_ptr<AudioDevice> device;
-            mixer::Mixer mixer;
-            mixer::CommandBuffer commandBuffer;
-            Mix masterMix;
-            Node rootNode;
-        };
-    } // namespace audio
-} // namespace ouzel
+        std::unique_ptr<AudioDevice> device;
+        mixer::Mixer mixer;
+        mixer::CommandBuffer commandBuffer;
+        Mix masterMix;
+        Node rootNode;
+    };
+}
 
 #endif // OUZEL_AUDIO_AUDIO_HPP

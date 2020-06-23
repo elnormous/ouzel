@@ -3,19 +3,16 @@
 #ifndef OUZEL_GRAPHICS_BLENDOPERATION_HPP
 #define OUZEL_GRAPHICS_BLENDOPERATION_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class BlendOperation
     {
-        enum class BlendOperation
-        {
-            add,
-            subtract,
-            reverseSubtract,
-            min,
-            max
-        };
-    } // namespace graphics
-} // namespace ouzel
+        add,
+        subtract,
+        reverseSubtract,
+        min,
+        max
+    };
+}
 
 #endif // OUZEL_GRAPHICS_BLENDOPERATION_HPP

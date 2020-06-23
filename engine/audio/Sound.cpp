@@ -3,20 +3,17 @@
 #include "Sound.hpp"
 #include "Audio.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    Sound::Sound(Audio& initAudio, std::uintptr_t initSourceId, Format initFormat):
+        audio(initAudio),
+        sourceId(initSourceId),
+        format(initFormat)
     {
-        Sound::Sound(Audio& initAudio, std::uintptr_t initSourceId, Format initFormat):
-            audio(initAudio),
-            sourceId(initSourceId),
-            format(initFormat)
-        {
-        }
+    }
 
-        Sound::~Sound()
-        {
-            if (sourceId) audio.deleteObject(sourceId);
-        }
-    } // namespace audio
-} // namespace ouzel
+    Sound::~Sound()
+    {
+        if (sourceId) audio.deleteObject(sourceId);
+    }
+}

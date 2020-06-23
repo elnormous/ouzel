@@ -3,22 +3,19 @@
 #ifndef OUZEL_GRAPHICS_STENCILPERATION_HPP
 #define OUZEL_GRAPHICS_STENCILPERATION_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class StencilOperation
     {
-        enum class StencilOperation
-        {
-            keep,
-            zero,
-            replace,
-            incrementClamp,
-            decrementClamp,
-            invert,
-            incrementWrap,
-            decrementWrap
-        };
-    } // namespace graphics
-} // namespace ouzel
+        keep,
+        zero,
+        replace,
+        incrementClamp,
+        decrementClamp,
+        invert,
+        incrementWrap,
+        decrementWrap
+    };
+}
 
 #endif // OUZEL_GRAPHICS_STENCILPERATION_HPP

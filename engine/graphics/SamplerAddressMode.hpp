@@ -3,18 +3,15 @@
 #ifndef OUZEL_GRAPHICS_SAMPLERADDRESSMODE_HPP
 #define OUZEL_GRAPHICS_SAMPLERADDRESSMODE_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class SamplerAddressMode
     {
-        enum class SamplerAddressMode
-        {
-            clampToEdge,
-            clampToBorder,
-            repeat,
-            mirrorRepeat
-        };
-    } // namespace graphics
-} // namespace ouzel
+        clampToEdge,
+        clampToBorder,
+        repeat,
+        mirrorRepeat
+    };
+}
 
 #endif // OUZEL_GRAPHICS_SAMPLERADDRESSMODE_HPP

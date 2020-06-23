@@ -4,25 +4,22 @@
 #include "Renderer.hpp"
 #include "Texture.hpp"
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    RenderTarget::RenderTarget(Renderer& initRenderer,
+                               const std::vector<Texture*>& initColorTextures,
+                               Texture* initDepthTexture):
+        resource(initRenderer.getDevice()->createResource()),
+        colorTextures(initColorTextures),
+        depthTexture(initDepthTexture)
     {
-        RenderTarget::RenderTarget(Renderer& initRenderer,
-                                   const std::vector<Texture*>& initColorTextures,
-                                   Texture* initDepthTexture):
-            resource(initRenderer.getDevice()->createResource()),
-            colorTextures(initColorTextures),
-            depthTexture(initDepthTexture)
-        {
-            std::set<std::uintptr_t> colorTextureIds;
+        std::set<std::uintptr_t> colorTextureIds;
 
-            for (const auto& colorTexture : colorTextures)
-                colorTextureIds.insert(colorTexture ? colorTexture->getResource() : 0);
+        for (const auto& colorTexture : colorTextures)
+            colorTextureIds.insert(colorTexture ? colorTexture->getResource() : 0);
 
-            initRenderer.addCommand(std::make_unique<InitRenderTargetCommand>(resource,
-                                                                              colorTextureIds,
-                                                                              depthTexture ? depthTexture->getResource() : std::uintptr_t(0)));
-        }
-    } // namespace graphics
-} // namespace ouzel
+        initRenderer.addCommand(std::make_unique<InitRenderTargetCommand>(resource,
+                                                                          colorTextureIds,
+                                                                          depthTexture ? depthTexture->getResource() : std::uintptr_t(0)));
+    }
+}

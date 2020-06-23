@@ -2,9 +2,6 @@
 
 #include "Cue.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
-    {
-    } // namespace audio
-} // namespace ouzel
+}

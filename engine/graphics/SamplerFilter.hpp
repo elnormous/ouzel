@@ -3,18 +3,15 @@
 #ifndef OUZEL_GRAPHICS_SAMPLERFILTER_HPP
 #define OUZEL_GRAPHICS_SAMPLERFILTER_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class SamplerFilter
     {
-        enum class SamplerFilter
-        {
-            point,
-            linear,
-            bilinear,
-            trilinear
-        };
-    } // namespace graphics
-} // namespace ouzel
+        point,
+        linear,
+        bilinear,
+        trilinear
+    };
+}
 
 #endif // OUZEL_GRAPHICS_SAMPLERFILTER_HPP

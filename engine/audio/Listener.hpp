@@ -9,48 +9,45 @@
 #include "../math/Quaternion.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    class Audio;
+    class Mix;
+
+    class Listener final: public scene::Component
     {
-        class Audio;
-        class Mix;
+        friend Mix;
+    public:
+        explicit Listener(Audio& initAudio);
+        ~Listener() override;
 
-        class Listener final: public scene::Component
-        {
-            friend Mix;
-        public:
-            explicit Listener(Audio& initAudio);
-            ~Listener() override;
+        Listener(const Listener&) = delete;
+        Listener& operator=(const Listener&) = delete;
+        Listener(Listener&&) = delete;
+        Listener& operator=(Listener&&) = delete;
 
-            Listener(const Listener&) = delete;
-            Listener& operator=(const Listener&) = delete;
-            Listener(Listener&&) = delete;
-            Listener& operator=(Listener&&) = delete;
+        void setMix(Mix* newMix);
 
-            void setMix(Mix* newMix);
+        auto& getPosition() const noexcept { return position; }
+        void setPosition(const Vector3F& newPosition) { position = newPosition; }
 
-            auto& getPosition() const noexcept { return position; }
-            void setPosition(const Vector3F& newPosition) { position = newPosition; }
+        auto& getVelocity() const noexcept { return velocity; }
+        void setVelocity(const Vector3F& newVelocity) { velocity = newVelocity; }
 
-            auto& getVelocity() const noexcept { return velocity; }
-            void setVelocity(const Vector3F& newVelocity) { velocity = newVelocity; }
+        auto& getRotation() const noexcept { return rotation; }
+        void setRotation(const QuaternionF& newRotation) { rotation = newRotation; }
 
-            auto& getRotation() const noexcept { return rotation; }
-            void setRotation(const QuaternionF& newRotation) { rotation = newRotation; }
+    private:
+        void updateTransform() final;
 
-        private:
-            void updateTransform() final;
+        Audio& audio;
 
-            Audio& audio;
-
-            Mix* mix = nullptr;
-            Vector3F position;
-            Vector3F velocity;
-            QuaternionF rotation;
-            bool transformDirty = true;
-        };
-    } // namespace audio
-} // namespace ouzel
+        Mix* mix = nullptr;
+        Vector3F position;
+        Vector3F velocity;
+        QuaternionF rotation;
+        bool transformDirty = true;
+    };
+}
 
 #endif // OUZEL_AUDIO_LISTENER_HPP

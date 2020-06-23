@@ -6,32 +6,29 @@
 #include <cstdint>
 #include "Controller.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class InputSystem;
+
+    class InputDevice
     {
-        class InputSystem;
+    public:
+        InputDevice(InputSystem& initInputSystem, DeviceId initId, Controller::Type initType);
+        virtual ~InputDevice();
 
-        class InputDevice
-        {
-        public:
-            InputDevice(InputSystem& initInputSystem, DeviceId initId, Controller::Type initType);
-            virtual ~InputDevice();
+        InputDevice(const InputDevice&) = delete;
+        InputDevice& operator=(const InputDevice&) = delete;
+        InputDevice(InputDevice&&) = delete;
+        InputDevice& operator=(InputDevice&&) = delete;
 
-            InputDevice(const InputDevice&) = delete;
-            InputDevice& operator=(const InputDevice&) = delete;
-            InputDevice(InputDevice&&) = delete;
-            InputDevice& operator=(InputDevice&&) = delete;
+        auto getId() const noexcept { return id; }
+        auto getType() const noexcept { return type; }
 
-            auto getId() const noexcept { return id; }
-            auto getType() const noexcept { return type; }
-
-        protected:
-            InputSystem& inputSystem;
-            DeviceId id;
-            Controller::Type type;
-        };
-    } // namespace input
-} // namespace ouzel
+    protected:
+        InputSystem& inputSystem;
+        DeviceId id;
+        Controller::Type type;
+    };
+}
 
 #endif // OUZEL_INPUT_INPUTDEVICE_HPP

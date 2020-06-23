@@ -3,27 +3,24 @@
 #ifndef OUZEL_GRAPHICS_BLENDFACTOR_HPP
 #define OUZEL_GRAPHICS_BLENDFACTOR_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class BlendFactor
     {
-        enum class BlendFactor
-        {
-            zero,
-            one,
-            srcColor,
-            invSrcColor,
-            srcAlpha,
-            invSrcAlpha,
-            destAlpha,
-            invDestAlpha,
-            destColor,
-            invDestColor,
-            srcAlphaSat,
-            blendFactor,
-            invBlendFactor
-        };
-    } // namespace graphics
-} // namespace ouzel
+        zero,
+        one,
+        srcColor,
+        invSrcColor,
+        srcAlpha,
+        invSrcAlpha,
+        destAlpha,
+        invDestAlpha,
+        destColor,
+        invDestColor,
+        srcAlphaSat,
+        blendFactor,
+        invBlendFactor
+    };
+}
 
 #endif // OUZEL_GRAPHICS_BLENDFACTOR_HPP

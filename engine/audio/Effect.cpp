@@ -4,32 +4,29 @@
 #include "Audio.hpp"
 #include "Submix.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    Effect::Effect(Audio& initAudio,
+                   std::uintptr_t initProcessorId):
+        Node(initAudio),
+        audio(initAudio),
+        processorId(initProcessorId)
     {
-        Effect::Effect(Audio& initAudio,
-                       std::uintptr_t initProcessorId):
-            Node(initAudio),
-            audio(initAudio),
-            processorId(initProcessorId)
-        {
-        }
+    }
 
-        Effect::~Effect()
-        {
-            if (mix) mix->removeEffect(this);
-            if (processorId) audio.deleteObject(processorId);
-        }
+    Effect::~Effect()
+    {
+        if (mix) mix->removeEffect(this);
+        if (processorId) audio.deleteObject(processorId);
+    }
 
-        void Effect::setEnabled(bool newEnabled)
-        {
-            enabled = newEnabled;
+    void Effect::setEnabled(bool newEnabled)
+    {
+        enabled = newEnabled;
 
-            audio.updateProcessor(processorId, [newEnabled](mixer::Object* node) {
-                auto processor = static_cast<mixer::Processor*>(node);
-                processor->setEnabled(newEnabled);
-            });
-        }
-    } // namespace audio
-} // namespace ouzel
+        audio.updateProcessor(processorId, [newEnabled](mixer::Object* node) {
+            auto processor = static_cast<mixer::Processor*>(node);
+            processor->setEnabled(newEnabled);
+        });
+    }
+}

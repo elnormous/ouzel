@@ -3,19 +3,16 @@
 #include "InputDevice.hpp"
 #include "InputSystem.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    InputDevice::InputDevice(InputSystem& initInputSystem, DeviceId initId, Controller::Type initType):
+        inputSystem(initInputSystem), id(initId), type(initType)
     {
-        InputDevice::InputDevice(InputSystem& initInputSystem, DeviceId initId, Controller::Type initType):
-            inputSystem(initInputSystem), id(initId), type(initType)
-        {
-            inputSystem.addInputDevice(*this);
-        }
+        inputSystem.addInputDevice(*this);
+    }
 
-        InputDevice::~InputDevice()
-        {
-            inputSystem.removeInputDevice(*this);
-        }
-    } // namespace input
-} // namespace ouzel
+    InputDevice::~InputDevice()
+    {
+        inputSystem.removeInputDevice(*this);
+    }
+}

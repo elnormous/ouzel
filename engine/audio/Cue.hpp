@@ -8,87 +8,84 @@
 #include <vector>
 #include "Oscillator.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    class Audio;
+    class Sound;
+
+    struct AttributeDefinition final
     {
-        class Audio;
-        class Sound;
+        std::string name;
+        std::string attribute;
+    };
 
-        struct AttributeDefinition final
+    struct EffectDefinition final
+    {
+        enum class Type
         {
-            std::string name;
-            std::string attribute;
+            delay,
+            gain,
+            pitchScale,
+            pitchShift,
+            reverb,
+            lowPass,
+            highPass
         };
 
-        struct EffectDefinition final
-        {
-            enum class Type
-            {
-                delay,
-                gain,
-                pitchScale,
-                pitchShift,
-                reverb,
-                lowPass,
-                highPass
-            };
+        Type type;
+        std::vector<AttributeDefinition> attributeDefinitions;
+        float delay = 0.0F;
+        float gain = 0.0F;
+        float scale = 1.0F;
+        float shift = 1.0f;
+        float decay = 0.0F;
+        std::pair<float, float> delayRandom{0.0F, 0.0F};
+        std::pair<float, float> gainRandom{0.0F, 0.0F};
+        std::pair<float, float> scaleRandom{0.0F, 0.0F};
+        std::pair<float, float> shiftRandom{0.0F, 0.0F};
+    };
 
-            Type type;
-            std::vector<AttributeDefinition> attributeDefinitions;
-            float delay = 0.0F;
-            float gain = 0.0F;
-            float scale = 1.0F;
-            float shift = 1.0f;
-            float decay = 0.0F;
-            std::pair<float, float> delayRandom{0.0F, 0.0F};
-            std::pair<float, float> gainRandom{0.0F, 0.0F};
-            std::pair<float, float> scaleRandom{0.0F, 0.0F};
-            std::pair<float, float> shiftRandom{0.0F, 0.0F};
+    struct SourceDefinition final
+    {
+        enum class Type
+        {
+            empty,
+            parallel,
+            random,
+            sequence,
+            oscillator,
+            silence,
+            wavePlayer
         };
 
-        struct SourceDefinition final
+        Type type;
+        std::vector<SourceDefinition> sourceDefinitions;
+        std::vector<EffectDefinition> effectDefinitions;
+        std::vector<AttributeDefinition> attributeDefinitions;
+        Oscillator::Type oscillatorType;
+        float frequency = 0.0F;
+        float amplitude = 0.0F;
+        float length = 0.0F;
+        const Sound* sound = nullptr;
+    };
+
+    class Cue
+    {
+    public:
+        Cue() {}
+        explicit Cue(const SourceDefinition& initSourceDefinition):
+            sourceDefinition(initSourceDefinition)
         {
-            enum class Type
-            {
-                empty,
-                parallel,
-                random,
-                sequence,
-                oscillator,
-                silence,
-                wavePlayer
-            };
+        }
 
-            Type type;
-            std::vector<SourceDefinition> sourceDefinitions;
-            std::vector<EffectDefinition> effectDefinitions;
-            std::vector<AttributeDefinition> attributeDefinitions;
-            Oscillator::Type oscillatorType;
-            float frequency = 0.0F;
-            float amplitude = 0.0F;
-            float length = 0.0F;
-            const Sound* sound = nullptr;
-        };
-
-        class Cue
+        const SourceDefinition& getSourceDefinition() const
         {
-        public:
-            Cue() {}
-            explicit Cue(const SourceDefinition& initSourceDefinition):
-                sourceDefinition(initSourceDefinition)
-            {
-            }
+            return sourceDefinition;
+        }
 
-            const SourceDefinition& getSourceDefinition() const
-            {
-                return sourceDefinition;
-            }
-
-        private:
-            SourceDefinition sourceDefinition;
-        };
-    } // namespace audio
-} // namespace ouzel
+    private:
+        SourceDefinition sourceDefinition;
+    };
+}
 
 #endif // OUZEL_AUDIO_BANK_HPP

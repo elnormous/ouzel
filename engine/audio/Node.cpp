@@ -3,39 +3,36 @@
 #include "Node.hpp"
 #include "Audio.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    void Node::addChild(Node& child)
     {
-        void Node::addChild(Node& child)
+        if (child.parent != this)
         {
-            if (child.parent != this)
-            {
-                if (child.parent)
-                    child.parent->removeChild(child);
+            if (child.parent)
+                child.parent->removeChild(child);
 
-                auto i = std::find(children.begin(), children.end(), &child);
-                if (i == children.end())
-                {
-                    child.parent = this;
-                    children.push_back(&child);
-                    audio.addCommand(std::make_unique<mixer::AddChildCommand>(objectId, child.objectId));
-                }
+            auto i = std::find(children.begin(), children.end(), &child);
+            if (i == children.end())
+            {
+                child.parent = this;
+                children.push_back(&child);
+                audio.addCommand(std::make_unique<mixer::AddChildCommand>(objectId, child.objectId));
             }
         }
+    }
 
-        void Node::removeChild(Node& child)
+    void Node::removeChild(Node& child)
+    {
+        if (child.parent == this)
         {
-            if (child.parent == this)
+            auto i = std::find(children.begin(), children.end(), &child);
+            if (i != children.end())
             {
-                auto i = std::find(children.begin(), children.end(), &child);
-                if (i != children.end())
-                {
-                    child.parent = this;
-                    children.erase(i);
-                    audio.addCommand(std::make_unique<mixer::RemoveChildCommand>(objectId, child.objectId));
-                }
+                child.parent = this;
+                children.erase(i);
+                audio.addCommand(std::make_unique<mixer::RemoveChildCommand>(objectId, child.objectId));
             }
         }
-    } // namespace audio
-} // namespace ouzel
+    }
+}

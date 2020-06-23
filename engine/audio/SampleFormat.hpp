@@ -3,16 +3,13 @@
 #ifndef OUZEL_AUDIO_SAMPLEFORMAT_HPP
 #define OUZEL_AUDIO_SAMPLEFORMAT_HPP
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    enum class SampleFormat
     {
-        enum class SampleFormat
-        {
-            signedInt16,
-            float32
-        };
-    } // namespace audio
-} // namespace ouzel
+        signedInt16,
+        float32
+    };
+}
 
 #endif // OUZEL_AUDIO_SAMPLEFORMAT_HPP

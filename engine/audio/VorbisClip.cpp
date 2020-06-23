@@ -41,137 +41,134 @@
 #  pragma GCC diagnostic pop
 #endif
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    class VorbisData;
+
+    class VorbisStream final: public mixer::Stream
     {
-        class VorbisData;
+    public:
+        explicit VorbisStream(VorbisData& vorbisData);
 
-        class VorbisStream final: public mixer::Stream
+        ~VorbisStream() override
         {
-        public:
-            explicit VorbisStream(VorbisData& vorbisData);
-
-            ~VorbisStream() override
-            {
-                if (vorbisStream)
-                    stb_vorbis_close(vorbisStream);
-            }
-
-            void reset() final
-            {
-                stb_vorbis_seek_start(vorbisStream);
-            }
-
-            void getSamples(std::uint32_t frames, std::vector<float>& samples) final;
-
-        private:
-            stb_vorbis* vorbisStream = nullptr;
-        };
-
-        class VorbisData final: public mixer::Data
-        {
-        public:
-            explicit VorbisData(const std::vector<std::byte>& initData):
-                data(initData)
-            {
-                stb_vorbis* vorbisStream = stb_vorbis_open_memory(reinterpret_cast<const unsigned char*>(data.data()),
-                                                                  static_cast<int>(data.size()),
-                                                                  nullptr, nullptr);
-
-                if (!vorbisStream)
-                    throw std::runtime_error("Failed to load Vorbis stream");
-
-                stb_vorbis_info info = stb_vorbis_get_info(vorbisStream);
-
-                channels = static_cast<std::uint32_t>(info.channels);
-                sampleRate = info.sample_rate;
-
+            if (vorbisStream)
                 stb_vorbis_close(vorbisStream);
-            }
-
-            auto& getData() const noexcept { return data; }
-
-            std::unique_ptr<mixer::Stream> createStream() final
-            {
-                return std::make_unique<VorbisStream>(*this);
-            }
-
-        private:
-            std::vector<std::byte> data;
-        };
-
-        VorbisStream::VorbisStream(VorbisData& vorbisData):
-            Stream(vorbisData)
-        {
-            vorbisStream = stb_vorbis_open_memory(reinterpret_cast<const unsigned char*>(vorbisData.getData().data()),
-                                                  static_cast<int>(vorbisData.getData().size()),
-                                                  nullptr, nullptr);
         }
 
-        void VorbisStream::getSamples(std::uint32_t frames, std::vector<float>& samples)
+        void reset() final
         {
-            std::uint32_t neededSize = frames * data.getChannels();
-            samples.resize(neededSize);
+            stb_vorbis_seek_start(vorbisStream);
+        }
 
-            int resultFrames = 0;
+        void getSamples(std::uint32_t frames, std::vector<float>& samples) final;
 
-            if (neededSize > 0)
-            {
-                if (vorbisStream->eof)
-                    reset();
+    private:
+        stb_vorbis* vorbisStream = nullptr;
+    };
 
-                std::vector<float*> channelData(data.getChannels());
+    class VorbisData final: public mixer::Data
+    {
+    public:
+        explicit VorbisData(const std::vector<std::byte>& initData):
+            data(initData)
+        {
+            stb_vorbis* vorbisStream = stb_vorbis_open_memory(reinterpret_cast<const unsigned char*>(data.data()),
+                                                              static_cast<int>(data.size()),
+                                                              nullptr, nullptr);
 
-                switch (data.getChannels())
-                {
-                    case 1:
-                        channelData[0] = &samples[0];
-                        break;
-                    case 2:
-                        channelData[0] = &samples[0 * frames];
-                        channelData[1] = &samples[1 * frames];
-                        break;
-                    case 4:
-                        channelData[0] = &samples[0 * frames];
-                        channelData[1] = &samples[1 * frames];
-                        channelData[2] = &samples[2 * frames];
-                        channelData[3] = &samples[3 * frames];
-                        break;
-                    case 6:
-                        channelData[0] = &samples[0 * frames];
-                        channelData[1] = &samples[2 * frames];
-                        channelData[2] = &samples[1 * frames];
-                        channelData[3] = &samples[4 * frames];
-                        channelData[4] = &samples[5 * frames];
-                        channelData[5] = &samples[3 * frames];
-                        break;
-                    default:
-                        throw std::runtime_error("Unsupported channel count");
-                }
+            if (!vorbisStream)
+                throw std::runtime_error("Failed to load Vorbis stream");
 
-                resultFrames = stb_vorbis_get_samples_float(vorbisStream,
-                                                            static_cast<int>(data.getChannels()),
-                                                            channelData.data(),
-                                                            static_cast<int>(frames));
-            }
+            stb_vorbis_info info = stb_vorbis_get_info(vorbisStream);
 
+            channels = static_cast<std::uint32_t>(info.channels);
+            sampleRate = info.sample_rate;
+
+            stb_vorbis_close(vorbisStream);
+        }
+
+        auto& getData() const noexcept { return data; }
+
+        std::unique_ptr<mixer::Stream> createStream() final
+        {
+            return std::make_unique<VorbisStream>(*this);
+        }
+
+    private:
+        std::vector<std::byte> data;
+    };
+
+    VorbisStream::VorbisStream(VorbisData& vorbisData):
+        Stream(vorbisData)
+    {
+        vorbisStream = stb_vorbis_open_memory(reinterpret_cast<const unsigned char*>(vorbisData.getData().data()),
+                                              static_cast<int>(vorbisData.getData().size()),
+                                              nullptr, nullptr);
+    }
+
+    void VorbisStream::getSamples(std::uint32_t frames, std::vector<float>& samples)
+    {
+        std::uint32_t neededSize = frames * data.getChannels();
+        samples.resize(neededSize);
+
+        int resultFrames = 0;
+
+        if (neededSize > 0)
+        {
             if (vorbisStream->eof)
-            {
-                playing = false; // TODO: fire event
                 reset();
+
+            std::vector<float*> channelData(data.getChannels());
+
+            switch (data.getChannels())
+            {
+                case 1:
+                    channelData[0] = &samples[0];
+                    break;
+                case 2:
+                    channelData[0] = &samples[0 * frames];
+                    channelData[1] = &samples[1 * frames];
+                    break;
+                case 4:
+                    channelData[0] = &samples[0 * frames];
+                    channelData[1] = &samples[1 * frames];
+                    channelData[2] = &samples[2 * frames];
+                    channelData[3] = &samples[3 * frames];
+                    break;
+                case 6:
+                    channelData[0] = &samples[0 * frames];
+                    channelData[1] = &samples[2 * frames];
+                    channelData[2] = &samples[1 * frames];
+                    channelData[3] = &samples[4 * frames];
+                    channelData[4] = &samples[5 * frames];
+                    channelData[5] = &samples[3 * frames];
+                    break;
+                default:
+                    throw std::runtime_error("Unsupported channel count");
             }
 
-            for (std::uint32_t channel = 0; channel < data.getChannels(); ++channel)
-                for (auto frame = static_cast<std::uint32_t>(resultFrames); frame < frames; ++frame)
-                    samples[channel * frames + frame] = 0.0F;
+            resultFrames = stb_vorbis_get_samples_float(vorbisStream,
+                                                        static_cast<int>(data.getChannels()),
+                                                        channelData.data(),
+                                                        static_cast<int>(frames));
         }
 
-        VorbisClip::VorbisClip(Audio& initAudio, const std::vector<std::byte>& initData):
-            Sound(initAudio,
-                  initAudio.initData(std::unique_ptr<mixer::Data>(data = new VorbisData(initData))),
-                  Sound::Format::vorbis)
+        if (vorbisStream->eof)
         {
+            playing = false; // TODO: fire event
+            reset();
         }
-    } // namespace audio
-} // namespace ouzel
+
+        for (std::uint32_t channel = 0; channel < data.getChannels(); ++channel)
+            for (auto frame = static_cast<std::uint32_t>(resultFrames); frame < frames; ++frame)
+                samples[channel * frames + frame] = 0.0F;
+    }
+
+    VorbisClip::VorbisClip(Audio& initAudio, const std::vector<std::byte>& initData):
+        Sound(initAudio,
+              initAudio.initData(std::unique_ptr<mixer::Data>(data = new VorbisData(initData))),
+              Sound::Format::vorbis)
+    {
+    }
+}

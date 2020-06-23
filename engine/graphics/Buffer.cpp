@@ -4,93 +4,90 @@
 #include "Buffer.hpp"
 #include "Renderer.hpp"
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    Buffer::Buffer(Renderer& initRenderer):
+        renderer(&initRenderer),
+        resource(initRenderer.getDevice()->createResource())
     {
-        Buffer::Buffer(Renderer& initRenderer):
-            renderer(&initRenderer),
-            resource(initRenderer.getDevice()->createResource())
-        {
-        }
+    }
 
-        Buffer::Buffer(Renderer& initRenderer,
-                       BufferType initType,
-                       Flags initFlags,
-                       std::uint32_t initSize):
-            renderer(&initRenderer),
-            resource(initRenderer.getDevice()->createResource()),
-            type(initType),
-            flags(initFlags),
-            size(initSize)
-        {
-            initRenderer.addCommand(std::make_unique<InitBufferCommand>(resource,
-                                                                        initType,
-                                                                        initFlags,
-                                                                        std::vector<std::uint8_t>(),
-                                                                        initSize));
-        }
+    Buffer::Buffer(Renderer& initRenderer,
+                   BufferType initType,
+                   Flags initFlags,
+                   std::uint32_t initSize):
+        renderer(&initRenderer),
+        resource(initRenderer.getDevice()->createResource()),
+        type(initType),
+        flags(initFlags),
+        size(initSize)
+    {
+        initRenderer.addCommand(std::make_unique<InitBufferCommand>(resource,
+                                                                    initType,
+                                                                    initFlags,
+                                                                    std::vector<std::uint8_t>(),
+                                                                    initSize));
+    }
 
-        Buffer::Buffer(Renderer& initRenderer,
-                       BufferType initType,
-                       Flags initFlags,
-                       const void* initData,
-                       std::uint32_t initSize):
-            renderer(&initRenderer),
-            resource(initRenderer.getDevice()->createResource()),
-            type(initType),
-            flags(initFlags),
-            size(initSize)
-        {
-            initRenderer.addCommand(std::make_unique<InitBufferCommand>(resource,
-                                                                        initType,
-                                                                        initFlags,
-                                                                        std::vector<std::uint8_t>(static_cast<const std::uint8_t*>(initData),
-                                                                                             static_cast<const std::uint8_t*>(initData) + initSize),
-                                                                        initSize));
-        }
+    Buffer::Buffer(Renderer& initRenderer,
+                   BufferType initType,
+                   Flags initFlags,
+                   const void* initData,
+                   std::uint32_t initSize):
+        renderer(&initRenderer),
+        resource(initRenderer.getDevice()->createResource()),
+        type(initType),
+        flags(initFlags),
+        size(initSize)
+    {
+        initRenderer.addCommand(std::make_unique<InitBufferCommand>(resource,
+                                                                    initType,
+                                                                    initFlags,
+                                                                    std::vector<std::uint8_t>(static_cast<const std::uint8_t*>(initData),
+                                                                                         static_cast<const std::uint8_t*>(initData) + initSize),
+                                                                    initSize));
+    }
 
-        Buffer::Buffer(Renderer& initRenderer,
-                       BufferType initType,
-                       Flags initFlags,
-                       const std::vector<std::uint8_t>& initData,
-                       std::uint32_t initSize):
-            renderer(&initRenderer),
-            resource(initRenderer.getDevice()->createResource()),
-            type(initType),
-            flags(initFlags),
-            size(initSize)
-        {
-            if (!initData.empty() && initSize != initData.size())
-                throw std::runtime_error("Invalid buffer data");
+    Buffer::Buffer(Renderer& initRenderer,
+                   BufferType initType,
+                   Flags initFlags,
+                   const std::vector<std::uint8_t>& initData,
+                   std::uint32_t initSize):
+        renderer(&initRenderer),
+        resource(initRenderer.getDevice()->createResource()),
+        type(initType),
+        flags(initFlags),
+        size(initSize)
+    {
+        if (!initData.empty() && initSize != initData.size())
+            throw std::runtime_error("Invalid buffer data");
 
-            initRenderer.addCommand(std::make_unique<InitBufferCommand>(resource,
-                                                                        initType,
-                                                                        initFlags,
-                                                                        initData,
-                                                                        initSize));
-        }
+        initRenderer.addCommand(std::make_unique<InitBufferCommand>(resource,
+                                                                    initType,
+                                                                    initFlags,
+                                                                    initData,
+                                                                    initSize));
+    }
 
-        void Buffer::setData(const void* newData, std::uint32_t newSize)
-        {
-            if (resource)
-                renderer->addCommand(std::make_unique<SetBufferDataCommand>(resource,
-                                                                            std::vector<std::uint8_t>(static_cast<const std::uint8_t*>(newData),
-                                                                                                 static_cast<const std::uint8_t*>(newData) + newSize)));
-        }
+    void Buffer::setData(const void* newData, std::uint32_t newSize)
+    {
+        if (resource)
+            renderer->addCommand(std::make_unique<SetBufferDataCommand>(resource,
+                                                                        std::vector<std::uint8_t>(static_cast<const std::uint8_t*>(newData),
+                                                                                             static_cast<const std::uint8_t*>(newData) + newSize)));
+    }
 
-        void Buffer::setData(const std::vector<std::uint8_t>& newData)
-        {
-            if ((flags & Flags::dynamic) != Flags::dynamic)
-                throw std::runtime_error("Buffer is not dynamic");
+    void Buffer::setData(const std::vector<std::uint8_t>& newData)
+    {
+        if ((flags & Flags::dynamic) != Flags::dynamic)
+            throw std::runtime_error("Buffer is not dynamic");
 
-            if (newData.empty())
-                throw std::runtime_error("Invalid buffer data");
+        if (newData.empty())
+            throw std::runtime_error("Invalid buffer data");
 
-            if (newData.size() > size) size = static_cast<std::uint32_t>(newData.size());
+        if (newData.size() > size) size = static_cast<std::uint32_t>(newData.size());
 
-            if (resource)
-                renderer->addCommand(std::make_unique<SetBufferDataCommand>(resource, newData));
-        }
-    } // namespace graphics
-} // namespace ouzel
+        if (resource)
+            renderer->addCommand(std::make_unique<SetBufferDataCommand>(resource, newData));
+    }
+}

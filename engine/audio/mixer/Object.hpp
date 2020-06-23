@@ -10,91 +10,85 @@
 #include "../../math/Quaternion.hpp"
 #include "../../math/Vector.hpp"
 
-namespace ouzel
+namespace ouzel::audio::mixer
 {
-    namespace audio
+    class Object
     {
-        namespace mixer
+    public:
+        Object() noexcept = default;
+        explicit Object(std::unique_ptr<Source> initSource) noexcept:
+            source(std::move(initSource))
         {
-            class Object
-            {
-            public:
-                Object() noexcept = default;
-                explicit Object(std::unique_ptr<Source> initSource) noexcept:
-                    source(std::move(initSource))
-                {
-                }
-
-                virtual ~Object()
-                {
-                    if (parent)
-                        parent->removeChild(*this);
-                }
-
-                Object(const Object&) = delete;
-                Object& operator=(const Object&) = delete;
-
-                Object(Object&&) = delete;
-                Object& operator=(Object&&) = delete;
-
-                void addChild(Object& child)
-                {
-                    if (child.parent != this)
-                    {
-                        if (child.parent)
-                            child.parent->removeChild(child);
-
-                        auto i = std::find(children.begin(), children.end(), &child);
-                        if (i == children.end())
-                        {
-                            child.parent = this;
-                            children.push_back(&child);
-                        }
-                    }
-                }
-
-                void removeChild(Object& child)
-                {
-                    if (child.parent == this)
-                    {
-                        auto i = std::find(children.begin(), children.end(), &child);
-                        if (i != children.end())
-                        {
-                            child.parent = this;
-                            children.erase(i);
-                        }
-                    }
-                }
-
-                void play()
-                {
-                    if (source)
-                        source->play();
-                }
-
-                void stop(bool reset)
-                {
-                    if (source)
-                        source->stop(reset);
-                }
-
-                // TODO: make non-virtual
-                virtual void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples)
-                {
-                    for (auto child : children)
-                        child->getSamples(frames, channels, sampleRate, samples);
-
-                    if (source)
-                        source->getSamples(frames, channels, sampleRate, samples);
-                }
-
-            protected:
-                Object* parent = nullptr;
-                std::vector<Object*> children;
-                std::unique_ptr<Source> source;
-            };
         }
-    } // namespace audio
-} // namespace ouzel
+
+        virtual ~Object()
+        {
+            if (parent)
+                parent->removeChild(*this);
+        }
+
+        Object(const Object&) = delete;
+        Object& operator=(const Object&) = delete;
+
+        Object(Object&&) = delete;
+        Object& operator=(Object&&) = delete;
+
+        void addChild(Object& child)
+        {
+            if (child.parent != this)
+            {
+                if (child.parent)
+                    child.parent->removeChild(child);
+
+                auto i = std::find(children.begin(), children.end(), &child);
+                if (i == children.end())
+                {
+                    child.parent = this;
+                    children.push_back(&child);
+                }
+            }
+        }
+
+        void removeChild(Object& child)
+        {
+            if (child.parent == this)
+            {
+                auto i = std::find(children.begin(), children.end(), &child);
+                if (i != children.end())
+                {
+                    child.parent = this;
+                    children.erase(i);
+                }
+            }
+        }
+
+        void play()
+        {
+            if (source)
+                source->play();
+        }
+
+        void stop(bool reset)
+        {
+            if (source)
+                source->stop(reset);
+        }
+
+        // TODO: make non-virtual
+        virtual void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples)
+        {
+            for (auto child : children)
+                child->getSamples(frames, channels, sampleRate, samples);
+
+            if (source)
+                source->getSamples(frames, channels, sampleRate, samples);
+        }
+
+    protected:
+        Object* parent = nullptr;
+        std::vector<Object*> children;
+        std::unique_ptr<Source> source;
+    };
+}
 
 #endif // OUZEL_AUDIO_MIXER_OBJECT_HPP

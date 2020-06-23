@@ -6,26 +6,23 @@
 #include "Source.hpp"
 #include "Sound.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    class VorbisData;
+
+    class WavePlayer final: public Source
     {
-        class VorbisData;
-
-        class WavePlayer final: public Source
+    public:
+        explicit WavePlayer(const Sound*)
         {
-        public:
-            explicit WavePlayer(const Sound*)
-            {
-            }
+        }
 
-            void getSamples(std::uint32_t, std::uint32_t, std::uint32_t, std::vector<float>&) override
-            {
-            }
+        void getSamples(std::uint32_t, std::uint32_t, std::uint32_t, std::vector<float>&) override
+        {
+        }
 
-        private:
-        };
-    } // namespace audio
-} // namespace ouzel
+    private:
+    };
+}
 
 #endif // OUZEL_AUDIO_WAVEPLAYER_HPP

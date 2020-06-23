@@ -6,51 +6,48 @@
 #include <cstdint>
 #include <vector>
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    class Audio;
+    class Effect;
+    class Listener;
+    class Submix;
+    class Voice;
+
+    class Mix
     {
-        class Audio;
-        class Effect;
-        class Listener;
-        class Submix;
-        class Voice;
+        friend Listener;
+        friend Submix;
+        friend Voice;
+    public:
+        explicit Mix(Audio& initAudio);
+        virtual ~Mix();
 
-        class Mix
-        {
-            friend Listener;
-            friend Submix;
-            friend Voice;
-        public:
-            explicit Mix(Audio& initAudio);
-            virtual ~Mix();
+        Mix(const Mix&) = delete;
+        Mix& operator=(const Mix&) = delete;
+        Mix(Mix&&) = delete;
+        Mix& operator=(Mix&&) = delete;
 
-            Mix(const Mix&) = delete;
-            Mix& operator=(const Mix&) = delete;
-            Mix(Mix&&) = delete;
-            Mix& operator=(Mix&&) = delete;
+        auto getBusId() const noexcept { return busId; }
 
-            auto getBusId() const noexcept { return busId; }
+        void addEffect(Effect* effect);
+        void removeEffect(Effect* effect);
 
-            void addEffect(Effect* effect);
-            void removeEffect(Effect* effect);
+    protected:
+        void addInput(Submix* submix);
+        void removeInput(Submix* submix);
+        void addInput(Voice* voice);
+        void removeInput(Voice* voice);
+        void addListener(Listener* listener);
+        void removeListener(Listener* listener);
 
-        protected:
-            void addInput(Submix* submix);
-            void removeInput(Submix* submix);
-            void addInput(Voice* voice);
-            void removeInput(Voice* voice);
-            void addListener(Listener* listener);
-            void removeListener(Listener* listener);
-
-            Audio& audio;
-            std::uintptr_t busId;
-            std::vector<Submix*> inputSubmixes;
-            std::vector<Voice*> inputVoices;
-            std::vector<Effect*> effects;
-            std::vector<Listener*> listeners;
-        };
-    } // namespace audio
-} // namespace ouzel
+        Audio& audio;
+        std::uintptr_t busId;
+        std::vector<Submix*> inputSubmixes;
+        std::vector<Voice*> inputVoices;
+        std::vector<Effect*> effects;
+        std::vector<Listener*> listeners;
+    };
+}
 
 #endif // OUZEL_AUDIO_MIX_HPP

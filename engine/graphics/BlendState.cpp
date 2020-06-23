@@ -3,41 +3,38 @@
 #include "BlendState.hpp"
 #include "Renderer.hpp"
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    BlendState::BlendState(Renderer& initRenderer):
+        resource(initRenderer.getDevice()->createResource())
     {
-        BlendState::BlendState(Renderer& initRenderer):
-            resource(initRenderer.getDevice()->createResource())
-        {
-        }
+    }
 
-        BlendState::BlendState(Renderer& initRenderer,
-                               bool initEnableBlending,
-                               BlendFactor initColorBlendSource,
-                               BlendFactor initColorBlendDest,
-                               BlendOperation initColorOperation,
-                               BlendFactor initAlphaBlendSource,
-                               BlendFactor initAlphaBlendDest,
-                               BlendOperation initAlphaOperation,
-                               ColorMask initColorMask):
-            resource(initRenderer.getDevice()->createResource()),
-            colorBlendSource(initColorBlendSource),
-            colorBlendDest(initColorBlendDest),
-            colorOperation(initColorOperation),
-            alphaBlendSource(initAlphaBlendSource),
-            alphaBlendDest(initAlphaBlendDest),
-            alphaOperation(initAlphaOperation),
-            colorMask(initColorMask),
-            enableBlending(initEnableBlending)
-        {
-            initRenderer.addCommand(std::make_unique<InitBlendStateCommand>(resource,
-                                                                            initEnableBlending,
-                                                                            initColorBlendSource, initColorBlendDest,
-                                                                            initColorOperation,
-                                                                            initAlphaBlendSource, initAlphaBlendDest,
-                                                                            initAlphaOperation,
-                                                                            initColorMask));
-        }
-    } // namespace graphics
-} // namespace ouzel
+    BlendState::BlendState(Renderer& initRenderer,
+                           bool initEnableBlending,
+                           BlendFactor initColorBlendSource,
+                           BlendFactor initColorBlendDest,
+                           BlendOperation initColorOperation,
+                           BlendFactor initAlphaBlendSource,
+                           BlendFactor initAlphaBlendDest,
+                           BlendOperation initAlphaOperation,
+                           ColorMask initColorMask):
+        resource(initRenderer.getDevice()->createResource()),
+        colorBlendSource(initColorBlendSource),
+        colorBlendDest(initColorBlendDest),
+        colorOperation(initColorOperation),
+        alphaBlendSource(initAlphaBlendSource),
+        alphaBlendDest(initAlphaBlendDest),
+        alphaOperation(initAlphaOperation),
+        colorMask(initColorMask),
+        enableBlending(initEnableBlending)
+    {
+        initRenderer.addCommand(std::make_unique<InitBlendStateCommand>(resource,
+                                                                        initEnableBlending,
+                                                                        initColorBlendSource, initColorBlendDest,
+                                                                        initColorOperation,
+                                                                        initAlphaBlendSource, initAlphaBlendDest,
+                                                                        initAlphaOperation,
+                                                                        initColorMask));
+    }
+}

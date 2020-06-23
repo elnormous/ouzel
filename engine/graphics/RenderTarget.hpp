@@ -9,34 +9,31 @@
 #include "../math/Color.hpp"
 #include "../math/Size.hpp"
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    class Renderer;
+    class Texture;
+
+    class RenderTarget final
     {
-        class Renderer;
-        class Texture;
+    public:
+        RenderTarget() = default;
 
-        class RenderTarget final
-        {
-        public:
-            RenderTarget() = default;
+        RenderTarget(Renderer& initRenderer,
+                     const std::vector<Texture*>& initColorTextures,
+                     Texture* initDepthTexture);
 
-            RenderTarget(Renderer& initRenderer,
-                         const std::vector<Texture*>& initColorTextures,
-                         Texture* initDepthTexture);
+        auto& getResource() const noexcept { return resource; }
 
-            auto& getResource() const noexcept { return resource; }
+        auto& getColorTextures() const noexcept { return colorTextures; }
+        auto getDepthTexture() const noexcept { return depthTexture; }
 
-            auto& getColorTextures() const noexcept { return colorTextures; }
-            auto getDepthTexture() const noexcept { return depthTexture; }
+    private:
+        RenderDevice::Resource resource;
 
-        private:
-            RenderDevice::Resource resource;
-
-            std::vector<Texture*> colorTextures;
-            Texture* depthTexture = nullptr;
-        };
-    } // namespace graphics
-} // namespace ouzel
+        std::vector<Texture*> colorTextures;
+        Texture* depthTexture = nullptr;
+    };
+}
 
 #endif // OUZEL_GRAPHICS_RENDERTARGET_HPP

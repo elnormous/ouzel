@@ -3,20 +3,17 @@
 #ifndef OUZEL_GRAPHICS_CUBEFACE_HPP
 #define OUZEL_GRAPHICS_CUBEFACE_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class CubeFace
     {
-        enum class CubeFace
-        {
-            positiveX,
-            negativeX,
-            positiveY,
-            negativeY,
-            positiveZ,
-            negativeZ
-        };
-    } // namespace graphics
-} // namespace ouzel
+        positiveX,
+        negativeX,
+        positiveY,
+        negativeY,
+        positiveZ,
+        negativeZ
+    };
+}
 
 #endif // OUZEL_GRAPHICS_CUBEFACE_HPP

@@ -3,20 +3,17 @@
 #ifndef OUZEL_INPUT_SYSTEMCURSOR_HPP
 #define OUZEL_INPUT_SYSTEMCURSOR_HPP
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    enum class SystemCursor
     {
-        enum class SystemCursor
-        {
-            arrow,
-            hand,
-            horizontalResize,
-            verticalResize,
-            cross,
-            iBeam
-        };
-    } // namespace input
-} // namespace ouzel
+        arrow,
+        hand,
+        horizontalResize,
+        verticalResize,
+        cross,
+        iBeam
+    };
+}
 
 #endif // OUZEL_INPUT_SYSTEMCURSOR_HPP

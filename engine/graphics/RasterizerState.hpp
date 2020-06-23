@@ -3,29 +3,26 @@
 #ifndef OUZEL_GRAPHICS_RASTERIZERSTATE_HPP
 #define OUZEL_GRAPHICS_RASTERIZERSTATE_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class CullMode
     {
-        enum class CullMode
-        {
-            none,
-            front,
-            back
-        };
+        none,
+        front,
+        back
+    };
 
-        enum class FillMode
-        {
-            solid,
-            wireframe
-        };
+    enum class FillMode
+    {
+        solid,
+        wireframe
+    };
 
-        enum class Face
-        {
-            clockWise,
-            counterClockWise
-        };
-    } // namespace graphics
-} // namespace ouzel
+    enum class Face
+    {
+        clockWise,
+        counterClockWise
+    };
+}
 
 #endif // OUZEL_GRAPHICS_RASTERIZERSTATE_HPP

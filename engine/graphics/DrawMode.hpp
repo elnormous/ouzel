@@ -3,19 +3,16 @@
 #ifndef OUZEL_GRAPHICS_DRAWMODE_HPP
 #define OUZEL_GRAPHICS_DRAWMODE_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class DrawMode
     {
-        enum class DrawMode
-        {
-            pointList,
-            lineList,
-            lineStrip,
-            triangleList,
-            triangleStrip
-        };
-    } // namespace graphics
-} // namespace ouzel
+        pointList,
+        lineList,
+        lineStrip,
+        triangleList,
+        triangleStrip
+    };
+}
 
 #endif // OUZEL_GRAPHICS_DRAWMODE_HPP

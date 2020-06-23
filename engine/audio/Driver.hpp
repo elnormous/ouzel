@@ -3,22 +3,19 @@
 #ifndef AUDIO_DRIVER_HPP
 #define AUDIO_DRIVER_HPP
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    enum class Driver
     {
-        enum class Driver
-        {
-            empty,
-            openAL,
-            directSound,
-            xAudio2,
-            openSL,
-            coreAudio,
-            alsa,
-            wasapi
-        };
-    } // namespace audio
-} // namespace ouzel
+        empty,
+        openAL,
+        directSound,
+        xAudio2,
+        openSL,
+        coreAudio,
+        alsa,
+        wasapi
+    };
+}
 
 #endif // AUDIO_DRIVER_HPP

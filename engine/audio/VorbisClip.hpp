@@ -7,21 +7,18 @@
 #include <vector>
 #include "Sound.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    class VorbisData;
+
+    class VorbisClip final: public Sound
     {
-        class VorbisData;
+    public:
+        VorbisClip(Audio& initAudio, const std::vector<std::byte>& initData);
 
-        class VorbisClip final: public Sound
-        {
-        public:
-            VorbisClip(Audio& initAudio, const std::vector<std::byte>& initData);
-
-        private:
-            VorbisData* data;
-        };
-    } // namespace audio
-} // namespace ouzel
+    private:
+        VorbisData* data;
+    };
+}
 
 #endif // OUZEL_AUDIO_VORBISCLIP_HPP

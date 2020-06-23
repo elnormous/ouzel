@@ -3,22 +3,19 @@
 #ifndef OUZEL_GRAPHICS_COMPAREFUNCTION_HPP
 #define OUZEL_GRAPHICS_COMPAREFUNCTION_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class CompareFunction
     {
-        enum class CompareFunction
-        {
-            never,
-            less,
-            equal,
-            lessEqual,
-            greater,
-            notEqual,
-            greaterEqual,
-            always
-        };
-    } // namespace graphics
-} // namespace ouzel
+        never,
+        less,
+        equal,
+        lessEqual,
+        greater,
+        notEqual,
+        greaterEqual,
+        always
+    };
+}
 
 #endif // OUZEL_GRAPHICS_COMPAREFUNCTION_HPP

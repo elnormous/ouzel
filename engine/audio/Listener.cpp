@@ -7,30 +7,27 @@
 #include "../scene/Actor.hpp"
 #include "../math/MathUtils.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    Listener::Listener(Audio& initAudio):
+        audio(initAudio)
     {
-        Listener::Listener(Audio& initAudio):
-            audio(initAudio)
-        {
-        }
+    }
 
-        Listener::~Listener()
-        {
-            if (mix) mix->removeListener(this);
-        }
+    Listener::~Listener()
+    {
+        if (mix) mix->removeListener(this);
+    }
 
-        void Listener::setMix(Mix* newMix)
-        {
-            if (mix) mix->removeListener(this);
-            mix = newMix;
-            if (mix) mix->addListener(this);
-        }
+    void Listener::setMix(Mix* newMix)
+    {
+        if (mix) mix->removeListener(this);
+        mix = newMix;
+        if (mix) mix->addListener(this);
+    }
 
-        void Listener::updateTransform()
-        {
-            transformDirty = true;
-        }
-    } // namespace audio
-} // namespace ouzel
+    void Listener::updateTransform()
+    {
+        transformDirty = true;
+    }
+}

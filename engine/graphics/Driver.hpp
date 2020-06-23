@@ -3,18 +3,15 @@
 #ifndef OUZEL_GRAPHICS_DRIVER_HPP
 #define OUZEL_GRAPHICS_DRIVER_HPP
 
-namespace ouzel
+namespace ouzel::graphics
 {
-    namespace graphics
+    enum class Driver
     {
-        enum class Driver
-        {
-            empty,
-            openGL,
-            direct3D11,
-            metal
-        };
-    } // namespace graphics
-} // namespace ouzel
+        empty,
+        openGL,
+        direct3D11,
+        metal
+    };
+}
 
 #endif // OUZEL_GRAPHICS_DRIVER_HPP

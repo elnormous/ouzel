@@ -5,38 +5,35 @@
 
 #include "DeviceId.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class InputManager;
+
+    class Controller
     {
-        class InputManager;
-
-        class Controller
+    public:
+        enum class Type
         {
-        public:
-            enum class Type
-            {
-                none,
-                keyboard,
-                mouse,
-                touchpad,
-                gamepad
-            };
-
-            Controller(InputManager& initInputManager, Type initType, DeviceId initDeviceId):
-                inputManager(initInputManager), type(initType), deviceId(initDeviceId)
-            {}
-            virtual ~Controller() = default;
-
-            auto getType() const noexcept { return type; }
-            auto getDeviceId() const noexcept { return deviceId; }
-
-        protected:
-            InputManager& inputManager;
-            Type type;
-            DeviceId deviceId;
+            none,
+            keyboard,
+            mouse,
+            touchpad,
+            gamepad
         };
-    } // namespace input
-} // namespace ouzel
+
+        Controller(InputManager& initInputManager, Type initType, DeviceId initDeviceId):
+            inputManager(initInputManager), type(initType), deviceId(initDeviceId)
+        {}
+        virtual ~Controller() = default;
+
+        auto getType() const noexcept { return type; }
+        auto getDeviceId() const noexcept { return deviceId; }
+
+    protected:
+        InputManager& inputManager;
+        Type type;
+        DeviceId deviceId;
+    };
+}
 
 #endif // OUZEL_INPUT_CONTROLLER_HPP

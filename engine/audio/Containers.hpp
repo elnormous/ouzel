@@ -7,39 +7,36 @@
 #include <vector>
 #include "Source.hpp"
 
-namespace ouzel
+namespace ouzel::audio
 {
-    namespace audio
+    class Container: public Source
     {
-        class Container: public Source
-        {
-        public:
-        };
+    public:
+    };
 
-        class Parallel final: public Container
+    class Parallel final: public Container
+    {
+    public:
+        void getSamples(std::uint32_t, std::uint32_t, std::uint32_t, std::vector<float>&) override
         {
-        public:
-            void getSamples(std::uint32_t, std::uint32_t, std::uint32_t, std::vector<float>&) override
-            {
-            }
-        };
+        }
+    };
 
-        class Random final: public Container
+    class Random final: public Container
+    {
+    public:
+        void getSamples(std::uint32_t, std::uint32_t, std::uint32_t, std::vector<float>&) override
         {
-        public:
-            void getSamples(std::uint32_t, std::uint32_t, std::uint32_t, std::vector<float>&) override
-            {
-            }
-        };
+        }
+    };
 
-        class Sequence final: public Container
+    class Sequence final: public Container
+    {
+    public:
+        void getSamples(std::uint32_t, std::uint32_t, std::uint32_t, std::vector<float>&) override
         {
-        public:
-            void getSamples(std::uint32_t, std::uint32_t, std::uint32_t, std::vector<float>&) override
-            {
-            }
-        };
-    } // namespace audio
-} // namespace ouzel
+        }
+    };
+}
 
 #endif // OUZEL_AUDIO_CONTAINERS_HPP
