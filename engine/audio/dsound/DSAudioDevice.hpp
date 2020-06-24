@@ -26,51 +26,44 @@
 #include "DSPointer.hpp"
 #include "../../utils/Thread.hpp"
 
-namespace ouzel
+namespace ouzel::audio::directsound
 {
-    namespace audio
+    class AudioDevice final: public audio::AudioDevice
     {
-        namespace directsound
-        {
-            class AudioDevice final: public audio::AudioDevice
-            {
-            public:
-                AudioDevice(std::uint32_t initBufferSize,
-                            std::uint32_t initSampleRate,
-                            std::uint32_t initChannels,
-                            const std::function<void(std::uint32_t frames,
-                                                     std::uint32_t channels,
-                                                     std::uint32_t sampleRate,
-                                                     std::vector<float>& samples)>& initDataGetter);
-                ~AudioDevice() override;
+    public:
+        AudioDevice(std::uint32_t initBufferSize,
+                    std::uint32_t initSampleRate,
+                    std::uint32_t initChannels,
+                    const std::function<void(std::uint32_t frames,
+                                                std::uint32_t channels,
+                                                std::uint32_t sampleRate,
+                                                std::vector<float>& samples)>& initDataGetter);
+        ~AudioDevice() override;
 
-                void start() final;
-                void stop() final;
+        void start() final;
+        void stop() final;
 
-                auto& getDirectSound() const noexcept { return directSound; }
+        auto& getDirectSound() const noexcept { return directSound; }
 
-            private:
-                void run();
+    private:
+        void run();
 
-                Pointer<IDirectSound8> directSound;
+        Pointer<IDirectSound8> directSound;
 
-                Pointer<IDirectSoundBuffer> primaryBuffer;
-                Pointer<IDirectSoundBuffer8> buffer;
-                Pointer<IDirectSoundNotify> notify;
-                HANDLE notifyEvents[2] = {nullptr, nullptr};
+        Pointer<IDirectSoundBuffer> primaryBuffer;
+        Pointer<IDirectSoundBuffer8> buffer;
+        Pointer<IDirectSoundNotify> notify;
+        HANDLE notifyEvents[2] = {nullptr, nullptr};
 
-                std::uint32_t nextBuffer = 0;
+        std::uint32_t nextBuffer = 0;
 
-                std::uint32_t sampleSize = 0;
-                std::vector<std::uint8_t> data;
+        std::uint32_t sampleSize = 0;
+        std::vector<std::uint8_t> data;
 
-                std::atomic_bool running{false};
-                Thread audioThread;
-            };
-        } // namespace directsound
-    } // namespace audio
-} // namespace ouzel
-
+        std::atomic_bool running{false};
+        Thread audioThread;
+    };
+}
 #endif
 
 #endif // OUZEL_AUDIO_DSAUDIODEVICE_HPP

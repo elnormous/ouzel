@@ -23,45 +23,38 @@
 
 #include "../AudioDevice.hpp"
 
-namespace ouzel
+namespace ouzel::audio::coreaudio
 {
-    namespace audio
+    class AudioDevice final: public audio::AudioDevice
     {
-        namespace coreaudio
-        {
-            class AudioDevice final: public audio::AudioDevice
-            {
-            public:
-                AudioDevice(std::uint32_t initBufferSize,
-                            std::uint32_t initSampleRate,
-                            std::uint32_t initChannels,
-                            const std::function<void(std::uint32_t frames,
-                                                     std::uint32_t channels,
-                                                     std::uint32_t sampleRate,
-                                                     std::vector<float>& samples)>& initDataGetter);
-                ~AudioDevice() override;
+    public:
+        AudioDevice(std::uint32_t initBufferSize,
+                    std::uint32_t initSampleRate,
+                    std::uint32_t initChannels,
+                    const std::function<void(std::uint32_t frames,
+                                             std::uint32_t channels,
+                                             std::uint32_t sampleRate,
+                                             std::vector<float>& samples)>& initDataGetter);
+        ~AudioDevice() override;
 
-                void start() final;
-                void stop() final;
+        void start() final;
+        void stop() final;
 
-                void outputCallback(AudioBufferList* ioData);
+        void outputCallback(AudioBufferList* ioData);
 
-            private:
+    private:
 #if TARGET_OS_IOS || TARGET_OS_TV
-                id routeChangeDelegate = nil;
+        id routeChangeDelegate = nil;
 #elif TARGET_OS_MAC
-                AudioDeviceID deviceId = 0;
+        AudioDeviceID deviceId = 0;
 #endif
-                AudioComponent audioComponent = nullptr;
-                AudioUnit audioUnit = nullptr;
+        AudioComponent audioComponent = nullptr;
+        AudioUnit audioUnit = nullptr;
 
-                std::uint32_t sampleSize = 0;
-                std::vector<std::uint8_t> data;
-            };
-        } // namespace coreaudio
-    } // namespace audio
-} // namespace ouzel
-
+        std::uint32_t sampleSize = 0;
+        std::vector<std::uint8_t> data;
+    };
+}
 #endif
 
 #endif // OUZEL_AUDIO_CAAUDIODEVICE_HPP

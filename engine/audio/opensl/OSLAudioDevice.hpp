@@ -14,46 +14,39 @@
 #include "../AudioDevice.hpp"
 #include "OSLPointer.hpp"
 
-namespace ouzel
+namespace ouzel::audio::opensl
 {
-    namespace audio
+    class AudioDevice final: public audio::AudioDevice
     {
-        namespace opensl
-        {
-            class AudioDevice final: public audio::AudioDevice
-            {
-            public:
-                AudioDevice(std::uint32_t initBufferSize,
-                            std::uint32_t initSampleRate,
-                            std::uint32_t initChannels,
-                            const std::function<void(std::uint32_t frames,
-                                                     std::uint32_t channels,
-                                                     std::uint32_t sampleRate,
-                                                     std::vector<float>& samples)>& initDataGetter);
+    public:
+        AudioDevice(std::uint32_t initBufferSize,
+                    std::uint32_t initSampleRate,
+                    std::uint32_t initChannels,
+                    const std::function<void(std::uint32_t frames,
+                                                std::uint32_t channels,
+                                                std::uint32_t sampleRate,
+                                                std::vector<float>& samples)>& initDataGetter);
 
-                void start() final;
-                void stop() final;
+        void start() final;
+        void stop() final;
 
-                void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
+        void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
-                auto getEngine() const noexcept { return engine; }
+        auto getEngine() const noexcept { return engine; }
 
-            private:
-                Pointer<SLObjectItf> engineObject;
-                SLEngineItf engine = nullptr;
-                Pointer<SLObjectItf> outputMixObject;
+    private:
+        Pointer<SLObjectItf> engineObject;
+        SLEngineItf engine = nullptr;
+        Pointer<SLObjectItf> outputMixObject;
 
-                Pointer<SLObjectItf> playerObject;
-                SLPlayItf player = nullptr;
-                SLAndroidSimpleBufferQueueItf bufferQueue = nullptr;
-                SLVolumeItf playerVolume = nullptr;
+        Pointer<SLObjectItf> playerObject;
+        SLPlayItf player = nullptr;
+        SLAndroidSimpleBufferQueueItf bufferQueue = nullptr;
+        SLVolumeItf playerVolume = nullptr;
 
-                std::vector<std::uint8_t> data;
-            };
-        } // namespace opensl
-    } // namespace audio
-} // namespace ouzel
-
+        std::vector<std::uint8_t> data;
+    };
+}
 #endif
 
 #endif // OUZEL_AUDIO_OSLAUDIODEVICE_HPP

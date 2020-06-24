@@ -11,52 +11,45 @@
 #include <xaudio2.h>
 #include "../AudioDevice.hpp"
 
-namespace ouzel
+namespace ouzel::audio::xaudio2
 {
-    namespace audio
+    class AudioDevice final: public audio::AudioDevice, public IXAudio2VoiceCallback
     {
-        namespace xaudio2
-        {
-            class AudioDevice final: public audio::AudioDevice, public IXAudio2VoiceCallback
-            {
-            public:
-                AudioDevice(std::uint32_t initBufferSize,
-                            std::uint32_t initSampleRate,
-                            std::uint32_t initChannels,
-                            const std::function<void(std::uint32_t frames,
-                                                     std::uint32_t channels,
-                                                     std::uint32_t sampleRate,
-                                                     std::vector<float>& samples)>& initDataGetter,
-                            bool debugAudio);
-                ~AudioDevice() override;
+    public:
+        AudioDevice(std::uint32_t initBufferSize,
+                    std::uint32_t initSampleRate,
+                    std::uint32_t initChannels,
+                    const std::function<void(std::uint32_t frames,
+                                                std::uint32_t channels,
+                                                std::uint32_t sampleRate,
+                                                std::vector<float>& samples)>& initDataGetter,
+                    bool debugAudio);
+        ~AudioDevice() override;
 
-                void start() final;
-                void stop() final;
+        void start() final;
+        void stop() final;
 
-            private:
-                void run();
+    private:
+        void run();
 
-                void STDMETHODCALLTYPE OnVoiceProcessingPassStart(UINT32 bytesRequired) final;
-                void STDMETHODCALLTYPE OnVoiceProcessingPassEnd() final;
-                void STDMETHODCALLTYPE OnStreamEnd() final;
-                void STDMETHODCALLTYPE OnBufferStart(void* bufferContext) final;
-                void STDMETHODCALLTYPE OnBufferEnd(void* bufferContext) final;
-                void STDMETHODCALLTYPE OnLoopEnd(void* bufferContext) final;
-                void STDMETHODCALLTYPE OnVoiceError(void* bufferContext, HRESULT error) final;
+        void STDMETHODCALLTYPE OnVoiceProcessingPassStart(UINT32 bytesRequired) final;
+        void STDMETHODCALLTYPE OnVoiceProcessingPassEnd() final;
+        void STDMETHODCALLTYPE OnStreamEnd() final;
+        void STDMETHODCALLTYPE OnBufferStart(void* bufferContext) final;
+        void STDMETHODCALLTYPE OnBufferEnd(void* bufferContext) final;
+        void STDMETHODCALLTYPE OnLoopEnd(void* bufferContext) final;
+        void STDMETHODCALLTYPE OnVoiceError(void* bufferContext, HRESULT error) final;
 
-                HMODULE xAudio2Library = nullptr;
+        HMODULE xAudio2Library = nullptr;
 
-                IXAudio2* xAudio = nullptr;
-                IXAudio2MasteringVoice* masteringVoice = nullptr;
-                IXAudio2SourceVoice* sourceVoice = nullptr;
+        IXAudio2* xAudio = nullptr;
+        IXAudio2MasteringVoice* masteringVoice = nullptr;
+        IXAudio2SourceVoice* sourceVoice = nullptr;
 
-                std::vector<std::uint8_t> data[2];
-                std::uint32_t nextBuffer = 0;
-            };
-        } // namespace xaudio2
-    } // namespace audio
-} // namespace ouzel
-
+        std::vector<std::uint8_t> data[2];
+        std::uint32_t nextBuffer = 0;
+    };
+}
 #endif
 
 #endif // OUZEL_AUDIO_XA2AUDIODEVICE_HPP

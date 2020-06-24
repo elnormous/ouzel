@@ -28,249 +28,242 @@ namespace
     }
 }
 
-namespace ouzel
+namespace ouzel::audio::directsound
 {
-    namespace audio
+    namespace
     {
-        namespace directsound
+        class ErrorCategory final: public std::error_category
         {
-            namespace
+        public:
+            const char* name() const noexcept final
             {
-                class ErrorCategory final: public std::error_category
+                return "DirectSound";
+            }
+
+            std::string message(int condition) const final
+            {
+                switch (condition)
                 {
-                public:
-                    const char* name() const noexcept final
-                    {
-                        return "DirectSound";
-                    }
-
-                    std::string message(int condition) const final
-                    {
-                        switch (condition)
-                        {
-                            case DSERR_ACCESSDENIED: return "DSERR_ACCESSDENIED";
-                            case DSERR_ALLOCATED: return "DSERR_ALLOCATED";
-                            case DSERR_ALREADYINITIALIZED: return "DSERR_ALREADYINITIALIZED";
-                            case DSERR_BADFORMAT: return "DSERR_BADFORMAT";
-                            case DSERR_BADSENDBUFFERGUID: return "DSERR_BADSENDBUFFERGUID";
-                            case DSERR_BUFFERLOST: return "DSERR_BUFFERLOST";
-                            case DSERR_BUFFERTOOSMALL: return "DSERR_BUFFERTOOSMALL";
-                            case DSERR_CONTROLUNAVAIL: return "DSERR_CONTROLUNAVAIL";
-                            case DSERR_DS8_REQUIRED: return "DSERR_DS8_REQUIRED";
-                            case DSERR_FXUNAVAILABLE: return "DSERR_FXUNAVAILABLE";
-                            case DSERR_GENERIC: return "DSERR_GENERIC";
-                            case DSERR_INVALIDCALL: return "DSERR_INVALIDCALL";
-                            case DSERR_INVALIDPARAM: return "DSERR_INVALIDPARAM";
-                            case DSERR_NOAGGREGATION: return "DSERR_NOAGGREGATION";
-                            case DSERR_NODRIVER: return "DSERR_NODRIVER";
-                            case DSERR_NOINTERFACE: return "DSERR_NOINTERFACE";
-                            case DSERR_OBJECTNOTFOUND: return "DSERR_OBJECTNOTFOUND";
-                            case DSERR_OTHERAPPHASPRIO: return "DSERR_OTHERAPPHASPRIO";
-                            case DSERR_OUTOFMEMORY: return "DSERR_OUTOFMEMORY";
-                            case DSERR_PRIOLEVELNEEDED: return "DSERR_PRIOLEVELNEEDED";
-                            case DSERR_SENDLOOP: return "DSERR_SENDLOOP";
-                            case DSERR_UNINITIALIZED: return "DSERR_UNINITIALIZED";
-                            case DSERR_UNSUPPORTED: return "DSERR_UNSUPPORTED";
-                            default: return "Unknown error (" + std::to_string(condition) + ")";
-                        }
-                    }
-                };
-
-                const ErrorCategory errorCategory {};
-            }
-
-            AudioDevice::AudioDevice(std::uint32_t initBufferSize,
-                                     std::uint32_t initSampleRate,
-                                     std::uint32_t initChannels,
-                                     const std::function<void(std::uint32_t frames,
-                                                              std::uint32_t channels,
-                                                              std::uint32_t sampleRate,
-                                                              std::vector<float>& samples)>& initDataGetter):
-                audio::AudioDevice(Driver::directSound, initBufferSize, initSampleRate, initChannels, initDataGetter)
-            {
-                if (const auto hr = DirectSoundEnumerateW(enumCallback, this); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to enumerate DirectSound 8 devices");
-
-                IDirectSound8* directSoundPointer;
-                if (const auto hr = DirectSoundCreate8(&DSDEVID_DefaultPlayback, &directSoundPointer, nullptr); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to create DirectSound 8 instance");
-
-                directSound = directSoundPointer;
-
-                if (const auto hr = directSound->SetCooperativeLevel(GetDesktopWindow(), DSSCL_PRIORITY); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to set cooperative level for DirectSound 8");
-
-                DSBUFFERDESC primaryBufferDesc;
-                primaryBufferDesc.dwSize = sizeof(primaryBufferDesc);
-                primaryBufferDesc.dwFlags = DSBCAPS_PRIMARYBUFFER | DSBCAPS_CTRLVOLUME;
-                primaryBufferDesc.dwBufferBytes = 0;
-                primaryBufferDesc.dwReserved = 0;
-                primaryBufferDesc.lpwfxFormat = nullptr;
-                primaryBufferDesc.guid3DAlgorithm = GUID_NULL;
-
-                IDirectSoundBuffer* primaryBufferPointer;
-                if (const auto hr = directSound->CreateSoundBuffer(&primaryBufferDesc, &primaryBufferPointer, nullptr); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
-
-                primaryBuffer = primaryBufferPointer;
-
-                WAVEFORMATEX waveFormat;
-                waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
-                waveFormat.nChannels = static_cast<WORD>(channels);
-                waveFormat.nSamplesPerSec = sampleRate;
-                waveFormat.wBitsPerSample = sizeof(float) * 8;
-                waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
-                waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
-                waveFormat.cbSize = 0;
-
-                sampleFormat = SampleFormat::float32;
-                sampleSize = sizeof(float);
-
-                if (const auto floatResult = primaryBuffer->SetFormat(&waveFormat); FAILED(floatResult))
-                {
-                    waveFormat.wFormatTag = WAVE_FORMAT_PCM;
-                    waveFormat.wBitsPerSample = sizeof(std::int16_t) * 8;
-                    waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
-                    waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
-
-                    if (const auto pcmResult = primaryBuffer->SetFormat(&waveFormat); FAILED(pcmResult))
-                        throw std::system_error(pcmResult, errorCategory, "Failed to set DirectSound buffer format");
-
-                    sampleFormat = SampleFormat::signedInt16;
-                    sampleSize = sizeof(std::int16_t);
-                }
-
-                DSBUFFERDESC bufferDesc;
-                bufferDesc.dwSize = sizeof(bufferDesc);
-                bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLPOSITIONNOTIFY;
-                bufferDesc.dwBufferBytes = 2 * bufferSize;
-                bufferDesc.dwReserved = 0;
-                bufferDesc.lpwfxFormat = &waveFormat;
-                bufferDesc.guid3DAlgorithm = GUID_NULL;
-
-                IDirectSoundBuffer* tempBufferPointer;
-                if (const auto hr = directSound->CreateSoundBuffer(&bufferDesc, &tempBufferPointer, nullptr); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
-
-                Pointer<IDirectSoundBuffer> tempBuffer = tempBufferPointer;
-
-                void* bufferPointer;
-                if (const auto hr = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, &bufferPointer); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
-
-                buffer = static_cast<IDirectSoundBuffer8*>(bufferPointer);
-
-                void* notifyPointer;
-                if (const auto hr = tempBuffer->QueryInterface(IID_IDirectSoundNotify, &notifyPointer); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to get DirectSound notify interface");
-
-                notify = static_cast<IDirectSoundNotify*>(notifyPointer);
-
-                void* bufferDataPointer;
-                DWORD lockedBufferSize;
-                if (const auto hr = buffer->Lock(0, bufferDesc.dwBufferBytes, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
-
-                auto bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
-
-                getData(lockedBufferSize / (channels * sizeof(std::int16_t)), data);
-                std::copy(data.begin(), data.end(), bufferData);
-
-                if (const auto hr = buffer->Unlock(bufferDataPointer, lockedBufferSize, nullptr, 0); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to unlock DirectSound buffer");
-
-                nextBuffer = 0;
-
-                notifyEvents[0] = CreateEvent(nullptr, false, false, nullptr);
-                if (!notifyEvents[0])
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create event");
-
-                notifyEvents[1] = CreateEvent(nullptr, false, false, nullptr);
-                if (!notifyEvents[1])
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create event");
-
-                DSBPOSITIONNOTIFY positionNotifyEvents[2];
-                positionNotifyEvents[0].dwOffset = bufferSize - 1;
-                positionNotifyEvents[0].hEventNotify = notifyEvents[0];
-
-                positionNotifyEvents[1].dwOffset = 2 * bufferSize - 1;
-                positionNotifyEvents[1].hEventNotify = notifyEvents[1];
-
-                if (const auto hr = notify->SetNotificationPositions(2, positionNotifyEvents); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to set DirectSound notification positions");
-            }
-
-            AudioDevice::~AudioDevice()
-            {
-                running = false;
-                for (HANDLE notifyEvent : notifyEvents)
-                    if (notifyEvent) SetEvent(notifyEvent);
-
-                if (audioThread.isJoinable()) audioThread.join();
-
-                for (HANDLE notifyEvent : notifyEvents)
-                    if (notifyEvent) CloseHandle(notifyEvent);
-            }
-
-            void AudioDevice::start()
-            {
-                if (const auto hr = buffer->Play(0, 0, DSBPLAY_LOOPING); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to play DirectSound buffer");
-
-                running = true;
-                audioThread = Thread(&AudioDevice::run, this);
-            }
-
-            void AudioDevice::stop()
-            {
-                running = false;
-                if (audioThread.isJoinable()) audioThread.join();
-
-                if (const auto hr = buffer->Stop(); FAILED(hr))
-                    throw std::system_error(hr, errorCategory, "Failed to stop DirectSound buffer");
-            }
-
-            void AudioDevice::run()
-            {
-                Thread::setCurrentThreadName("Audio");
-
-                while (running)
-                {
-                    try
-                    {
-                        DWORD result;
-                        if ((result = WaitForSingleObject(notifyEvents[nextBuffer], INFINITE)) == WAIT_FAILED)
-                            throw std::system_error(GetLastError(), std::system_category(), "Failed to wait for event");
-
-                        if (result == WAIT_OBJECT_0)
-                        {
-                            if (!running) break;
-
-                            void* bufferDataPointer;
-                            DWORD lockedBufferSize;
-                            if (const auto hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0); FAILED(hr))
-                                throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
-
-                            auto bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
-
-                            getData(lockedBufferSize / (sampleSize * channels), data);
-
-                            std::copy(data.begin(), data.end(), bufferData);
-
-                            if (const auto hr = buffer->Unlock(bufferDataPointer, lockedBufferSize, nullptr, 0); FAILED(hr))
-                                throw std::system_error(hr, errorCategory, "Failed to unlock DirectSound buffer");
-
-                            nextBuffer = (nextBuffer + 1) % 2;
-                        }
-                    }
-                    catch (const std::exception& e)
-                    {
-                        engine->log(Log::Level::error) << e.what();
-                    }
+                    case DSERR_ACCESSDENIED: return "DSERR_ACCESSDENIED";
+                    case DSERR_ALLOCATED: return "DSERR_ALLOCATED";
+                    case DSERR_ALREADYINITIALIZED: return "DSERR_ALREADYINITIALIZED";
+                    case DSERR_BADFORMAT: return "DSERR_BADFORMAT";
+                    case DSERR_BADSENDBUFFERGUID: return "DSERR_BADSENDBUFFERGUID";
+                    case DSERR_BUFFERLOST: return "DSERR_BUFFERLOST";
+                    case DSERR_BUFFERTOOSMALL: return "DSERR_BUFFERTOOSMALL";
+                    case DSERR_CONTROLUNAVAIL: return "DSERR_CONTROLUNAVAIL";
+                    case DSERR_DS8_REQUIRED: return "DSERR_DS8_REQUIRED";
+                    case DSERR_FXUNAVAILABLE: return "DSERR_FXUNAVAILABLE";
+                    case DSERR_GENERIC: return "DSERR_GENERIC";
+                    case DSERR_INVALIDCALL: return "DSERR_INVALIDCALL";
+                    case DSERR_INVALIDPARAM: return "DSERR_INVALIDPARAM";
+                    case DSERR_NOAGGREGATION: return "DSERR_NOAGGREGATION";
+                    case DSERR_NODRIVER: return "DSERR_NODRIVER";
+                    case DSERR_NOINTERFACE: return "DSERR_NOINTERFACE";
+                    case DSERR_OBJECTNOTFOUND: return "DSERR_OBJECTNOTFOUND";
+                    case DSERR_OTHERAPPHASPRIO: return "DSERR_OTHERAPPHASPRIO";
+                    case DSERR_OUTOFMEMORY: return "DSERR_OUTOFMEMORY";
+                    case DSERR_PRIOLEVELNEEDED: return "DSERR_PRIOLEVELNEEDED";
+                    case DSERR_SENDLOOP: return "DSERR_SENDLOOP";
+                    case DSERR_UNINITIALIZED: return "DSERR_UNINITIALIZED";
+                    case DSERR_UNSUPPORTED: return "DSERR_UNSUPPORTED";
+                    default: return "Unknown error (" + std::to_string(condition) + ")";
                 }
             }
-        } // namespace directsound
-    } // namespace audio
-} // namespace ouzel
+        };
 
+        const ErrorCategory errorCategory {};
+    }
+
+    AudioDevice::AudioDevice(std::uint32_t initBufferSize,
+                                std::uint32_t initSampleRate,
+                                std::uint32_t initChannels,
+                                const std::function<void(std::uint32_t frames,
+                                                        std::uint32_t channels,
+                                                        std::uint32_t sampleRate,
+                                                        std::vector<float>& samples)>& initDataGetter):
+        audio::AudioDevice(Driver::directSound, initBufferSize, initSampleRate, initChannels, initDataGetter)
+    {
+        if (const auto hr = DirectSoundEnumerateW(enumCallback, this); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to enumerate DirectSound 8 devices");
+
+        IDirectSound8* directSoundPointer;
+        if (const auto hr = DirectSoundCreate8(&DSDEVID_DefaultPlayback, &directSoundPointer, nullptr); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to create DirectSound 8 instance");
+
+        directSound = directSoundPointer;
+
+        if (const auto hr = directSound->SetCooperativeLevel(GetDesktopWindow(), DSSCL_PRIORITY); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to set cooperative level for DirectSound 8");
+
+        DSBUFFERDESC primaryBufferDesc;
+        primaryBufferDesc.dwSize = sizeof(primaryBufferDesc);
+        primaryBufferDesc.dwFlags = DSBCAPS_PRIMARYBUFFER | DSBCAPS_CTRLVOLUME;
+        primaryBufferDesc.dwBufferBytes = 0;
+        primaryBufferDesc.dwReserved = 0;
+        primaryBufferDesc.lpwfxFormat = nullptr;
+        primaryBufferDesc.guid3DAlgorithm = GUID_NULL;
+
+        IDirectSoundBuffer* primaryBufferPointer;
+        if (const auto hr = directSound->CreateSoundBuffer(&primaryBufferDesc, &primaryBufferPointer, nullptr); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
+
+        primaryBuffer = primaryBufferPointer;
+
+        WAVEFORMATEX waveFormat;
+        waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
+        waveFormat.nChannels = static_cast<WORD>(channels);
+        waveFormat.nSamplesPerSec = sampleRate;
+        waveFormat.wBitsPerSample = sizeof(float) * 8;
+        waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
+        waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
+        waveFormat.cbSize = 0;
+
+        sampleFormat = SampleFormat::float32;
+        sampleSize = sizeof(float);
+
+        if (const auto floatResult = primaryBuffer->SetFormat(&waveFormat); FAILED(floatResult))
+        {
+            waveFormat.wFormatTag = WAVE_FORMAT_PCM;
+            waveFormat.wBitsPerSample = sizeof(std::int16_t) * 8;
+            waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
+            waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
+
+            if (const auto pcmResult = primaryBuffer->SetFormat(&waveFormat); FAILED(pcmResult))
+                throw std::system_error(pcmResult, errorCategory, "Failed to set DirectSound buffer format");
+
+            sampleFormat = SampleFormat::signedInt16;
+            sampleSize = sizeof(std::int16_t);
+        }
+
+        DSBUFFERDESC bufferDesc;
+        bufferDesc.dwSize = sizeof(bufferDesc);
+        bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLPOSITIONNOTIFY;
+        bufferDesc.dwBufferBytes = 2 * bufferSize;
+        bufferDesc.dwReserved = 0;
+        bufferDesc.lpwfxFormat = &waveFormat;
+        bufferDesc.guid3DAlgorithm = GUID_NULL;
+
+        IDirectSoundBuffer* tempBufferPointer;
+        if (const auto hr = directSound->CreateSoundBuffer(&bufferDesc, &tempBufferPointer, nullptr); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
+
+        Pointer<IDirectSoundBuffer> tempBuffer = tempBufferPointer;
+
+        void* bufferPointer;
+        if (const auto hr = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, &bufferPointer); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to create DirectSound buffer");
+
+        buffer = static_cast<IDirectSoundBuffer8*>(bufferPointer);
+
+        void* notifyPointer;
+        if (const auto hr = tempBuffer->QueryInterface(IID_IDirectSoundNotify, &notifyPointer); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to get DirectSound notify interface");
+
+        notify = static_cast<IDirectSoundNotify*>(notifyPointer);
+
+        void* bufferDataPointer;
+        DWORD lockedBufferSize;
+        if (const auto hr = buffer->Lock(0, bufferDesc.dwBufferBytes, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
+
+        auto bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
+
+        getData(lockedBufferSize / (channels * sizeof(std::int16_t)), data);
+        std::copy(data.begin(), data.end(), bufferData);
+
+        if (const auto hr = buffer->Unlock(bufferDataPointer, lockedBufferSize, nullptr, 0); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to unlock DirectSound buffer");
+
+        nextBuffer = 0;
+
+        notifyEvents[0] = CreateEvent(nullptr, false, false, nullptr);
+        if (!notifyEvents[0])
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to create event");
+
+        notifyEvents[1] = CreateEvent(nullptr, false, false, nullptr);
+        if (!notifyEvents[1])
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to create event");
+
+        DSBPOSITIONNOTIFY positionNotifyEvents[2];
+        positionNotifyEvents[0].dwOffset = bufferSize - 1;
+        positionNotifyEvents[0].hEventNotify = notifyEvents[0];
+
+        positionNotifyEvents[1].dwOffset = 2 * bufferSize - 1;
+        positionNotifyEvents[1].hEventNotify = notifyEvents[1];
+
+        if (const auto hr = notify->SetNotificationPositions(2, positionNotifyEvents); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to set DirectSound notification positions");
+    }
+
+    AudioDevice::~AudioDevice()
+    {
+        running = false;
+        for (HANDLE notifyEvent : notifyEvents)
+            if (notifyEvent) SetEvent(notifyEvent);
+
+        if (audioThread.isJoinable()) audioThread.join();
+
+        for (HANDLE notifyEvent : notifyEvents)
+            if (notifyEvent) CloseHandle(notifyEvent);
+    }
+
+    void AudioDevice::start()
+    {
+        if (const auto hr = buffer->Play(0, 0, DSBPLAY_LOOPING); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to play DirectSound buffer");
+
+        running = true;
+        audioThread = Thread(&AudioDevice::run, this);
+    }
+
+    void AudioDevice::stop()
+    {
+        running = false;
+        if (audioThread.isJoinable()) audioThread.join();
+
+        if (const auto hr = buffer->Stop(); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to stop DirectSound buffer");
+    }
+
+    void AudioDevice::run()
+    {
+        Thread::setCurrentThreadName("Audio");
+
+        while (running)
+        {
+            try
+            {
+                DWORD result;
+                if ((result = WaitForSingleObject(notifyEvents[nextBuffer], INFINITE)) == WAIT_FAILED)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to wait for event");
+
+                if (result == WAIT_OBJECT_0)
+                {
+                    if (!running) break;
+
+                    void* bufferDataPointer;
+                    DWORD lockedBufferSize;
+                    if (const auto hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, &bufferDataPointer, &lockedBufferSize, nullptr, 0, 0); FAILED(hr))
+                        throw std::system_error(hr, errorCategory, "Failed to lock DirectSound buffer");
+
+                    auto bufferData = static_cast<std::uint8_t*>(bufferDataPointer);
+
+                    getData(lockedBufferSize / (sampleSize * channels), data);
+
+                    std::copy(data.begin(), data.end(), bufferData);
+
+                    if (const auto hr = buffer->Unlock(bufferDataPointer, lockedBufferSize, nullptr, 0); FAILED(hr))
+                        throw std::system_error(hr, errorCategory, "Failed to unlock DirectSound buffer");
+
+                    nextBuffer = (nextBuffer + 1) % 2;
+                }
+            }
+            catch (const std::exception& e)
+            {
+                engine->log(Log::Level::error) << e.what();
+            }
+        }
+    }
+}
 #endif
