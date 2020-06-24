@@ -5,25 +5,19 @@
 
 #include "../RenderDevice.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::empty
 {
-    namespace graphics
+    class RenderDevice final: public graphics::RenderDevice
     {
-        namespace empty
+    public:
+        explicit RenderDevice(const std::function<void(const Event&)>& initCallback):
+            graphics::RenderDevice(Driver::empty, initCallback)
         {
-            class RenderDevice final: public graphics::RenderDevice
-            {
-            public:
-                explicit RenderDevice(const std::function<void(const Event&)>& initCallback):
-                    graphics::RenderDevice(Driver::empty, initCallback)
-                {
-                }
+        }
 
-            private:
-                void process() final {}
-            };
-        } // namespace empty
-    } // namespace graphics
-} // namespace ouzel
+    private:
+        void process() final {}
+    };
+}
 
 #endif // OUZEL_GRAPHICS_EMPTYRENDERDEVICE_HPP

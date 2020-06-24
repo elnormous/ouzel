@@ -33,86 +33,80 @@ typedef NSUInteger MTLLoadAction;
 #include "../TextureType.hpp"
 #include "../../math/Size.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    class RenderDevice;
+
+    class SamplerStateDescriptor final
     {
-        namespace metal
+    public:
+        SamplerFilter filter;
+        SamplerAddressMode addressX;
+        SamplerAddressMode addressY;
+        SamplerAddressMode addressZ;
+        std::uint32_t maxAnisotropy;
+
+        bool operator<(const SamplerStateDescriptor& other) const noexcept
         {
-            class RenderDevice;
+            return std::tie(filter, addressX, addressY, addressZ, maxAnisotropy) <
+                std::tie(other.filter, other.addressX, other.addressY, other.addressZ, other.maxAnisotropy);
+        }
+    };
 
-            class SamplerStateDescriptor final
-            {
-            public:
-                SamplerFilter filter;
-                SamplerAddressMode addressX;
-                SamplerAddressMode addressY;
-                SamplerAddressMode addressZ;
-                std::uint32_t maxAnisotropy;
+    class Texture final: public RenderResource
+    {
+    public:
+        Texture(RenderDevice& initRenderDevice,
+                const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
+                TextureType type,
+                Flags initFlags,
+                std::uint32_t initSampleCount,
+                PixelFormat initPixelFormat,
+                SamplerFilter initFilter,
+                std::uint32_t initMaxAnisotropy);
 
-                bool operator<(const SamplerStateDescriptor& other) const noexcept
-                {
-                    return std::tie(filter, addressX, addressY, addressZ, maxAnisotropy) <
-                        std::tie(other.filter, other.addressX, other.addressY, other.addressZ, other.maxAnisotropy);
-                }
-            };
+        void setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels);
+        void setFilter(SamplerFilter filter);
+        void setAddressX(SamplerAddressMode addressX);
+        void setAddressY(SamplerAddressMode addressY);
+        void setAddressZ(SamplerAddressMode addressZ);
+        void setMaxAnisotropy(std::uint32_t maxAnisotropy);
 
-            class Texture final: public RenderResource
-            {
-            public:
-                Texture(RenderDevice& initRenderDevice,
-                        const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
-                        TextureType type,
-                        Flags initFlags,
-                        std::uint32_t initSampleCount,
-                        PixelFormat initPixelFormat,
-                        SamplerFilter initFilter,
-                        std::uint32_t initMaxAnisotropy);
+        auto getFlags() const noexcept { return flags; }
+        auto getMipmaps() const noexcept { return mipmaps; }
+        auto getSampleCount() const noexcept { return sampleCount; }
 
-                void setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels);
-                void setFilter(SamplerFilter filter);
-                void setAddressX(SamplerAddressMode addressX);
-                void setAddressY(SamplerAddressMode addressY);
-                void setAddressZ(SamplerAddressMode addressZ);
-                void setMaxAnisotropy(std::uint32_t maxAnisotropy);
+        auto& getTexture() const noexcept { return texture; }
+        auto getPixelFormat() const noexcept { return pixelFormat; }
+        auto getStencilBuffer() const noexcept { return stencilBuffer; }
 
-                auto getFlags() const noexcept { return flags; }
-                auto getMipmaps() const noexcept { return mipmaps; }
-                auto getSampleCount() const noexcept { return sampleCount; }
+        auto getSamplerState() const noexcept { return samplerState; }
 
-                auto& getTexture() const noexcept { return texture; }
-                auto getPixelFormat() const noexcept { return pixelFormat; }
-                auto getStencilBuffer() const noexcept { return stencilBuffer; }
+        auto getWidth() const noexcept { return width; }
+        auto getHeight() const noexcept { return height; }
 
-                auto getSamplerState() const noexcept { return samplerState; }
+    private:
+        void updateSamplerState();
 
-                auto getWidth() const noexcept { return width; }
-                auto getHeight() const noexcept { return height; }
+        Flags flags = Flags::none;
+        std::uint32_t mipmaps = 0;
+        std::uint32_t sampleCount = 1;
 
-            private:
-                void updateSamplerState();
+        SamplerStateDescriptor samplerDescriptor;
 
-                Flags flags = Flags::none;
-                std::uint32_t mipmaps = 0;
-                std::uint32_t sampleCount = 1;
+        Pointer<MTLTexturePtr> texture;
 
-                SamplerStateDescriptor samplerDescriptor;
+        NSUInteger width = 0;
+        NSUInteger height = 0;
 
-                Pointer<MTLTexturePtr> texture;
+        MTLSamplerStatePtr samplerState = nil;
+        Pointer<MTLTexturePtr> msaaTexture;
 
-                NSUInteger width = 0;
-                NSUInteger height = 0;
-
-                MTLSamplerStatePtr samplerState = nil;
-                Pointer<MTLTexturePtr> msaaTexture;
-
-                MTLPixelFormat pixelFormat;
-                std::uint32_t pixelSize = 0;
-                bool stencilBuffer = false;
-            };
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
+        MTLPixelFormat pixelFormat;
+        std::uint32_t pixelSize = 0;
+        bool stencilBuffer = false;
+    };
+}
 
 #endif
 

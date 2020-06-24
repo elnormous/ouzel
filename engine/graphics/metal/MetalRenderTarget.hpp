@@ -28,46 +28,40 @@ typedef struct
 #include "MetalPointer.hpp"
 #include "../../math/Color.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    class RenderDevice;
+    class Texture;
+
+    class RenderTarget final: public RenderResource
     {
-        namespace metal
-        {
-            class RenderDevice;
-            class Texture;
+    public:
+        RenderTarget(RenderDevice& initRenderDevice,
+                     const std::set<Texture*>& initColorTextures,
+                     Texture* initDepthTexture);
 
-            class RenderTarget final: public RenderResource
-            {
-            public:
-                RenderTarget(RenderDevice& initRenderDevice,
-                             const std::set<Texture*>& initColorTextures,
-                             Texture* initDepthTexture);
+        auto& getColorTextures() const noexcept { return colorTextures; }
+        auto getDepthTexture() const noexcept { return depthTexture; }
 
-                auto& getColorTextures() const noexcept { return colorTextures; }
-                auto getDepthTexture() const noexcept { return depthTexture; }
+        auto getSampleCount() const noexcept { return sampleCount; }
+        auto& getColorFormats() const noexcept { return colorFormats; }
+        auto getDepthFormat() const noexcept { return depthFormat; }
+        auto getStencilFormat() const noexcept { return stencilFormat; }
 
-                auto getSampleCount() const noexcept { return sampleCount; }
-                auto& getColorFormats() const noexcept { return colorFormats; }
-                auto getDepthFormat() const noexcept { return depthFormat; }
-                auto getStencilFormat() const noexcept { return stencilFormat; }
+        auto& getRenderPassDescriptor() const noexcept { return renderPassDescriptor; }
 
-                auto& getRenderPassDescriptor() const noexcept { return renderPassDescriptor; }
+    private:
+        std::set<Texture*> colorTextures;
+        Texture* depthTexture = nullptr;
 
-            private:
-                std::set<Texture*> colorTextures;
-                Texture* depthTexture = nullptr;
+        NSUInteger sampleCount = 0;
+        std::vector<MTLPixelFormat> colorFormats;
+        MTLPixelFormat depthFormat;
+        MTLPixelFormat stencilFormat;
 
-                NSUInteger sampleCount = 0;
-                std::vector<MTLPixelFormat> colorFormats;
-                MTLPixelFormat depthFormat;
-                MTLPixelFormat stencilFormat;
-
-                Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
-            };
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
+        Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
+    };
+}
 
 #endif
 

@@ -7,36 +7,30 @@
 
 #if OUZEL_COMPILE_METAL
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    class RenderDevice;
+
+    class RenderResource
     {
-        namespace metal
+    public:
+        explicit RenderResource(RenderDevice& initRenderDevice) noexcept:
+            renderDevice(initRenderDevice)
         {
-            class RenderDevice;
+        }
 
-            class RenderResource
-            {
-            public:
-                explicit RenderResource(RenderDevice& initRenderDevice) noexcept:
-                    renderDevice(initRenderDevice)
-                {
-                }
+        virtual ~RenderResource() = default;
 
-                virtual ~RenderResource() = default;
+        RenderResource(const RenderResource&) = delete;
+        RenderResource& operator=(const RenderResource&) = delete;
 
-                RenderResource(const RenderResource&) = delete;
-                RenderResource& operator=(const RenderResource&) = delete;
+        RenderResource(RenderResource&&) = delete;
+        RenderResource& operator=(RenderResource&&) = delete;
 
-                RenderResource(RenderResource&&) = delete;
-                RenderResource& operator=(RenderResource&&) = delete;
-
-            protected:
-                RenderDevice& renderDevice;
-            };
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
+    protected:
+        RenderDevice& renderDevice;
+    };
+}
 
 #endif
 

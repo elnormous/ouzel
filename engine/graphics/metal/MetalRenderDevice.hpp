@@ -48,103 +48,97 @@ typedef NSUInteger MTLLoadAction;
 #include "MetalShader.hpp"
 #include "MetalTexture.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    class BlendState;
+    class Shader;
+
+    class RenderDevice: public graphics::RenderDevice
     {
-        namespace metal
+        friend Renderer;
+    public:
+        static constexpr std::size_t bufferSize = 1024U * 1024U; // size of shader constant buffer
+        static constexpr std::size_t bufferCount = 3U; // allow encoding up to 3 command buffers simultaneously
+
+        static bool available();
+
+        auto& getDevice() const noexcept { return device; }
+
+        MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
+
+        template <class T>
+        auto getResource(std::uintptr_t id) const
         {
-            class BlendState;
-            class Shader;
+            return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
+        }
 
-            class RenderDevice: public graphics::RenderDevice
+    protected:
+        explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+
+        void init(Window* newWindow,
+                  const Size2U& newSize,
+                  std::uint32_t newSampleCount,
+                  bool newSrgb,
+                  bool newVerticalSync,
+                  bool newDepth,
+                  bool newStencil,
+                  bool newDebugRenderer) override;
+
+        void process() override;
+        void generateScreenshot(const std::string& filename) override;
+
+        class PipelineStateDesc final
+        {
+        public:
+            BlendState* blendState = nullptr;
+            Shader* shader = nullptr;
+            NSUInteger sampleCount = 0;
+            std::vector<MTLPixelFormat> colorFormats;
+            MTLPixelFormat depthFormat;
+            MTLPixelFormat stencilFormat;
+
+            bool operator<(const PipelineStateDesc& other) const noexcept
             {
-                friend Renderer;
-            public:
-                static constexpr std::size_t bufferSize = 1024U * 1024U; // size of shader constant buffer
-                static constexpr std::size_t bufferCount = 3U; // allow encoding up to 3 command buffers simultaneously
+                return std::tie(blendState, shader, sampleCount, colorFormats, depthFormat) <
+                    std::tie(other.blendState, other.shader, other.sampleCount, colorFormats, other.depthFormat);
+            }
+        };
 
-                static bool available();
+        MTLRenderPipelineStatePtr getPipelineState(const PipelineStateDesc& desc);
 
-                auto& getDevice() const noexcept { return device; }
+        Pointer<MTLDevicePtr> device;
+        Pointer<MTLCommandQueuePtr> metalCommandQueue;
+        CAMetalLayerPtr metalLayer = nil;
+        Pointer<MTLTexturePtr> currentMetalTexture;
 
-                MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
+        struct ShaderConstantBuffer
+        {
+            std::vector<Pointer<MTLBufferPtr>> buffers;
+            std::uint32_t index = 0;
+            std::uint32_t offset = 0;
+        };
 
-                template <class T>
-                auto getResource(std::uintptr_t id) const
-                {
-                    return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
-                }
+        std::uint32_t shaderConstantBufferIndex = 0;
+        ShaderConstantBuffer shaderConstantBuffers[bufferCount];
 
-            protected:
-                explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+        Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
+        Pointer<MTLDepthStencilStatePtr> defaultDepthStencilState;
 
-                void init(Window* newWindow,
-                          const Size2U& newSize,
-                          std::uint32_t newSampleCount,
-                          bool newSrgb,
-                          bool newVerticalSync,
-                          bool newDepth,
-                          bool newStencil,
-                          bool newDebugRenderer) override;
+        Pointer<MTLTexturePtr> msaaTexture;
+        Pointer<MTLTexturePtr> depthTexture;
+        std::map<SamplerStateDescriptor, Pointer<MTLSamplerStatePtr>> samplerStates;
 
-                void process() override;
-                void generateScreenshot(const std::string& filename) override;
+        MTLPixelFormat colorFormat;
+        MTLPixelFormat depthFormat;
+        MTLPixelFormat stencilFormat;
 
-                class PipelineStateDesc final
-                {
-                public:
-                    BlendState* blendState = nullptr;
-                    Shader* shader = nullptr;
-                    NSUInteger sampleCount = 0;
-                    std::vector<MTLPixelFormat> colorFormats;
-                    MTLPixelFormat depthFormat;
-                    MTLPixelFormat stencilFormat;
+        dispatch_semaphore_t inflightSemaphore;
 
-                    bool operator<(const PipelineStateDesc& other) const noexcept
-                    {
-                        return std::tie(blendState, shader, sampleCount, colorFormats, depthFormat) <
-                            std::tie(other.blendState, other.shader, other.sampleCount, colorFormats, other.depthFormat);
-                    }
-                };
+        std::map<PipelineStateDesc, Pointer<MTLRenderPipelineStatePtr>> pipelineStates;
 
-                MTLRenderPipelineStatePtr getPipelineState(const PipelineStateDesc& desc);
-
-                Pointer<MTLDevicePtr> device;
-                Pointer<MTLCommandQueuePtr> metalCommandQueue;
-                CAMetalLayerPtr metalLayer = nil;
-                Pointer<MTLTexturePtr> currentMetalTexture;
-
-                struct ShaderConstantBuffer
-                {
-                    std::vector<Pointer<MTLBufferPtr>> buffers;
-                    std::uint32_t index = 0;
-                    std::uint32_t offset = 0;
-                };
-
-                std::uint32_t shaderConstantBufferIndex = 0;
-                ShaderConstantBuffer shaderConstantBuffers[bufferCount];
-
-                Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
-                Pointer<MTLDepthStencilStatePtr> defaultDepthStencilState;
-
-                Pointer<MTLTexturePtr> msaaTexture;
-                Pointer<MTLTexturePtr> depthTexture;
-                std::map<SamplerStateDescriptor, Pointer<MTLSamplerStatePtr>> samplerStates;
-
-                MTLPixelFormat colorFormat;
-                MTLPixelFormat depthFormat;
-                MTLPixelFormat stencilFormat;
-
-                dispatch_semaphore_t inflightSemaphore;
-
-                std::map<PipelineStateDesc, Pointer<MTLRenderPipelineStatePtr>> pipelineStates;
-
-                std::vector<std::unique_ptr<RenderResource>> resources;
-            };
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
+        std::vector<std::unique_ptr<RenderResource>> resources;
+    };
+}
 
 #endif
 

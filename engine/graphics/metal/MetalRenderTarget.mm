@@ -9,51 +9,45 @@
 #include "MetalRenderDevice.hpp"
 #include "MetalTexture.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    RenderTarget::RenderTarget(RenderDevice& initRenderDevice,
+                               const std::set<Texture*>& initColorTextures,
+                               Texture* initDepthTexture):
+        RenderResource(initRenderDevice),
+        colorTextures(initColorTextures),
+        depthTexture(initDepthTexture),
+        depthFormat(MTLPixelFormatInvalid),
+        stencilFormat(MTLPixelFormatInvalid)
     {
-        namespace metal
-        {
-            RenderTarget::RenderTarget(RenderDevice& initRenderDevice,
-                                       const std::set<Texture*>& initColorTextures,
-                                       Texture* initDepthTexture):
-                RenderResource(initRenderDevice),
-                colorTextures(initColorTextures),
-                depthTexture(initDepthTexture),
-                depthFormat(MTLPixelFormatInvalid),
-                stencilFormat(MTLPixelFormatInvalid)
+        renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
+
+        if (!renderPassDescriptor)
+            throw Error("Failed to create Metal render pass descriptor");
+
+        for (const auto colorTexture : colorTextures)
+            if (colorTexture)
             {
-                renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
+                std::size_t index = colorTextures.size() - 1;
+                renderPassDescriptor.get().colorAttachments[index].storeAction = (colorTexture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
+                renderPassDescriptor.get().colorAttachments[index].texture = colorTexture->getTexture().get();
 
-                if (!renderPassDescriptor)
-                    throw Error("Failed to create Metal render pass descriptor");
+                colorFormats.push_back(colorTexture->getPixelFormat());
 
-                for (const auto colorTexture : colorTextures)
-                    if (colorTexture)
-                    {
-                        std::size_t index = colorTextures.size() - 1;
-                        renderPassDescriptor.get().colorAttachments[index].storeAction = (colorTexture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
-                        renderPassDescriptor.get().colorAttachments[index].texture = colorTexture->getTexture().get();
-
-                        colorFormats.push_back(colorTexture->getPixelFormat());
-
-                        sampleCount = colorTexture->getSampleCount();
-                    }
-
-                if (depthTexture)
-                {
-                    renderPassDescriptor.get().depthAttachment.storeAction = (depthTexture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
-                    renderPassDescriptor.get().depthAttachment.texture = depthTexture->getTexture().get();
-                    depthFormat = depthTexture->getPixelFormat();
-                    stencilFormat = depthTexture->getStencilBuffer() ? depthTexture->getPixelFormat() : MTLPixelFormatInvalid;
-                    sampleCount = depthTexture->getSampleCount();
-                }
-                else
-                    depthFormat = MTLPixelFormatInvalid;
+                sampleCount = colorTexture->getSampleCount();
             }
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
+
+        if (depthTexture)
+        {
+            renderPassDescriptor.get().depthAttachment.storeAction = (depthTexture->getSampleCount() > 1) ? MTLStoreActionMultisampleResolve : MTLStoreActionStore;
+            renderPassDescriptor.get().depthAttachment.texture = depthTexture->getTexture().get();
+            depthFormat = depthTexture->getPixelFormat();
+            stencilFormat = depthTexture->getStencilBuffer() ? depthTexture->getPixelFormat() : MTLPixelFormatInvalid;
+            sampleCount = depthTexture->getSampleCount();
+        }
+        else
+            depthFormat = MTLPixelFormatInvalid;
+    }
+}
 
 #endif

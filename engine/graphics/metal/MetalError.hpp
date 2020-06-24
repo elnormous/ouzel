@@ -5,21 +5,14 @@
 
 #include <stdexcept>
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    class Error final: public std::runtime_error
     {
-        namespace metal
-        {
-            class Error final: public std::runtime_error
-            {
-            public:
-                explicit Error(const std::string& str): std::runtime_error(str) {}
-                explicit Error(const char* str): std::runtime_error(str) {}
-            };
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
-
+    public:
+        explicit Error(const std::string& str): std::runtime_error(str) {}
+        explicit Error(const char* str): std::runtime_error(str) {}
+    };
+}
 
 #endif // OUZEL_GRAPHICS_METALERROR_HPP

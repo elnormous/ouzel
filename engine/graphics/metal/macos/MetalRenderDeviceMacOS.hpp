@@ -44,43 +44,37 @@ typedef id MTLDepthStencilStatePtr;
 #include "../MetalRenderDevice.hpp"
 #include "../../../events/EventHandler.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    class RenderDeviceMacOS final: public RenderDevice
     {
-        namespace metal
-        {
-            class RenderDeviceMacOS final: public RenderDevice
-            {
-                friend Renderer;
-            public:
-                explicit RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
-                ~RenderDeviceMacOS() override;
+        friend Renderer;
+    public:
+        explicit RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
+        ~RenderDeviceMacOS() override;
 
-                std::vector<Size2U> getSupportedResolutions() const final;
+        std::vector<Size2U> getSupportedResolutions() const final;
 
-                void renderCallback();
+        void renderCallback();
 
-            private:
-                void init(Window* newWindow,
-                          const Size2U& newSize,
-                          std::uint32_t newSampleCount,
-                          bool newSrgb,
-                          bool newVerticalSync,
-                          bool newDepth,
-                          bool newStencil,
-                          bool newDebugRenderer) final;
+    private:
+        void init(Window* newWindow,
+                  const Size2U& newSize,
+                  std::uint32_t newSampleCount,
+                  bool newSrgb,
+                  bool newVerticalSync,
+                  bool newDepth,
+                  bool newStencil,
+                  bool newDebugRenderer) final;
 
-                bool handleWindow(const WindowEvent& event);
+        bool handleWindow(const WindowEvent& event);
 
-                CVDisplayLinkRef displayLink = nullptr;
-                EventHandler eventHandler;
+        CVDisplayLinkRef displayLink = nullptr;
+        EventHandler eventHandler;
 
-                std::atomic_bool running{false};
-            };
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
+        std::atomic_bool running{false};
+    };
+}
 
 #endif
 

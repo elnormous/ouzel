@@ -20,43 +20,37 @@ typedef id MTLBufferPtr;
 #include "../BufferType.hpp"
 #include "../Flags.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    class RenderDevice;
+
+    class Buffer final: public RenderResource
     {
-        namespace metal
-        {
-            class RenderDevice;
+    public:
+        Buffer(RenderDevice& initRenderDevice,
+               BufferType initType,
+               Flags initFlags,
+               const std::vector<std::uint8_t>& initData,
+               std::uint32_t initSize);
 
-            class Buffer final: public RenderResource
-            {
-            public:
-                Buffer(RenderDevice& initRenderDevice,
-                       BufferType initType,
-                       Flags initFlags,
-                       const std::vector<std::uint8_t>& initData,
-                       std::uint32_t initSize);
+        void setData(const std::vector<std::uint8_t>& data);
 
-                void setData(const std::vector<std::uint8_t>& data);
+        auto getFlags() const noexcept { return flags; }
+        auto getType() const noexcept { return type; }
+        auto getSize() const noexcept { return size; }
 
-                auto getFlags() const noexcept { return flags; }
-                auto getType() const noexcept { return type; }
-                auto getSize() const noexcept { return size; }
+        auto& getBuffer() const noexcept { return buffer; }
 
-                auto& getBuffer() const noexcept { return buffer; }
+    private:
+        void createBuffer(NSUInteger newSize);
 
-            private:
-                void createBuffer(NSUInteger newSize);
+        BufferType type;
+        Flags flags = Flags::none;
 
-                BufferType type;
-                Flags flags = Flags::none;
-
-                Pointer<MTLBufferPtr> buffer;
-                NSUInteger size = 0;
-            };
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
+        Pointer<MTLBufferPtr> buffer;
+        NSUInteger size = 0;
+    };
+}
 
 #endif
 

@@ -21,49 +21,43 @@ typedef NSUInteger MTLColorWriteMask;
 #include "../BlendOperation.hpp"
 #include "../ColorMask.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    class RenderDevice;
+
+    class BlendState final: public RenderResource
     {
-        namespace metal
-        {
-            class RenderDevice;
+    public:
+        BlendState(RenderDevice& initRenderDevice,
+                   bool enableBlending,
+                   BlendFactor colorBlendSource,
+                   BlendFactor colorBlendDest,
+                   BlendOperation colorOperation,
+                   BlendFactor alphaBlendSource,
+                   BlendFactor alphaBlendDest,
+                   BlendOperation alphaOperation,
+                   ColorMask colorMask);
 
-            class BlendState final: public RenderResource
-            {
-            public:
-                BlendState(RenderDevice& initRenderDevice,
-                           bool enableBlending,
-                           BlendFactor colorBlendSource,
-                           BlendFactor colorBlendDest,
-                           BlendOperation colorOperation,
-                           BlendFactor alphaBlendSource,
-                           BlendFactor alphaBlendDest,
-                           BlendOperation alphaOperation,
-                           ColorMask colorMask);
+        auto getRgbBlendOperation() const noexcept { return rgbBlendOperation; }
+        auto getAlphaBlendOperation() const noexcept { return alphaBlendOperation; }
+        auto getSourceRgbBlendFactor() const noexcept { return sourceRgbBlendFactor; }
+        auto getDestinationRgbBlendFactor() const noexcept { return destinationRgbBlendFactor; }
+        auto getSourceAlphaBlendFactor() const noexcept { return sourceAlphaBlendFactor; }
+        auto getDestinationAlphaBlendFactor() const noexcept { return destinationAlphaBlendFactor; }
+        auto getColorWriteMask() const noexcept { return colorWriteMask; }
+        auto isBlendingEnabled() const noexcept { return blendingEnabled; }
 
-                auto getRgbBlendOperation() const noexcept { return rgbBlendOperation; }
-                auto getAlphaBlendOperation() const noexcept { return alphaBlendOperation; }
-                auto getSourceRgbBlendFactor() const noexcept { return sourceRgbBlendFactor; }
-                auto getDestinationRgbBlendFactor() const noexcept { return destinationRgbBlendFactor; }
-                auto getSourceAlphaBlendFactor() const noexcept { return sourceAlphaBlendFactor; }
-                auto getDestinationAlphaBlendFactor() const noexcept { return destinationAlphaBlendFactor; }
-                auto getColorWriteMask() const noexcept { return colorWriteMask; }
-                auto isBlendingEnabled() const noexcept { return blendingEnabled; }
-
-            private:
-                MTLBlendOperation rgbBlendOperation;
-                MTLBlendOperation alphaBlendOperation;
-                MTLBlendFactor sourceRgbBlendFactor;
-                MTLBlendFactor destinationRgbBlendFactor;
-                MTLBlendFactor sourceAlphaBlendFactor;
-                MTLBlendFactor destinationAlphaBlendFactor;
-                MTLColorWriteMask colorWriteMask;
-                bool blendingEnabled;
-            };
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
+    private:
+        MTLBlendOperation rgbBlendOperation;
+        MTLBlendOperation alphaBlendOperation;
+        MTLBlendFactor sourceRgbBlendFactor;
+        MTLBlendFactor destinationRgbBlendFactor;
+        MTLBlendFactor sourceAlphaBlendFactor;
+        MTLBlendFactor destinationAlphaBlendFactor;
+        MTLColorWriteMask colorWriteMask;
+        bool blendingEnabled;
+    };
+}
 
 #endif
 

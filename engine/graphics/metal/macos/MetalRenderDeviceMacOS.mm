@@ -15,48 +15,126 @@
 #include "../../../core/macos/NativeWindowMacOS.hpp"
 #include "../../../utils/Log.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    namespace
     {
-        namespace metal
+        CVReturn renderCallback(CVDisplayLinkRef,
+                                const CVTimeStamp*,
+                                const CVTimeStamp*,
+                                CVOptionFlags,
+                                CVOptionFlags*,
+                                void* userInfo)
         {
-            namespace
+            NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+
+            try
             {
-                CVReturn renderCallback(CVDisplayLinkRef,
-                                        const CVTimeStamp*,
-                                        const CVTimeStamp*,
-                                        CVOptionFlags,
-                                        CVOptionFlags*,
-                                        void* userInfo)
-                {
-                    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-
-                    try
-                    {
-                        auto renderDevice = static_cast<RenderDeviceMacOS*>(userInfo);
-                        renderDevice->renderCallback();
-                    }
-                    catch (const std::exception& e)
-                    {
-                        engine->log(Log::Level::error) << e.what();
-                        return kCVReturnError;
-                    }
-
-                    [pool release];
-
-                    return kCVReturnSuccess;
-                }
+                auto renderDevice = static_cast<RenderDeviceMacOS*>(userInfo);
+                renderDevice->renderCallback();
+            }
+            catch (const std::exception& e)
+            {
+                engine->log(Log::Level::error) << e.what();
+                return kCVReturnError;
             }
 
-            RenderDeviceMacOS::RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback):
-                RenderDevice(initCallback)
-            {
-            }
+            [pool release];
 
-            RenderDeviceMacOS::~RenderDeviceMacOS()
-            {
+            return kCVReturnSuccess;
+        }
+    }
+
+    RenderDeviceMacOS::RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback):
+        RenderDevice(initCallback)
+    {
+    }
+
+    RenderDeviceMacOS::~RenderDeviceMacOS()
+    {
+        running = false;
+        CommandBuffer commandBuffer;
+        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
+        submitCommandBuffer(std::move(commandBuffer));
+
+        if (displayLink)
+        {
+            CVDisplayLinkStop(displayLink);
+            CVDisplayLinkRelease(displayLink);
+        }
+    }
+
+    void RenderDeviceMacOS::init(Window* newWindow,
+                                 const Size2U& newSize,
+                                 std::uint32_t newSampleCount,
+                                 bool newSrgb,
+                                 bool newVerticalSync,
+                                 bool newDepth,
+                                 bool newStencil,
+                                 bool newDebugRenderer)
+    {
+        RenderDevice::init(newWindow,
+                           newSize,
+                           newSampleCount,
+                           newSrgb,
+                           newVerticalSync,
+                           newDepth,
+                           newStencil,
+                           newDebugRenderer);
+
+        auto windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());
+        MetalView* view = (MetalView*)windowMacOS->getNativeView();
+
+        metalLayer = (CAMetalLayer*)view.layer;
+        metalLayer.device = device.get();
+        const CGSize drawableSize = CGSizeMake(newSize.v[0], newSize.v[1]);
+        metalLayer.drawableSize = drawableSize;
+
+        colorFormat = metalLayer.pixelFormat;
+
+        eventHandler.windowHandler = std::bind(&RenderDeviceMacOS::handleWindow, this, std::placeholders::_1);
+        engine->getEventDispatcher().addEventHandler(eventHandler);
+
+        const CGDirectDisplayID displayId = windowMacOS->getDisplayId();
+        if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
+            throw std::runtime_error("Failed to create display link");
+
+        if (CVDisplayLinkSetOutputCallback(displayLink, metal::renderCallback, this) != kCVReturnSuccess)
+            throw std::runtime_error("Failed to set output callback for the display link");
+
+        running = true;
+
+        if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
+            throw std::runtime_error("Failed to start display link");
+    }
+
+    std::vector<Size2U> RenderDeviceMacOS::getSupportedResolutions() const
+    {
+        std::vector<Size2U> result;
+
+        CFArrayRef displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
+        const CFIndex displayModeCount = CFArrayGetCount(displayModes);
+
+        for (CFIndex i = 0; i < displayModeCount; ++i)
+        {
+            const CGDisplayModeRef displayMode = (const CGDisplayModeRef)CFArrayGetValueAtIndex(displayModes, i);
+
+            result.emplace_back(static_cast<std::uint32_t>(CGDisplayModeGetWidth(displayMode)),
+                                static_cast<std::uint32_t>(CGDisplayModeGetHeight(displayMode)));
+        }
+
+        CFRelease(displayModes);
+
+        return result;
+    }
+
+    bool RenderDeviceMacOS::handleWindow(const WindowEvent& event)
+    {
+        if (event.type == ouzel::Event::Type::screenChange)
+        {
+            engine->executeOnMainThread([this, event]() {
                 running = false;
+
                 CommandBuffer commandBuffer;
                 commandBuffer.pushCommand(std::make_unique<PresentCommand>());
                 submitCommandBuffer(std::move(commandBuffer));
@@ -65,41 +143,11 @@ namespace ouzel
                 {
                     CVDisplayLinkStop(displayLink);
                     CVDisplayLinkRelease(displayLink);
+                    displayLink = nullptr;
                 }
-            }
 
-            void RenderDeviceMacOS::init(Window* newWindow,
-                                         const Size2U& newSize,
-                                         std::uint32_t newSampleCount,
-                                         bool newSrgb,
-                                         bool newVerticalSync,
-                                         bool newDepth,
-                                         bool newStencil,
-                                         bool newDebugRenderer)
-            {
-                RenderDevice::init(newWindow,
-                                   newSize,
-                                   newSampleCount,
-                                   newSrgb,
-                                   newVerticalSync,
-                                   newDepth,
-                                   newStencil,
-                                   newDebugRenderer);
+                const CGDirectDisplayID displayId = event.screenId;
 
-                auto windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());
-                MetalView* view = (MetalView*)windowMacOS->getNativeView();
-
-                metalLayer = (CAMetalLayer*)view.layer;
-                metalLayer.device = device.get();
-                const CGSize drawableSize = CGSizeMake(newSize.v[0], newSize.v[1]);
-                metalLayer.drawableSize = drawableSize;
-
-                colorFormat = metalLayer.pixelFormat;
-
-                eventHandler.windowHandler = std::bind(&RenderDeviceMacOS::handleWindow, this, std::placeholders::_1);
-                engine->getEventDispatcher().addEventHandler(eventHandler);
-
-                const CGDirectDisplayID displayId = windowMacOS->getDisplayId();
                 if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
                     throw std::runtime_error("Failed to create display link");
 
@@ -110,70 +158,16 @@ namespace ouzel
 
                 if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
                     throw std::runtime_error("Failed to start display link");
-            }
+            });
+        }
 
-            std::vector<Size2U> RenderDeviceMacOS::getSupportedResolutions() const
-            {
-                std::vector<Size2U> result;
+        return false;
+    }
 
-                CFArrayRef displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
-                const CFIndex displayModeCount = CFArrayGetCount(displayModes);
-
-                for (CFIndex i = 0; i < displayModeCount; ++i)
-                {
-                    const CGDisplayModeRef displayMode = (const CGDisplayModeRef)CFArrayGetValueAtIndex(displayModes, i);
-
-                    result.emplace_back(static_cast<std::uint32_t>(CGDisplayModeGetWidth(displayMode)),
-                                        static_cast<std::uint32_t>(CGDisplayModeGetHeight(displayMode)));
-                }
-
-                CFRelease(displayModes);
-
-                return result;
-            }
-
-            bool RenderDeviceMacOS::handleWindow(const WindowEvent& event)
-            {
-                if (event.type == ouzel::Event::Type::screenChange)
-                {
-                    engine->executeOnMainThread([this, event]() {
-                        running = false;
-
-                        CommandBuffer commandBuffer;
-                        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
-                        submitCommandBuffer(std::move(commandBuffer));
-
-                        if (displayLink)
-                        {
-                            CVDisplayLinkStop(displayLink);
-                            CVDisplayLinkRelease(displayLink);
-                            displayLink = nullptr;
-                        }
-
-                        const CGDirectDisplayID displayId = event.screenId;
-
-                        if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-                            throw std::runtime_error("Failed to create display link");
-
-                        if (CVDisplayLinkSetOutputCallback(displayLink, metal::renderCallback, this) != kCVReturnSuccess)
-                            throw std::runtime_error("Failed to set output callback for the display link");
-
-                        running = true;
-
-                        if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-                            throw std::runtime_error("Failed to start display link");
-                    });
-                }
-
-                return false;
-            }
-
-            void RenderDeviceMacOS::renderCallback()
-            {
-                if (running) process();
-            }
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
+    void RenderDeviceMacOS::renderCallback()
+    {
+        if (running) process();
+    }
+}
 
 #endif

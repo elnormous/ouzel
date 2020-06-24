@@ -14,36 +14,30 @@
 #include "../MetalRenderDevice.hpp"
 #include "../../../core/tvos/DisplayLink.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    class RenderDeviceTVOS final: public RenderDevice
     {
-        namespace metal
-        {
-            class RenderDeviceTVOS final: public RenderDevice
-            {
-                friend Renderer;
-            public:
-                explicit RenderDeviceTVOS(const std::function<void(const Event&)>& initCallback);
-                ~RenderDeviceTVOS() override;
+        friend Renderer;
+    public:
+        explicit RenderDeviceTVOS(const std::function<void(const Event&)>& initCallback);
+        ~RenderDeviceTVOS() override;
 
-                void renderCallback();
+        void renderCallback();
 
-            private:
-                void init(Window* newWindow,
-                          const Size2U& newSize,
-                          std::uint32_t newSampleCount,
-                          bool newSrgb,
-                          bool newVerticalSync,
-                          bool newDepth,
-                          bool newStencil,
-                          bool newDebugRenderer) final;
+    private:
+        void init(Window* newWindow,
+                  const Size2U& newSize,
+                  std::uint32_t newSampleCount,
+                  bool newSrgb,
+                  bool newVerticalSync,
+                  bool newDepth,
+                  bool newStencil,
+                  bool newDebugRenderer) final;
 
-                DisplayLink displayLink;
-            };
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
+        DisplayLink displayLink;
+    };
+}
 
 #endif
 

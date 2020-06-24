@@ -22,41 +22,35 @@ typedef id MTLDepthStencilStatePtr;
 #include "../CompareFunction.hpp"
 #include "../StencilOperation.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::metal
 {
-    namespace graphics
+    class RenderDevice;
+
+    class DepthStencilState final: public RenderResource
     {
-        namespace metal
-        {
-            class RenderDevice;
+    public:
+        DepthStencilState(RenderDevice& initRenderDevice,
+                          bool initDepthTest,
+                          bool initDepthWrite,
+                          CompareFunction initCompareFunction,
+                          bool initStencilEnabled,
+                          std::uint32_t initStencilReadMask,
+                          std::uint32_t initStencilWriteMask,
+                          StencilOperation initFrontFaceStencilFailureOperation,
+                          StencilOperation initFrontFaceStencilDepthFailureOperation,
+                          StencilOperation initFrontFaceStencilPassOperation,
+                          CompareFunction initFrontFaceStencilCompareFunction,
+                          StencilOperation initBackFaceStencilFailureOperation,
+                          StencilOperation initBackFaceStencilDepthFailureOperation,
+                          StencilOperation initBackFaceStencilPassOperation,
+                          CompareFunction initBackFaceStencilCompareFunction);
 
-            class DepthStencilState final: public RenderResource
-            {
-            public:
-                DepthStencilState(RenderDevice& initRenderDevice,
-                                  bool initDepthTest,
-                                  bool initDepthWrite,
-                                  CompareFunction initCompareFunction,
-                                  bool initStencilEnabled,
-                                  std::uint32_t initStencilReadMask,
-                                  std::uint32_t initStencilWriteMask,
-                                  StencilOperation initFrontFaceStencilFailureOperation,
-                                  StencilOperation initFrontFaceStencilDepthFailureOperation,
-                                  StencilOperation initFrontFaceStencilPassOperation,
-                                  CompareFunction initFrontFaceStencilCompareFunction,
-                                  StencilOperation initBackFaceStencilFailureOperation,
-                                  StencilOperation initBackFaceStencilDepthFailureOperation,
-                                  StencilOperation initBackFaceStencilPassOperation,
-                                  CompareFunction initBackFaceStencilCompareFunction);
+        auto& getDepthStencilState() const noexcept { return depthStencilState; }
 
-                auto& getDepthStencilState() const noexcept { return depthStencilState; }
-
-            private:
-                Pointer<MTLDepthStencilStatePtr> depthStencilState;
-            };
-        } // namespace metal
-    } // namespace graphics
-} // namespace ouzel
+    private:
+        Pointer<MTLDepthStencilStatePtr> depthStencilState;
+    };
+}
 
 #endif
 
