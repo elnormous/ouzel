@@ -30,81 +30,74 @@
 #include "../TextureType.hpp"
 #include "../../math/Size.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDevice;
+
+    class Texture final: public RenderResource
     {
-        namespace opengl
-        {
-            class RenderDevice;
+    public:
+        Texture(RenderDevice& initRenderDevice,
+                const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
+                TextureType type,
+                Flags initFlags,
+                std::uint32_t initSampleCount,
+                PixelFormat initPixelFormat,
+                SamplerFilter initFilter,
+                std::uint32_t initMaxAnisotropy);
+        ~Texture() override;
 
-            class Texture final: public RenderResource
-            {
-            public:
-                Texture(RenderDevice& initRenderDevice,
-                        const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
-                        TextureType type,
-                        Flags initFlags,
-                        std::uint32_t initSampleCount,
-                        PixelFormat initPixelFormat,
-                        SamplerFilter initFilter,
-                        std::uint32_t initMaxAnisotropy);
-                ~Texture() override;
+        void reload() final;
 
-                void reload() final;
+        void setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& newLevels);
+        void setFilter(SamplerFilter newFilter);
+        void setAddressX(SamplerAddressMode newAddressX);
+        void setAddressY(SamplerAddressMode newAddressY);
+        void setAddressZ(SamplerAddressMode newAddressZ);
+        void setMaxAnisotropy(std::uint32_t newMaxAnisotropy);
 
-                void setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& newLevels);
-                void setFilter(SamplerFilter newFilter);
-                void setAddressX(SamplerAddressMode newAddressX);
-                void setAddressY(SamplerAddressMode newAddressY);
-                void setAddressZ(SamplerAddressMode newAddressZ);
-                void setMaxAnisotropy(std::uint32_t newMaxAnisotropy);
+        auto getFlags() const noexcept { return flags; }
+        auto getMipmaps() const noexcept { return mipmaps; }
 
-                auto getFlags() const noexcept { return flags; }
-                auto getMipmaps() const noexcept { return mipmaps; }
+        auto getFilter() const noexcept { return filter; }
+        auto getAddressX() const noexcept { return addressX; }
+        auto getAddressY() const noexcept { return addressY; }
+        auto getMaxAnisotropy() const noexcept { return maxAnisotropy; }
+        auto getSampleCount() const noexcept { return sampleCount; }
 
-                auto getFilter() const noexcept { return filter; }
-                auto getAddressX() const noexcept { return addressX; }
-                auto getAddressY() const noexcept { return addressY; }
-                auto getMaxAnisotropy() const noexcept { return maxAnisotropy; }
-                auto getSampleCount() const noexcept { return sampleCount; }
+        auto getTextureId() const noexcept { return textureId; }
+        auto getBufferId() const noexcept { return bufferId; }
 
-                auto getTextureId() const noexcept { return textureId; }
-                auto getBufferId() const noexcept { return bufferId; }
+        auto getWidth() const noexcept { return width; }
+        auto getHeight() const noexcept { return height; }
 
-                auto getWidth() const noexcept { return width; }
-                auto getHeight() const noexcept { return height; }
+        auto getPixelFormat() const noexcept { return pixelFormat; }
 
-                auto getPixelFormat() const noexcept { return pixelFormat; }
+    private:
+        void createTexture();
+        void setTextureParameters();
 
-            private:
-                void createTexture();
-                void setTextureParameters();
+        std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
+        Flags flags = Flags::none;
+        std::uint32_t mipmaps = 0;
+        std::uint32_t sampleCount = 1;
+        SamplerFilter filter = SamplerFilter::point;
+        SamplerAddressMode addressX = SamplerAddressMode::clampToEdge;
+        SamplerAddressMode addressY = SamplerAddressMode::clampToEdge;
+        SamplerAddressMode addressZ = SamplerAddressMode::clampToEdge;
+        GLint maxAnisotropy = 0;
 
-                std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
-                Flags flags = Flags::none;
-                std::uint32_t mipmaps = 0;
-                std::uint32_t sampleCount = 1;
-                SamplerFilter filter = SamplerFilter::point;
-                SamplerAddressMode addressX = SamplerAddressMode::clampToEdge;
-                SamplerAddressMode addressY = SamplerAddressMode::clampToEdge;
-                SamplerAddressMode addressZ = SamplerAddressMode::clampToEdge;
-                GLint maxAnisotropy = 0;
+        GLenum textureTarget = 0;
+        GLuint textureId = 0;
+        GLuint bufferId = 0;
 
-                GLenum textureTarget = 0;
-                GLuint textureId = 0;
-                GLuint bufferId = 0;
-
-                GLsizei width = 0;
-                GLsizei height = 0;
-                GLenum internalPixelFormat = GL_NONE;
-                GLenum pixelFormat = GL_NONE;
-                GLenum pixelType = GL_NONE;
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
-
+        GLsizei width = 0;
+        GLsizei height = 0;
+        GLenum internalPixelFormat = GL_NONE;
+        GLenum pixelFormat = GL_NONE;
+        GLenum pixelType = GL_NONE;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_OGLTEXTURE_HPP

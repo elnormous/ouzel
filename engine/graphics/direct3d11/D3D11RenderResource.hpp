@@ -7,37 +7,30 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
-namespace ouzel
+namespace ouzel::graphics::d3d11
 {
-    namespace graphics
+    class RenderDevice;
+
+    class RenderResource
     {
-        namespace d3d11
+    public:
+        explicit RenderResource(RenderDevice& initRenderDevice):
+            renderDevice(initRenderDevice)
         {
-            class RenderDevice;
+        }
 
-            class RenderResource
-            {
-            public:
-                explicit RenderResource(RenderDevice& initRenderDevice):
-                    renderDevice(initRenderDevice)
-                {
-                }
+        virtual ~RenderResource() = default;
 
-                virtual ~RenderResource() = default;
+        RenderResource(const RenderResource&) = delete;
+        RenderResource& operator=(const RenderResource&) = delete;
 
-                RenderResource(const RenderResource&) = delete;
-                RenderResource& operator=(const RenderResource&) = delete;
+        RenderResource(RenderResource&&) = delete;
+        RenderResource& operator=(RenderResource&&) = delete;
 
-                RenderResource(RenderResource&&) = delete;
-                RenderResource& operator=(RenderResource&&) = delete;
-
-            protected:
-                RenderDevice& renderDevice;
-            };
-        } // namespace d3d11
-    } // namespace graphics
-} // namespace ouzel
-
+    protected:
+        RenderDevice& renderDevice;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_D3D11RENDERRESOURCE_HPP

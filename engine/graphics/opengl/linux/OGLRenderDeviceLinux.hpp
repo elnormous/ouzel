@@ -21,48 +21,41 @@
 #include "../OGLRenderDevice.hpp"
 #include "../../../utils/Thread.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDeviceLinux final: public RenderDevice
     {
-        namespace opengl
-        {
-            class RenderDeviceLinux final: public RenderDevice
-            {
-                friend Renderer;
-            public:
-                explicit RenderDeviceLinux(const std::function<void(const Event&)>& initCallback);
-                ~RenderDeviceLinux() override;
+        friend Renderer;
+    public:
+        explicit RenderDeviceLinux(const std::function<void(const Event&)>& initCallback);
+        ~RenderDeviceLinux() override;
 
-                std::vector<Size2U> getSupportedResolutions() const final;
+        std::vector<Size2U> getSupportedResolutions() const final;
 
-            private:
-                void init(Window* newWindow,
-                          const Size2U& newSize,
-                          std::uint32_t newSampleCount,
-                          bool newSrgb,
-                          bool newVerticalSync,
-                          bool newDepth,
-                          bool newStencil,
-                          bool newDebugRenderer) final;
+    private:
+        void init(Window* newWindow,
+                    const Size2U& newSize,
+                    std::uint32_t newSampleCount,
+                    bool newSrgb,
+                    bool newVerticalSync,
+                    bool newDepth,
+                    bool newStencil,
+                    bool newDebugRenderer) final;
 
-                void present() final;
-                void renderMain();
+        void present() final;
+        void renderMain();
 
 #if OUZEL_OPENGL_INTERFACE_GLX
-                GLXContext context = 0;
+        GLXContext context = 0;
 #elif OUZEL_OPENGL_INTERFACE_EGL
-                EGLDisplay display = 0;
-                EGLSurface surface = 0;
-                EGLContext context = 0;
+        EGLDisplay display = 0;
+        EGLSurface surface = 0;
+        EGLContext context = 0;
 #endif
-                std::atomic_bool running{false};
-                Thread renderThread;
-            };
-        }
-    } // namespace graphics
-} // namespace ouzel
-
+        std::atomic_bool running{false};
+        Thread renderThread;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_OGLRENDERDEVICELINUX_HPP

@@ -24,60 +24,54 @@
 #include "../BlendOperation.hpp"
 #include "../ColorMask.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDevice;
+
+    class BlendState final: public RenderResource
     {
-        namespace opengl
-        {
-            class RenderDevice;
+    public:
+        BlendState(RenderDevice& initRenderDevice,
+                   bool enableBlending,
+                   BlendFactor colorBlendSource,
+                   BlendFactor colorBlendDest,
+                   BlendOperation colorOperation,
+                   BlendFactor alphaBlendSource,
+                   BlendFactor alphaBlendDest,
+                   BlendOperation alphaOperation,
+                   ColorMask colorMask);
 
-            class BlendState final: public RenderResource
-            {
-            public:
-                BlendState(RenderDevice& initRenderDevice,
-                           bool enableBlending,
-                           BlendFactor colorBlendSource,
-                           BlendFactor colorBlendDest,
-                           BlendOperation colorOperation,
-                           BlendFactor alphaBlendSource,
-                           BlendFactor alphaBlendDest,
-                           BlendOperation alphaOperation,
-                           ColorMask colorMask);
+        void reload() final {}
 
-                void reload() final {}
+        auto getModeRGB() const noexcept { return modeRGB; }
+        auto getModeAlpha() const noexcept { return modeAlpha; }
 
-                auto getModeRGB() const noexcept { return modeRGB; }
-                auto getModeAlpha() const noexcept { return modeAlpha; }
+        auto getSourceFactorRGB() const noexcept { return sourceFactorRGB; }
+        auto getDestFactorRGB() const noexcept { return destFactorRGB; }
+        auto getSourceFactorAlpha() const noexcept { return sourceFactorAlpha; }
+        auto getDestFactorAlpha() const noexcept { return destFactorAlpha; }
+        auto isBlendEnabled() const noexcept { return blendEnabled; }
 
-                auto getSourceFactorRGB() const noexcept { return sourceFactorRGB; }
-                auto getDestFactorRGB() const noexcept { return destFactorRGB; }
-                auto getSourceFactorAlpha() const noexcept { return sourceFactorAlpha; }
-                auto getDestFactorAlpha() const noexcept { return destFactorAlpha; }
-                auto isBlendEnabled() const noexcept { return blendEnabled; }
+        auto getRedMask() const noexcept { return redMask; }
+        auto getGreenMask() const noexcept { return greenMask; }
+        auto getBlueMask() const noexcept { return blueMask; }
+        auto getAlphaMask() const noexcept { return alphaMask; }
 
-                auto getRedMask() const noexcept { return redMask; }
-                auto getGreenMask() const noexcept { return greenMask; }
-                auto getBlueMask() const noexcept { return blueMask; }
-                auto getAlphaMask() const noexcept { return alphaMask; }
+    private:
+        GLenum modeRGB = GL_NONE;
+        GLenum modeAlpha = GL_NONE;
+        GLenum sourceFactorRGB = GL_NONE;
+        GLenum destFactorRGB = GL_NONE;
+        GLenum sourceFactorAlpha = GL_NONE;
+        GLenum destFactorAlpha = GL_NONE;
+        bool blendEnabled = false;
 
-            private:
-                GLenum modeRGB = GL_NONE;
-                GLenum modeAlpha = GL_NONE;
-                GLenum sourceFactorRGB = GL_NONE;
-                GLenum destFactorRGB = GL_NONE;
-                GLenum sourceFactorAlpha = GL_NONE;
-                GLenum destFactorAlpha = GL_NONE;
-                bool blendEnabled = false;
-
-                GLboolean redMask = GL_FALSE;
-                GLboolean greenMask = GL_FALSE;
-                GLboolean blueMask = GL_FALSE;
-                GLboolean alphaMask = GL_FALSE;
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
+        GLboolean redMask = GL_FALSE;
+        GLboolean greenMask = GL_FALSE;
+        GLboolean blueMask = GL_FALSE;
+        GLboolean alphaMask = GL_FALSE;
+    };
+}
 
 #endif
 

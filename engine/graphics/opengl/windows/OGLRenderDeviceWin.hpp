@@ -24,42 +24,35 @@
 #include "../OGLRenderDevice.hpp"
 #include "../../../utils/Thread.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDeviceWin final: public RenderDevice
     {
-        namespace opengl
-        {
-            class RenderDeviceWin final: public RenderDevice
-            {
-                friend Renderer;
-            public:
-                explicit RenderDeviceWin(const std::function<void(const Event&)>& initCallback);
-                ~RenderDeviceWin() override;
+        friend Renderer;
+    public:
+        explicit RenderDeviceWin(const std::function<void(const Event&)>& initCallback);
+        ~RenderDeviceWin() override;
 
-            private:
-                void init(Window* newWindow,
-                          const Size2U& newSize,
-                          std::uint32_t newSampleCount,
-                          bool newSrgb,
-                          bool newVerticalSync,
-                          bool newDepth,
-                          bool newStencil,
-                          bool newDebugRenderer) final;
+    private:
+        void init(Window* newWindow,
+                    const Size2U& newSize,
+                    std::uint32_t newSampleCount,
+                    bool newSrgb,
+                    bool newVerticalSync,
+                    bool newDepth,
+                    bool newStencil,
+                    bool newDebugRenderer) final;
 
-                void present() final;
-                void renderMain();
+        void present() final;
+        void renderMain();
 
-                HDC deviceContext = 0;
-                HGLRC renderContext = 0;
+        HDC deviceContext = 0;
+        HGLRC renderContext = 0;
 
-                std::atomic_bool running{false};
-                Thread renderThread;
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
-
+        std::atomic_bool running{false};
+        Thread renderThread;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_OGLRENDERDEVICEWIN_HPP

@@ -31,79 +31,72 @@
 #include "D3D11Texture.hpp"
 #include "../../utils/Thread.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::d3d11
 {
-    namespace graphics
+    const std::error_category& getErrorCategory() noexcept;
+
+    class RenderDevice final: public graphics::RenderDevice
     {
-        namespace d3d11
+        friend Renderer;
+    public:
+        explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+        ~RenderDevice() override;
+
+        std::vector<Size2U> getSupportedResolutions() const final;
+
+        auto& getDevice() const noexcept { return device; }
+        auto& getContext() const noexcept { return context; }
+
+        ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
+        void setFullscreen(bool newFullscreen);
+
+        template <class T>
+        auto getResource(std::uintptr_t id) const
         {
-            const std::error_category& getErrorCategory() noexcept;
+            return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
+        }
 
-            class RenderDevice final: public graphics::RenderDevice
-            {
-                friend Renderer;
-            public:
-                explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
-                ~RenderDevice() override;
+    private:
+        void init(Window* newWindow,
+                    const Size2U& newSize,
+                    std::uint32_t newSampleCount,
+                    bool newSrgb,
+                    bool newVerticalSync,
+                    bool newDepth,
+                    bool newStencil,
+                    bool newDebugRenderer) final;
 
-                std::vector<Size2U> getSupportedResolutions() const final;
+        void process() final;
+        void resizeBackBuffer(UINT newWidth, UINT newHeight);
+        void uploadBuffer(ID3D11Buffer* buffer, const void* data, std::uint32_t dataSize);
+        void generateScreenshot(const std::string& filename) final;
+        void renderMain();
 
-                auto& getDevice() const noexcept { return device; }
-                auto& getContext() const noexcept { return context; }
+        IDXGIOutput* getOutput() const;
 
-                ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
-                void setFullscreen(bool newFullscreen);
+        Pointer<ID3D11Device> device;
+        Pointer<ID3D11DeviceContext> context;
+        Pointer<IDXGISwapChain> swapChain;
+        Pointer<IDXGIAdapter> adapter;
+        Pointer<ID3D11Texture2D> backBuffer;
+        Pointer<ID3D11RenderTargetView> renderTargetView;
+        std::map<SamplerStateDesc, Pointer<ID3D11SamplerState>> samplerStates;
+        Pointer<ID3D11RasterizerState> rasterizerStates[12];
+        Pointer<ID3D11Texture2D> depthStencilTexture;
+        Pointer<ID3D11DepthStencilView> depthStencilView;
+        Pointer<ID3D11DepthStencilState> defaultDepthStencilState;
 
-                template <class T>
-                auto getResource(std::uintptr_t id) const
-                {
-                    return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
-                }
+        UINT frameBufferWidth = 0;
+        UINT frameBufferHeight = 0;
 
-            private:
-                void init(Window* newWindow,
-                          const Size2U& newSize,
-                          std::uint32_t newSampleCount,
-                          bool newSrgb,
-                          bool newVerticalSync,
-                          bool newDepth,
-                          bool newStencil,
-                          bool newDebugRenderer) final;
+        UINT swapInterval = 0;
 
-                void process() final;
-                void resizeBackBuffer(UINT newWidth, UINT newHeight);
-                void uploadBuffer(ID3D11Buffer* buffer, const void* data, std::uint32_t dataSize);
-                void generateScreenshot(const std::string& filename) final;
-                void renderMain();
+        std::atomic_bool running{false};
+        Thread renderThread;
 
-                IDXGIOutput* getOutput() const;
-
-                Pointer<ID3D11Device> device;
-                Pointer<ID3D11DeviceContext> context;
-                Pointer<IDXGISwapChain> swapChain;
-                Pointer<IDXGIAdapter> adapter;
-                Pointer<ID3D11Texture2D> backBuffer;
-                Pointer<ID3D11RenderTargetView> renderTargetView;
-                std::map<SamplerStateDesc, Pointer<ID3D11SamplerState>> samplerStates;
-                Pointer<ID3D11RasterizerState> rasterizerStates[12];
-                Pointer<ID3D11Texture2D> depthStencilTexture;
-                Pointer<ID3D11DepthStencilView> depthStencilView;
-                Pointer<ID3D11DepthStencilState> defaultDepthStencilState;
-
-                UINT frameBufferWidth = 0;
-                UINT frameBufferHeight = 0;
-
-                UINT swapInterval = 0;
-
-                std::atomic_bool running{false};
-                Thread renderThread;
-
-                std::vector<std::unique_ptr<RenderResource>> resources;
-            };
-        } // namespace d3d11
-    } // namespace graphics
-} // namespace ouzel
-
+        std::vector<std::unique_ptr<RenderResource>> resources;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_D3D11RENDERDEVICE_HPP

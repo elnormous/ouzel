@@ -23,70 +23,64 @@
 #include "../CompareFunction.hpp"
 #include "../StencilOperation.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDevice;
+
+    class DepthStencilState final: public RenderResource
     {
-        namespace opengl
-        {
-            class RenderDevice;
+    public:
+        DepthStencilState(RenderDevice& initRenderDevice,
+                          bool initDepthTest,
+                          bool initDepthWrite,
+                          CompareFunction initCompareFunction,
+                          bool initStencilEnabled,
+                          std::uint32_t initStencilReadMask,
+                          std::uint32_t initStencilWriteMask,
+                          StencilOperation initFrontFaceStencilFailureOperation,
+                          StencilOperation initFrontFaceStencilDepthFailureOperation,
+                          StencilOperation initFrontFaceStencilPassOperation,
+                          CompareFunction initFrontFaceStencilCompareFunction,
+                          StencilOperation initBackFaceStencilFailureOperation,
+                          StencilOperation initBackFaceStencilDepthFailureOperation,
+                          StencilOperation initBackFaceStencilPassOperation,
+                          CompareFunction initBackFaceStencilCompareFunction);
 
-            class DepthStencilState final: public RenderResource
-            {
-            public:
-                DepthStencilState(RenderDevice& initRenderDevice,
-                                  bool initDepthTest,
-                                  bool initDepthWrite,
-                                  CompareFunction initCompareFunction,
-                                  bool initStencilEnabled,
-                                  std::uint32_t initStencilReadMask,
-                                  std::uint32_t initStencilWriteMask,
-                                  StencilOperation initFrontFaceStencilFailureOperation,
-                                  StencilOperation initFrontFaceStencilDepthFailureOperation,
-                                  StencilOperation initFrontFaceStencilPassOperation,
-                                  CompareFunction initFrontFaceStencilCompareFunction,
-                                  StencilOperation initBackFaceStencilFailureOperation,
-                                  StencilOperation initBackFaceStencilDepthFailureOperation,
-                                  StencilOperation initBackFaceStencilPassOperation,
-                                  CompareFunction initBackFaceStencilCompareFunction);
+        void reload() final {}
 
-                void reload() final {}
+        auto getDepthTest() const noexcept { return depthTest; }
+        auto getDepthMask() const noexcept { return depthMask; }
+        auto getCompareFunction() const noexcept { return compareFunction; }
 
-                auto getDepthTest() const noexcept { return depthTest; }
-                auto getDepthMask() const noexcept { return depthMask; }
-                auto getCompareFunction() const noexcept { return compareFunction; }
+        auto getStencilTest() const noexcept { return stencilTest; }
+        auto getStencilReadMask() const noexcept { return stencilReadMask; }
+        auto getStencilWriteMask() const noexcept { return stencilWriteMask; }
+        auto getFrontFaceFail() const noexcept { return frontFaceFail; }
+        auto getFrontFaceDepthFail() const noexcept { return frontFaceDepthFail; }
+        auto getFrontFacePass() const noexcept { return frontFacePass; }
+        auto getFrontFaceFunction() const noexcept { return frontFaceFunction; }
+        auto getBackFaceFail() const noexcept { return backFaceFail; }
+        auto getBackFaceDepthFail() const noexcept { return backFaceDepthFail; }
+        auto getBackFacePass() const noexcept { return backFacePass; }
+        auto getBackFaceFunction() const noexcept { return backFaceFunction; }
 
-                auto getStencilTest() const noexcept { return stencilTest; }
-                auto getStencilReadMask() const noexcept { return stencilReadMask; }
-                auto getStencilWriteMask() const noexcept { return stencilWriteMask; }
-                auto getFrontFaceFail() const noexcept { return frontFaceFail; }
-                auto getFrontFaceDepthFail() const noexcept { return frontFaceDepthFail; }
-                auto getFrontFacePass() const noexcept { return frontFacePass; }
-                auto getFrontFaceFunction() const noexcept { return frontFaceFunction; }
-                auto getBackFaceFail() const noexcept { return backFaceFail; }
-                auto getBackFaceDepthFail() const noexcept { return backFaceDepthFail; }
-                auto getBackFacePass() const noexcept { return backFacePass; }
-                auto getBackFaceFunction() const noexcept { return backFaceFunction; }
-
-            private:
-                bool depthTest = false;
-                GLboolean depthMask = GL_TRUE;
-                GLenum compareFunction;
-                bool stencilTest = false;
-                GLuint stencilReadMask = 0xFFFFFFFF;
-                GLuint stencilWriteMask = 0xFFFFFFFF;
-                GLenum frontFaceFail;
-                GLenum frontFaceDepthFail;
-                GLenum frontFacePass;
-                GLenum frontFaceFunction;
-                GLenum backFaceFail;
-                GLenum backFaceDepthFail;
-                GLenum backFacePass;
-                GLenum backFaceFunction;
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
+    private:
+        bool depthTest = false;
+        GLboolean depthMask = GL_TRUE;
+        GLenum compareFunction;
+        bool stencilTest = false;
+        GLuint stencilReadMask = 0xFFFFFFFF;
+        GLuint stencilWriteMask = 0xFFFFFFFF;
+        GLenum frontFaceFail;
+        GLenum frontFaceDepthFail;
+        GLenum frontFacePass;
+        GLenum frontFaceFunction;
+        GLenum backFaceFail;
+        GLenum backFaceDepthFail;
+        GLenum backFacePass;
+        GLenum backFaceFunction;
+    };
+}
 
 #endif
 

@@ -23,38 +23,31 @@
 #include "OGLRenderResource.hpp"
 #include "../../math/Color.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDevice;
+    class Texture;
+
+    class RenderTarget final: public RenderResource
     {
-        namespace opengl
-        {
-            class RenderDevice;
-            class Texture;
+    public:
+        RenderTarget(RenderDevice& initRenderDevice,
+                     const std::set<Texture*>& initColorTextures,
+                     Texture* initDepthTexture);
+        ~RenderTarget() override;
 
-            class RenderTarget final: public RenderResource
-            {
-            public:
-                RenderTarget(RenderDevice& initRenderDevice,
-                             const std::set<Texture*>& initColorTextures,
-                             Texture* initDepthTexture);
-                ~RenderTarget() override;
+        void reload() final;
 
-                void reload() final;
+        auto getFrameBufferId() const noexcept { return frameBufferId; }
 
-                auto getFrameBufferId() const noexcept { return frameBufferId; }
+    private:
+        void createFrameBuffer();
+        GLuint frameBufferId = 0;
 
-            private:
-                void createFrameBuffer();
-                GLuint frameBufferId = 0;
-
-                std::set<Texture*> colorTextures;
-                Texture* depthTexture = nullptr;
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
-
+        std::set<Texture*> colorTextures;
+        Texture* depthTexture = nullptr;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_OGLRENDERTARGET_HPP

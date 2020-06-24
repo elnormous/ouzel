@@ -14,46 +14,39 @@
 #include "../OGLRenderDevice.hpp"
 #include "../../../utils/Thread.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDeviceAndroid final: public RenderDevice
     {
-        namespace opengl
-        {
-            class RenderDeviceAndroid final: public RenderDevice
-            {
-                friend Renderer;
-            public:
-                explicit RenderDeviceAndroid(const std::function<void(const Event&)>& initCallback);
-                ~RenderDeviceAndroid() override;
+        friend Renderer;
+    public:
+        explicit RenderDeviceAndroid(const std::function<void(const Event&)>& initCallback);
+        ~RenderDeviceAndroid() override;
 
-                void reload();
-                void destroy();
+        void reload();
+        void destroy();
 
-            private:
-                void init(Window* newWindow,
-                          const Size2U& newSize,
-                          std::uint32_t newSampleCount,
-                          bool newSrgb,
-                          bool newVerticalSync,
-                          bool newDepth,
-                          bool newStencil,
-                          bool newDebugRenderer) final;
+    private:
+        void init(Window* newWindow,
+                    const Size2U& newSize,
+                    std::uint32_t newSampleCount,
+                    bool newSrgb,
+                    bool newVerticalSync,
+                    bool newDepth,
+                    bool newStencil,
+                    bool newDebugRenderer) final;
 
-                void present() final;
-                void renderMain();
+        void present() final;
+        void renderMain();
 
-                EGLDisplay display = 0;
-                EGLSurface surface = 0;
-                EGLContext context = 0;
+        EGLDisplay display = 0;
+        EGLSurface surface = 0;
+        EGLContext context = 0;
 
-                std::atomic_bool running{false};
-                Thread renderThread;
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
-
+        std::atomic_bool running{false};
+        Thread renderThread;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_OGLRENDERDEVICEANDROID_HPP

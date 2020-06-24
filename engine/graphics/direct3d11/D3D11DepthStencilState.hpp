@@ -24,42 +24,35 @@
 #include "../CompareFunction.hpp"
 #include "../StencilOperation.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::d3d11
 {
-    namespace graphics
+    class RenderDevice;
+
+    class DepthStencilState final: public RenderResource
     {
-        namespace d3d11
-        {
-            class RenderDevice;
+    public:
+        DepthStencilState(RenderDevice& initRenderDevice,
+                            bool initDepthTest,
+                            bool initDepthWrite,
+                            CompareFunction initCompareFunction,
+                            bool initStencilEnabled,
+                            std::uint32_t initStencilReadMask,
+                            std::uint32_t initStencilWriteMask,
+                            StencilOperation initFrontFaceStencilFailureOperation,
+                            StencilOperation initFrontFaceStencilDepthFailureOperation,
+                            StencilOperation initFrontFaceStencilPassOperation,
+                            CompareFunction initFrontFaceStencilCompareFunction,
+                            StencilOperation initBackFaceStencilFailureOperation,
+                            StencilOperation initBackFaceStencilDepthFailureOperation,
+                            StencilOperation initBackFaceStencilPassOperation,
+                            CompareFunction initBackFaceStencilCompareFunction);
 
-            class DepthStencilState final: public RenderResource
-            {
-            public:
-                DepthStencilState(RenderDevice& initRenderDevice,
-                                  bool initDepthTest,
-                                  bool initDepthWrite,
-                                  CompareFunction initCompareFunction,
-                                  bool initStencilEnabled,
-                                  std::uint32_t initStencilReadMask,
-                                  std::uint32_t initStencilWriteMask,
-                                  StencilOperation initFrontFaceStencilFailureOperation,
-                                  StencilOperation initFrontFaceStencilDepthFailureOperation,
-                                  StencilOperation initFrontFaceStencilPassOperation,
-                                  CompareFunction initFrontFaceStencilCompareFunction,
-                                  StencilOperation initBackFaceStencilFailureOperation,
-                                  StencilOperation initBackFaceStencilDepthFailureOperation,
-                                  StencilOperation initBackFaceStencilPassOperation,
-                                  CompareFunction initBackFaceStencilCompareFunction);
+        auto& getDepthStencilState() const noexcept { return depthStencilState; }
 
-                auto& getDepthStencilState() const noexcept { return depthStencilState; }
-
-            private:
-                Pointer<ID3D11DepthStencilState> depthStencilState;
-            };
-        } // namespace d3d11
-    } // namespace graphics
-} // namespace ouzel
-
+    private:
+        Pointer<ID3D11DepthStencilState> depthStencilState;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_D3D11DEPTHSTENCILSTATE_HPP

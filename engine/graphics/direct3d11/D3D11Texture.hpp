@@ -31,90 +31,83 @@
 #include "../TextureType.hpp"
 #include "../../math/Size.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::d3d11
 {
-    namespace graphics
+    class RenderDevice;
+
+    struct SamplerStateDesc final
     {
-        namespace d3d11
+        SamplerFilter filter;
+        SamplerAddressMode addressX;
+        SamplerAddressMode addressY;
+        SamplerAddressMode addressZ;
+        std::uint32_t maxAnisotropy;
+
+        bool operator<(const SamplerStateDesc& other) const
         {
-            class RenderDevice;
+            return std::tie(filter, addressX, addressY, addressZ, maxAnisotropy) <
+                std::tie(other.filter, other.addressX, other.addressY, other.addressZ, other.maxAnisotropy);
+        }
+    };
 
-            struct SamplerStateDesc final
-            {
-                SamplerFilter filter;
-                SamplerAddressMode addressX;
-                SamplerAddressMode addressY;
-                SamplerAddressMode addressZ;
-                std::uint32_t maxAnisotropy;
+    class Texture final: public RenderResource
+    {
+    public:
+        Texture(RenderDevice& initRenderDevice,
+                const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
+                TextureType type,
+                Flags initFlags,
+                std::uint32_t initSampleCount,
+                PixelFormat initPixelFormat,
+                SamplerFilter initFilter,
+                std::uint32_t initMaxAnisotropy);
 
-                bool operator<(const SamplerStateDesc& other) const
-                {
-                    return std::tie(filter, addressX, addressY, addressZ, maxAnisotropy) <
-                        std::tie(other.filter, other.addressX, other.addressY, other.addressZ, other.maxAnisotropy);
-                }
-            };
+        void setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels);
+        void setFilter(SamplerFilter filter);
+        void setAddressX(SamplerAddressMode addressX);
+        void setAddressY(SamplerAddressMode addressY);
+        void setAddressZ(SamplerAddressMode addressZ);
+        void setMaxAnisotropy(std::uint32_t maxAnisotropy);
 
-            class Texture final: public RenderResource
-            {
-            public:
-                Texture(RenderDevice& initRenderDevice,
-                        const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
-                        TextureType type,
-                        Flags initFlags,
-                        std::uint32_t initSampleCount,
-                        PixelFormat initPixelFormat,
-                        SamplerFilter initFilter,
-                        std::uint32_t initMaxAnisotropy);
+        void resolve();
 
-                void setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels);
-                void setFilter(SamplerFilter filter);
-                void setAddressX(SamplerAddressMode addressX);
-                void setAddressY(SamplerAddressMode addressY);
-                void setAddressZ(SamplerAddressMode addressZ);
-                void setMaxAnisotropy(std::uint32_t maxAnisotropy);
+        auto getFlags() const noexcept { return flags; }
+        auto getMipmaps() const noexcept { return mipmaps; }
+        auto getSampleCount() const noexcept { return sampleCount; }
+        auto getPixelFormat() const noexcept { return pixelFormat; }
 
-                void resolve();
+        auto& getTexture() const noexcept { return texture; }
+        auto& getResourceView() const noexcept { return resourceView; }
+        auto getSamplerState() const noexcept { return samplerState; }
 
-                auto getFlags() const noexcept { return flags; }
-                auto getMipmaps() const noexcept { return mipmaps; }
-                auto getSampleCount() const noexcept { return sampleCount; }
-                auto getPixelFormat() const noexcept { return pixelFormat; }
+        auto& getRenderTargetView() const noexcept { return renderTargetView; }
+        auto& getDepthStencilView() const noexcept { return depthStencilView; }
 
-                auto& getTexture() const noexcept { return texture; }
-                auto& getResourceView() const noexcept { return resourceView; }
-                auto getSamplerState() const noexcept { return samplerState; }
+        auto getWidth() const noexcept { return width; }
+        auto getHeight() const noexcept { return height; }
 
-                auto& getRenderTargetView() const noexcept { return renderTargetView; }
-                auto& getDepthStencilView() const noexcept { return depthStencilView; }
+    private:
+        void updateSamplerState();
 
-                auto getWidth() const noexcept { return width; }
-                auto getHeight() const noexcept { return height; }
+        Flags flags = Flags::none;
+        std::uint32_t mipmaps = 0;
+        std::uint32_t sampleCount = 1;
+        DXGI_FORMAT pixelFormat = DXGI_FORMAT_UNKNOWN;
+        std::uint32_t pixelSize = 0;
+        SamplerStateDesc samplerDescriptor;
 
-            private:
-                void updateSamplerState();
+        Pointer<ID3D11Texture2D> texture;
+        Pointer<ID3D11Texture2D> msaaTexture;
+        Pointer<ID3D11ShaderResourceView> resourceView;
+        ID3D11SamplerState* samplerState = nullptr;
 
-                Flags flags = Flags::none;
-                std::uint32_t mipmaps = 0;
-                std::uint32_t sampleCount = 1;
-                DXGI_FORMAT pixelFormat = DXGI_FORMAT_UNKNOWN;
-                std::uint32_t pixelSize = 0;
-                SamplerStateDesc samplerDescriptor;
+        UINT width = 0;
+        UINT height = 0;
 
-                Pointer<ID3D11Texture2D> texture;
-				Pointer<ID3D11Texture2D> msaaTexture;
-				Pointer<ID3D11ShaderResourceView> resourceView;
-				ID3D11SamplerState* samplerState = nullptr;
-
-                UINT width = 0;
-                UINT height = 0;
-
-				Pointer<ID3D11RenderTargetView> renderTargetView;
-				Pointer<ID3D11DepthStencilView> depthStencilView;
-            };
-        } // namespace d3d11
-    } // namespace graphics
-} // namespace ouzel
-
+        Pointer<ID3D11RenderTargetView> renderTargetView;
+        Pointer<ID3D11DepthStencilView> depthStencilView;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_D3D11TEXTURE_HPP

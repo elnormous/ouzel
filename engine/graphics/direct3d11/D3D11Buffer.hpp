@@ -24,44 +24,37 @@
 #include "../BufferType.hpp"
 #include "../Flags.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::d3d11
 {
-    namespace graphics
+    class RenderDevice;
+
+    class Buffer final: public RenderResource
     {
-        namespace d3d11
-        {
-            class RenderDevice;
+    public:
+        Buffer(RenderDevice& initRenderDevice,
+                BufferType initType,
+                Flags initFlags,
+                const std::vector<std::uint8_t>& data,
+                std::uint32_t initSize);
 
-            class Buffer final: public RenderResource
-            {
-            public:
-                Buffer(RenderDevice& initRenderDevice,
-                       BufferType initType,
-                       Flags initFlags,
-                       const std::vector<std::uint8_t>& data,
-                       std::uint32_t initSize);
+        void setData(const std::vector<std::uint8_t>& data);
 
-                void setData(const std::vector<std::uint8_t>& data);
+        auto getFlags() const noexcept { return flags; }
+        auto getType() const noexcept { return type; }
+        auto getSize() const noexcept { return size; }
 
-                auto getFlags() const noexcept { return flags; }
-                auto getType() const noexcept { return type; }
-                auto getSize() const noexcept { return size; }
+        auto& getBuffer() const noexcept { return buffer; }
 
-                auto& getBuffer() const noexcept { return buffer; }
+    private:
+        void createBuffer(UINT newSize, const std::vector<std::uint8_t>& data);
 
-            private:
-                void createBuffer(UINT newSize, const std::vector<std::uint8_t>& data);
+        BufferType type;
+        Flags flags = Flags::none;
 
-                BufferType type;
-                Flags flags = Flags::none;
-
-                Pointer<ID3D11Buffer> buffer;
-                UINT size = 0;
-            };
-        } // namespace d3d11
-    } // namespace graphics
-} // namespace ouzel
-
+        Pointer<ID3D11Buffer> buffer;
+        UINT size = 0;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_D3D11BUFFER_HPP

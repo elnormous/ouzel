@@ -25,36 +25,29 @@
 #include "../BlendOperation.hpp"
 #include "../ColorMask.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::d3d11
 {
-    namespace graphics
+    class RenderDevice;
+
+    class BlendState final: public RenderResource
     {
-        namespace d3d11
-        {
-            class RenderDevice;
+    public:
+        BlendState(RenderDevice& initRenderDevice,
+                    bool enableBlending,
+                    BlendFactor colorBlendSource,
+                    BlendFactor colorBlendDest,
+                    BlendOperation colorOperation,
+                    BlendFactor alphaBlendSource,
+                    BlendFactor alphaBlendDest,
+                    BlendOperation alphaOperation,
+                    ColorMask colorMask);
 
-            class BlendState final: public RenderResource
-            {
-            public:
-                BlendState(RenderDevice& initRenderDevice,
-                           bool enableBlending,
-                           BlendFactor colorBlendSource,
-                           BlendFactor colorBlendDest,
-                           BlendOperation colorOperation,
-                           BlendFactor alphaBlendSource,
-                           BlendFactor alphaBlendDest,
-                           BlendOperation alphaOperation,
-                           ColorMask colorMask);
+        auto& getBlendState() const noexcept { return blendState; }
 
-                auto& getBlendState() const noexcept { return blendState; }
-
-            private:
-                Pointer<ID3D11BlendState> blendState;
-            };
-        } // namespace d3d11
-    } // namespace graphics
-} // namespace ouzel
-
+    private:
+        Pointer<ID3D11BlendState> blendState;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_D3D11BLENDSTATE_HPP

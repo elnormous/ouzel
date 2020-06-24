@@ -11,35 +11,28 @@
 #include <emscripten/html5.h>
 #include "../OGLRenderDevice.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDeviceEm final: public RenderDevice
     {
-        namespace opengl
-        {
-            class RenderDeviceEm final: public RenderDevice
-            {
-                friend Renderer;
-            public:
-                explicit RenderDeviceEm(const std::function<void(const Event&)>& initCallback);
-                ~RenderDeviceEm() override;
+        friend Renderer;
+    public:
+        explicit RenderDeviceEm(const std::function<void(const Event&)>& initCallback);
+        ~RenderDeviceEm() override;
 
-            private:
-                void init(Window* newWindow,
-                          const Size2U& newSize,
-                          std::uint32_t newSampleCount,
-                          bool newSrgb,
-                          bool newVerticalSync,
-                          bool newDepth,
-                          bool newStencil,
-                          bool newDebugRenderer) final;
+    private:
+        void init(Window* newWindow,
+                    const Size2U& newSize,
+                    std::uint32_t newSampleCount,
+                    bool newSrgb,
+                    bool newVerticalSync,
+                    bool newDepth,
+                    bool newStencil,
+                    bool newDebugRenderer) final;
 
-                EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
-
+        EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_OGLRENDERDEVICEEM_HPP

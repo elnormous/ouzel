@@ -7,50 +7,43 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDevice;
+
+    class RenderResource
     {
-        namespace opengl
+    public:
+        explicit RenderResource(RenderDevice& initRenderDevice):
+            renderDevice(initRenderDevice)
         {
-            class RenderDevice;
+        }
+        virtual ~RenderResource() = default;
 
-            class RenderResource
-            {
-            public:
-                explicit RenderResource(RenderDevice& initRenderDevice):
-                    renderDevice(initRenderDevice)
-                {
-                }
-                virtual ~RenderResource() = default;
+        RenderResource(const RenderResource&) = delete;
+        RenderResource& operator=(const RenderResource&) = delete;
 
-                RenderResource(const RenderResource&) = delete;
-                RenderResource& operator=(const RenderResource&) = delete;
+        RenderResource(RenderResource&&) = delete;
+        RenderResource& operator=(RenderResource&&) = delete;
 
-                RenderResource(RenderResource&&) = delete;
-                RenderResource& operator=(RenderResource&&) = delete;
+        auto isInvalid() const noexcept { return invalid; }
+        void invalidate() { invalid = true; }
 
-                auto isInvalid() const noexcept { return invalid; }
-                void invalidate() { invalid = true; }
+        void restore()
+        {
+            if (invalid) reload();
+            invalid = false;
+        }
 
-                void restore()
-                {
-                    if (invalid) reload();
-                    invalid = false;
-                }
+    protected:
+        virtual void reload() = 0;
 
-            protected:
-                virtual void reload() = 0;
+        RenderDevice& renderDevice;
 
-                RenderDevice& renderDevice;
-
-            private:
-                bool invalid = false;
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
-
+    private:
+        bool invalid = false;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_OGLRENDERRESOURCE_HPP

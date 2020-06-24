@@ -32,182 +32,175 @@
 
 #include "../../core/Engine.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class ProcedureGetter final
     {
-        namespace opengl
+    public:
+        ProcedureGetter(ApiVersion version):
+            apiVersion(version)
         {
-            class ProcedureGetter final
+            auto glGetErrorProc = getProcAddress<PFNGLGETERRORPROC>("glGetError", ApiVersion(1, 0));
+
+            if (apiVersion >= ApiVersion(3, 0))
             {
-            public:
-                ProcedureGetter(ApiVersion version):
-                    apiVersion(version)
-                {
-                    auto glGetErrorProc = getProcAddress<PFNGLGETERRORPROC>("glGetError", ApiVersion(1, 0));
+                auto glGetIntegervProc = getProcAddress<PFNGLGETINTEGERVPROC>("glGetIntegerv", ApiVersion(1, 0));
+                auto glGetStringiProc = getProcAddress<PFNGLGETSTRINGIPROC>("glGetStringi", ApiVersion(3, 0));
 
-                    if (apiVersion >= ApiVersion(3, 0))
+                GLint extensionCount;
+                glGetIntegervProc(GL_NUM_EXTENSIONS, &extensionCount);
+
+                GLuint error;
+                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                    engine->log(Log::Level::warning) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
+                else
+                    for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
                     {
-                        auto glGetIntegervProc = getProcAddress<PFNGLGETINTEGERVPROC>("glGetIntegerv", ApiVersion(1, 0));
-                        auto glGetStringiProc = getProcAddress<PFNGLGETSTRINGIPROC>("glGetStringi", ApiVersion(3, 0));
+                        const GLubyte* extensionPtr = glGetStringiProc(GL_EXTENSIONS, i);
 
-                        GLint extensionCount;
-                        glGetIntegervProc(GL_NUM_EXTENSIONS, &extensionCount);
-
-                        GLuint error;
-                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
-                            engine->log(Log::Level::warning) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
+                        if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionPtr)
+                            engine->log(Log::Level::warning) << "Failed to get OpenGL extension, error: " + std::to_string(error);
                         else
-                            for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
-                            {
-                                const GLubyte* extensionPtr = glGetStringiProc(GL_EXTENSIONS, i);
-
-                                if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionPtr)
-                                    engine->log(Log::Level::warning) << "Failed to get OpenGL extension, error: " + std::to_string(error);
-                                else
-                                    extensions.emplace_back(reinterpret_cast<const char*>(extensionPtr));
-                            }
+                            extensions.emplace_back(reinterpret_cast<const char*>(extensionPtr));
                     }
-                    else
-                    {
-                        auto glGetStringProc = getProcAddress<PFNGLGETSTRINGPROC>("glGetString", ApiVersion(1, 0));
-                        const GLubyte* extensionsPtr = glGetStringProc(GL_EXTENSIONS);
+            }
+            else
+            {
+                auto glGetStringProc = getProcAddress<PFNGLGETSTRINGPROC>("glGetString", ApiVersion(1, 0));
+                const GLubyte* extensionsPtr = glGetStringProc(GL_EXTENSIONS);
 
-                        GLuint error;
-                        if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionsPtr)
-                            engine->log(Log::Level::warning) << "Failed to get OpenGL extensions, error: " + std::to_string(error);
-                        else
-                            extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
-                    }
+                GLuint error;
+                if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionsPtr)
+                    engine->log(Log::Level::warning) << "Failed to get OpenGL extensions, error: " + std::to_string(error);
+                else
+                    extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
+            }
 
-                    engine->log(Log::Level::all) << "Supported OpenGL extensions: " << extensions;
-                }
+            engine->log(Log::Level::all) << "Supported OpenGL extensions: " << extensions;
+        }
 
-                template <typename T>
-                T get(const char* name,
-                      ApiVersion procApiVersion) const noexcept
-                {
-                    if (apiVersion >= procApiVersion)
-                        return getProcAddress<T>(name, procApiVersion);
-                    else
-                        return nullptr;
-                }
+        template <typename T>
+        T get(const char* name,
+              ApiVersion procApiVersion) const noexcept
+        {
+            if (apiVersion >= procApiVersion)
+                return getProcAddress<T>(name, procApiVersion);
+            else
+                return nullptr;
+        }
 
-                template <typename T>
-                T get(const char* name, const char* extension) const noexcept
-                {
-                    if (hasExtension(extension))
-                        return getProcAddress<T>(name);
-                    else
-                        return nullptr;
-                }
+        template <typename T>
+        T get(const char* name, const char* extension) const noexcept
+        {
+            if (hasExtension(extension))
+                return getProcAddress<T>(name);
+            else
+                return nullptr;
+        }
 
-                template <typename T>
-                T get(const std::map<const char*, const char*>& procExtensions) const noexcept
-                {
-                    for (const auto& extension : procExtensions)
-                        if (auto result = get<T>(extension.first, extension.second))
-                            return result;
+        template <typename T>
+        T get(const std::map<const char*, const char*>& procExtensions) const noexcept
+        {
+            for (const auto& extension : procExtensions)
+                if (auto result = get<T>(extension.first, extension.second))
+                    return result;
 
-                    return nullptr;
-                }
+            return nullptr;
+        }
 
-                template <typename T>
-                T get(const char* name,
-                      ApiVersion procApiVersion,
-                      const std::map<const char*, const char*>& procExtensions) const noexcept
-                {
-                    if (apiVersion >= procApiVersion)
-                        return getProcAddress<T>(name, procApiVersion);
-                    else
-                        for (const auto& extension : procExtensions)
-                            if (auto result = get<T>(extension.first, extension.second))
-                                return result;
+        template <typename T>
+        T get(const char* name,
+              ApiVersion procApiVersion,
+              const std::map<const char*, const char*>& procExtensions) const noexcept
+        {
+            if (apiVersion >= procApiVersion)
+                return getProcAddress<T>(name, procApiVersion);
+            else
+                for (const auto& extension : procExtensions)
+                    if (auto result = get<T>(extension.first, extension.second))
+                        return result;
 
-                    return nullptr;
-                }
+            return nullptr;
+        }
 
-                bool hasExtension(const char* ext) const noexcept
-                {
-                    for (const auto& extension : extensions)
-                        if (extension == ext) return true;
-                    return false;
-                }
+        bool hasExtension(const char* ext) const noexcept
+        {
+            for (const auto& extension : extensions)
+                if (extension == ext) return true;
+            return false;
+        }
 
-                bool hasExtension(const std::vector<const char*>& ext) const noexcept
-                {
-                    for (const auto& extension : extensions)
-                        for (auto e : ext)
-                            if (extension == e) return true;
+        bool hasExtension(const std::vector<const char*>& ext) const noexcept
+        {
+            for (const auto& extension : extensions)
+                for (auto e : ext)
+                    if (extension == e) return true;
 
-                    return false;
-                }
+            return false;
+        }
 
-            private:
-                template <typename T>
-                T getProcAddress(const char* name, ApiVersion procApiVersion) const noexcept
-                {
+    private:
+        template <typename T>
+        T getProcAddress(const char* name, ApiVersion procApiVersion) const noexcept
+        {
 #if OUZEL_OPENGL_INTERFACE_EGL
-                    return procApiVersion >= ApiVersion(3, 0) ?
-                        reinterpret_cast<T>(eglGetProcAddress(name)) :
-                        reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
+            return procApiVersion >= ApiVersion(3, 0) ?
+                reinterpret_cast<T>(eglGetProcAddress(name)) :
+                reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
 #elif OUZEL_OPENGL_INTERFACE_GLX
-                    (void)procApiVersion;
-                    return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
+            (void)procApiVersion;
+            return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
 #elif OUZEL_OPENGL_INTERFACE_WGL
-                    return procApiVersion > ApiVersion(1, 1) ?
-                        reinterpret_cast<T>(wglGetProcAddress(name)) :
-                        reinterpret_cast<T>(GetProcAddress(module.getModule(), name));
+            return procApiVersion > ApiVersion(1, 1) ?
+                reinterpret_cast<T>(wglGetProcAddress(name)) :
+                reinterpret_cast<T>(GetProcAddress(module.getModule(), name));
 #else
-                    (void)procApiVersion;
-                    return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
+            (void)procApiVersion;
+            return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
 #endif
-                }
+        }
 
-                template <typename T>
-                T getProcAddress(const char* name) const noexcept
-                {
+        template <typename T>
+        T getProcAddress(const char* name) const noexcept
+        {
 #if OUZEL_OPENGL_INTERFACE_EGL
-                    return reinterpret_cast<T>(eglGetProcAddress(name));
+            return reinterpret_cast<T>(eglGetProcAddress(name));
 #elif OUZEL_OPENGL_INTERFACE_GLX
-                    return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
+            return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
 #elif OUZEL_OPENGL_INTERFACE_WGL
-                    return reinterpret_cast<T>(wglGetProcAddress(name));
+            return reinterpret_cast<T>(wglGetProcAddress(name));
 #else
-                    return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
+            return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
 #endif
-                }
+        }
 
-                ApiVersion apiVersion;
-                std::vector<std::string> extensions;
+        ApiVersion apiVersion;
+        std::vector<std::string> extensions;
 #if OUZEL_OPENGL_INTERFACE_WGL
-                class Module final
-                {
-                public:
-                    Module():
-                        module(LoadLibraryW(L"opengl32.dll"))
-                    {
-                        if (!module)
-                            throw std::system_error(GetLastError(), std::system_category(), "Failed to load opengl32.dll");
-                    }
-                    ~Module()
-                    {
-                        if (module) FreeLibrary(module);
-                    }
+        class Module final
+        {
+        public:
+            Module():
+                module(LoadLibraryW(L"opengl32.dll"))
+            {
+                if (!module)
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to load opengl32.dll");
+            }
+            ~Module()
+            {
+                if (module) FreeLibrary(module);
+            }
 
-                    Module(const Module&) = delete;
-                    Module& operator=(const Module&) = delete;
+            Module(const Module&) = delete;
+            Module& operator=(const Module&) = delete;
 
-                    HMODULE getModule() const noexcept { return module; }
-                private:
-                    HMODULE module = nullptr;
-                } module;
+            HMODULE getModule() const noexcept { return module; }
+        private:
+            HMODULE module = nullptr;
+        } module;
 #endif
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
-
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_OGLPROCEDUREGETTER_HPP

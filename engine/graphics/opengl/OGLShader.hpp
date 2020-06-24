@@ -25,71 +25,64 @@
 #include "../DataType.hpp"
 #include "../Vertex.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDevice;
+
+    class Shader final: public RenderResource
     {
-        namespace opengl
+    public:
+        Shader(RenderDevice& initRenderDevice,
+               const std::vector<std::uint8_t>& initFragmentShader,
+               const std::vector<std::uint8_t>& initVertexShader,
+               const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+               const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
+               const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
+               const std::string& fragmentShaderFunction,
+               const std::string& vertexShaderFunction);
+        ~Shader() override;
+
+        void reload() final;
+
+        struct Location final
         {
-            class RenderDevice;
-
-            class Shader final: public RenderResource
+            Location(GLint initLocation, DataType initDataType):
+                location(initLocation), dataType(initDataType)
             {
-            public:
-                Shader(RenderDevice& initRenderDevice,
-                       const std::vector<std::uint8_t>& initFragmentShader,
-                       const std::vector<std::uint8_t>& initVertexShader,
-                       const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
-                       const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
-                       const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
-                       const std::string& fragmentShaderFunction,
-                       const std::string& vertexShaderFunction);
-                ~Shader() override;
+            }
 
-                void reload() final;
+            GLint location;
+            DataType dataType;
+        };
 
-                struct Location final
-                {
-                    Location(GLint initLocation, DataType initDataType):
-                        location(initLocation), dataType(initDataType)
-                    {
-                    }
+        auto& getVertexAttributes() const noexcept { return vertexAttributes; }
 
-                    GLint location;
-                    DataType dataType;
-                };
+        auto& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
+        auto& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
 
-                auto& getVertexAttributes() const noexcept { return vertexAttributes; }
+        auto getProgramId() const noexcept { return programId; }
 
-                auto& getFragmentShaderConstantLocations() const noexcept { return fragmentShaderConstantLocations; }
-                auto& getVertexShaderConstantLocations() const noexcept { return vertexShaderConstantLocations; }
+    private:
+        void compileShader();
+        std::string getShaderMessage(GLuint shaderId) const;
+        std::string getProgramMessage() const;
 
-                auto getProgramId() const noexcept { return programId; }
+        std::vector<std::uint8_t> fragmentShaderData;
+        std::vector<std::uint8_t> vertexShaderData;
 
-            private:
-                void compileShader();
-                std::string getShaderMessage(GLuint shaderId) const;
-                std::string getProgramMessage() const;
+        std::set<Vertex::Attribute::Usage> vertexAttributes;
 
-                std::vector<std::uint8_t> fragmentShaderData;
-                std::vector<std::uint8_t> vertexShaderData;
+        std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
+        std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
 
-                std::set<Vertex::Attribute::Usage> vertexAttributes;
+        GLuint fragmentShaderId = 0;
+        GLuint vertexShaderId = 0;
+        GLuint programId = 0;
 
-                std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
-                std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
-
-                GLuint fragmentShaderId = 0;
-                GLuint vertexShaderId = 0;
-                GLuint programId = 0;
-
-                std::vector<Location> fragmentShaderConstantLocations;
-                std::vector<Location> vertexShaderConstantLocations;
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
-
+        std::vector<Location> fragmentShaderConstantLocations;
+        std::vector<Location> vertexShaderConstantLocations;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_OGLSHADER_HPP

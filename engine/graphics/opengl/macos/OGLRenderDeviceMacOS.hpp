@@ -26,52 +26,45 @@ typedef id NSOpenGLPixelFormatPtr;
 #include "../OGLRenderDevice.hpp"
 #include "../../../events/EventHandler.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDeviceMacOS final: public RenderDevice
     {
-        namespace opengl
-        {
-            class RenderDeviceMacOS final: public RenderDevice
-            {
-                friend Renderer;
-            public:
-                explicit RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
-                ~RenderDeviceMacOS() override;
+        friend Renderer;
+    public:
+        explicit RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
+        ~RenderDeviceMacOS() override;
 
-                std::vector<Size2U> getSupportedResolutions() const final;
+        std::vector<Size2U> getSupportedResolutions() const final;
 
-                auto getOpenGLContext() const noexcept { return openGLContext; }
+        auto getOpenGLContext() const noexcept { return openGLContext; }
 
-                void renderCallback();
+        void renderCallback();
 
-            private:
-                void init(Window* newWindow,
-                          const Size2U& newSize,
-                          std::uint32_t newSampleCount,
-                          bool newSrgb,
-                          bool newVerticalSync,
-                          bool newDepth,
-                          bool newStencil,
-                          bool newDebugRenderer) final;
+    private:
+        void init(Window* newWindow,
+                  const Size2U& newSize,
+                  std::uint32_t newSampleCount,
+                  bool newSrgb,
+                  bool newVerticalSync,
+                  bool newDepth,
+                  bool newStencil,
+                  bool newDebugRenderer) final;
 
-                void resizeFrameBuffer() final;
-                void present() final;
+        void resizeFrameBuffer() final;
+        void present() final;
 
-                bool handleWindow(const WindowEvent& event);
+        bool handleWindow(const WindowEvent& event);
 
-                NSOpenGLContextPtr openGLContext = nil;
-                NSOpenGLPixelFormatPtr pixelFormat = nil;
+        NSOpenGLContextPtr openGLContext = nil;
+        NSOpenGLPixelFormatPtr pixelFormat = nil;
 
-                CVDisplayLinkRef displayLink = nullptr;
-                EventHandler eventHandler;
+        CVDisplayLinkRef displayLink = nullptr;
+        EventHandler eventHandler;
 
-                std::atomic_bool running{false};
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
-
+        std::atomic_bool running{false};
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_OGLRENDERDEVICEMACOS_HPP

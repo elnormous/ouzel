@@ -25,38 +25,31 @@
 #include "D3D11RenderResource.hpp"
 #include "../../math/Color.hpp"
 
-namespace ouzel
+namespace ouzel::graphics::d3d11
 {
-    namespace graphics
+    class RenderDevice;
+    class Texture;
+
+    class RenderTarget final: public RenderResource
     {
-        namespace d3d11
-        {
-            class RenderDevice;
-            class Texture;
+    public:
+        RenderTarget(RenderDevice& initRenderDevice,
+                        const std::set<Texture*>& initColorTextures,
+                        Texture* initDepthTexture);
 
-            class RenderTarget final: public RenderResource
-            {
-            public:
-                RenderTarget(RenderDevice& initRenderDevice,
-                             const std::set<Texture*>& initColorTextures,
-                             Texture* initDepthTexture);
+        void resolve();
 
-                void resolve();
+        auto& getRenderTargetViews() const noexcept { return renderTargetViews; }
+        auto getDepthStencilView() const noexcept { return depthStencilView; }
 
-                auto& getRenderTargetViews() const noexcept { return renderTargetViews; }
-                auto getDepthStencilView() const noexcept { return depthStencilView; }
+    private:
+        std::set<Texture*> colorTextures;
+        Texture* depthTexture = nullptr;
 
-            private:
-                std::set<Texture*> colorTextures;
-                Texture* depthTexture = nullptr;
-
-                std::vector<ID3D11RenderTargetView*> renderTargetViews;
-                ID3D11DepthStencilView* depthStencilView = nullptr;
-            };
-        } // namespace d3d11
-    } // namespace graphics
-} // namespace ouzel
-
+        std::vector<ID3D11RenderTargetView*> renderTargetViews;
+        ID3D11DepthStencilView* depthStencilView = nullptr;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_D3D11RENDERTARGET_HPP

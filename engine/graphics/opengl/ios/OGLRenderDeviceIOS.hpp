@@ -24,53 +24,46 @@ typedef id EAGLContextPtr;
 typedef id CAEAGLLayerPtr;
 #endif
 
-namespace ouzel
+namespace ouzel::graphics::opengl
 {
-    namespace graphics
+    class RenderDeviceIOS final: public RenderDevice
     {
-        namespace opengl
-        {
-            class RenderDeviceIOS final: public RenderDevice
-            {
-                friend Renderer;
-            public:
-                explicit RenderDeviceIOS(const std::function<void(const Event&)>& initCallback);
-                ~RenderDeviceIOS() override;
+        friend Renderer;
+    public:
+        explicit RenderDeviceIOS(const std::function<void(const Event&)>& initCallback);
+        ~RenderDeviceIOS() override;
 
-                void renderCallback();
+        void renderCallback();
 
-            private:
-                void init(Window* newWindow,
-                          const Size2U& newSize,
-                          std::uint32_t newSampleCount,
-                          bool newSrgb,
-                          bool newVerticalSync,
-                          bool newDepth,
-                          bool newStencil,
-                          bool newDebugRenderer) final;
+    private:
+        void init(Window* newWindow,
+                  const Size2U& newSize,
+                  std::uint32_t newSampleCount,
+                  bool newSrgb,
+                  bool newVerticalSync,
+                  bool newDepth,
+                  bool newStencil,
+                  bool newDebugRenderer) final;
 
-                void resizeFrameBuffer() final;
-                void present() final;
+        void resizeFrameBuffer() final;
+        void present() final;
 
-                void createFrameBuffer();
+        void createFrameBuffer();
 
-                EAGLContextPtr context = nil;
-                CAEAGLLayerPtr eaglLayer = nil;
+        EAGLContextPtr context = nil;
+        CAEAGLLayerPtr eaglLayer = nil;
 
-                GLuint msaaFrameBufferId = 0;
-                GLuint msaaColorRenderBufferId = 0;
+        GLuint msaaFrameBufferId = 0;
+        GLuint msaaColorRenderBufferId = 0;
 
-                GLuint resolveFrameBufferId = 0;
-                GLuint resolveColorRenderBufferId = 0;
+        GLuint resolveFrameBufferId = 0;
+        GLuint resolveColorRenderBufferId = 0;
 
-                GLuint depthRenderBufferId = 0;
+        GLuint depthRenderBufferId = 0;
 
-                DisplayLink displayLink;
-            };
-        } // namespace opengl
-    } // namespace graphics
-} // namespace ouzel
-
+        DisplayLink displayLink;
+    };
+}
 #endif
 
 #endif // OUZEL_GRAPHICS_OGLRENDERDEVICEIOS_HPP
