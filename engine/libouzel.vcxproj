@@ -36,7 +36,6 @@
     <ClCompile Include="audio\AudioDevice.cpp" />
     <ClCompile Include="audio\Cue.cpp" />
     <ClCompile Include="audio\dsound\DSAudioDevice.cpp" />
-    <ClCompile Include="audio\empty\EmptyAudioDevice.cpp" />
     <ClCompile Include="audio\Containers.cpp" />
     <ClCompile Include="audio\Effect.cpp" />
     <ClCompile Include="audio\Effects.cpp" />

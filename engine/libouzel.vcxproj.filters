@@ -16,9 +16,6 @@
     <ClCompile Include="audio\dsound\DSAudioDevice.cpp">
       <Filter>engine\audio\directsound</Filter>
     </ClCompile>
-    <ClCompile Include="audio\empty\EmptyAudioDevice.cpp">
-      <Filter>engine\audio\empty</Filter>
-    </ClCompile>
     <ClCompile Include="audio\xaudio2\XA2AudioDevice.cpp">
       <Filter>engine\audio\xaudio2</Filter>
     </ClCompile>

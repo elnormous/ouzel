@@ -5,28 +5,25 @@
 
 #include "../AudioDevice.hpp"
 
-namespace ouzel
+namespace ouzel::audio::empty
 {
-    namespace audio
+    class AudioDevice final: public audio::AudioDevice
     {
-        namespace empty
+    public:
+        AudioDevice(std::uint32_t initBufferSize,
+                    std::uint32_t initSampleRate,
+                    std::uint32_t initChannels,
+                    const std::function<void(std::uint32_t frames,
+                                             std::uint32_t channels,
+                                             std::uint32_t sampleRate,
+                                             std::vector<float>& samples)>& initDataGetter):
+            audio::AudioDevice(Driver::empty, initBufferSize, initSampleRate, initChannels, initDataGetter)
         {
-            class AudioDevice final: public audio::AudioDevice
-            {
-            public:
-                AudioDevice(std::uint32_t initBufferSize,
-                            std::uint32_t initSampleRate,
-                            std::uint32_t initChannels,
-                            const std::function<void(std::uint32_t frames,
-                                                     std::uint32_t channels,
-                                                     std::uint32_t sampleRate,
-                                                     std::vector<float>& samples)>& initDataGetter);
+        }
 
-                void start() final {}
-                void stop() final {}
-            };
-        } // namespace empty
-    } // namespace audio
-} // namespace ouzel
+        void start() final {}
+        void stop() final {}
+    };
+}
 
 #endif // OUZEL_AUDIO_EMPTYAUDIODEVICE_HPP

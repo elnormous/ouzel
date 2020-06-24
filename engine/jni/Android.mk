@@ -32,7 +32,6 @@ LOCAL_SRC_FILES := ../assets/BmfLoader.cpp \
     ../assets/TtfLoader.cpp \
     ../assets/VorbisLoader.cpp \
     ../assets/WaveLoader.cpp \
-    ../audio/empty/EmptyAudioDevice.cpp \
     ../audio/mixer/Bus.cpp \
     ../audio/mixer/Mixer.cpp \
     ../audio/opensl/OSLAudioDevice.cpp \

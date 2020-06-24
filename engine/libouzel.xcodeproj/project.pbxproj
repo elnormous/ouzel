@@ -215,9 +215,6 @@
 		303821481D81876E00677CAB /* EmptyRenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3038212A1D81876E00677CAB /* EmptyRenderDevice.hpp */; };
 		303821491D81876E00677CAB /* EmptyRenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3038212A1D81876E00677CAB /* EmptyRenderDevice.hpp */; };
 		3038214A1D81876E00677CAB /* EmptyRenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3038212A1D81876E00677CAB /* EmptyRenderDevice.hpp */; };
-		303821691D81876E00677CAB /* EmptyAudioDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821631D81876E00677CAB /* EmptyAudioDevice.cpp */; };
-		3038216A1D81876E00677CAB /* EmptyAudioDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821631D81876E00677CAB /* EmptyAudioDevice.cpp */; };
-		3038216B1D81876E00677CAB /* EmptyAudioDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821631D81876E00677CAB /* EmptyAudioDevice.cpp */; };
 		3038216C1D81876E00677CAB /* EmptyAudioDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* EmptyAudioDevice.hpp */; };
 		3038216D1D81876E00677CAB /* EmptyAudioDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* EmptyAudioDevice.hpp */; };
 		3038216E1D81876E00677CAB /* EmptyAudioDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* EmptyAudioDevice.hpp */; };
@@ -843,7 +840,6 @@
 		303820F11D817F4900677CAB /* GamepadDeviceIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceIOS.hpp; sourceTree = "<group>"; };
 		303820F21D817F4900677CAB /* GamepadDeviceIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceIOS.mm; sourceTree = "<group>"; };
 		3038212A1D81876E00677CAB /* EmptyRenderDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EmptyRenderDevice.hpp; sourceTree = "<group>"; };
-		303821631D81876E00677CAB /* EmptyAudioDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EmptyAudioDevice.cpp; sourceTree = "<group>"; };
 		303821641D81876E00677CAB /* EmptyAudioDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EmptyAudioDevice.hpp; sourceTree = "<group>"; };
 		3038233522E8FC91006905B7 /* Constants.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Constants.hpp; sourceTree = "<group>"; };
 		303B04A31E207B1000011CBE /* MetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalView.h; sourceTree = "<group>"; };
@@ -1192,7 +1188,6 @@
 		3038210A1D81874D00677CAB /* empty */ = {
 			isa = PBXGroup;
 			children = (
-				303821631D81876E00677CAB /* EmptyAudioDevice.cpp */,
 				303821641D81876E00677CAB /* EmptyAudioDevice.hpp */,
 			);
 			path = empty;
@@ -2345,7 +2340,6 @@
 				30B8598C1F3D286600A16952 /* TTFont.cpp in Sources */,
 				30FFBE3A2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
 				304E76391F7095DE0025C0DB /* Client.cpp in Sources */,
-				303821691D81876E00677CAB /* EmptyAudioDevice.cpp in Sources */,
 				30381FB51D80A3F900677CAB /* OALAudioDevice.cpp in Sources */,
 				3009030621922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
 				30EEADC721618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
@@ -2467,7 +2461,6 @@
 				30FFBE3C2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
 				304E763B1F7095DE0025C0DB /* Client.cpp in Sources */,
 				30EEADC121618DC400D2F525 /* KeyboardDevice.cpp in Sources */,
-				3038216B1D81876E00677CAB /* EmptyAudioDevice.cpp in Sources */,
 				3009030821922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
 				30381FB71D80A3F900677CAB /* OALAudioDevice.cpp in Sources */,
 				300C39F21E51355000330E4F /* PcmClip.cpp in Sources */,
@@ -2583,7 +2576,6 @@
 				306672611F964A77004515F2 /* Light.cpp in Sources */,
 				3038207E1D816C9E00677CAB /* EngineMacOS.mm in Sources */,
 				309BA3141F183D6E006F2240 /* CAAudioDevice.mm in Sources */,
-				3038216A1D81876E00677CAB /* EmptyAudioDevice.cpp in Sources */,
 				30EABE3B220E5C6C001C70A6 /* Animators.cpp in Sources */,
 				304E763A1F7095DE0025C0DB /* Client.cpp in Sources */,
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
