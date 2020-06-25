@@ -5,17 +5,20 @@
 
 #include "ouzel.hpp"
 
-class GameSample: public ouzel::scene::Scene
+namespace samples
 {
-public:
-    GameSample();
+    class GameSample: public ouzel::scene::Scene
+    {
+    public:
+        GameSample();
 
-private:
-    ouzel::scene::Layer layer;
-    ouzel::scene::Camera camera;
-    ouzel::scene::Actor cameraActor;
+    private:
+        ouzel::scene::Layer layer;
+        ouzel::scene::Camera camera;
+        ouzel::scene::Actor cameraActor;
 
-    ouzel::EventHandler handler;
-};
+        ouzel::EventHandler handler;
+    };
+}
 
 #endif // GAMESAMPLE_HPP

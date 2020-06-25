@@ -6,150 +6,154 @@
 using namespace ouzel;
 using namespace input;
 
-AnimationsSample::AnimationsSample():
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
+namespace samples
 {
-    handler.gamepadHandler = [](const GamepadEvent& event) {
-        if (event.type == Event::Type::gamepadButtonChange)
-        {
-            if (event.pressed &&
-                event.button == Gamepad::Button::faceRight)
-                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-        }
-
-        return false;
-    };
-
-    handler.uiHandler = [this](const UIEvent& event) {
-        if (event.type == Event::Type::actorClick && event.actor == &backButton)
-            engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-
-        return false;
-    };
-
-    handler.keyboardHandler = [](const KeyboardEvent& event) {
-        if (event.type == Event::Type::keyboardKeyPress)
-        {
-            switch (event.key)
+    AnimationsSample::AnimationsSample():
+        backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
+    {
+        handler.gamepadHandler = [](const GamepadEvent& event) {
+            if (event.type == Event::Type::gamepadButtonChange)
             {
-                case Keyboard::Key::escape:
-                case Keyboard::Key::menu:
-                case Keyboard::Key::back:
+                if (event.pressed &&
+                    event.button == Gamepad::Button::faceRight)
                     engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-                    return true;
-                default:
-                    break;
             }
-        }
-        else if (event.type == Event::Type::keyboardKeyRelease)
-        {
-            switch (event.key)
+
+            return false;
+        };
+
+        handler.uiHandler = [this](const UIEvent& event) {
+            if (event.type == Event::Type::actorClick && event.actor == &backButton)
+                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+
+            return false;
+        };
+
+        handler.keyboardHandler = [](const KeyboardEvent& event) {
+            if (event.type == Event::Type::keyboardKeyPress)
             {
-                case Keyboard::Key::escape:
-                case Keyboard::Key::menu:
-                case Keyboard::Key::back:
-                    return true;
-                default:
-                    break;
+                switch (event.key)
+                {
+                    case Keyboard::Key::escape:
+                    case Keyboard::Key::menu:
+                    case Keyboard::Key::back:
+                        engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+                        return true;
+                    default:
+                        break;
+                }
             }
-        }
+            else if (event.type == Event::Type::keyboardKeyRelease)
+            {
+                switch (event.key)
+                {
+                    case Keyboard::Key::escape:
+                    case Keyboard::Key::menu:
+                    case Keyboard::Key::back:
+                        return true;
+                    default:
+                        break;
+                }
+            }
 
-        return false;
-    };
+            return false;
+        };
 
-    engine->getEventDispatcher().addEventHandler(handler);
+        engine->getEventDispatcher().addEventHandler(handler);
 
-    camera.setClearColorBuffer(true);
-    camera.setClearColor(ouzel::Color(64, 0, 0));
-    camera.setScaleMode(scene::Camera::ScaleMode::showAll);
-    camera.setTargetContentSize(Size2F(800.0F, 600.0F));
-    cameraActor.addComponent(&camera);
-    layer.addChild(&cameraActor);
-    addLayer(&layer);
+        camera.setClearColorBuffer(true);
+        camera.setClearColor(ouzel::Color(64, 0, 0));
+        camera.setScaleMode(scene::Camera::ScaleMode::showAll);
+        camera.setTargetContentSize(Size2F(800.0F, 600.0F));
+        cameraActor.addComponent(&camera);
+        layer.addChild(&cameraActor);
+        addLayer(&layer);
 
-    shapeDrawable.rectangle(ouzel::RectF(100.0F, 100.0F), Color(0, 128, 128, 255), true);
-    shapeDrawable.rectangle(ouzel::RectF(100.0F, 100.0F), Color::white(), false, 2.0F);
-    shapeDrawable.line(Vector2F(0.0F, 0.0F), Vector2F(50.0F, 50.0F), Color::cyan(), 2.0F);
+        shapeDrawable.rectangle(ouzel::RectF(100.0F, 100.0F), Color(0, 128, 128, 255), true);
+        shapeDrawable.rectangle(ouzel::RectF(100.0F, 100.0F), Color::white(), false, 2.0F);
+        shapeDrawable.line(Vector2F(0.0F, 0.0F), Vector2F(50.0F, 50.0F), Color::cyan(), 2.0F);
 
-    shapeDrawable.curve({Vector2F(50.0F, 50.0F),
-                         Vector2F(100.0F, 50.0F),
-                         Vector2F(50.0F, 0.0F),
-                         Vector2F(100.0F, 0.0F)},
-                        Color::yellow());
+        shapeDrawable.curve({Vector2F(50.0F, 50.0F),
+                             Vector2F(100.0F, 50.0F),
+                             Vector2F(50.0F, 0.0F),
+                             Vector2F(100.0F, 0.0F)},
+                            Color::yellow());
 
-    shapeDrawable.circle(Vector2F(25.0F, 75.0F), 20.0F, Color::blue(), true);
-    shapeDrawable.circle(Vector2F(25.0F, 75.0F), 20.0F, Color::white(), false);
-    shapeDrawable.circle(Vector2F(75.0F, 75.0F), 20.0F, Color::blue(), false, 16, 4.0F);
+        shapeDrawable.circle(Vector2F(25.0F, 75.0F), 20.0F, Color::blue(), true);
+        shapeDrawable.circle(Vector2F(25.0F, 75.0F), 20.0F, Color::white(), false);
+        shapeDrawable.circle(Vector2F(75.0F, 75.0F), 20.0F, Color::blue(), false, 16, 4.0F);
 
-    shapeDrawable.polygon({Vector2F(15.0F, 75.0F),
-                           Vector2F(25.0F, 75.0F),
-                           Vector2F(25.0F, 55.0F)},
-                          Color("#ff0000"), false);
+        shapeDrawable.polygon({Vector2F(15.0F, 75.0F),
+                               Vector2F(25.0F, 75.0F),
+                               Vector2F(25.0F, 55.0F)},
+                              Color("#ff0000"), false);
 
-    drawActor.addComponent(&shapeDrawable);
-    drawActor.setPosition(Vector2F(-300.0F, 0.0F));
-    layer.addChild(&drawActor);
+        drawActor.addComponent(&shapeDrawable);
+        drawActor.setPosition(Vector2F(-300.0F, 0.0F));
+        layer.addChild(&drawActor);
 
-    shake = std::make_unique<scene::Shake>(10.0F, Vector3F(10.0F, 20.0F, 0.0F), 20.0F);
-    drawActor.addComponent(shake.get());
-    shake->start();
+        shake = std::make_unique<scene::Shake>(10.0F, Vector3F(10.0F, 20.0F, 0.0F), 20.0F);
+        drawActor.addComponent(shake.get());
+        shake->start();
 
-    witchSprite.init("witch.png");
+        witchSprite.init("witch.png");
 
-    witch.setPosition(Vector2F(200.0F, 0.0F));
-    witch.addComponent(&witchSprite);
-    layer.addChild(&witch);
+        witch.setPosition(Vector2F(200.0F, 0.0F));
+        witch.addComponent(&witchSprite);
+        layer.addChild(&witch);
 
-    witchScale = std::make_unique<scene::Scale>(2.0F, Vector3F(0.1F, 0.1F, 0.0F), false);
-    witchFade = std::make_unique<scene::Fade>(2.0F, 0.4F);
+        witchScale = std::make_unique<scene::Scale>(2.0F, Vector3F(0.1F, 0.1F, 0.0F), false);
+        witchFade = std::make_unique<scene::Fade>(2.0F, 0.4F);
 
-    std::vector<scene::Animator*> parallel = {
-        witchScale.get(),
-        witchFade.get()
-    };
+        std::vector<scene::Animator*> parallel = {
+            witchScale.get(),
+            witchFade.get()
+        };
 
-    witchRotate = std::make_unique<scene::Rotate>(1.0F, Vector3F(0.0F, 0.0F, tau<float>), false);
+        witchRotate = std::make_unique<scene::Rotate>(1.0F, Vector3F(0.0F, 0.0F, tau<float>), false);
 
-    witchRepeat = std::make_unique<scene::Repeat>(*witchRotate, 3);
-    witchParallel = std::make_unique<scene::Parallel>(parallel);
+        witchRepeat = std::make_unique<scene::Repeat>(*witchRotate, 3);
+        witchParallel = std::make_unique<scene::Parallel>(parallel);
 
-    std::vector<scene::Animator*> sequence = {
-        witchRepeat.get(),
-        witchParallel.get()
-    };
+        std::vector<scene::Animator*> sequence = {
+            witchRepeat.get(),
+            witchParallel.get()
+        };
 
-    witchSequence = std::make_unique<scene::Sequence>(sequence);
+        witchSequence = std::make_unique<scene::Sequence>(sequence);
 
-    witch.addComponent(witchSequence.get());
-    witchSequence->start();
+        witch.addComponent(witchSequence.get());
+        witchSequence->start();
 
-    ballSprite.init("ball.png");
+        ballSprite.init("ball.png");
 
-    ball.addComponent(&ballSprite);
-    layer.addChild(&ball);
+        ball.addComponent(&ballSprite);
+        layer.addChild(&ball);
 
-    ballDelay = std::make_unique<scene::Animator>(1.0F);
-    ballMove = std::make_unique<scene::Move>(2.0F, Vector3F(0.0F, -240.0F, 0.0F), false);
-    ballEase = std::make_unique<scene::Ease>(*ballMove, scene::Ease::Mode::easeOut, scene::Ease::Func::bounce);
+        ballDelay = std::make_unique<scene::Animator>(1.0F);
+        ballMove = std::make_unique<scene::Move>(2.0F, Vector3F(0.0F, -240.0F, 0.0F), false);
+        ballEase = std::make_unique<scene::Ease>(*ballMove, scene::Ease::Mode::easeOut, scene::Ease::Func::bounce);
 
-    std::vector<scene::Animator*> sequence2 = {
-        ballDelay.get(),
-        ballEase.get()
-    };
+        std::vector<scene::Animator*> sequence2 = {
+            ballDelay.get(),
+            ballEase.get()
+        };
 
-    ballSequence = std::make_unique<scene::Sequence>(sequence2);
+        ballSequence = std::make_unique<scene::Sequence>(sequence2);
 
-    ball.addComponent(ballSequence.get());
-    ballSequence->start();
+        ball.addComponent(ballSequence.get());
+        ballSequence->start();
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
-    guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
-    guiCameraActor.addComponent(&guiCamera);
-    guiLayer.addChild(&guiCameraActor);
-    addLayer(&guiLayer);
+        guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
+        guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
+        guiCameraActor.addComponent(&guiCamera);
+        guiLayer.addChild(&guiCameraActor);
+        addLayer(&guiLayer);
 
-    guiLayer.addChild(&menu);
+        guiLayer.addChild(&menu);
 
-    backButton.setPosition(Vector2F(-200.0F, -200.0F));
-    menu.addWidget(&backButton);
+        backButton.setPosition(Vector2F(-200.0F, -200.0F));
+        menu.addWidget(&backButton);
+    }
 }
+

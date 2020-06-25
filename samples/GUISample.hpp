@@ -5,29 +5,32 @@
 
 #include "ouzel.hpp"
 
-class GUISample: public ouzel::scene::Scene
+namespace samples
 {
-public:
-    GUISample();
+    class GUISample: public ouzel::scene::Scene
+    {
+    public:
+        GUISample();
 
-private:
-    ouzel::EventHandler handler;
+    private:
+        ouzel::EventHandler handler;
 
-    ouzel::gui::Button button;
-    ouzel::gui::Button fullscreenButton;
-    ouzel::gui::Button minimizeButton;
-    ouzel::gui::Button maximizeButton;
-    ouzel::gui::CheckBox checkBox;
+        ouzel::gui::Button button;
+        ouzel::gui::Button fullscreenButton;
+        ouzel::gui::Button minimizeButton;
+        ouzel::gui::Button maximizeButton;
+        ouzel::gui::CheckBox checkBox;
 
-    ouzel::gui::Label label1;
-    ouzel::gui::Label label2;
-    ouzel::gui::Label label3;
+        ouzel::gui::Label label1;
+        ouzel::gui::Label label2;
+        ouzel::gui::Label label3;
 
-    ouzel::scene::Layer layer;
-    ouzel::scene::Camera camera;
-    ouzel::scene::Actor cameraActor;
-    ouzel::gui::Menu menu;
-    ouzel::gui::Button backButton;
-};
+        ouzel::scene::Layer layer;
+        ouzel::scene::Camera camera;
+        ouzel::scene::Actor cameraActor;
+        ouzel::gui::Menu menu;
+        ouzel::gui::Button backButton;
+    };
+}
 
 #endif // GUISAMPLE_HPP

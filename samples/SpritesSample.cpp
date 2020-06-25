@@ -6,120 +6,123 @@
 using namespace ouzel;
 using namespace input;
 
-SpritesSample::SpritesSample():
-    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
-    wireframeButton("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
+namespace samples
 {
-    handler.gamepadHandler = [](const GamepadEvent& event) {
-        if (event.type == Event::Type::gamepadButtonChange)
-        {
-            if (event.pressed &&
-                event.button == Gamepad::Button::faceRight)
-                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-        }
-
-        return false;
-    };
-
-    handler.uiHandler = [this](const UIEvent& event) {
-        if (event.type == Event::Type::actorClick)
-        {
-            if (event.actor == &backButton)
-                engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-            else if (event.actor == &hideButton)
-                character.setHidden(!character.isHidden());
-            else if (event.actor == &wireframeButton)
-                camera.setWireframe(!camera.getWireframe());
-        }
-
-        return false;
-    };
-
-    handler.keyboardHandler = [](const KeyboardEvent& event) {
-        if (event.type == Event::Type::keyboardKeyPress)
-        {
-            switch (event.key)
+    SpritesSample::SpritesSample():
+        hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
+        wireframeButton("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
+        backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
+    {
+        handler.gamepadHandler = [](const GamepadEvent& event) {
+            if (event.type == Event::Type::gamepadButtonChange)
             {
-                case Keyboard::Key::escape:
-                case Keyboard::Key::menu:
-                case Keyboard::Key::back:
+                if (event.pressed &&
+                    event.button == Gamepad::Button::faceRight)
                     engine->getSceneManager().setScene(std::make_unique<MainMenu>());
-                    return true;
-                default:
-                    break;
             }
-        }
-        else if (event.type == Event::Type::keyboardKeyRelease)
-        {
-            switch (event.key)
+
+            return false;
+        };
+
+        handler.uiHandler = [this](const UIEvent& event) {
+            if (event.type == Event::Type::actorClick)
             {
-                case Keyboard::Key::escape:
-                case Keyboard::Key::menu:
-                case Keyboard::Key::back:
-                    return true;
-                default:
-                    break;
+                if (event.actor == &backButton)
+                    engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+                else if (event.actor == &hideButton)
+                    character.setHidden(!character.isHidden());
+                else if (event.actor == &wireframeButton)
+                    camera.setWireframe(!camera.getWireframe());
             }
-        }
 
-        return false;
-    };
+            return false;
+        };
 
-    engine->getEventDispatcher().addEventHandler(handler);
+        handler.keyboardHandler = [](const KeyboardEvent& event) {
+            if (event.type == Event::Type::keyboardKeyPress)
+            {
+                switch (event.key)
+                {
+                    case Keyboard::Key::escape:
+                    case Keyboard::Key::menu:
+                    case Keyboard::Key::back:
+                        engine->getSceneManager().setScene(std::make_unique<MainMenu>());
+                        return true;
+                    default:
+                        break;
+                }
+            }
+            else if (event.type == Event::Type::keyboardKeyRelease)
+            {
+                switch (event.key)
+                {
+                    case Keyboard::Key::escape:
+                    case Keyboard::Key::menu:
+                    case Keyboard::Key::back:
+                        return true;
+                    default:
+                        break;
+                }
+            }
 
-    camera.setClearColorBuffer(true);
-    camera.setClearColor(ouzel::Color(64, 64, 64));
-    camera.setScaleMode(scene::Camera::ScaleMode::showAll);
-    camera.setTargetContentSize(Size2F(800.0F, 600.0F));
-    cameraActor.addComponent(&camera);
-    layer.addChild(&cameraActor);
-    addLayer(&layer);
+            return false;
+        };
 
-    // character
-    characterSprite.init("run.json");
-    characterSprite.setAnimation("", true);
-    characterSprite.play();
+        engine->getEventDispatcher().addEventHandler(handler);
 
-    character.addComponent(&characterSprite);
-    layer.addChild(&character);
-    character.setPosition(Vector2F(-300.0F, 0.0F));
+        camera.setClearColorBuffer(true);
+        camera.setClearColor(ouzel::Color(64, 64, 64));
+        camera.setScaleMode(scene::Camera::ScaleMode::showAll);
+        camera.setTargetContentSize(Size2F(800.0F, 600.0F));
+        cameraActor.addComponent(&camera);
+        layer.addChild(&cameraActor);
+        addLayer(&layer);
 
-    move = std::make_unique<scene::Move>(4.0F, Vector3F(300.0F, 0.0F, 0.0F));
-    character.addComponent(move.get());
-    move->start();
+        // character
+        characterSprite.init("run.json");
+        characterSprite.setAnimation("", true);
+        characterSprite.play();
 
-    // fire
-    fireSprite.init("fire.json");
-    fireSprite.setOffset(Vector2F(0.0F, 20.0F));
-    fireSprite.setAnimation("", true);
-    fireSprite.play();
+        character.addComponent(&characterSprite);
+        layer.addChild(&character);
+        character.setPosition(Vector2F(-300.0F, 0.0F));
 
-    fireActor.addComponent(&fireSprite);
-    fireActor.setPosition(Vector2F(-100.0F, -140.0F));
-    layer.addChild(&fireActor);
+        move = std::make_unique<scene::Move>(4.0F, Vector3F(300.0F, 0.0F, 0.0F));
+        character.addComponent(move.get());
+        move->start();
 
-    // triangle
-    triangleSprite.init("triangle.json");
+        // fire
+        fireSprite.init("fire.json");
+        fireSprite.setOffset(Vector2F(0.0F, 20.0F));
+        fireSprite.setAnimation("", true);
+        fireSprite.play();
 
-    triangleActor.addComponent(&triangleSprite);
-    triangleActor.setPosition(Vector2F(100.0F, -140.0F));
-    layer.addChild(&triangleActor);
+        fireActor.addComponent(&fireSprite);
+        fireActor.setPosition(Vector2F(-100.0F, -140.0F));
+        layer.addChild(&fireActor);
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
-    guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
-    guiCameraActor.addComponent(&guiCamera);
-    guiLayer.addChild(&guiCameraActor);
-    addLayer(&guiLayer);
+        // triangle
+        triangleSprite.init("triangle.json");
 
-    guiLayer.addChild(&menu);
+        triangleActor.addComponent(&triangleSprite);
+        triangleActor.setPosition(Vector2F(100.0F, -140.0F));
+        layer.addChild(&triangleActor);
 
-    hideButton.setPosition(Vector2F(-200.0F, 200.0F));
-    menu.addWidget(&hideButton);
+        guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
+        guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
+        guiCameraActor.addComponent(&guiCamera);
+        guiLayer.addChild(&guiCameraActor);
+        addLayer(&guiLayer);
 
-    wireframeButton.setPosition(Vector2F(-200.0F, 160.0F));
-    menu.addWidget(&wireframeButton);
+        guiLayer.addChild(&menu);
 
-    backButton.setPosition(Vector2F(-200.0F, -200.0F));
-    menu.addWidget(&backButton);
+        hideButton.setPosition(Vector2F(-200.0F, 200.0F));
+        menu.addWidget(&hideButton);
+
+        wireframeButton.setPosition(Vector2F(-200.0F, 160.0F));
+        menu.addWidget(&wireframeButton);
+
+        backButton.setPosition(Vector2F(-200.0F, -200.0F));
+        menu.addWidget(&backButton);
+    }
 }

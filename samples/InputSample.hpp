@@ -5,75 +5,78 @@
 
 #include "ouzel.hpp"
 
-class Mover: public ouzel::scene::Component
+namespace samples
 {
-public:
-    Mover()
+    class Mover: public ouzel::scene::Component
     {
-        handler.keyboardHandler = [this](const ouzel::KeyboardEvent& event) {
-            if (actor)
-            {
-                if (event.type == ouzel::Event::Type::keyboardKeyPress)
+    public:
+        Mover()
+        {
+            handler.keyboardHandler = [this](const ouzel::KeyboardEvent& event) {
+                if (actor)
                 {
-                    ouzel::Vector2F position = ouzel::Vector2F(actor->getPosition());
-
-                    switch (event.key)
+                    if (event.type == ouzel::Event::Type::keyboardKeyPress)
                     {
-                        case ouzel::input::Keyboard::Key::w:
-                            position.y() += 10.0F;
-                            break;
-                        case ouzel::input::Keyboard::Key::s:
-                            position.y() -= 10.0F;
-                            break;
-                        case ouzel::input::Keyboard::Key::a:
-                            position.x() -= 10.0F;
-                            break;
-                        case ouzel::input::Keyboard::Key::d:
-                            position.x() += 10.0F;
-                            break;
-                        default:
-                            break;
+                        ouzel::Vector2F position = ouzel::Vector2F(actor->getPosition());
+
+                        switch (event.key)
+                        {
+                            case ouzel::input::Keyboard::Key::w:
+                                position.y() += 10.0F;
+                                break;
+                            case ouzel::input::Keyboard::Key::s:
+                                position.y() -= 10.0F;
+                                break;
+                            case ouzel::input::Keyboard::Key::a:
+                                position.x() -= 10.0F;
+                                break;
+                            case ouzel::input::Keyboard::Key::d:
+                                position.x() += 10.0F;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        actor->setPosition(position);
                     }
-
-                    actor->setPosition(position);
                 }
-            }
 
-            return false;
-        };
+                return false;
+            };
 
-        ouzel::engine->getEventDispatcher().addEventHandler(handler);
-    }
+            ouzel::engine->getEventDispatcher().addEventHandler(handler);
+        }
 
-    ouzel::EventHandler handler;
-};
+        ouzel::EventHandler handler;
+    };
 
-class InputSample: public ouzel::scene::Scene
-{
-public:
-    InputSample();
+    class InputSample: public ouzel::scene::Scene
+    {
+    public:
+        InputSample();
 
-private:
-    ouzel::scene::Layer layer;
-    ouzel::scene::Camera camera;
-    ouzel::scene::Actor cameraActor;
+    private:
+        ouzel::scene::Layer layer;
+        ouzel::scene::Camera camera;
+        ouzel::scene::Actor cameraActor;
 
-    ouzel::EventHandler handler;
+        ouzel::EventHandler handler;
 
-    ouzel::gui::Button hideButton;
-    ouzel::gui::Button discoverButton;
-    ouzel::scene::ParticleSystem flameParticleSystem;
-    ouzel::scene::Actor flame;
+        ouzel::gui::Button hideButton;
+        ouzel::gui::Button discoverButton;
+        ouzel::scene::ParticleSystem flameParticleSystem;
+        ouzel::scene::Actor flame;
 
-    ouzel::scene::Layer guiLayer;
-    ouzel::scene::Camera guiCamera;
-    ouzel::scene::Actor guiCameraActor;
-    ouzel::gui::Menu menu;
-    ouzel::gui::Button backButton;
+        ouzel::scene::Layer guiLayer;
+        ouzel::scene::Camera guiCamera;
+        ouzel::scene::Actor guiCameraActor;
+        ouzel::gui::Menu menu;
+        ouzel::gui::Button backButton;
 
-    ouzel::input::Cursor cursor;
+        ouzel::input::Cursor cursor;
 
-    std::unique_ptr<Mover> mover;
-};
+        std::unique_ptr<Mover> mover;
+    };
+}
 
 #endif // INPUTSAMPLE_HPP
