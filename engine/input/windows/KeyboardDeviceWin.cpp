@@ -13,31 +13,28 @@
 #pragma pop_macro("NOMINMAX")
 #include "KeyboardDeviceWin.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    std::future<bool> KeyboardDeviceWin::handleKeyPress(Keyboard::Key key)
     {
-        std::future<bool> KeyboardDeviceWin::handleKeyPress(Keyboard::Key key)
-        {
-            if (key == Keyboard::Key::leftShift) leftShiftDown = true;
-            if (key == Keyboard::Key::rightShift) rightShiftDown = true;
+        if (key == Keyboard::Key::leftShift) leftShiftDown = true;
+        if (key == Keyboard::Key::rightShift) rightShiftDown = true;
 
-            return KeyboardDevice::handleKeyPress(key);
+        return KeyboardDevice::handleKeyPress(key);
+    }
+
+    void KeyboardDeviceWin::update()
+    {
+        if (leftShiftDown && (GetKeyState(VK_LSHIFT) & 0x8000) == 0)
+        {
+            leftShiftDown = false;
+            handleKeyRelease(Keyboard::Key::leftShift);
         }
 
-        void KeyboardDeviceWin::update()
+        if (rightShiftDown && (GetKeyState(VK_RSHIFT) & 0x8000) == 0)
         {
-            if (leftShiftDown && (GetKeyState(VK_LSHIFT) & 0x8000) == 0)
-            {
-                leftShiftDown = false;
-                handleKeyRelease(Keyboard::Key::leftShift);
-            }
-
-            if (rightShiftDown && (GetKeyState(VK_RSHIFT) & 0x8000) == 0)
-            {
-                rightShiftDown = false;
-                handleKeyRelease(Keyboard::Key::rightShift);
-            }
+            rightShiftDown = false;
+            handleKeyRelease(Keyboard::Key::rightShift);
         }
-    } // namespace input
-} // namespace ouzel
+    }
+}

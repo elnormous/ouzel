@@ -17,32 +17,29 @@ typedef id NSCursorPtr;
 #include "../Cursor.hpp"
 #include "../../math/Size.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class CursorMacOS final
     {
-        class CursorMacOS final
-        {
-        public:
-            explicit CursorMacOS(SystemCursor systemCursor);
-            CursorMacOS(const std::vector<std::uint8_t>& newData,
-                        const Size2F& size,
-                        graphics::PixelFormat pixelFormat,
-                        const Vector2F& hotSpot);
-            ~CursorMacOS();
+    public:
+        explicit CursorMacOS(SystemCursor systemCursor);
+        CursorMacOS(const std::vector<std::uint8_t>& newData,
+                    const Size2F& size,
+                    graphics::PixelFormat pixelFormat,
+                    const Vector2F& hotSpot);
+        ~CursorMacOS();
 
-            CursorMacOS(const CursorMacOS&) = delete;
-            CursorMacOS& operator=(const CursorMacOS&) = delete;
-            CursorMacOS(CursorMacOS&&) = delete;
-            CursorMacOS& operator=(CursorMacOS&&) = delete;
+        CursorMacOS(const CursorMacOS&) = delete;
+        CursorMacOS& operator=(const CursorMacOS&) = delete;
+        CursorMacOS(CursorMacOS&&) = delete;
+        CursorMacOS& operator=(CursorMacOS&&) = delete;
 
-            auto getCursor() const noexcept { return cursor; }
+        auto getCursor() const noexcept { return cursor; }
 
-        private:
-            NSCursorPtr cursor = nil;
-            std::vector<std::uint8_t> data;
-        };
-    } // namespace input
-} // namespace ouzel
+    private:
+        NSCursorPtr cursor = nil;
+        std::vector<std::uint8_t> data;
+    };
+}
 
 #endif // OUZEL_INPUT_NATIVECURSORMACOS_HPP

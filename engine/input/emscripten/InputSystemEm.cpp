@@ -296,113 +296,110 @@ namespace
     }
 }
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    InputSystemEm::InputSystemEm(const std::function<std::future<bool>(const Event&)>& initCallback):
+        InputSystem(initCallback),
+        keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
+        mouseDevice(std::make_unique<MouseDeviceEm>(*this, getNextDeviceId())),
+        touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
     {
-        InputSystemEm::InputSystemEm(const std::function<std::future<bool>(const Event&)>& initCallback):
-            InputSystem(initCallback),
-            keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
-            mouseDevice(std::make_unique<MouseDeviceEm>(*this, getNextDeviceId())),
-            touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
+        emscripten_set_keypress_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
+        emscripten_set_keydown_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
+        emscripten_set_keyup_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
+
+        emscripten_set_mousedown_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
+        emscripten_set_mouseup_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
+        emscripten_set_mousemove_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
+        emscripten_set_wheel_callback("#canvas", mouseDevice.get(), true, emWheelCallback);
+        emscripten_set_pointerlockchange_callback(nullptr, mouseDevice.get(), true, emPointerLockChangeCallback);
+
+        emscripten_set_gamepadconnected_callback(this, true, emGamepadCallback);
+        emscripten_set_gamepaddisconnected_callback(this, true, emGamepadCallback);
+
+        emscripten_set_touchstart_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
+        emscripten_set_touchend_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
+        emscripten_set_touchmove_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
+        emscripten_set_touchcancel_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
+
+        const int result = emscripten_get_num_gamepads();
+
+        if (result == EMSCRIPTEN_RESULT_NOT_SUPPORTED)
+            engine->log(Log::Level::info) << "Gamepads not supported";
+        else
         {
-            emscripten_set_keypress_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
-            emscripten_set_keydown_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
-            emscripten_set_keyup_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
+            for (long index = 0; index < result; ++index)
+                handleGamepadConnected(index);
+        }
+    }
 
-            emscripten_set_mousedown_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
-            emscripten_set_mouseup_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
-            emscripten_set_mousemove_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
-            emscripten_set_wheel_callback("#canvas", mouseDevice.get(), true, emWheelCallback);
-            emscripten_set_pointerlockchange_callback(nullptr, mouseDevice.get(), true, emPointerLockChangeCallback);
-
-            emscripten_set_gamepadconnected_callback(this, true, emGamepadCallback);
-            emscripten_set_gamepaddisconnected_callback(this, true, emGamepadCallback);
-
-            emscripten_set_touchstart_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
-            emscripten_set_touchend_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
-            emscripten_set_touchmove_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
-            emscripten_set_touchcancel_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
-
-            const int result = emscripten_get_num_gamepads();
-
-            if (result == EMSCRIPTEN_RESULT_NOT_SUPPORTED)
-                engine->log(Log::Level::info) << "Gamepads not supported";
-            else
+    void InputSystemEm::executeCommand(const Command& command)
+    {
+        switch (command.type)
+        {
+            case Command::Type::setPlayerIndex:
             {
-                for (long index = 0; index < result; ++index)
-                    handleGamepadConnected(index);
+                break;
             }
-        }
-
-        void InputSystemEm::executeCommand(const Command& command)
-        {
-            switch (command.type)
+            case Command::Type::setVibration:
             {
-                case Command::Type::setPlayerIndex:
-                {
-                    break;
-                }
-                case Command::Type::setVibration:
-                {
-                    break;
-                }
-                case Command::Type::setPosition:
-                {
-                    break;
-                }
-                case Command::Type::setCursor:
-                {
-                    break;
-                }
-                case Command::Type::setCursorVisible:
-                {
-                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
-                    {
-                        if (inputDevice == mouseDevice.get())
-                            mouseDevice->setCursorVisible(command.locked);
-                    }
-                    break;
-                }
-                case Command::Type::setCursorLocked:
-                {
-                    if (InputDevice* inputDevice = getInputDevice(command.deviceId))
-                    {
-                        if (inputDevice == mouseDevice.get())
-                            mouseDevice->setCursorLocked(command.locked);
-                    }
-                    break;
-                }
-                case Command::Type::showVirtualKeyboard:
-                    break;
-                case Command::Type::hideVirtualKeyboard:
-                    break;
-                default:
-                    break;
+                break;
             }
-        }
-
-        void InputSystemEm::update()
-        {
-            for (const auto& i : gamepadDevices)
+            case Command::Type::setPosition:
             {
-                auto gamepadDevice = static_cast<GamepadDeviceEm*>(i.second.get());
-                gamepadDevice->update();
+                break;
             }
+            case Command::Type::setCursor:
+            {
+                break;
+            }
+            case Command::Type::setCursorVisible:
+            {
+                if (InputDevice* inputDevice = getInputDevice(command.deviceId))
+                {
+                    if (inputDevice == mouseDevice.get())
+                        mouseDevice->setCursorVisible(command.locked);
+                }
+                break;
+            }
+            case Command::Type::setCursorLocked:
+            {
+                if (InputDevice* inputDevice = getInputDevice(command.deviceId))
+                {
+                    if (inputDevice == mouseDevice.get())
+                        mouseDevice->setCursorLocked(command.locked);
+                }
+                break;
+            }
+            case Command::Type::showVirtualKeyboard:
+                break;
+            case Command::Type::hideVirtualKeyboard:
+                break;
+            default:
+                break;
         }
+    }
 
-        void InputSystemEm::handleGamepadConnected(long index)
+    void InputSystemEm::update()
+    {
+        for (const auto& i : gamepadDevices)
         {
-            auto gamepadDevice = std::make_unique<GamepadDeviceEm>(*this, getNextDeviceId(), index);
-            gamepadDevices.insert(std::make_pair(index, std::move(gamepadDevice)));
+            auto gamepadDevice = static_cast<GamepadDeviceEm*>(i.second.get());
+            gamepadDevice->update();
         }
+    }
 
-        void InputSystemEm::handleGamepadDisconnected(long index)
-        {
-            auto i = gamepadDevices.find(index);
+    void InputSystemEm::handleGamepadConnected(long index)
+    {
+        auto gamepadDevice = std::make_unique<GamepadDeviceEm>(*this, getNextDeviceId(), index);
+        gamepadDevices.insert(std::make_pair(index, std::move(gamepadDevice)));
+    }
 
-            if (i != gamepadDevices.end())
-                gamepadDevices.erase(i);
-        }
-    } // namespace input
-} // namespace ouzel
+    void InputSystemEm::handleGamepadDisconnected(long index)
+    {
+        auto i = gamepadDevices.find(index);
+
+        if (i != gamepadDevices.end())
+            gamepadDevices.erase(i);
+    }
+}

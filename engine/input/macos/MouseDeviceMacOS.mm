@@ -5,36 +5,33 @@
 #include "../../core/Engine.hpp"
 #include "../../core/macos/NativeWindowMacOS.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    void MouseDeviceMacOS::setPosition(const Vector2F& position)
     {
-        void MouseDeviceMacOS::setPosition(const Vector2F& position)
-        {
-            ouzel::Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
+        ouzel::Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
-            const CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
+        const CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 
-            auto windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
-            const CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
+        auto windowMacOS = static_cast<NativeWindowMacOS*>(engine->getWindow()->getNativeWindow());
+        const CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
 
-            CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.v[0],
-                                                  screenOrigin.y + windowOrigin.y + windowLocation.v[1]));
-        }
+        CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.v[0],
+                                                screenOrigin.y + windowOrigin.y + windowLocation.v[1]));
+    }
 
-        void MouseDeviceMacOS::setCursorVisible(bool visible)
-        {
-            cursorVisible = visible;
-        }
+    void MouseDeviceMacOS::setCursorVisible(bool visible)
+    {
+        cursorVisible = visible;
+    }
 
-        void MouseDeviceMacOS::setCursorLocked(bool locked)
-        {
-            CGAssociateMouseAndMouseCursorPosition(!locked);
-        }
+    void MouseDeviceMacOS::setCursorLocked(bool locked)
+    {
+        CGAssociateMouseAndMouseCursorPosition(!locked);
+    }
 
-        void MouseDeviceMacOS::setCursor(CursorMacOS* newCursor)
-        {
-            cursor = newCursor;
-        }
-    } // namespace input
-} // namespace ouzel
+    void MouseDeviceMacOS::setCursor(CursorMacOS* newCursor)
+    {
+        cursor = newCursor;
+    }
+}

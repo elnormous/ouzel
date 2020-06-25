@@ -5,20 +5,17 @@
 
 #include "../KeyboardDevice.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class KeyboardDeviceLinux final: public KeyboardDevice
     {
-        class KeyboardDeviceLinux final: public KeyboardDevice
+    public:
+        KeyboardDeviceLinux(InputSystem& initInputSystem,
+                            DeviceId initId):
+            KeyboardDevice(initInputSystem, initId)
         {
-        public:
-            KeyboardDeviceLinux(InputSystem& initInputSystem,
-                                DeviceId initId):
-                KeyboardDevice(initInputSystem, initId)
-            {
-            }
-        };
-    } // namespace input
-} // namespace ouzel
+        }
+    };
+}
 
 #endif // OUZEL_INPUT_KEYBOARDDEVICELINUX_HPP

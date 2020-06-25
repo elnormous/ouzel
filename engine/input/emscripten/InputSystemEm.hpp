@@ -10,42 +10,39 @@
 #include "GamepadDeviceEm.hpp"
 #include "MouseDeviceEm.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class GamepadDeviceEm;
+
+    class InputSystemEm final: public InputSystem
     {
-        class GamepadDeviceEm;
+    public:
+        InputSystemEm(const std::function<std::future<bool>(const Event&)>& initCallback);
 
-        class InputSystemEm final: public InputSystem
+        void executeCommand(const Command& command) final;
+
+        auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
+        auto getMouseDevice() const noexcept { return mouseDevice.get(); }
+        auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
+
+        void update();
+
+        void handleGamepadConnected(long device);
+        void handleGamepadDisconnected(long device);
+
+    private:
+        auto getNextDeviceId() noexcept
         {
-        public:
-            InputSystemEm(const std::function<std::future<bool>(const Event&)>& initCallback);
+            ++lastDeviceId.value;
+            return lastDeviceId;
+        }
 
-            void executeCommand(const Command& command) final;
-
-            auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
-            auto getMouseDevice() const noexcept { return mouseDevice.get(); }
-            auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
-
-            void update();
-
-            void handleGamepadConnected(long device);
-            void handleGamepadDisconnected(long device);
-
-        private:
-            auto getNextDeviceId() noexcept
-            {
-                ++lastDeviceId.value;
-                return lastDeviceId;
-            }
-
-            DeviceId lastDeviceId;
-            std::unique_ptr<KeyboardDevice> keyboardDevice;
-            std::unique_ptr<MouseDeviceEm> mouseDevice;
-            std::unique_ptr<TouchpadDevice> touchpadDevice;
-            std::unordered_map<long, std::unique_ptr<GamepadDeviceEm>> gamepadDevices;
-        };
-    } // namespace input
-} // namespace ouzel
+        DeviceId lastDeviceId;
+        std::unique_ptr<KeyboardDevice> keyboardDevice;
+        std::unique_ptr<MouseDeviceEm> mouseDevice;
+        std::unique_ptr<TouchpadDevice> touchpadDevice;
+        std::unordered_map<long, std::unique_ptr<GamepadDeviceEm>> gamepadDevices;
+    };
+}
 
 #endif // OUZEL_INPUT_INPUTSYSTEMEM_HPP

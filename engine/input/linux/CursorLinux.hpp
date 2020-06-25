@@ -14,35 +14,32 @@
 #include "../Cursor.hpp"
 #include "../../math/Size.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class CursorLinux final
     {
-        class CursorLinux final
-        {
-        public:
-            explicit CursorLinux(SystemCursor systemCursor);
-            CursorLinux(const std::vector<std::uint8_t>& data,
-                        const Size2F& size,
-                        graphics::PixelFormat pixelFormat,
-                        const Vector2F& hotSpot);
-            ~CursorLinux();
+    public:
+        explicit CursorLinux(SystemCursor systemCursor);
+        CursorLinux(const std::vector<std::uint8_t>& data,
+                    const Size2F& size,
+                    graphics::PixelFormat pixelFormat,
+                    const Vector2F& hotSpot);
+        ~CursorLinux();
 
-            CursorLinux(const CursorLinux&) = delete;
-            CursorLinux& operator=(const CursorLinux&) = delete;
-            CursorLinux(CursorLinux&&) = delete;
-            CursorLinux& operator=(CursorLinux&&) = delete;
+        CursorLinux(const CursorLinux&) = delete;
+        CursorLinux& operator=(const CursorLinux&) = delete;
+        CursorLinux(CursorLinux&&) = delete;
+        CursorLinux& operator=(CursorLinux&&) = delete;
 
 #if OUZEL_SUPPORTS_X11
-            auto getCursor() const noexcept { return cursor; }
+        auto getCursor() const noexcept { return cursor; }
 #endif
 
-        private:
+    private:
 #if OUZEL_SUPPORTS_X11
-            ::Cursor cursor = None;
+        ::Cursor cursor = None;
 #endif
-        };
-    } // namespace input
-} // namespace ouzel
+    };
+}
 
 #endif // OUZEL_INPUT_NATIVECURSORLINUX_HPP

@@ -5,27 +5,24 @@
 
 #include "../KeyboardDevice.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class KeyboardDeviceWin final: public KeyboardDevice
     {
-        class KeyboardDeviceWin final: public KeyboardDevice
+    public:
+        KeyboardDeviceWin(InputSystem& initInputSystem,
+                            DeviceId initId):
+            KeyboardDevice(initInputSystem, initId)
         {
-        public:
-            KeyboardDeviceWin(InputSystem& initInputSystem,
-                              DeviceId initId):
-                KeyboardDevice(initInputSystem, initId)
-            {
-            }
+        }
 
-            std::future<bool> handleKeyPress(Keyboard::Key key);
-            void update();
+        std::future<bool> handleKeyPress(Keyboard::Key key);
+        void update();
 
-        private:
-            bool leftShiftDown = false;
-            bool rightShiftDown = false;
-        };
-    } // namespace input
-} // namespace ouzel
+    private:
+        bool leftShiftDown = false;
+        bool rightShiftDown = false;
+    };
+}
 
 #endif // OUZEL_INPUT_KEYBOARDDEVICEWIN_HPP

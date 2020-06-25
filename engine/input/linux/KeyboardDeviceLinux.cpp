@@ -3,9 +3,6 @@
 #include "../../core/Setup.h"
 #include "KeyboardDeviceLinux.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
-    {
-    } // namespace input
-} // namespace ouzel
+}

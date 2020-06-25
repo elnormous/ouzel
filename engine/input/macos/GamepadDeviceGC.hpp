@@ -14,30 +14,27 @@ typedef id GCControllerPtr;
 #include "GamepadDeviceMacOS.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class GamepadDeviceGC final: public GamepadDeviceMacOS
     {
-        class GamepadDeviceGC final: public GamepadDeviceMacOS
-        {
-        public:
-            GamepadDeviceGC(InputSystem& initInputSystem,
-                            DeviceId initId,
-                            GCControllerPtr initController);
+    public:
+        GamepadDeviceGC(InputSystem& initInputSystem,
+                        DeviceId initId,
+                        GCControllerPtr initController);
 
-            void setAbsoluteDpadValues(bool absoluteDpadValues);
-            bool isAbsoluteDpadValues() const;
+        void setAbsoluteDpadValues(bool absoluteDpadValues);
+        bool isAbsoluteDpadValues() const;
 
-            std::int32_t getPlayerIndex() const;
-            void setPlayerIndex(std::int32_t playerIndex) final;
+        std::int32_t getPlayerIndex() const;
+        void setPlayerIndex(std::int32_t playerIndex) final;
 
-            auto getController() const noexcept { return controller; }
+        auto getController() const noexcept { return controller; }
 
-        private:
-            GCControllerPtr controller = nil;
-            bool attached = false;
-        };
-    } // namespace input
-} // namespace ouzel
+    private:
+        GCControllerPtr controller = nil;
+        bool attached = false;
+    };
+}
 
 #endif // OUZEL_INPUT_GAMEPADDEVICEGC_HPP

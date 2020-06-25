@@ -16,48 +16,45 @@ typedef id GCControllerPtr;
 
 #include "../InputSystem.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class GamepadDeviceIOS;
+
+    class InputSystemIOS final: public InputSystem
     {
-        class GamepadDeviceIOS;
+    public:
+        InputSystemIOS(const std::function<std::future<bool>(const Event&)>& initCallback);
+        ~InputSystemIOS() override;
 
-        class InputSystemIOS final: public InputSystem
+        void executeCommand(const Command& command) final;
+
+        auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
+        auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
+
+        void handleGamepadDiscoveryCompleted();
+        void handleGamepadConnected(GCControllerPtr controller);
+        void handleGamepadDisconnected(GCControllerPtr controller);
+
+    private:
+        auto getNextDeviceId() noexcept
         {
-        public:
-            InputSystemIOS(const std::function<std::future<bool>(const Event&)>& initCallback);
-            ~InputSystemIOS() override;
+            ++lastDeviceId.value;
+            return lastDeviceId;
+        }
 
-            void executeCommand(const Command& command) final;
+        void startGamepadDiscovery();
+        void stopGamepadDiscovery();
 
-            auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
-            auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
+        void showVirtualKeyboard();
+        void hideVirtualKeyboard();
 
-            void handleGamepadDiscoveryCompleted();
-            void handleGamepadConnected(GCControllerPtr controller);
-            void handleGamepadDisconnected(GCControllerPtr controller);
+        DeviceId lastDeviceId;
+        std::unique_ptr<KeyboardDevice> keyboardDevice;
+        std::unique_ptr<TouchpadDevice> touchpadDevice;
+        std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceIOS>> gamepadDevices;
 
-        private:
-            auto getNextDeviceId() noexcept
-            {
-                ++lastDeviceId.value;
-                return lastDeviceId;
-            }
-
-            void startGamepadDiscovery();
-            void stopGamepadDiscovery();
-
-            void showVirtualKeyboard();
-            void hideVirtualKeyboard();
-
-            DeviceId lastDeviceId;
-            std::unique_ptr<KeyboardDevice> keyboardDevice;
-            std::unique_ptr<TouchpadDevice> touchpadDevice;
-            std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceIOS>> gamepadDevices;
-
-            id connectDelegate = nil;
-        };
-    } // namespace input
-} // namespace ouzel
+        id connectDelegate = nil;
+    };
+}
 
 #endif // OUZEL_INPUT_INPUTSYSTEMIOS_HPP

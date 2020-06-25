@@ -19,33 +19,30 @@
 #include "../Gamepad.hpp"
 #include "GamepadDeviceWin.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class GamepadDeviceXI final: public GamepadDeviceWin
     {
-        class GamepadDeviceXI final: public GamepadDeviceWin
-        {
-        public:
-            GamepadDeviceXI(InputSystem& initInputSystem,
-                            DeviceId initId,
-                            DWORD aPlayerIndex);
+    public:
+        GamepadDeviceXI(InputSystem& initInputSystem,
+                        DeviceId initId,
+                        DWORD aPlayerIndex);
 
-            void update();
+        void update();
 
-            std::int32_t getPlayerIndex() const;
+        std::int32_t getPlayerIndex() const;
 
-            void setVibration(Gamepad::Motor motor, float speed);
-            float getVibration(Gamepad::Motor motor);
+        void setVibration(Gamepad::Motor motor, float speed);
+        float getVibration(Gamepad::Motor motor);
 
-        private:
-            void checkThumbAxis(SHORT oldValue, SHORT newValue, Gamepad::Button negativeButton, Gamepad::Button positiveButton);
-            void checkButton(const XINPUT_STATE& newState, WORD mask, Gamepad::Button button);
+    private:
+        void checkThumbAxis(SHORT oldValue, SHORT newValue, Gamepad::Button negativeButton, Gamepad::Button positiveButton);
+        void checkButton(const XINPUT_STATE& newState, WORD mask, Gamepad::Button button);
 
-            XINPUT_STATE state = {};
-            XINPUT_VIBRATION vibration = {};
-            DWORD playerIndex;
-        };
-    } // namespace input
-} // namespace ouzel
+        XINPUT_STATE state = {};
+        XINPUT_VIBRATION vibration = {};
+        DWORD playerIndex;
+    };
+}
 
 #endif // OUZEL_INPUT_GAMEPADDEVICEXI_HPP

@@ -8,308 +8,305 @@
 #include "../../core/android/EngineAndroid.hpp"
 #include "../../core/Window.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    InputSystemAndroid::InputSystemAndroid(const std::function<std::future<bool>(const Event&)>& initCallback):
+        InputSystem(initCallback),
+        keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
+        mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
+        touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
     {
-        InputSystemAndroid::InputSystemAndroid(const std::function<std::future<bool>(const Event&)>& initCallback):
-            InputSystem(initCallback),
-            keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
-            mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
-            touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
+        auto engineAndroid = static_cast<EngineAndroid*>(engine);
+        javaVm = engineAndroid->getJavaVm();
+        void* jniEnvPointer;
+
+        jint result;
+        if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
+            throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
+
+        auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+
+        inputDeviceClass = static_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/view/InputDevice")));
+        getDeviceIdsMethod = jniEnv->GetStaticMethodID(inputDeviceClass, "getDeviceIds", "()[I");
+
+        jclass motionEventClass = jniEnv->FindClass("android/view/MotionEvent");
+        getActionMethod = jniEnv->GetMethodID(motionEventClass, "getAction", "()I");
+        getPointerIdMethod = jniEnv->GetMethodID(motionEventClass, "getPointerId", "(I)I");
+        getToolTypeMethod = jniEnv->GetMethodID(motionEventClass, "getToolType", "(I)I");
+        getXMethod = jniEnv->GetMethodID(motionEventClass, "getX", "(I)F");
+        getYMethod = jniEnv->GetMethodID(motionEventClass, "getY", "(I)F");
+        getPressureMethod = jniEnv->GetMethodID(motionEventClass, "getPressure", "(I)F");
+        getAxisValueMethod = jniEnv->GetMethodID(motionEventClass, "getAxisValue", "(I)F");
+        getButtonStateMethod = jniEnv->GetMethodID(motionEventClass, "getButtonState", "()I");
+    }
+
+    InputSystemAndroid::~InputSystemAndroid()
+    {
+        void* jniEnvPointer;
+
+        if (javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6) == JNI_OK)
         {
-            auto engineAndroid = static_cast<EngineAndroid*>(engine);
-            javaVm = engineAndroid->getJavaVm();
-            void* jniEnvPointer;
-
-            jint result;
-            if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
-                throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
-
             auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
-
-            inputDeviceClass = static_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/view/InputDevice")));
-            getDeviceIdsMethod = jniEnv->GetStaticMethodID(inputDeviceClass, "getDeviceIds", "()[I");
-
-            jclass motionEventClass = jniEnv->FindClass("android/view/MotionEvent");
-            getActionMethod = jniEnv->GetMethodID(motionEventClass, "getAction", "()I");
-            getPointerIdMethod = jniEnv->GetMethodID(motionEventClass, "getPointerId", "(I)I");
-            getToolTypeMethod = jniEnv->GetMethodID(motionEventClass, "getToolType", "(I)I");
-            getXMethod = jniEnv->GetMethodID(motionEventClass, "getX", "(I)F");
-            getYMethod = jniEnv->GetMethodID(motionEventClass, "getY", "(I)F");
-            getPressureMethod = jniEnv->GetMethodID(motionEventClass, "getPressure", "(I)F");
-            getAxisValueMethod = jniEnv->GetMethodID(motionEventClass, "getAxisValue", "(I)F");
-            getButtonStateMethod = jniEnv->GetMethodID(motionEventClass, "getButtonState", "()I");
+            if (inputDeviceClass) jniEnv->DeleteGlobalRef(inputDeviceClass);
         }
+    }
 
-        InputSystemAndroid::~InputSystemAndroid()
+    void InputSystemAndroid::executeCommand(const Command& command)
+    {
+        switch (command.type)
         {
-            void* jniEnvPointer;
-
-            if (javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6) == JNI_OK)
-            {
-                auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
-                if (inputDeviceClass) jniEnv->DeleteGlobalRef(inputDeviceClass);
-            }
+        case Command::Type::startDeviceDiscovery:
+            break;
+        case Command::Type::stopDeviceDiscovery:
+            break;
+        case Command::Type::setPlayerIndex:
+        {
+            break;
         }
-
-        void InputSystemAndroid::executeCommand(const Command& command)
+        case Command::Type::setVibration:
         {
-            switch (command.type)
-            {
-            case Command::Type::startDeviceDiscovery:
-                break;
-            case Command::Type::stopDeviceDiscovery:
-                break;
-            case Command::Type::setPlayerIndex:
-            {
-                break;
-            }
-            case Command::Type::setVibration:
-            {
-                break;
-            }
-            case Command::Type::showVirtualKeyboard:
-                break;
-            case Command::Type::hideVirtualKeyboard:
-                break;
-            default:
-                break;
-            }
+            break;
         }
+        case Command::Type::showVirtualKeyboard:
+            break;
+        case Command::Type::hideVirtualKeyboard:
+            break;
+        default:
+            break;
+        }
+    }
 
-        jboolean InputSystemAndroid::handleTouchEvent(jobject event)
+    jboolean InputSystemAndroid::handleTouchEvent(jobject event)
+    {
+        void* jniEnvPointer;
+
+        jint result;
+        if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
+            throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
+
+        auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+
+        const jint action = jniEnv->CallIntMethod(event, getActionMethod);
+
+        switch (action & AMOTION_EVENT_ACTION_MASK)
         {
-            void* jniEnvPointer;
-
-            jint result;
-            if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
-                throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
-
-            auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
-
-            const jint action = jniEnv->CallIntMethod(event, getActionMethod);
-
-            switch (action & AMOTION_EVENT_ACTION_MASK)
+            case AMOTION_EVENT_ACTION_DOWN: // first touch
             {
-                case AMOTION_EVENT_ACTION_DOWN: // first touch
+                const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
+                const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+                const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+                if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
+                else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                            toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                            toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                 {
-                    const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
-                    const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
-                    const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
-
-                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                        return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
-                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
-                             toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
-                             toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
-                    {
-                        const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                        const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                        touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(pointerId),
-                                                         engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
-                                                         pressure);
-                        return true;
-                    }
-
-                    break;
-                }
-                case AMOTION_EVENT_ACTION_POINTER_DOWN: // touches beyond the first
-                {
-                    const jint pointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-                    const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, pointerIndex);
-                    const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, pointerIndex);
-                    const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
-
-                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                        return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
-                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
-                             toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
-                             toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
-                    {
-                        const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
-                        const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
-                        touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(pointerId),
-                                                         engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
-                                                         pressure);
-                        return true;
-                    }
-
-                    break;
-                }
-                case AMOTION_EVENT_ACTION_MOVE:
-                {
-                    const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
-                    const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
-                    const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
-
-                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                    {
-                        if (!updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y))
-                            mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
-                        return true;
-                    }
-                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
-                        toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
-                        toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
-                    {
-                        const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                        const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                        touchpadDevice->handleTouchMove(static_cast<std::uint64_t>(pointerId),
+                    const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
+                    touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(pointerId),
                                                         engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
                                                         pressure);
-                        return true;
-                    }
-
-                    break;
+                    return true;
                 }
-                case AMOTION_EVENT_ACTION_UP: // first touch
-                {
-                    const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
-                    const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
-                    const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
 
-                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                        return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
-                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
-                             toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
-                             toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
-                    {
-                        const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                        const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                        touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(pointerId),
-                                                       engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
-                                                       pressure);
-                        return true;
-                    }
-
-                    break;
-                }
-                case AMOTION_EVENT_ACTION_POINTER_UP: // touches beyond the first
-                {
-                    const jint pointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-                    const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, pointerIndex);
-                    const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, pointerIndex);
-                    const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
-
-                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                        return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
-                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
-                             toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
-                             toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
-                    {
-                        const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                        const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
-                        touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(pointerId),
-                                                       engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
-                                                       pressure);
-                        return true;
-                    }
-
-                    break;
-                }
-                case AMOTION_EVENT_ACTION_CANCEL:
-                {
-                    const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
-                    const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
-                    const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
-
-                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                    {
-                        if (!updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y))
-                            mouseDevice->handleButtonRelease(Mouse::Button::left, engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
-                        return true;
-                    }
-                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
-                             toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
-                             toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
-                    {
-                        const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                        const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                        touchpadDevice->handleTouchCancel(static_cast<std::uint64_t>(pointerId),
-                                                          engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
-                                                          pressure);
-                        return true;
-                    }
-
-                    break;
-                }
+                break;
             }
-
-            return false;
-        }
-
-        jboolean InputSystemAndroid::handleGenericMotionEvent(jobject event)
-        {
-            void* jniEnvPointer;
-
-            jint result;
-            if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
-                throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
-
-            auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
-
-            const jint action = jniEnv->CallIntMethod(event, getActionMethod);
-            const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
-            const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
-            const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
-
-            switch (action & AMOTION_EVENT_ACTION_MASK)
+            case AMOTION_EVENT_ACTION_POINTER_DOWN: // touches beyond the first
             {
-                case AMOTION_EVENT_ACTION_HOVER_MOVE:
+                const jint pointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+                const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, pointerIndex);
+                const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, pointerIndex);
+                const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
+
+                if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
+                else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                            toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                            toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                 {
-                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                    {
+                    const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
+                    const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
+                    touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(pointerId),
+                                                        engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
+                                                        pressure);
+                    return true;
+                }
+
+                break;
+            }
+            case AMOTION_EVENT_ACTION_MOVE:
+            {
+                const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
+                const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+                const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+                if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                {
+                    if (!updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y))
                         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
-                        return true;
-                    }
-                    break;
+                    return true;
                 }
-                case AMOTION_EVENT_ACTION_SCROLL:
+                else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                    toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                    toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                 {
-                    const jfloat scrollX = jniEnv->CallFloatMethod(event, getAxisValueMethod, AMOTION_EVENT_AXIS_HSCROLL);
-                    const jfloat scrollY = jniEnv->CallFloatMethod(event, getAxisValueMethod, AMOTION_EVENT_AXIS_VSCROLL);
-
-                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
-                    {
-                        mouseDevice->handleScroll(Vector2F(scrollX, scrollY),
-                                                  engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
-                        return true;
-                    }
-                    break;
+                    const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
+                    touchpadDevice->handleTouchMove(static_cast<std::uint64_t>(pointerId),
+                                                    engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
+                                                    pressure);
+                    return true;
                 }
+
+                break;
             }
-
-            return false;
-        }
-
-        bool InputSystemAndroid::updateButtonState(jint newButtonState, jint x, jint y)
-        {
-            bool result = false;
-
-            constexpr std::array<std::pair<jint, Mouse::Button>, 5> buttons = {{
-                {AMOTION_EVENT_BUTTON_PRIMARY, Mouse::Button::left},
-                {AMOTION_EVENT_BUTTON_SECONDARY, Mouse::Button::right},
-                {AMOTION_EVENT_BUTTON_TERTIARY, Mouse::Button::middle},
-                {AMOTION_EVENT_BUTTON_BACK, Mouse::Button::x1},
-                {AMOTION_EVENT_BUTTON_FORWARD, Mouse::Button::x2}
-            }};
-
-            for (const auto& button : buttons)
+            case AMOTION_EVENT_ACTION_UP: // first touch
             {
-                if ((newButtonState & button.first) != (buttonState & button.first))
+                const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
+                const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+                const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+                if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
+                else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                            toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                            toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
                 {
-                    if (newButtonState & button.first)
-                        mouseDevice->handleButtonPress(button.second, engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
-                    else
-                        mouseDevice->handleButtonRelease(button.second, engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
-
-                    result = true;
+                    const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
+                    touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(pointerId),
+                                                    engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
+                                                    pressure);
+                    return true;
                 }
-            }
 
-            buttonState = newButtonState;
-            return result;
+                break;
+            }
+            case AMOTION_EVENT_ACTION_POINTER_UP: // touches beyond the first
+            {
+                const jint pointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+                const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, pointerIndex);
+                const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, pointerIndex);
+                const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
+
+                if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    return updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y);
+                else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                            toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                            toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
+                {
+                    const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
+                    touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(pointerId),
+                                                    engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
+                                                    pressure);
+                    return true;
+                }
+
+                break;
+            }
+            case AMOTION_EVENT_ACTION_CANCEL:
+            {
+                const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
+                const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+                const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+                if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                {
+                    if (!updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y))
+                        mouseDevice->handleButtonRelease(Mouse::Button::left, engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+                    return true;
+                }
+                else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                            toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                            toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
+                {
+                    const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
+                    touchpadDevice->handleTouchCancel(static_cast<std::uint64_t>(pointerId),
+                                                        engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
+                                                        pressure);
+                    return true;
+                }
+
+                break;
+            }
         }
-    } // namespace input
-} // namespace ouzel
+
+        return false;
+    }
+
+    jboolean InputSystemAndroid::handleGenericMotionEvent(jobject event)
+    {
+        void* jniEnvPointer;
+
+        jint result;
+        if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
+            throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
+
+        auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+
+        const jint action = jniEnv->CallIntMethod(event, getActionMethod);
+        const jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
+        const jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+        const jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+        switch (action & AMOTION_EVENT_ACTION_MASK)
+        {
+            case AMOTION_EVENT_ACTION_HOVER_MOVE:
+            {
+                if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                {
+                    mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+                    return true;
+                }
+                break;
+            }
+            case AMOTION_EVENT_ACTION_SCROLL:
+            {
+                const jfloat scrollX = jniEnv->CallFloatMethod(event, getAxisValueMethod, AMOTION_EVENT_AXIS_HSCROLL);
+                const jfloat scrollY = jniEnv->CallFloatMethod(event, getAxisValueMethod, AMOTION_EVENT_AXIS_VSCROLL);
+
+                if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                {
+                    mouseDevice->handleScroll(Vector2F(scrollX, scrollY),
+                                                engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+                    return true;
+                }
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    bool InputSystemAndroid::updateButtonState(jint newButtonState, jint x, jint y)
+    {
+        bool result = false;
+
+        constexpr std::array<std::pair<jint, Mouse::Button>, 5> buttons = {{
+            {AMOTION_EVENT_BUTTON_PRIMARY, Mouse::Button::left},
+            {AMOTION_EVENT_BUTTON_SECONDARY, Mouse::Button::right},
+            {AMOTION_EVENT_BUTTON_TERTIARY, Mouse::Button::middle},
+            {AMOTION_EVENT_BUTTON_BACK, Mouse::Button::x1},
+            {AMOTION_EVENT_BUTTON_FORWARD, Mouse::Button::x2}
+        }};
+
+        for (const auto& button : buttons)
+        {
+            if ((newButtonState & button.first) != (buttonState & button.first))
+            {
+                if (newButtonState & button.first)
+                    mouseDevice->handleButtonPress(button.second, engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+                else
+                    mouseDevice->handleButtonRelease(button.second, engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+
+                result = true;
+            }
+        }
+
+        buttonState = newButtonState;
+        return result;
+    }
+}

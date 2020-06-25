@@ -6,25 +6,22 @@
 #include <string>
 #include "../GamepadDevice.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class GamepadDeviceMacOS: public GamepadDevice
     {
-        class GamepadDeviceMacOS: public GamepadDevice
+    public:
+        GamepadDeviceMacOS(InputSystem& initInputSystem,
+                            DeviceId initId):
+            GamepadDevice(initInputSystem, initId)
         {
-        public:
-            GamepadDeviceMacOS(InputSystem& initInputSystem,
-                               DeviceId initId):
-                GamepadDevice(initInputSystem, initId)
-            {
-            }
+        }
 
-            virtual void setPlayerIndex(std::int32_t) {}
+        virtual void setPlayerIndex(std::int32_t) {}
 
-        protected:
-            std::string name;
-        };
-    } // namespace input
-} // namespace ouzel
+    protected:
+        std::string name;
+    };
+}
 
 #endif // OUZEL_INPUT_GAMEPADDEVICEMACOS_HPP

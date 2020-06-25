@@ -15,31 +15,28 @@ typedef id GCControllerPtr;
 #include "../GamepadDevice.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class GamepadDeviceTVOS final: public GamepadDevice
     {
-        class GamepadDeviceTVOS final: public GamepadDevice
-        {
-        public:
-            GamepadDeviceTVOS(InputSystem& initInputSystem,
-                              DeviceId initId,
-                              GCControllerPtr initController);
+    public:
+        GamepadDeviceTVOS(InputSystem& initInputSystem,
+                            DeviceId initId,
+                            GCControllerPtr initController);
 
-            void setAbsoluteDpadValues(bool absoluteDpadValues);
-            bool isAbsoluteDpadValues() const;
+        void setAbsoluteDpadValues(bool absoluteDpadValues);
+        bool isAbsoluteDpadValues() const;
 
-            std::int32_t getPlayerIndex() const;
-            void setPlayerIndex(std::int32_t playerIndex);
+        std::int32_t getPlayerIndex() const;
+        void setPlayerIndex(std::int32_t playerIndex);
 
-            auto getController() const noexcept { return controller; }
+        auto getController() const noexcept { return controller; }
 
-        private:
-            GCControllerPtr controller = nil;
-            std::string name;
-            bool attached = false;
-        };
-    } // namespace input
-} // namespace ouzel
+    private:
+        GCControllerPtr controller = nil;
+        std::string name;
+        bool attached = false;
+    };
+}
 
 #endif // OUZEL_INPUT_GAMEPADDEVICETVOS_HPP

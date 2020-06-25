@@ -26,62 +26,59 @@ typedef id GCControllerPtr;
 #include "GamepadDeviceIOKit.hpp"
 #include "MouseDeviceMacOS.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    const std::error_category& getErrorCategory() noexcept;
+
+    class CursorMacOS;
+
+    class InputSystemMacOS final: public InputSystem
     {
-        const std::error_category& getErrorCategory() noexcept;
+    public:
+        explicit InputSystemMacOS(const std::function<std::future<bool>(const Event&)>& initCallback);
+        ~InputSystemMacOS() override;
 
-        class CursorMacOS;
+        void executeCommand(const Command& command) final;
 
-        class InputSystemMacOS final: public InputSystem
+        auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
+        auto getMouseDevice() const noexcept { return mouseDevice.get(); }
+        auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
+
+        void handleGamepadDiscoveryCompleted();
+
+        void handleGamepadConnected(GCControllerPtr device);
+        void handleGamepadDisconnected(GCControllerPtr device);
+        void handleGamepadConnected(IOHIDDeviceRef device);
+        void handleGamepadDisconnected(IOHIDDeviceRef device);
+
+        NSCursorPtr getCursor() const;
+
+    private:
+        auto getNextDeviceId() noexcept
         {
-        public:
-            explicit InputSystemMacOS(const std::function<std::future<bool>(const Event&)>& initCallback);
-            ~InputSystemMacOS() override;
+            ++lastDeviceId.value;
+            return lastDeviceId;
+        }
 
-            void executeCommand(const Command& command) final;
+        void startGamepadDiscovery();
+        void stopGamepadDiscovery();
 
-            auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
-            auto getMouseDevice() const noexcept { return mouseDevice.get(); }
-            auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
+        DeviceId lastDeviceId;
+        std::unique_ptr<KeyboardDevice> keyboardDevice;
+        std::unique_ptr<MouseDeviceMacOS> mouseDevice;
+        std::unique_ptr<TouchpadDevice> touchpadDevice;
+        std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceGC>> gamepadDevicesGC;
+        std::unordered_map<IOHIDDeviceRef, std::unique_ptr<GamepadDeviceIOKit>> gamepadDevicesIOKit;
 
-            void handleGamepadDiscoveryCompleted();
+        id connectDelegate = nil;
+        IOHIDManagerRef hidManager = nullptr;
 
-            void handleGamepadConnected(GCControllerPtr device);
-            void handleGamepadDisconnected(GCControllerPtr device);
-            void handleGamepadConnected(IOHIDDeviceRef device);
-            void handleGamepadDisconnected(IOHIDDeviceRef device);
+        std::vector<std::unique_ptr<CursorMacOS>> cursors;
 
-            NSCursorPtr getCursor() const;
-
-        private:
-            auto getNextDeviceId() noexcept
-            {
-                ++lastDeviceId.value;
-                return lastDeviceId;
-            }
-
-            void startGamepadDiscovery();
-            void stopGamepadDiscovery();
-
-            DeviceId lastDeviceId;
-            std::unique_ptr<KeyboardDevice> keyboardDevice;
-            std::unique_ptr<MouseDeviceMacOS> mouseDevice;
-            std::unique_ptr<TouchpadDevice> touchpadDevice;
-            std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceGC>> gamepadDevicesGC;
-            std::unordered_map<IOHIDDeviceRef, std::unique_ptr<GamepadDeviceIOKit>> gamepadDevicesIOKit;
-
-            id connectDelegate = nil;
-            IOHIDManagerRef hidManager = nullptr;
-
-            std::vector<std::unique_ptr<CursorMacOS>> cursors;
-
-            unsigned char emptyCursorData[4] = {0, 0, 0, 0};
-            NSCursorPtr emptyCursor = nil;
-            NSCursorPtr defaultCursor = nil;
-        };
-    }
+        unsigned char emptyCursorData[4] = {0, 0, 0, 0};
+        NSCursorPtr emptyCursor = nil;
+        NSCursorPtr defaultCursor = nil;
+    };
 }
 
 #endif // OUZEL_INPUT_INPUTSYSTEMMACOS_HPP

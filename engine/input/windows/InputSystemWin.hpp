@@ -25,58 +25,55 @@
 #include "KeyboardDeviceWin.hpp"
 #include "MouseDeviceWin.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    const std::error_category& getErrorCategory() noexcept;
+
+    class GamepadDeviceDI;
+    class GamepadDeviceXI;
+    class CursorWin;
+
+    class InputSystemWin final: public InputSystem
     {
-        const std::error_category& getErrorCategory() noexcept;
+    public:
+        explicit InputSystemWin(const std::function<std::future<bool>(const Event&)>& initCallback);
+        ~InputSystemWin() override;
 
-        class GamepadDeviceDI;
-        class GamepadDeviceXI;
-        class CursorWin;
+        void executeCommand(const Command& command) final;
 
-        class InputSystemWin final: public InputSystem
+        auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
+        auto getMouseDevice() const noexcept { return mouseDevice.get(); }
+        auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
+
+        void update();
+
+        auto getDirectInput() const noexcept { return directInput; }
+        void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
+
+        void updateCursor() const;
+
+    private:
+        auto getNextDeviceId() noexcept
         {
-        public:
-            explicit InputSystemWin(const std::function<std::future<bool>(const Event&)>& initCallback);
-            ~InputSystemWin() override;
+            ++lastDeviceId.value;
+            return lastDeviceId;
+        }
 
-            void executeCommand(const Command& command) final;
+        bool discovering = false;
 
-            auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
-            auto getMouseDevice() const noexcept { return mouseDevice.get(); }
-            auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
+        DeviceId lastDeviceId;
+        std::unique_ptr<KeyboardDeviceWin> keyboardDevice;
+        std::unique_ptr<MouseDeviceWin> mouseDevice;
+        std::unique_ptr<TouchpadDevice> touchpadDevice;
 
-            void update();
+        IDirectInput8W* directInput = nullptr;
+        std::vector<std::unique_ptr<GamepadDeviceDI>> gamepadsDI;
+        std::unique_ptr<GamepadDeviceXI> gamepadsXI[XUSER_MAX_COUNT];
 
-            auto getDirectInput() const noexcept { return directInput; }
-            void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
+        std::vector<std::unique_ptr<CursorWin>> cursors;
 
-            void updateCursor() const;
-
-        private:
-            auto getNextDeviceId() noexcept
-            {
-                ++lastDeviceId.value;
-                return lastDeviceId;
-            }
-
-            bool discovering = false;
-
-            DeviceId lastDeviceId;
-            std::unique_ptr<KeyboardDeviceWin> keyboardDevice;
-            std::unique_ptr<MouseDeviceWin> mouseDevice;
-            std::unique_ptr<TouchpadDevice> touchpadDevice;
-
-            IDirectInput8W* directInput = nullptr;
-            std::vector<std::unique_ptr<GamepadDeviceDI>> gamepadsDI;
-            std::unique_ptr<GamepadDeviceXI> gamepadsXI[XUSER_MAX_COUNT];
-
-            std::vector<std::unique_ptr<CursorWin>> cursors;
-
-            HCURSOR defaultCursor = nullptr;
-        };
-    }
+        HCURSOR defaultCursor = nullptr;
+    };
 }
 
 #endif // OUZEL_INPUT_INPUTSYSTEMWIN_HPP

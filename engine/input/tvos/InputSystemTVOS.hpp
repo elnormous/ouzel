@@ -16,46 +16,43 @@ typedef id GCControllerPtr;
 
 #include "../InputSystem.hpp"
 
-namespace ouzel
+namespace ouzel::input
 {
-    namespace input
+    class GamepadDeviceTVOS;
+
+    class InputSystemTVOS final: public InputSystem
     {
-        class GamepadDeviceTVOS;
+    public:
+        explicit InputSystemTVOS(const std::function<std::future<bool>(const Event&)>& initCallback);
+        ~InputSystemTVOS() override;
 
-        class InputSystemTVOS final: public InputSystem
+        void executeCommand(const Command& command) final;
+
+        auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
+
+        void handleGamepadDiscoveryCompleted();
+        void handleGamepadConnected(GCControllerPtr controller);
+        void handleGamepadDisconnected(GCControllerPtr controller);
+
+    private:
+        auto getNextDeviceId() noexcept
         {
-        public:
-            explicit InputSystemTVOS(const std::function<std::future<bool>(const Event&)>& initCallback);
-            ~InputSystemTVOS() override;
+            ++lastDeviceId.value;
+            return lastDeviceId;
+        }
 
-            void executeCommand(const Command& command) final;
+        void startGamepadDiscovery();
+        void stopGamepadDiscovery();
 
-            auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
+        void showVirtualKeyboard();
+        void hideVirtualKeyboard();
 
-            void handleGamepadDiscoveryCompleted();
-            void handleGamepadConnected(GCControllerPtr controller);
-            void handleGamepadDisconnected(GCControllerPtr controller);
+        DeviceId lastDeviceId;
+        std::unique_ptr<KeyboardDevice> keyboardDevice;
+        std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceTVOS>> gamepadDevices;
 
-        private:
-            auto getNextDeviceId() noexcept
-            {
-                ++lastDeviceId.value;
-                return lastDeviceId;
-            }
-
-            void startGamepadDiscovery();
-            void stopGamepadDiscovery();
-
-            void showVirtualKeyboard();
-            void hideVirtualKeyboard();
-
-            DeviceId lastDeviceId;
-            std::unique_ptr<KeyboardDevice> keyboardDevice;
-            std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceTVOS>> gamepadDevices;
-
-            id connectDelegate = nil;
-        };
-    } // namespace input
-} // namespace ouzel
+        id connectDelegate = nil;
+    };
+}
 
 #endif // OUZEL_INPUT_INPUTSYSTEMTVOS_HPP
