@@ -82,7 +82,7 @@ namespace ouzel
         const storage::Path& getAssetsPath() const noexcept { return assetsPath; }
         const std::vector<Asset>& getAssets() const noexcept { return assets; }
 
-        void exportAssets(const std::string& target) const
+        void exportAssets(const std::string& targetName) const
         {
             for (const auto& asset : assets)
             {
@@ -91,6 +91,13 @@ namespace ouzel
                 storage::Path resourceName = asset.path;
                 resourceName.replaceExtension("otexture");
                 const storage::Path resourcePath = assetPath / resourceName;
+
+                const auto targetIterator = std::find_if(targets.begin(), targets.end(), [targetName](const auto& target) {
+                    return target.name == targetName;
+                });
+
+                if (targetIterator == targets.end())
+                    throw std::runtime_error("Target not found");
 
                 // TODO: check if input file exists
                 // TODO: check if output file exists and is older than the input file
