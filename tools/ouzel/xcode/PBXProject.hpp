@@ -4,74 +4,72 @@
 #define OUZEL_XCODE_PBXPROJECT_HPP
 
 #include <map>
+#include <string>
 #include <vector>
 #include "PBXObject.hpp"
 #include "PBXGroup.hpp"
 #include "XCConfigurationList.hpp"
 
-namespace ouzel
+namespace ouzel::xcode
 {
-    namespace xcode
+    class PBXProject final: public PBXObject
     {
-        class PBXProject final: public PBXObject
+    public:
+        PBXProject() = default;
+
+        std::string getIsa() const override { return "PBXProject"; }
+
+        plist::Value encode() const override
         {
-        public:
-            PBXProject() = default;
+            auto result = PBXObject::encode();
 
-            std::string getIsa() const override { return "PBXProject"; }
+            result["attributes"] = plist::Value::Dictionary{
+                {"LastUpgradeCheck", "0800"},
+                {"ORGANIZATIONNAME", organization}
+            };
+            if (buildConfigurationList)
+                result["buildConfigurationList"] = toString(buildConfigurationList->getId());
+            result["compatibilityVersion"] = "Xcode 9.3";
+            result["developmentRegion"] = "en";
+            result["hasScannedForEncodings"] = 0;
+            result["knownRegions"] = plist::Value::Array{"en", "Base"};
+            if (mainGroup) result["mainGroup"] = toString(mainGroup->getId());
+            if (productRefGroup)
+                result["productRefGroup"] = toString(productRefGroup->getId());
+            result["projectDirPath"] = "";
+            result["projectRoot"] = "";
+            result["targets"] = plist::Value::Array{};
+            for (auto target : targets)
+                if (target) result["targets"].pushBack(toString(target->getId()));
 
-            plist::Value encode() const override
+            if (!projectReferences.empty())
             {
-                auto result = PBXObject::encode();
+                result["projectReferences"] = plist::Value::Array{};
 
-                result["attributes"] = plist::Value::Dictionary{
-                    {"LastUpgradeCheck", "0800"},
-                    {"ORGANIZATIONNAME", organization}
-                };
-                if (buildConfigurationList)
-                    result["buildConfigurationList"] = toString(buildConfigurationList->getId());
-                result["compatibilityVersion"] = "Xcode 9.3";
-                result["developmentRegion"] = "en";
-                result["hasScannedForEncodings"] = 0;
-                result["knownRegions"] = plist::Value::Array{"en", "Base"};
-                if (mainGroup) result["mainGroup"] = toString(mainGroup->getId());
-                if (productRefGroup)
-                    result["productRefGroup"] = toString(productRefGroup->getId());
-                result["projectDirPath"] = "";
-                result["projectRoot"] = "";
-                result["targets"] = plist::Value::Array{};
-                for (auto target : targets)
-                    if (target) result["targets"].pushBack(toString(target->getId()));
-
-                if (!projectReferences.empty())
+                for (const auto& projectReference : projectReferences)
                 {
-                    result["projectReferences"] = plist::Value::Array{};
+                    plist::Value::Dictionary reference;
 
-                    for (const auto& projectReference : projectReferences)
+                    for (const auto& entry : projectReference)
                     {
-                        plist::Value::Dictionary reference;
-
-                        for (const auto& entry : projectReference)
-                        {
-                            auto object = entry.second;
-                            if (object) reference[entry.first] = toString(object->getId());
-                        }
-
-                        result["projectReferences"].pushBack(reference);
+                        auto object = entry.second;
+                        if (object) reference[entry.first] = toString(object->getId());
                     }
-                }
 
-                return result;
+                    result["projectReferences"].pushBack(reference);
+                }
             }
 
-            std::string organization;
-            const XCConfigurationList* buildConfigurationList = nullptr;
-            const PBXGroup* mainGroup = nullptr;
-            const PBXGroup* productRefGroup = nullptr;
-            std::vector<std::map<std::string, const PBXObject*>> projectReferences;
-            std::vector<const PBXTarget*> targets;
-        };
-    }
+            return result;
+        }
+
+        std::string organization;
+        const XCConfigurationList* buildConfigurationList = nullptr;
+        const PBXGroup* mainGroup = nullptr;
+        const PBXGroup* productRefGroup = nullptr;
+        std::vector<std::map<std::string, const PBXObject*>> projectReferences;
+        std::vector<const PBXTarget*> targets;
+    };
 }
 
 #endif // OUZEL_XCODE_PBXPROJECT_HPP

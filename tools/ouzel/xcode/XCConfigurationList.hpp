@@ -3,39 +3,37 @@
 #ifndef OUZEL_XCODE_XCCONFIGURATIONLIST_HPP
 #define OUZEL_XCODE_XCCONFIGURATIONLIST_HPP
 
+#include <string>
 #include <vector>
 #include "PBXObject.hpp"
 #include "XCBuildConfiguration.hpp"
 
-namespace ouzel
+namespace ouzel::xcode
 {
-    namespace xcode
+    class XCConfigurationList final: public PBXObject
     {
-        class XCConfigurationList final: public PBXObject
+    public:
+        XCConfigurationList() = default;
+
+        std::string getIsa() const override { return "XCConfigurationList"; }
+
+        plist::Value encode() const override
         {
-        public:
-            XCConfigurationList() = default;
+            auto result = PBXObject::encode();
+            result["buildConfigurations"] = plist::Value::Array{};
+            for (auto configuration : configurations)
+                if (configuration)
+                    result["buildConfigurations"].pushBack(toString(configuration->getId()));
 
-            std::string getIsa() const override { return "XCConfigurationList"; }
+            result["defaultConfigurationIsVisible"] = 0;
+            result["defaultConfigurationName"] = defaultConfigurationName;
 
-            plist::Value encode() const override
-            {
-                auto result = PBXObject::encode();
-                result["buildConfigurations"] = plist::Value::Array{};
-                for (auto configuration : configurations)
-                    if (configuration)
-                        result["buildConfigurations"].pushBack(toString(configuration->getId()));
+            return result;
+        }
 
-                result["defaultConfigurationIsVisible"] = 0;
-                result["defaultConfigurationName"] = defaultConfigurationName;
-
-                return result;
-            }
-
-            std::vector<const XCBuildConfiguration*> configurations;
-            std::string defaultConfigurationName;
-        };
-    }
+        std::vector<const XCBuildConfiguration*> configurations;
+        std::string defaultConfigurationName;
+    };
 }
 
 #endif // OUZEL_XCODE_XCCONFIGURATIONLIST_HPP

@@ -7,30 +7,27 @@
 #include "PBXBuildPhase.hpp"
 #include "PBXBuildFile.hpp"
 
-namespace ouzel
+namespace ouzel::xcode
 {
-    namespace xcode
+    class PBXFrameworksBuildPhase final: public PBXBuildPhase
     {
-        class PBXFrameworksBuildPhase final: public PBXBuildPhase
+    public:
+        PBXFrameworksBuildPhase() = default;
+
+        std::string getIsa() const override { return "PBXFrameworksBuildPhase"; }
+
+        plist::Value encode() const override
         {
-        public:
-            PBXFrameworksBuildPhase() = default;
+            auto result = PBXBuildPhase::encode();
+            result["files"] = plist::Value::Array{};
+            for (auto file : files)
+                if (file) result["files"].pushBack(toString(file->getId()));
 
-            std::string getIsa() const override { return "PBXFrameworksBuildPhase"; }
+            return result;
+        }
 
-            plist::Value encode() const override
-            {
-                auto result = PBXBuildPhase::encode();
-                result["files"] = plist::Value::Array{};
-                for (auto file : files)
-                    if (file) result["files"].pushBack(toString(file->getId()));
-
-                return result;
-            }
-
-            std::vector<const PBXBuildFile*> files;
-        };
-    }
+        std::vector<const PBXBuildFile*> files;
+    };
 }
 
 #endif // OUZEL_XCODE_PBXFRAMEWORKSBUILDPHASE_HPP

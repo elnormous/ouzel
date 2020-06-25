@@ -6,27 +6,24 @@
 #include "PBXObject.hpp"
 #include "PBXFileReference.hpp"
 
-namespace ouzel
+namespace ouzel::xcode
 {
-    namespace xcode
+    class PBXBuildFile final: public PBXObject
     {
-        class PBXBuildFile final: public PBXObject
+    public:
+        PBXBuildFile() = default;
+
+        std::string getIsa() const override { return "PBXBuildFile"; }
+
+        plist::Value encode() const override
         {
-        public:
-            PBXBuildFile() = default;
+            auto result = PBXObject::encode();
+            if (fileRef) result["fileRef"] = toString(fileRef->getId());
+            return result;
+        }
 
-            std::string getIsa() const override { return "PBXBuildFile"; }
-
-            plist::Value encode() const override
-            {
-                auto result = PBXObject::encode();
-                if (fileRef) result["fileRef"] = toString(fileRef->getId());
-                return result;
-            }
-
-            const PBXFileReference* fileRef = nullptr;
-        };
-    }
+        const PBXFileReference* fileRef = nullptr;
+    };
 }
 
 #endif // OUZEL_XCODE_PBXBUILDFILE_HPP

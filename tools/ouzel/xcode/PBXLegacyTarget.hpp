@@ -3,6 +3,7 @@
 #ifndef OUZEL_XCODE_PBXLEGACYTARGET_HPP
 #define OUZEL_XCODE_PBXLEGACYTARGET_HPP
 
+#include <string>
 #include <vector>
 #include "PBXTarget.hpp"
 #include "PBXFileReference.hpp"
@@ -10,49 +11,46 @@
 #include "PBXTargetDependency.hpp"
 #include "XCConfigurationList.hpp"
 
-namespace ouzel
+namespace ouzel::xcode
 {
-    namespace xcode
+    class PBXLegacyTarget final: public PBXTarget
     {
-        class PBXLegacyTarget final: public PBXTarget
+    public:
+        PBXLegacyTarget() = default;
+
+        std::string getIsa() const override { return "PBXLegacyTarget"; }
+
+        plist::Value encode() const override
         {
-        public:
-            PBXLegacyTarget() = default;
+            auto result = PBXTarget::encode();
 
-            std::string getIsa() const override { return "PBXLegacyTarget"; }
+            result["buildToolPath"] = buildToolPath;
+            result["buildArgumentsString"] = buildArgumentsString;
 
-            plist::Value encode() const override
-            {
-                auto result = PBXTarget::encode();
+            if (buildConfigurationList)
+                result["buildConfigurationList"] = toString(buildConfigurationList->getId());
+            result["buildPhases"] = plist::Value::Array{};
+            for (auto buildPhase : buildPhases)
+                if (buildPhase) result["buildPhases"].pushBack(toString(buildPhase->getId()));
 
-                result["buildToolPath"] = buildToolPath;
-                result["buildArgumentsString"] = buildArgumentsString;
+            result["dependencies"] = plist::Value::Array{};
+            for (auto dependency : dependencies)
+                if (dependency) result["dependencies"].pushBack(toString(dependency->getId()));
 
-                if (buildConfigurationList)
-                    result["buildConfigurationList"] = toString(buildConfigurationList->getId());
-                result["buildPhases"] = plist::Value::Array{};
-                for (auto buildPhase : buildPhases)
-                    if (buildPhase) result["buildPhases"].pushBack(toString(buildPhase->getId()));
+            result["name"] = name;
+            result["passBuildSettingsInEnvironment"] = 1;
+            result["productName"] = name;
 
-                result["dependencies"] = plist::Value::Array{};
-                for (auto dependency : dependencies)
-                    if (dependency) result["dependencies"].pushBack(toString(dependency->getId()));
+            return result;
+        }
 
-                result["name"] = name;
-                result["passBuildSettingsInEnvironment"] = 1;
-                result["productName"] = name;
-
-                return result;
-            }
-
-            std::string name;
-            std::string buildToolPath;
-            std::string buildArgumentsString;
-            const XCConfigurationList* buildConfigurationList = nullptr;
-            std::vector<const PBXBuildPhase*> buildPhases;
-            std::vector<const PBXTargetDependency*> dependencies;
-        };
-    }
+        std::string name;
+        std::string buildToolPath;
+        std::string buildArgumentsString;
+        const XCConfigurationList* buildConfigurationList = nullptr;
+        std::vector<const PBXBuildPhase*> buildPhases;
+        std::vector<const PBXTargetDependency*> dependencies;
+    };
 }
 
 #endif // OUZEL_XCODE_PBXLEGACYTARGET_HPP

@@ -9,75 +9,72 @@
 #include <string>
 #include "utils/Plist.hpp"
 
-namespace ouzel
+namespace ouzel::xcode
 {
-    namespace xcode
-    {
-        using Id = std::array<uint8_t, 12>;
+    using Id = std::array<uint8_t, 12>;
 
-        inline std::string toString(const Id& i)
+    inline std::string toString(const Id& i)
+    {
+        std::string result;
+        result.reserve(2 * i.size());
+        for (const auto b : i)
         {
-            std::string result;
-            result.reserve(2 * i.size());
-            for (const auto b : i)
-            {
-                constexpr char digits[] = "0123456789ABCDEF";
-                result.push_back(digits[(b >> 4) & 0x0F]);
-                result.push_back(digits[(b >> 0) & 0x0F]);
-            }
-            return result;
+            constexpr char digits[] = "0123456789ABCDEF";
+            result.push_back(digits[(b >> 4) & 0x0F]);
+            result.push_back(digits[(b >> 0) & 0x0F]);
+        }
+        return result;
+    }
+
+    class PBXObject
+    {
+    public:
+        PBXObject() = default;
+        PBXObject(const Id& initId): id(initId) {}
+        virtual ~PBXObject() = default;
+
+        virtual std::string getIsa() const { return "PBXObject"; }
+        const Id& getId() const noexcept { return id; }
+
+        virtual plist::Value encode() const
+        {
+            return plist::Value::Dictionary{
+                {"isa", getIsa()}
+            };
         }
 
-        class PBXObject
+    private:
+        static Id generateId()
         {
-        public:
-            PBXObject() = default;
-            PBXObject(const Id& initId): id(initId) {}
-            virtual ~PBXObject() = default;
+            static std::random_device randomDevice;
+            static std::mt19937 randomEngine(randomDevice());
+            static uint32_t sequence = 0;
+            const auto s = sequence++;
+            if (sequence >= 0x00FFFFFF) sequence = 0;
+            const auto now = std::chrono::system_clock::now();
+            const auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
+            const uint32_t r = randomEngine();
 
-            virtual std::string getIsa() const { return "PBXObject"; }
-            const Id& getId() const noexcept { return id; }
+            return {
+                0x10, // to avoid collisions with Ouzel targets
+                static_cast<uint8_t>((s >> 16) & 0xFF),
+                static_cast<uint8_t>((s >> 8) & 0xFF),
+                static_cast<uint8_t>((s >> 0) & 0xFF),
 
-            virtual plist::Value encode() const
-            {
-                return plist::Value::Dictionary{
-                    {"isa", getIsa()}
-                };
-            }
+                static_cast<uint8_t>((timestamp >> 24) & 0xFF),
+                static_cast<uint8_t>((timestamp >> 16) & 0xFF),
+                static_cast<uint8_t>((timestamp >> 8) & 0xFF),
+                static_cast<uint8_t>((timestamp >> 0) & 0xFF),
 
-        private:
-            static Id generateId()
-            {
-                static std::random_device randomDevice;
-                static std::mt19937 randomEngine(randomDevice());
-                static uint32_t sequence = 0;
-                const auto s = sequence++;
-                if (sequence >= 0x00FFFFFF) sequence = 0;
-                const auto now = std::chrono::system_clock::now();
-                const auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
-                const uint32_t r = randomEngine();
+                static_cast<uint8_t>((r >> 24) & 0xFF),
+                static_cast<uint8_t>((r >> 16) & 0xFF),
+                static_cast<uint8_t>((r >> 8) & 0xFF),
+                static_cast<uint8_t>((r >> 0) & 0xFF)
+            };
+        }
 
-                return {
-                    0x10, // to avoid collisions with Ouzel targets
-                    static_cast<uint8_t>((s >> 16) & 0xFF),
-                    static_cast<uint8_t>((s >> 8) & 0xFF),
-                    static_cast<uint8_t>((s >> 0) & 0xFF),
-
-                    static_cast<uint8_t>((timestamp >> 24) & 0xFF),
-                    static_cast<uint8_t>((timestamp >> 16) & 0xFF),
-                    static_cast<uint8_t>((timestamp >> 8) & 0xFF),
-                    static_cast<uint8_t>((timestamp >> 0) & 0xFF),
-
-                    static_cast<uint8_t>((r >> 24) & 0xFF),
-                    static_cast<uint8_t>((r >> 16) & 0xFF),
-                    static_cast<uint8_t>((r >> 8) & 0xFF),
-                    static_cast<uint8_t>((r >> 0) & 0xFF)
-                };
-            }
-
-            Id id = generateId();
-        };
-    }
+        Id id = generateId();
+    };
 }
 
 #endif // OUZEL_XCODE_PBXOBJECT_HPP

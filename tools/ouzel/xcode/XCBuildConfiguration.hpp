@@ -4,35 +4,33 @@
 #define OUZEL_XCODE_XCBUILDCONFIGURATION_HPP
 
 #include <map>
+#include <string>
 #include "PBXObject.hpp"
 
-namespace ouzel
+namespace ouzel::xcode
 {
-    namespace xcode
+    class XCBuildConfiguration final: public PBXObject
     {
-        class XCBuildConfiguration final: public PBXObject
+    public:
+        XCBuildConfiguration() = default;
+
+        std::string getIsa() const override { return "XCBuildConfiguration"; }
+
+        plist::Value encode() const override
         {
-        public:
-            XCBuildConfiguration() = default;
+            auto result = PBXObject::encode();
+            result["buildSettings"] = plist::Value::Dictionary{};
+            for (const auto& buildSetting : buildSettings)
+                result["buildSettings"][buildSetting.first] = buildSetting.second;
 
-            std::string getIsa() const override { return "XCBuildConfiguration"; }
+            result["name"] = name;
 
-            plist::Value encode() const override
-            {
-                auto result = PBXObject::encode();
-                result["buildSettings"] = plist::Value::Dictionary{};
-                for (const auto& buildSetting : buildSettings)
-                    result["buildSettings"][buildSetting.first] = buildSetting.second;
+            return result;
+        }
 
-                result["name"] = name;
-
-                return result;
-            }
-
-            std::string name;
-            std::map<std::string, std::string> buildSettings;
-        };
-    }
+        std::string name;
+        std::map<std::string, std::string> buildSettings;
+    };
 }
 
 #endif // OUZEL_XCODE_XCBUILDCONFIGURATION_HPP

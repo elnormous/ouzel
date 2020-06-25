@@ -5,13 +5,10 @@
 
 #include "../Project.hpp"
 
-namespace ouzel
+namespace ouzel::makefile
 {
-    namespace makefile
+    inline void generateBuildFiles(const Project& project)
     {
-        inline void generateBuildFiles(const Project& project)
-        {
-        }
     }
 }
 

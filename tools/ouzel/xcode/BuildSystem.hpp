@@ -5,16 +5,13 @@
 
 #include "XcodeProject.hpp"
 
-namespace ouzel
+namespace ouzel::xcode
 {
-    namespace xcode
+    inline void generateBuildFiles(const ouzel::Project& project)
     {
-        inline void generateBuildFiles(const ouzel::Project& project)
-        {
-            Project p(project);
-            const storage::Path projectDirectory = project.getPath().getDirectory();
-            p.save(projectDirectory / storage::Path{project.getName() + ".xcodeproj"});
-        }
+        Project p(project);
+        const storage::Path projectDirectory = project.getPath().getDirectory();
+        p.save(projectDirectory / storage::Path{project.getName() + ".xcodeproj"});
     }
 }
 

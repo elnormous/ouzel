@@ -7,32 +7,29 @@
 #include "PBXSourceTree.hpp"
 #include "storage/Path.hpp"
 
-namespace ouzel
+namespace ouzel::xcode
 {
-    namespace xcode
+    class PBXFileElement: public PBXObject
     {
-        class PBXFileElement: public PBXObject
+    public:
+        PBXFileElement() = default;
+
+        std::string getIsa() const override { return "PBXFileElement"; }
+
+        plist::Value encode() const override
         {
-        public:
-            PBXFileElement() = default;
+            auto result = PBXObject::encode();
+            if (!name.empty()) result["name"] = name;
+            if (!path.isEmpty()) result["path"] = std::string(path);
+            result["sourceTree"] = toString(sourceTree);
 
-            std::string getIsa() const override { return "PBXFileElement"; }
+            return result;
+        }
 
-            plist::Value encode() const override
-            {
-                auto result = PBXObject::encode();
-                if (!name.empty()) result["name"] = name;
-                if (!path.isEmpty()) result["path"] = std::string(path);
-                result["sourceTree"] = toString(sourceTree);
-
-                return result;
-            }
-
-            std::string name;
-            storage::Path path;
-            PBXSourceTree sourceTree = PBXSourceTree::absolute;
-        };
-    }
+        std::string name;
+        storage::Path path;
+        PBXSourceTree sourceTree = PBXSourceTree::absolute;
+    };
 }
 
 #endif // OUZEL_XCODE_PBXFILEELEMENT_HPP

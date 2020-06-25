@@ -6,28 +6,25 @@
 #include "PBXFileElement.hpp"
 #include "PBXFileType.hpp"
 
-namespace ouzel
+namespace ouzel::xcode
 {
-    namespace xcode
+    class PBXFileReference: public PBXFileElement
     {
-        class PBXFileReference: public PBXFileElement
+    public:
+        PBXFileReference() = default;
+
+        std::string getIsa() const override { return "PBXFileReference"; }
+
+        plist::Value encode() const override
         {
-        public:
-            PBXFileReference() = default;
+            auto result = PBXFileElement::encode();
+            result["explicitFileType"] = toString(fileType);
+            result["includeInIndex"] = 0;
+            return result;
+        }
 
-            std::string getIsa() const override { return "PBXFileReference"; }
-
-            plist::Value encode() const override
-            {
-                auto result = PBXFileElement::encode();
-                result["explicitFileType"] = toString(fileType);
-                result["includeInIndex"] = 0;
-                return result;
-            }
-
-            PBXFileType fileType;
-        };
-    }
+        PBXFileType fileType;
+    };
 }
 
 #endif // OUZEL_XCODE_PBXFILEREFERENCE_HPP
