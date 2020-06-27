@@ -110,11 +110,11 @@ namespace ouzel::graphics
             case Driver::openGL:
                 engine->log(Log::Level::info) << "Using OpenGL render driver";
 #  if TARGET_OS_IOS
-                device = std::make_unique<opengl::RenderDeviceIOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::ios::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_TV
-                device = std::make_unique<opengl::RenderDeviceTVOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::tvos::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_MAC
-                device = std::make_unique<opengl::RenderDeviceMacOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::macos::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif defined(__ANDROID__)
                 device = std::make_unique<opengl::RenderDeviceAndroid>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif defined(__linux__)
@@ -138,11 +138,11 @@ namespace ouzel::graphics
             case Driver::metal:
                 engine->log(Log::Level::info) << "Using Metal render driver";
 #  if TARGET_OS_IOS
-                device = std::make_unique<metal::RenderDeviceIOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<metal::ios::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_TV
-                device = std::make_unique<metal::RenderDeviceTVOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<metal::tvos::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_MAC
-                device = std::make_unique<metal::RenderDeviceMacOS>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<metal::macos::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  endif
                 break;
 #endif

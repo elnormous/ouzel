@@ -15,7 +15,7 @@
 #include "../../../core/macos/NativeWindowMacOS.hpp"
 #include "../../../utils/Log.hpp"
 
-namespace ouzel::graphics::metal
+namespace ouzel::graphics::metal::macos
 {
     namespace
     {
@@ -30,7 +30,7 @@ namespace ouzel::graphics::metal
 
             try
             {
-                auto renderDevice = static_cast<RenderDeviceMacOS*>(userInfo);
+                auto renderDevice = static_cast<RenderDevice*>(userInfo);
                 renderDevice->renderCallback();
             }
             catch (const std::exception& e)
@@ -45,12 +45,12 @@ namespace ouzel::graphics::metal
         }
     }
 
-    RenderDeviceMacOS::RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback):
-        RenderDevice(initCallback)
+    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
+        metal::RenderDevice(initCallback)
     {
     }
 
-    RenderDeviceMacOS::~RenderDeviceMacOS()
+    RenderDevice::~RenderDevice()
     {
         running = false;
         CommandBuffer commandBuffer;
@@ -64,23 +64,23 @@ namespace ouzel::graphics::metal
         }
     }
 
-    void RenderDeviceMacOS::init(Window* newWindow,
-                                 const Size2U& newSize,
-                                 std::uint32_t newSampleCount,
-                                 bool newSrgb,
-                                 bool newVerticalSync,
-                                 bool newDepth,
-                                 bool newStencil,
-                                 bool newDebugRenderer)
+    void RenderDevice::init(Window* newWindow,
+                            const Size2U& newSize,
+                            std::uint32_t newSampleCount,
+                            bool newSrgb,
+                            bool newVerticalSync,
+                            bool newDepth,
+                            bool newStencil,
+                            bool newDebugRenderer)
     {
-        RenderDevice::init(newWindow,
-                           newSize,
-                           newSampleCount,
-                           newSrgb,
-                           newVerticalSync,
-                           newDepth,
-                           newStencil,
-                           newDebugRenderer);
+        metal::RenderDevice::init(newWindow,
+                                  newSize,
+                                  newSampleCount,
+                                  newSrgb,
+                                  newVerticalSync,
+                                  newDepth,
+                                  newStencil,
+                                  newDebugRenderer);
 
         auto windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());
         MetalView* view = (MetalView*)windowMacOS->getNativeView();
@@ -92,14 +92,14 @@ namespace ouzel::graphics::metal
 
         colorFormat = metalLayer.pixelFormat;
 
-        eventHandler.windowHandler = std::bind(&RenderDeviceMacOS::handleWindow, this, std::placeholders::_1);
+        eventHandler.windowHandler = std::bind(&RenderDevice::handleWindow, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);
 
         const CGDirectDisplayID displayId = windowMacOS->getDisplayId();
         if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
             throw std::runtime_error("Failed to create display link");
 
-        if (CVDisplayLinkSetOutputCallback(displayLink, metal::renderCallback, this) != kCVReturnSuccess)
+        if (CVDisplayLinkSetOutputCallback(displayLink, macos::renderCallback, this) != kCVReturnSuccess)
             throw std::runtime_error("Failed to set output callback for the display link");
 
         running = true;
@@ -108,7 +108,7 @@ namespace ouzel::graphics::metal
             throw std::runtime_error("Failed to start display link");
     }
 
-    std::vector<Size2U> RenderDeviceMacOS::getSupportedResolutions() const
+    std::vector<Size2U> RenderDevice::getSupportedResolutions() const
     {
         std::vector<Size2U> result;
 
@@ -128,7 +128,7 @@ namespace ouzel::graphics::metal
         return result;
     }
 
-    bool RenderDeviceMacOS::handleWindow(const WindowEvent& event)
+    bool RenderDevice::handleWindow(const WindowEvent& event)
     {
         if (event.type == ouzel::Event::Type::screenChange)
         {
@@ -151,7 +151,7 @@ namespace ouzel::graphics::metal
                 if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
                     throw std::runtime_error("Failed to create display link");
 
-                if (CVDisplayLinkSetOutputCallback(displayLink, metal::renderCallback, this) != kCVReturnSuccess)
+                if (CVDisplayLinkSetOutputCallback(displayLink, macos::renderCallback, this) != kCVReturnSuccess)
                     throw std::runtime_error("Failed to set output callback for the display link");
 
                 running = true;
@@ -164,7 +164,7 @@ namespace ouzel::graphics::metal
         return false;
     }
 
-    void RenderDeviceMacOS::renderCallback()
+    void RenderDevice::renderCallback()
     {
         if (running) process();
     }

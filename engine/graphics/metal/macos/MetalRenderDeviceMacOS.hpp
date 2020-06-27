@@ -44,14 +44,14 @@ typedef id MTLDepthStencilStatePtr;
 #include "../MetalRenderDevice.hpp"
 #include "../../../events/EventHandler.hpp"
 
-namespace ouzel::graphics::metal
+namespace ouzel::graphics::metal::macos
 {
-    class RenderDeviceMacOS final: public RenderDevice
+    class RenderDevice final: public metal::RenderDevice
     {
         friend Renderer;
     public:
-        explicit RenderDeviceMacOS(const std::function<void(const Event&)>& initCallback);
-        ~RenderDeviceMacOS() override;
+        explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+        ~RenderDevice() override;
 
         std::vector<Size2U> getSupportedResolutions() const final;
 

@@ -14,14 +14,14 @@
 #include "../MetalRenderDevice.hpp"
 #include "../../../core/ios/DisplayLink.hpp"
 
-namespace ouzel::graphics::metal
+namespace ouzel::graphics::metal::ios
 {
-    class RenderDeviceIOS final: public RenderDevice
+    class RenderDevice final: public metal::RenderDevice
     {
         friend Renderer;
     public:
-        explicit RenderDeviceIOS(const std::function<void(const Event&)>& initCallback);
-        ~RenderDeviceIOS() override;
+        explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+        ~RenderDevice() override;
 
         void renderCallback();
 

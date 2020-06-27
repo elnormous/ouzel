@@ -14,7 +14,7 @@
 #include "../../../core/tvos/NativeWindowTVOS.hpp"
 #include "../../../utils/Log.hpp"
 
-namespace ouzel::graphics::opengl
+namespace ouzel::graphics::opengl::tvos
 {
     namespace
     {
@@ -22,7 +22,7 @@ namespace ouzel::graphics::opengl
         {
             try
             {
-                auto renderDevice = static_cast<RenderDeviceTVOS*>(userInfo);
+                auto renderDevice = static_cast<RenderDevice*>(userInfo);
                 renderDevice->renderCallback();
             }
             catch (const std::exception& e)
@@ -32,13 +32,13 @@ namespace ouzel::graphics::opengl
         }
     }
 
-    RenderDeviceTVOS::RenderDeviceTVOS(const std::function<void(const Event&)>& initCallback):
-        RenderDevice(initCallback),
-        displayLink(opengl::renderCallback, this)
+    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
+        opengl::RenderDevice(initCallback),
+        displayLink(tvos::renderCallback, this)
     {
     }
 
-    RenderDeviceTVOS::~RenderDeviceTVOS()
+    RenderDevice::~RenderDevice()
     {
         displayLink.stop();
         CommandBuffer commandBuffer;
@@ -58,14 +58,14 @@ namespace ouzel::graphics::opengl
         }
     }
 
-    void RenderDeviceTVOS::init(Window* newWindow,
-                                const Size2U& newSize,
-                                std::uint32_t newSampleCount,
-                                bool newSrgb,
-                                bool newVerticalSync,
-                                bool newDepth,
-                                bool newStencil,
-                                bool newDebugRenderer)
+    void RenderDevice::init(Window* newWindow,
+                            const Size2U& newSize,
+                            std::uint32_t newSampleCount,
+                            bool newSrgb,
+                            bool newVerticalSync,
+                            bool newDepth,
+                            bool newStencil,
+                            bool newDebugRenderer)
     {
         auto view = static_cast<NativeWindowTVOS*>(newWindow->getNativeWindow())->getNativeView();
 
@@ -96,26 +96,26 @@ namespace ouzel::graphics::opengl
         if (![EAGLContext setCurrentContext:context])
             throw std::runtime_error("Failed to set current EAGL context");
 
-        RenderDevice::init(newWindow,
-                           newSize,
-                           newSampleCount,
-                           newSrgb,
-                           newVerticalSync,
-                           newDepth,
-                           newStencil,
-                           newDebugRenderer);
+        opengl::RenderDevice::init(newWindow,
+                                   newSize,
+                                   newSampleCount,
+                                   newSrgb,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newStencil,
+                                   newDebugRenderer);
 
         createFrameBuffer();
 
         displayLink.start(verticalSync);
     }
 
-    void RenderDeviceTVOS::resizeFrameBuffer()
+    void RenderDevice::resizeFrameBuffer()
     {
         createFrameBuffer();
     }
 
-    void RenderDeviceTVOS::present()
+    void RenderDevice::present()
     {
         if (sampleCount > 1)
         {
@@ -152,7 +152,7 @@ namespace ouzel::graphics::opengl
         [context presentRenderbuffer:GL_RENDERBUFFER];
     }
 
-    void RenderDeviceTVOS::createFrameBuffer()
+    void RenderDevice::createFrameBuffer()
     {
         if (msaaColorRenderBufferId)
         {
@@ -319,7 +319,7 @@ namespace ouzel::graphics::opengl
         }
     }
 
-    void RenderDeviceTVOS::renderCallback()
+    void RenderDevice::renderCallback()
     {
         if ([EAGLContext currentContext] != context &&
             ![EAGLContext setCurrentContext:context])

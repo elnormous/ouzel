@@ -11,7 +11,7 @@
 #include "../../../core/tvos/NativeWindowTVOS.hpp"
 #include "../../../utils/Log.hpp"
 
-namespace ouzel::graphics::metal
+namespace ouzel::graphics::metal::tvos
 {
     namespace
     {
@@ -19,7 +19,7 @@ namespace ouzel::graphics::metal
         {
             try
             {
-                auto renderDevice = static_cast<RenderDeviceTVOS*>(userInfo);
+                auto renderDevice = static_cast<RenderDevice*>(userInfo);
                 renderDevice->renderCallback();
             }
             catch (const std::exception& e)
@@ -29,13 +29,13 @@ namespace ouzel::graphics::metal
         }
     }
 
-    RenderDeviceTVOS::RenderDeviceTVOS(const std::function<void(const Event&)>& initCallback):
-        RenderDevice(initCallback),
-        displayLink(metal::renderCallback, this)
+    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
+        metal::RenderDevice(initCallback),
+        displayLink(tvos::renderCallback, this)
     {
     }
 
-    RenderDeviceTVOS::~RenderDeviceTVOS()
+    RenderDevice::~RenderDevice()
     {
         displayLink.stop();
         CommandBuffer commandBuffer;
@@ -43,23 +43,23 @@ namespace ouzel::graphics::metal
         submitCommandBuffer(std::move(commandBuffer));
     }
 
-    void RenderDeviceTVOS::init(Window* newWindow,
-                                const Size2U& newSize,
-                                std::uint32_t newSampleCount,
-                                bool newSrgb,
-                                bool newVerticalSync,
-                                bool newDepth,
-                                bool newStencil,
-                                bool newDebugRenderer)
+    void RenderDevice::init(Window* newWindow,
+                            const Size2U& newSize,
+                            std::uint32_t newSampleCount,
+                            bool newSrgb,
+                            bool newVerticalSync,
+                            bool newDepth,
+                            bool newStencil,
+                            bool newDebugRenderer)
     {
-        RenderDevice::init(newWindow,
-                           newSize,
-                           newSampleCount,
-                           newSrgb,
-                           newVerticalSync,
-                           newDepth,
-                           newStencil,
-                           newDebugRenderer);
+        metal::RenderDevice::init(newWindow,
+                                  newSize,
+                                  newSampleCount,
+                                  newSrgb,
+                                  newVerticalSync,
+                                  newDepth,
+                                  newStencil,
+                                  newDebugRenderer);
 
         auto windowTVOS = static_cast<NativeWindowTVOS*>(newWindow->getNativeWindow());
         MetalView* view = (MetalView*)windowTVOS->getNativeView();
@@ -74,7 +74,7 @@ namespace ouzel::graphics::metal
         displayLink.start(verticalSync);
     }
 
-    void RenderDeviceTVOS::renderCallback()
+    void RenderDevice::renderCallback()
     {
         process();
     }

@@ -24,14 +24,14 @@ typedef id EAGLContextPtr;
 typedef id CAEAGLLayerPtr;
 #endif
 
-namespace ouzel::graphics::opengl
+namespace ouzel::graphics::opengl::ios
 {
-    class RenderDeviceIOS final: public RenderDevice
+    class RenderDevice final: public opengl::RenderDevice
     {
         friend Renderer;
     public:
-        explicit RenderDeviceIOS(const std::function<void(const Event&)>& initCallback);
-        ~RenderDeviceIOS() override;
+        explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+        ~RenderDevice() override;
 
         void renderCallback();
 
