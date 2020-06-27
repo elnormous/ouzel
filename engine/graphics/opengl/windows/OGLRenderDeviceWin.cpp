@@ -169,7 +169,7 @@ namespace ouzel::graphics::opengl::windows
     }
 
     RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-        RenderDevice(initCallback)
+        opengl::RenderDevice(initCallback)
     {
     }
 
