@@ -116,13 +116,13 @@ namespace ouzel::graphics
 #  elif TARGET_OS_MAC
                 device = std::make_unique<opengl::macos::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif defined(__ANDROID__)
-                device = std::make_unique<opengl::RenderDeviceAndroid>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::android::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif defined(__linux__)
-                device = std::make_unique<opengl::RenderDeviceLinux>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::linux::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif defined(_WIN32)
-                device = std::make_unique<opengl::RenderDeviceWin>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::windows::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  elif defined(__EMSCRIPTEN__)
-                device = std::make_unique<opengl::RenderDeviceEm>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::emscripten::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  else
                 device = std::make_unique<opengl::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
 #  endif

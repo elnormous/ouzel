@@ -14,27 +14,27 @@
 #include "../OGLRenderDevice.hpp"
 #include "../../../utils/Thread.hpp"
 
-namespace ouzel::graphics::opengl
+namespace ouzel::graphics::opengl::android
 {
-    class RenderDeviceAndroid final: public RenderDevice
+    class RenderDevice final: public opengl::RenderDevice
     {
         friend Renderer;
     public:
-        explicit RenderDeviceAndroid(const std::function<void(const Event&)>& initCallback);
-        ~RenderDeviceAndroid() override;
+        explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+        ~RenderDevice() override;
 
         void reload();
         void destroy();
 
     private:
         void init(Window* newWindow,
-                    const Size2U& newSize,
-                    std::uint32_t newSampleCount,
-                    bool newSrgb,
-                    bool newVerticalSync,
-                    bool newDepth,
-                    bool newStencil,
-                    bool newDebugRenderer) final;
+                  const Size2U& newSize,
+                  std::uint32_t newSampleCount,
+                  bool newSrgb,
+                  bool newVerticalSync,
+                  bool newDepth,
+                  bool newStencil,
+                  bool newDebugRenderer) final;
 
         void present() final;
         void renderMain();

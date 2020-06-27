@@ -14,7 +14,7 @@
 #include "../../../utils/Log.hpp"
 #include "../../../utils/Utils.hpp"
 
-namespace ouzel::graphics::opengl
+namespace ouzel::graphics::opengl::linux
 {
 #if OUZEL_OPENGL_INTERFACE_EGL
     namespace
@@ -54,12 +54,12 @@ namespace ouzel::graphics::opengl
     }
 #endif
 
-    RenderDeviceLinux::RenderDeviceLinux(const std::function<void(const Event&)>& initCallback):
-        RenderDevice(initCallback)
+    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
+        opengl::RenderDevice(initCallback)
     {
     }
 
-    RenderDeviceLinux::~RenderDeviceLinux()
+    RenderDevice::~RenderDevice()
     {
         running = false;
         CommandBuffer commandBuffer;
@@ -91,14 +91,14 @@ namespace ouzel::graphics::opengl
 #endif
     }
 
-    void RenderDeviceLinux::init(Window* newWindow,
-                                    const Size2U& newSize,
-                                    std::uint32_t newSampleCount,
-                                    bool newSrgb,
-                                    bool newVerticalSync,
-                                    bool newDepth,
-                                    bool newStencil,
-                                    bool newDebugRenderer)
+    void RenderDevice::init(Window* newWindow,
+                            const Size2U& newSize,
+                            std::uint32_t newSampleCount,
+                            bool newSrgb,
+                            bool newVerticalSync,
+                            bool newDepth,
+                            bool newStencil,
+                            bool newDebugRenderer)
     {
         auto windowLinux = static_cast<NativeWindowLinux*>(newWindow->getNativeWindow());
 
@@ -289,14 +289,14 @@ namespace ouzel::graphics::opengl
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set EGL frame interval");
 #endif
 
-        RenderDevice::init(newWindow,
-                            newSize,
-                            newSampleCount,
-                            newSrgb,
-                            newVerticalSync,
-                            newDepth,
-                            newStencil,
-                            newDebugRenderer);
+        opengl::RenderDevice::init(newWindow,
+                                   newSize,
+                                   newSampleCount,
+                                   newSrgb,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newStencil,
+                                   newDebugRenderer);
 
 #if OUZEL_OPENGL_INTERFACE_EGL
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
@@ -304,10 +304,10 @@ namespace ouzel::graphics::opengl
 #endif
 
         running = true;
-        renderThread = Thread(&RenderDeviceLinux::renderMain, this);
+        renderThread = Thread(&RenderDevice::renderMain, this);
     }
 
-    std::vector<Size2U> RenderDeviceLinux::getSupportedResolutions() const
+    std::vector<Size2U> RenderDevice::getSupportedResolutions() const
     {
         std::vector<Size2U> result;
 
@@ -331,7 +331,7 @@ namespace ouzel::graphics::opengl
         return result;
     }
 
-    void RenderDeviceLinux::present()
+    void RenderDevice::present()
     {
 #if OUZEL_OPENGL_INTERFACE_GLX
         auto engineLinux = static_cast<EngineLinux*>(engine);
@@ -344,7 +344,7 @@ namespace ouzel::graphics::opengl
 #endif
     }
 
-    void RenderDeviceLinux::renderMain()
+    void RenderDevice::renderMain()
     {
         Thread::setCurrentThreadName("Render");
 

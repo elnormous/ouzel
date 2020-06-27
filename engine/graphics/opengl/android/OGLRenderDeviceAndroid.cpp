@@ -10,7 +10,7 @@
 #include "../../../core/android/NativeWindowAndroid.hpp"
 #include "../../../utils/Log.hpp"
 
-namespace ouzel::graphics::opengl
+namespace ouzel::graphics::opengl::android
 {
     namespace
     {
@@ -48,12 +48,12 @@ namespace ouzel::graphics::opengl
         const EGLErrorCategory eglErrorCategory {};
     }
 
-    RenderDeviceAndroid::RenderDeviceAndroid(const std::function<void(const Event&)>& initCallback):
-        RenderDevice(initCallback)
+    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
+        opengl::RenderDevice(initCallback)
     {
     }
 
-    RenderDeviceAndroid::~RenderDeviceAndroid()
+    RenderDevice::~RenderDevice()
     {
         running = false;
         CommandBuffer commandBuffer;
@@ -75,14 +75,14 @@ namespace ouzel::graphics::opengl
             eglTerminate(display);
     }
 
-    void RenderDeviceAndroid::init(Window* newWindow,
-                                    const Size2U&,
-                                    std::uint32_t newSampleCount,
-                                    bool newSrgb,
-                                    bool newVerticalSync,
-                                    bool newDepth,
-                                    bool newStencil,
-                                    bool newDebugRenderer)
+    void RenderDevice::init(Window* newWindow,
+                            const Size2U&,
+                            std::uint32_t newSampleCount,
+                            bool newSrgb,
+                            bool newVerticalSync,
+                            bool newDepth,
+                            bool newStencil,
+                            bool newDebugRenderer)
     {
         display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
@@ -173,23 +173,23 @@ namespace ouzel::graphics::opengl
         auto backBufferSize = Size2U(static_cast<std::uint32_t>(frameBufferWidth),
                                         static_cast<std::uint32_t>(frameBufferHeight));
 
-        RenderDevice::init(newWindow,
-                            backBufferSize,
-                            newSampleCount,
-                            newSrgb,
-                            newVerticalSync,
-                            newDepth,
-                            newStencil,
-                            newDebugRenderer);
+        opengl::RenderDevice::init(newWindow,
+                                   backBufferSize,
+                                   newSampleCount,
+                                   newSrgb,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newStencil,
+                                   newDebugRenderer);
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::runtime_error("Failed to unset EGL context");
 
         running = true;
-        renderThread = Thread(&RenderDeviceAndroid::renderMain, this);
+        renderThread = Thread(&RenderDevice::renderMain, this);
     }
 
-    void RenderDeviceAndroid::reload()
+    void RenderDevice::reload()
     {
         running = false;
         CommandBuffer commandBuffer;
@@ -297,10 +297,10 @@ namespace ouzel::graphics::opengl
             throw std::runtime_error("Failed to unset EGL context");
 
         running = true;
-        renderThread = Thread(&RenderDeviceAndroid::renderMain, this);
+        renderThread = Thread(&RenderDevice::renderMain, this);
     }
 
-    void RenderDeviceAndroid::destroy()
+    void RenderDevice::destroy()
     {
         running = false;
         CommandBuffer commandBuffer;
@@ -329,13 +329,13 @@ namespace ouzel::graphics::opengl
         }
     }
 
-    void RenderDeviceAndroid::present()
+    void RenderDevice::present()
     {
         if (eglSwapBuffers(display, surface) != EGL_TRUE)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to swap buffers");
     }
 
-    void RenderDeviceAndroid::renderMain()
+    void RenderDevice::renderMain()
     {
         Thread::setCurrentThreadName("Render");
 

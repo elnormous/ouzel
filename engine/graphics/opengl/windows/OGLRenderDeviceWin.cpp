@@ -14,7 +14,7 @@
 #include "../../../core/windows/NativeWindowWin.hpp"
 #include "../../../utils/Log.hpp"
 
-namespace ouzel::graphics::opengl
+namespace ouzel::graphics::opengl::windows
 {
     namespace
     {
@@ -168,12 +168,12 @@ namespace ouzel::graphics::opengl
         }
     }
 
-    RenderDeviceWin::RenderDeviceWin(const std::function<void(const Event&)>& initCallback):
+    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
         RenderDevice(initCallback)
     {
     }
 
-    RenderDeviceWin::~RenderDeviceWin()
+    RenderDevice::~RenderDevice()
     {
         running = false;
         CommandBuffer commandBuffer;
@@ -196,14 +196,14 @@ namespace ouzel::graphics::opengl
         }
     }
 
-    void RenderDeviceWin::init(Window* newWindow,
-                                const Size2U& newSize,
-                                std::uint32_t newSampleCount,
-                                bool newSrgb,
-                                bool newVerticalSync,
-                                bool newDepth,
-                                bool newStencil,
-                                bool newDebugRenderer)
+    void RenderDevice::init(Window* newWindow,
+                            const Size2U& newSize,
+                            std::uint32_t newSampleCount,
+                            bool newSrgb,
+                            bool newVerticalSync,
+                            bool newDepth,
+                            bool newStencil,
+                            bool newDebugRenderer)
     {
         TempContext tempContext;
 
@@ -337,29 +337,29 @@ namespace ouzel::graphics::opengl
         if (apiVersion.v[0] < 2 || apiVersion.v[0] > 4)
             throw std::runtime_error("Unsupported OpenGL version");
 
-        RenderDevice::init(newWindow,
-                            newSize,
-                            newSampleCount,
-                            newSrgb,
-                            newVerticalSync,
-                            newDepth,
-                            newStencil,
-                            newDebugRenderer);
+        opengl::RenderDevice::init(newWindow,
+                                   newSize,
+                                   newSampleCount,
+                                   newSrgb,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newStencil,
+                                   newDebugRenderer);
 
         if (!wglMakeCurrent(deviceContext, nullptr))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");
 
         running = true;
-        renderThread = Thread(&RenderDeviceWin::renderMain, this);
+        renderThread = Thread(&RenderDevice::renderMain, this);
     }
 
-    void RenderDeviceWin::present()
+    void RenderDevice::present()
     {
         if (!SwapBuffers(deviceContext))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to swap buffers");
     }
 
-    void RenderDeviceWin::renderMain()
+    void RenderDevice::renderMain()
     {
         Thread::setCurrentThreadName("Render");
 

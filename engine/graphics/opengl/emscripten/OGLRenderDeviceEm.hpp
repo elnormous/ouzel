@@ -11,24 +11,24 @@
 #include <emscripten/html5.h>
 #include "../OGLRenderDevice.hpp"
 
-namespace ouzel::graphics::opengl
+namespace ouzel::graphics::opengl::emscripten
 {
-    class RenderDeviceEm final: public RenderDevice
+    class RenderDevice final: public opengl::RenderDevice
     {
         friend Renderer;
     public:
-        explicit RenderDeviceEm(const std::function<void(const Event&)>& initCallback);
-        ~RenderDeviceEm() override;
+        explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+        ~RenderDevice() override;
 
     private:
         void init(Window* newWindow,
-                    const Size2U& newSize,
-                    std::uint32_t newSampleCount,
-                    bool newSrgb,
-                    bool newVerticalSync,
-                    bool newDepth,
-                    bool newStencil,
-                    bool newDebugRenderer) final;
+                  const Size2U& newSize,
+                  std::uint32_t newSampleCount,
+                  bool newSrgb,
+                  bool newVerticalSync,
+                  bool newDepth,
+                  bool newStencil,
+                  bool newDebugRenderer) final;
 
         EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
     };

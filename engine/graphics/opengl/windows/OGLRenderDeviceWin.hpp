@@ -24,14 +24,14 @@
 #include "../OGLRenderDevice.hpp"
 #include "../../../utils/Thread.hpp"
 
-namespace ouzel::graphics::opengl
+namespace ouzel::graphics::opengl::windows
 {
-    class RenderDeviceWin final: public RenderDevice
+    class RenderDevice final: public opengl::RenderDevice
     {
         friend Renderer;
     public:
-        explicit RenderDeviceWin(const std::function<void(const Event&)>& initCallback);
-        ~RenderDeviceWin() override;
+        explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+        ~RenderDevice() override;
 
     private:
         void init(Window* newWindow,

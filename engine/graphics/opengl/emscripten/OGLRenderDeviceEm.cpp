@@ -7,27 +7,27 @@
 #include "OGLRenderDeviceEm.hpp"
 #include "../../../utils/Utils.hpp"
 
-namespace ouzel::graphics::opengl
+namespace ouzel::graphics::opengl::emscripten
 {
-    RenderDeviceEm::RenderDeviceEm(const std::function<void(const Event&)>& initCallback):
-        RenderDevice(initCallback)
+    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
+        opengl::RenderDevice(initCallback)
     {
     }
 
-    RenderDeviceEm::~RenderDeviceEm()
+    RenderDevice::~RenderDevice()
     {
         if (webGLContext)
             emscripten_webgl_destroy_context(webGLContext);
     }
 
-    void RenderDeviceEm::init(Window* newWindow,
-                                const Size2U& newSize,
-                                std::uint32_t newSampleCount,
-                                bool newSrgb,
-                                bool newVerticalSync,
-                                bool newDepth,
-                                bool newStencil,
-                                bool newDebugRenderer)
+    void RenderDevice::init(Window* newWindow,
+                            const Size2U& newSize,
+                            std::uint32_t newSampleCount,
+                            bool newSrgb,
+                            bool newVerticalSync,
+                            bool newDepth,
+                            bool newStencil,
+                            bool newDebugRenderer)
     {
         apiVersion = ApiVersion(2, 0);
 
@@ -51,14 +51,14 @@ namespace ouzel::graphics::opengl
 
         emscripten_set_main_loop_timing(newVerticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
-        RenderDevice::init(newWindow,
-                            newSize,
-                            newSampleCount,
-                            newSrgb,
-                            newVerticalSync,
-                            newDepth,
-                            newStencil,
-                            newDebugRenderer);
+        opengl::RenderDevice::init(newWindow,
+                                   newSize,
+                                   newSampleCount,
+                                   newSrgb,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newStencil,
+                                   newDebugRenderer);
     }
 }
 
