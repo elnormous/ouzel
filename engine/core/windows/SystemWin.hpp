@@ -5,12 +5,12 @@
 
 #include "../System.hpp"
 
-namespace ouzel
+namespace ouzel::windows
 {
-    class SystemWin final: public System
+    class System final: public ouzel::System
     {
     public:
-        ~SystemWin() = default;
+        ~System() = default;
     };
 }
 

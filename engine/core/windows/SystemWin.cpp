@@ -13,7 +13,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
         int argc;
         LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
 
-        auto engine = std::make_unique<ouzel::EngineWin>(argc, argv);
+        auto engine = std::make_unique<ouzel::windows::Engine>(argc, argv);
 
         if (argv) LocalFree(argv);
 
@@ -28,6 +28,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
     }
 }
 
-namespace ouzel
+namespace ouzel::windows
 {
 }

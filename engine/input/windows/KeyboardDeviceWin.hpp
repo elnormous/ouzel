@@ -5,16 +5,15 @@
 
 #include "../KeyboardDevice.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
-    class KeyboardDeviceWin final: public KeyboardDevice
+    class InputSystem;
+
+    class KeyboardDevice final: public input::KeyboardDevice
     {
     public:
-        KeyboardDeviceWin(InputSystem& initInputSystem,
-                          DeviceId initId):
-            KeyboardDevice(initInputSystem, initId)
-        {
-        }
+        KeyboardDevice(InputSystem& initInputSystem,
+                       DeviceId initId);
 
         std::future<bool> handleKeyPress(Keyboard::Key key);
         void update();

@@ -197,7 +197,7 @@ namespace ouzel::graphics::d3d11
             }
         }
 
-        auto windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
+        auto windowWin = static_cast<ouzel::windows::NativeWindow*>(window->getNativeWindow());
 
         frameBufferWidth = static_cast<UINT>(newSize.v[0]);
         frameBufferHeight = static_cast<UINT>(newSize.v[1]);
@@ -899,7 +899,7 @@ namespace ouzel::graphics::d3d11
 
     IDXGIOutput* RenderDevice::getOutput() const
     {
-        auto windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
+        auto windowWin = static_cast<ouzel::windows::NativeWindow*>(window->getNativeWindow());
         auto monitor = windowWin->getMonitor();
 
         if (!monitor)

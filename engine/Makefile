@@ -150,6 +150,7 @@ SOURCES+=audio/dsound/DSAudioDevice.cpp \
 	graphics/direct3d11/D3D11Texture.cpp \
 	graphics/opengl/windows/OGLRenderDeviceWin.cpp \
 	input/windows/GamepadDeviceDI.cpp \
+	input/windows/GamepadDeviceWin.cpp \
 	input/windows/GamepadDeviceXI.cpp \
 	input/windows/InputSystemWin.cpp \
 	input/windows/KeyboardDeviceWin.cpp \

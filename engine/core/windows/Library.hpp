@@ -15,7 +15,7 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-namespace ouzel
+namespace ouzel::windows
 {
     class Library final
     {

@@ -6,16 +6,15 @@
 #include <cstdint>
 #include "../GamepadDevice.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
-    class GamepadDeviceWin: public GamepadDevice
+    class InputSystem;
+
+    class GamepadDevice : public input::GamepadDevice
     {
     public:
-        GamepadDeviceWin(InputSystem& initInputSystem,
-                         DeviceId initId):
-            GamepadDevice(initInputSystem, initId)
-        {
-        }
+        GamepadDevice(InputSystem& initInputSystem,
+                      DeviceId initId);
     };
 }
 

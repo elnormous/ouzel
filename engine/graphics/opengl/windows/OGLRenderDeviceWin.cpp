@@ -191,7 +191,7 @@ namespace ouzel::graphics::opengl::windows
 
         if (deviceContext)
         {
-            auto windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
+            auto windowWin = static_cast<ouzel::windows::NativeWindow*>(window->getNativeWindow());
             ReleaseDC(windowWin->getNativeWindow(), deviceContext);
         }
     }
@@ -207,7 +207,7 @@ namespace ouzel::graphics::opengl::windows
     {
         TempContext tempContext;
 
-        auto windowWin = static_cast<NativeWindowWin*>(newWindow->getNativeWindow());
+        auto windowWin = static_cast<ouzel::windows::NativeWindow*>(newWindow->getNativeWindow());
 
         deviceContext = GetDC(windowWin->getNativeWindow());
         if (!deviceContext)

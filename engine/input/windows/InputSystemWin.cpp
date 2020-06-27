@@ -22,7 +22,7 @@
 #include "../../core/windows/NativeWindowWin.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
     namespace
     {
@@ -78,7 +78,7 @@ namespace ouzel::input
 
         BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
         {
-            auto inputWin = static_cast<InputSystemWin*>(context);
+            auto inputWin = static_cast<InputSystem*>(context);
             inputWin->handleDeviceConnect(didInstance);
 
             return DIENUM_CONTINUE;
@@ -90,11 +90,11 @@ namespace ouzel::input
         return errorCategory;
     }
 
-    InputSystemWin::InputSystemWin(const std::function<std::future<bool>(const Event&)>& initCallback):
-        InputSystem(initCallback),
-        keyboardDevice(std::make_unique<KeyboardDeviceWin>(*this, getNextDeviceId())),
-        mouseDevice(std::make_unique<MouseDeviceWin>(*this, getNextDeviceId())),
-        touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
+    InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
+                             input::InputSystem(initCallback),
+                             keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
+                             mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
+                             touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
     {
         defaultCursor = LoadCursor(nullptr, IDC_ARROW);
 
@@ -123,12 +123,12 @@ namespace ouzel::input
             throw std::system_error(hr, errorCategory, "Failed to enumerate devices");
     }
 
-    InputSystemWin::~InputSystemWin()
+    InputSystem::~InputSystem()
     {
         if (directInput) directInput->Release();
     }
 
-    void InputSystemWin::executeCommand(const Command& command)
+    void InputSystem::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -162,20 +162,20 @@ namespace ouzel::input
 
                 if (command.data.empty())
                 {
-                    auto cursor = std::make_unique<CursorWin>(command.systemCursor);
+                    auto cursor = std::make_unique<Cursor>(command.systemCursor);
                     cursors[command.cursorResource - 1] = std::move(cursor);
                 }
                 else
                 {
-                    auto cursor = std::make_unique<CursorWin>(command.data, command.size,
-                                                              command.pixelFormat, command.hotSpot);
+                    auto cursor = std::make_unique<Cursor>(command.data, command.size,
+                                                           command.pixelFormat, command.hotSpot);
                     cursors[command.cursorResource - 1] = std::move(cursor);
                 }
                 break;
             }
             case Command::Type::destroyCursor:
             {
-                CursorWin* cursor = cursors[command.cursorResource - 1].get();
+                Cursor* cursor = cursors[command.cursorResource - 1].get();
 
                 if (mouseDevice->getCursor() == cursor)
                 {
@@ -225,7 +225,7 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemWin::update()
+    void InputSystem::update()
     {
         keyboardDevice->update();
 
@@ -278,7 +278,7 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemWin::handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance)
+    void InputSystem::handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance)
     {
         bool isXInputDevice = false;
 
@@ -368,7 +368,7 @@ namespace ouzel::input
 
             if (!found)
             {
-                auto windowWin = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow());
+                auto windowWin = static_cast<ouzel::windows::NativeWindow*>(engine->getWindow()->getNativeWindow());
 
                 gamepadsDI.emplace_back(std::make_unique<GamepadDeviceDI>(*this, getNextDeviceId(),
                                                                           didInstance, directInput,
@@ -377,7 +377,7 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemWin::updateCursor() const
+    void InputSystem::updateCursor() const
     {
         if (mouseDevice->isCursorVisible())
         {

@@ -18,22 +18,22 @@
 
 #include "../NativeWindow.hpp"
 
-namespace ouzel
+namespace ouzel::windows
 {
-    class EngineWin;
+    class Engine;
 
-    class NativeWindowWin final: public NativeWindow
+    class NativeWindow final: public ouzel::NativeWindow
     {
-        friend EngineWin;
+        friend Engine;
     public:
-        NativeWindowWin(const std::function<void(const Event&)>& initCallback,
-                        const Size2U& newSize,
-                        bool newResizable,
-                        bool newFullscreen,
-                        bool newExclusiveFullscreen,
-                        const std::string& newTitle,
-                        bool newHighDpi);
-        ~NativeWindowWin() override;
+        NativeWindow(const std::function<void(const Event&)>& initCallback,
+                     const Size2U& newSize,
+                     bool newResizable,
+                     bool newFullscreen,
+                     bool newExclusiveFullscreen,
+                     const std::string& newTitle,
+                     bool newHighDpi);
+        ~NativeWindow() override;
 
         void executeCommand(const Command& command) final;
 

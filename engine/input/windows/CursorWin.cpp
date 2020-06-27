@@ -3,9 +3,9 @@
 #include <system_error>
 #include "CursorWin.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
-    CursorWin::CursorWin(SystemCursor systemCursor)
+    Cursor::Cursor(SystemCursor systemCursor)
     {
         switch (systemCursor)
         {
@@ -35,10 +35,10 @@ namespace ouzel::input
             throw std::system_error(GetLastError(), std::system_category(), "Failed to load cursor");
     }
 
-    CursorWin::CursorWin(const std::vector<std::uint8_t>& data,
-                         const Size2F& size,
-                         graphics::PixelFormat pixelFormat,
-                         const Vector2F& hotSpot)
+    Cursor::Cursor(const std::vector<std::uint8_t>& data,
+                   const Size2F& size,
+                   graphics::PixelFormat pixelFormat,
+                   const Vector2F& hotSpot)
     {
         if (!data.empty())
         {
@@ -60,11 +60,11 @@ namespace ouzel::input
             dc = GetDC(nullptr);
             void* targetPointer = nullptr;
             color = CreateDIBSection(dc,
-                                        reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
-                                        DIB_RGB_COLORS,
-                                        &targetPointer,
-                                        nullptr,
-                                        DWORD{0});
+                                     reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
+                                     DIB_RGB_COLORS,
+                                     &targetPointer,
+                                     nullptr,
+                                     DWORD{0});
 
             if (!color)
                 throw std::runtime_error("Failed to create RGBA bitmap");
@@ -105,7 +105,7 @@ namespace ouzel::input
         }
     }
 
-    CursorWin::~CursorWin()
+    Cursor::~Cursor()
     {
         if (ownedCursor) DestroyCursor(cursor);
         if (dc) ReleaseDC(nullptr, dc);

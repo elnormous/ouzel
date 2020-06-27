@@ -68,6 +68,7 @@
     <ClCompile Include="core\windows\NativeWindowWin.cpp" />
     <ClCompile Include="core\windows\SystemWin.cpp" />
     <ClCompile Include="events\EventDispatcher.cpp" />
+    <ClCompile Include="input\windows\GamepadDeviceWin.cpp" />
     <ClCompile Include="storage\FileSystem.cpp" />
     <ClCompile Include="graphics\BlendState.cpp" />
     <ClCompile Include="graphics\Buffer.cpp" />

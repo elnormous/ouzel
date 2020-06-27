@@ -12,10 +12,17 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 #include "KeyboardDeviceWin.hpp"
+#include "InputSystemWin.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
-    std::future<bool> KeyboardDeviceWin::handleKeyPress(Keyboard::Key key)
+    KeyboardDevice::KeyboardDevice(InputSystem& initInputSystem,
+                                   DeviceId initId):
+        input::KeyboardDevice(initInputSystem, initId)
+    {
+    }
+
+    std::future<bool> KeyboardDevice::handleKeyPress(Keyboard::Key key)
     {
         if (key == Keyboard::Key::leftShift) leftShiftDown = true;
         if (key == Keyboard::Key::rightShift) rightShiftDown = true;
@@ -23,7 +30,7 @@ namespace ouzel::input
         return KeyboardDevice::handleKeyPress(key);
     }
 
-    void KeyboardDeviceWin::update()
+    void KeyboardDevice::update()
     {
         if (leftShiftDown && (GetKeyState(VK_LSHIFT) & 0x8000) == 0)
         {

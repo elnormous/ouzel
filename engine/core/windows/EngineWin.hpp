@@ -17,13 +17,13 @@
 
 #include "../Engine.hpp"
 
-namespace ouzel
+namespace ouzel::windows
 {
-    class EngineWin final: public Engine
+    class Engine final: public ouzel::Engine
     {
     public:
-        EngineWin(int initArgc, LPWSTR* initArgv);
-        ~EngineWin() override;
+        Engine(int initArgc, LPWSTR* initArgv);
+        ~Engine() override;
 
         void run();
 

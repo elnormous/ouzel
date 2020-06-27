@@ -3,7 +3,7 @@
 #include <system_error>
 #include "GamepadDeviceXI.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
     namespace
     {
@@ -14,7 +14,7 @@ namespace ouzel::input
     GamepadDeviceXI::GamepadDeviceXI(InputSystem& initInputSystem,
                                      DeviceId initId,
                                      DWORD aPlayerIndex):
-        GamepadDeviceWin(initInputSystem, initId),
+        GamepadDevice(initInputSystem, initId),
         playerIndex(aPlayerIndex)
     {
     }

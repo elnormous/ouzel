@@ -23,9 +23,9 @@
 #include "../Gamepad.hpp"
 #include "GamepadDeviceWin.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
-    class GamepadDeviceDI final: public GamepadDeviceWin
+    class GamepadDeviceDI final: public GamepadDevice
     {
     public:
         GamepadDeviceDI(InputSystem& initInputSystem,

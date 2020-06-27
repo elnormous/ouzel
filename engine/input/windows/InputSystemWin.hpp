@@ -25,19 +25,19 @@
 #include "KeyboardDeviceWin.hpp"
 #include "MouseDeviceWin.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
     const std::error_category& getErrorCategory() noexcept;
 
     class GamepadDeviceDI;
     class GamepadDeviceXI;
-    class CursorWin;
+    class Cursor;
 
-    class InputSystemWin final: public InputSystem
+    class InputSystem final: public input::InputSystem
     {
     public:
-        explicit InputSystemWin(const std::function<std::future<bool>(const Event&)>& initCallback);
-        ~InputSystemWin() override;
+        explicit InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
+        ~InputSystem() override;
 
         void executeCommand(const Command& command) final;
 
@@ -62,15 +62,15 @@ namespace ouzel::input
         bool discovering = false;
 
         DeviceId lastDeviceId;
-        std::unique_ptr<KeyboardDeviceWin> keyboardDevice;
-        std::unique_ptr<MouseDeviceWin> mouseDevice;
+        std::unique_ptr<KeyboardDevice> keyboardDevice;
+        std::unique_ptr<MouseDevice> mouseDevice;
         std::unique_ptr<TouchpadDevice> touchpadDevice;
 
         IDirectInput8W* directInput = nullptr;
         std::vector<std::unique_ptr<GamepadDeviceDI>> gamepadsDI;
         std::unique_ptr<GamepadDeviceXI> gamepadsXI[XUSER_MAX_COUNT];
 
-        std::vector<std::unique_ptr<CursorWin>> cursors;
+        std::vector<std::unique_ptr<Cursor>> cursors;
 
         HCURSOR defaultCursor = nullptr;
     };

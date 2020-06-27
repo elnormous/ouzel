@@ -5,18 +5,16 @@
 
 #include "../MouseDevice.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
-    class CursorWin;
+    class InputSystem;
+    class Cursor;
 
-    class MouseDeviceWin final: public MouseDevice
+    class MouseDevice final: public input::MouseDevice
     {
     public:
-        MouseDeviceWin(InputSystem& initInputSystem,
-                       DeviceId initId):
-            MouseDevice(initInputSystem, initId)
-        {
-        }
+        MouseDevice(InputSystem& initInputSystem,
+                    DeviceId initId);
 
         void setPosition(const Vector2F& position);
         auto isCursorVisible() const noexcept { return cursorVisible; }
@@ -24,10 +22,10 @@ namespace ouzel::input
         void setCursorLocked(bool locked);
 
         auto getCursor() const noexcept { return cursor; }
-        void setCursor(CursorWin* newCursor);
+        void setCursor(Cursor* newCursor);
 
     private:
-        CursorWin* cursor = nullptr;
+        Cursor* cursor = nullptr;
         bool cursorVisible = true;
     };
 }

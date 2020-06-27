@@ -8,7 +8,7 @@
 #include "../../core/windows/NativeWindowWin.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
     namespace
     {
@@ -26,7 +26,7 @@ namespace ouzel::input
     GamepadDeviceDI::GamepadDeviceDI(InputSystem& initInputSystem,
                                      DeviceId initId,
                                      const DIDEVICEINSTANCEW* initInstance, IDirectInput8W* directInput, HWND window):
-        GamepadDeviceWin(initInputSystem, initId),
+        GamepadDevice(initInputSystem, initId),
         instance(initInstance)
     {
         const std::int32_t vendorId = LOWORD(instance->guidProduct.Data1);

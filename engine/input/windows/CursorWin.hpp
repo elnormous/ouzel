@@ -20,22 +20,22 @@
 #include "../Cursor.hpp"
 #include "../../math/Size.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
-    class CursorWin final
+    class Cursor final
     {
     public:
-        explicit CursorWin(SystemCursor systemCursor);
-        CursorWin(const std::vector<std::uint8_t>& data,
+        explicit Cursor(SystemCursor systemCursor);
+        Cursor(const std::vector<std::uint8_t>& data,
                   const Size2F& size,
                   graphics::PixelFormat pixelFormat,
                   const Vector2F& hotSpot);
-        ~CursorWin();
+        ~Cursor();
 
-        CursorWin(const CursorWin&) = delete;
-        CursorWin& operator=(const CursorWin&) = delete;
-        CursorWin(CursorWin&&) = delete;
-        CursorWin& operator=(CursorWin&&) = delete;
+        Cursor(const Cursor&) = delete;
+        Cursor& operator=(const Cursor&) = delete;
+        Cursor(Cursor&&) = delete;
+        Cursor& operator=(Cursor&&) = delete;
 
         auto getCursor() const noexcept { return cursor; }
 

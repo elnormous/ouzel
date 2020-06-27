@@ -20,7 +20,7 @@
 #include "../../input/windows/InputSystemWin.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel
+namespace ouzel::windows
 {
     namespace
     {
@@ -57,7 +57,7 @@ namespace ouzel
         const ShellExecuteErrorCategory shellExecuteErrorCategory {};
     }
 
-    EngineWin::EngineWin(int initArgc, LPWSTR* initArgv)
+    Engine::Engine(int initArgc, LPWSTR* initArgv)
     {
         if (initArgv)
         {
@@ -87,7 +87,7 @@ namespace ouzel
 #endif
     }
 
-    EngineWin::~EngineWin()
+    Engine::~Engine()
     {
         //CoUninitialize();
     }
@@ -109,13 +109,13 @@ namespace ouzel
         }
     }
 
-    void EngineWin::run()
+    void Engine::run()
     {
         init();
         start();
 
-        auto inputWin = static_cast<input::InputSystemWin*>(inputManager->getInputSystem());
-        auto windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
+        auto inputWin = static_cast<input::windows::InputSystem*>(inputManager->getInputSystem());
+        auto windowWin = static_cast<NativeWindow*>(window->getNativeWindow());
 
         MSG message;
 
@@ -159,9 +159,9 @@ namespace ouzel
         exit();
     }
 
-    void EngineWin::runOnMainThread(const std::function<void()>& func)
+    void Engine::runOnMainThread(const std::function<void()>& func)
     {
-        auto windowWin = static_cast<NativeWindowWin*>(window->getNativeWindow());
+        auto windowWin = static_cast<NativeWindow*>(window->getNativeWindow());
 
         std::unique_lock lock(executeMutex);
         executeQueue.push(func);
@@ -172,7 +172,7 @@ namespace ouzel
 
     }
 
-    void EngineWin::executeAll()
+    void Engine::executeAll()
     {
         std::function<void()> func;
 
@@ -191,7 +191,7 @@ namespace ouzel
         }
     }
 
-    void EngineWin::openUrl(const std::string& url)
+    void Engine::openUrl(const std::string& url)
     {
         const int buferSize = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, nullptr, 0);
         if (buferSize == 0)

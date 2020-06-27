@@ -2,15 +2,22 @@
 
 #include <system_error>
 #include "MouseDeviceWin.hpp"
+#include "InputSystemWin.hpp"
 #include "../../core/Engine.hpp"
 #include "../../core/windows/NativeWindowWin.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::windows
 {
-    void MouseDeviceWin::setPosition(const Vector2F& position)
+    MouseDevice::MouseDevice(InputSystem& initInputSystem,
+                             DeviceId initId):
+        input::MouseDevice(initInputSystem, initId)
+    {
+    }
+
+    void MouseDevice::setPosition(const Vector2F& position)
     {
         const Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
-        HWND nativeWindow = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
+        HWND nativeWindow = static_cast<ouzel::windows::NativeWindow*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
 
         POINT p;
         p.x = static_cast<LONG>(windowLocation.v[0]);
@@ -19,16 +26,16 @@ namespace ouzel::input
         SetCursorPos(static_cast<int>(p.x), static_cast<int>(p.y));
     }
 
-    void MouseDeviceWin::setCursorVisible(bool visible)
+    void MouseDevice::setCursorVisible(bool visible)
     {
         cursorVisible = visible;
     }
 
-    void MouseDeviceWin::setCursorLocked(bool locked)
+    void MouseDevice::setCursorLocked(bool locked)
     {
         if (locked)
         {
-            HWND nativeWindow = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
+            HWND nativeWindow = static_cast<ouzel::windows::NativeWindow*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
 
             RECT rect;
             GetWindowRect(nativeWindow, &rect);
@@ -48,7 +55,7 @@ namespace ouzel::input
             throw std::system_error(GetLastError(), std::system_category(), "Failed to free pointer");
     }
 
-    void MouseDeviceWin::setCursor(CursorWin* newCursor)
+    void MouseDevice::setCursor(Cursor* newCursor)
     {
         cursor = newCursor;
     }

@@ -239,7 +239,7 @@ namespace
         auto userData = GetWindowLongPtr(window, GWLP_USERDATA);
         if (!userData) return DefWindowProcW(window, message, wParam, lParam);
 
-        auto windowWin = ouzel::bitCast<ouzel::NativeWindowWin*>(userData);
+        auto windowWin = ouzel::bitCast<ouzel::windows::NativeWindow*>(userData);
 
         switch (message)
         {
@@ -299,7 +299,7 @@ namespace
             {
                 if (LOWORD(lParam) == HTCLIENT)
                 {
-                    auto inputSystemWin = static_cast<ouzel::input::InputSystemWin*>(ouzel::engine->getInputManager()->getInputSystem());
+                    auto inputSystemWin = static_cast<ouzel::input::windows::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
                     inputSystemWin->updateCursor();
                     return TRUE;
                 }
@@ -366,7 +366,7 @@ namespace
                 return 0;
             case WM_USER:
             {
-                auto engineWin = static_cast<ouzel::EngineWin*>(ouzel::engine);
+                auto engineWin = static_cast<ouzel::windows::Engine*>(ouzel::engine);
                 engineWin->executeAll();
                 break;
             }
@@ -378,22 +378,22 @@ namespace
     constexpr LPCWSTR windowClassName = L"OuzelWindow";
 }
 
-namespace ouzel
+namespace ouzel::windows
 {
-    NativeWindowWin::NativeWindowWin(const std::function<void(const Event&)>& initCallback,
-                                     const Size2U& newSize,
-                                     bool newResizable,
-                                     bool newFullscreen,
-                                     bool newExclusiveFullscreen,
-                                     const std::string& newTitle,
-                                     bool newHighDpi):
-        NativeWindow(initCallback,
-                     newSize,
-                     newResizable,
-                     newFullscreen,
-                     newExclusiveFullscreen,
-                     newTitle,
-                     newHighDpi)
+    NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
+                               const Size2U& newSize,
+                               bool newResizable,
+                               bool newFullscreen,
+                               bool newExclusiveFullscreen,
+                               const std::string& newTitle,
+                               bool newHighDpi):
+        ouzel::NativeWindow(initCallback,
+                            newSize,
+                            newResizable,
+                            newFullscreen,
+                            newExclusiveFullscreen,
+                            newTitle,
+                            newHighDpi)
     {
         if (highDpi)
         {
@@ -485,15 +485,12 @@ namespace ouzel
 
         SetLastError(ERROR_SUCCESS);
 
-        ouzel::NativeWindowWin* windowWin = this;
-        const LONG_PTR userData = bitCast<LONG_PTR>(windowWin);
-
-        if (!SetWindowLongPtr(window, GWLP_USERDATA, userData))
+        if (!SetWindowLongPtr(window, GWLP_USERDATA, bitCast<LONG_PTR>(this)))
             if (DWORD error = GetLastError())
                 throw std::system_error(error, std::system_category(), "Failed to set window pointer");
     }
 
-    NativeWindowWin::~NativeWindowWin()
+    NativeWindow::~NativeWindow()
     {
         if (window)
             DestroyWindow(window);
@@ -502,7 +499,7 @@ namespace ouzel
             UnregisterClassW(windowClassName, GetModuleHandleW(nullptr));
     }
 
-    void NativeWindowWin::executeCommand(const Command& command)
+    void NativeWindow::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -541,12 +538,12 @@ namespace ouzel
         }
     }
 
-    void NativeWindowWin::close()
+    void NativeWindow::close()
     {
         SendMessage(window, WM_CLOSE, 0, 0);
     }
 
-    void NativeWindowWin::setSize(const Size2U& newSize)
+    void NativeWindow::setSize(const Size2U& newSize)
     {
         size = newSize;
 
@@ -569,14 +566,14 @@ namespace ouzel
         sendEvent(resolutionChangeEvent);
     }
 
-    void NativeWindowWin::setFullscreen(bool newFullscreen)
+    void NativeWindow::setFullscreen(bool newFullscreen)
     {
         fullscreen = newFullscreen;
 
         switchFullscreen(newFullscreen);
     }
 
-    void NativeWindowWin::setTitle(const std::string& newTitle)
+    void NativeWindow::setTitle(const std::string& newTitle)
     {
         if (title != newTitle)
         {
@@ -595,37 +592,37 @@ namespace ouzel
         }
     }
 
-    void NativeWindowWin::bringToFront()
+    void NativeWindow::bringToFront()
     {
         SetForegroundWindow(window);
     }
 
-    void NativeWindowWin::show()
+    void NativeWindow::show()
     {
         ShowWindow(window, SW_SHOW);
     }
 
-    void NativeWindowWin::hide()
+    void NativeWindow::hide()
     {
         ShowWindow(window, SW_HIDE);
     }
 
-    void NativeWindowWin::minimize()
+    void NativeWindow::minimize()
     {
         ShowWindow(window, SW_MINIMIZE);
     }
 
-    void NativeWindowWin::maximize()
+    void NativeWindow::maximize()
     {
         ShowWindow(window, SW_MAXIMIZE);
     }
 
-    void NativeWindowWin::restore()
+    void NativeWindow::restore()
     {
         ShowWindow(window, SW_RESTORE);
     }
 
-    void NativeWindowWin::switchFullscreen(bool newFullscreen)
+    void NativeWindow::switchFullscreen(bool newFullscreen)
     {
         if (exclusiveFullscreen)
         {
@@ -672,7 +669,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowWin::handleResize(const Size2U& newSize)
+    void NativeWindow::handleResize(const Size2U& newSize)
     {
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 
@@ -688,12 +685,12 @@ namespace ouzel
         sendEvent(resolutionChangeEvent);
     }
 
-    void NativeWindowWin::handleMove()
+    void NativeWindow::handleMove()
     {
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
     }
 
-    void NativeWindowWin::handleActivate(WPARAM wParam)
+    void NativeWindow::handleActivate(WPARAM wParam)
     {
         Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = wParam != 0;
@@ -701,7 +698,7 @@ namespace ouzel
 
         if (wParam)
         {
-                auto inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
+                auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
                 auto mouseDevice = inputSystemWin->getMouseDevice();
 
                 POINT cursorPos;
@@ -714,12 +711,12 @@ namespace ouzel
         }
     }
 
-    void NativeWindowWin::handleShowWindow(BOOL shown)
+    void NativeWindow::handleShowWindow(BOOL shown)
     {
         sendEvent(Event(shown ? Event::Type::show : Event::Type::hide));
     }
 
-    void NativeWindowWin::handleMinimize()
+    void NativeWindow::handleMinimize()
     {
         Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = false;
@@ -728,18 +725,18 @@ namespace ouzel
         sendEvent(Event(Event::Type::minimize));
     }
 
-    void NativeWindowWin::handleMaximize()
+    void NativeWindow::handleMaximize()
     {
         sendEvent(Event(Event::Type::maximize));
     }
 
-    void NativeWindowWin::handleRestore()
+    void NativeWindow::handleRestore()
     {
         Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
 
-        auto inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
+        auto inputSystemWin = static_cast<input::windows::InputSystem* > (engine->getInputManager()->getInputSystem());
         auto mouseDevice = inputSystemWin->getMouseDevice();
 
         POINT cursorPos;
@@ -753,9 +750,9 @@ namespace ouzel
         sendEvent(Event(Event::Type::restore));
     }
 
-    void NativeWindowWin::handleKey(UINT message, WPARAM wParam, LPARAM lParam)
+    void NativeWindow::handleKey(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
+        auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
         auto keyboardDevice = inputSystemWin->getKeyboardDevice();
 
         if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
@@ -764,9 +761,9 @@ namespace ouzel
             keyboardDevice->handleKeyRelease(convertKeyCode(lParam, wParam));
     }
 
-    void NativeWindowWin::handleMouseMove(LPARAM lParam)
+    void NativeWindow::handleMouseMove(LPARAM lParam)
     {
-        auto inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
+        auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
         auto mouseDevice = inputSystemWin->getMouseDevice();
 
         Vector2F position(static_cast<float>(GET_X_LPARAM(lParam)),
@@ -775,9 +772,9 @@ namespace ouzel
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 
-    void NativeWindowWin::handleMouseButton(UINT message, WPARAM wParam, LPARAM lParam)
+    void NativeWindow::handleMouseButton(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
+        auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
         auto mouseDevice = inputSystemWin->getMouseDevice();
 
         Vector2F position(static_cast<float>(GET_X_LPARAM(lParam)),
@@ -811,9 +808,9 @@ namespace ouzel
                                              engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 
-    void NativeWindowWin::handleMouseWheel(UINT message, WPARAM wParam, LPARAM lParam)
+    void NativeWindow::handleMouseWheel(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
+        auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
         auto mouseDevice = inputSystemWin->getMouseDevice();
 
         Vector2F position(static_cast<float>(GET_X_LPARAM(lParam)),
@@ -833,9 +830,9 @@ namespace ouzel
         }
     }
 
-    void NativeWindowWin::handleTouch(WPARAM wParam, LPARAM lParam)
+    void NativeWindow::handleTouch(WPARAM wParam, LPARAM lParam)
     {
-        auto inputSystemWin = static_cast<input::InputSystemWin*>(engine->getInputManager()->getInputSystem());
+        auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
         auto touchpadDevice = inputSystemWin->getTouchpadDevice();
 
         const UINT inputCount = LOWORD(wParam);
@@ -868,14 +865,14 @@ namespace ouzel
             throw std::system_error(GetLastError(), std::system_category(), "Failed to close touch input handle");
     }
 
-    void NativeWindowWin::addAccelerator(HACCEL accelerator)
+    void NativeWindow::addAccelerator(HACCEL accelerator)
     {
         engine->executeOnMainThread([this, accelerator]() {
             accelerators.insert(accelerator);
         });
     }
 
-    void NativeWindowWin::removeAccelerator(HACCEL accelerator)
+    void NativeWindow::removeAccelerator(HACCEL accelerator)
     {
         engine->executeOnMainThread([this, accelerator]() {
             accelerators.erase(accelerator);
