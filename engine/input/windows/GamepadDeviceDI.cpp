@@ -24,8 +24,8 @@ namespace ouzel::input
     }
 
     GamepadDeviceDI::GamepadDeviceDI(InputSystem& initInputSystem,
-                                        DeviceId initId,
-                                        const DIDEVICEINSTANCEW* initInstance, IDirectInput8W* directInput, HWND window):
+                                     DeviceId initId,
+                                     const DIDEVICEINSTANCEW* initInstance, IDirectInput8W* directInput, HWND window):
         GamepadDeviceWin(initInputSystem, initId),
         instance(initInstance)
     {
@@ -274,11 +274,9 @@ namespace ouzel::input
 
                 if ((button.button != Gamepad::Button::leftTrigger || !hasLeftTrigger) &&
                     (button.button != Gamepad::Button::rightTrigger || !hasRightTrigger))
-                {
                     handleButtonValueChange(button.button,
                                             events[e].dwData > 0,
                                             (events[e].dwData > 0) ? 1.0F : 0.0F);
-                }
 
                 button.value = static_cast<BYTE>(events[e].dwData);
             }
@@ -290,9 +288,9 @@ namespace ouzel::input
                 Axis& axis = axisIterator->second;
 
                 handleAxisChange(axis.value,
-                                    events[e].dwData,
-                                    axis.min, axis.range,
-                                    axis.negativeButton, axis.positiveButton);
+                                 events[e].dwData,
+                                 axis.min, axis.range,
+                                 axis.negativeButton, axis.positiveButton);
 
                 axis.value = events[e].dwData;
             }
@@ -357,11 +355,9 @@ namespace ouzel::input
             {
                 if ((button.button != Gamepad::Button::leftTrigger || !hasLeftTrigger) &&
                     (button.button != Gamepad::Button::rightTrigger || !hasRightTrigger))
-                {
                     handleButtonValueChange(button.button,
                                             newValue > 0,
                                             (newValue > 0) ? 1.0F : 0.0F);
-                }
 
                 button.value = newValue;
             }
@@ -376,9 +372,9 @@ namespace ouzel::input
             if (axis.value != newValue)
             {
                 handleAxisChange(axis.value,
-                                    newValue,
-                                    axis.min, axis.range,
-                                    axis.negativeButton, axis.positiveButton);
+                                 newValue,
+                                 axis.min, axis.range,
+                                 axis.negativeButton, axis.positiveButton);
 
                 axis.value = newValue;
             }
@@ -386,8 +382,8 @@ namespace ouzel::input
     }
 
     void GamepadDeviceDI::handleAxisChange(LONG oldValue, LONG newValue,
-                                            LONG min, LONG range,
-                                            Gamepad::Button negativeButton, Gamepad::Button positiveButton)
+                                           LONG min, LONG range,
+                                           Gamepad::Button negativeButton, Gamepad::Button positiveButton)
     {
         if (negativeButton == positiveButton)
         {

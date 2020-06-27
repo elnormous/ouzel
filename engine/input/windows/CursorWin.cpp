@@ -36,9 +36,9 @@ namespace ouzel::input
     }
 
     CursorWin::CursorWin(const std::vector<std::uint8_t>& data,
-                            const Size2F& size,
-                            graphics::PixelFormat pixelFormat,
-                            const Vector2F& hotSpot)
+                         const Size2F& size,
+                         graphics::PixelFormat pixelFormat,
+                         const Vector2F& hotSpot)
     {
         if (!data.empty())
         {

@@ -168,7 +168,7 @@ namespace ouzel::input
                 else
                 {
                     auto cursor = std::make_unique<CursorWin>(command.data, command.size,
-                                                                command.pixelFormat, command.hotSpot);
+                                                              command.pixelFormat, command.hotSpot);
                     cursors[command.cursorResource - 1] = std::move(cursor);
                 }
                 break;
@@ -284,7 +284,7 @@ namespace ouzel::input
 
         void* wbemLocatorPointer;
         if (const auto hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
-                                                __uuidof(IWbemLocator), &wbemLocatorPointer); FAILED(hr))
+                                             __uuidof(IWbemLocator), &wbemLocatorPointer); FAILED(hr))
             throw std::system_error(hr, errorCategory, "Failed to create WMI locator instance");
 
         auto wbemLocator = static_cast<IWbemLocator*>(wbemLocatorPointer);
@@ -297,11 +297,11 @@ namespace ouzel::input
         {
             IWbemServices* wbemServices = nullptr;
             if (const auto hr = wbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
-                                                            0L, nullptr, nullptr, &wbemServices); FAILED(hr))
+                                                           0L, nullptr, nullptr, &wbemServices); FAILED(hr))
                 throw std::system_error(hr, errorCategory, "Failed to create a connection to the WMI namespace");
 
             if (const auto hr = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
-                                                    RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE); FAILED(hr))
+                                                  RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE); FAILED(hr))
                 throw std::system_error(hr, errorCategory, "Failed to set authentication information");
 
             IEnumWbemClassObject* enumDevices = nullptr;
@@ -371,8 +371,8 @@ namespace ouzel::input
                 auto windowWin = static_cast<NativeWindowWin*>(engine->getWindow()->getNativeWindow());
 
                 gamepadsDI.emplace_back(std::make_unique<GamepadDeviceDI>(*this, getNextDeviceId(),
-                                                                            didInstance, directInput,
-                                                                            windowWin->getNativeWindow()));
+                                                                          didInstance, directInput,
+                                                                          windowWin->getNativeWindow()));
             }
         }
     }

@@ -41,8 +41,8 @@ namespace ouzel::input
         void checkInputBuffered();
         void checkInputPolled();
         void handleAxisChange(LONG oldValue, LONG newValue,
-                                LONG min, LONG range,
-                                Gamepad::Button negativeButton, Gamepad::Button positiveButton);
+                              LONG min, LONG range,
+                              Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
         std::string name;
 

@@ -27,9 +27,9 @@ namespace ouzel::input
     public:
         explicit CursorWin(SystemCursor systemCursor);
         CursorWin(const std::vector<std::uint8_t>& data,
-                    const Size2F& size,
-                    graphics::PixelFormat pixelFormat,
-                    const Vector2F& hotSpot);
+                  const Size2F& size,
+                  graphics::PixelFormat pixelFormat,
+                  const Vector2F& hotSpot);
         ~CursorWin();
 
         CursorWin(const CursorWin&) = delete;

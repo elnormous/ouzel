@@ -12,7 +12,7 @@ namespace ouzel::input
     {
     public:
         GamepadDeviceWin(InputSystem& initInputSystem,
-                            DeviceId initId):
+                         DeviceId initId):
             GamepadDevice(initInputSystem, initId)
         {
         }

@@ -11,7 +11,7 @@ namespace ouzel::input
     {
     public:
         KeyboardDeviceWin(InputSystem& initInputSystem,
-                            DeviceId initId):
+                          DeviceId initId):
             KeyboardDevice(initInputSystem, initId)
         {
         }
