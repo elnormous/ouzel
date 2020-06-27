@@ -9,7 +9,7 @@
 #include "../../input/macos/InputSystemMacOS.hpp"
 #include "../../utils/Utils.hpp"
 
-@implementation ViewMacOS
+@implementation View
 
 - (BOOL)isOpaque
 {

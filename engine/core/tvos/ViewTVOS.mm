@@ -6,7 +6,7 @@
 #include "../Engine.hpp"
 #include "../../input/tvos/InputSystemTVOS.hpp"
 
-@implementation ViewTVOS
+@implementation View
 
 - (void)insertText:(__unused NSString*)text
 {

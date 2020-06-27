@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "../../../core/tvos/ViewTVOS.h"
 
-@interface OpenGLView: ViewTVOS
+@interface OpenGLView: View
 @end
 
 #endif

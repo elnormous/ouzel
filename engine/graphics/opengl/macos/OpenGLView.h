@@ -10,7 +10,7 @@
 #import <AppKit/NSOpenGL.h>
 #import "../../../core/macos/ViewMacOS.h"
 
-@interface OpenGLView: ViewMacOS
+@interface OpenGLView: View
 
 - (void)setOpenGLContext:(NSOpenGLContext*)context;
 @end

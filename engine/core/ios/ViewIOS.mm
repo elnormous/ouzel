@@ -8,7 +8,7 @@
 #include "../../input/ios/InputSystemIOS.hpp"
 #include "../../utils/Utils.hpp"
 
-@implementation ViewIOS
+@implementation View
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {

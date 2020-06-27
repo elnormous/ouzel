@@ -78,7 +78,7 @@ namespace ouzel::ios
         switch (graphicsDriver)
         {
             case graphics::Driver::empty:
-                view = [[ViewIOS alloc] initWithFrame:windowFrame];
+                view = [[View alloc] initWithFrame:windowFrame];
                 break;
 #if OUZEL_COMPILE_OPENGL
             case graphics::Driver::openGL:

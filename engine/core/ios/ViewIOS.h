@@ -5,7 +5,7 @@
 
 #import <UIKit/UIView.h>
 
-@interface ViewIOS: UIView
+@interface View: UIView
 @end
 
 #endif // OUZEL_VIEWIOS_H

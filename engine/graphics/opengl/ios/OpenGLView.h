@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "../../../core/ios/ViewIOS.h"
 
-@interface OpenGLView: ViewIOS
+@interface OpenGLView: View
 @end
 
 #endif

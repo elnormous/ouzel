@@ -9,7 +9,7 @@
 
 #import "../../../core/ios/ViewIOS.h"
 
-@interface MetalView: ViewIOS
+@interface MetalView: View
 @end
 
 #endif

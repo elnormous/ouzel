@@ -9,7 +9,7 @@
 
 #import "../../../core/macos/ViewMacOS.h"
 
-@interface MetalView: ViewMacOS
+@interface MetalView: View
 @end
 
 #endif

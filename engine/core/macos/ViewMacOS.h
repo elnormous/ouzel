@@ -5,7 +5,7 @@
 
 #import <AppKit/NSView.h>
 
-@interface ViewMacOS: NSView
+@interface View: NSView
 @end
 
 #endif // OUZEL_VIEWMACOS_H

@@ -9,7 +9,7 @@
 
 #import "../../../core/tvos/ViewTVOS.h"
 
-@interface MetalView: ViewTVOS
+@interface MetalView: View
 @end
 
 #endif
