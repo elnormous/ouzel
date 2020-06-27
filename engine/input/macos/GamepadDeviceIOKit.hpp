@@ -9,14 +9,14 @@
 #include "GamepadDeviceMacOS.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::macos
 {
-    class GamepadDeviceIOKit final: public GamepadDeviceMacOS
+    class GamepadDeviceIOKit final: public GamepadDevice
     {
     public:
         GamepadDeviceIOKit(InputSystem& initInputSystem,
-                            DeviceId initId,
-                            IOHIDDeviceRef initDevice);
+                           DeviceId initId,
+                           IOHIDDeviceRef initDevice);
 
         auto getDevice() const noexcept { return device; }
 
@@ -24,9 +24,9 @@ namespace ouzel::input
 
     private:
         void handleAxisChange(CFIndex oldValue, CFIndex newValue,
-                                CFIndex min, CFIndex range,
-                                Gamepad::Button negativeButton,
-                                Gamepad::Button positiveButton);
+                              CFIndex min, CFIndex range,
+                              Gamepad::Button negativeButton,
+                              Gamepad::Button positiveButton);
 
         IOHIDDeviceRef device = nullptr;
 

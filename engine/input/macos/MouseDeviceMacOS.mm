@@ -2,12 +2,18 @@
 
 #import <Carbon/Carbon.h>
 #include "MouseDeviceMacOS.hpp"
+#include "InputSystemMacOS.hpp"
 #include "../../core/Engine.hpp"
 #include "../../core/macos/NativeWindowMacOS.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::macos
 {
-    void MouseDeviceMacOS::setPosition(const Vector2F& position)
+    MouseDevice::MouseDevice(InputSystem& initInputSystem, DeviceId initId):
+        input::MouseDevice(initInputSystem, initId)
+    {
+    }
+
+    void MouseDevice::setPosition(const Vector2F& position)
     {
         ouzel::Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
@@ -20,17 +26,17 @@ namespace ouzel::input
                                                 screenOrigin.y + windowOrigin.y + windowLocation.v[1]));
     }
 
-    void MouseDeviceMacOS::setCursorVisible(bool visible)
+    void MouseDevice::setCursorVisible(bool visible)
     {
         cursorVisible = visible;
     }
 
-    void MouseDeviceMacOS::setCursorLocked(bool locked)
+    void MouseDevice::setCursorLocked(bool locked)
     {
         CGAssociateMouseAndMouseCursorPosition(!locked);
     }
 
-    void MouseDeviceMacOS::setCursor(CursorMacOS* newCursor)
+    void MouseDevice::setCursor(Cursor* newCursor)
     {
         cursor = newCursor;
     }

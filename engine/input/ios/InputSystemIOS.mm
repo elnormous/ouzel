@@ -12,10 +12,10 @@
 
 @implementation ConnectDelegate
 {
-    ouzel::input::InputSystemIOS* input;
+    ouzel::input::ios::InputSystem* input;
 }
 
-- (id)initWithInput:(ouzel::input::InputSystemIOS*)initInput
+- (id)initWithInput:(ouzel::input::ios::InputSystem*)initInput
 {
     if (self = [super init])
         input = initInput;
@@ -34,10 +34,10 @@
 }
 @end
 
-namespace ouzel::input
+namespace ouzel::input::ios
 {
-    InputSystemIOS::InputSystemIOS(const std::function<std::future<bool>(const Event&)>& initCallback):
-        InputSystem(initCallback),
+    InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
+        input::InputSystem(initCallback),
         keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
         touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
     {
@@ -60,7 +60,7 @@ namespace ouzel::input
             ^(void){ handleGamepadDiscoveryCompleted(); }];
     }
 
-    InputSystemIOS::~InputSystemIOS()
+    InputSystem::~InputSystem()
     {
         if (connectDelegate)
         {
@@ -70,7 +70,7 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemIOS::executeCommand(const Command& command)
+    void InputSystem::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -84,7 +84,7 @@ namespace ouzel::input
             {
                 if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                 {
-                    auto gamepadDevice = static_cast<GamepadDeviceIOS*>(inputDevice);
+                    auto gamepadDevice = static_cast<GamepadDevice*>(inputDevice);
                     gamepadDevice->setPlayerIndex(command.playerIndex);
                 }
                 break;
@@ -104,23 +104,23 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemIOS::startGamepadDiscovery()
+    void InputSystem::startGamepadDiscovery()
     {
         [GCController startWirelessControllerDiscoveryWithCompletionHandler:
             ^(void){ handleGamepadDiscoveryCompleted(); }];
     }
 
-    void InputSystemIOS::stopGamepadDiscovery()
+    void InputSystem::stopGamepadDiscovery()
     {
         [GCController stopWirelessControllerDiscovery];
     }
 
-    void InputSystemIOS::handleGamepadDiscoveryCompleted()
+    void InputSystem::handleGamepadDiscoveryCompleted()
     {
         sendEvent(Event(Event::Type::deviceDiscoveryComplete));
     }
 
-    void InputSystemIOS::handleGamepadConnected(GCControllerPtr controller)
+    void InputSystem::handleGamepadConnected(GCControllerPtr controller)
     {
         std::vector<std::int32_t> playerIndices = {0, 1, 2, 3};
 
@@ -132,11 +132,11 @@ namespace ouzel::input
 
         if (!playerIndices.empty()) controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
 
-        auto gamepadDevice = std::make_unique<GamepadDeviceIOS>(*this, getNextDeviceId(), controller);
+        auto gamepadDevice = std::make_unique<GamepadDevice>(*this, getNextDeviceId(), controller);
         gamepadDevices.insert(std::make_pair(controller, std::move(gamepadDevice)));
     }
 
-    void InputSystemIOS::handleGamepadDisconnected(GCControllerPtr controller)
+    void InputSystem::handleGamepadDisconnected(GCControllerPtr controller)
     {
         auto i = gamepadDevices.find(controller);
 
@@ -144,14 +144,14 @@ namespace ouzel::input
             gamepadDevices.erase(i);
     }
 
-    void InputSystemIOS::showVirtualKeyboard()
+    void InputSystem::showVirtualKeyboard()
     {
         auto windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
         UITextField* textField = windowIOS->getTextField();
         [textField becomeFirstResponder];
     }
 
-    void InputSystemIOS::hideVirtualKeyboard()
+    void InputSystem::hideVirtualKeyboard()
     {
         auto windowIOS = static_cast<NativeWindowIOS*>(engine->getWindow()->getNativeWindow());
         UITextField* textField = windowIOS->getTextField();

@@ -19,10 +19,10 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
 
 @implementation ConnectDelegate
 {
-    ouzel::input::InputSystemMacOS* input;
+    ouzel::input::macos::InputSystem* input;
 }
 
-- (id)initWithInput:(ouzel::input::InputSystemMacOS*)initInput
+- (id)initWithInput:(ouzel::input::macos::InputSystem*)initInput
 {
     if (self = [super init])
         input = initInput;
@@ -41,7 +41,7 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
 }
 @end
 
-namespace ouzel::input
+namespace ouzel::input::macos
 {
     namespace
     {
@@ -118,13 +118,13 @@ namespace ouzel::input
 
         void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
         {
-            auto inputMacOS = static_cast<InputSystemMacOS*>(ctx);
+            auto inputMacOS = static_cast<InputSystem*>(ctx);
             inputMacOS->handleGamepadConnected(device);
         }
 
         void deviceRemoved(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
         {
-            auto inputMacOS = static_cast<InputSystemMacOS*>(ctx);
+            auto inputMacOS = static_cast<InputSystem*>(ctx);
             inputMacOS->handleGamepadDisconnected(device);
         }
     }
@@ -134,10 +134,10 @@ namespace ouzel::input
         return errorCategory;
     }
 
-    InputSystemMacOS::InputSystemMacOS(const std::function<std::future<bool>(const Event&)>& initCallback):
-        InputSystem(initCallback),
+    InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
+        input::InputSystem(initCallback),
         keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
-        mouseDevice(std::make_unique<MouseDeviceMacOS>(*this, getNextDeviceId())),
+        mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
         touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), false))
     {
         defaultCursor = [NSCursor arrowCursor];
@@ -197,7 +197,7 @@ namespace ouzel::input
             ^(void){ handleGamepadDiscoveryCompleted(); }];
     }
 
-    InputSystemMacOS::~InputSystemMacOS()
+    InputSystem::~InputSystem()
     {
         if (emptyCursor)
             [emptyCursor release];
@@ -212,7 +212,7 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemMacOS::executeCommand(const Command& command)
+    void InputSystem::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -226,7 +226,7 @@ namespace ouzel::input
             {
                 if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                 {
-                    auto gamepadDevice = static_cast<GamepadDeviceMacOS*>(inputDevice);
+                    auto gamepadDevice = static_cast<GamepadDevice*>(inputDevice);
                     gamepadDevice->setPlayerIndex(command.playerIndex);
                 }
                 break;
@@ -251,20 +251,20 @@ namespace ouzel::input
 
                 if (command.data.empty())
                 {
-                    auto cursor = std::make_unique<CursorMacOS>(command.systemCursor);
+                    auto cursor = std::make_unique<Cursor>(command.systemCursor);
                     cursors[command.cursorResource - 1] = std::move(cursor);
                 }
                 else
                 {
-                    auto cursor = std::make_unique<CursorMacOS>(command.data, command.size,
-                                                                command.pixelFormat, command.hotSpot);
+                    auto cursor = std::make_unique<Cursor>(command.data, command.size,
+                                                           command.pixelFormat, command.hotSpot);
                     cursors[command.cursorResource - 1] = std::move(cursor);
                 }
                 break;
             }
             case Command::Type::destroyCursor:
             {
-                CursorMacOS* cursor = cursors[command.cursorResource - 1].get();
+                Cursor* cursor = cursors[command.cursorResource - 1].get();
 
                 if (mouseDevice->getCursor() == cursor)
                 {
@@ -316,23 +316,23 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemMacOS::startGamepadDiscovery()
+    void InputSystem::startGamepadDiscovery()
     {
         [GCController startWirelessControllerDiscoveryWithCompletionHandler:
             ^(void){ handleGamepadDiscoveryCompleted(); }];
     }
 
-    void InputSystemMacOS::stopGamepadDiscovery()
+    void InputSystem::stopGamepadDiscovery()
     {
         [GCController stopWirelessControllerDiscovery];
     }
 
-    void InputSystemMacOS::handleGamepadDiscoveryCompleted()
+    void InputSystem::handleGamepadDiscoveryCompleted()
     {
         sendEvent(Event(Event::Type::deviceDiscoveryComplete));
     }
 
-    void InputSystemMacOS::handleGamepadConnected(GCControllerPtr controller)
+    void InputSystem::handleGamepadConnected(GCControllerPtr controller)
     {
         std::int32_t vendorId = 0;
         std::int32_t productId = 0;
@@ -372,7 +372,7 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemMacOS::handleGamepadDisconnected(GCControllerPtr controller)
+    void InputSystem::handleGamepadDisconnected(GCControllerPtr controller)
     {
         auto i = gamepadDevicesGC.find(controller);
 
@@ -380,7 +380,7 @@ namespace ouzel::input
             gamepadDevicesGC.erase(i);
     }
 
-    void InputSystemMacOS::handleGamepadConnected(IOHIDDeviceRef device)
+    void InputSystem::handleGamepadConnected(IOHIDDeviceRef device)
     {
         std::int32_t vendorId = 0;
         std::int32_t productId = 0;
@@ -404,7 +404,7 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemMacOS::handleGamepadDisconnected(IOHIDDeviceRef device)
+    void InputSystem::handleGamepadDisconnected(IOHIDDeviceRef device)
     {
         auto i = gamepadDevicesIOKit.find(device);
 
@@ -412,7 +412,7 @@ namespace ouzel::input
             gamepadDevicesIOKit.erase(i);
     }
 
-    NSCursorPtr InputSystemMacOS::getCursor() const
+    NSCursorPtr InputSystem::getCursor() const
     {
         if (mouseDevice->isCursorVisible())
         {

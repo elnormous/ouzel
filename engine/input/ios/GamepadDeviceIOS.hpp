@@ -15,14 +15,16 @@ typedef id GCControllerPtr;
 #include "../GamepadDevice.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::ios
 {
-    class GamepadDeviceIOS final: public GamepadDevice
+    class InputSystem;
+
+    class GamepadDevice final: public input::GamepadDevice
     {
     public:
-        GamepadDeviceIOS(InputSystem& initInputSystem,
-                            DeviceId initId,
-                            GCControllerPtr initController);
+        GamepadDevice(InputSystem& initInputSystem,
+                      DeviceId initId,
+                      GCControllerPtr initController);
 
         void setAbsoluteDpadValues(bool absoluteDpadValues);
         bool isAbsoluteDpadValues() const;

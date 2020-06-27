@@ -14,9 +14,9 @@ typedef id GCControllerPtr;
 #include "GamepadDeviceMacOS.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::macos
 {
-    class GamepadDeviceGC final: public GamepadDeviceMacOS
+    class GamepadDeviceGC final: public GamepadDevice
     {
     public:
         GamepadDeviceGC(InputSystem& initInputSystem,

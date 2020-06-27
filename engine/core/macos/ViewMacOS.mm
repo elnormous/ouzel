@@ -40,7 +40,7 @@
 {
     [super resetCursorRects];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto cursor = inputSystemMacOS->getCursor();
 
     [self addCursorRect:[self bounds] cursor:cursor];
@@ -195,21 +195,21 @@ namespace
 
 - (void)keyDown:(NSEvent*)event
 {
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto keyboardDevice = inputSystemMacOS->getKeyboardDevice();
     keyboardDevice->handleKeyPress(convertKeyCode(event.keyCode));
 }
 
 - (void)keyUp:(NSEvent*)event
 {
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto keyboardDevice = inputSystemMacOS->getKeyboardDevice();
     keyboardDevice->handleKeyRelease(convertKeyCode(event.keyCode));
 }
 
 - (void)flagsChanged:(NSEvent*)event
 {
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto keyboardDevice = inputSystemMacOS->getKeyboardDevice();
 
     NSUInteger mask = 0;
@@ -244,7 +244,7 @@ namespace
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::left,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
@@ -255,7 +255,7 @@ namespace
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::left,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
@@ -266,7 +266,7 @@ namespace
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::right,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
@@ -277,7 +277,7 @@ namespace
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::right,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
@@ -288,7 +288,7 @@ namespace
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::middle,
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
@@ -299,7 +299,7 @@ namespace
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::middle,
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
@@ -310,7 +310,7 @@ namespace
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                           static_cast<float>(location.y))));
@@ -320,7 +320,7 @@ namespace
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                           static_cast<float>(location.y))));
@@ -330,7 +330,7 @@ namespace
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                           static_cast<float>(location.y))));
@@ -340,7 +340,7 @@ namespace
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2F(static_cast<float>(location.x),
                                                                                                           static_cast<float>(location.y))));
@@ -350,7 +350,7 @@ namespace
 {
     const NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
     mouseDevice->handleScroll(ouzel::Vector2F(static_cast<float>(event.scrollingDeltaX),
                                               static_cast<float>(event.scrollingDeltaY)),
@@ -362,7 +362,7 @@ namespace
 {
     NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseBegan inView:self];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto touchpadDevice = inputSystemMacOS->getTouchpadDevice();
     for (NSTouch* touch in touches)
     {
@@ -378,7 +378,7 @@ namespace
 {
     NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseMoved inView:self];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto touchpadDevice = inputSystemMacOS->getTouchpadDevice();
     for (NSTouch* touch in touches)
     {
@@ -394,7 +394,7 @@ namespace
 {
     NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseEnded inView:self];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto touchpadDevice = inputSystemMacOS->getTouchpadDevice();
     for (NSTouch* touch in touches)
     {
@@ -410,7 +410,7 @@ namespace
 {
     NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseCancelled inView:self];
 
-    auto inputSystemMacOS = static_cast<ouzel::input::InputSystemMacOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto touchpadDevice = inputSystemMacOS->getTouchpadDevice();
     for (NSTouch* touch in touches)
     {

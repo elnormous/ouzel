@@ -26,17 +26,17 @@ typedef id GCControllerPtr;
 #include "GamepadDeviceIOKit.hpp"
 #include "MouseDeviceMacOS.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::macos
 {
     const std::error_category& getErrorCategory() noexcept;
 
-    class CursorMacOS;
+    class Cursor;
 
-    class InputSystemMacOS final: public InputSystem
+    class InputSystem final: public input::InputSystem
     {
     public:
-        explicit InputSystemMacOS(const std::function<std::future<bool>(const Event&)>& initCallback);
-        ~InputSystemMacOS() override;
+        explicit InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
+        ~InputSystem() override;
 
         void executeCommand(const Command& command) final;
 
@@ -65,7 +65,7 @@ namespace ouzel::input
 
         DeviceId lastDeviceId;
         std::unique_ptr<KeyboardDevice> keyboardDevice;
-        std::unique_ptr<MouseDeviceMacOS> mouseDevice;
+        std::unique_ptr<MouseDevice> mouseDevice;
         std::unique_ptr<TouchpadDevice> touchpadDevice;
         std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceGC>> gamepadDevicesGC;
         std::unordered_map<IOHIDDeviceRef, std::unique_ptr<GamepadDeviceIOKit>> gamepadDevicesIOKit;
@@ -73,7 +73,7 @@ namespace ouzel::input
         id connectDelegate = nil;
         IOHIDManagerRef hidManager = nullptr;
 
-        std::vector<std::unique_ptr<CursorMacOS>> cursors;
+        std::vector<std::unique_ptr<Cursor>> cursors;
 
         unsigned char emptyCursorData[4] = {0, 0, 0, 0};
         NSCursorPtr emptyCursor = nil;

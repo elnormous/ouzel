@@ -193,6 +193,7 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	graphics/opengl/macos/OpenGLView.m \
 	input/macos/GamepadDeviceGC.mm \
 	input/macos/GamepadDeviceIOKit.cpp \
+	input/macos/GamepadDeviceMacOS.cpp \
 	input/macos/InputSystemMacOS.mm \
 	input/macos/MouseDeviceMacOS.mm \
 	input/macos/CursorMacOS.cpp

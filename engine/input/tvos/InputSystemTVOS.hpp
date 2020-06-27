@@ -16,15 +16,15 @@ typedef id GCControllerPtr;
 
 #include "../InputSystem.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::tvos
 {
-    class GamepadDeviceTVOS;
+    class GamepadDevice;
 
-    class InputSystemTVOS final: public InputSystem
+    class InputSystem final: public input::InputSystem
     {
     public:
-        explicit InputSystemTVOS(const std::function<std::future<bool>(const Event&)>& initCallback);
-        ~InputSystemTVOS() override;
+        explicit InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
+        ~InputSystem() override;
 
         void executeCommand(const Command& command) final;
 
@@ -49,7 +49,7 @@ namespace ouzel::input
 
         DeviceId lastDeviceId;
         std::unique_ptr<KeyboardDevice> keyboardDevice;
-        std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDeviceTVOS>> gamepadDevices;
+        std::unordered_map<GCControllerPtr, std::unique_ptr<GamepadDevice>> gamepadDevices;
 
         id connectDelegate = nil;
     };

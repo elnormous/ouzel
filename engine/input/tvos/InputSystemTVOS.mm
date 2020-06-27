@@ -12,10 +12,10 @@
 
 @implementation ConnectDelegate
 {
-    ouzel::input::InputSystemTVOS* input;
+    ouzel::input::tvos::InputSystem* input;
 }
 
-- (id)initWithInput:(ouzel::input::InputSystemTVOS*)initInput
+- (id)initWithInput:(ouzel::input::tvos::InputSystem*)initInput
 {
     if (self = [super init])
         input = initInput;
@@ -34,10 +34,10 @@
 }
 @end
 
-namespace ouzel::input
+namespace ouzel::input::tvos
 {
-    InputSystemTVOS::InputSystemTVOS(const std::function<std::future<bool>(const Event&)>& initCallback):
-        InputSystem(initCallback),
+    InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
+        input::InputSystem(initCallback),
         keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId()))
     {
         connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
@@ -59,7 +59,7 @@ namespace ouzel::input
             ^(void){ handleGamepadDiscoveryCompleted(); }];
     }
 
-    InputSystemTVOS::~InputSystemTVOS()
+    InputSystem::~InputSystem()
     {
         if (connectDelegate)
         {
@@ -69,7 +69,7 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemTVOS::executeCommand(const Command& command)
+    void InputSystem::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -83,7 +83,7 @@ namespace ouzel::input
             {
                 if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                 {
-                    auto gamepadDevice = static_cast<GamepadDeviceTVOS*>(inputDevice);
+                    auto gamepadDevice = static_cast<GamepadDevice*>(inputDevice);
                     gamepadDevice->setAbsoluteDpadValues(command.absoluteDpadValues);
                 }
                 break;
@@ -92,7 +92,7 @@ namespace ouzel::input
             {
                 if (InputDevice* inputDevice = getInputDevice(command.deviceId))
                 {
-                    auto gamepadDevice = static_cast<GamepadDeviceTVOS*>(inputDevice);
+                    auto gamepadDevice = static_cast<GamepadDevice*>(inputDevice);
                     gamepadDevice->setPlayerIndex(command.playerIndex);
                 }
                 break;
@@ -112,23 +112,23 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemTVOS::startGamepadDiscovery()
+    void InputSystem::startGamepadDiscovery()
     {
         [GCController startWirelessControllerDiscoveryWithCompletionHandler:
             ^(void){ handleGamepadDiscoveryCompleted(); }];
     }
 
-    void InputSystemTVOS::stopGamepadDiscovery()
+    void InputSystem::stopGamepadDiscovery()
     {
         [GCController stopWirelessControllerDiscovery];
     }
 
-    void InputSystemTVOS::handleGamepadDiscoveryCompleted()
+    void InputSystem::handleGamepadDiscoveryCompleted()
     {
         sendEvent(Event(Event::Type::deviceDiscoveryComplete));
     }
 
-    void InputSystemTVOS::handleGamepadConnected(GCControllerPtr controller)
+    void InputSystem::handleGamepadConnected(GCControllerPtr controller)
     {
         std::vector<std::int32_t> playerIndices = {0, 1, 2, 3};
 
@@ -140,11 +140,11 @@ namespace ouzel::input
 
         if (!playerIndices.empty()) controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
 
-        auto gamepadDevice = std::make_unique<GamepadDeviceTVOS>(*this, getNextDeviceId(), controller);
+        auto gamepadDevice = std::make_unique<GamepadDevice>(*this, getNextDeviceId(), controller);
         gamepadDevices.insert(std::make_pair(controller, std::move(gamepadDevice)));
     }
 
-    void InputSystemTVOS::handleGamepadDisconnected(GCControllerPtr controller)
+    void InputSystem::handleGamepadDisconnected(GCControllerPtr controller)
     {
         auto i = gamepadDevices.find(controller);
 
@@ -152,14 +152,14 @@ namespace ouzel::input
             gamepadDevices.erase(i);
     }
 
-    void InputSystemTVOS::showVirtualKeyboard()
+    void InputSystem::showVirtualKeyboard()
     {
         auto windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
         auto textField = windowTVOS->getTextField();
         [textField becomeFirstResponder];
     }
 
-    void InputSystemTVOS::hideVirtualKeyboard()
+    void InputSystem::hideVirtualKeyboard()
     {
         auto windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
         auto textField = windowTVOS->getTextField();

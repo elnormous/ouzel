@@ -3,12 +3,12 @@
 #include "GamepadDeviceTVOS.hpp"
 #include "InputSystemTVOS.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::tvos
 {
-    GamepadDeviceTVOS::GamepadDeviceTVOS(InputSystem& initInputSystem,
-                                            DeviceId initId,
-                                            GCControllerPtr initController):
-        GamepadDevice(initInputSystem, initId),
+    GamepadDevice::GamepadDevice(InputSystem& initInputSystem,
+                                 DeviceId initId,
+                                 GCControllerPtr initController):
+        input::GamepadDevice(initInputSystem, initId),
         controller(initController)
     {
         if (controller.extendedGamepad)
@@ -150,22 +150,22 @@ namespace ouzel::input
         attached = (controller.isAttachedToDevice == YES);
     }
 
-    void GamepadDeviceTVOS::setAbsoluteDpadValues(bool absoluteDpadValues)
+    void GamepadDevice::setAbsoluteDpadValues(bool absoluteDpadValues)
     {
         controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
     }
 
-    bool GamepadDeviceTVOS::isAbsoluteDpadValues() const
+    bool GamepadDevice::isAbsoluteDpadValues() const
     {
         return controller.microGamepad.reportsAbsoluteDpadValues == YES;
     }
 
-    std::int32_t GamepadDeviceTVOS::getPlayerIndex() const
+    std::int32_t GamepadDevice::getPlayerIndex() const
     {
         return static_cast<std::int32_t>(controller.playerIndex);
     }
 
-    void GamepadDeviceTVOS::setPlayerIndex(std::int32_t playerIndex)
+    void GamepadDevice::setPlayerIndex(std::int32_t playerIndex)
     {
         switch (playerIndex)
         {

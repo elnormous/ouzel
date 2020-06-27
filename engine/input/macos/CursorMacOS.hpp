@@ -17,22 +17,22 @@ typedef id NSCursorPtr;
 #include "../Cursor.hpp"
 #include "../../math/Size.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::macos
 {
-    class CursorMacOS final
+    class Cursor final
     {
     public:
-        explicit CursorMacOS(SystemCursor systemCursor);
-        CursorMacOS(const std::vector<std::uint8_t>& newData,
-                    const Size2F& size,
-                    graphics::PixelFormat pixelFormat,
-                    const Vector2F& hotSpot);
-        ~CursorMacOS();
+        explicit Cursor(SystemCursor systemCursor);
+        Cursor(const std::vector<std::uint8_t>& newData,
+               const Size2F& size,
+               graphics::PixelFormat pixelFormat,
+               const Vector2F& hotSpot);
+        ~Cursor();
 
-        CursorMacOS(const CursorMacOS&) = delete;
-        CursorMacOS& operator=(const CursorMacOS&) = delete;
-        CursorMacOS(CursorMacOS&&) = delete;
-        CursorMacOS& operator=(CursorMacOS&&) = delete;
+        Cursor(const Cursor&) = delete;
+        Cursor& operator=(const Cursor&) = delete;
+        Cursor(Cursor&&) = delete;
+        Cursor& operator=(Cursor&&) = delete;
 
         auto getCursor() const noexcept { return cursor; }
 

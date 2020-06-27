@@ -3,12 +3,12 @@
 #include <Availability.h>
 #include "GamepadDeviceGC.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::macos
 {
     GamepadDeviceGC::GamepadDeviceGC(InputSystem& initInputSystem,
-                                        DeviceId initId,
-                                        GCControllerPtr initController):
-        GamepadDeviceMacOS(initInputSystem, initId),
+                                     DeviceId initId,
+                                     GCControllerPtr initController):
+        GamepadDevice(initInputSystem, initId),
         controller(initController)
     {
         if (controller.extendedGamepad)

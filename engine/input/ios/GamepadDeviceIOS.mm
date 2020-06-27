@@ -3,12 +3,12 @@
 #include "GamepadDeviceIOS.hpp"
 #include "InputSystemIOS.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::ios
 {
-    GamepadDeviceIOS::GamepadDeviceIOS(InputSystem& initInputSystem,
-                                        DeviceId initId,
-                                        GCControllerPtr initController):
-        GamepadDevice(initInputSystem, initId),
+    GamepadDevice::GamepadDevice(InputSystem& initInputSystem,
+                                 DeviceId initId,
+                                 GCControllerPtr initController):
+        input::GamepadDevice(initInputSystem, initId),
         controller(initController)
     {
         if (controller.extendedGamepad)
@@ -152,14 +152,14 @@ namespace ouzel::input
         attached = (controller.isAttachedToDevice == YES);
     }
 
-    void GamepadDeviceIOS::setAbsoluteDpadValues(bool absoluteDpadValues)
+    void GamepadDevice::setAbsoluteDpadValues(bool absoluteDpadValues)
     {
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
         controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
 #endif
     }
 
-    bool GamepadDeviceIOS::isAbsoluteDpadValues() const
+    bool GamepadDevice::isAbsoluteDpadValues() const
     {
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
         return controller.microGamepad.reportsAbsoluteDpadValues == YES;
@@ -168,12 +168,12 @@ namespace ouzel::input
 #endif
     }
 
-    std::int32_t GamepadDeviceIOS::getPlayerIndex() const
+    std::int32_t GamepadDevice::getPlayerIndex() const
     {
         return static_cast<std::int32_t>(controller.playerIndex);
     }
 
-    void GamepadDeviceIOS::setPlayerIndex(std::int32_t playerIndex)
+    void GamepadDevice::setPlayerIndex(std::int32_t playerIndex)
     {
         switch (playerIndex)
         {

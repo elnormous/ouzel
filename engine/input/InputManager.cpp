@@ -34,11 +34,11 @@ namespace ouzel::input
 {
     InputManager::InputManager():
 #if TARGET_OS_IOS
-        inputSystem(std::make_unique<InputSystemIOS>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::make_unique<ios::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif TARGET_OS_TV
-        inputSystem(std::make_unique<InputSystemTVOS>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::make_unique<tvos::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif TARGET_OS_MAC
-        inputSystem(std::make_unique<InputSystemMacOS>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::make_unique<macos::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__ANDROID__)
         inputSystem(std::make_unique<InputSystemAndroid>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__linux__)

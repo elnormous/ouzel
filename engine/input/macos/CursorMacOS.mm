@@ -2,9 +2,9 @@
 
 #include "CursorMacOS.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::macos
 {
-    CursorMacOS::CursorMacOS(SystemCursor systemCursor)
+    Cursor::Cursor(SystemCursor systemCursor)
     {
         switch (systemCursor)
         {
@@ -29,10 +29,10 @@ namespace ouzel::input
         }
     }
 
-    CursorMacOS::CursorMacOS(const std::vector<std::uint8_t>& newData,
-                                const Size2F& size,
-                                graphics::PixelFormat pixelFormat,
-                                const Vector2F& hotSpot):
+    Cursor::Cursor(const std::vector<std::uint8_t>& newData,
+                   const Size2F& size,
+                   graphics::PixelFormat pixelFormat,
+                   const Vector2F& hotSpot):
         data(newData)
     {
         if (!data.empty())
@@ -66,7 +66,7 @@ namespace ouzel::input
         }
     }
 
-    CursorMacOS::~CursorMacOS()
+    Cursor::~Cursor()
     {
         if (cursor) [cursor release];
     }

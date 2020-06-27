@@ -6,16 +6,14 @@
 #include <string>
 #include "../GamepadDevice.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::macos
 {
-    class GamepadDeviceMacOS: public GamepadDevice
+    class InputSystem;
+
+    class GamepadDevice: public input::GamepadDevice
     {
     public:
-        GamepadDeviceMacOS(InputSystem& initInputSystem,
-                            DeviceId initId):
-            GamepadDevice(initInputSystem, initId)
-        {
-        }
+        GamepadDevice(InputSystem& initInputSystem, DeviceId initId);
 
         virtual void setPlayerIndex(std::int32_t) {}
 

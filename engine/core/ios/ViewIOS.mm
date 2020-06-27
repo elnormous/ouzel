@@ -12,7 +12,7 @@
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
-    auto inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemIOS = static_cast<ouzel::input::ios::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto touchpadDevice = inputSystemIOS->getTouchpadDevice();
     for (UITouch* touch in touches)
     {
@@ -30,7 +30,7 @@
 
 - (void)touchesMoved:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
-    auto inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemIOS = static_cast<ouzel::input::ios::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto touchpadDevice = inputSystemIOS->getTouchpadDevice();
     for (UITouch* touch in touches)
     {
@@ -48,7 +48,7 @@
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
-    auto inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemIOS = static_cast<ouzel::input::ios::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto touchpadDevice = inputSystemIOS->getTouchpadDevice();
     for (UITouch* touch in touches)
     {
@@ -66,7 +66,7 @@
 
 - (void)touchesCancelled:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
 {
-    auto inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemIOS = static_cast<ouzel::input::ios::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto touchpadDevice = inputSystemIOS->getTouchpadDevice();
     for (UITouch* touch in touches)
     {
@@ -104,7 +104,7 @@ namespace
 {
     bool forward = false;
 
-    auto inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemIOS = static_cast<ouzel::input::ios::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
     {
@@ -121,7 +121,7 @@ namespace
 {
     bool forward = false;
 
-    auto inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemIOS = static_cast<ouzel::input::ios::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
     {
@@ -138,7 +138,7 @@ namespace
 {
     bool forward = false;
 
-    auto inputSystemIOS = static_cast<ouzel::input::InputSystemIOS*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemIOS = static_cast<ouzel::input::ios::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto keyboardDevice = inputSystemIOS->getKeyboardDevice();
     for (UIPress* press in presses)
     {

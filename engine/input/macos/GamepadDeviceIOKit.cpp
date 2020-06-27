@@ -6,7 +6,7 @@
 #include "../GamepadConfig.hpp"
 #include "../../utils/Utils.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::macos
 {
     namespace
     {
@@ -20,9 +20,9 @@ namespace ouzel::input
     }
 
     GamepadDeviceIOKit::GamepadDeviceIOKit(InputSystem& initInputSystem,
-                                            DeviceId initId,
-                                            IOHIDDeviceRef initDevice):
-        GamepadDeviceMacOS(initInputSystem, initId),
+                                           DeviceId initId,
+                                           IOHIDDeviceRef initDevice):
+        GamepadDevice(initInputSystem, initId),
         device(initDevice)
     {
         IOReturn ret;

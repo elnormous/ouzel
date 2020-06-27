@@ -441,6 +441,7 @@
 		30519CFB1F9B54E300AF3DC4 /* VorbisLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CF71F9B54E300AF3DC4 /* VorbisLoader.hpp */; };
 		30519CFC1F9B54E300AF3DC4 /* VorbisLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CF71F9B54E300AF3DC4 /* VorbisLoader.hpp */; };
 		30519CFD1F9B54E300AF3DC4 /* VorbisLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CF71F9B54E300AF3DC4 /* VorbisLoader.hpp */; };
+		305306A024A6D31400021952 /* GamepadDeviceMacOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3053069F24A6D31400021952 /* GamepadDeviceMacOS.cpp */; };
 		30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A9C1C39CB790009C8A7 /* Scene.cpp */; };
 		30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A9C1C39CB790009C8A7 /* Scene.cpp */; };
 		30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A9C1C39CB790009C8A7 /* Scene.cpp */; };
@@ -935,6 +936,7 @@
 		30519CEF1F9B53FF00AF3DC4 /* ObjLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ObjLoader.hpp; sourceTree = "<group>"; };
 		30519CF61F9B54E300AF3DC4 /* VorbisLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VorbisLoader.cpp; sourceTree = "<group>"; };
 		30519CF71F9B54E300AF3DC4 /* VorbisLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VorbisLoader.hpp; sourceTree = "<group>"; };
+		3053069F24A6D31400021952 /* GamepadDeviceMacOS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadDeviceMacOS.cpp; sourceTree = "<group>"; };
 		30575A9C1C39CB790009C8A7 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		30575A9D1C39CB790009C8A7 /* Scene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Scene.hpp; sourceTree = "<group>"; };
 		30575AA41C39D1FF0009C8A7 /* Layer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cpp; sourceTree = "<group>"; };
@@ -1689,6 +1691,7 @@
 				307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */,
 				3098A5541EA01C8A00528A54 /* GamepadDeviceIOKit.cpp */,
 				3098A5531EA01C8A00528A54 /* GamepadDeviceIOKit.hpp */,
+				3053069F24A6D31400021952 /* GamepadDeviceMacOS.cpp */,
 				300862DE2155CCED00D8CC45 /* GamepadDeviceMacOS.hpp */,
 				300862D22154712E00D8CC45 /* InputSystemMacOS.hpp */,
 				300862D12154712E00D8CC45 /* InputSystemMacOS.mm */,
@@ -2598,6 +2601,7 @@
 				30A381FF21B382A20043568A /* Mixer.cpp in Sources */,
 				30898FE422EFA380001C13F2 /* CueLoader.cpp in Sources */,
 				30A381F621B201C20043568A /* Bus.cpp in Sources */,
+				305306A024A6D31400021952 /* GamepadDeviceMacOS.cpp in Sources */,
 				30575AC51C3B17540009C8A7 /* Widgets.cpp in Sources */,
 				307934D522C58CFE005A6804 /* Cue.cpp in Sources */,
 				30EEADCC216A44EC00D2F525 /* InputDevice.cpp in Sources */,
