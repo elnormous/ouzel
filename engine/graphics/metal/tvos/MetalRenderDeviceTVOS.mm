@@ -61,7 +61,7 @@ namespace ouzel::graphics::metal::tvos
                                   newStencil,
                                   newDebugRenderer);
 
-        auto windowTVOS = static_cast<NativeWindowTVOS*>(newWindow->getNativeWindow());
+        auto windowTVOS = static_cast<ouzel::tvos::NativeWindow*>(newWindow->getNativeWindow());
         MetalView* view = (MetalView*)windowTVOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

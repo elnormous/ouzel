@@ -22,16 +22,16 @@ typedef id UITextFieldPtr;
 #include "../NativeWindow.hpp"
 #include "../../graphics/Renderer.hpp"
 
-namespace ouzel
+namespace ouzel::ios
 {
-    class NativeWindowIOS final: public NativeWindow
+    class NativeWindow final: public ouzel::NativeWindow
     {
     public:
-        NativeWindowIOS(const std::function<void(const Event&)>& initCallback,
-                        const std::string& newTitle,
-                        graphics::Driver graphicsDriver,
-                        bool newHighDpi);
-        ~NativeWindowIOS() override;
+        NativeWindow(const std::function<void(const Event&)>& initCallback,
+                     const std::string& newTitle,
+                     graphics::Driver graphicsDriver,
+                     bool newHighDpi);
+        ~NativeWindow() override;
 
         void executeCommand(const Command& command) final;
 

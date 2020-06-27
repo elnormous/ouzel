@@ -142,7 +142,7 @@ namespace ouzel::graphics::opengl::macos
         openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
         [openGLContext makeCurrentContext];
 
-        auto windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());
+        auto windowMacOS = static_cast<ouzel::macos::NativeWindow*>(newWindow->getNativeWindow());
         OpenGLView* openGLView = (OpenGLView*)windowMacOS->getNativeView();
 
         [openGLView setOpenGLContext:openGLContext];

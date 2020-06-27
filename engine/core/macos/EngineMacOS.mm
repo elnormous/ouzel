@@ -64,10 +64,10 @@
 
 @implementation ExecuteHandler
 {
-    ouzel::EngineMacOS* engine;
+    ouzel::macos::Engine* engine;
 }
 
-- (id)initWithEngine:(ouzel::EngineMacOS*)initEngine
+- (id)initWithEngine:(ouzel::macos::Engine*)initEngine
 {
     if (self = [super init])
         engine = initEngine;
@@ -81,9 +81,9 @@
 }
 @end
 
-namespace ouzel
+namespace ouzel::macos
 {
-    EngineMacOS::EngineMacOS(int argc, char* argv[])
+    Engine::Engine(int argc, char* argv[])
     {
         for (int i = 0; i < argc; ++i)
             args.push_back(argv[i]);
@@ -111,18 +111,18 @@ namespace ouzel
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
 
-    EngineMacOS::~EngineMacOS()
+    Engine::~Engine()
     {
         if (executeHanlder) [executeHanlder release];
         if (pool) [pool release];
     }
 
-    void EngineMacOS::run()
+    void Engine::run()
     {
         [application run];
     }
 
-    void EngineMacOS::runOnMainThread(const std::function<void()>& func)
+    void Engine::runOnMainThread(const std::function<void()>& func)
     {
         std::unique_lock lock(executeMutex);
         executeQueue.push(func);
@@ -131,7 +131,7 @@ namespace ouzel
         [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
-    void EngineMacOS::openUrl(const std::string& url)
+    void Engine::openUrl(const std::string& url)
     {
         executeOnMainThread([url](){
             NSString* urlString = [NSString stringWithUTF8String:url.c_str()];
@@ -141,9 +141,9 @@ namespace ouzel
         });
     }
 
-    void EngineMacOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
+        ouzel::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         executeOnMainThread([this, newScreenSaverEnabled]() {
             if (newScreenSaverEnabled)
@@ -170,9 +170,9 @@ namespace ouzel
         });
     }
 
-    void EngineMacOS::engineMain()
+    void Engine::engineMain()
     {
-        Engine::engineMain();
+        ouzel::Engine::engineMain();
 
         executeOnMainThread([]() {
             NSApplication* app = [NSApplication sharedApplication];
@@ -180,7 +180,7 @@ namespace ouzel
         });
     }
 
-    void EngineMacOS::executeAll()
+    void Engine::executeAll()
     {
         std::function<void()> func;
 

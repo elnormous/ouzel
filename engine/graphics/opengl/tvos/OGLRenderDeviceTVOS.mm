@@ -67,7 +67,7 @@ namespace ouzel::graphics::opengl::tvos
                             bool newStencil,
                             bool newDebugRenderer)
     {
-        auto view = static_cast<NativeWindowTVOS*>(newWindow->getNativeWindow())->getNativeView();
+        auto view = static_cast<ouzel::tvos::NativeWindow*>(newWindow->getNativeWindow())->getNativeView();
 
         eaglLayer = (CAEAGLLayer*)view.layer;
         eaglLayer.opaque = YES;

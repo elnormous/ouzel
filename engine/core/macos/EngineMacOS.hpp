@@ -14,13 +14,13 @@ typedef id NSAutoreleasePoolPtr;
 
 #include "../Engine.hpp"
 
-namespace ouzel
+namespace ouzel::macos
 {
-    class EngineMacOS final: public Engine
+    class Engine final: public ouzel::Engine
     {
     public:
-        EngineMacOS(int argc, char* argv[]);
-        ~EngineMacOS() override;
+        Engine(int argc, char* argv[]);
+        ~Engine() override;
 
         void run();
 

@@ -34,24 +34,24 @@ namespace ouzel
                    graphics::Driver graphicsDriver):
         engine(initEngine),
 #if TARGET_OS_IOS
-        nativeWindow(std::make_unique<NativeWindowIOS>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                       newTitle,
-                                                       graphicsDriver,
-                                                       (flags & Flags::highDpi) == Flags::highDpi)),
-#elif TARGET_OS_TV
-        nativeWindow(std::make_unique<NativeWindowTVOS>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                        newTitle,
-                                                        graphicsDriver,
-                                                        (flags & Flags::highDpi) == Flags::highDpi)),
-#elif TARGET_OS_MAC
-        nativeWindow(std::make_unique<NativeWindowMacOS>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                         newSize,
-                                                         (flags & Flags::resizable) == Flags::resizable,
-                                                         (flags & Flags::fullscreen) == Flags::fullscreen,
-                                                         (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
+        nativeWindow(std::make_unique<ios::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                                          newTitle,
                                                          graphicsDriver,
                                                          (flags & Flags::highDpi) == Flags::highDpi)),
+#elif TARGET_OS_TV
+        nativeWindow(std::make_unique<tvos::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
+                                                          newTitle,
+                                                          graphicsDriver,
+                                                          (flags & Flags::highDpi) == Flags::highDpi)),
+#elif TARGET_OS_MAC
+        nativeWindow(std::make_unique<macos::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
+                                                           newSize,
+                                                           (flags & Flags::resizable) == Flags::resizable,
+                                                           (flags & Flags::fullscreen) == Flags::fullscreen,
+                                                           (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
+                                                           newTitle,
+                                                           graphicsDriver,
+                                                           (flags & Flags::highDpi) == Flags::highDpi)),
 #elif defined(__ANDROID__)
         nativeWindow(std::make_unique<NativeWindowAndroid>(std::bind(&Window::eventCallback, this, std::placeholders::_1), newTitle)),
 #elif defined(__linux__)

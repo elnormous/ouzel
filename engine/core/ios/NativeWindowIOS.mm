@@ -14,10 +14,10 @@
 
 @implementation ViewController
 {
-    ouzel::NativeWindowIOS* window;
+    ouzel::ios::NativeWindow* window;
 }
 
-- (id)initWithWindow:(ouzel::NativeWindowIOS*)initWindow
+- (id)initWithWindow:(ouzel::ios::NativeWindow*)initWindow
 {
     if (self = [super init])
         window = initWindow;
@@ -49,19 +49,19 @@
 }
 @end
 
-namespace ouzel
+namespace ouzel::ios
 {
-    NativeWindowIOS::NativeWindowIOS(const std::function<void(const Event&)>& initCallback,
-                                     const std::string& newTitle,
-                                     graphics::Driver graphicsDriver,
-                                     bool newHighDpi):
-        NativeWindow(initCallback,
-                     Size2U(),
-                     true,
-                     true,
-                     true,
-                     newTitle,
-                     newHighDpi)
+    NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
+                               const std::string& newTitle,
+                               graphics::Driver graphicsDriver,
+                               bool newHighDpi):
+        ouzel::NativeWindow(initCallback,
+                            Size2U(),
+                            true,
+                            true,
+                            true,
+                            newTitle,
+                            newHighDpi)
     {
         screen = [UIScreen mainScreen];
 
@@ -114,7 +114,7 @@ namespace ouzel
             resolution = size;
     }
 
-    NativeWindowIOS::~NativeWindowIOS()
+    NativeWindow::~NativeWindow()
     {
         if (textField) [textField release];
         if (viewController) [viewController release];
@@ -122,7 +122,7 @@ namespace ouzel
         if (window) [window release];
     }
 
-    void NativeWindowIOS::executeCommand(const Command& command)
+    void NativeWindow::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -152,7 +152,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowIOS::handleResize(const Size2U& newSize)
+    void NativeWindow::handleResize(const Size2U& newSize)
     {
         size = newSize;
         resolution = size * static_cast<std::uint32_t>(contentScale);

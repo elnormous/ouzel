@@ -154,14 +154,14 @@ namespace ouzel::input::tvos
 
     void InputSystem::showVirtualKeyboard()
     {
-        auto windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
+        auto windowTVOS = static_cast<ouzel::tvos::NativeWindow*>(engine->getWindow()->getNativeWindow());
         auto textField = windowTVOS->getTextField();
         [textField becomeFirstResponder];
     }
 
     void InputSystem::hideVirtualKeyboard()
     {
-        auto windowTVOS = static_cast<NativeWindowTVOS*>(engine->getWindow()->getNativeWindow());
+        auto windowTVOS = static_cast<ouzel::tvos::NativeWindow*>(engine->getWindow()->getNativeWindow());
         auto textField = windowTVOS->getTextField();
         [textField resignFirstResponder];
     }

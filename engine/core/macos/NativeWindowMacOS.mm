@@ -12,10 +12,10 @@
 
 @implementation WindowDelegate
 {
-    ouzel::NativeWindowMacOS* window;
+    ouzel::macos::NativeWindow* window;
 }
 
-- (id)initWithWindow:(ouzel::NativeWindowMacOS*)initWindow
+- (id)initWithWindow:(ouzel::macos::NativeWindow*)initWindow
 {
     if (self = [super init])
         window = initWindow;
@@ -74,23 +74,23 @@
 }
 @end
 
-namespace ouzel
+namespace ouzel::macos
 {
-    NativeWindowMacOS::NativeWindowMacOS(const std::function<void(const Event&)>& initCallback,
-                                         const Size2U& newSize,
-                                         bool newResizable,
-                                         bool newFullscreen,
-                                         bool newExclusiveFullscreen,
-                                         const std::string& newTitle,
-                                         graphics::Driver graphicsDriver,
-                                         bool newHighDpi):
-        NativeWindow(initCallback,
-                     newSize,
-                     newResizable,
-                     newFullscreen,
-                     newExclusiveFullscreen,
-                     newTitle,
-                     newHighDpi)
+    NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
+                               const Size2U& newSize,
+                               bool newResizable,
+                               bool newFullscreen,
+                               bool newExclusiveFullscreen,
+                               const std::string& newTitle,
+                               graphics::Driver graphicsDriver,
+                               bool newHighDpi):
+        ouzel::NativeWindow(initCallback,
+                            newSize,
+                            newResizable,
+                            newFullscreen,
+                            newExclusiveFullscreen,
+                            newTitle,
+                            newHighDpi)
     {
         screen = [NSScreen mainScreen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
@@ -210,7 +210,7 @@ namespace ouzel
         }
     }
 
-    NativeWindowMacOS::~NativeWindowMacOS()
+    NativeWindow::~NativeWindow()
     {
         if (exclusiveFullscreen && fullscreen)
             CGDisplayRelease(displayId);
@@ -227,7 +227,7 @@ namespace ouzel
         if (windowDelegate) [windowDelegate release];
     }
 
-    void NativeWindowMacOS::executeCommand(const Command& command)
+    void NativeWindow::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -266,7 +266,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowMacOS::close()
+    void NativeWindow::close()
     {
         if (view)
         {
@@ -289,7 +289,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowMacOS::setSize(const Size2U& newSize)
+    void NativeWindow::setSize(const Size2U& newSize)
     {
         size = newSize;
 
@@ -311,7 +311,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowMacOS::setFullscreen(bool newFullscreen)
+    void NativeWindow::setFullscreen(bool newFullscreen)
     {
         if (fullscreen != newFullscreen)
         {
@@ -354,7 +354,7 @@ namespace ouzel
         fullscreen = newFullscreen;
     }
 
-    void NativeWindowMacOS::setTitle(const std::string& newTitle)
+    void NativeWindow::setTitle(const std::string& newTitle)
     {
         if (title != newTitle)
         {
@@ -365,38 +365,38 @@ namespace ouzel
         }
     }
 
-    void NativeWindowMacOS::bringToFront()
+    void NativeWindow::bringToFront()
     {
         [window orderFront:nil];
     }
 
-    void NativeWindowMacOS::show()
+    void NativeWindow::show()
     {
         [window orderFront:nil];
     }
 
-    void NativeWindowMacOS::hide()
+    void NativeWindow::hide()
     {
         [window orderOut:nil];
     }
 
-    void NativeWindowMacOS::minimize()
+    void NativeWindow::minimize()
     {
         [window miniaturize:nil];
     }
 
-    void NativeWindowMacOS::maximize()
+    void NativeWindow::maximize()
     {
         windowRect = [screen visibleFrame];
         [window setFrame:windowRect display:YES];
     }
 
-    void NativeWindowMacOS::restore()
+    void NativeWindow::restore()
     {
         [window deminiaturize:nil];
     }
 
-    void NativeWindowMacOS::handleResize()
+    void NativeWindow::handleResize()
     {
         NSRect frame = [NSWindow contentRectForFrameRect:window.frame
                                                styleMask:window.styleMask];
@@ -414,22 +414,22 @@ namespace ouzel
         sendEvent(resolutionChangeEvent);
     }
 
-    void NativeWindowMacOS::handleClose()
+    void NativeWindow::handleClose()
     {
         sendEvent(Event(Event::Type::close));
     }
 
-    void NativeWindowMacOS::handleMinituarize()
+    void NativeWindow::handleMinituarize()
     {
         sendEvent(Event(Event::Type::minimize));
     }
 
-    void NativeWindowMacOS::handleDeminituarize()
+    void NativeWindow::handleDeminituarize()
     {
         sendEvent(Event(Event::Type::restore));
     }
 
-    void NativeWindowMacOS::handleFullscreenChange(bool newFullscreen)
+    void NativeWindow::handleFullscreenChange(bool newFullscreen)
     {
         fullscreen = newFullscreen;
 
@@ -438,7 +438,7 @@ namespace ouzel
         sendEvent(fullscreenChangeEvent);
     }
 
-    void NativeWindowMacOS::handleScaleFactorChange()
+    void NativeWindow::handleScaleFactorChange()
     {
         if (highDpi)
         {
@@ -451,7 +451,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowMacOS::handleScreenChange()
+    void NativeWindow::handleScreenChange()
     {
         screen = [window screen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
@@ -461,14 +461,14 @@ namespace ouzel
         sendEvent(screenChangeEvent);
     }
 
-    void NativeWindowMacOS::handleBecomeKeyChange()
+    void NativeWindow::handleBecomeKeyChange()
     {
         Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
     }
 
-    void NativeWindowMacOS::handleResignKeyChange()
+    void NativeWindow::handleResignKeyChange()
     {
         Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = false;

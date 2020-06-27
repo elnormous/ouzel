@@ -24,20 +24,20 @@ typedef std::uint32_t CGDirectDisplayID;
 #include "../NativeWindow.hpp"
 #include "../../graphics/Renderer.hpp"
 
-namespace ouzel
+namespace ouzel::macos
 {
-    class NativeWindowMacOS final: public NativeWindow
+    class NativeWindow final: public ouzel::NativeWindow
     {
     public:
-        NativeWindowMacOS(const std::function<void(const Event&)>& initCallback,
-                          const Size2U& newSize,
-                          bool newResizable,
-                          bool newFullscreen,
-                          bool newExclusiveFullscreen,
-                          const std::string& newTitle,
-                          graphics::Driver graphicsDriver,
-                          bool newHighDpi);
-        ~NativeWindowMacOS() override;
+        NativeWindow(const std::function<void(const Event&)>& initCallback,
+                     const Size2U& newSize,
+                     bool newResizable,
+                     bool newFullscreen,
+                     bool newExclusiveFullscreen,
+                     const std::string& newTitle,
+                     graphics::Driver graphicsDriver,
+                     bool newHighDpi);
+        ~NativeWindow() override;
 
         void executeCommand(const Command& command) final;
 

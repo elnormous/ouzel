@@ -5,12 +5,12 @@
 
 #include "../System.hpp"
 
-namespace ouzel
+namespace ouzel::macos
 {
-    class SystemMacOS final: public System
+    class System final: public ouzel::System
     {
     public:
-        ~SystemMacOS() = default;
+        ~System() = default;
     };
 }
 

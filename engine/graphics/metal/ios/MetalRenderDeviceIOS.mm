@@ -65,7 +65,7 @@ namespace ouzel::graphics::metal::ios
                                   newStencil,
                                   newDebugRenderer);
 
-        auto windowIOS = static_cast<NativeWindowIOS*>(newWindow->getNativeWindow());
+        auto windowIOS = static_cast<ouzel::ios::NativeWindow*>(newWindow->getNativeWindow());
         MetalView* view = (MetalView*)windowIOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

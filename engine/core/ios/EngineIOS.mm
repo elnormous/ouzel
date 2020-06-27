@@ -104,10 +104,10 @@
 
 @implementation ExecuteHandler
 {
-    ouzel::EngineIOS* engine;
+    ouzel::ios::Engine* engine;
 }
 
-- (id)initWithEngine:(ouzel::EngineIOS*)initEngine
+- (id)initWithEngine:(ouzel::ios::Engine*)initEngine
 {
     if (self = [super init])
         engine = initEngine;
@@ -121,9 +121,9 @@
 }
 @end
 
-namespace ouzel
+namespace ouzel::ios
 {
-    EngineIOS::EngineIOS(int initArgc, char* initArgv[]):
+    Engine::Engine(int initArgc, char* initArgv[]):
         argc(initArgc), argv(initArgv)
     {
         for (int i = 0; i < initArgc; ++i)
@@ -133,18 +133,18 @@ namespace ouzel
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
 
-    EngineIOS::~EngineIOS()
+    Engine::~Engine()
     {
         if (executeHanlder) [executeHanlder release];
         if (pool) [pool release];
     }
 
-    void EngineIOS::run()
+    void Engine::run()
     {
         UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 
-    void EngineIOS::runOnMainThread(const std::function<void()>& func)
+    void Engine::runOnMainThread(const std::function<void()>& func)
     {
         std::unique_lock lock(executeMutex);
         executeQueue.push(func);
@@ -153,7 +153,7 @@ namespace ouzel
         [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
-    void EngineIOS::openUrl(const std::string& url)
+    void Engine::openUrl(const std::string& url)
     {
         executeOnMainThread([url](){
             NSString* urlString = [NSString stringWithUTF8String:url.c_str()];
@@ -163,16 +163,16 @@ namespace ouzel
         });
     }
 
-    void EngineIOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
+        ouzel::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         executeOnMainThread([newScreenSaverEnabled]() {
             [UIApplication sharedApplication].idleTimerDisabled = newScreenSaverEnabled ? YES : NO;
         });
     }
 
-    void EngineIOS::executeAll()
+    void Engine::executeAll()
     {
         std::function<void()> func;
 

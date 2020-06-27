@@ -82,7 +82,7 @@ namespace ouzel::graphics::metal::macos
                                   newStencil,
                                   newDebugRenderer);
 
-        auto windowMacOS = static_cast<NativeWindowMacOS*>(newWindow->getNativeWindow());
+        auto windowMacOS = static_cast<ouzel::macos::NativeWindow*>(newWindow->getNativeWindow());
         MetalView* view = (MetalView*)windowMacOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

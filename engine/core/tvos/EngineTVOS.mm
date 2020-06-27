@@ -63,10 +63,10 @@
 
 @implementation ExecuteHandler
 {
-    ouzel::EngineTVOS* engine;
+    ouzel::tvos::Engine* engine;
 }
 
-- (id)initWithEngine:(ouzel::EngineTVOS*)initEngine
+- (id)initWithEngine:(ouzel::tvos::Engine*)initEngine
 {
     if (self = [super init])
         engine = initEngine;
@@ -80,9 +80,9 @@
 }
 @end
 
-namespace ouzel
+namespace ouzel::tvos
 {
-    EngineTVOS::EngineTVOS(int initArgc, char* initArgv[]):
+    Engine::Engine(int initArgc, char* initArgv[]):
         argc(initArgc), argv(initArgv)
     {
         for (int i = 0; i < initArgc; ++i)
@@ -92,18 +92,18 @@ namespace ouzel
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
 
-    EngineTVOS::~EngineTVOS()
+    Engine::~Engine()
     {
         if (executeHanlder) [executeHanlder release];
         if (pool) [pool release];
     }
 
-    void EngineTVOS::run()
+    void Engine::run()
     {
         UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 
-    void EngineTVOS::runOnMainThread(const std::function<void()>& func)
+    void Engine::runOnMainThread(const std::function<void()>& func)
     {
         std::unique_lock lock(executeMutex);
         executeQueue.push(func);
@@ -112,7 +112,7 @@ namespace ouzel
         [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
-    void EngineTVOS::openUrl(const std::string& url)
+    void Engine::openUrl(const std::string& url)
     {
         executeOnMainThread([url](){
             NSString* urlString = [NSString stringWithUTF8String:url.c_str()];
@@ -122,16 +122,16 @@ namespace ouzel
         });
     }
 
-    void EngineTVOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
+        ouzel::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         executeOnMainThread([newScreenSaverEnabled]() {
             [UIApplication sharedApplication].idleTimerDisabled = newScreenSaverEnabled ? YES : NO;
         });
     }
 
-    void EngineTVOS::executeAll()
+    void Engine::executeAll()
     {
         std::function<void()> func;
 

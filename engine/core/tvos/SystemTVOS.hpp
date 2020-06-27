@@ -5,12 +5,12 @@
 
 #include "../System.hpp"
 
-namespace ouzel
+namespace ouzel::tvos
 {
-    class SystemTVOS final: public System
+    class System final: public ouzel::System
     {
     public:
-        ~SystemTVOS() = default;
+        ~System() = default;
     };
 }
 

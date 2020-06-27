@@ -67,7 +67,7 @@ namespace ouzel::graphics::opengl::ios
                             bool newStencil,
                             bool newDebugRenderer)
     {
-        auto view = static_cast<NativeWindowIOS*>(newWindow->getNativeWindow())->getNativeView();
+        auto view = static_cast<ouzel::ios::NativeWindow*>(newWindow->getNativeWindow())->getNativeView();
 
         eaglLayer = (CAEAGLLayer*)view.layer;
         eaglLayer.opaque = YES;
