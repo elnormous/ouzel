@@ -22,7 +22,7 @@ namespace ouzel::core::windows
 {
     class Engine;
 
-    class NativeWindow final: public ouzel::NativeWindow
+    class NativeWindow final: public core::NativeWindow
     {
         friend Engine;
     public:
