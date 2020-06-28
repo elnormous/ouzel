@@ -5,7 +5,7 @@
 #include <emscripten/html5.h>
 #include "NativeWindowEm.hpp"
 
-namespace ouzel
+namespace ouzel::core::emscripten
 {
     namespace
     {
@@ -13,7 +13,7 @@ namespace ouzel
         {
             if (eventType == EMSCRIPTEN_EVENT_RESIZE)
             {
-                auto nativeWindowEm = static_cast<NativeWindowEm*>(userData);
+                auto nativeWindowEm = static_cast<NativeWindow*>(userData);
                 nativeWindowEm->handleResize();
                 return true;
             }
@@ -25,7 +25,7 @@ namespace ouzel
         {
             if (eventType == EMSCRIPTEN_EVENT_CANVASRESIZED)
             {
-                auto nativeWindowEm = static_cast<NativeWindowEm*>(userData);
+                auto nativeWindowEm = static_cast<NativeWindow*>(userData);
                 nativeWindowEm->handleResize();
                 return true;
             }
@@ -34,18 +34,18 @@ namespace ouzel
         }
     }
 
-    NativeWindowEm::NativeWindowEm(const std::function<void(const Event&)>& initCallback,
-                                   const Size2U& newSize,
-                                   bool newFullscreen,
-                                   const std::string& newTitle,
-                                   bool newHighDpi):
-        NativeWindow(initCallback,
-                     newSize,
-                     true,
-                     newFullscreen,
-                     true,
-                     newTitle,
-                     newHighDpi)
+    NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
+                               const Size2U& newSize,
+                               bool newFullscreen,
+                               const std::string& newTitle,
+                               bool newHighDpi):
+        core::NativeWindow(initCallback,
+                           newSize,
+                           true,
+                           newFullscreen,
+                           true,
+                           newTitle,
+                           newHighDpi)
     {
         emscripten_set_resize_callback(nullptr, this, true, emResizeCallback);
 
@@ -77,7 +77,7 @@ namespace ouzel
         resolution = size;
     }
 
-    void NativeWindowEm::executeCommand(const Command& command)
+    void NativeWindow::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -108,7 +108,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowEm::setSize(const Size2U& newSize)
+    void NativeWindow::setSize(const Size2U& newSize)
     {
         size = newSize;
 
@@ -116,7 +116,7 @@ namespace ouzel
                                    static_cast<int>(newSize.v[1]));
     }
 
-    void NativeWindowEm::setFullscreen(bool newFullscreen)
+    void NativeWindow::setFullscreen(bool newFullscreen)
     {
         fullscreen = newFullscreen;
 
@@ -135,7 +135,7 @@ namespace ouzel
             emscripten_exit_fullscreen();
     }
 
-    void NativeWindowEm::handleResize()
+    void NativeWindow::handleResize()
     {
         int width, height, isFullscreen;
         emscripten_get_canvas_size(&width, &height, &isFullscreen);

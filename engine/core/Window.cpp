@@ -72,11 +72,11 @@ namespace ouzel::core
                                                              newTitle,
                                                              (flags & Flags::highDpi) == Flags::highDpi)),
 #elif defined(__EMSCRIPTEN__)
-        nativeWindow(std::make_unique<NativeWindowEm>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                      newSize,
-                                                      (flags & Flags::fullscreen) == Flags::fullscreen,
-                                                      newTitle,
-                                                      (flags & Flags::highDpi) == Flags::highDpi)),
+        nativeWindow(std::make_unique<emscripten::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
+                                                                newSize,
+                                                                (flags & Flags::fullscreen) == Flags::fullscreen,
+                                                                newTitle,
+                                                                (flags & Flags::highDpi) == Flags::highDpi)),
 #else
         nativeWindow(std::make_unique<NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                                     newSize,

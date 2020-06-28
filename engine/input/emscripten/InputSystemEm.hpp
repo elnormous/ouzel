@@ -10,14 +10,12 @@
 #include "GamepadDeviceEm.hpp"
 #include "MouseDeviceEm.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::emscripten
 {
-    class GamepadDeviceEm;
-
-    class InputSystemEm final: public InputSystem
+    class InputSystem final: public input::InputSystem
     {
     public:
-        InputSystemEm(const std::function<std::future<bool>(const Event&)>& initCallback);
+        InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
 
         void executeCommand(const Command& command) final;
 
@@ -39,9 +37,9 @@ namespace ouzel::input
 
         DeviceId lastDeviceId;
         std::unique_ptr<KeyboardDevice> keyboardDevice;
-        std::unique_ptr<MouseDeviceEm> mouseDevice;
+        std::unique_ptr<MouseDevice> mouseDevice;
         std::unique_ptr<TouchpadDevice> touchpadDevice;
-        std::unordered_map<long, std::unique_ptr<GamepadDeviceEm>> gamepadDevices;
+        std::unordered_map<long, std::unique_ptr<GamepadDevice>> gamepadDevices;
     };
 }
 

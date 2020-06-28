@@ -5,7 +5,7 @@
 #include <emscripten/html5.h>
 #include "GamepadDeviceEm.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::emscripten
 {
     namespace
     {
@@ -33,15 +33,15 @@ namespace ouzel::input
         };
     }
 
-    GamepadDeviceEm::GamepadDeviceEm(InputSystem& initInputSystem,
-                                        DeviceId initId,
-                                        long initIndex):
-        GamepadDevice(initInputSystem, initId),
+    GamepadDevice::GamepadDevice(InputSystem& initInputSystem,
+                                 DeviceId initId,
+                                 long initIndex):
+        input::GamepadDevice(initInputSystem, initId),
         index(initIndex)
     {
     }
 
-    void GamepadDeviceEm::update()
+    void GamepadDevice::update()
     {
         EmscriptenGamepadEvent event;
 
@@ -84,8 +84,8 @@ namespace ouzel::input
         }
     }
 
-    void GamepadDeviceEm::handleThumbAxisChange(double oldValue, double newValue,
-                                            Gamepad::Button negativeButton, Gamepad::Button positiveButton)
+    void GamepadDevice::handleThumbAxisChange(double oldValue, double newValue,
+                                              Gamepad::Button negativeButton, Gamepad::Button positiveButton)
     {
         if (newValue > 0.0)
         {

@@ -6,14 +6,16 @@
 #include "../GamepadDevice.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::emscripten
 {
-    class GamepadDeviceEm final: public GamepadDevice
+    class InputSystem;
+
+    class GamepadDevice final: public input::GamepadDevice
     {
     public:
-        GamepadDeviceEm(InputSystem& initInputSystem,
-                        DeviceId initId,
-                        long initIndex);
+        GamepadDevice(InputSystem& initInputSystem,
+                      DeviceId initId,
+                      long initIndex);
 
         void update();
 
@@ -21,7 +23,7 @@ namespace ouzel::input
 
     private:
         void handleThumbAxisChange(double oldValue, double newValue,
-                                    Gamepad::Button negativeButton, Gamepad::Button positiveButton);
+                                   Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
         long index = 0;
         double axis[64]{0.0};

@@ -5,16 +5,16 @@
 
 #include "../NativeWindow.hpp"
 
-namespace ouzel
+namespace ouzel::core::emscripten
 {
-    class NativeWindowEm final: public NativeWindow
+    class NativeWindow final: public core::NativeWindow
     {
     public:
-        NativeWindowEm(const std::function<void(const Event&)>& initCallback,
-                       const Size2U& newSize,
-                       bool newFullscreen,
-                       const std::string& newTitle,
-                       bool newHighDpi);
+        NativeWindow(const std::function<void(const Event&)>& initCallback,
+                     const Size2U& newSize,
+                     bool newFullscreen,
+                     const std::string& newTitle,
+                     bool newHighDpi);
 
         void executeCommand(const Command& command) final;
 

@@ -239,7 +239,7 @@ namespace
 
     EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* gamepadEvent, void* userData)
     {
-        auto inputEm = static_cast<ouzel::input::InputSystemEm*>(userData);
+        auto inputEm = static_cast<ouzel::input::emscripten::InputSystem*>(userData);
 
         if (eventType == EMSCRIPTEN_EVENT_GAMEPADCONNECTED)
         {
@@ -296,12 +296,12 @@ namespace
     }
 }
 
-namespace ouzel::input
+namespace ouzel::input::emscripten
 {
-    InputSystemEm::InputSystemEm(const std::function<std::future<bool>(const Event&)>& initCallback):
-        InputSystem(initCallback),
+    InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
+        input::InputSystem(initCallback),
         keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
-        mouseDevice(std::make_unique<MouseDeviceEm>(*this, getNextDeviceId())),
+        mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
         touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
     {
         emscripten_set_keypress_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
@@ -333,7 +333,7 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemEm::executeCommand(const Command& command)
+    void InputSystem::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -380,22 +380,22 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemEm::update()
+    void InputSystem::update()
     {
         for (const auto& i : gamepadDevices)
         {
-            auto gamepadDevice = static_cast<GamepadDeviceEm*>(i.second.get());
+            auto gamepadDevice = static_cast<GamepadDevice*>(i.second.get());
             gamepadDevice->update();
         }
     }
 
-    void InputSystemEm::handleGamepadConnected(long index)
+    void InputSystem::handleGamepadConnected(long index)
     {
-        auto gamepadDevice = std::make_unique<GamepadDeviceEm>(*this, getNextDeviceId(), index);
+        auto gamepadDevice = std::make_unique<GamepadDevice>(*this, getNextDeviceId(), index);
         gamepadDevices.insert(std::make_pair(index, std::move(gamepadDevice)));
     }
 
-    void InputSystemEm::handleGamepadDisconnected(long index)
+    void InputSystem::handleGamepadDisconnected(long index)
     {
         auto i = gamepadDevices.find(index);
 

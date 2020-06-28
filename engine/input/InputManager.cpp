@@ -46,7 +46,7 @@ namespace ouzel::input
 #elif defined(_WIN32)
         inputSystem(std::make_unique<windows::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__EMSCRIPTEN__)
-        inputSystem(std::make_unique<InputSystemEm>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::make_unique<emscripten::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #else
         inputSystem(std::make_unique<InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #endif

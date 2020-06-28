@@ -9,23 +9,23 @@
 #include "../../input/emscripten/InputSystemEm.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel
+namespace ouzel::core::emscripten
 {
     namespace
     {
         void loop(void* arg)
         {
-            static_cast<ouzel::EngineEm*>(arg)->step();
+            static_cast<emscripten::Engine*>(arg)->step();
         }
     }
 
-    EngineEm::EngineEm(int argc, char* argv[])
+    Engine::Engine(int argc, char* argv[])
     {
         for (int i = 0; i < argc; ++i)
             args.push_back(argv[i]);
     }
 
-    void EngineEm::run()
+    void Engine::run()
     {
         init();
         start();
@@ -33,9 +33,9 @@ namespace ouzel
         emscripten_set_main_loop_arg(loop, this, 0, 1);
     }
 
-    void EngineEm::step()
+    void Engine::step()
     {
-        auto inputEm = static_cast<input::InputSystemEm*>(inputManager->getInputSystem());
+        auto inputEm = static_cast<input::emscripten::InputSystem*>(inputManager->getInputSystem());
 
         if (active)
         {
@@ -69,7 +69,7 @@ namespace ouzel
 
             if (audio->getDevice()->getDriver() == audio::Driver::openAL)
             {
-                auto audioDevice = static_cast<audio::OALAudioDevice*>(audio->getDevice());
+                auto audioDevice = static_cast<audio::openal::AudioDevice*>(audio->getDevice());
                 try
                 {
                     audioDevice->process();
@@ -93,12 +93,12 @@ namespace ouzel
             emscripten_cancel_main_loop();
     }
 
-    void EngineEm::runOnMainThread(const std::function<void()>& func)
+    void Engine::runOnMainThread(const std::function<void()>& func)
     {
         if (func) func();
     }
 
-    void EngineEm::openUrl(const std::string& url)
+    void Engine::openUrl(const std::string& url)
     {
         EM_ASM_ARGS({window.open(Pointer_stringify($0));}, url.c_str());
     }

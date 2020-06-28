@@ -5,16 +5,15 @@
 
 #include "../MouseDevice.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::emscripten
 {
-    class MouseDeviceEm final: public MouseDevice
+    class InputSystem;
+
+    class MouseDevice final: public input::MouseDevice
     {
     public:
-        MouseDeviceEm(InputSystem& initInputSystem,
-                        DeviceId initId):
-            MouseDevice(initInputSystem, initId)
-        {
-        }
+        MouseDevice(InputSystem& initInputSystem,
+                    DeviceId initId);
 
         void setCursorVisible(bool visible);
         void setCursorLocked(bool locked);

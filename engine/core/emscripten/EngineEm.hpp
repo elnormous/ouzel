@@ -5,12 +5,12 @@
 
 #include "../Engine.hpp"
 
-namespace ouzel
+namespace ouzel::core::emscripten
 {
-    class EngineEm final: public Engine
+    class Engine final: public core::Engine
     {
     public:
-        EngineEm(int argc, char* argv[]);
+        Engine(int argc, char* argv[]);
 
         void run();
 

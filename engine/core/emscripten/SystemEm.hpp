@@ -5,12 +5,12 @@
 
 #include "../System.hpp"
 
-namespace ouzel
+namespace ouzel::core::emscripten
 {
-    class SystemEm final: public System
+    class System final: public core::System
     {
     public:
-        ~SystemEm() = default;
+        ~System() = default;
     };
 }
 
