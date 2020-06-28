@@ -11,9 +11,9 @@
 #endif
 #include "../Engine.hpp"
 
-namespace ouzel::linux
+namespace ouzel::core::linux
 {
-    class Engine final: public ouzel::Engine
+    class Engine final: public core::Engine
     {
     public:
         Engine(int initArgc, char* initArgv[]);

@@ -7,7 +7,7 @@
 
 namespace ouzel::macos
 {
-    class System final: public ouzel::System
+    class System final: public core::System
     {
     public:
         ~System() = default;

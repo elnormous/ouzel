@@ -3,7 +3,7 @@
 #ifndef OUZEL_CORE_SYSTEM_HPP
 #define OUZEL_CORE_SYSTEM_HPP
 
-namespace ouzel
+namespace ouzel::core
 {
     class System
     {

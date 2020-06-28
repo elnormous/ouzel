@@ -245,7 +245,7 @@ namespace
 }
 #endif
 
-namespace ouzel::linux
+namespace ouzel::core::linux
 {
     Engine::Engine(int initArgc, char* initArgv[])
     {
@@ -511,7 +511,7 @@ namespace ouzel::linux
 
     void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        ouzel::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
+        core::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
 #if OUZEL_SUPPORTS_X11
         executeOnMainThread([this, newScreenSaverEnabled]() {

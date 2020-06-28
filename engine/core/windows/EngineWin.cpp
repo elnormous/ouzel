@@ -20,7 +20,7 @@
 #include "../../input/windows/InputSystemWin.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel::windows
+namespace ouzel::core::windows
 {
     namespace
     {

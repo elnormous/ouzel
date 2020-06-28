@@ -114,7 +114,7 @@ namespace ouzel::graphics::d3d11
         if (renderThread.isJoinable()) renderThread.join();
     }
 
-    void RenderDevice::init(Window* newWindow,
+    void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
                             std::uint32_t newSampleCount,
                             bool newSrgb,
@@ -124,13 +124,13 @@ namespace ouzel::graphics::d3d11
                             bool newDebugRenderer)
     {
         graphics::RenderDevice::init(newWindow,
-                                        newSize,
-                                        newSampleCount,
-                                        newSrgb,
-                                        newVerticalSync,
-                                        newDepth,
-                                        newStencil,
-                                        newDebugRenderer);
+                                     newSize,
+                                     newSampleCount,
+                                     newSrgb,
+                                     newVerticalSync,
+                                     newDepth,
+                                     newStencil,
+                                     newDebugRenderer);
 
         anisotropicFilteringSupported = true;
         renderTargetsSupported = true;
@@ -148,15 +148,15 @@ namespace ouzel::graphics::d3d11
 
         D3D_FEATURE_LEVEL featureLevel;
         if (const auto hr = D3D11CreateDevice(nullptr, // adapter
-                                                D3D_DRIVER_TYPE_HARDWARE,
-                                                nullptr, // software rasterizer (unused)
-                                                deviceCreationFlags,
-                                                nullptr, // feature levels
-                                                0, // no feature levels
-                                                D3D11_SDK_VERSION,
-                                                &newDevice,
-                                                &featureLevel,
-                                                &newContext); FAILED(hr))
+                                              D3D_DRIVER_TYPE_HARDWARE,
+                                              nullptr, // software rasterizer (unused)
+                                              deviceCreationFlags,
+                                              nullptr, // feature levels
+                                              0, // no feature levels
+                                              D3D11_SDK_VERSION,
+                                              &newDevice,
+                                              &featureLevel,
+                                              &newContext); FAILED(hr))
             throw std::system_error(hr, errorCategory, "Failed to create the Direct3D 11 device");
 
         device = newDevice;
@@ -197,7 +197,7 @@ namespace ouzel::graphics::d3d11
             }
         }
 
-        auto windowWin = static_cast<ouzel::windows::NativeWindow*>(window->getNativeWindow());
+        auto windowWin = static_cast<core::windows::NativeWindow*>(window->getNativeWindow());
 
         frameBufferWidth = static_cast<UINT>(newSize.v[0]);
         frameBufferHeight = static_cast<UINT>(newSize.v[1]);
@@ -899,7 +899,7 @@ namespace ouzel::graphics::d3d11
 
     IDXGIOutput* RenderDevice::getOutput() const
     {
-        auto windowWin = static_cast<ouzel::windows::NativeWindow*>(window->getNativeWindow());
+        auto windowWin = static_cast<core::windows::NativeWindow*>(window->getNativeWindow());
         auto monitor = windowWin->getMonitor();
 
         if (!monitor)

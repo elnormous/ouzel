@@ -16,13 +16,13 @@ namespace ouzel::input::android
         mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
         touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
     {
-        auto engineAndroid = static_cast<ouzel::android::Engine*>(engine);
+        auto engineAndroid = static_cast<core::android::Engine*>(engine);
         javaVm = engineAndroid->getJavaVm();
         void* jniEnvPointer;
 
         jint result;
         if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, ouzel::android::getErrorCategory(), "Failed to get JNI environment");
+            throw std::system_error(result, core::android::getErrorCategory(), "Failed to get JNI environment");
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -82,7 +82,7 @@ namespace ouzel::input::android
 
         jint result;
         if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, ouzel::android::getErrorCategory(), "Failed to get JNI environment");
+            throw std::system_error(result, core::android::getErrorCategory(), "Failed to get JNI environment");
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -243,7 +243,7 @@ namespace ouzel::input::android
 
         jint result;
         if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, ouzel::android::getErrorCategory(), "Failed to get JNI environment");
+            throw std::system_error(result, core::android::getErrorCategory(), "Failed to get JNI environment");
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 

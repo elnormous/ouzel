@@ -20,7 +20,7 @@ namespace
 }
 #endif
 
-namespace ouzel::linux
+namespace ouzel::core::linux
 {
     NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
                                const Size2U& newSize,
@@ -30,13 +30,13 @@ namespace ouzel::linux
                                const std::string& newTitle,
                                graphics::Driver graphicsDriver,
                                bool depth):
-        ouzel::NativeWindow(initCallback,
-                            newSize,
-                            newResizable,
-                            newFullscreen,
-                            newExclusiveFullscreen,
-                            newTitle,
-                            true)
+        core::NativeWindow(initCallback,
+                           newSize,
+                           newResizable,
+                           newFullscreen,
+                           newExclusiveFullscreen,
+                           newTitle,
+                           true)
     {
 #if OUZEL_SUPPORTS_X11
         auto engineLinux = static_cast<Engine*>(engine);

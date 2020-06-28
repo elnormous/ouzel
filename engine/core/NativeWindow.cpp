@@ -3,7 +3,7 @@
 #include "NativeWindow.hpp"
 #include "Engine.hpp"
 
-namespace ouzel
+namespace ouzel::core
 {
     NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
                                const Size2U& newSize,

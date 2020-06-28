@@ -14,7 +14,7 @@
 
 namespace
 {
-    std::unique_ptr<ouzel::android::Engine> engine;
+    std::unique_ptr<ouzel::core::android::Engine> engine;
 
     const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
         {AKEYCODE_0, ouzel::input::Keyboard::Key::num0},
@@ -178,7 +178,7 @@ namespace
 
 extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVm, void*)
 {
-    engine = std::make_unique<ouzel::android::Engine>(javaVm);
+    engine = std::make_unique<ouzel::core::android::Engine>(javaVm);
     return JNI_VERSION_1_6;
 }
 
@@ -214,7 +214,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onSurfaceDes
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject, jint width, jint height)
 {
-    auto windowAndroid = static_cast<ouzel::android::NativeWindow*>(engine->getWindow()->getNativeWindow());
+    auto windowAndroid = static_cast<ouzel::core::android::NativeWindow*>(engine->getWindow()->getNativeWindow());
     windowAndroid->handleResize(ouzel::Size2U(static_cast<std::uint32_t>(width),
                                               static_cast<std::uint32_t>(height)));
 }
@@ -282,6 +282,6 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onGeneri
     return inputSystemAndroid->handleGenericMotionEvent(event);
 }
 
-namespace ouzel::android
+namespace ouzel::core::android
 {
 }

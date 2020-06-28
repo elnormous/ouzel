@@ -8,7 +8,7 @@
 #include <queue>
 #include "../math/Size.hpp"
 
-namespace ouzel
+namespace ouzel::core
 {
     class NativeWindow
     {

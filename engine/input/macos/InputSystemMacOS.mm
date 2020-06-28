@@ -269,7 +269,7 @@ namespace ouzel::input::macos
                 if (mouseDevice->getCursor() == cursor)
                 {
                     mouseDevice->setCursor(nullptr);
-                    auto windowMacOS = static_cast<ouzel::macos::NativeWindow*>(engine->getWindow()->getNativeWindow());
+                    auto windowMacOS = static_cast<core::macos::NativeWindow*>(engine->getWindow()->getNativeWindow());
                     [windowMacOS->getNativeWindow() invalidateCursorRectsForView:windowMacOS->getNativeView()];
                 }
 
@@ -287,7 +287,7 @@ namespace ouzel::input::macos
                         else
                             mouseDevice->setCursor(nullptr);
 
-                        auto windowMacOS = static_cast<ouzel::macos::NativeWindow*>(engine->getWindow()->getNativeWindow());
+                        auto windowMacOS = static_cast<core::macos::NativeWindow*>(engine->getWindow()->getNativeWindow());
                         [windowMacOS->getNativeWindow() invalidateCursorRectsForView:windowMacOS->getNativeView()];
                     }
                 }

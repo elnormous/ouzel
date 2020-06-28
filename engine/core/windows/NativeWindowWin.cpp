@@ -239,7 +239,7 @@ namespace
         auto userData = GetWindowLongPtr(window, GWLP_USERDATA);
         if (!userData) return DefWindowProcW(window, message, wParam, lParam);
 
-        auto windowWin = ouzel::bitCast<ouzel::windows::NativeWindow*>(userData);
+        auto windowWin = ouzel::bitCast<ouzel::core::windows::NativeWindow*>(userData);
 
         switch (message)
         {
@@ -366,7 +366,7 @@ namespace
                 return 0;
             case WM_USER:
             {
-                auto engineWin = static_cast<ouzel::windows::Engine*>(ouzel::engine);
+                auto engineWin = static_cast<ouzel::core::windows::Engine*>(ouzel::engine);
                 engineWin->executeAll();
                 break;
             }
@@ -378,7 +378,7 @@ namespace
     constexpr LPCWSTR windowClassName = L"OuzelWindow";
 }
 
-namespace ouzel::windows
+namespace ouzel::core::windows
 {
     NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
                                const Size2U& newSize,
@@ -387,13 +387,13 @@ namespace ouzel::windows
                                bool newExclusiveFullscreen,
                                const std::string& newTitle,
                                bool newHighDpi):
-        ouzel::NativeWindow(initCallback,
-                            newSize,
-                            newResizable,
-                            newFullscreen,
-                            newExclusiveFullscreen,
-                            newTitle,
-                            newHighDpi)
+        core::NativeWindow(initCallback,
+                           newSize,
+                           newResizable,
+                           newFullscreen,
+                           newExclusiveFullscreen,
+                           newTitle,
+                           newHighDpi)
     {
         if (highDpi)
         {

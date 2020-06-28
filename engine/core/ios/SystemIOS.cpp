@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 {
     try
     {
-        ouzel::ios::Engine engine(argc, argv);
+        ouzel::core::ios::Engine engine(argc, argv);
         engine.run();
         return EXIT_SUCCESS;
     }
@@ -20,6 +20,6 @@ int main(int argc, char* argv[])
     }
 }
 
-namespace ouzel::ios
+namespace ouzel::core::ios
 {
 }

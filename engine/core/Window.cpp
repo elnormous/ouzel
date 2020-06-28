@@ -25,7 +25,7 @@
 #  include "emscripten/NativeWindowEm.hpp"
 #endif
 
-namespace ouzel
+namespace ouzel::core
 {
     Window::Window(Engine& initEngine,
                    const Size2U& newSize,
@@ -64,13 +64,13 @@ namespace ouzel
                                                            graphicsDriver,
                                                            (flags & Flags::depth) == Flags::depth)),
 #elif defined(_WIN32)
-        nativeWindow(std::make_unique<ouzel::windows::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                                    newSize,
-                                                                    (flags & Flags::resizable) == Flags::resizable,
-                                                                    (flags & Flags::fullscreen) == Flags::fullscreen,
-                                                                    (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
-                                                                    newTitle,
-                                                                    (flags & Flags::highDpi) == Flags::highDpi)),
+        nativeWindow(std::make_unique<windows::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
+                                                             newSize,
+                                                             (flags & Flags::resizable) == Flags::resizable,
+                                                             (flags & Flags::fullscreen) == Flags::fullscreen,
+                                                             (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
+                                                             newTitle,
+                                                             (flags & Flags::highDpi) == Flags::highDpi)),
 #elif defined(__EMSCRIPTEN__)
         nativeWindow(std::make_unique<NativeWindowEm>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                                       newSize,

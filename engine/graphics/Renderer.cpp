@@ -91,7 +91,7 @@ namespace ouzel::graphics
     }
 
     Renderer::Renderer(Driver driver,
-                       Window* newWindow,
+                       core::Window* newWindow,
                        const Size2U& newSize,
                        std::uint32_t newSampleCount,
                        SamplerFilter newTextureFilter,

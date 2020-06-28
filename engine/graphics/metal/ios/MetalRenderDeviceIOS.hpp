@@ -26,7 +26,7 @@ namespace ouzel::graphics::metal::ios
         void renderCallback();
 
     private:
-        void init(Window* newWindow,
+        void init(core::Window* newWindow,
                   const Size2U& newSize,
                   std::uint32_t newSampleCount,
                   bool newSrgb,
@@ -35,7 +35,7 @@ namespace ouzel::graphics::metal::ios
                   bool newStencil,
                   bool newDebugRenderer) final;
 
-        DisplayLink displayLink;
+        core::ios::DisplayLink displayLink;
     };
 }
 

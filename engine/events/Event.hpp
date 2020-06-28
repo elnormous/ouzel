@@ -129,7 +129,7 @@ namespace ouzel
 
     struct WindowEvent final: Event
     {
-        Window* window = nullptr;
+        core::Window* window = nullptr;
         Size2U size;
         std::string title;
         bool fullscreen = false;

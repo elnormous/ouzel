@@ -10,11 +10,11 @@
 #include <android/looper.h>
 #include "../Engine.hpp"
 
-namespace ouzel::android
+namespace ouzel::core::android
 {
     const std::error_category& getErrorCategory() noexcept;
 
-    class Engine final: public ouzel::Engine
+    class Engine final: public core::Engine
     {
     public:
         Engine(JavaVM* initJavaVm);

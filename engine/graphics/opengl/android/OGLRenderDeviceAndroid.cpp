@@ -75,7 +75,7 @@ namespace ouzel::graphics::opengl::android
             eglTerminate(display);
     }
 
-    void RenderDevice::init(Window* newWindow,
+    void RenderDevice::init(core::Window* newWindow,
                             const Size2U&,
                             std::uint32_t newSampleCount,
                             bool newSrgb,
@@ -118,7 +118,7 @@ namespace ouzel::graphics::opengl::android
         if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
 
-        auto windowAndroid = static_cast<ouzel::android::NativeWindow*>(newWindow->getNativeWindow());
+        auto windowAndroid = static_cast<core::android::NativeWindow*>(newWindow->getNativeWindow());
 
         ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 
@@ -223,7 +223,7 @@ namespace ouzel::graphics::opengl::android
         if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
 
-        auto windowAndroid = static_cast<ouzel::android::NativeWindow*>(window->getNativeWindow());
+        auto windowAndroid = static_cast<core::android::NativeWindow*>(window->getNativeWindow());
 
         ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 

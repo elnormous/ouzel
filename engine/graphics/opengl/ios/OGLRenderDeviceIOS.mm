@@ -58,7 +58,7 @@ namespace ouzel::graphics::opengl::ios
         }
     }
 
-    void RenderDevice::init(Window* newWindow,
+    void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
                             std::uint32_t newSampleCount,
                             bool newSrgb,
@@ -67,7 +67,7 @@ namespace ouzel::graphics::opengl::ios
                             bool newStencil,
                             bool newDebugRenderer)
     {
-        auto view = static_cast<ouzel::ios::NativeWindow*>(newWindow->getNativeWindow())->getNativeView();
+        auto view = static_cast<core::ios::NativeWindow*>(newWindow->getNativeWindow())->getNativeView();
 
         eaglLayer = (CAEAGLLayer*)view.layer;
         eaglLayer.opaque = YES;

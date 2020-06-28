@@ -31,7 +31,7 @@
 #include "Archive.hpp"
 #include "Path.hpp"
 
-namespace ouzel
+namespace ouzel::core
 {
     class Engine;
 }
@@ -200,7 +200,7 @@ namespace ouzel::storage
     class FileSystem final
     {
     public:
-        explicit FileSystem(Engine& initEngine);
+        explicit FileSystem(core::Engine& initEngine);
 
         Path getStorageDirectory(const bool user = true) const;
 
@@ -592,7 +592,7 @@ namespace ouzel::storage
         }
 
     private:
-        Engine& engine;
+        core::Engine& engine;
         Path appPath;
         std::vector<Path> resourcePaths;
         std::vector<std::pair<std::string, Archive>> archives;

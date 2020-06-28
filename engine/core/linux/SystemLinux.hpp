@@ -5,12 +5,12 @@
 
 #include "../System.hpp"
 
-namespace ouzel::linux
+namespace ouzel::core::linux
 {
-    class SystemLinux final: public System
+    class System final: public core::System
     {
     public:
-        ~SystemLinux() = default;
+        ~System() = default;
     };
 }
 

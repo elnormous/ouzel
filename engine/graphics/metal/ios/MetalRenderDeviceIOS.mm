@@ -47,7 +47,7 @@ namespace ouzel::graphics::metal::ios
         submitCommandBuffer(std::move(commandBuffer));
     }
 
-    void RenderDevice::init(Window* newWindow,
+    void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
                             std::uint32_t newSampleCount,
                             bool newSrgb,
@@ -65,7 +65,7 @@ namespace ouzel::graphics::metal::ios
                                   newStencil,
                                   newDebugRenderer);
 
-        auto windowIOS = static_cast<ouzel::ios::NativeWindow*>(newWindow->getNativeWindow());
+        auto windowIOS = static_cast<core::ios::NativeWindow*>(newWindow->getNativeWindow());
         MetalView* view = (MetalView*)windowIOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

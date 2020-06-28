@@ -41,7 +41,7 @@
 
 namespace ouzel::storage
 {
-    FileSystem::FileSystem(Engine& initEngine):
+    FileSystem::FileSystem(core::Engine& initEngine):
         engine(initEngine)
     {
 #if defined(_WIN32)
@@ -249,7 +249,7 @@ namespace ouzel::storage
 #elif defined(__ANDROID__)
         static_cast<void>(user);
 
-        auto& engineAndroid = static_cast<ouzel::android::Engine&>(engine);
+        auto& engineAndroid = static_cast<core::android::Engine&>(engine);
         return engineAndroid.getFilesDirectory();
 #elif defined(__linux__)
         Path path;
@@ -310,7 +310,7 @@ namespace ouzel::storage
 #if defined(__ANDROID__)
         if (!filename.isAbsolute())
         {
-            auto& engineAndroid = static_cast<ouzel::android::Engine&>(engine);
+            auto& engineAndroid = static_cast<core::android::Engine&>(engine);
 
             auto asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);
 
@@ -389,7 +389,7 @@ namespace ouzel::storage
     bool FileSystem::directoryExists(const Path& dirname) const
     {
 #if defined(__ANDROID__)
-        auto& engineAndroid = static_cast<ouzel::android::Engine&>(engine);
+        auto& engineAndroid = static_cast<core::android::Engine&>(engine);
 
         auto assetDir = AAssetManager_openDir(engineAndroid.getAssetManager(), dirname.getNative().c_str());
         const auto exists = AAssetDir_getNextFileName(assetDir) != nullptr;
@@ -404,7 +404,7 @@ namespace ouzel::storage
     bool FileSystem::fileExists(const Path& filename) const
     {
 #if defined(__ANDROID__)
-        auto& engineAndroid = static_cast<ouzel::android::Engine&>(engine);
+        auto& engineAndroid = static_cast<core::android::Engine&>(engine);
 
         auto asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);
 

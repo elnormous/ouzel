@@ -191,12 +191,12 @@ namespace ouzel::graphics::opengl::windows
 
         if (deviceContext)
         {
-            auto windowWin = static_cast<ouzel::windows::NativeWindow*>(window->getNativeWindow());
+            auto windowWin = static_cast<core::windows::NativeWindow*>(window->getNativeWindow());
             ReleaseDC(windowWin->getNativeWindow(), deviceContext);
         }
     }
 
-    void RenderDevice::init(Window* newWindow,
+    void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
                             std::uint32_t newSampleCount,
                             bool newSrgb,
@@ -207,7 +207,7 @@ namespace ouzel::graphics::opengl::windows
     {
         TempContext tempContext;
 
-        auto windowWin = static_cast<ouzel::windows::NativeWindow*>(newWindow->getNativeWindow());
+        auto windowWin = static_cast<core::windows::NativeWindow*>(newWindow->getNativeWindow());
 
         deviceContext = GetDC(windowWin->getNativeWindow());
         if (!deviceContext)

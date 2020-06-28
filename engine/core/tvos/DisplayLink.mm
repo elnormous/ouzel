@@ -31,7 +31,7 @@
 }
 @end
 
-namespace ouzel
+namespace ouzel::core::tvos
 {
     DisplayLink::~DisplayLink()
     {

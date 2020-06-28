@@ -3,7 +3,7 @@
 #ifndef OUZEL_CORE_TIMER_HPP
 #define OUZEL_CORE_TIMER_HPP
 
-namespace ouzel
+namespace ouzel::core
 {
     class Timer final
     {

@@ -26,7 +26,7 @@ namespace ouzel::graphics
     {
     }
 
-    void RenderDevice::init(Window* newWindow,
+    void RenderDevice::init(core::Window* newWindow,
                             const Size2U&,
                             std::uint32_t newSampleCount,
                             bool newSrgb,

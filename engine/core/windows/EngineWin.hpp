@@ -17,9 +17,9 @@
 
 #include "../Engine.hpp"
 
-namespace ouzel::windows
+namespace ouzel::core::windows
 {
-    class Engine final: public ouzel::Engine
+    class Engine final: public core::Engine
     {
     public:
         Engine(int initArgc, LPWSTR* initArgv);

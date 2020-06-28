@@ -34,14 +34,14 @@ namespace ouzel::graphics::opengl::windows
         ~RenderDevice() override;
 
     private:
-        void init(Window* newWindow,
-                    const Size2U& newSize,
-                    std::uint32_t newSampleCount,
-                    bool newSrgb,
-                    bool newVerticalSync,
-                    bool newDepth,
-                    bool newStencil,
-                    bool newDebugRenderer) final;
+        void init(core::Window* newWindow,
+                  const Size2U& newSize,
+                  std::uint32_t newSampleCount,
+                  bool newSrgb,
+                  bool newVerticalSync,
+                  bool newDepth,
+                  bool newStencil,
+                  bool newDebugRenderer) final;
 
         void present() final;
         void renderMain();

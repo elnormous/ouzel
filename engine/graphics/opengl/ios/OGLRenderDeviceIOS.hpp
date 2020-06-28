@@ -36,7 +36,7 @@ namespace ouzel::graphics::opengl::ios
         void renderCallback();
 
     private:
-        void init(Window* newWindow,
+        void init(core::Window* newWindow,
                   const Size2U& newSize,
                   std::uint32_t newSampleCount,
                   bool newSrgb,
@@ -61,7 +61,7 @@ namespace ouzel::graphics::opengl::ios
 
         GLuint depthRenderBufferId = 0;
 
-        DisplayLink displayLink;
+        core::ios::DisplayLink displayLink;
     };
 }
 #endif

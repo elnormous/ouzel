@@ -104,10 +104,10 @@
 
 @implementation ExecuteHandler
 {
-    ouzel::ios::Engine* engine;
+    ouzel::core::ios::Engine* engine;
 }
 
-- (id)initWithEngine:(ouzel::ios::Engine*)initEngine
+- (id)initWithEngine:(ouzel::core::ios::Engine*)initEngine
 {
     if (self = [super init])
         engine = initEngine;
@@ -121,7 +121,7 @@
 }
 @end
 
-namespace ouzel::ios
+namespace ouzel::core::ios
 {
     Engine::Engine(int initArgc, char* initArgv[]):
         argc(initArgc), argv(initArgv)
@@ -165,7 +165,7 @@ namespace ouzel::ios
 
     void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        ouzel::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
+        core::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         executeOnMainThread([newScreenSaverEnabled]() {
             [UIApplication sharedApplication].idleTimerDisabled = newScreenSaverEnabled ? YES : NO;

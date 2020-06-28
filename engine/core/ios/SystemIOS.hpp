@@ -5,9 +5,9 @@
 
 #include "../System.hpp"
 
-namespace ouzel::ios
+namespace ouzel::core::ios
 {
-    class System final: public ouzel::System
+    class System final: public core::System
     {
     public:
         ~System() = default;

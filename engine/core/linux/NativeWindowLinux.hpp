@@ -21,11 +21,11 @@ typedef struct
 #include "../NativeWindow.hpp"
 #include "../../graphics/Renderer.hpp"
 
-namespace ouzel::linux
+namespace ouzel::core::linux
 {
     class Engine;
 
-    class NativeWindow final: public ouzel::NativeWindow
+    class NativeWindow final: public core::NativeWindow
     {
         friend Engine;
     public:

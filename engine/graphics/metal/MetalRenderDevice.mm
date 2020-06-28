@@ -106,14 +106,14 @@ namespace ouzel::graphics::metal
         apiVersion = ApiVersion(1, 0);
     }
 
-    void RenderDevice::init(Window* newWindow,
-                                 const Size2U& newSize,
-                                 std::uint32_t newSampleCount,
-                                 bool newSrgb,
-                                 bool newVerticalSync,
-                                 bool newDepth,
-                                 bool newStencil,
-                                 bool newDebugRenderer)
+    void RenderDevice::init(core::Window* newWindow,
+                            const Size2U& newSize,
+                            std::uint32_t newSampleCount,
+                            bool newSrgb,
+                            bool newVerticalSync,
+                            bool newDepth,
+                            bool newStencil,
+                            bool newDebugRenderer)
     {
         graphics::RenderDevice::init(newWindow,
                                      newSize,

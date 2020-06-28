@@ -17,7 +17,7 @@
 #include "../math/Matrix.hpp"
 #include "../math/Size.hpp"
 
-namespace ouzel
+namespace ouzel::core
 {
     class Window;
 }
@@ -174,7 +174,7 @@ namespace ouzel::graphics
         }
 
     protected:
-        virtual void init(Window* newWindow,
+        virtual void init(core::Window* newWindow,
                           const Size2U& newSize,
                           std::uint32_t newSampleCount,
                           bool newSrgb,
@@ -190,7 +190,7 @@ namespace ouzel::graphics
         Driver driver;
         std::function<void(const Event&)> callback;
 
-        Window* window = nullptr;
+        core::Window* window = nullptr;
 
         ApiVersion apiVersion;
 

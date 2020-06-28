@@ -8,9 +8,9 @@
 #include <android/native_window_jni.h>
 #include "../NativeWindow.hpp"
 
-namespace ouzel::android
+namespace ouzel::core::android
 {
-    class NativeWindow final: public ouzel::NativeWindow
+    class NativeWindow final: public core::NativeWindow
     {
     public:
         NativeWindow(const std::function<void(const Event&)>& initCallback,

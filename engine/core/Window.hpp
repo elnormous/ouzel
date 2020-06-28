@@ -9,7 +9,7 @@
 #include "../graphics/Renderer.hpp"
 #include "../math/Size.hpp"
 
-namespace ouzel
+namespace ouzel::core
 {
     class Engine;
 

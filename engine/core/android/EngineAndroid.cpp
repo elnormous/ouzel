@@ -8,7 +8,7 @@
 #include "../../events/EventDispatcher.hpp"
 #include "../../graphics/opengl/android/OGLRenderDeviceAndroid.hpp"
 
-namespace ouzel::android
+namespace ouzel::core::android
 {
     namespace
     {
@@ -329,7 +329,7 @@ namespace ouzel::android
 
     void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        ouzel::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
+        core::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         executeOnMainThread([newScreenSaverEnabled, this]() {
             void* jniEnvPointer;
@@ -376,7 +376,7 @@ namespace ouzel::android
         if ((result = javaVm->AttachCurrentThread(&jniEnv, &attachArgs)) != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to attach current thread to Java VM");
 
-        ouzel::Engine::engineMain();
+        core::Engine::engineMain();
 
         if ((result = javaVm->DetachCurrentThread()) != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to detach current thread from Java VM");

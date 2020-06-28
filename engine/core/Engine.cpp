@@ -78,8 +78,11 @@
 
 namespace ouzel
 {
-    Engine* engine = nullptr;
+    core::Engine* engine = nullptr;
+}
 
+namespace ouzel::core
+{
     Engine::Engine():
         fileSystem(*this),
         assetBundle(cache, fileSystem)

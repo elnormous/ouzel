@@ -20,7 +20,7 @@ typedef id NSRunLoopPtr;
 
 using RenderCallback = void (*)(void*);
 
-namespace ouzel
+namespace ouzel::core::ios
 {
     class DisplayLink final
     {

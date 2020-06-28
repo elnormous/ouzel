@@ -146,14 +146,14 @@ namespace ouzel::input::ios
 
     void InputSystem::showVirtualKeyboard()
     {
-        auto windowIOS = static_cast<ouzel::ios::NativeWindow*>(engine->getWindow()->getNativeWindow());
+        auto windowIOS = static_cast<core::ios::NativeWindow*>(engine->getWindow()->getNativeWindow());
         UITextField* textField = windowIOS->getTextField();
         [textField becomeFirstResponder];
     }
 
     void InputSystem::hideVirtualKeyboard()
     {
-        auto windowIOS = static_cast<ouzel::ios::NativeWindow*>(engine->getWindow()->getNativeWindow());
+        auto windowIOS = static_cast<core::ios::NativeWindow*>(engine->getWindow()->getNativeWindow());
         UITextField* textField = windowIOS->getTextField();
         [textField resignFirstResponder];
     }

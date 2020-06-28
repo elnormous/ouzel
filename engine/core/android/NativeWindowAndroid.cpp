@@ -4,17 +4,17 @@
 #include "NativeWindowAndroid.hpp"
 #include "EngineAndroid.hpp"
 
-namespace ouzel::android
+namespace ouzel::core::android
 {
     NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
                                const std::string& newTitle):
-        ouzel::NativeWindow(initCallback,
-                            Size2U(),
-                            true,
-                            true,
-                            true,
-                            newTitle,
-                            true)
+        core::NativeWindow(initCallback,
+                           Size2U(),
+                           true,
+                           true,
+                           true,
+                           newTitle,
+                           true)
     {
         auto engineAndroid = static_cast<Engine*>(engine);
         auto javaVm = engineAndroid->getJavaVm();

@@ -72,7 +72,7 @@ namespace ouzel::graphics::opengl::macos
             [pixelFormat release];
     }
 
-    void RenderDevice::init(Window* newWindow,
+    void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
                             std::uint32_t newSampleCount,
                             bool newSrgb,
@@ -142,7 +142,7 @@ namespace ouzel::graphics::opengl::macos
         openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
         [openGLContext makeCurrentContext];
 
-        auto windowMacOS = static_cast<ouzel::macos::NativeWindow*>(newWindow->getNativeWindow());
+        auto windowMacOS = static_cast<core::macos::NativeWindow*>(newWindow->getNativeWindow());
         OpenGLView* openGLView = (OpenGLView*)windowMacOS->getNativeView();
 
         [openGLView setOpenGLContext:openGLContext];

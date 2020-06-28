@@ -318,7 +318,7 @@ namespace ouzel::graphics::opengl
         resources.clear();
     }
 
-    void RenderDevice::init(Window* newWindow,
+    void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
                             std::uint32_t newSampleCount,
                             bool newSrgb,

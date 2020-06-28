@@ -36,7 +36,7 @@ namespace ouzel::graphics::opengl::tvos
         void renderCallback();
 
     private:
-        void init(Window* newWindow,
+        void init(core::Window* newWindow,
                   const Size2U& newSize,
                   std::uint32_t newSampleCount,
                   bool newSrgb,
@@ -61,7 +61,7 @@ namespace ouzel::graphics::opengl::tvos
 
         GLuint depthRenderBufferId = 0;
 
-        DisplayLink displayLink;
+        core::tvos::DisplayLink displayLink;
     };
 }
 #endif

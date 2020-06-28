@@ -64,10 +64,10 @@
 
 @implementation ExecuteHandler
 {
-    ouzel::macos::Engine* engine;
+    ouzel::core::macos::Engine* engine;
 }
 
-- (id)initWithEngine:(ouzel::macos::Engine*)initEngine
+- (id)initWithEngine:(ouzel::core::macos::Engine*)initEngine
 {
     if (self = [super init])
         engine = initEngine;
@@ -81,7 +81,7 @@
 }
 @end
 
-namespace ouzel::macos
+namespace ouzel::core::macos
 {
     Engine::Engine(int argc, char* argv[])
     {
@@ -143,7 +143,7 @@ namespace ouzel::macos
 
     void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        ouzel::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
+        core::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         executeOnMainThread([this, newScreenSaverEnabled]() {
             if (newScreenSaverEnabled)
@@ -172,7 +172,7 @@ namespace ouzel::macos
 
     void Engine::engineMain()
     {
-        ouzel::Engine::engineMain();
+        core::Engine::engineMain();
 
         executeOnMainThread([]() {
             NSApplication* app = [NSApplication sharedApplication];

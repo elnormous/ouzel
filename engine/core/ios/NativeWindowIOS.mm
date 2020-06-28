@@ -14,10 +14,10 @@
 
 @implementation ViewController
 {
-    ouzel::ios::NativeWindow* window;
+    ouzel::core::ios::NativeWindow* window;
 }
 
-- (id)initWithWindow:(ouzel::ios::NativeWindow*)initWindow
+- (id)initWithWindow:(ouzel::core::ios::NativeWindow*)initWindow
 {
     if (self = [super init])
         window = initWindow;
@@ -49,19 +49,19 @@
 }
 @end
 
-namespace ouzel::ios
+namespace ouzel::core::ios
 {
     NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
                                const std::string& newTitle,
                                graphics::Driver graphicsDriver,
                                bool newHighDpi):
-        ouzel::NativeWindow(initCallback,
-                            Size2U(),
-                            true,
-                            true,
-                            true,
-                            newTitle,
-                            newHighDpi)
+        core::NativeWindow(initCallback,
+                           Size2U(),
+                           true,
+                           true,
+                           true,
+                           newTitle,
+                           newHighDpi)
     {
         screen = [UIScreen mainScreen];
 

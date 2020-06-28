@@ -12,10 +12,10 @@
 
 @implementation WindowDelegate
 {
-    ouzel::macos::NativeWindow* window;
+    ouzel::core::macos::NativeWindow* window;
 }
 
-- (id)initWithWindow:(ouzel::macos::NativeWindow*)initWindow
+- (id)initWithWindow:(ouzel::core::macos::NativeWindow*)initWindow
 {
     if (self = [super init])
         window = initWindow;
@@ -74,7 +74,7 @@
 }
 @end
 
-namespace ouzel::macos
+namespace ouzel::core::macos
 {
     NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
                                const Size2U& newSize,
@@ -84,13 +84,13 @@ namespace ouzel::macos
                                const std::string& newTitle,
                                graphics::Driver graphicsDriver,
                                bool newHighDpi):
-        ouzel::NativeWindow(initCallback,
-                            newSize,
-                            newResizable,
-                            newFullscreen,
-                            newExclusiveFullscreen,
-                            newTitle,
-                            newHighDpi)
+        core::NativeWindow(initCallback,
+                           newSize,
+                           newResizable,
+                           newFullscreen,
+                           newExclusiveFullscreen,
+                           newTitle,
+                           newHighDpi)
     {
         screen = [NSScreen mainScreen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];

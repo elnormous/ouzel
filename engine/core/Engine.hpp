@@ -29,21 +29,8 @@
 #include "../utils/Log.hpp"
 #include "../utils/Thread.hpp"
 
-namespace ouzel
+namespace ouzel::core
 {
-    std::unique_ptr<Application> main(const std::vector<std::string>& args);
-
-    const std::string shaderTexture = "shaderTexture";
-    const std::string shaderColor = "shaderColor";
-
-    const std::string blendNoBlend = "blendNoBlend";
-    const std::string blendAdd = "blendAdd";
-    const std::string blendMultiply = "blendMultiply";
-    const std::string blendAlpha = "blendAlpha";
-    const std::string blendScreen = "blendScreen";
-
-    const std::string textureWhitePixel = "textureWhitePixel";
-
     class Engine
     {
     public:
@@ -161,8 +148,23 @@ namespace ouzel
         std::atomic_bool screenSaverEnabled{true};
         std::vector<std::string> args;
     };
+}
 
-    extern Engine* engine;
+namespace ouzel
+{
+    const std::string shaderTexture = "shaderTexture";
+    const std::string shaderColor = "shaderColor";
+
+    const std::string blendNoBlend = "blendNoBlend";
+    const std::string blendAdd = "blendAdd";
+    const std::string blendMultiply = "blendMultiply";
+    const std::string blendAlpha = "blendAlpha";
+    const std::string blendScreen = "blendScreen";
+
+    const std::string textureWhitePixel = "textureWhitePixel";
+
+    std::unique_ptr<Application> main(const std::vector<std::string>& args);
+    extern core::Engine* engine;
 }
 
 #endif // OUZEL_CORE_ENGINE_HPP

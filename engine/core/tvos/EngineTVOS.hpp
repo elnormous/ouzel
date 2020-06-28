@@ -12,9 +12,9 @@ typedef id NSAutoreleasePoolPtr;
 
 #include "../Engine.hpp"
 
-namespace ouzel::tvos
+namespace ouzel::core::tvos
 {
-    class Engine final: public ouzel::Engine
+    class Engine final: public core::Engine
     {
     public:
         Engine(int initArgc, char* initArgv[]);

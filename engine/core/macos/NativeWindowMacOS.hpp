@@ -24,9 +24,9 @@ typedef std::uint32_t CGDirectDisplayID;
 #include "../NativeWindow.hpp"
 #include "../../graphics/Renderer.hpp"
 
-namespace ouzel::macos
+namespace ouzel::core::macos
 {
-    class NativeWindow final: public ouzel::NativeWindow
+    class NativeWindow final: public core::NativeWindow
     {
     public:
         NativeWindow(const std::function<void(const Event&)>& initCallback,

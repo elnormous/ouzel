@@ -368,7 +368,7 @@ namespace ouzel::input::windows
 
             if (!found)
             {
-                auto windowWin = static_cast<ouzel::windows::NativeWindow*>(engine->getWindow()->getNativeWindow());
+                auto windowWin = static_cast<core::windows::NativeWindow*>(engine->getWindow()->getNativeWindow());
 
                 gamepadsDI.emplace_back(std::make_unique<GamepadDeviceDI>(*this, getNextDeviceId(),
                                                                           didInstance, directInput,

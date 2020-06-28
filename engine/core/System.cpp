@@ -2,7 +2,7 @@
 
 #include "System.hpp"
 
-namespace ouzel
+namespace ouzel::core
 {
     System::System()
     {

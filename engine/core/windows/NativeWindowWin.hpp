@@ -18,7 +18,7 @@
 
 #include "../NativeWindow.hpp"
 
-namespace ouzel::windows
+namespace ouzel::core::windows
 {
     class Engine;
 

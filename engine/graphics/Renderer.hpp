@@ -23,10 +23,10 @@ namespace ouzel::graphics
 {
     class Renderer final
     {
-        friend Window;
+        friend core::Window;
     public:
         Renderer(Driver driver,
-                 Window* newWindow,
+                 core::Window* newWindow,
                  const Size2U& newSize,
                  std::uint32_t newSampleCount,
                  SamplerFilter newTextureFilter,
