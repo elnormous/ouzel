@@ -643,7 +643,7 @@ namespace ouzel::core
 #if !defined(__EMSCRIPTEN__)
             updateThread = Thread(&Engine::engineMain, this);
 #else
-            main();
+            main(args);
 #endif
         }
     }

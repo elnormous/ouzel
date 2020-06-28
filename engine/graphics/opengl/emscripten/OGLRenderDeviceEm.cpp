@@ -20,7 +20,7 @@ namespace ouzel::graphics::opengl::emscripten
             emscripten_webgl_destroy_context(webGLContext);
     }
 
-    void RenderDevice::init(Window* newWindow,
+    void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
                             std::uint32_t newSampleCount,
                             bool newSrgb,
