@@ -370,8 +370,8 @@ namespace ouzel::graphics::d3d11
         std::uint32_t fillModeIndex = 0;
         std::uint32_t scissorEnableIndex = 0;
         std::uint32_t cullModeIndex = 0;
-        RenderTarget* currentRenderTarget = nullptr;
-        Shader* currentShader = nullptr;
+        const RenderTarget* currentRenderTarget = nullptr;
+        const Shader* currentShader = nullptr;
 
         std::vector<ID3D11ShaderResourceView*> currentResourceViews;
         std::vector<ID3D11SamplerState*> currentSamplerStates;

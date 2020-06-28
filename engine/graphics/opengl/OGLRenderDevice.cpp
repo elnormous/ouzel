@@ -761,8 +761,8 @@ namespace ouzel::graphics::opengl
         graphics::RenderDevice::process();
         executeAll();
 
-        RenderTarget* currentRenderTarget = nullptr;
-        Shader* currentShader = nullptr;
+        const RenderTarget* currentRenderTarget = nullptr;
+        const Shader* currentShader = nullptr;
 
         CommandBuffer commandBuffer;
         std::unique_ptr<Command> command;

@@ -275,8 +275,8 @@ namespace ouzel::graphics::metal
         ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
         shaderConstantBuffer.index = 0;
         shaderConstantBuffer.offset = 0;
-        RenderTarget* currentRenderTarget = nullptr;
-        Shader* currentShader = nullptr;
+        const RenderTarget* currentRenderTarget = nullptr;
+        const Shader* currentShader = nullptr;
 
         CommandBuffer commandBuffer;
         std::unique_ptr<Command> command;
