@@ -64,7 +64,7 @@ matrix:
       before_script:
         - export CXX=clang++
       script:
-        - build-wrapper-macosx-x86 --out-dir bw-output make platform=ios -j2 -C samples/
+        - build-wrapper-macosx-x86 --out-dir bw-output make PLATFORM=ios -j2 -C samples/
         - sonar-scanner -D sonar.projectKey=OuzelIOS -D sonar.projectName="Ouzel iOS" -D sonar.cfamily.threads=2 || true
     - name: tvOS
       compiler: clang
@@ -82,7 +82,7 @@ matrix:
       before_script:
         - export CXX=clang++
       script:
-        - build-wrapper-macosx-x86 --out-dir bw-output make platform=tvos -j2 -C samples/
+        - build-wrapper-macosx-x86 --out-dir bw-output make PLATFORM=tvos -j2 -C samples/
         - sonar-scanner -D sonar.projectKey=OuzelTVOS -D sonar.projectName="Ouzel tvOS" -D sonar.cfamily.threads=2 || true
     - name: Android
       language: android
