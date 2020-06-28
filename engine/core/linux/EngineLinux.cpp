@@ -245,9 +245,9 @@ namespace
 }
 #endif
 
-namespace ouzel
+namespace ouzel::linux
 {
-    EngineLinux::EngineLinux(int initArgc, char* initArgv[])
+    Engine::Engine(int initArgc, char* initArgv[])
     {
         for (int i = 0; i < initArgc; ++i)
             args.push_back(initArgv[i]);
@@ -271,7 +271,7 @@ namespace ouzel
 #endif
     }
 
-    EngineLinux::~EngineLinux()
+    Engine::~Engine()
     {
 #if OUZEL_SUPPORTS_X11
         if (display) XCloseDisplay(display);
@@ -283,15 +283,15 @@ namespace ouzel
 #endif
     }
 
-    void EngineLinux::run()
+    void Engine::run()
     {
         init();
         start();
 
-        auto inputLinux = static_cast<input::InputSystemLinux*>(inputManager->getInputSystem());
+        auto inputLinux = static_cast<input::linux::InputSystem*>(inputManager->getInputSystem());
 
 #if OUZEL_SUPPORTS_X11
-        auto windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
+        auto windowLinux = static_cast<NativeWindow*>(window->getNativeWindow());
 
         int xInputOpCode = 0;
         int eventCode;
@@ -354,7 +354,7 @@ namespace ouzel
                     case KeyPress: // keyboard
                     case KeyRelease:
                     {
-                        auto inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
+                        auto inputSystemLinux = static_cast<ouzel::input::linux::InputSystem*>(inputManager->getInputSystem());
                         auto keyboardDevice = inputSystemLinux->getKeyboardDevice();
 
                         const KeySym keySym = XkbKeycodeToKeysym(display,
@@ -370,7 +370,7 @@ namespace ouzel
                     case ButtonPress: // mouse button
                     case ButtonRelease:
                     {
-                        auto inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
+                        auto inputSystemLinux = static_cast<ouzel::input::linux::InputSystem*>(inputManager->getInputSystem());
                         auto mouseDevice = inputSystemLinux->getMouseDevice();
 
                         Vector2F pos(static_cast<float>(event.xbutton.x),
@@ -396,7 +396,7 @@ namespace ouzel
                     }
                     case MotionNotify:
                     {
-                        auto inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
+                        auto inputSystemLinux = static_cast<ouzel::input::linux::InputSystem*>(inputManager->getInputSystem());
                         auto mouseDevice = inputSystemLinux->getMouseDevice();
 
                         Vector2F pos(static_cast<float>(event.xmotion.x),
@@ -422,7 +422,7 @@ namespace ouzel
                         XGenericEventCookie* cookie = &event.xcookie;
                         if (cookie->extension == xInputOpCode)
                         {
-                            auto inputSystemLinux = static_cast<ouzel::input::InputSystemLinux*>(inputManager->getInputSystem());
+                            auto inputSystemLinux = static_cast<ouzel::input::linux::InputSystem*>(inputManager->getInputSystem());
                             auto touchpadDevice = inputSystemLinux->getTouchpadDevice();
 
                             switch (cookie->evtype)
@@ -472,10 +472,10 @@ namespace ouzel
         exit();
     }
 
-    void EngineLinux::runOnMainThread(const std::function<void()>& func)
+    void Engine::runOnMainThread(const std::function<void()>& func)
     {
 #if OUZEL_SUPPORTS_X11
-        NativeWindowLinux* windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
+        auto windowLinux = static_cast<NativeWindow*>(window->getNativeWindow());
 
         XEvent event;
         event.type = ClientMessage;
@@ -502,16 +502,16 @@ namespace ouzel
 #endif
     }
 
-    void EngineLinux::openUrl(const std::string& url)
+    void Engine::openUrl(const std::string& url)
     {
 #if OUZEL_SUPPORTS_X11
         ::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), nullptr));
 #endif
     }
 
-    void EngineLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
+        ouzel::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
 #if OUZEL_SUPPORTS_X11
         executeOnMainThread([this, newScreenSaverEnabled]() {
@@ -520,7 +520,7 @@ namespace ouzel
 #endif
     }
 
-    void EngineLinux::executeAll()
+    void Engine::executeAll()
     {
         std::function<void()> func;
 

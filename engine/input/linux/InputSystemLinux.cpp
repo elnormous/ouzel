@@ -17,20 +17,20 @@
 #include "../../core/linux/EngineLinux.hpp"
 #include "../../core/linux/NativeWindowLinux.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::linux
 {
-    InputSystemLinux::InputSystemLinux(const std::function<std::future<bool>(const Event&)>& initCallback):
+    InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
 #if OUZEL_SUPPORTS_X11
-        InputSystem(initCallback),
-        keyboardDevice(std::make_unique<KeyboardDeviceLinux>(*this, getNextDeviceId())),
-        mouseDevice(std::make_unique<MouseDeviceLinux>(*this, getNextDeviceId())),
+        input::InputSystem(initCallback),
+        keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
+        mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
         touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
 #else
         InputSystem(initCallback)
 #endif
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<EngineLinux*>(engine);
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
         auto display = engineLinux->getDisplay();
 
         char data[1] = {0};
@@ -72,15 +72,15 @@ namespace ouzel::input
         closedir(dir);
     }
 
-    InputSystemLinux::~InputSystemLinux()
+    InputSystem::~InputSystem()
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<EngineLinux*>(engine);
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
         if (emptyCursor != None) XFreeCursor(engineLinux->getDisplay(), emptyCursor);
 #endif
     }
 
-    void InputSystemLinux::executeCommand(const Command& command)
+    void InputSystem::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -114,13 +114,13 @@ namespace ouzel::input
 
                 if (command.data.empty())
                 {
-                    auto cursor = std::make_unique<CursorLinux>(command.systemCursor);
+                    auto cursor = std::make_unique<Cursor>(command.systemCursor);
                     cursors[command.cursorResource - 1] = std::move(cursor);
                 }
                 else
                 {
-                    auto cursor = std::make_unique<CursorLinux>(command.data, command.size,
-                                                                command.pixelFormat, command.hotSpot);
+                    auto cursor = std::make_unique<Cursor>(command.data, command.size,
+                                                           command.pixelFormat, command.hotSpot);
                     cursors[command.cursorResource - 1] = std::move(cursor);
                 }
                 break;
@@ -128,7 +128,7 @@ namespace ouzel::input
             case Command::Type::destroyCursor:
             {
 #if OUZEL_SUPPORTS_X11
-                CursorLinux* cursor = cursors[command.cursorResource - 1].get();
+                Cursor* cursor = cursors[command.cursorResource - 1].get();
 
                 if (mouseDevice->getCursor() == cursor)
                 {
@@ -180,7 +180,7 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemLinux::update()
+    void InputSystem::update()
     {
         fd_set rfds;
         struct timeval tv;
@@ -253,10 +253,10 @@ namespace ouzel::input
     }
 
 #if OUZEL_SUPPORTS_X11
-    void InputSystemLinux::updateCursor() const
+    void InputSystem::updateCursor() const
     {
-        auto engineLinux = static_cast<EngineLinux*>(engine);
-        auto windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
+        auto windowLinux = static_cast<ouzel::linux::NativeWindow*>(engine->getWindow()->getNativeWindow());
         auto display = engineLinux->getDisplay();
         auto window = windowLinux->getNativeWindow();
 

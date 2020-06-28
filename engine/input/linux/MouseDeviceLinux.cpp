@@ -3,16 +3,23 @@
 #include <stdexcept>
 #include "../../core/Setup.h"
 #include "MouseDeviceLinux.hpp"
+#include "InputSystemLinux.hpp"
 #include "../../core/linux/EngineLinux.hpp"
 #include "../../core/linux/NativeWindowLinux.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::linux
 {
-    void MouseDeviceLinux::setPosition(const Vector2F& position)
+    MouseDevice::MouseDevice(InputSystem& initInputSystem,
+                             DeviceId initId):
+        input::MouseDevice(initInputSystem, initId)
+    {
+    }
+
+    void MouseDevice::setPosition(const Vector2F& position)
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<EngineLinux*>(engine);
-        auto windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
+        auto windowLinux = static_cast<ouzel::linux::NativeWindow*>(engine->getWindow()->getNativeWindow());
         auto display = engineLinux->getDisplay();
         auto window = windowLinux->getNativeWindow();
 
@@ -22,31 +29,31 @@ namespace ouzel::input
         const Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
         XWarpPointer(display, None, window, 0, 0, 0, 0,
-                        attributes.x + static_cast<int>(windowLocation.v[0]),
-                        attributes.y + static_cast<int>(windowLocation.v[1]));
+                     attributes.x + static_cast<int>(windowLocation.v[0]),
+                     attributes.y + static_cast<int>(windowLocation.v[1]));
         XSync(display, False);
 #endif
     }
 
-    void MouseDeviceLinux::setCursorVisible(bool visible)
+    void MouseDevice::setCursorVisible(bool visible)
     {
         cursorVisible = visible;
     }
 
-    void MouseDeviceLinux::setCursorLocked(bool locked)
+    void MouseDevice::setCursorLocked(bool locked)
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<EngineLinux*>(engine);
-        auto windowLinux = static_cast<NativeWindowLinux*>(engine->getWindow()->getNativeWindow());
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
+        auto windowLinux = static_cast<ouzel::linux::NativeWindow*>(engine->getWindow()->getNativeWindow());
         auto display = engineLinux->getDisplay();
         auto window = windowLinux->getNativeWindow();
 
         if (locked)
         {
             if (XGrabPointer(display, window, False,
-                                ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask,
-                                GrabModeAsync, GrabModeAsync,
-                                None, None, CurrentTime) != GrabSuccess)
+                             ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask,
+                             GrabModeAsync, GrabModeAsync,
+                             None, None, CurrentTime) != GrabSuccess)
                 throw std::runtime_error("Failed to grab pointer");
         }
         else
@@ -56,7 +63,7 @@ namespace ouzel::input
 #endif
     }
 
-    void MouseDeviceLinux::setCursor(CursorLinux* newCursor)
+    void MouseDevice::setCursor(Cursor* newCursor)
     {
         cursor = newCursor;
     }

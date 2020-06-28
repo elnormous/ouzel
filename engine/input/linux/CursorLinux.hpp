@@ -14,22 +14,22 @@
 #include "../Cursor.hpp"
 #include "../../math/Size.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::linux
 {
-    class CursorLinux final
+    class Cursor final
     {
     public:
-        explicit CursorLinux(SystemCursor systemCursor);
-        CursorLinux(const std::vector<std::uint8_t>& data,
+        explicit Cursor(SystemCursor systemCursor);
+        Cursor(const std::vector<std::uint8_t>& data,
                     const Size2F& size,
                     graphics::PixelFormat pixelFormat,
                     const Vector2F& hotSpot);
-        ~CursorLinux();
+        ~Cursor();
 
-        CursorLinux(const CursorLinux&) = delete;
-        CursorLinux& operator=(const CursorLinux&) = delete;
-        CursorLinux(CursorLinux&&) = delete;
-        CursorLinux& operator=(CursorLinux&&) = delete;
+        Cursor(const Cursor&) = delete;
+        Cursor& operator=(const Cursor&) = delete;
+        Cursor(Cursor&&) = delete;
+        Cursor& operator=(Cursor&&) = delete;
 
 #if OUZEL_SUPPORTS_X11
         auto getCursor() const noexcept { return cursor; }

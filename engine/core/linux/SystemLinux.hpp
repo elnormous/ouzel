@@ -5,7 +5,7 @@
 
 #include "../System.hpp"
 
-namespace ouzel
+namespace ouzel::linux
 {
     class SystemLinux final: public System
     {

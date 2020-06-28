@@ -219,9 +219,9 @@ namespace
     }
 }
 
-namespace ouzel::input
+namespace ouzel::input::linux
 {
-    EventDevice::EventDevice(InputSystemLinux& inputSystem, const std::string& initFilename):
+    EventDevice::EventDevice(InputSystem& inputSystem, const std::string& initFilename):
         filename(initFilename)
     {
         fd = open(filename.c_str(), O_RDONLY);

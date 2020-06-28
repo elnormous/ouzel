@@ -42,7 +42,7 @@ namespace ouzel::input
 #elif defined(__ANDROID__)
         inputSystem(std::make_unique<InputSystemAndroid>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__linux__)
-        inputSystem(std::make_unique<InputSystemLinux>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::make_unique<linux::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(_WIN32)
         inputSystem(std::make_unique<windows::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__EMSCRIPTEN__)

@@ -11,13 +11,13 @@
 #endif
 #include "../Engine.hpp"
 
-namespace ouzel
+namespace ouzel::linux
 {
-    class EngineLinux final: public Engine
+    class Engine final: public ouzel::Engine
     {
     public:
-        EngineLinux(int initArgc, char* initArgv[]);
-        ~EngineLinux() override;
+        Engine(int initArgc, char* initArgv[]);
+        ~Engine() override;
 
         void run();
 

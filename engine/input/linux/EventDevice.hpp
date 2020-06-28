@@ -13,16 +13,20 @@
 
 namespace ouzel::input
 {
-    class InputSystemLinux;
-    class KeyboardDevice;
     class GamepadDevice;
-    class MouseDevice;
     class TouchpadDevice;
+}
+
+namespace ouzel::input::linux
+{
+    class InputSystem;
+    class KeyboardDevice;
+    class MouseDevice;
 
     class EventDevice final
     {
     public:
-        EventDevice(InputSystemLinux& inputSystem, const std::string& initFilename);
+        EventDevice(InputSystem& inputSystem, const std::string& initFilename);
         ~EventDevice();
 
         EventDevice(const EventDevice& other) = delete;
@@ -36,8 +40,8 @@ namespace ouzel::input
 
     private:
         void handleAxisChange(std::int32_t oldValue, std::int32_t newValue,
-                                std::int32_t min, std::int32_t range,
-                                Gamepad::Button negativeButton, Gamepad::Button positiveButton);
+                              std::int32_t min, std::int32_t range,
+                              Gamepad::Button negativeButton, Gamepad::Button positiveButton);
 
         int fd = -1;
         std::string filename;

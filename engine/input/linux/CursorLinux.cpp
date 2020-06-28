@@ -9,12 +9,12 @@
 #include "CursorLinux.hpp"
 #include "../../core/linux/EngineLinux.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::linux
 {
-    CursorLinux::CursorLinux(SystemCursor systemCursor)
+    Cursor::Cursor(SystemCursor systemCursor)
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<EngineLinux*>(engine);
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
         auto display = engineLinux->getDisplay();
 
         switch (systemCursor)
@@ -41,13 +41,13 @@ namespace ouzel::input
 #endif
     }
 
-    CursorLinux::CursorLinux(const std::vector<std::uint8_t>& data,
-                                const Size2F& size,
-                                graphics::PixelFormat pixelFormat,
-                                const Vector2F& hotSpot)
+    Cursor::Cursor(const std::vector<std::uint8_t>& data,
+                   const Size2F& size,
+                   graphics::PixelFormat pixelFormat,
+                   const Vector2F& hotSpot)
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<EngineLinux*>(engine);
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
         auto display = engineLinux->getDisplay();
 
         if (!data.empty())
@@ -82,10 +82,10 @@ namespace ouzel::input
 #endif
     }
 
-    CursorLinux::~CursorLinux()
+    Cursor::~Cursor()
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<EngineLinux*>(engine);
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
         auto display = engineLinux->getDisplay();
         if (cursor != None) XFreeCursor(display, cursor);
 #endif

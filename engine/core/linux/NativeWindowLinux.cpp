@@ -20,26 +20,26 @@ namespace
 }
 #endif
 
-namespace ouzel
+namespace ouzel::linux
 {
-    NativeWindowLinux::NativeWindowLinux(const std::function<void(const Event&)>& initCallback,
-                                         const Size2U& newSize,
-                                         bool newResizable,
-                                         bool newFullscreen,
-                                         bool newExclusiveFullscreen,
-                                         const std::string& newTitle,
-                                         graphics::Driver graphicsDriver,
-                                         bool depth):
-        NativeWindow(initCallback,
-                     newSize,
-                     newResizable,
-                     newFullscreen,
-                     newExclusiveFullscreen,
-                     newTitle,
-                     true)
+    NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
+                               const Size2U& newSize,
+                               bool newResizable,
+                               bool newFullscreen,
+                               bool newExclusiveFullscreen,
+                               const std::string& newTitle,
+                               graphics::Driver graphicsDriver,
+                               bool depth):
+        ouzel::NativeWindow(initCallback,
+                            newSize,
+                            newResizable,
+                            newFullscreen,
+                            newExclusiveFullscreen,
+                            newTitle,
+                            true)
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<EngineLinux*>(engine);
+        auto engineLinux = static_cast<Engine*>(engine);
         display = engineLinux->getDisplay();
 
         auto screen = XDefaultScreenOfDisplay(display);
@@ -164,7 +164,7 @@ namespace ouzel
                 throw std::runtime_error("Failed to send X11 fullscreen message");
         }
 #elif OUZEL_SUPPORTS_DISPMANX
-        auto engineLinux = static_cast<EngineLinux*>(engine);
+        auto engineLinux = static_cast<Engine*>(engine);
         auto display = engineLinux->getDisplay();
 
         DISPMANX_MODEINFO_T modeInfo;
@@ -209,7 +209,7 @@ namespace ouzel
 #endif
     }
 
-    NativeWindowLinux::~NativeWindowLinux()
+    NativeWindow::~NativeWindow()
     {
 #if OUZEL_SUPPORTS_X11
         if (visualInfo)
@@ -220,7 +220,7 @@ namespace ouzel
 #endif
     }
 
-    void NativeWindowLinux::executeCommand(const Command& command)
+    void NativeWindow::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -259,7 +259,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowLinux::close()
+    void NativeWindow::close()
     {
 #if OUZEL_SUPPORTS_X11
         if (!protocolsAtom || !deleteAtom) return;
@@ -279,7 +279,7 @@ namespace ouzel
 #endif
     }
 
-    void NativeWindowLinux::setSize(const Size2U& newSize)
+    void NativeWindow::setSize(const Size2U& newSize)
     {
         size = newSize;
 
@@ -308,7 +308,7 @@ namespace ouzel
 #endif
     }
 
-    void NativeWindowLinux::setFullscreen(bool newFullscreen)
+    void NativeWindow::setFullscreen(bool newFullscreen)
     {
 #if OUZEL_SUPPORTS_X11
         if (fullscreen != newFullscreen)
@@ -338,7 +338,7 @@ namespace ouzel
         fullscreen = newFullscreen;
     }
 
-    void NativeWindowLinux::setTitle(const std::string& newTitle)
+    void NativeWindow::setTitle(const std::string& newTitle)
     {
 #if OUZEL_SUPPORTS_X11
         if (title != newTitle) XStoreName(display, window, newTitle.c_str());
@@ -347,7 +347,7 @@ namespace ouzel
         title = newTitle;
     }
 
-    void NativeWindowLinux::bringToFront()
+    void NativeWindow::bringToFront()
     {
 #if OUZEL_SUPPORTS_X11
         XRaiseWindow(display, window);
@@ -368,7 +368,7 @@ namespace ouzel
 #endif
     }
 
-    void NativeWindowLinux::show()
+    void NativeWindow::show()
     {
 #if OUZEL_SUPPORTS_X11
         if (!isMapped())
@@ -379,7 +379,7 @@ namespace ouzel
 #endif
     }
 
-    void NativeWindowLinux::hide()
+    void NativeWindow::hide()
     {
 #if OUZEL_SUPPORTS_X11
         if (isMapped())
@@ -390,7 +390,7 @@ namespace ouzel
 #endif
     }
 
-    void NativeWindowLinux::minimize()
+    void NativeWindow::minimize()
     {
 #if OUZEL_SUPPORTS_X11
         XIconifyWindow(display, window, screenNumber);
@@ -398,11 +398,11 @@ namespace ouzel
 #endif
     }
 
-    void NativeWindowLinux::maximize()
+    void NativeWindow::maximize()
     {
     }
 
-    void NativeWindowLinux::restore()
+    void NativeWindow::restore()
     {
 #if OUZEL_SUPPORTS_X11
         XRaiseWindow(display, window);
@@ -424,21 +424,21 @@ namespace ouzel
     }
 
 #if OUZEL_SUPPORTS_X11
-    void NativeWindowLinux::handleFocusIn()
+    void NativeWindow::handleFocusIn()
     {
         Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
     }
 
-    void NativeWindowLinux::handleFocusOut()
+    void NativeWindow::handleFocusOut()
     {
         Event focusChangeEvent(Event::Type::focusChange);
         focusChangeEvent.focus = false;
         sendEvent(focusChangeEvent);
     }
 
-    void NativeWindowLinux::handleResize(const Size2U& newSize)
+    void NativeWindow::handleResize(const Size2U& newSize)
     {
         size = newSize;
         resolution = size;
@@ -452,17 +452,17 @@ namespace ouzel
         sendEvent(resolutionChangeEvent);
     }
 
-    void NativeWindowLinux::handleMap()
+    void NativeWindow::handleMap()
     {
         sendEvent(Event(Event::Type::restore));
     }
 
-    void NativeWindowLinux::handleUnmap()
+    void NativeWindow::handleUnmap()
     {
         sendEvent(Event(Event::Type::minimize));
     }
 
-    bool NativeWindowLinux::isMapped() const
+    bool NativeWindow::isMapped() const
     {
         XWindowAttributes attributes;
         XGetWindowAttributes(display, window, &attributes);

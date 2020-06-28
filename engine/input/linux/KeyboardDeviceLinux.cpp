@@ -2,7 +2,13 @@
 
 #include "../../core/Setup.h"
 #include "KeyboardDeviceLinux.hpp"
+#include "InputSystemLinux.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::linux
 {
+    KeyboardDevice::KeyboardDevice(InputSystem& initInputSystem,
+                                   DeviceId initId):
+        input::KeyboardDevice(initInputSystem, initId)
+    {
+    }
 }

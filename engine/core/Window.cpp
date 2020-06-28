@@ -55,14 +55,14 @@ namespace ouzel
 #elif defined(__ANDROID__)
         nativeWindow(std::make_unique<NativeWindowAndroid>(std::bind(&Window::eventCallback, this, std::placeholders::_1), newTitle)),
 #elif defined(__linux__)
-        nativeWindow(std::make_unique<NativeWindowLinux>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                         newSize,
-                                                         (flags & Flags::resizable) == Flags::resizable,
-                                                         (flags & Flags::fullscreen) == Flags::fullscreen,
-                                                         (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
-                                                         newTitle,
-                                                         graphicsDriver,
-                                                         (flags & Flags::depth) == Flags::depth)),
+        nativeWindow(std::make_unique<linux::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
+                                                           newSize,
+                                                           (flags & Flags::resizable) == Flags::resizable,
+                                                           (flags & Flags::fullscreen) == Flags::fullscreen,
+                                                           (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
+                                                           newTitle,
+                                                           graphicsDriver,
+                                                           (flags & Flags::depth) == Flags::depth)),
 #elif defined(_WIN32)
         nativeWindow(std::make_unique<ouzel::windows::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                                                     newSize,

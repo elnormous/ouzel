@@ -15,15 +15,15 @@
 #include "KeyboardDeviceLinux.hpp"
 #include "MouseDeviceLinux.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::linux
 {
-    class CursorLinux;
+    class Cursor;
 
-    class InputSystemLinux final: public InputSystem
+    class InputSystem final: public input::InputSystem
     {
     public:
-        explicit InputSystemLinux(const std::function<std::future<bool>(const Event&)>& initCallback);
-        ~InputSystemLinux() override;
+        explicit InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
+        ~InputSystem() override;
 
         void executeCommand(const Command& command) final;
 
@@ -47,12 +47,12 @@ namespace ouzel::input
         bool discovering = false;
 
         DeviceId lastDeviceId;
-        std::unique_ptr<KeyboardDeviceLinux> keyboardDevice;
-        std::unique_ptr<MouseDeviceLinux> mouseDevice;
+        std::unique_ptr<KeyboardDevice> keyboardDevice;
+        std::unique_ptr<MouseDevice> mouseDevice;
         std::unique_ptr<TouchpadDevice> touchpadDevice;
 
         std::unordered_map<int, std::unique_ptr<EventDevice>> eventDevices;
-        std::vector<std::unique_ptr<CursorLinux>> cursors;
+        std::vector<std::unique_ptr<Cursor>> cursors;
 
 #if OUZEL_SUPPORTS_X11
         ::Cursor emptyCursor = None;

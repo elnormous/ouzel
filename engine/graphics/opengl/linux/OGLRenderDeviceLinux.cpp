@@ -69,7 +69,7 @@ namespace ouzel::graphics::opengl::linux
         if (renderThread.isJoinable()) renderThread.join();
 
 #if OUZEL_OPENGL_INTERFACE_GLX
-        auto engineLinux = static_cast<EngineLinux*>(engine);
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
 
         if (engineLinux->getDisplay() && context)
         {
@@ -100,10 +100,10 @@ namespace ouzel::graphics::opengl::linux
                             bool newStencil,
                             bool newDebugRenderer)
     {
-        auto windowLinux = static_cast<NativeWindowLinux*>(newWindow->getNativeWindow());
+        auto windowLinux = static_cast<ouzel::linux::NativeWindow*>(newWindow->getNativeWindow());
 
 #if OUZEL_OPENGL_INTERFACE_GLX
-        auto engineLinux = static_cast<EngineLinux*>(engine);
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
 
         // make sure OpenGL's GLX extension supported
         int errorBase;
@@ -312,7 +312,7 @@ namespace ouzel::graphics::opengl::linux
         std::vector<Size2U> result;
 
 #if OUZEL_OPENGL_INTERFACE_GLX
-        auto engineLinux = static_cast<EngineLinux*>(engine);
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
 
         int modeCount;
         XF86VidModeModeInfo** modeInfo;
@@ -334,8 +334,8 @@ namespace ouzel::graphics::opengl::linux
     void RenderDevice::present()
     {
 #if OUZEL_OPENGL_INTERFACE_GLX
-        auto engineLinux = static_cast<EngineLinux*>(engine);
-        auto windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
+        auto windowLinux = static_cast<ouzel::linux::NativeWindow*>(window->getNativeWindow());
 
         glXSwapBuffers(engineLinux->getDisplay(), windowLinux->getNativeWindow());
 #elif OUZEL_OPENGL_INTERFACE_EGL
@@ -349,8 +349,8 @@ namespace ouzel::graphics::opengl::linux
         Thread::setCurrentThreadName("Render");
 
 #if OUZEL_OPENGL_INTERFACE_GLX
-        auto engineLinux = static_cast<EngineLinux*>(engine);
-        auto windowLinux = static_cast<NativeWindowLinux*>(window->getNativeWindow());
+        auto engineLinux = static_cast<ouzel::linux::Engine*>(engine);
+        auto windowLinux = static_cast<ouzel::linux::NativeWindow*>(window->getNativeWindow());
 
         if (!glXMakeCurrent(engineLinux->getDisplay(), windowLinux->getNativeWindow(), context))
             throw std::runtime_error("Failed to make GLX context current");
