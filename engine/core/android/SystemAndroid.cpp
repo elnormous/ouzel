@@ -14,7 +14,7 @@
 
 namespace
 {
-    std::unique_ptr<ouzel::EngineAndroid> engine;
+    std::unique_ptr<ouzel::android::Engine> engine;
 
     const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {
         {AKEYCODE_0, ouzel::input::Keyboard::Key::num0},
@@ -178,7 +178,7 @@ namespace
 
 extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVm, void*)
 {
-    engine = std::make_unique<ouzel::EngineAndroid>(javaVm);
+    engine = std::make_unique<ouzel::android::Engine>(javaVm);
     return JNI_VERSION_1_6;
 }
 
@@ -214,7 +214,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onSurfaceDes
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject, jint width, jint height)
 {
-    auto windowAndroid = static_cast<ouzel::NativeWindowAndroid*>(engine->getWindow()->getNativeWindow());
+    auto windowAndroid = static_cast<ouzel::android::NativeWindow*>(engine->getWindow()->getNativeWindow());
     windowAndroid->handleResize(ouzel::Size2U(static_cast<std::uint32_t>(width),
                                               static_cast<std::uint32_t>(height)));
 }
@@ -248,7 +248,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onLowMemory(
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyDown(JNIEnv*, jclass, jint keyCode)
 {
-    auto inputSystemAndroid = static_cast<ouzel::input::InputSystemAndroid*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemAndroid = static_cast<ouzel::input::android::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto keyboardDevice = inputSystemAndroid->getKeyboardDevice();
     std::future<bool> f = keyboardDevice->handleKeyPress(convertKeyCode(keyCode));
 
@@ -260,7 +260,7 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyDow
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyUp(JNIEnv*, jclass, jint keyCode)
 {
-    auto inputSystemAndroid = static_cast<ouzel::input::InputSystemAndroid*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemAndroid = static_cast<ouzel::input::android::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto keyboardDevice = inputSystemAndroid->getKeyboardDevice();
     std::future<bool> f = keyboardDevice->handleKeyRelease(convertKeyCode(keyCode));
 
@@ -272,16 +272,16 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyUp(
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onTouchEvent(JNIEnv*, jclass, jobject event)
 {
-    auto inputSystemAndroid = static_cast<ouzel::input::InputSystemAndroid*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemAndroid = static_cast<ouzel::input::android::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     return inputSystemAndroid->handleTouchEvent(event);
 }
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onGenericMotionEvent(JNIEnv*, jclass, jobject event)
 {
-    auto inputSystemAndroid = static_cast<ouzel::input::InputSystemAndroid*>(ouzel::engine->getInputManager()->getInputSystem());
+    auto inputSystemAndroid = static_cast<ouzel::input::android::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     return inputSystemAndroid->handleGenericMotionEvent(event);
 }
 
-namespace ouzel
+namespace ouzel::android
 {
 }

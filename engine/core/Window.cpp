@@ -53,7 +53,7 @@ namespace ouzel
                                                            graphicsDriver,
                                                            (flags & Flags::highDpi) == Flags::highDpi)),
 #elif defined(__ANDROID__)
-        nativeWindow(std::make_unique<NativeWindowAndroid>(std::bind(&Window::eventCallback, this, std::placeholders::_1), newTitle)),
+        nativeWindow(std::make_unique<android::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1), newTitle)),
 #elif defined(__linux__)
         nativeWindow(std::make_unique<linux::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                                            newSize,

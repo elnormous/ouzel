@@ -4,19 +4,19 @@
 #include "NativeWindowAndroid.hpp"
 #include "EngineAndroid.hpp"
 
-namespace ouzel
+namespace ouzel::android
 {
-    NativeWindowAndroid::NativeWindowAndroid(const std::function<void(const Event&)>& initCallback,
-                                             const std::string& newTitle):
-        NativeWindow(initCallback,
-                     Size2U(),
-                     true,
-                     true,
-                     true,
-                     newTitle,
-                     true)
+    NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
+                               const std::string& newTitle):
+        ouzel::NativeWindow(initCallback,
+                            Size2U(),
+                            true,
+                            true,
+                            true,
+                            newTitle,
+                            true)
     {
-        auto engineAndroid = static_cast<EngineAndroid*>(engine);
+        auto engineAndroid = static_cast<Engine*>(engine);
         auto javaVm = engineAndroid->getJavaVm();
         void* jniEnvPointer;
 
@@ -33,12 +33,12 @@ namespace ouzel
         resolution = size;
     }
 
-    NativeWindowAndroid::~NativeWindowAndroid()
+    NativeWindow::~NativeWindow()
     {
         if (window) ANativeWindow_release(window);
     }
 
-    void NativeWindowAndroid::executeCommand(const Command& command)
+    void NativeWindow::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -68,7 +68,7 @@ namespace ouzel
         }
     }
 
-    void NativeWindowAndroid::handleResize(const Size2U& newSize)
+    void NativeWindow::handleResize(const Size2U& newSize)
     {
         size = newSize;
         resolution = size;
@@ -82,9 +82,9 @@ namespace ouzel
         sendEvent(resolutionChangeEvent);
     }
 
-    void NativeWindowAndroid::handleSurfaceChange(jobject surface)
+    void NativeWindow::handleSurfaceChange(jobject surface)
     {
-        auto engineAndroid = static_cast<EngineAndroid*>(engine);
+        auto engineAndroid = static_cast<Engine*>(engine);
         auto javaVm = engineAndroid->getJavaVm();
         void* jniEnvPointer;
 
@@ -98,7 +98,7 @@ namespace ouzel
         window = ANativeWindow_fromSurface(jniEnv, surface);
     }
 
-    void NativeWindowAndroid::handleSurfaceDestroy()
+    void NativeWindow::handleSurfaceDestroy()
     {
         if (window)
         {

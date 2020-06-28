@@ -8,13 +8,13 @@
 #include "../InputSystem.hpp"
 #include "GamepadDeviceAndroid.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::android
 {
-    class InputSystemAndroid final: public InputSystem
+    class InputSystem final: public input::InputSystem
     {
     public:
-        explicit InputSystemAndroid(const std::function<std::future<bool>(const Event&)>& initCallback);
-        ~InputSystemAndroid() override;
+        explicit InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
+        ~InputSystem() override;
 
         void executeCommand(const Command& command) final;
 

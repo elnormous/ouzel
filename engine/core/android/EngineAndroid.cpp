@@ -8,7 +8,7 @@
 #include "../../events/EventDispatcher.hpp"
 #include "../../graphics/opengl/android/OGLRenderDeviceAndroid.hpp"
 
-namespace ouzel
+namespace ouzel::android
 {
     namespace
     {
@@ -42,7 +42,7 @@ namespace ouzel
                 if (read(fd, &command, sizeof(command)) == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to read from pipe");
 
-                auto engineAndroid = static_cast<EngineAndroid*>(data);
+                auto engineAndroid = static_cast<Engine*>(data);
 
                 if (command == 1)
                     engineAndroid->executeAll();
@@ -57,7 +57,7 @@ namespace ouzel
         return errorCategory;
     }
 
-    EngineAndroid::EngineAndroid(JavaVM* initJavaVm):
+    Engine::Engine(JavaVM* initJavaVm):
         javaVm(initJavaVm)
     {
         void* jniEnvPointer;
@@ -74,7 +74,7 @@ namespace ouzel
         intentConstructor = jniEnv->GetMethodID(intentClass, "<init>", "(Ljava/lang/String;Landroid/net/Uri;)V");
     }
 
-    EngineAndroid::~EngineAndroid()
+    Engine::~Engine()
     {
         if (updateThread.isJoinable()) updateThread.join();
 
@@ -96,7 +96,7 @@ namespace ouzel
         if (looperPipe[1] != -1) close(looperPipe[1]);
     }
 
-    void EngineAndroid::onCreate(jobject initMainActivity)
+    void Engine::onCreate(jobject initMainActivity)
     {
         void* jniEnvPointer;
 
@@ -177,7 +177,7 @@ namespace ouzel
             throw std::runtime_error("Failed to add looper file descriptor");
     }
 
-    void EngineAndroid::onSurfaceCreated(jobject newSurface)
+    void Engine::onSurfaceCreated(jobject newSurface)
     {
         void* jniEnvPointer;
 
@@ -192,7 +192,7 @@ namespace ouzel
 
         if (active)
         {
-            auto windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
+            auto windowAndroid = static_cast<NativeWindow*>(window->getNativeWindow());
             windowAndroid->handleSurfaceChange(surface);
 
             if (renderer)
@@ -207,7 +207,7 @@ namespace ouzel
         }
     }
 
-    void EngineAndroid::onConfigurationChanged(jobject newConfig)
+    void Engine::onConfigurationChanged(jobject newConfig)
     {
         void* jniEnvPointer;
 
@@ -246,7 +246,7 @@ namespace ouzel
         }
     }
 
-    void EngineAndroid::onSurfaceDestroyed()
+    void Engine::onSurfaceDestroyed()
     {
         void* jniEnvPointer;
 
@@ -264,7 +264,7 @@ namespace ouzel
 
         if (active)
         {
-            auto windowAndroid = static_cast<NativeWindowAndroid*>(window->getNativeWindow());
+            auto windowAndroid = static_cast<NativeWindow*>(window->getNativeWindow());
             windowAndroid->handleSurfaceDestroy();
 
             if (renderer)
@@ -279,13 +279,13 @@ namespace ouzel
         }
     }
 
-    void EngineAndroid::run()
+    void Engine::run()
     {
         init();
         start();
     }
 
-    void EngineAndroid::runOnMainThread(const std::function<void()>& func)
+    void Engine::runOnMainThread(const std::function<void()>& func)
     {
         std::unique_lock lock(executeMutex);
         executeQueue.push(func);
@@ -296,7 +296,7 @@ namespace ouzel
             throw std::system_error(errno, std::system_category(), "Failed to write to pipe");
     }
 
-    void EngineAndroid::openUrl(const std::string& url)
+    void Engine::openUrl(const std::string& url)
     {
         executeOnMainThread([url, this]() {
             void* jniEnvPointer;
@@ -327,9 +327,9 @@ namespace ouzel
         });
     }
 
-    void EngineAndroid::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
+        ouzel::Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         executeOnMainThread([newScreenSaverEnabled, this]() {
             void* jniEnvPointer;
@@ -347,7 +347,7 @@ namespace ouzel
         });
     }
 
-    void EngineAndroid::executeAll()
+    void Engine::executeAll()
     {
         std::function<void()> func;
 
@@ -364,7 +364,7 @@ namespace ouzel
         }
     }
 
-    void EngineAndroid::engineMain()
+    void Engine::engineMain()
     {
         JNIEnv* jniEnv;
         JavaVMAttachArgs attachArgs;
@@ -376,7 +376,7 @@ namespace ouzel
         if ((result = javaVm->AttachCurrentThread(&jniEnv, &attachArgs)) != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to attach current thread to Java VM");
 
-        Engine::engineMain();
+        ouzel::Engine::engineMain();
 
         if ((result = javaVm->DetachCurrentThread()) != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to detach current thread from Java VM");

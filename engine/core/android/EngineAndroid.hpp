@@ -10,15 +10,15 @@
 #include <android/looper.h>
 #include "../Engine.hpp"
 
-namespace ouzel
+namespace ouzel::android
 {
     const std::error_category& getErrorCategory() noexcept;
 
-    class EngineAndroid final: public Engine
+    class Engine final: public ouzel::Engine
     {
     public:
-        EngineAndroid(JavaVM* initJavaVm);
-        ~EngineAndroid() override;
+        Engine(JavaVM* initJavaVm);
+        ~Engine() override;
 
         void onCreate(jobject initMainActivity);
         void onSurfaceCreated(jobject newSurface);

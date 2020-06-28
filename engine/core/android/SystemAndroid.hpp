@@ -5,12 +5,12 @@
 
 #include "../System.hpp"
 
-namespace ouzel
+namespace ouzel::android
 {
-    class SystemAndroid final: public System
+    class System final: public ouzel::System
     {
     public:
-        ~SystemAndroid() = default;
+        ~System() = default;
     };
 }
 

@@ -6,13 +6,15 @@
 #include "../GamepadDevice.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::android
 {
-    class GamepadDeviceAndroid final: public GamepadDevice
+    class InputSystem;
+
+    class GamepadDevice final: public input::GamepadDevice
     {
     public:
-        GamepadDeviceAndroid(InputSystem& initInputSystem,
-                                DeviceId initId);
+        GamepadDevice(InputSystem& initInputSystem,
+                      DeviceId initId);
     };
 }
 

@@ -40,7 +40,7 @@ namespace ouzel::input
 #elif TARGET_OS_MAC
         inputSystem(std::make_unique<macos::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__ANDROID__)
-        inputSystem(std::make_unique<InputSystemAndroid>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::make_unique<android::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(__linux__)
         inputSystem(std::make_unique<linux::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
 #elif defined(_WIN32)

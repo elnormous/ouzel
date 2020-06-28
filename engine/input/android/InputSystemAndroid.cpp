@@ -8,21 +8,21 @@
 #include "../../core/android/EngineAndroid.hpp"
 #include "../../core/Window.hpp"
 
-namespace ouzel::input
+namespace ouzel::input::android
 {
-    InputSystemAndroid::InputSystemAndroid(const std::function<std::future<bool>(const Event&)>& initCallback):
-        InputSystem(initCallback),
+    InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
+        input::InputSystem(initCallback),
         keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
         mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
         touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
     {
-        auto engineAndroid = static_cast<EngineAndroid*>(engine);
+        auto engineAndroid = static_cast<ouzel::android::Engine*>(engine);
         javaVm = engineAndroid->getJavaVm();
         void* jniEnvPointer;
 
         jint result;
         if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
+            throw std::system_error(result, ouzel::android::getErrorCategory(), "Failed to get JNI environment");
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -40,7 +40,7 @@ namespace ouzel::input
         getButtonStateMethod = jniEnv->GetMethodID(motionEventClass, "getButtonState", "()I");
     }
 
-    InputSystemAndroid::~InputSystemAndroid()
+    InputSystem::~InputSystem()
     {
         void* jniEnvPointer;
 
@@ -51,7 +51,7 @@ namespace ouzel::input
         }
     }
 
-    void InputSystemAndroid::executeCommand(const Command& command)
+    void InputSystem::executeCommand(const Command& command)
     {
         switch (command.type)
         {
@@ -76,13 +76,13 @@ namespace ouzel::input
         }
     }
 
-    jboolean InputSystemAndroid::handleTouchEvent(jobject event)
+    jboolean InputSystem::handleTouchEvent(jobject event)
     {
         void* jniEnvPointer;
 
         jint result;
         if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
+            throw std::system_error(result, ouzel::android::getErrorCategory(), "Failed to get JNI environment");
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -237,13 +237,13 @@ namespace ouzel::input
         return false;
     }
 
-    jboolean InputSystemAndroid::handleGenericMotionEvent(jobject event)
+    jboolean InputSystem::handleGenericMotionEvent(jobject event)
     {
         void* jniEnvPointer;
 
         jint result;
         if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
-            throw std::system_error(result, getErrorCategory(), "Failed to get JNI environment");
+            throw std::system_error(result, ouzel::android::getErrorCategory(), "Failed to get JNI environment");
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -281,7 +281,7 @@ namespace ouzel::input
         return false;
     }
 
-    bool InputSystemAndroid::updateButtonState(jint newButtonState, jint x, jint y)
+    bool InputSystem::updateButtonState(jint newButtonState, jint x, jint y)
     {
         bool result = false;
 

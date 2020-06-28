@@ -8,14 +8,14 @@
 #include <android/native_window_jni.h>
 #include "../NativeWindow.hpp"
 
-namespace ouzel
+namespace ouzel::android
 {
-    class NativeWindowAndroid final: public NativeWindow
+    class NativeWindow final: public ouzel::NativeWindow
     {
     public:
-        NativeWindowAndroid(const std::function<void(const Event&)>& initCallback,
-                            const std::string& newTitle);
-        ~NativeWindowAndroid() override;
+        NativeWindow(const std::function<void(const Event&)>& initCallback,
+                     const std::string& newTitle);
+        ~NativeWindow() override;
 
         void executeCommand(const Command& command) final;
 
