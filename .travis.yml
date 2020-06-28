@@ -98,3 +98,18 @@ matrix:
         - export ANDROID_NDK_HOME=/usr/local/android-sdk/ndk-bundle
       script:
         - $ANDROID_NDK_HOME/ndk-build -j2 -C samples/app/src/main/
+    - name: Emscripten
+      language: node_js
+      node_js:
+       - node
+      before_install:
+        - git clone https://github.com/emscripten-core/emsdk.git
+        - cd emsdk/
+        - ./emsdk install latest
+        - ./emsdk activate latest
+        - source ./emsdk_env.sh
+        - cd ..
+      before_script:
+        - export NODE_OPTIONS=--max_old_space_size=8192
+      script:
+        - make PLATFORM=emscripten -j2 -C samples/
