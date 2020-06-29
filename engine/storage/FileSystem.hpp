@@ -24,7 +24,7 @@
 #  pragma pop_macro("NOMINMAX")
 #elif defined(__unix__) || defined(__APPLE__)
 #  include <limits.h>
-#  include <sys/fcntl.h>
+#  include <fcntl.h>
 #  include <sys/stat.h>
 #  include <unistd.h>
 #endif
@@ -226,6 +226,8 @@ namespace ouzel::storage
 #  else
                 return Path{"/tmp", Path::Format::native};
 #  endif
+#else
+            throw std::runtime_error("Temp directory not available");
 #endif
         }
 
@@ -311,6 +313,8 @@ namespace ouzel::storage
             if (!getcwd(buffer.get(), pathMax))
                 throw std::system_error(errno, std::system_category(), "Failed to get current directory");
             return Path{buffer.get(), Path::Format::native};
+#else
+            return Path{};
 #endif
         }
 
