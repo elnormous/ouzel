@@ -101,7 +101,7 @@ matrix:
     - name: Emscripten
       language: python
       python:
-         - "2.8"
+         - "2.7"
          - "3.6"
       before_install:
         - git clone https://github.com/emscripten-core/emsdk.git
