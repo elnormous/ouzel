@@ -14,7 +14,7 @@ namespace ouzel::assets
     class Loader
     {
     public:
-        enum Type
+        enum class Type
         {
             bank,
             font,
@@ -28,7 +28,7 @@ namespace ouzel::assets
             cue
         };
 
-        Loader(Cache& initCache, std::uint32_t initType):
+        Loader(Cache& initCache, Type initType):
             cache(initCache), type(initType)
         {
         }
@@ -50,7 +50,7 @@ namespace ouzel::assets
 
     protected:
         Cache& cache;
-        std::uint32_t type;
+        Type type;
     };
 }
 

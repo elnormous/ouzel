@@ -8,7 +8,7 @@
 namespace ouzel::assets
 {
     VorbisLoader::VorbisLoader(Cache& initCache):
-        Loader(initCache, Loader::sound)
+        Loader(initCache, Type::sound)
     {
     }
 

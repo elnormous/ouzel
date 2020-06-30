@@ -15,7 +15,7 @@ namespace
 namespace ouzel::assets
 {
     WaveLoader::WaveLoader(Cache& initCache):
-        Loader(initCache, Loader::sound)
+        Loader(initCache, Type::sound)
     {
     }
 

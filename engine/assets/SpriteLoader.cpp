@@ -10,7 +10,7 @@
 namespace ouzel::assets
 {
     SpriteLoader::SpriteLoader(Cache& initCache):
-        Loader(initCache, Loader::sprite)
+        Loader(initCache, Type::sprite)
     {
     }
 
@@ -33,7 +33,7 @@ namespace ouzel::assets
         spriteData.texture = cache.getTexture(imageFilename);
         if (!spriteData.texture)
         {
-            bundle.loadAsset(Loader::image, imageFilename, imageFilename, mipmaps);
+            bundle.loadAsset(Type::image, imageFilename, imageFilename, mipmaps);
             spriteData.texture = cache.getTexture(imageFilename);
         }
 

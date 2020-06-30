@@ -9,7 +9,7 @@
 namespace ouzel::assets
 {
     ColladaLoader::ColladaLoader(Cache& initCache):
-        Loader(initCache, Loader::skinnedMesh)
+        Loader(initCache, Type::skinnedMesh)
     {
     }
 

@@ -9,7 +9,7 @@
 namespace ouzel::assets
 {
     ParticleSystemLoader::ParticleSystemLoader(Cache& initCache):
-        Loader(initCache, Loader::particleSystem)
+        Loader(initCache, Type::particleSystem)
     {
     }
 
@@ -113,7 +113,7 @@ namespace ouzel::assets
 
             if (!particleSystemData.texture)
             {
-                bundle.loadAsset(Loader::image, textureFileName, textureFileName, mipmaps);
+                bundle.loadAsset(Type::image, textureFileName, textureFileName, mipmaps);
                 particleSystemData.texture = cache.getTexture(textureFileName);
             }
         }

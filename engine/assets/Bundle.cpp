@@ -20,7 +20,7 @@ namespace ouzel::assets
         cache.removeBundle(this);
     }
 
-    void Bundle::loadAsset(std::uint32_t loaderType, const std::string& name,
+    void Bundle::loadAsset(Loader::Type loaderType, const std::string& name,
                            const std::string& filename, bool mipmaps)
     {
         const auto data = fileSystem.readFile(filename);
@@ -47,7 +47,7 @@ namespace ouzel::assets
             const auto file = asset["filename"].as<std::string>();
             const auto name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;
             const auto mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
-            loadAsset(asset["type"].as<std::uint32_t>(), name, file, mipmaps);
+            loadAsset(static_cast<Loader::Type>(asset["type"].as<std::uint32_t>()), name, file, mipmaps);
         }
     }
 
@@ -185,7 +185,7 @@ namespace ouzel::assets
             }
         }
         else
-            loadAsset(Loader::sprite, filename, filename, mipmaps);
+            loadAsset(Loader::Type::sprite, filename, filename, mipmaps);
     }
 
     const scene::SpriteData* Bundle::getSpriteData(const std::string& name) const

@@ -8,7 +8,7 @@
 namespace ouzel::assets
 {
     TtfLoader::TtfLoader(Cache& initCache):
-        Loader(initCache, Loader::font)
+        Loader(initCache, Type::font)
     {
     }
 

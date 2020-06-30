@@ -6,6 +6,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include "Loader.hpp"
 #include "../audio/Cue.hpp"
 #include "../audio/Sound.hpp"
 #include "../graphics/BlendState.hpp"
@@ -27,7 +28,7 @@ namespace ouzel::assets
     class Asset final
     {
     public:
-        Asset(std::uint32_t initType,
+        Asset(Loader::Type initType,
               const std::string& initName,
               const std::string& initFilename,
               bool initMipmaps = true):
@@ -38,7 +39,7 @@ namespace ouzel::assets
         {
         }
 
-        std::uint32_t type;
+        Loader::Type type;
         std::string name;
         std::string filename;
         bool mipmaps;
@@ -57,7 +58,7 @@ namespace ouzel::assets
         Bundle(Bundle&&) = delete;
         Bundle& operator=(Bundle&&) = delete;
 
-        void loadAsset(std::uint32_t loaderType, const std::string& name,
+        void loadAsset(Loader::Type loaderType, const std::string& name,
                        const std::string& filename, bool mipmaps = true);
         void loadAssets(const std::string& filename);
         void loadAssets(const std::vector<Asset>& assets);
