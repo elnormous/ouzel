@@ -3,6 +3,7 @@
 #ifndef OUZEL_ASSETS_LOADER_HPP
 #define OUZEL_ASSETS_LOADER_HPP
 
+#include <cstddef>
 #include <string>
 #include <vector>
 
