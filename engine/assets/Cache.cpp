@@ -38,28 +38,28 @@ namespace ouzel::assets
 
     void Cache::addBundle(const Bundle* bundle)
     {
-        auto i = std::find(bundles.begin(), bundles.end(), bundle);
+        const auto i = std::find(bundles.begin(), bundles.end(), bundle);
         if (i == bundles.end())
             bundles.push_back(bundle);
     }
 
     void Cache::removeBundle(const Bundle* bundle)
     {
-        auto i = std::find(bundles.begin(), bundles.end(), bundle);
+        const auto i = std::find(bundles.begin(), bundles.end(), bundle);
         if (i != bundles.end())
             bundles.erase(i);
     }
 
     void Cache::addLoader(std::unique_ptr<Loader> loader)
     {
-        auto i = std::find(loaders.begin(), loaders.end(), loader);
+        const auto i = std::find(loaders.begin(), loaders.end(), loader);
         if (i == loaders.end())
             loaders.push_back(std::move(loader));
     }
 
     void Cache::removeLoader(const Loader* loader)
     {
-        auto i = std::find_if(loaders.begin(), loaders.end(), [loader](const auto& ownedLoader) noexcept {
+        const auto i = std::find_if(loaders.begin(), loaders.end(), [loader](const auto& ownedLoader) noexcept {
             return loader == ownedLoader.get();
         });
         if (i != loaders.end())
@@ -69,7 +69,7 @@ namespace ouzel::assets
     std::shared_ptr<graphics::Texture> Cache::getTexture(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (auto texture = bundle->getTexture(name))
+            if (const auto texture = bundle->getTexture(name))
                 return texture;
 
         return nullptr;
@@ -78,7 +78,7 @@ namespace ouzel::assets
     const graphics::Shader* Cache::getShader(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (auto shader = bundle->getShader(name))
+            if (const auto shader = bundle->getShader(name))
                 return shader;
 
         return nullptr;
@@ -87,7 +87,7 @@ namespace ouzel::assets
     const graphics::BlendState* Cache::getBlendState(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (auto blendState = bundle->getBlendState(name))
+            if (const auto blendState = bundle->getBlendState(name))
                 return blendState;
 
         return nullptr;
@@ -96,7 +96,7 @@ namespace ouzel::assets
     const graphics::DepthStencilState* Cache::getDepthStencilState(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (auto depthStencilState = bundle->getDepthStencilState(name))
+            if (const auto depthStencilState = bundle->getDepthStencilState(name))
                 return depthStencilState;
 
         return nullptr;
@@ -105,7 +105,7 @@ namespace ouzel::assets
     const scene::SpriteData* Cache::getSpriteData(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (auto spriteData = bundle->getSpriteData(name))
+            if (const auto spriteData = bundle->getSpriteData(name))
                 return spriteData;
 
         return nullptr;
@@ -114,7 +114,7 @@ namespace ouzel::assets
     const scene::ParticleSystemData* Cache::getParticleSystemData(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (auto particleSystemData = bundle->getParticleSystemData(name))
+            if (const auto particleSystemData = bundle->getParticleSystemData(name))
                 return particleSystemData;
 
         return nullptr;
@@ -123,7 +123,7 @@ namespace ouzel::assets
     const gui::Font* Cache::getFont(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (auto font = bundle->getFont(name))
+            if (const auto font = bundle->getFont(name))
                 return font;
 
         return nullptr;
@@ -132,7 +132,7 @@ namespace ouzel::assets
     const audio::Cue* Cache::getCue(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (auto cue = bundle->getCue(name))
+            if (const auto cue = bundle->getCue(name))
                 return cue;
 
         return nullptr;
@@ -141,7 +141,7 @@ namespace ouzel::assets
     const audio::Sound* Cache::getSound(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (auto sound = bundle->getSound(name))
+            if (const auto sound = bundle->getSound(name))
                 return sound;
 
         return nullptr;
@@ -150,7 +150,7 @@ namespace ouzel::assets
     const graphics::Material* Cache::getMaterial(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (auto material = bundle->getMaterial(name))
+            if (const auto material = bundle->getMaterial(name))
                 return material;
 
         return nullptr;

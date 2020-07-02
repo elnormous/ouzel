@@ -29,7 +29,7 @@ namespace ouzel::assets
 
         const json::Value& metaObject = d["meta"];
 
-        auto imageFilename = metaObject["image"].as<std::string>();
+        const auto imageFilename = metaObject["image"].as<std::string>();
         spriteData.texture = cache.getTexture(imageFilename);
         if (!spriteData.texture)
         {

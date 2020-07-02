@@ -35,7 +35,7 @@ namespace ouzel::input
         event->position = position;
         event->force = force;
 
-        auto i = touchPositions.find(touchId);
+        const auto i = touchPositions.find(touchId);
 
         if (i != touchPositions.end())
             touchPositions.erase(i);
@@ -67,7 +67,7 @@ namespace ouzel::input
         event->position = position;
         event->force = force;
 
-        auto i = touchPositions.find(touchId);
+        const auto i = touchPositions.find(touchId);
 
         if (i != touchPositions.end())
             touchPositions.erase(i);

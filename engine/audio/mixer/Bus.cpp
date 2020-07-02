@@ -272,8 +272,7 @@ namespace ouzel::audio::mixer
 
     void Bus::addProcessor(Processor* processor)
     {
-        auto i = std::find(processors.begin(), processors.end(), processor);
-
+        const auto i = std::find(processors.begin(), processors.end(), processor);
         if (i == processors.end())
         {
             if (processor->bus) processor->bus->removeProcessor(processor);
@@ -284,8 +283,7 @@ namespace ouzel::audio::mixer
 
     void Bus::removeProcessor(Processor* processor)
     {
-        auto i = std::find(processors.begin(), processors.end(), processor);
-
+        const auto i = std::find(processors.begin(), processors.end(), processor);
         if (i != processors.end())
         {
             processor->bus = nullptr;
@@ -295,25 +293,25 @@ namespace ouzel::audio::mixer
 
     void Bus::addInput(Bus* bus)
     {
-        auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
+        const auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
         if (i == inputBuses.end()) inputBuses.push_back(bus);
     }
 
     void Bus::removeInput(Bus* bus)
     {
-        auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
+        const auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
         if (i != inputBuses.end()) inputBuses.erase(i);
     }
 
     void Bus::addInput(Stream* stream)
     {
-        auto i = std::find(inputStreams.begin(), inputStreams.end(), stream);
+        const auto i = std::find(inputStreams.begin(), inputStreams.end(), stream);
         if (i == inputStreams.end()) inputStreams.push_back(stream);
     }
 
     void Bus::removeInput(Stream* stream)
     {
-        auto i = std::find(inputStreams.begin(), inputStreams.end(), stream);
+        const auto i = std::find(inputStreams.begin(), inputStreams.end(), stream);
         if (i != inputStreams.end()) inputStreams.erase(i);
     }
 }

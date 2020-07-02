@@ -59,7 +59,7 @@ namespace ouzel::assets
 
     std::shared_ptr<graphics::Texture> Bundle::getTexture(const std::string& name) const
     {
-        auto i = textures.find(name);
+        const auto i = textures.find(name);
 
         if (i != textures.end())
             return i->second;
@@ -79,7 +79,7 @@ namespace ouzel::assets
 
     const graphics::Shader* Bundle::getShader(const std::string& name) const
     {
-        auto i = shaders.find(name);
+        const auto i = shaders.find(name);
 
         if (i != shaders.end())
             return i->second.get();
@@ -99,7 +99,7 @@ namespace ouzel::assets
 
     const graphics::BlendState* Bundle::getBlendState(const std::string& name) const
     {
-        auto i = blendStates.find(name);
+        const auto i = blendStates.find(name);
 
         if (i != blendStates.end())
             return i->second.get();
@@ -119,7 +119,7 @@ namespace ouzel::assets
 
     const graphics::DepthStencilState* Bundle::getDepthStencilState(const std::string& name) const
     {
-        auto i = depthStencilStates.find(name);
+        const auto i = depthStencilStates.find(name);
 
         if (i != depthStencilStates.end())
             return i->second.get();
@@ -190,7 +190,7 @@ namespace ouzel::assets
 
     const scene::SpriteData* Bundle::getSpriteData(const std::string& name) const
     {
-        auto i = spriteData.find(name);
+        const auto i = spriteData.find(name);
 
         if (i != spriteData.end())
             return &i->second;
@@ -210,7 +210,7 @@ namespace ouzel::assets
 
     const scene::ParticleSystemData* Bundle::getParticleSystemData(const std::string& name) const
     {
-        auto i = particleSystemData.find(name);
+        const auto i = particleSystemData.find(name);
 
         if (i != particleSystemData.end())
             return &i->second;
@@ -230,7 +230,7 @@ namespace ouzel::assets
 
     const gui::Font* Bundle::getFont(const std::string& name) const
     {
-        auto i = fonts.find(name);
+        const auto i = fonts.find(name);
 
         if (i != fonts.end())
             return i->second.get();
@@ -250,7 +250,7 @@ namespace ouzel::assets
 
     const audio::Cue* Bundle::getCue(const std::string& name) const
     {
-        auto i = cues.find(name);
+        const auto i = cues.find(name);
 
         if (i != cues.end())
             return i->second.get();
@@ -270,7 +270,7 @@ namespace ouzel::assets
 
     const audio::Sound* Bundle::getSound(const std::string& name) const
     {
-        auto i = sounds.find(name);
+        const auto i = sounds.find(name);
 
         if (i != sounds.end())
             return i->second.get();
@@ -290,7 +290,7 @@ namespace ouzel::assets
 
     const graphics::Material* Bundle::getMaterial(const std::string& name) const
     {
-        auto i = materials.find(name);
+        const auto i = materials.find(name);
 
         if (i != materials.end())
             return i->second.get();
@@ -310,7 +310,7 @@ namespace ouzel::assets
 
     const scene::SkinnedMeshData* Bundle::getSkinnedMeshData(const std::string& name) const
     {
-        auto i = skinnedMeshData.find(name);
+        const auto i = skinnedMeshData.find(name);
 
         if (i != skinnedMeshData.end())
             return &i->second;
@@ -330,7 +330,7 @@ namespace ouzel::assets
 
     const scene::StaticMeshData* Bundle::getStaticMeshData(const std::string& name) const
     {
-        auto i = staticMeshData.find(name);
+        const auto i = staticMeshData.find(name);
 
         if (i != staticMeshData.end())
             return &i->second;

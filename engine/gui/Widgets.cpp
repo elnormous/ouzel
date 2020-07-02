@@ -421,7 +421,7 @@ namespace ouzel::gui
 
     bool Menu::removeChild(const Actor* actor)
     {
-        auto i = std::find(widgets.begin(), widgets.end(), actor);
+        const auto i = std::find(widgets.begin(), widgets.end(), actor);
 
         if (i != widgets.end())
         {

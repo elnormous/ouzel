@@ -34,7 +34,7 @@ namespace ouzel::audio
 
     void Mix::addEffect(Effect* effect)
     {
-        auto i = std::find(effects.begin(), effects.end(), effect);
+        const auto i = std::find(effects.begin(), effects.end(), effect);
         if (i == effects.end())
         {
             if (effect->mix) effect->mix->removeEffect(effect);
@@ -47,7 +47,7 @@ namespace ouzel::audio
 
     void Mix::removeEffect(Effect* effect)
     {
-        auto i = std::find(effects.begin(), effects.end(), effect);
+        const auto i = std::find(effects.begin(), effects.end(), effect);
         if (i != effects.end())
         {
             effect->mix = nullptr;
@@ -59,32 +59,31 @@ namespace ouzel::audio
 
     void Mix::addInput(Submix* submix)
     {
-        auto i = std::find(inputSubmixes.begin(), inputSubmixes.end(), submix);
+        const auto i = std::find(inputSubmixes.begin(), inputSubmixes.end(), submix);
         if (i == inputSubmixes.end()) inputSubmixes.push_back(submix);
     }
 
     void Mix::removeInput(Submix* submix)
     {
-        auto i = std::find(inputSubmixes.begin(), inputSubmixes.end(), submix);
+        const auto i = std::find(inputSubmixes.begin(), inputSubmixes.end(), submix);
         if (i != inputSubmixes.end()) inputSubmixes.erase(i);
     }
 
     void Mix::addInput(Voice* voice)
     {
-        auto i = std::find(inputVoices.begin(), inputVoices.end(), voice);
+        const auto i = std::find(inputVoices.begin(), inputVoices.end(), voice);
         if (i == inputVoices.end()) inputVoices.push_back(voice);
     }
 
     void Mix::removeInput(Voice* voice)
     {
-        auto i = std::find(inputVoices.begin(), inputVoices.end(), voice);
+        const auto i = std::find(inputVoices.begin(), inputVoices.end(), voice);
         if (i != inputVoices.end()) inputVoices.erase(i);
     }
 
     void Mix::addListener(Listener* listener)
     {
-        auto i = std::find(listeners.begin(), listeners.end(), listener);
-
+        const auto i = std::find(listeners.begin(), listeners.end(), listener);
         if (i == listeners.end())
         {
             if (listener->mix) listener->mix->removeListener(listener);
@@ -95,8 +94,7 @@ namespace ouzel::audio
 
     void Mix::removeListener(Listener* listener)
     {
-        auto i = std::find(listeners.begin(), listeners.end(), listener);
-
+        const auto i = std::find(listeners.begin(), listeners.end(), listener);
         if (i != listeners.end())
         {
             listener->mix = nullptr;

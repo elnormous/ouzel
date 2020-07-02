@@ -134,7 +134,7 @@ namespace ouzel::input
 
         auto getResourceId()
         {
-            auto i = deletedResourceIds.begin();
+            const auto i = deletedResourceIds.begin();
 
             if (i == deletedResourceIds.end())
                 return ++lastResourceId; // zero is reserved for null resource

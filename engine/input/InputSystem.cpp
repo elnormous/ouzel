@@ -28,7 +28,7 @@ namespace ouzel::input
 
     void InputSystem::removeInputDevice(const InputDevice& inputDevice)
     {
-        auto i = inputDevices.find(inputDevice.getId());
+        const auto i = inputDevices.find(inputDevice.getId());
 
         if (i != inputDevices.end())
             inputDevices.erase(i);
@@ -36,7 +36,7 @@ namespace ouzel::input
 
     InputDevice* InputSystem::getInputDevice(DeviceId id)
     {
-        auto i = inputDevices.find(id);
+        const auto i = inputDevices.find(id);
 
         if (i != inputDevices.end())
             return i->second;

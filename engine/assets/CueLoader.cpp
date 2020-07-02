@@ -20,7 +20,7 @@ namespace ouzel::assets
         {
             audio::SourceDefinition sourceDefinition;
 
-            auto& valueType = value["type"].as<std::string>();
+            const auto& valueType = value["type"].as<std::string>();
 
             if (valueType == "Parallel")
                 sourceDefinition.type = audio::SourceDefinition::Type::parallel;
@@ -74,7 +74,7 @@ namespace ouzel::assets
                 {
                     audio::EffectDefinition effectDefinition;
 
-                    auto& effectType = effectValue["type"].as<std::string>();
+                    const auto& effectType = effectValue["type"].as<std::string>();
 
                     if (effectType == "Delay")
                         effectDefinition.type = audio::EffectDefinition::Type::delay;

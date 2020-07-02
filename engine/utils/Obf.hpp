@@ -554,7 +554,7 @@ namespace ouzel::obf
 
             if (type == Type::object)
             {
-                auto i = objectValue.find(key);
+                const auto i = objectValue.find(key);
 
                 if (i != objectValue.end())
                     return i->second;
@@ -585,7 +585,7 @@ namespace ouzel::obf
         {
             assert(type == Type::dictionary);
 
-            auto i = dictionaryValue.find(key);
+            const auto i = dictionaryValue.find(key);
 
             if (i != dictionaryValue.end())
                 return i->second;

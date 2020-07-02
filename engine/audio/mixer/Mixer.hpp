@@ -78,7 +78,7 @@ namespace ouzel::audio::mixer
 
         std::uintptr_t getObjectId()
         {
-            auto i = deletedObjectIds.begin();
+            const auto i = deletedObjectIds.begin();
 
             if (i == deletedObjectIds.end())
                 return ++lastObjectId; // zero is reserved for null node

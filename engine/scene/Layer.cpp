@@ -59,7 +59,7 @@ namespace ouzel::scene
 
     void Layer::removeCamera(Camera* camera)
     {
-        auto i = std::find(cameras.begin(), cameras.end(), camera);
+        const auto i = std::find(cameras.begin(), cameras.end(), camera);
 
         if (i != cameras.end())
             cameras.erase(i);
@@ -74,7 +74,7 @@ namespace ouzel::scene
 
     void Layer::removeLight(Light* light)
     {
-        auto i = std::find(lights.begin(), lights.end(), light);
+        const auto i = std::find(lights.begin(), lights.end(), light);
 
         if (i != lights.end())
             lights.erase(i);

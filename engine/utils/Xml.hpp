@@ -80,7 +80,7 @@ namespace ouzel::xml
 
         const std::string& operator[](const std::string& attribute) const
         {
-            auto i = attributes.find(attribute);
+            const auto i = attributes.find(attribute);
             if (i == attributes.end())
                 throw RangeError("Invalid attribute");
             return i->second;

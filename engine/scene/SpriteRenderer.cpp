@@ -419,7 +419,7 @@ namespace ouzel::scene
 
     bool SpriteRenderer::hasAnimation(const std::string& animation) const
     {
-        auto i = animations.find(animation);
+        const auto i = animations.find(animation);
 
         return i != animations.end();
     }

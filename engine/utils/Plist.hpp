@@ -224,7 +224,7 @@ namespace ouzel::plist
         {
             if (type != Type::dictionary) throw TypeError("Wrong type");
 
-            auto i = dictionaryValue.find(member);
+            const auto i = dictionaryValue.find(member);
             if (i != dictionaryValue.end())
                 return i->second;
             else

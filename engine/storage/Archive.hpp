@@ -82,7 +82,7 @@ namespace ouzel::storage
 
         std::vector<std::byte> readFile(const std::string& filename)
         {
-            auto i = entries.find(filename);
+            const auto i = entries.find(filename);
 
             if (i == entries.end())
                 throw std::runtime_error("File " + filename + " does not exist");

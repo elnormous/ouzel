@@ -88,7 +88,7 @@ namespace ouzel::scene
 
     bool ActorContainer::moveChildToBack(Actor* actor)
     {
-        auto i = std::find(children.begin(), children.end(), actor);
+        const auto i = std::find(children.begin(), children.end(), actor);
 
         if (i != children.end())
         {
@@ -102,7 +102,7 @@ namespace ouzel::scene
 
     bool ActorContainer::moveChildToFront(Actor* actor)
     {
-        auto i = std::find(children.begin(), children.end(), actor);
+        const auto i = std::find(children.begin(), children.end(), actor);
 
         if (i != children.end())
         {

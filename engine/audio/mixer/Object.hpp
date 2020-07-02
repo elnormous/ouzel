@@ -40,7 +40,7 @@ namespace ouzel::audio::mixer
                 if (child.parent)
                     child.parent->removeChild(child);
 
-                auto i = std::find(children.begin(), children.end(), &child);
+                const auto i = std::find(children.begin(), children.end(), &child);
                 if (i == children.end())
                 {
                     child.parent = this;
@@ -53,7 +53,7 @@ namespace ouzel::audio::mixer
         {
             if (child.parent == this)
             {
-                auto i = std::find(children.begin(), children.end(), &child);
+                const auto i = std::find(children.begin(), children.end(), &child);
                 if (i != children.end())
                 {
                     child.parent = this;

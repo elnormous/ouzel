@@ -18,12 +18,12 @@ namespace ouzel::assets
                                   const std::vector<std::byte>& data,
                                   bool)
     {
-        xml::Data colladaData = xml::parse(data);
+        const xml::Data colladaData = xml::parse(data);
 
         if (colladaData.getChildren().empty())
             throw std::runtime_error("Invalid Collada file");
 
-        xml::Node rootNode = colladaData.getChildren().front();
+        const xml::Node rootNode = colladaData.getChildren().front();
 
         if (rootNode.getValue() != "COLLADA")
             throw std::runtime_error("Invalid Collada file");

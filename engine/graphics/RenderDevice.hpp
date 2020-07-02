@@ -157,7 +157,7 @@ namespace ouzel::graphics
 
         Resource createResource()
         {
-            auto i = deletedResourceIds.begin();
+            const auto i = deletedResourceIds.begin();
 
             if (i == deletedResourceIds.end())
                 return Resource(++lastResourceId, [this](std::uintptr_t id){

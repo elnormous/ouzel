@@ -148,7 +148,7 @@ namespace ouzel::input
             {
                 bool handled = false;
 
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto controllerIterator = std::find(controllers.begin(), controllers.end(), i->second.get());
@@ -216,7 +216,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::gamepadButtonChange:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto gamepad = static_cast<Gamepad*>(i->second.get());
@@ -226,7 +226,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::keyboardKeyPress:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto keyboardController = static_cast<Keyboard*>(i->second.get());
@@ -236,7 +236,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::keyboardKeyRelease:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto keyboardController = static_cast<Keyboard*>(i->second.get());
@@ -246,7 +246,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::mousePress:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
@@ -256,7 +256,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::mouseRelease:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
@@ -266,7 +266,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::mouseScroll:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
@@ -276,7 +276,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::mouseMove:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
@@ -286,7 +286,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::mouseRelativeMove:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
@@ -296,7 +296,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::mouseLockChanged:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
@@ -306,7 +306,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::touchBegin:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto touchpadController = static_cast<Touchpad*>(i->second.get());
@@ -316,7 +316,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::touchMove:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto touchpadController = static_cast<Touchpad*>(i->second.get());
@@ -326,7 +326,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::touchEnd:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto touchpadController = static_cast<Touchpad*>(i->second.get());
@@ -336,7 +336,7 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::touchCancel:
             {
-                auto i = controllerMap.find(event.deviceId);
+                const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
                     auto touchpadController = static_cast<Touchpad*>(i->second.get());
