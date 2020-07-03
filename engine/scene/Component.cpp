@@ -25,17 +25,18 @@ namespace ouzel::scene
 
     namespace
     {
-        void gatherPolygonProjectionExtents(const std::vector<Vector2F>& vertList,
+        template <class Iterator>
+        void gatherPolygonProjectionExtents(Iterator begin, Iterator end,
                                             const Vector2F& v,
                                             float& outMin, float& outMax) noexcept
         {
-            auto i = vertList.begin();
-            if (i != vertList.end())
+            auto i = begin;
+            if (i != end)
             {
                 outMin = outMax = v.dot(*i);
                 ++i;
 
-                for (; i != vertList.end(); ++i)
+                for (; i != end; ++i)
                 {
                     const float d = v.dot(*i);
                     if (d < outMin) outMin = d;
@@ -44,12 +45,13 @@ namespace ouzel::scene
             }
         }
 
-        bool findSeparatingAxis(const std::vector<Vector2F>& aVertList,
-                                const std::vector<Vector2F>& bVertList) noexcept
+        template <class IteratorA, class IteratorB>
+        bool findSeparatingAxis(IteratorA aBegin, IteratorA aEnd,
+                                IteratorB bBegin, IteratorB bEnd) noexcept
         {
             Vector2F v;
-            auto prev = aVertList.end() - 1;
-            for (auto cur = aVertList.begin(); cur != aVertList.end(); ++cur)
+            auto prev = aEnd - 1;
+            for (auto cur = aBegin; cur != aEnd; ++cur)
             {
                 const Vector2F edge = *cur - *prev;
                 v.v[0] = edge.v[1];
@@ -59,8 +61,8 @@ namespace ouzel::scene
                 float aMax = 0.0F;
                 float bMin = 0.0F;
                 float bMax = 0.0F;
-                gatherPolygonProjectionExtents(aVertList, v, aMin, aMax);
-                gatherPolygonProjectionExtents(bVertList, v, bMin, bMax);
+                gatherPolygonProjectionExtents(aBegin, aEnd, v, aMin, aMax);
+                gatherPolygonProjectionExtents(bBegin, bEnd, v, bMin, bMax);
 
                 if (aMax < bMin) return true;
                 if (bMax < aMin) return true;
@@ -74,17 +76,19 @@ namespace ouzel::scene
 
     bool Component::shapeOverlaps(const std::vector<Vector2F>& edges) const
     {
-        const std::vector<Vector2F> boundingBoxEdges = {
+        const std::array<Vector2F, 4> boundingBoxEdges = {
             Vector2F(boundingBox.min),
             Vector2F(boundingBox.max.v[0], boundingBox.min.v[1]),
             Vector2F(boundingBox.max),
             Vector2F(boundingBox.min.v[0], boundingBox.max.v[1])
         };
 
-        if (findSeparatingAxis(boundingBoxEdges, edges))
+        if (findSeparatingAxis(boundingBoxEdges.begin(), boundingBoxEdges.end(),
+                               edges.begin(), edges.end()))
             return false;
 
-        if (findSeparatingAxis(edges, boundingBoxEdges))
+        if (findSeparatingAxis(edges.begin(), edges.end(),
+                               boundingBoxEdges.begin(), boundingBoxEdges.end()))
             return false;
 
         return true;
