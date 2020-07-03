@@ -27,7 +27,7 @@ namespace ouzel::scene
     {
         void gatherPolygonProjectionExtents(const std::vector<Vector2F>& vertList,
                                             const Vector2F& v,
-                                            float& outMin, float& outMax)
+                                            float& outMin, float& outMax) noexcept
         {
             auto i = vertList.begin();
             if (i != vertList.end())
@@ -45,7 +45,7 @@ namespace ouzel::scene
         }
 
         bool findSeparatingAxis(const std::vector<Vector2F>& aVertList,
-                                const std::vector<Vector2F>& bVertList)
+                                const std::vector<Vector2F>& bVertList) noexcept
         {
             Vector2F v;
             auto prev = aVertList.end() - 1;
