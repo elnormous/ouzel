@@ -130,7 +130,8 @@ namespace ouzel::input::ios
             if (n != playerIndices.end()) playerIndices.erase(n);
         }
 
-        if (!playerIndices.empty()) controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
+        if (!playerIndices.empty())
+            controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
 
         auto gamepadDevice = std::make_unique<GamepadDevice>(*this, getNextDeviceId(), controller);
         gamepadDevices.insert(std::make_pair(controller, std::move(gamepadDevice)));

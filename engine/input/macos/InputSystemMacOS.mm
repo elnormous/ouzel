@@ -367,6 +367,17 @@ namespace ouzel::input::macos
         // Use IOKit only if the controller does not support GameController framework
         if (supportsGameController)
         {
+            std::vector<std::int32_t> playerIndices = {0, 1, 2, 3};
+
+            for (const auto& i : gamepadDevicesGC)
+            {
+                auto n = std::find(playerIndices.begin(), playerIndices.end(), i.second->getPlayerIndex());
+                if (n != playerIndices.end()) playerIndices.erase(n);
+            }
+
+            if (!playerIndices.empty())
+                controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
+
             auto gamepadDevice = std::make_unique<GamepadDeviceGC>(*this, getNextDeviceId(), controller);
             gamepadDevicesGC.insert(std::make_pair(controller, std::move(gamepadDevice)));
         }
