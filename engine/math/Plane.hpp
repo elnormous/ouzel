@@ -47,7 +47,7 @@ namespace ouzel
             v[3] = -v[3];
         }
 
-        template<std::size_t N, typename std::enable_if<N >= 3>::type* = nullptr>
+        template<std::size_t N, typename std::enable_if_t<N >= 3>* = nullptr>
         constexpr T dot(const Vector<N, T>& vec) const noexcept
         {
             return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];

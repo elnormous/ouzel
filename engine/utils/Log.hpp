@@ -99,9 +99,9 @@ namespace ouzel
             return *this;
         }
 
-        template <typename T, typename std::enable_if<std::is_arithmetic<T>::value &&
-            !std::is_same<T, bool>::value &&
-            !std::is_same<T, std::uint8_t>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T> &&
+            !std::is_same_v<T, bool> &&
+            !std::is_same_v<T, std::uint8_t>>* = nullptr>
         Log& operator<<(const T val)
         {
             s += std::to_string(val);
@@ -120,7 +120,7 @@ namespace ouzel
             return *this;
         }
 
-        template <typename T, typename std::enable_if<!std::is_same<T, char>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<!std::is_same_v<T, char>>* = nullptr>
         Log& operator<<(const T* val)
         {
             constexpr char digits[] = "0123456789abcdef";
@@ -146,7 +146,7 @@ namespace ouzel
         template <typename... Args> struct isContainer<std::set<Args...>>: std::true_type{};
         template <typename... Args> struct isContainer<std::vector<Args...>>: std::true_type{};
 
-        template <typename T, typename std::enable_if<isContainer<T>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<isContainer<T>::value>* = nullptr>
         Log& operator<<(const T& val)
         {
             bool first = true;

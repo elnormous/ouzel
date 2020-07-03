@@ -20,7 +20,7 @@ namespace ouzel
         return sizeof(typename T::value_type) * vec.size();
     }
 
-    template <typename T, typename Iterator, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <typename T, typename Iterator, typename std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
     auto decodeBigEndian(Iterator iterator) noexcept
     {
         T result = T(0);
@@ -31,7 +31,7 @@ namespace ouzel
         return result;
     }
 
-    template <typename T, typename Iterator, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <typename T, typename Iterator, typename std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
     auto decodeLittleEndian(Iterator iterator) noexcept
     {
         T result = T(0);
@@ -42,14 +42,14 @@ namespace ouzel
         return result;
     }
 
-    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <typename T, typename std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
     void encodeBigEndian(std::uint8_t* buffer, const T value) noexcept
     {
         for (std::uintptr_t i = 0; i < sizeof(T); ++i)
             buffer[i] = static_cast<std::uint8_t>(value >> ((sizeof(T) - i - 1) * 8));
     }
 
-    template <typename T, typename std::enable_if<std::is_unsigned<T>::value>::type* = nullptr>
+    template <typename T, typename std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
     void encodeLittleEndian(std::uint8_t* buffer, const T value) noexcept
     {
         for (std::uintptr_t i = 0; i < sizeof(T); ++i)
@@ -70,7 +70,7 @@ namespace ouzel
     }
 
     template <class To, class From>
-    typename std::enable_if<(sizeof(To) == sizeof(From)) && std::is_trivially_copyable<From>::value && std::is_trivial<To>::value && (std::is_copy_constructible<To>::value || std::is_move_constructible<To>::value), To>::type
+    typename std::enable_if_t<(sizeof(To) == sizeof(From)) && std::is_trivially_copyable_v<From> && std::is_trivial_v<To> && (std::is_copy_constructible_v<To> || std::is_move_constructible_v<To>), To>
     bitCast(const From& src) noexcept
     {
         To dst;
