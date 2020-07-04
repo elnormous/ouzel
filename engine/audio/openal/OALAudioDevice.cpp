@@ -266,7 +266,7 @@ namespace ouzel::audio::openal
             alGetError();
         }
 
-        for (auto bufferId : bufferIds)
+        for (const auto bufferId : bufferIds)
         {
             if (bufferId)
             {

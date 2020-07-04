@@ -99,7 +99,7 @@ int main(int argc, const char* argv[])
             {
                 ouzel::Project project(projectPath);
 
-                for (auto projectType : projectTypes)
+                for (const auto projectType : projectTypes)
                     switch (projectType)
                     {
                         case ProjectType::makefile:

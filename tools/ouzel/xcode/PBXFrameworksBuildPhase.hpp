@@ -20,7 +20,7 @@ namespace ouzel::xcode
         {
             auto result = PBXBuildPhase::encode();
             result["files"] = plist::Value::Array{};
-            for (auto file : files)
+            for (const auto file : files)
                 if (file) result["files"].pushBack(toString(file->getId()));
 
             return result;

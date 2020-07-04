@@ -39,7 +39,7 @@ namespace ouzel::xcode
             result["projectDirPath"] = "";
             result["projectRoot"] = "";
             result["targets"] = plist::Value::Array{};
-            for (auto target : targets)
+            for (const auto target : targets)
                 if (target) result["targets"].pushBack(toString(target->getId()));
 
             if (!projectReferences.empty())

@@ -150,7 +150,7 @@ namespace ouzel::xcode
             std::vector<const PBXBuildFile*> buildFiles;
             std::vector<const PBXFileElement*> sourceFiles;
 
-            for (auto sourceFile : project.getSourceFiles())
+            for (const auto sourceFile : project.getSourceFiles())
             {
                 const auto extension = sourceFile.getExtension();
 
@@ -474,7 +474,7 @@ namespace ouzel::xcode
                     targetReleaseConfiguration->buildSettings = buildSettings;
 
                     const auto frameworksPath = sdkPath / storage::Path{"System/Library/Frameworks"};
-                    for (auto framework : frameworks)
+                    for (const auto framework : frameworks)
                     {
                         auto frameworkFileReference = alloc<PBXFileReference>();
                         frameworkFileReference->name = framework;

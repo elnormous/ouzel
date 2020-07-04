@@ -21,7 +21,7 @@ namespace ouzel::xcode
         {
             auto result = PBXObject::encode();
             result["buildConfigurations"] = plist::Value::Array{};
-            for (auto configuration : configurations)
+            for (const auto configuration : configurations)
                 if (configuration)
                     result["buildConfigurations"].pushBack(toString(configuration->getId()));
 

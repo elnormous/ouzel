@@ -19,7 +19,7 @@ namespace ouzel::xcode
         {
             auto result = PBXFileElement::encode();
             result["children"] = plist::Value::Array{};
-            for (auto child : children)
+            for (const auto child : children)
                 if (child) result["children"].pushBack(toString(child->getId()));
 
             return result;
