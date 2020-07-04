@@ -137,11 +137,9 @@ namespace ouzel
         template<typename T, typename = void>
         struct isContainer: std::false_type {};
 
-        template<typename ...> using toVoid = void;
-
         template<typename T>
         struct isContainer<T,
-            toVoid<decltype(begin(std::declval<T&>())),
+            std::void_t<decltype(begin(std::declval<T&>())),
                 decltype(end(std::declval<T&>()))
             >>: std::true_type {};
 
