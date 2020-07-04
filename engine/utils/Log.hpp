@@ -3,19 +3,14 @@
 #ifndef OUZEL_UTILS_LOG_HPP
 #define OUZEL_UTILS_LOG_HPP
 
-#include <array>
 #include <atomic>
 #include <condition_variable>
 #include <cstring>
-#include <initializer_list>
-#include <list>
 #include <mutex>
 #include <queue>
-#include <set>
 #include <string>
 #include <thread>
 #include <type_traits>
-#include <vector>
 #include "../math/Matrix.hpp"
 #include "../math/Quaternion.hpp"
 #include "../math/Size.hpp"
@@ -139,24 +134,27 @@ namespace ouzel
             return *this;
         }
 
-        template <typename T> struct isContainer: std::false_type{};
-        template <typename T, std::size_t N> struct isContainer<std::array<T, N>>: std::true_type{};
-        template <typename... Args> struct isContainer<std::initializer_list<Args...>>: std::true_type{};
-        template <typename... Args> struct isContainer<std::list<Args...>>: std::true_type{};
-        template <typename... Args> struct isContainer<std::set<Args...>>: std::true_type{};
-        template <typename... Args> struct isContainer<std::vector<Args...>>: std::true_type{};
+        template<typename T, typename = void>
+        struct isContainer: std::false_type {};
+
+        template<typename ...> using toVoid = void;
+
+        template<typename T>
+        struct isContainer<T,
+            toVoid<decltype(begin(std::declval<T&>())),
+                decltype(end(std::declval<T&>()))
+            >>: std::true_type {};
 
         template <typename T, typename std::enable_if_t<isContainer<T>::value>* = nullptr>
         Log& operator<<(const T& val)
         {
-            bool first = true;
+            auto beginIterator = begin(val);
+            auto endIterator = end(val);
 
-            for (const auto& i : val)
+            for (auto i = beginIterator; i != endIterator; ++i)
             {
-                if (!first) s += ", ";
-                first = false;
-
-                operator<<(i);
+                if (i != beginIterator) s += ", ";
+                operator<<(*i);
             }
 
             return *this;
