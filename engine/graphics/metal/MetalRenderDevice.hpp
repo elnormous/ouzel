@@ -67,7 +67,7 @@ namespace ouzel::graphics::metal
         MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
         template <class T>
-        auto getResource(std::uintmax_t id) const
+        auto getResource(std::size_t id) const
         {
             return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
         }

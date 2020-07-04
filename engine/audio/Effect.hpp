@@ -16,7 +16,7 @@ namespace ouzel::audio
         friend Mix;
     public:
         Effect(Audio& initAudio,
-               std::uintmax_t initProcessorId);
+               std::size_t initProcessorId);
         ~Effect() override;
 
         Effect(const Effect&) = delete;
@@ -31,7 +31,7 @@ namespace ouzel::audio
 
     protected:
         Audio& audio;
-        std::uintmax_t processorId = 0;
+        std::size_t processorId = 0;
         Mix* mix = nullptr;
         bool enabled = true;
     };

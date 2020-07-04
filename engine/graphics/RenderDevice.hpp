@@ -114,7 +114,7 @@ namespace ouzel::graphics
         {
         public:
             Resource() = default;
-            Resource(std::uintmax_t initId, const std::function<void(std::uintmax_t)>& initDeleter):
+            Resource(std::size_t initId, const std::function<void(std::size_t)>& initDeleter):
                 id(initId), deleter(initDeleter)
             {
             }
@@ -145,14 +145,14 @@ namespace ouzel::graphics
                 return *this;
             }
 
-            operator std::uintmax_t() const noexcept
+            operator std::size_t() const noexcept
             {
                 return id;
             }
 
         private:
-            std::uintmax_t id = 0;
-            std::function<void(std::uintmax_t)> deleter;
+            std::size_t id = 0;
+            std::function<void(std::size_t)> deleter;
         };
 
         Resource createResource()
@@ -160,14 +160,14 @@ namespace ouzel::graphics
             const auto i = deletedResourceIds.begin();
 
             if (i == deletedResourceIds.end())
-                return Resource(++lastResourceId, [this](std::uintmax_t id){
+                return Resource(++lastResourceId, [this](std::size_t id){
                     deletedResourceIds.insert(id);
                 }); // zero is reserved for null resource
             else
             {
-                std::uintmax_t resourceId = *i;
+                std::size_t resourceId = *i;
                 deletedResourceIds.erase(i);
-                return Resource(resourceId, [this](std::uintmax_t id){
+                return Resource(resourceId, [this](std::size_t id){
                     deletedResourceIds.insert(id);
                 });
             }
@@ -230,8 +230,8 @@ namespace ouzel::graphics
         std::mutex executeMutex;
 
     private:
-        std::uintmax_t lastResourceId = 0;
-        std::set<std::uintmax_t> deletedResourceIds;
+        std::size_t lastResourceId = 0;
+        std::set<std::size_t> deletedResourceIds;
     };
 }
 

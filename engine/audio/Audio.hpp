@@ -41,12 +41,12 @@ namespace ouzel::audio
             commandBuffer.pushCommand(std::move(command));
         }
 
-        void deleteObject(std::uintmax_t objectId);
-        std::uintmax_t initBus();
-        std::uintmax_t initStream(std::uintmax_t sourceId);
-        std::uintmax_t initData(std::unique_ptr<mixer::Data> data);
-        std::uintmax_t initProcessor(std::unique_ptr<mixer::Processor> processor);
-        void updateProcessor(std::uintmax_t processorId, const std::function<void(mixer::Processor*)>& updateFunction);
+        void deleteObject(std::size_t objectId);
+        std::size_t initBus();
+        std::size_t initStream(std::size_t sourceId);
+        std::size_t initData(std::unique_ptr<mixer::Data> data);
+        std::size_t initProcessor(std::unique_ptr<mixer::Processor> processor);
+        void updateProcessor(std::size_t processorId, const std::function<void(mixer::Processor*)>& updateFunction);
 
         auto& getRootNode() { return rootNode; }
 

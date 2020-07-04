@@ -167,40 +167,40 @@ namespace ouzel::audio
         commandBuffer = mixer::CommandBuffer();
     }
 
-    void Audio::deleteObject(std::uintmax_t objectId)
+    void Audio::deleteObject(std::size_t objectId)
     {
         addCommand(std::make_unique<mixer::DeleteObjectCommand>(objectId));
     }
 
-    std::uintmax_t Audio::initBus()
+    std::size_t Audio::initBus()
     {
-        std::uintmax_t busId = mixer.getObjectId();
+        std::size_t busId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitBusCommand>(busId));
         return busId;
     }
 
-    std::uintmax_t Audio::initStream(std::uintmax_t sourceId)
+    std::size_t Audio::initStream(std::size_t sourceId)
     {
-        std::uintmax_t streamId = mixer.getObjectId();
+        std::size_t streamId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitStreamCommand>(streamId, sourceId));
         return streamId;
     }
 
-    std::uintmax_t Audio::initData(std::unique_ptr<mixer::Data> data)
+    std::size_t Audio::initData(std::unique_ptr<mixer::Data> data)
     {
-        std::uintmax_t dataId = mixer.getObjectId();
+        std::size_t dataId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitDataCommand>(dataId, std::move(data)));
         return dataId;
     }
 
-    std::uintmax_t Audio::initProcessor(std::unique_ptr<mixer::Processor> processor)
+    std::size_t Audio::initProcessor(std::unique_ptr<mixer::Processor> processor)
     {
-        std::uintmax_t processorId = mixer.getObjectId();
+        std::size_t processorId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitProcessorCommand>(processorId, std::move(processor)));
         return processorId;
     }
 
-    void Audio::updateProcessor(std::uintmax_t processorId, const std::function<void(mixer::Processor*)>& updateFunction)
+    void Audio::updateProcessor(std::size_t processorId, const std::function<void(mixer::Processor*)>& updateFunction)
     {
         addCommand(std::make_unique<mixer::UpdateProcessorCommand>(processorId, updateFunction));
     }

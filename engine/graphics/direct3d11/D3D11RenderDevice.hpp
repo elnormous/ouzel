@@ -51,7 +51,7 @@ namespace ouzel::graphics::d3d11
         void setFullscreen(bool newFullscreen);
 
         template <class T>
-        auto getResource(std::uintmax_t id) const
+        auto getResource(std::size_t id) const
         {
             return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
         }

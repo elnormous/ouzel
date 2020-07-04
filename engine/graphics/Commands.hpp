@@ -105,20 +105,20 @@ namespace ouzel::graphics
     class DeleteResourceCommand final: public Command
     {
     public:
-        explicit constexpr DeleteResourceCommand(std::uintmax_t initResource) noexcept:
+        explicit constexpr DeleteResourceCommand(std::size_t initResource) noexcept:
             Command(Command::Type::deleteResource),
             resource(initResource)
         {}
 
-        const std::uintmax_t resource;
+        const std::size_t resource;
     };
 
     class InitRenderTargetCommand final: public Command
     {
     public:
-        InitRenderTargetCommand(std::uintmax_t initRenderTarget,
-                                const std::set<std::uintmax_t>& initColorTextures,
-                                std::uintmax_t initDepthTexture) noexcept:
+        InitRenderTargetCommand(std::size_t initRenderTarget,
+                                const std::set<std::size_t>& initColorTextures,
+                                std::size_t initDepthTexture) noexcept:
             Command(Command::Type::initRenderTarget),
             renderTarget(initRenderTarget),
             colorTextures(initColorTextures),
@@ -126,21 +126,21 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t renderTarget;
-        const std::set<std::uintmax_t> colorTextures;
-        const std::uintmax_t depthTexture;
+        const std::size_t renderTarget;
+        const std::set<std::size_t> colorTextures;
+        const std::size_t depthTexture;
     };
 
     class SetRenderTargetCommand final: public Command
     {
     public:
-        explicit constexpr SetRenderTargetCommand(std::uintmax_t initRenderTarget) noexcept:
+        explicit constexpr SetRenderTargetCommand(std::size_t initRenderTarget) noexcept:
             Command(Command::Type::setRenderTarget),
             renderTarget(initRenderTarget)
         {
         }
 
-        const std::uintmax_t renderTarget;
+        const std::size_t renderTarget;
     };
 
     class ClearRenderTargetCommand final: public Command
@@ -174,13 +174,13 @@ namespace ouzel::graphics
     class BlitCommand final: public Command
     {
     public:
-        constexpr BlitCommand(std::uintmax_t initSourceTexture,
+        constexpr BlitCommand(std::size_t initSourceTexture,
                               std::uint32_t initSourceLevel,
                               std::uint32_t initSourceX,
                               std::uint32_t initSourceY,
                               std::uint32_t initSourceWidth,
                               std::uint32_t initSourceHeight,
-                              std::uintmax_t initDestinationTexture,
+                              std::size_t initDestinationTexture,
                               std::uint32_t initDestinationLevel,
                               std::uint32_t initDestinationX,
                               std::uint32_t initDestinationY) noexcept:
@@ -198,13 +198,13 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t sourceTexture;
+        const std::size_t sourceTexture;
         const std::uint32_t sourceLevel;
         const std::uint32_t sourceX;
         const std::uint32_t sourceY;
         const std::uint32_t sourceWidth;
         const std::uint32_t sourceHeight;
-        const std::uintmax_t destinationTexture;
+        const std::size_t destinationTexture;
         const std::uint32_t destinationLevel;
         const std::uint32_t destinationX;
         const std::uint32_t destinationY;
@@ -214,13 +214,13 @@ namespace ouzel::graphics
     class ComputeCommand final: public Command
     {
     public:
-        explicit constexpr ComputeCommand(std::uintmax_t initShader) noexcept:
+        explicit constexpr ComputeCommand(std::size_t initShader) noexcept:
             Command(Command::Type::compute),
             shader(initShader)
         {
         }
 
-        const std::uintmax_t shader;
+        const std::size_t shader;
     };
 
     class SetScissorTestCommand final: public Command
@@ -253,7 +253,7 @@ namespace ouzel::graphics
     class InitDepthStencilStateCommand final: public Command
     {
     public:
-        constexpr InitDepthStencilStateCommand(std::uintmax_t initDepthStencilState,
+        constexpr InitDepthStencilStateCommand(std::size_t initDepthStencilState,
                                                bool initDepthTest,
                                                bool initDepthWrite,
                                                CompareFunction initCompareFunction,
@@ -287,7 +287,7 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t depthStencilState;
+        const std::size_t depthStencilState;
         const bool depthTest;
         const bool depthWrite;
         const CompareFunction compareFunction;
@@ -307,7 +307,7 @@ namespace ouzel::graphics
     class SetDepthStencilStateCommand final: public Command
     {
     public:
-        constexpr SetDepthStencilStateCommand(std::uintmax_t initDepthStencilState,
+        constexpr SetDepthStencilStateCommand(std::size_t initDepthStencilState,
                                               std::uint32_t initStencilReferenceValue) noexcept:
             Command(Command::Type::setDepthStencilState),
             depthStencilState(initDepthStencilState),
@@ -315,15 +315,15 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t depthStencilState;
+        const std::size_t depthStencilState;
         const std::uint32_t stencilReferenceValue;
     };
 
     class SetPipelineStateCommand final: public Command
     {
     public:
-        constexpr SetPipelineStateCommand(std::uintmax_t initBlendState,
-                                          std::uintmax_t initShader,
+        constexpr SetPipelineStateCommand(std::size_t initBlendState,
+                                          std::size_t initShader,
                                           CullMode initCullMode,
                                           FillMode initFillMode) noexcept:
             Command(Command::Type::setPipelineState),
@@ -334,8 +334,8 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t blendState;
-        const std::uintmax_t shader;
+        const std::size_t blendState;
+        const std::size_t shader;
         const CullMode cullMode;
         const FillMode fillMode;
     };
@@ -343,10 +343,10 @@ namespace ouzel::graphics
     class DrawCommand final: public Command
     {
     public:
-        constexpr DrawCommand(std::uintmax_t initIndexBuffer,
+        constexpr DrawCommand(std::size_t initIndexBuffer,
                               std::uint32_t initIndexCount,
                               std::uint32_t initIndexSize,
-                              std::uintmax_t initVertexBuffer,
+                              std::size_t initVertexBuffer,
                               DrawMode initDrawMode,
                               std::uint32_t initStartIndex) noexcept:
             Command(Command::Type::draw),
@@ -359,10 +359,10 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t indexBuffer;
+        const std::size_t indexBuffer;
         const std::uint32_t indexCount;
         const std::uint32_t indexSize;
-        const std::uintmax_t vertexBuffer;
+        const std::size_t vertexBuffer;
         const DrawMode drawMode;
         const std::uint32_t startIndex;
     };
@@ -391,7 +391,7 @@ namespace ouzel::graphics
     class InitBlendStateCommand final: public Command
     {
     public:
-        constexpr InitBlendStateCommand(std::uintmax_t initBlendState,
+        constexpr InitBlendStateCommand(std::size_t initBlendState,
                                         bool initEnableBlending,
                                         BlendFactor initColorBlendSource,
                                         BlendFactor initColorBlendDest,
@@ -413,7 +413,7 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t blendState;
+        const std::size_t blendState;
         const bool enableBlending;
         const BlendFactor colorBlendSource;
         const BlendFactor colorBlendDest;
@@ -427,7 +427,7 @@ namespace ouzel::graphics
     class InitBufferCommand final: public Command
     {
     public:
-        InitBufferCommand(std::uintmax_t initBuffer,
+        InitBufferCommand(std::size_t initBuffer,
                           BufferType initBufferType,
                           Flags initFlags,
                           const std::vector<std::uint8_t>& initData,
@@ -441,7 +441,7 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t buffer;
+        const std::size_t buffer;
         const BufferType bufferType;
         const Flags flags;
         const std::vector<std::uint8_t> data;
@@ -451,7 +451,7 @@ namespace ouzel::graphics
     class SetBufferDataCommand final: public Command
     {
     public:
-        SetBufferDataCommand(std::uintmax_t initBuffer,
+        SetBufferDataCommand(std::size_t initBuffer,
                              const std::vector<std::uint8_t>& initData) noexcept:
             Command(Command::Type::setBufferData),
             buffer(initBuffer),
@@ -459,14 +459,14 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t buffer;
+        const std::size_t buffer;
         const std::vector<std::uint8_t> data;
     };
 
     class InitShaderCommand final: public Command
     {
     public:
-        InitShaderCommand(std::uintmax_t initShader,
+        InitShaderCommand(std::size_t initShader,
                           const std::vector<std::uint8_t>& initFragmentShader,
                           const std::vector<std::uint8_t>& initVertexShader,
                           const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
@@ -486,7 +486,7 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t shader;
+        const std::size_t shader;
         const std::vector<std::uint8_t> fragmentShader;
         const std::vector<std::uint8_t> vertexShader;
         const std::set<Vertex::Attribute::Usage> vertexAttributes;
@@ -514,7 +514,7 @@ namespace ouzel::graphics
     class InitTextureCommand final: public Command
     {
     public:
-        InitTextureCommand(std::uintmax_t initTexture,
+        InitTextureCommand(std::size_t initTexture,
                            const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
                            TextureType initTextureType,
                            Flags initFlags,
@@ -534,7 +534,7 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t texture;
+        const std::size_t texture;
         const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
         const TextureType textureType;
         const Flags flags;
@@ -547,7 +547,7 @@ namespace ouzel::graphics
     class SetTextureDataCommand final: public Command
     {
     public:
-        SetTextureDataCommand(std::uintmax_t initTexture,
+        SetTextureDataCommand(std::size_t initTexture,
                               const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels) noexcept:
             Command(Command::Type::setTextureData),
             texture(initTexture),
@@ -556,7 +556,7 @@ namespace ouzel::graphics
         {
         }
 
-        SetTextureDataCommand(std::uintmax_t initTexture,
+        SetTextureDataCommand(std::size_t initTexture,
                               const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
                               CubeFace initFace) noexcept:
             Command(Command::Type::setTextureData),
@@ -566,7 +566,7 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t texture;
+        const std::size_t texture;
         const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
         const CubeFace face;
     };
@@ -574,7 +574,7 @@ namespace ouzel::graphics
     class SetTextureParametersCommand final: public Command
     {
     public:
-        constexpr SetTextureParametersCommand(std::uintmax_t initTexture,
+        constexpr SetTextureParametersCommand(std::size_t initTexture,
                                               SamplerFilter initFilter,
                                               SamplerAddressMode initAddressX,
                                               SamplerAddressMode initAddressY,
@@ -592,7 +592,7 @@ namespace ouzel::graphics
         {
         }
 
-        const std::uintmax_t texture;
+        const std::size_t texture;
         const SamplerFilter filter;
         const SamplerAddressMode addressX;
         const SamplerAddressMode addressY;
@@ -604,13 +604,13 @@ namespace ouzel::graphics
     class SetTexturesCommand final: public Command
     {
     public:
-        explicit SetTexturesCommand(const std::vector<std::uintmax_t>& initTextures) noexcept:
+        explicit SetTexturesCommand(const std::vector<std::size_t>& initTextures) noexcept:
             Command(Command::Type::setTextures),
             textures(initTextures)
         {
         }
 
-        const std::vector<std::uintmax_t> textures;
+        const std::vector<std::size_t> textures;
     };
 
     class CommandBuffer final

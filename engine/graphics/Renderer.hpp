@@ -49,7 +49,7 @@ namespace ouzel::graphics
 
         void saveScreenshot(const std::string& filename);
 
-        void setRenderTarget(std::uintmax_t renderTarget);
+        void setRenderTarget(std::size_t renderTarget);
         void clearRenderTarget(bool clearColorBuffer,
                                bool clearDepthBuffer,
                                bool clearStencilBuffer,
@@ -58,23 +58,23 @@ namespace ouzel::graphics
                                std::uint32_t clearStencil);
         void setScissorTest(bool enabled, const RectF& rectangle);
         void setViewport(const RectF& viewport);
-        void setDepthStencilState(std::uintmax_t depthStencilState,
+        void setDepthStencilState(std::size_t depthStencilState,
                                   std::uint32_t stencilReferenceValue);
-        void setPipelineState(std::uintmax_t blendState,
-                              std::uintmax_t shader,
+        void setPipelineState(std::size_t blendState,
+                              std::size_t shader,
                               CullMode cullMode,
                               FillMode fillMode);
-        void draw(std::uintmax_t indexBuffer,
+        void draw(std::size_t indexBuffer,
                   std::uint32_t indexCount,
                   std::uint32_t indexSize,
-                  std::uintmax_t vertexBuffer,
+                  std::size_t vertexBuffer,
                   DrawMode drawMode,
                   std::uint32_t startIndex);
         void pushDebugMarker(const std::string& name);
         void popDebugMarker();
         void setShaderConstants(const std::vector<std::vector<float>>& fragmentShaderConstants,
                                 const std::vector<std::vector<float>>& vertexShaderConstants);
-        void setTextures(const std::vector<std::uintmax_t>& textures);
+        void setTextures(const std::vector<std::size_t>& textures);
 
         void addCommand(std::unique_ptr<Command> command)
         {
