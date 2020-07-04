@@ -143,7 +143,7 @@ namespace ouzel
                 decltype(std::declval<T>().end())
             >>: std::true_type {};
 
-        template <typename T, typename std::enable_if_t<isContainer<T>::value>* = nullptr>
+        template <typename T, typename std::enable_if_t<isContainer<T>::value || std::is_array_v<T>>* = nullptr>
         Log& operator<<(const T& val)
         {
             bool first = true;
