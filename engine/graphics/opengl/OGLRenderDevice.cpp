@@ -1114,7 +1114,7 @@ namespace ouzel::graphics::opengl
                         assert(indexBuffer->getSize());
                         assert(vertexBuffer->getSize());
 
-                        std::uintmax_t indexOffset = drawCommand->startIndex * drawCommand->indexSize;
+                        std::uintptr_t indexOffset = drawCommand->startIndex * drawCommand->indexSize;
 
                         glDrawElementsProc(getDrawMode(drawCommand->drawMode),
                                            static_cast<GLsizei>(drawCommand->indexCount),
