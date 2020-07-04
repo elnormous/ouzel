@@ -25,7 +25,7 @@ namespace ouzel
     {
         T result = T(0);
 
-        for (std::uintmax_t i = 0; i < sizeof(T); ++i, ++iterator)
+        for (std::size_t i = 0; i < sizeof(T); ++i, ++iterator)
             result |= static_cast<T>(static_cast<std::uint8_t>(*iterator) << ((sizeof(T) - i - 1) * 8));
 
         return result;
@@ -36,7 +36,7 @@ namespace ouzel
     {
         T result = T(0);
 
-        for (std::uintmax_t i = 0; i < sizeof(T); ++i, ++iterator)
+        for (std::size_t i = 0; i < sizeof(T); ++i, ++iterator)
             result |= static_cast<T>(static_cast<std::uint8_t>(*iterator) << (i * 8));
 
         return result;
@@ -45,14 +45,14 @@ namespace ouzel
     template <typename T, typename std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
     void encodeBigEndian(std::uint8_t* buffer, const T value) noexcept
     {
-        for (std::uintmax_t i = 0; i < sizeof(T); ++i)
+        for (std::size_t i = 0; i < sizeof(T); ++i)
             buffer[i] = static_cast<std::uint8_t>(value >> ((sizeof(T) - i - 1) * 8));
     }
 
     template <typename T, typename std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
     void encodeLittleEndian(std::uint8_t* buffer, const T value) noexcept
     {
-        for (std::uintmax_t i = 0; i < sizeof(T); ++i)
+        for (std::size_t i = 0; i < sizeof(T); ++i)
             buffer[i] = static_cast<std::uint8_t>(value >> (i * 8));
     }
 

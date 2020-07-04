@@ -27,7 +27,7 @@ namespace ouzel::input::windows
         if (key == Keyboard::Key::leftShift) leftShiftDown = true;
         if (key == Keyboard::Key::rightShift) rightShiftDown = true;
 
-        return KeyboardDevice::handleKeyPress(key);
+        return input::KeyboardDevice::handleKeyPress(key);
     }
 
     void KeyboardDevice::update()

@@ -120,7 +120,7 @@ namespace ouzel
         {
             constexpr char digits[] = "0123456789abcdef";
 
-            const auto ptrValue = bitCast<std::uintmax_t>(val);
+            const auto ptrValue = bitCast<std::uintptr_t>(val);
 
             for (std::size_t i = 0; i < sizeof(val) * 2; ++i)
                 s.push_back(digits[(ptrValue >> (sizeof(ptrValue) * 2 - i - 1) * 4) & 0x0F]);

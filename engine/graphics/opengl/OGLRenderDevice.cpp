@@ -1089,7 +1089,7 @@ namespace ouzel::graphics::opengl
                         bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer->getBufferId());
                         bindBuffer(GL_ARRAY_BUFFER, vertexBuffer->getBufferId());
 
-                        std::uintmax_t vertexOffset = 0;
+                        std::uintptr_t vertexOffset = 0;
 
                         for (GLuint index = 0; index < RenderDevice::VERTEX_ATTRIBUTES.size(); ++index)
                         {
