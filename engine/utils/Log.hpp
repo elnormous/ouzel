@@ -139,20 +139,19 @@ namespace ouzel
 
         template<typename T>
         struct isContainer<T,
-            std::void_t<decltype(begin(std::declval<T&>())),
-                decltype(end(std::declval<T&>()))
+            std::void_t<decltype(std::declval<T>().begin()),
+                decltype(std::declval<T>().end())
             >>: std::true_type {};
 
         template <typename T, typename std::enable_if_t<isContainer<T>::value>* = nullptr>
         Log& operator<<(const T& val)
         {
-            auto beginIterator = begin(val);
-            auto endIterator = end(val);
-
-            for (auto i = beginIterator; i != endIterator; ++i)
+            bool first = true;
+            for (const auto& i : val)
             {
-                if (i != beginIterator) s += ", ";
-                operator<<(*i);
+                if (!first) s += ", ";
+                first = false;
+                operator<<(i);
             }
 
             return *this;
