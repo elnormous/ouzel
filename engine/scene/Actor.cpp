@@ -187,10 +187,10 @@ namespace ouzel::scene
                     {
                         auto result = std::make_pair(actor, actor->convertWorldToLocal(Vector3F(position)));
 
-                        auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
-                                                           [](const auto& a, const auto& b) noexcept {
-                                                               return a.first->worldOrder < b.first->worldOrder;
-                                                           });
+                        const auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
+                                                                 [](const auto& a, const auto& b) noexcept {
+                                                                     return a.first->worldOrder < b.first->worldOrder;
+                                                                 });
 
                         actors.insert(upperBound, result);
                     }
@@ -223,10 +223,10 @@ namespace ouzel::scene
 
                     if (actor->isPickable() && actor->shapeOverlaps(edges))
                     {
-                        auto upperBound = std::upper_bound(actors.begin(), actors.end(), actor,
-                                                           [](const auto a, const auto b) noexcept {
-                                                               return a->worldOrder < b->worldOrder;
-                                                           });
+                        const auto upperBound = std::upper_bound(actors.begin(), actors.end(), actor,
+                                                                 [](const auto a, const auto b) noexcept {
+                                                                     return a->worldOrder < b->worldOrder;
+                                                                 });
 
                         actors.insert(upperBound, actor);
                     }
@@ -264,10 +264,10 @@ namespace ouzel::scene
 
             if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
             {
-                auto upperBound = std::upper_bound(drawQueue.begin(), drawQueue.end(), this,
-                                                   [](const auto a, const auto b) noexcept {
-                                                       return a->worldOrder > b->worldOrder;
-                                                   });
+                const auto upperBound = std::upper_bound(drawQueue.begin(), drawQueue.end(), this,
+                                                         [](const auto a, const auto b) noexcept {
+                                                             return a->worldOrder > b->worldOrder;
+                                                         });
 
                 drawQueue.insert(upperBound, this);
             }
