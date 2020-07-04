@@ -44,7 +44,6 @@
 #include "../../core/Engine.hpp"
 #include "../../core/Window.hpp"
 #include "../../utils/Log.hpp"
-#include "../../utils/Utils.hpp"
 #include "stb_image_write.h"
 
 namespace ouzel::graphics::opengl
@@ -1089,7 +1088,7 @@ namespace ouzel::graphics::opengl
                         bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer->getBufferId());
                         bindBuffer(GL_ARRAY_BUFFER, vertexBuffer->getBufferId());
 
-                        std::uintptr_t vertexOffset = 0;
+                        const std::byte* vertexOffset = nullptr;
 
                         for (GLuint index = 0; index < RenderDevice::VERTEX_ATTRIBUTES.size(); ++index)
                         {
@@ -1101,7 +1100,7 @@ namespace ouzel::graphics::opengl
                                                       getVertexType(vertexAttribute.dataType),
                                                       isNormalized(vertexAttribute.dataType),
                                                       static_cast<GLsizei>(sizeof(Vertex)),
-                                                      bitCast<void*>(vertexOffset));
+                                                      vertexOffset);
 
                             vertexOffset += getDataTypeSize(vertexAttribute.dataType);
                         }
@@ -1114,12 +1113,13 @@ namespace ouzel::graphics::opengl
                         assert(indexBuffer->getSize());
                         assert(vertexBuffer->getSize());
 
-                        std::uintptr_t indexOffset = drawCommand->startIndex * drawCommand->indexSize;
+                        const std::byte* indexOffset = nullptr;
+                        indexOffset += drawCommand->startIndex * drawCommand->indexSize;
 
                         glDrawElementsProc(getDrawMode(drawCommand->drawMode),
                                            static_cast<GLsizei>(drawCommand->indexCount),
                                            getIndexType(drawCommand->indexSize),
-                                           bitCast<void*>(indexOffset));
+                                           indexOffset);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR)
                             throw std::system_error(makeErrorCode(error), "Failed to draw elements");
