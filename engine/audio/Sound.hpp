@@ -22,7 +22,7 @@ namespace ouzel::audio
             vorbis
         };
 
-        Sound(Audio& initAudio, std::uintptr_t initSourceId, Format initFormat);
+        Sound(Audio& initAudio, std::uintmax_t initSourceId, Format initFormat);
         virtual ~Sound();
 
         Sound(const Sound&) = delete;
@@ -36,7 +36,7 @@ namespace ouzel::audio
 
     protected:
         Audio& audio;
-        std::uintptr_t sourceId = 0;
+        std::uintmax_t sourceId = 0;
         Format format;
     };
 }

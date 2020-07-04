@@ -58,7 +58,7 @@ namespace ouzel::audio::mixer
             explicit Event(Type initType) noexcept: type(initType) {}
 
             Type type;
-            std::uintptr_t objectId;
+            std::uintmax_t objectId;
         };
 
         Mixer(std::uint32_t initBufferSize,
@@ -76,7 +76,7 @@ namespace ouzel::audio::mixer
         void process();
         void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples);
 
-        std::uintptr_t getObjectId()
+        std::uintmax_t getObjectId()
         {
             const auto i = deletedObjectIds.begin();
 
@@ -84,13 +84,13 @@ namespace ouzel::audio::mixer
                 return ++lastObjectId; // zero is reserved for null node
             else
             {
-                std::uintptr_t objectId = *i;
+                std::uintmax_t objectId = *i;
                 deletedObjectIds.erase(i);
                 return objectId;
             }
         }
 
-        void deleteObjectId(std::uintptr_t objectId)
+        void deleteObjectId(std::uintmax_t objectId)
         {
             deletedObjectIds.insert(objectId);
         }
@@ -114,11 +114,11 @@ namespace ouzel::audio::mixer
         std::uint32_t channels;
         std::function<void(const Event&)> callback;
 
-        std::uintptr_t lastObjectId = 0;
-        std::set<std::uintptr_t> deletedObjectIds;
+        std::uintmax_t lastObjectId = 0;
+        std::set<std::uintmax_t> deletedObjectIds;
 
         std::vector<std::unique_ptr<Object>> objects;
-        std::uintptr_t rootObjectId = 0;
+        std::uintmax_t rootObjectId = 0;
         RootObject* rootObject = nullptr;
 
         Bus* masterBus = nullptr;

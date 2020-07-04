@@ -581,7 +581,7 @@ namespace ouzel::graphics::opengl
 #endif
 
         template <class T>
-        auto getResource(std::uintptr_t id) const
+        auto getResource(std::uintmax_t id) const
         {
             return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
         }

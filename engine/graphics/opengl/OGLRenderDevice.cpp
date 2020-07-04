@@ -1089,7 +1089,7 @@ namespace ouzel::graphics::opengl
                         bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer->getBufferId());
                         bindBuffer(GL_ARRAY_BUFFER, vertexBuffer->getBufferId());
 
-                        std::uintptr_t vertexOffset = 0;
+                        std::uintmax_t vertexOffset = 0;
 
                         for (GLuint index = 0; index < RenderDevice::VERTEX_ATTRIBUTES.size(); ++index)
                         {
@@ -1114,7 +1114,7 @@ namespace ouzel::graphics::opengl
                         assert(indexBuffer->getSize());
                         assert(vertexBuffer->getSize());
 
-                        std::uintptr_t indexOffset = drawCommand->startIndex * drawCommand->indexSize;
+                        std::uintmax_t indexOffset = drawCommand->startIndex * drawCommand->indexSize;
 
                         glDrawElementsProc(getDrawMode(drawCommand->drawMode),
                                            static_cast<GLsizei>(drawCommand->indexCount),

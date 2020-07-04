@@ -64,7 +64,7 @@ namespace ouzel::input
 
             Gamepad::Motor motor;
             Vector2F position;
-            std::uintptr_t cursorResource;
+            std::uintmax_t cursorResource;
             SystemCursor systemCursor;
             std::vector<std::uint8_t> data;
             Size2F size;
@@ -140,13 +140,13 @@ namespace ouzel::input
                 return ++lastResourceId; // zero is reserved for null resource
             else
             {
-                std::uintptr_t resourceId = *i;
+                std::uintmax_t resourceId = *i;
                 deletedResourceIds.erase(i);
                 return resourceId;
             }
         }
 
-        void deleteResourceId(std::uintptr_t resourceId)
+        void deleteResourceId(std::uintmax_t resourceId)
         {
             deletedResourceIds.insert(resourceId);
         }
@@ -161,8 +161,8 @@ namespace ouzel::input
         std::function<std::future<bool>(const Event&)> callback;
         std::unordered_map<DeviceId, InputDevice*> inputDevices;
 
-        std::uintptr_t lastResourceId = 0;
-        std::set<std::uintptr_t> deletedResourceIds;
+        std::uintmax_t lastResourceId = 0;
+        std::set<std::uintmax_t> deletedResourceIds;
     };
 }
 

@@ -39,7 +39,7 @@ namespace ouzel::input
 
     private:
         InputManager& inputManager;
-        std::uintptr_t cursorResource = 0;
+        std::uintmax_t cursorResource = 0;
     };
 }
 

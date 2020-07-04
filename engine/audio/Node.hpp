@@ -36,7 +36,7 @@ namespace ouzel::audio
 
     private:
         Audio& audio;
-        std::uintptr_t objectId = 0;
+        std::uintmax_t objectId = 0;
         Node* parent = nullptr;
         std::vector<Node*> children;
     };

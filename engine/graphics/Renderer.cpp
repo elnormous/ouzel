@@ -188,7 +188,7 @@ namespace ouzel::graphics
         device->executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
     }
 
-    void Renderer::setRenderTarget(std::uintptr_t renderTarget)
+    void Renderer::setRenderTarget(std::uintmax_t renderTarget)
     {
         addCommand(std::make_unique<SetRenderTargetCommand>(renderTarget));
     }
@@ -218,15 +218,15 @@ namespace ouzel::graphics
         addCommand(std::make_unique<SetViewportCommand>(viewport));
     }
 
-    void Renderer::setDepthStencilState(std::uintptr_t depthStencilState,
+    void Renderer::setDepthStencilState(std::uintmax_t depthStencilState,
                                         std::uint32_t stencilReferenceValue)
     {
         addCommand(std::make_unique<SetDepthStencilStateCommand>(depthStencilState,
                                                                  stencilReferenceValue));
     }
 
-    void Renderer::setPipelineState(std::uintptr_t blendState,
-                                    std::uintptr_t shader,
+    void Renderer::setPipelineState(std::uintmax_t blendState,
+                                    std::uintmax_t shader,
                                     CullMode cullMode,
                                     FillMode fillMode)
     {
@@ -236,10 +236,10 @@ namespace ouzel::graphics
                                                              fillMode));
     }
 
-    void Renderer::draw(std::uintptr_t indexBuffer,
+    void Renderer::draw(std::uintmax_t indexBuffer,
                         std::uint32_t indexCount,
                         std::uint32_t indexSize,
-                        std::uintptr_t vertexBuffer,
+                        std::uintmax_t vertexBuffer,
                         DrawMode drawMode,
                         std::uint32_t startIndex)
     {
@@ -271,7 +271,7 @@ namespace ouzel::graphics
                                                                vertexShaderConstants));
     }
 
-    void Renderer::setTextures(const std::vector<std::uintptr_t>& textures)
+    void Renderer::setTextures(const std::vector<std::uintmax_t>& textures)
     {
         addCommand(std::make_unique<SetTexturesCommand>(textures));
     }

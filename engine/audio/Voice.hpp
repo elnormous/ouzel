@@ -56,7 +56,7 @@ namespace ouzel::audio
 
     private:
         Audio& audio;
-        std::uintptr_t streamId;
+        std::uintmax_t streamId;
 
         const Sound* sound = nullptr;
         Vector3F position;
