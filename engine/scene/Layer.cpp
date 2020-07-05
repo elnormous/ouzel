@@ -25,11 +25,11 @@ namespace ouzel::scene
 
     void Layer::draw()
     {
-        for (Camera* camera : cameras)
+        for (const auto camera : cameras)
         {
             std::vector<Actor*> drawQueue;
 
-            for (Actor* actor : children)
+            for (const auto actor : children)
                 actor->visit(drawQueue, Matrix4F::identity(), false, camera, 0, false);
 
             engine->getRenderer()->setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
@@ -37,7 +37,7 @@ namespace ouzel::scene
             engine->getRenderer()->setDepthStencilState(camera->getDepthStencilState() ? camera->getDepthStencilState()->getResource() : 0,
                                                         camera->getStencilReferenceValue());
 
-            for (Actor* actor : drawQueue)
+            for (const auto actor : drawQueue)
                 actor->draw(camera, camera->getWireframe());
         }
     }
@@ -88,7 +88,7 @@ namespace ouzel::scene
 
             if (renderTargets || !camera->getRenderTarget())
             {
-                auto worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
+                const auto worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
 
                 auto actors = findActors(worldPosition);
                 if (!actors.empty()) return actors.front();
@@ -108,7 +108,7 @@ namespace ouzel::scene
 
             if (renderTargets || !camera->getRenderTarget())
             {
-                auto worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
+                const auto worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
 
                 auto actors = findActors(worldPosition);
                 result.insert(result.end(), actors.begin(), actors.end());
@@ -131,10 +131,10 @@ namespace ouzel::scene
                 std::vector<Vector2F> worldEdges;
                 worldEdges.reserve(edges.size());
 
-                for (const Vector2F& edge : edges)
+                for (const auto& edge : edges)
                     worldEdges.emplace_back(camera->convertNormalizedToWorld(edge));
 
-                std::vector<Actor*> actors = findActors(worldEdges);
+                const auto actors = findActors(worldEdges);
                 result.insert(result.end(), actors.begin(), actors.end());
             }
         }
@@ -149,7 +149,7 @@ namespace ouzel::scene
 
     void Layer::recalculateProjection()
     {
-        for (Camera* camera : cameras)
+        for (const auto camera : cameras)
             camera->recalculateProjection();
     }
 

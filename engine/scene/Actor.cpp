@@ -13,7 +13,7 @@ namespace ouzel::scene
 {
     ActorContainer::~ActorContainer()
     {
-        for (auto& actor : children)
+        for (const auto actor : children)
         {
             if (entered) actor->leave();
             actor->parent = nullptr;
@@ -116,7 +116,7 @@ namespace ouzel::scene
 
     void ActorContainer::removeAllChildren()
     {
-        for (auto& actor : children)
+        for (const auto actor : children)
         {
             if (entered) actor->leave();
             actor->parent = nullptr;
@@ -143,7 +143,7 @@ namespace ouzel::scene
     {
         entered = true;
 
-        for (Actor* actor : children)
+        for (const auto actor : children)
             actor->enter();
     }
 
@@ -151,7 +151,7 @@ namespace ouzel::scene
     {
         entered = false;
 
-        for (Actor* actor : children)
+        for (const auto actor : children)
             actor->leave();
     }
 
@@ -159,7 +159,7 @@ namespace ouzel::scene
     {
         layer = newLayer;
 
-        for (Actor* actor : children)
+        for (const auto actor : children)
             actor->setLayer(layer);
     }
 
@@ -241,7 +241,7 @@ namespace ouzel::scene
     {
         if (parent) parent->removeChild(this);
 
-        for (const auto& component : components)
+        for (const auto component : components)
             component->setActor(nullptr);
     }
 
@@ -273,7 +273,7 @@ namespace ouzel::scene
             }
         }
 
-        for (Actor* actor : children)
+        for (const auto actor : children)
             actor->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder, worldHidden);
 
         updateChildrenTransform = false;
@@ -284,7 +284,7 @@ namespace ouzel::scene
         if (transformDirty)
             calculateTransform();
 
-        for (Component* component : components)
+        for (const auto component : components)
             if (!component->isHidden())
                 component->draw(transform,
                                 opacity,
@@ -384,7 +384,7 @@ namespace ouzel::scene
     {
         const auto localPosition = Vector2F(convertWorldToLocal(Vector3F(worldPosition)));
 
-        for (Component* component : components)
+        for (const auto component : components)
         {
             if (component->pointOn(localPosition))
                 return true;
@@ -399,7 +399,7 @@ namespace ouzel::scene
 
         std::vector<Vector2F> transformedEdges;
 
-        for (const Vector2F& edge : edges)
+        for (const auto& edge : edges)
         {
             auto transformedEdge = Vector3F(edge);
 
@@ -408,7 +408,7 @@ namespace ouzel::scene
             transformedEdges.emplace_back(transformedEdge.v[0], transformedEdge.v[1]);
         }
 
-        for (const Component* component : components)
+        for (const auto component : components)
         {
             if (component->shapeOverlaps(transformedEdges))
                 return true;
@@ -420,7 +420,7 @@ namespace ouzel::scene
     void Actor::updateLocalTransform()
     {
         localTransformDirty = transformDirty = inverseTransformDirty = true;
-        for (Component* component : components)
+        for (const auto component : components)
             component->updateTransform();
     }
 
@@ -428,7 +428,7 @@ namespace ouzel::scene
     {
         parentTransform = newParentTransform;
         transformDirty = inverseTransformDirty = true;
-        for (Component* component : components)
+        for (const auto component : components)
             component->updateTransform();
     }
 
@@ -545,7 +545,7 @@ namespace ouzel::scene
 
     void Actor::removeAllComponents()
     {
-        for (auto& component : components)
+        for (const auto component : components)
             component->actor = nullptr;
 
         components.clear();
@@ -556,7 +556,7 @@ namespace ouzel::scene
     {
         ActorContainer::setLayer(newLayer);
 
-        for (Component* component : components)
+        for (const auto component : components)
             component->setLayer(newLayer);
     }
 
@@ -564,7 +564,7 @@ namespace ouzel::scene
     {
         Box3F boundingBox;
 
-        for (const Component* component : components)
+        for (const auto component : components)
             if (!component->isHidden())
                 boundingBox.merge(component->getBoundingBox());
 
