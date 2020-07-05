@@ -219,7 +219,7 @@ namespace ouzel::scene
             {
                 if (actor)
                 {
-                    const Matrix4F& inverseTransform = actor->getInverseTransform();
+                    const auto& inverseTransform = actor->getInverseTransform();
 
                     for (std::uint32_t i = 0; i < particleCount; ++i)
                     {
@@ -434,7 +434,7 @@ namespace ouzel::scene
                         const float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
                         const Vector2F v(std::cos(a), std::sin(a));
                         const float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
-                        const Vector2F dir = v * s;
+                        const auto dir = v * s;
                         particles[i].direction = dir;
                         particles[i].rotation = -radToDeg(dir.getAngle());
                     }
@@ -443,7 +443,7 @@ namespace ouzel::scene
                         const float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
                         const Vector2F v(std::cos(a), std::sin(a));
                         const float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
-                        const Vector2F dir = v * s;
+                        const auto dir = v * s;
                         particles[i].direction = dir;
                     }
                 }

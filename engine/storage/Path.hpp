@@ -283,9 +283,9 @@ namespace ouzel::storage
             {
                 if (isDirectorySeparator(path[previousPosition])) ++previousPosition;
 
-                const std::size_t position = findFirstDirectorySeparator(path, previousPosition);
+                const auto position = findFirstDirectorySeparator(path, previousPosition);
                 const auto endPosition = position != String::npos ? position : path.length();
-                const String currentPart = path.substr(previousPosition, endPosition - previousPosition);
+                const auto currentPart = path.substr(previousPosition, endPosition - previousPosition);
 
                 if (currentPart == parentDirectory)
                 {

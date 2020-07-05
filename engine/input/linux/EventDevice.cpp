@@ -321,7 +321,7 @@ namespace ouzel::input::linux
             if (ioctl(fd, EVIOCGID, &id) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to get device info");
 
-            const GamepadConfig& gamepadConfig = getGamepadConfig(id.vendor, id.product);
+            const auto& gamepadConfig = getGamepadConfig(id.vendor, id.product);
 
             for (std::size_t buttonNum = 0; buttonNum < 24; ++buttonNum)
                 if (gamepadConfig.buttonMap[buttonNum] != Gamepad::Button::none)
@@ -449,8 +449,8 @@ namespace ouzel::input::linux
                                 break;
                         }
 
-                        const Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                            static_cast<float>(cursorPosition.y)));
+                        const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
+                                                                                                                        static_cast<float>(cursorPosition.y)));
                         mouseDevice->handleMove(normalizedPosition);
                         break;
                     }
@@ -460,27 +460,27 @@ namespace ouzel::input::linux
                         {
                             case REL_X:
                             {
-                                const Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(event.value), 0.0F));
+                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(event.value), 0.0F));
                                 mouseDevice->handleRelativeMove(normalizedPosition);
                                 break;
                             }
                             case REL_Y:
                             {
-                                const Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(0.0F, static_cast<float>(event.value)));
+                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(0.0F, static_cast<float>(event.value)));
                                 mouseDevice->handleRelativeMove(normalizedPosition);
                                 break;
                             }
                             case REL_WHEEL:
                             {
-                                const Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                                    static_cast<float>(cursorPosition.y)));
+                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
+                                                                                                                                static_cast<float>(cursorPosition.y)));
                                 mouseDevice->handleScroll(Vector2F(0.0F, static_cast<float>(event.value)), normalizedPosition);
                                 break;
                             }
                             case REL_HWHEEL:
                             {
-                                const Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                                    static_cast<float>(cursorPosition.y)));
+                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
+                                                                                                                                static_cast<float>(cursorPosition.y)));
                                 mouseDevice->handleScroll(Vector2F(static_cast<float>(event.value), 0.0F), normalizedPosition);
                                 break;
                             }
@@ -489,8 +489,8 @@ namespace ouzel::input::linux
                     }
                     case EV_KEY:
                     {
-                        const Vector2F normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                            static_cast<float>(cursorPosition.y)));
+                        const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
+                                                                                                                        static_cast<float>(cursorPosition.y)));
 
                         if (event.value == 1)
                             mouseDevice->handleButtonPress(convertButtonCode(event.code), normalizedPosition);

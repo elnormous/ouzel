@@ -94,14 +94,14 @@ namespace ouzel::audio::openal
 
         id currentRoute = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(audioSession, sel_getUid("currentRoute")); // [audioSession currentRoute]
         id outputs = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(currentRoute, sel_getUid("outputs")); // [currentRoute outputs]
-        const NSUInteger count = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(outputs, sel_getUid("count")); // [outputs count]
+        const auto count = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(outputs, sel_getUid("count")); // [outputs count]
 
         NSUInteger maxChannelCount = 0;
         for (NSUInteger outputIndex = 0; outputIndex < count; ++outputIndex)
         {
             id output = reinterpret_cast<id (*)(id, SEL, NSUInteger)>(&objc_msgSend)(outputs, sel_getUid("objectAtIndex:"), outputIndex); // [outputs objectAtIndex:outputIndex]
             id channels = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(output, sel_getUid("channels")); // [output channels]
-            const NSUInteger channelCount = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(channels, sel_getUid("count")); // [channels count]
+            const auto channelCount = reinterpret_cast<NSUInteger (*)(id, SEL)>(&objc_msgSend)(channels, sel_getUid("count")); // [channels count]
             if (channelCount > maxChannelCount)
                 maxChannelCount = channelCount;
         }
@@ -110,7 +110,7 @@ namespace ouzel::audio::openal
             channels = static_cast<std::uint32_t>(maxChannelCount);
 #endif
 
-        const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
+        const auto deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
         engine->log(Log::Level::info) << "Using " << deviceName << " for audio";
 
@@ -138,7 +138,7 @@ namespace ouzel::audio::openal
         if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
             throw std::system_error(alcError, alcErrorCategory, "Failed to make ALC context current");
 
-        const ALchar* audioRenderer = alGetString(AL_RENDERER);
+        const auto audioRenderer = alGetString(AL_RENDERER);
 
         ALenum error;
 
@@ -148,7 +148,7 @@ namespace ouzel::audio::openal
             engine->log(Log::Level::info) << "Using " << audioRenderer << " audio renderer";
 
         std::vector<std::string> extensions;
-        const ALchar* extensionsPtr = alGetString(AL_EXTENSIONS);
+        const auto extensionsPtr = alGetString(AL_EXTENSIONS);
 
         if ((error = alGetError()) != AL_NO_ERROR || !extensionsPtr)
             engine->log(Log::Level::warning) << "Failed to get OpenGL extensions";

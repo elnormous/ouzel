@@ -30,7 +30,7 @@ namespace ouzel::network
     Network::Network()
     {
 #if defined(_WIN32)
-        const WORD sockVersion = MAKEWORD(2, 2);
+        const auto sockVersion = MAKEWORD(2, 2);
         WSADATA wsaData;
         const int error = WSAStartup(sockVersion, &wsaData);
         if (error != 0)

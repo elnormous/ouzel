@@ -357,9 +357,9 @@ namespace ouzel::core::linux
                         auto inputSystemLinux = static_cast<ouzel::input::linux::InputSystem*>(inputManager->getInputSystem());
                         auto keyboardDevice = inputSystemLinux->getKeyboardDevice();
 
-                        const KeySym keySym = XkbKeycodeToKeysym(display,
-                                                                 event.xkey.keycode, 0,
-                                                                 event.xkey.state & ShiftMask ? 1 : 0);
+                        const auto keySym = XkbKeycodeToKeysym(display,
+                                                               event.xkey.keycode, 0,
+                                                               event.xkey.state & ShiftMask ? 1 : 0);
 
                         if (event.type == KeyPress)
                             keyboardDevice->handleKeyPress(convertKeyCode(keySym));

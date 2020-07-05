@@ -36,7 +36,7 @@ namespace ouzel::input::macos
                 name = deviceName;
             else
             {
-                const CFIndex stringLength = CFStringGetLength(productName);
+                const auto stringLength = CFStringGetLength(productName);
                 std::vector<char> temp(static_cast<std::size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
                 if (CFStringGetCString(productName, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8))
                     name = temp.data();
@@ -59,7 +59,7 @@ namespace ouzel::input::macos
         if (!CFNumberGetValue(product, kCFNumberSInt32Type, &productId))
             throw std::runtime_error("Failed to get product ID");
 
-        const GamepadConfig& gamepadConfig = getGamepadConfig(vendorId, productId);
+        const auto& gamepadConfig = getGamepadConfig(vendorId, productId);
 
         static const std::unordered_map<std::uint32_t, std::size_t> axisUsageMap = {
             {kHIDUsage_GD_X, 0},
@@ -70,8 +70,8 @@ namespace ouzel::input::macos
             {kHIDUsage_GD_Rz, 5}
         };
 
-        const CFArrayRef elementArray = IOHIDDeviceCopyMatchingElements(device, nullptr, kIOHIDOptionsTypeNone);
-        const CFIndex count = CFArrayGetCount(elementArray);
+        const auto elementArray = IOHIDDeviceCopyMatchingElements(device, nullptr, kIOHIDOptionsTypeNone);
+        const auto count = CFArrayGetCount(elementArray);
 
         for (CFIndex i = 0; i < count; ++i)
         {
@@ -80,10 +80,10 @@ namespace ouzel::input::macos
                 return bitCast<IOHIDElementRef>(arrayValue);
             };
 
-            const IOHIDElementRef element = getElement(elementArray, i);
-            const IOHIDElementType type = IOHIDElementGetType(element);
-            const std::uint32_t usagePage = IOHIDElementGetUsagePage(element);
-            const std::uint32_t usage = IOHIDElementGetUsage(element);
+            const auto element = getElement(elementArray, i);
+            const auto type = IOHIDElementGetType(element);
+            const auto usagePage = IOHIDElementGetUsagePage(element);
+            const auto usage = IOHIDElementGetUsage(element);
 
             if (usage == kHIDUsage_GD_Hatswitch)
                 hatElement = element;
@@ -154,8 +154,8 @@ namespace ouzel::input::macos
 
     void GamepadDeviceIOKit::handleInput(IOHIDValueRef value)
     {
-        const IOHIDElementRef element = IOHIDValueGetElement(value);
-        const CFIndex newValue = IOHIDValueGetIntegerValue(value);
+        const auto element = IOHIDValueGetElement(value);
+        const auto newValue = IOHIDValueGetIntegerValue(value);
 
         if (element == hatElement)
         {

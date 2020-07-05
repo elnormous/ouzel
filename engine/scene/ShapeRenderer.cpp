@@ -39,7 +39,7 @@ namespace ouzel::scene
             dirty = false;
         }
 
-        const Matrix4F modelViewProj = renderViewProjection * transformMatrix;
+        const auto modelViewProj = renderViewProjection * transformMatrix;
         const float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
 
         for (const DrawCommand& drawCommand : drawCommands)

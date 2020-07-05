@@ -134,7 +134,7 @@ namespace ouzel::gui
 
         for (const auto& c : chars)
         {
-            const CharDescriptor& charDesc = c.second;
+            const auto& charDesc = c.second;
 
             for (std::uint16_t posX = 0; posX < charDesc.width; ++posX)
             {
@@ -173,7 +173,7 @@ namespace ouzel::gui
 
             if (iter != chars.end())
             {
-                const CharDescriptor& f = iter->second;
+                const auto& f = iter->second;
 
                 auto startIndex = static_cast<std::uint16_t>(vertices.size());
                 indices.push_back(startIndex + 0);

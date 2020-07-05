@@ -376,7 +376,7 @@ namespace ouzel::gui
 
             if (iter != chars.end())
             {
-                const CharDescriptor& f = iter->second;
+                const auto& f = iter->second;
 
                 auto startIndex = static_cast<std::uint16_t>(vertices.size());
                 indices.push_back(startIndex + 0);
@@ -465,7 +465,7 @@ namespace ouzel::gui
                 if ((i + 1) != utf32Text.end())
                     total += static_cast<float>(getKerningPair(*i, *(i + 1)));
 
-                const CharDescriptor& f = iter->second;
+                const auto& f = iter->second;
                 total += f.xAdvance;
             }
         }

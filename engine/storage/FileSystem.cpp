@@ -76,9 +76,9 @@ namespace ouzel::storage
         CfPointer<CFURLRef> absolutePath = CFURLCopyAbsoluteURL(relativePath.get());
         CfPointer<CFStringRef> path = CFURLCopyFileSystemPath(absolutePath.get(), kCFURLPOSIXPathStyle);
 
-        const CFIndex maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path.get());
+        const auto maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path.get());
         auto resourceDirectory = std::make_unique<char[]>(static_cast<std::size_t>(maximumSize));
-        const Boolean result = CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.get(), maximumSize);
+        const auto result = CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.get(), maximumSize);
         if (!result)
             throw std::runtime_error("Failed to get resource directory");
 
@@ -112,7 +112,7 @@ namespace ouzel::storage
 
         Path path = Path{appDataPath, Path::Format::native};
 
-        const HINSTANCE instance = GetModuleHandleW(nullptr);
+        const auto instance = GetModuleHandleW(nullptr);
         if (!instance)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
         std::vector<WCHAR> buffer(MAX_PATH + 1);
@@ -129,7 +129,7 @@ namespace ouzel::storage
 
         const auto executablePath = Path{buffer.data(), Path::Format::native};
         DWORD handle;
-        const DWORD fileVersionSize = GetFileVersionInfoSizeW(executablePath.getNative().c_str(), &handle);
+        const auto fileVersionSize = GetFileVersionInfoSizeW(executablePath.getNative().c_str(), &handle);
         if (!fileVersionSize)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get file version size");
 

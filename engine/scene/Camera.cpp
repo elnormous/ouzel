@@ -246,9 +246,8 @@ namespace ouzel::scene
         }
         else
         {
-            const Matrix4F modelViewProjection = getViewProjection() * boxTransform;
-
-            const ConvexVolumeF frustum = modelViewProjection.getFrustum();
+            const auto modelViewProjection = getViewProjection() * boxTransform;
+            const auto frustum = modelViewProjection.getFrustum();
             return frustum.isBoxInside(box);
         }
     }

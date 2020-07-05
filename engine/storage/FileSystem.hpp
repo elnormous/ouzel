@@ -436,7 +436,7 @@ namespace ouzel::storage
         static void deleteFile(const Path& path)
         {
 #if defined(_WIN32)
-            const DWORD attributes = GetFileAttributesW(path.getNative().c_str());
+            const auto attributes = GetFileAttributesW(path.getNative().c_str());
             if (attributes == INVALID_FILE_ATTRIBUTES)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get file attributes");
 
@@ -457,7 +457,7 @@ namespace ouzel::storage
         static FileType getFileType(const Path& path) noexcept
         {
 #if defined(_WIN32)
-            const DWORD attributes = GetFileAttributesW(path.getNative().c_str());
+            const auto attributes = GetFileAttributesW(path.getNative().c_str());
             if (attributes == INVALID_FILE_ATTRIBUTES)
                 return FileType::notFound;
 
@@ -530,7 +530,7 @@ namespace ouzel::storage
         static void setPermissions(const Path& path, Permissions permissions)
         {
 #if defined(_WIN32)
-            const DWORD attributes = (permissions & Permissions::ownerWrite) == Permissions::ownerWrite ?
+            const auto attributes = (permissions & Permissions::ownerWrite) == Permissions::ownerWrite ?
                 FILE_ATTRIBUTE_NORMAL : FILE_ATTRIBUTE_READONLY;
             if (!SetFileAttributesW(path.getNative().c_str(), attributes))
                 throw std::system_error(errno, std::system_category(), "Failed to set file attributes");

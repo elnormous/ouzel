@@ -79,7 +79,7 @@ namespace ouzel::audio::opensl
     {
         SLresult result;
         constexpr SLuint32 engineMixIIDCount = 1;
-        const SLInterfaceID engineMixIID = SL_IID_ENGINE;
+        const auto engineMixIID = SL_IID_ENGINE;
         constexpr SLboolean engineMixReq = SL_BOOLEAN_TRUE;
 
         SLObjectItf engineObjectPointer;

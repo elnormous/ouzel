@@ -50,7 +50,7 @@ namespace ouzel::input::windows
         if (const auto hr = device->SetDataFormat(&c_dfDIJoystick); FAILED(hr))
             throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device format");
 
-        const GamepadConfig& gamepadConfig = getGamepadConfig(vendorId, productId);
+        const auto& gamepadConfig = getGamepadConfig(vendorId, productId);
 
         for (std::size_t i = 0; i < 24; ++i)
         {
@@ -75,8 +75,8 @@ namespace ouzel::input::windows
         {
             if (gamepadConfig.axisMap[i] != Gamepad::Axis::none)
             {
-                const USAGE usage = axisUsageMap[i].first;
-                const DWORD offset = axisUsageMap[i].second;
+                const auto usage = axisUsageMap[i].first;
+                const auto offset = axisUsageMap[i].second;
 
                 DIDEVICEOBJECTINSTANCEW didObjectInstance;
                 didObjectInstance.dwSize = sizeof(didObjectInstance);
@@ -347,9 +347,9 @@ namespace ouzel::input::windows
 
         for (auto& buttonPair : buttons)
         {
-            const DWORD offset = buttonPair.first;
+            const auto offset = buttonPair.first;
             Button& button = buttonPair.second;
-            const BYTE newValue = *reinterpret_cast<const BYTE*>(reinterpret_cast<const std::uint8_t*>(&newDIState) + offset);
+            const auto newValue = *reinterpret_cast<const BYTE*>(reinterpret_cast<const std::uint8_t*>(&newDIState) + offset);
 
             if (button.value != newValue)
             {
@@ -365,9 +365,9 @@ namespace ouzel::input::windows
 
         for (auto& axisPair : axes)
         {
-            const DWORD offset = axisPair.first;
+            const auto offset = axisPair.first;
             Axis& axis = axisPair.second;
-            const LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const std::uint8_t*>(&newDIState) + offset);
+            const auto newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const std::uint8_t*>(&newDIState) + offset);
 
             if (axis.value != newValue)
             {

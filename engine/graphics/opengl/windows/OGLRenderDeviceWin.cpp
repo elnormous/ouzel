@@ -146,7 +146,7 @@ namespace ouzel::graphics::opengl::windows
 
             PFNGLGETSTRINGPROC glGetStringProc = reinterpret_cast<PFNGLGETSTRINGPROC>(GetProcAddress(module, "glGetString"));
 
-            const GLubyte* versionPtr = glGetStringProc(GL_VERSION);
+            const auto versionPtr = glGetStringProc(GL_VERSION);
 
             if (!versionPtr)
                 throw std::runtime_error("Failed to get OpenGL version");

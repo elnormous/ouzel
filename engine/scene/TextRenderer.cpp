@@ -73,7 +73,7 @@ namespace ouzel::scene
             needsMeshUpdate = false;
         }
 
-        const Matrix4F modelViewProj = renderViewProjection * transformMatrix;
+        const auto modelViewProj = renderViewProjection * transformMatrix;
         const float colorVector[] = {color.normR(), color.normG(), color.normB(), color.normA() * opacity};
 
         std::vector<std::vector<float>> fragmentShaderConstants(1);

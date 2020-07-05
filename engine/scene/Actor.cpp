@@ -172,7 +172,7 @@ namespace ouzel::scene
 
         while (!actorContainers.empty())
         {
-            const ActorContainer* actorContainer = actorContainers.front();
+            const auto actorContainer = actorContainers.front();
             actorContainers.pop();
 
             for (auto i = actorContainer->children.rbegin(); i != actorContainer->children.rend(); ++i)
@@ -260,7 +260,7 @@ namespace ouzel::scene
 
         if (!worldHidden)
         {
-            const Box3F boundingBox = getBoundingBox();
+            const auto boundingBox = getBoundingBox();
 
             if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
             {
@@ -395,7 +395,7 @@ namespace ouzel::scene
 
     bool Actor::shapeOverlaps(const std::vector<Vector2F>& edges) const
     {
-        const Matrix4F inverse = getInverseTransform();
+        const auto& inverse = getInverseTransform();
 
         std::vector<Vector2F> transformedEdges;
 
@@ -434,17 +434,18 @@ namespace ouzel::scene
 
     Vector3F Actor::getWorldPosition() const
     {
-        Vector3F result = position;
-        getTransform().transformPoint(result);
+        auto result = position;
+        const auto& currentTransform = getTransform();
+        currentTransform.transformPoint(result);
 
         return position;
     }
 
     Vector3F Actor::convertWorldToLocal(const Vector3F& worldPosition) const
     {
-        Vector3F localPosition = worldPosition;
+        auto localPosition = worldPosition;
 
-        const Matrix4F& currentInverseTransform = getInverseTransform();
+        const auto& currentInverseTransform = getInverseTransform();
         currentInverseTransform.transformPoint(localPosition);
 
         return localPosition;
@@ -452,9 +453,9 @@ namespace ouzel::scene
 
     Vector3F Actor::convertLocalToWorld(const Vector3F& localPosition) const
     {
-        Vector3F worldPosition = localPosition;
+        auto worldPosition = localPosition;
 
-        const Matrix4F& currentTransform = getTransform();
+        const auto& currentTransform = getTransform();
         currentTransform.transformPoint(worldPosition);
 
         return worldPosition;

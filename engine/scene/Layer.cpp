@@ -84,7 +84,7 @@ namespace ouzel::scene
     {
         for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
         {
-            const Camera* camera = *i;
+            const auto camera = *i;
 
             if (renderTargets || !camera->getRenderTarget())
             {
@@ -104,7 +104,7 @@ namespace ouzel::scene
 
         for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
         {
-            const Camera* camera = *i;
+            const auto camera = *i;
 
             if (renderTargets || !camera->getRenderTarget())
             {
@@ -124,7 +124,7 @@ namespace ouzel::scene
 
         for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
         {
-            const Camera* camera = *i;
+            const auto camera = *i;
 
             if (renderTargets || !camera->getRenderTarget())
             {

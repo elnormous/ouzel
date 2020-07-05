@@ -190,7 +190,7 @@ namespace ouzel::scene
         material->shader = engine->getCache().getShader(shaderTexture);
         material->blendState = engine->getCache().getBlendState(blendAlpha);
 
-        if (const SpriteData* spriteData = engine->getCache().getSpriteData(filename))
+        if (const auto spriteData = engine->getCache().getSpriteData(filename))
         {
             material->textures[0] = spriteData->texture;
 
@@ -342,7 +342,7 @@ namespace ouzel::scene
             if (currentFrame >= currentAnimation->animation->frames.size())
                 currentFrame = currentAnimation->animation->frames.size() - 1;
 
-            const Matrix4F modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
+            const auto modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
             const float colorVector[] = {
                 material->diffuseColor.normR(),
                 material->diffuseColor.normG(),
@@ -369,7 +369,7 @@ namespace ouzel::scene
                                                       vertexShaderConstants);
             engine->getRenderer()->setTextures(textures);
 
-            const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
+            const auto& frame = currentAnimation->animation->frames[currentFrame];
 
             engine->getRenderer()->draw(frame.getIndexBuffer()->getResource(),
                                         frame.getIndexCount(),
@@ -428,7 +428,7 @@ namespace ouzel::scene
     {
         animationQueue.clear();
 
-        const SpriteData::Animation& animation = animations[newAnimation];
+        const auto& animation = animations[newAnimation];
         animationQueue.push_back({&animation, repeat});
         currentAnimation = animationQueue.begin();
         running = true;
@@ -438,7 +438,7 @@ namespace ouzel::scene
 
     void SpriteRenderer::addAnimation(const std::string& newAnimation, bool repeat)
     {
-        const SpriteData::Animation& animation = animations[newAnimation];
+        const auto& animation = animations[newAnimation];
         animationQueue.push_back({&animation, repeat});
         running = true;
     }
@@ -502,7 +502,7 @@ namespace ouzel::scene
 
             if (currentFrame >= currentAnimation->animation->frames.size()) currentFrame = currentAnimation->animation->frames.size() - 1;
 
-            const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
+            const auto& frame = currentAnimation->animation->frames[currentFrame];
 
             boundingBox = Box3F(frame.getBoundingBox());
             boundingBox.min.v[0] += offset.v[0];

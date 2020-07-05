@@ -56,7 +56,7 @@ namespace ouzel::graphics::opengl
                 else
                     for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
                     {
-                        const GLubyte* extensionPtr = glGetStringiProc(GL_EXTENSIONS, i);
+                        const auto extensionPtr = glGetStringiProc(GL_EXTENSIONS, i);
 
                         if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionPtr)
                             engine->log(Log::Level::warning) << "Failed to get OpenGL extension, error: " + std::to_string(error);
@@ -67,7 +67,7 @@ namespace ouzel::graphics::opengl
             else
             {
                 auto glGetStringProc = getProcAddress<PFNGLGETSTRINGPROC>("glGetString", ApiVersion(1, 0));
-                const GLubyte* extensionsPtr = glGetStringProc(GL_EXTENSIONS);
+                const auto extensionsPtr = glGetStringProc(GL_EXTENSIONS);
 
                 GLuint error;
                 if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionsPtr)
