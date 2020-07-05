@@ -116,7 +116,7 @@ namespace ouzel::assets
                               bool)
     {
         audio::SourceDefinition sourceDefinition;
-        const json::Value d = json::parse(data);
+        const auto d = json::parse(data);
 
         if (d.hasMember("source"))
             sourceDefinition = parseSourceDefinition(d["source"], cache);

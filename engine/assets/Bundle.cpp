@@ -40,9 +40,9 @@ namespace ouzel::assets
 
     void Bundle::loadAssets(const std::string& filename)
     {
-        const json::Value data = json::parse(fileSystem.readFile(filename));
+        const auto data = json::parse(fileSystem.readFile(filename));
 
-        for (const json::Value& asset : data["assets"])
+        for (const auto& asset : data["assets"])
         {
             const auto file = asset["filename"].as<std::string>();
             const auto name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;

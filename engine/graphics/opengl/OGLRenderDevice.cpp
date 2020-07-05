@@ -345,7 +345,7 @@ namespace ouzel::graphics::opengl
         glGetErrorProc = getter.get<PFNGLGETERRORPROC>("glGetError", ApiVersion(1, 0));
         glGetStringiProc = getter.get<PFNGLGETSTRINGIPROC>("glGetStringi", ApiVersion(3, 0));
 
-        const GLubyte* deviceName = glGetStringProc(GL_RENDERER);
+        const auto deviceName = glGetStringProc(GL_RENDERER);
 
         GLenum error;
 
@@ -1058,7 +1058,7 @@ namespace ouzel::graphics::opengl
                         else
                             useProgram(0);
 
-                        const GLenum cullFace = getCullFace(setPipelineStateCommand->cullMode);
+                        const auto cullFace = getCullFace(setPipelineStateCommand->cullMode);
                         setCullFace(cullFace != GL_NONE, cullFace);
 
 #if OUZEL_OPENGLES
@@ -1092,7 +1092,7 @@ namespace ouzel::graphics::opengl
 
                         for (GLuint index = 0; index < RenderDevice::VERTEX_ATTRIBUTES.size(); ++index)
                         {
-                            const Vertex::Attribute& vertexAttribute = RenderDevice::VERTEX_ATTRIBUTES[index];
+                            const auto& vertexAttribute = RenderDevice::VERTEX_ATTRIBUTES[index];
 
                             glEnableVertexAttribArrayProc(index);
                             glVertexAttribPointerProc(index,
@@ -1219,8 +1219,8 @@ namespace ouzel::graphics::opengl
 
                         for (std::size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                         {
-                            const Shader::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
-                            const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
+                            const auto& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
+                            const auto& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
 
                             setUniform(fragmentShaderConstantLocation.location,
                                        fragmentShaderConstantLocation.dataType,
@@ -1235,8 +1235,8 @@ namespace ouzel::graphics::opengl
 
                         for (std::size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
                         {
-                            const Shader::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                            const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
+                            const auto& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                            const auto& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
 
                             setUniform(vertexShaderConstantLocation.location,
                                        vertexShaderConstantLocation.dataType,

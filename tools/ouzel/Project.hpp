@@ -62,7 +62,7 @@ namespace ouzel
                 const auto assetName = assetObject.hasMember("name") ?
                     assetObject["name"].as<std::string>() : std::string(assetPath.getStem());
 
-                const Asset::Type assetType = stringToAssetType(assetObject["type"].as<std::string>());
+                const auto assetType = stringToAssetType(assetObject["type"].as<std::string>());
 
                 assets.emplace_back(assetPath,
                                     assetName,

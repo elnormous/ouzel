@@ -17,10 +17,10 @@ namespace ouzel::assets
                                const std::vector<std::byte>& data,
                                bool mipmaps)
     {
-        const json::Value d = json::parse(data);
+        const auto d = json::parse(data);
 
-        const json::Value& nodesValue = d["nodes"];
-        const json::Value& meshesValue = d["meshes"];
+        const auto& nodesValue = d["nodes"];
+        const auto& meshesValue = d["meshes"];
 
         (void)mipmaps;
         (void)nodesValue;

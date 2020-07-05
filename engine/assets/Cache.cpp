@@ -159,7 +159,7 @@ namespace ouzel::assets
     const scene::SkinnedMeshData* Cache::getSkinnedMeshData(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (const scene::SkinnedMeshData* meshData = bundle->getSkinnedMeshData(name))
+            if (const auto meshData = bundle->getSkinnedMeshData(name))
                 return meshData;
 
         return nullptr;
@@ -168,7 +168,7 @@ namespace ouzel::assets
     const scene::StaticMeshData* Cache::getStaticMeshData(const std::string& name) const
     {
         for (const Bundle* bundle : bundles)
-            if (const scene::StaticMeshData* meshData = bundle->getStaticMeshData(name))
+            if (const auto meshData = bundle->getStaticMeshData(name))
                 return meshData;
 
         return nullptr;
