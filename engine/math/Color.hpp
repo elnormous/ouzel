@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <array>
 #include <string>
+#include <type_traits>
 #include "Vector.hpp"
 
 namespace ouzel
