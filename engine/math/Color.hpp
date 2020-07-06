@@ -76,7 +76,7 @@ namespace ouzel
         }
 
         template <class T, typename std::enable_if<std::is_integral<T>::value>::type* = nullptr>
-        constexpr Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue, std::uint8_t alpha = 0xFF) noexcept:
+        constexpr Color(T red, T green, T blue, T alpha = 0xFF) noexcept:
             v{std::uint8_t(red), std::uint8_t(green), std::uint8_t(blue), std::uint8_t(alpha)}
         {
         }
