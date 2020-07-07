@@ -44,7 +44,7 @@ namespace ouzel::scene
     {
         bool result = false;
 
-        auto childIterator = std::find(children.begin(), children.end(), actor);
+        const auto childIterator = std::find(children.begin(), children.end(), actor);
 
         if (childIterator != children.end())
         {
@@ -58,7 +58,7 @@ namespace ouzel::scene
             result = true;
         }
 
-        auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const auto& ownedChild) noexcept {
+        const auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const auto& ownedChild) noexcept {
             return actor == ownedChild.get();
         });
         if (ownedChildIterator != ownedChildren.end())
@@ -71,7 +71,7 @@ namespace ouzel::scene
     {
         std::unique_ptr<Actor> result;
 
-        auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const auto& ownedChild) noexcept {
+        const auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const auto& ownedChild) noexcept {
             return actor == ownedChild.get();
         });
 
@@ -525,7 +525,7 @@ namespace ouzel::scene
 
         bool result = false;
 
-        auto componentIterator = std::find(components.begin(), components.end(), component);
+        const auto componentIterator = std::find(components.begin(), components.end(), component);
 
         if (componentIterator != components.end())
         {
@@ -534,7 +534,7 @@ namespace ouzel::scene
             result = true;
         }
 
-        auto ownedComponentIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const auto& ownedComponent) noexcept {
+        const auto ownedComponentIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const auto& ownedComponent) noexcept {
             return component == ownedComponent.get();
         });
         if (ownedComponentIterator != ownedComponents.end())

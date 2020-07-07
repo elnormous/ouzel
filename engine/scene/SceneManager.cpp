@@ -32,7 +32,7 @@ namespace ouzel::scene
     {
         bool result = false;
 
-        auto sceneIterator = std::find(scenes.begin(), scenes.end(), scene);
+        const auto sceneIterator = std::find(scenes.begin(), scenes.end(), scene);
 
         if (sceneIterator != scenes.end())
         {

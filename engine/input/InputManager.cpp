@@ -151,7 +151,7 @@ namespace ouzel::input
                 const auto i = controllerMap.find(event.deviceId);
                 if (i != controllerMap.end())
                 {
-                    auto controllerIterator = std::find(controllers.begin(), controllers.end(), i->second.get());
+                    const auto controllerIterator = std::find(controllers.begin(), controllers.end(), i->second.get());
                     if (controllerIterator != controllers.end())
                         controllers.erase(controllerIterator);
 

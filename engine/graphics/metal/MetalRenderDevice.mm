@@ -947,7 +947,7 @@ namespace ouzel::graphics::metal
 
     MTLSamplerStatePtr RenderDevice::getSamplerState(const SamplerStateDescriptor& descriptor)
     {
-        auto samplerStatesIterator = samplerStates.find(descriptor);
+        const auto samplerStatesIterator = samplerStates.find(descriptor);
 
         if (samplerStatesIterator != samplerStates.end())
             return samplerStatesIterator->second.get();

@@ -80,7 +80,7 @@ namespace ouzel::scene
     {
         bool result = false;
 
-        auto layerIterator = std::find(layers.begin(), layers.end(), layer);
+        const auto layerIterator = std::find(layers.begin(), layers.end(), layer);
 
         if (layerIterator != layers.end())
         {

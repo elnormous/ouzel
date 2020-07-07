@@ -142,7 +142,7 @@ namespace ouzel::scene
 
         bool result = false;
 
-        auto animatorIterator = std::find(animators.begin(), animators.end(), animator);
+        const auto animatorIterator = std::find(animators.begin(), animators.end(), animator);
 
         if (animatorIterator != animators.end())
         {
@@ -153,7 +153,7 @@ namespace ouzel::scene
             result = true;
         }
 
-        auto ownedAnimatorIterator = std::find_if(ownedAnimators.begin(), ownedAnimators.end(), [animator](const auto& ownedAnimator) noexcept {
+        const auto ownedAnimatorIterator = std::find_if(ownedAnimators.begin(), ownedAnimators.end(), [animator](const auto& ownedAnimator) noexcept {
             return animator == ownedAnimator.get();
         });
         if (ownedAnimatorIterator != ownedAnimators.end())
