@@ -45,7 +45,7 @@ namespace ouzel::scene
             result = true;
         }
 
-        auto ownedIterator = std::find_if(ownedScenes.begin(), ownedScenes.end(), [scene](const auto& other) noexcept {
+        const auto ownedIterator = std::find_if(ownedScenes.begin(), ownedScenes.end(), [scene](const auto& other) noexcept {
             return other.get() == scene;
         });
 

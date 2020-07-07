@@ -89,8 +89,7 @@ namespace ouzel::scene
             if (renderTargets || !camera->getRenderTarget())
             {
                 const auto worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
-
-                auto actors = findActors(worldPosition);
+                const auto actors = findActors(worldPosition);
                 if (!actors.empty()) return actors.front();
             }
         }
@@ -109,8 +108,7 @@ namespace ouzel::scene
             if (renderTargets || !camera->getRenderTarget())
             {
                 const auto worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
-
-                auto actors = findActors(worldPosition);
+                const auto actors = findActors(worldPosition);
                 result.insert(result.end(), actors.begin(), actors.end());
             }
         }

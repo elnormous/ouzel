@@ -96,7 +96,7 @@ namespace ouzel::scene
             result = true;
         }
 
-        auto ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const auto& other) noexcept {
+        const auto ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const auto& other) noexcept {
             return other.get() == layer;
         });
 
