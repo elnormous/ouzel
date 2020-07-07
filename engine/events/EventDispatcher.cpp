@@ -185,7 +185,7 @@ namespace ouzel
 
         eventHandlerAddSet.insert(&eventHandler);
 
-        auto setIterator = eventHandlerDeleteSet.find(&eventHandler);
+        const auto setIterator = eventHandlerDeleteSet.find(&eventHandler);
 
         if (setIterator != eventHandlerDeleteSet.end())
             eventHandlerDeleteSet.erase(setIterator);
