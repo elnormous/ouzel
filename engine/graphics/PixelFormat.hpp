@@ -41,7 +41,7 @@ namespace ouzel::graphics
         depthStencil
     };
 
-    inline std::uint32_t getPixelSize(PixelFormat pixelFormat)
+    inline std::uint32_t getPixelSize(PixelFormat pixelFormat) noexcept
     {
         switch (pixelFormat)
         {
@@ -90,7 +90,7 @@ namespace ouzel::graphics
         }
     }
 
-    inline std::uint32_t getChannelSize(PixelFormat pixelFormat)
+    inline std::uint32_t getChannelSize(PixelFormat pixelFormat) noexcept
     {
         switch (pixelFormat)
         {
@@ -135,7 +135,7 @@ namespace ouzel::graphics
         }
     }
 
-    inline std::uint32_t getChannelCount(PixelFormat pixelFormat)
+    inline std::uint32_t getChannelCount(PixelFormat pixelFormat) noexcept
     {
         switch (pixelFormat)
         {
