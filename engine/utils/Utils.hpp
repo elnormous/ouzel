@@ -20,8 +20,8 @@ namespace ouzel
         return sizeof(typename T::value_type) * vec.size();
     }
 
-    template <typename T, typename Iterator, std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
-    auto decodeBigEndian(Iterator iterator) noexcept
+    template <typename T, typename Iterator>
+    std::enable_if_t<std::is_unsigned_v<T>, T> decodeBigEndian(Iterator iterator) noexcept
     {
         T result = T(0);
 
@@ -31,8 +31,8 @@ namespace ouzel
         return result;
     }
 
-    template <typename T, typename Iterator, std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
-    auto decodeLittleEndian(Iterator iterator) noexcept
+    template <typename T, typename Iterator>
+    std::enable_if_t<std::is_unsigned_v<T>, T> decodeLittleEndian(Iterator iterator) noexcept
     {
         T result = T(0);
 
