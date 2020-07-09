@@ -22,7 +22,7 @@ namespace ouzel
         {
         }
 
-        template <std::size_t X = N, std::size_t N2, typename std::enable_if_t<(X != N2)>* = nullptr>
+        template <std::size_t X = N, std::size_t N2, std::enable_if_t<(X != N2)>* = nullptr>
         explicit Size(const Size<N2, T>& size) noexcept
         {
             for (std::size_t i = 0; i < N && i < N2; ++i)
@@ -37,22 +37,22 @@ namespace ouzel
         T& operator[](std::size_t index) noexcept { return v[index]; }
         constexpr T operator[](std::size_t index) const noexcept { return v[index]; }
 
-        template <std::size_t X = N, typename std::enable_if_t<(X >= 1)>* = nullptr>
+        template <std::size_t X = N, std::enable_if_t<(X >= 1)>* = nullptr>
         T& width() noexcept { return v[0]; }
 
-        template <std::size_t X = N, typename std::enable_if_t<(X >= 1)>* = nullptr>
+        template <std::size_t X = N, std::enable_if_t<(X >= 1)>* = nullptr>
         constexpr T width() const noexcept { return v[0]; }
 
-        template <std::size_t X = N, typename std::enable_if_t<(X >= 2)>* = nullptr>
+        template <std::size_t X = N, std::enable_if_t<(X >= 2)>* = nullptr>
         T& height() noexcept { return v[1]; }
 
-        template <std::size_t X = N, typename std::enable_if_t<(X >= 2)>* = nullptr>
+        template <std::size_t X = N, std::enable_if_t<(X >= 2)>* = nullptr>
         constexpr T height() const noexcept { return v[1]; }
 
-        template <std::size_t X = N, typename std::enable_if_t<(X >= 3)>* = nullptr>
+        template <std::size_t X = N, std::enable_if_t<(X >= 3)>* = nullptr>
         T& depth() noexcept { return v[2]; }
 
-        template <std::size_t X = N, typename std::enable_if_t<(X >= 3)>* = nullptr>
+        template <std::size_t X = N, std::enable_if_t<(X >= 3)>* = nullptr>
         constexpr T depth() const noexcept { return v[2]; }
 
         void scale(const Vector<N, T>& scale) noexcept

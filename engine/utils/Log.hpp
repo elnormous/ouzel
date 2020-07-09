@@ -94,7 +94,7 @@ namespace ouzel
             return *this;
         }
 
-        template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T> &&
+        template <typename T, std::enable_if_t<std::is_arithmetic_v<T> &&
             !std::is_same_v<T, bool> &&
             !std::is_same_v<T, std::uint8_t>>* = nullptr>
         Log& operator<<(const T val)
@@ -115,7 +115,7 @@ namespace ouzel
             return *this;
         }
 
-        template <typename T, typename std::enable_if_t<!std::is_same_v<T, char>>* = nullptr>
+        template <typename T, std::enable_if_t<!std::is_same_v<T, char>>* = nullptr>
         Log& operator<<(const T* val)
         {
             constexpr char digits[] = "0123456789abcdef";
@@ -143,7 +143,7 @@ namespace ouzel
                 decltype(std::declval<T>().end())
             >>: std::true_type {};
 
-        template <typename T, typename std::enable_if_t<isContainer<T>::value || std::is_array_v<T>>* = nullptr>
+        template <typename T, std::enable_if_t<isContainer<T>::value || std::is_array_v<T>>* = nullptr>
         Log& operator<<(const T& val)
         {
             bool first = true;

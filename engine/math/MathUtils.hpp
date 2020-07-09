@@ -53,7 +53,7 @@ namespace ouzel
         return lerp(a, b, t * t * (T(3) - T(2) * t));
     }
 
-    template <typename T, typename std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
+    template <typename T, std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
     constexpr auto isPowerOfTwo(const T x) noexcept
     {
         return (x != T(0)) && (((x - T(1)) & x) == 0);
