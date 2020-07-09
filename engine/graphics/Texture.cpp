@@ -8,8 +8,8 @@ namespace ouzel::graphics
 {
     namespace
     {
-        constexpr float GAMMA = 2.2F;
-        constexpr float GAMMA_DECODE[256] = {
+        constexpr float gamma = 2.2F;
+        constexpr float gammaLookup[256] = {
             0.0F, 5.077051355e-06F, 2.33280025e-05F, 5.692175546e-05F, 0.0001071873558F, 0.0001751239615F, 0.0002615437261F, 0.0003671362065F,
             0.0004925037501F, 0.0006381827989F, 0.0008046584553F, 0.0009923742618F, 0.001201739418F, 0.001433134428F, 0.001686915057F, 0.001963415882F,
             0.002262953203F, 0.00258582551F, 0.002932318253F, 0.003302702913F, 0.003697239328F, 0.004116177093F, 0.00455975486F, 0.00502820313F,
@@ -396,12 +396,12 @@ namespace ouzel::graphics
 
         float gammaDecode(std::uint8_t value) noexcept
         {
-            return GAMMA_DECODE[value]; // std::pow(value / 255.0F, GAMMA);
+            return gammaLookup[value]; // std::pow(value / 255.0F, gamma);
         }
 
         std::uint8_t gammaEncode(float value) noexcept
         {
-            return static_cast<std::uint8_t>(std::round(std::pow(value, 1.0F / GAMMA) * 255.0F));
+            return static_cast<std::uint8_t>(std::round(std::pow(value, 1.0F / gamma) * 255.0F));
         }
 
         void decode(const Size2U& size,
