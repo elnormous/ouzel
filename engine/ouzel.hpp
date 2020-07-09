@@ -61,6 +61,7 @@
 #include "graphics/Flags.hpp"
 #include "graphics/Image.hpp"
 #include "graphics/Material.hpp"
+#include "graphics/Object.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "graphics/RasterizerState.hpp"
 #include "graphics/RenderDevice.hpp"
