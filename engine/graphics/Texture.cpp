@@ -539,8 +539,8 @@ namespace ouzel::graphics
         }
 
         std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> calculateSizes(const Size2U& size,
-                                                                            std::uint32_t mipmaps,
-                                                                            PixelFormat pixelFormat)
+                                                                                 std::uint32_t mipmaps,
+                                                                                 PixelFormat pixelFormat)
         {
             std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
 
@@ -570,9 +570,9 @@ namespace ouzel::graphics
         }
 
         std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> calculateSizes(const Size2U& size,
-                                                                            const std::vector<std::uint8_t>& data,
-                                                                            std::uint32_t mipmaps,
-                                                                            PixelFormat pixelFormat)
+                                                                                 const std::vector<std::uint8_t>& data,
+                                                                                 std::uint32_t mipmaps,
+                                                                                 PixelFormat pixelFormat)
         {
             std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
 
