@@ -90,7 +90,7 @@
     <ClCompile Include="graphics\opengl\windows\OGLRenderDeviceWin.cpp" />
     <ClCompile Include="graphics\RenderDevice.cpp" />
     <ClCompile Include="graphics\RenderTarget.cpp" />
-    <ClCompile Include="graphics\Renderer.cpp" />
+    <ClCompile Include="graphics\Graphics.cpp" />
     <ClCompile Include="graphics\Shader.cpp" />
     <ClCompile Include="graphics\Texture.cpp" />
     <ClCompile Include="gui\BMFont.cpp" />
@@ -260,7 +260,7 @@
     <ClInclude Include="graphics\PixelFormat.hpp" />
     <ClInclude Include="graphics\RasterizerState.hpp" />
     <ClInclude Include="graphics\RenderDevice.hpp" />
-    <ClInclude Include="graphics\Renderer.hpp" />
+    <ClInclude Include="graphics\Graphics.hpp" />
     <ClInclude Include="graphics\RenderResource.hpp" />
     <ClInclude Include="graphics\SamplerAddressMode.hpp" />
     <ClInclude Include="graphics\SamplerFilter.hpp" />

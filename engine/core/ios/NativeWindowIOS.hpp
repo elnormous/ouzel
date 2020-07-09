@@ -20,7 +20,7 @@ typedef id UITextFieldPtr;
 #endif
 
 #include "../NativeWindow.hpp"
-#include "../../graphics/Renderer.hpp"
+#include "../../graphics/Graphics.hpp"
 
 namespace ouzel::core::ios
 {

@@ -5,7 +5,7 @@
 #include "ShapeRenderer.hpp"
 #include "Camera.hpp"
 #include "../core/Engine.hpp"
-#include "../graphics/Renderer.hpp"
+#include "../graphics/Graphics.hpp"
 #include "../utils/Utils.hpp"
 
 namespace ouzel::scene

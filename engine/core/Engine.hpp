@@ -13,7 +13,7 @@
 #include "Application.hpp"
 #include "Timer.hpp"
 #include "Window.hpp"
-#include "../graphics/Renderer.hpp"
+#include "../graphics/Graphics.hpp"
 #include "../audio/Audio.hpp"
 #include "../events/EventDispatcher.hpp"
 #include "../input/InputManager.hpp"

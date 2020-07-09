@@ -6,7 +6,7 @@
 #include "Actor.hpp"
 #include "Layer.hpp"
 #include "../core/Engine.hpp"
-#include "../graphics/Renderer.hpp"
+#include "../graphics/Graphics.hpp"
 #include "../graphics/RenderDevice.hpp"
 
 namespace ouzel::scene

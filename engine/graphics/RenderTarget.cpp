@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
 #include "RenderTarget.hpp"
-#include "Renderer.hpp"
+#include "Graphics.hpp"
 #include "Texture.hpp"
 
 namespace ouzel::graphics

@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 #include "Texture.hpp"
-#include "Renderer.hpp"
+#include "Graphics.hpp"
 
 namespace ouzel::graphics
 {

@@ -5,7 +5,7 @@
 #endif
 #include <stdexcept>
 #include "../core/Setup.h"
-#include "Renderer.hpp"
+#include "Graphics.hpp"
 #include "Commands.hpp"
 #include "RenderDevice.hpp"
 #include "../events/EventHandler.hpp"

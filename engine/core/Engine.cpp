@@ -8,7 +8,7 @@
 #include "Setup.h"
 #include "Engine.hpp"
 #include "../utils/Utils.hpp"
-#include "../graphics/Renderer.hpp"
+#include "../graphics/Graphics.hpp"
 #include "../audio/Audio.hpp"
 
 #if OUZEL_COMPILE_OPENGL

@@ -6,7 +6,7 @@
 #include "Layer.hpp"
 #include "../assets/Cache.hpp"
 #include "../core/Engine.hpp"
-#include "../graphics/Renderer.hpp"
+#include "../graphics/Graphics.hpp"
 #include "../storage/FileSystem.hpp"
 #include "../utils/Utils.hpp"
 

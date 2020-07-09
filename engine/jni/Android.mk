@@ -70,7 +70,7 @@ LOCAL_SRC_FILES := ../assets/BmfLoader.cpp \
     ../graphics/BlendState.cpp \
     ../graphics/Buffer.cpp \
     ../graphics/DepthStencilState.cpp \
-    ../graphics/Renderer.cpp \
+    ../graphics/Graphics.cpp \
     ../graphics/RenderDevice.cpp \
     ../graphics/RenderTarget.cpp \
     ../graphics/Shader.cpp \

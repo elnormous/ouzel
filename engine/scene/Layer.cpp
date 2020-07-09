@@ -8,7 +8,7 @@
 #include "Scene.hpp"
 #include "Component.hpp"
 #include "../core/Engine.hpp"
-#include "../graphics/Renderer.hpp"
+#include "../graphics/Graphics.hpp"
 #include "../math/Matrix.hpp"
 
 namespace ouzel::scene

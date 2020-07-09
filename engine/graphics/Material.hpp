@@ -4,7 +4,7 @@
 #define OUZEL_GRAPHICS_MATERIAL_HPP
 
 #include <memory>
-#include "Renderer.hpp"
+#include "Graphics.hpp"
 #include "BlendState.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"

@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_GRAPHICS_RENDERER_HPP
-#define OUZEL_GRAPHICS_RENDERER_HPP
+#ifndef OUZEL_GRAPHICS_GRAPHICS_HPP
+#define OUZEL_GRAPHICS_GRAPHICS_HPP
 
 #include <cstdint>
 #include <functional>
@@ -116,4 +116,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_RENDERER_HPP
+#endif // OUZEL_GRAPHICS_GRAPHICS_HPP

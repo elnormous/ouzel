@@ -22,7 +22,7 @@
 #include "../Engine.hpp"
 #include "../Window.hpp"
 #include "../../input/windows/InputSystemWin.hpp"
-#include "../../graphics/Renderer.hpp"
+#include "../../graphics/Graphics.hpp"
 #include "../../graphics/RenderDevice.hpp"
 #include "../../graphics/direct3d11/D3D11RenderDevice.hpp"
 #include "../../utils/Log.hpp"

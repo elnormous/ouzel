@@ -14,7 +14,7 @@
 #include "TtfLoader.hpp"
 #include "VorbisLoader.hpp"
 #include "WaveLoader.hpp"
-#include "../graphics/Renderer.hpp"
+#include "../graphics/Graphics.hpp"
 #include "../gui/BMFont.hpp"
 #include "../gui/TTFont.hpp"
 

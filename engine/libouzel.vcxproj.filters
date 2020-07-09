@@ -558,7 +558,7 @@
     <ClInclude Include="graphics\PixelFormat.hpp">
       <Filter>engine\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="graphics\Renderer.hpp">
+    <ClInclude Include="graphics\Graphics.hpp">
       <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="scene\SceneManager.hpp">

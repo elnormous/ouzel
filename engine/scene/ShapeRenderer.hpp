@@ -5,7 +5,7 @@
 
 #include <vector>
 #include "Component.hpp"
-#include "../graphics/Renderer.hpp"
+#include "../graphics/Graphics.hpp"
 #include "../graphics/BlendState.hpp"
 #include "../graphics/Buffer.hpp"
 #include "../graphics/Shader.hpp"
