@@ -118,9 +118,6 @@
     <ClCompile Include="scene\Scene.cpp">
       <Filter>engine\scene</Filter>
     </ClCompile>
-    <ClCompile Include="graphics\Renderer.cpp">
-      <Filter>engine\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="scene\SceneManager.cpp">
       <Filter>engine\scene</Filter>
     </ClCompile>
@@ -345,6 +342,10 @@
     </ClCompile>
     <ClCompile Include="input\windows\GamepadDeviceWin.cpp">
       <Filter>engine\input\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Graphics.cpp" />
+    <ClCompile Include="graphics\renderer\Renderer.cpp">
+      <Filter>engine\graphics\renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -927,6 +928,9 @@
     <ClInclude Include="audio\wasapi\WASAPIPointer.hpp">
       <Filter>engine\audio\wasapi</Filter>
     </ClInclude>
+    <ClInclude Include="graphics\renderer\Renderer.hpp">
+      <Filter>engine\graphics\renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="engine">
@@ -1003,6 +1007,9 @@
     </Filter>
     <Filter Include="engine\assets">
       <UniqueIdentifier>{3321c286-5355-42bc-a945-fafc9b4abbb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\graphics\renderer">
+      <UniqueIdentifier>{58f52e91-c804-4b87-a3fe-035d50cf20a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

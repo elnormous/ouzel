@@ -68,6 +68,7 @@
     <ClCompile Include="core\windows\NativeWindowWin.cpp" />
     <ClCompile Include="core\windows\SystemWin.cpp" />
     <ClCompile Include="events\EventDispatcher.cpp" />
+    <ClCompile Include="graphics\renderer\Renderer.cpp" />
     <ClCompile Include="input\windows\GamepadDeviceWin.cpp" />
     <ClCompile Include="storage\FileSystem.cpp" />
     <ClCompile Include="graphics\BlendState.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="graphics\CompareFunction.hpp" />
     <ClInclude Include="graphics\CubeFace.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11Pointer.hpp" />
+    <ClInclude Include="graphics\renderer\Renderer.hpp" />
     <ClInclude Include="graphics\StencilOperation.hpp" />
     <ClInclude Include="storage\Archive.hpp" />
     <ClInclude Include="storage\FileSystem.hpp" />
