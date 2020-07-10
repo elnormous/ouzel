@@ -60,14 +60,14 @@ namespace ouzel::audio
         samples.resize(neededSize);
 
         auto& pcmData = static_cast<PcmData&>(data);
-        const std::vector<float>& data = pcmData.getSamples();
+        const std::vector<float>& dataSamples = pcmData.getSamples();
 
-        const auto sourceFrames = static_cast<std::uint32_t>(data.size() / pcmData.getChannels());
+        const auto sourceFrames = static_cast<std::uint32_t>(dataSamples.size() / pcmData.getChannels());
         const std::uint32_t copyFrames = (frames > sourceFrames - position) ? sourceFrames - position : frames;
 
         for (std::uint32_t channel = 0; channel < pcmData.getChannels(); ++channel)
         {
-            const float* sourceChannel = &data[channel * sourceFrames];
+            const float* sourceChannel = &dataSamples[channel * sourceFrames];
             float* outputChannel = &samples[channel * frames];
 
             for (std::uint32_t frame = 0; frame < copyFrames; ++frame)
