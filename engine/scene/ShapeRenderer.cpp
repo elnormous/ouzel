@@ -13,10 +13,10 @@ namespace ouzel::scene
     ShapeRenderer::ShapeRenderer():
         shader(engine->getCache().getShader(shaderColor)),
         blendState(engine->getCache().getBlendState(blendAlpha)),
-        indexBuffer(*engine->getRenderer(),
+        indexBuffer(*engine->getGraphics(),
                     graphics::BufferType::index,
                     graphics::Flags::dynamic),
-        vertexBuffer(*engine->getRenderer(),
+        vertexBuffer(*engine->getGraphics(),
                      graphics::BufferType::vertex,
                      graphics::Flags::dynamic)
     {
@@ -50,13 +50,13 @@ namespace ouzel::scene
             std::vector<std::vector<float>> vertexShaderConstants(1);
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-            engine->getRenderer()->setPipelineState(blendState->getResource(),
+            engine->getGraphics()->setPipelineState(blendState->getResource(),
                                                     shader->getResource(),
                                                     graphics::CullMode::none,
                                                     wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
-            engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
+            engine->getGraphics()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
-            engine->getRenderer()->draw(indexBuffer.getResource(),
+            engine->getGraphics()->draw(indexBuffer.getResource(),
                                         drawCommand.indexCount,
                                         sizeof(std::uint16_t),
                                         vertexBuffer.getResource(),

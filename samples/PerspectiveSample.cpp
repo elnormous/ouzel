@@ -50,7 +50,7 @@ namespace samples
                         jumpVoice.play();
                         break;
                     case Keyboard::Key::s:
-                        engine->getRenderer()->saveScreenshot("test.png");
+                        engine->getGraphics()->saveScreenshot("test.png");
                         break;
                     default:
                         break;

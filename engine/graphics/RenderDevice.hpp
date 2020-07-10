@@ -24,7 +24,7 @@ namespace ouzel::core
 
 namespace ouzel::graphics
 {
-    class Renderer;
+    class Graphics;
 
     struct ApiVersion final
     {
@@ -52,7 +52,7 @@ namespace ouzel::graphics
 
     class RenderDevice
     {
-        friend Renderer;
+        friend Graphics;
     public:
         static const std::array<Vertex::Attribute, 5> VERTEX_ATTRIBUTES;
 

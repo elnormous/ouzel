@@ -11,7 +11,7 @@
 
 namespace ouzel::graphics
 {
-    class Renderer;
+    class Graphics;
     class Texture;
 
     class RenderTarget final
@@ -19,7 +19,7 @@ namespace ouzel::graphics
     public:
         RenderTarget() = default;
 
-        RenderTarget(Renderer& initRenderer,
+        RenderTarget(Graphics& initGraphics,
                      const std::vector<Texture*>& initColorTextures,
                      Texture* initDepthTexture);
 

@@ -55,7 +55,7 @@ namespace ouzel::graphics::metal
 
     class RenderDevice: public graphics::RenderDevice
     {
-        friend Renderer;
+        friend Graphics;
     public:
         static constexpr std::size_t bufferSize = 1024U * 1024U; // size of shader constant buffer
         static constexpr std::size_t bufferCount = 3U; // allow encoding up to 3 command buffers simultaneously

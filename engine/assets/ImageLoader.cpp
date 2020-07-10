@@ -152,7 +152,7 @@ namespace ouzel::assets
                                      static_cast<std::uint32_t>(height)),
                               imageData);
 
-        auto texture = std::make_shared<graphics::Texture>(*engine->getRenderer(),
+        auto texture = std::make_shared<graphics::Texture>(*engine->getGraphics(),
                                                            image.getData(),
                                                            image.getSize(),
                                                            graphics::Flags::none,

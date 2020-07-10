@@ -195,9 +195,9 @@ namespace ouzel::core::android
             auto windowAndroid = static_cast<NativeWindow*>(window->getNativeWindow());
             windowAndroid->handleSurfaceChange(surface);
 
-            if (renderer)
+            if (graphics)
             {
-                graphics::RenderDevice* renderDevice = renderer->getDevice();
+                graphics::RenderDevice* renderDevice = graphics->getDevice();
                 if (renderDevice->getDriver() == graphics::Driver::openGL)
                 {
                     auto renderDeviceOGLAndroid = static_cast<graphics::opengl::android::RenderDevice*>(renderDevice);
@@ -267,9 +267,9 @@ namespace ouzel::core::android
             auto windowAndroid = static_cast<NativeWindow*>(window->getNativeWindow());
             windowAndroid->handleSurfaceDestroy();
 
-            if (renderer)
+            if (graphics)
             {
-                graphics::RenderDevice* renderDevice = renderer->getDevice();
+                graphics::RenderDevice* renderDevice = graphics->getDevice();
                 if (renderDevice->getDriver() == graphics::Driver::openGL)
                 {
                     auto renderDeviceOGLAndroid = static_cast<graphics::opengl::android::RenderDevice*>(renderDevice);

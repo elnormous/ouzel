@@ -9,15 +9,15 @@
 
 namespace ouzel::graphics
 {
-    class Renderer;
+    class Graphics;
 
     class DepthStencilState final
     {
     public:
         DepthStencilState() = default;
 
-        explicit DepthStencilState(Renderer& initRenderer);
-        DepthStencilState(Renderer& initRenderer,
+        explicit DepthStencilState(Graphics& initGraphics);
+        DepthStencilState(Graphics& initGraphics,
                           bool initDepthTest,
                           bool initDepthWrite,
                           CompareFunction initCompareFunction,

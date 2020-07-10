@@ -73,14 +73,14 @@ namespace ouzel::scene
             std::vector<std::vector<float>> vertexShaderConstants(1);
             vertexShaderConstants[0] = {std::begin(transform.m), std::end(transform.m)};
 
-            engine->getRenderer()->setPipelineState(blendState->getResource(),
+            engine->getGraphics()->setPipelineState(blendState->getResource(),
                                                     shader->getResource(),
                                                     graphics::CullMode::none,
                                                     wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
-            engine->getRenderer()->setShaderConstants(pixelShaderConstants,
+            engine->getGraphics()->setShaderConstants(pixelShaderConstants,
                                                       vertexShaderConstants);
-            engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
-            engine->getRenderer()->draw(indexBuffer->getResource(),
+            engine->getGraphics()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
+            engine->getGraphics()->draw(indexBuffer->getResource(),
                                         particleCount * 6,
                                         sizeof(std::uint16_t),
                                         vertexBuffer->getResource(),
@@ -311,13 +311,13 @@ namespace ouzel::scene
                                   Vector2F{1.0F, 0.0F}, Vector3F{0.0F, 0.0F, -1.0F});
         }
 
-        indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
+        indexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
                                                          graphics::BufferType::index,
                                                          graphics::Flags::none,
                                                          indices.data(),
                                                          static_cast<std::uint32_t>(getVectorSize(indices)));
 
-        vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
+        vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
                                                           graphics::BufferType::vertex,
                                                           graphics::Flags::dynamic,
                                                           vertices.data(),

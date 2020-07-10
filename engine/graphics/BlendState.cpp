@@ -5,12 +5,12 @@
 
 namespace ouzel::graphics
 {
-    BlendState::BlendState(Renderer& initRenderer):
-        resource(initRenderer.getDevice()->createResource())
+    BlendState::BlendState(Graphics& initGraphics):
+        resource(initGraphics.getDevice()->createResource())
     {
     }
 
-    BlendState::BlendState(Renderer& initRenderer,
+    BlendState::BlendState(Graphics& initGraphics,
                            bool initEnableBlending,
                            BlendFactor initColorBlendSource,
                            BlendFactor initColorBlendDest,
@@ -19,7 +19,7 @@ namespace ouzel::graphics
                            BlendFactor initAlphaBlendDest,
                            BlendOperation initAlphaOperation,
                            ColorMask initColorMask):
-        resource(initRenderer.getDevice()->createResource()),
+        resource(initGraphics.getDevice()->createResource()),
         colorBlendSource(initColorBlendSource),
         colorBlendDest(initColorBlendDest),
         colorOperation(initColorOperation),
@@ -29,7 +29,7 @@ namespace ouzel::graphics
         colorMask(initColorMask),
         enableBlending(initEnableBlending)
     {
-        initRenderer.addCommand(std::make_unique<InitBlendStateCommand>(resource,
+        initGraphics.addCommand(std::make_unique<InitBlendStateCommand>(resource,
                                                                         initEnableBlending,
                                                                         initColorBlendSource, initColorBlendDest,
                                                                         initColorOperation,

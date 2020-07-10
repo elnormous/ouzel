@@ -16,10 +16,10 @@ namespace ouzel::scene
                                const Vector2F& initTextAnchor):
         shader(engine->getCache().getShader(shaderTexture)),
         blendState(engine->getCache().getBlendState(blendAlpha)),
-        indexBuffer(*engine->getRenderer(),
+        indexBuffer(*engine->getGraphics(),
                     graphics::BufferType::index,
                     graphics::Flags::dynamic),
-        vertexBuffer(*engine->getRenderer(),
+        vertexBuffer(*engine->getGraphics(),
                      graphics::BufferType::vertex,
                      graphics::Flags::dynamic),
         text(initText),
@@ -82,14 +82,14 @@ namespace ouzel::scene
         std::vector<std::vector<float>> vertexShaderConstants(1);
         vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-        engine->getRenderer()->setPipelineState(blendState->getResource(),
+        engine->getGraphics()->setPipelineState(blendState->getResource(),
                                                 shader->getResource(),
                                                 graphics::CullMode::none,
                                                 wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
-        engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
+        engine->getGraphics()->setShaderConstants(fragmentShaderConstants,
                                                   vertexShaderConstants);
-        engine->getRenderer()->setTextures({wireframe ? whitePixelTexture->getResource() : texture ? texture->getResource() : 0U});
-        engine->getRenderer()->draw(indexBuffer.getResource(),
+        engine->getGraphics()->setTextures({wireframe ? whitePixelTexture->getResource() : texture ? texture->getResource() : 0U});
+        engine->getGraphics()->draw(indexBuffer.getResource(),
                                     static_cast<std::uint32_t>(indices.size()),
                                     sizeof(std::uint16_t),
                                     vertexBuffer.getResource(),

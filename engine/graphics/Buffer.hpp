@@ -10,24 +10,24 @@
 
 namespace ouzel::graphics
 {
-    class Renderer;
+    class Graphics;
 
     class Buffer final
     {
     public:
         Buffer() = default;
 
-        explicit Buffer(Renderer& initRenderer);
-        Buffer(Renderer& initRenderer,
+        explicit Buffer(Graphics& initGraphics);
+        Buffer(Graphics& initGraphics,
                BufferType initType,
                Flags initFlags,
                std::uint32_t initSize = 0);
-        Buffer(Renderer& initRenderer,
+        Buffer(Graphics& initGraphics,
                BufferType initType,
                Flags initFlags,
                const void* initData,
                std::uint32_t initSize);
-        Buffer(Renderer& initRenderer,
+        Buffer(Graphics& initGraphics,
                BufferType initType,
                Flags initFlags,
                const std::vector<std::uint8_t>& initData,
@@ -43,7 +43,7 @@ namespace ouzel::graphics
         auto getSize() const noexcept { return size; }
 
     private:
-        Renderer* renderer = nullptr;
+        Graphics* graphics = nullptr;
         RenderDevice::Resource resource;
 
         BufferType type;

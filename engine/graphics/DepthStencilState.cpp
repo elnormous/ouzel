@@ -5,12 +5,12 @@
 
 namespace ouzel::graphics
 {
-    DepthStencilState::DepthStencilState(Renderer& initRenderer):
-        resource(initRenderer.getDevice()->createResource())
+    DepthStencilState::DepthStencilState(Graphics& initGraphics):
+        resource(initGraphics.getDevice()->createResource())
     {
     }
 
-    DepthStencilState::DepthStencilState(Renderer& initRenderer,
+    DepthStencilState::DepthStencilState(Graphics& initGraphics,
                                          bool initDepthTest,
                                          bool initDepthWrite,
                                          CompareFunction initCompareFunction,
@@ -25,7 +25,7 @@ namespace ouzel::graphics
                                          StencilOperation initBackFaceStencilDepthFailureOperation,
                                          StencilOperation initBackFaceStencilPassOperation,
                                          CompareFunction initBackFaceStencilCompareFunction):
-        resource(initRenderer.getDevice()->createResource()),
+        resource(initGraphics.getDevice()->createResource()),
         depthTest(initDepthTest),
         depthWrite(initDepthWrite),
         compareFunction(initCompareFunction),
@@ -41,7 +41,7 @@ namespace ouzel::graphics
         backFaceStencilPassOperation(initBackFaceStencilPassOperation),
         backFaceStencilCompareFunction(initBackFaceStencilCompareFunction)
     {
-        initRenderer.addCommand(std::make_unique<InitDepthStencilStateCommand>(resource,
+        initGraphics.addCommand(std::make_unique<InitDepthStencilStateCommand>(resource,
                                                                                initDepthTest,
                                                                                initDepthWrite,
                                                                                initCompareFunction,

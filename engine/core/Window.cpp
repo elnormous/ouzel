@@ -149,7 +149,7 @@ namespace ouzel::core
             {
                 resolution = event.size;
 
-                engine.getRenderer()->setSize(resolution);
+                engine.getGraphics()->setSize(resolution);
 
                 auto resolutionChangeEvent = std::make_unique<WindowEvent>();
                 resolutionChangeEvent->type = Event::Type::resolutionChange;

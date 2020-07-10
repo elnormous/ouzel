@@ -60,7 +60,7 @@ namespace ouzel::core::emscripten
 
             try
             {
-                renderer->getDevice()->process();
+                graphics->getDevice()->process();
             }
             catch (const std::exception& e)
             {

@@ -5,12 +5,12 @@
 
 namespace ouzel::graphics
 {
-    Shader::Shader(Renderer& initRenderer):
-        resource(initRenderer.getDevice()->createResource())
+    Shader::Shader(Graphics& initGraphics):
+        resource(initGraphics.getDevice()->createResource())
     {
     }
 
-    Shader::Shader(Renderer& initRenderer,
+    Shader::Shader(Graphics& initGraphics,
                    const std::vector<std::uint8_t>& initFragmentShader,
                    const std::vector<std::uint8_t>& initVertexShader,
                    const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
@@ -18,10 +18,10 @@ namespace ouzel::graphics
                    const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                    const std::string& fragmentShaderFunction,
                    const std::string& vertexShaderFunction):
-        resource(initRenderer.getDevice()->createResource()),
+        resource(initGraphics.getDevice()->createResource()),
         vertexAttributes(initVertexAttributes)
     {
-        initRenderer.addCommand(std::make_unique<InitShaderCommand>(resource,
+        initGraphics.addCommand(std::make_unique<InitShaderCommand>(resource,
                                                                     initFragmentShader,
                                                                     initVertexShader,
                                                                     initVertexAttributes,

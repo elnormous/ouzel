@@ -10,15 +10,15 @@
 
 namespace ouzel::graphics
 {
-    class Renderer;
+    class Graphics;
 
     class BlendState final
     {
     public:
         BlendState() = default;
 
-        explicit BlendState(Renderer& initRenderer);
-        BlendState(Renderer& initRenderer,
+        explicit BlendState(Graphics& initGraphics);
+        BlendState(Graphics& initGraphics,
                    bool initEnableBlending,
                    BlendFactor initColorBlendSource, BlendFactor initColorBlendDest,
                    BlendOperation initColorOperation,

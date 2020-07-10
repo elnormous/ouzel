@@ -336,7 +336,7 @@ namespace
             case WM_ERASEBKGND:
             {
                 // Erase background only for the Empty renderer
-                //if (ouzel::engine->getRenderer()->getDevice()->getDriver() != ouzel::graphics::Driver::empty)
+                //if (ouzel::engine->getGraphics()->getDevice()->getDriver() != ouzel::graphics::Driver::empty)
                 //    return TRUE;
 
                 break;
@@ -626,9 +626,9 @@ namespace ouzel::core::windows
     {
         if (exclusiveFullscreen)
         {
-            if (engine->getRenderer()->getDevice()->getDriver() == graphics::Driver::direct3D11)
+            if (engine->getGraphics()->getDevice()->getDriver() == graphics::Driver::direct3D11)
             {
-                auto renderDevice = static_cast<graphics::d3d11::RenderDevice*>(engine->getRenderer()->getDevice());
+                auto renderDevice = static_cast<graphics::d3d11::RenderDevice*>(engine->getGraphics()->getDevice());
                 renderDevice->setFullscreen(newFullscreen);
             }
         }

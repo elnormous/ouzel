@@ -21,11 +21,11 @@
 
 namespace ouzel::graphics
 {
-    class Renderer final
+    class Graphics final
     {
         friend core::Window;
     public:
-        Renderer(Driver driver,
+        Graphics(Driver driver,
                  core::Window* newWindow,
                  const Size2U& newSize,
                  std::uint32_t newSampleCount,

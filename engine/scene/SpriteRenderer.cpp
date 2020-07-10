@@ -69,13 +69,13 @@ namespace ouzel::scene
         boundingBox.min = finalOffset;
         boundingBox.max = finalOffset + Vector2F(frameRectangle.size.v[0], frameRectangle.size.v[1]);
 
-        indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
+        indexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
                                                          graphics::BufferType::index,
                                                          graphics::Flags::none,
                                                          indices.data(),
                                                          static_cast<std::uint32_t>(getVectorSize(indices)));
 
-        vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
+        vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
                                                           graphics::BufferType::vertex,
                                                           graphics::Flags::none,
                                                           vertices.data(),
@@ -92,13 +92,13 @@ namespace ouzel::scene
         for (const graphics::Vertex& vertex : vertices)
             boundingBox.insertPoint(Vector2F(vertex.position));
 
-        indexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
+        indexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
                                                          graphics::BufferType::index,
                                                          graphics::Flags::none,
                                                          indices.data(),
                                                          static_cast<std::uint32_t>(getVectorSize(indices)));
 
-        vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getRenderer(),
+        vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
                                                           graphics::BufferType::vertex,
                                                           graphics::Flags::none,
                                                           vertices.data(),
@@ -123,13 +123,13 @@ namespace ouzel::scene
         const Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
                                    -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
 
-        indexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+        indexBuffer = std::make_shared<graphics::Buffer>(*engine->getGraphics(),
                                                          graphics::BufferType::index,
                                                          graphics::Flags::none,
                                                          indices.data(),
                                                          static_cast<std::uint32_t>(getVectorSize(indices)));
 
-        vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getRenderer(),
+        vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getGraphics(),
                                                           graphics::BufferType::vertex,
                                                           graphics::Flags::none,
                                                           vertices.data(),
@@ -361,17 +361,17 @@ namespace ouzel::scene
             for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
                 textures.push_back(texture ? texture->getResource() : 0);
 
-            engine->getRenderer()->setPipelineState(material->blendState->getResource(),
+            engine->getGraphics()->setPipelineState(material->blendState->getResource(),
                                                     material->shader->getResource(),
                                                     graphics::CullMode::none,
                                                     wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
-            engine->getRenderer()->setShaderConstants(fragmentShaderConstants,
+            engine->getGraphics()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
-            engine->getRenderer()->setTextures(textures);
+            engine->getGraphics()->setTextures(textures);
 
             const auto& frame = currentAnimation->animation->frames[currentFrame];
 
-            engine->getRenderer()->draw(frame.getIndexBuffer()->getResource(),
+            engine->getGraphics()->draw(frame.getIndexBuffer()->getResource(),
                                         frame.getIndexCount(),
                                         sizeof(std::uint16_t),
                                         frame.getVertexBuffer()->getResource(),

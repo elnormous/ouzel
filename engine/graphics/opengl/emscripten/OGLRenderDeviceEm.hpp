@@ -15,7 +15,7 @@ namespace ouzel::graphics::opengl::emscripten
 {
     class RenderDevice final: public opengl::RenderDevice
     {
-        friend Renderer;
+        friend Graphics;
     public:
         explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;

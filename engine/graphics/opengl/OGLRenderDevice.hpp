@@ -40,7 +40,7 @@ namespace ouzel::graphics::opengl
 
     class RenderDevice: public graphics::RenderDevice
     {
-        friend Renderer;
+        friend Graphics;
     public:
         PFNGLGETINTEGERVPROC glGetIntegervProc = nullptr;
         PFNGLGETSTRINGPROC glGetStringProc = nullptr;

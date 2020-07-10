@@ -68,7 +68,7 @@ namespace ouzel::scene
                 renderTarget->getDepthTexture() ?
                     renderTarget->getDepthTexture()->getSize() :
                     Size2U() :
-            engine->getRenderer()->getSize();
+            engine->getGraphics()->getSize();
 
         renderViewport.position.v[0] = renderTargetSize.v[0] * viewport.position.v[0];
         renderViewport.position.v[1] = renderTargetSize.v[1] * viewport.position.v[1];
@@ -170,7 +170,7 @@ namespace ouzel::scene
         {
             viewProjection = projection * actor->getInverseTransform();
 
-            renderViewProjection = engine->getRenderer()->getDevice()->getProjectionTransform(renderTarget != nullptr) * viewProjection;
+            renderViewProjection = engine->getGraphics()->getDevice()->getProjectionTransform(renderTarget != nullptr) * viewProjection;
 
             viewProjectionDirty = false;
         }
@@ -281,7 +281,7 @@ namespace ouzel::scene
         depthTest = newDepthTest;
 
         if (depthTest)
-            depthStencilState = std::make_unique<graphics::DepthStencilState>(*engine->getRenderer(),
+            depthStencilState = std::make_unique<graphics::DepthStencilState>(*engine->getGraphics(),
                                                                               true, true,
                                                                               graphics::CompareFunction::lessEqual,
                                                                               false,

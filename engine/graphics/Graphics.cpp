@@ -40,7 +40,7 @@
 
 namespace ouzel::graphics
 {
-    Driver Renderer::getDriver(const std::string& driver)
+    Driver Graphics::getDriver(const std::string& driver)
     {
         if (driver.empty() || driver == "default")
         {
@@ -67,7 +67,7 @@ namespace ouzel::graphics
             throw std::runtime_error("Invalid graphics driver");
     }
 
-    std::set<Driver> Renderer::getAvailableRenderDrivers()
+    std::set<Driver> Graphics::getAvailableRenderDrivers()
     {
         static std::set<Driver> availableDrivers;
 
@@ -90,7 +90,7 @@ namespace ouzel::graphics
         return availableDrivers;
     }
 
-    Renderer::Renderer(Driver driver,
+    Graphics::Graphics(Driver driver,
                        core::Window* newWindow,
                        const Size2U& newSize,
                        std::uint32_t newSampleCount,
@@ -110,45 +110,45 @@ namespace ouzel::graphics
             case Driver::openGL:
                 engine->log(Log::Level::info) << "Using OpenGL render driver";
 #  if TARGET_OS_IOS
-                device = std::make_unique<opengl::ios::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::ios::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_TV
-                device = std::make_unique<opengl::tvos::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::tvos::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_MAC
-                device = std::make_unique<opengl::macos::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::macos::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
 #  elif defined(__ANDROID__)
-                device = std::make_unique<opengl::android::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::android::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
 #  elif defined(__linux__)
-                device = std::make_unique<opengl::linux::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::linux::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
 #  elif defined(_WIN32)
-                device = std::make_unique<opengl::windows::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::windows::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
 #  elif defined(__EMSCRIPTEN__)
-                device = std::make_unique<opengl::emscripten::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::emscripten::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
 #  else
-                device = std::make_unique<opengl::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<opengl::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
 #  endif
                 break;
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
             case Driver::direct3D11:
                 engine->log(Log::Level::info) << "Using Direct3D 11 render driver";
-                device = std::make_unique<d3d11::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<d3d11::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
                 break;
 #endif
 #if OUZEL_COMPILE_METAL
             case Driver::metal:
                 engine->log(Log::Level::info) << "Using Metal render driver";
 #  if TARGET_OS_IOS
-                device = std::make_unique<metal::ios::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<metal::ios::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_TV
-                device = std::make_unique<metal::tvos::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<metal::tvos::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
 #  elif TARGET_OS_MAC
-                device = std::make_unique<metal::macos::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<metal::macos::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
 #  endif
                 break;
 #endif
             default:
                 engine->log(Log::Level::info) << "Not using render driver";
-                device = std::make_unique<empty::RenderDevice>(std::bind(&Renderer::handleEvent, this, std::placeholders::_1));
+                device = std::make_unique<empty::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
                 break;
         }
 
@@ -164,7 +164,7 @@ namespace ouzel::graphics
                      newDebugRenderer);
     }
 
-    void Renderer::handleEvent(const RenderDevice::Event& event)
+    void Graphics::handleEvent(const RenderDevice::Event& event)
     {
         if (event.type == RenderDevice::Event::Type::frame)
         {
@@ -176,24 +176,24 @@ namespace ouzel::graphics
         }
     }
 
-    void Renderer::setSize(const Size2U& newSize)
+    void Graphics::setSize(const Size2U& newSize)
     {
         size = newSize;
 
         addCommand(std::make_unique<ResizeCommand>(newSize));
     }
 
-    void Renderer::saveScreenshot(const std::string& filename)
+    void Graphics::saveScreenshot(const std::string& filename)
     {
         device->executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
     }
 
-    void Renderer::setRenderTarget(std::size_t renderTarget)
+    void Graphics::setRenderTarget(std::size_t renderTarget)
     {
         addCommand(std::make_unique<SetRenderTargetCommand>(renderTarget));
     }
 
-    void Renderer::clearRenderTarget(bool clearColorBuffer,
+    void Graphics::clearRenderTarget(bool clearColorBuffer,
                                      bool clearDepthBuffer,
                                      bool clearStencilBuffer,
                                      Color clearColor,
@@ -208,24 +208,24 @@ namespace ouzel::graphics
                                                               clearStencil));
     }
 
-    void Renderer::setScissorTest(bool enabled, const RectF& rectangle)
+    void Graphics::setScissorTest(bool enabled, const RectF& rectangle)
     {
         addCommand(std::make_unique<SetScissorTestCommand>(enabled, rectangle));
     }
 
-    void Renderer::setViewport(const RectF& viewport)
+    void Graphics::setViewport(const RectF& viewport)
     {
         addCommand(std::make_unique<SetViewportCommand>(viewport));
     }
 
-    void Renderer::setDepthStencilState(std::size_t depthStencilState,
+    void Graphics::setDepthStencilState(std::size_t depthStencilState,
                                         std::uint32_t stencilReferenceValue)
     {
         addCommand(std::make_unique<SetDepthStencilStateCommand>(depthStencilState,
                                                                  stencilReferenceValue));
     }
 
-    void Renderer::setPipelineState(std::size_t blendState,
+    void Graphics::setPipelineState(std::size_t blendState,
                                     std::size_t shader,
                                     CullMode cullMode,
                                     FillMode fillMode)
@@ -236,7 +236,7 @@ namespace ouzel::graphics
                                                              fillMode));
     }
 
-    void Renderer::draw(std::size_t indexBuffer,
+    void Graphics::draw(std::size_t indexBuffer,
                         std::uint32_t indexCount,
                         std::uint32_t indexSize,
                         std::size_t vertexBuffer,
@@ -254,29 +254,29 @@ namespace ouzel::graphics
                                                  startIndex));
     }
 
-    void Renderer::pushDebugMarker(const std::string& name)
+    void Graphics::pushDebugMarker(const std::string& name)
     {
         addCommand(std::make_unique<PushDebugMarkerCommand>(name));
     }
 
-    void Renderer::popDebugMarker()
+    void Graphics::popDebugMarker()
     {
         addCommand(std::make_unique<PopDebugMarkerCommand>());
     }
 
-    void Renderer::setShaderConstants(const std::vector<std::vector<float>>& fragmentShaderConstants,
+    void Graphics::setShaderConstants(const std::vector<std::vector<float>>& fragmentShaderConstants,
                                       const std::vector<std::vector<float>>& vertexShaderConstants)
     {
         addCommand(std::make_unique<SetShaderConstantsCommand>(fragmentShaderConstants,
                                                                vertexShaderConstants));
     }
 
-    void Renderer::setTextures(const std::vector<std::size_t>& textures)
+    void Graphics::setTextures(const std::vector<std::size_t>& textures)
     {
         addCommand(std::make_unique<SetTexturesCommand>(textures));
     }
 
-    void Renderer::present()
+    void Graphics::present()
     {
         refillQueue = false;
         addCommand(std::make_unique<PresentCommand>());
@@ -284,7 +284,7 @@ namespace ouzel::graphics
         commandBuffer = CommandBuffer();
     }
 
-    void Renderer::waitForNextFrame()
+    void Graphics::waitForNextFrame()
     {
         std::unique_lock lock(frameMutex);
         while (!newFrame) frameCondition.wait(lock);

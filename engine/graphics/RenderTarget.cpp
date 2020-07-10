@@ -6,10 +6,10 @@
 
 namespace ouzel::graphics
 {
-    RenderTarget::RenderTarget(Renderer& initRenderer,
+    RenderTarget::RenderTarget(Graphics& initGraphics,
                                const std::vector<Texture*>& initColorTextures,
                                Texture* initDepthTexture):
-        resource(initRenderer.getDevice()->createResource()),
+        resource(initGraphics.getDevice()->createResource()),
         colorTextures(initColorTextures),
         depthTexture(initDepthTexture)
     {
@@ -18,7 +18,7 @@ namespace ouzel::graphics
         for (const auto& colorTexture : colorTextures)
             colorTextureIds.insert(colorTexture ? colorTexture->getResource() : 0);
 
-        initRenderer.addCommand(std::make_unique<InitRenderTargetCommand>(resource,
+        initGraphics.addCommand(std::make_unique<InitRenderTargetCommand>(resource,
                                                                           colorTextureIds,
                                                                           depthTexture ? depthTexture->getResource() : std::size_t(0)));
     }

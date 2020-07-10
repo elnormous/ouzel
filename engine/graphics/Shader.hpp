@@ -13,15 +13,15 @@
 
 namespace ouzel::graphics
 {
-    class Renderer;
+    class Graphics;
 
     class Shader final
     {
     public:
         Shader() = default;
 
-        explicit Shader(Renderer& initRenderer);
-        Shader(Renderer& initRenderer,
+        explicit Shader(Graphics& initGraphics);
+        Shader(Graphics& initGraphics,
                const std::vector<std::uint8_t>& initFragmentShader,
                const std::vector<std::uint8_t>& initVertexShader,
                const std::set<Vertex::Attribute::Usage>& initVertexAttributes,

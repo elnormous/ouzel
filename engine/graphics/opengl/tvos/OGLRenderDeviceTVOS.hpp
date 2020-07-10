@@ -28,7 +28,7 @@ namespace ouzel::graphics::opengl::tvos
 {
     class RenderDevice final: public opengl::RenderDevice
     {
-        friend Renderer;
+        friend Graphics;
     public:
         explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;

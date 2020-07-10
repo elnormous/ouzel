@@ -37,7 +37,7 @@ namespace ouzel::graphics::d3d11
 
     class RenderDevice final: public graphics::RenderDevice
     {
-        friend Renderer;
+        friend Graphics;
     public:
         explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;

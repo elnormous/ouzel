@@ -17,27 +17,27 @@
 
 namespace ouzel::graphics
 {
-    class Renderer;
+    class Graphics;
 
     class Texture final
     {
     public:
         Texture() = default;
 
-        explicit Texture(Renderer& initRenderer);
-        Texture(Renderer& initRenderer,
+        explicit Texture(Graphics& initGraphics);
+        Texture(Graphics& initGraphics,
                 const Size2U& initSize,
                 Flags initFlags = Flags::none,
                 std::uint32_t initMipmaps = 0,
                 std::uint32_t initSampleCount = 1,
                 PixelFormat initPixelFormat = PixelFormat::rgba8UnsignedNorm);
-        Texture(Renderer& initRenderer,
+        Texture(Graphics& initGraphics,
                 const std::vector<std::uint8_t>& initData,
                 const Size2U& initSize,
                 Flags initFlags = Flags::none,
                 std::uint32_t initMipmaps = 0,
                 PixelFormat initPixelFormat = PixelFormat::rgba8UnsignedNorm);
-        Texture(Renderer& initRenderer,
+        Texture(Graphics& initGraphics,
                 const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
                 const Size2U& initSize,
                 Flags initFlags = Flags::none,
@@ -75,7 +75,7 @@ namespace ouzel::graphics
         auto getPixelFormat() const noexcept { return pixelFormat; }
 
     private:
-        Renderer* renderer = nullptr;
+        Graphics* graphics = nullptr;
         RenderDevice::Resource resource;
 
         TextureType type = TextureType::twoDimensional;

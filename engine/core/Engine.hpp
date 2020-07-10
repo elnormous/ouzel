@@ -62,7 +62,7 @@ namespace ouzel::core
 
         auto getWindow() const { return window.get(); }
 
-        auto getRenderer() const noexcept { return renderer.get(); }
+        auto getGraphics() const noexcept { return graphics.get(); }
         auto getAudio() const noexcept { return audio.get(); }
 
         auto& getSceneManager() { return sceneManager; }
@@ -122,7 +122,7 @@ namespace ouzel::core
         storage::FileSystem fileSystem;
         EventDispatcher eventDispatcher;
         std::unique_ptr<Window> window;
-        std::unique_ptr<graphics::Renderer> renderer;
+        std::unique_ptr<graphics::Graphics> graphics;
         std::unique_ptr<audio::Audio> audio;
         std::unique_ptr<input::InputManager> inputManager;
         Localization localization;
