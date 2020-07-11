@@ -67,6 +67,7 @@ LOCAL_SRC_FILES := ../assets/BmfLoader.cpp \
     ../graphics/opengl/OGLRenderTarget.cpp \
     ../graphics/opengl/OGLShader.cpp \
     ../graphics/opengl/OGLTexture.cpp \
+    ../graphics/renderer/Renderer.cpp \
     ../graphics/BlendState.cpp \
     ../graphics/Buffer.cpp \
     ../graphics/DepthStencilState.cpp \

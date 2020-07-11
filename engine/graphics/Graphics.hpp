@@ -14,6 +14,7 @@
 #include "Commands.hpp"
 #include "Driver.hpp"
 #include "RenderDevice.hpp"
+#include "renderer/Renderer.hpp"
 #include "../math/Rect.hpp"
 #include "../math/Matrix.hpp"
 #include "../math/Size.hpp"
@@ -102,6 +103,7 @@ namespace ouzel::graphics
         void setSize(const Size2U& newSize);
 
         std::unique_ptr<RenderDevice> device;
+        renderer::Renderer renderer;
 
         SamplerFilter textureFilter = SamplerFilter::point;
         std::uint32_t maxAnisotropy = 1;
