@@ -8,6 +8,21 @@ namespace ouzel::graphics::renderer
     class Camera final
     {
     public:
+        enum class ProjectionMode
+        {
+            custom,
+            orthographic,
+            perspective
+        };
+
+        enum class ScaleMode
+        {
+            noScale,
+            exactFit,
+            noBorder,
+            showAll
+        };
+
         Camera() noexcept = default;
     };
 }

@@ -8,6 +8,13 @@ namespace ouzel::graphics::renderer
     class Light final
     {
     public:
+        enum class Type
+        {
+            point,
+            spot,
+            directional
+        };
+
         Light() noexcept = default;
     };
 }

@@ -4,6 +4,11 @@
 #define OUZEL_GRAPHICS_RENDERER_RENDERER_HPP
 
 #include <cstddef>
+#include "Camera.hpp"
+#include "Light.hpp"
+#include "Material.hpp"
+#include "Object.hpp"
+#include "../RenderDevice.hpp"
 
 namespace ouzel::graphics::renderer
 {
@@ -13,6 +18,15 @@ namespace ouzel::graphics::renderer
         Renderer() = default;
 
     private:
+        void render();
+
+        enum class RenderStage
+        {
+            depth,
+            color,
+            postProcess
+        };
+
         std::size_t lastResourceId = 0;
         std::set<std::size_t> deletedResourceIds;
     };
