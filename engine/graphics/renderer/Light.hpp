@@ -3,5 +3,13 @@
 #ifndef OUZEL_GRAPHICS_RENDERER_LIGHT_HPP
 #define OUZEL_GRAPHICS_RENDERER_LIGHT_HPP
 
+namespace ouzel::graphics::renderer
+{
+    class Light final
+    {
+    public:
+        Light() noexcept = default;
+    };
+}
 
 #endif // OUZEL_GRAPHICS_RENDERER_LIGHT_HPP

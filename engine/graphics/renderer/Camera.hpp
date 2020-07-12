@@ -3,5 +3,13 @@
 #ifndef OUZEL_GRAPHICS_RENDERER_CAMERA_HPP
 #define OUZEL_GRAPHICS_RENDERER_CAMERA_HPP
 
+namespace ouzel::graphics::renderer
+{
+    class Camera final
+    {
+    public:
+        Camera() noexcept = default;
+    };
+}
 
 #endif // OUZEL_GRAPHICS_RENDERER_CAMERA_HPP

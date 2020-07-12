@@ -3,5 +3,13 @@
 #ifndef OUZEL_GRAPHICS_RENDERER_OBJECT_HPP
 #define OUZEL_GRAPHICS_RENDERER_OBJECT_HPP
 
+namespace ouzel::graphics::renderer
+{
+    class Object final
+    {
+    public:
+        Object() noexcept = default;
+    };
+}
 
 #endif // OUZEL_GRAPHICS_RENDERER_OBJECT_HPP
