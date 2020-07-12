@@ -928,6 +928,18 @@
     <ClInclude Include="audio\wasapi\WASAPIPointer.hpp">
       <Filter>engine\audio\wasapi</Filter>
     </ClInclude>
+    <ClInclude Include="graphics\renderer\Camera.hpp">
+      <Filter>engine\graphics\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\renderer\Light.hpp">
+      <Filter>engine\graphics\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\renderer\Material.hpp">
+      <Filter>engine\graphics\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\renderer\Object.hpp">
+      <Filter>engine\graphics\renderer</Filter>
+    </ClInclude>
     <ClInclude Include="graphics\renderer\Renderer.hpp">
       <Filter>engine\graphics\renderer</Filter>
     </ClInclude>

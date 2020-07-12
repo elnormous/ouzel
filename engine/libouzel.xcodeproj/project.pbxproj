@@ -1101,6 +1101,10 @@
 		30FFBE312158FB3F004B0BD3 /* Touchpad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Touchpad.cpp; sourceTree = "<group>"; };
 		30FFBE352158FD8B004B0BD3 /* Keyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Keyboard.cpp; sourceTree = "<group>"; };
 		30FFBE362158FD8C004B0BD3 /* Mouse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mouse.cpp; sourceTree = "<group>"; };
+		30FFF2C724BA8EC700FF44A8 /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
+		30FFF2CC24BA8EF700FF44A8 /* Light.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
+		30FFF2CD24BA8F0200FF44A8 /* Object.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Object.hpp; sourceTree = "<group>"; };
+		30FFF2CE24BA8F1400FF44A8 /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 		C6153F10221185950080FB0B /* OGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OGL.h; sourceTree = "<group>"; };
 		C61B49E62174B83900B818F1 /* SkinnedMeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkinnedMeshRenderer.hpp; sourceTree = "<group>"; };
 		C61B49E72174B83900B818F1 /* SkinnedMeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkinnedMeshRenderer.cpp; sourceTree = "<group>"; };
@@ -1762,6 +1766,10 @@
 		30D6EF7524B93B0C0032E72A /* renderer */ = {
 			isa = PBXGroup;
 			children = (
+				30FFF2CE24BA8F1400FF44A8 /* Camera.hpp */,
+				30FFF2CC24BA8EF700FF44A8 /* Light.hpp */,
+				30FFF2C724BA8EC700FF44A8 /* Material.hpp */,
+				30FFF2CD24BA8F0200FF44A8 /* Object.hpp */,
 				30D6EF7624B93B390032E72A /* Renderer.cpp */,
 				30D6EF7724B93B390032E72A /* Renderer.hpp */,
 			);
