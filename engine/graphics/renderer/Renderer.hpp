@@ -15,17 +15,26 @@ namespace ouzel::graphics::renderer
     class Renderer final
     {
     public:
+        struct Command final
+        {
+            enum class Type
+            {
+                initCamera,
+                initLight,
+                initMaterial,
+                initObject
+            };
+
+            Type type;
+        };
+
         Renderer() = default;
+
+        std::size_t createResource() { return 0; }
+        void destroyResource(std::size_t id) { (void)id; }
 
     private:
         void render();
-
-        enum class RenderStage
-        {
-            depth,
-            color,
-            postProcess
-        };
 
         std::size_t lastResourceId = 0;
         std::set<std::size_t> deletedResourceIds;
