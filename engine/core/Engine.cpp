@@ -119,15 +119,9 @@ namespace ouzel::core
         Thread::setCurrentThreadName("Main");
 
         Size2U size;
-        std::uint32_t sampleCount = 1; // MSAA sample count
-        graphics::SamplerFilter textureFilter = graphics::SamplerFilter::point;
-        std::uint32_t maxAnisotropy = 1;
+        graphics::Settings graphicsSettings;
         bool resizable = false;
         bool fullscreen = false;
-        bool verticalSync = true;
-        bool depth = false;
-        bool stencil = false;
-        bool debugRenderer = false;
         bool exclusiveFullscreen = false;
         bool highDpi = true; // should high DPI resolution be used
         bool debugAudio = false;
@@ -151,25 +145,25 @@ namespace ouzel::core
         if (!heightValue.empty()) size.v[1] = static_cast<std::uint32_t>(std::stoul(heightValue));
 
         const std::string sampleCountValue = userEngineSection.getValue("sampleCount", defaultEngineSection.getValue("sampleCount"));
-        if (!sampleCountValue.empty()) sampleCount = static_cast<std::uint32_t>(std::stoul(sampleCountValue));
+        if (!sampleCountValue.empty()) graphicsSettings.sampleCount = static_cast<std::uint32_t>(std::stoul(sampleCountValue));
 
         const std::string textureFilterValue = userEngineSection.getValue("textureFilter", defaultEngineSection.getValue("textureFilter"));
         if (!textureFilterValue.empty())
         {
             if (textureFilterValue == "point")
-                textureFilter = graphics::SamplerFilter::point;
+                graphicsSettings.textureFilter = graphics::SamplerFilter::point;
             else if (textureFilterValue == "linear")
-                textureFilter = graphics::SamplerFilter::linear;
+                graphicsSettings.textureFilter = graphics::SamplerFilter::linear;
             else if (textureFilterValue == "bilinear")
-                textureFilter = graphics::SamplerFilter::bilinear;
+                graphicsSettings.textureFilter = graphics::SamplerFilter::bilinear;
             else if (textureFilterValue == "trilinear")
-                textureFilter = graphics::SamplerFilter::trilinear;
+                graphicsSettings.textureFilter = graphics::SamplerFilter::trilinear;
             else
                 throw std::runtime_error("Invalid texture filter specified");
         }
 
         const std::string maxAnisotropyValue = userEngineSection.getValue("maxAnisotropy", defaultEngineSection.getValue("maxAnisotropy"));
-        if (!maxAnisotropyValue.empty()) maxAnisotropy = static_cast<std::uint32_t>(std::stoul(maxAnisotropyValue));
+        if (!maxAnisotropyValue.empty()) graphicsSettings.maxAnisotropy = static_cast<std::uint32_t>(std::stoul(maxAnisotropyValue));
 
         const std::string resizableValue = userEngineSection.getValue("resizable", defaultEngineSection.getValue("resizable"));
         if (!resizableValue.empty()) resizable = (resizableValue == "true" || resizableValue == "1" || resizableValue == "yes");
@@ -178,19 +172,19 @@ namespace ouzel::core
         if (!fullscreenValue.empty()) fullscreen = (fullscreenValue == "true" || fullscreenValue == "1" || fullscreenValue == "yes");
 
         const std::string verticalSyncValue = userEngineSection.getValue("verticalSync", defaultEngineSection.getValue("verticalSync"));
-        if (!verticalSyncValue.empty()) verticalSync = (verticalSyncValue == "true" || verticalSyncValue == "1" || verticalSyncValue == "yes");
+        if (!verticalSyncValue.empty()) graphicsSettings.verticalSync = (verticalSyncValue == "true" || verticalSyncValue == "1" || verticalSyncValue == "yes");
 
         const std::string exclusiveFullscreenValue = userEngineSection.getValue("exclusiveFullscreen", defaultEngineSection.getValue("exclusiveFullscreen"));
         if (!exclusiveFullscreenValue.empty()) exclusiveFullscreen = (exclusiveFullscreenValue == "true" || exclusiveFullscreenValue == "1" || exclusiveFullscreenValue == "yes");
 
         const std::string depthValue = userEngineSection.getValue("depth", defaultEngineSection.getValue("depth"));
-        if (!depthValue.empty()) depth = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
+        if (!depthValue.empty()) graphicsSettings.depth = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
 
         const std::string stencilValue = userEngineSection.getValue("stencil", defaultEngineSection.getValue("stencil"));
-        if (!stencilValue.empty()) stencil = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
+        if (!stencilValue.empty()) graphicsSettings.stencil = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
 
         const std::string debugRendererValue = userEngineSection.getValue("debugRenderer", defaultEngineSection.getValue("debugRenderer"));
-        if (!debugRendererValue.empty()) debugRenderer = (debugRendererValue == "true" || debugRendererValue == "1" || debugRendererValue == "yes");
+        if (!debugRendererValue.empty()) graphicsSettings.debugRenderer = (debugRendererValue == "true" || debugRendererValue == "1" || debugRendererValue == "yes");
 
         const std::string highDpiValue = userEngineSection.getValue("highDpi", defaultEngineSection.getValue("highDpi"));
         if (!highDpiValue.empty()) highDpi = (highDpiValue == "true" || highDpiValue == "1" || highDpiValue == "yes");
@@ -207,7 +201,7 @@ namespace ouzel::core
             (fullscreen ? Window::Flags::fullscreen : Window::Flags::none) |
             (exclusiveFullscreen ? Window::Flags::exclusiveFullscreen : Window::Flags::none) |
             (highDpi ? Window::Flags::highDpi : Window::Flags::none) |
-            (depth ? Window::Flags::depth : Window::Flags::none);
+            (graphicsSettings.depth ? Window::Flags::depth : Window::Flags::none);
 
         window = std::make_unique<Window>(*this,
                                           size,
@@ -218,14 +212,7 @@ namespace ouzel::core
         graphics = std::make_unique<graphics::Graphics>(graphicsDriver,
                                                         window.get(),
                                                         window->getResolution(),
-                                                        sampleCount,
-                                                        textureFilter,
-                                                        maxAnisotropy,
-                                                        false,
-                                                        verticalSync,
-                                                        depth,
-                                                        stencil,
-                                                        debugRenderer);
+                                                        graphicsSettings);
 
         audio::Driver audioDriver = audio::Audio::getDriver(audioDriverValue);
         audio = std::make_unique<audio::Audio>(audioDriver, debugAudio);

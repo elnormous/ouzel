@@ -270,6 +270,7 @@
     <ClInclude Include="graphics\RenderResource.hpp" />
     <ClInclude Include="graphics\SamplerAddressMode.hpp" />
     <ClInclude Include="graphics\SamplerFilter.hpp" />
+    <ClInclude Include="graphics\Settings.hpp" />
     <ClInclude Include="graphics\Shader.hpp" />
     <ClInclude Include="graphics\Texture.hpp" />
     <ClInclude Include="graphics\TextureType.hpp" />

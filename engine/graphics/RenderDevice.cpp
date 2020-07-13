@@ -28,20 +28,15 @@ namespace ouzel::graphics
 
     void RenderDevice::init(core::Window* newWindow,
                             const Size2U&,
-                            std::uint32_t newSampleCount,
-                            bool newSrgb,
-                            bool newVerticalSync,
-                            bool newDepth,
-                            bool newStencil,
-                            bool newDebugRenderer)
+                            const Settings& settings)
     {
         window = newWindow;
-        sampleCount = newSampleCount;
-        srgb = newSrgb;
-        verticalSync = newVerticalSync;
-        depth = newDepth;
-        stencil = newStencil;
-        debugRenderer = newDebugRenderer;
+        sampleCount = settings.sampleCount;
+        srgb = settings.srgb;
+        verticalSync = settings.verticalSync;
+        depth = settings.depth;
+        stencil = settings.stencil;
+        debugRenderer = settings.debugRenderer;
 
         previousFrameTime = std::chrono::steady_clock::now();
     }

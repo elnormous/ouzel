@@ -198,12 +198,7 @@ namespace ouzel::graphics::opengl::windows
 
     void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
-                            std::uint32_t newSampleCount,
-                            bool newSrgb,
-                            bool newVerticalSync,
-                            bool newDepth,
-                            bool newStencil,
-                            bool newDebugRenderer)
+                            const Settings& settings)
     {
         TempContext tempContext;
 
@@ -255,7 +250,7 @@ namespace ouzel::graphics::opengl::windows
         pixelFormatDesc.cAccumGreenBits = 0;
         pixelFormatDesc.cAccumBlueBits = 0;
         pixelFormatDesc.cAccumAlphaBits = 0;
-        pixelFormatDesc.cDepthBits = newDepth ? 24 : 0;
+        pixelFormatDesc.cDepthBits = settings.depth ? 24 : 0;
         pixelFormatDesc.cStencilBits = 0;
         pixelFormatDesc.cAuxBuffers = 0;
         pixelFormatDesc.iLayerType = PFD_MAIN_PLANE;
@@ -274,11 +269,11 @@ namespace ouzel::graphics::opengl::windows
                 WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
                 WGL_COLOR_BITS_ARB, 24,
                 WGL_ALPHA_BITS_ARB, 8,
-                WGL_DEPTH_BITS_ARB, newDepth ? 24 : 0,
-                WGL_STENCIL_BITS_ARB, newStencil ? 8 : 0,
-                WGL_SAMPLE_BUFFERS_ARB, newSampleCount > 0 ? 1 : 0,
-                WGL_SAMPLES_ARB, static_cast<int>(newSampleCount),
-                WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB, newSrgb ? 1 : 0,
+                WGL_DEPTH_BITS_ARB, settings.depth ? 24 : 0,
+                WGL_STENCIL_BITS_ARB, settings.stencil ? 8 : 0,
+                WGL_SAMPLE_BUFFERS_ARB, settings.sampleCount > 0 ? 1 : 0,
+                WGL_SAMPLES_ARB, static_cast<int>(settings.sampleCount),
+                WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB, settings.srgb ? 1 : 0,
                 0,
             };
 
@@ -306,7 +301,7 @@ namespace ouzel::graphics::opengl::windows
                     WGL_CONTEXT_MINOR_VERSION_ARB, 0,
                 };
 
-                if (newDebugRenderer)
+                if (settings.debugRenderer)
                 {
                     contextAttribs.push_back(WGL_CONTEXT_FLAGS_ARB);
                     contextAttribs.push_back(WGL_CONTEXT_DEBUG_BIT_ARB);
@@ -339,12 +334,7 @@ namespace ouzel::graphics::opengl::windows
 
         opengl::RenderDevice::init(newWindow,
                                    newSize,
-                                   newSampleCount,
-                                   newSrgb,
-                                   newVerticalSync,
-                                   newDepth,
-                                   newStencil,
-                                   newDebugRenderer);
+                                   settings);
 
         if (!wglMakeCurrent(deviceContext, nullptr))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");

@@ -13,6 +13,7 @@
 #include "Commands.hpp"
 #include "Driver.hpp"
 #include "SamplerFilter.hpp"
+#include "Settings.hpp"
 #include "Vertex.hpp"
 #include "../math/Matrix.hpp"
 #include "../math/Size.hpp"
@@ -176,12 +177,7 @@ namespace ouzel::graphics
     protected:
         virtual void init(core::Window* newWindow,
                           const Size2U& newSize,
-                          std::uint32_t newSampleCount,
-                          bool newSrgb,
-                          bool newVerticalSync,
-                          bool newDepth,
-                          bool newStencil,
-                          bool newDebugRenderer);
+                          const Settings& settings);
 
         void executeAll();
 

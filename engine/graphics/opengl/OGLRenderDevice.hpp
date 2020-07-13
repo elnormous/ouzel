@@ -589,12 +589,7 @@ namespace ouzel::graphics::opengl
     protected:
         void init(core::Window* newWindow,
                   const Size2U& newSize,
-                  std::uint32_t newSampleCount,
-                  bool newSrgb,
-                  bool newVerticalSync,
-                  bool newDepth,
-                  bool newStencil,
-                  bool newDebugRenderer) override;
+                  const Settings& settings) override;
 
         virtual void resizeFrameBuffer();
 

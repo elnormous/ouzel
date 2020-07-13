@@ -66,21 +66,11 @@ namespace ouzel::graphics::metal::macos
 
     void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
-                            std::uint32_t newSampleCount,
-                            bool newSrgb,
-                            bool newVerticalSync,
-                            bool newDepth,
-                            bool newStencil,
-                            bool newDebugRenderer)
+                            const Settings& settings)
     {
         metal::RenderDevice::init(newWindow,
                                   newSize,
-                                  newSampleCount,
-                                  newSrgb,
-                                  newVerticalSync,
-                                  newDepth,
-                                  newStencil,
-                                  newDebugRenderer);
+                                  settings);
 
         auto windowMacOS = static_cast<core::macos::NativeWindow*>(newWindow->getNativeWindow());
         MetalView* view = (MetalView*)windowMacOS->getNativeView();

@@ -838,6 +838,9 @@
     <ClInclude Include="graphics\SamplerFilter.hpp">
       <Filter>engine\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="graphics\Settings.hpp">
+      <Filter>engine\graphics</Filter>
+    </ClInclude>
     <ClInclude Include="audio\Containers.hpp">
       <Filter>engine\audio</Filter>
     </ClInclude>

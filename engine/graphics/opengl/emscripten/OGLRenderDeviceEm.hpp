@@ -23,12 +23,7 @@ namespace ouzel::graphics::opengl::emscripten
     private:
         void init(core::Window* newWindow,
                   const Size2U& newSize,
-                  std::uint32_t newSampleCount,
-                  bool newSrgb,
-                  bool newVerticalSync,
-                  bool newDepth,
-                  bool newStencil,
-                  bool newDebugRenderer) final;
+                  const Settings& settings) final;
 
         EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
     };

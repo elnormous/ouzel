@@ -93,16 +93,9 @@ namespace ouzel::graphics
     Graphics::Graphics(Driver driver,
                        core::Window* newWindow,
                        const Size2U& newSize,
-                       std::uint32_t newSampleCount,
-                       SamplerFilter newTextureFilter,
-                       std::uint32_t newMaxAnisotropy,
-                       bool newSrgb,
-                       bool newVerticalSync,
-                       bool newDepth,
-                       bool newStencil,
-                       bool newDebugRenderer):
-        textureFilter(newTextureFilter),
-        maxAnisotropy(newMaxAnisotropy)
+                       const Settings& settings):
+        textureFilter(settings.textureFilter),
+        maxAnisotropy(settings.maxAnisotropy)
     {
         switch (driver)
         {
@@ -154,14 +147,7 @@ namespace ouzel::graphics
 
         size = newSize;
 
-        device->init(newWindow,
-                     newSize,
-                     newSampleCount,
-                     newSrgb,
-                     newVerticalSync,
-                     newDepth,
-                     newStencil,
-                     newDebugRenderer);
+        device->init(newWindow, newSize, settings);
     }
 
     void Graphics::handleEvent(const RenderDevice::Event& event)

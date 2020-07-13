@@ -22,12 +22,7 @@ namespace ouzel::graphics::opengl::emscripten
 
     void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
-                            std::uint32_t newSampleCount,
-                            bool newSrgb,
-                            bool newVerticalSync,
-                            bool newDepth,
-                            bool newStencil,
-                            bool newDebugRenderer)
+                            const Settings& settings)
     {
         apiVersion = ApiVersion(2, 0);
 
@@ -35,9 +30,9 @@ namespace ouzel::graphics::opengl::emscripten
         emscripten_webgl_init_context_attributes(&attrs);
 
         attrs.alpha = true;
-        attrs.depth = newDepth;
-        attrs.stencil = newStencil;
-        attrs.antialias = newSampleCount > 0;
+        attrs.depth = settings.depth;
+        attrs.stencil = settings.stencil;
+        attrs.antialias = settings.sampleCount > 0;
 
         webGLContext = emscripten_webgl_create_context(0, &attrs);
 
@@ -49,16 +44,11 @@ namespace ouzel::graphics::opengl::emscripten
         if (result != EMSCRIPTEN_RESULT_SUCCESS)
             throw std::runtime_error("Failed to make WebGL context current");
 
-        emscripten_set_main_loop_timing(newVerticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
+        emscripten_set_main_loop_timing(settings.verticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
         opengl::RenderDevice::init(newWindow,
                                    newSize,
-                                   newSampleCount,
-                                   newSrgb,
-                                   newVerticalSync,
-                                   newDepth,
-                                   newStencil,
-                                   newDebugRenderer);
+                                   settings);
     }
 }
 

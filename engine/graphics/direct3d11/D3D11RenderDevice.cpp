@@ -116,21 +116,11 @@ namespace ouzel::graphics::d3d11
 
     void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
-                            std::uint32_t newSampleCount,
-                            bool newSrgb,
-                            bool newVerticalSync,
-                            bool newDepth,
-                            bool newStencil,
-                            bool newDebugRenderer)
+                            const Settings& settings)
     {
         graphics::RenderDevice::init(newWindow,
                                      newSize,
-                                     newSampleCount,
-                                     newSrgb,
-                                     newVerticalSync,
-                                     newDepth,
-                                     newStencil,
-                                     newDebugRenderer);
+                                     settings);
 
         anisotropicFilteringSupported = true;
         renderTargetsSupported = true;

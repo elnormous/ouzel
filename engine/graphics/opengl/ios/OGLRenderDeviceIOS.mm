@@ -60,12 +60,7 @@ namespace ouzel::graphics::opengl::ios
 
     void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
-                            std::uint32_t newSampleCount,
-                            bool newSrgb,
-                            bool newVerticalSync,
-                            bool newDepth,
-                            bool newStencil,
-                            bool newDebugRenderer)
+                            const Settings& settings)
     {
         auto view = static_cast<core::ios::NativeWindow*>(newWindow->getNativeWindow())->getNativeView();
 
@@ -98,12 +93,7 @@ namespace ouzel::graphics::opengl::ios
 
         opengl::RenderDevice::init(newWindow,
                                    newSize,
-                                   newSampleCount,
-                                   newSrgb,
-                                   newVerticalSync,
-                                   newDepth,
-                                   newStencil,
-                                   newDebugRenderer);
+                                   settings);
 
         createFrameBuffer();
 

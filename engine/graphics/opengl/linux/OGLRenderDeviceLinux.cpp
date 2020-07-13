@@ -93,12 +93,7 @@ namespace ouzel::graphics::opengl::linux
 
     void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
-                            std::uint32_t newSampleCount,
-                            bool newSrgb,
-                            bool newVerticalSync,
-                            bool newDepth,
-                            bool newStencil,
-                            bool newDebugRenderer)
+                            const Settings& settings)
     {
         auto windowLinux = static_cast<core::linux::NativeWindow*>(newWindow->getNativeWindow());
 
@@ -160,11 +155,11 @@ namespace ouzel::graphics::opengl::linux
             GLX_GREEN_SIZE, 8,
             GLX_BLUE_SIZE, 8,
             GLX_ALPHA_SIZE, 8,
-            GLX_DEPTH_SIZE, newDepth ? 24 : 0,
-            GLX_STENCIL_SIZE, newStencil ? 8 : 0,
-            GLX_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
-            GLX_SAMPLES, static_cast<int>(newSampleCount),
-            GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, newSrgb ? 1 : 0,
+            GLX_DEPTH_SIZE, settings.depth ? 24 : 0,
+            GLX_STENCIL_SIZE, settings.stencil ? 8 : 0,
+            GLX_SAMPLE_BUFFERS, (settings.sampleCount > 1) ? 1 : 0,
+            GLX_SAMPLES, static_cast<int>(settings.sampleCount),
+            GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, settings.srgb ? 1 : 0,
             0
         };
 
@@ -181,7 +176,7 @@ namespace ouzel::graphics::opengl::linux
                     GLX_CONTEXT_MINOR_VERSION_ARB, 2
                 };
 
-                if (newDebugRenderer)
+                if (settings.debugRenderer)
                 {
                     contextAttribs.push_back(GL_CONTEXT_FLAGS);
                     contextAttribs.push_back(GL_CONTEXT_FLAG_DEBUG_BIT);
@@ -217,7 +212,7 @@ namespace ouzel::graphics::opengl::linux
             throw std::runtime_error("Failed to make GLX context current");
 
         if (glXSwapIntervalEXTProc)
-            glXSwapIntervalEXTProc(engineLinux->getDisplay(), windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
+            glXSwapIntervalEXTProc(engineLinux->getDisplay(), windowLinux->getNativeWindow(), settings.verticalSync ? 1 : 0);
 #elif OUZEL_OPENGL_INTERFACE_EGL
         display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
@@ -233,11 +228,11 @@ namespace ouzel::graphics::opengl::linux
             EGL_GREEN_SIZE, 8,
             EGL_BLUE_SIZE, 8,
             EGL_ALPHA_SIZE, 8,
-            EGL_DEPTH_SIZE, newDepth ? 24 : 0,
-            EGL_STENCIL_SIZE, newStencil ? 8 : 0,
+            EGL_DEPTH_SIZE, settings.depth ? 24 : 0,
+            EGL_STENCIL_SIZE, settings.stencil ? 8 : 0,
             EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-            EGL_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
-            EGL_SAMPLES, static_cast<int>(newSampleCount),
+            EGL_SAMPLE_BUFFERS, (settings.sampleCount > 1) ? 1 : 0,
+            EGL_SAMPLES, static_cast<int>(settings.sampleCount),
             EGL_NONE
         };
         EGLConfig config;
@@ -261,7 +256,7 @@ namespace ouzel::graphics::opengl::linux
                 EGL_CONTEXT_CLIENT_VERSION, version
             };
 
-            if (newDebugRenderer)
+            if (settings.debugRenderer)
             {
                 contextAttributes.push_back(EGL_CONTEXT_FLAGS_KHR);
                 contextAttributes.push_back(EGL_CONTEXT_OPENGL_DEBUG_BIT_KHR);
@@ -285,18 +280,13 @@ namespace ouzel::graphics::opengl::linux
         if (!eglMakeCurrent(display, surface, surface, context))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set current EGL context");
 
-        if (!eglSwapInterval(display, newVerticalSync ? 1 : 0))
+        if (!eglSwapInterval(display, settings.verticalSync ? 1 : 0))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set EGL frame interval");
 #endif
 
         opengl::RenderDevice::init(newWindow,
                                    newSize,
-                                   newSampleCount,
-                                   newSrgb,
-                                   newVerticalSync,
-                                   newDepth,
-                                   newStencil,
-                                   newDebugRenderer);
+                                   settings);
 
 #if OUZEL_OPENGL_INTERFACE_EGL
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))

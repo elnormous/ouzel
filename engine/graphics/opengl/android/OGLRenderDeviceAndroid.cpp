@@ -77,12 +77,7 @@ namespace ouzel::graphics::opengl::android
 
     void RenderDevice::init(core::Window* newWindow,
                             const Size2U&,
-                            std::uint32_t newSampleCount,
-                            bool newSrgb,
-                            bool newVerticalSync,
-                            bool newDepth,
-                            bool newStencil,
-                            bool newDebugRenderer)
+                            const Settings& settings)
     {
         display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
@@ -98,12 +93,12 @@ namespace ouzel::graphics::opengl::android
             EGL_GREEN_SIZE, 8,
             EGL_BLUE_SIZE, 8,
             EGL_ALPHA_SIZE, 8,
-            EGL_DEPTH_SIZE, newDepth ? 24 : 0,
-            EGL_STENCIL_SIZE, newStencil ? 8 : 0,
+            EGL_DEPTH_SIZE, settings.depth ? 24 : 0,
+            EGL_STENCIL_SIZE, settings.stencil ? 8 : 0,
             EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
             EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-            EGL_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
-            EGL_SAMPLES, static_cast<int>(newSampleCount),
+            EGL_SAMPLE_BUFFERS, (settings.sampleCount > 1) ? 1 : 0,
+            EGL_SAMPLES, static_cast<int>(settings.sampleCount),
             EGL_NONE
         };
         EGLConfig config;
@@ -133,7 +128,7 @@ namespace ouzel::graphics::opengl::android
                 EGL_CONTEXT_CLIENT_VERSION, version
             };
 
-            if (newDebugRenderer)
+            if (settings.debugRenderer)
             {
                 contextAttributes.push_back(EGL_CONTEXT_FLAGS_KHR);
                 contextAttributes.push_back(EGL_CONTEXT_OPENGL_DEBUG_BIT_KHR);
@@ -157,7 +152,7 @@ namespace ouzel::graphics::opengl::android
         if (!eglMakeCurrent(display, surface, surface, context))
             throw std::runtime_error("Failed to set current EGL context");
 
-        if (!eglSwapInterval(display, newVerticalSync ? 1 : 0))
+        if (!eglSwapInterval(display, settings.verticalSync ? 1 : 0))
             throw std::runtime_error("Failed to set EGL frame interval");
 
         EGLint surfaceWidth;
@@ -175,12 +170,7 @@ namespace ouzel::graphics::opengl::android
 
         opengl::RenderDevice::init(newWindow,
                                    backBufferSize,
-                                   newSampleCount,
-                                   newSrgb,
-                                   newVerticalSync,
-                                   newDepth,
-                                   newStencil,
-                                   newDebugRenderer);
+                                   settings);
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::runtime_error("Failed to unset EGL context");

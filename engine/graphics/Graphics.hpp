@@ -14,6 +14,7 @@
 #include "Commands.hpp"
 #include "Driver.hpp"
 #include "RenderDevice.hpp"
+#include "Settings.hpp"
 #include "renderer/Renderer.hpp"
 #include "../math/Rect.hpp"
 #include "../math/Matrix.hpp"
@@ -29,14 +30,7 @@ namespace ouzel::graphics
         Graphics(Driver driver,
                  core::Window* newWindow,
                  const Size2U& newSize,
-                 std::uint32_t newSampleCount,
-                 SamplerFilter newTextureFilter,
-                 std::uint32_t newMaxAnisotropy,
-                 bool newSrgb,
-                 bool newVerticalSync,
-                 bool newDepth,
-                 bool newStencil,
-                 bool newDebugRenderer);
+                 const Settings& settings);
 
         static Driver getDriver(const std::string& driver);
         static std::set<Driver> getAvailableRenderDrivers();

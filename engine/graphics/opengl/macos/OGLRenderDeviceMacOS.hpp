@@ -44,12 +44,7 @@ namespace ouzel::graphics::opengl::macos
     private:
         void init(core::Window* newWindow,
                   const Size2U& newSize,
-                  std::uint32_t newSampleCount,
-                  bool newSrgb,
-                  bool newVerticalSync,
-                  bool newDepth,
-                  bool newStencil,
-                  bool newDebugRenderer) final;
+                  const Settings& settings) final;
 
         void resizeFrameBuffer() final;
         void present() final;

@@ -74,12 +74,7 @@ namespace ouzel::graphics::opengl::macos
 
     void RenderDevice::init(core::Window* newWindow,
                             const Size2U& newSize,
-                            std::uint32_t newSampleCount,
-                            bool newSrgb,
-                            bool newVerticalSync,
-                            bool newDepth,
-                            bool newStencil,
-                            bool newDebugRenderer)
+                            const Settings& settings)
     {
         constexpr NSOpenGLPixelFormatAttribute openGLVersions[] = {
             NSOpenGLProfileVersion4_1Core,
@@ -97,17 +92,17 @@ namespace ouzel::graphics::opengl::macos
                 NSOpenGLPFAOpenGLProfile, openGLVersion,
                 NSOpenGLPFAColorSize, 24,
                 NSOpenGLPFAAlphaSize, 8,
-                NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0),
-                NSOpenGLPFAStencilSize, static_cast<NSOpenGLPixelFormatAttribute>(newStencil ? 8 : 0)
+                NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(settings.depth ? 24 : 0),
+                NSOpenGLPFAStencilSize, static_cast<NSOpenGLPixelFormatAttribute>(settings.stencil ? 8 : 0)
             };
 
-            if (newSampleCount)
+            if (settings.sampleCount)
             {
                 attributes.push_back(NSOpenGLPFAMultisample);
                 attributes.push_back(NSOpenGLPFASampleBuffers);
                 attributes.push_back(1);
                 attributes.push_back(NSOpenGLPFASamples);
-                attributes.push_back(newSampleCount);
+                attributes.push_back(settings.sampleCount);
             }
 
             attributes.push_back(0);
@@ -148,17 +143,12 @@ namespace ouzel::graphics::opengl::macos
         [openGLView setOpenGLContext:openGLContext];
         [openGLContext setView:openGLView];
 
-        const GLint swapInterval = newVerticalSync ? 1 : 0;
+        const GLint swapInterval = settings.verticalSync ? 1 : 0;
         [openGLContext setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
 
         opengl::RenderDevice::init(newWindow,
                                    newSize,
-                                   newSampleCount,
-                                   newSrgb,
-                                   newVerticalSync,
-                                   newDepth,
-                                   newStencil,
-                                   newDebugRenderer);
+                                   settings);
 
         eventHandler.windowHandler = std::bind(&RenderDevice::handleWindow, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);

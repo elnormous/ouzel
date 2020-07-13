@@ -29,12 +29,7 @@ namespace ouzel::graphics::opengl::android
     private:
         void init(core::Window* newWindow,
                   const Size2U& newSize,
-                  std::uint32_t newSampleCount,
-                  bool newSrgb,
-                  bool newVerticalSync,
-                  bool newDepth,
-                  bool newStencil,
-                  bool newDebugRenderer) final;
+                  const Settings& settings) final;
 
         void present() final;
         void renderMain();
