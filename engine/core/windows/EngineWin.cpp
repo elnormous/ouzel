@@ -83,7 +83,7 @@ namespace ouzel::core::windows
 
 #ifdef DEBUG
         if (!AllocConsole())
-            log(Log::Level::info) << "Attached to console";
+            logger.log(Log::Level::info) << "Attached to console";
 #endif
     }
 
