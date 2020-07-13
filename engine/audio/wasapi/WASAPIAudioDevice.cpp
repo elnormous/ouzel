@@ -342,7 +342,7 @@ namespace ouzel::audio::wasapi
             }
             catch (const std::exception& e)
             {
-                engine->log(Log::Level::error) << e.what();
+                logger.log(Log::Level::error) << e.what();
             }
         }
     }

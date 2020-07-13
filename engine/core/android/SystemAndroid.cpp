@@ -203,7 +203,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onSurfaceCre
     }
     catch (const std::exception& e)
     {
-        ouzel::engine->log(ouzel::Log::Level::error) << e.what();
+        ouzel::logger.log(ouzel::Log::Level::error) << e.what();
     }
 }
 

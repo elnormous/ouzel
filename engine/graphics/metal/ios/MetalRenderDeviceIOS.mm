@@ -28,7 +28,7 @@ namespace ouzel::graphics::metal::ios
             }
             catch (const std::exception& e)
             {
-                engine->log(Log::Level::error) << e.what();
+                logger.log(Log::Level::error) << e.what();
             }
         }
     }

@@ -193,7 +193,7 @@ namespace ouzel::graphics::d3d11
             {
                 std::vector<char> buffer(bufferSize);
                 if (WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, buffer.data(), bufferSize, nullptr, nullptr) != 0)
-                    engine->log(Log::Level::info) << "Using " << buffer.data() << " for rendering";
+                    logger.log(Log::Level::info) << "Using " << buffer.data() << " for rendering";
             }
         }
 
@@ -215,7 +215,7 @@ namespace ouzel::graphics::d3d11
         if (supportedSampleCount != sampleCount)
         {
             sampleCount = supportedSampleCount;
-            engine->log(Log::Level::warning) << "Chosen sample count not supported, using: " << sampleCount;
+            logger.log(Log::Level::warning) << "Chosen sample count not supported, using: " << sampleCount;
         }
 
         DXGI_SWAP_CHAIN_DESC swapChainDesc;
@@ -1159,7 +1159,7 @@ namespace ouzel::graphics::d3d11
             }
             catch (const std::exception& e)
             {
-                engine->log(Log::Level::error) << e.what();
+                logger.log(Log::Level::error) << e.what();
             }
         }
     }

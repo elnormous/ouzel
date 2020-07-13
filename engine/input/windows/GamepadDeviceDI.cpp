@@ -97,7 +97,7 @@ namespace ouzel::input::windows
 
                     // Set the range for the axis
                     if (const auto hr = device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph); FAILED(hr))
-                        engine->log(Log::Level::warning) << "Failed to set DirectInput device dead zone property, error: " << hr;
+                        logger.log(Log::Level::warning) << "Failed to set DirectInput device dead zone property, error: " << hr;
 
                     DIPROPRANGE propertyAxisRange;
                     propertyAxisRange.diph.dwSize = sizeof(propertyAxisRange);
@@ -173,7 +173,7 @@ namespace ouzel::input::windows
             propertyAutoCenter.dwData = DIPROPAUTOCENTER_ON;
 
             if (const auto hr = device->SetProperty(DIPROP_AUTOCENTER, &propertyAutoCenter.diph); FAILED(hr))
-                engine->log(Log::Level::warning) << "Failed to set DirectInput device autocenter property, error: " << hr;
+                logger.log(Log::Level::warning) << "Failed to set DirectInput device autocenter property, error: " << hr;
         }
 
         DIPROPDWORD propertyBufferSize;

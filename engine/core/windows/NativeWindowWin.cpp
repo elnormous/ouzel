@@ -479,7 +479,7 @@ namespace ouzel::core::windows
         resolution = size;
 
         if (!RegisterTouchWindow(window, 0))
-            engine->log(Log::Level::warning) << "Failed to enable touch for window";
+            logger.log(Log::Level::warning) << "Failed to enable touch for window";
 
         ShowWindow(window, SW_SHOW);
 

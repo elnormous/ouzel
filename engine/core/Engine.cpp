@@ -79,6 +79,7 @@
 namespace ouzel
 {
     core::Engine* engine = nullptr;
+    Logger logger;
 }
 
 namespace ouzel::core
@@ -762,7 +763,7 @@ namespace ouzel::core
         }
         catch (const std::exception& e)
         {
-            log(Log::Level::error) << e.what();
+            logger.log(Log::Level::error) << e.what();
             exit();
         }
     }

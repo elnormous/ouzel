@@ -146,7 +146,7 @@ namespace ouzel::graphics::opengl::android
             if (context != EGL_NO_CONTEXT)
             {
                 apiVersion = ApiVersion(version, 0);
-                engine->log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
+                logger.log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
                 break;
             }
         }
@@ -251,7 +251,7 @@ namespace ouzel::graphics::opengl::android
             if (context != EGL_NO_CONTEXT)
             {
                 apiVersion = ApiVersion(version, 0);
-                engine->log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
+                logger.log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
                 break;
             }
         }
@@ -312,10 +312,10 @@ namespace ouzel::graphics::opengl::android
         if (context)
         {
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                engine->log(Log::Level::error) << "Failed to unset EGL context";
+                logger.log(Log::Level::error) << "Failed to unset EGL context";
 
             if (!eglDestroyContext(display, context))
-                engine->log(Log::Level::error) << "Failed to destroy EGL context";
+                logger.log(Log::Level::error) << "Failed to destroy EGL context";
 
             context = nullptr;
         }
@@ -323,7 +323,7 @@ namespace ouzel::graphics::opengl::android
         if (surface)
         {
             if (!eglDestroySurface(display, surface))
-                engine->log(Log::Level::error) << "Failed to destroy EGL surface";
+                logger.log(Log::Level::error) << "Failed to destroy EGL surface";
 
             surface = nullptr;
         }
@@ -350,7 +350,7 @@ namespace ouzel::graphics::opengl::android
             }
             catch (const std::exception& e)
             {
-                engine->log(Log::Level::error) << e.what();
+                logger.log(Log::Level::error) << e.what();
             }
         }
 

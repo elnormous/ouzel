@@ -116,7 +116,7 @@ namespace ouzel::graphics::opengl::linux
         if (!glXQueryVersion(engineLinux->getDisplay(), &glxMajor, &glxMinor))
             throw std::runtime_error("Failed to get GLX version");
 
-        engine->log(Log::Level::all) << "GLX version: " << glxMajor << "." << glxMinor;
+        logger.log(Log::Level::all) << "GLX version: " << glxMajor << "." << glxMinor;
 
         Screen* screen = XDefaultScreenOfDisplay(engineLinux->getDisplay());
         const int screenIndex = XScreenNumberOfScreen(screen);
@@ -132,7 +132,7 @@ namespace ouzel::graphics::opengl::linux
         if (const char* extensionsPtr = glXQueryExtensionsString(engineLinux->getDisplay(), screenIndex))
             extensions = explodeString(std::string(extensionsPtr), ' ');
 
-        engine->log(Log::Level::all) << "Supported GLX extensions: " << extensions;
+        logger.log(Log::Level::all) << "Supported GLX extensions: " << extensions;
 
         glXMakeCurrent(engineLinux->getDisplay(), None, nullptr);
         glXDestroyContext(engineLinux->getDisplay(), tempContext);
@@ -194,7 +194,7 @@ namespace ouzel::graphics::opengl::linux
                 if (context)
                 {
                     apiVersion = ApiVersion(3, 0);
-                    engine->log(Log::Level::info) << "GLX OpenGL 3.2 context created";
+                    logger.log(Log::Level::info) << "GLX OpenGL 3.2 context created";
                 }
             }
         }
@@ -206,7 +206,7 @@ namespace ouzel::graphics::opengl::linux
             if (context)
             {
                 apiVersion = ApiVersion(2, 0);
-                engine->log(Log::Level::info) << "GLX OpenGL 2 context created";
+                logger.log(Log::Level::info) << "GLX OpenGL 2 context created";
             }
             else
                 throw std::runtime_error("Failed to create GLX context");
@@ -274,7 +274,7 @@ namespace ouzel::graphics::opengl::linux
             if (context != EGL_NO_CONTEXT)
             {
                 apiVersion = ApiVersion(version, 0);
-                engine->log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
+                logger.log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
                 break;
             }
         }
@@ -367,7 +367,7 @@ namespace ouzel::graphics::opengl::linux
             }
             catch (const std::exception& e)
             {
-                engine->log(Log::Level::error) << e.what();
+                logger.log(Log::Level::error) << e.what();
             }
         }
 

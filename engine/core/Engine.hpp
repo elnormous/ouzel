@@ -47,10 +47,6 @@ namespace ouzel::core
 
         auto& getArgs() const noexcept { return args; }
 
-        Log log(Log::Level level = Log::Level::info) const { return logger.log(level); }
-        auto& getLogger() { return logger; }
-        auto& getLogger() const { return logger; }
-
         auto& getFileSystem() { return fileSystem; }
         auto& getFileSystem() const { return fileSystem; }
 
@@ -118,7 +114,6 @@ namespace ouzel::core
         virtual void engineMain();
         virtual void runOnMainThread(const std::function<void()>& func) = 0;
 
-        Logger logger;
         storage::FileSystem fileSystem;
         EventDispatcher eventDispatcher;
         std::unique_ptr<Window> window;
@@ -165,6 +160,7 @@ namespace ouzel
 
     std::unique_ptr<Application> main(const std::vector<std::string>& args);
     extern core::Engine* engine;
+    extern Logger logger;
 }
 
 #endif // OUZEL_CORE_ENGINE_HPP

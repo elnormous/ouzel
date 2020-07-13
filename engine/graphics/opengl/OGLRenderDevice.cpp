@@ -350,9 +350,9 @@ namespace ouzel::graphics::opengl
         GLenum error;
 
         if ((error = glGetErrorProc()) != GL_NO_ERROR || !deviceName)
-            engine->log(Log::Level::warning) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
+            logger.log(Log::Level::warning) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
         else
-            engine->log(Log::Level::info) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
+            logger.log(Log::Level::info) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
 
 #if OUZEL_OPENGLES
         npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_OES_texture_npot");
@@ -1063,7 +1063,7 @@ namespace ouzel::graphics::opengl
 
 #if OUZEL_OPENGLES
                         if (setPipelineStateCommand->fillMode != FillMode::solid)
-                            engine->log(Log::Level::warning) << "Unsupported fill mode";
+                            logger.log(Log::Level::warning) << "Unsupported fill mode";
 #else
                         setPolygonFillMode(getFillMode(setPipelineStateCommand->fillMode));
 #endif

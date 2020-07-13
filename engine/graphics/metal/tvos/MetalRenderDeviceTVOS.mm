@@ -24,7 +24,7 @@ namespace ouzel::graphics::metal::tvos
             }
             catch (const std::exception& e)
             {
-                engine->log(Log::Level::error) << e.what();
+                logger.log(Log::Level::error) << e.what();
             }
         }
     }
