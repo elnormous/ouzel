@@ -114,14 +114,12 @@ namespace ouzel::audio::coreaudio
         }
     }
 
-    AudioDevice::AudioDevice(std::uint32_t initBufferSize,
-                             std::uint32_t initSampleRate,
-                             std::uint32_t initChannels,
+    AudioDevice::AudioDevice(const Settings& settings,
                              const std::function<void(std::uint32_t frames,
                                                       std::uint32_t channels,
                                                       std::uint32_t sampleRate,
                                                       std::vector<float>& samples)>& initDataGetter):
-        audio::AudioDevice(Driver::coreAudio, initBufferSize, initSampleRate, initChannels, initDataGetter)
+        audio::AudioDevice(Driver::coreAudio, settings, initDataGetter)
     {
         OSStatus result;
 

@@ -124,7 +124,7 @@ namespace ouzel::core
         bool fullscreen = false;
         bool exclusiveFullscreen = false;
         bool highDpi = true; // should high DPI resolution be used
-        bool debugAudio = false;
+        audio::Settings audioSettings;
 
         if (fileSystem.resourceFileExists("settings.ini"))
             defaultSettings = ini::parse(fileSystem.readFile("settings.ini"));
@@ -192,7 +192,7 @@ namespace ouzel::core
         const std::string audioDriverValue = userEngineSection.getValue("audioDriver", defaultEngineSection.getValue("audioDriver"));
 
         const std::string debugAudioValue = userEngineSection.getValue("debugAudio", defaultEngineSection.getValue("debugAudio"));
-        if (!debugAudioValue.empty()) debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");
+        if (!debugAudioValue.empty()) audioSettings.debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");
 
         graphics::Driver graphicsDriver = graphics::Graphics::getDriver(graphicsDriverValue);
 
@@ -215,7 +215,7 @@ namespace ouzel::core
                                                         graphicsSettings);
 
         audio::Driver audioDriver = audio::Audio::getDriver(audioDriverValue);
-        audio = std::make_unique<audio::Audio>(audioDriver, debugAudio);
+        audio = std::make_unique<audio::Audio>(audioDriver, audioSettings);
 
         inputManager = std::make_unique<input::InputManager>();
 

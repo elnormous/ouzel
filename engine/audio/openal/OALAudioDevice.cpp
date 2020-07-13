@@ -78,14 +78,12 @@ namespace ouzel::audio::openal
         const OpenALErrorCategory openALErrorCategory{};
     }
 
-    AudioDevice::AudioDevice(std::uint32_t initBufferSize,
-                             std::uint32_t initSampleRate,
-                             std::uint32_t initChannels,
+    AudioDevice::AudioDevice(const Settings& settings,
                              const std::function<void(std::uint32_t frames,
                                                       std::uint32_t channels,
                                                       std::uint32_t sampleRate,
                                                       std::vector<float>& samples)>& initDataGetter):
-        audio::AudioDevice(Driver::openAL, initBufferSize, initSampleRate, initChannels, initDataGetter)
+        audio::AudioDevice(Driver::openAL, settings, initDataGetter)
     {
 #if TARGET_OS_IOS || TARGET_OS_TV
         id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance")); // [AVAudioSession sharedInstance]

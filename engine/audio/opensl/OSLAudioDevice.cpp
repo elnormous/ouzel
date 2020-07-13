@@ -68,14 +68,12 @@ namespace ouzel::audio::opensl
         }
     }
 
-    AudioDevice::AudioDevice(std::uint32_t initBufferSize,
-                                std::uint32_t initSampleRate,
-                                std::uint32_t initChannels,
-                                const std::function<void(std::uint32_t frames,
-                                                        std::uint32_t channels,
-                                                        std::uint32_t sampleRate,
-                                                        std::vector<float>& samples)>& initDataGetter):
-        audio::AudioDevice(Driver::openSL, initBufferSize, initSampleRate, initChannels, initDataGetter)
+    AudioDevice::AudioDevice(const Settings& settings,
+                             const std::function<void(std::uint32_t frames,
+                                                      std::uint32_t channels,
+                                                      std::uint32_t sampleRate,
+                                                      std::vector<float>& samples)>& initDataGetter):
+        audio::AudioDevice(Driver::openSL, settings, initDataGetter)
     {
         SLresult result;
         constexpr SLuint32 engineMixIIDCount = 1;

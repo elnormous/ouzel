@@ -31,13 +31,11 @@ namespace ouzel::audio::directsound
     class AudioDevice final: public audio::AudioDevice
     {
     public:
-        AudioDevice(std::uint32_t initBufferSize,
-                    std::uint32_t initSampleRate,
-                    std::uint32_t initChannels,
+        AudioDevice(const Settings& settings,
                     const std::function<void(std::uint32_t frames,
-                                                std::uint32_t channels,
-                                                std::uint32_t sampleRate,
-                                                std::vector<float>& samples)>& initDataGetter);
+                                             std::uint32_t channels,
+                                             std::uint32_t sampleRate,
+                                             std::vector<float>& samples)>& initDataGetter);
         ~AudioDevice() override;
 
         void start() final;

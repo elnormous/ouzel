@@ -829,6 +829,9 @@
     <ClInclude Include="audio\SampleFormat.hpp">
       <Filter>engine\audio</Filter>
     </ClInclude>
+    <ClInclude Include="audio\Settings.hpp">
+      <Filter>engine\audio</Filter>
+    </ClInclude>
     <ClInclude Include="graphics\Driver.hpp">
       <Filter>engine\graphics</Filter>
     </ClInclude>

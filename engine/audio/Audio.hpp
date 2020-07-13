@@ -12,6 +12,7 @@
 #include "Driver.hpp"
 #include "Mix.hpp"
 #include "Node.hpp"
+#include "Settings.hpp"
 #include "mixer/Commands.hpp"
 #include "mixer/Processor.hpp"
 #include "mixer/Mixer.hpp"
@@ -25,7 +26,7 @@ namespace ouzel::audio
     class Audio final
     {
     public:
-        Audio(Driver driver, bool debugAudio);
+        Audio(Driver driver, const Settings& settings);
 
         static Driver getDriver(const std::string& driver);
         static std::set<Driver> getAvailableAudioDrivers();

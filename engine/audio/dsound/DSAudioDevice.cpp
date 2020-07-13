@@ -75,14 +75,12 @@ namespace ouzel::audio::directsound
         const ErrorCategory errorCategory {};
     }
 
-    AudioDevice::AudioDevice(std::uint32_t initBufferSize,
-                                std::uint32_t initSampleRate,
-                                std::uint32_t initChannels,
-                                const std::function<void(std::uint32_t frames,
-                                                        std::uint32_t channels,
-                                                        std::uint32_t sampleRate,
-                                                        std::vector<float>& samples)>& initDataGetter):
-        audio::AudioDevice(Driver::directSound, initBufferSize, initSampleRate, initChannels, initDataGetter)
+    AudioDevice::AudioDevice(const Settings& settings,
+                             const std::function<void(std::uint32_t frames,
+                                                      std::uint32_t channels,
+                                                      std::uint32_t sampleRate,
+                                                      std::vector<float>& samples)>& initDataGetter):
+        audio::AudioDevice(Driver::directSound, settings, initDataGetter)
     {
         if (const auto hr = DirectSoundEnumerateW(enumCallback, this); FAILED(hr))
             throw std::system_error(hr, errorCategory, "Failed to enumerate DirectSound 8 devices");

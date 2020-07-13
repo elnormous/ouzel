@@ -158,14 +158,12 @@ namespace ouzel::audio::wasapi
         const ErrorCategory errorCategory{};
     }
 
-    AudioDevice::AudioDevice(std::uint32_t initBufferSize,
-                                std::uint32_t initSampleRate,
-                                std::uint32_t initChannels,
-                                const std::function<void(std::uint32_t frames,
-                                                        std::uint32_t channels,
-                                                        std::uint32_t sampleRate,
-                                                        std::vector<float>& samples)>& initDataGetter):
-        audio::AudioDevice(Driver::wasapi, initBufferSize, initSampleRate, initChannels, initDataGetter)
+    AudioDevice::AudioDevice(const Settings& settings,
+                             const std::function<void(std::uint32_t frames,
+                                                      std::uint32_t channels,
+                                                      std::uint32_t sampleRate,
+                                                      std::vector<float>& samples)>& initDataGetter):
+        audio::AudioDevice(Driver::wasapi, settings, initDataGetter)
     {
         LPVOID enumeratorPointer;
         if (const auto hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, &enumeratorPointer); FAILED(hr))

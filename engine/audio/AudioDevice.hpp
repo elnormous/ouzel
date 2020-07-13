@@ -7,6 +7,7 @@
 #include <vector>
 #include "Driver.hpp"
 #include "SampleFormat.hpp"
+#include "Settings.hpp"
 
 namespace ouzel::audio
 {
@@ -14,9 +15,7 @@ namespace ouzel::audio
     {
     public:
         AudioDevice(Driver initDriver,
-                    std::uint32_t initBufferSize,
-                    std::uint32_t initSampleRate,
-                    std::uint32_t initChannels, // zero for maximum available channels
+                    const Settings& settings, // zero for maximum available channels
                     const std::function<void(std::uint32_t frames,
                                              std::uint32_t channels,
                                              std::uint32_t sampleRate,

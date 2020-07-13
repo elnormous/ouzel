@@ -43,15 +43,12 @@ namespace ouzel::audio::xaudio2
         const ErrorCategory errorCategory {};
     }
 
-    AudioDevice::AudioDevice(std::uint32_t initBufferSize,
-                                std::uint32_t initSampleRate,
-                                std::uint32_t initChannels,
-                                const std::function<void(std::uint32_t frames,
-                                                        std::uint32_t channels,
-                                                        std::uint32_t sampleRate,
-                                                        std::vector<float>& samples)>& initDataGetter,
-                                bool debugAudio):
-        audio::AudioDevice(Driver::xAudio2, initBufferSize, initSampleRate, initChannels, initDataGetter)
+    AudioDevice::AudioDevice(const Settings& settings,
+                             const std::function<void(std::uint32_t frames,
+                                                      std::uint32_t channels,
+                                                      std::uint32_t sampleRate,
+                                                      std::vector<float>& samples)>& initDataGetter):
+        audio::AudioDevice(Driver::xAudio2, settings, initDataGetter)
     {
         constexpr char* xaudio2dll28 = "xaudio2_8.dll";
         constexpr char* xaudio2dll27 = "xaudio2_7.dll";
@@ -72,7 +69,7 @@ namespace ouzel::audio::xaudio2
             if (const auto hr = xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR); FAILED(hr))
                 throw std::system_error(hr, errorCategory, "Failed to initialize XAudio2");
 
-            if (debugAudio)
+            if (settings.debugAudio)
             {
                 XAUDIO2_DEBUG_CONFIGURATION debugConfiguration;
                 debugConfiguration.TraceMask = XAUDIO2_LOG_WARNINGS | XAUDIO2_LOG_DETAIL;
@@ -100,7 +97,7 @@ namespace ouzel::audio::xaudio2
                 throw std::runtime_error("Failed to load " + std::string(xaudio2dll27));
 
             UINT32 flags = 0;
-            if (debugAudio) flags |= XAUDIO2_DEBUG_ENGINE;
+            if (settings.debugAudio) flags |= XAUDIO2_DEBUG_ENGINE;
 
             if (const auto hr = XAudio27CreateProc(&xAudio, flags, XAUDIO2_DEFAULT_PROCESSOR); FAILED(hr))
                 throw std::system_error(hr, errorCategory, "Failed to initialize XAudio2");

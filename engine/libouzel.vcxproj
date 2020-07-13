@@ -182,6 +182,7 @@
     <ClInclude Include="audio\mixer\Source.hpp" />
     <ClInclude Include="audio\mixer\Stream.hpp" />
     <ClInclude Include="audio\SampleFormat.hpp" />
+    <ClInclude Include="audio\Settings.hpp" />
     <ClInclude Include="audio\Listener.hpp" />
     <ClInclude Include="audio\Voice.hpp" />
     <ClInclude Include="audio\SilenceSound.hpp" />

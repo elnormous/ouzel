@@ -99,57 +99,56 @@ namespace ouzel::audio
     {
         std::unique_ptr<AudioDevice> createAudioDevice(Driver driver,
                                                        const std::function<void(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples)>& dataGetter,
-                                                       bool debugAudio)
+                                                       const Settings& settings)
         {
             switch (driver)
             {
 #if OUZEL_COMPILE_OPENAL
                 case Driver::openAL:
                     logger.log(Log::Level::info) << "Using OpenAL audio driver";
-                    return std::make_unique<openal::AudioDevice>(512, 44100, 0, dataGetter);
+                    return std::make_unique<openal::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_DIRECTSOUND
                 case Driver::directSound:
                     logger.log(Log::Level::info) << "Using DirectSound audio driver";
-                    return std::make_unique<directsound::AudioDevice>(512, 44100, 0, dataGetter);
+                    return std::make_unique<directsound::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_XAUDIO2
                 case Driver::xAudio2:
                     logger.log(Log::Level::info) << "Using XAudio 2 audio driver";
-                    return std::make_unique<xaudio2::AudioDevice>(512, 44100, 0, dataGetter, debugAudio);
+                    return std::make_unique<xaudio2::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_OPENSL
                 case Driver::openSL:
                     logger.log(Log::Level::info) << "Using OpenSL ES audio driver";
-                    return std::make_unique<opensl::AudioDevice>(512, 44100, 0, dataGetter);
+                    return std::make_unique<opensl::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_COREAUDIO
                 case Driver::coreAudio:
                     logger.log(Log::Level::info) << "Using CoreAudio audio driver";
-                    return std::make_unique<coreaudio::AudioDevice>(512, 44100, 0, dataGetter);
+                    return std::make_unique<coreaudio::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_ALSA
                 case Driver::alsa:
                     logger.log(Log::Level::info) << "Using ALSA audio driver";
-                    return std::make_unique<alsa::AudioDevice>(512, 44100, 0, dataGetter);
+                    return std::make_unique<alsa::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_WASAPI
                 case Driver::wasapi:
                     logger.log(Log::Level::info) << "Using WASAPI audio driver";
-                    return std::make_unique<wasapi::AudioDevice>(512, 44100, 0, dataGetter);
+                    return std::make_unique<wasapi::AudioDevice>(settings, dataGetter);
 #endif
                 default:
                     logger.log(Log::Level::info) << "Not using audio driver";
-                    static_cast<void>(debugAudio);
-                    return std::make_unique<empty::AudioDevice>(512, 44100, 0, dataGetter);
+                    return std::make_unique<empty::AudioDevice>(settings, dataGetter);
             }
         }
     }
 
-    Audio::Audio(Driver driver, bool debugAudio):
+    Audio::Audio(Driver driver, const Settings& settings):
         device(createAudioDevice(driver,
                                  std::bind(&Audio::getSamples, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4),
-                                 debugAudio)),
+                                 settings)),
         mixer(device->getBufferSize(), device->getChannels(),
               std::bind(&Audio::eventCallback, this, std::placeholders::_1)),
         masterMix(*this),

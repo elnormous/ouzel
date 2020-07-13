@@ -5,17 +5,15 @@
 namespace ouzel::audio
 {
     AudioDevice::AudioDevice(Driver initDriver,
-                             std::uint32_t initBufferSize,
-                             std::uint32_t initSampleRate,
-                             std::uint32_t initChannels,
+                             const Settings& settings,
                              const std::function<void(std::uint32_t frames,
                                                       std::uint32_t channels,
                                                       std::uint32_t sampleRate,
                                                       std::vector<float>& samples)>& initDataGetter):
         driver(initDriver),
-        bufferSize(initBufferSize),
-        sampleRate(initSampleRate),
-        channels((initChannels != 0) ? initChannels : 2), // TODO: leave it zero and let subclasses decide the number of channels
+        bufferSize(settings.bufferSize),
+        sampleRate(settings.sampleRate),
+        channels((settings.channels != 0) ? settings.channels : 2), // TODO: leave it zero and let subclasses decide the number of channels
         dataGetter(initDataGetter)
     {
     }
