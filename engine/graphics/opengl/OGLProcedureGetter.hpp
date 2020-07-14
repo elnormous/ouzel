@@ -194,6 +194,19 @@ namespace ouzel::graphics::opengl
             Module(const Module&) = delete;
             Module& operator=(const Module&) = delete;
 
+            Module(Module&& other) noexcept:
+                module{other.module}
+            {
+                other.module = nullptr;
+            }
+
+            Module& operator=(Module&&) noexcept
+            {
+                module = other.module;
+                other.module = nullptr;
+                return *this;
+            }
+
             HMODULE getModule() const noexcept { return module; }
         private:
             HMODULE module = nullptr;
