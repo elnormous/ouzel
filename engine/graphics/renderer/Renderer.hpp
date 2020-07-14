@@ -30,8 +30,48 @@ namespace ouzel::graphics::renderer
 
         Renderer() = default;
 
-        std::size_t createResource() { return 0; }
-        void destroyResource(std::size_t id) { (void)id; }
+        using ResourceId = std::size_t;
+
+        ResourceId createResource() { return 0; }
+        void destroyResource(ResourceId id) { (void)id; }
+
+        class Resource final
+        {
+            Resource() noexcept = default;
+            Resource(Renderer& initRenderer):
+                renderer{&initRenderer}, id{initRenderer.createResource()} {}
+
+            ~Resource()
+            {
+                if (renderer && id) renderer->destroyResource(id);
+            }
+
+            Resource(const Resource& other) = delete;
+            Resource& operator=(const Resource& other) = delete;
+
+            Resource(Resource&& other) noexcept:
+                renderer{other.renderer}, id{other.id}
+            {
+                other.renderer = nullptr;
+                other.id = 0;
+            }
+
+            Resource& operator=(Resource&& other) noexcept
+            {
+                renderer = other.renderer;
+                id = other.id;
+                other.renderer = nullptr;
+                other.id = 0;
+
+                return *this;
+            }
+
+            auto getId() const noexcept { return id; }
+
+        private:
+            Renderer* renderer = nullptr;
+            ResourceId id = 0;
+        };
 
     private:
         void render();
