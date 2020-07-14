@@ -200,7 +200,7 @@ namespace ouzel::graphics::opengl
                 other.module = nullptr;
             }
 
-            Module& operator=(Module&&) noexcept
+            Module& operator=(Module&& other) noexcept
             {
                 module = other.module;
                 other.module = nullptr;
