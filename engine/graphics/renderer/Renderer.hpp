@@ -31,10 +31,6 @@ namespace ouzel::graphics::renderer
         Renderer() = default;
 
         using ResourceId = std::size_t;
-
-        ResourceId createResource() { return 0; }
-        void destroyResource(ResourceId id) { (void)id; }
-
         class Resource final
         {
             Resource() noexcept = default;
@@ -74,6 +70,9 @@ namespace ouzel::graphics::renderer
         };
 
     private:
+        ResourceId createResource() { return 0; }
+        void destroyResource(ResourceId id) { (void)id; }
+
         void render();
 
         std::size_t lastResourceId = 0;
