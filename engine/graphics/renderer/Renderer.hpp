@@ -4,10 +4,6 @@
 #define OUZEL_GRAPHICS_RENDERER_RENDERER_HPP
 
 #include <cstddef>
-#include "Camera.hpp"
-#include "Light.hpp"
-#include "Material.hpp"
-#include "Object.hpp"
 #include "../RenderDevice.hpp"
 
 namespace ouzel::graphics::renderer
@@ -33,13 +29,14 @@ namespace ouzel::graphics::renderer
         using ResourceId = std::size_t;
         class Resource final
         {
+        public:
             Resource() noexcept = default;
             Resource(Renderer& initRenderer):
-                renderer{&initRenderer}, id{initRenderer.createResource()} {}
+                renderer{&initRenderer}, id{initRenderer.createResourceId()} {}
 
             ~Resource()
             {
-                if (renderer && id) renderer->destroyResource(id);
+                if (renderer && id) renderer->deleteResourceId(id);
             }
 
             Resource(const Resource& other) = delete;
@@ -72,13 +69,29 @@ namespace ouzel::graphics::renderer
         };
 
     private:
-        ResourceId createResource() { return 0; }
-        void destroyResource(ResourceId id) { (void)id; }
+        ResourceId createResourceId()
+        {
+            const auto i = deletedResourceIds.begin();
+
+            if (i == deletedResourceIds.end())
+                return ++lastResourceId;
+            else
+            {
+                std::size_t resourceId = *i;
+                deletedResourceIds.erase(i);
+                return resourceId;
+            }
+        }
+
+        void deleteResourceId(ResourceId id)
+        {
+            deletedResourceIds.insert(id);
+        }
 
         void render();
 
-        std::size_t lastResourceId = 0;
-        std::set<std::size_t> deletedResourceIds;
+        ResourceId lastResourceId = 0;
+        std::set<ResourceId> deletedResourceIds;
     };
 }
 

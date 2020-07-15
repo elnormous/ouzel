@@ -3,6 +3,8 @@
 #ifndef OUZEL_GRAPHICS_RENDERER_CAMERA_HPP
 #define OUZEL_GRAPHICS_RENDERER_CAMERA_HPP
 
+#include "Renderer.hpp"
+
 namespace ouzel::graphics::renderer
 {
     class Camera final
@@ -23,7 +25,15 @@ namespace ouzel::graphics::renderer
             showAll
         };
 
-        Camera() noexcept = default;
+        Camera(Renderer& initRenderer):
+            renderer{initRenderer},
+            resource{initRenderer}
+        {
+        }
+
+    private:
+        Renderer& renderer;
+        Renderer::Resource resource;
     };
 }
 

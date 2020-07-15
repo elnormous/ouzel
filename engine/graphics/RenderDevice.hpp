@@ -117,13 +117,13 @@ namespace ouzel::graphics
         public:
             Resource() = default;
             Resource(RenderDevice& initRenderDevice):
-                renderDevice{&initRenderDevice}, id{initRenderDevice.createResource()}
+                renderDevice{&initRenderDevice}, id{initRenderDevice.createResourceId()}
             {
             }
 
             ~Resource()
             {
-                if (renderDevice && id) renderDevice->destroyResource(id);
+                if (renderDevice && id) renderDevice->deleteResourceId(id);
             }
 
             Resource(const Resource&) = delete;
@@ -207,7 +207,7 @@ namespace ouzel::graphics
         std::mutex executeMutex;
 
     private:
-        ResourceId createResource()
+        ResourceId createResourceId()
         {
             const auto i = deletedResourceIds.begin();
 
@@ -221,7 +221,7 @@ namespace ouzel::graphics
             }
         }
 
-        void destroyResource(ResourceId id)
+        void deleteResourceId(ResourceId id)
         {
             deletedResourceIds.insert(id);
         }

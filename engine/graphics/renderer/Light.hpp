@@ -3,6 +3,8 @@
 #ifndef OUZEL_GRAPHICS_RENDERER_LIGHT_HPP
 #define OUZEL_GRAPHICS_RENDERER_LIGHT_HPP
 
+#include "Renderer.hpp"
+
 namespace ouzel::graphics::renderer
 {
     class Light final
@@ -15,7 +17,15 @@ namespace ouzel::graphics::renderer
             directional
         };
 
-        Light() noexcept = default;
+        Light(Renderer& initRenderer):
+            renderer{initRenderer},
+            resource{initRenderer}
+        {
+        }
+
+    private:
+        Renderer& renderer;
+        Renderer::Resource resource;
     };
 }
 

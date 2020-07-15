@@ -3,12 +3,22 @@
 #ifndef OUZEL_GRAPHICS_RENDERER_OBJECT_HPP
 #define OUZEL_GRAPHICS_RENDERER_OBJECT_HPP
 
+#include "Renderer.hpp"
+
 namespace ouzel::graphics::renderer
 {
     class Object final
     {
     public:
-        Object() noexcept = default;
+        Object(Renderer& initRenderer):
+            renderer{initRenderer},
+            resource{initRenderer}
+        {
+        }
+
+    private:
+        Renderer& renderer;
+        Renderer::Resource resource;
     };
 }
 

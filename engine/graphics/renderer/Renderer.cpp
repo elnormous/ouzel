@@ -1,6 +1,10 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
 #include "Renderer.hpp"
+#include "Camera.hpp"
+#include "Light.hpp"
+#include "Material.hpp"
+#include "Object.hpp"
 
 namespace ouzel::graphics::renderer
 {
