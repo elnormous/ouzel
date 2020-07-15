@@ -6,7 +6,7 @@
 namespace ouzel::graphics
 {
     DepthStencilState::DepthStencilState(Graphics& initGraphics):
-        resource(initGraphics.getDevice()->createResource())
+        resource(*initGraphics.getDevice())
     {
     }
 
@@ -25,7 +25,7 @@ namespace ouzel::graphics
                                          StencilOperation initBackFaceStencilDepthFailureOperation,
                                          StencilOperation initBackFaceStencilPassOperation,
                                          CompareFunction initBackFaceStencilCompareFunction):
-        resource(initGraphics.getDevice()->createResource()),
+        resource(*initGraphics.getDevice()),
         depthTest(initDepthTest),
         depthWrite(initDepthWrite),
         compareFunction(initCompareFunction),

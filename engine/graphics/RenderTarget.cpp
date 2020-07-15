@@ -9,7 +9,7 @@ namespace ouzel::graphics
     RenderTarget::RenderTarget(Graphics& initGraphics,
                                const std::vector<Texture*>& initColorTextures,
                                Texture* initDepthTexture):
-        resource(initGraphics.getDevice()->createResource()),
+        resource(*initGraphics.getDevice()),
         colorTextures(initColorTextures),
         depthTexture(initDepthTexture)
     {

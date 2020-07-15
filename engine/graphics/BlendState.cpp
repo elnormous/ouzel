@@ -6,7 +6,7 @@
 namespace ouzel::graphics
 {
     BlendState::BlendState(Graphics& initGraphics):
-        resource(initGraphics.getDevice()->createResource())
+        resource(*initGraphics.getDevice())
     {
     }
 
@@ -19,7 +19,7 @@ namespace ouzel::graphics
                            BlendFactor initAlphaBlendDest,
                            BlendOperation initAlphaOperation,
                            ColorMask initColorMask):
-        resource(initGraphics.getDevice()->createResource()),
+        resource(*initGraphics.getDevice()),
         colorBlendSource(initColorBlendSource),
         colorBlendDest(initColorBlendDest),
         colorOperation(initColorOperation),

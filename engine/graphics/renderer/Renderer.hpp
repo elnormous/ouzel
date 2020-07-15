@@ -54,6 +54,8 @@ namespace ouzel::graphics::renderer
 
             Resource& operator=(Resource&& other) noexcept
             {
+                if (&other == this) return *this;
+
                 renderer = other.renderer;
                 id = other.id;
                 other.renderer = nullptr;
@@ -62,7 +64,7 @@ namespace ouzel::graphics::renderer
                 return *this;
             }
 
-            auto getId() const noexcept { return id; }
+            operator ResourceId() const noexcept { return id; }
 
         private:
             Renderer* renderer = nullptr;

@@ -8,7 +8,7 @@ namespace ouzel::graphics
 {
     Buffer::Buffer(Graphics& initGraphics):
         graphics(&initGraphics),
-        resource(initGraphics.getDevice()->createResource())
+        resource(*initGraphics.getDevice())
     {
     }
 
@@ -17,7 +17,7 @@ namespace ouzel::graphics
                    Flags initFlags,
                    std::uint32_t initSize):
         graphics(&initGraphics),
-        resource(initGraphics.getDevice()->createResource()),
+        resource(*initGraphics.getDevice()),
         type(initType),
         flags(initFlags),
         size(initSize)
@@ -35,7 +35,7 @@ namespace ouzel::graphics
                    const void* initData,
                    std::uint32_t initSize):
         graphics(&initGraphics),
-        resource(initGraphics.getDevice()->createResource()),
+        resource(*initGraphics.getDevice()),
         type(initType),
         flags(initFlags),
         size(initSize)
@@ -54,7 +54,7 @@ namespace ouzel::graphics
                    const std::vector<std::uint8_t>& initData,
                    std::uint32_t initSize):
         graphics(&initGraphics),
-        resource(initGraphics.getDevice()->createResource()),
+        resource(*initGraphics.getDevice()),
         type(initType),
         flags(initFlags),
         size(initSize)

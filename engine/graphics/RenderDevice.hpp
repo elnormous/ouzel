@@ -111,27 +111,28 @@ namespace ouzel::graphics
 
         void executeOnRenderThread(const std::function<void()>& func);
 
+        using ResourceId = std::size_t;
         class Resource final
         {
         public:
             Resource() = default;
-            Resource(std::size_t initId, const std::function<void(std::size_t)>& initDeleter):
-                id(initId), deleter(initDeleter)
+            Resource(RenderDevice& initRenderDevice):
+                renderDevice{&initRenderDevice}, id{initRenderDevice.createResource()}
             {
             }
 
             ~Resource()
             {
-                if (id) deleter(id);
+                if (renderDevice && id) renderDevice->destroyResource(id);
             }
 
             Resource(const Resource&) = delete;
             Resource& operator=(const Resource&) = delete;
 
             Resource(Resource&& other) noexcept:
-                id(other.id),
-                deleter(std::move(other.deleter))
+                renderDevice{other.renderDevice}, id(other.id)
             {
+                other.renderDevice = nullptr;
                 other.id = 0;
             }
 
@@ -139,40 +140,20 @@ namespace ouzel::graphics
             {
                 if (&other == this) return *this;
 
+                renderDevice = other.renderDevice;
                 id = other.id;
-                deleter = std::move(other.deleter);
+                other.renderDevice = nullptr;
                 other.id = 0;
 
                 return *this;
             }
 
-            operator std::size_t() const noexcept
-            {
-                return id;
-            }
+            operator ResourceId() const noexcept { return id; }
 
         private:
-            std::size_t id = 0;
-            std::function<void(std::size_t)> deleter;
+            RenderDevice* renderDevice = nullptr;
+            ResourceId id = 0;
         };
-
-        Resource createResource()
-        {
-            const auto i = deletedResourceIds.begin();
-
-            if (i == deletedResourceIds.end())
-                return Resource(++lastResourceId, [this](std::size_t id){
-                    deletedResourceIds.insert(id);
-                }); // zero is reserved for null resource
-            else
-            {
-                std::size_t resourceId = *i;
-                deletedResourceIds.erase(i);
-                return Resource(resourceId, [this](std::size_t id){
-                    deletedResourceIds.insert(id);
-                });
-            }
-        }
 
     protected:
         virtual void init(core::Window* newWindow,
@@ -226,8 +207,27 @@ namespace ouzel::graphics
         std::mutex executeMutex;
 
     private:
-        std::size_t lastResourceId = 0;
-        std::set<std::size_t> deletedResourceIds;
+        ResourceId createResource()
+        {
+            const auto i = deletedResourceIds.begin();
+
+            if (i == deletedResourceIds.end())
+                return ++lastResourceId;
+            else
+            {
+                std::size_t resourceId = *i;
+                deletedResourceIds.erase(i);
+                return resourceId;
+            }
+        }
+
+        void destroyResource(ResourceId id)
+        {
+            deletedResourceIds.insert(id);
+        }
+
+        ResourceId lastResourceId = 0;
+        std::set<ResourceId> deletedResourceIds;
     };
 }
 
