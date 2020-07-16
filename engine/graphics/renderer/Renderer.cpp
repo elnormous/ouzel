@@ -8,6 +8,12 @@
 
 namespace ouzel::graphics::renderer
 {
+    void Renderer::addCommand(const Command& command)
+    {
+        std::lock_guard lock(commandQueueMutex);
+        commandQueue.push(command);
+    }
+
     void Renderer::render()
     {
         // TODO: sort objects by distance

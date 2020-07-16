@@ -4,6 +4,8 @@
 #define OUZEL_GRAPHICS_RENDERER_RENDERER_HPP
 
 #include <cstddef>
+#include <mutex>
+#include <queue>
 #include "../RenderDevice.hpp"
 
 namespace ouzel::graphics::renderer
@@ -68,6 +70,8 @@ namespace ouzel::graphics::renderer
             ResourceId id = 0;
         };
 
+        void addCommand(const Command& command);
+
     private:
         ResourceId createResourceId()
         {
@@ -92,6 +96,9 @@ namespace ouzel::graphics::renderer
 
         ResourceId lastResourceId = 0;
         std::set<ResourceId> deletedResourceIds;
+
+        std::queue<Command> commandQueue;
+        std::mutex commandQueueMutex;
     };
 }
 
