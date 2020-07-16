@@ -50,16 +50,13 @@ namespace ouzel::input::linux
         if (!dir)
             throw std::system_error(errno, std::system_category(), "Failed to open directory");
 
-        dirent ent;
-        dirent* p;
-
-        while (readdir_r(dir, &ent, &p) == 0 && p)
+        while (const dirent* ent = readdir(dir))
         {
-            if (strncmp("event", ent.d_name, 5) == 0)
+            if (strncmp("event", ent->d_name, 5) == 0)
             {
                 try
                 {
-                    std::string filename = std::string("/dev/input/") + ent.d_name;
+                    std::string filename = std::string("/dev/input/") + ent->d_name;
                     auto eventDevice = std::make_unique<EventDevice>(*this, filename);
                     eventDevices.insert(std::make_pair(eventDevice->getFd(), std::move(eventDevice)));
                 }
@@ -229,16 +226,13 @@ namespace ouzel::input::linux
             if (!dir)
                 throw std::system_error(errno, std::system_category(), "Failed to open directory");
 
-            dirent ent;
-            dirent* p;
-
-            while (readdir_r(dir, &ent, &p) == 0 && p)
+            while (const dirent* ent = readdir(dir))
             {
-                if (strncmp("event", ent.d_name, 5) == 0)
+                if (strncmp("event", ent->d_name, 5) == 0)
                 {
                     try
                     {
-                        std::string filename = std::string("/dev/input/") + ent.d_name;
+                        std::string filename = std::string("/dev/input/") + ent->d_name;
                         auto eventDevice = std::make_unique<EventDevice>(*this, filename);
                         eventDevices.insert(std::make_pair(eventDevice->getFd(), std::move(eventDevice)));
                     }
