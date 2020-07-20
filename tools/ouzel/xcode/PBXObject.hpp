@@ -11,7 +11,7 @@
 
 namespace ouzel::xcode
 {
-    using Id = std::array<uint8_t, 12>;
+    using Id = std::array<std::uint8_t, 12>;
 
     inline std::string toString(const Id& i)
     {
@@ -48,28 +48,28 @@ namespace ouzel::xcode
         {
             static std::random_device randomDevice;
             static std::mt19937 randomEngine(randomDevice());
-            static uint32_t sequence = 0;
+            static std::uint32_t sequence = 0;
             const auto s = sequence++;
             if (sequence >= 0x00FFFFFF) sequence = 0;
             const auto now = std::chrono::system_clock::now();
             const auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
-            const uint32_t r = randomEngine();
+            const std::uint32_t r = randomEngine();
 
             return {
                 0x10, // to avoid collisions with Ouzel targets
-                static_cast<uint8_t>((s >> 16) & 0xFF),
-                static_cast<uint8_t>((s >> 8) & 0xFF),
-                static_cast<uint8_t>((s >> 0) & 0xFF),
+                static_cast<std::uint8_t>((s >> 16) & 0xFF),
+                static_cast<std::uint8_t>((s >> 8) & 0xFF),
+                static_cast<std::uint8_t>((s >> 0) & 0xFF),
 
-                static_cast<uint8_t>((timestamp >> 24) & 0xFF),
-                static_cast<uint8_t>((timestamp >> 16) & 0xFF),
-                static_cast<uint8_t>((timestamp >> 8) & 0xFF),
-                static_cast<uint8_t>((timestamp >> 0) & 0xFF),
+                static_cast<std::uint8_t>((timestamp >> 24) & 0xFF),
+                static_cast<std::uint8_t>((timestamp >> 16) & 0xFF),
+                static_cast<std::uint8_t>((timestamp >> 8) & 0xFF),
+                static_cast<std::uint8_t>((timestamp >> 0) & 0xFF),
 
-                static_cast<uint8_t>((r >> 24) & 0xFF),
-                static_cast<uint8_t>((r >> 16) & 0xFF),
-                static_cast<uint8_t>((r >> 8) & 0xFF),
-                static_cast<uint8_t>((r >> 0) & 0xFF)
+                static_cast<std::uint8_t>((r >> 24) & 0xFF),
+                static_cast<std::uint8_t>((r >> 16) & 0xFF),
+                static_cast<std::uint8_t>((r >> 8) & 0xFF),
+                static_cast<std::uint8_t>((r >> 0) & 0xFF)
             };
         }
 

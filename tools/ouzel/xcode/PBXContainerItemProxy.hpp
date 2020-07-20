@@ -25,7 +25,7 @@ namespace ouzel::xcode
         {
             auto result = PBXObject::encode();
             if (containerPortal) result["containerPortal"] = toString(containerPortal->getId());
-            result["proxyType"] = static_cast<uint32_t>(proxyType);
+            result["proxyType"] = static_cast<std::uint32_t>(proxyType);
             if (remoteGlobal) result["remoteGlobalIDString"] = toString(remoteGlobal->getId());
             result["remoteInfo"] = remoteInfo;
             return result;

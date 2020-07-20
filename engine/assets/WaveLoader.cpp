@@ -8,8 +8,8 @@
 
 namespace
 {
-    constexpr uint16_t WAVE_FORMAT_PCM = 1;
-    constexpr uint16_t WAVE_FORMAT_IEEE_FLOAT = 3;
+    constexpr std::uint16_t WAVE_FORMAT_PCM = 1;
+    constexpr std::uint16_t WAVE_FORMAT_IEEE_FLOAT = 3;
 }
 
 namespace ouzel::assets

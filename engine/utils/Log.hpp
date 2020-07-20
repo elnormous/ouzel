@@ -84,7 +84,7 @@ namespace ouzel
             return *this;
         }
 
-        Log& operator<<(const uint8_t val)
+        Log& operator<<(const std::uint8_t val)
         {
             constexpr char digits[] = "0123456789abcdef";
 

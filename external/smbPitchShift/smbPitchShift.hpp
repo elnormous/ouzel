@@ -103,15 +103,15 @@ namespace smb
             T imag;
         };
 
-        template <int32_t sign, uint32_t fftFrameSize>
+        template <int32_t sign, std::uint32_t fftFrameSize>
         void fft(Complex<float> fftBuffer[fftFrameSize]) noexcept
         {
             // Bit-reversal permutation applied to a sequence of fftFrameSize items
-            for (uint32_t i = 1; i < fftFrameSize - 1; ++i)
+            for (std::uint32_t i = 1; i < fftFrameSize - 1; ++i)
             {
-                uint32_t j = 0;
+                std::uint32_t j = 0;
 
-                for (uint32_t bitm = 1; bitm < fftFrameSize; bitm <<= 1)
+                for (std::uint32_t bitm = 1; bitm < fftFrameSize; bitm <<= 1)
                 {
                     if (i & bitm) ++j;
                     j <<= 1;
@@ -123,17 +123,17 @@ namespace smb
             }
 
             // Iterative form of Danielson-Lanczos lemma
-            uint32_t step = 2;
-            for (uint32_t i = 1; i < fftFrameSize; i <<= 1, step <<= 1)
+            std::uint32_t step = 2;
+            for (std::uint32_t i = 1; i < fftFrameSize; i <<= 1, step <<= 1)
             {
-                const uint32_t step2 = step >> 1;
+                const std::uint32_t step2 = step >> 1;
                 const float arg = pi / step2;
 
                 const Complex<float> w{std::cos(arg), std::sin(arg) * sign};
                 Complex<float> u{1.0F, 0.0F};
-                for (uint32_t j = 0; j < step2; ++j)
+                for (std::uint32_t j = 0; j < step2; ++j)
                 {
-                    for (uint32_t k = j; k < fftFrameSize; k += step)
+                    for (std::uint32_t k = j; k < fftFrameSize; k += step)
                     {
                         const Complex<float> temp = fftBuffer[k + step2] * u;
                         fftBuffer[k + step2] = fftBuffer[k] - temp;
@@ -146,14 +146,14 @@ namespace smb
         }
     }
 
-    template <uint32_t fftFrameSize, uint32_t oversamp>
+    template <std::uint32_t fftFrameSize, std::uint32_t oversamp>
     class PitchShift final
     {
     public:
         PitchShift() noexcept
         {
             // Hann window
-            for (uint32_t k = 0; k < fftFrameSize; ++k)
+            for (std::uint32_t k = 0; k < fftFrameSize; ++k)
                 window[k] = 0.5F * (1.0F + std::cos(2.0F * pi * static_cast<float>(k) / static_cast<float>(fftFrameSize)));
         }
 
@@ -163,8 +163,8 @@ namespace smb
             Time Fourier Transform.
             Author: (c)1999-2015 Stephan M. Bernsee <s.bernsee [AT] zynaptiq [DOT] com>
         */
-        void process(const float pitchShift, const uint32_t numSampsToProcess,
-                     const uint32_t sampleRate, const float* indata, float* outdata) noexcept
+        void process(const float pitchShift, const std::uint32_t numSampsToProcess,
+                     const std::uint32_t sampleRate, const float* indata, float* outdata) noexcept
         {
             // set up some handy variables
             constexpr auto fftFrameSizeHalf = fftFrameSize / 2;
@@ -175,7 +175,7 @@ namespace smb
             if (rover == 0) rover = inFifoLatency;
 
             // main processing loop
-            for (uint32_t i = 0; i < numSampsToProcess; ++i)
+            for (std::uint32_t i = 0; i < numSampsToProcess; ++i)
             {
                 // As long as we have not yet collected enough data just read in
                 inFifo[rover] = indata[i];
@@ -188,7 +188,7 @@ namespace smb
                     rover = inFifoLatency;
 
                     // do windowing
-                    for (uint32_t k = 0; k < fftFrameSize; ++k)
+                    for (std::uint32_t k = 0; k < fftFrameSize; ++k)
                         fftWorksp[k] = {inFifo[k] * window[k], 0.0F};
 
                     // ***************** ANALYSIS *******************
@@ -196,7 +196,7 @@ namespace smb
                     fft<-1, fftFrameSize>(fftWorksp);
 
                     // this is the analysis step
-                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
+                    for (std::uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
                     {
                         const Complex<float>& current = fftWorksp[k];
 
@@ -234,9 +234,9 @@ namespace smb
                     // ***************** PROCESSING *******************
                     // this does the actual pitch shifting
                     std::fill(std::begin(synMagn), std::end(synMagn), 0.0F);
-                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
+                    for (std::uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
                     {
-                        const uint32_t index = static_cast<uint32_t>(k * pitchShift);
+                        const std::uint32_t index = static_cast<std::uint32_t>(k * pitchShift);
                         if (index > fftFrameSizeHalf) break;
                         synMagn[index] += anaMagn[k];
                         synFreq[index] = anaFreq[k] * pitchShift;
@@ -244,7 +244,7 @@ namespace smb
 
                     // ***************** SYNTHESIS *******************
                     // this is the synthesis step
-                    for (uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
+                    for (std::uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
                     {
                         // get magnitude and true frequency from synthesis arrays
                         const float magn = synMagn[k];
@@ -271,21 +271,21 @@ namespace smb
                     }
 
                     // zero negative frequencies
-                    //for (uint32_t k = fftFrameSizeHalf + 1; k < fftFrameSize; ++k)
+                    //for (std::uint32_t k = fftFrameSizeHalf + 1; k < fftFrameSize; ++k)
                     //    fftWorksp[k] = {0.0F, 0.0F};
 
                     // do inverse transform
                     fft<1, fftFrameSize>(fftWorksp);
 
                     // do windowing and add to output accumulator
-                    for (uint32_t k = 0; k < fftFrameSize; ++k)
+                    for (std::uint32_t k = 0; k < fftFrameSize; ++k)
                         outputAccum[k] += 2.0F * window[k] * fftWorksp[k].real / (fftFrameSizeHalf * oversamp);
 
-                    uint32_t k;
+                    std::uint32_t k;
                     for (k = 0; k < stepSize; ++k)
                         outFifo[k] = outputAccum[k];
                     // shift accumulator
-                    uint32_t j;
+                    std::uint32_t j;
                     for (j = 0; k < fftFrameSize; ++k, ++j)
                         outputAccum[j] = outputAccum[k];
                     for (; j < fftFrameSize; ++j)
@@ -310,7 +310,7 @@ namespace smb
         float anaMagn[fftFrameSize / 2 + 1]{0.0F};
         float synFreq[fftFrameSize / 2 + 1]{0.0F};
         float synMagn[fftFrameSize / 2 + 1]{0.0F};
-        uint32_t rover = 0;
+        std::uint32_t rover = 0;
     };
 }
 

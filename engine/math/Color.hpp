@@ -54,7 +54,7 @@ namespace ouzel
                 }
                 else
                 {
-                    uint32_t intValue = 0;
+                    std::uint32_t intValue = 0;
 
                     for (const auto c : color)
                         intValue = intValue * 10 + decToInt(c);
