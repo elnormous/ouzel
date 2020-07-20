@@ -12,7 +12,7 @@ namespace ouzel
     template <std::size_t N, typename T> class Size final
     {
     public:
-        T v[N]{0};
+        T v[N]{};
 
         constexpr Size() noexcept {}
 

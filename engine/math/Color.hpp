@@ -15,7 +15,7 @@ namespace ouzel
     class Color final
     {
     public:
-        std::uint8_t v[4]{0};
+        std::uint8_t v[4]{};
 
         constexpr Color() noexcept {}
 

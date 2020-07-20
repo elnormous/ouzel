@@ -15,7 +15,7 @@ namespace ouzel
     template <typename T> class Plane final
     {
     public:
-        T v[4]{0};
+        T v[4]{};
 
         constexpr Plane() noexcept {}
 

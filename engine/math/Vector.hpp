@@ -17,7 +17,7 @@ namespace ouzel
 #if defined(__SSE__)
         alignas(N == 4 ? 4 * sizeof(T) : alignof(T))
 #endif
-        T v[N]{0};
+        T v[N]{};
 
         constexpr Vector() noexcept {}
 

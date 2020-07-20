@@ -103,7 +103,7 @@ namespace ouzel::input
         std::int32_t playerIndex = -1;
         bool absoluteDpadValues = false;
         bool attached = false;
-        float vibration[static_cast<std::uint32_t>(Motor::count)]{0.0F};
+        float vibration[static_cast<std::uint32_t>(Motor::count)]{};
     };
 }
 

@@ -13,7 +13,7 @@ namespace ouzel
     template <typename T> class Quaternion final
     {
     public:
-        T v[4]{0};
+        T v[4]{};
 
         constexpr Quaternion() noexcept {}
 

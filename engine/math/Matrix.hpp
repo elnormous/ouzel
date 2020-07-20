@@ -22,7 +22,7 @@ namespace ouzel
 #if defined(__SSE__)
         alignas((C == 4 && R == 4) ? 4 * sizeof(T) : alignof(T))
 #endif
-        T m[C * R]{0};
+        T m[C * R]{};
 
         constexpr Matrix() noexcept {}
 

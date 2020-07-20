@@ -300,16 +300,16 @@ namespace smb
 
     private:
         float window[fftFrameSize]; // the windowing function
-        float inFifo[fftFrameSize]{0.0F};
-        float outFifo[fftFrameSize]{0.0F};
-        Complex<float> fftWorksp[fftFrameSize]{{0.0F, 0.0F}};
-        float lastPhase[fftFrameSize / 2 + 1]{0.0F};
-        float sumPhase[fftFrameSize / 2 + 1]{0.0F};
-        float outputAccum[2 * fftFrameSize]{0.0F};
-        float anaFreq[fftFrameSize / 2 + 1]{0.0F};
-        float anaMagn[fftFrameSize / 2 + 1]{0.0F};
-        float synFreq[fftFrameSize / 2 + 1]{0.0F};
-        float synMagn[fftFrameSize / 2 + 1]{0.0F};
+        float inFifo[fftFrameSize]{};
+        float outFifo[fftFrameSize]{};
+        Complex<float> fftWorksp[fftFrameSize]{};
+        float lastPhase[fftFrameSize / 2 + 1]{};
+        float sumPhase[fftFrameSize / 2 + 1]{};
+        float outputAccum[2 * fftFrameSize]{};
+        float anaFreq[fftFrameSize / 2 + 1]{};
+        float anaMagn[fftFrameSize / 2 + 1]{};
+        float synFreq[fftFrameSize / 2 + 1]{};
+        float synMagn[fftFrameSize / 2 + 1]{};
         std::uint32_t rover = 0;
     };
 }
