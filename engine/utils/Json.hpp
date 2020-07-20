@@ -253,7 +253,7 @@ namespace ouzel::json
         {
             if (type != Type::object) throw TypeError("Wrong type");
 
-            const auto i = objectValue.find(member);
+            auto i = objectValue.find(member);
             if (i != objectValue.end())
                 return i->second;
             else
@@ -321,9 +321,16 @@ namespace ouzel::json
         public:
             static Value parse(Iterator begin, Iterator end)
             {
-                const std::vector<Token> tokens = tokenize(hasByteOrderMark(begin, end) ? begin + 3 : begin, end);
-                auto iterator = tokens.begin();
-                return parse(iterator, tokens.end());
+                auto iterator = hasByteOrderMark(begin, end) ? begin + 3 : begin;
+                Value result;
+                std::tie(result, iterator) = parseValue(iterator, end);
+
+                iterator = skipWhitespaces(iterator, end);
+
+                if (iterator != end)
+                    throw ParseError("Unexpected data");
+
+                return result;
             }
 
         private:
@@ -337,371 +344,309 @@ namespace ouzel::json
                 return true;
             }
 
-            struct Token final
+            static Iterator skipWhitespaces(Iterator begin, Iterator end)
             {
-                enum class Type
+                Iterator iterator = begin;
+                while (iterator != end)
                 {
-                    literalInteger, // integer
-                    literalFloat, // float
-                    literalString, // string
-                    keywordTrue, // true
-                    keywordFalse, // false
-                    keywordNull, // null
-                    leftBrace, // {
-                    rightBrace, // }
-                    leftBracket, // [
-                    rightBracket, // ]
-                    comma, // ,
-                    colon // :
-                };
+                    if (static_cast<char>(*iterator) != ' ' &&
+                        static_cast<char>(*iterator) != '\t' &&
+                        static_cast<char>(*iterator) != '\r' &&
+                        static_cast<char>(*iterator) != '\n')
+                        break;
 
-                Type type;
-                std::string value;
-            };
+                    ++iterator;
+                }
+                return iterator;
+            }
 
-            static std::vector<Token> tokenize(Iterator begin, Iterator end)
+            static std::pair<bool, Iterator> isSame(Iterator begin, Iterator end,
+                                                    const char* expectedBegin, const char* expectedEnd)
             {
-                std::vector<Token> tokens;
+                auto iterator = begin;
 
-                static const std::map<std::string, typename Token::Type> keywordMap{
-                    {"true", Token::Type::keywordTrue},
-                    {"false", Token::Type::keywordFalse},
-                    {"null", Token::Type::keywordNull}
-                };
-
-                for (auto iterator = begin; iterator != end;)
+                while (iterator != end && expectedBegin != expectedEnd)
                 {
-                    Token token;
+                    if (static_cast<char>(*iterator) != *expectedBegin)
+                        return std::make_pair(false, iterator);
 
-                    if (static_cast<char>(*iterator) == '-' ||
-                        (static_cast<char>(*iterator) >= '0' &&
-                         static_cast<char>(*iterator) <= '9'))
+                    ++iterator;
+                    ++expectedBegin;
+                }
+
+                return std::make_pair(true, iterator);
+            }
+
+            static std::pair<Value, Iterator> parseValue(Iterator begin, Iterator end)
+            {
+                Iterator iterator = skipWhitespaces(begin, end);
+
+                if (iterator == end)
+                    throw ParseError("Unexpected end of data");
+
+                if (static_cast<char>(*iterator) == '{')
+                {
+                    ++iterator;
+
+                    Value result = Value::Type::object;
+
+                    bool firstValue = true;
+
+                    while ((iterator = skipWhitespaces(iterator, end)) != end &&
+                           static_cast<char>(*iterator) != '}')
                     {
-                        token.type = Token::Type::literalInteger;
-
-                        if (static_cast<char>(*iterator) == '-')
+                        if (firstValue)
+                            firstValue = false;
+                        else
                         {
-                            token.value.push_back(static_cast<char>(*iterator));
-                            if (++iterator == end ||
-                                static_cast<char>(*iterator) < '0' ||
-                                static_cast<char>(*iterator) > '9')
-                                throw ParseError("Invalid number");
+                            if (static_cast<char>(*iterator++) != ',')
+                                throw ParseError("Invalid object");
+
+                            iterator = skipWhitespaces(iterator, end);
                         }
+
+                        std::string key;
+                        std::tie(key, iterator) = parseString(iterator, end);
+
+                        iterator = skipWhitespaces(iterator, end);
+
+                        if (static_cast<char>(*iterator++) != ':')
+                            throw ParseError("Invalid object");
+
+                        iterator = skipWhitespaces(iterator, end);
+
+                        std::tie(result[key], iterator) = parseValue(iterator, end);
+                    }
+
+                    if (iterator == end || static_cast<char>(*iterator++) != '}')
+                        throw ParseError("Invalid object");
+
+                    return std::make_pair(result, iterator);
+                }
+                else if (static_cast<char>(*iterator) == '[')
+                {
+                    ++iterator;
+
+                    Value result = Value::Type::array;
+
+                    bool firstValue = true;
+
+                    while ((iterator = skipWhitespaces(iterator, end)) != end &&
+                           static_cast<char>(*iterator) != ']')
+                    {
+                        if (firstValue)
+                            firstValue = false;
+                        else
+                        {
+                            if (static_cast<char>(*iterator++) != ',')
+                                throw ParseError("Invalid object");
+
+                            iterator = skipWhitespaces(iterator, end);
+                        }
+
+                        Value value;
+                        std::tie(value, iterator) = parseValue(iterator, end);
+                        result.pushBack(value);
+                    }
+
+                    if (iterator == end || static_cast<char>(*iterator++) != ']')
+                        throw ParseError("Invalid array");
+
+                    return std::make_pair(result, iterator);
+                }
+                else if (static_cast<char>(*iterator) == '-' ||
+                         (static_cast<char>(*iterator) >= '0' &&
+                          static_cast<char>(*iterator) <= '9'))
+                {
+                    std::string value;
+
+                    if (static_cast<char>(*iterator) == '-')
+                    {
+                        value.push_back('-');
+
+                        if (++iterator == end ||
+                            static_cast<char>(*iterator) < '0' ||
+                            static_cast<char>(*iterator) > '9')
+                            throw ParseError("Invalid number");
+                    }
+
+                    while (iterator != end &&
+                           (static_cast<char>(*iterator) >= '0' &&
+                            static_cast<char>(*iterator) <= '9'))
+                    {
+                        value.push_back(static_cast<char>(*iterator));
+                        ++iterator;
+                    }
+
+                    if (iterator != end &&
+                        static_cast<char>(*iterator) == '.')
+                    {
+                        value.push_back(static_cast<char>(*iterator));
+                        ++iterator;
 
                         while (iterator != end &&
                                (static_cast<char>(*iterator) >= '0' &&
                                 static_cast<char>(*iterator) <= '9'))
                         {
-                            token.value.push_back(static_cast<char>(*iterator));
+                            value.push_back(static_cast<char>(*iterator));
                             ++iterator;
                         }
-
-                        if (iterator != end &&
-                            static_cast<char>(*iterator) == '.')
-                        {
-                            token.type = Token::Type::literalFloat;
-
-                            token.value.push_back(static_cast<char>(*iterator));
-                            ++iterator;
-
-                            while (iterator != end &&
-                                   (static_cast<char>(*iterator) >= '0' &&
-                                    static_cast<char>(*iterator) <= '9'))
-                            {
-                                token.value.push_back(static_cast<char>(*iterator));
-                                ++iterator;
-                            }
-                        }
-
-                        // parse exponent
-                        if (iterator != end &&
-                            (static_cast<char>(*iterator) == 'e' ||
-                             static_cast<char>(*iterator) == 'E'))
-                        {
-                            token.value.push_back(static_cast<char>(*iterator));
-
-                            if (++iterator == end)
-                                throw ParseError("Invalid exponent");
-
-                            if (static_cast<char>(*iterator) == '+' ||
-                                static_cast<char>(*iterator) == '-')
-                                token.value.push_back(static_cast<char>(*iterator++));
-
-                            if (iterator == end ||
-                                static_cast<char>(*iterator) < '0' ||
-                                static_cast<char>(*iterator) > '9')
-                                throw ParseError("Invalid exponent");
-
-                            while (iterator != end &&
-                                   static_cast<char>(*iterator) >= '0' &&
-                                   static_cast<char>(*iterator) <= '9')
-                            {
-                                token.value.push_back(static_cast<char>(*iterator));
-                                ++iterator;
-                            }
-                        }
                     }
-                    else if (static_cast<char>(*iterator) == '"') // string literal
-                    {
-                        token.type = Token::Type::literalString;
-
-                        for (;;)
-                        {
-                            if (++iterator == end)
-                                throw ParseError("Unterminated string literal");
-
-                            if (static_cast<char>(*iterator) == '"')
-                            {
-                                ++iterator;
-                                break;
-                            }
-                            else if (static_cast<char>(*iterator) == '\\')
-                            {
-                                if (++iterator == end)
-                                    throw ParseError("Unterminated string literal");
-
-                                switch (static_cast<char>(*iterator))
-                                {
-                                    case '"': token.value.push_back('"'); break;
-                                    case '\\': token.value.push_back('\\'); break;
-                                    case '/': token.value.push_back('/'); break;
-                                    case 'b': token.value.push_back('\b'); break;
-                                    case 'f': token.value.push_back('\f'); break;
-                                    case 'n': token.value.push_back('\n'); break;
-                                    case 'r': token.value.push_back('\r'); break;
-                                    case 't': token.value.push_back('\t'); break;
-                                    case 'u':
-                                    {
-                                        char32_t c = 0;
-
-                                        for (std::uint32_t i = 0; i < 4; ++i)
-                                        {
-                                            if (iterator == end)
-                                                throw ParseError("Unexpected end of data");
-
-                                            std::uint8_t code = 0;
-
-                                            if (static_cast<char>(*iterator) >= '0' && static_cast<char>(*iterator) <= '9')
-                                                code = static_cast<std::uint8_t>(*iterator) - '0';
-                                            else if (static_cast<char>(*iterator) >= 'a' && static_cast<char>(*iterator) <='f')
-                                                code = static_cast<std::uint8_t>(*iterator) - 'a' + 10;
-                                            else if (static_cast<char>(*iterator) >= 'A' && static_cast<char>(*iterator) <='F')
-                                                code = static_cast<std::uint8_t>(*iterator) - 'A' + 10;
-                                            else
-                                                throw ParseError("Invalid character code");
-
-                                            c = (c << 4) | code;
-
-                                            ++iterator;
-                                        }
-
-                                        if (c <= 0x7F)
-                                            token.value.push_back(static_cast<char>(c));
-                                        else if (c <= 0x7FF)
-                                        {
-                                            token.value.push_back(static_cast<char>(0xC0 | ((c >> 6) & 0x1F)));
-                                            token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
-                                        }
-                                        else if (c <= 0xFFFF)
-                                        {
-                                            token.value.push_back(static_cast<char>(0xE0 | ((c >> 12) & 0x0F)));
-                                            token.value.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
-                                            token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
-                                        }
-                                        else
-                                        {
-                                            token.value.push_back(static_cast<char>(0xF0 | ((c >> 18) & 0x07)));
-                                            token.value.push_back(static_cast<char>(0x80 | ((c >> 12) & 0x3F)));
-                                            token.value.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
-                                            token.value.push_back(static_cast<char>(0x80 | (c & 0x3F)));
-                                        }
-
-                                        break;
-                                    }
-                                    default:
-                                        throw ParseError("Unrecognized escape character");
-                                }
-                            }
-                            else if (static_cast<std::uint8_t>(*iterator) <= 0x1F) // control char
-                                throw ParseError("Unterminated string literal");
-                            else
-                                token.value.push_back(static_cast<char>(*iterator));
-                        }
-                    }
-                    else if ((static_cast<char>(*iterator) >= 'a' && static_cast<char>(*iterator) <= 'z') ||
-                             (static_cast<char>(*iterator) >= 'A' && static_cast<char>(*iterator) <= 'Z') ||
-                             static_cast<char>(*iterator) == '_')
-                    {
-                        while (iterator != end &&
-                               ((static_cast<char>(*iterator) >= 'a' && static_cast<char>(*iterator) <= 'z') ||
-                                (static_cast<char>(*iterator) >= 'A' && static_cast<char>(*iterator) <= 'Z') ||
-                                static_cast<char>(*iterator) == '_' ||
-                                (static_cast<char>(*iterator) >= '0' && static_cast<char>(*iterator) <= '9')))
-                        {
-                            token.value.push_back(static_cast<char>(*iterator));
-                            ++iterator;
-                        }
-
-                        auto keywordIterator = keywordMap.find(token.value);
-
-                        if (keywordIterator != keywordMap.end())
-                            token.type = keywordIterator->second;
-                        else
-                            throw ParseError("Unknown keyword " + token.value);
-                    }
-                    else if (static_cast<char>(*iterator) == ' ' ||
-                             static_cast<char>(*iterator) == '\t' ||
-                             static_cast<char>(*iterator) == '\r' ||
-                             static_cast<char>(*iterator) == '\n') // whitespace or newline
-                    {
-                        ++iterator;
-                        continue;
-                    }
-                    else if (static_cast<char>(*iterator) == '\0')
-                        break;
                     else
+                        return std::make_pair(Value{std::stoll(value)}, iterator);
+
+                    // parse exponent
+                    if (iterator != end &&
+                        (static_cast<char>(*iterator) == 'e' ||
+                         static_cast<char>(*iterator) == 'E'))
                     {
-                        switch (static_cast<char>(*iterator))
-                        {
-                            case '{': token.type = Token::Type::leftBrace; break;
-                            case '}': token.type = Token::Type::rightBrace; break;
-                            case '[': token.type = Token::Type::leftBracket; break;
-                            case ']': token.type = Token::Type::rightBracket; break;
-                            case ',': token.type = Token::Type::comma; break;
-                            case ':': token.type = Token::Type::colon; break;
-                            default: throw ParseError("Unknown character");
-                        }
-
-                        ++iterator;
-                    }
-
-                    tokens.push_back(token);
-                }
-
-                return tokens;
-            }
-
-            static Value parse(typename std::vector<Token>::const_iterator& iterator,
-                               typename std::vector<Token>::const_iterator end)
-            {
-                Value result;
-
-                if (iterator == end)
-                    throw ParseError("Unexpected end of data");
-
-                if (iterator->type == Token::Type::leftBrace)
-                {
-                    result = Value::Type::object;
-
-                    ++iterator; // skip the left brace
-
-                    bool first = true;
-
-                    for (;;)
-                    {
-                        if (iterator == end)
-                            throw ParseError("Unexpected end of data");
-
-                        if (iterator->type == Token::Type::rightBrace)
-                        {
-                            ++iterator;// skip the right brace
-                            break;
-                        }
-
-                        if (first)
-                            first = false;
-                        else
-                        {
-                            if (iterator->type != Token::Type::comma)
-                                throw ParseError("Expected a comma");
-
-                            if (++iterator == end)
-                                throw ParseError("Unexpected end of data");
-                        }
-
-                        if (iterator->type != Token::Type::literalString)
-                            throw ParseError("Expected a string literal");
-
-                        const std::string& key = iterator->value;
-
-                        if (result.hasMember(key))
-                            throw ParseError("Duplicate key value " + key);
+                        value.push_back(static_cast<char>(*iterator));
 
                         if (++iterator == end)
-                            throw ParseError("Unexpected end of data");
+                            throw ParseError("Invalid exponent");
 
-                        if (iterator->type != Token::Type::colon)
-                            throw ParseError("Expected a colon");
+                        if (static_cast<char>(*iterator) == '+' ||
+                            static_cast<char>(*iterator) == '-')
+                            value.push_back(static_cast<char>(*iterator++));
 
-                        if (++iterator == end)
-                            throw ParseError("Unexpected end of data");
+                        if (iterator == end ||
+                            static_cast<char>(*iterator) < '0' ||
+                            static_cast<char>(*iterator) > '9')
+                            throw ParseError("Invalid exponent");
 
-                        result[key] = parse(iterator, end);
-                    }
-                }
-                else if (iterator->type == Token::Type::leftBracket)
-                {
-                    result = Value::Type::array;
-
-                    ++iterator; // skip the left bracket
-
-                    bool first = true;
-
-                    for (;;)
-                    {
-                        if (iterator == end)
-                            throw ParseError("Unexpected end of data");
-
-                        if (iterator->type == Token::Type::rightBracket)
+                        while (iterator != end &&
+                               static_cast<char>(*iterator) >= '0' &&
+                               static_cast<char>(*iterator) <= '9')
                         {
-                            ++iterator;// skip the right bracket
-                            break;
+                            value.push_back(static_cast<char>(*iterator));
+                            ++iterator;
                         }
-
-                        if (first)
-                            first = false;
-                        else
-                        {
-                            if (iterator->type != Token::Type::comma)
-                                throw ParseError("Expected a comma");
-
-                            if (++iterator == end)
-                                throw ParseError("Unexpected end of data");
-                        }
-
-                        result.pushBack(parse(iterator, end));
                     }
+
+                    return std::make_pair(Value{std::stod(value)}, iterator);
                 }
-                else if (iterator->type == Token::Type::literalInteger)
+                else if (static_cast<char>(*iterator) == '"')
                 {
-                    result = std::stoll(iterator->value);
-                    ++iterator;
-                }
-                else if (iterator->type == Token::Type::literalFloat)
-                {
-                    result = std::stod(iterator->value);
-                    ++iterator;
-                }
-                else if (iterator->type == Token::Type::literalString)
-                {
-                    result = iterator->value;
-                    ++iterator;
-                }
-                else if (iterator->type == Token::Type::keywordTrue ||
-                         iterator->type == Token::Type::keywordFalse)
-                {
-                    result = iterator->type == Token::Type::keywordTrue;
-                    ++iterator;
-                }
-                else if (iterator->type == Token::Type::keywordNull)
-                {
-                    result = nullptr;
-                    ++iterator;
+                    std::string stringValue;
+                    std::tie(stringValue, iterator) = parseString(iterator, end);
+                    return std::make_pair(Value{stringValue}, iterator);
                 }
                 else
-                    throw ParseError("Expected a value");
+                {
+                    constexpr char trueString[] = {'t', 'r', 'u', 'e'};
+                    constexpr char falseString[] = {'f', 'a', 'l', 's', 'e'};
+                    constexpr char nullString[] = {'n', 'u', 'l', 'l'};
 
-                return result;
+                    bool isTrue;
+                    std::tie(isTrue, iterator) = isSame(iterator, end, std::begin(trueString), std::end(trueString));
+                    if (isTrue)
+                        return std::make_pair(Value{true}, iterator);
+
+                    bool isFalse;
+                    std::tie(isFalse, iterator) = isSame(iterator, end, std::begin(falseString), std::end(falseString));
+                    if (isFalse)
+                        return std::make_pair(Value{false}, iterator);
+
+                    bool isNull;
+                    std::tie(isNull, iterator) = isSame(iterator, end, std::begin(nullString), std::end(nullString));
+                    if (isNull)
+                        return std::make_pair(Value{nullptr}, iterator);
+
+                    throw ParseError("Unexpected identifier");
+                }
+            }
+
+            static std::pair<std::string, Iterator> parseString(Iterator begin, Iterator end)
+            {
+                std::string result;
+                Iterator iterator = begin;
+
+                if (iterator == end || static_cast<char>(*iterator) != '"')
+                    throw ParseError("Invalid string");
+
+                ++iterator;
+
+                while (iterator != end && static_cast<char>(*iterator) != '"')
+                {
+                    if (static_cast<char>(*iterator) == '\\')
+                    {
+                        if (++iterator == end)
+                            throw ParseError("Unterminated string literal");
+
+                        switch (static_cast<char>(*iterator))
+                        {
+                            case '"': result.push_back('"'); break;
+                            case '\\': result.push_back('\\'); break;
+                            case '/': result.push_back('/'); break;
+                            case 'b': result.push_back('\b'); break;
+                            case 'f': result.push_back('\f'); break;
+                            case 'n': result.push_back('\n'); break;
+                            case 'r': result.push_back('\r'); break;
+                            case 't': result.push_back('\t'); break;
+                            case 'u':
+                            {
+                                char32_t c = 0;
+
+                                for (std::uint32_t i = 0; i < 4; ++i)
+                                {
+                                    if (iterator == end)
+                                        throw ParseError("Unexpected end of data");
+
+                                    std::uint8_t code = 0;
+
+                                    if (static_cast<char>(*iterator) >= '0' && static_cast<char>(*iterator) <= '9')
+                                        code = static_cast<std::uint8_t>(*iterator) - '0';
+                                    else if (static_cast<char>(*iterator) >= 'a' && static_cast<char>(*iterator) <='f')
+                                        code = static_cast<std::uint8_t>(*iterator) - 'a' + 10;
+                                    else if (static_cast<char>(*iterator) >= 'A' && static_cast<char>(*iterator) <='F')
+                                        code = static_cast<std::uint8_t>(*iterator) - 'A' + 10;
+                                    else
+                                        throw ParseError("Invalid character code");
+
+                                    c = (c << 4) | code;
+
+                                    ++iterator;
+                                }
+
+                                if (c <= 0x7F)
+                                    result.push_back(static_cast<char>(c));
+                                else if (c <= 0x7FF)
+                                {
+                                    result.push_back(static_cast<char>(0xC0 | ((c >> 6) & 0x1F)));
+                                    result.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                                }
+                                else if (c <= 0xFFFF)
+                                {
+                                    result.push_back(static_cast<char>(0xE0 | ((c >> 12) & 0x0F)));
+                                    result.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                                    result.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                                }
+                                else
+                                {
+                                    result.push_back(static_cast<char>(0xF0 | ((c >> 18) & 0x07)));
+                                    result.push_back(static_cast<char>(0x80 | ((c >> 12) & 0x3F)));
+                                    result.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                                    result.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                                }
+
+                                break;
+                            }
+                            default:
+                                throw ParseError("Unrecognized escape character");
+                        }
+                    }
+                    else if (static_cast<std::uint8_t>(*iterator) <= 0x1F) // control char
+                        throw ParseError("Unterminated string literal");
+                    else
+                        result.push_back(static_cast<char>(*iterator));
+
+                    ++iterator;
+                }
+
+                if (iterator == end || static_cast<char>(*iterator++) != '"')
+                    throw ParseError("Invalid string");
+
+                return std::make_pair(result, iterator);
             }
         };
 
