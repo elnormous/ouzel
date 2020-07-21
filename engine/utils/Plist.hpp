@@ -49,7 +49,7 @@ namespace ouzel::plist
         template <class T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
         Value(T value):type{Type::real}, realValue{static_cast<double>(value)} {}
         template <class T, typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type* = nullptr>
-        Value(T value):type{Type::integer}, integerValue{static_cast<int64_t>(value)} {}
+        Value(T value):type{Type::integer}, integerValue{static_cast<std::int64_t>(value)} {}
         Value(const std::string& value):type{Type::string}, stringValue{value} {}
         Value(const char* value):type{Type::string}, stringValue{value} {}
         Value(const Data& value):type{Type::data}, dataValue{value} {}
@@ -87,7 +87,7 @@ namespace ouzel::plist
         Value& operator=(T value)
         {
             type = Type::integer;
-            integerValue = static_cast<int64_t>(value);
+            integerValue = static_cast<std::int64_t>(value);
             return *this;
         }
 
@@ -375,7 +375,7 @@ namespace ouzel::plist
                         result += std::to_string(value.as<double>());
                         break;
                     case Value::Type::integer:
-                        result += std::to_string(value.as<int64_t>());
+                        result += std::to_string(value.as<std::int64_t>());
                         break;
                     case Value::Type::boolean:
                         result += value.as<bool>() ? "YES" : "NO";
@@ -473,7 +473,7 @@ namespace ouzel::plist
                         break;
                     case Value::Type::integer:
                         result += "<integer>";
-                        result += std::to_string(value.as<int64_t>());
+                        result += std::to_string(value.as<std::int64_t>());
                         result += "</integer>";
                         break;
                     case Value::Type::boolean:

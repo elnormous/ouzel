@@ -103,7 +103,7 @@ namespace smb
             T imag;
         };
 
-        template <int32_t sign, std::uint32_t fftFrameSize>
+        template <std::int32_t sign, std::uint32_t fftFrameSize>
         void fft(Complex<float> fftBuffer[fftFrameSize]) noexcept
         {
             // Bit-reversal permutation applied to a sequence of fftFrameSize items
@@ -215,7 +215,7 @@ namespace smb
                         tmp -= static_cast<float>(k) * expected;
 
                         // map delta phase into +/- Pi interval
-                        std::int32_t qpd = static_cast<int32_t>(tmp / pi);
+                        std::int32_t qpd = static_cast<std::int32_t>(tmp / pi);
                         if (qpd >= 0) qpd += qpd & 1;
                         else qpd -= qpd & 1;
                         tmp -= pi * static_cast<float>(qpd);
