@@ -215,7 +215,7 @@ namespace smb
                         tmp -= static_cast<float>(k) * expected;
 
                         // map delta phase into +/- Pi interval
-                        int32_t qpd = static_cast<int32_t>(tmp / pi);
+                        std::int32_t qpd = static_cast<int32_t>(tmp / pi);
                         if (qpd >= 0) qpd += qpd & 1;
                         else qpd -= qpd & 1;
                         tmp -= pi * static_cast<float>(qpd);

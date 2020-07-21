@@ -278,7 +278,7 @@ namespace ouzel::plist
         Array arrayValue;
         std::string stringValue;
         double realValue = 0.0;
-        int64_t integerValue = 0;
+        std::int64_t integerValue = 0;
         bool booleanValue = false;
         Data dataValue;
     };
