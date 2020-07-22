@@ -13,6 +13,7 @@ namespace ouzel::graphics::renderer
     class Renderer final
     {
     public:
+        using ResourceId = std::size_t;
         struct Command final
         {
             enum class Type
@@ -20,15 +21,16 @@ namespace ouzel::graphics::renderer
                 initCamera,
                 initLight,
                 initMaterial,
-                initObject
+                initObject,
+                destroyResource
             };
 
             Type type;
+            ResourceId resourceId;
         };
 
         Renderer() = default;
 
-        using ResourceId = std::size_t;
         class Resource final
         {
         public:
