@@ -166,40 +166,41 @@ namespace ouzel::audio
         commandBuffer = mixer::CommandBuffer();
     }
 
-    void Audio::deleteObject(std::size_t objectId)
+    void Audio::deleteObject(mixer::Mixer::ObjectId objectId)
     {
         addCommand(std::make_unique<mixer::DeleteObjectCommand>(objectId));
     }
 
-    std::size_t Audio::initBus()
+    mixer::Mixer::ObjectId Audio::initBus()
     {
-        std::size_t busId = mixer.getObjectId();
+        mixer::Mixer::ObjectId busId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitBusCommand>(busId));
         return busId;
     }
 
-    std::size_t Audio::initStream(std::size_t sourceId)
+    mixer::Mixer::ObjectId Audio::initStream(mixer::Mixer::ObjectId sourceId)
     {
-        std::size_t streamId = mixer.getObjectId();
+        mixer::Mixer::ObjectId streamId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitStreamCommand>(streamId, sourceId));
         return streamId;
     }
 
-    std::size_t Audio::initData(std::unique_ptr<mixer::Data> data)
+    mixer::Mixer::ObjectId Audio::initData(std::unique_ptr<mixer::Data> data)
     {
-        std::size_t dataId = mixer.getObjectId();
+        mixer::Mixer::ObjectId dataId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitDataCommand>(dataId, std::move(data)));
         return dataId;
     }
 
-    std::size_t Audio::initProcessor(std::unique_ptr<mixer::Processor> processor)
+    mixer::Mixer::ObjectId Audio::initProcessor(std::unique_ptr<mixer::Processor> processor)
     {
-        std::size_t processorId = mixer.getObjectId();
+        mixer::Mixer::ObjectId processorId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitProcessorCommand>(processorId, std::move(processor)));
         return processorId;
     }
 
-    void Audio::updateProcessor(std::size_t processorId, const std::function<void(mixer::Processor*)>& updateFunction)
+    void Audio::updateProcessor(mixer::Mixer::ObjectId processorId,
+                                const std::function<void(mixer::Processor*)>& updateFunction)
     {
         addCommand(std::make_unique<mixer::UpdateProcessorCommand>(processorId, updateFunction));
     }

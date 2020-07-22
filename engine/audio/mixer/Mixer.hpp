@@ -76,7 +76,8 @@ namespace ouzel::audio::mixer
         void process();
         void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples);
 
-        std::size_t getObjectId()
+        using ObjectId = std::size_t;
+        ObjectId getObjectId()
         {
             const auto i = deletedObjectIds.begin();
 
@@ -90,7 +91,7 @@ namespace ouzel::audio::mixer
             }
         }
 
-        void deleteObjectId(std::size_t objectId)
+        void deleteObjectId(ObjectId objectId)
         {
             deletedObjectIds.insert(objectId);
         }
@@ -114,8 +115,8 @@ namespace ouzel::audio::mixer
         std::uint32_t channels;
         std::function<void(const Event&)> callback;
 
-        std::size_t lastObjectId = 0;
-        std::set<std::size_t> deletedObjectIds;
+        ObjectId lastObjectId = 0;
+        std::set<ObjectId> deletedObjectIds;
 
         std::vector<std::unique_ptr<Object>> objects;
         std::size_t rootObjectId = 0;
