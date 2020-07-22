@@ -47,8 +47,8 @@ namespace ouzel::graphics
         event.type = Event::Type::frame;
         callback(event);
 
-        auto currentTime = std::chrono::steady_clock::now();
-        auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
+        const auto currentTime = std::chrono::steady_clock::now();
+        const auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
         previousFrameTime = currentTime;
 
         const float delta = diff.count() / 1000000000.0F;
