@@ -558,7 +558,7 @@ namespace ouzel::graphics
 
         SetTextureDataCommand(std::size_t initTexture,
                               const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
-                              CubeFace initFace) noexcept:
+                              CubeFace initFace) noexcept(false):
             Command(Command::Type::setTextureData),
             texture(initTexture),
             levels(initLevels),
