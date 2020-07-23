@@ -118,7 +118,7 @@ namespace ouzel::graphics
     public:
         InitRenderTargetCommand(std::size_t initRenderTarget,
                                 const std::set<std::size_t>& initColorTextures,
-                                std::size_t initDepthTexture):
+                                std::size_t initDepthTexture) noexcept(false):
             Command(Command::Type::initRenderTarget),
             renderTarget(initRenderTarget),
             colorTextures(initColorTextures),
@@ -370,7 +370,7 @@ namespace ouzel::graphics
     class PushDebugMarkerCommand final: public Command
     {
     public:
-        explicit PushDebugMarkerCommand(const std::string& initName):
+        explicit PushDebugMarkerCommand(const std::string& initName) noexcept(false):
             Command(Command::Type::pushDebugMarker),
             name(initName)
         {
@@ -431,7 +431,7 @@ namespace ouzel::graphics
                           BufferType initBufferType,
                           Flags initFlags,
                           const std::vector<std::uint8_t>& initData,
-                          std::uint32_t initSize):
+                          std::uint32_t initSize) noexcept(false):
             Command(Command::Type::initBuffer),
             buffer(initBuffer),
             bufferType(initBufferType),
@@ -452,7 +452,7 @@ namespace ouzel::graphics
     {
     public:
         SetBufferDataCommand(std::size_t initBuffer,
-                             const std::vector<std::uint8_t>& initData):
+                             const std::vector<std::uint8_t>& initData) noexcept(false):
             Command(Command::Type::setBufferData),
             buffer(initBuffer),
             data(initData)
@@ -473,7 +473,7 @@ namespace ouzel::graphics
                           const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                           const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                           const std::string& initFragmentShaderFunction,
-                          const std::string& initVertexShaderFunction):
+                          const std::string& initVertexShaderFunction) noexcept(false):
             Command(Command::Type::initShader),
             shader(initShader),
             fragmentShader(initFragmentShader),
@@ -500,7 +500,7 @@ namespace ouzel::graphics
     {
     public:
         SetShaderConstantsCommand(std::vector<std::vector<float>> initFragmentShaderConstants,
-                                  std::vector<std::vector<float>> initVertexShaderConstants):
+                                  std::vector<std::vector<float>> initVertexShaderConstants) noexcept(false):
             Command(Command::Type::setShaderConstants),
             fragmentShaderConstants(initFragmentShaderConstants),
             vertexShaderConstants(initVertexShaderConstants)
@@ -521,7 +521,7 @@ namespace ouzel::graphics
                            std::uint32_t initSampleCount,
                            PixelFormat initPixelFormat,
                            SamplerFilter initFilter,
-                           std::uint32_t initMaxAnisotropy):
+                           std::uint32_t initMaxAnisotropy) noexcept(false):
             Command(Command::Type::initTexture),
             texture(initTexture),
             levels(initLevels),
@@ -548,7 +548,7 @@ namespace ouzel::graphics
     {
     public:
         SetTextureDataCommand(std::size_t initTexture,
-                              const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels):
+                              const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels) noexcept(false):
             Command(Command::Type::setTextureData),
             texture(initTexture),
             levels(initLevels),
@@ -604,7 +604,7 @@ namespace ouzel::graphics
     class SetTexturesCommand final: public Command
     {
     public:
-        explicit SetTexturesCommand(const std::vector<std::size_t>& initTextures):
+        explicit SetTexturesCommand(const std::vector<std::size_t>& initTextures) noexcept(false):
             Command(Command::Type::setTextures),
             textures(initTextures)
         {
@@ -617,7 +617,7 @@ namespace ouzel::graphics
     {
     public:
         CommandBuffer() = default;
-        explicit CommandBuffer(const std::string& initName):
+        explicit CommandBuffer(const std::string& initName) noexcept(false):
             name(initName)
         {
         }
