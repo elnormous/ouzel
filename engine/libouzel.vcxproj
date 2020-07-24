@@ -223,6 +223,7 @@
     <ClInclude Include="graphics\CubeFace.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11Pointer.hpp" />
     <ClInclude Include="graphics\renderer\Camera.hpp" />
+    <ClInclude Include="graphics\renderer\Commands.hpp" />
     <ClInclude Include="graphics\renderer\Light.hpp" />
     <ClInclude Include="graphics\renderer\Material.hpp" />
     <ClInclude Include="graphics\renderer\Object.hpp" />

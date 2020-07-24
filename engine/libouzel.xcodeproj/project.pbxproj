@@ -1107,6 +1107,7 @@
 		30FFF2CE24BA8F1400FF44A8 /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 		30FFF2CF24BC623100FF44A8 /* Settings.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Settings.hpp; sourceTree = "<group>"; };
 		30FFF2D024BC674100FF44A8 /* Settings.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Settings.hpp; sourceTree = "<group>"; };
+		30FFF2D424CBA15E00FF44A8 /* Commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Commands.hpp; sourceTree = "<group>"; };
 		C6153F10221185950080FB0B /* OGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OGL.h; sourceTree = "<group>"; };
 		C61B49E62174B83900B818F1 /* SkinnedMeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkinnedMeshRenderer.hpp; sourceTree = "<group>"; };
 		C61B49E72174B83900B818F1 /* SkinnedMeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkinnedMeshRenderer.cpp; sourceTree = "<group>"; };
@@ -1771,6 +1772,7 @@
 			isa = PBXGroup;
 			children = (
 				30FFF2CE24BA8F1400FF44A8 /* Camera.hpp */,
+				30FFF2D424CBA15E00FF44A8 /* Commands.hpp */,
 				30FFF2CC24BA8EF700FF44A8 /* Light.hpp */,
 				30FFF2C724BA8EC700FF44A8 /* Material.hpp */,
 				30FFF2CD24BA8F0200FF44A8 /* Object.hpp */,

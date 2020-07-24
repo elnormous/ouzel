@@ -937,6 +937,9 @@
     <ClInclude Include="graphics\renderer\Camera.hpp">
       <Filter>engine\graphics\renderer</Filter>
     </ClInclude>
+    <ClInclude Include="graphics\renderer\Commands.hpp">
+      <Filter>engine\graphics\renderer</Filter>
+    </ClInclude>
     <ClInclude Include="graphics\renderer\Light.hpp">
       <Filter>engine\graphics\renderer</Filter>
     </ClInclude>
