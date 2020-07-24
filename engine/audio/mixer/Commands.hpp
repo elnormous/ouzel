@@ -14,6 +14,8 @@
 
 namespace ouzel::audio::mixer
 {
+    using ObjectId = std::size_t;
+
     class Command
     {
     public:
@@ -48,242 +50,242 @@ namespace ouzel::audio::mixer
     class InitObjectCommand final: public Command
     {
     public:
-        explicit constexpr InitObjectCommand(std::size_t initObjectId) noexcept:
+        explicit constexpr InitObjectCommand(ObjectId initObjectId) noexcept:
             Command(Command::Type::initObject),
             objectId(initObjectId)
         {}
 
-        InitObjectCommand(std::size_t initObjectId,
+        InitObjectCommand(ObjectId initObjectId,
                           std::unique_ptr<Source> initSource) noexcept:
             Command(Command::Type::initObject),
             objectId(initObjectId),
             source(std::move(initSource))
         {}
 
-        const std::size_t objectId;
+        const ObjectId objectId;
         std::unique_ptr<Source> source;
     };
 
     class DeleteObjectCommand final: public Command
     {
     public:
-        explicit constexpr DeleteObjectCommand(std::size_t initObjectId) noexcept:
+        explicit constexpr DeleteObjectCommand(ObjectId initObjectId) noexcept:
             Command(Command::Type::deleteObject),
             objectId(initObjectId)
         {}
 
-        const std::size_t objectId;
+        const ObjectId objectId;
     };
 
     class AddChildCommand final: public Command
     {
     public:
-        constexpr AddChildCommand(std::size_t initObjectId,
-                                  std::size_t initChildId) noexcept:
+        constexpr AddChildCommand(ObjectId initObjectId,
+                                  ObjectId initChildId) noexcept:
             Command(Command::Type::addChild),
             objectId(initObjectId),
             childId(initChildId)
         {}
 
-        const std::size_t objectId;
-        const std::size_t childId;
+        const ObjectId objectId;
+        const ObjectId childId;
     };
 
     class RemoveChildCommand final: public Command
     {
     public:
-        constexpr RemoveChildCommand(std::size_t initObjectId,
-                                     std::size_t initChildId) noexcept:
+        constexpr RemoveChildCommand(ObjectId initObjectId,
+                                     ObjectId initChildId) noexcept:
             Command(Command::Type::removeChild),
             objectId(initObjectId),
             childId(initChildId)
         {}
 
-        const std::size_t objectId;
-        const std::size_t childId;
+        const ObjectId objectId;
+        const ObjectId childId;
     };
 
     class PlayCommand final: public Command
     {
     public:
-        explicit constexpr PlayCommand(std::size_t initObjectId) noexcept:
+        explicit constexpr PlayCommand(ObjectId initObjectId) noexcept:
             Command(Command::Type::play),
             objectId(initObjectId)
         {}
 
-        const std::size_t objectId;
+        const ObjectId objectId;
     };
 
     class StopCommand final: public Command
     {
     public:
-        constexpr StopCommand(std::size_t initObjectId,
+        constexpr StopCommand(ObjectId initObjectId,
                               bool initReset) noexcept:
             Command(Command::Type::stop),
             objectId(initObjectId),
             reset(initReset)
         {}
 
-        const std::size_t objectId;
+        const ObjectId objectId;
         const bool reset;
     };
 
     class InitBusCommand final: public Command
     {
     public:
-        explicit constexpr InitBusCommand(std::size_t initBusId) noexcept:
+        explicit constexpr InitBusCommand(ObjectId initBusId) noexcept:
             Command(Command::Type::initBus),
             busId(initBusId)
         {}
 
-        const std::size_t busId;
+        const ObjectId busId;
     };
 
     class SetBusOutputCommand final: public Command
     {
     public:
-        constexpr SetBusOutputCommand(std::size_t initBusId,
-                                      std::size_t initOutputBusId) noexcept:
+        constexpr SetBusOutputCommand(ObjectId initBusId,
+                                      ObjectId initOutputBusId) noexcept:
             Command(Command::Type::setBusOutput),
             busId(initBusId),
             outputBusId(initOutputBusId)
         {}
 
-        const std::size_t busId;
-        const std::size_t outputBusId;
+        const ObjectId busId;
+        const ObjectId outputBusId;
     };
 
     class AddProcessorCommand final: public Command
     {
     public:
-        constexpr AddProcessorCommand(std::size_t initBusId,
-                                      std::size_t initProcessorId) noexcept:
+        constexpr AddProcessorCommand(ObjectId initBusId,
+                                      ObjectId initProcessorId) noexcept:
             Command(Command::Type::addProcessor),
             busId(initBusId),
             processorId(initProcessorId)
         {}
 
-        const std::size_t busId;
-        const std::size_t processorId;
+        const ObjectId busId;
+        const ObjectId processorId;
     };
 
     class RemoveProcessorCommand final: public Command
     {
     public:
-        constexpr RemoveProcessorCommand(std::size_t initBusId,
-                                         std::size_t initProcessorId) noexcept:
+        constexpr RemoveProcessorCommand(ObjectId initBusId,
+                                         ObjectId initProcessorId) noexcept:
             Command(Command::Type::removeProcessor),
             busId(initBusId),
             processorId(initProcessorId)
         {}
 
-        const std::size_t busId;
-        const std::size_t processorId;
+        const ObjectId busId;
+        const ObjectId processorId;
     };
 
     class SetMasterBusCommand final: public Command
     {
     public:
-        explicit constexpr SetMasterBusCommand(std::size_t initBusId) noexcept:
+        explicit constexpr SetMasterBusCommand(ObjectId initBusId) noexcept:
             Command(Command::Type::setMasterBus),
             busId(initBusId)
         {}
 
-        const std::size_t busId;
+        const ObjectId busId;
     };
 
     class InitStreamCommand final: public Command
     {
     public:
-        constexpr InitStreamCommand(std::size_t initStreamId,
-                                    std::size_t initDataId) noexcept:
+        constexpr InitStreamCommand(ObjectId initStreamId,
+                                    ObjectId initDataId) noexcept:
             Command(Command::Type::initStream),
             streamId(initStreamId),
             dataId(initDataId)
         {}
 
-        const std::size_t streamId;
-        const std::size_t dataId;
+        const ObjectId streamId;
+        const ObjectId dataId;
     };
 
     class PlayStreamCommand final: public Command
     {
     public:
-        explicit constexpr PlayStreamCommand(std::size_t initStreamId) noexcept:
+        explicit constexpr PlayStreamCommand(ObjectId initStreamId) noexcept:
             Command(Command::Type::playStream),
             streamId(initStreamId)
         {}
 
-        const std::size_t streamId;
+        const ObjectId streamId;
     };
 
     class StopStreamCommand final: public Command
     {
     public:
-        constexpr StopStreamCommand(std::size_t initStreamId,
+        constexpr StopStreamCommand(ObjectId initStreamId,
                                     bool initReset) noexcept:
             Command(Command::Type::stopStream),
             streamId(initStreamId),
             reset(initReset)
         {}
 
-        const std::size_t streamId;
+        const ObjectId streamId;
         const bool reset;
     };
 
     class SetStreamOutputCommand final: public Command
     {
     public:
-        constexpr SetStreamOutputCommand(std::size_t initStreamId,
-                                         std::size_t initBusId) noexcept:
+        constexpr SetStreamOutputCommand(ObjectId initStreamId,
+                                         ObjectId initBusId) noexcept:
             Command(Command::Type::setStreamOutput),
             streamId(initStreamId),
             busId(initBusId)
         {}
 
-        const std::size_t streamId;
-        const std::size_t busId;
+        const ObjectId streamId;
+        const ObjectId busId;
     };
 
     class InitDataCommand final: public Command
     {
     public:
-        InitDataCommand(std::size_t initDataId,
+        InitDataCommand(ObjectId initDataId,
                         std::unique_ptr<Data> initData) noexcept:
             Command(Command::Type::initData),
             dataId(initDataId),
             data(std::move(initData))
         {}
 
-        const std::size_t dataId;
+        const ObjectId dataId;
         std::unique_ptr<Data> data;
     };
 
     class InitProcessorCommand final: public Command
     {
     public:
-        InitProcessorCommand(std::size_t initProcessorId,
+        InitProcessorCommand(ObjectId initProcessorId,
                             std::unique_ptr<Processor> initProcessor) noexcept:
             Command(Command::Type::initProcessor),
             processorId(initProcessorId),
             processor(std::move(initProcessor))
         {}
 
-        const std::size_t processorId;
+        const ObjectId processorId;
         std::unique_ptr<Processor> processor;
     };
 
     class UpdateProcessorCommand final: public Command
     {
     public:
-        UpdateProcessorCommand(std::size_t initProcessorId,
+        UpdateProcessorCommand(ObjectId initProcessorId,
                                const std::function<void(Processor*)>& initUpdateFunction) noexcept:
             Command(Command::Type::updateProcessor),
             processorId(initProcessorId),
             updateFunction(initUpdateFunction)
         {}
 
-        const std::size_t processorId;
+        const ObjectId processorId;
         const std::function<void(Processor*)> updateFunction;
     };
 

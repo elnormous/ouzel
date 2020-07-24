@@ -13,9 +13,9 @@ namespace ouzel::graphics::renderer
     class Renderer final
     {
     public:
-        using ResourceId = std::size_t;
-
         Renderer() = default;
+
+        using ResourceId = std::size_t;
 
         class Resource final
         {

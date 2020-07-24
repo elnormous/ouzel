@@ -6,6 +6,7 @@
 namespace ouzel::graphics::renderer
 {
     using ResourceId = std::size_t;
+
     struct Command final
     {
         enum class Type
