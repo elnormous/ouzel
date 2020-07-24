@@ -19,9 +19,13 @@ namespace ouzel::graphics::renderer
             enum class Type
             {
                 initCamera,
+                setCameraAttributes,
                 initLight,
+                setLightAttributes,
                 initMaterial,
+                setMaterialAttributes,
                 initObject,
+                setObjectAttributes,
                 destroyResource
             };
 
