@@ -347,11 +347,8 @@ namespace ouzel::xml
 
                         for (std::size_t i = 0; i < 4; ++i)
                         {
-                            std::uint8_t code = 0;
-
-                            if (value[i + 1] >= '0' && value[i + 1] <= '9')
-                                code = static_cast<std::uint8_t>(value[i + 1]) - '0';
-                            else
+                            const std::uint8_t code = (value[i + 1] >= '0' && value[i + 1] <= '9') ?
+                                static_cast<std::uint8_t>(value[i + 1]) - '0' :
                                 throw ParseError("Invalid character code");
 
                             c = c * 10 + code;
