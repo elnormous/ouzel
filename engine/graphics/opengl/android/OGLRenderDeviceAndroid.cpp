@@ -51,6 +51,7 @@ namespace ouzel::graphics::opengl::android
     RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
         opengl::RenderDevice(initCallback)
     {
+        embedded = true;
     }
 
     RenderDevice::~RenderDevice()

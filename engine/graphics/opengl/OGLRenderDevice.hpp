@@ -598,6 +598,8 @@ namespace ouzel::graphics::opengl
         void generateScreenshot(const std::string& filename) override;
         void setUniform(GLint location, DataType dataType, const void* data);
 
+        bool embedded = false;
+
         GLuint frameBufferId = 0;
         GLsizei frameBufferWidth = 0;
         GLsizei frameBufferHeight = 0;
@@ -606,7 +608,7 @@ namespace ouzel::graphics::opengl
         bool textureBaseLevelSupported:1;
         bool textureMaxLevelSupported:1;
 
-        struct StateCache
+        struct StateCache final
         {
             GLenum frontFace = GL_CCW;
 

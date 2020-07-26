@@ -36,6 +36,7 @@ namespace ouzel::graphics::opengl::tvos
         opengl::RenderDevice(initCallback),
         displayLink(tvos::renderCallback, this)
     {
+        embedded = true;
     }
 
     RenderDevice::~RenderDevice()

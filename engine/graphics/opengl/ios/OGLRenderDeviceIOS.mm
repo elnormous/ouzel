@@ -36,6 +36,7 @@ namespace ouzel::graphics::opengl::ios
         opengl::RenderDevice(initCallback),
         displayLink(ios::renderCallback, this)
     {
+        embedded = true;
     }
 
     RenderDevice::~RenderDevice()

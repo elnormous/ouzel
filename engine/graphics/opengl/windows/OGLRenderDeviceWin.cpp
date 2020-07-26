@@ -171,6 +171,7 @@ namespace ouzel::graphics::opengl::windows
     RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
         opengl::RenderDevice(initCallback)
     {
+        embedded = false;
     }
 
     RenderDevice::~RenderDevice()
