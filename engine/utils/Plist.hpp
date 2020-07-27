@@ -385,8 +385,8 @@ namespace ouzel::plist
                         for (const auto b : value.as<Value::Data>())
                         {
                             constexpr char digits[] = "0123456789ABCDEF";
-                            result += digits[static_cast<std::size_t>(b >> 4) & 0x0F];
-                            result += digits[static_cast<std::size_t>(b >> 0) & 0x0F];
+                            result += digits[(static_cast<std::size_t>(b) >> 4) & 0x0F];
+                            result += digits[static_cast<std::size_t>(b) & 0x0F];
                         }
                         result += '>';
                         break;
