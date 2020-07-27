@@ -82,7 +82,7 @@ namespace ouzel::graphics::opengl::android
     {
         display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
-        if (!display)
+        if (display == EGL_NO_DISPLAY)
             throw std::runtime_error("Failed to get display");
 
         if (!eglInitialize(display, nullptr, nullptr))
