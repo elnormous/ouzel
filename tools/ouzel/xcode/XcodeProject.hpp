@@ -4,6 +4,7 @@
 #define OUZEL_XCODE_XCODEPROJECT_HPP
 
 #include <fstream>
+#include <memory>
 #include <string>
 #include <vector>
 #include "../Project.hpp"

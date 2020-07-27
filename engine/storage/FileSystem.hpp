@@ -4,6 +4,7 @@
 #define OUZEL_STORAGE_FILESYSTEM_HPP
 
 #include <cstdint>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <system_error>
