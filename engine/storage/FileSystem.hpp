@@ -3,6 +3,7 @@
 #ifndef OUZEL_STORAGE_FILESYSTEM_HPP
 #define OUZEL_STORAGE_FILESYSTEM_HPP
 
+#include <algorithm>
 #include <cstdint>
 #include <memory>
 #include <stdexcept>
