@@ -139,17 +139,13 @@ namespace ouzel::graphics::opengl
         template <typename T>
         T getProcAddress(const char* name, ApiVersion procApiVersion) const noexcept
         {
-            return reinterpret_cast<T>(eglGetProcAddress(name));
-
 #if OUZEL_OPENGL_INTERFACE_EGL
 #  if OUZEL_OPENGLES
             return procApiVersion >= ApiVersion(3, 0) ?
                 reinterpret_cast<T>(eglGetProcAddress(name)) :
                 reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
 #  else
-            return procApiVersion > ApiVersion(1, 0) ?
-                reinterpret_cast<T>(eglGetProcAddress(name)) :
-                reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
+            return reinterpret_cast<T>(eglGetProcAddress(name));
 #  endif
 #elif OUZEL_OPENGL_INTERFACE_WGL
             return procApiVersion > ApiVersion(1, 1) ?
