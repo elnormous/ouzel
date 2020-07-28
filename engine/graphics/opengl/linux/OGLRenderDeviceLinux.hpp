@@ -11,13 +11,8 @@
 
 #include <atomic>
 #include <thread>
-#if OUZEL_OPENGL_INTERFACE_GLX
-#  include "GL/glcorearb.h"
-#  include <GL/glx.h>
-#elif OUZEL_OPENGL_INTERFACE_EGL
-#  include "EGL/egl.h"
-#  include "EGL/eglext.h"
-#endif
+#include "EGL/egl.h"
+#include "EGL/eglext.h"
 #include "../OGLRenderDevice.hpp"
 #include "../../../utils/Thread.hpp"
 
@@ -40,13 +35,10 @@ namespace ouzel::graphics::opengl::linux
         void present() final;
         void renderMain();
 
-#if OUZEL_OPENGL_INTERFACE_GLX
-        GLXContext context = 0;
-#elif OUZEL_OPENGL_INTERFACE_EGL
-        EGLDisplay display = 0;
-        EGLSurface surface = 0;
-        EGLContext context = 0;
-#endif
+        EGLDisplay display = EGL_NO_DISPLAY;
+        EGLSurface surface = EGL_NO_SURFACE;
+        EGLContext context = EGL_NO_CONTEXT;
+
         std::atomic_bool running{false};
         Thread renderThread;
     };

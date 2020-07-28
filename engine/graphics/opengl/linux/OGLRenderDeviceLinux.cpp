@@ -16,7 +16,6 @@
 
 namespace ouzel::graphics::opengl::linux
 {
-#if OUZEL_OPENGL_INTERFACE_EGL
     namespace
     {
         class EGLErrorCategory final: public std::error_category
@@ -52,7 +51,6 @@ namespace ouzel::graphics::opengl::linux
 
         const EGLErrorCategory eglErrorCategory {};
     }
-#endif
 
     RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
         opengl::RenderDevice(initCallback)
@@ -73,27 +71,17 @@ namespace ouzel::graphics::opengl::linux
 
         if (renderThread.isJoinable()) renderThread.join();
 
-#if OUZEL_OPENGL_INTERFACE_GLX
-        auto engineLinux = static_cast<core::linux::Engine*>(engine);
-
-        if (engineLinux->getDisplay() && context)
-        {
-            glXMakeCurrent(engineLinux->getDisplay(), None, nullptr);
-            glXDestroyContext(engineLinux->getDisplay(), context);
-        }
-#elif OUZEL_OPENGL_INTERFACE_EGL
-        if (context)
+        if (context != EGL_NO_CONTEXT)
         {
             eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
             eglDestroyContext(display, context);
         }
 
-        if (surface)
+        if (surface != EGL_NO_SURFACE)
             eglDestroySurface(display, surface);
 
-        if (display)
+        if (display != EGL_NO_DISPLAY)
             eglTerminate(display);
-#endif
     }
 
     void RenderDevice::init(core::Window* newWindow,
@@ -102,133 +90,20 @@ namespace ouzel::graphics::opengl::linux
     {
         auto windowLinux = static_cast<core::linux::NativeWindow*>(newWindow->getNativeWindow());
 
-#if OUZEL_OPENGL_INTERFACE_GLX
-        auto engineLinux = static_cast<core::linux::Engine*>(engine);
-
-        // make sure OpenGL's GLX extension supported
-        int errorBase;
-        int eventBase;
-        if (!glXQueryExtension(engineLinux->getDisplay(), &errorBase, &eventBase))
-            throw std::runtime_error("X server has no OpenGL GLX extension");
-
-        int glxMajor;
-        int glxMinor;
-        if (!glXQueryVersion(engineLinux->getDisplay(), &glxMajor, &glxMinor))
-            throw std::runtime_error("Failed to get GLX version");
-
-        logger.log(Log::Level::all) << "GLX version: " << glxMajor << "." << glxMinor;
-
-        Screen* screen = XDefaultScreenOfDisplay(engineLinux->getDisplay());
-        const int screenIndex = XScreenNumberOfScreen(screen);
-
-        GLXContext tempContext = glXCreateContext(engineLinux->getDisplay(), windowLinux->getVisualInfo(), None, GL_TRUE);
-        if (!tempContext)
-            throw std::runtime_error("Failed to create GLX context");
-        if (!glXMakeCurrent(engineLinux->getDisplay(), windowLinux->getNativeWindow(), tempContext))
-            throw std::runtime_error("Failed to make GLX context current");
-
-        std::vector<std::string> extensions;
-
-        if (const char* extensionsPtr = glXQueryExtensionsString(engineLinux->getDisplay(), screenIndex))
-            extensions = explodeString(std::string(extensionsPtr), ' ');
-
-        logger.log(Log::Level::all) << "Supported GLX extensions: " << extensions;
-
-        glXMakeCurrent(engineLinux->getDisplay(), None, nullptr);
-        glXDestroyContext(engineLinux->getDisplay(), tempContext);
-
-        PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsProc = nullptr;
-        PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXTProc = nullptr;
-
-        for (const auto& extension : extensions)
-        {
-            if (extension == "GLX_ARB_create_context")
-                glXCreateContextAttribsProc = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
-            else if (extension == "GLX_EXT_swap_control")
-                glXSwapIntervalEXTProc = reinterpret_cast<PFNGLXSWAPINTERVALEXTPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT")));
-        }
-
-        int fbcount = 0;
-
-        const int attributes[] = {
-            GLX_X_RENDERABLE, GL_TRUE,
-            GLX_RENDER_TYPE, GLX_RGBA_BIT,
-            GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-            GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
-            GLX_DOUBLEBUFFER, GL_TRUE,
-            GLX_RED_SIZE, 8,
-            GLX_GREEN_SIZE, 8,
-            GLX_BLUE_SIZE, 8,
-            GLX_ALPHA_SIZE, 8,
-            GLX_DEPTH_SIZE, settings.depth ? 24 : 0,
-            GLX_STENCIL_SIZE, settings.stencil ? 8 : 0,
-            GLX_SAMPLE_BUFFERS, (settings.sampleCount > 1) ? 1 : 0,
-            GLX_SAMPLES, static_cast<int>(settings.sampleCount),
-            GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, settings.srgb ? 1 : 0,
-            0
-        };
-
-        std::unique_ptr<GLXFBConfig, int(*)(void*)> frameBufferConfig(glXChooseFBConfig(engineLinux->getDisplay(), screenIndex, attributes, &fbcount), XFree);
-        if (frameBufferConfig)
-        {
-            if (glXCreateContextAttribsProc)
-            {
-                // create an OpenGL rendering context
-                std::vector<int> contextAttribs = {
-                    GLX_CONTEXT_PROFILE_MASK_ARB,
-                    GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
-                    GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
-                    GLX_CONTEXT_MINOR_VERSION_ARB, 2
-                };
-
-                if (settings.debugRenderer)
-                {
-                    contextAttribs.push_back(GL_CONTEXT_FLAGS);
-                    contextAttribs.push_back(GL_CONTEXT_FLAG_DEBUG_BIT);
-                }
-
-                contextAttribs.push_back(0);
-
-                context = glXCreateContextAttribsProc(engineLinux->getDisplay(), *frameBufferConfig, nullptr, True, contextAttribs.data());
-
-                if (context)
-                {
-                    apiVersion = ApiVersion(3, 0);
-                    logger.log(Log::Level::info) << "GLX OpenGL 3.2 context created";
-                }
-            }
-        }
-
-        if (!context)
-        {
-            context = glXCreateContext(engineLinux->getDisplay(), windowLinux->getVisualInfo(), None, GL_TRUE);
-
-            if (context)
-            {
-                apiVersion = ApiVersion(2, 0);
-                logger.log(Log::Level::info) << "GLX OpenGL 2 context created";
-            }
-            else
-                throw std::runtime_error("Failed to create GLX context");
-        }
-
-        // bind the rendering context to the window
-        if (!glXMakeCurrent(engineLinux->getDisplay(), windowLinux->getNativeWindow(), context))
-            throw std::runtime_error("Failed to make GLX context current");
-
-        if (glXSwapIntervalEXTProc)
-            glXSwapIntervalEXTProc(engineLinux->getDisplay(), windowLinux->getNativeWindow(), settings.verticalSync ? 1 : 0);
-#elif OUZEL_OPENGL_INTERFACE_EGL
+#if OUZEL_OPENGLES
         display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+#else
+        const auto nativeDisplay = bitCast<EGLNativeDisplayType>(windowLinux->getDisplay());
+        display = eglGetDisplay(nativeDisplay);
+#endif
 
-        if (!display)
+        if (display == EGL_NO_DISPLAY)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get display");
 
         if (!eglInitialize(display, nullptr, nullptr))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to initialize EGL");
 
-        const EGLint attributeList[] =
-        {
+        const EGLint attributeList[] = {
             EGL_RED_SIZE, 8,
             EGL_GREEN_SIZE, 8,
             EGL_BLUE_SIZE, 8,
@@ -236,6 +111,11 @@ namespace ouzel::graphics::opengl::linux
             EGL_DEPTH_SIZE, settings.depth ? 24 : 0,
             EGL_STENCIL_SIZE, settings.stencil ? 8 : 0,
             EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+#if OUZEL_OPENGLES
+            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+#else
+            EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+#endif
             EGL_SAMPLE_BUFFERS, (settings.sampleCount > 1) ? 1 : 0,
             EGL_SAMPLES, static_cast<int>(settings.sampleCount),
             EGL_NONE
@@ -245,19 +125,32 @@ namespace ouzel::graphics::opengl::linux
         if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
 
+#if OUZEL_OPENGLES
         if (!eglBindAPI(EGL_OPENGL_ES_API))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API");
+#else
+        if (!eglBindAPI(EGL_OPENGL_API))
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL API");
+#endif
 
+#if OUZEL_OPENGLES
         const auto dispmanxWindow = &windowLinux->getNativeWindow();
         const auto nativeWindow = bitCast<EGLNativeWindowType>(dispmanxWindow);
+#else
+        const auto nativeWindow = bitCast<EGLNativeWindowType>(windowLinux->getNativeWindow());
+#endif
+
         surface = eglCreateWindowSurface(display, config, nativeWindow, nullptr);
         if (surface == EGL_NO_SURFACE)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");
 
+#if OUZEL_OPENGLES
         for (EGLint version = 3; version >= 2; --version)
+#else
+        for (EGLint version = 4; version >= 3; --version)
+#endif
         {
-            std::vector<EGLint> contextAttributes =
-            {
+            std::vector<EGLint> contextAttributes = {
                 EGL_CONTEXT_CLIENT_VERSION, version
             };
 
@@ -274,7 +167,11 @@ namespace ouzel::graphics::opengl::linux
             if (context != EGL_NO_CONTEXT)
             {
                 apiVersion = ApiVersion(version, 0);
+#if OUZEL_OPENGLES
                 logger.log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
+#else
+                logger.log(Log::Level::info) << "EGL OpenGL " << version << " context created";
+#endif
                 break;
             }
         }
@@ -287,16 +184,13 @@ namespace ouzel::graphics::opengl::linux
 
         if (!eglSwapInterval(display, settings.verticalSync ? 1 : 0))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set EGL frame interval");
-#endif
 
         opengl::RenderDevice::init(newWindow,
                                    newSize,
                                    settings);
 
-#if OUZEL_OPENGL_INTERFACE_EGL
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
-#endif
 
         running = true;
         renderThread = Thread(&RenderDevice::renderMain, this);
@@ -328,31 +222,20 @@ namespace ouzel::graphics::opengl::linux
 
     void RenderDevice::present()
     {
-#if OUZEL_OPENGL_INTERFACE_GLX
-        auto engineLinux = static_cast<core::linux::Engine*>(engine);
-        auto windowLinux = static_cast<core::linux::NativeWindow*>(window->getNativeWindow());
-
-        glXSwapBuffers(engineLinux->getDisplay(), windowLinux->getNativeWindow());
-#elif OUZEL_OPENGL_INTERFACE_EGL
         if (eglSwapBuffers(display, surface) != EGL_TRUE)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to swap buffers");
-#endif
     }
 
     void RenderDevice::renderMain()
     {
         Thread::setCurrentThreadName("Render");
 
-#if OUZEL_OPENGL_INTERFACE_GLX
-        auto engineLinux = static_cast<core::linux::Engine*>(engine);
-        auto windowLinux = static_cast<core::linux::NativeWindow*>(window->getNativeWindow());
+        printf("Setting EGL context\n");
 
-        if (!glXMakeCurrent(engineLinux->getDisplay(), windowLinux->getNativeWindow(), context))
-            throw std::runtime_error("Failed to make GLX context current");
-#elif OUZEL_OPENGL_INTERFACE_EGL
         if (!eglMakeCurrent(display, surface, surface, context))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set current EGL context");
-#endif
+
+        printf("EGL context set\n");
 
         while (running)
         {
@@ -366,10 +249,8 @@ namespace ouzel::graphics::opengl::linux
             }
         }
 
-#if OUZEL_OPENGL_INTERFACE_EGL
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
-#endif
     }
 }
 

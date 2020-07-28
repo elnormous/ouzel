@@ -53,13 +53,12 @@ namespace ouzel::core::linux
         void maximize();
         void restore();
 
+        auto& getNativeWindow() const noexcept { return window; }
+
 #if OUZEL_SUPPORTS_X11
-        auto getNativeWindow() const noexcept { return window; }
-        auto getVisualInfo() const noexcept { return visualInfo; }
+        auto& getDisplay() const noexcept { return display; }
         auto getProtocolsAtom() const noexcept { return protocolsAtom; }
         auto getDeleteAtom() const noexcept { return deleteAtom; }
-#elif OUZEL_SUPPORTS_DISPMANX
-        auto& getNativeWindow() const noexcept { return window; }
 #endif
 
     private:
@@ -71,7 +70,6 @@ namespace ouzel::core::linux
         void handleUnmap();
         bool isMapped() const;
 
-        XVisualInfo* visualInfo = nullptr;
         Display* display = nullptr;
         int screenNumber = 0;
         ::Window window = None;

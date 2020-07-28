@@ -63,16 +63,16 @@ namespace ouzel::graphics::opengl::android
 
         if (renderThread.isJoinable()) renderThread.join();
 
-        if (context)
+        if (context != EGL_NO_CONTEXT)
         {
             eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
             eglDestroyContext(display, context);
         }
 
-        if (surface)
+        if (surface != EGL_NO_SURFACE)
             eglDestroySurface(display, surface);
 
-        if (display)
+        if (display != EGL_NO_DISPLAY)
             eglTerminate(display);
     }
 
@@ -88,8 +88,7 @@ namespace ouzel::graphics::opengl::android
         if (!eglInitialize(display, nullptr, nullptr))
             throw std::runtime_error("Failed to initialize EGL");
 
-        const EGLint attributeList[] =
-        {
+        const EGLint attributeList[] = {
             EGL_RED_SIZE, 8,
             EGL_GREEN_SIZE, 8,
             EGL_BLUE_SIZE, 8,
@@ -124,8 +123,7 @@ namespace ouzel::graphics::opengl::android
 
         for (EGLint version = 3; version >= 2; --version)
         {
-            std::vector<EGLint> contextAttributes =
-            {
+            std::vector<EGLint> contextAttributes = {
                 EGL_CONTEXT_CLIENT_VERSION, version
             };
 
@@ -167,7 +165,7 @@ namespace ouzel::graphics::opengl::android
         frameBufferHeight = surfaceHeight;
 
         auto backBufferSize = Size2U(static_cast<std::uint32_t>(frameBufferWidth),
-                                        static_cast<std::uint32_t>(frameBufferHeight));
+                                     static_cast<std::uint32_t>(frameBufferHeight));
 
         opengl::RenderDevice::init(newWindow,
                                    backBufferSize,

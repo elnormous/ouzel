@@ -26,9 +26,6 @@
 
 #if OUZEL_OPENGL_INTERFACE_EGL
 #  include "EGL/egl.h"
-#elif OUZEL_OPENGL_INTERFACE_GLX
-#  include <GL/glx.h>
-#  include "GL/glxext.h"
 #elif OUZEL_OPENGL_INTERFACE_WGL
 #  include "GL/wglext.h"
 #endif

@@ -23,9 +23,6 @@
 
 #if OUZEL_OPENGL_INTERFACE_EGL
 #  include "EGL/egl.h"
-#elif OUZEL_OPENGL_INTERFACE_GLX
-#  include <GL/glx.h>
-#  include "GL/glxext.h"
 #elif OUZEL_OPENGL_INTERFACE_WGL
 #  include "GL/wglext.h"
 #endif
@@ -80,8 +77,7 @@ namespace ouzel::graphics::opengl
         }
 
         template <typename T>
-        T get(const char* name,
-              ApiVersion procApiVersion) const noexcept
+        T get(const char* name, ApiVersion procApiVersion) const noexcept
         {
             if (apiVersion >= procApiVersion)
                 return getProcAddress<T>(name, procApiVersion);
@@ -143,13 +139,18 @@ namespace ouzel::graphics::opengl
         template <typename T>
         T getProcAddress(const char* name, ApiVersion procApiVersion) const noexcept
         {
+            return reinterpret_cast<T>(eglGetProcAddress(name));
+
 #if OUZEL_OPENGL_INTERFACE_EGL
+#  if OUZEL_OPENGLES
             return procApiVersion >= ApiVersion(3, 0) ?
                 reinterpret_cast<T>(eglGetProcAddress(name)) :
                 reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
-#elif OUZEL_OPENGL_INTERFACE_GLX
-            (void)procApiVersion;
-            return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
+#  else
+            return procApiVersion > ApiVersion(1, 0) ?
+                reinterpret_cast<T>(eglGetProcAddress(name)) :
+                reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
+#  endif
 #elif OUZEL_OPENGL_INTERFACE_WGL
             return procApiVersion > ApiVersion(1, 1) ?
                 reinterpret_cast<T>(wglGetProcAddress(name)) :
@@ -165,8 +166,6 @@ namespace ouzel::graphics::opengl
         {
 #if OUZEL_OPENGL_INTERFACE_EGL
             return reinterpret_cast<T>(eglGetProcAddress(name));
-#elif OUZEL_OPENGL_INTERFACE_GLX
-            return reinterpret_cast<T>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name)));
 #elif OUZEL_OPENGL_INTERFACE_WGL
             return reinterpret_cast<T>(wglGetProcAddress(name));
 #else

@@ -3,10 +3,6 @@
 #include "../Setup.h"
 
 #include <stdexcept>
-#if OUZEL_COMPILE_OPENGL && OUZEL_SUPPORTS_X11
-#  include <GL/glx.h>
-#endif
-
 #include "NativeWindowLinux.hpp"
 #include "EngineLinux.hpp"
 #include "../../graphics/RenderDevice.hpp"
@@ -39,11 +35,13 @@ namespace ouzel::core::linux
                            true)
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<Engine*>(engine);
+        const auto engineLinux = static_cast<Engine*>(engine);
         display = engineLinux->getDisplay();
 
-        auto screen = XDefaultScreenOfDisplay(display);
+        const auto screen = XDefaultScreenOfDisplay(display);
         screenNumber = XScreenNumberOfScreen(screen);
+
+        const auto rootWindow = RootWindow(display, screenNumber);
 
         if (size.v[0] <= 0.0F) size.v[0] = static_cast<std::uint32_t>(XWidthOfScreen(screen) * 0.8F);
         if (size.v[1] <= 0.0F) size.v[1] = static_cast<std::uint32_t>(XHeightOfScreen(screen) * 0.8F);
@@ -53,60 +51,15 @@ namespace ouzel::core::linux
         const int x = XWidthOfScreen(screen) / 2 - static_cast<int>(size.v[0] / 2);
         const int y = XHeightOfScreen(screen) / 2 - static_cast<int>(size.v[1] / 2);
 
-        switch (graphicsDriver)
-        {
-            case graphics::Driver::empty:
-            {
-                XSetWindowAttributes swa;
-                swa.background_pixel = XWhitePixel(display, screenNumber);
-                swa.border_pixel = 0;
-                swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
+        XSetWindowAttributes swa;
+        swa.background_pixel = XWhitePixel(display, screenNumber);
+        swa.border_pixel = 0;
+        swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
-                window = XCreateWindow(display, RootWindow(display, screenNumber), x, y,
-                                       static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
-                                       0, DefaultDepth(display, screenNumber), InputOutput, DefaultVisual(display, screenNumber),
-                                       CWBorderPixel | CWBackPixel | CWEventMask, &swa);
-
-                break;
-            }
-#  if OUZEL_COMPILE_OPENGL
-            case graphics::Driver::openGL:
-            {
-                // find an OpenGL-capable RGB visual
-                static int doubleBuffer[] = {
-                    GLX_RGBA,
-                    GLX_RED_SIZE, 8,
-                    GLX_GREEN_SIZE, 8,
-                    GLX_BLUE_SIZE, 8,
-                    GLX_DEPTH_SIZE, depth ? 24 : 0,
-                    GLX_DOUBLEBUFFER,
-                    None
-                };
-
-                visualInfo = glXChooseVisual(display, screenNumber, doubleBuffer);
-                if (!visualInfo)
-                    throw std::runtime_error("Failed to choose visual");
-
-                if (visualInfo->c_class != TrueColor)
-                    throw std::runtime_error("TrueColor visual required for this program");
-
-                // create an X colormap since probably not using default visual
-                Colormap cmap = XCreateColormap(display, RootWindow(display, visualInfo->screen), visualInfo->visual, AllocNone);
-                XSetWindowAttributes swa;
-                swa.colormap = cmap;
-                swa.border_pixel = 0;
-                swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
-
-                window = XCreateWindow(display, RootWindow(display, visualInfo->screen), x, y,
-                                       static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
-                                       0, visualInfo->depth, InputOutput, visualInfo->visual,
-                                       CWBorderPixel | CWColormap | CWEventMask, &swa);
-                break;
-            }
-#  endif
-            default:
-                throw std::runtime_error("Unsupported render driver");
-        }
+        window = XCreateWindow(display, rootWindow, x, y,
+                               static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
+                               0, DefaultDepth(display, screenNumber), InputOutput, DefaultVisual(display, screenNumber),
+                               CWBorderPixel | CWBackPixel | CWEventMask, &swa);
 
         XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr);
 
@@ -160,7 +113,8 @@ namespace ouzel::core::linux
             event.xclient.data.l[3] = 1; // source indication: application
             event.xclient.data.l[4] = 0; // unused
 
-            if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &event))
+            if (!XSendEvent(display, DefaultRootWindow(display), 0,
+                            SubstructureNotifyMask | SubstructureRedirectMask, &event))
                 throw std::runtime_error("Failed to send X11 fullscreen message");
         }
 #elif OUZEL_SUPPORTS_DISPMANX
@@ -212,9 +166,6 @@ namespace ouzel::core::linux
     NativeWindow::~NativeWindow()
     {
 #if OUZEL_SUPPORTS_X11
-        if (visualInfo)
-            XFree(visualInfo);
-
         if (display && window)
             XDestroyWindow(display, window);
 #endif
@@ -330,7 +281,8 @@ namespace ouzel::core::linux
             event.xclient.data.l[3] = 1; // source indication: application
             event.xclient.data.l[4] = 0; // unused
 
-            if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &event))
+            if (!XSendEvent(display, DefaultRootWindow(display), 0,
+                            SubstructureNotifyMask | SubstructureRedirectMask, &event))
                 throw std::runtime_error("Failed to send X11 fullscreen message");
         }
 #endif
@@ -361,7 +313,8 @@ namespace ouzel::core::linux
         event.xclient.data.l[1] = CurrentTime;
         event.xclient.data.l[2] = 0;
 
-        if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &event))
+        if (!XSendEvent(display, DefaultRootWindow(display), 0,
+                        SubstructureNotifyMask | SubstructureRedirectMask, &event))
             throw std::runtime_error("Failed to send X11 activate window message");
 
         XFlush(display);
@@ -416,7 +369,8 @@ namespace ouzel::core::linux
         event.xclient.data.l[1] = CurrentTime;
         event.xclient.data.l[2] = 0;
 
-        if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &event))
+        if (!XSendEvent(display, DefaultRootWindow(display), 0,
+                        SubstructureNotifyMask | SubstructureRedirectMask, &event))
             throw std::runtime_error("Failed to send X11 activate window message");
 
         XFlush(display);

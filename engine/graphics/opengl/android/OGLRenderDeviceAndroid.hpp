@@ -34,9 +34,9 @@ namespace ouzel::graphics::opengl::android
         void present() final;
         void renderMain();
 
-        EGLDisplay display = 0;
-        EGLSurface surface = 0;
-        EGLContext context = 0;
+        EGLDisplay display = EGL_NO_DISPLAY;
+        EGLSurface surface = EGL_NO_SURFACE;
+        EGLContext context = EGL_NO_CONTEXT;
 
         std::atomic_bool running{false};
         Thread renderThread;

@@ -23,10 +23,11 @@ LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -lversio
 else ifeq ($(PLATFORM),linux)
 ifneq ($(filter arm%,$(architecture)),) # ARM Linux
 VC_DIR=/opt/vc
-LDFLAGS+=-L$(VC_DIR)/lib -lbrcmGLESv2 -lbrcmEGL -lbcm_host -lopenal -lpthread -lasound -ldl
+LDFLAGS+=-L$(VC_DIR)/lib -lbrcmGLESv2 -lbrcmEGL -lbcm_host
 else # X86 Linux
-LDFLAGS+=-lGL -lopenal -lpthread -lasound -lX11 -lXcursor -lXss -lXi -lXxf86vm
+LDFLAGS+=-lGL -lEGL -lX11 -lXcursor -lXss -lXi -lXxf86vm
 endif
+LDFLAGS+=-lopenal -lpthread -lasound -ldl
 else ifeq ($(PLATFORM),macos)
 LDFLAGS+=-framework AudioToolbox \
 	-framework AudioUnit \
