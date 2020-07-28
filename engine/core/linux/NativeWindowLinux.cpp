@@ -5,7 +5,6 @@
 #include <stdexcept>
 #include "NativeWindowLinux.hpp"
 #include "EngineLinux.hpp"
-#include "../../graphics/RenderDevice.hpp"
 
 #if OUZEL_SUPPORTS_X11
 namespace
