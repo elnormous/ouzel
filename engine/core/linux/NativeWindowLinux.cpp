@@ -58,7 +58,9 @@ namespace ouzel::core::linux
                                0, DefaultDepth(display, screenNumber), InputOutput, DefaultVisual(display, screenNumber),
                                CWBorderPixel | CWBackPixel | CWEventMask, &swa);
 
-        XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr);
+        if (!XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr))
+            throw std::runtime_error("Failed to set window properties");
+
 
         if (!resizable)
         {
