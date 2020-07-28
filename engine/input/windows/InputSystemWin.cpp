@@ -333,7 +333,7 @@ namespace ouzel::input::windows
                             if (strPid && swscanf(strPid, L"PID_%4X", &dwPid) != 1) dwPid = 0;
 
                             // Compare the VID/PID to the DInput device
-                            const auto dwVidPid = MAKELONG(dwVid, dwPid);
+                            const auto dwVidPid = static_cast<DWORD>(MAKELONG(dwVid, dwPid));
                             if (dwVidPid == didInstance->guidProduct.Data1)
                                 isXInputDevice = true;
                         }
