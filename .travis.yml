@@ -18,7 +18,8 @@ matrix:
           token:
             secure: "L4nEr4rHuk4Le7jFQyAFNVsI+m7rsInUHPwhQMVPfUQq1gYdy2NzijLVY2Y/DMvmuxn0NgI/AN2b/FcY+qD8vWa4tz07BrRL5PAu+uISSQayVdKE7ELS8ENVrwGPIbpuk5RQpBVCpJOn1SbOmjSPcqHwfedLVt6cqAk/mCXbGBQd0As8YhGTDFwFtxXMD1TNwqpXCSLnUQKsatbtAb1BUH6erBCzTvFquevx70S/c0zv40gB1slla5MQwXrs14IQqJT05TQqJVgls5t4p+C4aZg0nZ3XRIGfpNyUkedod3cW7YW8UJX4brzFjqHyA2EiND3um9ov9aj7ZwRtmlavJs6w/cMS+eFBjAQmW3TZythe7oPYFZAc3c86KDQo0z9h836e7Sav/sGz/BvCpEa9ofTJJoROV8TobP2bWWFqoz0hPj3t8PDnuaoEuQeFdAh5ZjIuQ8OcGJrRMKoowqSWLiFs1XSUSvTU6f+Vhm7BWHuZc+FvmnpXxkJfG+0o4hzOSsQuspKhSrcy5bMJAi5rkxnkMheNKQBS8HZ6tpKwlJYVPX8gJQvfCwX6Z+Srfv22mPuWv/JpPG/NKPrxOHDa7aAQx6irGj+oDjucNmu0L9bkMhPuK3eNwtd6m0eoGAxDdq017gvY7EdczF00TbDNpwUDF4cqEeb7Fg5AQ5F48Tc="
       before_install:
-        - sudo apt-get install -y libegl-dev
+        - sudo apt-get install -y libgl1-mesa-dev
+        - sudo apt-get install -y libgles2-mesa-dev
         - sudo apt-get install -y libopenal-dev
         - sudo apt-get install -y libasound2-dev
         - sudo apt-get install -y libxi-dev

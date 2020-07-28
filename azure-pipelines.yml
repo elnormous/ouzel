@@ -11,7 +11,7 @@ jobs:
   steps:
   - script: sudo apt-get update --fix-missing
   - script: sudo apt-get install -y libgl1-mesa-dev
-  - script: sudo apt-get install -y libegl-dev
+  - script: sudo apt-get install -y libgles2-mesa-dev
   - script: sudo apt-get install -y libopenal-dev
   - script: sudo apt-get install -y libasound2-dev
   - script: sudo apt-get install -y libxxf86vm-dev
