@@ -22,9 +22,7 @@ namespace ouzel::core::linux
                                bool newResizable,
                                bool newFullscreen,
                                bool newExclusiveFullscreen,
-                               const std::string& newTitle,
-                               graphics::Driver graphicsDriver,
-                               bool depth):
+                               const std::string& newTitle):
         core::NativeWindow(initCallback,
                            newSize,
                            newResizable,

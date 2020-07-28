@@ -22,8 +22,7 @@ namespace ouzel::core
             resizable = 0x01,
             fullscreen = 0x02,
             exclusiveFullscreen = 0x04,
-            highDpi = 0x08,
-            depth = 0x10
+            highDpi = 0x08
         };
 
         enum class Mode

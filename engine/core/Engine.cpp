@@ -200,8 +200,7 @@ namespace ouzel::core
             (resizable ? Window::Flags::resizable : Window::Flags::none) |
             (fullscreen ? Window::Flags::fullscreen : Window::Flags::none) |
             (exclusiveFullscreen ? Window::Flags::exclusiveFullscreen : Window::Flags::none) |
-            (highDpi ? Window::Flags::highDpi : Window::Flags::none) |
-            (graphicsSettings.depth ? Window::Flags::depth : Window::Flags::none);
+            (highDpi ? Window::Flags::highDpi : Window::Flags::none);
 
         window = std::make_unique<Window>(*this,
                                           size,

@@ -230,12 +230,8 @@ namespace ouzel::graphics::opengl::linux
     {
         Thread::setCurrentThreadName("Render");
 
-        printf("Setting EGL context\n");
-
         if (!eglMakeCurrent(display, surface, surface, context))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set current EGL context");
-
-        printf("EGL context set\n");
 
         while (running)
         {

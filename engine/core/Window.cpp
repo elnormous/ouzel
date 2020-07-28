@@ -60,9 +60,7 @@ namespace ouzel::core
                                                            (flags & Flags::resizable) == Flags::resizable,
                                                            (flags & Flags::fullscreen) == Flags::fullscreen,
                                                            (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
-                                                           newTitle,
-                                                           graphicsDriver,
-                                                           (flags & Flags::depth) == Flags::depth)),
+                                                           newTitle)),
 #elif defined(_WIN32)
         nativeWindow(std::make_unique<windows::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
                                                              newSize,
