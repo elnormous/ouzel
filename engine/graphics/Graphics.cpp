@@ -95,7 +95,8 @@ namespace ouzel::graphics
                        const Size2U& newSize,
                        const Settings& settings):
         textureFilter(settings.textureFilter),
-        maxAnisotropy(settings.maxAnisotropy)
+        maxAnisotropy(settings.maxAnisotropy),
+        size(newSize)
     {
         switch (driver)
         {
@@ -144,8 +145,6 @@ namespace ouzel::graphics
                 device = std::make_unique<empty::RenderDevice>(std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
                 break;
         }
-
-        size = newSize;
 
         device->init(newWindow, newSize, settings);
     }
