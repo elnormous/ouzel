@@ -333,9 +333,7 @@ namespace ouzel::graphics::opengl::windows
         if (apiVersion.v[0] < 2 || apiVersion.v[0] > 4)
             throw std::runtime_error("Unsupported OpenGL version");
 
-        opengl::RenderDevice::init(newWindow,
-                                   newSize,
-                                   settings);
+        opengl::RenderDevice::init(newWindow, newSize, settings);
 
         if (!wglMakeCurrent(deviceContext, nullptr))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");

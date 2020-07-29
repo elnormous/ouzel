@@ -147,9 +147,7 @@ namespace ouzel::graphics::opengl::macos
         const GLint swapInterval = settings.verticalSync ? 1 : 0;
         [openGLContext setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
 
-        opengl::RenderDevice::init(newWindow,
-                                   newSize,
-                                   settings);
+        opengl::RenderDevice::init(newWindow, newSize, settings);
 
         eventHandler.windowHandler = std::bind(&RenderDevice::handleWindow, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);

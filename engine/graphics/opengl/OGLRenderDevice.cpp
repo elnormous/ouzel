@@ -318,9 +318,7 @@ namespace ouzel::graphics::opengl
                             const Size2U& newSize,
                             const Settings& settings)
     {
-        graphics::RenderDevice::init(newWindow,
-                                     newSize,
-                                     settings);
+        graphics::RenderDevice::init(newWindow, newSize, settings);
 
         frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
         frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);

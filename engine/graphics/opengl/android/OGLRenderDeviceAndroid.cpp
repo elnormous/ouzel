@@ -167,9 +167,7 @@ namespace ouzel::graphics::opengl::android
         auto backBufferSize = Size2U(static_cast<std::uint32_t>(frameBufferWidth),
                                      static_cast<std::uint32_t>(frameBufferHeight));
 
-        opengl::RenderDevice::init(newWindow,
-                                   backBufferSize,
-                                   settings);
+        opengl::RenderDevice::init(newWindow, backBufferSize, settings);
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::runtime_error("Failed to unset EGL context");

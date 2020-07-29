@@ -47,9 +47,7 @@ namespace ouzel::graphics::opengl::emscripten
 
         emscripten_set_main_loop_timing(settings.verticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
-        opengl::RenderDevice::init(newWindow,
-                                   newSize,
-                                   settings);
+        opengl::RenderDevice::init(newWindow, newSize, settings);
     }
 }
 

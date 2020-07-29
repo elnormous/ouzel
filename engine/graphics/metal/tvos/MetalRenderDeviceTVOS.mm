@@ -47,9 +47,7 @@ namespace ouzel::graphics::metal::tvos
                             const Size2U& newSize,
                             const Settings& settings)
     {
-        metal::RenderDevice::init(newWindow,
-                                  newSize,
-                                  settings);
+        metal::RenderDevice::init(newWindow, newSize, settings);
 
         auto windowTVOS = static_cast<core::tvos::NativeWindow*>(newWindow->getNativeWindow());
         MetalView* view = (MetalView*)windowTVOS->getNativeView();

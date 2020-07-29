@@ -92,9 +92,7 @@ namespace ouzel::graphics::opengl::ios
         if (![EAGLContext setCurrentContext:context])
             throw std::runtime_error("Failed to set current EAGL context");
 
-        opengl::RenderDevice::init(newWindow,
-                                   newSize,
-                                   settings);
+        opengl::RenderDevice::init(newWindow, newSize, settings);
 
         createFrameBuffer();
 

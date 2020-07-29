@@ -51,9 +51,7 @@ namespace ouzel::graphics::metal::ios
                             const Size2U& newSize,
                             const Settings& settings)
     {
-        metal::RenderDevice::init(newWindow,
-                                  newSize,
-                                  settings);
+        metal::RenderDevice::init(newWindow, newSize, settings);
 
         auto windowIOS = static_cast<core::ios::NativeWindow*>(newWindow->getNativeWindow());
         MetalView* view = (MetalView*)windowIOS->getNativeView();

@@ -118,9 +118,7 @@ namespace ouzel::graphics::d3d11
                             const Size2U& newSize,
                             const Settings& settings)
     {
-        graphics::RenderDevice::init(newWindow,
-                                     newSize,
-                                     settings);
+        graphics::RenderDevice::init(newWindow, newSize, settings);
 
         anisotropicFilteringSupported = true;
         renderTargetsSupported = true;

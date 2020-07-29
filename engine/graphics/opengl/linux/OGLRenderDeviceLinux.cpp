@@ -185,9 +185,7 @@ namespace ouzel::graphics::opengl::linux
         if (!eglSwapInterval(display, settings.verticalSync ? 1 : 0))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set EGL frame interval");
 
-        opengl::RenderDevice::init(newWindow,
-                                   newSize,
-                                   settings);
+        opengl::RenderDevice::init(newWindow, newSize, settings);
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
