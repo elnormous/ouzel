@@ -61,7 +61,6 @@ namespace ouzel::core::linux
         if (!XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr))
             throw std::runtime_error("Failed to set window properties");
 
-
         if (!resizable)
         {
             XSizeHints sizeHints;
@@ -83,8 +82,8 @@ namespace ouzel::core::linux
             XSetWMNormalHints(display, window, &sizeHints);
         }
 
-        // request the X window to be displayed on the screen
-        XMapWindow(display, window);
+        if (!XMapWindow(display, window))
+            throw std::runtime_error("Failed to map window");
 
         protocolsAtom = XInternAtom(display, "WM_PROTOCOLS", False);
         deleteAtom = XInternAtom(display, "WM_DELETE_WINDOW", False);
