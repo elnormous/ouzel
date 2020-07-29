@@ -19,7 +19,6 @@ typedef struct
 #endif
 
 #include "../NativeWindow.hpp"
-#include "../../graphics/Graphics.hpp"
 
 namespace ouzel::core::linux
 {
