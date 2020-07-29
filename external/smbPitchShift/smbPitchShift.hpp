@@ -50,43 +50,43 @@ namespace smb
 
         // Use own implementation because std::complex has a poor performance
         template <class T>
-        struct Complex final
+        struct ComplexNumber final
         {
-            constexpr Complex<T> operator+(const Complex& other) const noexcept
+            constexpr ComplexNumber<T> operator+(const ComplexNumber& other) const noexcept
             {
-                return Complex{real + other.real, imag + other.imag};
+                return ComplexNumber{real + other.real, imag + other.imag};
             }
 
-            constexpr Complex<T>& operator+=(const Complex& other) noexcept
+            constexpr ComplexNumber<T>& operator+=(const ComplexNumber& other) noexcept
             {
                 real += other.real;
                 imag += other.imag;
                 return *this;
             }
 
-            constexpr Complex<T> operator-(const Complex& other) const noexcept
+            constexpr ComplexNumber<T> operator-(const ComplexNumber& other) const noexcept
             {
-                return Complex{real - other.real, imag - other.imag};
+                return ComplexNumber{real - other.real, imag - other.imag};
             }
 
-            constexpr Complex<T> operator-() const noexcept
+            constexpr ComplexNumber<T> operator-() const noexcept
             {
-                return Complex{-real, -imag};
+                return ComplexNumber{-real, -imag};
             }
 
-            constexpr Complex<T>& operator-=(const Complex& other) noexcept
+            constexpr ComplexNumber<T>& operator-=(const ComplexNumber& other) noexcept
             {
                 real -= other.real;
                 imag -= other.imag;
                 return *this;
             }
 
-            constexpr Complex<T> operator*(const Complex& other) const noexcept
+            constexpr ComplexNumber<T> operator*(const ComplexNumber& other) const noexcept
             {
-                return Complex{real * other.real - imag * other.imag, real * other.imag + imag * other.real};
+                return ComplexNumber{real * other.real - imag * other.imag, real * other.imag + imag * other.real};
             }
 
-            constexpr Complex<T>& operator*=(const Complex& other) noexcept
+            constexpr ComplexNumber<T>& operator*=(const ComplexNumber& other) noexcept
             {
                 float tempReal = real;
                 real = real * other.real - imag * other.imag;
@@ -104,7 +104,7 @@ namespace smb
         };
 
         template <std::int32_t sign, std::uint32_t fftFrameSize>
-        void fft(Complex<float> fftBuffer[fftFrameSize]) noexcept
+        void fft(ComplexNumber<float> fftBuffer[fftFrameSize]) noexcept
         {
             // Bit-reversal permutation applied to a sequence of fftFrameSize items
             for (std::uint32_t i = 1; i < fftFrameSize - 1; ++i)
@@ -129,13 +129,13 @@ namespace smb
                 const std::uint32_t step2 = step >> 1;
                 const float arg = pi / step2;
 
-                const Complex<float> w{std::cos(arg), std::sin(arg) * sign};
-                Complex<float> u{1.0F, 0.0F};
+                const ComplexNumber<float> w{std::cos(arg), std::sin(arg) * sign};
+                ComplexNumber<float> u{1.0F, 0.0F};
                 for (std::uint32_t j = 0; j < step2; ++j)
                 {
                     for (std::uint32_t k = j; k < fftFrameSize; k += step)
                     {
-                        const Complex<float> temp = fftBuffer[k + step2] * u;
+                        const ComplexNumber<float> temp = fftBuffer[k + step2] * u;
                         fftBuffer[k + step2] = fftBuffer[k] - temp;
                         fftBuffer[k] += temp;
                     }
@@ -198,7 +198,7 @@ namespace smb
                     // this is the analysis step
                     for (std::uint32_t k = 0; k < fftFrameSizeHalf + 1; ++k)
                     {
-                        const Complex<float>& current = fftWorksp[k];
+                        const ComplexNumber<float>& current = fftWorksp[k];
 
                         // compute magnitude and phase
                         const float magn = 2.0F * current.magnitude();
@@ -302,7 +302,7 @@ namespace smb
         float window[fftFrameSize]; // the windowing function
         float inFifo[fftFrameSize]{};
         float outFifo[fftFrameSize]{};
-        Complex<float> fftWorksp[fftFrameSize]{};
+        ComplexNumber<float> fftWorksp[fftFrameSize]{};
         float lastPhase[fftFrameSize / 2 + 1]{};
         float sumPhase[fftFrameSize / 2 + 1]{};
         float outputAccum[2 * fftFrameSize]{};
