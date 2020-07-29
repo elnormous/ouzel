@@ -47,13 +47,13 @@ namespace ouzel::graphics::metal::ios
         submitCommandBuffer(std::move(commandBuffer));
     }
 
-    void RenderDevice::init(core::Window* newWindow,
+    void RenderDevice::init(core::Window& newWindow,
                             const Size2U& newSize,
                             const Settings& settings)
     {
         metal::RenderDevice::init(newWindow, newSize, settings);
 
-        auto windowIOS = static_cast<core::ios::NativeWindow*>(newWindow->getNativeWindow());
+        auto windowIOS = static_cast<core::ios::NativeWindow*>(window->getNativeWindow());
         MetalView* view = (MetalView*)windowIOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

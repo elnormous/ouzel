@@ -28,7 +28,7 @@ namespace ouzel::graphics::opengl::linux
         std::vector<Size2U> getSupportedResolutions() const final;
 
     private:
-        void init(core::Window* newWindow,
+        void init(core::Window& newWindow,
                   const Size2U& newSize,
                   const Settings& settings) final;
 

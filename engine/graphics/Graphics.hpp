@@ -28,7 +28,7 @@ namespace ouzel::graphics
         friend core::Window;
     public:
         Graphics(Driver driver,
-                 core::Window* newWindow,
+                 core::Window& newWindow,
                  const Size2U& newSize,
                  const Settings& settings);
 

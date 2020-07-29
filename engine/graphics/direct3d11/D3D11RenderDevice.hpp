@@ -57,7 +57,7 @@ namespace ouzel::graphics::d3d11
         }
 
     private:
-        void init(core::Window* newWindow,
+        void init(core::Window& newWindow,
                   const Size2U& newSize,
                   const Settings& settings) final;
 

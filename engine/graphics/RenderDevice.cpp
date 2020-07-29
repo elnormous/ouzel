@@ -26,11 +26,11 @@ namespace ouzel::graphics
     {
     }
 
-    void RenderDevice::init(core::Window* newWindow,
+    void RenderDevice::init(core::Window& newWindow,
                             const Size2U&,
                             const Settings& settings)
     {
-        window = newWindow;
+        window = &newWindow;
         sampleCount = settings.sampleCount;
         srgb = settings.srgb;
         verticalSync = settings.verticalSync;

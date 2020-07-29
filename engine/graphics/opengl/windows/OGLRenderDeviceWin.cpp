@@ -197,13 +197,13 @@ namespace ouzel::graphics::opengl::windows
         }
     }
 
-    void RenderDevice::init(core::Window* newWindow,
+    void RenderDevice::init(core::Window& newWindow,
                             const Size2U& newSize,
                             const Settings& settings)
     {
         TempContext tempContext;
 
-        auto windowWin = static_cast<core::windows::NativeWindow*>(newWindow->getNativeWindow());
+        auto windowWin = static_cast<core::windows::NativeWindow*>(newWindow.getNativeWindow());
 
         deviceContext = GetDC(windowWin->getNativeWindow());
         if (!deviceContext)

@@ -84,11 +84,11 @@ namespace ouzel::graphics::opengl::linux
             eglTerminate(display);
     }
 
-    void RenderDevice::init(core::Window* newWindow,
+    void RenderDevice::init(core::Window& newWindow,
                             const Size2U& newSize,
                             const Settings& settings)
     {
-        auto windowLinux = static_cast<core::linux::NativeWindow*>(newWindow->getNativeWindow());
+        auto windowLinux = static_cast<core::linux::NativeWindow*>(newWindow.getNativeWindow());
 
 #if OUZEL_OPENGLES
         display = eglGetDisplay(EGL_DEFAULT_DISPLAY);

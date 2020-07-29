@@ -106,7 +106,7 @@ namespace ouzel::graphics::metal
         apiVersion = ApiVersion(1, 0);
     }
 
-    void RenderDevice::init(core::Window* newWindow,
+    void RenderDevice::init(core::Window& newWindow,
                             const Size2U& newSize,
                             const Settings& settings)
     {

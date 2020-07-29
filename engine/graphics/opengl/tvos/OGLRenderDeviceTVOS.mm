@@ -59,17 +59,17 @@ namespace ouzel::graphics::opengl::tvos
         }
     }
 
-    void RenderDevice::init(core::Window* newWindow,
+    void RenderDevice::init(core::Window& newWindow,
                             const Size2U& newSize,
                             const Settings& settings)
     {
-        auto view = static_cast<core::tvos::NativeWindow*>(newWindow->getNativeWindow())->getNativeView();
+        auto view = static_cast<core::tvos::NativeWindow*>(newWindow.getNativeWindow())->getNativeView();
 
         eaglLayer = (CAEAGLLayer*)view.layer;
         eaglLayer.opaque = YES;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-        eaglLayer.contentsScale = newWindow->getNativeWindow()->getContentScale();
+        eaglLayer.contentsScale = newWindow.getNativeWindow()->getContentScale();
 
         context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
 

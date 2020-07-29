@@ -314,7 +314,7 @@ namespace ouzel::graphics::opengl
         resources.clear();
     }
 
-    void RenderDevice::init(core::Window* newWindow,
+    void RenderDevice::init(core::Window& newWindow,
                             const Size2U& newSize,
                             const Settings& settings)
     {

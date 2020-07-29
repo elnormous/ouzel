@@ -34,7 +34,7 @@ namespace ouzel::graphics::opengl::windows
         ~RenderDevice() override;
 
     private:
-        void init(core::Window* newWindow,
+        void init(core::Window& newWindow,
                   const Size2U& newSize,
                   const Settings& settings) final;
 

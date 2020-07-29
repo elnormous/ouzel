@@ -91,7 +91,7 @@ namespace ouzel::graphics
     }
 
     Graphics::Graphics(Driver driver,
-                       core::Window* newWindow,
+                       core::Window& newWindow,
                        const Size2U& newSize,
                        const Settings& settings):
         textureFilter(settings.textureFilter),

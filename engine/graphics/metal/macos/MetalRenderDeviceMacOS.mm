@@ -64,13 +64,13 @@ namespace ouzel::graphics::metal::macos
         }
     }
 
-    void RenderDevice::init(core::Window* newWindow,
+    void RenderDevice::init(core::Window& newWindow,
                             const Size2U& newSize,
                             const Settings& settings)
     {
         metal::RenderDevice::init(newWindow, newSize, settings);
 
-        auto windowMacOS = static_cast<core::macos::NativeWindow*>(newWindow->getNativeWindow());
+        auto windowMacOS = static_cast<core::macos::NativeWindow*>(window->getNativeWindow());
         MetalView* view = (MetalView*)windowMacOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

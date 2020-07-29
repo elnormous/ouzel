@@ -114,7 +114,7 @@ namespace ouzel::graphics::d3d11
         if (renderThread.isJoinable()) renderThread.join();
     }
 
-    void RenderDevice::init(core::Window* newWindow,
+    void RenderDevice::init(core::Window& newWindow,
                             const Size2U& newSize,
                             const Settings& settings)
     {

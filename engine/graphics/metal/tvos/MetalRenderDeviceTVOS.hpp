@@ -26,7 +26,7 @@ namespace ouzel::graphics::metal::tvos
         void renderCallback();
 
     private:
-        void init(core::Window* newWindow,
+        void init(core::Window& newWindow,
                   const Size2U& newSize,
                   const Settings& settings) final;
 

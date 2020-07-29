@@ -587,7 +587,7 @@ namespace ouzel::graphics::opengl
         }
 
     protected:
-        void init(core::Window* newWindow,
+        void init(core::Window& newWindow,
                   const Size2U& newSize,
                   const Settings& settings) override;
 

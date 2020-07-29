@@ -209,7 +209,7 @@ namespace ouzel::core
                                           graphicsDriver);
 
         graphics = std::make_unique<graphics::Graphics>(graphicsDriver,
-                                                        window.get(),
+                                                        *window,
                                                         window->getResolution(),
                                                         graphicsSettings);
 
