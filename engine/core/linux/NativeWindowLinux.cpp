@@ -76,7 +76,7 @@ namespace ouzel::core::linux
                                CWBorderPixel | CWBackPixel | CWEventMask, &attributes);
 
         if (!XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr))
-            throw std::runtime_error("Failed to set window properties");
+            throw std::system_error(getLastError(), errorCategory, "Failed to set window properties");
 
         if (!resizable)
         {
@@ -100,22 +100,23 @@ namespace ouzel::core::linux
         }
 
         if (!XMapWindow(display, window))
-            throw std::runtime_error("Failed to map window");
+            throw std::system_error(getLastError(), errorCategory, "Failed to map window");
 
         protocolsAtom = XInternAtom(display, "WM_PROTOCOLS", False);
         deleteAtom = XInternAtom(display, "WM_DELETE_WINDOW", False);
         XSetWMProtocols(display, window, &deleteAtom, 1);
         stateAtom = XInternAtom(display, "_NET_WM_STATE", False);
+        if (!stateAtom)
+            throw std::system_error(getLastError(), errorCategory, "State atom is null");
         stateFullscreenAtom = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
+        if (!stateFullscreenAtom)
+            throw std::system_error(getLastError(), errorCategory, "Fullscreen state atom is null");
         activateWindowAtom = XInternAtom(display, "_NET_ACTIVE_WINDOW", False);
 
         if (fullscreen)
         {
-            if (!stateAtom)
-                throw std::runtime_error("State atom is null");
 
-            if (!stateFullscreenAtom)
-                throw std::runtime_error("Fullscreen state atom is null");
+            
 
             XEvent event;
             event.type = ClientMessage;
@@ -130,7 +131,7 @@ namespace ouzel::core::linux
 
             if (!XSendEvent(display, DefaultRootWindow(display), 0,
                             SubstructureNotifyMask | SubstructureRedirectMask, &event))
-                throw std::runtime_error("Failed to send X11 fullscreen message");
+                throw std::system_error(getLastError(), errorCategory, "Failed to send X11 fullscreen message");
         }
 #elif OUZEL_SUPPORTS_DISPMANX
         auto engineLinux = static_cast<Engine*>(engine);
@@ -241,7 +242,7 @@ namespace ouzel::core::linux
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
         if (!XSendEvent(display, window, False, NoEventMask, &event))
-            throw std::runtime_error("Failed to send X11 delete message");
+            throw std::system_error(getLastError(), errorCategory, "Failed to send X11 delete message");
 #endif
     }
 
@@ -279,12 +280,6 @@ namespace ouzel::core::linux
 #if OUZEL_SUPPORTS_X11
         if (fullscreen != newFullscreen)
         {
-            if (!stateAtom)
-                throw std::runtime_error("State atom is null");
-
-            if (!stateFullscreenAtom)
-                throw std::runtime_error("Fullscreen state atom is null");
-
             XEvent event;
             event.type = ClientMessage;
             event.xclient.window = window;
@@ -298,7 +293,7 @@ namespace ouzel::core::linux
 
             if (!XSendEvent(display, DefaultRootWindow(display), 0,
                             SubstructureNotifyMask | SubstructureRedirectMask, &event))
-                throw std::runtime_error("Failed to send X11 fullscreen message");
+                throw std::system_error(getLastError(), errorCategory, "Failed to send X11 fullscreen message");
         }
 #endif
 
@@ -330,7 +325,7 @@ namespace ouzel::core::linux
 
         if (!XSendEvent(display, DefaultRootWindow(display), 0,
                         SubstructureNotifyMask | SubstructureRedirectMask, &event))
-            throw std::runtime_error("Failed to send X11 activate window message");
+            throw std::system_error(getLastError(), errorCategory, "Failed to send X11 activate window message");
 
         XFlush(display);
 #endif
@@ -386,7 +381,7 @@ namespace ouzel::core::linux
 
         if (!XSendEvent(display, DefaultRootWindow(display), 0,
                         SubstructureNotifyMask | SubstructureRedirectMask, &event))
-            throw std::runtime_error("Failed to send X11 activate window message");
+            throw std::system_error(getLastError(), errorCategory, "Failed to send X11 activate window message");
 
         XFlush(display);
 #endif

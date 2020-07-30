@@ -23,6 +23,17 @@
 #if OUZEL_SUPPORTS_X11
 namespace
 {
+    thread_local static int error;
+
+    int errorHandler(Display* display, XErrorEvent* errorEvent)
+    {
+        error = errorEvent->error_code;
+        char text[256];
+        XGetErrorText(nullptr, errorEvent->error_code, text, sizeof(text));
+        ouzel::logger.log(ouzel::Log::Level::error) << "X11 error: " << text;
+        return 0;
+    }
+
     ouzel::input::Keyboard::Key convertKeyCode(KeySym keyCode)
     {
         switch (keyCode)
@@ -247,20 +258,28 @@ namespace
 
 namespace ouzel::core::linux
 {
+    ErrorCategory errorCategory;
+
+    int getLastError()
+    {
+        return error;
+    }
+
     Engine::Engine(int initArgc, char* initArgv[])
     {
         for (int i = 0; i < initArgc; ++i)
             args.push_back(initArgv[i]);
 
 #if OUZEL_SUPPORTS_X11
+        XSetErrorHandler(errorHandler);
+
         if (!XInitThreads())
-            throw std::runtime_error("Failed to initialize thread support");
+            throw std::system_error(getLastError(), errorCategory, "Failed to initialize thread support");
 
         // open a connection to the X server
         display = XOpenDisplay(nullptr);
-
         if (!display)
-            throw std::runtime_error("Failed to open display");
+            throw std::system_error(getLastError(), errorCategory, "Failed to open display");
 #elif OUZEL_SUPPORTS_DISPMANX
         bcm_host_init();
 
@@ -493,7 +512,7 @@ namespace ouzel::core::linux
         lock.unlock();
 
         if (!XSendEvent(display, windowLinux->getNativeWindow(), False, NoEventMask, &event))
-            throw std::runtime_error("Failed to send X11 delete message");
+            throw std::system_error(getLastError(), errorCategory, "Failed to send X11 delete message");
 
         XFlush(display);
 #else
