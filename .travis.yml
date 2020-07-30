@@ -24,6 +24,8 @@ matrix:
         - sudo apt-get install -y libasound2-dev
         - sudo apt-get install -y libxi-dev
         - sudo apt-get install -y libxcursor-dev
+        - sudo apt-get install -y libxrandr-dev
+        - sudo apt-get install -y libxss-dev
         - curl --insecure https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.3.0.2102-linux.zip -o sonar-scanner-cli-4.3.0.2102-linux.zip
         - unzip sonar-scanner-cli-4.3.0.2102-linux.zip -d ${TRAVIS_HOME}/.sonarscanner/
         - export PATH=${TRAVIS_HOME}/.sonarscanner/sonar-scanner-4.3.0.2102-linux/bin:$PATH

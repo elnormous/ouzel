@@ -3,6 +3,7 @@
 #include "../Setup.h"
 
 #include <stdexcept>
+#include <X11/extensions/Xrandr.h> 
 #include "NativeWindowLinux.hpp"
 #include "EngineLinux.hpp"
 
@@ -40,23 +41,29 @@ namespace ouzel::core::linux
 
         const auto rootWindow = RootWindow(display, screenNumber);
 
-        if (size.v[0] <= 0.0F) size.v[0] = static_cast<std::uint32_t>(XWidthOfScreen(screen) * 0.8F);
-        if (size.v[1] <= 0.0F) size.v[1] = static_cast<std::uint32_t>(XHeightOfScreen(screen) * 0.8F);
+
+        int monitorCount;
+        XRRMonitorInfo* monitors = XRRGetMonitors(display, rootWindow, True, &monitorCount);
+
+        if (size.v[0] <= 0.0F) size.v[0] = (monitorCount > 0) ? static_cast<std::uint32_t>(monitors[0].width * 0.8F) : 800U;
+        if (size.v[1] <= 0.0F) size.v[1] = (monitorCount > 0) ? static_cast<std::uint32_t>(monitors[0].height * 0.8F) : 600U;
 
         resolution = size;
 
-        const int x = XWidthOfScreen(screen) / 2 - static_cast<int>(size.v[0] / 2);
-        const int y = XHeightOfScreen(screen) / 2 - static_cast<int>(size.v[1] / 2);
+        const int x = (monitorCount > 0) ? monitors[0].x + monitors[0].width / 2 - static_cast<int>(size.v[0] / 2) : 0;
+        const int y = (monitorCount > 0) ? monitors[0].y + monitors[0].height / 2 - static_cast<int>(size.v[1] / 2) : 0;
 
-        XSetWindowAttributes swa;
-        swa.background_pixel = XWhitePixel(display, screenNumber);
-        swa.border_pixel = 0;
-        swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
+        XRRFreeMonitors(monitors);
+
+        XSetWindowAttributes attributes;
+        attributes.background_pixel = XWhitePixel(display, screenNumber);
+        attributes.border_pixel = 0;
+        attributes.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
         window = XCreateWindow(display, rootWindow, x, y,
                                static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
                                0, DefaultDepth(display, screenNumber), InputOutput, DefaultVisual(display, screenNumber),
-                               CWBorderPixel | CWBackPixel | CWEventMask, &swa);
+                               CWBorderPixel | CWBackPixel | CWEventMask, &attributes);
 
         if (!XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr))
             throw std::runtime_error("Failed to set window properties");

@@ -25,7 +25,7 @@ ifneq ($(filter arm%,$(architecture)),) # ARM Linux
 VC_DIR=/opt/vc
 LDFLAGS+=-L$(VC_DIR)/lib -lbrcmGLESv2 -lbrcmEGL -lbcm_host
 else # X86 Linux
-LDFLAGS+=-lGL -lEGL -lX11 -lXcursor -lXss -lXi -lXxf86vm
+LDFLAGS+=-lGL -lEGL -lX11 -lXcursor -lXss -lXi -lXxf86vm -lXrandr
 endif
 LDFLAGS+=-lopenal -lpthread -lasound -ldl
 else ifeq ($(PLATFORM),macos)

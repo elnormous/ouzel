@@ -17,6 +17,7 @@ jobs:
   - script: sudo apt-get install -y libxxf86vm-dev
   - script: sudo apt-get install -y libxi-dev
   - script: sudo apt-get install -y libxcursor-dev
+  - script: sudo apt-get install -y libxrandr-dev
   - script: sudo apt-get install -y libxss-dev
   - script: |
       cd samples
