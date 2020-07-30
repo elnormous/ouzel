@@ -18,7 +18,9 @@ namespace ouzel::audio::alsa
                                                       std::vector<float>& samples)>& initDataGetter):
         audio::AudioDevice(Driver::alsa, settings, initDataGetter)
     {
-        if (const auto result = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0); result < 0)
+        const char* device = settings.audioDevice.empty() ? "default" : settings.audioDevice.c_str();
+
+        if (const auto result = snd_pcm_open(&playbackHandle, device, SND_PCM_STREAM_PLAYBACK, 0); result < 0)
             throw std::system_error(-result, std::system_category(), "Failed to connect to audio interface");
 
         logger.log(Log::Level::info) << "Using " << snd_pcm_name(playbackHandle) << " for audio";

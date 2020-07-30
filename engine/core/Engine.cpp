@@ -194,6 +194,8 @@ namespace ouzel::core
         const std::string debugAudioValue = userEngineSection.getValue("debugAudio", defaultEngineSection.getValue("debugAudio"));
         if (!debugAudioValue.empty()) audioSettings.debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");
 
+        audioSettings.audioDevice = userEngineSection.getValue("audioDevice", defaultEngineSection.getValue("audioDevice"));
+
         graphics::Driver graphicsDriver = graphics::Graphics::getDriver(graphicsDriverValue);
 
         const Window::Flags windowFlags =

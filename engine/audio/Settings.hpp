@@ -15,6 +15,7 @@ namespace ouzel::audio
         std::uint32_t sampleRate = 44100;
         std::uint32_t channels = 0;
         SampleFormat sampleFormat = SampleFormat::float32;
+        std::string audioDevice;
     };
 }
 
