@@ -92,7 +92,8 @@ namespace ouzel
                 resourceName.replaceExtension("otexture");
                 const storage::Path resourcePath = assetPath / resourceName;
 
-                const auto targetIterator = std::find_if(targets.begin(), targets.end(), [targetName](const auto& target) {
+                const auto targetIterator = std::find_if(targets.begin(), targets.end(),
+                                                         [targetName](const auto& target) noexcept {
                     return target.name == targetName;
                 });
 

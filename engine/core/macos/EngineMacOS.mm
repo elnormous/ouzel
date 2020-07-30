@@ -133,7 +133,7 @@ namespace ouzel::core::macos
 
     void Engine::openUrl(const std::string& url)
     {
-        executeOnMainThread([url](){
+        executeOnMainThread([url]() {
             NSString* urlString = [NSString stringWithUTF8String:url.c_str()];
             NSURL* nsUrl = [NSURL URLWithString:urlString];
 

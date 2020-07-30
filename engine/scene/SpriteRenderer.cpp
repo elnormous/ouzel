@@ -138,7 +138,7 @@ namespace ouzel::scene
 
     SpriteRenderer::SpriteRenderer()
     {
-        updateHandler.updateHandler = [this](const UpdateEvent& event){
+        updateHandler.updateHandler = [this](const UpdateEvent& event) {
             update(event.delta);
             return false;
         };
