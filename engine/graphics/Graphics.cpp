@@ -92,11 +92,10 @@ namespace ouzel::graphics
 
     Graphics::Graphics(Driver driver,
                        core::Window& initWindow,
-                       const Size2U& initSize,
                        const Settings& settings):
         textureFilter(settings.textureFilter),
         maxAnisotropy(settings.maxAnisotropy),
-        size(initSize)
+        size(initWindow.getResolution())
     {
         switch (driver)
         {
@@ -146,7 +145,7 @@ namespace ouzel::graphics
                 break;
         }
 
-        device->init(initSize, settings);
+        device->init(initWindow.getResolution(), settings);
     }
 
     void Graphics::handleEvent(const RenderDevice::Event& event)

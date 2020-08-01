@@ -212,7 +212,6 @@ namespace ouzel::core
 
         graphics = std::make_unique<graphics::Graphics>(graphicsDriver,
                                                         *window,
-                                                        window->getResolution(),
                                                         graphicsSettings);
 
         audio::Driver audioDriver = audio::Audio::getDriver(audioDriverValue);

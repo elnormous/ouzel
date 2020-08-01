@@ -27,8 +27,7 @@ namespace ouzel::graphics::metal::ios
         void renderCallback();
 
     private:
-        void init(core::Window& newWindow,
-                  const Size2U& newSize,
+        void init(const Size2U& newSize,
                   const Settings& settings) final;
 
         core::ios::DisplayLink displayLink;

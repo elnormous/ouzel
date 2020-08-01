@@ -29,7 +29,6 @@ namespace ouzel::graphics
     public:
         Graphics(Driver driver,
                  core::Window& initWindow,
-                 const Size2U& initSize,
                  const Settings& settings);
 
         static Driver getDriver(const std::string& driver);
