@@ -11,7 +11,7 @@ namespace ouzel::graphics::opengl::emscripten
 {
     RenderDevice::RenderDevice(core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
-        opengl::RenderDevice(initCallback)
+        opengl::RenderDevice(initWindow, initCallback)
     {
         embedded = true;
     }

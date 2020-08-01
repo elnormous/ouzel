@@ -54,7 +54,7 @@ namespace ouzel::graphics::opengl::linux
 
     RenderDevice::RenderDevice(core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
-        opengl::RenderDevice(initCallback)
+        opengl::RenderDevice(initWindow, initCallback)
     {
 #if OUZEL_OPENGLES
         embedded = true;
