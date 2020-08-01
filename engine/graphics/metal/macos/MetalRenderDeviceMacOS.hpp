@@ -50,7 +50,8 @@ namespace ouzel::graphics::metal::macos
     {
         friend Graphics;
     public:
-        explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+        explicit RenderDevice(core::Window& initWindow,
+                              const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;
 
         std::vector<Size2U> getSupportedResolutions() const final;
@@ -58,8 +59,7 @@ namespace ouzel::graphics::metal::macos
         void renderCallback();
 
     private:
-        void init(core::Window& newWindow,
-                  const Size2U& newSize,
+        void init(const Size2U& newSize,
                   const Settings& settings) final;
 
         bool handleWindow(const WindowEvent& event);

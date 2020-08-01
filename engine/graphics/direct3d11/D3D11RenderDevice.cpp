@@ -98,8 +98,9 @@ namespace ouzel::graphics::d3d11
         return errorCategory;
     }
 
-    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-        graphics::RenderDevice(Driver::direct3D11, initCallback)
+    RenderDevice::RenderDevice(core::Window& initWindow,
+                               const std::function<void(const Event&)>& initCallback):
+        graphics::RenderDevice(Driver::direct3D11, initWindow, initCallback)
     {
         apiVersion = ApiVersion(11, 0);
     }
@@ -114,11 +115,10 @@ namespace ouzel::graphics::d3d11
         if (renderThread.isJoinable()) renderThread.join();
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U& newSize,
+    void RenderDevice::init(const Size2U& newSize,
                             const Settings& settings)
     {
-        graphics::RenderDevice::init(newWindow, newSize, settings);
+        graphics::RenderDevice::init(newSize, settings);
 
         anisotropicFilteringSupported = true;
         renderTargetsSupported = true;
@@ -185,7 +185,7 @@ namespace ouzel::graphics::d3d11
             }
         }
 
-        auto windowWin = static_cast<core::windows::NativeWindow*>(window->getNativeWindow());
+        auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
 
         frameBufferWidth = static_cast<UINT>(newSize.v[0]);
         frameBufferHeight = static_cast<UINT>(newSize.v[1]);
@@ -887,7 +887,7 @@ namespace ouzel::graphics::d3d11
 
     IDXGIOutput* RenderDevice::getOutput() const
     {
-        auto windowWin = static_cast<core::windows::NativeWindow*>(window->getNativeWindow());
+        auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
         auto monitor = windowWin->getMonitor();
 
         if (!monitor)

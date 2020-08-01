@@ -33,8 +33,9 @@ namespace ouzel::graphics::metal::ios
         }
     }
 
-    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-        metal::RenderDevice(initCallback),
+    RenderDevice::RenderDevice(core::Window& initWindow,
+                               const std::function<void(const Event&)>& initCallback):
+        metal::RenderDevice(initWindow, initCallback),
         displayLink(ios::renderCallback, this)
     {
     }
@@ -47,13 +48,12 @@ namespace ouzel::graphics::metal::ios
         submitCommandBuffer(std::move(commandBuffer));
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U& newSize,
+    void RenderDevice::init(const Size2U& newSize,
                             const Settings& settings)
     {
-        metal::RenderDevice::init(newWindow, newSize, settings);
+        metal::RenderDevice::init(newSize, settings);
 
-        auto windowIOS = static_cast<core::ios::NativeWindow*>(window->getNativeWindow());
+        auto windowIOS = static_cast<core::ios::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowIOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

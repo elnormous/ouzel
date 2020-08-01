@@ -32,8 +32,9 @@ namespace ouzel::graphics::opengl::ios
         }
     }
 
-    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-        opengl::RenderDevice(initCallback),
+    RenderDevice::RenderDevice(core::Window& initWindow,
+                               const std::function<void(const Event&)>& initCallback):
+        opengl::RenderDevice(initWindow, initCallback),
         displayLink(ios::renderCallback, this)
     {
         embedded = true;
@@ -59,17 +60,16 @@ namespace ouzel::graphics::opengl::ios
         }
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U& newSize,
+    void RenderDevice::init(const Size2U& newSize,
                             const Settings& settings)
     {
-        auto view = static_cast<core::ios::NativeWindow*>(newWindow.getNativeWindow())->getNativeView();
+        auto view = static_cast<core::ios::NativeWindow*>(window.getNativeWindow())->getNativeView();
 
         eaglLayer = (CAEAGLLayer*)view.layer;
         eaglLayer.opaque = YES;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-        eaglLayer.contentsScale = newWindow.getNativeWindow()->getContentScale();
+        eaglLayer.contentsScale = window.getNativeWindow()->getContentScale();
 
         context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
 
@@ -92,7 +92,7 @@ namespace ouzel::graphics::opengl::ios
         if (![EAGLContext setCurrentContext:context])
             throw std::runtime_error("Failed to set current EAGL context");
 
-        opengl::RenderDevice::init(newWindow, newSize, settings);
+        opengl::RenderDevice::init(newSize, settings);
 
         createFrameBuffer();
 

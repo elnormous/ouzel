@@ -29,8 +29,9 @@ namespace ouzel::graphics::metal::tvos
         }
     }
 
-    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-        metal::RenderDevice(initCallback),
+    RenderDevice::RenderDevice(core::Window& initWindow,
+                               const std::function<void(const Event&)>& initCallback):
+        metal::RenderDevice(initWindow, initCallback),
         displayLink(tvos::renderCallback, this)
     {
     }
@@ -43,13 +44,12 @@ namespace ouzel::graphics::metal::tvos
         submitCommandBuffer(std::move(commandBuffer));
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U& newSize,
+    void RenderDevice::init(const Size2U& newSize,
                             const Settings& settings)
     {
-        metal::RenderDevice::init(newWindow, newSize, settings);
+        metal::RenderDevice::init(newSize, settings);
 
-        auto windowTVOS = static_cast<core::tvos::NativeWindow*>(window->getNativeWindow());
+        auto windowTVOS = static_cast<core::tvos::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowTVOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

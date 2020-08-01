@@ -9,7 +9,8 @@
 
 namespace ouzel::graphics::opengl::emscripten
 {
-    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
+    RenderDevice::RenderDevice(core::Window& initWindow,
+                               const std::function<void(const Event&)>& initCallback):
         opengl::RenderDevice(initCallback)
     {
         embedded = true;
@@ -21,8 +22,7 @@ namespace ouzel::graphics::opengl::emscripten
             emscripten_webgl_destroy_context(webGLContext);
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U& newSize,
+    void RenderDevice::init(const Size2U& newSize,
                             const Settings& settings)
     {
         apiVersion = ApiVersion(2, 0);
@@ -47,7 +47,7 @@ namespace ouzel::graphics::opengl::emscripten
 
         emscripten_set_main_loop_timing(settings.verticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
-        opengl::RenderDevice::init(newWindow, newSize, settings);
+        opengl::RenderDevice::init(newSize, settings);
     }
 }
 

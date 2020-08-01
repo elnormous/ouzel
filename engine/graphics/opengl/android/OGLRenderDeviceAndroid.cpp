@@ -48,7 +48,8 @@ namespace ouzel::graphics::opengl::android
         const EGLErrorCategory eglErrorCategory {};
     }
 
-    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
+    RenderDevice::RenderDevice(core::Window& initWindow,
+                               const std::function<void(const Event&)>& initCallback):
         opengl::RenderDevice(initCallback)
     {
         embedded = true;
@@ -76,8 +77,7 @@ namespace ouzel::graphics::opengl::android
             eglTerminate(display);
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U&,
+    void RenderDevice::init(const Size2U&,
                             const Settings& settings)
     {
         display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
@@ -113,7 +113,7 @@ namespace ouzel::graphics::opengl::android
         if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
 
-        auto windowAndroid = static_cast<core::android::NativeWindow*>(newWindow.getNativeWindow());
+        auto windowAndroid = static_cast<core::android::NativeWindow*>(window.getNativeWindow());
 
         ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 
@@ -167,7 +167,7 @@ namespace ouzel::graphics::opengl::android
         auto backBufferSize = Size2U(static_cast<std::uint32_t>(frameBufferWidth),
                                      static_cast<std::uint32_t>(frameBufferHeight));
 
-        opengl::RenderDevice::init(newWindow, backBufferSize, settings);
+        opengl::RenderDevice::init(backBufferSize, settings);
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::runtime_error("Failed to unset EGL context");
@@ -210,7 +210,7 @@ namespace ouzel::graphics::opengl::android
         if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
 
-        auto windowAndroid = static_cast<core::android::NativeWindow*>(window->getNativeWindow());
+        auto windowAndroid = static_cast<core::android::NativeWindow*>(window.getNativeWindow());
 
         ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 

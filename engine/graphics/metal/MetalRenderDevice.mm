@@ -97,8 +97,9 @@ namespace ouzel::graphics::metal
         return static_cast<bool>(device);
     }
 
-    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-        graphics::RenderDevice(Driver::metal, initCallback),
+    RenderDevice::RenderDevice(core::Window& newWindow,
+                               const std::function<void(const Event&)>& initCallback):
+        graphics::RenderDevice(Driver::metal, newWindow, initCallback),
         colorFormat(MTLPixelFormatInvalid),
         depthFormat(MTLPixelFormatInvalid),
         stencilFormat(MTLPixelFormatInvalid)
@@ -106,11 +107,10 @@ namespace ouzel::graphics::metal
         apiVersion = ApiVersion(1, 0);
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U& newSize,
+    void RenderDevice::init(const Size2U& newSize,
                             const Settings& settings)
     {
-        graphics::RenderDevice::init(newWindow, newSize, settings);
+        graphics::RenderDevice::init(newSize, settings);
 
         npotTexturesSupported = true;
         anisotropicFilteringSupported = true;

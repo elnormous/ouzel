@@ -168,7 +168,8 @@ namespace ouzel::graphics::opengl::windows
         }
     }
 
-    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
+    RenderDevice::RenderDevice(core::Window& initWindow,
+                               const std::function<void(const Event&)>& initCallback):
         opengl::RenderDevice(initCallback)
     {
         embedded = false;
@@ -192,18 +193,17 @@ namespace ouzel::graphics::opengl::windows
 
         if (deviceContext)
         {
-            auto windowWin = static_cast<core::windows::NativeWindow*>(window->getNativeWindow());
+            auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
             ReleaseDC(windowWin->getNativeWindow(), deviceContext);
         }
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U& newSize,
+    void RenderDevice::init(const Size2U& newSize,
                             const Settings& settings)
     {
         TempContext tempContext;
 
-        auto windowWin = static_cast<core::windows::NativeWindow*>(newWindow.getNativeWindow());
+        auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
 
         deviceContext = GetDC(windowWin->getNativeWindow());
         if (!deviceContext)
@@ -333,7 +333,7 @@ namespace ouzel::graphics::opengl::windows
         if (apiVersion.v[0] < 2 || apiVersion.v[0] > 4)
             throw std::runtime_error("Unsupported OpenGL version");
 
-        opengl::RenderDevice::init(newWindow, newSize, settings);
+        opengl::RenderDevice::init(newSize, settings);
 
         if (!wglMakeCurrent(deviceContext, nullptr))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");

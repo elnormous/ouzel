@@ -45,8 +45,9 @@ namespace ouzel::graphics::metal::macos
         }
     }
 
-    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-        metal::RenderDevice(initCallback)
+    RenderDevice::RenderDevice(core::Window& initWindow,
+                               const std::function<void(const Event&)>& initCallback):
+        metal::RenderDevice(initWindow, initCallback)
     {
     }
 
@@ -64,13 +65,12 @@ namespace ouzel::graphics::metal::macos
         }
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U& newSize,
+    void RenderDevice::init(const Size2U& newSize,
                             const Settings& settings)
     {
-        metal::RenderDevice::init(newWindow, newSize, settings);
+        metal::RenderDevice::init(newSize, settings);
 
-        auto windowMacOS = static_cast<core::macos::NativeWindow*>(window->getNativeWindow());
+        auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowMacOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

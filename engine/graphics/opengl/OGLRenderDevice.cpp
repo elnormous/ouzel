@@ -291,8 +291,9 @@ namespace ouzel::graphics::opengl
         return std::error_code(static_cast<int>(e), errorCategory);
     }
 
-    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-        graphics::RenderDevice(Driver::openGL, initCallback),
+    RenderDevice::RenderDevice(core::Window& newWindow,
+                               const std::function<void(const Event&)>& initCallback):
+        graphics::RenderDevice(Driver::openGL, newWindow, initCallback),
         textureBaseLevelSupported(false),
         textureMaxLevelSupported(false)
     {
@@ -314,11 +315,10 @@ namespace ouzel::graphics::opengl
         resources.clear();
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U& newSize,
+    void RenderDevice::init(const Size2U& newSize,
                             const Settings& settings)
     {
-        graphics::RenderDevice::init(newWindow, newSize, settings);
+        graphics::RenderDevice::init(newSize, settings);
 
         frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
         frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);

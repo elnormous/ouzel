@@ -67,7 +67,9 @@ namespace ouzel::graphics
             Type type;
         };
 
-        RenderDevice(Driver initDriver, const std::function<void(const Event&)>& initCallback);
+        RenderDevice(Driver initDriver,
+                     core::Window& initWindow,
+                     const std::function<void(const Event&)>& initCallback);
         virtual ~RenderDevice() = default;
 
         RenderDevice(const RenderDevice&) = delete;
@@ -156,8 +158,7 @@ namespace ouzel::graphics
         };
 
     protected:
-        virtual void init(core::Window& newWindow,
-                          const Size2U& newSize,
+        virtual void init(const Size2U& newSize,
                           const Settings& settings);
 
         void executeAll();
@@ -165,9 +166,8 @@ namespace ouzel::graphics
         virtual void generateScreenshot(const std::string& filename);
 
         Driver driver;
+        core::Window& window;
         std::function<void(const Event&)> callback;
-
-        core::Window* window = nullptr;
 
         ApiVersion apiVersion;
 

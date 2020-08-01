@@ -28,8 +28,8 @@ namespace ouzel::graphics
         friend core::Window;
     public:
         Graphics(Driver driver,
-                 core::Window& newWindow,
-                 const Size2U& newSize,
+                 core::Window& initWindow,
+                 const Size2U& initSize,
                  const Settings& settings);
 
         static Driver getDriver(const std::string& driver);

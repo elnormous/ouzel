@@ -14,8 +14,10 @@ namespace ouzel::graphics
     };
 
     RenderDevice::RenderDevice(Driver initDriver,
+                               core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
         driver(initDriver),
+        window(initWindow),
         callback(initCallback),
         npotTexturesSupported(false),
         anisotropicFilteringSupported(false),
@@ -26,11 +28,9 @@ namespace ouzel::graphics
     {
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U&,
+    void RenderDevice::init(const Size2U&,
                             const Settings& settings)
     {
-        window = &newWindow;
         sampleCount = settings.sampleCount;
         srgb = settings.srgb;
         verticalSync = settings.verticalSync;

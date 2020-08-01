@@ -73,10 +73,10 @@ namespace ouzel::graphics::metal
         }
 
     protected:
-        explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+        explicit RenderDevice(core::Window& newWindow,
+                              const std::function<void(const Event&)>& initCallback);
 
-        void init(core::Window& newWindow,
-                  const Size2U& newSize,
+        void init(const Size2U& newSize,
                   const Settings& settings) override;
 
         void process() override;

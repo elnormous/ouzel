@@ -20,7 +20,8 @@ namespace ouzel::graphics::metal::ios
     {
         friend Graphics;
     public:
-        explicit RenderDevice(const std::function<void(const Event&)>& initCallback);
+        explicit RenderDevice(core::Window& initWindow,
+                              const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;
 
         void renderCallback();

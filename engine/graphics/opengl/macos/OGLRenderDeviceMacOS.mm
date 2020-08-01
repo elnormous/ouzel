@@ -44,8 +44,9 @@ namespace ouzel::graphics::opengl::macos
         }
     }
 
-    RenderDevice::RenderDevice(const std::function<void(const Event&)>& initCallback):
-        opengl::RenderDevice(initCallback)
+    RenderDevice::RenderDevice(core::Window& initWindow,
+                               const std::function<void(const Event&)>& initCallback):
+        opengl::RenderDevice(initWindow, initCallback)
     {
         embedded = false;
     }
@@ -73,8 +74,7 @@ namespace ouzel::graphics::opengl::macos
             [pixelFormat release];
     }
 
-    void RenderDevice::init(core::Window& newWindow,
-                            const Size2U& newSize,
+    void RenderDevice::init(const Size2U& newSize,
                             const Settings& settings)
     {
         constexpr NSOpenGLPixelFormatAttribute openGLVersions[] = {
@@ -138,7 +138,7 @@ namespace ouzel::graphics::opengl::macos
         openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
         [openGLContext makeCurrentContext];
 
-        auto windowMacOS = static_cast<core::macos::NativeWindow*>(newWindow.getNativeWindow());
+        auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
         OpenGLView* openGLView = (OpenGLView*)windowMacOS->getNativeView();
 
         [openGLView setOpenGLContext:openGLContext];
@@ -147,7 +147,7 @@ namespace ouzel::graphics::opengl::macos
         const GLint swapInterval = settings.verticalSync ? 1 : 0;
         [openGLContext setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
 
-        opengl::RenderDevice::init(newWindow, newSize, settings);
+        opengl::RenderDevice::init(newSize, settings);
 
         eventHandler.windowHandler = std::bind(&RenderDevice::handleWindow, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);
