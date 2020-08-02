@@ -28,7 +28,7 @@ namespace ouzel::graphics::d3d11
                 case BlendFactor::srcAlphaSat: return D3D11_BLEND_SRC_ALPHA_SAT;
                 case BlendFactor::blendFactor: return D3D11_BLEND_BLEND_FACTOR;
                 case BlendFactor::invBlendFactor: return D3D11_BLEND_INV_BLEND_FACTOR;
-                default: default: throw std::runtime_error("Unsupported blend factor");
+                default: throw std::runtime_error("Unsupported blend factor");
             }
         }
 
@@ -41,7 +41,7 @@ namespace ouzel::graphics::d3d11
                 case BlendOperation::reverseSubtract: return D3D11_BLEND_OP_REV_SUBTRACT;
                 case BlendOperation::min: return D3D11_BLEND_OP_MIN;
                 case BlendOperation::max: return D3D11_BLEND_OP_MAX;
-                default: default: throw std::runtime_error("Unsupported blend operation");
+                default: throw std::runtime_error("Unsupported blend operation");
             }
         }
     }
