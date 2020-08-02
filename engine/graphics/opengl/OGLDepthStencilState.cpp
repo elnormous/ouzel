@@ -23,7 +23,7 @@ namespace ouzel::graphics::opengl
                 case CompareFunction::notEqual: return GL_NOTEQUAL;
                 case CompareFunction::greaterEqual: return GL_GEQUAL;
                 case CompareFunction::always: return GL_ALWAYS;
-                default: return GL_NEVER;
+                default: throw std::runtime_error("Unsupported compare function");
             }
         }
 
@@ -39,7 +39,7 @@ namespace ouzel::graphics::opengl
                 case StencilOperation::invert: return GL_INVERT;
                 case StencilOperation::incrementWrap: return GL_INCR_WRAP;
                 case StencilOperation::decrementWrap: return GL_DECR_WRAP;
-                default: return GL_KEEP;
+                default: throw std::runtime_error("Unsupported stencil operation");
             }
         }
     }

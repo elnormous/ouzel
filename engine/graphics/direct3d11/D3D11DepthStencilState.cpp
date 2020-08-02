@@ -23,7 +23,7 @@ namespace ouzel::graphics::d3d11
                 case CompareFunction::notEqual: return D3D11_COMPARISON_NOT_EQUAL;
                 case CompareFunction::greaterEqual: return D3D11_COMPARISON_GREATER_EQUAL;
                 case CompareFunction::always: return D3D11_COMPARISON_ALWAYS;
-                default: return D3D11_COMPARISON_NEVER;
+                default: throw std::runtime_error("Unsupported compare function");
             }
         }
 
@@ -39,7 +39,7 @@ namespace ouzel::graphics::d3d11
                 case StencilOperation::invert: return D3D11_STENCIL_OP_INVERT;
                 case StencilOperation::incrementWrap: return D3D11_STENCIL_OP_INCR;
                 case StencilOperation::decrementWrap: return D3D11_STENCIL_OP_DECR;
-                default: return D3D11_STENCIL_OP_KEEP;
+                default: throw std::runtime_error("Unsupported stencil operation");
             }
         }
     }

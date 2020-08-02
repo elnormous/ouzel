@@ -23,7 +23,7 @@ namespace ouzel::graphics::metal
                 case CompareFunction::notEqual: return MTLCompareFunctionNotEqual;
                 case CompareFunction::greaterEqual: return MTLCompareFunctionGreaterEqual;
                 case CompareFunction::always: return MTLCompareFunctionAlways;
-                default: return MTLCompareFunctionNever;
+                default: throw std::runtime_error("Unsupported compare function");
             }
         }
 
@@ -39,7 +39,7 @@ namespace ouzel::graphics::metal
                 case StencilOperation::invert: return MTLStencilOperationInvert;
                 case StencilOperation::incrementWrap: return MTLStencilOperationIncrementWrap;
                 case StencilOperation::decrementWrap: return MTLStencilOperationDecrementWrap;
-                default: return MTLStencilOperationKeep;
+                default: throw std::runtime_error("Unsupported stencil operation");
             }
         }
     }
