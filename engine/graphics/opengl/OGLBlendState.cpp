@@ -28,7 +28,7 @@ namespace ouzel::graphics::opengl
                 case BlendFactor::srcAlphaSat: return GL_SRC_ALPHA_SATURATE;
                 case BlendFactor::blendFactor: return GL_CONSTANT_COLOR;
                 case BlendFactor::invBlendFactor: return GL_ONE_MINUS_CONSTANT_COLOR;
-                default: default: throw std::runtime_error("Unsupported blend factor");
+                default: throw std::runtime_error("Unsupported blend factor");
             }
         }
 
