@@ -48,7 +48,7 @@ namespace ouzel::graphics::d3d11
                 case PixelFormat::rgba32Float: return DXGI_FORMAT_R32G32B32A32_FLOAT;
                 case PixelFormat::depth: return DXGI_FORMAT_D32_FLOAT;
                 case PixelFormat::depthStencil: return DXGI_FORMAT_D24_UNORM_S8_UINT;
-                default: return DXGI_FORMAT_UNKNOWN;
+                default: throw std::runtime_error("Invalid pixel format");
             }
         }
 

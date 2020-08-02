@@ -51,7 +51,7 @@ namespace ouzel::graphics::opengl
                     case PixelFormat::rgba32Float: return GL_RGBA32F;
                     case PixelFormat::depth: return GL_DEPTH_COMPONENT24;
                     case PixelFormat::depthStencil: return GL_DEPTH24_STENCIL8;
-                    default: return GL_NONE;
+                    default: throw std::runtime_error("Invalid pixel format");
                 }
             }
             else
@@ -62,7 +62,7 @@ namespace ouzel::graphics::opengl
                     case PixelFormat::rgba8UnsignedNorm: return GL_RGBA;
                     case PixelFormat::depth: return GL_DEPTH_COMPONENT24;
                     case PixelFormat::depthStencil: return GL_DEPTH24_STENCIL8;
-                    default: return GL_NONE;
+                    default: throw std::runtime_error("Invalid pixel format");
                 }
             }
 #else
@@ -103,7 +103,7 @@ namespace ouzel::graphics::opengl
                 case PixelFormat::rgba32Float: return GL_RGBA32F;
                 case PixelFormat::depth: return GL_DEPTH_COMPONENT24;
                 case PixelFormat::depthStencil: return GL_DEPTH24_STENCIL8;
-                default: return GL_NONE;
+                default: throw std::runtime_error("Invalid pixel format");
             }
 #endif
         }
@@ -154,7 +154,7 @@ namespace ouzel::graphics::opengl
                 case PixelFormat::depthStencil:
                     return GL_DEPTH_STENCIL;
                 default:
-                    return 0;
+                    throw std::runtime_error("Invalid pixel format");
             }
         }
 
@@ -201,7 +201,7 @@ namespace ouzel::graphics::opengl
                 case PixelFormat::depthStencil:
                     return GL_UNSIGNED_INT_24_8;
                 default:
-                    return 0;
+                    throw std::runtime_error("Invalid pixel format");
             }
         }
 

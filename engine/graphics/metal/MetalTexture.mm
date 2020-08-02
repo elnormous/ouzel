@@ -49,7 +49,7 @@ namespace ouzel::graphics::metal
                 case PixelFormat::rgba32Float: return MTLPixelFormatRGBA32Float;
                 case PixelFormat::depth: return MTLPixelFormatDepth32Float;
                 case PixelFormat::depthStencil: return MTLPixelFormatDepth32Float_Stencil8; // MTLPixelFormatDepth24Unorm_Stencil8 is only available on macOS
-                default: return MTLPixelFormatInvalid;
+                default: throw std::runtime_error("Invalid pixel format");
             }
         }
 

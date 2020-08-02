@@ -37,7 +37,7 @@ namespace ouzel::assets
             {
                 case 0: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::gravity; break;
                 case 1: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::radius; break;
-                default: return false;
+                default: throw std::runtime_error("Unsupported emitter type");
             }
         }
 
