@@ -118,8 +118,6 @@ namespace ouzel::graphics::metal
         multisamplingSupported = true;
         uintIndicesSupported = true;
 
-        inflightSemaphore = dispatch_semaphore_create(bufferCount);
-
         device = MTLCreateSystemDefaultDevice();
 
         if (!device)
