@@ -853,18 +853,15 @@ namespace ouzel::graphics::metal
                                  fromRegion:MTLRegionMake2D(0, 0, width, height)
                                 mipmapLevel:0];
 
-        std::uint8_t temp;
         for (std::uint32_t y = 0; y < height; ++y)
-        {
             for (std::uint32_t x = 0; x < width; ++x)
             {
                 // reverse the order of channels
-                temp = data[((y * width + x) * 4)];
+                const std::uint8_t temp = data[((y * width + x) * 4)];
                 data[((y * width + x) * 4)] = data[((y * width + x) * 4) + 2];
                 data[((y * width + x) * 4) + 2] = temp;
                 data[((y * width + x) * 4) + 3] = 255;
             }
-        }
 
         if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.data(), static_cast<int>(width * 4)))
             throw Error("Failed to save image to file");
