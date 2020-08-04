@@ -137,8 +137,8 @@ namespace ouzel::core::windows
             }
             else
             {
-                BOOL ret;
-                if ((ret = GetMessage(&message, nullptr, 0, 0)) == -1)
+                const BOOL ret = GetMessage(&message, nullptr, 0, 0);
+                if (ret == -1)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get message");
 
                 if (ret == 0)
