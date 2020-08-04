@@ -3,6 +3,7 @@
 #ifndef OUZEL_GRAPHICS_DISPATCHSEMAPHORE_HPP
 #define OUZEL_GRAPHICS_DISPATCHSEMAPHORE_HPP
 
+#include <stdexcept>
 #include <dispatch/dispatch.h>
 
 namespace ouzel::graphics::metal
