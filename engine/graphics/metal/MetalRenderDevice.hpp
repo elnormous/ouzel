@@ -106,7 +106,7 @@ namespace ouzel::graphics::metal
         CAMetalLayerPtr metalLayer = nil;
         Pointer<MTLTexturePtr> currentMetalTexture;
 
-        struct ShaderConstantBuffer
+        struct ShaderConstantBuffer final
         {
             std::vector<Pointer<MTLBufferPtr>> buffers;
             std::uint32_t index = 0;
