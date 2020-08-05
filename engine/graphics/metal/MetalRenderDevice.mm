@@ -247,8 +247,7 @@ namespace ouzel::graphics::metal
             throw Error("Failed to create Metal command buffer");
 
         __block dispatch_semaphore_t blockSemaphore = inflightSemaphore;
-        [currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer>)
-         {
+        [currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer>) {
              dispatch_semaphore_signal(blockSemaphore);
          }];
 

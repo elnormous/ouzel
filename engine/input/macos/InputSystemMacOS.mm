@@ -194,7 +194,7 @@ namespace ouzel::input::macos
         IOHIDManagerScheduleWithRunLoop(hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 
         [GCController startWirelessControllerDiscoveryWithCompletionHandler:
-            ^(void){ handleGamepadDiscoveryCompleted(); }];
+            ^(void) { handleGamepadDiscoveryCompleted(); }];
     }
 
     InputSystem::~InputSystem()
@@ -319,7 +319,7 @@ namespace ouzel::input::macos
     void InputSystem::startGamepadDiscovery()
     {
         [GCController startWirelessControllerDiscoveryWithCompletionHandler:
-            ^(void){ handleGamepadDiscoveryCompleted(); }];
+            ^(void) { handleGamepadDiscoveryCompleted(); }];
     }
 
     void InputSystem::stopGamepadDiscovery()

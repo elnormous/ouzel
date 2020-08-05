@@ -57,7 +57,7 @@ namespace ouzel::input::ios
             handleGamepadConnected(controller);
 
         [GCController startWirelessControllerDiscoveryWithCompletionHandler:
-            ^(void){ handleGamepadDiscoveryCompleted(); }];
+            ^(void) { handleGamepadDiscoveryCompleted(); }];
     }
 
     InputSystem::~InputSystem()
@@ -107,7 +107,7 @@ namespace ouzel::input::ios
     void InputSystem::startGamepadDiscovery()
     {
         [GCController startWirelessControllerDiscoveryWithCompletionHandler:
-            ^(void){ handleGamepadDiscoveryCompleted(); }];
+            ^(void) { handleGamepadDiscoveryCompleted(); }];
     }
 
     void InputSystem::stopGamepadDiscovery()
