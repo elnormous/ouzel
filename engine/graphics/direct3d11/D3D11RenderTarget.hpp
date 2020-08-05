@@ -34,8 +34,8 @@ namespace ouzel::graphics::d3d11
     {
     public:
         RenderTarget(RenderDevice& initRenderDevice,
-                        const std::set<Texture*>& initColorTextures,
-                        Texture* initDepthTexture);
+                     const std::set<Texture*>& initColorTextures,
+                     Texture* initDepthTexture);
 
         void resolve();
 

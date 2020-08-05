@@ -92,13 +92,13 @@ namespace ouzel::graphics::d3d11
     }
 
     Texture::Texture(RenderDevice& initRenderDevice,
-                        const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
-                        TextureType type,
-                        Flags initFlags,
-                        std::uint32_t initSampleCount,
-                        PixelFormat initPixelFormat,
-                        SamplerFilter initFilter,
-                        std::uint32_t initMaxAnisotropy):
+                     const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
+                     TextureType type,
+                     Flags initFlags,
+                     std::uint32_t initSampleCount,
+                     PixelFormat initPixelFormat,
+                     SamplerFilter initFilter,
+                     std::uint32_t initMaxAnisotropy):
         RenderResource(initRenderDevice),
         flags(initFlags),
         mipmaps(static_cast<std::uint32_t>(levels.size())),

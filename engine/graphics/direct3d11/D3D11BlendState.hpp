@@ -33,14 +33,14 @@ namespace ouzel::graphics::d3d11
     {
     public:
         BlendState(RenderDevice& initRenderDevice,
-                    bool enableBlending,
-                    BlendFactor colorBlendSource,
-                    BlendFactor colorBlendDest,
-                    BlendOperation colorOperation,
-                    BlendFactor alphaBlendSource,
-                    BlendFactor alphaBlendDest,
-                    BlendOperation alphaOperation,
-                    ColorMask colorMask);
+                   bool enableBlending,
+                   BlendFactor colorBlendSource,
+                   BlendFactor colorBlendDest,
+                   BlendOperation colorOperation,
+                   BlendFactor alphaBlendSource,
+                   BlendFactor alphaBlendDest,
+                   BlendOperation alphaOperation,
+                   ColorMask colorMask);
 
         auto& getBlendState() const noexcept { return blendState; }
 

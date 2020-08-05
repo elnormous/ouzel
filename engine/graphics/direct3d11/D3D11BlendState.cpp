@@ -47,14 +47,14 @@ namespace ouzel::graphics::d3d11
     }
 
     BlendState::BlendState(RenderDevice& initRenderDevice,
-                            bool enableBlending,
-                            BlendFactor colorBlendSource,
-                            BlendFactor colorBlendDest,
-                            BlendOperation colorOperation,
-                            BlendFactor alphaBlendSource,
-                            BlendFactor alphaBlendDest,
-                            BlendOperation alphaOperation,
-                            ColorMask colorMask):
+                           bool enableBlending,
+                           BlendFactor colorBlendSource,
+                           BlendFactor colorBlendDest,
+                           BlendOperation colorOperation,
+                           BlendFactor alphaBlendSource,
+                           BlendFactor alphaBlendDest,
+                           BlendOperation alphaOperation,
+                           ColorMask colorMask):
         RenderResource(initRenderDevice)
     {
         D3D11_BLEND_DESC blendStateDesc;

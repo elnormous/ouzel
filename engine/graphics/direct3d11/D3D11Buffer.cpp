@@ -10,10 +10,10 @@
 namespace ouzel::graphics::d3d11
 {
     Buffer::Buffer(RenderDevice& initRenderDevice,
-                    BufferType initType,
-                    Flags initFlags,
-                    const std::vector<std::uint8_t>& data,
-                    std::uint32_t initSize):
+                   BufferType initType,
+                   Flags initFlags,
+                   const std::vector<std::uint8_t>& data,
+                   std::uint32_t initSize):
         RenderResource(initRenderDevice),
         type(initType),
         flags(initFlags),

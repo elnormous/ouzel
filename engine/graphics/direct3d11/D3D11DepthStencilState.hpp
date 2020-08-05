@@ -32,20 +32,20 @@ namespace ouzel::graphics::d3d11
     {
     public:
         DepthStencilState(RenderDevice& initRenderDevice,
-                            bool initDepthTest,
-                            bool initDepthWrite,
-                            CompareFunction initCompareFunction,
-                            bool initStencilEnabled,
-                            std::uint32_t initStencilReadMask,
-                            std::uint32_t initStencilWriteMask,
-                            StencilOperation initFrontFaceStencilFailureOperation,
-                            StencilOperation initFrontFaceStencilDepthFailureOperation,
-                            StencilOperation initFrontFaceStencilPassOperation,
-                            CompareFunction initFrontFaceStencilCompareFunction,
-                            StencilOperation initBackFaceStencilFailureOperation,
-                            StencilOperation initBackFaceStencilDepthFailureOperation,
-                            StencilOperation initBackFaceStencilPassOperation,
-                            CompareFunction initBackFaceStencilCompareFunction);
+                          bool initDepthTest,
+                          bool initDepthWrite,
+                          CompareFunction initCompareFunction,
+                          bool initStencilEnabled,
+                          std::uint32_t initStencilReadMask,
+                          std::uint32_t initStencilWriteMask,
+                          StencilOperation initFrontFaceStencilFailureOperation,
+                          StencilOperation initFrontFaceStencilDepthFailureOperation,
+                          StencilOperation initFrontFaceStencilPassOperation,
+                          CompareFunction initFrontFaceStencilCompareFunction,
+                          StencilOperation initBackFaceStencilFailureOperation,
+                          StencilOperation initBackFaceStencilDepthFailureOperation,
+                          StencilOperation initBackFaceStencilPassOperation,
+                          CompareFunction initBackFaceStencilCompareFunction);
 
         auto& getDepthStencilState() const noexcept { return depthStencilState; }
 

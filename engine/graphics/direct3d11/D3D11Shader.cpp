@@ -81,13 +81,13 @@ namespace ouzel::graphics::d3d11
     }
 
     Shader::Shader(RenderDevice& initRenderDevice,
-                    const std::vector<std::uint8_t>& fragmentShaderData,
-                    const std::vector<std::uint8_t>& vertexShaderData,
-                    const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
-                    const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
-                    const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
-                    const std::string&,
-                    const std::string&):
+                   const std::vector<std::uint8_t>& fragmentShaderData,
+                   const std::vector<std::uint8_t>& vertexShaderData,
+                   const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+                   const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
+                   const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
+                   const std::string&,
+                   const std::string&):
         RenderResource(initRenderDevice),
         vertexAttributes(initVertexAttributes),
         fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
