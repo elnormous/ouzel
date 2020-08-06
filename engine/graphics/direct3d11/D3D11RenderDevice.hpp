@@ -59,8 +59,6 @@ namespace ouzel::graphics::d3d11
         }
 
     private:
-        void init(const Settings& settings) final;
-
         void process() final;
         void resizeBackBuffer(UINT newWidth, UINT newHeight);
         void uploadBuffer(ID3D11Buffer* buffer, const void* data, std::uint32_t dataSize);

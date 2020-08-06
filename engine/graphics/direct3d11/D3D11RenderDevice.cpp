@@ -104,22 +104,7 @@ namespace ouzel::graphics::d3d11
         graphics::RenderDevice(Driver::direct3D11, settings, initWindow, initCallback)
     {
         apiVersion = ApiVersion(11, 0);
-    }
-
-    RenderDevice::~RenderDevice()
-    {
-        running = false;
-        CommandBuffer commandBuffer;
-        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
-        submitCommandBuffer(std::move(commandBuffer));
-
-        if (renderThread.isJoinable()) renderThread.join();
-    }
-
-    void RenderDevice::init(const Settings& settings)
-    {
-        graphics::RenderDevice::init(settings);
-
+    
         anisotropicFilteringSupported = true;
         renderTargetsSupported = true;
         clampToBorderSupported = true;
@@ -338,6 +323,16 @@ namespace ouzel::graphics::d3d11
 
         running = true;
         renderThread = Thread(&RenderDevice::renderMain, this);
+    }
+
+    RenderDevice::~RenderDevice()
+    {
+        running = false;
+        CommandBuffer commandBuffer;
+        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
+        submitCommandBuffer(std::move(commandBuffer));
+
+        if (renderThread.isJoinable()) renderThread.join();
     }
 
     void RenderDevice::setFullscreen(bool newFullscreen)
