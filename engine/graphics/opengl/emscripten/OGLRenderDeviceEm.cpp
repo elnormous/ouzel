@@ -5,6 +5,7 @@
 #if defined(__EMSCRIPTEN__) && OUZEL_COMPILE_OPENGL
 
 #include "OGLRenderDeviceEm.hpp"
+#include "../../../core/Window.hpp"
 #include "../../../utils/Utils.hpp"
 
 namespace ouzel::graphics::opengl::emscripten
