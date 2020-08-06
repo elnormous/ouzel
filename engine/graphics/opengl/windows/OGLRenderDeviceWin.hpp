@@ -30,8 +30,9 @@ namespace ouzel::graphics::opengl::windows
     {
         friend Graphics;
     public:
-        explicit RenderDevice(core::Window& initWindow,
-                              const std::function<void(const Event&)>& initCallback);
+        RenderDevice(const Settings& settings,
+                     core::Window& initWindow,
+                     const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;
 
     private:

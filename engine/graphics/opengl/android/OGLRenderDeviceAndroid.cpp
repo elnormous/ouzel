@@ -48,9 +48,10 @@ namespace ouzel::graphics::opengl::android
         const EGLErrorCategory eglErrorCategory {};
     }
 
-    RenderDevice::RenderDevice(core::Window& initWindow,
+    RenderDevice::RenderDevice(const Settings& settings,
+                               core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
-        opengl::RenderDevice(initWindow, initCallback)
+        opengl::RenderDevice(settings, initWindow, initCallback)
     {
         embedded = true;
     }
