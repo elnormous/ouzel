@@ -43,14 +43,13 @@ namespace ouzel::core::linux
 
 
         int monitorCount;
-        XRRMonitorInfo* monitors = XRRGetMonitors(display, rootWindow, True, &monitorCount);
-        std::unique_ptr<XRRMonitorInfo, decltype(&XRRFreeMonitors)> monitorsPtr(monitors, XRRFreeMonitors);
+        std::unique_ptr<XRRMonitorInfo, decltype(&XRRFreeMonitors)> monitors(XRRGetMonitors(display, rootWindow, True, &monitorCount), XRRFreeMonitors);
 
-        XRRMonitorInfo* primaryMonitor = (monitorCount > 0) ? &monitors[0] : nullptr;
+        XRRMonitorInfo* primaryMonitor = (monitorCount > 0) ? &monitors.get()[0] : nullptr;
         for (int i = 0; i < monitorCount; ++i)
-            if (monitors[i].primary)
+            if (monitors.get()[i].primary)
             {
-                primaryMonitor = &monitors[i];
+                primaryMonitor = &monitors.get()[i];
                 break;
             }
 
@@ -62,8 +61,8 @@ namespace ouzel::core::linux
 
         resolution = size;
 
-        const int x = primaryMonitor ? monitors[0].x + primaryMonitor->width / 2 - static_cast<int>(size.v[0] / 2) : 0;
-        const int y = primaryMonitor ? monitors[0].y + primaryMonitor->height / 2 - static_cast<int>(size.v[1] / 2) : 0;
+        const int x = primaryMonitor ? primaryMonitor->x + primaryMonitor->width / 2 - static_cast<int>(size.v[0] / 2) : 0;
+        const int y = primaryMonitor ? primaryMonitor->y + primaryMonitor->height / 2 - static_cast<int>(size.v[1] / 2) : 0;
 
         XSetWindowAttributes attributes;
         attributes.background_pixel = XWhitePixel(display, screenNumber);
