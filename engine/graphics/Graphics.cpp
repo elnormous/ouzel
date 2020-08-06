@@ -90,60 +90,68 @@ namespace ouzel::graphics
         return availableDrivers;
     }
 
+    namespace
+    {
+        std::unique_ptr<RenderDevice> createRenderDevice(Driver driver,
+                                                         core::Window& window,
+                                                         const Settings& settings,
+                                                         const std::function<void(const RenderDevice::Event&)>& callback)
+        {
+            switch (driver)
+            {
+#if OUZEL_COMPILE_OPENGL
+                case Driver::openGL:
+                    logger.log(Log::Level::info) << "Using OpenGL render driver";
+#  if TARGET_OS_IOS
+                    return std::make_unique<opengl::ios::RenderDevice>(settings, window, callback);
+#  elif TARGET_OS_TV
+                    return std::make_unique<opengl::tvos::RenderDevice>(settings, window, callback);
+#  elif TARGET_OS_MAC
+                    return std::make_unique<opengl::macos::RenderDevice>(settings, window, callback);
+#  elif defined(__ANDROID__)
+                    return std::make_unique<opengl::android::RenderDevice>(settings, window, callback);
+#  elif defined(__linux__)
+                    return std::make_unique<opengl::linux::RenderDevice>(settings, window, callback);
+#  elif defined(_WIN32)
+                    return std::make_unique<opengl::windows::RenderDevice>(settings, window, callback);
+#  elif defined(__EMSCRIPTEN__)
+                    return std::make_unique<opengl::emscripten::RenderDevice>(settings, window, callback);
+#  else
+                    return std::make_unique<opengl::RenderDevice>(settings, window, callback);
+#  endif
+#endif
+#if OUZEL_COMPILE_DIRECT3D11
+                case Driver::direct3D11:
+                    logger.log(Log::Level::info) << "Using Direct3D 11 render driver";
+                    return std::make_unique<d3d11::RenderDevice>(settings, window, callback);
+#endif
+#if OUZEL_COMPILE_METAL
+                case Driver::metal:
+                    logger.log(Log::Level::info) << "Using Metal render driver";
+#  if TARGET_OS_IOS
+                    return std::make_unique<metal::ios::RenderDevice>(settings, window, callback);
+#  elif TARGET_OS_TV
+                    return std::make_unique<metal::tvos::RenderDevice>(settings, window, callback);
+#  elif TARGET_OS_MAC
+                    return std::make_unique<metal::macos::RenderDevice>(settings, window, callback);
+#  endif
+#endif
+                default:
+                    logger.log(Log::Level::info) << "Not using render driver";
+                    return std::make_unique<empty::RenderDevice>(settings, window, callback);
+            }
+        }
+    }
+
     Graphics::Graphics(Driver driver,
                        core::Window& initWindow,
                        const Settings& settings):
+        device(createRenderDevice(driver, initWindow, settings, std::bind(&Graphics::handleEvent, this, std::placeholders::_1))),
         textureFilter(settings.textureFilter),
         maxAnisotropy(settings.maxAnisotropy),
         size(initWindow.getResolution())
     {
-        switch (driver)
-        {
-#if OUZEL_COMPILE_OPENGL
-            case Driver::openGL:
-                logger.log(Log::Level::info) << "Using OpenGL render driver";
-#  if TARGET_OS_IOS
-                device = std::make_unique<opengl::ios::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-#  elif TARGET_OS_TV
-                device = std::make_unique<opengl::tvos::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-#  elif TARGET_OS_MAC
-                device = std::make_unique<opengl::macos::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-#  elif defined(__ANDROID__)
-                device = std::make_unique<opengl::android::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-#  elif defined(__linux__)
-                device = std::make_unique<opengl::linux::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-#  elif defined(_WIN32)
-                device = std::make_unique<opengl::windows::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-#  elif defined(__EMSCRIPTEN__)
-                device = std::make_unique<opengl::emscripten::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-#  else
-                device = std::make_unique<opengl::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-#  endif
-                break;
-#endif
-#if OUZEL_COMPILE_DIRECT3D11
-            case Driver::direct3D11:
-                logger.log(Log::Level::info) << "Using Direct3D 11 render driver";
-                device = std::make_unique<d3d11::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-                break;
-#endif
-#if OUZEL_COMPILE_METAL
-            case Driver::metal:
-                logger.log(Log::Level::info) << "Using Metal render driver";
-#  if TARGET_OS_IOS
-                device = std::make_unique<metal::ios::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-#  elif TARGET_OS_TV
-                device = std::make_unique<metal::tvos::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-#  elif TARGET_OS_MAC
-                device = std::make_unique<metal::macos::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-#  endif
-                break;
-#endif
-            default:
-                logger.log(Log::Level::info) << "Not using render driver";
-                device = std::make_unique<empty::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
-                break;
-        }
+
     }
 
     void Graphics::handleEvent(const RenderDevice::Event& event)
