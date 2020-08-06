@@ -28,8 +28,7 @@ namespace ouzel::graphics::opengl::android
         void destroy();
 
     private:
-        void init(const Size2U& newSize,
-                  const Settings& settings) final;
+        void init(const Settings& settings) final;
 
         void present() final;
         void renderMain();
