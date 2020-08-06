@@ -44,7 +44,7 @@ namespace ouzel::graphics::metal::ios
 
         metalLayer = (CAMetalLayer*)view.layer;
         metalLayer.device = device.get();
-        const CGSize drawableSize = CGSizeMake(window.getResoultion().v[0],
+        const CGSize drawableSize = CGSizeMake(window.getResolution().v[0],
                                                window.getResolution().v[1]);
         metalLayer.drawableSize = drawableSize;
 

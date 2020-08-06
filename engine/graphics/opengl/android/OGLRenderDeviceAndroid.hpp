@@ -12,6 +12,7 @@
 #include "EGL/egl.h"
 #include "EGL/eglext.h"
 #include "../OGLRenderDevice.hpp"
+#include "../../../core/Window.hpp"
 #include "../../../utils/Thread.hpp"
 
 namespace ouzel::graphics::opengl::android
