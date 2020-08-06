@@ -58,8 +58,7 @@ namespace ouzel::graphics::d3d11
         }
 
     private:
-        void init(const Size2U& newSize,
-                  const Settings& settings) final;
+        void init(const Settings& settings) final;
 
         void process() final;
         void resizeBackBuffer(UINT newWidth, UINT newHeight);
