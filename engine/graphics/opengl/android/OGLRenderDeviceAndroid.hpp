@@ -29,8 +29,6 @@ namespace ouzel::graphics::opengl::android
         void destroy();
 
     private:
-        void init(const Settings& settings) final;
-
         void present() final;
         void renderMain();
 

@@ -36,8 +36,6 @@ namespace ouzel::graphics::opengl::windows
         ~RenderDevice() override;
 
     private:
-        void init(const Settings& settings) final;
-
         void present() final;
         void renderMain();
 

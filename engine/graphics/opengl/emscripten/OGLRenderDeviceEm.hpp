@@ -23,8 +23,6 @@ namespace ouzel::graphics::opengl::emscripten
         ~RenderDevice() override;
 
     private:
-        void init(const Settings& settings) final;
-
         EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
     };
 }
