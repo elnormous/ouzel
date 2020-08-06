@@ -62,32 +62,7 @@ namespace ouzel::graphics::opengl::linux
 #else
         embedded = false;
 #endif
-    }
 
-    RenderDevice::~RenderDevice()
-    {
-        running = false;
-        CommandBuffer commandBuffer;
-        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
-        submitCommandBuffer(std::move(commandBuffer));
-
-        if (renderThread.isJoinable()) renderThread.join();
-
-        if (context != EGL_NO_CONTEXT)
-        {
-            eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-            eglDestroyContext(display, context);
-        }
-
-        if (surface != EGL_NO_SURFACE)
-            eglDestroySurface(display, surface);
-
-        if (display != EGL_NO_DISPLAY)
-            eglTerminate(display);
-    }
-
-    void RenderDevice::init(const Settings& settings)
-    {
         auto windowLinux = static_cast<core::linux::NativeWindow*>(window.getNativeWindow());
 
 #if OUZEL_OPENGLES
@@ -185,16 +160,36 @@ namespace ouzel::graphics::opengl::linux
         if (!eglSwapInterval(display, settings.verticalSync ? 1 : 0))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set EGL frame interval");
 
-        opengl::RenderDevice::init(settings);
-
-        setFramebufferSize(static_cast<GLsizei>(window.getResolution().v[0]),
-                           static_cast<GLsizei>(window.getResolution().v[1]));
+        init(static_cast<GLsizei>(window.getResolution().v[0]),
+             static_cast<GLsizei>(window.getResolution().v[1]));
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
 
         running = true;
         renderThread = Thread(&RenderDevice::renderMain, this);
+    }
+
+    RenderDevice::~RenderDevice()
+    {
+        running = false;
+        CommandBuffer commandBuffer;
+        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
+        submitCommandBuffer(std::move(commandBuffer));
+
+        if (renderThread.isJoinable()) renderThread.join();
+
+        if (context != EGL_NO_CONTEXT)
+        {
+            eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+            eglDestroyContext(display, context);
+        }
+
+        if (surface != EGL_NO_SURFACE)
+            eglDestroySurface(display, surface);
+
+        if (display != EGL_NO_DISPLAY)
+            eglTerminate(display);
     }
 
     std::vector<Size2U> RenderDevice::getSupportedResolutions() const

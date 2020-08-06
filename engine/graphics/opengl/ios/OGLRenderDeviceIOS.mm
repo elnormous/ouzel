@@ -39,30 +39,7 @@ namespace ouzel::graphics::opengl::ios
         displayLink(ios::renderCallback, this)
     {
         embedded = true;
-    }
 
-    RenderDevice::~RenderDevice()
-    {
-        displayLink.stop();
-        CommandBuffer commandBuffer;
-        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
-        submitCommandBuffer(std::move(commandBuffer));
-
-        if (msaaColorRenderBufferId) glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);
-        if (msaaFrameBufferId) glDeleteFramebuffersProc(1, &msaaFrameBufferId);
-        if (resolveColorRenderBufferId) glDeleteRenderbuffersProc(1, &resolveColorRenderBufferId);
-        if (depthRenderBufferId) glDeleteRenderbuffersProc(1, &depthRenderBufferId);
-        if (resolveFrameBufferId) glDeleteFramebuffersProc(1, &resolveFrameBufferId);
-
-        if (context)
-        {
-            [EAGLContext setCurrentContext:nil];
-            [context release];
-        }
-    }
-
-    void RenderDevice::init(const Settings& settings)
-    {
         auto view = static_cast<core::ios::NativeWindow*>(window.getNativeWindow())->getNativeView();
 
         eaglLayer = (CAEAGLLayer*)view.layer;
@@ -92,14 +69,32 @@ namespace ouzel::graphics::opengl::ios
         if (![EAGLContext setCurrentContext:context])
             throw std::runtime_error("Failed to set current EAGL context");
 
-        opengl::RenderDevice::init(settings);
-
-        setFramebufferSize(static_cast<GLsizei>(window.getResolution().v[0]),
-                           static_cast<GLsizei>(window.getResolution().v[1]));
+        init(static_cast<GLsizei>(window.getResolution().v[0]),
+             static_cast<GLsizei>(window.getResolution().v[1]));
 
         createFrameBuffer();
 
         displayLink.start(verticalSync);
+    }
+
+    RenderDevice::~RenderDevice()
+    {
+        displayLink.stop();
+        CommandBuffer commandBuffer;
+        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
+        submitCommandBuffer(std::move(commandBuffer));
+
+        if (msaaColorRenderBufferId) glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);
+        if (msaaFrameBufferId) glDeleteFramebuffersProc(1, &msaaFrameBufferId);
+        if (resolveColorRenderBufferId) glDeleteRenderbuffersProc(1, &resolveColorRenderBufferId);
+        if (depthRenderBufferId) glDeleteRenderbuffersProc(1, &depthRenderBufferId);
+        if (resolveFrameBufferId) glDeleteFramebuffersProc(1, &resolveFrameBufferId);
+
+        if (context)
+        {
+            [EAGLContext setCurrentContext:nil];
+            [context release];
+        }
     }
 
     void RenderDevice::resizeFrameBuffer()

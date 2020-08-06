@@ -316,9 +316,10 @@ namespace ouzel::graphics::opengl
         resources.clear();
     }
 
-    void RenderDevice::init(const Settings& settings)
+    void RenderDevice::init(GLsizei newWidth, GLsizei newHeight)
     {
-        graphics::RenderDevice::init(settings);
+        frameBufferWidth = newWidth;
+        frameBufferHeight = newHeight;
 
         ProcedureGetter getter(apiVersion);
 
@@ -676,12 +677,6 @@ namespace ouzel::graphics::opengl
         }
 
         setFrontFace(GL_CW);
-    }
-
-    void RenderDevice::setFramebufferSize(GLsizei newWidth, GLsizei newHeight)
-    {
-        frameBufferWidth = newWidth;
-        frameBufferHeight = newHeight;
     }
 
     void RenderDevice::setUniform(GLint location, DataType dataType, const void* data)

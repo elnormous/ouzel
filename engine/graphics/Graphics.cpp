@@ -144,8 +144,6 @@ namespace ouzel::graphics
                 device = std::make_unique<empty::RenderDevice>(settings, initWindow, std::bind(&Graphics::handleEvent, this, std::placeholders::_1));
                 break;
         }
-
-        device->init(settings);
     }
 
     void Graphics::handleEvent(const RenderDevice::Event& event)

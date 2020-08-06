@@ -38,8 +38,6 @@ namespace ouzel::graphics::opengl::tvos
         void renderCallback();
 
     private:
-        void init(const Settings& settings) final;
-
         void resizeFrameBuffer() final;
         void present() final;
 

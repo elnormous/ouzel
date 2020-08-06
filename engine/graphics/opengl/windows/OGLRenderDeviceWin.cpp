@@ -174,33 +174,7 @@ namespace ouzel::graphics::opengl::windows
         opengl::RenderDevice(settings, initWindow, initCallback)
     {
         embedded = false;
-    }
 
-    RenderDevice::~RenderDevice()
-    {
-        running = false;
-        CommandBuffer commandBuffer;
-        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
-        submitCommandBuffer(std::move(commandBuffer));
-
-        if (renderThread.isJoinable()) renderThread.join();
-
-        if (renderContext)
-        {
-            if (wglGetCurrentContext() == renderContext)
-                wglMakeCurrent(deviceContext, nullptr);
-            wglDeleteContext(renderContext);
-        }
-
-        if (deviceContext)
-        {
-            auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
-            ReleaseDC(windowWin->getNativeWindow(), deviceContext);
-        }
-    }
-
-    void RenderDevice::init(const Settings& settings)
-    {
         TempContext tempContext;
 
         auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
@@ -333,16 +307,37 @@ namespace ouzel::graphics::opengl::windows
         if (apiVersion.v[0] < 2 || apiVersion.v[0] > 4)
             throw std::runtime_error("Unsupported OpenGL version");
 
-        opengl::RenderDevice::init(settings);
-
-        setFramebufferSize(static_cast<GLsizei>(window.getResolution().v[0]),
-                           static_cast<GLsizei>(window.getResolution().v[1]));
+        init(static_cast<GLsizei>(window.getResolution().v[0]),
+             static_cast<GLsizei>(window.getResolution().v[1]));
 
         if (!wglMakeCurrent(deviceContext, nullptr))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");
 
         running = true;
         renderThread = Thread(&RenderDevice::renderMain, this);
+    }
+
+    RenderDevice::~RenderDevice()
+    {
+        running = false;
+        CommandBuffer commandBuffer;
+        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
+        submitCommandBuffer(std::move(commandBuffer));
+
+        if (renderThread.isJoinable()) renderThread.join();
+
+        if (renderContext)
+        {
+            if (wglGetCurrentContext() == renderContext)
+                wglMakeCurrent(deviceContext, nullptr);
+            wglDeleteContext(renderContext);
+        }
+
+        if (deviceContext)
+        {
+            auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
+            ReleaseDC(windowWin->getNativeWindow(), deviceContext);
+        }
     }
 
     void RenderDevice::present()

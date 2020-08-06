@@ -15,16 +15,7 @@ namespace ouzel::graphics::opengl::emscripten
         opengl::RenderDevice(settings, initWindow, initCallback)
     {
         embedded = true;
-    }
 
-    RenderDevice::~RenderDevice()
-    {
-        if (webGLContext)
-            emscripten_webgl_destroy_context(webGLContext);
-    }
-
-    void RenderDevice::init(const Settings& settings)
-    {
         apiVersion = ApiVersion(2, 0);
 
         EmscriptenWebGLContextAttributes attrs;
@@ -47,10 +38,14 @@ namespace ouzel::graphics::opengl::emscripten
 
         emscripten_set_main_loop_timing(settings.verticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
-        opengl::RenderDevice::init(settings);
+        init(static_cast<GLsizei>(window.getResolution().v[0]),
+             static_cast<GLsizei>(window.getResolution().v[1]));
+    }
 
-        setFramebufferSize(static_cast<GLsizei>(window.getResolution().v[0]),
-                           static_cast<GLsizei>(window.getResolution().v[1]));
+    RenderDevice::~RenderDevice()
+    {
+        if (webGLContext)
+            emscripten_webgl_destroy_context(webGLContext);
     }
 }
 

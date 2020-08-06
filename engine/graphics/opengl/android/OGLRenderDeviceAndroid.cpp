@@ -54,32 +54,7 @@ namespace ouzel::graphics::opengl::android
         opengl::RenderDevice(settings, initWindow, initCallback)
     {
         embedded = true;
-    }
 
-    RenderDevice::~RenderDevice()
-    {
-        running = false;
-        CommandBuffer commandBuffer;
-        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
-        submitCommandBuffer(std::move(commandBuffer));
-
-        if (renderThread.isJoinable()) renderThread.join();
-
-        if (context != EGL_NO_CONTEXT)
-        {
-            eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-            eglDestroyContext(display, context);
-        }
-
-        if (surface != EGL_NO_SURFACE)
-            eglDestroySurface(display, surface);
-
-        if (display != EGL_NO_DISPLAY)
-            eglTerminate(display);
-    }
-
-    void RenderDevice::init(const Settings& settings)
-    {
         display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
         if (display == EGL_NO_DISPLAY)
@@ -161,15 +136,35 @@ namespace ouzel::graphics::opengl::android
             !eglQuerySurface(display, surface, EGL_HEIGHT, &surfaceHeight))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get query window size");
 
-        opengl::RenderDevice::init(settings);
-
-        setFramebufferSize(surfaceWidth, surfaceHeight);
+        init(surfaceWidth, surfaceHeight);
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::runtime_error("Failed to unset EGL context");
 
         running = true;
         renderThread = Thread(&RenderDevice::renderMain, this);
+    }
+
+    RenderDevice::~RenderDevice()
+    {
+        running = false;
+        CommandBuffer commandBuffer;
+        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
+        submitCommandBuffer(std::move(commandBuffer));
+
+        if (renderThread.isJoinable()) renderThread.join();
+
+        if (context != EGL_NO_CONTEXT)
+        {
+            eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+            eglDestroyContext(display, context);
+        }
+
+        if (surface != EGL_NO_SURFACE)
+            eglDestroySurface(display, surface);
+
+        if (display != EGL_NO_DISPLAY)
+            eglTerminate(display);
     }
 
     void RenderDevice::reload()

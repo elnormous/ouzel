@@ -50,33 +50,7 @@ namespace ouzel::graphics::opengl::macos
         opengl::RenderDevice(settings, initWindow, initCallback)
     {
         embedded = false;
-    }
 
-    RenderDevice::~RenderDevice()
-    {
-        running = false;
-        CommandBuffer commandBuffer;
-        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
-        submitCommandBuffer(std::move(commandBuffer));
-
-        if (displayLink)
-        {
-            CVDisplayLinkStop(displayLink);
-            CVDisplayLinkRelease(displayLink);
-        }
-
-        if (openGLContext)
-        {
-            [NSOpenGLContext clearCurrentContext];
-            [openGLContext release];
-        }
-
-        if (pixelFormat)
-            [pixelFormat release];
-    }
-
-    void RenderDevice::init(const Settings& settings)
-    {
         constexpr NSOpenGLPixelFormatAttribute openGLVersions[] = {
             NSOpenGLProfileVersion4_1Core,
             NSOpenGLProfileVersion3_2Core,
@@ -147,10 +121,8 @@ namespace ouzel::graphics::opengl::macos
         const GLint swapInterval = settings.verticalSync ? 1 : 0;
         [openGLContext setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
 
-        opengl::RenderDevice::init(settings);
-
-        setFramebufferSize(static_cast<GLsizei>(window.getResolution().v[0]),
-                           static_cast<GLsizei>(window.getResolution().v[1]));
+        init(static_cast<GLsizei>(window.getResolution().v[0]),
+             static_cast<GLsizei>(window.getResolution().v[1]));
 
         eventHandler.windowHandler = std::bind(&RenderDevice::handleWindow, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);
@@ -166,6 +138,29 @@ namespace ouzel::graphics::opengl::macos
 
         if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
             throw std::runtime_error("Failed to start display link");
+    }
+
+    RenderDevice::~RenderDevice()
+    {
+        running = false;
+        CommandBuffer commandBuffer;
+        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
+        submitCommandBuffer(std::move(commandBuffer));
+
+        if (displayLink)
+        {
+            CVDisplayLinkStop(displayLink);
+            CVDisplayLinkRelease(displayLink);
+        }
+
+        if (openGLContext)
+        {
+            [NSOpenGLContext clearCurrentContext];
+            [openGLContext release];
+        }
+
+        if (pixelFormat)
+            [pixelFormat release];
     }
 
     void RenderDevice::resizeFrameBuffer()

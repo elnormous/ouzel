@@ -159,8 +159,6 @@ namespace ouzel::graphics
         };
 
     protected:
-        virtual void init(const Settings&) {}
-
         void executeAll();
 
         virtual void generateScreenshot(const std::string& filename);
