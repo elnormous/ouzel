@@ -50,26 +50,6 @@ namespace ouzel::graphics::metal::macos
                                const std::function<void(const Event&)>& initCallback):
         metal::RenderDevice(settings, initWindow, initCallback)
     {
-    }
-
-    RenderDevice::~RenderDevice()
-    {
-        running = false;
-        CommandBuffer commandBuffer;
-        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
-        submitCommandBuffer(std::move(commandBuffer));
-
-        if (displayLink)
-        {
-            CVDisplayLinkStop(displayLink);
-            CVDisplayLinkRelease(displayLink);
-        }
-    }
-
-    void RenderDevice::init(const Settings& settings)
-    {
-        metal::RenderDevice::init(settings);
-
         auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowMacOS->getNativeView();
 
@@ -95,6 +75,20 @@ namespace ouzel::graphics::metal::macos
 
         if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
             throw std::runtime_error("Failed to start display link");
+    }
+
+    RenderDevice::~RenderDevice()
+    {
+        running = false;
+        CommandBuffer commandBuffer;
+        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
+        submitCommandBuffer(std::move(commandBuffer));
+
+        if (displayLink)
+        {
+            CVDisplayLinkStop(displayLink);
+            CVDisplayLinkRelease(displayLink);
+        }
     }
 
     std::vector<Size2U> RenderDevice::getSupportedResolutions() const

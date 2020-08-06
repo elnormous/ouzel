@@ -106,11 +106,6 @@ namespace ouzel::graphics::metal
         stencilFormat(MTLPixelFormatInvalid)
     {
         apiVersion = ApiVersion(1, 0);
-    }
-
-    void RenderDevice::init(const Settings& settings)
-    {
-        graphics::RenderDevice::init(settings);
 
         npotTexturesSupported = true;
         anisotropicFilteringSupported = true;

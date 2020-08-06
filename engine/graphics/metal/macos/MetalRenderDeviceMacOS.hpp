@@ -60,8 +60,6 @@ namespace ouzel::graphics::metal::macos
         void renderCallback();
 
     private:
-        void init(const Settings& settings) final;
-
         bool handleWindow(const WindowEvent& event);
 
         CVDisplayLinkRef displayLink = nullptr;

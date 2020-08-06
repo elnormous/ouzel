@@ -77,8 +77,6 @@ namespace ouzel::graphics::metal
                      core::Window& newWindow,
                      const std::function<void(const Event&)>& initCallback);
 
-        void init(const Settings& settings) override;
-
         void process() override;
         void generateScreenshot(const std::string& filename) override;
 

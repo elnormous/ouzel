@@ -28,8 +28,6 @@ namespace ouzel::graphics::metal::tvos
         void renderCallback();
 
     private:
-        void init(const Settings& settings) final;
-
         core::tvos::DisplayLink displayLink;
     };
 }

@@ -39,20 +39,6 @@ namespace ouzel::graphics::metal::ios
         metal::RenderDevice(settings, initWindow, initCallback),
         displayLink(ios::renderCallback, this)
     {
-    }
-
-    RenderDevice::~RenderDevice()
-    {
-        displayLink.stop();
-        CommandBuffer commandBuffer;
-        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
-        submitCommandBuffer(std::move(commandBuffer));
-    }
-
-    void RenderDevice::init(const Settings& settings)
-    {
-        metal::RenderDevice::init(settings);
-
         auto windowIOS = static_cast<core::ios::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowIOS->getNativeView();
 
@@ -65,6 +51,14 @@ namespace ouzel::graphics::metal::ios
         colorFormat = metalLayer.pixelFormat;
 
         displayLink.start(verticalSync);
+    }
+
+    RenderDevice::~RenderDevice()
+    {
+        displayLink.stop();
+        CommandBuffer commandBuffer;
+        commandBuffer.pushCommand(std::make_unique<PresentCommand>());
+        submitCommandBuffer(std::move(commandBuffer));
     }
 
     void RenderDevice::renderCallback()
