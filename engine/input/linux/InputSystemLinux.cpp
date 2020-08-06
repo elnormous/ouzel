@@ -45,12 +45,12 @@ namespace ouzel::input::linux
             XFreePixmap(display, pixmap);
         }
 #endif
-        DIR* dir = opendir("/dev/input");
 
+        std::unique_ptr<DIR, decltype(&closedir)> dir(opendir("/dev/input"), closedir);
         if (!dir)
             throw std::system_error(errno, std::system_category(), "Failed to open directory");
 
-        while (const dirent* ent = readdir(dir))
+        while (const dirent* ent = readdir(dir.get()))
         {
             if (strncmp("event", ent->d_name, 5) == 0)
             {
@@ -65,8 +65,6 @@ namespace ouzel::input::linux
                 }
             }
         }
-
-        closedir(dir);
     }
 
     InputSystem::~InputSystem()
@@ -221,12 +219,12 @@ namespace ouzel::input::linux
 
         if (discovering)
         {
-            DIR* dir = opendir("/dev/input");
+            std::unique_ptr<DIR, decltype(&closedir)> dir(opendir("/dev/input"), closedir);
 
             if (!dir)
                 throw std::system_error(errno, std::system_category(), "Failed to open directory");
 
-            while (const dirent* ent = readdir(dir))
+            while (const dirent* ent = readdir(dir.get()))
             {
                 if (strncmp("event", ent->d_name, 5) == 0)
                 {
@@ -241,8 +239,6 @@ namespace ouzel::input::linux
                     }
                 }
             }
-
-            closedir(dir);
         }
     }
 
