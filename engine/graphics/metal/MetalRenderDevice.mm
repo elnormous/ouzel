@@ -97,9 +97,10 @@ namespace ouzel::graphics::metal
         return static_cast<bool>(device);
     }
 
-    RenderDevice::RenderDevice(core::Window& newWindow,
+    RenderDevice::RenderDevice(const Settings& settings,
+                               core::Window& newWindow,
                                const std::function<void(const Event&)>& initCallback):
-        graphics::RenderDevice(Driver::metal, newWindow, initCallback),
+        graphics::RenderDevice(Driver::metal, settings, newWindow, initCallback),
         colorFormat(MTLPixelFormatInvalid),
         depthFormat(MTLPixelFormatInvalid),
         stencilFormat(MTLPixelFormatInvalid)

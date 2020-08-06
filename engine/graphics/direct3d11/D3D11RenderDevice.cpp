@@ -98,9 +98,10 @@ namespace ouzel::graphics::d3d11
         return errorCategory;
     }
 
-    RenderDevice::RenderDevice(core::Window& initWindow,
+    RenderDevice::RenderDevice(const Settings& settings,
+                               core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
-        graphics::RenderDevice(Driver::direct3D11, initWindow, initCallback)
+        graphics::RenderDevice(Driver::direct3D11, settings, initWindow, initCallback)
     {
         apiVersion = ApiVersion(11, 0);
     }

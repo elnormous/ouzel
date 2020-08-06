@@ -68,6 +68,7 @@ namespace ouzel::graphics
         };
 
         RenderDevice(Driver initDriver,
+                     const Settings& settings,
                      core::Window& initWindow,
                      const std::function<void(const Event&)>& initCallback);
         virtual ~RenderDevice() = default;
@@ -158,7 +159,7 @@ namespace ouzel::graphics
         };
 
     protected:
-        virtual void init(const Settings& settings);
+        virtual void init(const Settings&) {}
 
         void executeAll();
 

@@ -14,30 +14,26 @@ namespace ouzel::graphics
     };
 
     RenderDevice::RenderDevice(Driver initDriver,
+                               const Settings& settings,
                                core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
         driver(initDriver),
         window(initWindow),
         callback(initCallback),
+        sampleCount(settings.sampleCount),
+        verticalSync(settings.verticalSync),
+        srgb(settings.srgb),
+        depth(settings.depth),
+        stencil(settings.stencil),
+        debugRenderer(settings.debugRenderer),
         npotTexturesSupported(false),
         anisotropicFilteringSupported(false),
         renderTargetsSupported(false),
         clampToBorderSupported(false),
         multisamplingSupported(false),
-        uintIndicesSupported(false)
+        uintIndicesSupported(false),
+        previousFrameTime(std::chrono::steady_clock::now())
     {
-    }
-
-    void RenderDevice::init(const Settings& settings)
-    {
-        sampleCount = settings.sampleCount;
-        srgb = settings.srgb;
-        verticalSync = settings.verticalSync;
-        depth = settings.depth;
-        stencil = settings.stencil;
-        debugRenderer = settings.debugRenderer;
-
-        previousFrameTime = std::chrono::steady_clock::now();
     }
 
     void RenderDevice::process()

@@ -10,9 +10,10 @@ namespace ouzel::graphics::empty
     class RenderDevice final: public graphics::RenderDevice
     {
     public:
-        explicit RenderDevice(core::Window& initWindow,
-                              const std::function<void(const Event&)>& initCallback):
-            graphics::RenderDevice(Driver::empty, initWindow, initCallback)
+        RenderDevice(const Settings& settings,
+                     core::Window& initWindow,
+                     const std::function<void(const Event&)>& initCallback):
+            graphics::RenderDevice(Driver::empty, settings, initWindow, initCallback)
         {
         }
 

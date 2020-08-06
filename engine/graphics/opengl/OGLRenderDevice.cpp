@@ -291,9 +291,10 @@ namespace ouzel::graphics::opengl
         return std::error_code(static_cast<int>(e), errorCategory);
     }
 
-    RenderDevice::RenderDevice(core::Window& newWindow,
+    RenderDevice::RenderDevice(const Settings& settings,
+                               core::Window& newWindow,
                                const std::function<void(const Event&)>& initCallback):
-        graphics::RenderDevice(Driver::openGL, newWindow, initCallback),
+        graphics::RenderDevice(Driver::openGL, settings, newWindow, initCallback),
         textureBaseLevelSupported(false),
         textureMaxLevelSupported(false)
     {

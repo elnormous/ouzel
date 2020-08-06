@@ -29,9 +29,10 @@ namespace ouzel::graphics::metal::tvos
         }
     }
 
-    RenderDevice::RenderDevice(core::Window& initWindow,
+    RenderDevice::RenderDevice(const Settings& settings,
+                               core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
-        metal::RenderDevice(initWindow, initCallback),
+        metal::RenderDevice(settings, initWindow, initCallback),
         displayLink(tvos::renderCallback, this)
     {
     }
