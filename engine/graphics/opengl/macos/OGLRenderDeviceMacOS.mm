@@ -74,8 +74,7 @@ namespace ouzel::graphics::opengl::macos
             [pixelFormat release];
     }
 
-    void RenderDevice::init(const Size2U& newSize,
-                            const Settings& settings)
+    void RenderDevice::init(const Settings& settings)
     {
         constexpr NSOpenGLPixelFormatAttribute openGLVersions[] = {
             NSOpenGLProfileVersion4_1Core,
@@ -147,7 +146,10 @@ namespace ouzel::graphics::opengl::macos
         const GLint swapInterval = settings.verticalSync ? 1 : 0;
         [openGLContext setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
 
-        opengl::RenderDevice::init(newSize, settings);
+        opengl::RenderDevice::init(settings);
+
+        setFramebufferSize(static_cast<GLsizei>(window.getResolution().v[0]),
+                           static_cast<GLsizei>(window.getResolution().v[1]));
 
         eventHandler.windowHandler = std::bind(&RenderDevice::handleWindow, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);

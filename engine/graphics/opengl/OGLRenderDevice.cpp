@@ -315,13 +315,9 @@ namespace ouzel::graphics::opengl
         resources.clear();
     }
 
-    void RenderDevice::init(const Size2U& newSize,
-                            const Settings& settings)
+    void RenderDevice::init(const Settings& settings)
     {
-        graphics::RenderDevice::init(newSize, settings);
-
-        frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
-        frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);
+        graphics::RenderDevice::init(settings);
 
         ProcedureGetter getter(apiVersion);
 
@@ -681,8 +677,10 @@ namespace ouzel::graphics::opengl
         setFrontFace(GL_CW);
     }
 
-    void RenderDevice::resizeFrameBuffer()
+    void RenderDevice::setFramebufferSize(GLsizei newWidth, GLsizei newHeight)
     {
+        frameBufferWidth = newWidth;
+        frameBufferHeight = newHeight;
     }
 
     void RenderDevice::setUniform(GLint location, DataType dataType, const void* data)

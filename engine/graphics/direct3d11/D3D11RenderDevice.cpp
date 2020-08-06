@@ -115,10 +115,9 @@ namespace ouzel::graphics::d3d11
         if (renderThread.isJoinable()) renderThread.join();
     }
 
-    void RenderDevice::init(const Size2U& newSize,
-                            const Settings& settings)
+    void RenderDevice::init(const Settings& settings)
     {
-        graphics::RenderDevice::init(newSize, settings);
+        graphics::RenderDevice::init(settings);
 
         anisotropicFilteringSupported = true;
         renderTargetsSupported = true;
@@ -187,8 +186,8 @@ namespace ouzel::graphics::d3d11
 
         auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
 
-        frameBufferWidth = static_cast<UINT>(newSize.v[0]);
-        frameBufferHeight = static_cast<UINT>(newSize.v[1]);
+        frameBufferWidth = static_cast<UINT>(window.getResolution().v[0]);
+        frameBufferHeight = static_cast<UINT>(window.getResolution().v[1]);
 
         UINT qualityLevels;
         UINT supportedSampleCount;

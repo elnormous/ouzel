@@ -85,8 +85,7 @@ namespace ouzel::graphics::opengl::linux
             eglTerminate(display);
     }
 
-    void RenderDevice::init(const Size2U& newSize,
-                            const Settings& settings)
+    void RenderDevice::init(const Settings& settings)
     {
         auto windowLinux = static_cast<core::linux::NativeWindow*>(window.getNativeWindow());
 
@@ -185,7 +184,10 @@ namespace ouzel::graphics::opengl::linux
         if (!eglSwapInterval(display, settings.verticalSync ? 1 : 0))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set EGL frame interval");
 
-        opengl::RenderDevice::init(newSize, settings);
+        opengl::RenderDevice::init(settings);
+
+        setFramebufferSize(static_cast<GLsizei>(window.getResolution().v[0]),
+                           static_cast<GLsizei>(window.getResolution().v[1]));
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");

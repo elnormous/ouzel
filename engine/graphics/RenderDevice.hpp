@@ -158,8 +158,7 @@ namespace ouzel::graphics
         };
 
     protected:
-        virtual void init(const Size2U& newSize,
-                          const Settings& settings);
+        virtual void init(const Settings& settings);
 
         void executeAll();
 

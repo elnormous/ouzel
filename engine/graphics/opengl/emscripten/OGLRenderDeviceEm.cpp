@@ -22,8 +22,7 @@ namespace ouzel::graphics::opengl::emscripten
             emscripten_webgl_destroy_context(webGLContext);
     }
 
-    void RenderDevice::init(const Size2U& newSize,
-                            const Settings& settings)
+    void RenderDevice::init(const Settings& settings)
     {
         apiVersion = ApiVersion(2, 0);
 
@@ -47,7 +46,10 @@ namespace ouzel::graphics::opengl::emscripten
 
         emscripten_set_main_loop_timing(settings.verticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
-        opengl::RenderDevice::init(newSize, settings);
+        opengl::RenderDevice::init(settings);
+
+        setFramebufferSize(static_cast<GLsizei>(window.getResolution().v[0]),
+                           static_cast<GLsizei>(window.getResolution().v[1]));
     }
 }
 

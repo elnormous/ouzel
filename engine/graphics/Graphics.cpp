@@ -145,7 +145,7 @@ namespace ouzel::graphics
                 break;
         }
 
-        device->init(initWindow.getResolution(), settings);
+        device->init(settings);
     }
 
     void Graphics::handleEvent(const RenderDevice::Event& event)

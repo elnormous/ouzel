@@ -76,8 +76,7 @@ namespace ouzel::graphics::metal
         explicit RenderDevice(core::Window& newWindow,
                               const std::function<void(const Event&)>& initCallback);
 
-        void init(const Size2U& newSize,
-                  const Settings& settings) override;
+        void init(const Settings& settings) override;
 
         void process() override;
         void generateScreenshot(const std::string& filename) override;

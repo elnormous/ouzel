@@ -588,10 +588,10 @@ namespace ouzel::graphics::opengl
         }
 
     protected:
-        void init(const Size2U& newSize,
-                  const Settings& settings) override;
+        void init(const Settings& settings) override;
 
-        virtual void resizeFrameBuffer();
+        void setFramebufferSize(GLsizei newWidth, GLsizei newHeight);
+        virtual void resizeFrameBuffer() {}
 
         void process() override;
         virtual void present();

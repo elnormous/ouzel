@@ -28,8 +28,7 @@ namespace ouzel::graphics
     {
     }
 
-    void RenderDevice::init(const Size2U&,
-                            const Settings& settings)
+    void RenderDevice::init(const Settings& settings)
     {
         sampleCount = settings.sampleCount;
         srgb = settings.srgb;

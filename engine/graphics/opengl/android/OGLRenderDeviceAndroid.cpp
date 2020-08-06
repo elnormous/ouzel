@@ -77,8 +77,7 @@ namespace ouzel::graphics::opengl::android
             eglTerminate(display);
     }
 
-    void RenderDevice::init(const Size2U&,
-                            const Settings& settings)
+    void RenderDevice::init(const Settings& settings)
     {
         display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
@@ -161,13 +160,9 @@ namespace ouzel::graphics::opengl::android
             !eglQuerySurface(display, surface, EGL_HEIGHT, &surfaceHeight))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get query window size");
 
-        frameBufferWidth = surfaceWidth;
-        frameBufferHeight = surfaceHeight;
+        opengl::RenderDevice::init(settings);
 
-        auto backBufferSize = Size2U(static_cast<std::uint32_t>(frameBufferWidth),
-                                     static_cast<std::uint32_t>(frameBufferHeight));
-
-        opengl::RenderDevice::init(backBufferSize, settings);
+        setFramebufferSize(surfaceWidth, surfaceHeight);
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::runtime_error("Failed to unset EGL context");

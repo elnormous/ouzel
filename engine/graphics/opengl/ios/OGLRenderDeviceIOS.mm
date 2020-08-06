@@ -60,8 +60,7 @@ namespace ouzel::graphics::opengl::ios
         }
     }
 
-    void RenderDevice::init(const Size2U& newSize,
-                            const Settings& settings)
+    void RenderDevice::init(const Settings& settings)
     {
         auto view = static_cast<core::ios::NativeWindow*>(window.getNativeWindow())->getNativeView();
 
@@ -92,7 +91,10 @@ namespace ouzel::graphics::opengl::ios
         if (![EAGLContext setCurrentContext:context])
             throw std::runtime_error("Failed to set current EAGL context");
 
-        opengl::RenderDevice::init(newSize, settings);
+        opengl::RenderDevice::init(settings);
+
+        setFramebufferSize(static_cast<GLsizei>(window.getResolution().v[0]),
+                           static_cast<GLsizei>(window.getResolution().v[1]));
 
         createFrameBuffer();
 

@@ -59,8 +59,7 @@ namespace ouzel::graphics::metal::macos
         void renderCallback();
 
     private:
-        void init(const Size2U& newSize,
-                  const Settings& settings) final;
+        void init(const Settings& settings) final;
 
         bool handleWindow(const WindowEvent& event);
 

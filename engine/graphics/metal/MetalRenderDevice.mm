@@ -107,10 +107,9 @@ namespace ouzel::graphics::metal
         apiVersion = ApiVersion(1, 0);
     }
 
-    void RenderDevice::init(const Size2U& newSize,
-                            const Settings& settings)
+    void RenderDevice::init(const Settings& settings)
     {
-        graphics::RenderDevice::init(newSize, settings);
+        graphics::RenderDevice::init(settings);
 
         npotTexturesSupported = true;
         anisotropicFilteringSupported = true;

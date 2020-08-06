@@ -48,17 +48,17 @@ namespace ouzel::graphics::metal::ios
         submitCommandBuffer(std::move(commandBuffer));
     }
 
-    void RenderDevice::init(const Size2U& newSize,
-                            const Settings& settings)
+    void RenderDevice::init(const Settings& settings)
     {
-        metal::RenderDevice::init(newSize, settings);
+        metal::RenderDevice::init(settings);
 
         auto windowIOS = static_cast<core::ios::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowIOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;
         metalLayer.device = device.get();
-        const CGSize drawableSize = CGSizeMake(newSize.v[0], newSize.v[1]);
+        const CGSize drawableSize = CGSizeMake(window.getResoultion().v[0],
+                                               window.getResolution().v[1]);
         metalLayer.drawableSize = drawableSize;
 
         colorFormat = metalLayer.pixelFormat;

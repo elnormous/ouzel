@@ -198,8 +198,7 @@ namespace ouzel::graphics::opengl::windows
         }
     }
 
-    void RenderDevice::init(const Size2U& newSize,
-                            const Settings& settings)
+    void RenderDevice::init(const Settings& settings)
     {
         TempContext tempContext;
 
@@ -333,7 +332,10 @@ namespace ouzel::graphics::opengl::windows
         if (apiVersion.v[0] < 2 || apiVersion.v[0] > 4)
             throw std::runtime_error("Unsupported OpenGL version");
 
-        opengl::RenderDevice::init(newSize, settings);
+        opengl::RenderDevice::init(settings);
+
+        setFramebufferSize(static_cast<GLsizei>(window.getResolution().v[0]),
+                           static_cast<GLsizei>(window.getResolution().v[1]));
 
         if (!wglMakeCurrent(deviceContext, nullptr))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");
