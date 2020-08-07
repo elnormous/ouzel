@@ -8,6 +8,11 @@
 
 namespace ouzel::graphics::renderer
 {
+    Renderer::Renderer(RenderDevice& initRenderDevice):
+        renderDevice(initRenderDevice)
+    {
+    }
+
     void Renderer::addCommand(const Command& command)
     {
         std::lock_guard lock(commandQueueMutex);

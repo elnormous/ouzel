@@ -13,7 +13,7 @@ namespace ouzel::graphics::renderer
     class Renderer final
     {
     public:
-        Renderer() = default;
+        Renderer(RenderDevice& initRenderDevice);
 
         using ResourceId = std::size_t;
 
@@ -81,6 +81,8 @@ namespace ouzel::graphics::renderer
         }
 
         void render();
+
+        RenderDevice& renderDevice;
 
         ResourceId lastResourceId = 0;
         std::set<ResourceId> deletedResourceIds;

@@ -147,11 +147,11 @@ namespace ouzel::graphics
                        core::Window& initWindow,
                        const Settings& settings):
         device(createRenderDevice(driver, initWindow, settings, std::bind(&Graphics::handleEvent, this, std::placeholders::_1))),
+        renderer(*device),
         textureFilter(settings.textureFilter),
         maxAnisotropy(settings.maxAnisotropy),
         size(initWindow.getResolution())
     {
-
     }
 
     void Graphics::handleEvent(const RenderDevice::Event& event)
