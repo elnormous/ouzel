@@ -72,9 +72,6 @@ namespace ouzel::core
         auto& getNetwork() { return network; }
         auto& getNetwork() const { return network; }
 
-        auto& getDefaultSettings() const noexcept { return defaultSettings; }
-        auto& getUserSettings() const noexcept { return userSettings; }
-
         void start();
         void pause();
         void resume();
@@ -125,9 +122,6 @@ namespace ouzel::core
         assets::Bundle assetBundle;
         scene::SceneManager sceneManager;
         network::Network network;
-
-        ini::Data defaultSettings;
-        ini::Data userSettings;
 
 #if !defined(__EMSCRIPTEN__)
         Thread updateThread;

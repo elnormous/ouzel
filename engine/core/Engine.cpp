@@ -126,17 +126,18 @@ namespace ouzel::core
         bool highDpi = true; // should high DPI resolution be used
         audio::Settings audioSettings;
 
-        if (fileSystem.resourceFileExists("settings.ini"))
-            defaultSettings = ini::parse(fileSystem.readFile("settings.ini"));
+        const ini::Data defaultSettings = fileSystem.resourceFileExists("settings.ini") ?
+            ini::parse(fileSystem.readFile("settings.ini")) : ini::Data{};
 
         auto settingsPath = fileSystem.getStorageDirectory() / "settings.ini";
-        if (fileSystem.fileExists(settingsPath))
-            userSettings = ini::parse(fileSystem.readFile(settingsPath));
+        const ini::Data userSettings = fileSystem.fileExists(settingsPath) ?
+            ini::parse(fileSystem.readFile(settingsPath)) : ini::Data{};
 
         const ini::Section& userEngineSection = userSettings["engine"];
         const ini::Section& defaultEngineSection = defaultSettings["engine"];
 
         const std::string graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
+        const graphics::Driver graphicsDriver = graphics::Graphics::getDriver(graphicsDriverValue);
 
         const std::string widthValue = userEngineSection.getValue("width", defaultEngineSection.getValue("width"));
         if (!widthValue.empty()) size.v[0] = static_cast<std::uint32_t>(std::stoul(widthValue));
@@ -190,13 +191,12 @@ namespace ouzel::core
         if (!highDpiValue.empty()) highDpi = (highDpiValue == "true" || highDpiValue == "1" || highDpiValue == "yes");
 
         const std::string audioDriverValue = userEngineSection.getValue("audioDriver", defaultEngineSection.getValue("audioDriver"));
+        const audio::Driver audioDriver = audio::Audio::getDriver(audioDriverValue);
 
         const std::string debugAudioValue = userEngineSection.getValue("debugAudio", defaultEngineSection.getValue("debugAudio"));
         if (!debugAudioValue.empty()) audioSettings.debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");
 
         audioSettings.audioDevice = userEngineSection.getValue("audioDevice", defaultEngineSection.getValue("audioDevice"));
-
-        graphics::Driver graphicsDriver = graphics::Graphics::getDriver(graphicsDriverValue);
 
         const Window::Flags windowFlags =
             (resizable ? Window::Flags::resizable : Window::Flags::none) |
@@ -214,7 +214,6 @@ namespace ouzel::core
                                                         *window,
                                                         graphicsSettings);
 
-        audio::Driver audioDriver = audio::Audio::getDriver(audioDriverValue);
         audio = std::make_unique<audio::Audio>(audioDriver, audioSettings);
 
         inputManager = std::make_unique<input::InputManager>();
