@@ -84,6 +84,95 @@ namespace ouzel
 
 namespace ouzel::core
 {
+    namespace
+    {
+        struct Settings final
+        {
+            Size2U size;
+            graphics::Driver graphicsDriver;
+            graphics::Settings graphicsSettings;
+            bool resizable = false;
+            bool fullscreen = false;
+            bool exclusiveFullscreen = false;
+            bool highDpi = true; // should high DPI resolution be used
+            audio::Driver audioDriver;
+            audio::Settings audioSettings;
+        };
+
+        Settings parseSettings(const ini::Data& defaultSettings,
+                               const ini::Data& userSettings)
+        {
+            Settings settings;
+
+            const ini::Section& userEngineSection = userSettings["engine"];
+            const ini::Section& defaultEngineSection = defaultSettings["engine"];
+
+            const std::string graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
+            settings.graphicsDriver = graphics::Graphics::getDriver(graphicsDriverValue);
+
+            const std::string widthValue = userEngineSection.getValue("width", defaultEngineSection.getValue("width"));
+            if (!widthValue.empty()) settings.size.v[0] = static_cast<std::uint32_t>(std::stoul(widthValue));
+
+            const std::string heightValue = userEngineSection.getValue("height", defaultEngineSection.getValue("height"));
+            if (!heightValue.empty()) settings.size.v[1] = static_cast<std::uint32_t>(std::stoul(heightValue));
+
+            const std::string sampleCountValue = userEngineSection.getValue("sampleCount", defaultEngineSection.getValue("sampleCount"));
+            if (!sampleCountValue.empty()) settings.graphicsSettings.sampleCount = static_cast<std::uint32_t>(std::stoul(sampleCountValue));
+
+            const std::string textureFilterValue = userEngineSection.getValue("textureFilter", defaultEngineSection.getValue("textureFilter"));
+            if (!textureFilterValue.empty())
+            {
+                if (textureFilterValue == "point")
+                    settings.graphicsSettings.textureFilter = graphics::SamplerFilter::point;
+                else if (textureFilterValue == "linear")
+                    settings.graphicsSettings.textureFilter = graphics::SamplerFilter::linear;
+                else if (textureFilterValue == "bilinear")
+                    settings.graphicsSettings.textureFilter = graphics::SamplerFilter::bilinear;
+                else if (textureFilterValue == "trilinear")
+                    settings.graphicsSettings.textureFilter = graphics::SamplerFilter::trilinear;
+                else
+                    throw std::runtime_error("Invalid texture filter specified");
+            }
+
+            const std::string maxAnisotropyValue = userEngineSection.getValue("maxAnisotropy", defaultEngineSection.getValue("maxAnisotropy"));
+            if (!maxAnisotropyValue.empty()) settings.graphicsSettings.maxAnisotropy = static_cast<std::uint32_t>(std::stoul(maxAnisotropyValue));
+
+            const std::string resizableValue = userEngineSection.getValue("resizable", defaultEngineSection.getValue("resizable"));
+            if (!resizableValue.empty()) settings.resizable = (resizableValue == "true" || resizableValue == "1" || resizableValue == "yes");
+
+            const std::string fullscreenValue = userEngineSection.getValue("fullscreen", defaultEngineSection.getValue("fullscreen"));
+            if (!fullscreenValue.empty()) settings.fullscreen = (fullscreenValue == "true" || fullscreenValue == "1" || fullscreenValue == "yes");
+
+            const std::string verticalSyncValue = userEngineSection.getValue("verticalSync", defaultEngineSection.getValue("verticalSync"));
+            if (!verticalSyncValue.empty()) settings.graphicsSettings.verticalSync = (verticalSyncValue == "true" || verticalSyncValue == "1" || verticalSyncValue == "yes");
+
+            const std::string exclusiveFullscreenValue = userEngineSection.getValue("exclusiveFullscreen", defaultEngineSection.getValue("exclusiveFullscreen"));
+            if (!exclusiveFullscreenValue.empty()) settings.exclusiveFullscreen = (exclusiveFullscreenValue == "true" || exclusiveFullscreenValue == "1" || exclusiveFullscreenValue == "yes");
+
+            const std::string depthValue = userEngineSection.getValue("depth", defaultEngineSection.getValue("depth"));
+            if (!depthValue.empty()) settings.graphicsSettings.depth = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
+
+            const std::string stencilValue = userEngineSection.getValue("stencil", defaultEngineSection.getValue("stencil"));
+            if (!stencilValue.empty()) settings.graphicsSettings.stencil = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
+
+            const std::string debugRendererValue = userEngineSection.getValue("debugRenderer", defaultEngineSection.getValue("debugRenderer"));
+            if (!debugRendererValue.empty()) settings.graphicsSettings.debugRenderer = (debugRendererValue == "true" || debugRendererValue == "1" || debugRendererValue == "yes");
+
+            const std::string highDpiValue = userEngineSection.getValue("highDpi", defaultEngineSection.getValue("highDpi"));
+            if (!highDpiValue.empty()) settings.highDpi = (highDpiValue == "true" || highDpiValue == "1" || highDpiValue == "yes");
+
+            const std::string audioDriverValue = userEngineSection.getValue("audioDriver", defaultEngineSection.getValue("audioDriver"));
+            settings.audioDriver = audio::Audio::getDriver(audioDriverValue);
+
+            const std::string debugAudioValue = userEngineSection.getValue("debugAudio", defaultEngineSection.getValue("debugAudio"));
+            if (!debugAudioValue.empty()) settings.audioSettings.debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");
+
+            settings.audioSettings.audioDevice = userEngineSection.getValue("audioDevice", defaultEngineSection.getValue("audioDevice"));
+
+            return settings;
+        }
+    }
+
     Engine::Engine():
         fileSystem(*this),
         assetBundle(cache, fileSystem)
@@ -118,108 +207,32 @@ namespace ouzel::core
     {
         Thread::setCurrentThreadName("Main");
 
-        Size2U size;
-        graphics::Settings graphicsSettings;
-        bool resizable = false;
-        bool fullscreen = false;
-        bool exclusiveFullscreen = false;
-        bool highDpi = true; // should high DPI resolution be used
-        audio::Settings audioSettings;
-
-        const ini::Data defaultSettings = fileSystem.resourceFileExists("settings.ini") ?
-            ini::parse(fileSystem.readFile("settings.ini")) : ini::Data{};
-
-        auto settingsPath = fileSystem.getStorageDirectory() / "settings.ini";
-        const ini::Data userSettings = fileSystem.fileExists(settingsPath) ?
-            ini::parse(fileSystem.readFile(settingsPath)) : ini::Data{};
-
-        const ini::Section& userEngineSection = userSettings["engine"];
-        const ini::Section& defaultEngineSection = defaultSettings["engine"];
-
-        const std::string graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
-        const graphics::Driver graphicsDriver = graphics::Graphics::getDriver(graphicsDriverValue);
-
-        const std::string widthValue = userEngineSection.getValue("width", defaultEngineSection.getValue("width"));
-        if (!widthValue.empty()) size.v[0] = static_cast<std::uint32_t>(std::stoul(widthValue));
-
-        const std::string heightValue = userEngineSection.getValue("height", defaultEngineSection.getValue("height"));
-        if (!heightValue.empty()) size.v[1] = static_cast<std::uint32_t>(std::stoul(heightValue));
-
-        const std::string sampleCountValue = userEngineSection.getValue("sampleCount", defaultEngineSection.getValue("sampleCount"));
-        if (!sampleCountValue.empty()) graphicsSettings.sampleCount = static_cast<std::uint32_t>(std::stoul(sampleCountValue));
-
-        const std::string textureFilterValue = userEngineSection.getValue("textureFilter", defaultEngineSection.getValue("textureFilter"));
-        if (!textureFilterValue.empty())
-        {
-            if (textureFilterValue == "point")
-                graphicsSettings.textureFilter = graphics::SamplerFilter::point;
-            else if (textureFilterValue == "linear")
-                graphicsSettings.textureFilter = graphics::SamplerFilter::linear;
-            else if (textureFilterValue == "bilinear")
-                graphicsSettings.textureFilter = graphics::SamplerFilter::bilinear;
-            else if (textureFilterValue == "trilinear")
-                graphicsSettings.textureFilter = graphics::SamplerFilter::trilinear;
-            else
-                throw std::runtime_error("Invalid texture filter specified");
-        }
-
-        const std::string maxAnisotropyValue = userEngineSection.getValue("maxAnisotropy", defaultEngineSection.getValue("maxAnisotropy"));
-        if (!maxAnisotropyValue.empty()) graphicsSettings.maxAnisotropy = static_cast<std::uint32_t>(std::stoul(maxAnisotropyValue));
-
-        const std::string resizableValue = userEngineSection.getValue("resizable", defaultEngineSection.getValue("resizable"));
-        if (!resizableValue.empty()) resizable = (resizableValue == "true" || resizableValue == "1" || resizableValue == "yes");
-
-        const std::string fullscreenValue = userEngineSection.getValue("fullscreen", defaultEngineSection.getValue("fullscreen"));
-        if (!fullscreenValue.empty()) fullscreen = (fullscreenValue == "true" || fullscreenValue == "1" || fullscreenValue == "yes");
-
-        const std::string verticalSyncValue = userEngineSection.getValue("verticalSync", defaultEngineSection.getValue("verticalSync"));
-        if (!verticalSyncValue.empty()) graphicsSettings.verticalSync = (verticalSyncValue == "true" || verticalSyncValue == "1" || verticalSyncValue == "yes");
-
-        const std::string exclusiveFullscreenValue = userEngineSection.getValue("exclusiveFullscreen", defaultEngineSection.getValue("exclusiveFullscreen"));
-        if (!exclusiveFullscreenValue.empty()) exclusiveFullscreen = (exclusiveFullscreenValue == "true" || exclusiveFullscreenValue == "1" || exclusiveFullscreenValue == "yes");
-
-        const std::string depthValue = userEngineSection.getValue("depth", defaultEngineSection.getValue("depth"));
-        if (!depthValue.empty()) graphicsSettings.depth = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
-
-        const std::string stencilValue = userEngineSection.getValue("stencil", defaultEngineSection.getValue("stencil"));
-        if (!stencilValue.empty()) graphicsSettings.stencil = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
-
-        const std::string debugRendererValue = userEngineSection.getValue("debugRenderer", defaultEngineSection.getValue("debugRenderer"));
-        if (!debugRendererValue.empty()) graphicsSettings.debugRenderer = (debugRendererValue == "true" || debugRendererValue == "1" || debugRendererValue == "yes");
-
-        const std::string highDpiValue = userEngineSection.getValue("highDpi", defaultEngineSection.getValue("highDpi"));
-        if (!highDpiValue.empty()) highDpi = (highDpiValue == "true" || highDpiValue == "1" || highDpiValue == "yes");
-
-        const std::string audioDriverValue = userEngineSection.getValue("audioDriver", defaultEngineSection.getValue("audioDriver"));
-        const audio::Driver audioDriver = audio::Audio::getDriver(audioDriverValue);
-
-        const std::string debugAudioValue = userEngineSection.getValue("debugAudio", defaultEngineSection.getValue("debugAudio"));
-        if (!debugAudioValue.empty()) audioSettings.debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");
-
-        audioSettings.audioDevice = userEngineSection.getValue("audioDevice", defaultEngineSection.getValue("audioDevice"));
+        const auto settingsPath = fileSystem.getStorageDirectory() / "settings.ini";
+        const auto settings = parseSettings(fileSystem.resourceFileExists("settings.ini") ? ini::parse(fileSystem.readFile("settings.ini")) : ini::Data{},
+                                            fileSystem.fileExists(settingsPath) ? ini::parse(fileSystem.readFile(settingsPath)) : ini::Data{});
 
         const Window::Flags windowFlags =
-            (resizable ? Window::Flags::resizable : Window::Flags::none) |
-            (fullscreen ? Window::Flags::fullscreen : Window::Flags::none) |
-            (exclusiveFullscreen ? Window::Flags::exclusiveFullscreen : Window::Flags::none) |
-            (highDpi ? Window::Flags::highDpi : Window::Flags::none);
+            (settings.resizable ? Window::Flags::resizable : Window::Flags::none) |
+            (settings.fullscreen ? Window::Flags::fullscreen : Window::Flags::none) |
+            (settings.exclusiveFullscreen ? Window::Flags::exclusiveFullscreen : Window::Flags::none) |
+            (settings.highDpi ? Window::Flags::highDpi : Window::Flags::none);
 
         window = std::make_unique<Window>(*this,
-                                          size,
+                                          settings.size,
                                           windowFlags,
                                           OUZEL_APPLICATION_NAME,
-                                          graphicsDriver);
+                                          settings.graphicsDriver);
 
-        graphics = std::make_unique<graphics::Graphics>(graphicsDriver,
+        graphics = std::make_unique<graphics::Graphics>(settings.graphicsDriver,
                                                         *window,
-                                                        graphicsSettings);
+                                                        settings.graphicsSettings);
 
-        audio = std::make_unique<audio::Audio>(audioDriver, audioSettings);
+        audio = std::make_unique<audio::Audio>(settings.audioDriver, settings.audioSettings);
 
         inputManager = std::make_unique<input::InputManager>();
 
         // default assets
-        switch (graphicsDriver)
+        switch (settings.graphicsDriver)
         {
 #if OUZEL_COMPILE_OPENGL
             case graphics::Driver::openGL:
