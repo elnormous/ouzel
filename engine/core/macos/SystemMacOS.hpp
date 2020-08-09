@@ -5,7 +5,7 @@
 
 #include "../System.hpp"
 
-namespace ouzel::macos
+namespace ouzel::core::macos
 {
     class System final: public core::System
     {
