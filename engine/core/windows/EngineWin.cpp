@@ -24,6 +24,30 @@ namespace ouzel::core::windows
 {
     namespace
     {
+        std::vector<std::string> parseArgs(int argc, LPWSTR* argv)
+        {
+            std::vector<std::string> result;
+            if (argv)
+            {
+                int bufferSize;
+                std::vector<char> buffer;
+
+                for (int i = 0; i < argc; ++i)
+                {
+                    bufferSize = WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, nullptr, 0, nullptr, nullptr);
+                    if (bufferSize == 0)
+                        throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
+
+                    buffer.resize(bufferSize);
+                    if (WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, buffer.data(), bufferSize, nullptr, nullptr) == 0)
+                        throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
+
+                    result.push_back(buffer.data());
+                }
+            }
+            return result;
+        }
+
         class ShellExecuteErrorCategory final: public std::error_category
         {
         public:
@@ -59,27 +83,7 @@ namespace ouzel::core::windows
 
     Engine::Engine(int argc, LPWSTR* argv)
     {
-        if (argv)
-        {
-            std::vector<std::string> args;
-            int bufferSize;
-            std::vector<char> buffer;
-
-            for (int i = 0; i < argc; ++i)
-            {
-                bufferSize = WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, nullptr, 0, nullptr, nullptr);
-                if (bufferSize == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
-
-                buffer.resize(bufferSize);
-                if (WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, buffer.data(), bufferSize, nullptr, nullptr) == 0)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
-
-                args.push_back(buffer.data());
-            }
-
-            setArgs(args);
-        }
+        setArgs(parseArgs(argc, argv));
 
         if (const auto hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED); FAILED(hr))
             throw std::system_error(hr, std::system_category(), "Failed to initialize COM");

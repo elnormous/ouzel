@@ -258,6 +258,17 @@ namespace
 
 namespace ouzel::core::linux
 {
+    namespace
+    {
+        std::vector<std::string> parseArgs(int argc, char* argv[])
+        {
+            std::vector<std::string> result;
+            for (int i = 0; i < argc; ++i)
+                result.push_back(argv[i]);
+            return result;
+        }
+    }
+
     ErrorCategory errorCategory;
 
     int getLastError()
@@ -267,10 +278,7 @@ namespace ouzel::core::linux
 
     Engine::Engine(int argc, char* argv[])
     {
-        std::vector<std::string> args;
-        for (int i = 0; i < argc; ++i)
-            args.push_back(argv[i]);
-        setArgs(args);
+        setArgs(parseArgs(argc, argv));
 
 #if OUZEL_SUPPORTS_X11
         XSetErrorHandler(errorHandler);

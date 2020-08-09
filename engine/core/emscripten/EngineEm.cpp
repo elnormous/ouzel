@@ -13,6 +13,14 @@ namespace ouzel::core::emscripten
 {
     namespace
     {
+        std::vector<std::string> parseArgs(int argc, char* argv[])
+        {
+            std::vector<std::string> result;
+            for (int i = 0; i < argc; ++i)
+                result.push_back(argv[i]);
+            return result;
+        }
+
         void loop(void* arg)
         {
             static_cast<emscripten::Engine*>(arg)->step();
@@ -21,10 +29,7 @@ namespace ouzel::core::emscripten
 
     Engine::Engine(int argc, char* argv[])
     {
-        std::vector<std::string> args;
-        for (int i = 0; i < argc; ++i)
-            args.push_back(argv[i]);
-        setArgs(args);
+        setArgs(parseArgs(argc, argv));
     }
 
     void Engine::run()

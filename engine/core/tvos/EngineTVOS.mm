@@ -82,13 +82,21 @@
 
 namespace ouzel::core::tvos
 {
+    namespace
+    {
+        std::vector<std::string> parseArgs(int argc, char* argv[])
+        {
+            std::vector<std::string> result;
+            for (int i = 0; i < argc; ++i)
+                result.push_back(argv[i]);
+            return result;
+        }
+    }
+
     Engine::Engine(int initArgc, char* initArgv[]):
         argc(initArgc), argv(initArgv)
     {
-        std::vector<std::string> args;
-        for (int i = 0; i < argc; ++i)
-            args.push_back(argv[i]);
-        setArgs(args);
+        setArgs(parseArgs(argc, argv));
 
         pool = [[NSAutoreleasePool alloc] init];
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
