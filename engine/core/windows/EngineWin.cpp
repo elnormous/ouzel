@@ -57,25 +57,28 @@ namespace ouzel::core::windows
         const ShellExecuteErrorCategory shellExecuteErrorCategory {};
     }
 
-    Engine::Engine(int initArgc, LPWSTR* initArgv)
+    Engine::Engine(int argc, LPWSTR* argv)
     {
-        if (initArgv)
+        if (argv)
         {
+            std::vector<std::string> args;
             int bufferSize;
             std::vector<char> buffer;
 
-            for (int i = 0; i < initArgc; ++i)
+            for (int i = 0; i < argc; ++i)
             {
-                bufferSize = WideCharToMultiByte(CP_UTF8, 0, initArgv[i], -1, nullptr, 0, nullptr, nullptr);
+                bufferSize = WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, nullptr, 0, nullptr, nullptr);
                 if (bufferSize == 0)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
                 buffer.resize(bufferSize);
-                if (WideCharToMultiByte(CP_UTF8, 0, initArgv[i], -1, buffer.data(), bufferSize, nullptr, nullptr) == 0)
+                if (WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, buffer.data(), bufferSize, nullptr, nullptr) == 0)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
                 args.push_back(buffer.data());
             }
+
+            setArgs(args);
         }
 
         if (const auto hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED); FAILED(hr))

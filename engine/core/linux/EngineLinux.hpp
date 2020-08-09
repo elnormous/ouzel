@@ -53,7 +53,7 @@ namespace ouzel::core::linux
     class Engine final: public core::Engine
     {
     public:
-        Engine(int initArgc, char* initArgv[]);
+        Engine(int argc, char* argv[]);
         ~Engine() override;
 
         void run();

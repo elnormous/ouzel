@@ -85,8 +85,10 @@ namespace ouzel::core::tvos
     Engine::Engine(int initArgc, char* initArgv[]):
         argc(initArgc), argv(initArgv)
     {
-        for (int i = 0; i < initArgc; ++i)
-            args.push_back(initArgv[i]);
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+            args.push_back(argv[i]);
+        setArgs(args);
 
         pool = [[NSAutoreleasePool alloc] init];
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];

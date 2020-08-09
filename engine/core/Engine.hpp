@@ -93,6 +93,8 @@ namespace ouzel::core
         void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
 
     protected:
+        void setArgs(const std::vector<std::string>& newArgs) { args = newArgs; }
+
         class Command final
         {
         public:
@@ -135,6 +137,8 @@ namespace ouzel::core
         std::atomic_bool oneUpdatePerFrame{false};
 
         std::atomic_bool screenSaverEnabled{true};
+
+    private:
         std::vector<std::string> args;
     };
 }

@@ -21,8 +21,10 @@ namespace ouzel::core::emscripten
 
     Engine::Engine(int argc, char* argv[])
     {
+        std::vector<std::string> args;
         for (int i = 0; i < argc; ++i)
             args.push_back(argv[i]);
+        setArgs(args);
     }
 
     void Engine::run()

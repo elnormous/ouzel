@@ -265,10 +265,12 @@ namespace ouzel::core::linux
         return error;
     }
 
-    Engine::Engine(int initArgc, char* initArgv[])
+    Engine::Engine(int argc, char* argv[])
     {
-        for (int i = 0; i < initArgc; ++i)
-            args.push_back(initArgv[i]);
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+            args.push_back(argv[i]);
+        setArgs(args);
 
 #if OUZEL_SUPPORTS_X11
         XSetErrorHandler(errorHandler);

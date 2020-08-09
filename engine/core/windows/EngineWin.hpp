@@ -22,7 +22,7 @@ namespace ouzel::core::windows
     class Engine final: public core::Engine
     {
     public:
-        Engine(int initArgc, LPWSTR* initArgv);
+        Engine(int argc, LPWSTR* argv);
         ~Engine() override;
 
         void run();
