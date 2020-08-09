@@ -81,10 +81,9 @@ namespace ouzel::core::windows
         const ShellExecuteErrorCategory shellExecuteErrorCategory {};
     }
 
-    Engine::Engine(int argc, LPWSTR* argv)
+    Engine::Engine(int argc, LPWSTR* argv):
+        core::Engine(parseArgs(argc, argv))
     {
-        setArgs(parseArgs(argc, argv));
-
         if (const auto hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED); FAILED(hr))
             throw std::system_error(hr, std::system_category(), "Failed to initialize COM");
 

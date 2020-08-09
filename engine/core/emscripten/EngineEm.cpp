@@ -27,9 +27,9 @@ namespace ouzel::core::emscripten
         }
     }
 
-    Engine::Engine(int argc, char* argv[])
+    Engine::Engine(int argc, char* argv[]):
+        core::Engine(parseArgs(argc, argv))
     {
-        setArgs(parseArgs(argc, argv));
     }
 
     void Engine::run()

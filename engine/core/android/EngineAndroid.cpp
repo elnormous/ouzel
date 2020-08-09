@@ -58,6 +58,7 @@ namespace ouzel::core::android
     }
 
     Engine::Engine(JavaVM* initJavaVm):
+        core::Engine(std::vector<std::string>{}),
         javaVm(initJavaVm)
     {
         void* jniEnvPointer;

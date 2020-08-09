@@ -173,9 +173,10 @@ namespace ouzel::core
         }
     }
 
-    Engine::Engine():
+    Engine::Engine(const std::vector<std::string>& initArgs):
         fileSystem(*this),
-        assetBundle(cache, fileSystem)
+        assetBundle(cache, fileSystem),
+        args{initArgs}
     {
         engine = this;
     }

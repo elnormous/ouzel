@@ -276,10 +276,9 @@ namespace ouzel::core::linux
         return error;
     }
 
-    Engine::Engine(int argc, char* argv[])
+    Engine::Engine(int argc, char* argv[]):
+        core::Engine(parseArgs(argc, argv))
     {
-        setArgs(parseArgs(argc, argv));
-
 #if OUZEL_SUPPORTS_X11
         XSetErrorHandler(errorHandler);
 

@@ -34,7 +34,7 @@ namespace ouzel::core
     class Engine
     {
     public:
-        Engine();
+        Engine(const std::vector<std::string>& initArgs);
         virtual ~Engine();
 
         Engine(const Engine&) = delete;
@@ -93,8 +93,6 @@ namespace ouzel::core
         void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
 
     protected:
-        void setArgs(const std::vector<std::string>& newArgs) { args = newArgs; }
-
         class Command final
         {
         public:
