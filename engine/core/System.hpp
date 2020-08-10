@@ -3,6 +3,9 @@
 #ifndef OUZEL_CORE_SYSTEM_HPP
 #define OUZEL_CORE_SYSTEM_HPP
 
+#include <string>
+#include <vector>
+
 namespace ouzel::core
 {
     class System
@@ -30,8 +33,10 @@ namespace ouzel::core
             };
         };
 
-        System();
+        System(const std::vector<std::string>& initArgs);
         virtual ~System() = default;
+
+        auto& getArgs() const noexcept { return args; }
 
     private:
         std::vector<std::string> args;

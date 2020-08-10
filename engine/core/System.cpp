@@ -4,7 +4,8 @@
 
 namespace ouzel::core
 {
-    System::System()
+    System::System(const std::vector<std::string>& initArgs):
+        args{initArgs}
     {
     }
 }

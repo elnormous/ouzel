@@ -10,6 +10,7 @@ namespace ouzel::core::android
     class System final: public core::System
     {
     public:
+        System();
         ~System() = default;
     };
 }

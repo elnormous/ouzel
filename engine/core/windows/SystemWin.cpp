@@ -28,7 +28,35 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 
 namespace ouzel::core::windows
 {
-    System::System(int argc, LPWSTR* argv)
+    namespace
+    {
+        std::vector<std::string> parseArgs(int argc, LPWSTR* argv)
+        {
+            std::vector<std::string> result;
+            if (argv)
+            {
+                int bufferSize;
+                std::vector<char> buffer;
+
+                for (int i = 0; i < argc; ++i)
+                {
+                    bufferSize = WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, nullptr, 0, nullptr, nullptr);
+                    if (bufferSize == 0)
+                        throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
+
+                    buffer.resize(bufferSize);
+                    if (WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, buffer.data(), bufferSize, nullptr, nullptr) == 0)
+                        throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
+
+                    result.push_back(buffer.data());
+                }
+            }
+            return result;
+        }
+    }
+
+    System::System(int argc, LPWSTR* argv):
+        core::System(parseArgs(argc, argv))
     {
     }
 }
