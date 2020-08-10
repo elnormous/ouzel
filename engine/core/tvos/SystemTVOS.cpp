@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     }
 }
 
-namespace ouzel::tvos
+namespace ouzel::core::tvos
 {
     namespace
     {
