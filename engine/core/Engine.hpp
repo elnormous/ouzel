@@ -45,8 +45,6 @@ namespace ouzel::core
 
         void init();
 
-        auto& getArgs() const noexcept { return args; }
-
         auto& getFileSystem() { return fileSystem; }
         auto& getFileSystem() const { return fileSystem; }
 
