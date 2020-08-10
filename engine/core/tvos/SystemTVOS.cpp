@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
         ouzel::core::tvos::System system(argc, argv);
 
         ouzel::core::tvos::Engine engine(argc, argv);
-        engine.run();
+        engine.run(argc, argv);
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)

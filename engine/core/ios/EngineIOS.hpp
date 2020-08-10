@@ -17,10 +17,10 @@ namespace ouzel::core::ios
     class Engine final: public core::Engine
     {
     public:
-        Engine(int initArgc, char* initArgv[]);
+        Engine(int argc, char* argv[]);
         ~Engine() override;
 
-        void run();
+        void run(int argc, char* argv[]);
 
         void openUrl(const std::string& url) final;
 
@@ -36,8 +36,6 @@ namespace ouzel::core::ios
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
 
-        int argc = 0;
-        char** argv = nullptr;
         id executeHanlder = nil;
     };
 }

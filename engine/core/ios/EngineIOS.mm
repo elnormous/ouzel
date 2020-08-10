@@ -134,9 +134,8 @@ namespace ouzel::core::ios
         }
     }
 
-    Engine::Engine(int initArgc, char* initArgv[]):
-        core::Engine(parseArgs(initArgc, initArgv)),
-        argc(initArgc), argv(initArgv)
+    Engine::Engine(int argc, char* argv[]):
+        core::Engine(parseArgs(argc, argv))
     {
         pool = [[NSAutoreleasePool alloc] init];
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
@@ -148,7 +147,7 @@ namespace ouzel::core::ios
         if (pool) [pool release];
     }
 
-    void Engine::run()
+    void Engine::run(int argc, char* argv[])
     {
         UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
