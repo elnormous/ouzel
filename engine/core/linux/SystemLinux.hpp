@@ -11,7 +11,7 @@ namespace ouzel::core::linux
     {
     public:
         System(int argc, char* argv[]);
-        ~System() = default;
+        ~System() override = default;
     };
 }
 

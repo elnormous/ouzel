@@ -31,7 +31,7 @@ namespace ouzel::core::tvos
     private:
         void runOnMainThread(const std::function<void()>& func) final;
 
-        NSAutoreleasePoolPtr pool = nullptr;
+        NSAutoreleasePoolPtr pool = nil;
 
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;

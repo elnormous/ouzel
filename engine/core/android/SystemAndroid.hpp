@@ -11,7 +11,7 @@ namespace ouzel::core::android
     {
     public:
         System();
-        ~System() = default;
+        ~System() override = default;
     };
 }
 

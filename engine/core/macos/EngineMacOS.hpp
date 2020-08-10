@@ -34,8 +34,8 @@ namespace ouzel::core::macos
         void engineMain() final;
         void runOnMainThread(const std::function<void()>& func) final;
 
-        NSApplicationPtr application = nullptr;
-        NSAutoreleasePoolPtr pool = nullptr;
+        NSApplicationPtr application = nil;
+        NSAutoreleasePoolPtr pool = nil;
 
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;

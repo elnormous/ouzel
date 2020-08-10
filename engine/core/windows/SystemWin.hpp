@@ -11,7 +11,7 @@ namespace ouzel::core::windows
     {
     public:
         System(int argc, LPWSTR* argv);
-        ~System() = default;
+        ~System() override = default;
     };
 }
 

@@ -52,7 +52,7 @@ namespace ouzel::graphics::opengl::macos
         NSOpenGLContextPtr openGLContext = nil;
         NSOpenGLPixelFormatPtr pixelFormat = nil;
 
-        CVDisplayLinkRef displayLink = nullptr;
+        CVDisplayLinkRef displayLink = nil;
         EventHandler eventHandler;
 
         std::atomic_bool running{false};

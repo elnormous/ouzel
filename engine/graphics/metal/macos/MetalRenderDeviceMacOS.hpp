@@ -62,7 +62,7 @@ namespace ouzel::graphics::metal::macos
     private:
         bool handleWindow(const WindowEvent& event);
 
-        CVDisplayLinkRef displayLink = nullptr;
+        CVDisplayLinkRef displayLink = nil;
         EventHandler eventHandler;
 
         std::atomic_bool running{false};
