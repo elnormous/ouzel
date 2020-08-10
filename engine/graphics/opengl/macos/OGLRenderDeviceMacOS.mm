@@ -10,8 +10,9 @@
 
 #include "OGLRenderDeviceMacOS.hpp"
 #include "OpenGLView.h"
-#include "../../../core/macos/NativeWindowMacOS.hpp"
 #include "../../../core/Engine.hpp"
+#include "../../../core/cocoa/AutoreleasePool.hpp"
+#include "../../../core/macos/NativeWindowMacOS.hpp"
 #include "../../../utils/Log.hpp"
 
 namespace ouzel::graphics::opengl::macos
@@ -25,7 +26,7 @@ namespace ouzel::graphics::opengl::macos
                                 CVOptionFlags*,
                                 void* userInfo)
         {
-            NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+            ouzel::core::cocoa::AutoreleasePool autoreleasePool;
 
             try
             {
@@ -37,8 +38,6 @@ namespace ouzel::graphics::opengl::macos
                 logger.log(Log::Level::error) << e.what();
                 return kCVReturnError;
             }
-
-            [pool release];
 
             return kCVReturnSuccess;
         }

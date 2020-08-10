@@ -3,12 +3,15 @@
 #include <cstdlib>
 #include "SystemIOS.hpp"
 #include "EngineIOS.hpp"
+#include "../cocoa/AutoreleasePool.hpp"
 #include "../../utils/Log.hpp"
 
 int main(int argc, char* argv[])
 {
     try
     {
+        ouzel::core::cocoa::AutoreleasePool autoreleasePool;
+        
         ouzel::core::ios::System system(argc, argv);
 
         ouzel::core::ios::Engine engine(argc, argv);

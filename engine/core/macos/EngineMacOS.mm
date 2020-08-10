@@ -97,8 +97,6 @@ namespace ouzel::core::macos
     Engine::Engine(int argc, char* argv[]):
         core::Engine(parseArgs(argc, argv))
     {
-        pool = [[NSAutoreleasePool alloc] init];
-
         application = [NSApplication sharedApplication];
         [application activateIgnoringOtherApps:YES];
         [application setDelegate:[[[AppDelegate alloc] init] autorelease]];
@@ -123,7 +121,6 @@ namespace ouzel::core::macos
     Engine::~Engine()
     {
         if (executeHanlder) [executeHanlder release];
-        if (pool) [pool release];
     }
 
     void Engine::run()

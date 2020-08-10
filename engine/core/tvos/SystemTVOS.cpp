@@ -3,12 +3,15 @@
 #include <cstdlib>
 #include "SystemTVOS.hpp"
 #include "EngineTVOS.hpp"
+#include "../cocoa/AutoreleasePool.hpp"
 #include "../../utils/Log.hpp"
 
 int main(int argc, char* argv[])
 {
     try
     {
+        ouzel::core::cocoa::AutoreleasePool autoreleasePool;
+        
         ouzel::core::tvos::System system(argc, argv);
 
         ouzel::core::tvos::Engine engine(argc, argv);

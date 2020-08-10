@@ -540,6 +540,12 @@
 		307934D722C58CFE005A6804 /* Cue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307934D322C58CFE005A6804 /* Cue.hpp */; };
 		307934D822C58CFE005A6804 /* Cue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307934D322C58CFE005A6804 /* Cue.hpp */; };
 		307934D922C58CFE005A6804 /* Cue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307934D322C58CFE005A6804 /* Cue.hpp */; };
+		307F4C2324E20D2A00994B7A /* AutoreleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */; };
+		307F4C2424E20D2A00994B7A /* AutoreleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */; };
+		307F4C2524E20D2A00994B7A /* AutoreleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */; };
+		307F4C2624E20D2A00994B7A /* AutoreleasePool.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */; };
+		307F4C2724E20D2A00994B7A /* AutoreleasePool.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */; };
+		307F4C2824E20D2A00994B7A /* AutoreleasePool.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */; };
 		307F9FFE1F1E9CA000BA73CB /* GamepadDeviceGC.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */; };
 		307F9FFF1F1E9CA000BA73CB /* GamepadDeviceGC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */; };
 		3085DA23211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
@@ -982,6 +988,8 @@
 		307726CE2187F2880050F94C /* SystemCursor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SystemCursor.hpp; sourceTree = "<group>"; };
 		307934D222C58CFE005A6804 /* Cue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cue.cpp; sourceTree = "<group>"; };
 		307934D322C58CFE005A6804 /* Cue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cue.hpp; sourceTree = "<group>"; };
+		307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AutoreleasePool.mm; sourceTree = "<group>"; };
+		307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AutoreleasePool.hpp; sourceTree = "<group>"; };
 		307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceGC.hpp; sourceTree = "<group>"; };
 		307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceGC.mm; sourceTree = "<group>"; };
 		3082B56E24DA04C400489B19 /* DispatchSemaphore.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DispatchSemaphore.hpp; sourceTree = "<group>"; };
@@ -1355,6 +1363,7 @@
 		303B75111C28838C00FEDE92 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				307F4C2024E20CFE00994B7A /* cocoa */,
 				30EEADB5215DA81500D2F525 /* Application.hpp */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.hpp */,
@@ -1704,6 +1713,15 @@
 			path = events;
 			sourceTree = "<group>";
 		};
+		307F4C2024E20CFE00994B7A /* cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */,
+				307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */,
+			);
+			path = cocoa;
+			sourceTree = "<group>";
+		};
 		3098A5511EA01C6600528A54 /* macos */ = {
 			isa = PBXGroup;
 			children = (
@@ -1904,6 +1922,7 @@
 				303696C71E32DD8F007F4211 /* Texture.hpp in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHandler.hpp in Headers */,
 				305B113B2250413900EDA4F5 /* Containers.hpp in Headers */,
+				307F4C2624E20D2A00994B7A /* AutoreleasePool.hpp in Headers */,
 				303B75821C2B17DC00FEDE92 /* Event.hpp in Headers */,
 				303B75411C2A3C9200FEDE92 /* Image.hpp in Headers */,
 				30A9C1351CAE80570084C4BF /* Localization.hpp in Headers */,
@@ -2016,6 +2035,7 @@
 				30AEFA3120C0FD6000CDFD33 /* OGLRenderTarget.hpp in Headers */,
 				30090303219224B100B00BF4 /* DepthStencilState.hpp in Headers */,
 				C6C9102F21B54EE000B5FCB7 /* Oscillator.hpp in Headers */,
+				307F4C2824E20D2A00994B7A /* AutoreleasePool.hpp in Headers */,
 				303B76641C355A3B00FEDE92 /* SceneManager.hpp in Headers */,
 				3047F7431C4C344A00774E3D /* Animator.hpp in Headers */,
 				300862DB2154725500D8CC45 /* InputSystemTVOS.hpp in Headers */,
@@ -2207,6 +2227,7 @@
 				3030D5061DAEF1FA007CC8EB /* Log.hpp in Headers */,
 				300C39EE1E51355000330E4F /* PcmClip.hpp in Headers */,
 				309B483B1DEA5EE600A718C5 /* Color.hpp in Headers */,
+				307F4C2724E20D2A00994B7A /* AutoreleasePool.hpp in Headers */,
 				30C3F28D219D0847003FE9ED /* Effect.hpp in Headers */,
 				30ADCBB71E9A9479000DC9AC /* MetalRenderDeviceMacOS.hpp in Headers */,
 				302261851FDB8C59005279FC /* ColladaLoader.hpp in Headers */,
@@ -2401,6 +2422,7 @@
 				30519CD01F9B53CB00AF3DC4 /* ImageLoader.cpp in Sources */,
 				30AEFA2C20C0FD6000CDFD33 /* OGLRenderTarget.cpp in Sources */,
 				C61B49F12174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
+				307F4C2324E20D2A00994B7A /* AutoreleasePool.mm in Sources */,
 				3038206D1D816C7700677CAB /* NativeWindowIOS.mm in Sources */,
 				30519CD81F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */,
 				30EEADC321618DD800D2F525 /* MouseDevice.cpp in Sources */,
@@ -2521,6 +2543,7 @@
 				30AEFA2E20C0FD6000CDFD33 /* OGLRenderTarget.cpp in Sources */,
 				C61B49F32174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
 				30519CDA1F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */,
+				307F4C2524E20D2A00994B7A /* AutoreleasePool.mm in Sources */,
 				30C758C11F4A23BD008499DC /* DisplayLink.mm in Sources */,
 				303B76391C355A3B00FEDE92 /* SpriteRenderer.cpp in Sources */,
 				30673DD51F7A694F00EAFAB0 /* NativeWindow.cpp in Sources */,
@@ -2701,6 +2724,7 @@
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30519CB91F9B53AB00AF3DC4 /* WaveLoader.cpp in Sources */,
 				303B04BC1E207B6D00011CBE /* OpenGLView.m in Sources */,
+				307F4C2424E20D2A00994B7A /* AutoreleasePool.mm in Sources */,
 				30FF4D5321C48DB600153FFF /* Effects.cpp in Sources */,
 				30AEFA0D20C0A90400CDFD33 /* GltfLoader.cpp in Sources */,
 				30ADCBB61E9A9479000DC9AC /* MetalRenderDeviceMacOS.mm in Sources */,

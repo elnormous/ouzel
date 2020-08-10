@@ -178,6 +178,7 @@ endif
 else ifeq ($(PLATFORM),macos)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	audio/openal/OALAudioDevice.cpp \
+	core/cocoa/AutoreleasePool.mm \
 	core/macos/EngineMacOS.mm \
 	core/macos/NativeWindowMacOS.mm \
 	core/macos/SystemMacOS.mm \
@@ -202,6 +203,7 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 else ifeq ($(PLATFORM),ios)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	audio/openal/OALAudioDevice.cpp \
+	core/cocoa/AutoreleasePool.mm \
 	core/ios/DisplayLink.mm \
 	core/ios/EngineIOS.mm \
 	core/ios/NativeWindowIOS.mm \
@@ -227,6 +229,7 @@ OBJCXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path)
 else ifeq ($(PLATFORM),tvos)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	audio/openal/OALAudioDevice.cpp \
+	core/cocoa/AutoreleasePool.mm \
 	core/tvos/DisplayLink.mm \
 	core/tvos/EngineTVOS.mm \
 	core/tvos/NativeWindowTVOS.mm \

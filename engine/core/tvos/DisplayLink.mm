@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include "DisplayLink.hpp"
+#include "../cocoa/AutoreleasePool.hpp"
 
 @interface DisplayLinkHandler: NSObject
 @end
@@ -25,9 +26,8 @@
 
 - (void)draw:(__unused CADisplayLink*)sender
 {
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    ouzel::core::cocoa::AutoreleasePool autoreleasePool;
     callback(userInfo);
-    [pool release];
 }
 @end
 
@@ -89,9 +89,8 @@ namespace ouzel::core::tvos
         {
             while (running)
             {
-                NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+                ouzel::core::cocoa::AutoreleasePool autoreleasePool;
                 callback(userInfo);
-                [pool release];
             }
         }
     }

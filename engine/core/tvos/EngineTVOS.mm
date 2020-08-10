@@ -96,14 +96,12 @@ namespace ouzel::core::tvos
     Engine::Engine(int argc, char* argv[]):
         core::Engine(parseArgs(argc, argv))
     {
-        pool = [[NSAutoreleasePool alloc] init];
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
 
     Engine::~Engine()
     {
         if (executeHanlder) [executeHanlder release];
-        if (pool) [pool release];
     }
 
     void Engine::run(int argc, char* argv[])

@@ -3,13 +3,6 @@
 #ifndef OUZEL_CORE_ENGINEIOS_HPP
 #define OUZEL_CORE_ENGINEIOS_HPP
 
-#if defined(__OBJC__)
-typedef NSAutoreleasePool* NSAutoreleasePoolPtr;
-#else
-#  include <objc/NSObjCRuntime.h>
-typedef id NSAutoreleasePoolPtr;
-#endif
-
 #include "../Engine.hpp"
 
 namespace ouzel::core::ios
@@ -30,8 +23,6 @@ namespace ouzel::core::ios
 
     private:
         void runOnMainThread(const std::function<void()>& func) final;
-
-        NSAutoreleasePoolPtr pool = nil;
 
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;

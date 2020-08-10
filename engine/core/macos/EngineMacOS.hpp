@@ -5,11 +5,9 @@
 
 #if defined(__OBJC__)
 typedef NSApplication* NSApplicationPtr;
-typedef NSAutoreleasePool* NSAutoreleasePoolPtr;
 #else
 #  include <objc/NSObjCRuntime.h>
 typedef id NSApplicationPtr;
-typedef id NSAutoreleasePoolPtr;
 #endif
 
 #include "../Engine.hpp"
@@ -35,7 +33,6 @@ namespace ouzel::core::macos
         void runOnMainThread(const std::function<void()>& func) final;
 
         NSApplicationPtr application = nil;
-        NSAutoreleasePoolPtr pool = nil;
 
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
