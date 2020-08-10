@@ -10,6 +10,7 @@ namespace ouzel::core::tvos
     class System final: public core::System
     {
     public:
+        System(int argc, char* argv[]);
         ~System() = default;
     };
 }

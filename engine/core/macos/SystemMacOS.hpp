@@ -10,6 +10,7 @@ namespace ouzel::core::macos
     class System final: public core::System
     {
     public:
+        System(int argc, char* argv[]);
         ~System() = default;
     };
 }

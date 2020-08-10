@@ -13,6 +13,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
         int argc;
         std::unique_ptr<LPWSTR, decltype(&LocalFree)> argv(CommandLineToArgvW(GetCommandLineW(), &argc), LocalFree);
 
+        ouzel::core::windows::System system(argc, argv.get());
+
         ouzel::core::windows::Engine engine(argc, argv.get());
         engine.run();
         return EXIT_SUCCESS;

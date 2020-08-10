@@ -9,6 +9,8 @@ int main(int argc, char* argv[])
 {
     try
     {
+        ouzel::core::ios::System system(argc, argv);
+
         ouzel::core::ios::Engine engine(argc, argv);
         engine.run();
         return EXIT_SUCCESS;

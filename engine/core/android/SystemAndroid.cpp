@@ -14,6 +14,7 @@
 
 namespace
 {
+    ouzel::core::android::System system;
     std::unique_ptr<ouzel::core::android::Engine> engine;
 
     const std::unordered_map<jint, ouzel::input::Keyboard::Key> keyMap = {

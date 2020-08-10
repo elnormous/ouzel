@@ -9,6 +9,8 @@ int main(int argc, char* argv[])
 {
     try
     {
+        ouzel::core::macos::System system(argc, argv);
+
         ouzel::core::macos::Engine engine(argc, argv);
         engine.run();
         return EXIT_SUCCESS;
@@ -22,4 +24,7 @@ int main(int argc, char* argv[])
 
 namespace ouzel::core::macos
 {
+    System::System(int argc, char* argv[])
+    {
+    }
 }

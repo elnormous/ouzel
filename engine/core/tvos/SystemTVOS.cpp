@@ -9,6 +9,8 @@ int main(int argc, char* argv[])
 {
     try
     {
+        ouzel::core::tvos::System system(argc, argv);
+
         ouzel::core::tvos::Engine engine(argc, argv);
         engine.run();
         return EXIT_SUCCESS;

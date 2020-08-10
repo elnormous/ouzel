@@ -10,6 +10,7 @@ namespace ouzel::core::windows
     class System final: public core::System
     {
     public:
+        System(int argc, LPWSTR* argv);
         ~System() = default;
     };
 }

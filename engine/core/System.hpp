@@ -32,6 +32,9 @@ namespace ouzel::core
 
         System();
         virtual ~System() = default;
+
+    private:
+        std::vector<std::string> args;
     };
 }
 
