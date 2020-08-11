@@ -990,6 +990,7 @@
 		307934D322C58CFE005A6804 /* Cue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cue.hpp; sourceTree = "<group>"; };
 		307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AutoreleasePool.mm; sourceTree = "<group>"; };
 		307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AutoreleasePool.hpp; sourceTree = "<group>"; };
+		307F4C2C24E3590500994B7A /* OGLError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLError.hpp; sourceTree = "<group>"; };
 		307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceGC.hpp; sourceTree = "<group>"; };
 		307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceGC.mm; sourceTree = "<group>"; };
 		3082B56E24DA04C400489B19 /* DispatchSemaphore.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DispatchSemaphore.hpp; sourceTree = "<group>"; };
@@ -1407,6 +1408,7 @@
 				30381F3A1D80A3EC00677CAB /* OGLBuffer.hpp */,
 				3009030C21922E1300B00BF4 /* OGLDepthStencilState.cpp */,
 				3009030D21922E1300B00BF4 /* OGLDepthStencilState.hpp */,
+				307F4C2C24E3590500994B7A /* OGLError.hpp */,
 				30B9CCA72421D066009E3832 /* OGLProcedureGetter.hpp */,
 				30381F3D1D80A3EC00677CAB /* OGLRenderDevice.cpp */,
 				30381F3E1D80A3EC00677CAB /* OGLRenderDevice.hpp */,

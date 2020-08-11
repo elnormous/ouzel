@@ -910,6 +910,9 @@
     <ClInclude Include="graphics\opengl\OGL.h">
       <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
+    <ClInclude Include="graphics\opengl\OGLError.hpp">
+      <Filter>engine\graphics\opengl</Filter>
+    </ClInclude>
     <ClInclude Include="graphics\BlendFactor.hpp">
       <Filter>engine\graphics</Filter>
     </ClInclude>

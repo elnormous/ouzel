@@ -10,7 +10,6 @@
 
 #include <algorithm>
 #include <cassert>
-#include <stdexcept>
 
 #include "OGL.h"
 
@@ -31,6 +30,7 @@
 #endif
 
 #include "OGLRenderDevice.hpp"
+#include "OGLError.hpp"
 #include "OGLBlendState.hpp"
 #include "OGLBuffer.hpp"
 #include "OGLDepthStencilState.hpp"
@@ -83,7 +83,7 @@ namespace ouzel::graphics::opengl
                 case 1: return GL_UNSIGNED_BYTE;
                 case 2: return GL_UNSIGNED_SHORT;
                 case 4: return GL_UNSIGNED_INT; // Supported on OpenGL and OpenGL ES 3 and above
-                default: throw std::runtime_error("Invalid index size");
+                default: throw Error("Invalid index size");
             }
         }
 
@@ -152,7 +152,7 @@ namespace ouzel::graphics::opengl
                     return GL_FLOAT;
 
                 default:
-                    throw std::runtime_error("Invalid data type");
+                    throw Error("Invalid data type");
             }
         }
 
@@ -219,7 +219,7 @@ namespace ouzel::graphics::opengl
                     return 4 * 4;
 
                 default:
-                    throw std::runtime_error("Invalid data type");
+                    throw Error("Invalid data type");
             }
         }
 
@@ -258,7 +258,7 @@ namespace ouzel::graphics::opengl
                 case DrawMode::lineStrip: return GL_LINE_STRIP;
                 case DrawMode::triangleList: return GL_TRIANGLES;
                 case DrawMode::triangleStrip: return GL_TRIANGLE_STRIP;
-                default: throw std::runtime_error("Invalid draw mode");
+                default: throw Error("Invalid draw mode");
             }
         }
 
@@ -269,7 +269,7 @@ namespace ouzel::graphics::opengl
                 case CullMode::none: return GL_NONE;
                 case CullMode::front: return GL_FRONT;
                 case CullMode::back: return GL_BACK;
-                default: throw std::runtime_error("Invalid cull mode");
+                default: throw Error("Invalid cull mode");
             }
         }
 
@@ -280,7 +280,7 @@ namespace ouzel::graphics::opengl
             {
                 case FillMode::solid: return GL_FILL;
                 case FillMode::wireframe: return GL_LINE;
-                default: throw std::runtime_error("Invalid fill mode");
+                default: throw Error("Invalid fill mode");
             }
         }
 #endif
@@ -687,28 +687,28 @@ namespace ouzel::graphics::opengl
                 glUniform1ivProc(location, 1, static_cast<const GLint*>(data));
                 break;
             case DataType::unsignedInteger32:
-                if (!glUniform1uivProc) throw std::runtime_error("Unsupported uniform size");
+                if (!glUniform1uivProc) throw Error("Unsupported uniform size");
                 glUniform1uivProc(location, 1, static_cast<const GLuint*>(data));
                 break;
             case DataType::integer32Vector2:
                 glUniform2ivProc(location, 1, static_cast<const GLint*>(data));
                 break;
             case DataType::unsignedInteger32Vector2:
-                if (!glUniform2uivProc) throw std::runtime_error("Unsupported uniform size");
+                if (!glUniform2uivProc) throw Error("Unsupported uniform size");
                 glUniform2uivProc(location, 1, static_cast<const GLuint*>(data));
                 break;
             case DataType::integer32Vector3:
                 glUniform3ivProc(location, 1, static_cast<const GLint*>(data));
                 break;
             case DataType::unsignedInteger32Vector3:
-                if (!glUniform3uivProc) throw std::runtime_error("Unsupported uniform size");
+                if (!glUniform3uivProc) throw Error("Unsupported uniform size");
                 glUniform3uivProc(location, 1, static_cast<const GLuint*>(data));
                 break;
             case DataType::integer32Vector4:
                 glUniform4ivProc(location, 1, static_cast<const GLint*>(data));
                 break;
             case DataType::unsignedInteger32Vector4:
-                if (!glUniform4uivProc) throw std::runtime_error("Unsupported uniform size");
+                if (!glUniform4uivProc) throw Error("Unsupported uniform size");
                 glUniform4uivProc(location, 1, static_cast<const GLuint*>(data));
                 break;
             case DataType::float32:
@@ -730,7 +730,7 @@ namespace ouzel::graphics::opengl
                 glUniformMatrix4fvProc(location, 1, GL_FALSE, static_cast<const GLfloat*>(data));
                 break;
             default:
-                throw std::runtime_error("Unsupported uniform size");
+                throw Error("Unsupported uniform size");
         }
     }
 
@@ -1188,13 +1188,13 @@ namespace ouzel::graphics::opengl
                         auto setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
                         if (!currentShader)
-                            throw std::runtime_error("No shader set");
+                            throw Error("No shader set");
 
                         // pixel shader constants
                         const std::vector<Shader::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
                         if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
-                            throw std::runtime_error("Invalid pixel shader constant size");
+                            throw Error("Invalid pixel shader constant size");
 
                         for (std::size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                         {
@@ -1210,7 +1210,7 @@ namespace ouzel::graphics::opengl
                         const std::vector<Shader::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                         if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                            throw std::runtime_error("Invalid vertex shader constant size");
+                            throw Error("Invalid vertex shader constant size");
 
                         for (std::size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
                         {
@@ -1283,7 +1283,7 @@ namespace ouzel::graphics::opengl
                     }
 
                     default:
-                        throw std::runtime_error("Invalid command");
+                        throw Error("Invalid command");
                 }
 
                 if (command->type == Command::Type::present) return;
@@ -1333,7 +1333,7 @@ namespace ouzel::graphics::opengl
         }
 
         if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, pixelSize, data.data(), frameBufferWidth * pixelSize))
-            throw std::runtime_error("Failed to save image to file");
+            throw Error("Failed to save image to file");
     }
 }
 

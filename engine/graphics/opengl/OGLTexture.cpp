@@ -4,8 +4,8 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#include <stdexcept>
 #include "OGLTexture.hpp"
+#include "OGLError.hpp"
 #include "OGLRenderDevice.hpp"
 
 namespace ouzel::graphics::opengl
@@ -51,7 +51,7 @@ namespace ouzel::graphics::opengl
                     case PixelFormat::rgba32Float: return GL_RGBA32F;
                     case PixelFormat::depth: return GL_DEPTH_COMPONENT24;
                     case PixelFormat::depthStencil: return GL_DEPTH24_STENCIL8;
-                    default: throw std::runtime_error("Invalid pixel format");
+                    default: throw Error("Invalid pixel format");
                 }
             }
             else
@@ -62,7 +62,7 @@ namespace ouzel::graphics::opengl
                     case PixelFormat::rgba8UnsignedNorm: return GL_RGBA;
                     case PixelFormat::depth: return GL_DEPTH_COMPONENT24;
                     case PixelFormat::depthStencil: return GL_DEPTH24_STENCIL8;
-                    default: throw std::runtime_error("Invalid pixel format");
+                    default: throw Error("Invalid pixel format");
                 }
             }
 #else
@@ -103,7 +103,7 @@ namespace ouzel::graphics::opengl
                 case PixelFormat::rgba32Float: return GL_RGBA32F;
                 case PixelFormat::depth: return GL_DEPTH_COMPONENT24;
                 case PixelFormat::depthStencil: return GL_DEPTH24_STENCIL8;
-                default: throw std::runtime_error("Invalid pixel format");
+                default: throw Error("Invalid pixel format");
             }
 #endif
         }
@@ -154,7 +154,7 @@ namespace ouzel::graphics::opengl
                 case PixelFormat::depthStencil:
                     return GL_DEPTH_STENCIL;
                 default:
-                    throw std::runtime_error("Invalid pixel format");
+                    throw Error("Invalid pixel format");
             }
         }
 
@@ -201,7 +201,7 @@ namespace ouzel::graphics::opengl
                 case PixelFormat::depthStencil:
                     return GL_UNSIGNED_INT_24_8;
                 default:
-                    throw std::runtime_error("Invalid pixel format");
+                    throw Error("Invalid pixel format");
             }
         }
 
@@ -218,7 +218,7 @@ namespace ouzel::graphics::opengl
                 case SamplerAddressMode::mirrorRepeat:
                     return GL_MIRRORED_REPEAT;
                 default:
-                    throw std::runtime_error("Invalid texture address mode");
+                    throw Error("Invalid texture address mode");
             }
         }
 
@@ -232,7 +232,7 @@ namespace ouzel::graphics::opengl
                 case TextureType::twoDimensional: return GL_TEXTURE_2D;
                 case TextureType::threeDimensional: return GL_TEXTURE_3D;
                 case TextureType::cube: return GL_TEXTURE_CUBE_MAP;
-                default: throw std::runtime_error("Invalid texture type");
+                default: throw Error("Invalid texture type");
             }
         }
 
@@ -247,7 +247,7 @@ namespace ouzel::graphics::opengl
                 case CubeFace::negativeY: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
                 case CubeFace::positiveZ: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
                 case CubeFace::negativeZ: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
-                default: throw std::runtime_error("Invalid cube face");
+                default: throw Error("Invalid cube face");
             }
         }
     }
@@ -274,16 +274,16 @@ namespace ouzel::graphics::opengl
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))
-            throw std::runtime_error("Invalid mip map count");
+            throw Error("Invalid mip map count");
 
         if (internalPixelFormat == GL_NONE)
-            throw std::runtime_error("Invalid pixel format");
+            throw Error("Invalid pixel format");
 
         if (pixelFormat == GL_NONE)
-            throw std::runtime_error("Invalid pixel format");
+            throw Error("Invalid pixel format");
 
         if (pixelType == GL_NONE)
-            throw std::runtime_error("Invalid pixel format");
+            throw Error("Invalid pixel format");
 
         createTexture();
 
@@ -383,12 +383,12 @@ namespace ouzel::graphics::opengl
     {
         if ((flags & Flags::dynamic) != Flags::dynamic ||
             (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
-            throw std::runtime_error("Texture is not dynamic");
+            throw Error("Texture is not dynamic");
 
         levels = newLevels;
 
         if (!textureId)
-            throw std::runtime_error("Texture not initialized");
+            throw Error("Texture not initialized");
 
         renderDevice.bindTexture(textureTarget, 0, textureId);
 
@@ -411,7 +411,7 @@ namespace ouzel::graphics::opengl
         filter = newFilter;
 
         if (!textureId)
-            throw std::runtime_error("Texture not initialized");
+            throw Error("Texture not initialized");
 
         renderDevice.bindTexture(textureTarget, 0, textureId);
 
@@ -434,7 +434,7 @@ namespace ouzel::graphics::opengl
                 renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                 break;
             default:
-                throw std::runtime_error("Invalid texture filter");
+                throw Error("Invalid texture filter");
         }
 
         GLenum error;
@@ -448,7 +448,7 @@ namespace ouzel::graphics::opengl
         addressX = newAddressX;
 
         if (!textureId)
-            throw std::runtime_error("Texture not initialized");
+            throw Error("Texture not initialized");
 
         renderDevice.bindTexture(textureTarget, 0, textureId);
         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_S, getWrapMode(addressX));
@@ -463,7 +463,7 @@ namespace ouzel::graphics::opengl
         addressY = newAddressY;
 
         if (!textureId)
-            throw std::runtime_error("Texture not initialized");
+            throw Error("Texture not initialized");
 
         renderDevice.bindTexture(textureTarget, 0, textureId);
         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_T, getWrapMode(addressY));
@@ -480,7 +480,7 @@ namespace ouzel::graphics::opengl
         if (textureTarget == GL_TEXTURE_3D)
         {
             if (!textureId)
-                throw std::runtime_error("Texture not initialized");
+                throw Error("Texture not initialized");
 
             renderDevice.bindTexture(textureTarget, 0, textureId);
             renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_R, getWrapMode(addressZ));
@@ -496,7 +496,7 @@ namespace ouzel::graphics::opengl
         maxAnisotropy = static_cast<GLint>(newMaxAnisotropy);
 
         if (!textureId)
-            throw std::runtime_error("Texture not initialized");
+            throw Error("Texture not initialized");
 
         renderDevice.bindTexture(textureTarget, 0, textureId);
 
@@ -608,7 +608,7 @@ namespace ouzel::graphics::opengl
                 renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                 break;
             default:
-                throw std::runtime_error("Invalid texture filter");
+                throw Error("Invalid texture filter");
         }
 
         GLenum error;
