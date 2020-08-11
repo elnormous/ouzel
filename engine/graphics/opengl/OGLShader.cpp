@@ -76,6 +76,29 @@ namespace ouzel::graphics::opengl
         return std::string();
     }
 
+    namespace
+    {
+        const GLchar* usageToString(Vertex::Attribute::Usage usage)
+        {
+            switch (usage)
+            {
+                case Vertex::Attribute::Usage::binormal: return "binormal0";
+                case Vertex::Attribute::Usage::blendIndices: return "blendIndices0";
+                case Vertex::Attribute::Usage::blendWeight: return "blendWeight0";
+                case Vertex::Attribute::Usage::color: return "color0";
+                case Vertex::Attribute::Usage::normal: return "normal0";
+                case Vertex::Attribute::Usage::position: return "position0";
+                case Vertex::Attribute::Usage::positionTransformed: return "positionT0";
+                case Vertex::Attribute::Usage::pointSize: return "pointSize0";
+                case Vertex::Attribute::Usage::tangent: return "tangent0";
+                case Vertex::Attribute::Usage::textureCoordinates0: return "texCoord0";
+                case Vertex::Attribute::Usage::textureCoordinates1: return "texCoord1";
+                default:
+                    throw Error("Invalid vertex attribute usage");
+            }
+        }
+    }
+
     void Shader::compileShader()
     {
         fragmentShaderId = renderDevice.glCreateShaderProc(GL_FRAGMENT_SHADER);
@@ -118,48 +141,7 @@ namespace ouzel::graphics::opengl
         for (const auto& vertexAttribute : RenderDevice::VERTEX_ATTRIBUTES)
             if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
             {
-                const GLchar* name;
-
-                switch (vertexAttribute.usage)
-                {
-                    case Vertex::Attribute::Usage::binormal:
-                        name = "binormal0";
-                        break;
-                    case Vertex::Attribute::Usage::blendIndices:
-                        name = "blendIndices0";
-                        break;
-                    case Vertex::Attribute::Usage::blendWeight:
-                        name = "blendWeight0";
-                        break;
-                    case Vertex::Attribute::Usage::color:
-                        name = "color0";
-                        break;
-                    case Vertex::Attribute::Usage::normal:
-                        name = "normal0";
-                        break;
-                    case Vertex::Attribute::Usage::position:
-                        name = "position0";
-                        break;
-                    case Vertex::Attribute::Usage::positionTransformed:
-                        name = "positionT0";
-                        break;
-                    case Vertex::Attribute::Usage::pointSize:
-                        name = "pointSize0";
-                        break;
-                    case Vertex::Attribute::Usage::tangent:
-                        name = "tangent0";
-                        break;
-                    case Vertex::Attribute::Usage::textureCoordinates0:
-                        name = "texCoord0";
-                        break;
-                    case Vertex::Attribute::Usage::textureCoordinates1:
-                        name = "texCoord1";
-                        break;
-                    default:
-                        throw Error("Invalid vertex attribute usage");
-                }
-
-                renderDevice.glBindAttribLocationProc(programId, index, name);
+                renderDevice.glBindAttribLocationProc(programId, index, usageToString(vertexAttribute.usage));
                 ++index;
             }
 
