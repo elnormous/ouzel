@@ -3,6 +3,14 @@
 #ifndef OUZEL_CORE_ENGINETVOS_HPP
 #define OUZEL_CORE_ENGINETVOS_HPP
 
+#if defined(__OBJC__)
+@class ExecuteHandler;
+typedef ExecuteHandler* ExecuteHandlerPtr;
+#else
+#  include <objc/NSObjCRuntime.h>
+typedef id ExecuteHandlerPtr;
+#endif
+
 #include "../Engine.hpp"
 
 namespace ouzel::core::tvos
@@ -27,7 +35,7 @@ namespace ouzel::core::tvos
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
 
-        id executeHanlder = nil;
+        ExecuteHandlerPtr executeHanlder = nil;
     };
 }
 
