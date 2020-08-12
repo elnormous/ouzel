@@ -61,7 +61,7 @@ namespace ouzel::graphics::opengl::android
             throw std::runtime_error("Failed to get display");
 
         if (!eglInitialize(display, nullptr, nullptr))
-            throw std::runtime_error("Failed to initialize EGL");
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to initialize EGL");
 
         const EGLint attributeList[] = {
             EGL_RED_SIZE, 8,
@@ -79,10 +79,10 @@ namespace ouzel::graphics::opengl::android
         EGLConfig config;
         EGLint numConfig;
         if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
-            throw std::runtime_error("Failed to choose EGL config");
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
 
         if (!eglBindAPI(EGL_OPENGL_ES_API))
-            throw std::runtime_error("Failed to bind OpenGL ES API");
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API");
 
         EGLint format;
         if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
@@ -124,10 +124,10 @@ namespace ouzel::graphics::opengl::android
             throw std::runtime_error("Failed to create EGL context");
 
         if (!eglMakeCurrent(display, surface, surface, context))
-            throw std::runtime_error("Failed to set current EGL context");
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set current EGL context");
 
         if (!eglSwapInterval(display, settings.verticalSync ? 1 : 0))
-            throw std::runtime_error("Failed to set EGL frame interval");
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set EGL frame interval");
 
         EGLint surfaceWidth;
         EGLint surfaceHeight;
@@ -139,7 +139,7 @@ namespace ouzel::graphics::opengl::android
         init(surfaceWidth, surfaceHeight);
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            throw std::runtime_error("Failed to unset EGL context");
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
 
         running = true;
         renderThread = Thread(&RenderDevice::renderMain, this);
@@ -192,10 +192,10 @@ namespace ouzel::graphics::opengl::android
         EGLConfig config;
         EGLint numConfig;
         if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
-            throw std::runtime_error("Failed to choose EGL config");
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
 
         if (!eglBindAPI(EGL_OPENGL_ES_API))
-            throw std::runtime_error("Failed to bind OpenGL ES API");
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API");
 
         EGLint format;
         if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
@@ -238,10 +238,10 @@ namespace ouzel::graphics::opengl::android
             throw std::runtime_error("Failed to create EGL context");
 
         if (!eglMakeCurrent(display, surface, surface, context))
-            throw std::runtime_error("Failed to set current EGL context");
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set current EGL context");
 
         if (!eglSwapInterval(display, verticalSync ? 1 : 0))
-            throw std::runtime_error("Failed to set EGL frame interval");
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set EGL frame interval");
 
         EGLint surfaceWidth;
         EGLint surfaceHeight;
@@ -272,7 +272,7 @@ namespace ouzel::graphics::opengl::android
             if (resource) resource->restore();
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            throw std::runtime_error("Failed to unset EGL context");
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
 
         running = true;
         renderThread = Thread(&RenderDevice::renderMain, this);
