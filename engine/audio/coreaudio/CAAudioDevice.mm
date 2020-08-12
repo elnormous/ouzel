@@ -10,6 +10,7 @@
 #endif
 
 #include "CAAudioDevice.hpp"
+#include "CAErrorCategory.hpp"
 #include "../../core/Engine.hpp"
 #include "../../utils/Log.hpp"
 
@@ -52,30 +53,6 @@ namespace ouzel::audio::coreaudio
 {
     namespace
     {
-        class ErrorCategory final: public std::error_category
-        {
-        public:
-            const char* name() const noexcept final
-            {
-                return "CoreAudio";
-            }
-
-            std::string message(int condition) const final
-            {
-                switch (condition)
-                {
-                    case kAudio_UnimplementedError: return "kAudio_UnimplementedError";
-                    case kAudio_FileNotFoundError: return "kAudio_FileNotFoundError";
-                    case kAudio_FilePermissionError: return "kAudio_FilePermissionError";
-                    case kAudio_TooManyFilesOpenError: return "kAudio_TooManyFilesOpenError";
-                    case kAudio_BadFilePathError: return "kAudio_BadFilePathError";
-                    case kAudio_ParamError: return "kAudio_ParamError";
-                    case kAudio_MemFullError: return "kAudio_MemFullError";
-                    default: return "Unknown error (" + std::to_string(condition) + ")";
-                }
-            }
-        };
-
         const ErrorCategory errorCategory {};
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV

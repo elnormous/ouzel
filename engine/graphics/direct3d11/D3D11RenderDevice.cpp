@@ -9,6 +9,7 @@
 #include "D3D11BlendState.hpp"
 #include "D3D11Buffer.hpp"
 #include "D3D11DepthStencilState.hpp"
+#include "D3D11ErrorCategory.hpp"
 #include "D3D11RenderTarget.hpp"
 #include "D3D11Shader.hpp"
 #include "D3D11Texture.hpp"
@@ -22,34 +23,6 @@ namespace ouzel::graphics::d3d11
 {
     namespace
     {
-        class ErrorCategory final: public std::error_category
-        {
-        public:
-            const char* name() const noexcept final
-            {
-                return "Direct3D11";
-            }
-
-            std::string message(int condition) const final
-            {
-                switch (condition)
-                {
-                    case D3D11_ERROR_FILE_NOT_FOUND: return "D3D11_ERROR_FILE_NOT_FOUND";
-                    case D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS: return "D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS";
-                    case D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS: return "D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS";
-                    case D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD: return "D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD";
-                    case DXGI_ERROR_INVALID_CALL: return "DXGI_ERROR_INVALID_CALL";
-                    case DXGI_ERROR_WAS_STILL_DRAWING: return "DXGI_ERROR_WAS_STILL_DRAWING";
-                    case DXGI_ERROR_NOT_CURRENTLY_AVAILABLE: return "DXGI_ERROR_NOT_CURRENTLY_AVAILABLE";
-                    case E_FAIL: return "E_FAIL";
-                    case E_INVALIDARG: return "E_INVALIDARG";
-                    case E_OUTOFMEMORY: return "E_OUTOFMEMORY";
-                    case E_NOTIMPL: return "E_NOTIMPL";
-                    default: return "Unknown error (" + std::to_string(condition) + ")";
-                }
-            }
-        };
-
         const ErrorCategory errorCategory {};
 
         constexpr DXGI_FORMAT getIndexFormat(std::uint32_t indexSize)

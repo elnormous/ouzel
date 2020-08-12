@@ -298,6 +298,9 @@
     <ClCompile Include="graphics\direct3d11\D3D11DepthStencilState.cpp">
       <Filter>engine\graphics\direct3d11</Filter>
     </ClCompile>
+    <ClCompile Include="graphics\direct3d11\D3D11ErrorCategory.cpp">
+      <Filter>engine\graphics\direct3d11</Filter>
+    </ClCompile>
     <ClCompile Include="audio\Containers.cpp">
       <Filter>engine\audio</Filter>
     </ClCompile>
@@ -911,6 +914,9 @@
       <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="graphics\opengl\OGLError.hpp">
+      <Filter>engine\graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\opengl\OGLErrorCategory.hpp">
       <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="graphics\BlendFactor.hpp">

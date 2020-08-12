@@ -997,6 +997,9 @@
 		3082C3461D94A8D90090FC9D /* PixelFormat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
 		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		3085DA1F211A4A5500F4C2D0 /* Socket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Socket.hpp; sourceTree = "<group>"; };
+		30861B1524E4AF27007E48E4 /* CAErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CAErrorCategory.hpp; sourceTree = "<group>"; };
+		30861B1624E4AF83007E48E4 /* OALErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OALErrorCategory.hpp; sourceTree = "<group>"; };
+		30861B1724E4B029007E48E4 /* OGLErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLErrorCategory.hpp; sourceTree = "<group>"; };
 		30898FE122EFA380001C13F2 /* CueLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CueLoader.cpp; sourceTree = "<group>"; };
 		30898FE222EFA380001C13F2 /* CueLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CueLoader.hpp; sourceTree = "<group>"; };
 		3089C32224586F93004CDF16 /* CfPointer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CfPointer.hpp; sourceTree = "<group>"; };
@@ -1409,6 +1412,7 @@
 				3009030C21922E1300B00BF4 /* OGLDepthStencilState.cpp */,
 				3009030D21922E1300B00BF4 /* OGLDepthStencilState.hpp */,
 				307F4C2C24E3590500994B7A /* OGLError.hpp */,
+				30861B1724E4B029007E48E4 /* OGLErrorCategory.hpp */,
 				30B9CCA72421D066009E3832 /* OGLProcedureGetter.hpp */,
 				30381F3D1D80A3EC00677CAB /* OGLRenderDevice.cpp */,
 				30381F3E1D80A3EC00677CAB /* OGLRenderDevice.hpp */,
@@ -1565,6 +1569,7 @@
 			children = (
 				30381FAF1D80A3F900677CAB /* OALAudioDevice.cpp */,
 				30381FB01D80A3F900677CAB /* OALAudioDevice.hpp */,
+				30861B1624E4AF83007E48E4 /* OALErrorCategory.hpp */,
 			);
 			path = openal;
 			sourceTree = "<group>";
@@ -1759,6 +1764,7 @@
 			children = (
 				309BA3121F183D6E006F2240 /* CAAudioDevice.hpp */,
 				309BA3111F183D6E006F2240 /* CAAudioDevice.mm */,
+				30861B1524E4AF27007E48E4 /* CAErrorCategory.hpp */,
 			);
 			path = coreaudio;
 			sourceTree = "<group>";

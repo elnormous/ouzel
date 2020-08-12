@@ -242,6 +242,7 @@
     <ClInclude Include="graphics\direct3d11\D3D11BlendState.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11Buffer.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11DepthStencilState.hpp" />
+    <ClInclude Include="graphics\direct3d11\D3D11ErrorCategory.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11RenderDevice.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11RenderResource.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11RenderTarget.hpp" />
@@ -259,6 +260,7 @@
     <ClInclude Include="graphics\opengl\OGLBuffer.hpp" />
     <ClInclude Include="graphics\opengl\OGLDepthStencilState.hpp" />
     <ClInclude Include="graphics\opengl\OGLError.hpp" />
+    <ClInclude Include="graphics\opengl\OGLErrorCategory.hpp" />
     <ClInclude Include="graphics\opengl\OGLProcedureGetter.hpp" />
     <ClInclude Include="graphics\opengl\OGLRenderDevice.hpp" />
     <ClInclude Include="graphics\opengl\OGLRenderResource.hpp" />

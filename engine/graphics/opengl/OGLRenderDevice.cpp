@@ -34,6 +34,7 @@
 #include "OGLBlendState.hpp"
 #include "OGLBuffer.hpp"
 #include "OGLDepthStencilState.hpp"
+#include "OGLErrorCategory.hpp"
 #include "OGLProcedureGetter.hpp"
 #include "OGLRenderTarget.hpp"
 #include "OGLShader.hpp"
@@ -47,33 +48,6 @@ namespace ouzel::graphics::opengl
 {
     namespace
     {
-        class ErrorCategory final: public std::error_category
-        {
-        public:
-            const char* name() const noexcept final
-            {
-                return "OpenGL";
-            }
-
-            std::string message(int condition) const final
-            {
-                switch (condition)
-                {
-                    case GL_INVALID_ENUM: return "GL_INVALID_ENUM";
-                    case GL_INVALID_VALUE: return "GL_INVALID_VALUE";
-                    case GL_INVALID_OPERATION: return "GL_INVALID_OPERATION";
-                    case GL_STACK_OVERFLOW: return "GL_STACK_OVERFLOW";
-                    case GL_STACK_UNDERFLOW: return "GL_STACK_UNDERFLOW";
-                    case GL_OUT_OF_MEMORY: return "GL_OUT_OF_MEMORY";
-                    case GL_INVALID_FRAMEBUFFER_OPERATION: return "GL_INVALID_FRAMEBUFFER_OPERATION";
-#if !OUZEL_OPENGLES
-                    case GL_CONTEXT_LOST: return "GL_CONTEXT_LOST";
-#endif
-                    default: return "Unknown error (" + std::to_string(condition) + ")";
-                }
-            }
-        };
-
         const ErrorCategory errorCategory {};
 
         constexpr GLenum getIndexType(std::uint32_t indexSize)
