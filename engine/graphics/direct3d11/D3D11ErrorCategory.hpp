@@ -7,8 +7,7 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
-#include <stdexcept>
-
+#include <system_error>
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("NOMINMAX")
 #ifndef WIN32_LEAN_AND_MEAN

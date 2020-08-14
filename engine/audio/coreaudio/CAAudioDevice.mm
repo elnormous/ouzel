@@ -53,7 +53,7 @@ namespace ouzel::audio::coreaudio
 {
     namespace
     {
-        const ErrorCategory errorCategory {};
+        const ErrorCategory errorCategory{};
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
         OSStatus deviceListChanged(AudioObjectID, UInt32, const AudioObjectPropertyAddress*, void*)

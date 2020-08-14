@@ -166,6 +166,7 @@
     <ClInclude Include="audio\Cue.hpp" />
     <ClInclude Include="audio\Driver.hpp" />
     <ClInclude Include="audio\dsound\DSAudioDevice.hpp" />
+    <ClInclude Include="audio\dsound\DSErrorCategory.hpp" />
     <ClInclude Include="audio\dsound\DSPointer.hpp" />
     <ClInclude Include="audio\empty\EmptyAudioDevice.hpp" />
     <ClInclude Include="audio\Containers.hpp" />

@@ -48,7 +48,7 @@ namespace ouzel::graphics::opengl
 {
     namespace
     {
-        const ErrorCategory errorCategory {};
+        const ErrorCategory errorCategory{};
 
         constexpr GLenum getIndexType(std::uint32_t indexSize)
         {

@@ -114,7 +114,7 @@ namespace ouzel::input::macos
             }
         };
 
-        const ErrorCategory errorCategory {};
+        const ErrorCategory errorCategory{};
 
         void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
         {

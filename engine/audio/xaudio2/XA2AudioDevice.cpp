@@ -40,7 +40,7 @@ namespace ouzel::audio::xaudio2
             }
         };
 
-        const ErrorCategory errorCategory {};
+        const ErrorCategory errorCategory{};
     }
 
     AudioDevice::AudioDevice(const Settings& settings,

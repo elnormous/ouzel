@@ -7,8 +7,7 @@
 
 #if OUZEL_COMPILE_OPENGL
 
-#include <stdexcept>
-
+#include <system_error>
 #if OUZEL_OPENGLES
 #  include "GLES3/gl32.h"
 #else

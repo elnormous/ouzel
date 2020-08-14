@@ -23,7 +23,7 @@ namespace ouzel::graphics::d3d11
 {
     namespace
     {
-        const ErrorCategory errorCategory {};
+        const ErrorCategory errorCategory{};
 
         constexpr DXGI_FORMAT getIndexFormat(std::uint32_t indexSize)
         {

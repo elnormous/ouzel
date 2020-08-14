@@ -32,7 +32,7 @@ namespace ouzel::core::android
             }
         };
 
-        const ErrorCategory errorCategory {};
+        const ErrorCategory errorCategory{};
 
         int looperCallback(int fd, int events, void* data)
         {

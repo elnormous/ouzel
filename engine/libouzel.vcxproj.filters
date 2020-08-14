@@ -370,6 +370,9 @@
     <ClInclude Include="audio\dsound\DSAudioDevice.hpp">
       <Filter>engine\audio\directsound</Filter>
     </ClInclude>
+    <ClInclude Include="audio\dsound\DSErrorCategory.hpp">
+      <Filter>engine\audio\directsound</Filter>
+    </ClInclude>
     <ClInclude Include="audio\empty\EmptyAudioDevice.hpp">
       <Filter>engine\audio\empty</Filter>
     </ClInclude>

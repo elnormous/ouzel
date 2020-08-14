@@ -74,7 +74,7 @@ namespace ouzel::input::windows
             }
         };
 
-        const ErrorCategory errorCategory {};
+        const ErrorCategory errorCategory{};
 
         BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
         {
