@@ -3,7 +3,12 @@
 #ifndef OUZEL_AUDIO_CAERRORCATEGORY_HPP
 #define OUZEL_AUDIO_CAERRORCATEGORY_HPP
 
+#include "../../core/Setup.h"
+
+#if OUZEL_COMPILE_COREAUDIO
+
 #include <stdexcept>
+#include <AudioUnit/AudioUnit.h>
 
 namespace ouzel::audio::coreaudio
 {
@@ -31,5 +36,6 @@ namespace ouzel::audio::coreaudio
         }
     };
 }
+#endif
 
 #endif // OUZEL_AUDIO_CAERRORCATEGORY_HPP

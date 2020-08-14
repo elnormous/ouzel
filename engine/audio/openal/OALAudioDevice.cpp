@@ -15,6 +15,7 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 
 #include "OALAudioDevice.hpp"
 #include "OALErrorCategory.hpp"
+#include "ALCErrorCategory.hpp"
 #include "../../core/Engine.hpp"
 #include "../../utils/Log.hpp"
 
@@ -30,31 +31,8 @@ namespace ouzel::audio::openal
 {
     namespace
     {
-        const OpenALErrorCategory openALErrorCategory{};
-
-        class ALCErrorCategory final: public std::error_category
-        {
-        public:
-            const char* name() const noexcept final
-            {
-                return "ALC";
-            }
-
-            std::string message(int condition) const final
-            {
-                switch (condition)
-                {
-                    case ALC_INVALID_DEVICE: return "ALC_INVALID_DEVICE";
-                    case ALC_INVALID_CONTEXT: return "ALC_INVALID_CONTEXT";
-                    case ALC_INVALID_ENUM: return "ALC_INVALID_ENUM";
-                    case ALC_INVALID_VALUE: return "ALC_INVALID_VALUE";
-                    case ALC_OUT_OF_MEMORY: return "ALC_OUT_OF_MEMORY";
-                    default: return "Unknown error (" + std::to_string(condition) + ")";
-                }
-            }
-        };
-
-        const ALCErrorCategory alcErrorCategory {};
+        const ErrorCategory openALErrorCategory{};
+        const alc::ErrorCategory alcErrorCategory{};
     }
 
     AudioDevice::AudioDevice(const Settings& settings,

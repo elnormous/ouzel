@@ -9,6 +9,18 @@
 
 #include <stdexcept>
 
+#pragma push_macro("WIN32_LEAN_AND_MEAN")
+#pragma push_macro("NOMINMAX")
+#ifndef WIN32_LEAN_AND_MEAN
+#  define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
+#include <d3d11.h>
+#pragma pop_macro("WIN32_LEAN_AND_MEAN")
+#pragma pop_macro("NOMINMAX")
+
 namespace ouzel::graphics::d3d11
 {
     class ErrorCategory final: public std::error_category

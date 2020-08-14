@@ -3,11 +3,21 @@
 #ifndef OUZEL_AUDIO_OALERRORCATEGORY_HPP
 #define OUZEL_AUDIO_OALERRORCATEGORY_HPP
 
+#include "../../core/Setup.h"
+
+#if OUZEL_COMPILE_OPENAL
+
 #include <stdexcept>
+
+#if defined(__APPLE__)
+#  include <OpenAl/al.h>
+#else
+#  include <AL/al.h>
+#endif
 
 namespace ouzel::audio::openal
 {
-    class OpenALErrorCategory final: public std::error_category
+    class ErrorCategory final: public std::error_category
     {
     public:
         const char* name() const noexcept final
@@ -29,5 +39,6 @@ namespace ouzel::audio::openal
         }
     };
 }
+#endif
 
 #endif // OUZEL_AUDIO_OALERRORCATEGORY_HPP

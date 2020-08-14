@@ -9,6 +9,12 @@
 
 #include <stdexcept>
 
+#if OUZEL_OPENGLES
+#  include "GLES3/gl32.h"
+#else
+#  include "GL/glcorearb.h"
+#endif
+
 namespace ouzel::graphics::opengl
 {
     class ErrorCategory final: public std::error_category
@@ -30,9 +36,7 @@ namespace ouzel::graphics::opengl
                 case GL_STACK_UNDERFLOW: return "GL_STACK_UNDERFLOW";
                 case GL_OUT_OF_MEMORY: return "GL_OUT_OF_MEMORY";
                 case GL_INVALID_FRAMEBUFFER_OPERATION: return "GL_INVALID_FRAMEBUFFER_OPERATION";
-#if !OUZEL_OPENGLES
                 case GL_CONTEXT_LOST: return "GL_CONTEXT_LOST";
-#endif
                 default: return "Unknown error (" + std::to_string(condition) + ")";
             }
         }

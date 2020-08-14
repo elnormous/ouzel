@@ -551,6 +551,9 @@
 		3085DA23211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
 		3085DA24211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
 		3085DA25211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
+		30861B1924E629F4007E48E4 /* ALCErrorCategory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30861B1824E629F4007E48E4 /* ALCErrorCategory.hpp */; };
+		30861B1A24E629F4007E48E4 /* ALCErrorCategory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30861B1824E629F4007E48E4 /* ALCErrorCategory.hpp */; };
+		30861B1B24E629F4007E48E4 /* ALCErrorCategory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30861B1824E629F4007E48E4 /* ALCErrorCategory.hpp */; };
 		30898FE322EFA380001C13F2 /* CueLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30898FE122EFA380001C13F2 /* CueLoader.cpp */; };
 		30898FE422EFA380001C13F2 /* CueLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30898FE122EFA380001C13F2 /* CueLoader.cpp */; };
 		30898FE522EFA380001C13F2 /* CueLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30898FE122EFA380001C13F2 /* CueLoader.cpp */; };
@@ -1000,6 +1003,7 @@
 		30861B1524E4AF27007E48E4 /* CAErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CAErrorCategory.hpp; sourceTree = "<group>"; };
 		30861B1624E4AF83007E48E4 /* OALErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OALErrorCategory.hpp; sourceTree = "<group>"; };
 		30861B1724E4B029007E48E4 /* OGLErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLErrorCategory.hpp; sourceTree = "<group>"; };
+		30861B1824E629F4007E48E4 /* ALCErrorCategory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ALCErrorCategory.hpp; sourceTree = "<group>"; };
 		30898FE122EFA380001C13F2 /* CueLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CueLoader.cpp; sourceTree = "<group>"; };
 		30898FE222EFA380001C13F2 /* CueLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CueLoader.hpp; sourceTree = "<group>"; };
 		3089C32224586F93004CDF16 /* CfPointer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CfPointer.hpp; sourceTree = "<group>"; };
@@ -1567,6 +1571,7 @@
 		30419E6C1D20254100A63759 /* openal */ = {
 			isa = PBXGroup;
 			children = (
+				30861B1824E629F4007E48E4 /* ALCErrorCategory.hpp */,
 				30381FAF1D80A3F900677CAB /* OALAudioDevice.cpp */,
 				30381FB01D80A3F900677CAB /* OALAudioDevice.hpp */,
 				30861B1624E4AF83007E48E4 /* OALErrorCategory.hpp */,
@@ -1902,6 +1907,7 @@
 				3049DCDD1EDCD0450000997A /* Cursor.hpp in Headers */,
 				300862D72154720C00D8CC45 /* InputSystemIOS.hpp in Headers */,
 				30575AC91C3B17540009C8A7 /* Widgets.hpp in Headers */,
+				30861B1924E629F4007E48E4 /* ALCErrorCategory.hpp in Headers */,
 				30FF4D4F21C48DB600153FFF /* Effects.hpp in Headers */,
 				303B75391C2A3C8200FEDE92 /* Engine.hpp in Headers */,
 				303B75661C2A3CBF00FEDE92 /* SceneManager.hpp in Headers */,
@@ -2022,6 +2028,7 @@
 				303B76611C355A3B00FEDE92 /* Utils.hpp in Headers */,
 				30381FFF1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */,
 				30898FE822EFA380001C13F2 /* CueLoader.hpp in Headers */,
+				30861B1B24E629F4007E48E4 /* ALCErrorCategory.hpp in Headers */,
 				30EEADD6216ECEFE00D2F525 /* GamepadConfig.hpp in Headers */,
 				303B76631C355A3B00FEDE92 /* Engine.hpp in Headers */,
 				3038216E1D81876E00677CAB /* EmptyAudioDevice.hpp in Headers */,
@@ -2148,6 +2155,7 @@
 				30519CCC1F9B53C100AF3DC4 /* TtfLoader.hpp in Headers */,
 				30B859981F3D2F3200A16952 /* Font.hpp in Headers */,
 				305B99941C41F06F008589E1 /* Widget.hpp in Headers */,
+				30861B1A24E629F4007E48E4 /* ALCErrorCategory.hpp in Headers */,
 				305B68D71ED1B31D003352A2 /* Timer.hpp in Headers */,
 				30C3F295219D0DD9003FE9ED /* Object.hpp in Headers */,
 				303B04BD1E207B6D00011CBE /* OGLRenderDeviceMacOS.hpp in Headers */,
