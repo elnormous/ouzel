@@ -260,9 +260,9 @@ namespace ouzel::graphics::opengl
 #endif
     }
 
-    std::error_code makeErrorCode(GLenum e)
+    const std::error_category& getErrorCategory() noexcept
     {
-        return std::error_code(static_cast<int>(e), errorCategory);
+        return errorCategory;
     }
 
     RenderDevice::RenderDevice(const Settings& settings,

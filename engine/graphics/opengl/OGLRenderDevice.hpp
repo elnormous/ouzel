@@ -36,7 +36,11 @@
 
 namespace ouzel::graphics::opengl
 {
-    std::error_code makeErrorCode(GLenum e);
+    const std::error_category& getErrorCategory() noexcept;
+    inline std::error_code makeErrorCode(GLenum e)
+    {
+        return std::error_code(static_cast<int>(e), getErrorCategory());
+    }
 
     class RenderDevice: public graphics::RenderDevice
     {
