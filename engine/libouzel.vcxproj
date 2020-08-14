@@ -198,7 +198,9 @@
     <ClInclude Include="audio\Mix.hpp" />
     <ClInclude Include="audio\Submix.hpp" />
     <ClInclude Include="audio\wasapi\WASAPIAudioDevice.hpp" />
+    <ClInclude Include="audio\wasapi\WASAPIErrorCategory.hpp" />
     <ClInclude Include="audio\xaudio2\XA2AudioDevice.hpp" />
+    <ClInclude Include="audio\xaudio2\XA2ErrorCategory.hpp" />
     <ClInclude Include="audio\xaudio2\XAudio27.hpp" />
     <ClInclude Include="assets\Cache.hpp" />
     <ClInclude Include="assets\Loader.hpp" />

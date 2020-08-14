@@ -6,6 +6,7 @@
 
 #include <system_error>
 #include "XA2AudioDevice.hpp"
+#include "XA2ErrorCategory.hpp"
 #include "XAudio27.hpp"
 #include "../../core/Engine.hpp"
 #include "../../utils/Log.hpp"
@@ -19,27 +20,6 @@ namespace ouzel::audio::xaudio2
 {
     namespace
     {
-        class ErrorCategory final: public std::error_category
-        {
-        public:
-            const char* name() const noexcept final
-            {
-                return "XAudio2";
-            }
-
-            std::string message(int condition) const final
-            {
-                switch (condition)
-                {
-                    case XAUDIO2_E_INVALID_CALL: return "XAUDIO2_E_INVALID_CALL";
-                    case XAUDIO2_E_XMA_DECODER_ERROR: return "XAUDIO2_E_XMA_DECODER_ERROR";
-                    case XAUDIO2_E_XAPO_CREATION_FAILED: return "XAUDIO2_E_XAPO_CREATION_FAILED";
-                    case XAUDIO2_E_DEVICE_INVALIDATED: return "XAUDIO2_E_DEVICE_INVALIDATED";
-                    default: return "Unknown error (" + std::to_string(condition) + ")";
-                }
-            }
-        };
-
         const ErrorCategory errorCategory{};
     }
 

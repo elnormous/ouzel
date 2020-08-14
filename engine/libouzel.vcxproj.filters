@@ -379,6 +379,9 @@
     <ClInclude Include="audio\xaudio2\XA2AudioDevice.hpp">
       <Filter>engine\audio\xaudio2</Filter>
     </ClInclude>
+    <ClInclude Include="audio\xaudio2\XA2ErrorCategory.hpp">
+      <Filter>engine\audio\xaudio2</Filter>
+    </ClInclude>
     <ClInclude Include="graphics\BlendState.hpp">
       <Filter>engine\graphics</Filter>
     </ClInclude>
@@ -869,6 +872,9 @@
       <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="audio\wasapi\WASAPIAudioDevice.hpp">
+      <Filter>engine\audio\wasapi</Filter>
+    </ClInclude>
+    <ClInclude Include="audio\wasapi\WASAPIErrorCategory.hpp">
       <Filter>engine\audio\wasapi</Filter>
     </ClInclude>
     <ClInclude Include="audio\mixer\Object.hpp">
