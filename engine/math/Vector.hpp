@@ -188,6 +188,12 @@ namespace ouzel
             return *this * multiplier;
         }
 
+        void scale(T scalar) noexcept
+        {
+            for (std::size_t i = 0; i < N; ++i)
+                v[i] *= scalar;
+        }
+
         void scale(const Vector& scale) noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
