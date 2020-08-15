@@ -194,6 +194,39 @@ namespace ouzel
                 v[i] *= scale.v[i];
         }
 
+        template <std::size_t X = N, std::enable_if_t<(X == 2)>* = nullptr>
+        void rotate(T angle) noexcept
+        {
+            const auto sinAngle = std::sin(angle);
+            const auto cosAngle = std::cos(angle);
+
+            const auto tempX = v[0] * cosAngle - v[1] * sinAngle;
+            v[1] = v[1] * cosAngle + v[0] * sinAngle;
+            v[0] = tempX;
+        }
+
+        template <std::size_t X = N, std::enable_if_t<(X == 2)>* = nullptr>
+        void rotate(const Vector<2, T>& point, T angle) noexcept
+        {
+            const float sinAngle = std::sin(angle);
+            const float cosAngle = std::cos(angle);
+
+            if (point.isZero())
+            {
+                const auto tempX = v[0] * cosAngle - v[1] * sinAngle;
+                v[1] = v[1] * cosAngle + v[0] * sinAngle;
+                v[0] = tempX;
+            }
+            else
+            {
+                const auto tempX = v[0] - point.v[0];
+                const auto tempY = v[1] - point.v[1];
+
+                v[0] = tempX * cosAngle - tempY * sinAngle + point.v[0];
+                v[1] = tempY * cosAngle + tempX * sinAngle + point.v[1];
+            }
+        }
+
         void smooth(const Vector& target, const T elapsedTime, const T responseTime) noexcept
         {
             if (elapsedTime > T(0))
