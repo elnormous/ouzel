@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <android/window.h>
 #include "EngineAndroid.hpp"
+#include "JNIErrorCategory.hpp"
 #include "NativeWindowAndroid.hpp"
 #include "../../events/EventDispatcher.hpp"
 #include "../../graphics/opengl/android/OGLRenderDeviceAndroid.hpp"
@@ -12,26 +13,6 @@ namespace ouzel::core::android
 {
     namespace
     {
-        class ErrorCategory final: public std::error_category
-        {
-        public:
-            const char* name() const noexcept final
-            {
-                return "JNI";
-            }
-
-            std::string message(int condition) const final
-            {
-                switch (condition)
-                {
-                    case JNI_ERR: return "JNI_ERR";
-                    case JNI_EDETACHED: return "JNI_EDETACHED";
-                    case JNI_EVERSION: return "JNI_EVERSION";
-                    default: return "Unknown error (" + std::to_string(condition) + ")";
-                }
-            }
-        };
-
         const ErrorCategory errorCategory{};
 
         int looperCallback(int fd, int events, void* data)
