@@ -490,6 +490,9 @@
     <ClInclude Include="utils\Log.hpp">
       <Filter>engine\utils</Filter>
     </ClInclude>
+    <ClInclude Include="input\windows\DIErrorCategory.hpp">
+      <Filter>engine\input\windows</Filter>
+    </ClInclude>
     <ClInclude Include="input\windows\GamepadDeviceDI.hpp">
       <Filter>engine\input\windows</Filter>
     </ClInclude>

@@ -307,6 +307,7 @@
     <ClInclude Include="input\windows\GamepadDeviceWin.hpp" />
     <ClInclude Include="input\windows\InputSystemWin.hpp" />
     <ClInclude Include="input\windows\CursorWin.hpp" />
+    <ClInclude Include="input\windows\DIErrorCategory.hpp" />
     <ClInclude Include="input\windows\GamepadDeviceDI.hpp" />
     <ClInclude Include="input\windows\GamepadDeviceXI.hpp" />
     <ClInclude Include="input\windows\KeyboardDeviceWin.hpp" />
