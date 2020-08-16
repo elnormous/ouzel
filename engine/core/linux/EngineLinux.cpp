@@ -15,6 +15,7 @@
 #endif
 #include "EngineLinux.hpp"
 #include "NativeWindowLinux.hpp"
+#include "X11ErrorCategory.hpp"
 #include "../../events/Event.hpp"
 #include "../../graphics/RenderDevice.hpp"
 #include "../../input/linux/InputSystemLinux.hpp"
@@ -260,6 +261,8 @@ namespace ouzel::core::linux
 {
     namespace
     {
+        ErrorCategory errorCategory;
+
         std::vector<std::string> parseArgs(int argc, char* argv[])
         {
             std::vector<std::string> result;
@@ -269,12 +272,17 @@ namespace ouzel::core::linux
         }
     }
 
-    ErrorCategory errorCategory;
+#if OUZEL_SUPPORTS_X11
+    const std::error_category& getErrorCategory() noexcept
+    {
+        return errorCategory;
+    }
 
     int getLastError()
     {
         return error;
     }
+#endif
 
     Engine::Engine(int argc, char* argv[]):
         core::Engine(parseArgs(argc, argv))
