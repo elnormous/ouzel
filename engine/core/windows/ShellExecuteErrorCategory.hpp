@@ -1,0 +1,53 @@
+// Copyright 2015-2020 Elviss Strazdins. All rights reserved.
+
+#ifndef OUZEL_CORE_SHELLEXECUTEERRORCATEGORY_HPP
+#define OUZEL_CORE_SHELLEXECUTEERRORCATEGORY_HPP
+
+#include <system_error>
+
+#pragma push_macro("WIN32_LEAN_AND_MEAN")
+#pragma push_macro("NOMINMAX")
+#ifndef WIN32_LEAN_AND_MEAN
+#  define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
+#include <shellapi.h>
+#pragma pop_macro("WIN32_LEAN_AND_MEAN")
+#pragma pop_macro("NOMINMAX")
+
+namespace ouzel::core::windows
+{
+    class ShellExecuteErrorCategory final: public std::error_category
+    {
+    public:
+        const char* name() const noexcept final
+        {
+            return "ShellExecute";
+        }
+
+        std::string message(int condition) const final
+        {
+            switch (condition)
+            {
+                case 0: return "Out of memory";
+                case ERROR_FILE_NOT_FOUND: return "ERROR_FILE_NOT_FOUND";
+                case ERROR_PATH_NOT_FOUND: return "ERROR_PATH_NOT_FOUND";
+                case ERROR_BAD_FORMAT: return "ERROR_BAD_FORMAT";
+                case SE_ERR_ACCESSDENIED: return "SE_ERR_ACCESSDENIED";
+                case SE_ERR_ASSOCINCOMPLETE: return "SE_ERR_ASSOCINCOMPLETE";
+                case SE_ERR_DDEBUSY: return "SE_ERR_DDEBUSY";
+                case SE_ERR_DDEFAIL: return "SE_ERR_DDEFAIL";
+                case SE_ERR_DDETIMEOUT: return "SE_ERR_DDETIMEOUT";
+                case SE_ERR_DLLNOTFOUND: return "SE_ERR_DLLNOTFOUND";
+                case SE_ERR_NOASSOC: return "SE_ERR_NOASSOC";
+                case SE_ERR_OOM: return "SE_ERR_OOM";
+                case SE_ERR_SHARE: return "SE_ERR_SHARE";
+                default: return "Unknown error (" + std::to_string(condition) + ")";
+            }
+        }
+    };
+}
+
+#endif // OUZEL_CORE_SHELLEXECUTEERRORCATEGORY_HPP

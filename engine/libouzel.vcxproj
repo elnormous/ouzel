@@ -61,9 +61,9 @@
     </ClCompile>
     <ClCompile Include="assets\Cache.cpp" />
     <ClCompile Include="core\Engine.cpp" />
+    <ClCompile Include="core\NativeWindow.cpp" />
     <ClCompile Include="core\System.cpp" />
     <ClCompile Include="core\Window.cpp" />
-    <ClCompile Include="core\NativeWindow.cpp" />
     <ClCompile Include="core\windows\EngineWin.cpp" />
     <ClCompile Include="core\windows\NativeWindowWin.cpp" />
     <ClCompile Include="core\windows\SystemWin.cpp" />
@@ -208,13 +208,14 @@
     <ClInclude Include="core\Setup.h" />
     <ClInclude Include="core\Application.hpp" />
     <ClInclude Include="core\Engine.hpp" />
+    <ClInclude Include="core\NativeWindow.hpp" />
     <ClInclude Include="core\System.hpp" />
     <ClInclude Include="core\Timer.hpp" />
     <ClInclude Include="core\Window.hpp" />
-    <ClInclude Include="core\NativeWindow.hpp" />
     <ClInclude Include="core\windows\EngineWin.hpp" />
     <ClInclude Include="core\windows\Library.hpp" />
     <ClInclude Include="core\windows\NativeWindowWin.hpp" />
+    <ClInclude Include="core\windows\ShellExecuteErrorCategory.hpp" />
     <ClInclude Include="core\windows\SystemWin.hpp" />
     <ClInclude Include="DefaultConfig.h" />
     <ClInclude Include="events\Event.hpp" />

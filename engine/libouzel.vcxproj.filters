@@ -520,6 +520,9 @@
     <ClInclude Include="core\windows\NativeWindowWin.hpp">
       <Filter>engine\core\windows</Filter>
     </ClInclude>
+    <ClInclude Include="core\windows\ShellExecuteErrorCategory.hpp">
+      <Filter>engine\core\windows</Filter>
+    </ClInclude>
     <ClInclude Include="math\MathUtils.hpp">
       <Filter>engine\math</Filter>
     </ClInclude>
