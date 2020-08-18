@@ -48,7 +48,9 @@ namespace ouzel::graphics::opengl::ios
                                         [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
         eaglLayer.contentsScale = window.getNativeWindow()->getContentScale();
 
-        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+        shareGroup = [[EAGLSharegroup alloc] init];
+
+        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:shareGroup];
 
         if (context)
         {
@@ -57,7 +59,7 @@ namespace ouzel::graphics::opengl::ios
         }
         else
         {
-            context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+            context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:shareGroup];
 
             if (!context)
                 throw std::runtime_error("Failed to create EAGL context");
@@ -95,6 +97,8 @@ namespace ouzel::graphics::opengl::ios
             [EAGLContext setCurrentContext:nil];
             [context release];
         }
+
+        if (shareGroup) [shareGroup release];
     }
 
     void RenderDevice::resizeFrameBuffer()

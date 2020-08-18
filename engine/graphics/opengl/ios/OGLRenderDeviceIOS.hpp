@@ -16,10 +16,12 @@
 
 #if defined(__OBJC__)
 #  import <UIKit/UIKit.h>
+typedef EAGLSharegroup* EAGLSharegroupPtr;
 typedef EAGLContext* EAGLContextPtr;
 typedef CAEAGLLayer* CAEAGLLayerPtr;
 #else
 #  include <objc/objc.h>
+typedef id EAGLSharegroupPtr;
 typedef id EAGLContextPtr;
 typedef id CAEAGLLayerPtr;
 #endif
@@ -43,6 +45,7 @@ namespace ouzel::graphics::opengl::ios
 
         void createFrameBuffer();
 
+        EAGLSharegroupPtr shareGroup = nil;
         EAGLContextPtr context = nil;
         CAEAGLLayerPtr eaglLayer = nil;
 
