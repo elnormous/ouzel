@@ -74,8 +74,8 @@ namespace ouzel::graphics::opengl::android
 
             if (settings.debugRenderer)
             {
-                contextAttributes.push_back(EGL_CONTEXT_FLAGS_KHR);
-                contextAttributes.push_back(EGL_CONTEXT_OPENGL_DEBUG_BIT_KHR);
+                contextAttributes.push_back(EGL_CONTEXT_OPENGL_DEBUG);
+                contextAttributes.push_back(EGL_TRUE);
             }
 
             contextAttributes.push_back(EGL_NONE);
@@ -188,8 +188,8 @@ namespace ouzel::graphics::opengl::android
 
             if (debugRenderer)
             {
-                contextAttributes.push_back(EGL_CONTEXT_FLAGS_KHR);
-                contextAttributes.push_back(EGL_CONTEXT_OPENGL_DEBUG_BIT_KHR);
+                contextAttributes.push_back(EGL_CONTEXT_OPENGL_DEBUG);
+                contextAttributes.push_back(EGL_TRUE);
             }
 
             contextAttributes.push_back(EGL_NONE);
