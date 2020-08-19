@@ -95,7 +95,7 @@ namespace ouzel::graphics::opengl::linux
         for (EGLint version = 4; version >= 3; --version)
 #endif
         {
-            EGLint contextAttributes[] = {
+            const EGLint contextAttributes[] = {
                 EGL_CONTEXT_CLIENT_VERSION, version,
                 EGL_CONTEXT_OPENGL_DEBUG, settings.debugRenderer ? EGL_TRUE : EGL_FALSE,
                 EGL_NONE

@@ -51,9 +51,9 @@ namespace ouzel::graphics::opengl::windows
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to register window class");
 
                 window = CreateWindowW(tempWindowClassName, L"TempWindow", 0,
-                                    CW_USEDEFAULT, CW_USEDEFAULT,
-                                    CW_USEDEFAULT, CW_USEDEFAULT,
-                                    0, 0, instance, 0);
+                                       CW_USEDEFAULT, CW_USEDEFAULT,
+                                       CW_USEDEFAULT, CW_USEDEFAULT,
+                                       0, 0, instance, 0);
                 if (!window)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to create window");
 
@@ -164,7 +164,7 @@ namespace ouzel::graphics::opengl::windows
             FreeLibrary(module);
 
             return ApiVersion(static_cast<std::uint16_t>(std::stoi(versionParts[0])),
-                                static_cast<std::uint16_t>(std::stoi(versionParts[1])));
+                              static_cast<std::uint16_t>(std::stoi(versionParts[1])));
         }
     }
 
@@ -271,20 +271,14 @@ namespace ouzel::graphics::opengl::windows
         {
             for (int openGLVersion = 4; openGLVersion >= 2; --openGLVersion)
             {
-                std::vector<int> contextAttribs = {
+                const int contextAttribs[] = {
                     WGL_CONTEXT_MAJOR_VERSION_ARB, openGLVersion,
                     WGL_CONTEXT_MINOR_VERSION_ARB, 0,
+                    WGL_CONTEXT_FLAGS_ARB, settings.debugRenderer ? WGL_CONTEXT_DEBUG_BIT_ARB : 0,
+                    0
                 };
 
-                if (settings.debugRenderer)
-                {
-                    contextAttribs.push_back(WGL_CONTEXT_FLAGS_ARB);
-                    contextAttribs.push_back(WGL_CONTEXT_DEBUG_BIT_ARB);
-                }
-
-                contextAttribs.push_back(0);
-
-                renderContext = wglCreateContextAttribsProc(deviceContext, 0, contextAttribs.data());
+                renderContext = wglCreateContextAttribsProc(deviceContext, 0, contextAttribs);
 
                 if (renderContext)
                 {
