@@ -68,19 +68,13 @@ namespace ouzel::graphics::opengl::android
 
         for (EGLint version = 3; version >= 2; --version)
         {
-            std::vector<EGLint> contextAttributes = {
-                EGL_CONTEXT_CLIENT_VERSION, version
+            EGLint contextAttributes[] = {
+                EGL_CONTEXT_CLIENT_VERSION, version,
+                EGL_CONTEXT_OPENGL_DEBUG, settings.debugRenderer ? EGL_TRUE : EGL_FALSE,
+                EGL_NONE
             };
 
-            if (settings.debugRenderer)
-            {
-                contextAttributes.push_back(EGL_CONTEXT_OPENGL_DEBUG);
-                contextAttributes.push_back(EGL_TRUE);
-            }
-
-            contextAttributes.push_back(EGL_NONE);
-
-            context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes.data());
+            context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
 
             if (context != EGL_NO_CONTEXT)
             {
@@ -181,20 +175,13 @@ namespace ouzel::graphics::opengl::android
 
         for (EGLint version = 3; version >= 2; --version)
         {
-            std::vector<EGLint> contextAttributes =
-            {
-                EGL_CONTEXT_CLIENT_VERSION, version
+            EGLint contextAttributes[] = {
+                EGL_CONTEXT_CLIENT_VERSION, version,
+                EGL_CONTEXT_OPENGL_DEBUG, settings.debugRenderer ? EGL_TRUE : EGL_FALSE,
+                EGL_NONE
             };
 
-            if (debugRenderer)
-            {
-                contextAttributes.push_back(EGL_CONTEXT_OPENGL_DEBUG);
-                contextAttributes.push_back(EGL_TRUE);
-            }
-
-            contextAttributes.push_back(EGL_NONE);
-
-            context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes.data());
+            context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
 
             if (context != EGL_NO_CONTEXT)
             {
