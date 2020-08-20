@@ -43,4 +43,9 @@ namespace ouzel::core::cocoa
     {
         return pool == other.pool;
     }
+
+    bool AutoreleasePool::operator!=(const AutoreleasePool& other) const noexcept
+    {
+        return pool != other.pool;
+    }
 }
