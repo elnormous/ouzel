@@ -38,4 +38,9 @@ namespace ouzel::core::cocoa
         other.pool = nil;
         return *this;
     }
+
+    bool AutoreleasePool::operator==(const AutoreleasePool& other) const noexcept
+    {
+        return pool == other.pool;
+    }
 }
