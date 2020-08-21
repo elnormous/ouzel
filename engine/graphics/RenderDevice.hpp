@@ -143,6 +143,7 @@ namespace ouzel::graphics
             {
                 if (&other == this) return *this;
 
+                if (renderDevice && id) renderDevice->deleteResourceId(id);
                 renderDevice = other.renderDevice;
                 id = other.id;
                 other.renderDevice = nullptr;

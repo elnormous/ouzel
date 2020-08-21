@@ -43,6 +43,7 @@ namespace ouzel::graphics::renderer
             {
                 if (&other == this) return *this;
 
+                if (renderer && id) renderer->deleteResourceId(id);
                 renderer = other.renderer;
                 id = other.id;
                 other.renderer = nullptr;

@@ -197,6 +197,8 @@ namespace ouzel::graphics::opengl
 
             Module& operator=(Module&& other) noexcept
             {
+                if (this == &other) return *this;
+                if (module) FreeLibrary(module);
                 module = other.module;
                 other.module = nullptr;
                 return *this;

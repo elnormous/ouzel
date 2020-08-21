@@ -37,6 +37,7 @@ namespace ouzel::graphics::metal
 
         DispatchSemaphore& operator=(DispatchSemaphore&& other) noexcept
         {
+            if (this == &other) return *this;
             semaphore = other.semaphore;
             other.semaphore = nullptr;
             return *this;
@@ -44,6 +45,7 @@ namespace ouzel::graphics::metal
 
         DispatchSemaphore& operator=(const DispatchSemaphore& other)
         {
+            if (this == &other) return *this;
             if (semaphore) dispatch_release(semaphore);
             semaphore = other.semaphore;
             if (semaphore) dispatch_retain(semaphore);
