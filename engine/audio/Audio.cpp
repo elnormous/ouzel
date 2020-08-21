@@ -22,7 +22,7 @@ namespace ouzel::audio
     {
         if (driver.empty() || driver == "default")
         {
-            auto availableDrivers = Audio::getAvailableAudioDrivers();
+            const auto availableDrivers = Audio::getAvailableAudioDrivers();
 
             if (availableDrivers.find(Driver::wasapi) != availableDrivers.end())
                 return Driver::wasapi;

@@ -44,7 +44,7 @@ namespace ouzel::graphics
     {
         if (driver.empty() || driver == "default")
         {
-            auto availableDrivers = getAvailableRenderDrivers();
+            const auto availableDrivers = getAvailableRenderDrivers();
 
             if (availableDrivers.find(Driver::metal) != availableDrivers.end())
                 return Driver::metal;
