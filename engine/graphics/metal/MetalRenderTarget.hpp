@@ -14,13 +14,6 @@ typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 #  include <objc/objc.h>
 typedef id MTLRenderPassDescriptorPtr;
 typedef NSUInteger MTLLoadAction;
-typedef struct
-{
-    double red;
-    double green;
-    double blue;
-    double alpha;
-} MTLClearColor;
 #endif
 
 #include <set>
