@@ -16,11 +16,11 @@ typedef id<MTLTexture> MTLTexturePtr;
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 #else
 #  include <objc/objc.h>
-typedef id MTLSamplerStatePtr;
-typedef id MTLTexturePtr;
-typedef id MTLRenderPassDescriptorPtr;
-typedef NSUInteger MTLPixelFormat;
-typedef NSUInteger MTLLoadAction;
+using MTLSamplerStatePtr = id;
+using MTLTexturePtr = id;
+using MTLRenderPassDescriptorPtr = id;
+using MTLPixelFormat = NSUInteger;
+using MTLLoadAction = NSUInteger;
 #endif
 
 #include <tuple>

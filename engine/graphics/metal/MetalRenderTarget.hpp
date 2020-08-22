@@ -12,8 +12,8 @@
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 #else
 #  include <objc/objc.h>
-typedef id MTLRenderPassDescriptorPtr;
-typedef NSUInteger MTLLoadAction;
+using MTLRenderPassDescriptorPtr = id;
+using MTLLoadAction = NSUInteger;
 #endif
 
 #include <set>

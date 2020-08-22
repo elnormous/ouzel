@@ -14,7 +14,7 @@
 typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
 #  include <objc/objc.h>
-typedef id MTLDepthStencilStatePtr;
+using MTLDepthStencilStatePtr = id;
 #endif
 
 #include "MetalRenderResource.hpp"

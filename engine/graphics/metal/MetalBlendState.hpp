@@ -11,9 +11,9 @@
 #  import <Metal/Metal.h>
 #else
 #  include <objc/objc.h>
-typedef NSUInteger MTLBlendFactor;
-typedef NSUInteger MTLBlendOperation;
-typedef NSUInteger MTLColorWriteMask;
+using MTLBlendFactor = NSUInteger;
+using MTLBlendOperation = NSUInteger;
+using MTLColorWriteMask = NSUInteger;
 #endif
 
 #include "MetalRenderResource.hpp"
@@ -55,7 +55,7 @@ namespace ouzel::graphics::metal
         MTLBlendFactor sourceAlphaBlendFactor;
         MTLBlendFactor destinationAlphaBlendFactor;
         MTLColorWriteMask colorWriteMask;
-        bool blendingEnabled;
+        bool blendingEnabled = false;
     };
 }
 

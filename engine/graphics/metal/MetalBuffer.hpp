@@ -12,7 +12,7 @@
 typedef id<MTLBuffer> MTLBufferPtr;
 #else
 #  include <objc/objc.h>
-typedef id MTLBufferPtr;
+using MTLBufferPtr = id;
 #endif
 
 #include "MetalRenderResource.hpp"
@@ -44,7 +44,7 @@ namespace ouzel::graphics::metal
     private:
         void createBuffer(NSUInteger newSize);
 
-        BufferType type;
+        BufferType type = BufferType::index;
         Flags flags = Flags::none;
 
         Pointer<MTLBufferPtr> buffer;

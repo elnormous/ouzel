@@ -15,8 +15,8 @@ typedef id<MTLFunction> MTLFunctionPtr;
 typedef MTLVertexDescriptor* MTLVertexDescriptorPtr;
 #else
 #  include <objc/objc.h>
-typedef id MTLFunctionPtr;
-typedef id MTLVertexDescriptorPtr;
+using MTLFunctionPtr = id;
+using MTLVertexDescriptorPtr = id;
 #endif
 
 #include "MetalRenderResource.hpp"

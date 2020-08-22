@@ -27,19 +27,19 @@ typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
 #  include <objc/objc.h>
 #  include <objc/NSObjCRuntime.h>
-typedef id CAMetalLayerPtr;
-typedef id MTLDevicePtr;
-typedef id MTLBufferPtr;
-typedef id MTLRenderPassDescriptorPtr;
-typedef id MTLSamplerStatePtr;
-typedef id MTLCommandBufferPtr;
-typedef id MTLCommandQueuePtr;
-typedef id MTLRenderCommandEncoderPtr;
-typedef id MTLRenderPipelineStatePtr;
-typedef id MTLTexturePtr;
-typedef id MTLDepthStencilStatePtr;
-typedef NSUInteger MTLPixelFormat;
-typedef NSUInteger MTLLoadAction;
+using CAMetalLayerPtr = id;
+using MTLDevicePtr = id;
+using MTLBufferPtr = id;
+using MTLRenderPassDescriptorPtr = id;
+using MTLSamplerStatePtr = id;
+using MTLCommandBufferPtr = id;
+using MTLCommandQueuePtr = id;
+using MTLRenderCommandEncoderPtr = id;
+using MTLRenderPipelineStatePtr = id;
+using MTLTexturePtr = id;
+using MTLDepthStencilStatePtr = id;
+using MTLPixelFormat = NSUInteger;
+using MTLLoadAction = NSUInteger;
 #endif
 
 #include "../RenderDevice.hpp"
