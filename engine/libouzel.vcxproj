@@ -222,8 +222,8 @@
     <ClInclude Include="events\EventDispatcher.hpp" />
     <ClInclude Include="events\EventHandler.hpp" />
     <ClInclude Include="formats\Ini.hpp" />
-    <ClInclude Include="formats\Json.hpp" /
-    <ClInclude Include="formats\Obf.hpp" />>
+    <ClInclude Include="formats\Json.hpp" />
+    <ClInclude Include="formats\Obf.hpp" />
     <ClInclude Include="formats\Plist.hpp" />
     <ClInclude Include="formats\Xml.hpp" />
     <ClInclude Include="graphics\BlendFactor.hpp" />
