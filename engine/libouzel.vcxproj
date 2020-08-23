@@ -221,6 +221,11 @@
     <ClInclude Include="events\Event.hpp" />
     <ClInclude Include="events\EventDispatcher.hpp" />
     <ClInclude Include="events\EventHandler.hpp" />
+    <ClInclude Include="formats\Ini.hpp" />
+    <ClInclude Include="formats\Json.hpp" /
+    <ClInclude Include="formats\Obf.hpp" />>
+    <ClInclude Include="formats\Plist.hpp" />
+    <ClInclude Include="formats\Xml.hpp" />
     <ClInclude Include="graphics\BlendFactor.hpp" />
     <ClInclude Include="graphics\BlendOperation.hpp" />
     <ClInclude Include="graphics\CompareFunction.hpp" />
@@ -346,15 +351,10 @@
     <ClInclude Include="scene\ShapeRenderer.hpp" />
     <ClInclude Include="scene\SpriteRenderer.hpp" />
     <ClInclude Include="scene\TextRenderer.hpp" />
-    <ClInclude Include="utils\Ini.hpp" />
-    <ClInclude Include="utils\Json.hpp" />
     <ClInclude Include="utils\Log.hpp" />
-    <ClInclude Include="utils\Obf.hpp" />
-    <ClInclude Include="utils\Plist.hpp" />
     <ClInclude Include="utils\Thread.hpp" />
     <ClInclude Include="utils\Utf8.hpp" />
     <ClInclude Include="utils\Utils.hpp" />
-    <ClInclude Include="utils\Xml.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

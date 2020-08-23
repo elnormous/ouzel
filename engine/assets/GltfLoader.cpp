@@ -3,7 +3,7 @@
 #include "GltfLoader.hpp"
 #include "Bundle.hpp"
 #include "../scene/SkinnedMeshRenderer.hpp"
-#include "../utils/Json.hpp"
+#include "../formats/Json.hpp"
 
 namespace ouzel::assets
 {

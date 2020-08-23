@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_UTILS_PLIST_HPP
-#define OUZEL_UTILS_PLIST_HPP
+#ifndef OUZEL_FORMATS_PLIST_HPP
+#define OUZEL_FORMATS_PLIST_HPP
 
 #include <map>
 #include <string>
@@ -540,4 +540,4 @@ namespace ouzel::plist
     }
 }
 
-#endif // OUZEL_UTILS_PLIST_HPP
+#endif // OUZEL_FORMATS_PLIST_HPP

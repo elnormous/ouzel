@@ -475,8 +475,8 @@
     <ClInclude Include="graphics\Image.hpp">
       <Filter>engine\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="utils\Ini.hpp">
-      <Filter>engine\utils</Filter>
+    <ClInclude Include="formats\Ini.hpp">
+      <Filter>engine\formats</Filter>
     </ClInclude>
     <ClInclude Include="input\InputManager.hpp">
       <Filter>engine\input</Filter>
@@ -538,14 +538,14 @@
     <ClInclude Include="scene\Actor.hpp">
       <Filter>engine\scene</Filter>
     </ClInclude>
-    <ClInclude Include="utils\Json.hpp">
-      <Filter>engine\utils</Filter>
+    <ClInclude Include="formats\Json.hpp">
+      <Filter>engine\formats</Filter>
     </ClInclude>
-    <ClInclude Include="utils\Obf.hpp">
-      <Filter>engine\utils</Filter>
+    <ClInclude Include="formats\Obf.hpp">
+      <Filter>engine\formats</Filter>
     </ClInclude>
-    <ClInclude Include="utils\Plist.hpp">
-      <Filter>engine\utils</Filter>
+    <ClInclude Include="formats\Plist.hpp">
+      <Filter>engine\formats</Filter>
     </ClInclude>
     <ClInclude Include="utils\Thread.hpp">
       <Filter>engine\utils</Filter>
@@ -742,8 +742,8 @@
     <ClInclude Include="assets\WaveLoader.hpp">
       <Filter>engine\assets</Filter>
     </ClInclude>
-    <ClInclude Include="utils\Xml.hpp">
-      <Filter>engine\utils</Filter>
+    <ClInclude Include="formats\Xml.hpp">
+      <Filter>engine\formats</Filter>
     </ClInclude>
     <ClInclude Include="ouzel.hpp">
       <Filter>engine</Filter>

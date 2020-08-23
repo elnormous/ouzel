@@ -25,7 +25,7 @@
 #include "../assets/Loader.hpp"
 #include "../localization/Localization.hpp"
 #include "../network/Network.hpp"
-#include "../utils/Ini.hpp"
+#include "../formats/Ini.hpp"
 #include "../utils/Log.hpp"
 #include "../utils/Thread.hpp"
 

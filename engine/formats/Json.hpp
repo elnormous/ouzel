@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_UTILS_JSON_HPP
-#define OUZEL_UTILS_JSON_HPP
+#ifndef OUZEL_FORMATS_JSON_HPP
+#define OUZEL_FORMATS_JSON_HPP
 
 #include <algorithm>
 #include <cmath>
@@ -787,4 +787,4 @@ namespace ouzel::json
     }
 }
 
-#endif // OUZEL_UTILS_JSON_HPP
+#endif // OUZEL_FORMATS_JSON_HPP

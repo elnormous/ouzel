@@ -24,7 +24,7 @@
 #include "XCBuildConfiguration.hpp"
 #include "XCConfigurationList.hpp"
 #include "storage/FileSystem.hpp"
-#include "utils/Plist.hpp"
+#include "formats/Plist.hpp"
 
 namespace ouzel::xcode
 {

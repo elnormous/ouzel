@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_UTILS_INI_HPP
-#define OUZEL_UTILS_INI_HPP
+#ifndef OUZEL_FORMATS_INI_HPP
+#define OUZEL_FORMATS_INI_HPP
 
 #include <algorithm>
 #include <cstdint>
@@ -420,4 +420,4 @@ namespace ouzel::ini
     }
 }
 
-#endif // OUZEL_UTILS_INI_HPP
+#endif // OUZEL_FORMATS_INI_HPP

@@ -7,7 +7,7 @@
 #include "Asset.hpp"
 #include "Target.hpp"
 #include "storage/FileSystem.hpp"
-#include "utils/Json.hpp"
+#include "formats/Json.hpp"
 
 namespace ouzel
 {

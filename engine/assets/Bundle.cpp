@@ -5,7 +5,7 @@
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "Loader.hpp"
-#include "../utils/Json.hpp"
+#include "../formats/Json.hpp"
 
 namespace ouzel::assets
 {

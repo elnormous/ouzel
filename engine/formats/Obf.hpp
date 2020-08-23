@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_UTILS_OBF_HPP
-#define OUZEL_UTILS_OBF_HPP
+#ifndef OUZEL_FORMATS_OBF_HPP
+#define OUZEL_FORMATS_OBF_HPP
 
 #include <cassert>
 #include <cstdint>
@@ -10,7 +10,7 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "Utils.hpp"
+#include "../utils/Utils.hpp"
 
 namespace ouzel::obf
 {
@@ -1069,4 +1069,4 @@ namespace ouzel::obf
     };
 }
 
-#endif // OUZEL_UTILS_OBF_HPP
+#endif // OUZEL_FORMATS_OBF_HPP
