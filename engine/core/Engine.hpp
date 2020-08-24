@@ -27,7 +27,7 @@
 #include "../network/Network.hpp"
 #include "../formats/Ini.hpp"
 #include "../utils/Log.hpp"
-#include "../utils/Thread.hpp"
+#include "../thread/Thread.hpp"
 
 namespace ouzel::core
 {
@@ -122,7 +122,7 @@ namespace ouzel::core
         network::Network network;
 
 #if !defined(__EMSCRIPTEN__)
-        Thread updateThread;
+        thread::Thread updateThread;
         std::mutex updateMutex;
         std::condition_variable updateCondition;
 #endif

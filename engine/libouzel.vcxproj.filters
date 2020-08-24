@@ -547,8 +547,8 @@
     <ClInclude Include="formats\Plist.hpp">
       <Filter>engine\formats</Filter>
     </ClInclude>
-    <ClInclude Include="utils\Thread.hpp">
-      <Filter>engine\utils</Filter>
+    <ClInclude Include="thread\Thread.hpp">
+      <Filter>engine\thread</Filter>
     </ClInclude>
     <ClInclude Include="utils\Utf8.hpp">
       <Filter>engine\utils</Filter>
@@ -1055,6 +1055,12 @@
     </Filter>
     <Filter Include="engine\graphics\renderer">
       <UniqueIdentifier>{58f52e91-c804-4b87-a3fe-035d50cf20a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\formats">
+      <UniqueIdentifier>{068bbd2f-c208-4b9e-afa9-1f424bac6e36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\thread">
+      <UniqueIdentifier>{3fb939c6-c803-47fc-b3d9-74f07f7efe0d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

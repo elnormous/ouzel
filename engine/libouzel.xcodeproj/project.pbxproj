@@ -1617,6 +1617,7 @@
 				304A8E2A1C237C70008B1151 /* ouzel.hpp */,
 				303B750D1C28828600FEDE92 /* scene */,
 				303B75121C2883C800FEDE92 /* storage */,
+				306E509F24F47B2E00D9017F /* thread */,
 				30A5BF0C1CFCE3F800A977CA /* utils */,
 			);
 			name = engine;
@@ -1727,6 +1728,14 @@
 			path = events;
 			sourceTree = "<group>";
 		};
+		306E509F24F47B2E00D9017F /* thread */ = {
+			isa = PBXGroup;
+			children = (
+				30769B7B22DBFB17000F4EC2 /* Thread.hpp */,
+			);
+			path = thread;
+			sourceTree = "<group>";
+		};
 		307F4C2024E20CFE00994B7A /* cocoa */ = {
 			isa = PBXGroup;
 			children = (
@@ -1794,7 +1803,6 @@
 			children = (
 				3030D5001DAEF1FA007CC8EB /* Log.cpp */,
 				3030D5011DAEF1FA007CC8EB /* Log.hpp */,
-				30769B7B22DBFB17000F4EC2 /* Thread.hpp */,
 				C6C9100B21AEB47E00B5FCB7 /* Utf8.hpp */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,
 				304A8E491C237C70008B1151 /* Utils.hpp */,

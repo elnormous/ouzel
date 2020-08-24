@@ -13,7 +13,7 @@
 #include <mmdeviceapi.h>
 #include "../AudioDevice.hpp"
 #include "WASAPIPointer.hpp"
-#include "../../utils/Thread.hpp"
+#include "../../thread/Thread.hpp"
 
 namespace ouzel::audio::wasapi
 {
@@ -46,7 +46,7 @@ namespace ouzel::audio::wasapi
         std::vector<std::uint8_t> data;
 
         std::atomic_bool running{false};
-        Thread audioThread;
+        thread::Thread audioThread;
     };
 }
 #endif

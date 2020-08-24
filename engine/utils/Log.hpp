@@ -16,7 +16,7 @@
 #include "../math/Size.hpp"
 #include "../math/Vector.hpp"
 #include "../storage/Path.hpp"
-#include "Thread.hpp"
+#include "../thread/Thread.hpp"
 #include "Utils.hpp"
 
 namespace ouzel
@@ -221,7 +221,7 @@ namespace ouzel
             threshold(initThreshold)
         {
 #if !defined(__EMSCRIPTEN__)
-            logThread = Thread(&Logger::logLoop, this);
+            logThread = thread::Thread(&Logger::logLoop, this);
 #endif
         }
 
@@ -317,7 +317,7 @@ namespace ouzel
         mutable std::condition_variable queueCondition;
         mutable std::mutex queueMutex;
         mutable std::queue<Command> commandQueue;
-        Thread logThread;
+        thread::Thread logThread;
 #endif
     };
 }

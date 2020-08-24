@@ -13,7 +13,7 @@
 #include "EGL/eglext.h"
 #include "../OGLRenderDevice.hpp"
 #include "../../../core/Window.hpp"
-#include "../../../utils/Thread.hpp"
+#include "../../../thread/Thread.hpp"
 
 namespace ouzel::graphics::opengl::android
 {
@@ -38,7 +38,7 @@ namespace ouzel::graphics::opengl::android
         EGLContext context = EGL_NO_CONTEXT;
 
         std::atomic_bool running{false};
-        Thread renderThread;
+        thread::Thread renderThread;
     };
 }
 #endif

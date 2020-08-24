@@ -14,7 +14,7 @@
 #include "EGL/egl.h"
 #include "EGL/eglext.h"
 #include "../OGLRenderDevice.hpp"
-#include "../../../utils/Thread.hpp"
+#include "../../../thread/Thread.hpp"
 
 namespace ouzel::graphics::opengl::linux
 {
@@ -38,7 +38,7 @@ namespace ouzel::graphics::opengl::linux
         EGLContext context = EGL_NO_CONTEXT;
 
         std::atomic_bool running{false};
-        Thread renderThread;
+        thread::Thread renderThread;
     };
 }
 #endif

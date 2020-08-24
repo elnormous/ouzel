@@ -62,7 +62,7 @@ namespace ouzel::core::ios
 
         running = true;
 
-        renderThread = Thread(&DisplayLink::renderMain, this);
+        renderThread = thread::Thread(&DisplayLink::renderMain, this);
     }
 
     void DisplayLink::stop()
@@ -77,7 +77,7 @@ namespace ouzel::core::ios
 
     void DisplayLink::renderMain()
     {
-        Thread::setCurrentThreadName("Render");
+        thread::setCurrentThreadName("Render");
 
         if (verticalSync)
         {

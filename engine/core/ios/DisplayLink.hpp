@@ -16,7 +16,7 @@ typedef id NSRunLoopPtr;
 #endif
 
 #include "../../graphics/RenderDevice.hpp"
-#include "../../utils/Thread.hpp"
+#include "../../thread/Thread.hpp"
 
 using RenderCallback = void (*)(void*);
 
@@ -45,7 +45,7 @@ namespace ouzel::core::ios
 
         RenderCallback callback;
         void* userInfo;
-        Thread renderThread;
+        thread::Thread renderThread;
         std::atomic_bool running{false};
         bool verticalSync = false;
         CADisplayLinkPtr displayLink = nil;

@@ -126,6 +126,7 @@
 #include "storage/Archive.hpp"
 #include "storage/FileSystem.hpp"
 #include "storage/Path.hpp"
+#include "thread/Thread.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utf8.hpp"
 #include "utils/Utils.hpp"

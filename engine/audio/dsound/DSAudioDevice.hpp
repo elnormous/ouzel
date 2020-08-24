@@ -24,7 +24,7 @@
 
 #include "../AudioDevice.hpp"
 #include "DSPointer.hpp"
-#include "../../utils/Thread.hpp"
+#include "../../thread/Thread.hpp"
 
 namespace ouzel::audio::directsound
 {
@@ -59,7 +59,7 @@ namespace ouzel::audio::directsound
         std::vector<std::uint8_t> data;
 
         std::atomic_bool running{false};
-        Thread audioThread;
+        thread::Thread audioThread;
     };
 }
 #endif

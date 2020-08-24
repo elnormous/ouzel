@@ -29,7 +29,7 @@
 #include "../RenderDevice.hpp"
 #include "D3D11Pointer.hpp"
 #include "D3D11Texture.hpp"
-#include "../../utils/Thread.hpp"
+#include "../../thread/Thread.hpp"
 
 namespace ouzel::graphics::d3d11
 {
@@ -85,7 +85,7 @@ namespace ouzel::graphics::d3d11
         UINT swapInterval = 0;
 
         std::atomic_bool running{false};
-        Thread renderThread;
+        thread::Thread renderThread;
 
         std::vector<std::unique_ptr<RenderResource>> resources;
     };

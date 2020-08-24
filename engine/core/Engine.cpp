@@ -206,7 +206,7 @@ namespace ouzel::core
 
     void Engine::init()
     {
-        Thread::setCurrentThreadName("Main");
+        thread::setCurrentThreadName("Main");
 
         const auto settingsPath = fileSystem.getStorageDirectory() / "settings.ini";
         const auto settings = parseSettings(fileSystem.resourceFileExists("settings.ini") ? ini::parse(fileSystem.readFile("settings.ini")) : ini::Data{},
@@ -642,7 +642,7 @@ namespace ouzel::core
             paused = false;
 
 #if !defined(__EMSCRIPTEN__)
-            updateThread = Thread(&Engine::engineMain, this);
+            updateThread = thread::Thread(&Engine::engineMain, this);
 #else
             main(args);
 #endif
@@ -739,7 +739,7 @@ namespace ouzel::core
 
     void Engine::engineMain()
     {
-        Thread::setCurrentThreadName("Application");
+        thread::setCurrentThreadName("Application");
 
         try
         {

@@ -271,7 +271,7 @@ namespace ouzel::audio::openal
 
 #if !defined(__EMSCRIPTEN__)
         running = true;
-        audioThread = Thread(&AudioDevice::run, this);
+        audioThread = thread::Thread(&AudioDevice::run, this);
 #endif
     }
 
@@ -344,7 +344,7 @@ namespace ouzel::audio::openal
 
     void AudioDevice::run()
     {
-        Thread::setCurrentThreadName("Audio");
+        thread::setCurrentThreadName("Audio");
 
 #if !defined(__EMSCRIPTEN__)
         while (running)

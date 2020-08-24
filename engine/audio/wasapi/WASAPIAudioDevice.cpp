@@ -227,7 +227,7 @@ namespace ouzel::audio::wasapi
 
         started = true;
         running = true;
-        audioThread = Thread(&AudioDevice::run, this);
+        audioThread = thread::Thread(&AudioDevice::run, this);
     }
 
     void AudioDevice::stop()
@@ -246,7 +246,7 @@ namespace ouzel::audio::wasapi
 
     void AudioDevice::run()
     {
-        Thread::setCurrentThreadName("Audio");
+        thread::setCurrentThreadName("Audio");
 
         while (running)
         {

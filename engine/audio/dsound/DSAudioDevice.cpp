@@ -173,7 +173,7 @@ namespace ouzel::audio::directsound
             throw std::system_error(hr, errorCategory, "Failed to play DirectSound buffer");
 
         running = true;
-        audioThread = Thread(&AudioDevice::run, this);
+        audioThread = thread::Thread(&AudioDevice::run, this);
     }
 
     void AudioDevice::stop()
@@ -187,7 +187,7 @@ namespace ouzel::audio::directsound
 
     void AudioDevice::run()
     {
-        Thread::setCurrentThreadName("Audio");
+        thread::setCurrentThreadName("Audio");
 
         while (running)
         {
