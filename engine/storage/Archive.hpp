@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include "Path.hpp"
 #include "../utils/Utils.hpp"
 
 namespace ouzel::storage
@@ -18,7 +19,7 @@ namespace ouzel::storage
     public:
         Archive() = default;
 
-        explicit Archive(const std::string& path):
+        explicit Archive(const Path& path):
             file{path, std::ios::binary}
         {
             constexpr std::uint32_t centralDirectory = 0x02014B50U;
