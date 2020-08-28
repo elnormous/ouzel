@@ -1,21 +1,21 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_MATH_FNV_HPP
-#define OUZEL_MATH_FNV_HPP
+#ifndef OUZEL_HASH_FNV1_HPP
+#define OUZEL_HASH_FNV1_HPP
 
 #include <cstdint>
 
-namespace ouzel::fnv
+namespace ouzel::hash::fnv1
 {
     inline namespace detail
     {
         template <typename T> T prime();
         template <typename T> T offsetBasis();
 
-        template <> constexpr std::uint32_t prime<std::uint32_t>() { return 16777619u; }
-        template <> constexpr std::uint32_t offsetBasis<std::uint32_t>() { return 2166136261u; }
-        template <> constexpr std::uint64_t prime<std::uint64_t>() { return 1099511628211u; }
-        template <> constexpr std::uint64_t offsetBasis<std::uint64_t>() { return 14695981039346656037u; }
+        template <> constexpr std::uint32_t prime<std::uint32_t>() { return 16777619U; }
+        template <> constexpr std::uint32_t offsetBasis<std::uint32_t>() { return 2166136261U; }
+        template <> constexpr std::uint64_t prime<std::uint64_t>() { return 1099511628211ULL; }
+        template <> constexpr std::uint64_t offsetBasis<std::uint64_t>() { return 14695981039346656037ULL; }
     }
 
     // Fowler / Noll / Vo (FNV) hash
@@ -26,4 +26,4 @@ namespace ouzel::fnv
     }
 }
 
-#endif // OUZEL_MATH_FNV_HPP
+#endif // OUZEL_HASH_FNV1_HPP

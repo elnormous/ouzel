@@ -427,8 +427,8 @@
     <ClInclude Include="math\ConvexVolume.hpp">
       <Filter>engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="math\Fnv.hpp">
-      <Filter>engine\math</Filter>
+    <ClInclude Include="hash\Fnv1.hpp">
+      <Filter>engine\hash</Filter>
     </ClInclude>
     <ClInclude Include="input\Cursor.hpp">
       <Filter>engine\input</Filter>
@@ -1061,6 +1061,9 @@
     </Filter>
     <Filter Include="engine\thread">
       <UniqueIdentifier>{3fb939c6-c803-47fc-b3d9-74f07f7efe0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\hash">
+      <UniqueIdentifier>{75d147bd-3823-40ee-a16c-3cab91a445b7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
