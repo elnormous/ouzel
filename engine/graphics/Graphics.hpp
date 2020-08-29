@@ -95,9 +95,6 @@ namespace ouzel::graphics
         void handleEvent(const RenderDevice::Event& event);
         void setSize(const Size2U& newSize);
 
-        std::unique_ptr<RenderDevice> device;
-        renderer::Renderer renderer;
-
         SamplerFilter textureFilter = SamplerFilter::point;
         std::uint32_t maxAnisotropy = 1;
 
@@ -108,6 +105,9 @@ namespace ouzel::graphics
         std::mutex frameMutex;
         std::condition_variable frameCondition;
         std::atomic_bool refillQueue{true};
+
+        std::unique_ptr<RenderDevice> device;
+        renderer::Renderer renderer;
     };
 }
 
