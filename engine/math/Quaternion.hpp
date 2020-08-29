@@ -185,7 +185,7 @@ namespace ouzel
         {
             constexpr T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (n == T(1)) // already normalized
-                return 1;
+                return T(1);
 
             return std::sqrt(n);
         }

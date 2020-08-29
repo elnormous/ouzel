@@ -28,7 +28,7 @@ namespace ouzel
         }
 
         constexpr Rect(const Vector<2, T>& initPosition,
-             const T width, const T height) noexcept:
+                       const T width, const T height) noexcept:
             position(initPosition), size(width, height)
         {
         }
@@ -111,10 +111,9 @@ namespace ouzel
         constexpr bool intersects(const T x, const T y,
                                   const T width, const T height) const noexcept
         {
-            T t;
-            if ((t = x - position.v[0]) > size.v[0] || -t > width)
+            if (constexpr T t = x - position.v[0]; t > size.v[0] || -t > width)
                 return false;
-            if ((t = y - position.v[1]) > size.v[1] || -t > height)
+            if (constexpr T t = y - position.v[1]; t > size.v[1] || -t > height)
                 return false;
             return true;
         }
