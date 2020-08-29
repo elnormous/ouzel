@@ -84,6 +84,12 @@ namespace ouzel
 
 namespace ouzel::core
 {
+#if defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__)
+    // NEON support must be checked at runtime on 32-bit Android
+    const bool isSimdAvailable = (android_getCpuFamily() == ANDROID_CPU_FAMILY_ARM &&
+                                  (android_getCpuFeatures() & ANDROID_CPU_ARM_FEATURE_NEON) != 0);
+#endif
+
     namespace
     {
         struct Settings final

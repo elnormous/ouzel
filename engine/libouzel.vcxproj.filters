@@ -94,9 +94,6 @@
     <ClCompile Include="core\windows\NativeWindowWin.cpp">
       <Filter>engine\core\windows</Filter>
     </ClCompile>
-    <ClCompile Include="math\MathUtils.cpp">
-      <Filter>engine\math</Filter>
-    </ClCompile>
     <ClCompile Include="math\Matrix.cpp">
       <Filter>engine\math</Filter>
     </ClCompile>

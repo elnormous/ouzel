@@ -115,7 +115,6 @@ SOURCES=assets/BmfLoader.cpp \
 	input/Touchpad.cpp \
 	input/TouchpadDevice.cpp \
 	localization/Localization.cpp \
-	math/MathUtils.cpp \
 	math/Matrix.cpp \
 	network/Client.cpp \
 	network/Network.cpp \

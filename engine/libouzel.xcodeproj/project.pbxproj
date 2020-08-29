@@ -247,7 +247,6 @@
 		303B75441C2A3C9200FEDE92 /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3E1C237C70008B1151 /* Graphics.cpp */; };
 		303B75451C2A3C9200FEDE92 /* Graphics.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3F1C237C70008B1151 /* Graphics.hpp */; };
 		303B754C1C2A3CA200FEDE92 /* Image.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B74E21C277A7500FEDE92 /* Image.hpp */; };
-		303B754D1C2A3CB700FEDE92 /* MathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E301C237C70008B1151 /* MathUtils.cpp */; };
 		303B754E1C2A3CB700FEDE92 /* MathUtils.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* MathUtils.hpp */; };
 		303B75511C2A3CB700FEDE92 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E341C237C70008B1151 /* Matrix.cpp */; };
 		303B75521C2A3CB700FEDE92 /* Matrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E351C237C70008B1151 /* Matrix.hpp */; };
@@ -278,7 +277,6 @@
 		303B76381C355A3B00FEDE92 /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* InputManager.cpp */; };
 		303B76391C355A3B00FEDE92 /* SpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* SpriteRenderer.cpp */; };
 		303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E401C237C70008B1151 /* SceneManager.cpp */; };
-		303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E301C237C70008B1151 /* MathUtils.cpp */; };
 		303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E481C237C70008B1151 /* Utils.cpp */; };
 		303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
 		303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
@@ -347,7 +345,6 @@
 		304A8E531C237C70008B1151 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2D1C237C70008B1151 /* Engine.cpp */; };
 		304A8E541C237C70008B1151 /* Engine.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2E1C237C70008B1151 /* Engine.hpp */; };
 		304A8E551C237C70008B1151 /* EventHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2F1C237C70008B1151 /* EventHandler.hpp */; };
-		304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E301C237C70008B1151 /* MathUtils.cpp */; };
 		304A8E571C237C70008B1151 /* MathUtils.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* MathUtils.hpp */; };
 		304A8E5A1C237C70008B1151 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E341C237C70008B1151 /* Matrix.cpp */; };
 		304A8E5B1C237C70008B1151 /* Matrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E351C237C70008B1151 /* Matrix.hpp */; };
@@ -908,7 +905,6 @@
 		304A8E2D1C237C70008B1151 /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
 		304A8E2E1C237C70008B1151 /* Engine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Engine.hpp; sourceTree = "<group>"; };
 		304A8E2F1C237C70008B1151 /* EventHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventHandler.hpp; sourceTree = "<group>"; };
-		304A8E301C237C70008B1151 /* MathUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MathUtils.cpp; sourceTree = "<group>"; };
 		304A8E311C237C70008B1151 /* MathUtils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MathUtils.hpp; sourceTree = "<group>"; };
 		304A8E341C237C70008B1151 /* Matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix.cpp; sourceTree = "<group>"; };
 		304A8E351C237C70008B1151 /* Matrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
@@ -1309,7 +1305,6 @@
 				309B48361DEA5EE600A718C5 /* Color.hpp */,
 				3038233522E8FC91006905B7 /* Constants.hpp */,
 				3049DCB31ED8687C0000997A /* ConvexVolume.hpp */,
-				304A8E301C237C70008B1151 /* MathUtils.cpp */,
 				304A8E311C237C70008B1151 /* MathUtils.hpp */,
 				304A8E341C237C70008B1151 /* Matrix.cpp */,
 				304A8E351C237C70008B1151 /* Matrix.hpp */,
@@ -2493,7 +2488,6 @@
 				30AEFA1420C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
 				3038202B1D80A55700677CAB /* MetalBuffer.mm in Sources */,
 				303820121D80A40700677CAB /* MetalTexture.mm in Sources */,
-				303B754D1C2A3CB700FEDE92 /* MathUtils.cpp in Sources */,
 				305B99921C41F06F008589E1 /* Widget.cpp in Sources */,
 				30EEADCB216A44EC00D2F525 /* InputDevice.cpp in Sources */,
 				30231FFF22184518007E0AAD /* Server.cpp in Sources */,
@@ -2611,7 +2605,6 @@
 				303820141D80A40700677CAB /* MetalTexture.mm in Sources */,
 				30AEFA1620C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
-				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
 				30EEADC921618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
 				30381FE41D80A40700677CAB /* MetalBlendState.mm in Sources */,
 				305B99931C41F06F008589E1 /* Widget.cpp in Sources */,
@@ -2751,7 +2744,6 @@
 				3009341C1C88698500CC50D3 /* Window.cpp in Sources */,
 				30B8598D1F3D286600A16952 /* TTFont.cpp in Sources */,
 				303B04AA1E207B1D00011CBE /* MetalView.m in Sources */,
-				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
 				304F92A61F4D89C50063EEC0 /* Network.cpp in Sources */,
 				300862D32154712E00D8CC45 /* InputSystemMacOS.mm in Sources */,
 				30AEFA1520C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,

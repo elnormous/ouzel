@@ -31,6 +31,19 @@
 
 namespace ouzel::core
 {
+#if defined(__ARM_NEON__)
+#  if defined(__ANDROID__) && defined(__arm__)
+    // NEON support must be checked at runtime on 32-bit Android
+    extern const bool isSimdAvailable;
+#  else
+    constexpr auto isSimdAvailable = true;
+#  endif
+#elif defined(__SSE__)
+    constexpr auto isSimdAvailable = true;
+#else
+    constexpr auto isSimdAvailable = false;
+#endif
+
     class Engine
     {
     public:
