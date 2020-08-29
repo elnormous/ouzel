@@ -298,9 +298,6 @@
     <ClCompile Include="graphics\direct3d11\D3D11DepthStencilState.cpp">
       <Filter>engine\graphics\direct3d11</Filter>
     </ClCompile>
-    <ClCompile Include="graphics\direct3d11\D3D11ErrorCategory.cpp">
-      <Filter>engine\graphics\direct3d11</Filter>
-    </ClCompile>
     <ClCompile Include="audio\Containers.cpp">
       <Filter>engine\audio</Filter>
     </ClCompile>
@@ -346,9 +343,11 @@
     <ClCompile Include="input\windows\GamepadDeviceWin.cpp">
       <Filter>engine\input\windows</Filter>
     </ClCompile>
-    <ClCompile Include="graphics\Graphics.cpp" />
     <ClCompile Include="graphics\renderer\Renderer.cpp">
       <Filter>engine\graphics\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Graphics.cpp">
+      <Filter>engine\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -975,6 +974,9 @@
     </ClInclude>
     <ClInclude Include="graphics\renderer\Renderer.hpp">
       <Filter>engine\graphics\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\direct3d11\D3D11ErrorCategory.hpp">
+      <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
