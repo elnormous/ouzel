@@ -20,8 +20,6 @@ namespace ouzel::audio::wasapi
     {
         class NotificationClient final: public IMMNotificationClient
         {
-            LONG refCount = 1;
-
         public:
             NotificationClient() = default;
             NotificationClient(const NotificationClient&) = delete;
@@ -71,6 +69,21 @@ namespace ouzel::audio::wasapi
 
             HRESULT STDMETHODCALLTYPE OnDeviceStateChanged(LPCWSTR pwstrDeviceId, DWORD dwNewState)
             {
+                switch (dwNewState)
+                {
+                    case DEVICE_STATE_ACTIVE:
+                        break;
+
+                    case DEVICE_STATE_DISABLED:
+                        break;
+
+                    case DEVICE_STATE_NOTPRESENT:
+                        break;
+
+                    case DEVICE_STATE_UNPLUGGED:
+                        break;
+                }
+
                 return S_OK;
             }
 
@@ -95,6 +108,9 @@ namespace ouzel::audio::wasapi
             {
                 return S_OK;
             }
+
+        private:
+            LONG refCount = 1;
         };
 
         const ErrorCategory errorCategory{};
