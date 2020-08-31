@@ -761,7 +761,7 @@ namespace ouzel::graphics
             (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
             throw std::runtime_error("Texture is not dynamic");
 
-        std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
+        const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
         if (resource)
             graphics->addCommand(std::make_unique<SetTextureDataCommand>(resource,

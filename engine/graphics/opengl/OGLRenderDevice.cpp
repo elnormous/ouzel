@@ -295,7 +295,7 @@ namespace ouzel::graphics::opengl
         frameBufferWidth = newWidth;
         frameBufferHeight = newHeight;
 
-        ProcedureGetter getter(apiVersion);
+        const ProcedureGetter getter(apiVersion);
 
         glGetStringProc = getter.get<PFNGLGETSTRINGPROC>("glGetString", ApiVersion(1, 0));
         glGetIntegervProc = getter.get<PFNGLGETINTEGERVPROC>("glGetIntegerv", ApiVersion(1, 0));
