@@ -488,9 +488,9 @@ namespace ouzel::gui
     {
         if (!enabled) return;
 
-        auto firstWidgetIterator = selectedWidget ?
-        std::find(widgets.begin(), widgets.end(), selectedWidget) :
-        widgets.end();
+        const auto firstWidgetIterator = selectedWidget ?
+            std::find(widgets.begin(), widgets.end(), selectedWidget) :
+            widgets.end();
 
         auto widgetIterator = firstWidgetIterator;
 
