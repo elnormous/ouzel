@@ -28,7 +28,7 @@ namespace ouzel
     template <typename T, std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
     constexpr auto isPowerOfTwo(const T x) noexcept
     {
-        return (x != T(0)) && (((x - T(1)) & x) == 0);
+        return x != T(0) && (x & (x - T(1))) == 0;
     }
 
     template <typename T> constexpr T degToRad(const T x) noexcept
