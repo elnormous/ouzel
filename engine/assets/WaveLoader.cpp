@@ -43,9 +43,9 @@ namespace ouzel::assets
             const std::size_t lengthOffset = formatOffset + 4;
 
             const auto length = static_cast<std::uint32_t>(data[lengthOffset + 0]) |
-                static_cast<std::uint32_t>(data[lengthOffset + 1] << 8) |
-                static_cast<std::uint32_t>(data[lengthOffset + 2] << 16) |
-                static_cast<std::uint32_t>(data[lengthOffset + 3] << 24);
+                (static_cast<std::uint32_t>(data[lengthOffset + 1]) << 8) |
+                (static_cast<std::uint32_t>(data[lengthOffset + 2]) << 16) |
+                (static_cast<std::uint32_t>(data[lengthOffset + 3]) << 24);
 
             const std::size_t typeOffset = lengthOffset + 4;
 
@@ -123,7 +123,7 @@ namespace ouzel::assets
                     const std::size_t blockAlignOffset = byteRateOffset + 4;
                     const std::size_t bitsPerSampleOffset = blockAlignOffset + 2;
                     bitsPerSample = static_cast<std::uint16_t>(static_cast<std::uint32_t>(data[bitsPerSampleOffset + 0]) |
-                                                               static_cast<std::uint32_t>(data[bitsPerSampleOffset + 1] << 8));
+                                                               (static_cast<std::uint32_t>(data[bitsPerSampleOffset + 1]) << 8));
 
                     if (bitsPerSample != 8 && bitsPerSample != 16 &&
                         bitsPerSample != 24 && bitsPerSample != 32)
@@ -178,7 +178,7 @@ namespace ouzel::assets
                             {
                                 const auto* sourceData = &soundData[(frame * channels + channel) * 2];
                                 const auto value = static_cast<std::int32_t>(sourceData[0]) |
-                                    static_cast<std::int32_t>(sourceData[1] << 8);
+                                    (static_cast<std::int32_t>(sourceData[1]) << 8);
                                 outputChannel[frame] = static_cast<float>(value) / 32767.0F;
                             }
                         }
@@ -193,9 +193,9 @@ namespace ouzel::assets
                             for (std::uint32_t frame = 0; frame < frames; ++frame)
                             {
                                 const auto* sourceData = &soundData[(frame * channels + channel) * 3];
-                                const auto value = static_cast<std::int32_t>(sourceData[0] << 8) |
-                                    static_cast<std::int32_t>(sourceData[1] << 16) |
-                                    static_cast<std::int32_t>(sourceData[2] << 24);
+                                const auto value = (static_cast<std::int32_t>(sourceData[0]) << 8) |
+                                    (static_cast<std::int32_t>(sourceData[1]) << 16) |
+                                    (static_cast<std::int32_t>(sourceData[2]) << 24);
                                 outputChannel[frame] = static_cast<float>(value / 2147483648.0);
                             }
                         }
@@ -211,9 +211,9 @@ namespace ouzel::assets
                             {
                                 const auto* sourceData = &soundData[(frame * channels + channel) * 4];
                                 const auto value = static_cast<std::int32_t>(sourceData[0]) |
-                                    static_cast<std::int32_t>(sourceData[1] << 8) |
-                                    static_cast<std::int32_t>(sourceData[2] << 16) |
-                                    static_cast<std::int32_t>(sourceData[3] << 24);
+                                    (static_cast<std::int32_t>(sourceData[1]) << 8) |
+                                    (static_cast<std::int32_t>(sourceData[2]) << 16) |
+                                    (static_cast<std::int32_t>(sourceData[3]) << 24);
                                 outputChannel[frame] = static_cast<float>(value / 2147483648.0);
                             }
                         }
