@@ -63,10 +63,6 @@ namespace ouzel::audio
     {
     }
 
-    Delay::~Delay()
-    {
-    }
-
     void Delay::setDelay(float newDelay)
     {
         delay = newDelay;
@@ -114,10 +110,6 @@ namespace ouzel::audio
         Effect(initAudio,
                initAudio.initProcessor(std::make_unique<GainProcessor>(initGain))),
         gain(initGain)
-    {
-    }
-
-    Gain::~Gain()
     {
     }
 
@@ -179,10 +171,6 @@ namespace ouzel::audio
     Panner::Panner(Audio& initAudio):
         Effect(initAudio,
                initAudio.initProcessor(std::make_unique<PannerProcessor>()))
-    {
-    }
-
-    Panner::~Panner()
     {
     }
 
@@ -273,10 +261,6 @@ namespace ouzel::audio
     {
     }
 
-    PitchScale::~PitchScale()
-    {
-    }
-
     void PitchScale::setScale(float newScale)
     {
         scale = newScale;
@@ -320,10 +304,6 @@ namespace ouzel::audio
         Effect(initAudio,
                initAudio.initProcessor(std::make_unique<PitchShiftProcessor>(initShift))),
         shift(initShift)
-    {
-    }
-
-    PitchShift::~PitchShift()
     {
     }
 
@@ -394,27 +374,15 @@ namespace ouzel::audio
     {
     }
 
-    Reverb::~Reverb()
-    {
-    }
-
     LowPass::LowPass(Audio& initAudio):
         Effect(initAudio,
                initAudio.initProcessor(std::unique_ptr<mixer::Processor>()))
     {
     }
 
-    LowPass::~LowPass()
-    {
-    }
-
     HighPass::HighPass(Audio& initAudio):
         Effect(initAudio,
                initAudio.initProcessor(std::unique_ptr<mixer::Processor>()))
-    {
-    }
-
-    HighPass::~HighPass()
     {
     }
 }

@@ -15,7 +15,6 @@ namespace ouzel::audio
     {
     public:
         Delay(Audio& initAudio, float initDelay = 0.0F);
-        ~Delay() override;
 
         Delay(const Delay&) = delete;
         Delay& operator=(const Delay&) = delete;
@@ -37,7 +36,6 @@ namespace ouzel::audio
     {
     public:
         Gain(Audio& initAudio, float initGain = 0.0F);
-        ~Gain() override;
 
         Gain(const Gain&) = delete;
         Gain& operator=(const Gain&) = delete;
@@ -59,7 +57,6 @@ namespace ouzel::audio
     {
     public:
         explicit Panner(Audio& initAudio);
-        ~Panner() override;
 
         Panner(const Panner&) = delete;
         Panner& operator=(const Panner&) = delete;
@@ -91,7 +88,6 @@ namespace ouzel::audio
     {
     public:
         PitchScale(Audio& initAudio, float initScale = 1.0F);
-        ~PitchScale() override;
 
         PitchScale(const PitchScale&) = delete;
         PitchScale& operator=(const PitchScale&) = delete;
@@ -113,7 +109,6 @@ namespace ouzel::audio
     {
     public:
         PitchShift(Audio& initAudio, float initShift = 1.0F);
-        ~PitchShift() override;
 
         PitchShift(const PitchShift&) = delete;
         PitchShift& operator=(const PitchShift&) = delete;
@@ -135,7 +130,6 @@ namespace ouzel::audio
     {
     public:
         Reverb(Audio& initAudio, float initDelay = 0.1F, float initDecay = 0.5F);
-        ~Reverb() override;
 
         Reverb(const Reverb&) = delete;
         Reverb& operator=(const Reverb&) = delete;
@@ -154,7 +148,6 @@ namespace ouzel::audio
     {
     public:
         explicit LowPass(Audio& initAudio);
-        ~LowPass() override;
 
         LowPass(const LowPass&) = delete;
         LowPass& operator=(const LowPass&) = delete;
@@ -166,7 +159,6 @@ namespace ouzel::audio
     {
     public:
         explicit HighPass(Audio& initAudio);
-        ~HighPass() override;
 
         HighPass(const HighPass&) = delete;
         HighPass& operator=(const HighPass&) = delete;
