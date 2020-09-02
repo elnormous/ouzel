@@ -27,7 +27,7 @@ namespace ouzel::audio
             case SampleFormat::signedInt16:
             {
                 result.resize(frames * channels * sizeof(std::int16_t));
-                std::int16_t* resultPtr = reinterpret_cast<std::int16_t*>(result.data());
+                auto resultPtr = reinterpret_cast<std::int16_t*>(result.data());
 
                 for (std::uint32_t channel = 0; channel < channels; ++channel)
                 {
@@ -41,7 +41,7 @@ namespace ouzel::audio
             case SampleFormat::float32:
             {
                 result.resize(frames * channels * sizeof(float));
-                float* resultPtr = reinterpret_cast<float*>(result.data());
+                auto resultPtr = reinterpret_cast<float*>(result.data());
 
                 for (std::uint32_t channel = 0; channel < channels; ++channel)
                 {
