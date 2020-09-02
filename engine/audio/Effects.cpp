@@ -374,15 +374,33 @@ namespace ouzel::audio
     {
     }
 
+    class LowPassProcessor final: public mixer::Processor
+    {
+    public:
+        void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
+                     std::vector<float>& samples) final
+        {
+        }
+    };
+
     LowPass::LowPass(Audio& initAudio):
         Effect(initAudio,
-               initAudio.initProcessor(std::unique_ptr<mixer::Processor>()))
+               initAudio.initProcessor(std::unique_ptr<LowPassProcessor>()))
     {
     }
 
+    class HighPassProcessor final: public mixer::Processor
+    {
+    public:
+        void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
+                     std::vector<float>& samples) final
+        {
+        }
+    };
+
     HighPass::HighPass(Audio& initAudio):
         Effect(initAudio,
-               initAudio.initProcessor(std::unique_ptr<mixer::Processor>()))
+               initAudio.initProcessor(std::unique_ptr<HighPassProcessor>()))
     {
     }
 }
