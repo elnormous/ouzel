@@ -74,7 +74,7 @@ namespace ouzel::input::macos
     {
         defaultCursor = [NSCursor arrowCursor];
 
-        unsigned char* data = emptyCursorData;
+        auto data = emptyCursorData;
 
         NSImage* image = [[[NSImage alloc] initWithSize:NSMakeSize(1, 1)] autorelease];
         NSBitmapImageRep* imageRep = [[[NSBitmapImageRep alloc]
@@ -156,7 +156,7 @@ namespace ouzel::input::macos
                 break;
             case Command::Type::setPlayerIndex:
             {
-                if (InputDevice* inputDevice = getInputDevice(command.deviceId))
+                if (auto inputDevice = getInputDevice(command.deviceId))
                 {
                     auto gamepadDevice = static_cast<GamepadDevice*>(inputDevice);
                     gamepadDevice->setPlayerIndex(command.playerIndex);
@@ -169,7 +169,7 @@ namespace ouzel::input::macos
             }
             case Command::Type::setPosition:
             {
-                if (InputDevice* inputDevice = getInputDevice(command.deviceId))
+                if (auto inputDevice = getInputDevice(command.deviceId))
                 {
                     if (inputDevice == mouseDevice.get())
                         mouseDevice->setPosition(command.position);
@@ -196,7 +196,7 @@ namespace ouzel::input::macos
             }
             case Command::Type::destroyCursor:
             {
-                Cursor* cursor = cursors[command.cursorResource - 1].get();
+                auto cursor = cursors[command.cursorResource - 1].get();
 
                 if (mouseDevice->getCursor() == cursor)
                 {
@@ -210,7 +210,7 @@ namespace ouzel::input::macos
             }
             case Command::Type::setCursor:
             {
-                if (InputDevice* inputDevice = getInputDevice(command.deviceId))
+                if (auto inputDevice = getInputDevice(command.deviceId))
                 {
                     if (inputDevice == mouseDevice.get())
                     {
@@ -227,7 +227,7 @@ namespace ouzel::input::macos
             }
             case Command::Type::setCursorVisible:
             {
-                if (InputDevice* inputDevice = getInputDevice(command.deviceId))
+                if (auto inputDevice = getInputDevice(command.deviceId))
                 {
                     if (inputDevice == mouseDevice.get())
                         mouseDevice->setCursorVisible(command.visible);
@@ -236,7 +236,7 @@ namespace ouzel::input::macos
             }
             case Command::Type::setCursorLocked:
             {
-                if (InputDevice* inputDevice = getInputDevice(command.deviceId))
+                if (auto inputDevice = getInputDevice(command.deviceId))
                 {
                     if (inputDevice == mouseDevice.get())
                         mouseDevice->setCursorLocked(command.locked);
