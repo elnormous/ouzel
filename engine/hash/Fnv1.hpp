@@ -18,9 +18,9 @@ namespace ouzel::hash::fnv1
         template <> constexpr std::uint64_t offsetBasis<std::uint64_t>() { return 14695981039346656037ULL; }
     }
 
-    // Fowler / Noll / Vo (FNV) hash
     template <typename Result, typename Value>
-    constexpr Result hash(const Value value, std::size_t i = 0, Result result = offsetBasis<Result>()) noexcept
+    constexpr Result hash(const Value value, const std::size_t i = 0,
+                          const Result result = offsetBasis<Result>()) noexcept
     {
         return (i < sizeof(Value)) ? hash<Result>(value, i + 1, (result * prime<Result>()) ^ ((value >> (i * 8)) & 0xFF)) : result;
     }
