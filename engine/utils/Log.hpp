@@ -23,6 +23,17 @@ namespace ouzel
 {
     class Logger;
 
+    template<typename T, typename = void>
+    struct isContainer: std::false_type {};
+
+    template<typename T>
+    struct isContainer<T,
+        std::void_t<decltype(std::declval<T>().begin()),
+            decltype(std::declval<T>().end())
+        >>: std::true_type {};
+
+    template <typename T> constexpr bool isContainerV = isContainer<T>::value;
+
     class Log final
     {
     public:
@@ -134,16 +145,7 @@ namespace ouzel
             return *this;
         }
 
-        template<typename T, typename = void>
-        struct isContainer: std::false_type {};
-
-        template<typename T>
-        struct isContainer<T,
-            std::void_t<decltype(std::declval<T>().begin()),
-                decltype(std::declval<T>().end())
-            >>: std::true_type {};
-
-        template <typename T, std::enable_if_t<isContainer<T>::value || std::is_array_v<T>>* = nullptr>
+        template <typename T, std::enable_if_t<isContainerV<T> || std::is_array_v<T>>* = nullptr>
         Log& operator<<(const T& val)
         {
             bool first = true;
