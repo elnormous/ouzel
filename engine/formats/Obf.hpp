@@ -434,84 +434,84 @@ namespace ouzel::obf
             }
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, std::string>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
         const std::string& as() const
         {
             assert(type == Type::string);
             return stringValue;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, const char*>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, const char*>>* = nullptr>
         const char* as() const
         {
             assert(type == Type::string);
             return stringValue.c_str();
         }
 
-        template <typename T, typename std::enable_if<std::is_integral<T>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_integral_v<T>>* = nullptr>
         T as() const
         {
             assert(type == Type::integer);
             return static_cast<T>(intValue);
         }
 
-        template <typename T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
         T as() const
         {
             assert(type == Type::floatingPoint || type == Type::doublePrecision);
             return static_cast<T>(doubleValue);
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, ByteArray>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, ByteArray>>* = nullptr>
         T& as()
         {
             type = Type::byteArray;
             return byteArrayValue;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, ByteArray>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, ByteArray>>* = nullptr>
         const T& as() const
         {
             assert(type == Type::byteArray);
             return byteArrayValue;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Object>>* = nullptr>
         T& as()
         {
             type = Type::object;
             return objectValue;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, Object>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Object>>* = nullptr>
         const T& as() const
         {
             assert(type == Type::object);
             return objectValue;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
         T& as()
         {
             type = Type::array;
             return arrayValue;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, Array>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
         const T& as() const
         {
             assert(type == Type::array);
             return arrayValue;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Dictionary>>* = nullptr>
         T& as()
         {
             type = Type::dictionary;
             return dictionaryValue;
         }
 
-        template <typename T, typename std::enable_if<std::is_same<T, Dictionary>::value>::type* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Dictionary>>* = nullptr>
         const T& as() const
         {
             assert(type == Type::dictionary);
