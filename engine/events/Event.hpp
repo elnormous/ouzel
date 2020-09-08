@@ -160,7 +160,7 @@ namespace ouzel
 
     struct UIEvent final: Event
     {
-        scene::Actor* actor;
+        scene::Actor* actor = nullptr;
         std::uint64_t touchId = 0;
         Vector2F difference;
         Vector2F position;
@@ -169,18 +169,18 @@ namespace ouzel
 
     struct AnimationEvent final: Event
     {
-        scene::Component* component;
+        scene::Component* component = nullptr;
         std::string name;
     };
 
     struct SoundEvent final: Event
     {
-        audio::Voice* voice;
+        audio::Voice* voice = nullptr;
     };
 
     struct UpdateEvent final: Event
     {
-        float delta;
+        float delta = 0.0F;
     };
 
     struct UserEvent final: Event

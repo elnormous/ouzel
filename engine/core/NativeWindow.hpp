@@ -35,7 +35,7 @@ namespace ouzel::core
 
             Type type;
             Size2U size;
-            bool fullscreen;
+            bool fullscreen = false;
             std::string title;
         };
 
