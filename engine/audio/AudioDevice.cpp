@@ -31,7 +31,7 @@ namespace ouzel::audio
 
                 for (std::uint32_t channel = 0; channel < channels; ++channel)
                 {
-                    const auto* bufferChannel = &buffer[channel * frames];
+                    const auto bufferChannel = &buffer[channel * frames];
 
                     for (std::uint32_t frame = 0; frame < frames; ++frame)
                         resultPtr[frame * channels + channel] = static_cast<std::int16_t>(bufferChannel[frame] * 32767.0F);
@@ -45,7 +45,7 @@ namespace ouzel::audio
 
                 for (std::uint32_t channel = 0; channel < channels; ++channel)
                 {
-                    const auto* bufferChannel = &buffer[channel * frames];
+                    const auto bufferChannel = &buffer[channel * frames];
 
                     for (std::uint32_t frame = 0; frame < frames; ++frame)
                         resultPtr[frame * channels + channel] = bufferChannel[frame];
