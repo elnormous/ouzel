@@ -23,7 +23,7 @@ namespace ouzel::xcode
             return result;
         }
 
-        PBXFileType fileType;
+        PBXFileType fileType = PBXFileType::text;
     };
 }
 
