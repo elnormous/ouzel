@@ -69,7 +69,7 @@ namespace ouzel
         return result;
     }
 
-    template <class To, class From>
+    template <typename To, typename From>
     std::enable_if_t<
         (sizeof(To) == sizeof(From)) &&
         std::is_trivially_copyable_v<From> &&

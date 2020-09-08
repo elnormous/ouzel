@@ -46,9 +46,9 @@ namespace ouzel::plist
         Value(const Dictionary& value):type{Type::dictionary}, dictionaryValue(value) {}
         Value(const Array& value):type{Type::array}, arrayValue(value) {}
         Value(bool value):type{Type::boolean}, booleanValue{value} {}
-        template <class T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
         Value(T value):type{Type::real}, realValue{static_cast<double>(value)} {}
-        template <class T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
         Value(T value):type{Type::integer}, integerValue{static_cast<std::int64_t>(value)} {}
         Value(const std::string& value):type{Type::string}, stringValue{value} {}
         Value(const char* value):type{Type::string}, stringValue{value} {}
@@ -75,7 +75,7 @@ namespace ouzel::plist
             return *this;
         }
 
-        template <class T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
         Value& operator=(T value)
         {
             type = Type::real;
@@ -83,7 +83,7 @@ namespace ouzel::plist
             return *this;
         }
 
-        template <class T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
         Value& operator=(T value)
         {
             type = Type::integer;
@@ -142,7 +142,7 @@ namespace ouzel::plist
             return static_cast<T>(realValue);
         }
 
-        template <class T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
         T as() const
         {
             if (type != Type::integer) throw TypeError("Wrong type");
