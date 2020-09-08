@@ -233,7 +233,7 @@ namespace ouzel::assets
 
                         for (std::uint32_t frame = 0; frame < frames; ++frame)
                         {
-                            const auto* sourceData = &soundData[(frame * channels + channel) * 4];
+                            const auto sourceData = &soundData[(frame * channels + channel) * 4];
                             std::memcpy(&outputChannel[frame], sourceData, sizeof(float));
                         }
                     }
