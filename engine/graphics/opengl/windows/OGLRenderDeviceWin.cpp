@@ -144,7 +144,7 @@ namespace ouzel::graphics::opengl::windows
             if (!module)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to load opengl32.dll");
 
-            PFNGLGETSTRINGPROC glGetStringProc = reinterpret_cast<PFNGLGETSTRINGPROC>(GetProcAddress(module, "glGetString"));
+            const auto glGetStringProc = reinterpret_cast<PFNGLGETSTRINGPROC>(GetProcAddress(module, "glGetString"));
 
             const auto versionPtr = glGetStringProc(GL_VERSION);
 
@@ -185,7 +185,7 @@ namespace ouzel::graphics::opengl::windows
 
         std::vector<std::string> extensions;
 
-        if (auto wglGetExtensionsStringProc = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB")))
+        if (const auto wglGetExtensionsStringProc = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB")))
         {
             if (const char* extensionsPtr = wglGetExtensionsStringProc(deviceContext))
                 extensions = explodeString(std::string(extensionsPtr), ' ');

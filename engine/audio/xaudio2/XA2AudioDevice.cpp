@@ -41,7 +41,7 @@ namespace ouzel::audio::xaudio2
             apiMinorVersion = 8;
 
             using XAudio2CreateProc = HRESULT(__stdcall *)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
-            XAudio2CreateProc xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
+            const auto xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
 
             if (!xAudio2CreateProc)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get address of XAudio2Create");

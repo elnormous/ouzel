@@ -402,7 +402,7 @@ namespace ouzel::core::windows
             if (shcoreModule)
             {
                 using SetProcessDpiAwarenessProc = HRESULT(STDAPICALLTYPE *)(int value);
-                SetProcessDpiAwarenessProc setProcessDpiAwarenessProc = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcoreModule.get(), "SetProcessDpiAwareness"));
+                const auto setProcessDpiAwarenessProc = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcoreModule.get(), "SetProcessDpiAwareness"));
 
                 if (setProcessDpiAwarenessProc)
                     setProcessDpiAwarenessProc(PROCESS_PER_MONITOR_DPI_AWARE);
