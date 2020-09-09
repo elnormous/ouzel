@@ -37,12 +37,12 @@ namespace ouzel::graphics::opengl
         ProcedureGetter(ApiVersion version):
             apiVersion(version)
         {
-            auto glGetErrorProc = getProcAddress<PFNGLGETERRORPROC>("glGetError", ApiVersion(1, 0));
+            const auto glGetErrorProc = getProcAddress<PFNGLGETERRORPROC>("glGetError", ApiVersion(1, 0));
 
             if (apiVersion >= ApiVersion(3, 0))
             {
-                auto glGetIntegervProc = getProcAddress<PFNGLGETINTEGERVPROC>("glGetIntegerv", ApiVersion(1, 0));
-                auto glGetStringiProc = getProcAddress<PFNGLGETSTRINGIPROC>("glGetStringi", ApiVersion(3, 0));
+                const auto glGetIntegervProc = getProcAddress<PFNGLGETINTEGERVPROC>("glGetIntegerv", ApiVersion(1, 0));
+                const auto glGetStringiProc = getProcAddress<PFNGLGETSTRINGIPROC>("glGetStringi", ApiVersion(3, 0));
 
                 GLint extensionCount;
                 glGetIntegervProc(GL_NUM_EXTENSIONS, &extensionCount);
@@ -63,7 +63,7 @@ namespace ouzel::graphics::opengl
             }
             else
             {
-                auto glGetStringProc = getProcAddress<PFNGLGETSTRINGPROC>("glGetString", ApiVersion(1, 0));
+                const auto glGetStringProc = getProcAddress<PFNGLGETSTRINGPROC>("glGetString", ApiVersion(1, 0));
                 const auto extensionsPtr = glGetStringProc(GL_EXTENSIONS);
 
                 GLuint error;
