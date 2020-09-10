@@ -374,8 +374,6 @@ namespace
 
         return DefWindowProcW(window, message, wParam, lParam);
     }
-
-    constexpr LPCWSTR windowClassName = L"OuzelWindow";
 }
 
 namespace ouzel::core::windows
@@ -425,7 +423,7 @@ namespace ouzel::core::windows
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         wc.hbrBackground = nullptr;
         wc.lpszMenuName = nullptr;
-        wc.lpszClassName = windowClassName;
+        wc.lpszClassName = L"OuzelWindow";
         wc.hIconSm = nullptr;
 
         windowClass = RegisterClassExW(&wc);

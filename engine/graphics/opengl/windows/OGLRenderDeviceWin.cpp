@@ -18,8 +18,6 @@ namespace ouzel::graphics::opengl::windows
 {
     namespace
     {
-        constexpr LPCWSTR tempWindowClassName = L"TempWindow";
-
         LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
         {
             return DefWindowProc(window, msg, wParam, lParam);
@@ -44,13 +42,13 @@ namespace ouzel::graphics::opengl::windows
                 wc.hCursor = 0;
                 wc.hbrBackground = 0;
                 wc.lpszMenuName = nullptr;
-                wc.lpszClassName = tempWindowClassName;
+                wc.lpszClassName = L"TempWindow";
 
                 windowClass = RegisterClassW(&wc);
                 if (!windowClass)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to register window class");
 
-                window = CreateWindowW(tempWindowClassName, L"TempWindow", 0,
+                window = CreateWindowW(MAKEINTATOM(windowClass), L"TempWindow", 0,
                                        CW_USEDEFAULT, CW_USEDEFAULT,
                                        CW_USEDEFAULT, CW_USEDEFAULT,
                                        0, 0, instance, 0);
@@ -123,7 +121,7 @@ namespace ouzel::graphics::opengl::windows
                 }
 
                 if (windowClass)
-                    UnregisterClassW(tempWindowClassName, GetModuleHandleW(nullptr));
+                    UnregisterClassW(MAKEINTATOM(windowClass), GetModuleHandleW(nullptr));
             }
 
             TempContext(const TempContext&) = delete;
