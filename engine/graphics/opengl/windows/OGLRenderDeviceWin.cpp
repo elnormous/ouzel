@@ -18,9 +18,9 @@ namespace ouzel::graphics::opengl::windows
 {
     namespace
     {
-        LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
+        LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
         {
-            return DefWindowProc(window, msg, wParam, lParam);
+            return DefWindowProc(window, message, wParam, lParam);
         }
 
         class TempContext final

@@ -361,9 +361,16 @@ namespace
                 }
                 break;
             }
+            case WM_CREATE:
+                return 0;
             case WM_DESTROY:
                 PostQuitMessage(0);
                 return 0;
+            case WM_DEVICECHANGE:
+            {
+                // TODO: handle input device connect/disconnect
+                return TRUE;
+            }
             case WM_USER:
             {
                 auto engineWin = static_cast<ouzel::core::windows::Engine*>(ouzel::engine);
@@ -399,7 +406,7 @@ namespace ouzel::core::windows
 
             if (shcoreModule)
             {
-                using SetProcessDpiAwarenessProc = HRESULT(STDAPICALLTYPE *)(int value);
+                using SetProcessDpiAwarenessProc = HRESULT(STDAPICALLTYPE*)(int value);
                 const auto setProcessDpiAwarenessProc = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcoreModule.get(), "SetProcessDpiAwareness"));
 
                 if (setProcessDpiAwarenessProc)
