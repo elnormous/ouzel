@@ -87,8 +87,7 @@ namespace ouzel::graphics::opengl::windows
                 pixelFormatDesc.dwVisibleMask = 0;
                 pixelFormatDesc.dwDamageMask = 0;
 
-                const int pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
-
+                const auto pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
                 if (!pixelFormat)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to choose pixel format");
 
@@ -138,7 +137,7 @@ namespace ouzel::graphics::opengl::windows
 
         ApiVersion getVersion()
         {
-            HMODULE module = LoadLibraryW(L"opengl32.dll");
+            const HMODULE module = LoadLibraryW(L"opengl32.dll");
             if (!module)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to load opengl32.dll");
 
@@ -173,7 +172,7 @@ namespace ouzel::graphics::opengl::windows
     {
         embedded = false;
 
-        TempContext tempContext;
+        const TempContext tempContext;
 
         auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
 
