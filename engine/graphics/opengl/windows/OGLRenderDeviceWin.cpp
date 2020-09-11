@@ -38,9 +38,9 @@ namespace ouzel::graphics::opengl::windows
                 wc.cbClsExtra = 0;
                 wc.cbWndExtra = 0;
                 wc.hInstance = instance;
-                wc.hIcon = 0;
-                wc.hCursor = 0;
-                wc.hbrBackground = 0;
+                wc.hIcon = nullptr;
+                wc.hCursor = nullptr;
+                wc.hbrBackground = nullptr;
                 wc.lpszMenuName = nullptr;
                 wc.lpszClassName = L"TempWindow";
 
