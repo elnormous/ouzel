@@ -30,7 +30,7 @@ namespace ouzel::scene
 
     bool SceneManager::removeScene(const Scene* scene)
     {
-        assert(layer);
+        assert(scene);
 
         bool result = false;
 
