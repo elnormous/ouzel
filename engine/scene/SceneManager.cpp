@@ -30,6 +30,8 @@ namespace ouzel::scene
 
     bool SceneManager::removeScene(const Scene* scene)
     {
+        assert(layer);
+
         bool result = false;
 
         const auto sceneIterator = std::find(scenes.begin(), scenes.end(), scene);

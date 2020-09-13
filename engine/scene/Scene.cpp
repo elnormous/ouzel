@@ -78,6 +78,8 @@ namespace ouzel::scene
 
     bool Scene::removeLayer(const Layer* layer)
     {
+        assert(layer);
+
         bool result = false;
 
         const auto layerIterator = std::find(layers.begin(), layers.end(), layer);
