@@ -20,6 +20,7 @@
 #elif defined(__unix__) || defined(__APPLE__)
 #  include <pthread.h>
 #endif
+#include "../utils/Utils.hpp"
 
 namespace ouzel::thread
 {
@@ -123,13 +124,11 @@ namespace ouzel::thread
         info.dwThreadID = static_cast<DWORD>(-1);
         info.dwFlags = 0;
 
-        const DWORD numberOfArguments = sizeof(info) / sizeof(ULONG_PTR);
-        ULONG_PTR arguments[numberOfArguments];
-        std::memcpy(arguments, &info, sizeof(info));
-
         __try
         {
-            RaiseException(MS_VC_EXCEPTION, 0, numberOfArguments, arguments);
+            RaiseException(MS_VC_EXCEPTION, 0,
+                           sizeof(info) / sizeof(ULONG_PTR),
+                           bitCast<ULONG_PTR*>(&info));
         }
         __except (EXCEPTION_EXECUTE_HANDLER)
         {
