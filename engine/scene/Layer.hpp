@@ -42,11 +42,11 @@ namespace ouzel::scene
         void removeFromScene();
 
     protected:
-        void addCamera(Camera* camera);
-        void removeCamera(Camera* camera);
+        void addCamera(Camera& camera);
+        void removeCamera(Camera& camera);
 
-        void addLight(Light* light);
-        void removeLight(Light* light);
+        void addLight(Light& light);
+        void removeLight(Light& light);
 
         virtual void recalculateProjection();
         void enter() override;

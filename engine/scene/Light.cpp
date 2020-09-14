@@ -13,15 +13,15 @@ namespace ouzel::scene
 
     Light::~Light()
     {
-        if (layer) layer->removeLight(this);
+        if (layer) layer->removeLight(*this);
     }
 
     void Light::setLayer(Layer* newLayer)
     {
-        if (layer) layer->addLight(this);
+        if (layer) layer->addLight(*this);
 
         Component::setLayer(newLayer);
 
-        if (layer) layer->removeLight(this);
+        if (layer) layer->removeLight(*this);
     }
 }

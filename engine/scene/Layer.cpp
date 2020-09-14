@@ -49,31 +49,27 @@ namespace ouzel::scene
         actor.updateTransform(Matrix4F::identity());
     }
 
-    void Layer::addCamera(Camera* camera)
+    void Layer::addCamera(Camera& camera)
     {
-        assert(camera);
-
-        cameras.push_back(camera);
+        cameras.push_back(&camera);
     }
 
-    void Layer::removeCamera(Camera* camera)
+    void Layer::removeCamera(Camera& camera)
     {
-        const auto i = std::find(cameras.begin(), cameras.end(), camera);
+        const auto i = std::find(cameras.begin(), cameras.end(), &camera);
 
         if (i != cameras.end())
             cameras.erase(i);
     }
 
-    void Layer::addLight(Light* light)
+    void Layer::addLight(Light& light)
     {
-        assert(light);
-
-        lights.push_back(light);
+        lights.push_back(&light);
     }
 
-    void Layer::removeLight(Light* light)
+    void Layer::removeLight(Light& light)
     {
-        const auto i = std::find(lights.begin(), lights.end(), light);
+        const auto i = std::find(lights.begin(), lights.end(), &light);
 
         if (i != lights.end())
             lights.erase(i);
