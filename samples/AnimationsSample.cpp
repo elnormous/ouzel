@@ -65,8 +65,8 @@ namespace samples
         camera.setClearColor(ouzel::Color(64, 0, 0));
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
         camera.setTargetContentSize(Size2F(800.0F, 600.0F));
-        cameraActor.addComponent(&camera);
-        layer.addChild(&cameraActor);
+        cameraActor.addComponent(camera);
+        layer.addChild(cameraActor);
         addLayer(layer);
 
         shapeDrawable.rectangle(ouzel::RectF(100.0F, 100.0F), Color(0, 128, 128, 255), true);
@@ -88,19 +88,19 @@ namespace samples
                                Vector2F(25.0F, 55.0F)},
                               Color("#ff0000"), false);
 
-        drawActor.addComponent(&shapeDrawable);
+        drawActor.addComponent(shapeDrawable);
         drawActor.setPosition(Vector2F(-300.0F, 0.0F));
-        layer.addChild(&drawActor);
+        layer.addChild(drawActor);
 
         shake = std::make_unique<scene::Shake>(10.0F, Vector3F(10.0F, 20.0F, 0.0F), 20.0F);
-        drawActor.addComponent(shake.get());
+        drawActor.addComponent(*shake);
         shake->start();
 
         witchSprite.init("witch.png");
 
         witch.setPosition(Vector2F(200.0F, 0.0F));
-        witch.addComponent(&witchSprite);
-        layer.addChild(&witch);
+        witch.addComponent(witchSprite);
+        layer.addChild(witch);
 
         witchScale = std::make_unique<scene::Scale>(2.0F, Vector3F(0.1F, 0.1F, 0.0F), false);
         witchFade = std::make_unique<scene::Fade>(2.0F, 0.4F);
@@ -122,13 +122,13 @@ namespace samples
 
         witchSequence = std::make_unique<scene::Sequence>(sequence);
 
-        witch.addComponent(witchSequence.get());
+        witch.addComponent(*witchSequence);
         witchSequence->start();
 
         ballSprite.init("ball.png");
 
-        ball.addComponent(&ballSprite);
-        layer.addChild(&ball);
+        ball.addComponent(ballSprite);
+        layer.addChild(ball);
 
         ballDelay = std::make_unique<scene::Animator>(1.0F);
         ballMove = std::make_unique<scene::Move>(2.0F, Vector3F(0.0F, -240.0F, 0.0F), false);
@@ -141,19 +141,19 @@ namespace samples
 
         ballSequence = std::make_unique<scene::Sequence>(sequence2);
 
-        ball.addComponent(ballSequence.get());
+        ball.addComponent(*ballSequence);
         ballSequence->start();
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
         guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
-        guiCameraActor.addComponent(&guiCamera);
-        guiLayer.addChild(&guiCameraActor);
+        guiCameraActor.addComponent(guiCamera);
+        guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);
 
-        guiLayer.addChild(&menu);
+        guiLayer.addChild(menu);
 
         backButton.setPosition(Vector2F(-200.0F, -200.0F));
-        menu.addWidget(&backButton);
+        menu.addWidget(backButton);
     }
 }
 

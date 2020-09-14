@@ -42,12 +42,11 @@ namespace ouzel::scene
         }
     }
 
-    void Layer::addChild(Actor* actor)
+    void Layer::addChild(Actor& actor)
     {
         ActorContainer::addChild(actor);
 
-        if (actor)
-            actor->updateTransform(Matrix4F::identity());
+        actor.updateTransform(Matrix4F::identity());
     }
 
     void Layer::addCamera(Camera* camera)

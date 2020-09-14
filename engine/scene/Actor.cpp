@@ -23,28 +23,28 @@ namespace ouzel::scene
 
     void ActorContainer::addChild(std::unique_ptr<Actor> actor)
     {
-        addChild(actor.get());
+        assert(actor.get());
+
+        addChild(*actor);
         ownedChildren.push_back(std::move(actor));
     }
 
-    void ActorContainer::addChild(Actor* actor)
+    void ActorContainer::addChild(Actor& actor)
     {
-        assert(actor);
+        if (actor.parent)
+            actor.parent->removeChild(actor);
 
-        if (actor->parent)
-            actor->parent->removeChild(actor);
-
-        actor->parent = this;
-        actor->setLayer(layer);
-        if (entered) actor->enter();
-        children.push_back(actor);
+        actor.parent = this;
+        actor.setLayer(layer);
+        if (entered) actor.enter();
+        children.push_back(&actor);
     }
 
-    bool ActorContainer::removeChild(const Actor* actor)
+    bool ActorContainer::removeChild(const Actor& actor)
     {
         bool result = false;
 
-        const auto childIterator = std::find(children.begin(), children.end(), actor);
+        const auto childIterator = std::find(children.begin(), children.end(), &actor);
 
         if (childIterator != children.end())
         {
@@ -58,8 +58,8 @@ namespace ouzel::scene
             result = true;
         }
 
-        const auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const auto& ownedChild) noexcept {
-            return actor == ownedChild.get();
+        const auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [&actor](const auto& ownedChild) noexcept {
+            return ownedChild.get() == &actor;
         });
         if (ownedChildIterator != ownedChildren.end())
             ownedChildren.erase(ownedChildIterator);
@@ -67,12 +67,12 @@ namespace ouzel::scene
         return result;
     }
 
-    std::unique_ptr<Actor> ActorContainer::releaseChild(const Actor* actor)
+    std::unique_ptr<Actor> ActorContainer::releaseChild(const Actor& actor)
     {
         std::unique_ptr<Actor> result;
 
-        const auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const auto& ownedChild) noexcept {
-            return actor == ownedChild.get();
+        const auto ownedChildIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [&actor](const auto& ownedChild) noexcept {
+            return ownedChild.get() == &actor;
         });
 
         if (ownedChildIterator != ownedChildren.end())
@@ -86,9 +86,9 @@ namespace ouzel::scene
         return result;
     }
 
-    bool ActorContainer::moveChildToBack(Actor* actor)
+    bool ActorContainer::moveChildToBack(Actor& actor)
     {
-        const auto i = std::find(children.begin(), children.end(), actor);
+        const auto i = std::find(children.begin(), children.end(), &actor);
 
         if (i != children.end())
         {
@@ -100,9 +100,9 @@ namespace ouzel::scene
         return false;
     }
 
-    bool ActorContainer::moveChildToFront(Actor* actor)
+    bool ActorContainer::moveChildToFront(Actor& actor)
     {
-        const auto i = std::find(children.begin(), children.end(), actor);
+        const auto i = std::find(children.begin(), children.end(), &actor);
 
         if (i != children.end())
         {
@@ -126,13 +126,13 @@ namespace ouzel::scene
         ownedChildren.clear();
     }
 
-    bool ActorContainer::hasChild(const Actor* actor, bool recursive) const
+    bool ActorContainer::hasChild(const Actor& actor, bool recursive) const
     {
         for (auto i = children.cbegin(); i != children.cend(); ++i)
         {
             const Actor* child = *i;
 
-            if (child == actor || (recursive && child->hasChild(actor, true)))
+            if (child == &actor || (recursive && child->hasChild(actor, true)))
                 return true;
         }
 
@@ -239,7 +239,7 @@ namespace ouzel::scene
 
     Actor::~Actor()
     {
-        if (parent) parent->removeChild(this);
+        if (parent) parent->removeChild(*this);
 
         for (const auto component : components)
             component->setActor(nullptr);
@@ -292,11 +292,11 @@ namespace ouzel::scene
                                 wireframe);
     }
 
-    void Actor::addChild(Actor* actor)
+    void Actor::addChild(Actor& actor)
     {
         ActorContainer::addChild(actor);
 
-        actor->updateTransform(getTransform());
+        actor.updateTransform(getTransform());
     }
 
     void Actor::setPosition(const Vector2F& newPosition)
@@ -499,43 +499,39 @@ namespace ouzel::scene
 
     void Actor::removeFromParent()
     {
-        if (parent) parent->removeChild(this);
+        if (parent) parent->removeChild(*this);
     }
 
     void Actor::addComponent(std::unique_ptr<Component> component)
     {
-        addComponent(component.get());
+        addComponent(*component);
         ownedComponents.push_back(std::move(component));
     }
 
-    void Actor::addComponent(Component* component)
+    void Actor::addComponent(Component& component)
     {
-        assert(component);
+        if (component.actor)
+            component.actor->removeComponent(component);
 
-        if (component->actor)
-            component->actor->removeComponent(component);
-
-        component->setActor(this);
-        components.push_back(component);
+        component.setActor(this);
+        components.push_back(&component);
     }
 
-    bool Actor::removeComponent(Component* component)
+    bool Actor::removeComponent(Component& component)
     {
-        assert(component);
-
         bool result = false;
 
-        const auto componentIterator = std::find(components.begin(), components.end(), component);
+        const auto componentIterator = std::find(components.begin(), components.end(), &component);
 
         if (componentIterator != components.end())
         {
-            component->setActor(nullptr);
+            component.setActor(nullptr);
             components.erase(componentIterator);
             result = true;
         }
 
-        const auto ownedComponentIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const auto& ownedComponent) noexcept {
-            return component == ownedComponent.get();
+        const auto ownedComponentIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [&component](const auto& ownedComponent) noexcept {
+            return ownedComponent.get() == &component;
         });
         if (ownedComponentIterator != ownedComponents.end())
             ownedComponents.erase(ownedComponentIterator);

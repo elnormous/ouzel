@@ -91,30 +91,30 @@ namespace samples
         camera.setClearColor(ouzel::Color(64, 0, 0));
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
         camera.setTargetContentSize(Size2F(800.0F, 600.0F));
-        cameraActor.addComponent(&camera);
-        layer.addChild(&cameraActor);
+        cameraActor.addComponent(camera);
+        layer.addChild(cameraActor);
         addLayer(layer);
 
-        layer.addChild(&menu);
+        layer.addChild(menu);
 
         button.setPosition(Vector2F(-200.0F, 100.0F));
-        menu.addWidget(&button);
+        menu.addWidget(button);
 
         checkBox.setPosition(Vector2F(-100.0F, 100.0F));
-        layer.addChild(&checkBox);
+        layer.addChild(checkBox);
 
         fullscreenButton.setPosition(Vector2F(-200.0F, 40.0F));
-        menu.addWidget(&fullscreenButton);
+        menu.addWidget(fullscreenButton);
 
         minimizeButton.setPosition(Vector2F(-200.0F, -0.0F));
-        menu.addWidget(&minimizeButton);
+        menu.addWidget(minimizeButton);
 
         maximizeButton.setPosition(Vector2F(-200.0F, -40.0F));
-        menu.addWidget(&maximizeButton);
+        menu.addWidget(maximizeButton);
 
         label1.getLabelDrawable()->setColor(Color::cyan());
         label1.setPosition(Vector2F(-88.0F, 108.0F));
-        layer.addChild(&label1);
+        layer.addChild(label1);
 
         engine->getLocalization().addLanguage("latvian", engine->getFileSystem().readFile("lv.mo"));
         engine->getLocalization().setLanguage("latvian");
@@ -122,15 +122,15 @@ namespace samples
         label2.setText(engine->getLocalization().getString("Ouzel"));
 
         label2.setPosition(Vector2F(10.0F, 0.0F));
-        layer.addChild(&label2);
+        layer.addChild(label2);
 
         label3.getLabelDrawable()->setColor(Color::blue());
         label3.setPosition(Vector2F(-100.0F, -100.0F));
         label3.setScale(Vector3F(0.5F, 0.5F, 1.0F));
-        layer.addChild(&label3);
+        layer.addChild(label3);
 
         backButton.setPosition(Vector2F(-200.0F, -200.0F));
-        menu.addWidget(&backButton);
+        menu.addWidget(backButton);
     }
 }
 

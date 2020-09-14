@@ -166,36 +166,36 @@ namespace samples
         camera.setClearColor(ouzel::Color(64, 0, 0));
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
         camera.setTargetContentSize(Size2F(800.0F, 600.0F));
-        cameraActor.addComponent(&camera);
+        cameraActor.addComponent(camera);
 
         mover = std::make_unique<Mover>();
-        cameraActor.addComponent(mover.get());
+        cameraActor.addComponent(*mover);
 
-        layer.addChild(&cameraActor);
+        layer.addChild(cameraActor);
         addLayer(layer);
 
         flameParticleSystem.init(*engine->getCache().getParticleSystemData("flame.json"));
 
-        flame.addComponent(&flameParticleSystem);
+        flame.addComponent(flameParticleSystem);
         flame.setPickable(false);
-        layer.addChild(&flame);
+        layer.addChild(flame);
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
         guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
-        guiCameraActor.addComponent(&guiCamera);
-        guiLayer.addChild(&guiCameraActor);
+        guiCameraActor.addComponent(guiCamera);
+        guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);
 
-        guiLayer.addChild(&menu);
+        guiLayer.addChild(menu);
 
         hideButton.setPosition(Vector2F(-200.0F, 200.0F));
-        menu.addWidget(&hideButton);
+        menu.addWidget(hideButton);
 
         discoverButton.setPosition(Vector2F(-200.0F, 140.0F));
-        menu.addWidget(&discoverButton);
+        menu.addWidget(discoverButton);
 
         backButton.setPosition(Vector2F(-200.0F, -200.0F));
-        menu.addWidget(&backButton);
+        menu.addWidget(backButton);
 
         if (Mouse* mouse = engine->getInputManager()->getMouse())
         {

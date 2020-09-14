@@ -8,7 +8,7 @@ namespace ouzel::scene
 {
     Component::~Component()
     {
-        if (actor) actor->removeComponent(this);
+        if (actor) actor->removeComponent(*this);
     }
 
     void Component::draw(const Matrix4F&,
@@ -96,7 +96,7 @@ namespace ouzel::scene
 
     void Component::removeFromActor()
     {
-        if (actor) actor->removeComponent(this);
+        if (actor) actor->removeComponent(*this);
     }
 
     void Component::setActor(Actor* newActor)

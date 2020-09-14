@@ -74,8 +74,8 @@ namespace samples
         camera.setClearColor(ouzel::Color(64, 64, 64));
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
         camera.setTargetContentSize(Size2F(800.0F, 600.0F));
-        cameraActor.addComponent(&camera);
-        layer.addChild(&cameraActor);
+        cameraActor.addComponent(camera);
+        layer.addChild(cameraActor);
         addLayer(layer);
 
         // character
@@ -83,12 +83,12 @@ namespace samples
         characterSprite.setAnimation("", true);
         characterSprite.play();
 
-        character.addComponent(&characterSprite);
-        layer.addChild(&character);
+        character.addComponent(characterSprite);
+        layer.addChild(character);
         character.setPosition(Vector2F(-300.0F, 0.0F));
 
         move = std::make_unique<scene::Move>(4.0F, Vector3F(300.0F, 0.0F, 0.0F));
-        character.addComponent(move.get());
+        character.addComponent(*move);
         move->start();
 
         // fire
@@ -97,32 +97,32 @@ namespace samples
         fireSprite.setAnimation("", true);
         fireSprite.play();
 
-        fireActor.addComponent(&fireSprite);
+        fireActor.addComponent(fireSprite);
         fireActor.setPosition(Vector2F(-100.0F, -140.0F));
-        layer.addChild(&fireActor);
+        layer.addChild(fireActor);
 
         // triangle
         triangleSprite.init("triangle.json");
 
-        triangleActor.addComponent(&triangleSprite);
+        triangleActor.addComponent(triangleSprite);
         triangleActor.setPosition(Vector2F(100.0F, -140.0F));
-        layer.addChild(&triangleActor);
+        layer.addChild(triangleActor);
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
         guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
-        guiCameraActor.addComponent(&guiCamera);
-        guiLayer.addChild(&guiCameraActor);
+        guiCameraActor.addComponent(guiCamera);
+        guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);
 
-        guiLayer.addChild(&menu);
+        guiLayer.addChild(menu);
 
         hideButton.setPosition(Vector2F(-200.0F, 200.0F));
-        menu.addWidget(&hideButton);
+        menu.addWidget(hideButton);
 
         wireframeButton.setPosition(Vector2F(-200.0F, 160.0F));
-        menu.addWidget(&wireframeButton);
+        menu.addWidget(wireframeButton);
 
         backButton.setPosition(Vector2F(-200.0F, -200.0F));
-        menu.addWidget(&backButton);
+        menu.addWidget(backButton);
     }
 }

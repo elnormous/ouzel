@@ -49,35 +49,35 @@ namespace ouzel::gui
         {
             normalSprite = std::make_unique<scene::SpriteRenderer>();
             normalSprite->init(normalImage);
-            addComponent(normalSprite.get());
+            addComponent(*normalSprite);
         }
 
         if (!selectedImage.empty())
         {
             selectedSprite = std::make_unique<scene::SpriteRenderer>();
             selectedSprite->init(selectedImage);
-            addComponent(selectedSprite.get());
+            addComponent(*selectedSprite);
         }
 
         if (!pressedImage.empty())
         {
             pressedSprite = std::make_unique<scene::SpriteRenderer>();
             pressedSprite->init(pressedImage);
-            addComponent(pressedSprite.get());
+            addComponent(*pressedSprite);
         }
 
         if (!disabledImage.empty())
         {
             disabledSprite = std::make_unique<scene::SpriteRenderer>();
             disabledSprite->init(disabledImage);
-            addComponent(disabledSprite.get());
+            addComponent(*disabledSprite);
         }
 
         if (!label.empty())
         {
             labelDrawable = std::make_unique<scene::TextRenderer>(font, fontSize, label);
             labelDrawable->setColor(labelColor);
-            addComponent(labelDrawable.get());
+            addComponent(*labelDrawable);
         }
 
         pickable = true;
@@ -199,35 +199,35 @@ namespace ouzel::gui
         {
             normalSprite = std::make_unique<scene::SpriteRenderer>();
             normalSprite->init(normalImage);
-            addComponent(normalSprite.get());
+            addComponent(*normalSprite);
         }
 
         if (!selectedImage.empty())
         {
             selectedSprite = std::make_unique<scene::SpriteRenderer>();
             selectedSprite->init(selectedImage);
-            addComponent(selectedSprite.get());
+            addComponent(*selectedSprite);
         }
 
         if (!pressedImage.empty())
         {
             pressedSprite = std::make_unique<scene::SpriteRenderer>();
             pressedSprite->init(pressedImage);
-            addComponent(pressedSprite.get());
+            addComponent(*pressedSprite);
         }
 
         if (!disabledImage.empty())
         {
             disabledSprite = std::make_unique<scene::SpriteRenderer>();
             disabledSprite->init(disabledImage);
-            addComponent(disabledSprite.get());
+            addComponent(*disabledSprite);
         }
 
         if (!tickImage.empty())
         {
             tickSprite = std::make_unique<scene::SpriteRenderer>();
             tickSprite->init(tickImage);
-            addComponent(tickSprite.get());
+            addComponent(*tickSprite);
         }
 
         pickable = true;
@@ -354,7 +354,7 @@ namespace ouzel::gui
         text(initText),
         labelDrawable(std::make_shared<scene::TextRenderer>(fontFile, fontSize, text, color, textAnchor))
     {
-        addComponent(labelDrawable.get());
+        addComponent(*labelDrawable);
         labelDrawable->setText(text);
 
         pickable = true;
@@ -402,26 +402,23 @@ namespace ouzel::gui
         }
     }
 
-    void Menu::addWidget(Widget* widget)
+    void Menu::addWidget(Widget& widget)
     {
         addChild(widget);
 
-        if (widget)
-        {
-            if (widget->menu)
-                widget->menu->removeChild(widget);
+        if (widget.menu)
+            widget.menu->removeChild(widget);
 
-            widget->menu = this;
-            widgets.push_back(widget);
+        widget.menu = this;
+        widgets.push_back(&widget);
 
-            if (!selectedWidget)
-                selectWidget(widget);
-        }
+        if (!selectedWidget)
+            selectWidget(&widget);
     }
 
-    bool Menu::removeChild(const Actor* actor)
+    bool Menu::removeChild(const Actor& actor)
     {
-        const auto i = std::find(widgets.begin(), widgets.end(), actor);
+        const auto i = std::find(widgets.begin(), widgets.end(), &actor);
 
         if (i != widgets.end())
         {
@@ -431,7 +428,7 @@ namespace ouzel::gui
             widgets.erase(i);
         }
 
-        if (selectedWidget == actor)
+        if (selectedWidget == &actor)
             selectWidget(nullptr);
 
         if (!Actor::removeChild(actor))

@@ -142,9 +142,9 @@ namespace ouzel::gui
 
         void setEnabled(bool newEnabled) override;
 
-        bool removeChild(const Actor* actor) override;
+        bool removeChild(const Actor& actor) override;
 
-        void addWidget(Widget* widget);
+        void addWidget(Widget& widget);
 
         void selectWidget(Widget* widget);
         void selectNextWidget();

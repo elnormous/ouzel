@@ -32,14 +32,14 @@ namespace ouzel::scene
         ActorContainer& operator=(ActorContainer&&) = delete;
 
         void addChild(std::unique_ptr<Actor> actor);
-        virtual void addChild(Actor* actor);
-        virtual bool removeChild(const Actor* actor);
-        std::unique_ptr<Actor> releaseChild(const Actor* actor);
+        virtual void addChild(Actor& actor);
+        virtual bool removeChild(const Actor& actor);
+        std::unique_ptr<Actor> releaseChild(const Actor& actor);
 
-        bool moveChildToBack(Actor* actor);
-        bool moveChildToFront(Actor* actor);
+        bool moveChildToBack(Actor& actor);
+        bool moveChildToFront(Actor& actor);
         virtual void removeAllChildren();
-        virtual bool hasChild(const Actor* actor, bool recursive = false) const;
+        virtual bool hasChild(const Actor& actor, bool recursive = false) const;
         virtual const std::vector<Actor*>& getChildren() const noexcept { return children; }
 
         auto getLayer() const noexcept { return layer; }
@@ -146,11 +146,11 @@ namespace ouzel::scene
         auto getParent() const noexcept { return parent; }
         void removeFromParent();
 
-        void addChild(Actor* actor) override;
+        void addChild(Actor& actor) override;
 
         void addComponent(std::unique_ptr<Component> component);
-        void addComponent(Component* component);
-        bool removeComponent(Component* component);
+        void addComponent(Component& component);
+        bool removeComponent(Component& component);
 
         void removeAllComponents();
         auto& getComponents() const noexcept { return components; }

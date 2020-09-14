@@ -140,16 +140,16 @@ namespace samples
         camera.setProjectionMode(scene::Camera::ProjectionMode::perspective);
         camera.setFarPlane(1000.0F);
         cameraActor.setPosition(Vector3F(0.0F, 0.0F, -400.0F));
-        cameraActor.addComponent(&camera);
-        layer.addChild(&cameraActor);
+        cameraActor.addComponent(camera);
+        layer.addChild(cameraActor);
         addLayer(layer);
 
         // floor
         floorSprite.init("floor.jpg");
         floorSprite.getMaterial()->textures[0]->setMaxAnisotropy(4);
 
-        floor.addComponent(&floorSprite);
-        layer.addChild(&floor);
+        floor.addComponent(floorSprite);
+        layer.addChild(floor);
         floor.setPosition(Vector2F(0.0F, -50.0F));
         floor.setRotation(Vector3F(tau<float> / 4.04F, tau<float> / 8.0F, 0.0F));
 
@@ -160,13 +160,13 @@ namespace samples
         characterSprite.getMaterial()->textures[0]->setMaxAnisotropy(4);
         characterSprite.getMaterial()->cullMode = graphics::CullMode::none;
 
-        character.addComponent(&characterSprite);
-        layer.addChild(&character);
+        character.addComponent(characterSprite);
+        layer.addChild(character);
         character.setPosition(Vector2F(10.0F, 0.0F));
 
         submix.setOutput(&engine->getAudio()->getMasterMix());
 
-        cameraActor.addComponent(&listener);
+        cameraActor.addComponent(listener);
         listener.setMix(&submix);
         submix.setOutput(&engine->getAudio()->getMasterMix());
 
@@ -174,26 +174,26 @@ namespace samples
         jumpVoice.setOutput(&jumpSubmix);
         jumpSubmix.addEffect(&jumpPanner);
         jumpPanner.setRolloffFactor(0.01F);
-        character.addComponent(&jumpPanner);
+        character.addComponent(jumpPanner);
 
         rotate = std::make_unique<scene::Rotate>(10.0F, Vector3F(0.0F, tau<float>, 0.0F));
-        character.addComponent(rotate.get());
+        character.addComponent(*rotate);
         rotate->start();
 
         boxModel.init(*engine->getCache().getStaticMeshData("cube.obj"));
-        box.addComponent(&boxModel);
+        box.addComponent(boxModel);
         box.setPosition(Vector3F(-160.0F, 0.0F, -50.0F));
-        layer.addChild(&box);
+        layer.addChild(box);
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
         guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
-        guiCameraActor.addComponent(&guiCamera);
-        guiLayer.addChild(&guiCameraActor);
+        guiCameraActor.addComponent(guiCamera);
+        guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);
 
-        guiLayer.addChild(&menu);
+        guiLayer.addChild(menu);
 
         backButton.setPosition(Vector2F(-200.0F, -200.0F));
-        menu.addWidget(&backButton);
+        menu.addWidget(backButton);
     }
 }

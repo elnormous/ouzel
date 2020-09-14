@@ -79,42 +79,42 @@ namespace samples
         rtCamera.setRenderTarget(&renderTarget);
         rtCamera.setClearColorBuffer(true);
         rtCamera.setClearColor(Color(0, 64, 0));
-        rtCameraActor.addComponent(&rtCamera);
-        rtLayer.addChild(&rtCameraActor);
+        rtCameraActor.addComponent(rtCamera);
+        rtLayer.addChild(rtCameraActor);
 
         camera1.setClearColorBuffer(true);
         camera1.setScaleMode(scene::Camera::ScaleMode::showAll);
         camera1.setTargetContentSize(Size2F(400.0F, 600.0F));
         camera1.setViewport(RectF(0.0F, 0.0F, 0.5F, 1.0F));
-        camera1Actor.addComponent(&camera1);
+        camera1Actor.addComponent(camera1);
 
         camera2.setScaleMode(scene::Camera::ScaleMode::showAll);
         camera2.setTargetContentSize(Size2F(400.0F, 600.0F));
         camera2.setViewport(RectF(0.5F, 0.0F, 0.5F, 1.0F));
-        camera2Actor.addComponent(&camera2);
+        camera2Actor.addComponent(camera2);
 
-        layer.addChild(&camera1Actor);
-        layer.addChild(&camera2Actor);
+        layer.addChild(camera1Actor);
+        layer.addChild(camera2Actor);
         addLayer(layer);
 
         characterSprite.setAnimation("", true);
         characterSprite.play();
-        rtCharacter.addComponent(&characterSprite);
-        rtLayer.addChild(&rtCharacter);
+        rtCharacter.addComponent(characterSprite);
+        rtLayer.addChild(rtCharacter);
 
         rtSprite.init(renderTexture);
-        rtActor.addComponent(&rtSprite);
-        layer.addChild(&rtActor);
+        rtActor.addComponent(rtSprite);
+        layer.addChild(rtActor);
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
         guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
-        guiCameraActor.addComponent(&guiCamera);
-        guiLayer.addChild(&guiCameraActor);
+        guiCameraActor.addComponent(guiCamera);
+        guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);
 
-        guiLayer.addChild(&menu);
+        guiLayer.addChild(menu);
 
         backButton.setPosition(Vector2F(-200.0F, -200.0F));
-        menu.addWidget(&backButton);
+        menu.addWidget(backButton);
     }
 }

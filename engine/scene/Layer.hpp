@@ -27,7 +27,7 @@ namespace ouzel::scene
 
         virtual void draw();
 
-        void addChild(Actor* actor) override;
+        void addChild(Actor& actor) override;
 
         auto& getCameras() const noexcept { return cameras; }
 

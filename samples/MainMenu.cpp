@@ -87,33 +87,33 @@ namespace samples
         camera.setClearColor(ouzel::Color(64, 0, 0));
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
         camera.setTargetContentSize(Size2F(400.0F, 600.0F));
-        cameraActor.addComponent(&camera);
-        layer.addChild(&cameraActor);
+        cameraActor.addComponent(camera);
+        layer.addChild(cameraActor);
 
-        layer.addChild(&menu);
+        layer.addChild(menu);
 
         gitHubButton.setPosition(Vector2F(0.0F, 120.0F));
-        menu.addWidget(&gitHubButton);
+        menu.addWidget(gitHubButton);
 
         spritesButton.setPosition(Vector2F(0.0F, 80.0F));
-        menu.addWidget(&spritesButton);
+        menu.addWidget(spritesButton);
 
         guiButton.setPosition(Vector2F(0.0F, 40.0F));
-        menu.addWidget(&guiButton);
+        menu.addWidget(guiButton);
 
         renderTargetButton.setPosition(Vector2F(0.0F, 0.0F));
-        menu.addWidget(&renderTargetButton);
+        menu.addWidget(renderTargetButton);
 
         animationsButton.setPosition(Vector2F(0.0F, -40.0F));
-        menu.addWidget(&animationsButton);
+        menu.addWidget(animationsButton);
 
         inputButton.setPosition(Vector2F(0.0F, -80.0F));
-        menu.addWidget(&inputButton);
+        menu.addWidget(inputButton);
 
         soundButton.setPosition(Vector2F(0.0F, -120.0F));
-        menu.addWidget(&soundButton);
+        menu.addWidget(soundButton);
 
         perspectiveButton.setPosition(Vector2F(0.0F, -160.0F));
-        menu.addWidget(&perspectiveButton);
+        menu.addWidget(perspectiveButton);
     }
 }
