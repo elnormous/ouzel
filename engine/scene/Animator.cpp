@@ -19,7 +19,7 @@ namespace ouzel::scene
 
     Animator::~Animator()
     {
-        if (parent) parent->removeAnimator(this);
+        if (parent) parent->removeAnimator(*this);
 
         for (const auto& animator : animators)
             animator->parent = nullptr;
@@ -120,29 +120,25 @@ namespace ouzel::scene
 
     void Animator::addAnimator(std::unique_ptr<Animator> animator)
     {
-        addAnimator(animator.get());
+        addAnimator(*animator);
         ownedAnimators.push_back(std::move(animator));
     }
 
-    void Animator::addAnimator(Animator* animator)
+    void Animator::addAnimator(Animator& animator)
     {
-        assert(animator);
+        if (animator.parent)
+            animator.parent->removeAnimator(animator);
 
-        if (animator->parent)
-            animator->parent->removeAnimator(animator);
+        animator.parent = this;
 
-        animator->parent = this;
-
-        animators.push_back(animator);
+        animators.push_back(&animator);
     }
 
-    bool Animator::removeAnimator(const Animator* animator)
+    bool Animator::removeAnimator(const Animator& animator)
     {
-        assert(animator);
-
         bool result = false;
 
-        const auto animatorIterator = std::find(animators.begin(), animators.end(), animator);
+        const auto animatorIterator = std::find(animators.begin(), animators.end(), &animator);
 
         if (animatorIterator != animators.end())
         {
@@ -153,8 +149,8 @@ namespace ouzel::scene
             result = true;
         }
 
-        const auto ownedAnimatorIterator = std::find_if(ownedAnimators.begin(), ownedAnimators.end(), [animator](const auto& ownedAnimator) noexcept {
-            return animator == ownedAnimator.get();
+        const auto ownedAnimatorIterator = std::find_if(ownedAnimators.begin(), ownedAnimators.end(), [&animator](const auto& ownedAnimator) noexcept {
+            return ownedAnimator.get() == &animator;
         });
         if (ownedAnimatorIterator != ownedAnimators.end())
             ownedAnimators.erase(ownedAnimatorIterator);
@@ -173,6 +169,6 @@ namespace ouzel::scene
 
     void Animator::removeFromParent()
     {
-        if (parent) parent->removeAnimator(this);
+        if (parent) parent->removeAnimator(*this);
     }
 }

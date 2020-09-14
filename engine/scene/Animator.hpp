@@ -38,8 +38,8 @@ namespace ouzel::scene
         auto getTargetActor() const noexcept { return targetActor; }
 
         void addAnimator(std::unique_ptr<Animator> animator);
-        void addAnimator(Animator* animator);
-        bool removeAnimator(const Animator* animator);
+        void addAnimator(Animator& animator);
+        bool removeAnimator(const Animator& animator);
         void removeAllAnimators();
 
         auto getParent() const noexcept { return parent; }

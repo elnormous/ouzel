@@ -209,7 +209,7 @@ namespace ouzel::scene
     Ease::Ease(Animator& animator, Mode initMode, Func initFunc):
         Animator(animator.getLength()), mode(initMode), func(initFunc)
     {
-        addAnimator(&animator);
+        addAnimator(animator);
     }
 
     void Ease::updateProgress()
@@ -340,7 +340,9 @@ namespace ouzel::scene
     {
         for (Animator* animator : initAnimators)
         {
-            addAnimator(animator);
+            assert(animator);
+
+            addAnimator(*animator);
 
             if (animator->getLength() > length)
                 length = animator->getLength();
@@ -352,7 +354,9 @@ namespace ouzel::scene
     {
         for (const std::unique_ptr<Animator>& animator : initAnimators)
         {
-            addAnimator(animator.get());
+            assert(animator.get());
+
+            addAnimator(*animator);
 
             if (animator->getLength() > length)
                 length = animator->getLength();
@@ -377,7 +381,7 @@ namespace ouzel::scene
     Repeat::Repeat(Animator& animator, std::uint32_t initCount):
         Animator(animator.getLength() * static_cast<float>(initCount)), count(initCount)
     {
-        addAnimator(&animator);
+        addAnimator(animator);
     }
 
     void Repeat::reset()
@@ -480,14 +484,22 @@ namespace ouzel::scene
         Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, Animator* b) noexcept { return a + b->getLength(); }))
     {
         for (Animator* animator : initAnimators)
-            addAnimator(animator);
+        {
+            assert(animator);
+
+            addAnimator(*animator);
+        }
     }
 
     Sequence::Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators):
         Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, const std::unique_ptr<Animator>& b) noexcept { return a + b->getLength(); }))
     {
         for (const std::unique_ptr<Animator>& animator : initAnimators)
-            addAnimator(animator.get());
+        {
+            assert(animator.get());
+
+            addAnimator(*animator);
+        }
     }
 
     void Sequence::play()
