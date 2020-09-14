@@ -81,7 +81,7 @@ namespace samples
 
         engine->getEventDispatcher().addEventHandler(handler);
 
-        addLayer(&layer);
+        addLayer(layer);
 
         camera.setClearColorBuffer(true);
         camera.setClearColor(ouzel::Color(64, 0, 0));

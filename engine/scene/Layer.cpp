@@ -20,7 +20,7 @@ namespace ouzel::scene
 
     Layer::~Layer()
     {
-        if (scene) scene->removeLayer(this);
+        if (scene) scene->removeLayer(*this);
     }
 
     void Layer::draw()
@@ -160,6 +160,6 @@ namespace ouzel::scene
 
     void Layer::removeFromScene()
     {
-        if (scene) scene->removeLayer(this);
+        if (scene) scene->removeLayer(*this);
     }
 }

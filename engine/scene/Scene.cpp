@@ -21,7 +21,7 @@ namespace ouzel::scene
 
     Scene::~Scene()
     {
-        if (sceneManger) sceneManger->removeScene(this);
+        if (sceneManger) sceneManger->removeScene(*this);
 
         for (Layer* layer : layers)
         {
@@ -62,27 +62,23 @@ namespace ouzel::scene
         engine->getGraphics()->present();
     }
 
-    void Scene::addLayer(Layer* layer)
+    void Scene::addLayer(Layer& layer)
     {
-        assert(layer);
-
         if (!hasLayer(layer))
         {
-            layers.push_back(layer);
+            layers.push_back(&layer);
 
-            if (entered) layer->enter();
+            if (entered) layer.enter();
 
-            layer->scene = this;
+            layer.scene = this;
         }
     }
 
-    bool Scene::removeLayer(const Layer* layer)
+    bool Scene::removeLayer(const Layer& layer)
     {
-        assert(layer);
-
         bool result = false;
 
-        const auto layerIterator = std::find(layers.begin(), layers.end(), layer);
+        const auto layerIterator = std::find(layers.begin(), layers.end(), &layer);
 
         if (layerIterator != layers.end())
         {
@@ -98,8 +94,8 @@ namespace ouzel::scene
             result = true;
         }
 
-        const auto ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const auto& other) noexcept {
-            return other.get() == layer;
+        const auto ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [&layer](const auto& other) noexcept {
+            return other.get() == &layer;
         });
 
         if (ownedIterator != ownedLayers.end())
@@ -120,9 +116,9 @@ namespace ouzel::scene
         ownedLayers.clear();
     }
 
-    bool Scene::hasLayer(const Layer* layer) const
+    bool Scene::hasLayer(const Layer& layer) const
     {
-        const auto i = std::find(layers.cbegin(), layers.cend(), layer);
+        const auto i = std::find(layers.cbegin(), layers.cend(), &layer);
 
         return i != layers.end();
     }

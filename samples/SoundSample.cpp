@@ -134,7 +134,7 @@ namespace samples
         camera.setTargetContentSize(Size2F(800.0F, 600.0F));
         cameraActor.addComponent(&camera);
         layer.addChild(&cameraActor);
-        addLayer(&layer);
+        addLayer(layer);
 
         layer.addChild(&menu);
 

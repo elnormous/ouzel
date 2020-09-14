@@ -21,20 +21,18 @@ namespace ouzel::scene
     {
         assert(scene);
 
-        if (scene->sceneManger) scene->sceneManger->removeScene(scene);
+        if (scene->sceneManger) scene->sceneManger->removeScene(*scene);
 
         scene->sceneManger = this;
 
         scenes.push_back(scene);
     }
 
-    bool SceneManager::removeScene(const Scene* scene)
+    bool SceneManager::removeScene(const Scene& scene)
     {
-        assert(scene);
-
         bool result = false;
 
-        const auto sceneIterator = std::find(scenes.begin(), scenes.end(), scene);
+        const auto sceneIterator = std::find(scenes.begin(), scenes.end(), &scene);
 
         if (sceneIterator != scenes.end())
         {
@@ -47,8 +45,8 @@ namespace ouzel::scene
             result = true;
         }
 
-        const auto ownedIterator = std::find_if(ownedScenes.begin(), ownedScenes.end(), [scene](const auto& other) noexcept {
-            return other.get() == scene;
+        const auto ownedIterator = std::find_if(ownedScenes.begin(), ownedScenes.end(), [&scene](const auto& other) noexcept {
+            return other.get() == &scene;
         });
 
         if (ownedIterator != ownedScenes.end())
@@ -60,7 +58,7 @@ namespace ouzel::scene
     void SceneManager::draw()
     {
         while (scenes.size() > 1)
-            removeScene(scenes.front());
+            removeScene(*scenes.front());
 
         if (!scenes.empty())
         {

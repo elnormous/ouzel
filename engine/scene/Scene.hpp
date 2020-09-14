@@ -29,7 +29,7 @@ namespace ouzel::scene
 
         virtual void draw();
 
-        void addLayer(Layer* layer);
+        void addLayer(Layer& layer);
 
         template <class T> void addLayer(std::unique_ptr<T> layer)
         {
@@ -37,10 +37,10 @@ namespace ouzel::scene
             ownedLayers.push_back(std::move(layer));
         }
 
-        bool removeLayer(const Layer* layer);
+        bool removeLayer(const Layer& layer);
 
         void removeAllLayers();
-        bool hasLayer(const Layer* layer) const;
+        bool hasLayer(const Layer& layer) const;
         auto& getLayers() const noexcept { return layers; }
 
         virtual void recalculateProjection();

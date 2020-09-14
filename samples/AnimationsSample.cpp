@@ -67,7 +67,7 @@ namespace samples
         camera.setTargetContentSize(Size2F(800.0F, 600.0F));
         cameraActor.addComponent(&camera);
         layer.addChild(&cameraActor);
-        addLayer(&layer);
+        addLayer(layer);
 
         shapeDrawable.rectangle(ouzel::RectF(100.0F, 100.0F), Color(0, 128, 128, 255), true);
         shapeDrawable.rectangle(ouzel::RectF(100.0F, 100.0F), Color::white(), false, 2.0F);
@@ -148,7 +148,7 @@ namespace samples
         guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
         guiCameraActor.addComponent(&guiCamera);
         guiLayer.addChild(&guiCameraActor);
-        addLayer(&guiLayer);
+        addLayer(guiLayer);
 
         guiLayer.addChild(&menu);
 

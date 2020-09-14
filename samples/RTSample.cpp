@@ -74,7 +74,7 @@ namespace samples
 
         engine->getEventDispatcher().addEventHandler(handler);
 
-        addLayer(&rtLayer);
+        addLayer(rtLayer);
 
         rtCamera.setRenderTarget(&renderTarget);
         rtCamera.setClearColorBuffer(true);
@@ -95,7 +95,7 @@ namespace samples
 
         layer.addChild(&camera1Actor);
         layer.addChild(&camera2Actor);
-        addLayer(&layer);
+        addLayer(layer);
 
         characterSprite.setAnimation("", true);
         characterSprite.play();
@@ -110,7 +110,7 @@ namespace samples
         guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
         guiCameraActor.addComponent(&guiCamera);
         guiLayer.addChild(&guiCameraActor);
-        addLayer(&guiLayer);
+        addLayer(guiLayer);
 
         guiLayer.addChild(&menu);
 

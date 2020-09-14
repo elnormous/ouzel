@@ -76,7 +76,7 @@ namespace samples
 
         engine->getEventDispatcher().addEventHandler(handler);
 
-        addLayer(&layer);
+        addLayer(layer);
         cameraActor.addComponent(&camera);
         layer.addChild(&cameraActor);
     }

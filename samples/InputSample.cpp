@@ -172,7 +172,7 @@ namespace samples
         cameraActor.addComponent(mover.get());
 
         layer.addChild(&cameraActor);
-        addLayer(&layer);
+        addLayer(layer);
 
         flameParticleSystem.init(*engine->getCache().getParticleSystemData("flame.json"));
 
@@ -184,7 +184,7 @@ namespace samples
         guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
         guiCameraActor.addComponent(&guiCamera);
         guiLayer.addChild(&guiCameraActor);
-        addLayer(&guiLayer);
+        addLayer(guiLayer);
 
         guiLayer.addChild(&menu);
 
