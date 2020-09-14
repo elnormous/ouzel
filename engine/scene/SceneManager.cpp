@@ -17,15 +17,13 @@ namespace ouzel::scene
         }
     }
 
-    void SceneManager::setScene(Scene* scene)
+    void SceneManager::setScene(Scene& scene)
     {
-        assert(scene);
+        if (scene.sceneManger) scene.sceneManger->removeScene(scene);
 
-        if (scene->sceneManger) scene->sceneManger->removeScene(*scene);
+        scene.sceneManger = this;
 
-        scene->sceneManger = this;
-
-        scenes.push_back(scene);
+        scenes.push_back(&scene);
     }
 
     bool SceneManager::removeScene(const Scene& scene)

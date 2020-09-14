@@ -28,11 +28,11 @@ namespace ouzel::scene
 
         void draw();
 
-        void setScene(Scene* scene);
+        void setScene(Scene& scene);
 
         template <class T> void setScene(std::unique_ptr<T> scene)
         {
-            setScene(scene.get());
+            setScene(*scene);
             ownedScenes.push_back(std::move(scene));
         }
 
