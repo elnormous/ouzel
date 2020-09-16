@@ -21,7 +21,7 @@ namespace ouzel::audio::wasapi
         class NotificationClient final: public IMMNotificationClient
         {
         public:
-            NotificationClient() = default;
+            NotificationClient() noexcept = default;
             NotificationClient(const NotificationClient&) = delete;
             NotificationClient(NotificationClient&&) = delete;
             NotificationClient& operator=(const NotificationClient&) = delete;
