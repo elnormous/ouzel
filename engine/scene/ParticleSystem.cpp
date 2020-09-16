@@ -355,10 +355,10 @@ namespace ouzel::scene
                 const Vector2F c(v2.v[0] * cr - v2.v[1] * sr, v2.v[0] * sr + v2.v[1] * cr);
                 const Vector2F d(v1.v[0] * cr - v2.v[1] * sr, v1.v[0] * sr + v2.v[1] * cr);
 
-                const Color color(static_cast<std::uint8_t>(particles[i].colorRed * 255),
-                                  static_cast<std::uint8_t>(particles[i].colorGreen * 255),
-                                  static_cast<std::uint8_t>(particles[i].colorBlue * 255),
-                                  static_cast<std::uint8_t>(particles[i].colorAlpha * 255));
+                const Color color(particles[i].colorRed,
+                                  particles[i].colorGreen,
+                                  particles[i].colorBlue,
+                                  particles[i].colorAlpha);
 
                 vertices[i * 4 + 0].position = Vector3F(a + position);
                 vertices[i * 4 + 0].color = color;
