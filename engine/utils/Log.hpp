@@ -98,10 +98,8 @@ namespace ouzel
         Log& operator<<(const std::uint8_t val)
         {
             constexpr char digits[] = "0123456789abcdef";
-
-            for (std::uint32_t p = 0; p < 2; ++p)
-                s.push_back(digits[(val >> (4 - p * 4)) & 0x0F]);
-
+            s.push_back(digits[(val >> 4) & 0x0F]);
+            s.push_back(digits[(val >> 0) & 0x0F]);
             return *this;
         }
 
