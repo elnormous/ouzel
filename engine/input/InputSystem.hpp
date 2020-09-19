@@ -130,7 +130,6 @@ namespace ouzel::input
         virtual ~InputSystem() = default;
 
         void addCommand(const Command& command);
-        virtual void executeCommand(const Command&) {}
 
         auto getResourceId()
         {
@@ -158,6 +157,8 @@ namespace ouzel::input
         InputDevice* getInputDevice(DeviceId id);
 
     private:
+        virtual void executeCommand(const Command&) {}
+
         std::function<std::future<bool>(const Event&)> callback;
         std::unordered_map<DeviceId, InputDevice*> inputDevices;
 

@@ -25,8 +25,6 @@ namespace ouzel::input::linux
         explicit InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
         ~InputSystem() override;
 
-        void executeCommand(const Command& command) final;
-
         auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
         auto getMouseDevice() const noexcept { return mouseDevice.get(); }
         auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
@@ -40,6 +38,8 @@ namespace ouzel::input::linux
         void update();
 
     private:
+        void executeCommand(const Command& command) final;
+
 #if OUZEL_SUPPORTS_X11
         void updateCursor() const;
 #endif

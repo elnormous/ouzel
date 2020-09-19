@@ -26,8 +26,6 @@ namespace ouzel::input::tvos
         explicit InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
         ~InputSystem() override;
 
-        void executeCommand(const Command& command) final;
-
         auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
 
         void handleGamepadDiscoveryCompleted();
@@ -35,6 +33,8 @@ namespace ouzel::input::tvos
         void handleGamepadDisconnected(GCControllerPtr controller);
 
     private:
+        void executeCommand(const Command& command) final;
+
         auto getNextDeviceId() noexcept
         {
             ++lastDeviceId.value;

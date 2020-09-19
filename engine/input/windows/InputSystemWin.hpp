@@ -39,8 +39,6 @@ namespace ouzel::input::windows
         explicit InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
         ~InputSystem() override;
 
-        void executeCommand(const Command& command) final;
-
         auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }
         auto getMouseDevice() const noexcept { return mouseDevice.get(); }
         auto getTouchpadDevice() const noexcept { return touchpadDevice.get(); }
@@ -53,6 +51,8 @@ namespace ouzel::input::windows
         void updateCursor() const;
 
     private:
+        void executeCommand(const Command& command) final;
+
         auto getNextDeviceId() noexcept
         {
             ++lastDeviceId.value;
