@@ -35,8 +35,6 @@ namespace ouzel::core::windows
                      bool newHighDpi);
         ~NativeWindow() override;
 
-        void executeCommand(const Command& command) final;
-
         void close();
 
         void setSize(const Size2U& newSize);
@@ -69,6 +67,7 @@ namespace ouzel::core::windows
         auto getMonitor() const noexcept { return monitor; }
 
     private:
+        void executeCommand(const Command& command) final;
         void switchFullscreen(bool newFullscreen);
 
         ATOM windowClass = 0;

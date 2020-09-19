@@ -16,12 +16,13 @@ namespace ouzel::core::emscripten
                      const std::string& newTitle,
                      bool newHighDpi);
 
-        void executeCommand(const Command& command) final;
-
         void setSize(const Size2U& newSize);
         void setFullscreen(bool newFullscreen);
 
         void handleResize();
+    
+    private:
+        void executeCommand(const Command& command) final;
     };
 }
 

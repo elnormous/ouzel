@@ -87,7 +87,6 @@ namespace ouzel::core
         NativeWindow& operator=(NativeWindow&&) = delete;
 
         void addCommand(const Command& command);
-        virtual void executeCommand(const Command&) {}
 
         auto& getSize() const noexcept { return size; }
         auto& getResolution() const noexcept { return resolution; }
@@ -98,6 +97,7 @@ namespace ouzel::core
         auto& getTitle() const noexcept { return title; }
 
     protected:
+        virtual void executeCommand(const Command&) {}
         void sendEvent(const Event& event);
 
         Size2U size;

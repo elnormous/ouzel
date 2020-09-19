@@ -17,8 +17,6 @@ namespace ouzel::core::android
                      const std::string& newTitle);
         ~NativeWindow() override;
 
-        void executeCommand(const Command& command) final;
-
         void handleResize(const Size2U& newSize);
         void handleSurfaceChange(jobject surface);
         void handleSurfaceDestroy();
@@ -26,6 +24,8 @@ namespace ouzel::core::android
         auto getNativeWindow() const noexcept { return window; }
 
     private:
+        void executeCommand(const Command& command) final;
+
         ANativeWindow* window = nullptr;
     };
 }

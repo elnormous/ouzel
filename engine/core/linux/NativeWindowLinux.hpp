@@ -36,8 +36,6 @@ namespace ouzel::core::linux
                      const std::string& newTitle);
         ~NativeWindow() override;
 
-        void executeCommand(const Command& command) final;
-
         void close();
 
         void setSize(const Size2U& newSize);
@@ -59,6 +57,8 @@ namespace ouzel::core::linux
 #endif
 
     private:
+        void executeCommand(const Command& command) final;
+
 #if OUZEL_SUPPORTS_X11
         void handleFocusIn();
         void handleFocusOut();

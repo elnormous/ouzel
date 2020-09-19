@@ -33,8 +33,6 @@ namespace ouzel::core::ios
                      bool newHighDpi);
         ~NativeWindow() override;
 
-        void executeCommand(const Command& command) final;
-
         auto getNativeWindow() const noexcept { return window; }
         auto getNativeView() const noexcept { return view; }
         auto getTextField() const noexcept { return textField; }
@@ -42,6 +40,8 @@ namespace ouzel::core::ios
         void handleResize(const Size2U& newSize);
 
     private:
+        void executeCommand(const Command& command) final;
+
         UIScreenPtr screen = nil;
         UIWindowPtr window = nil;
         UIViewPtr view = nil;

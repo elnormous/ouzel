@@ -39,8 +39,6 @@ namespace ouzel::core::macos
                      bool newHighDpi);
         ~NativeWindow() override;
 
-        void executeCommand(const Command& command) final;
-
         void close();
 
         void setSize(const Size2U& newSize);
@@ -69,6 +67,8 @@ namespace ouzel::core::macos
         auto getDisplayId() const noexcept { return displayId; }
 
     private:
+        void executeCommand(const Command& command) final;
+
         NSWindowPtr window = nil;
         NSViewPtr view = nil;
         NSWindowDelegatePtr windowDelegate = nil;
