@@ -53,9 +53,9 @@
     //ouzel::engine->pause();
 }
 
-- (void)handleQuit:(__unused id)sender
+- (void)handleQuit:(id)sender
 {
-    [[NSApplication sharedApplication] terminate:nil];
+    [[NSApplication sharedApplication] terminate:sender];
 }
 @end
 
