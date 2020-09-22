@@ -22,8 +22,15 @@ namespace ouzel::core::cocoa
         AutoreleasePool& operator=(const AutoreleasePool& other) noexcept;
         AutoreleasePool& operator=(AutoreleasePool&& other) noexcept;
 
-        bool operator==(const AutoreleasePool& other) const noexcept;
-        bool operator!=(const AutoreleasePool& other) const noexcept;
+        bool operator==(const AutoreleasePool& other) const noexcept
+        {
+            return pool == other.pool;
+        }
+
+        bool operator!=(const AutoreleasePool& other) const noexcept
+        {
+            return pool != other.pool;
+        }
 
     private:
         NSAutoreleasePoolPtr pool = nil;
