@@ -7,7 +7,7 @@
 typedef NSAutoreleasePool* NSAutoreleasePoolPtr;
 #else
 #  include <objc/NSObjCRuntime.h>
-typedef id NSAutoreleasePoolPtr;
+using NSAutoreleasePoolPtr = id;
 #endif
 
 namespace ouzel::core::cocoa
