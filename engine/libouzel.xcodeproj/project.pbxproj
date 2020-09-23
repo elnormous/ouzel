@@ -263,7 +263,6 @@
 		303B75661C2A3CBF00FEDE92 /* SceneManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E411C237C70008B1151 /* SceneManager.hpp */; };
 		303B75671C2A3CBF00FEDE92 /* SpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* SpriteRenderer.cpp */; };
 		303B75681C2A3CBF00FEDE92 /* SpriteRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E451C237C70008B1151 /* SpriteRenderer.hpp */; };
-		303B756D1C2A3CCA00FEDE92 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E481C237C70008B1151 /* Utils.cpp */; };
 		303B756E1C2A3CCA00FEDE92 /* Utils.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E491C237C70008B1151 /* Utils.hpp */; };
 		303B75781C2A419F00FEDE92 /* Setup.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E871C248204008B1151 /* Setup.h */; };
 		303B75811C2B17DC00FEDE92 /* Event.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.hpp */; };
@@ -277,7 +276,6 @@
 		303B76381C355A3B00FEDE92 /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* InputManager.cpp */; };
 		303B76391C355A3B00FEDE92 /* SpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* SpriteRenderer.cpp */; };
 		303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E401C237C70008B1151 /* SceneManager.cpp */; };
-		303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E481C237C70008B1151 /* Utils.cpp */; };
 		303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
 		303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		303B764D1C355A3B00FEDE92 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E341C237C70008B1151 /* Matrix.cpp */; };
@@ -357,7 +355,6 @@
 		304A8E671C237C70008B1151 /* SceneManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E411C237C70008B1151 /* SceneManager.hpp */; };
 		304A8E6A1C237C70008B1151 /* SpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* SpriteRenderer.cpp */; };
 		304A8E6B1C237C70008B1151 /* SpriteRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E451C237C70008B1151 /* SpriteRenderer.hpp */; };
-		304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E481C237C70008B1151 /* Utils.cpp */; };
 		304A8E6F1C237C70008B1151 /* Utils.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E491C237C70008B1151 /* Utils.hpp */; };
 		304A8E751C237C70008B1151 /* Vector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4F1C237C70008B1151 /* Vector.hpp */; };
 		304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */; };
@@ -917,7 +914,6 @@
 		304A8E411C237C70008B1151 /* SceneManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SceneManager.hpp; sourceTree = "<group>"; };
 		304A8E441C237C70008B1151 /* SpriteRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteRenderer.cpp; sourceTree = "<group>"; };
 		304A8E451C237C70008B1151 /* SpriteRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpriteRenderer.hpp; sourceTree = "<group>"; };
-		304A8E481C237C70008B1151 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
 		304A8E491C237C70008B1151 /* Utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utils.hpp; sourceTree = "<group>"; };
 		304A8E4F1C237C70008B1151 /* Vector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
 		304A8E871C248204008B1151 /* Setup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Setup.h; sourceTree = "<group>"; };
@@ -1810,7 +1806,6 @@
 				3030D5001DAEF1FA007CC8EB /* Log.cpp */,
 				3030D5011DAEF1FA007CC8EB /* Log.hpp */,
 				C6C9100B21AEB47E00B5FCB7 /* Utf8.hpp */,
-				304A8E481C237C70008B1151 /* Utils.cpp */,
 				304A8E491C237C70008B1151 /* Utils.hpp */,
 			);
 			path = utils;
@@ -2493,7 +2488,6 @@
 				30231FFF22184518007E0AAD /* Server.cpp in Sources */,
 				30381FE21D80A40700677CAB /* MetalBlendState.mm in Sources */,
 				30C758B51F4A0309008499DC /* RenderDevice.cpp in Sources */,
-				303B756D1C2A3CCA00FEDE92 /* Utils.cpp in Sources */,
 				30ADCBBF1E9A957C000DC9AC /* MetalRenderDeviceIOS.mm in Sources */,
 				303B04AE1E207B2700011CBE /* MetalView.m in Sources */,
 				30575AC61C3B17540009C8A7 /* Widgets.cpp in Sources */,
@@ -2609,7 +2603,6 @@
 				30381FE41D80A40700677CAB /* MetalBlendState.mm in Sources */,
 				305B99931C41F06F008589E1 /* Widget.cpp in Sources */,
 				30EEADCD216A44ED00D2F525 /* InputDevice.cpp in Sources */,
-				303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */,
 				3023200122184518007E0AAD /* Server.cpp in Sources */,
 				30575AC71C3B17540009C8A7 /* Widgets.cpp in Sources */,
 				30C758B71F4A0309008499DC /* RenderDevice.cpp in Sources */,
@@ -2775,7 +2768,6 @@
 				30FFBE332158FB3F004B0BD3 /* Touchpad.cpp in Sources */,
 				303B04BE1E207B6D00011CBE /* OGLRenderDeviceMacOS.mm in Sources */,
 				30A3821921B4BDC80043568A /* Submix.cpp in Sources */,
-				304A8E6E1C237C70008B1151 /* Utils.cpp in Sources */,
 				3009030721922DEE00B00BF4 /* MetalDepthStencilState.mm in Sources */,
 				303696CD1E32DD9C007F4211 /* BlendState.cpp in Sources */,
 				30CEB37221A6403800525637 /* SystemMacOS.cpp in Sources */,

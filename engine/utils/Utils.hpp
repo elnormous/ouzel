@@ -12,8 +12,6 @@
 
 namespace ouzel
 {
-    extern std::mt19937 randomEngine;
-
     template <class T>
     auto getVectorSize(const T& vec) noexcept
     {

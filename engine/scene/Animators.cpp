@@ -556,9 +556,9 @@ namespace ouzel::scene
     Shake::Shake(float initLength, const Vector3F& initDistance, float initTimeScale):
         Animator(initLength), distance(initDistance), timeScale(initTimeScale)
     {
-        seedX = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
-        seedY = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
-        seedZ = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(randomEngine);
+        seedX = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(core::randomEngine);
+        seedY = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(core::randomEngine);
+        seedZ = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(core::randomEngine);
     }
 
     void Shake::play()

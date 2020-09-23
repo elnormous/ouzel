@@ -115,8 +115,7 @@ LOCAL_SRC_FILES := ../assets/BmfLoader.cpp \
     ../scene/StaticMeshRenderer.cpp \
     ../scene/TextRenderer.cpp \
     ../storage/FileSystem.cpp \
-    ../utils/Log.cpp \
-    ../utils/Utils.cpp
+    ../utils/Log.cpp
 
 include $(BUILD_STATIC_LIBRARY)
 $(call import-module, android/cpufeatures)

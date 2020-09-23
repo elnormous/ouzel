@@ -106,9 +106,6 @@
     <ClCompile Include="scene\Actor.cpp">
       <Filter>engine\scene</Filter>
     </ClCompile>
-    <ClCompile Include="utils\Utils.cpp">
-      <Filter>engine\utils</Filter>
-    </ClCompile>
     <ClCompile Include="scene\ParticleSystem.cpp">
       <Filter>engine\scene</Filter>
     </ClCompile>

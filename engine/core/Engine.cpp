@@ -90,6 +90,8 @@ namespace ouzel::core
                                   (android_getCpuFeatures() & ANDROID_CPU_ARM_FEATURE_NEON) != 0);
 #endif
 
+    std::mt19937 randomEngine(std::random_device{}());
+
     namespace
     {
         struct Settings final

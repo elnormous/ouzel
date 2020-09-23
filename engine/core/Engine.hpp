@@ -44,6 +44,8 @@ namespace ouzel::core
     constexpr auto isSimdAvailable = false;
 #endif
 
+    extern std::mt19937 randomEngine;
+
     class Engine
     {
     public:

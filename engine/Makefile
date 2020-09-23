@@ -135,8 +135,7 @@ SOURCES=assets/BmfLoader.cpp \
 	scene/StaticMeshRenderer.cpp \
 	scene/TextRenderer.cpp \
 	storage/FileSystem.cpp \
-	utils/Log.cpp \
-	utils/Utils.cpp
+	utils/Log.cpp
 ifeq ($(PLATFORM),windows)
 SOURCES+=audio/dsound/DSAudioDevice.cpp \
 	core/windows/EngineWin.cpp \
