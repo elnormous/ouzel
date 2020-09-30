@@ -76,12 +76,6 @@
 #  endif
 #endif
 
-namespace ouzel
-{
-    core::Engine* engine = nullptr;
-    Logger logger;
-}
-
 namespace ouzel::core
 {
 #if defined(__ANDROID__) && defined(__ARM_NEON__) && defined(__arm__)

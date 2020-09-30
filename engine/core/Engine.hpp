@@ -168,8 +168,8 @@ namespace ouzel
     const std::string textureWhitePixel = "textureWhitePixel";
 
     std::unique_ptr<Application> main(const std::vector<std::string>& args);
-    extern core::Engine* engine;
-    extern Logger logger;
+    inline core::Engine* engine = nullptr;
+    inline Logger logger;
 }
 
 #endif // OUZEL_CORE_ENGINE_HPP
