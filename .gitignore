@@ -50,3 +50,8 @@ engine/pch
 *.opensdf
 *.user
 *.aps
+test/test.xcodeproj/project.xcworkspace/xcshareddata
+test/test.xcodeproj/project.xcworkspace/xcuserdata
+test/test.xcodeproj/xcshareddata
+test/test.xcodeproj/xcuserdata
+test/test
