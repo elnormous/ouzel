@@ -9,6 +9,7 @@ namespace ouzel::makefile
 {
     inline void generateBuildFiles(const Project& project)
     {
+        (void)project;
     }
 }
 

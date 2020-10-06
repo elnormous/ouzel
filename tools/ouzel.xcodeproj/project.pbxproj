@@ -291,13 +291,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../engine,
-					../shaders,
-					../external/khronos,
-					../external/smbPitchShift,
-					../external/stb,
-				);
+				HEADER_SEARCH_PATHS = ../engine;
 				ONLY_ACTIVE_ARCH = YES;
 				WARNING_CFLAGS = (
 					"-Wself-assign",
@@ -350,13 +344,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../engine,
-					../shaders,
-					../external/khronos,
-					../external/smbPitchShift,
-					../external/stb,
-				);
+				HEADER_SEARCH_PATHS = ../engine;
 				WARNING_CFLAGS = (
 					"-Wself-assign",
 					"-Wimplicit-fallthrough",
