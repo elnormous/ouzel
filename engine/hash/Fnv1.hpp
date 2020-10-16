@@ -9,20 +9,35 @@ namespace ouzel::hash::fnv1
 {
     inline namespace detail
     {
-        template <typename T> T prime();
-        template <typename T> T offsetBasis();
+        template <typename T> struct prime;
+        template <typename T> struct offsetBasis;
 
-        template <> constexpr std::uint32_t prime<std::uint32_t>() { return 16777619U; }
-        template <> constexpr std::uint32_t offsetBasis<std::uint32_t>() { return 2166136261U; }
-        template <> constexpr std::uint64_t prime<std::uint64_t>() { return 1099511628211ULL; }
-        template <> constexpr std::uint64_t offsetBasis<std::uint64_t>() { return 14695981039346656037ULL; }
+        template <> struct prime<std::uint32_t>
+        {
+            static constexpr std::uint32_t value = 16777619U;
+        };
+
+        template <> struct offsetBasis<std::uint32_t>
+        {
+            static constexpr std::uint32_t value = 2166136261U;
+        };
+
+        template <> struct prime<std::uint64_t>
+        {
+            static constexpr std::uint64_t value = 1099511628211ULL;
+        };
+
+        template <> struct offsetBasis<std::uint64_t>
+        {
+            static constexpr std::uint64_t value = 14695981039346656037ULL;
+        };
     }
 
     template <typename Result, typename Value>
     constexpr Result hash(const Value value, const std::size_t i = 0,
-                          const Result result = offsetBasis<Result>()) noexcept
+                          const Result result = offsetBasis<Result>::value) noexcept
     {
-        return (i < sizeof(Value)) ? hash<Result>(value, i + 1, (result * prime<Result>()) ^ ((value >> (i * 8)) & 0xFF)) : result;
+        return (i < sizeof(Value)) ? hash<Result>(value, i + 1, (result * prime<Result>::value) ^ ((value >> (i * 8)) & 0xFF)) : result;
     }
 }
 
