@@ -196,7 +196,7 @@ namespace ouzel::assets
                                 const auto value = (static_cast<std::int32_t>(sourceData[0]) << 8) |
                                     (static_cast<std::int32_t>(sourceData[1]) << 16) |
                                     (static_cast<std::int32_t>(sourceData[2]) << 24);
-                                outputChannel[frame] = static_cast<float>(value / 2147483648.0);
+                                outputChannel[frame] = static_cast<float>(value / 2147483647.0);
                             }
                         }
                         break;
@@ -214,7 +214,7 @@ namespace ouzel::assets
                                     (static_cast<std::int32_t>(sourceData[1]) << 8) |
                                     (static_cast<std::int32_t>(sourceData[2]) << 16) |
                                     (static_cast<std::int32_t>(sourceData[3]) << 24);
-                                outputChannel[frame] = static_cast<float>(value / 2147483648.0);
+                                outputChannel[frame] = static_cast<float>(value / 2147483647.0);
                             }
                         }
                         break;
