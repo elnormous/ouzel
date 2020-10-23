@@ -164,9 +164,6 @@ namespace ouzel::assets
 
         auto iterator = data.cbegin();
 
-        std::string keyword;
-        std::string value;
-
         while (iterator != data.end())
         {
             if (isNewline(*iterator))
@@ -182,7 +179,7 @@ namespace ouzel::assets
             else
             {
                 skipWhitespaces(iterator, data.end());
-                keyword = parseString(iterator, data.end());
+                const auto keyword = parseString(iterator, data.end());
 
                 if (keyword == "newmtl")
                 {
@@ -212,26 +209,34 @@ namespace ouzel::assets
                 }
                 else if (keyword == "map_Ka") // ambient texture map
                 {
+                    // TODO: parse options
                     skipWhitespaces(iterator, data.end());
-                    value = parseString(iterator, data.end());
+                    const auto filename = parseString(iterator, data.end());
 
                     skipLine(iterator, data.end());
 
-                    ambientTexture = cache.getTexture(value);
+                    ambientTexture = cache.getTexture(filename);
+
+                    if (!ambientTexture)
+                    {
+                        bundle.loadAsset(Type::image, filename, filename, mipmaps);
+                        ambientTexture = cache.getTexture(filename);
+                    }
                 }
                 else if (keyword == "map_Kd") // diffuse texture map
                 {
+                    // TODO: parse options
                     skipWhitespaces(iterator, data.end());
-                    value = parseString(iterator, data.end());
+                    const auto filename = parseString(iterator, data.end());
 
                     skipLine(iterator, data.end());
 
-                    diffuseTexture = cache.getTexture(value);
+                    diffuseTexture = cache.getTexture(filename);
 
                     if (!diffuseTexture)
                     {
-                        bundle.loadAsset(Type::image, value, value, mipmaps);
-                        diffuseTexture = cache.getTexture(value);
+                        bundle.loadAsset(Type::image, filename, filename, mipmaps);
+                        diffuseTexture = cache.getTexture(filename);
                     }
                 }
                 else if (keyword == "Ka") // ambient color
