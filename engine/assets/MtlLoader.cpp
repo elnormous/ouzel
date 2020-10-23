@@ -265,10 +265,8 @@ namespace ouzel::assets
                 }
                 else if (keyword == "Tr") // transparency
                 {
-                    float transparency;
-
                     skipWhitespaces(iterator, data.end());
-                    transparency = parseFloat(iterator, data.end());
+                    const float transparency = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
 
