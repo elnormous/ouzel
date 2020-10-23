@@ -210,9 +210,6 @@ namespace ouzel::assets
 
         auto iterator = data.cbegin();
 
-        std::string keyword;
-        std::string value;
-
         while (iterator != data.end())
         {
             if (isNewline(*iterator))
@@ -228,27 +225,27 @@ namespace ouzel::assets
             else
             {
                 skipWhitespaces(iterator, data.end());
-                keyword = parseString(iterator, data.end());
+                const auto keyword = parseString(iterator, data.end());
 
                 if (keyword == "mtllib")
                 {
                     skipWhitespaces(iterator, data.end());
-                    value = parseString(iterator, data.end());
+                    const auto filename = parseString(iterator, data.end());
 
                     skipLine(iterator, data.end());
 
                     //if (!cache.getMaterial(filename))
                     // TODO don't load material lib every time
-                    bundle.loadAsset(Type::material, value, value, mipmaps);
+                    bundle.loadAsset(Type::material, filename, filename, mipmaps);
                 }
                 else if (keyword == "usemtl")
                 {
                     skipWhitespaces(iterator, data.end());
-                    value = parseString(iterator, data.end());
+                    const auto materialName = parseString(iterator, data.end());
 
                     skipLine(iterator, data.end());
 
-                    material = cache.getMaterial(value);
+                    material = cache.getMaterial(materialName);
                 }
                 else if (keyword == "o")
                 {
