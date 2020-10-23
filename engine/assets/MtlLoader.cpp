@@ -238,19 +238,16 @@ namespace ouzel::assets
                     skipLine(iterator, data.end());
                 else if (keyword == "Kd") // diffuse color
                 {
-                    float color[4];
-
                     skipWhitespaces(iterator, data.end());
-                    color[0] = parseFloat(iterator, data.end());
+                    const auto red = parseFloat(iterator, data.end());
                     skipWhitespaces(iterator, data.end());
-                    color[1] = parseFloat(iterator, data.end());
+                    const auto green = parseFloat(iterator, data.end());
                     skipWhitespaces(iterator, data.end());
-                    color[2] = parseFloat(iterator, data.end());
+                    const auto blue = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
 
-                    color[3] = 1.0F;
-                    diffuseColor = Color(color);
+                    diffuseColor = Color(red, green, blue, 1.0F);
                 }
                 else if (keyword == "Ks") // specular color
                     skipLine(iterator, data.end());
@@ -266,7 +263,7 @@ namespace ouzel::assets
                 else if (keyword == "Tr") // transparency
                 {
                     skipWhitespaces(iterator, data.end());
-                    const float transparency = parseFloat(iterator, data.end());
+                    const auto transparency = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
 
