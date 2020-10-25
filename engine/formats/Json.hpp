@@ -661,7 +661,7 @@ namespace ouzel::json
 
     inline Value parse(const char* data)
     {
-        const char* end = data;
+        auto end = data;
         while (*end) ++end;
         return parse(data, end);
     }

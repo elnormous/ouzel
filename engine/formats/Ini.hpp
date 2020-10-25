@@ -374,7 +374,7 @@ namespace ouzel::ini
 
     inline Data parse(const char* data)
     {
-        const char* end = data;
+        auto end = data;
         while (*end) ++end;
         return parse(data, end);
     }

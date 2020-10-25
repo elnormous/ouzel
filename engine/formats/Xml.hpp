@@ -672,7 +672,7 @@ namespace ouzel::xml
                       bool preserveComments = false,
                       bool preserveProcessingInstructions = false)
     {
-        const char* end = data;
+        auto end = data;
         while (*end) ++end;
         return parse(data, end,
                      preserveWhitespaces,
