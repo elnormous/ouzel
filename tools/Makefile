@@ -10,7 +10,7 @@ else ifeq ($(os),Darwin)
 PLATFORM=macos
 endif
 endif
-CXXFLAGS=-c -std=c++17 \
+CXXFLAGS=-std=c++17 \
 	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual -Wold-style-cast \
 	-I../engine
 SOURCES=ouzel/main.cpp
@@ -34,7 +34,7 @@ $(EXECUTABLE): $(OBJECTS)
 -include $(DEPENDENCIES)
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@
+	$(CXX) -c $(CXXFLAGS) -MMD -MP $< -o $@
 
 .PHONY: clean
 clean:

@@ -14,7 +14,7 @@ ifeq ($(PLATFORM),emscripten)
 CC=emcc
 CXX=em++
 endif
-CXXFLAGS=-c -std=c++17 \
+CXXFLAGS=-std=c++17 \
 	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual -Wold-style-cast \
 	-I../engine
 LDFLAGS=-L../engine -louzel
@@ -158,7 +158,7 @@ $(EXECUTABLE): ouzel $(OBJECTS)
 -include $(DEPENDENCIES)
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@
+	$(CXX) -c $(CXXFLAGS) -MMD -MP $< -o $@
 
 .PHONY: ouzel
 ouzel:
