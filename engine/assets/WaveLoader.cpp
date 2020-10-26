@@ -140,6 +140,17 @@ namespace ouzel::assets
                     if (bitsPerSample != 8 && bitsPerSample != 16 &&
                         bitsPerSample != 24 && bitsPerSample != 32)
                         throw std::runtime_error("Failed to load sound file, unsupported bit depth");
+
+                    if (formatTag != WAVE_FORMAT_PCM && formatTag != WAVE_FORMAT_IEEE_FLOAT)
+                    {
+                        const auto size = static_cast<std::uint32_t>(data[offset + 0]) |
+                            (static_cast<std::uint32_t>(data[offset + 1]) << 8) |
+                            (static_cast<std::uint32_t>(data[offset + 2]) << 16) |
+                            (static_cast<std::uint32_t>(data[offset + 3]) << 24);
+
+                        offset += 4;
+                        offset += size; // skip the additional data
+                    }
                 }
                 else if (static_cast<char>(chunkHeader[0]) == 'd' &&
                          static_cast<char>(chunkHeader[1]) == 'a' &&
