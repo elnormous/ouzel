@@ -74,14 +74,12 @@ namespace ouzel::audio::openal
         if (!device)
             throw std::runtime_error("Failed to open ALC device");
 
-        ALCenum alcError;
-
-        if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+        if (const ALCenum alcError = alcGetError(device); alcError != ALC_NO_ERROR)
             throw std::system_error(alcError, alcErrorCategory, "Failed to create ALC device");
 
         context = alcCreateContext(device, nullptr);
 
-        if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+        if (const ALCenum alcError = alcGetError(device); alcError != ALC_NO_ERROR)
             throw std::system_error(alcError, alcErrorCategory, "Failed to create ALC context");
 
         if (!context)
@@ -90,22 +88,22 @@ namespace ouzel::audio::openal
         if (!alcMakeContextCurrent(context))
             throw std::runtime_error("Failed to make ALC context current");
 
-        if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+        if (const ALCenum alcError = alcGetError(device); alcError != ALC_NO_ERROR)
             throw std::system_error(alcError, alcErrorCategory, "Failed to make ALC context current");
 
         const auto audioRenderer = alGetString(AL_RENDERER);
 
-        ALenum error;
-
-        if ((error = alGetError()) != AL_NO_ERROR || !audioRenderer)
+        if (const ALenum error = alGetError(); error != AL_NO_ERROR)
             logger.log(Log::Level::warning) << "Failed to get OpenAL renderer, error: " + std::to_string(error);
+        else if (!audioRenderer)
+            logger.log(Log::Level::warning) << "Failed to get OpenAL renderer";
         else
             logger.log(Log::Level::info) << "Using " << audioRenderer << " audio renderer";
 
         std::vector<std::string> extensions;
         const auto extensionsPtr = alGetString(AL_EXTENSIONS);
 
-        if ((error = alGetError()) != AL_NO_ERROR || !extensionsPtr)
+        if (const ALenum error = alGetError(); error != AL_NO_ERROR || !extensionsPtr)
             logger.log(Log::Level::warning) << "Failed to get OpenGL extensions";
         else
             extensions = explodeString(std::string(extensionsPtr), ' ');
@@ -125,18 +123,18 @@ namespace ouzel::audio::openal
         format61 = alGetEnumValue("AL_FORMAT_61CHN16");
         format71 = alGetEnumValue("AL_FORMAT_71CHN16");
 
-        if ((error = alGetError()) != AL_NO_ERROR)
+        if (const ALenum error = alGetError(); error != AL_NO_ERROR)
             logger.log(Log::Level::warning) << "Failed to get OpenAL enum values";
 #endif
 
         alGenSources(1, &sourceId);
 
-        if ((error = alGetError()) != AL_NO_ERROR)
+        if (const ALenum error = alGetError(); error != AL_NO_ERROR)
             throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL source");
 
         alGenBuffers(2, bufferIds);
 
-        if ((error = alGetError()) != AL_NO_ERROR)
+        if (const ALenum error = alGetError(); error != AL_NO_ERROR)
             throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL buffers");
 
         switch (channels)
@@ -260,13 +258,12 @@ namespace ouzel::audio::openal
 
         alSourceQueueBuffers(sourceId, 2, bufferIds);
 
-        ALenum error;
-        if ((error = alGetError()) != AL_NO_ERROR)
+        if (const ALenum error = alGetError(); error != AL_NO_ERROR)
             throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffers");
 
         alSourcePlay(sourceId);
 
-        if ((error = alGetError()) != AL_NO_ERROR)
+        if (const ALenum error = alGetError(); error != AL_NO_ERROR)
             throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
 
 #if !defined(__EMSCRIPTEN__)
@@ -284,8 +281,7 @@ namespace ouzel::audio::openal
 
         alSourceStop(sourceId);
 
-        ALenum error;
-        if ((error = alGetError()) != AL_NO_ERROR)
+        if (const ALenum error = alGetError(); error != AL_NO_ERROR)
             throw std::system_error(error, openALErrorCategory, "Failed to stop OpenAL source");
     }
 
@@ -294,17 +290,13 @@ namespace ouzel::audio::openal
         if (!alcMakeContextCurrent(context))
             throw std::runtime_error("Failed to make ALC context current");
 
-        ALCenum alcError;
-
-        if ((alcError = alcGetError(device)) != ALC_NO_ERROR)
+        if (const ALCenum alcError = alcGetError(device); alcError != ALC_NO_ERROR)
             throw std::system_error(alcError, alcErrorCategory, "Failed to make ALC context current");
 
         ALint buffersProcessed;
         alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
 
-        ALenum error;
-
-        if ((error = alGetError()) != AL_NO_ERROR)
+        if (const ALenum error = alGetError(); error != AL_NO_ERROR)
             throw std::system_error(error, openALErrorCategory, "Failed to get processed buffer count");
 
         // requeue all processed buffers
@@ -312,7 +304,7 @@ namespace ouzel::audio::openal
         {
             alSourceUnqueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
 
-            if ((error = alGetError()) != AL_NO_ERROR)
+            if (const ALenum error = alGetError(); error != AL_NO_ERROR)
                 throw std::system_error(error, openALErrorCategory, "Failed to unqueue OpenAL buffer");
 
             getData(bufferSize / (channels * sampleSize), data);
@@ -324,7 +316,7 @@ namespace ouzel::audio::openal
 
             alSourceQueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
 
-            if ((error = alGetError()) != AL_NO_ERROR)
+            if (const ALenum error = alGetError(); error != AL_NO_ERROR)
                 throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffer");
 
             ALint state;
@@ -333,7 +325,7 @@ namespace ouzel::audio::openal
             {
                 alSourcePlay(sourceId);
 
-                if ((error = alGetError()) != AL_NO_ERROR)
+                if (const ALenum error = alGetError(); error != AL_NO_ERROR)
                     throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
             }
 
