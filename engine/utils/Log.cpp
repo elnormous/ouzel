@@ -100,7 +100,7 @@ namespace ouzel
         if (MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer.get(), bufferSize) == 0)
             return;
 
-        if (FAILED(StringCchCatW(buffer.get(), static_cast<size_t>(bufferSize), L"\n")))
+        if (FAILED(StringCchCatW(buffer.get(), static_cast<size_t>(bufferSize + 1), L"\n")))
             return;
 
         OutputDebugStringW(buffer.get());
