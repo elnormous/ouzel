@@ -133,10 +133,10 @@ namespace ouzel::audio::coreaudio
             kAudioObjectPropertyElementMaster
         };
 
-        if (const OSStatus result = AudioObjectAddPropertyListener(kAudioObjectSystemObject,
-                                                                   &deviceListAddress,
-                                                                   deviceListChanged,
-                                                                   this); result != noErr)
+        if (const auto result = AudioObjectAddPropertyListener(kAudioObjectSystemObject,
+                                                               &deviceListAddress,
+                                                               deviceListChanged,
+                                                               this); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to add CoreAudio property listener");
 
         constexpr AudioObjectPropertyAddress defaultDeviceAddress = {
@@ -146,12 +146,12 @@ namespace ouzel::audio::coreaudio
         };
 
         UInt32 size = sizeof(AudioDeviceID);
-        if (const OSStatus result = AudioObjectGetPropertyData(kAudioObjectSystemObject,
-                                                               &defaultDeviceAddress,
-                                                               0,
-                                                               nullptr,
-                                                               &size,
-                                                               &deviceId); result != noErr)
+        if (const auto result = AudioObjectGetPropertyData(kAudioObjectSystemObject,
+                                                           &defaultDeviceAddress,
+                                                           0,
+                                                           nullptr,
+                                                           &size,
+                                                           &deviceId); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to get CoreAudio output device");
 
         constexpr AudioObjectPropertyAddress aliveAddress = {
@@ -162,12 +162,12 @@ namespace ouzel::audio::coreaudio
 
         UInt32 alive = 0;
         size = sizeof(alive);
-        if (const OSStatus result = AudioObjectGetPropertyData(deviceId,
-                                                               &aliveAddress,
-                                                               0,
-                                                               nullptr,
-                                                               &size,
-                                                               &alive); result != noErr)
+        if (const auto result = AudioObjectGetPropertyData(deviceId,
+                                                           &aliveAddress,
+                                                           0,
+                                                           nullptr,
+                                                           &size,
+                                                           &alive); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to get CoreAudio device status");
 
         if (!alive)
@@ -181,12 +181,12 @@ namespace ouzel::audio::coreaudio
 
         pid_t pid = 0;
         size = sizeof(pid);
-        if (const OSStatus result = AudioObjectGetPropertyData(deviceId,
-                                                               &hogModeAddress,
-                                                               0,
-                                                               nullptr,
-                                                               &size,
-                                                               &pid); result != noErr)
+        if (const auto result = AudioObjectGetPropertyData(deviceId,
+                                                           &hogModeAddress,
+                                                           0,
+                                                           nullptr,
+                                                           &size,
+                                                           &pid); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to check if CoreAudio device is in hog mode");
 
         if (pid != -1)
@@ -201,12 +201,12 @@ namespace ouzel::audio::coreaudio
         CFStringRef tempStringRef = nullptr;
         size = sizeof(CFStringRef);
 
-        if (const OSStatus result = AudioObjectGetPropertyData(deviceId,
-                                                               &nameAddress,
-                                                               0,
-                                                               nullptr,
-                                                               &size,
-                                                               &tempStringRef); result != noErr)
+        if (const auto result = AudioObjectGetPropertyData(deviceId,
+                                                           &nameAddress,
+                                                           0,
+                                                           nullptr,
+                                                           &size,
+                                                           &tempStringRef); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to get CoreAudio device name");
 
         if (tempStringRef)
@@ -246,23 +246,23 @@ namespace ouzel::audio::coreaudio
             throw std::runtime_error("Failed to find requested CoreAudio component");
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
-        if (const OSStatus result = AudioObjectAddPropertyListener(deviceId,
-                                                                   &aliveAddress,
-                                                                   deviceUnplugged,
-                                                                   this); result != noErr)
+        if (const auto result = AudioObjectAddPropertyListener(deviceId,
+                                                               &aliveAddress,
+                                                               deviceUnplugged,
+                                                               this); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to add CoreAudio property listener");
 #endif
 
-        if (const OSStatus result = AudioComponentInstanceNew(audioComponent, &audioUnit); result != noErr)
+        if (const auto result = AudioComponentInstanceNew(audioComponent, &audioUnit); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to create CoreAudio component instance");
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
-        if (const OSStatus result = AudioUnitSetProperty(audioUnit,
-                                                         kAudioOutputUnitProperty_CurrentDevice,
-                                                         kAudioUnitScope_Global,
-                                                         0,
-                                                         &deviceId,
-                                                         sizeof(AudioDeviceID)); result != noErr)
+        if (const auto result = AudioUnitSetProperty(audioUnit,
+                                                     kAudioOutputUnitProperty_CurrentDevice,
+                                                     kAudioUnitScope_Global,
+                                                     0,
+                                                     &deviceId,
+                                                     sizeof(AudioDeviceID)); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to set CoreAudio unit property");
 #endif
 
@@ -282,12 +282,12 @@ namespace ouzel::audio::coreaudio
         sampleFormat = SampleFormat::float32;
         sampleSize = sizeof(float);
 
-        if (const OSStatus result = AudioUnitSetProperty(audioUnit,
-                                                         kAudioUnitProperty_StreamFormat,
-                                                         kAudioUnitScope_Input,
-                                                         bus,
-                                                         &streamDescription,
-                                                         sizeof(streamDescription)); result != noErr)
+        if (const auto result = AudioUnitSetProperty(audioUnit,
+                                                     kAudioUnitProperty_StreamFormat,
+                                                     kAudioUnitScope_Input,
+                                                     bus,
+                                                     &streamDescription,
+                                                     sizeof(streamDescription)); result != noErr)
         {
             logger.log(Log::Level::warning) << "Failed to set CoreAudio unit stream format to float, error: " << result;
 
@@ -296,9 +296,12 @@ namespace ouzel::audio::coreaudio
             streamDescription.mBytesPerFrame = streamDescription.mBitsPerChannel * streamDescription.mChannelsPerFrame / 8;
             streamDescription.mBytesPerPacket = streamDescription.mBytesPerFrame * streamDescription.mFramesPerPacket;
 
-            if (const OSStatus setPropertyResult = AudioUnitSetProperty(audioUnit,
-                                                                        kAudioUnitProperty_StreamFormat,
-                                                                        kAudioUnitScope_Input, bus, &streamDescription, sizeof(streamDescription)); setPropertyResult != noErr)
+            if (const auto setPropertyResult = AudioUnitSetProperty(audioUnit,
+                                                                    kAudioUnitProperty_StreamFormat,
+                                                                    kAudioUnitScope_Input,
+                                                                    bus,
+                                                                    &streamDescription,
+                                                                    sizeof(streamDescription)); setPropertyResult != noErr)
                 throw std::system_error(setPropertyResult, errorCategory, "Failed to set CoreAudio unit stream format");
 
             sampleFormat = SampleFormat::signedInt16;
@@ -308,26 +311,26 @@ namespace ouzel::audio::coreaudio
         AURenderCallbackStruct callback;
         callback.inputProc = coreaudio::outputCallback;
         callback.inputProcRefCon = this;
-        if (const OSStatus result = AudioUnitSetProperty(audioUnit,
-                                                         kAudioUnitProperty_SetRenderCallback,
-                                                         kAudioUnitScope_Input,
-                                                         bus,
-                                                         &callback,
-                                                         sizeof(callback)); result != noErr)
+        if (const auto result = AudioUnitSetProperty(audioUnit,
+                                                     kAudioUnitProperty_SetRenderCallback,
+                                                     kAudioUnitScope_Input,
+                                                     bus,
+                                                     &callback,
+                                                     sizeof(callback)); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to set CoreAudio unit output callback");
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
         const UInt32 inIOBufferFrameSize = 512;
-        if (const OSStatus result = AudioUnitSetProperty(audioUnit,
-                                                         kAudioDevicePropertyBufferFrameSize,
-                                                         kAudioUnitScope_Global,
-                                                         0,
-                                                         &inIOBufferFrameSize,
-                                                         sizeof(UInt32)); result != noErr)
+        if (const auto result = AudioUnitSetProperty(audioUnit,
+                                                     kAudioDevicePropertyBufferFrameSize,
+                                                     kAudioUnitScope_Global,
+                                                     0,
+                                                     &inIOBufferFrameSize,
+                                                     sizeof(UInt32)); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to set CoreAudio buffer size");
 #endif
 
-        if (const OSStatus result = AudioUnitInitialize(audioUnit); result != noErr)
+        if (const auto result = AudioUnitInitialize(audioUnit); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to initialize CoreAudio unit");
     }
 
@@ -385,13 +388,13 @@ namespace ouzel::audio::coreaudio
 
     void AudioDevice::start()
     {
-        if (const OSStatus result = AudioOutputUnitStart(audioUnit); result != noErr)
+        if (const auto result = AudioOutputUnitStart(audioUnit); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to start CoreAudio output unit");
     }
 
     void AudioDevice::stop()
     {
-        if (const OSStatus result = AudioOutputUnitStop(audioUnit); result != noErr)
+        if (const auto result = AudioOutputUnitStop(audioUnit); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to stop CoreAudio output unit");
     }
 
