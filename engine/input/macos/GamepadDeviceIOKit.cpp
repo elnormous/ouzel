@@ -25,9 +25,8 @@ namespace ouzel::input::macos
         GamepadDevice(initInputSystem, initId),
         device(initDevice)
     {
-        IOReturn ret;
-        if ((ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone)) != kIOReturnSuccess)
-            throw std::system_error(ret, getErrorCategory(), "Failed to open HID device");
+        if (const auto result = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone); result != kIOReturnSuccess)
+            throw std::system_error(result, getErrorCategory(), "Failed to open HID device");
 
         const auto productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
         if (productName)

@@ -253,7 +253,8 @@ namespace ouzel::audio::coreaudio
             throw std::system_error(result, errorCategory, "Failed to add CoreAudio property listener");
 #endif
 
-        if (const auto result = AudioComponentInstanceNew(audioComponent, &audioUnit); result != noErr)
+        if (const auto result = AudioComponentInstanceNew(audioComponent,
+                                                          &audioUnit); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to create CoreAudio component instance");
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV
