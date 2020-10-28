@@ -4,6 +4,8 @@
 
 #if OUZEL_COMPILE_WASAPI
 
+#include <mmdeviceapi.h>
+#include <Functiondiscoverykeys_devpkey.h>
 #include "WASAPIAudioDevice.hpp"
 #include "WASAPIErrorCategory.hpp"
 #include "../../core/Engine.hpp"
@@ -13,6 +15,7 @@ const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
 const IID IID_IAudioClient = __uuidof(IAudioClient);
 const IID IID_IAudioRenderClient = __uuidof(IAudioRenderClient);
 const IID IID_IAudioCaptureClient = __uuidof(IAudioCaptureClient);
+const GUID IDevice_FriendlyName = {0xa45c254e, 0xdf1c, 0x4efd, {0x80, 0x20, 0x67, 0xd1, 0x46, 0xa8, 0x50, 0xe0}};
 
 namespace ouzel::audio::wasapi
 {
@@ -132,6 +135,27 @@ namespace ouzel::audio::wasapi
         IMMDevice* devicePointer;
         if (const auto hr = enumerator->GetDefaultAudioEndpoint(eRender, eConsole, &devicePointer); FAILED(hr))
             throw std::system_error(hr, errorCategory, "Failed to get audio endpoint");
+
+        IPropertyStore* propertyStore;
+        if (const auto hr = devicePointer->OpenPropertyStore(STGM_READ, &propertyStore); FAILED(hr))
+            throw std::system_error(hr, errorCategory, "Failed to open property store");
+
+        PROPVARIANT nameVariant;
+        PropVariantInit(&nameVariant);
+
+        if (const auto hr = propertyStore->GetValue(PKEY_Device_FriendlyName, &nameVariant); SUCCEEDED(hr))
+        {
+            int bufferSize = WideCharToMultiByte(CP_UTF8, 0, nameVariant.pwszVal, -1, nullptr, 0, nullptr, nullptr);
+            if (bufferSize != 0)
+            {
+                std::vector<char> name(bufferSize);
+                if (WideCharToMultiByte(CP_UTF8, 0, nameVariant.pwszVal, -1, name.data(), bufferSize, nullptr, nullptr) != 0)
+                    ouzel::logger.log(ouzel::Log::Level::info) << "Using " << name.data() << " for audio";
+            }
+        }
+
+        PropVariantClear(&nameVariant);
+        propertyStore->Release();
 
         device = devicePointer;
 
