@@ -136,9 +136,11 @@ namespace ouzel::audio::wasapi
         if (const auto hr = enumerator->GetDefaultAudioEndpoint(eRender, eConsole, &devicePointer); FAILED(hr))
             throw std::system_error(hr, errorCategory, "Failed to get audio endpoint");
 
-        IPropertyStore* propertyStore;
-        if (const auto hr = devicePointer->OpenPropertyStore(STGM_READ, &propertyStore); FAILED(hr))
+        IPropertyStore* propertyStorePointer;
+        if (const auto hr = devicePointer->OpenPropertyStore(STGM_READ, &propertyStorePointer); FAILED(hr))
             throw std::system_error(hr, errorCategory, "Failed to open property store");
+
+        Pointer<IPropertyStore> propertyStore = propertyStorePointer;
 
         PROPVARIANT nameVariant;
         PropVariantInit(&nameVariant);
@@ -155,7 +157,6 @@ namespace ouzel::audio::wasapi
         }
 
         PropVariantClear(&nameVariant);
-        propertyStore->Release();
 
         device = devicePointer;
 
