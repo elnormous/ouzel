@@ -44,8 +44,7 @@ namespace ouzel::core::android
     {
         void* jniEnvPointer;
 
-        jint result;
-        if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
+        if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
@@ -82,8 +81,7 @@ namespace ouzel::core::android
     {
         void* jniEnvPointer;
 
-        jint result;
-        if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
+        if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
@@ -163,8 +161,7 @@ namespace ouzel::core::android
     {
         void* jniEnvPointer;
 
-        jint result;
-        if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
+        if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
@@ -193,8 +190,7 @@ namespace ouzel::core::android
     {
         void* jniEnvPointer;
 
-        jint result;
-        if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
+        if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
@@ -232,8 +228,7 @@ namespace ouzel::core::android
     {
         void* jniEnvPointer;
 
-        jint result;
-        if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
+        if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
@@ -283,8 +278,7 @@ namespace ouzel::core::android
         executeOnMainThread([url, this]() {
             void* jniEnvPointer;
 
-            jint result;
-            if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
+            if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
                 throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
             auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
@@ -316,8 +310,7 @@ namespace ouzel::core::android
         executeOnMainThread([newScreenSaverEnabled, this]() {
             void* jniEnvPointer;
 
-            jint result;
-            if ((result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6)) != JNI_OK)
+            if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
                 throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
             auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
@@ -354,13 +347,12 @@ namespace ouzel::core::android
         attachArgs.name = "Application"; // thread name
         attachArgs.group = nullptr; // thread group
 
-        jint result;
-        if ((result = javaVm->AttachCurrentThread(&jniEnv, &attachArgs)) != JNI_OK)
+        if (const auto result = javaVm->AttachCurrentThread(&jniEnv, &attachArgs); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to attach current thread to Java VM");
 
         core::Engine::engineMain();
 
-        if ((result = javaVm->DetachCurrentThread()) != JNI_OK)
+        if (const auto result = javaVm->DetachCurrentThread(); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to detach current thread from Java VM");
     }
 }
