@@ -304,10 +304,10 @@ namespace ouzel::graphics::opengl
 
         const auto deviceName = glGetStringProc(GL_RENDERER);
 
-        GLenum error;
-
-        if ((error = glGetErrorProc()) != GL_NO_ERROR || !deviceName)
+        if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
             logger.log(Log::Level::warning) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
+        else if (!deviceName)
+            logger.log(Log::Level::warning) << "Failed to get OpenGL renderer";
         else
             logger.log(Log::Level::info) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
 
@@ -621,21 +621,21 @@ namespace ouzel::graphics::opengl
 
         glDisableProc(GL_DITHER);
 
-        if ((error = glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to set depth function");
 
 #if !OUZEL_OPENGLES
         if (srgb)
             glEnableProc(GL_FRAMEBUFFER_SRGB);
 
-        if ((error = glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to enable sRGB frame buffer");
 
         if (sampleCount > 1)
         {
             glEnableProc(GL_MULTISAMPLE);
 
-            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+            if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to enable multi-sampling");
         }
 #endif
@@ -646,7 +646,7 @@ namespace ouzel::graphics::opengl
 
             glBindVertexArrayProc(vertexArrayId);
 
-            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+            if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to bind vertex array");
         }
 
@@ -841,8 +841,7 @@ namespace ouzel::graphics::opengl
                             if (clearCommand->clearStencilBuffer)
                                 glStencilMaskProc(stateCache.stencilMask);
 
-                            GLenum error;
-                            if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                            if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                                 throw std::system_error(makeErrorCode(error), "Failed to clear frame buffer");
                         }
 
@@ -967,8 +966,7 @@ namespace ouzel::graphics::opengl
                             setStencilMask(0xFFFFFFFF);
                         }
 
-                        GLenum error;
-                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                             throw std::system_error(makeErrorCode(error), "Failed to update depth stencil state");
 
                         break;
@@ -1058,8 +1056,7 @@ namespace ouzel::graphics::opengl
                             vertexOffset += getDataTypeSize(vertexAttribute.dataType);
                         }
 
-                        GLenum error;
-                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                             throw std::system_error(makeErrorCode(error), "Failed to update vertex attributes");
 
                         assert(drawCommand->indexCount);
@@ -1074,7 +1071,7 @@ namespace ouzel::graphics::opengl
                                            getIndexType(drawCommand->indexSize),
                                            indexOffset);
 
-                        if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                        if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                             throw std::system_error(makeErrorCode(error), "Failed to draw elements");
 
                         break;
@@ -1280,9 +1277,7 @@ namespace ouzel::graphics::opengl
         glReadPixelsProc(0, 0, frameBufferWidth, frameBufferHeight,
                          GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
-        GLenum error;
-
-        if ((error = glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to read pixels from frame buffer");
 
         // flip the image vertically

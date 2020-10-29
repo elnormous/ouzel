@@ -47,16 +47,17 @@ namespace ouzel::graphics::opengl
                 GLint extensionCount;
                 glGetIntegervProc(GL_NUM_EXTENSIONS, &extensionCount);
 
-                GLuint error;
-                if ((error = glGetErrorProc()) != GL_NO_ERROR)
+                if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                     logger.log(Log::Level::warning) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
                 else
                     for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
                     {
                         const auto extensionPtr = glGetStringiProc(GL_EXTENSIONS, i);
 
-                        if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionPtr)
-                            logger.log(Log::Level::warning) << "Failed to get OpenGL extension, error: " + std::to_string(error);
+                        if (const auto getStringError = glGetErrorProc(); getStringError != GL_NO_ERROR)
+                            logger.log(Log::Level::warning) << "Failed to get OpenGL extension, error: " + std::to_string(getStringError);
+                        else if (!extensionPtr)
+                            logger.log(Log::Level::warning) << "Failed to get OpenGL extension";
                         else
                             extensions.emplace_back(reinterpret_cast<const char*>(extensionPtr));
                     }
@@ -66,8 +67,7 @@ namespace ouzel::graphics::opengl
                 const auto glGetStringProc = getProcAddress<PFNGLGETSTRINGPROC>("glGetString", ApiVersion(1, 0));
                 const auto extensionsPtr = glGetStringProc(GL_EXTENSIONS);
 
-                GLuint error;
-                if ((error = glGetErrorProc()) != GL_NO_ERROR || !extensionsPtr)
+                if (const auto error = glGetErrorProc(); error != GL_NO_ERROR || !extensionsPtr)
                     logger.log(Log::Level::warning) << "Failed to get OpenGL extensions, error: " + std::to_string(error);
                 else
                     extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');

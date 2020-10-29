@@ -114,9 +114,7 @@ namespace ouzel::graphics::opengl
         if (status == GL_FALSE)
             throw Error("Failed to compile pixel shader, error: " + getShaderMessage(fragmentShaderId));
 
-        GLenum error;
-
-        if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to get shader compile status");
 
         vertexShaderId = renderDevice.glCreateShaderProc(GL_VERTEX_SHADER);
@@ -151,7 +149,7 @@ namespace ouzel::graphics::opengl
         if (status == GL_FALSE)
             throw Error("Failed to link shader" + getProgramMessage());
 
-        if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to get shader link status");
 
         renderDevice.glDetachShaderProc(programId, vertexShaderId);
@@ -162,7 +160,7 @@ namespace ouzel::graphics::opengl
         renderDevice.glDeleteShaderProc(fragmentShaderId);
         fragmentShaderId = 0;
 
-        if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to detach shader");
 
         renderDevice.useProgram(programId);
@@ -173,7 +171,7 @@ namespace ouzel::graphics::opengl
         const auto texture1Location = renderDevice.glGetUniformLocationProc(programId, "texture1");
         if (texture1Location != -1) renderDevice.glUniform1iProc(texture1Location, 1);
 
-        if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to get uniform location");
 
         if (!fragmentShaderConstantInfo.empty())
@@ -185,7 +183,7 @@ namespace ouzel::graphics::opengl
             {
                 const auto location = renderDevice.glGetUniformLocationProc(programId, info.first.c_str());
 
-                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+                if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to get OpenGL uniform location");
 
                 if (location == -1)
@@ -204,7 +202,7 @@ namespace ouzel::graphics::opengl
             {
                 const auto location = renderDevice.glGetUniformLocationProc(programId, info.first.c_str());
 
-                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+                if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to get OpenGL uniform location");
 
                 if (location == -1)

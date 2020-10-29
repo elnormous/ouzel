@@ -215,9 +215,7 @@ namespace ouzel::graphics::opengl::android
         glDisableProc(GL_DITHER);
         glDepthFuncProc(GL_LEQUAL);
 
-        GLenum error;
-
-        if ((error = glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to set depth function");
 
         if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);

@@ -296,9 +296,7 @@ namespace ouzel::graphics::opengl
                 if (renderDevice.isTextureBaseLevelSupported()) renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_BASE_LEVEL, 0);
                 if (renderDevice.isTextureMaxLevelSupported()) renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                GLenum error;
-
-                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+                if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set texture base and max levels");
             }
 
@@ -316,9 +314,7 @@ namespace ouzel::graphics::opengl
                                                   pixelFormat, pixelType, nullptr);
             }
 
-            GLenum error;
-
-            if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+            if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
         }
 
@@ -350,9 +346,7 @@ namespace ouzel::graphics::opengl
                 if (renderDevice.isTextureBaseLevelSupported()) renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_BASE_LEVEL, 0);
                 if (renderDevice.isTextureMaxLevelSupported()) renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                GLenum error;
-
-                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+                if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set texture base and max levels");
             }
 
@@ -370,9 +364,7 @@ namespace ouzel::graphics::opengl
                                                   pixelFormat, pixelType, nullptr);
             }
 
-            GLenum error;
-
-            if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+            if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
 
             setTextureParameters();
@@ -400,9 +392,7 @@ namespace ouzel::graphics::opengl
                                                  pixelFormat, pixelType,
                                                  levels[level].second.data());
 
-        GLenum error;
-
-        if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
     }
 
@@ -437,9 +427,7 @@ namespace ouzel::graphics::opengl
                 throw Error("Invalid texture filter");
         }
 
-        GLenum error;
-
-        if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to set texture filter");
     }
 
@@ -453,8 +441,7 @@ namespace ouzel::graphics::opengl
         renderDevice.bindTexture(textureTarget, 0, textureId);
         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_S, getWrapMode(addressX));
 
-        GLenum error;
-        if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
     }
 
@@ -468,8 +455,7 @@ namespace ouzel::graphics::opengl
         renderDevice.bindTexture(textureTarget, 0, textureId);
         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_T, getWrapMode(addressY));
 
-        GLenum error;
-        if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
     }
 
@@ -485,8 +471,7 @@ namespace ouzel::graphics::opengl
             renderDevice.bindTexture(textureTarget, 0, textureId);
             renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_R, getWrapMode(addressZ));
 
-            GLenum error;
-            if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+            if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
         }
     }
@@ -504,9 +489,7 @@ namespace ouzel::graphics::opengl
         {
             renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(maxAnisotropy));
 
-            GLenum error;
-
-            if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+            if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set texture max anisotrophy");
         }
     }
@@ -523,8 +506,7 @@ namespace ouzel::graphics::opengl
             {
                 renderDevice.glGenTexturesProc(1, &textureId);
 
-                GLenum error;
-                if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+                if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to create texture");
 
                 if (sampleCount > 1 && renderDevice.glTexStorage2DMultisampleProc)
@@ -543,7 +525,7 @@ namespace ouzel::graphics::opengl
                                                   width, height, 0,
                                                   pixelFormat, pixelType, nullptr);
 
-                    if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+                    if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to set color render texture's storage");
                 }
             }
@@ -559,8 +541,7 @@ namespace ouzel::graphics::opengl
                                                                       internalPixelFormat,
                                                                       width, height);
 
-                    GLenum error;
-                    if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+                    if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to set color render buffer's multisample storage");
                 }
                 else
@@ -569,8 +550,7 @@ namespace ouzel::graphics::opengl
                                                            internalPixelFormat,
                                                            width, height);
 
-                    GLenum error;
-                    if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+                    if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                         throw std::system_error(makeErrorCode(error), "Failed to set color render buffer's storage");
                 }
             }
@@ -579,8 +559,7 @@ namespace ouzel::graphics::opengl
         {
             renderDevice.glGenTexturesProc(1, &textureId);
 
-            GLenum error;
-            if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+            if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to create texture");
         }
     }
@@ -611,26 +590,24 @@ namespace ouzel::graphics::opengl
                 throw Error("Invalid texture filter");
         }
 
-        GLenum error;
-
-        if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to set texture filter");
 
         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_S, getWrapMode(addressX));
 
-        if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
 
         renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_T, getWrapMode(addressY));
 
-        if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
 
         if (textureTarget == GL_TEXTURE_3D)
         {
             renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_R, getWrapMode(addressZ));
 
-            if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+            if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
         }
 
@@ -638,7 +615,7 @@ namespace ouzel::graphics::opengl
         {
             renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnisotropy);
 
-            if ((error = renderDevice.glGetErrorProc()) != GL_NO_ERROR)
+            if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set texture max anisotrophy");
         }
     }
