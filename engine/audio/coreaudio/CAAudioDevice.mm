@@ -145,12 +145,12 @@ namespace ouzel::audio::coreaudio
             kAudioObjectPropertyElementMaster
         };
 
-        UInt32 size = sizeof(AudioDeviceID);
+        UInt32 deviceSize = sizeof(AudioDeviceID);
         if (const auto result = AudioObjectGetPropertyData(kAudioObjectSystemObject,
                                                            &defaultDeviceAddress,
                                                            0,
                                                            nullptr,
-                                                           &size,
+                                                           &deviceSize,
                                                            &deviceId); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to get CoreAudio output device");
 
@@ -161,12 +161,12 @@ namespace ouzel::audio::coreaudio
         };
 
         UInt32 alive = 0;
-        size = sizeof(alive);
+        UInt32 aliveSize = sizeof(alive);
         if (const auto result = AudioObjectGetPropertyData(deviceId,
                                                            &aliveAddress,
                                                            0,
                                                            nullptr,
-                                                           &size,
+                                                           &aliveSize,
                                                            &alive); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to get CoreAudio device status");
 
@@ -180,12 +180,12 @@ namespace ouzel::audio::coreaudio
         };
 
         pid_t pid = 0;
-        size = sizeof(pid);
+        UInt32 pidSize = sizeof(pid);
         if (const auto result = AudioObjectGetPropertyData(deviceId,
                                                            &hogModeAddress,
                                                            0,
                                                            nullptr,
-                                                           &size,
+                                                           &pidSize,
                                                            &pid); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to check if CoreAudio device is in hog mode");
 
@@ -199,13 +199,13 @@ namespace ouzel::audio::coreaudio
         };
 
         CFStringRef tempStringRef = nullptr;
-        size = sizeof(CFStringRef);
+        UInt32 stringSize = sizeof(CFStringRef);
 
         if (const auto result = AudioObjectGetPropertyData(deviceId,
                                                            &nameAddress,
                                                            0,
                                                            nullptr,
-                                                           &size,
+                                                           &stringSize,
                                                            &tempStringRef); result != noErr)
             throw std::system_error(result, errorCategory, "Failed to get CoreAudio device name");
 
