@@ -128,7 +128,7 @@ namespace ouzel::audio::wasapi
     {
         LPVOID enumeratorPointer;
         if (const auto hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, &enumeratorPointer); FAILED(hr))
-            throw std::system_error(hr, errorCategory, "Failed to create device enumerator");
+            throw std::system_error(hr, std::system_category(), "Failed to create device enumerator");
 
         enumerator = static_cast<IMMDeviceEnumerator*>(enumeratorPointer);
 

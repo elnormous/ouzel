@@ -238,7 +238,7 @@ namespace ouzel::input::windows
         void* wbemLocatorPointer;
         if (const auto hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
                                              __uuidof(IWbemLocator), &wbemLocatorPointer); FAILED(hr))
-            throw std::system_error(hr, errorCategory, "Failed to create WMI locator instance");
+            throw std::system_error(hr, std::system_category(), "Failed to create WMI locator instance");
 
         auto wbemLocator = static_cast<IWbemLocator*>(wbemLocatorPointer);
 
