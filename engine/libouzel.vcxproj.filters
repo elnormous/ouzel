@@ -972,6 +972,9 @@
     <ClInclude Include="graphics\direct3d11\D3D11ErrorCategory.hpp">
       <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
+    <ClInclude Include="core\windows\Com.hpp">
+      <Filter>engine\core\windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="engine">

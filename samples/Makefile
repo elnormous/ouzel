@@ -87,13 +87,13 @@ EXECUTABLE=samples
 endif
 
 .PHONY: all
+all: bundle
 ifeq ($(DEBUG),1)
 all: CXXFLAGS+=-DDEBUG -g
 else
 all: CXXFLAGS+=-O3
 all: LDFLAGS+=-O3
 endif
-all: bundle
 
 .PHONY: bundle
 bundle: $(EXECUTABLE)

@@ -16,6 +16,7 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "../Engine.hpp"
+#include "Com.hpp"
 
 namespace ouzel::core::windows
 {
@@ -23,7 +24,6 @@ namespace ouzel::core::windows
     {
     public:
         Engine(int argc, LPWSTR* argv);
-        ~Engine() override;
 
         void run();
 
@@ -34,6 +34,7 @@ namespace ouzel::core::windows
     private:
         void runOnMainThread(const std::function<void()>& func) final;
 
+        Com com;
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
     };

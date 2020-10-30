@@ -20,13 +20,13 @@ DEPENDENCIES=$(OBJECTS:.o=.d)
 EXECUTABLE=test
 
 .PHONY: all
+all: $(EXECUTABLE)
 ifeq ($(DEBUG),1)
 all: CXXFLAGS+=-DDEBUG -g
 else
 all: CXXFLAGS+=-O3
 all: LDFLAGS+=-O3
 endif
-all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@

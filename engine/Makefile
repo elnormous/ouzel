@@ -268,6 +268,7 @@ LIBRARY=libouzel.a
 DEPENDENCIES=$(OBJECTS:.o=.d)
 
 .PHONY: all
+all: $(LIBRARY)
 ifeq ($(DEBUG),1)
 all: CPPFLAGS+=-DDEBUG # C preprocessor flags
 all: CFLAGS+=-g # C flags
@@ -281,8 +282,6 @@ all: OBJCFLAGS+=-O3
 all: OBJCXXFLAGS+=-O3
 all: LDFLAGS+=-O3
 endif
-.PHONY: all
-all: $(LIBRARY)
 
 $(LIBRARY): $(OBJECTS)
 	$(AR) rs $@ $^
