@@ -35,7 +35,6 @@
     <ClCompile Include="audio\Audio.cpp" />
     <ClCompile Include="audio\AudioDevice.cpp" />
     <ClCompile Include="audio\Cue.cpp" />
-    <ClCompile Include="audio\dsound\DSAudioDevice.cpp" />
     <ClCompile Include="audio\Containers.cpp" />
     <ClCompile Include="audio\Effect.cpp" />
     <ClCompile Include="audio\Effects.cpp" />
@@ -163,9 +162,6 @@
     <ClInclude Include="audio\Channel.hpp" />
     <ClInclude Include="audio\Cue.hpp" />
     <ClInclude Include="audio\Driver.hpp" />
-    <ClInclude Include="audio\dsound\DSAudioDevice.hpp" />
-    <ClInclude Include="audio\dsound\DSErrorCategory.hpp" />
-    <ClInclude Include="audio\dsound\DSPointer.hpp" />
     <ClInclude Include="audio\empty\EmptyAudioDevice.hpp" />
     <ClInclude Include="audio\Containers.hpp" />
     <ClInclude Include="audio\Effect.hpp" />

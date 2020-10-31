@@ -7,7 +7,6 @@
 #include "Listener.hpp"
 #include "alsa/ALSAAudioDevice.hpp"
 #include "coreaudio/CAAudioDevice.hpp"
-#include "dsound/DSAudioDevice.hpp"
 #include "empty/EmptyAudioDevice.hpp"
 #include "openal/OALAudioDevice.hpp"
 #include "opensl/OSLAudioDevice.hpp"
@@ -34,8 +33,6 @@ namespace ouzel::audio
                 return Driver::openAL;
             else if (availableDrivers.find(Driver::xAudio2) != availableDrivers.end())
                 return Driver::xAudio2;
-            else if (availableDrivers.find(Driver::directSound) != availableDrivers.end())
-                return Driver::directSound;
             else if (availableDrivers.find(Driver::openSL) != availableDrivers.end())
                 return Driver::openSL;
             else
@@ -45,8 +42,6 @@ namespace ouzel::audio
             return Driver::empty;
         else if (driver == "openal")
             return Driver::openAL;
-        else if (driver == "directsound")
-            return Driver::directSound;
         else if (driver == "xaudio2")
             return Driver::xAudio2;
         else if (driver == "opensl")
@@ -71,9 +66,6 @@ namespace ouzel::audio
 
 #if OUZEL_COMPILE_OPENAL
             availableDrivers.insert(Driver::openAL);
-#endif
-#if OUZEL_COMPILE_DIRECTSOUND
-            availableDrivers.insert(Driver::directSound);
 #endif
 #if OUZEL_COMPILE_XAUDIO2
             availableDrivers.insert(Driver::xAudio2);
@@ -107,11 +99,6 @@ namespace ouzel::audio
                 case Driver::openAL:
                     logger.log(Log::Level::info) << "Using OpenAL audio driver";
                     return std::make_unique<openal::AudioDevice>(settings, dataGetter);
-#endif
-#if OUZEL_COMPILE_DIRECTSOUND
-                case Driver::directSound:
-                    logger.log(Log::Level::info) << "Using DirectSound audio driver";
-                    return std::make_unique<directsound::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_XAUDIO2
                 case Driver::xAudio2:

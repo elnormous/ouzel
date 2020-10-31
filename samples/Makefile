@@ -19,7 +19,7 @@ CXXFLAGS=-std=c++17 \
 	-I../engine
 LDFLAGS=-L../engine -louzel
 ifeq ($(PLATFORM),windows)
-LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -lversion -ldinput8 -luser32 -lgdi32 -lshell32 -lole32 -loleaut32 -ldsound -luuid -lws2_32
+LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -lversion -ldinput8 -luser32 -lgdi32 -lshell32 -lole32 -loleaut32 -luuid -lws2_32
 else ifeq ($(PLATFORM),linux)
 ifneq ($(filter arm%,$(architecture)),) # ARM Linux
 VC_DIR=/opt/vc

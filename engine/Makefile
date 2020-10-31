@@ -137,8 +137,7 @@ SOURCES=assets/BmfLoader.cpp \
 	storage/FileSystem.cpp \
 	utils/Log.cpp
 ifeq ($(PLATFORM),windows)
-SOURCES+=audio/dsound/DSAudioDevice.cpp \
-	core/windows/EngineWin.cpp \
+SOURCES+=core/windows/EngineWin.cpp \
 	core/windows/NativeWindowWin.cpp \
 	core/windows/SystemWin.cpp \
 	graphics/direct3d11/D3D11BlendState.cpp \

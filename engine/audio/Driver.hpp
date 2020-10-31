@@ -9,7 +9,6 @@ namespace ouzel::audio
     {
         empty,
         openAL,
-        directSound,
         xAudio2,
         openSL,
         coreAudio,

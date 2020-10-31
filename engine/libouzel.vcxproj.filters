@@ -13,9 +13,6 @@
     <ClCompile Include="audio\Cue.cpp">
       <Filter>engine\audio</Filter>
     </ClCompile>
-    <ClCompile Include="audio\dsound\DSAudioDevice.cpp">
-      <Filter>engine\audio\directsound</Filter>
-    </ClCompile>
     <ClCompile Include="audio\xaudio2\XA2AudioDevice.cpp">
       <Filter>engine\audio\xaudio2</Filter>
     </ClCompile>
@@ -359,12 +356,6 @@
     </ClInclude>
     <ClInclude Include="audio\Cue.hpp">
       <Filter>engine\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="audio\dsound\DSAudioDevice.hpp">
-      <Filter>engine\audio\directsound</Filter>
-    </ClInclude>
-    <ClInclude Include="audio\dsound\DSErrorCategory.hpp">
-      <Filter>engine\audio\directsound</Filter>
     </ClInclude>
     <ClInclude Include="audio\empty\EmptyAudioDevice.hpp">
       <Filter>engine\audio\empty</Filter>
@@ -945,9 +936,6 @@
     <ClInclude Include="graphics\direct3d11\D3D11Pointer.hpp">
       <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="audio\dsound\DSPointer.hpp">
-      <Filter>engine\audio\directsound</Filter>
-    </ClInclude>
     <ClInclude Include="audio\wasapi\WASAPIPointer.hpp">
       <Filter>engine\audio\wasapi</Filter>
     </ClInclude>
@@ -988,9 +976,6 @@
     </Filter>
     <Filter Include="engine\audio\xaudio2">
       <UniqueIdentifier>{c9c17ce5-9437-4065-961d-912571b5be4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\audio\directsound">
-      <UniqueIdentifier>{bc334681-a64d-43ce-b5f7-102b531790b6}</UniqueIdentifier>
     </Filter>
     <Filter Include="engine\audio\wasapi">
       <UniqueIdentifier>{6f214ec4-e87d-4f7f-a227-11016994b584}</UniqueIdentifier>
