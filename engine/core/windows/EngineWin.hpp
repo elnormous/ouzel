@@ -17,7 +17,9 @@
 
 #include "../Engine.hpp"
 #include "Com.hpp"
-
+#ifdef DEBUG
+#  include "Console.hpp"
+#endif
 namespace ouzel::core::windows
 {
     class Engine final: public core::Engine
@@ -35,6 +37,9 @@ namespace ouzel::core::windows
         void runOnMainThread(const std::function<void()>& func) final;
 
         Com com;
+#ifdef DEBUG
+        Console console;
+#endif
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
     };

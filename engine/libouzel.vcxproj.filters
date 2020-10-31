@@ -963,6 +963,9 @@
     <ClInclude Include="core\windows\Com.hpp">
       <Filter>engine\core\windows</Filter>
     </ClInclude>
+    <ClInclude Include="core\windows\Console.hpp">
+      <Filter>engine\core\windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="engine">

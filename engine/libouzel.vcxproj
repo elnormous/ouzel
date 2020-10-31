@@ -207,6 +207,7 @@
     <ClInclude Include="core\Timer.hpp" />
     <ClInclude Include="core\Window.hpp" />
     <ClInclude Include="core\windows\Com.hpp" />
+    <ClInclude Include="core\windows\Console.hpp" />
     <ClInclude Include="core\windows\EngineWin.hpp" />
     <ClInclude Include="core\windows\Library.hpp" />
     <ClInclude Include="core\windows\NativeWindowWin.hpp" />

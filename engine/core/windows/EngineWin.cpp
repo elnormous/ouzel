@@ -56,10 +56,6 @@ namespace ouzel::core::windows
     Engine::Engine(int argc, LPWSTR* argv):
         core::Engine(parseArgs(argc, argv))
     {
-#ifdef DEBUG
-        if (!AllocConsole())
-            logger.log(Log::Level::info) << "Attached to console";
-#endif
     }
 
     static void translateMessage(HWND window, const std::set<HACCEL>& accelerators, MSG& message)
