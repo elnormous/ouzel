@@ -1,5 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
+#include <algorithm>
 #include <cassert>
 #include <stdexcept>
 #include "TTFont.hpp"
@@ -49,20 +50,7 @@ namespace ouzel::gui
         if (!font)
             throw std::runtime_error("Font not loaded");
 
-        constexpr std::uint32_t SPACING = 2U;
-
-        struct CharDescriptor final
-        {
-            std::uint16_t x = 0;
-            std::uint16_t y = 0;
-            std::uint16_t width = 0;
-            std::uint16_t height = 0;
-            Vector2F offset;
-            float advance = 0;
-            std::vector<std::uint8_t> bitmap;
-        };
-
-        std::unordered_map<std::uint32_t, CharDescriptor> chars;
+        constexpr std::uint32_t spacing = 2U;
 
         const float s = stbtt_ScaleForPixelHeight(font.get(), fontSize);
 
@@ -79,6 +67,19 @@ namespace ouzel::gui
         int descent;
         int lineGap;
         stbtt_GetFontVMetrics(font.get(), &ascent, &descent, &lineGap);
+
+        struct CharDescriptor final
+        {
+            std::uint16_t x = 0;
+            std::uint16_t y = 0;
+            std::uint16_t width = 0;
+            std::uint16_t height = 0;
+            Vector2F offset;
+            float advance = 0;
+            std::vector<std::uint8_t> bitmap;
+        };
+
+        std::unordered_map<std::uint32_t, CharDescriptor> chars;
 
         for (const char32_t c : glyphs)
         {
@@ -105,7 +106,7 @@ namespace ouzel::gui
                     charDesc.x = width;
 
                     width += static_cast<std::uint16_t>(w);
-                    height = height > static_cast<std::uint16_t>(h) ? height : static_cast<std::uint16_t>(h);
+                    height = std::max(height, static_cast<std::uint16_t>(h));
 
                     stbtt_FreeBitmap(bitmap, nullptr);
                 }
@@ -113,7 +114,7 @@ namespace ouzel::gui
                 charDesc.advance = static_cast<float>(advance * s);
 
                 if (!chars.empty())
-                    width += SPACING;
+                    width += spacing;
 
                 chars[c] = charDesc;
             }
