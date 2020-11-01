@@ -175,7 +175,7 @@ namespace ouzel::gui
             {
                 const auto& f = iter->second;
 
-                auto startIndex = static_cast<std::uint16_t>(vertices.size());
+                const auto startIndex = static_cast<std::uint16_t>(vertices.size());
                 indices.push_back(startIndex + 0);
                 indices.push_back(startIndex + 1);
                 indices.push_back(startIndex + 2);
