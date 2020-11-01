@@ -96,7 +96,7 @@ namespace ouzel::gui
 
                 CharDescriptor charDesc;
 
-                if (unsigned char* bitmap = stbtt_GetGlyphBitmapSubpixel(font.get(), s, s, 0.0F, 0.0F, index, &w, &h, &xoff, &yoff))
+                if (const auto bitmap = stbtt_GetGlyphBitmapSubpixel(font.get(), s, s, 0.0F, 0.0F, index, &w, &h, &xoff, &yoff))
                 {
                     charDesc.width = static_cast<std::uint16_t>(w);
                     charDesc.height = static_cast<std::uint16_t>(h);
