@@ -53,7 +53,7 @@ namespace ouzel::input::linux
 
         while (const dirent* ent = readdir(dir.get()))
         {
-            if (strncmp("event", ent->d_name, 5) == 0)
+            if (std::strncmp("event", ent->d_name, 5) == 0)
             {
                 try
                 {
@@ -228,7 +228,7 @@ namespace ouzel::input::linux
 
             while (const dirent* ent = readdir(dir.get()))
             {
-                if (strncmp("event", ent->d_name, 5) == 0)
+                if (std::strncmp("event", ent->d_name, 5) == 0)
                 {
                     try
                     {
