@@ -553,9 +553,9 @@ namespace ouzel::input::linux
                                 for (Slot& slot : touchSlots)
                                     if (slot.action != Slot::Action::none)
                                     {
-                                        Vector2F position(static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
-                                                            static_cast<float>(slot.positionY - touchMinY) / touchRangeY);
-                                        auto pressure = static_cast<float>(slot.pressure - touchMinPressure) / touchMaxPressure;
+                                        const Vector2F position(static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
+                                                                static_cast<float>(slot.positionY - touchMinY) / touchRangeY);
+                                        const auto pressure = static_cast<float>(slot.pressure - touchMinPressure) / touchMaxPressure;
 
                                         switch (slot.action)
                                         {
@@ -668,7 +668,7 @@ namespace ouzel::input::linux
             }
             if (gamepadDevice)
             {
-                switch(event.type)
+                switch (event.type)
                 {
                     case EV_ABS:
                     {
@@ -691,7 +691,7 @@ namespace ouzel::input::linux
                             hat0YValue = event.value;
                         }
 
-                        auto axisIterator = axes.find(event.code);
+                        const auto axisIterator = axes.find(event.code);
 
                         if (axisIterator != axes.end())
                         {
@@ -708,7 +708,7 @@ namespace ouzel::input::linux
                     }
                     case EV_KEY:
                     {
-                        auto buttonIterator = buttons.find(event.code);
+                        const auto buttonIterator = buttons.find(event.code);
 
                         if (buttonIterator != buttons.end())
                         {
