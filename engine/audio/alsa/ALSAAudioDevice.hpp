@@ -21,9 +21,9 @@ namespace ouzel::audio::alsa
     public:
         AudioDevice(const Settings& settings,
                     const std::function<void(std::uint32_t frames,
-                                                std::uint32_t channels,
-                                                std::uint32_t sampleRate,
-                                                std::vector<float>& samples)>& initDataGetter);
+                                             std::uint32_t channels,
+                                             std::uint32_t sampleRate,
+                                             std::vector<float>& samples)>& initDataGetter);
         ~AudioDevice() override;
 
         void start() final;
