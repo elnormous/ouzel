@@ -11,7 +11,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
     try
     {
         int argc;
-        std::unique_ptr<LPWSTR, decltype(&LocalFree)> argv(CommandLineToArgvW(GetCommandLineW(), &argc), LocalFree);
+        using LocalFreeFunction = HLOCAL(*)(HLOCAL);
+        std::unique_ptr<LPWSTR, LocalFreeFunction> argv(CommandLineToArgvW(GetCommandLineW(), &argc), LocalFree);
 
         ouzel::core::windows::System system(argc, argv.get());
 

@@ -46,7 +46,8 @@ namespace ouzel::input::linux
         }
 #endif
 
-        std::unique_ptr<DIR, decltype(&closedir)> dir(opendir("/dev/input"), closedir);
+        using CloseDirFunction = int(*)(DIR*);
+        std::unique_ptr<DIR, CloseDirFunction> dir(opendir("/dev/input"), closedir);
         if (!dir)
             throw std::system_error(errno, std::system_category(), "Failed to open directory");
 
@@ -219,7 +220,8 @@ namespace ouzel::input::linux
 
         if (discovering)
         {
-            std::unique_ptr<DIR, decltype(&closedir)> dir(opendir("/dev/input"), closedir);
+            using CloseDirFunction = int(*)(DIR*);
+            std::unique_ptr<DIR, CloseDirFunction> dir(opendir("/dev/input"), closedir);
 
             if (!dir)
                 throw std::system_error(errno, std::system_category(), "Failed to open directory");
