@@ -166,8 +166,8 @@ namespace ouzel::audio::alsa
                     {
                         logger.log(Log::Level::warning) << "Buffer underrun occurred";
 
-                        if (const auto result = snd_pcm_prepare(playbackHandle); result < 0)
-                            throw std::system_error(-result, std::system_category(), "Failed to prepare audio interface");
+                        if (const auto prepareResult = snd_pcm_prepare(playbackHandle); prepareResult < 0)
+                            throw std::system_error(-prepareResult, std::system_category(), "Failed to prepare audio interface");
                     }
                     else
                         throw std::system_error(-result, std::system_category(), "Failed to write data");
