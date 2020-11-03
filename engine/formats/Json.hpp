@@ -322,11 +322,8 @@ namespace ouzel::json
             static Value parse(Iterator begin, Iterator end)
             {
                 auto iterator = hasByteOrderMark(begin, end) ? begin + 3 : begin;
-                Value result;
-                std::tie(result, iterator) = parseValue(iterator, end);
-
-                iterator = skipWhitespaces(iterator, end);
-
+                auto [result, valueIterator] = parseValue(iterator, end);
+                iterator = skipWhitespaces(valueIterator, end);
                 if (iterator != end)
                     throw ParseError("Unexpected data");
 
@@ -405,17 +402,17 @@ namespace ouzel::json
                             iterator = skipWhitespaces(iterator, end);
                         }
 
-                        std::string key;
-                        std::tie(key, iterator) = parseString(iterator, end);
-
-                        iterator = skipWhitespaces(iterator, end);
+                        auto [key, stringIterator] = parseString(iterator, end);
+                        iterator = skipWhitespaces(stringIterator, end);
 
                         if (static_cast<char>(*iterator++) != ':')
                             throw ParseError("Invalid object");
 
                         iterator = skipWhitespaces(iterator, end);
 
-                        std::tie(result[key], iterator) = parseValue(iterator, end);
+                        auto [value, valueIterator] = parseValue(iterator, end);
+                        iterator = valueIterator;
+                        result[key] = std::move(value);
                     }
 
                     if (iterator == end || static_cast<char>(*iterator) != '}')
@@ -446,8 +443,8 @@ namespace ouzel::json
                             iterator = skipWhitespaces(iterator, end);
                         }
 
-                        Value value;
-                        std::tie(value, iterator) = parseValue(iterator, end);
+                        auto [value, valueIterator] = parseValue(iterator, end);
+                        iterator = valueIterator;
                         result.pushBack(value);
                     }
 
@@ -531,8 +528,8 @@ namespace ouzel::json
                 }
                 else if (static_cast<char>(*iterator) == '"')
                 {
-                    std::string stringValue;
-                    std::tie(stringValue, iterator) = parseString(iterator, end);
+                    auto [stringValue, stringIterator] = parseString(iterator, end);
+                    iterator = stringIterator;
                     return std::make_pair(Value{stringValue}, iterator);
                 }
                 else
@@ -541,18 +538,18 @@ namespace ouzel::json
                     constexpr char falseString[] = {'f', 'a', 'l', 's', 'e'};
                     constexpr char nullString[] = {'n', 'u', 'l', 'l'};
 
-                    bool isTrue;
-                    std::tie(isTrue, iterator) = isSame(iterator, end, std::begin(trueString), std::end(trueString));
+                    auto [isTrue, trueIterator] = isSame(iterator, end, std::begin(trueString), std::end(trueString));
+                    iterator = trueIterator;
                     if (isTrue)
                         return std::make_pair(Value{true}, iterator);
 
-                    bool isFalse;
-                    std::tie(isFalse, iterator) = isSame(iterator, end, std::begin(falseString), std::end(falseString));
+                    auto [isFalse, falseIterator] = isSame(iterator, end, std::begin(falseString), std::end(falseString));
+                    iterator = falseIterator;
                     if (isFalse)
                         return std::make_pair(Value{false}, iterator);
 
-                    bool isNull;
-                    std::tie(isNull, iterator) = isSame(iterator, end, std::begin(nullString), std::end(nullString));
+                    auto [isNull, nullIterator] = isSame(iterator, end, std::begin(nullString), std::end(nullString));
+                    iterator = nullIterator;
                     if (isNull)
                         return std::make_pair(Value{nullptr}, iterator);
 
