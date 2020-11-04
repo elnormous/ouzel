@@ -3,17 +3,31 @@
 #ifndef OUZEL_FORMATS_OBF_HPP
 #define OUZEL_FORMATS_OBF_HPP
 
-#include <cassert>
 #include <cstdint>
 #include <cstring>
 #include <limits>
 #include <map>
+#include <stdexcept>
 #include <string>
 #include <vector>
 #include "../utils/Utils.hpp"
 
 namespace ouzel::obf
 {
+    class TypeError final: public std::runtime_error
+    {
+    public:
+        explicit TypeError(const std::string& str): std::runtime_error(str) {}
+        explicit TypeError(const char* str): std::runtime_error(str) {}
+    };
+
+    class RangeError final: public std::runtime_error
+    {
+    public:
+        explicit RangeError(const std::string& str): std::runtime_error(str) {}
+        explicit RangeError(const char* str): std::runtime_error(str) {}
+    };
+
     class Value final
     {
     public:
@@ -437,28 +451,29 @@ namespace ouzel::obf
         template <typename T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
         const std::string& as() const
         {
-            assert(type == Type::string);
+            if (type != Type::string) throw TypeError("Wrong type");
             return stringValue;
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, const char*>>* = nullptr>
         const char* as() const
         {
-            assert(type == Type::string);
+            if (type != Type::string) throw TypeError("Wrong type");
             return stringValue.c_str();
         }
 
         template <typename T, typename std::enable_if_t<std::is_integral_v<T>>* = nullptr>
         T as() const
         {
-            assert(type == Type::integer);
+            if (type != Type::integer) throw TypeError("Wrong type");
             return static_cast<T>(intValue);
         }
 
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
         T as() const
         {
-            assert(type == Type::floatingPoint || type == Type::doublePrecision);
+            if (type != Type::floatingPoint && type != Type::doublePrecision)
+                throw TypeError("Wrong type");
             return static_cast<T>(doubleValue);
         }
 
@@ -472,7 +487,7 @@ namespace ouzel::obf
         template <typename T, typename std::enable_if_t<std::is_same_v<T, ByteArray>>* = nullptr>
         const T& as() const
         {
-            assert(type == Type::byteArray);
+            if (type != Type::byteArray) throw TypeError("Wrong type");
             return byteArrayValue;
         }
 
@@ -486,7 +501,7 @@ namespace ouzel::obf
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Object>>* = nullptr>
         const T& as() const
         {
-            assert(type == Type::object);
+            if (type != Type::object) throw TypeError("Wrong type");
             return objectValue;
         }
 
@@ -500,7 +515,7 @@ namespace ouzel::obf
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
         const T& as() const
         {
-            assert(type == Type::array);
+            if (type != Type::array) throw TypeError("Wrong type");
             return arrayValue;
         }
 
@@ -514,43 +529,43 @@ namespace ouzel::obf
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Dictionary>>* = nullptr>
         const T& as() const
         {
-            assert(type == Type::dictionary);
+            if (type != Type::dictionary) throw TypeError("Wrong type");
             return dictionaryValue;
         }
 
         Array::iterator begin()
         {
-            assert(type == Type::array);
+            if (type != Type::array) throw TypeError("Wrong type");
             return arrayValue.begin();
         }
 
         Array::const_iterator begin() const
         {
-            assert(type == Type::array);
+            if (type != Type::array) throw TypeError("Wrong type");
             return arrayValue.begin();
         }
 
         Array::iterator end()
         {
-            assert(type == Type::array);
+            if (type != Type::array) throw TypeError("Wrong type");
             return arrayValue.end();
         }
 
         Array::const_iterator end() const
         {
-            assert(type == Type::array);
+            if (type != Type::array) throw TypeError("Wrong type");
             return arrayValue.end();
         }
 
         auto getSize() const noexcept
         {
-            assert(type == Type::array);
+            if (type != Type::array) throw TypeError("Wrong type");
             return static_cast<std::uint32_t>(arrayValue.size());
         }
 
-        Value operator[](std::uint32_t key) const
+        const Value& operator[](std::uint32_t key) const
         {
-            assert(type == Type::object || type == Type::array);
+            if (type != Type::object && type != Type::array) throw TypeError("Wrong type");
 
             if (type == Type::object)
             {
@@ -558,19 +573,21 @@ namespace ouzel::obf
 
                 if (i != objectValue.end())
                     return i->second;
+                else
+                    throw RangeError("Index out of range");
             }
             else if (type == Type::array)
             {
                 if (key < arrayValue.size())
                     return arrayValue[key];
+                else
+                    throw RangeError("Index out of range");
             }
-
-            return Value();
         }
 
         Value& operator[](std::uint32_t key)
         {
-            assert(type == Type::object || type == Type::array);
+            if (type != Type::object && type != Type::array) throw TypeError("Wrong type");
 
             if (type == Type::object)
                 return objectValue[key];
@@ -581,28 +598,28 @@ namespace ouzel::obf
             }
         }
 
-        Value operator[](const std::string& key) const
+        const Value& operator[](const std::string& key) const
         {
-            assert(type == Type::dictionary);
+            if (type != Type::dictionary) throw TypeError("Wrong type");
 
             const auto i = dictionaryValue.find(key);
 
             if (i != dictionaryValue.end())
                 return i->second;
-
-            return Value();
+            else
+                throw RangeError("Invalid key");
         }
 
         Value& operator[](const std::string& key)
         {
-            assert(type == Type::dictionary);
+            if (type != Type::dictionary) throw TypeError("Wrong type");
 
             return dictionaryValue[key];
         }
 
         bool hasElement(std::uint32_t key) const
         {
-            assert(type == Type::object || type == Type::array);
+            if (type != Type::object && type != Type::array) throw TypeError("Wrong type");
 
             if (type == Type::object)
                 return objectValue.find(key) != objectValue.end();
@@ -614,7 +631,7 @@ namespace ouzel::obf
 
         bool hasElement(const std::string& key) const
         {
-            assert(type == Type::dictionary);
+            if (type != Type::dictionary) throw TypeError("Wrong type");
 
             return dictionaryValue.find(key) != dictionaryValue.end();
         }
