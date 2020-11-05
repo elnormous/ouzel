@@ -14,6 +14,13 @@
 
 namespace ouzel::obf
 {
+    class DecodeError final: public std::logic_error
+    {
+    public:
+        explicit DecodeError(const std::string& str): std::logic_error(str) {}
+        explicit DecodeError(const char* str): std::logic_error(str) {}
+    };
+
     class TypeError final: public std::runtime_error
     {
     public:
@@ -226,7 +233,7 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < 1)
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             Marker marker;
             std::memcpy(&marker, buffer.data() + offset, sizeof(marker));
@@ -317,7 +324,7 @@ namespace ouzel::obf
                     break;
                 }
                 default:
-                    throw std::runtime_error("Unsupported marker");
+                    throw DecodeError("Unsupported marker");
             }
 
             offset += ret;
@@ -648,7 +655,7 @@ namespace ouzel::obf
                                       std::uint8_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             std::memcpy(&result, buffer.data() + offset, sizeof(result));
 
@@ -660,7 +667,7 @@ namespace ouzel::obf
                                        std::uint16_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             result = decodeBigEndian<std::uint16_t>(buffer.data() + offset);
 
@@ -672,7 +679,7 @@ namespace ouzel::obf
                                        std::uint32_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             result = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
@@ -684,7 +691,7 @@ namespace ouzel::obf
                                        std::uint64_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             result = decodeBigEndian<std::uint64_t>(buffer.data() + offset);
 
@@ -696,7 +703,7 @@ namespace ouzel::obf
                                        float& result)
         {
             if (buffer.size() - offset < sizeof(float))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             std::memcpy(&result, buffer.data() + offset, sizeof(result));
 
@@ -708,7 +715,7 @@ namespace ouzel::obf
                                         double& result)
         {
             if (buffer.size() - offset < sizeof(double))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             std::memcpy(&result, buffer.data() + offset, sizeof(result));
 
@@ -722,14 +729,14 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint16_t))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             const std::uint16_t length = decodeBigEndian<std::uint16_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
             if (buffer.size() - offset < length)
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             result.assign(reinterpret_cast<const char*>(buffer.data() + offset), length);
             offset += length;
@@ -744,14 +751,14 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             const std::uint32_t length = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
             if (buffer.size() - offset < length)
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             result.assign(reinterpret_cast<const char*>(buffer.data() + offset), length);
             offset += length;
@@ -766,14 +773,14 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             const std::uint32_t length = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
             if (buffer.size() - offset < length)
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             result.assign(reinterpret_cast<const std::uint8_t*>(buffer.data() + offset),
                           reinterpret_cast<const std::uint8_t*>(buffer.data() + offset) + length);
@@ -789,7 +796,7 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             const std::uint32_t count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
@@ -798,7 +805,7 @@ namespace ouzel::obf
             for (std::uint32_t i = 0; i < count; ++i)
             {
                 if (buffer.size() - offset < sizeof(std::uint32_t))
-                    throw std::runtime_error("Not enough data");
+                    throw DecodeError("Not enough data");
 
                 const std::uint32_t key = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
@@ -823,7 +830,7 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             const std::uint32_t count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
@@ -849,7 +856,7 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
-                throw std::runtime_error("Not enough data");
+                throw DecodeError("Not enough data");
 
             const std::uint32_t count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
@@ -858,14 +865,14 @@ namespace ouzel::obf
             for (std::uint32_t i = 0; i < count; ++i)
             {
                 if (buffer.size() - offset < sizeof(std::uint16_t))
-                    throw std::runtime_error("Not enough data");
+                    throw DecodeError("Not enough data");
 
                 const std::uint16_t length = decodeBigEndian<std::uint16_t>(buffer.data() + offset);
 
                 offset += sizeof(length);
 
                 if (buffer.size() - offset < length)
-                    throw std::runtime_error("Not enough data");
+                    throw DecodeError("Not enough data");
 
                 std::string key(reinterpret_cast<const char*>(buffer.data() + offset), length);
                 offset += length;
