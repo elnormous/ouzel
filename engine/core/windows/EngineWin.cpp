@@ -30,23 +30,19 @@ namespace ouzel::core::windows
         {
             std::vector<std::string> result;
             if (argv)
-            {
-                int bufferSize;
-                std::vector<char> buffer;
-
                 for (int i = 0; i < argc; ++i)
                 {
-                    bufferSize = WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, nullptr, 0, nullptr, nullptr);
+                    const int bufferSize = WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, nullptr, 0, nullptr, nullptr);
                     if (bufferSize == 0)
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
-                    buffer.resize(bufferSize);
+                    std::vector<char> buffer(bufferSize);
                     if (WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, buffer.data(), bufferSize, nullptr, nullptr) == 0)
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
                     result.push_back(buffer.data());
                 }
-            }
+
             return result;
         }
 
