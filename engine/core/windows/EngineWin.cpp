@@ -59,10 +59,8 @@ namespace ouzel::core::windows
         bool translate = true;
 
         for (HACCEL accelerator : accelerators)
-        {
             if (TranslateAccelerator(window, accelerator, &message))
                 translate = false;
-        }
 
         if (translate)
         {
@@ -79,12 +77,11 @@ namespace ouzel::core::windows
         auto inputWin = static_cast<input::windows::InputSystem*>(inputManager->getInputSystem());
         auto windowWin = static_cast<NativeWindow*>(window->getNativeWindow());
 
-        MSG message;
-
         while (active)
         {
             if (!paused)
             {
+                MSG message;
                 if (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE))
                 {
                     translateMessage(windowWin->getNativeWindow(),
@@ -99,6 +96,7 @@ namespace ouzel::core::windows
             }
             else
             {
+                MSG message;
                 const BOOL ret = GetMessage(&message, nullptr, 0, 0);
                 if (ret == -1)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get message");
