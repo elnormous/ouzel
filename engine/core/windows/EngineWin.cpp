@@ -97,11 +97,9 @@ namespace ouzel::core::windows
             else
             {
                 MSG message;
-                const BOOL ret = GetMessage(&message, nullptr, 0, 0);
-                if (ret == -1)
+                if (const auto ret = GetMessage(&message, nullptr, 0, 0); ret == -1)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get message");
-
-                if (ret == 0)
+                else if (ret == 0)
                 {
                     exit();
                     break;
@@ -109,7 +107,8 @@ namespace ouzel::core::windows
                 else
                 {
                     translateMessage(windowWin->getNativeWindow(),
-                                     windowWin->accelerators, message);
+                                     windowWin->accelerators,
+                                     message);
                 }
             }
 
