@@ -135,7 +135,7 @@ namespace ouzel::obf
             return *this;
         }
 
-        Value& operator=(std::uint8_t value)
+        Value& operator=(std::uint8_t value) noexcept
         {
             type = Type::integer;
             intValue = value;
@@ -143,7 +143,7 @@ namespace ouzel::obf
             return *this;
         }
 
-        Value& operator=(std::uint16_t value)
+        Value& operator=(std::uint16_t value) noexcept
         {
             type = Type::integer;
             intValue = value;
@@ -151,7 +151,7 @@ namespace ouzel::obf
             return *this;
         }
 
-        Value& operator=(std::uint32_t value)
+        Value& operator=(std::uint32_t value) noexcept
         {
             type = Type::integer;
             intValue = value;
@@ -159,7 +159,7 @@ namespace ouzel::obf
             return *this;
         }
 
-        Value& operator=(std::uint64_t value)
+        Value& operator=(std::uint64_t value) noexcept
         {
             type = Type::integer;
             intValue = value;
@@ -167,7 +167,7 @@ namespace ouzel::obf
             return *this;
         }
 
-        Value& operator=(float value)
+        Value& operator=(float value) noexcept
         {
             type = Type::floatingPoint;
             doubleValue = value;
@@ -175,7 +175,7 @@ namespace ouzel::obf
             return *this;
         }
 
-        Value& operator=(double value)
+        Value& operator=(double value) noexcept
         {
             type = Type::doublePrecision;
             doubleValue = value;
@@ -564,7 +564,7 @@ namespace ouzel::obf
             return arrayValue.end();
         }
 
-        auto getSize() const noexcept
+        auto getSize() const
         {
             if (type != Type::array) throw TypeError("Wrong type");
             return static_cast<std::uint32_t>(arrayValue.size());
