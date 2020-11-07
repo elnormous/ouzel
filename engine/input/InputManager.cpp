@@ -98,7 +98,7 @@ namespace ouzel::input
                         connectEvent->type = Event::Type::gamepadConnect;
                         connectEvent->gamepad = controller.get();
 
-                        controllerMap.insert(std::pair(event.deviceId, std::move(controller)));
+                        controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                         return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                     }
                     case Controller::Type::keyboard:
@@ -111,7 +111,7 @@ namespace ouzel::input
                         connectEvent->type = Event::Type::keyboardConnect;
                         connectEvent->keyboard = controller.get();
 
-                        controllerMap.insert(std::pair(event.deviceId, std::move(controller)));
+                        controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                         return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                     }
                     case Controller::Type::mouse:
@@ -124,7 +124,7 @@ namespace ouzel::input
                         connectEvent->type = Event::Type::mouseConnect;
                         connectEvent->mouse = controller.get();
 
-                        controllerMap.insert(std::pair(event.deviceId, std::move(controller)));
+                        controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                         return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                     }
                     case Controller::Type::touchpad:
@@ -137,7 +137,7 @@ namespace ouzel::input
                         connectEvent->type = Event::Type::touchpadConnect;
                         connectEvent->touchpad = controller.get();
 
-                        controllerMap.insert(std::pair(event.deviceId, std::move(controller)));
+                        controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                         return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                     }
                     default: throw std::runtime_error("Invalid controller type");
