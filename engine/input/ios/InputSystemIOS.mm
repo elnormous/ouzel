@@ -134,7 +134,7 @@ namespace ouzel::input::ios
             controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
 
         auto gamepadDevice = std::make_unique<GamepadDevice>(*this, getNextDeviceId(), controller);
-        gamepadDevices.insert(std::pair(controller, std::move(gamepadDevice)));
+        gamepadDevices.insert(std::make_pair(controller, std::move(gamepadDevice)));
     }
 
     void InputSystem::handleGamepadDisconnected(GCControllerPtr controller)

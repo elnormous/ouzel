@@ -310,7 +310,7 @@ namespace ouzel::input::macos
                 controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
 
             auto gamepadDevice = std::make_unique<GamepadDeviceGC>(*this, getNextDeviceId(), controller);
-            gamepadDevicesGC.insert(std::pair(controller, std::move(gamepadDevice)));
+            gamepadDevicesGC.insert(std::make_pair(controller, std::move(gamepadDevice)));
         }
     }
 
@@ -342,7 +342,7 @@ namespace ouzel::input::macos
         if (!supportsGameController)
         {
             auto gamepadDevice = std::make_unique<GamepadDeviceIOKit>(*this, getNextDeviceId(), device);
-            gamepadDevicesIOKit.insert(std::pair(device, std::move(gamepadDevice)));
+            gamepadDevicesIOKit.insert(std::make_pair(device, std::move(gamepadDevice)));
         }
     }
 
