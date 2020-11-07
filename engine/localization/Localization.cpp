@@ -122,7 +122,7 @@ namespace ouzel
         if (i != languages.end())
             i->second = Language(data);
         else
-            languages.insert(std::make_pair(name, Language(data)));
+            languages.insert(std::pair(name, Language(data)));
     }
 
     void Localization::removeLanguage(const std::string& name)

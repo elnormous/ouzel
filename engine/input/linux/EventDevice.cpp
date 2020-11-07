@@ -328,7 +328,7 @@ namespace ouzel::input::linux
                 {
                     Button button;
                     button.button = gamepadConfig.buttonMap[buttonNum];
-                    buttons.insert(std::make_pair(BTN_GAMEPAD + buttonNum, button));
+                    buttons.insert(std::pair(BTN_GAMEPAD + buttonNum, button));
                 }
 
             constexpr std::array<std::uint32_t, 6> axisUsageMap = {
@@ -389,7 +389,7 @@ namespace ouzel::input::linux
                             break;
                     }
 
-                    axes.insert(std::make_pair(usage, axis));
+                    axes.insert(std::pair(usage, axis));
                 }
         }
     }

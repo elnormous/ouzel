@@ -91,7 +91,7 @@ namespace ouzel::input::macos
             {
                 Button button;
                 button.button = gamepadConfig.buttonMap[usage - kHIDUsage_Button_1];
-                buttons.insert(std::make_pair(element, button));
+                buttons.insert(std::pair(element, button));
             }
 
             if ((type == kIOHIDElementTypeInput_Misc || type == kIOHIDElementTypeInput_Axis) &&
@@ -141,7 +141,7 @@ namespace ouzel::input::macos
                             break;
                     }
 
-                    axes.insert(std::make_pair(element, axis));
+                    axes.insert(std::pair(element, axis));
                 }
             }
         }

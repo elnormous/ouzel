@@ -59,7 +59,7 @@ namespace ouzel::input::windows
             {
                 Button button;
                 button.button = gamepadConfig.buttonMap[i];
-                buttons.insert(std::make_pair(static_cast<DWORD>(DIJOFS_BUTTON(i)), button));
+                buttons.insert(std::pair(static_cast<DWORD>(DIJOFS_BUTTON(i)), button));
             }
         }
 
@@ -145,7 +145,7 @@ namespace ouzel::input::windows
                             break;
                     }
 
-                    axes.insert(std::make_pair(offset, axis));
+                    axes.insert(std::pair(offset, axis));
                 }
             }
         }

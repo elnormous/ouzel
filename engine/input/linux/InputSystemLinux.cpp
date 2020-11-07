@@ -59,7 +59,7 @@ namespace ouzel::input::linux
                 {
                     std::string filename = std::string("/dev/input/") + ent->d_name;
                     auto eventDevice = std::make_unique<EventDevice>(*this, filename);
-                    eventDevices.insert(std::make_pair(eventDevice->getFd(), std::move(eventDevice)));
+                    eventDevices.insert(std::pair(eventDevice->getFd(), std::move(eventDevice)));
                 }
                 catch (const std::exception&)
                 {
@@ -234,7 +234,7 @@ namespace ouzel::input::linux
                     {
                         std::string filename = std::string("/dev/input/") + ent->d_name;
                         auto eventDevice = std::make_unique<EventDevice>(*this, filename);
-                        eventDevices.insert(std::make_pair(eventDevice->getFd(), std::move(eventDevice)));
+                        eventDevices.insert(std::pair(eventDevice->getFd(), std::move(eventDevice)));
                     }
                     catch (const std::exception&)
                     {

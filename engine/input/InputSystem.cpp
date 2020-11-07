@@ -23,7 +23,7 @@ namespace ouzel::input
 
     void InputSystem::addInputDevice(InputDevice& inputDevice)
     {
-        inputDevices.insert(std::make_pair(inputDevice.getId(), &inputDevice));
+        inputDevices.insert(std::pair(inputDevice.getId(), &inputDevice));
     }
 
     void InputSystem::removeInputDevice(const InputDevice& inputDevice)

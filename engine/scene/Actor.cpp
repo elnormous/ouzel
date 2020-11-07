@@ -185,7 +185,7 @@ namespace ouzel::scene
 
                     if (actor->isPickable() && actor->pointOn(position))
                     {
-                        auto result = std::make_pair(actor, actor->convertWorldToLocal(Vector3F(position)));
+                        auto result = std::pair(actor, actor->convertWorldToLocal(Vector3F(position)));
 
                         const auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
                                                                  [](const auto& a, const auto& b) noexcept {

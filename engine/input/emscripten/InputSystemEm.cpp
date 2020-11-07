@@ -392,7 +392,7 @@ namespace ouzel::input::emscripten
     void InputSystem::handleGamepadConnected(long index)
     {
         auto gamepadDevice = std::make_unique<GamepadDevice>(*this, getNextDeviceId(), index);
-        gamepadDevices.insert(std::make_pair(index, std::move(gamepadDevice)));
+        gamepadDevices.insert(std::pair(index, std::move(gamepadDevice)));
     }
 
     void InputSystem::handleGamepadDisconnected(long index)
