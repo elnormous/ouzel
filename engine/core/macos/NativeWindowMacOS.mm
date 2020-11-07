@@ -296,8 +296,8 @@ namespace ouzel::core::macos
         const NSRect frame = [window frame];
         const NSRect contentRect = NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.v[0], newSize.v[1]);
 
-        NSRect newFrame = [NSWindow frameRectForContentRect:contentRect
-                                                  styleMask:[window styleMask]];
+        const NSRect newFrame = [NSWindow frameRectForContentRect:contentRect
+                                                        styleMask:[window styleMask]];
 
         if (frame.size.width != newFrame.size.width ||
             frame.size.height != newFrame.size.height)
@@ -325,10 +325,10 @@ namespace ouzel::core::macos
                     windowRect = [window frame];
                     [window setStyleMask:NSBorderlessWindowMask];
 
-                    NSRect screenRect = [screen frame];
+                    const NSRect screenRect = [screen frame];
                     [window setFrame:screenRect display:YES animate:NO];
 
-                    CGWindowLevel windowLevel = CGShieldingWindowLevel();
+                    const CGWindowLevel windowLevel = CGShieldingWindowLevel();
                     [window setLevel:windowLevel];
                     [window makeKeyAndOrderFront:nil];
                 }
@@ -343,7 +343,7 @@ namespace ouzel::core::macos
             }
             else
             {
-                NSApplicationPresentationOptions options = [[NSApplication sharedApplication] presentationOptions];
+                const NSApplicationPresentationOptions options = [[NSApplication sharedApplication] presentationOptions];
                 const bool isFullscreen = (options & NSApplicationPresentationFullScreen) > 0;
 
                 if (isFullscreen != newFullscreen)
@@ -398,8 +398,8 @@ namespace ouzel::core::macos
 
     void NativeWindow::handleResize()
     {
-        NSRect frame = [NSWindow contentRectForFrameRect:window.frame
-                                               styleMask:window.styleMask];
+        const NSRect frame = [NSWindow contentRectForFrameRect:window.frame
+                                                     styleMask:window.styleMask];
 
         size = Size2U(static_cast<std::uint32_t>(frame.size.width),
                       static_cast<std::uint32_t>(frame.size.height));

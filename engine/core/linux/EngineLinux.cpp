@@ -362,13 +362,12 @@ namespace ouzel::core::linux
 
         executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
 
-        XEvent event;
-
         while (active)
         {
             // XNextEvent will block if there is no event pending, so don't call it if engine is not paused
             if (paused || XPending(display))
             {
+                XEvent event;
                 XNextEvent(display, &event);
 
                 switch (event.type)
