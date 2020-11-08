@@ -21,7 +21,7 @@ namespace ouzel::input::windows
                 if (dc) ReleaseDC(nullptr, dc);
             }
 
-            DeviceContext(DeviceContext&& other) noexcept
+            DeviceContext(DeviceContext&& other) noexcept:
                 dc{other.dc}
             {
                 other.dc = nullptr;
