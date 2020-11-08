@@ -21,7 +21,9 @@ namespace ouzel::core::windows
     class DeviceContext final
     {
     public:
-        DeviceContext(HWND window = nullptr): dc{GetDC(window)}
+        DeviceContext(HWND win = nullptr):
+            window{win},
+            dc{GetDC(window)}
         {
             if (!dc)
                 throw std::runtime_error("Failed to get device context");
@@ -29,20 +31,24 @@ namespace ouzel::core::windows
 
         ~DeviceContext()
         {
-            if (dc) ReleaseDC(nullptr, dc);
+            if (dc) ReleaseDC(window, dc);
         }
 
         DeviceContext(DeviceContext&& other) noexcept:
+            window{other.window},
             dc{other.dc}
         {
+            other.window = nullptr;
             other.dc = nullptr;
         }
 
         DeviceContext& operator=(DeviceContext&& other) noexcept
         {
             if (&other == this) return *this;
-            if (dc) ReleaseDC(nullptr, dc);
+            if (dc) ReleaseDC(window, dc);
+            window = other.window;
             dc = other.dc;
+            other.window = nullptr;
             other.dc = nullptr;
             return *this;
         }
@@ -50,6 +56,7 @@ namespace ouzel::core::windows
         operator HDC() const noexcept { return dc; }
 
     private:
+        HWND window = nullptr;
         HDC dc = nullptr;
     };
 }
