@@ -22,9 +22,8 @@ namespace ouzel::input::windows
     void GamepadDeviceXI::update()
     {
         XINPUT_STATE newState = {};
-        DWORD result = XInputGetState(playerIndex, &newState);
 
-        if (result != ERROR_SUCCESS)
+        if (const auto result = XInputGetState(playerIndex, &newState); result != ERROR_SUCCESS)
         {
             if (result == ERROR_DEVICE_NOT_CONNECTED)
                 throw std::runtime_error("Gamepad " + std::to_string(playerIndex) + " disconnected");

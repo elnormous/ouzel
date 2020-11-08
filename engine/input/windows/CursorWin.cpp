@@ -42,8 +42,8 @@ namespace ouzel::input::windows
     {
         if (!data.empty())
         {
-            auto width = static_cast<LONG>(size.v[0]);
-            auto height = static_cast<LONG>(size.v[1]);
+            const auto width = static_cast<LONG>(size.v[0]);
+            const auto height = static_cast<LONG>(size.v[1]);
 
             BITMAPV5HEADER bitmapHeader = {};
             bitmapHeader.bV5Size = sizeof(BITMAPV5HEADER);

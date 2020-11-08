@@ -56,8 +56,8 @@ namespace ouzel::input::windows
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
 
         void* directInputPointer;
-        if (const auto hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, &directInputPointer, nullptr); FAILED(hr))
-            throw std::system_error(hr, errorCategory, "Failed to initialize DirectInput");
+        if (const auto result = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, &directInputPointer, nullptr); FAILED(result))
+            throw std::system_error(result, errorCategory, "Failed to initialize DirectInput");
 
         directInput = static_cast<IDirectInput8W*>(directInputPointer);
 
@@ -72,8 +72,8 @@ namespace ouzel::input::windows
                 throw std::system_error(result, std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex));
         }
 
-        if (const auto hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY); FAILED(hr))
-            throw std::system_error(hr, errorCategory, "Failed to enumerate devices");
+        if (const auto result = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY); FAILED(result))
+            throw std::system_error(result, errorCategory, "Failed to enumerate devices");
     }
 
     InputSystem::~InputSystem()
@@ -217,17 +217,16 @@ namespace ouzel::input::windows
                 if (!gamepadsXI[userIndex])
                 {
                     XINPUT_STATE state = {};
-                    DWORD result = XInputGetState(userIndex, &state);
 
-                    if (result == ERROR_SUCCESS)
+                    if (const auto result = XInputGetState(userIndex, &state); result == ERROR_SUCCESS)
                         gamepadsXI[userIndex] = std::make_unique<GamepadDeviceXI>(*this, getNextDeviceId(), userIndex);
                     else if (result != ERROR_DEVICE_NOT_CONNECTED)
                         throw std::system_error(result, std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex));
                 }
             }
 
-            if (const auto hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY); FAILED(hr))
-                throw std::system_error(hr, errorCategory, "Failed to enumerate devices");
+            if (const auto result = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY); FAILED(result))
+                throw std::system_error(result, errorCategory, "Failed to enumerate devices");
         }
     }
 
@@ -236,9 +235,9 @@ namespace ouzel::input::windows
         bool isXInputDevice = false;
 
         void* wbemLocatorPointer;
-        if (const auto hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
-                                             __uuidof(IWbemLocator), &wbemLocatorPointer); FAILED(hr))
-            throw std::system_error(hr, std::system_category(), "Failed to create WMI locator instance");
+        if (const auto result = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
+                                                 __uuidof(IWbemLocator), &wbemLocatorPointer); FAILED(result))
+            throw std::system_error(result, std::system_category(), "Failed to create WMI locator instance");
 
         auto wbemLocator = static_cast<IWbemLocator*>(wbemLocatorPointer);
 
@@ -249,17 +248,17 @@ namespace ouzel::input::windows
         if (className && namespaceStr && deviceID)
         {
             IWbemServices* wbemServices = nullptr;
-            if (const auto hr = wbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
-                                                           0L, nullptr, nullptr, &wbemServices); FAILED(hr))
-                throw std::system_error(hr, errorCategory, "Failed to create a connection to the WMI namespace");
+            if (const auto result = wbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
+                                                               0L, nullptr, nullptr, &wbemServices); FAILED(result))
+                throw std::system_error(result, errorCategory, "Failed to create a connection to the WMI namespace");
 
-            if (const auto hr = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
-                                                  RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE); FAILED(hr))
-                throw std::system_error(hr, errorCategory, "Failed to set authentication information");
+            if (const auto result = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
+                                                      RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE); FAILED(result))
+                throw std::system_error(result, errorCategory, "Failed to set authentication information");
 
             IEnumWbemClassObject* enumDevices = nullptr;
-            if (const auto hr = wbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices); FAILED(hr))
-                throw std::system_error(hr, errorCategory, "Failed to create the device enumerator");
+            if (const auto result = wbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices); FAILED(result))
+                throw std::system_error(result, errorCategory, "Failed to create the device enumerator");
 
             // Get 20 at a time
             ULONG returned = 0;
@@ -270,8 +269,8 @@ namespace ouzel::input::windows
                 {
                     // For each device, get its device ID
                     VARIANT var;
-                    const auto hr = devices[device]->Get(deviceID, 0L, &var, nullptr, nullptr);
-                    if (SUCCEEDED(hr) && var.vt == VT_BSTR && var.bstrVal != nullptr)
+                    const auto result = devices[device]->Get(deviceID, 0L, &var, nullptr, nullptr);
+                    if (SUCCEEDED(result) && var.vt == VT_BSTR && var.bstrVal != nullptr)
                     {
                         // Check if the device ID contains "IG_". If it does, then it's an XInput device
                         // This information can not be found from DirectInput
