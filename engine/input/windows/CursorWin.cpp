@@ -2,47 +2,10 @@
 
 #include <system_error>
 #include "CursorWin.hpp"
+#include "../../core/windows/DeviceContext.hpp"
 
 namespace ouzel::input::windows
 {
-    namespace
-    {
-        class DeviceContext final
-        {
-        public:
-            DeviceContext(): dc{GetDC(nullptr)}
-            {
-                if (!dc)
-                    throw std::runtime_error("Failed to get device context");
-            }
-
-            ~DeviceContext()
-            {
-                if (dc) ReleaseDC(nullptr, dc);
-            }
-
-            DeviceContext(DeviceContext&& other) noexcept:
-                dc{other.dc}
-            {
-                other.dc = nullptr;
-            }
-
-            DeviceContext& operator=(DeviceContext&& other) noexcept
-            {
-                if (&other == this) return *this;
-                if (dc) ReleaseDC(nullptr, dc);
-                dc = other.dc;
-                other.dc = nullptr;
-                return *this;
-            }
-
-            operator HDC() const noexcept { return dc; }
-
-        private:
-            HDC dc = nullptr;
-        };
-    }
-
     Cursor::Cursor(SystemCursor systemCursor)
     {
         switch (systemCursor)
@@ -95,7 +58,7 @@ namespace ouzel::input::windows
             bitmapHeader.bV5BlueMask = 0x000000FF;
             bitmapHeader.bV5AlphaMask = 0xFF000000;
 
-            DeviceContext deviceContext;
+            core::windows::DeviceContext deviceContext;
             void* targetPointer = nullptr;
             color = CreateDIBSection(deviceContext,
                                      reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
