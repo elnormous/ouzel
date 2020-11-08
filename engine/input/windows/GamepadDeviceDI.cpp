@@ -41,15 +41,15 @@ namespace ouzel::input::windows
                 name = buffer.data();
         }
 
-        if (const auto hr = directInput->CreateDevice(instance->guidInstance, &device, nullptr); FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to create DirectInput device");
+        if (const auto result = directInput->CreateDevice(instance->guidInstance, &device, nullptr); FAILED(result))
+            throw std::system_error(result, getErrorCategory(), "Failed to create DirectInput device");
 
         // Exclusive access is needed for force feedback
-        if (const auto hr = device->SetCooperativeLevel(window, DISCL_BACKGROUND | DISCL_EXCLUSIVE); FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device format");
+        if (const auto result = device->SetCooperativeLevel(window, DISCL_BACKGROUND | DISCL_EXCLUSIVE); FAILED(result))
+            throw std::system_error(result, getErrorCategory(), "Failed to set DirectInput device format");
 
-        if (const auto hr = device->SetDataFormat(&c_dfDIJoystick); FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device format");
+        if (const auto result = device->SetDataFormat(&c_dfDIJoystick); FAILED(result))
+            throw std::system_error(result, getErrorCategory(), "Failed to set DirectInput device format");
 
         const auto& gamepadConfig = getGamepadConfig(vendorId, productId);
 
@@ -97,8 +97,8 @@ namespace ouzel::input::windows
                     propertyDeadZone.dwData = 0;
 
                     // Set the range for the axis
-                    if (const auto hr = device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph); FAILED(hr))
-                        logger.log(Log::Level::warning) << "Failed to set DirectInput device dead zone property, error: " << hr;
+                    if (const auto result = device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph); FAILED(result))
+                        logger.log(Log::Level::warning) << "Failed to set DirectInput device dead zone property, error: " << result;
 
                     DIPROPRANGE propertyAxisRange;
                     propertyAxisRange.diph.dwSize = sizeof(propertyAxisRange);
@@ -106,8 +106,8 @@ namespace ouzel::input::windows
                     propertyAxisRange.diph.dwObj = offset;
                     propertyAxisRange.diph.dwHow = DIPH_BYOFFSET;
 
-                    if (const auto hr = device->GetProperty(DIPROP_RANGE, &propertyAxisRange.diph); FAILED(hr))
-                        throw std::system_error(hr, getErrorCategory(), "Failed to get DirectInput device axis range property");
+                    if (const auto result = device->GetProperty(DIPROP_RANGE, &propertyAxisRange.diph); FAILED(result))
+                        throw std::system_error(result, getErrorCategory(), "Failed to get DirectInput device axis range property");
 
                     axis.min = propertyAxisRange.lMin;
                     axis.max = propertyAxisRange.lMax;
@@ -152,19 +152,19 @@ namespace ouzel::input::windows
 
         DIDEVCAPS capabilities;
         capabilities.dwSize = sizeof(capabilities);
-        if (const auto hr = device->GetCapabilities(&capabilities); FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to get DirectInput device capabilities");
+        if (const auto result = device->GetCapabilities(&capabilities); FAILED(result))
+            throw std::system_error(result, getErrorCategory(), "Failed to get DirectInput device capabilities");
 
         if (capabilities.dwFlags & DIDC_FORCEFEEDBACK)
         {
-            if (const auto hr = device->Acquire(); FAILED(hr))
-                throw std::system_error(hr, getErrorCategory(), "Failed to acquire DirectInput device");
+            if (const auto result = device->Acquire(); FAILED(result))
+                throw std::system_error(result, getErrorCategory(), "Failed to acquire DirectInput device");
 
-            if (const auto hr = device->SendForceFeedbackCommand(DISFFC_RESET); FAILED(hr))
-                throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device force feedback command");
+            if (const auto result = device->SendForceFeedbackCommand(DISFFC_RESET); FAILED(result))
+                throw std::system_error(result, getErrorCategory(), "Failed to set DirectInput device force feedback command");
 
-            if (const auto hr = device->Unacquire(); FAILED(hr))
-                throw std::system_error(hr, getErrorCategory(), "Failed to unacquire DirectInput device");
+            if (const auto result = device->Unacquire(); FAILED(result))
+                throw std::system_error(result, getErrorCategory(), "Failed to unacquire DirectInput device");
 
             DIPROPDWORD propertyAutoCenter;
             propertyAutoCenter.diph.dwSize = sizeof(propertyAutoCenter);
@@ -173,8 +173,8 @@ namespace ouzel::input::windows
             propertyAutoCenter.diph.dwObj = 0;
             propertyAutoCenter.dwData = DIPROPAUTOCENTER_ON;
 
-            if (const auto hr = device->SetProperty(DIPROP_AUTOCENTER, &propertyAutoCenter.diph); FAILED(hr))
-                logger.log(Log::Level::warning) << "Failed to set DirectInput device autocenter property, error: " << hr;
+            if (const auto result = device->SetProperty(DIPROP_AUTOCENTER, &propertyAutoCenter.diph); FAILED(result))
+                logger.log(Log::Level::warning) << "Failed to set DirectInput device autocenter property, error: " << result;
         }
 
         DIPROPDWORD propertyBufferSize;
@@ -184,11 +184,11 @@ namespace ouzel::input::windows
         propertyBufferSize.diph.dwObj = 0;
         propertyBufferSize.dwData = inputQueueSize;
 
-        const auto hr = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph);
-        if (FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to set DirectInput device buffer size property");
+        const auto result = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph);
+        if (FAILED(result))
+            throw std::system_error(result, getErrorCategory(), "Failed to set DirectInput device buffer size property");
 
-        buffered = (hr != DI_POLLEDDEVICE);
+        buffered = (result != DI_POLLEDDEVICE);
     }
 
     GamepadDeviceDI::~GamepadDeviceDI()
@@ -202,15 +202,13 @@ namespace ouzel::input::windows
 
     void GamepadDeviceDI::update()
     {
-        HRESULT hr = device->Poll();
-
-        if (hr == DIERR_NOTACQUIRED)
+        if (const auto result = device->Poll(); result == DIERR_NOTACQUIRED)
         {
-            if (FAILED(hr = device->Acquire()))
-                throw std::system_error(hr, getErrorCategory(), "Failed to acquire DirectInput device");
+            if (const auto acquireResult = device->Acquire(); FAILED(acquireResult))
+                throw std::system_error(acquireResult, getErrorCategory(), "Failed to acquire DirectInput device");
 
-            if (FAILED(hr = device->Poll()))
-                throw std::system_error(hr, getErrorCategory(), "Failed to poll DirectInput device");
+            if (const auto pollResult = device->Poll(); FAILED(pollResult))
+                throw std::system_error(pollResult, getErrorCategory(), "Failed to poll DirectInput device");
         }
 
         return buffered ? checkInputBuffered() : checkInputPolled();
@@ -221,18 +219,18 @@ namespace ouzel::input::windows
         DWORD eventCount = inputQueueSize;
         DIDEVICEOBJECTDATA events[inputQueueSize];
 
-        HRESULT hr = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
+        auto result = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
 
-        if (hr == DIERR_NOTACQUIRED)
+        if (result == DIERR_NOTACQUIRED)
         {
-            if (FAILED(hr = device->Acquire()))
-                throw std::system_error(hr, getErrorCategory(), "Failed to acquire DirectInput device");
+            if (const auto acquireResult = device->Acquire(); FAILED(acquireResult))
+                throw std::system_error(acquireResult, getErrorCategory(), "Failed to acquire DirectInput device");
 
-            hr = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
+            result = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
         }
 
-        if (FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to get DirectInput device state");
+        if (FAILED(result))
+            throw std::system_error(result, getErrorCategory(), "Failed to get DirectInput device state");
 
         for (DWORD e = 0; e < eventCount; ++e)
         {
@@ -302,18 +300,18 @@ namespace ouzel::input::windows
     {
         DIJOYSTATE newDIState;
 
-        HRESULT hr = device->GetDeviceState(sizeof(newDIState), &newDIState);
+        auto result = device->GetDeviceState(sizeof(newDIState), &newDIState);
 
-        if (hr == DIERR_NOTACQUIRED)
+        if (result == DIERR_NOTACQUIRED)
         {
-            if (FAILED(hr = device->Acquire()))
-                throw std::system_error(hr, getErrorCategory(), "Failed to acquire DirectInput device");
+            if (const auto acquireResult = device->Acquire(); FAILED(acquireResult))
+                throw std::system_error(acquireResult, getErrorCategory(), "Failed to acquire DirectInput device");
 
-            hr = device->GetDeviceState(sizeof(newDIState), &newDIState);
+            result = device->GetDeviceState(sizeof(newDIState), &newDIState);
         }
 
-        if (FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to get DirectInput device state");
+        if (FAILED(result))
+            throw std::system_error(result, getErrorCategory(), "Failed to get DirectInput device state");
 
         if (hatValue != newDIState.rgdwPOV[0])
         {
