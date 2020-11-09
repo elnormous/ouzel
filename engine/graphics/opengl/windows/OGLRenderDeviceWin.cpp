@@ -130,9 +130,9 @@ namespace ouzel::graphics::opengl::windows
 
         private:
             ATOM windowClass = 0;
-            HWND window = 0;
-            HDC deviceContext = 0;
-            HGLRC renderContext = 0;
+            HWND window = nullptr;
+            HDC deviceContext = nullptr;
+            HGLRC renderContext = nullptr;
         };
 
         ApiVersion getVersion()
