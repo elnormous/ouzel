@@ -22,7 +22,7 @@ namespace ouzel::input::windows
             }
 
             Bitmap(Bitmap&& other) noexcept:
-                bitmap{other.bitmap},
+                bitmap{other.bitmap}
             {
                 other.bitmap = nullptr;
             }
