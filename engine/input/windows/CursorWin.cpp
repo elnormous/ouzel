@@ -6,6 +6,43 @@
 
 namespace ouzel::input::windows
 {
+    namespace
+    {
+        class Bitmap final
+        {
+        public:
+            Bitmap(HBITMAP b) noexcept:
+                bitmap{b}
+            {
+            }
+
+            ~Bitmap()
+            {
+                if (bitmap) DeleteObject(bitmap);
+            }
+
+            Bitmap(Bitmap&& other) noexcept:
+                bitmap{other.bitmap},
+            {
+                other.bitmap = nullptr;
+            }
+
+            Bitmap& operator=(Bitmap&& other) noexcept
+            {
+                if (&other == this) return *this;
+                if (bitmap) DeleteObject(bitmap);
+                bitmap = other.bitmap;
+                other.bitmap = nullptr;
+                return *this;
+            }
+
+            operator HBITMAP() const noexcept { return bitmap; }
+
+        private:
+            HBITMAP bitmap = nullptr;
+        };
+    }
+
     Cursor::Cursor(SystemCursor systemCursor)
     {
         switch (systemCursor)
@@ -60,21 +97,25 @@ namespace ouzel::input::windows
 
             core::windows::DeviceContext deviceContext;
             void* targetPointer = nullptr;
-            color = CreateDIBSection(deviceContext,
-                                     reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
-                                     DIB_RGB_COLORS,
-                                     &targetPointer,
-                                     nullptr,
-                                     DWORD{0});
+            HBITMAP color = CreateDIBSection(deviceContext,
+                                             reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
+                                             DIB_RGB_COLORS,
+                                             &targetPointer,
+                                             nullptr,
+                                             DWORD{0});
 
             if (!color)
                 throw std::runtime_error("Failed to create RGBA bitmap");
 
+            Bitmap colorBitmap = color;
+
             auto target = static_cast<unsigned char*>(targetPointer);
 
-            mask = CreateBitmap(width, height, 1, 1, nullptr);
+            HBITMAP mask = CreateBitmap(width, height, 1, 1, nullptr);
             if (!mask)
                 throw std::runtime_error("Failed to create mask bitmap");
+
+            Bitmap maskBitmap = mask;
 
             for (LONG i = 0; i < width * height; ++i)
             {
@@ -88,26 +129,19 @@ namespace ouzel::input::windows
             iconInfo.fIcon = FALSE;
             iconInfo.xHotspot = static_cast<DWORD>(hotSpot.v[0]);
             iconInfo.yHotspot = static_cast<int>(size.v[1]) - static_cast<DWORD>(hotSpot.v[1]) - 1;
-            iconInfo.hbmMask = mask;
-            iconInfo.hbmColor = color;
+            iconInfo.hbmMask = maskBitmap;
+            iconInfo.hbmColor = colorBitmap;
 
             ownedCursor = CreateIconIndirect(&iconInfo);
             if (!ownedCursor)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to create cursor");
 
             cursor = ownedCursor;
-
-            if (color) DeleteObject(color);
-            color = nullptr;
-            if (mask) DeleteObject(mask);
-            mask = nullptr;
         }
     }
 
     Cursor::~Cursor()
     {
         if (ownedCursor) DestroyCursor(cursor);
-        if (color) DeleteObject(color);
-        if (mask) DeleteObject(mask);
     }
 }

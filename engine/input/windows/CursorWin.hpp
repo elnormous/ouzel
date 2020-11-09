@@ -42,8 +42,6 @@ namespace ouzel::input::windows
     private:
         HCURSOR cursor = nullptr;
         HCURSOR ownedCursor = nullptr;
-        HBITMAP color = nullptr;
-        HBITMAP mask = nullptr;
     };
 }
 
