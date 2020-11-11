@@ -103,7 +103,7 @@ namespace ouzel::input::windows
             const auto height = static_cast<LONG>(size.v[1]);
 
             BITMAPINFO bitmapInfo;
-            bitmapInfo.bmiHeader.biSize = sizeof(BITMAPV5HEADER);
+            bitmapInfo.bmiHeader.biSize = sizeof(BITMAPINFO);
             bitmapInfo.bmiHeader.biWidth = width;
             bitmapInfo.bmiHeader.biHeight = -height;
             bitmapInfo.bmiHeader.biPlanes = 1;
