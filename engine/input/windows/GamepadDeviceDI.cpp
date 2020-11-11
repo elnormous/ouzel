@@ -36,9 +36,9 @@ namespace ouzel::input::windows
         const int bufferSize = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr);
         if (bufferSize != 0)
         {
-            std::vector<char> buffer(bufferSize);
-            if (WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, buffer.data(), bufferSize, nullptr, nullptr) != 0)
-                name = buffer.data();
+            auto buffer = std::make_unique<char[]>(bufferSize);
+            if (WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, buffer.get(), bufferSize, nullptr, nullptr) != 0)
+                name = buffer.get();
         }
 
         if (const auto result = directInput->CreateDevice(instance->guidInstance, &device, nullptr); FAILED(result))

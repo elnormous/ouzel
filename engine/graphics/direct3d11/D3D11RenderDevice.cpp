@@ -137,9 +137,9 @@ namespace ouzel::graphics::d3d11
             const int bufferSize = WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, nullptr, 0, nullptr, nullptr);
             if (bufferSize != 0)
             {
-                std::vector<char> buffer(bufferSize);
-                if (WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, buffer.data(), bufferSize, nullptr, nullptr) != 0)
-                    logger.log(Log::Level::info) << "Using " << buffer.data() << " for rendering";
+                auto buffer = std::make_unique<char[]>(bufferSize);
+                if (WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, buffer.get(), bufferSize, nullptr, nullptr) != 0)
+                    logger.log(Log::Level::info) << "Using " << buffer.get() << " for rendering";
             }
         }
 

@@ -36,11 +36,11 @@ namespace ouzel::core::windows
                     if (bufferSize == 0)
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
-                    std::vector<char> buffer(bufferSize);
-                    if (WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, buffer.data(), bufferSize, nullptr, nullptr) == 0)
+                    auto buffer = std::make_unique<char[]>(bufferSize);
+                    if (WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, buffer.get(), bufferSize, nullptr, nullptr) == 0)
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
-                    result.push_back(buffer.data());
+                    result.push_back(buffer.get());
                 }
 
             return result;
