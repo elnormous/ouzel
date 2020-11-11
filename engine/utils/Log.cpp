@@ -105,7 +105,7 @@ namespace ouzel
 
         OutputDebugStringW(buffer.get());
 #  if DEBUG
-        HANDLE handle;
+        HANDLE handle = INVALID_HANDLE_VALUE;
         switch (level)
         {
             case Log::Level::error:
@@ -118,6 +118,9 @@ namespace ouzel
                 break;
             default: return;
         }
+
+        if (handle == INVALID_HANDLE_VALUE)
+            return;
 
         WriteConsoleW(handle, buffer.get(), static_cast<DWORD>(wcslen(buffer.get())), nullptr, nullptr);
 #  endif
