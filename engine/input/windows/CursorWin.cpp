@@ -11,9 +11,28 @@ namespace ouzel::input::windows
         class Bitmap final
         {
         public:
-            Bitmap(HBITMAP b) noexcept:
-                bitmap{b}
+            Bitmap(int width, int height, UINT planes, UINT bitCount, const void* bits):
+                bitmap{CreateBitmap(width, height, planes, bitCount, bits)}
             {
+                if (!bitmap)
+                    throw std::runtime_error("Failed to create mask bitmap");
+            }
+
+            Bitmap(const core::windows::DeviceContext& deviceContext,
+                   const BITMAPINFO* bitmapInfo,
+                   UINT usage,
+                   void** bits,
+                   HANDLE section,
+                   DWORD offset):
+                bitmap{CreateDIBSection(deviceContext,
+                                        bitmapInfo,
+                                        usage,
+                                        bits,
+                                        section,
+                                        offset)}
+            {
+                if (!bitmap)
+                    throw std::runtime_error("Failed to create mask bitmap");
             }
 
             ~Bitmap()
@@ -97,25 +116,14 @@ namespace ouzel::input::windows
 
             core::windows::DeviceContext deviceContext;
             void* targetPointer = nullptr;
-            HBITMAP color = CreateDIBSection(deviceContext,
-                                             reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
-                                             DIB_RGB_COLORS,
-                                             &targetPointer,
-                                             nullptr,
-                                             DWORD{0});
-
-            if (!color)
-                throw std::runtime_error("Failed to create RGBA bitmap");
-
-            Bitmap colorBitmap = color;
+            Bitmap colorBitmap{deviceContext,
+                               reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
+                               DIB_RGB_COLORS,
+                               &targetPointer,
+                               nullptr,
+                               DWORD{0}};
 
             auto target = static_cast<unsigned char*>(targetPointer);
-
-            HBITMAP mask = CreateBitmap(width, height, 1, 1, nullptr);
-            if (!mask)
-                throw std::runtime_error("Failed to create mask bitmap");
-
-            Bitmap maskBitmap = mask;
 
             for (LONG i = 0; i < width * height; ++i)
             {
@@ -124,6 +132,8 @@ namespace ouzel::input::windows
                 target[i * 4 + 2] = data[i * 4 + 0];
                 target[i * 4 + 3] = data[i * 4 + 3];
             }
+            
+            Bitmap maskBitmap{width, height, 1, 1, nullptr};
 
             ICONINFO iconInfo = {};
             iconInfo.fIcon = FALSE;
