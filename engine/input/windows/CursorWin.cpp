@@ -102,22 +102,18 @@ namespace ouzel::input::windows
             const auto width = static_cast<LONG>(size.v[0]);
             const auto height = static_cast<LONG>(size.v[1]);
 
-            BITMAPV5HEADER bitmapHeader = {};
-            bitmapHeader.bV5Size = sizeof(BITMAPV5HEADER);
-            bitmapHeader.bV5Width = width;
-            bitmapHeader.bV5Height = -height;
-            bitmapHeader.bV5Planes = 1;
-            bitmapHeader.bV5BitCount = 32;
-            bitmapHeader.bV5Compression = BI_BITFIELDS;
-            bitmapHeader.bV5RedMask = 0x00FF0000;
-            bitmapHeader.bV5GreenMask = 0x0000FF00;
-            bitmapHeader.bV5BlueMask = 0x000000FF;
-            bitmapHeader.bV5AlphaMask = 0xFF000000;
+            BITMAPINFO bitmapInfo;
+            bitmapInfo.bmiHeader.biSize = sizeof(BITMAPV5HEADER);
+            bitmapInfo.bmiHeader.biWidth = width;
+            bitmapInfo.bmiHeader.biHeight = -height;
+            bitmapInfo.bmiHeader.biPlanes = 1;
+            bitmapInfo.bmiHeader.biBitCount = 32;
+            bitmapInfo.bmiHeader.biCompression = BI_RGB;
 
             core::windows::DeviceContext deviceContext;
             void* targetPointer = nullptr;
             Bitmap colorBitmap{deviceContext,
-                               reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
+                               &bitmapInfo,
                                DIB_RGB_COLORS,
                                &targetPointer,
                                nullptr,
