@@ -147,7 +147,7 @@ namespace ouzel::input::windows
         case Gamepad::Motor::right:
             return vibration.wRightMotorSpeed;
         default:
-            return 0.0f;
+            return 0.0F;
         }
     }
 }

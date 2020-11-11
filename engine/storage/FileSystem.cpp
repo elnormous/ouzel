@@ -107,7 +107,12 @@ namespace ouzel::storage
 #if defined(_WIN32)
         WCHAR appDataPath[MAX_PATH];
 
-        if (const auto hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, appDataPath); FAILED(hr))
+        const int folderId = (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE;
+        if (const auto hr = SHGetFolderPathW(nullptr,
+                                             folderId,
+                                             nullptr,
+                                             SHGFP_TYPE_CURRENT,
+                                             appDataPath); FAILED(hr))
             throw std::system_error(hr, std::system_category(), "Failed to get the path of the AppData directory");
 
         Path path = Path{appDataPath, Path::Format::native};
