@@ -82,7 +82,6 @@ namespace ouzel::input::tvos
             controller.extendedGamepad.rightTrigger.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
                 handleButtonValueChange(Gamepad::Button::rightTrigger, pressed, value);
             };
-
         }
         else if (controller.gamepad)
         {
@@ -160,30 +159,41 @@ namespace ouzel::input::tvos
         return controller.microGamepad.reportsAbsoluteDpadValues == YES;
     }
 
+    namespace
+    {
+        constexpr std::int32_t toPlayerIndex(GCControllerPlayerIndex controllerPlayerIndex) noexcept
+        {
+            switch (controllerPlayerIndex)
+            {
+                case GCControllerPlayerIndex1: return 0;
+                case GCControllerPlayerIndex2: return 1;
+                case GCControllerPlayerIndex3: return 2;
+                case GCControllerPlayerIndex4: return 3;
+                case GCControllerPlayerIndexUnset: return -1;
+                default: return -1;
+            }
+        }
+
+        constexpr GCControllerPlayerIndex toControllerPlayerIndex(std::int32_t playerIndex) noexcept
+        {
+            switch (playerIndex)
+            {
+                case 0: return GCControllerPlayerIndex1;
+                case 1: return GCControllerPlayerIndex2;
+                case 2: return GCControllerPlayerIndex3;
+                case 3: return GCControllerPlayerIndex4;
+                default: return GCControllerPlayerIndexUnset;
+            }
+        }
+    }
+
     std::int32_t GamepadDevice::getPlayerIndex() const
     {
-        return static_cast<std::int32_t>(controller.playerIndex);
+        return toPlayerIndex(controller.playerIndex);
     }
 
     void GamepadDevice::setPlayerIndex(std::int32_t playerIndex)
     {
-        switch (playerIndex)
-        {
-            case 0:
-                controller.playerIndex = GCControllerPlayerIndex1;
-                break;
-            case 1:
-                controller.playerIndex = GCControllerPlayerIndex2;
-                break;
-            case 2:
-                controller.playerIndex = GCControllerPlayerIndex3;
-                break;
-            case 3:
-                controller.playerIndex = GCControllerPlayerIndex4;
-                break;
-            default:
-                controller.playerIndex = GCControllerPlayerIndexUnset;
-                break;
-        }
+        controller.playerIndex = toControllerPlayerIndex(playerIndex);
     }
 }
