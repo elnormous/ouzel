@@ -293,11 +293,9 @@ namespace ouzel::audio::wasapi
         {
             try
             {
-                DWORD result;
-                if ((result = WaitForSingleObject(notifyEvent, INFINITE)) == WAIT_FAILED)
+                if (const auto result = WaitForSingleObject(notifyEvent, INFINITE); result == WAIT_FAILED)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to wait for event");
-
-                if (result == WAIT_OBJECT_0)
+                else if (result == WAIT_OBJECT_0)
                 {
                     if (!running) break;
 
