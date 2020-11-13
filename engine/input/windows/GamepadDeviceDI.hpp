@@ -30,7 +30,9 @@ namespace ouzel::input::windows
     public:
         GamepadDeviceDI(InputSystem& initInputSystem,
                         DeviceId initId,
-                        const DIDEVICEINSTANCEW* aInstance, IDirectInput8W* directInput, HWND window);
+                        const DIDEVICEINSTANCEW* initInstance,
+                        IDirectInput8W* directInput,
+                        HWND window);
 
         ~GamepadDeviceDI() override;
         void update();
