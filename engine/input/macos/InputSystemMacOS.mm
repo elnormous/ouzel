@@ -78,17 +78,17 @@ namespace ouzel::input::macos
 
         NSImage* image = [[[NSImage alloc] initWithSize:NSMakeSize(1, 1)] autorelease];
         NSBitmapImageRep* imageRep = [[[NSBitmapImageRep alloc]
-                                        initWithBitmapDataPlanes:&data
-                                        pixelsWide:1
-                                        pixelsHigh:1
-                                        bitsPerSample:8
-                                        samplesPerPixel:4
-                                        hasAlpha:YES
-                                        isPlanar:NO
-                                        colorSpaceName:NSDeviceRGBColorSpace
-                                        bitmapFormat:NSAlphaNonpremultipliedBitmapFormat
-                                        bytesPerRow:4
-                                        bitsPerPixel:32] autorelease];
+                                       initWithBitmapDataPlanes:&data
+                                       pixelsWide:1
+                                       pixelsHigh:1
+                                       bitsPerSample:8
+                                       samplesPerPixel:4
+                                       hasAlpha:YES
+                                       isPlanar:NO
+                                       colorSpaceName:NSDeviceRGBColorSpace
+                                       bitmapFormat:NSAlphaNonpremultipliedBitmapFormat
+                                       bytesPerRow:4
+                                       bitsPerPixel:32] autorelease];
 
         [image addRepresentation:imageRep];
         emptyCursor = [[NSCursor alloc] initWithImage:image hotSpot:NSMakePoint(0, 0)];
@@ -96,14 +96,14 @@ namespace ouzel::input::macos
         connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
         [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
-                                                    selector:@selector(handleControllerConnected:)
-                                                        name:GCControllerDidConnectNotification
-                                                    object:nil];
+                                                 selector:@selector(handleControllerConnected:)
+                                                     name:GCControllerDidConnectNotification
+                                                   object:nil];
 
         [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
-                                                    selector:@selector(handleControllerDisconnected:)
-                                                        name:GCControllerDidDisconnectNotification
-                                                    object:nil];
+                                                 selector:@selector(handleControllerDisconnected:)
+                                                     name:GCControllerDidDisconnectNotification
+                                                   object:nil];
 
         for (GCController* controller in [GCController controllers])
             handleGamepadConnected(controller);
@@ -112,7 +112,7 @@ namespace ouzel::input::macos
                                 @{@kIOHIDDeviceUsagePageKey: @(kHIDPage_GenericDesktop), @kIOHIDDeviceUsageKey: @(kHIDUsage_GD_Joystick)},
                                 @{@kIOHIDDeviceUsagePageKey: @(kHIDPage_GenericDesktop), @kIOHIDDeviceUsageKey: @(kHIDUsage_GD_GamePad)},
                                 @{@kIOHIDDeviceUsagePageKey: @(kHIDPage_GenericDesktop), @kIOHIDDeviceUsageKey : @(kHIDUsage_GD_MultiAxisController)}
-                                ];
+                            ];
 
         hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
 
@@ -274,17 +274,15 @@ namespace ouzel::input::macos
 
             if (hidServices && [hidServices count] > 0)
             {
-                IOHIDServiceClientRef service = reinterpret_cast<IOHIDServiceClientRef (*)(id, SEL)>(&objc_msgSend)([hidServices firstObject], sel_getUid("service"));
+                auto service = reinterpret_cast<IOHIDServiceClientRef (*)(id, SEL)>(&objc_msgSend)([hidServices firstObject], sel_getUid("service"));
 
-                auto vendor = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDVendorIDKey)));
-                if (vendor)
+                if (const auto vendor = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDVendorIDKey))))
                 {
                     CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
                     CFRelease(vendor);
                 }
 
-                auto product = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDProductIDKey)));
-                if (product)
+                if (const auto product = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDProductIDKey))))
                 {
                     CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
                     CFRelease(product);
