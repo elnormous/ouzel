@@ -185,7 +185,7 @@ namespace ouzel::input::macos
             hatValue = newValue;
         }
 
-        auto buttonIterator = buttons.find(element);
+        const auto buttonIterator = buttons.find(element);
 
         if (buttonIterator != buttons.end())
         {
@@ -198,25 +198,25 @@ namespace ouzel::input::macos
             button.value = newValue;
         }
 
-        auto axisIterator = axes.find(element);
+        const auto axisIterator = axes.find(element);
 
         if (axisIterator != axes.end())
         {
             Axis& axis = axisIterator->second;
 
             handleAxisChange(axis.value,
-                                newValue,
-                                axis.min, axis.range,
-                                axis.negativeButton, axis.positiveButton);
+                             newValue,
+                             axis.min, axis.range,
+                             axis.negativeButton, axis.positiveButton);
 
             axis.value = newValue;
         }
     }
 
     void GamepadDeviceIOKit::handleAxisChange(CFIndex oldValue, CFIndex newValue,
-                                                CFIndex min, CFIndex range,
-                                                Gamepad::Button negativeButton,
-                                                Gamepad::Button positiveButton)
+                                              CFIndex min, CFIndex range,
+                                              Gamepad::Button negativeButton,
+                                              Gamepad::Button positiveButton)
     {
         if (negativeButton == positiveButton)
         {
