@@ -302,7 +302,7 @@ namespace ouzel::input::macos
 
             for (const auto& i : gamepadDevicesGC)
             {
-                auto n = std::find(playerIndices.begin(), playerIndices.end(), i.second->getPlayerIndex());
+                const auto n = std::find(playerIndices.begin(), playerIndices.end(), i.second->getPlayerIndex());
                 if (n != playerIndices.end()) playerIndices.erase(n);
             }
 
@@ -327,12 +327,10 @@ namespace ouzel::input::macos
         std::int32_t vendorId = 0;
         std::int32_t productId = 0;
 
-        auto vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
-        if (vendor)
+        if (const auto vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey))))
             CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
 
-        auto product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
-        if (product)
+        if (const auto product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey))))
             CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
 
         const bool supportsGameController = (vendorId == 0x1038 && productId == 0x1420) || // SteelSeries Nimbus
