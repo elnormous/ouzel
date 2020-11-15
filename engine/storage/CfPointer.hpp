@@ -13,7 +13,7 @@ namespace ouzel::storage
     public:
         CfPointer() noexcept = default;
 
-        CfPointer(T a) noexcept: p(a) {}
+        CfPointer(T a) noexcept: p{a} {}
         CfPointer& operator=(T a) noexcept
         {
             if (p) CFRelease(p);
@@ -36,7 +36,7 @@ namespace ouzel::storage
             return *this;
         }
 
-        CfPointer(CfPointer&& other) noexcept: p(other.p)
+        CfPointer(CfPointer&& other) noexcept: p{other.p}
         {
             other.p = nil;
         }

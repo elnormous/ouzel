@@ -17,7 +17,7 @@ namespace ouzel::audio::opensl
     public:
         Pointer() noexcept = default;
 
-        Pointer(T a) noexcept : p(a) {}
+        Pointer(T a) noexcept : p{a} {}
         Pointer& operator=(T a) noexcept
         {
             if (p) (*p)->Destroy(p);
@@ -28,7 +28,7 @@ namespace ouzel::audio::opensl
         Pointer(const Pointer& other) = delete;
         Pointer& operator=(const Pointer& other) = delete;
 
-        Pointer(Pointer&& other) noexcept : p(other.p)
+        Pointer(Pointer&& other) noexcept : p{other.p}
         {
             other.p = nullptr;
         }

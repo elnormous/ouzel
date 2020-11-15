@@ -30,10 +30,10 @@ namespace ouzel::thread
         Thread() noexcept = default;
 
         Thread(const Thread&) = delete;
-        Thread(Thread&& other) noexcept: t(std::move(other.t)) {}
+        Thread(Thread&& other) noexcept: t{std::move(other.t)} {}
 
         Thread(const std::thread&) = delete;
-        Thread(std::thread&& other) noexcept: t(std::move(other)) {}
+        Thread(std::thread&& other) noexcept: t{std::move(other)} {}
 
         Thread& operator=(const Thread&) = delete;
         Thread& operator=(Thread&& other) noexcept

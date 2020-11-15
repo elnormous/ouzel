@@ -15,7 +15,7 @@ namespace ouzel::graphics::d3d11
     public:
         Pointer() noexcept = default;
 
-        Pointer(T* a) noexcept: p(a) {}
+        Pointer(T* a) noexcepta) {}
         Pointer& operator=(T* a) noexcept
         {
             if (p) p->Release();
@@ -23,7 +23,7 @@ namespace ouzel::graphics::d3d11
             return *this;
         }
 
-        Pointer(const Pointer& other) noexcept: p(other.p)
+        Pointer(const Pointer& other) noexcept: p{other.p}
         {
             if (p) p->AddRef();
         }
@@ -36,7 +36,7 @@ namespace ouzel::graphics::d3d11
             if (p) p->AddRef();
         }
 
-        Pointer(Pointer&& other) noexcept: p(other.p)
+        Pointer(Pointer&& other) noexcept: p{other.p}
         {
             other.p = nullptr;
         }

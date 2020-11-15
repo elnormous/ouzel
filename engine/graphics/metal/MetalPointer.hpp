@@ -20,7 +20,7 @@ namespace ouzel::graphics::metal
     public:
         Pointer() noexcept = default;
 
-        Pointer(T a) noexcept: p(a) {}
+        Pointer(T a) noexcept: p{a} {}
         Pointer& operator=(T a) noexcept
         {
 #ifdef __OBJC__
@@ -33,7 +33,7 @@ namespace ouzel::graphics::metal
             return *this;
         }
 
-        Pointer(const Pointer& other) noexcept: p(other.p)
+        Pointer(const Pointer& other) noexcept: p{other.p}
         {
 #ifdef __OBJC__
             [p retain];
@@ -61,7 +61,7 @@ namespace ouzel::graphics::metal
             return *this;
         }
 
-        Pointer(Pointer&& other) noexcept: p(other.p)
+        Pointer(Pointer&& other) noexcept: p{other.p}
         {
             other.p = nil;
         }
