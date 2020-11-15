@@ -15,7 +15,7 @@ namespace ouzel::graphics::d3d11
     public:
         Pointer() noexcept = default;
 
-        Pointer(T* a) noexcepta) {}
+        Pointer(T* a) noexcept: p{a} {}
         Pointer& operator=(T* a) noexcept
         {
             if (p) p->Release();
