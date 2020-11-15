@@ -21,8 +21,7 @@ namespace ouzel::storage
             return *this;
         }
 
-        CfPointer(const CfPointer& other) noexcept:
-            p(other.p)
+        CfPointer(const CfPointer& other) noexcept: p{other.p}
         {
             if (p) CFRetain(p);
         }

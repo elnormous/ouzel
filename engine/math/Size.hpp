@@ -30,7 +30,7 @@ namespace ouzel
         }
 
         explicit constexpr Size(const Vector<N, T>& vec) noexcept:
-            v(vec.v)
+            v{vec.v}
         {
         }
 

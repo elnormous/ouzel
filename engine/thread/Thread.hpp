@@ -51,7 +51,7 @@ namespace ouzel::thread
 
         template <typename Callable, typename... Args>
         explicit Thread(Callable&& f, Args&&... args):
-            t(std::forward<Callable>(f), std::forward<Args>(args)...)
+            t{std::forward<Callable>(f), std::forward<Args>(args)...}
         {
         }
 
