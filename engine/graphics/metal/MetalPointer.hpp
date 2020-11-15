@@ -58,6 +58,7 @@ namespace ouzel::graphics::metal
 #else
             if (p) objc_msgSend(p, sel_getUid("retain"));
 #endif
+            return *this;
         }
 
         Pointer(Pointer&& other) noexcept: p(other.p)
