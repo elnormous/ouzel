@@ -46,11 +46,6 @@ namespace ouzel::audio::openal
         ALCdevice* device = nullptr;
         ALCcontext* context = nullptr;
 
-        ALenum format40 = 0;
-        ALenum format51 = 0;
-        ALenum format61 = 0;
-        ALenum format71 = 0;
-
         ALuint sourceId = 0;
         ALenum format = 0;
         std::uint32_t nextBuffer = 0;

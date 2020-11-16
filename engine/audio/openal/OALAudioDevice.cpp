@@ -117,16 +117,6 @@ namespace ouzel::audio::openal
                 float32Supported = true;
         }
 
-#if !defined(__EMSCRIPTEN__)
-        format40 = alGetEnumValue("AL_FORMAT_QUAD16");
-        format51 = alGetEnumValue("AL_FORMAT_51CHN16");
-        format61 = alGetEnumValue("AL_FORMAT_61CHN16");
-        format71 = alGetEnumValue("AL_FORMAT_71CHN16");
-
-        if (const auto error = alGetError(); error != AL_NO_ERROR)
-            logger.log(Log::Level::warning) << "Failed to get OpenAL enum values";
-#endif
-
         alGenSources(1, &sourceId);
 
         if (const auto error = alGetError(); error != AL_NO_ERROR)
@@ -173,28 +163,36 @@ namespace ouzel::audio::openal
             }
             case 4:
             {
-                format = format40;
+                format = alGetEnumValue("AL_FORMAT_QUAD16");
+                if (const auto error = alGetError(); error != AL_NO_ERROR)
+                    throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL enum value");
                 sampleFormat = SampleFormat::signedInt16;
                 sampleSize = sizeof(std::int16_t);
                 break;
             }
             case 6:
             {
-                format = format51;
+                format = alGetEnumValue("AL_FORMAT_51CHN16");
+                if (const auto error = alGetError(); error != AL_NO_ERROR)
+                    throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL enum value");
                 sampleFormat = SampleFormat::signedInt16;
                 sampleSize = sizeof(std::int16_t);
                 break;
             }
             case 7:
             {
-                format = format61;
+                format = alGetEnumValue("AL_FORMAT_61CHN16");
+                if (const auto error = alGetError(); error != AL_NO_ERROR)
+                    throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL enum value");
                 sampleFormat = SampleFormat::signedInt16;
                 sampleSize = sizeof(std::int16_t);
                 break;
             }
             case 8:
             {
-                format = format71;
+                format = alGetEnumValue("AL_FORMAT_71CHN16");
+                if (const auto error = alGetError(); error != AL_NO_ERROR)
+                    throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL enum value");
                 sampleFormat = SampleFormat::signedInt16;
                 sampleSize = sizeof(std::int16_t);
                 break;
