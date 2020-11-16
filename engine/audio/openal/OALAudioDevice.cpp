@@ -77,6 +77,22 @@ namespace ouzel::audio::openal
         if (const auto error = alcGetError(device); error != ALC_NO_ERROR)
             throw std::system_error(error, alcErrorCategory, "Failed to create ALC device");
 
+        ALCint majorVersion;
+        alcGetIntegerv(device, ALC_MAJOR_VERSION, sizeof(majorVersion), &majorVersion);
+        if (const auto error = alcGetError(device); error != ALC_NO_ERROR)
+            throw std::system_error(error, alcErrorCategory, "Failed to get major version");
+
+        apiMajorVersion = static_cast<std::uint16_t>(majorVersion);
+
+        ALCint minorVersion;
+        alcGetIntegerv(device, ALC_MINOR_VERSION, sizeof(minorVersion), &minorVersion);
+        if (const auto error = alcGetError(device); error != ALC_NO_ERROR)
+            throw std::system_error(error, alcErrorCategory, "Failed to get minor version");
+
+        apiMinorVersion = static_cast<std::uint16_t>(minorVersion);
+
+        logger.log(Log::Level::info) << "OpenAL version " << apiMajorVersion << '.' << apiMinorVersion;
+
         context = alcCreateContext(device, nullptr);
 
         if (const auto error = alcGetError(device); error != ALC_NO_ERROR)
