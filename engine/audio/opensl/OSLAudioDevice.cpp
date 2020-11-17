@@ -53,14 +53,18 @@ namespace ouzel::audio::opensl
         
         engineObject = engineObjectPointer;
 
-        SLuint16 major;
-        SLuint16 minor;
-        SLuint16 step;
-        if (const auto result = engineObject->QueryAPIVersion(engineObject.get(), &major, &minor, &step); result != SL_RESULT_SUCCESS)
+        SLEngineCapabilitiesItf engineCapabilities;
+        if (const auto result = engineObject->GetInterface(engineObject.get(), SL_IID_ENGINECAPABILITIES, &engineCapabilities); result != SL_RESULT_SUCCESS)
+           throw std::system_error(makeErrorCode(result), "Failed to get OpenSL engine capabilities");
+
+        SLint16 major;
+        SLint16 minor;
+        SLint16 step;
+        if (const auto result = (*engineCapabilities)->QueryAPIVersion(engineCapabilities, &major, &minor, &step); result != SL_RESULT_SUCCESS)
             throw std::system_error(makeErrorCode(result), "Failed to get OpenSL version");
         
-        apiMajorVersion = major;
-        apiMinorVersion = minor;
+        apiMajorVersion = static_cast<std::uint16_t>(major);
+        apiMinorVersion = static_cast<std::uint16_t>(minor);
 
         if (const auto result = engineObject->Realize(engineObject.get(), SL_BOOLEAN_FALSE); result != SL_RESULT_SUCCESS)
             throw std::system_error(makeErrorCode(result), "Failed to create OpenSL engine object");
