@@ -572,8 +572,6 @@ namespace ouzel::obf
 
         const Value& operator[](std::uint32_t key) const
         {
-            if (type != Type::object && type != Type::array) throw TypeError("Wrong type");
-
             if (type == Type::object)
             {
                 const auto i = objectValue.find(key);
@@ -590,6 +588,8 @@ namespace ouzel::obf
                 else
                     throw RangeError("Index out of range");
             }
+            else
+                throw TypeError("Wrong type");
         }
 
         Value& operator[](std::uint32_t key)
