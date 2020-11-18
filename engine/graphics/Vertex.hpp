@@ -3,6 +3,7 @@
 #ifndef OUZEL_GRAPHICS_VERTEX_HPP
 #define OUZEL_GRAPHICS_VERTEX_HPP
 
+#include <array>
 #include "DataType.hpp"
 #include "../math/Vector.hpp"
 #include "../math/Color.hpp"
@@ -46,7 +47,7 @@ namespace ouzel::graphics
 
         Vector3F position;
         Color color;
-        Vector2F texCoords[2];
+        std::array<Vector2F, 2> texCoords;
         Vector3F normal;
     };
 }
