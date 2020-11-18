@@ -30,7 +30,7 @@ namespace ouzel::graphics
                 textureCoordinates1
             };
 
-            Attribute(Usage initUsage, DataType initDataType) noexcept:
+            constexpr Attribute(Usage initUsage, DataType initDataType) noexcept:
                 usage(initUsage), dataType(initDataType) {}
             Usage usage;
             DataType dataType;
