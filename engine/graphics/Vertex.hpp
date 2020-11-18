@@ -36,9 +36,9 @@ namespace ouzel::graphics
             DataType dataType;
         };
 
-        Vertex() noexcept = default;
-        Vertex(const Vector3F& initPosition, Color initColor,
-               const Vector2F& initTexCoord, const Vector3F& initNormal) noexcept:
+        constexpr Vertex() noexcept = default;
+        constexpr Vertex(const Vector3F& initPosition, Color initColor,
+                         const Vector2F& initTexCoord, const Vector3F& initNormal) noexcept:
             position(initPosition), color(initColor),
             texCoords{initTexCoord}, normal(initNormal)
         {
