@@ -17,6 +17,20 @@ namespace ouzel::input::macos
             auto gamepadDevice = static_cast<GamepadDeviceIOKit*>(ctx);
             gamepadDevice->handleInput(value);
         }
+
+        constexpr std::size_t getAxisIndex(std::uint32_t axis)
+        {
+            switch (axis)
+            {
+                case kHIDUsage_GD_X: return 0;
+                case kHIDUsage_GD_Y: return 1;
+                case kHIDUsage_GD_Z: return 2;
+                case kHIDUsage_GD_Rx: return 3;
+                case kHIDUsage_GD_Ry: return 4;
+                case kHIDUsage_GD_Rz: return 5;
+                default: throw std::runtime_error("Unknown axis");
+            }
+        }
     }
 
     GamepadDeviceIOKit::GamepadDeviceIOKit(InputSystem& initInputSystem,
@@ -60,15 +74,6 @@ namespace ouzel::input::macos
 
         const auto& gamepadConfig = getGamepadConfig(vendorId, productId);
 
-        static const std::unordered_map<std::uint32_t, std::size_t> axisUsageMap = {
-            {kHIDUsage_GD_X, 0},
-            {kHIDUsage_GD_Y, 1},
-            {kHIDUsage_GD_Z, 2},
-            {kHIDUsage_GD_Rx, 3},
-            {kHIDUsage_GD_Ry, 4},
-            {kHIDUsage_GD_Rz, 5}
-        };
-
         const auto elementArray = IOHIDDeviceCopyMatchingElements(device, nullptr, kIOHIDOptionsTypeNone);
         const auto count = CFArrayGetCount(elementArray);
 
@@ -97,52 +102,47 @@ namespace ouzel::input::macos
             if ((type == kIOHIDElementTypeInput_Misc || type == kIOHIDElementTypeInput_Axis) &&
                 usagePage == kHIDPage_GenericDesktop)
             {
-                auto usageIterator = axisUsageMap.find(usage);
+                const std::size_t index = getAxisIndex(usage);
 
-                if (usageIterator != axisUsageMap.end())
+                Axis axis;
+                axis.axis = gamepadConfig.axisMap[index];
+                axis.min = IOHIDElementGetLogicalMin(element);
+                axis.max = IOHIDElementGetLogicalMax(element);
+                axis.range = axis.max - axis.min;
+
+                switch (gamepadConfig.axisMap[index])
                 {
-                    const std::size_t index = usageIterator->second;
-
-                    Axis axis;
-                    axis.axis = gamepadConfig.axisMap[index];
-                    axis.min = IOHIDElementGetLogicalMin(element);
-                    axis.max = IOHIDElementGetLogicalMax(element);
-                    axis.range = axis.max - axis.min;
-
-                    switch (gamepadConfig.axisMap[index])
-                    {
-                        case Gamepad::Axis::none:
-                            break;
-                        case Gamepad::Axis::leftThumbX:
-                            axis.negativeButton = Gamepad::Button::leftThumbLeft;
-                            axis.positiveButton = Gamepad::Button::leftThumbRight;
-                            break;
-                        case Gamepad::Axis::leftThumbY:
-                            axis.negativeButton = Gamepad::Button::leftThumbUp;
-                            axis.positiveButton = Gamepad::Button::leftThumbDown;
-                            break;
-                        case Gamepad::Axis::rightThumbX:
-                            axis.negativeButton = Gamepad::Button::rightThumbLeft;
-                            axis.positiveButton = Gamepad::Button::rightThumbRight;
-                            break;
-                        case Gamepad::Axis::rightThumbY:
-                            axis.negativeButton = Gamepad::Button::rightThumbUp;
-                            axis.positiveButton = Gamepad::Button::rightThumbDown;
-                            break;
-                        case Gamepad::Axis::leftTrigger:
-                            axis.negativeButton = Gamepad::Button::leftTrigger;
-                            axis.positiveButton = Gamepad::Button::leftTrigger;
-                            hasLeftTrigger = true;
-                            break;
-                        case Gamepad::Axis::rightTrigger:
-                            axis.negativeButton = Gamepad::Button::rightTrigger;
-                            axis.positiveButton = Gamepad::Button::rightTrigger;
-                            hasRightTrigger = true;
-                            break;
-                    }
-
-                    axes.insert(std::pair(element, axis));
+                    case Gamepad::Axis::none:
+                        break;
+                    case Gamepad::Axis::leftThumbX:
+                        axis.negativeButton = Gamepad::Button::leftThumbLeft;
+                        axis.positiveButton = Gamepad::Button::leftThumbRight;
+                        break;
+                    case Gamepad::Axis::leftThumbY:
+                        axis.negativeButton = Gamepad::Button::leftThumbUp;
+                        axis.positiveButton = Gamepad::Button::leftThumbDown;
+                        break;
+                    case Gamepad::Axis::rightThumbX:
+                        axis.negativeButton = Gamepad::Button::rightThumbLeft;
+                        axis.positiveButton = Gamepad::Button::rightThumbRight;
+                        break;
+                    case Gamepad::Axis::rightThumbY:
+                        axis.negativeButton = Gamepad::Button::rightThumbUp;
+                        axis.positiveButton = Gamepad::Button::rightThumbDown;
+                        break;
+                    case Gamepad::Axis::leftTrigger:
+                        axis.negativeButton = Gamepad::Button::leftTrigger;
+                        axis.positiveButton = Gamepad::Button::leftTrigger;
+                        hasLeftTrigger = true;
+                        break;
+                    case Gamepad::Axis::rightTrigger:
+                        axis.negativeButton = Gamepad::Button::rightTrigger;
+                        axis.positiveButton = Gamepad::Button::rightTrigger;
+                        hasRightTrigger = true;
+                        break;
                 }
+
+                axes.insert(std::pair(element, axis));
             }
         }
 
