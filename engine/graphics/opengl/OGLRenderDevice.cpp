@@ -1041,9 +1041,9 @@ namespace ouzel::graphics::opengl
 
                         const std::byte* vertexOffset = nullptr;
 
-                        for (GLuint index = 0; index < RenderDevice::VERTEX_ATTRIBUTES.size(); ++index)
+                        for (GLuint index = 0; index < RenderDevice::vertexAttributes.size(); ++index)
                         {
-                            const auto& vertexAttribute = RenderDevice::VERTEX_ATTRIBUTES[index];
+                            const auto& vertexAttribute = RenderDevice::vertexAttributes[index];
 
                             glEnableVertexAttribArrayProc(index);
                             glVertexAttribPointerProc(index,

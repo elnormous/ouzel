@@ -109,7 +109,7 @@ namespace ouzel::graphics::d3d11
 
         UINT offset = 0;
 
-        for (const auto& vertexAttribute : RenderDevice::VERTEX_ATTRIBUTES)
+        for (const auto& vertexAttribute : RenderDevice::vertexAttributes)
         {
             if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
             {

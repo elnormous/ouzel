@@ -55,7 +55,13 @@ namespace ouzel::graphics
     {
         friend Graphics;
     public:
-        static const std::array<Vertex::Attribute, 5> VERTEX_ATTRIBUTES;
+        static constexpr std::array<Vertex::Attribute, 5> vertexAttributes{
+            Vertex::Attribute{Vertex::Attribute::Usage::position, DataType::float32Vector3},
+            Vertex::Attribute{Vertex::Attribute::Usage::color, DataType::unsignedByteVector4Norm},
+            Vertex::Attribute{Vertex::Attribute::Usage::textureCoordinates0, DataType::float32Vector2},
+            Vertex::Attribute{Vertex::Attribute::Usage::textureCoordinates1, DataType::float32Vector2},
+            Vertex::Attribute{Vertex::Attribute::Usage::normal, DataType::float32Vector3}
+        };
 
         struct Event
         {

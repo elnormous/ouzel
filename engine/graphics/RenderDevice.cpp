@@ -5,14 +5,6 @@
 
 namespace ouzel::graphics
 {
-    const std::array<Vertex::Attribute, 5> RenderDevice::VERTEX_ATTRIBUTES{
-        Vertex::Attribute{Vertex::Attribute::Usage::position, DataType::float32Vector3},
-        Vertex::Attribute{Vertex::Attribute::Usage::color, DataType::unsignedByteVector4Norm},
-        Vertex::Attribute{Vertex::Attribute::Usage::textureCoordinates0, DataType::float32Vector2},
-        Vertex::Attribute{Vertex::Attribute::Usage::textureCoordinates1, DataType::float32Vector2},
-        Vertex::Attribute{Vertex::Attribute::Usage::normal, DataType::float32Vector3}
-    };
-
     RenderDevice::RenderDevice(Driver initDriver,
                                const Settings& settings,
                                core::Window& initWindow,

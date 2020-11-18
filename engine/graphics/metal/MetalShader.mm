@@ -100,7 +100,7 @@ namespace ouzel::graphics::metal
 
         vertexDescriptor = [[MTLVertexDescriptor alloc] init];
 
-        for (const auto& vertexAttribute : RenderDevice::VERTEX_ATTRIBUTES)
+        for (const auto& vertexAttribute : RenderDevice::vertexAttributes)
         {
             if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
             {

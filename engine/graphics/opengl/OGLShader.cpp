@@ -136,7 +136,7 @@ namespace ouzel::graphics::opengl
 
         GLuint index = 0;
 
-        for (const auto& vertexAttribute : RenderDevice::VERTEX_ATTRIBUTES)
+        for (const auto& vertexAttribute : RenderDevice::vertexAttributes)
             if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
             {
                 renderDevice.glBindAttribLocationProc(programId, index, usageToString(vertexAttribute.usage));
