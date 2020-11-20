@@ -335,14 +335,17 @@ namespace ouzel::audio::openal
                 throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffer");
         }
 
-        ALint state;
-        alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
-        if (state != AL_PLAYING)
+        if (buffersProcessed == bufferIds.size())
         {
-            alSourcePlay(sourceId);
+            ALint state;
+            alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
+            if (state != AL_PLAYING)
+            {
+                alSourcePlay(sourceId);
 
-            if (const auto error = alGetError(); error != AL_NO_ERROR)
-                throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
+                if (const auto error = alGetError(); error != AL_NO_ERROR)
+                    throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
+            }
         }
     }
 
