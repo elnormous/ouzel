@@ -299,6 +299,12 @@ namespace ouzel::audio::openal
         if (audioThread.isJoinable()) audioThread.join();
 #endif
 
+        if (!alcMakeContextCurrent(context))
+            throw std::runtime_error("Failed to make ALC context current");
+
+        if (const auto error = alcGetError(device); error != ALC_NO_ERROR)
+            throw std::system_error(error, alcErrorCategory, "Failed to make ALC context current");
+
         alSourceStop(sourceId);
 
         if (const auto error = alGetError(); error != AL_NO_ERROR)
