@@ -2801,7 +2801,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREFIX_HEADER = Prefix.pch;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_NAME = ouzel_ios;
 				SDKROOT = iphoneos;
 			};
@@ -2813,7 +2813,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREFIX_HEADER = Prefix.pch;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_NAME = ouzel_ios;
 				SDKROOT = iphoneos;
 			};
@@ -2966,7 +2966,7 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREFIX_HEADER = Prefix.pch;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = ouzel_macos;
 				SDKROOT = macosx;
 			};
@@ -2977,7 +2977,7 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREFIX_HEADER = Prefix.pch;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = ouzel_macos;
 				SDKROOT = macosx;
 			};
