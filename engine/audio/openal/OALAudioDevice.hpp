@@ -49,7 +49,6 @@ namespace ouzel::audio::openal
 
         ALuint sourceId = 0;
         ALenum format = 0;
-        std::uint32_t nextBuffer = 0;
         std::array<ALuint, 2> bufferIds{};
 
         std::uint32_t sampleSize = 0;

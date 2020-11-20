@@ -271,8 +271,6 @@ namespace ouzel::audio::openal
                      static_cast<ALsizei>(data.size()),
                      static_cast<ALsizei>(sampleRate));
 
-        nextBuffer = 0;
-
         alSourceQueueBuffers(sourceId,
                              static_cast<ALsizei>(bufferIds.size()),
                              bufferIds.data());
@@ -324,35 +322,33 @@ namespace ouzel::audio::openal
         // requeue all processed buffers
         for (ALint i = 0; i < buffersProcessed; ++i)
         {
-            alSourceUnqueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
+            ALuint buffer;
+            alSourceUnqueueBuffers(sourceId, 1, &buffer);
 
             if (const auto error = alGetError(); error != AL_NO_ERROR)
                 throw std::system_error(error, openALErrorCategory, "Failed to unqueue OpenAL buffer");
 
             getData(bufferSize / (channels * sampleSize), data);
 
-            alBufferData(bufferIds[nextBuffer], format,
+            alBufferData(buffer, format,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(sampleRate));
 
-            alSourceQueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
+            alSourceQueueBuffers(sourceId, 1, &buffer);
 
             if (const auto error = alGetError(); error != AL_NO_ERROR)
                 throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffer");
+        }
 
-            ALint state;
-            alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
-            if (state != AL_PLAYING)
-            {
-                alSourcePlay(sourceId);
+        ALint state;
+        alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
+        if (state != AL_PLAYING)
+        {
+            alSourcePlay(sourceId);
 
-                if (const auto error = alGetError(); error != AL_NO_ERROR)
-                    throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
-            }
-
-            // swap the buffer
-            nextBuffer = (nextBuffer + 1) % 2;
+            if (const auto error = alGetError(); error != AL_NO_ERROR)
+                throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
         }
     }
 
