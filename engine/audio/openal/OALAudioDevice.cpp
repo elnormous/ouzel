@@ -138,7 +138,8 @@ namespace ouzel::audio::openal
         if (const auto error = alGetError(); error != AL_NO_ERROR)
             throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL source");
 
-        alGenBuffers(2, bufferIds);
+        alGenBuffers(static_cast<ALsizei>(bufferIds.size()),
+                     bufferIds.data());
 
         if (const auto error = alGetError(); error != AL_NO_ERROR)
             throw std::system_error(error, openALErrorCategory, "Failed to create OpenAL buffers");
@@ -225,25 +226,27 @@ namespace ouzel::audio::openal
         if (audioThread.isJoinable()) audioThread.join();
 #endif
 
-        if (sourceId)
-        {
-            alSourceStop(sourceId);
-            alSourcei(sourceId, AL_BUFFER, 0);
-            alDeleteSources(1, &sourceId);
-            alGetError();
-        }
-
-        for (const auto bufferId : bufferIds)
-        {
-            if (bufferId)
-            {
-                alDeleteBuffers(1, &bufferId);
-                alGetError();
-            }
-        }
-
         if (context)
         {
+            alcMakeContextCurrent(context);
+
+            if (sourceId)
+            {
+                alSourceStop(sourceId);
+                alSourcei(sourceId, AL_BUFFER, 0);
+                alDeleteSources(1, &sourceId);
+                alGetError();
+            }
+
+            for (const auto bufferId : bufferIds)
+            {
+                if (bufferId)
+                {
+                    alDeleteBuffers(1, &bufferId);
+                    alGetError();
+                }
+            }
+
             alcMakeContextCurrent(nullptr);
             alcDestroyContext(context);
         }
@@ -270,7 +273,9 @@ namespace ouzel::audio::openal
 
         nextBuffer = 0;
 
-        alSourceQueueBuffers(sourceId, 2, bufferIds);
+        alSourceQueueBuffers(sourceId,
+                             static_cast<ALsizei>(bufferIds.size()),
+                             bufferIds.data());
 
         if (const auto error = alGetError(); error != AL_NO_ERROR)
             throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffers");
@@ -279,6 +284,9 @@ namespace ouzel::audio::openal
 
         if (const auto error = alGetError(); error != AL_NO_ERROR)
             throw std::system_error(error, openALErrorCategory, "Failed to play OpenAL source");
+
+        if (!alcMakeContextCurrent(nullptr))
+            throw std::runtime_error("Failed to unset current ALC context");
 
 #if !defined(__EMSCRIPTEN__)
         running = true;
@@ -314,7 +322,7 @@ namespace ouzel::audio::openal
             throw std::system_error(error, openALErrorCategory, "Failed to get processed buffer count");
 
         // requeue all processed buffers
-        for (; buffersProcessed > 0; --buffersProcessed)
+        for (ALint i = 0; i < buffersProcessed; ++i)
         {
             alSourceUnqueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
 

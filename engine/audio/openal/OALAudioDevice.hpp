@@ -7,6 +7,7 @@
 
 #if OUZEL_COMPILE_OPENAL
 
+#include <array>
 #include <atomic>
 #include <thread>
 
@@ -49,7 +50,7 @@ namespace ouzel::audio::openal
         ALuint sourceId = 0;
         ALenum format = 0;
         std::uint32_t nextBuffer = 0;
-        ALuint bufferIds[2] = {0, 0};
+        std::array<ALuint, 2> bufferIds{};
 
         std::uint32_t sampleSize = 0;
         std::vector<std::uint8_t> data;
