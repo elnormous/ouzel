@@ -307,12 +307,6 @@ namespace ouzel::audio::openal
 
     void AudioDevice::process()
     {
-        if (!alcMakeContextCurrent(context))
-            throw std::runtime_error("Failed to make ALC context current");
-
-        if (const auto error = alcGetError(device); error != ALC_NO_ERROR)
-            throw std::system_error(error, alcErrorCategory, "Failed to make ALC context current");
-
         ALint buffersProcessed;
         alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
 
@@ -355,6 +349,12 @@ namespace ouzel::audio::openal
     void AudioDevice::run()
     {
         thread::setCurrentThreadName("Audio");
+
+        if (!alcMakeContextCurrent(context))
+            throw std::runtime_error("Failed to make ALC context current");
+
+        if (const auto error = alcGetError(device); error != ALC_NO_ERROR)
+            throw std::system_error(error, alcErrorCategory, "Failed to make ALC context current");
 
 #if !defined(__EMSCRIPTEN__)
         while (running)
