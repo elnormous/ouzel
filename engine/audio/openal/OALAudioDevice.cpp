@@ -335,7 +335,7 @@ namespace ouzel::audio::openal
                 throw std::system_error(error, openALErrorCategory, "Failed to queue OpenAL buffer");
         }
 
-        if (buffersProcessed == bufferIds.size())
+        if (buffersProcessed == static_cast<ALint>(bufferIds.size()))
         {
             ALint state;
             alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
