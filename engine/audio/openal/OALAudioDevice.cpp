@@ -119,7 +119,9 @@ namespace ouzel::audio::openal
         std::vector<std::string> extensions;
         const auto extensionsPtr = alGetString(AL_EXTENSIONS);
 
-        if (const auto error = alGetError(); error != AL_NO_ERROR || !extensionsPtr)
+        if (const auto error = alGetError(); error != AL_NO_ERROR)
+            logger.log(Log::Level::warning) << "Failed to get OpenGL extensions: " + std::to_string(error);
+        else if (!extensionsPtr)
             logger.log(Log::Level::warning) << "Failed to get OpenGL extensions";
         else
             extensions = explodeString(std::string(extensionsPtr), ' ');
