@@ -107,14 +107,27 @@ namespace ouzel::audio::openal
         if (const auto error = alcGetError(device); error != ALC_NO_ERROR)
             throw std::system_error(error, alcErrorCategory, "Failed to make ALC context current");
 
-        const auto audioRenderer = alGetString(AL_RENDERER);
+        std::string rendererName;
+        const auto rendererNamePointer = alGetString(AL_RENDERER);
 
         if (const auto error = alGetError(); error != AL_NO_ERROR)
             logger.log(Log::Level::warning) << "Failed to get OpenAL renderer, error: " + std::to_string(error);
-        else if (!audioRenderer)
+        else if (!rendererNamePointer)
             logger.log(Log::Level::warning) << "Failed to get OpenAL renderer";
         else
-            logger.log(Log::Level::info) << "Using " << audioRenderer << " audio renderer";
+            rendererName = rendererNamePointer;
+
+        std::string vendorName;
+        const auto vendorNamePointer = alGetString(AL_VENDOR);
+
+        if (const auto error = alGetError(); error != AL_NO_ERROR)
+            logger.log(Log::Level::warning) << "Failed to get OpenAL renderer's vendor, error: " + std::to_string(error);
+        else if (!vendorNamePointer)
+            logger.log(Log::Level::warning) << "Failed to get OpenAL renderer's vendor";
+        else
+            vendorName = vendorNamePointer;
+
+        logger.log(Log::Level::info) << "Using " << rendererName << " by " << vendorName << " audio renderer";
 
         std::vector<std::string> extensions;
         const auto extensionsPtr = alGetString(AL_EXTENSIONS);

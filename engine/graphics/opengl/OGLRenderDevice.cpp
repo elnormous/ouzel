@@ -316,9 +316,9 @@ namespace ouzel::graphics::opengl
         const auto vendorNamePointer = glGetStringProc(GL_VENDOR);
 
         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-            logger.log(Log::Level::warning) << "Failed to get vendor, error: " + std::to_string(error);
+            logger.log(Log::Level::warning) << "Failed to get OpenGL renderer's vendor, error: " + std::to_string(error);
         else if (!vendorNamePointer)
-            logger.log(Log::Level::warning) << "Failed to get vendor";
+            logger.log(Log::Level::warning) << "Failed to get OpenGL renderer's vendor";
         else
             vendorName = reinterpret_cast<const char*>(vendorNamePointer);
 
