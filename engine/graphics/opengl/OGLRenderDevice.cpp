@@ -302,14 +302,27 @@ namespace ouzel::graphics::opengl
         glGetErrorProc = getter.get<PFNGLGETERRORPROC>("glGetError", ApiVersion(1, 0));
         glGetStringiProc = getter.get<PFNGLGETSTRINGIPROC>("glGetStringi", ApiVersion(3, 0));
 
-        const auto deviceName = glGetStringProc(GL_RENDERER);
+        std::string rendererName;
+        const auto rendererNamePointer = glGetStringProc(GL_RENDERER);
 
         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
             logger.log(Log::Level::warning) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
-        else if (!deviceName)
+        else if (!rendererNamePointer)
             logger.log(Log::Level::warning) << "Failed to get OpenGL renderer";
         else
-            logger.log(Log::Level::info) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
+            rendererName = reinterpret_cast<const char*>(rendererNamePointer);
+
+        std::string vendorName;
+        const auto vendorNamePointer = glGetStringProc(GL_VENDOR);
+
+        if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
+            logger.log(Log::Level::warning) << "Failed to get vendor, error: " + std::to_string(error);
+        else if (!vendorNamePointer)
+            logger.log(Log::Level::warning) << "Failed to get vendor";
+        else
+            vendorName = reinterpret_cast<const char*>(vendorNamePointer);
+
+        logger.log(Log::Level::info) << "Using " << rendererName << " by " << vendorName << " for rendering";
 
 #if OUZEL_OPENGLES
         npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_OES_texture_npot");
