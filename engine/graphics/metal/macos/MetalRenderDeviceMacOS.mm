@@ -13,6 +13,7 @@
 #include "MetalView.h"
 #include "../../../core/Engine.hpp"
 #include "../../../core/cocoa/AutoreleasePool.hpp"
+#include "../../../core/corevideo/CoreVideoErrorCategory.hpp"
 #include "../../../core/macos/NativeWindowMacOS.hpp"
 #include "../../../utils/Log.hpp"
 
@@ -64,16 +65,16 @@ namespace ouzel::graphics::metal::macos
         engine->getEventDispatcher().addEventHandler(eventHandler);
 
         const CGDirectDisplayID displayId = windowMacOS->getDisplayId();
-        if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-            throw std::runtime_error("Failed to create display link");
+        if (const auto result = CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink); result != kCVReturnSuccess)
+            throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to create display link");
 
-        if (CVDisplayLinkSetOutputCallback(displayLink, macos::renderCallback, this) != kCVReturnSuccess)
-            throw std::runtime_error("Failed to set output callback for the display link");
+        if (const auto result = CVDisplayLinkSetOutputCallback(displayLink, macos::renderCallback, this); result != kCVReturnSuccess)
+            throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to set output callback for the display link");
 
         running = true;
 
-        if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-            throw std::runtime_error("Failed to start display link");
+        if (const auto result = CVDisplayLinkStart(displayLink); result != kCVReturnSuccess)
+            throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to start display link");
     }
 
     RenderDevice::~RenderDevice()
@@ -130,16 +131,16 @@ namespace ouzel::graphics::metal::macos
 
                 const CGDirectDisplayID displayId = event.screenId;
 
-                if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-                    throw std::runtime_error("Failed to create display link");
+                if (const auto result = CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink); result != kCVReturnSuccess)
+                    throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to create display link");
 
-                if (CVDisplayLinkSetOutputCallback(displayLink, macos::renderCallback, this) != kCVReturnSuccess)
-                    throw std::runtime_error("Failed to set output callback for the display link");
+                if (const auto result = CVDisplayLinkSetOutputCallback(displayLink, macos::renderCallback, this); result != kCVReturnSuccess)
+                    throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to set output callback for the display link");
 
                 running = true;
 
-                if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-                    throw std::runtime_error("Failed to start display link");
+                if (const auto result = CVDisplayLinkStart(displayLink); result != kCVReturnSuccess)
+                    throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to start display link");
             });
         }
 
