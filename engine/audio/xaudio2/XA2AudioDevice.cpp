@@ -74,7 +74,7 @@ namespace ouzel::audio::xaudio2
                 apiMinorVersion = 7;
             }
             else
-                throw std::runtime_error("Failed to load " + std::string(xaudio2dll27));
+                throw std::system_error(GetLastError(),  std::system_category(), "Failed to load " + std::string(xaudio2dll27));
 
             UINT32 flags = 0;
             if (settings.debugAudio) flags |= XAUDIO2_DEBUG_ENGINE;
