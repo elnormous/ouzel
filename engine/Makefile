@@ -176,6 +176,7 @@ else ifeq ($(PLATFORM),macos)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	audio/openal/OALAudioDevice.cpp \
 	core/cocoa/AutoreleasePool.mm \
+	core/corevideo/CoreVideoErrorCategory.cpp \
 	core/macos/EngineMacOS.mm \
 	core/macos/NativeWindowMacOS.mm \
 	core/macos/SystemMacOS.mm \
