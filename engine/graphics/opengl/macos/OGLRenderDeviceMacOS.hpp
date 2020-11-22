@@ -11,14 +11,14 @@
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_OPENGL
 
+#include <CoreVideo/CoreVideo.h>
+
 #if defined(__OBJC__)
-#  import <CoreVideo/CoreVideo.h>
 #  import <AppKit/NSOpenGL.h>
 typedef NSOpenGLContext* NSOpenGLContextPtr;
 typedef NSOpenGLPixelFormat* NSOpenGLPixelFormatPtr;
 #else
 #  include <objc/objc.h>
-typedef void* CVDisplayLinkRef;
 typedef id NSOpenGLContextPtr;
 typedef id NSOpenGLPixelFormatPtr;
 #endif
@@ -52,7 +52,7 @@ namespace ouzel::graphics::opengl::macos
         NSOpenGLContextPtr openGLContext = nil;
         NSOpenGLPixelFormatPtr pixelFormat = nil;
 
-        CVDisplayLinkRef displayLink = nil;
+        CVDisplayLinkRef displayLink = nullptr;
         EventHandler eventHandler;
 
         std::atomic_bool running{false};

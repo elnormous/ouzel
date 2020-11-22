@@ -11,8 +11,9 @@
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_METAL
 
+#include <CoreVideo/CoreVideo.h>
+
 #if defined(__OBJC__)
-#  import <CoreVideo/CoreVideo.h>
 #  import <QuartzCore/QuartzCore.h>
 #  import <Metal/Metal.h>
 typedef CAMetalLayer* CAMetalLayerPtr;
@@ -28,7 +29,6 @@ typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
 #  include <objc/objc.h>
 #  include <objc/NSObjCRuntime.h>
-typedef void* CVDisplayLinkRef;
 typedef id CAMetalLayerPtr;
 typedef id MTLDevicePtr;
 typedef id MTLRenderPassDescriptorPtr;
@@ -62,7 +62,7 @@ namespace ouzel::graphics::metal::macos
     private:
         bool handleWindow(const WindowEvent& event);
 
-        CVDisplayLinkRef displayLink = nil;
+        CVDisplayLinkRef displayLink = nullptr;
         EventHandler eventHandler;
 
         std::atomic_bool running{false};
