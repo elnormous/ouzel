@@ -261,7 +261,7 @@ namespace ouzel::core::linux
 {
     namespace
     {
-        ErrorCategory errorCategory;
+        const ErrorCategory errorCategory;
 
         std::vector<std::string> parseArgs(int argc, char* argv[])
         {
