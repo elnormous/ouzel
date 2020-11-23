@@ -6,7 +6,7 @@
 #include <memory>
 #include <system_error>
 #include <unordered_map>
-#include <IOKit/hid/IOHIDManager.h>
+#include <IOKit/IOReturn.h>
 
 namespace ouzel::input::macos
 {

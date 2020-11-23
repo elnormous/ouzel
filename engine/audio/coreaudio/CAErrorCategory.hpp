@@ -8,7 +8,7 @@
 #if OUZEL_COMPILE_COREAUDIO
 
 #include <system_error>
-#include <AudioUnit/AudioUnit.h>
+#include <CoreAudioTypes/CoreAudioBaseTypes.h>
 
 namespace ouzel::audio::coreaudio
 {

@@ -4,7 +4,7 @@
 #define OUZEL_CORE_COREVIDEO_COREVIDEOERRORCATEGORY_HPP
 
 #include <system_error>
-#include <CoreVideo/CoreVideo.h>
+#include <CoreVideo/CVReturn.h>
 
 namespace ouzel::core::corevideo
 {

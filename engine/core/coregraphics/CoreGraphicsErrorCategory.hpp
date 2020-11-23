@@ -4,7 +4,7 @@
 #define OUZEL_CORE_COREGRAPHICS_COREVIDEOERRORCATEGORY_HPP
 
 #include <system_error>
-#include <CoreGraphics/CoreGraphics.h>
+#include <CoreGraphics/CGError.h>
 
 namespace ouzel::core::coregraphics
 {
