@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include "NativeWindowMacOS.hpp"
 #include "ViewMacOS.h"
+#include "../../core/coregraphics/CoreGraphicsErrorCategory.hpp"
 #include "../../graphics/RenderDevice.hpp"
 #include "../../graphics/opengl/macos/OpenGLView.h"
 #include "../../graphics/metal/macos/MetalView.h"
@@ -137,8 +138,8 @@ namespace ouzel::core::macos
         {
             if (exclusiveFullscreen)
             {
-                if (CGDisplayCapture(displayId) != kCGErrorSuccess)
-                    throw std::runtime_error("Failed to capture the main display");
+                if (const auto result = CGDisplayCapture(displayId); result != kCGErrorSuccess)
+                    throw std::system_error(result, core::coregraphics::getErrorCategory(), "Failed to capture the main display");
 
                 windowRect = frame;
                 [window setStyleMask:NSBorderlessWindowMask];
@@ -319,8 +320,8 @@ namespace ouzel::core::macos
             {
                 if (newFullscreen)
                 {
-                    if (CGDisplayCapture(displayId) != kCGErrorSuccess)
-                        throw std::runtime_error("Failed to capture the main display");
+                    if (const auto result = CGDisplayCapture(displayId); result != kCGErrorSuccess)
+                        throw std::system_error(result, core::coregraphics::getErrorCategory(), "Failed to capture the main display");
 
                     windowRect = [window frame];
                     [window setStyleMask:NSBorderlessWindowMask];
@@ -337,8 +338,8 @@ namespace ouzel::core::macos
                     [window setStyleMask:windowStyleMask];
                     [window setFrame:windowRect display:YES animate:NO];
 
-                    if (CGDisplayRelease(displayId) != kCGErrorSuccess)
-                        throw std::runtime_error("Failed to release the main display");
+                    if (const auto result = CGDisplayRelease(displayId); result != kCGErrorSuccess)
+                        throw std::system_error(result, core::coregraphics::getErrorCategory(), "Failed to release the main display");
                 }
             }
             else
