@@ -98,6 +98,7 @@ namespace ouzel
         void setPerspective(const T fieldOfView, const T aspectRatio,
                             const T zNearPlane, const T zFarPlane) noexcept
         {
+            assert(aspectRatio);
             assert(zFarPlane != zNearPlane);
 
             const T theta = fieldOfView / T(2);
@@ -110,8 +111,7 @@ namespace ouzel
 
             setZero();
 
-            assert(aspectRatio);
-            m[0] = (T(1) / aspectRatio) * factor;
+            m[0] = factor / aspectRatio;
             m[5] = factor;
             m[10] = zFarPlane / (zFarPlane - zNearPlane);
             m[11] = T(1);
