@@ -4,10 +4,10 @@
 #define OUZEL_CORE_NATIVEWINDOWMACOS_HPP
 
 #include <CoreGraphics/CGGeometry.h>
+#include <CoreGraphics/CoreGraphics.h>
 
 #if defined(__OBJC__)
 #  import <Cocoa/Cocoa.h>
-#  import <CoreGraphics/CoreGraphics.h>
 typedef NSWindow* NSWindowPtr;
 typedef NSView* NSViewPtr;
 typedef id<NSWindowDelegate> NSWindowDelegatePtr;
