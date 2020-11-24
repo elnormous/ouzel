@@ -699,6 +699,17 @@ namespace ouzel
                 c = T(0);
         }
 
+        void subtract(const T scalar) noexcept
+        {
+            subtract(scalar, *this);
+        }
+
+        void subtract(const T scalar, Matrix& dst) const noexcept
+        {
+            for (std::size_t i = 0; i < C * R; ++i)
+                dst.m[i] = m[i] - scalar;
+        }
+
         void subtract(const Matrix& matrix) noexcept
         {
             subtract(matrix, *this);
