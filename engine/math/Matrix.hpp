@@ -97,10 +97,10 @@ namespace ouzel
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         void setPerspective(const T fieldOfView, const T aspectRatio,
-                            const T near, const T far) noexcept
+                            const T nearClip, const T farClip) noexcept
         {
             assert(aspectRatio);
-            assert(far != near);
+            assert(farClip != nearClip);
 
             const T theta = fieldOfView / T(2);
             if (std::fabs(std::fmod(theta, pi<T> / T(2))) <= std::numeric_limits<T>::min())
@@ -114,25 +114,25 @@ namespace ouzel
 
             m[0] = factor / aspectRatio;
             m[5] = factor;
-            m[10] = far / (far - near);
+            m[10] = farClip / (farClip - nearClip);
             m[11] = T(1);
-            m[14] = -near * far / (far - near);
+            m[14] = -nearClip * farClip / (farClip - nearClip);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         void setOrthographic(const T width, const T height,
-                             const T near, const T far) noexcept
+                             const T nearClip, const T farClip) noexcept
         {
             assert(width);
             assert(height);
-            assert(far != near);
+            assert(farClip != nearClip);
 
             setZero();
 
             m[0] = T(2) / width;
             m[5] = T(2) / height;
-            m[10] = T(1) / (far - near);
-            m[14] = near / (near - far);
+            m[10] = T(1) / (farClip - nearClip);
+            m[14] = nearClip / (nearClip - farClip);
             m[15] = T(1);
         }
 
