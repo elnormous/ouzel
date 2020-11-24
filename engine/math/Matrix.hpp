@@ -436,22 +436,8 @@ namespace ouzel
 
         void add(const T scalar, Matrix& dst) const noexcept
         {
-            dst.m[0] = m[0] + scalar;
-            dst.m[1] = m[1] + scalar;
-            dst.m[2] = m[2] + scalar;
-            dst.m[3] = m[3] + scalar;
-            dst.m[4] = m[4] + scalar;
-            dst.m[5] = m[5] + scalar;
-            dst.m[6] = m[6] + scalar;
-            dst.m[7] = m[7] + scalar;
-            dst.m[8] = m[8] + scalar;
-            dst.m[9] = m[9] + scalar;
-            dst.m[10] = m[10] + scalar;
-            dst.m[11] = m[11] + scalar;
-            dst.m[12] = m[12] + scalar;
-            dst.m[13] = m[13] + scalar;
-            dst.m[14] = m[14] + scalar;
-            dst.m[15] = m[15] + scalar;
+            for (std::size_t i = 0; i < C * R; ++i)
+                dst.m[i] = m[i] + scalar;
         }
 
         void add(const Matrix& matrix) noexcept
@@ -461,22 +447,8 @@ namespace ouzel
 
         void add(const Matrix& matrix, Matrix& dst) const noexcept
         {
-            dst.m[0] = m[0] + matrix.m[0];
-            dst.m[1] = m[1] + matrix.m[1];
-            dst.m[2] = m[2] + matrix.m[2];
-            dst.m[3] = m[3] + matrix.m[3];
-            dst.m[4] = m[4] + matrix.m[4];
-            dst.m[5] = m[5] + matrix.m[5];
-            dst.m[6] = m[6] + matrix.m[6];
-            dst.m[7] = m[7] + matrix.m[7];
-            dst.m[8] = m[8] + matrix.m[8];
-            dst.m[9] = m[9] + matrix.m[9];
-            dst.m[10] = m[10] + matrix.m[10];
-            dst.m[11] = m[11] + matrix.m[11];
-            dst.m[12] = m[12] + matrix.m[12];
-            dst.m[13] = m[13] + matrix.m[13];
-            dst.m[14] = m[14] + matrix.m[14];
-            dst.m[15] = m[15] + matrix.m[15];
+            for (std::size_t i = 0; i < C * R; ++i)
+                dst.m[i] = m[i] + matrix.m[i];
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 1 && Y == 1)>* = nullptr>
@@ -671,22 +643,8 @@ namespace ouzel
 
         void multiply(const T scalar, Matrix& dst) const noexcept
         {
-            dst.m[0] = m[0] * scalar;
-            dst.m[1] = m[1] * scalar;
-            dst.m[2] = m[2] * scalar;
-            dst.m[3] = m[3] * scalar;
-            dst.m[4] = m[4] * scalar;
-            dst.m[5] = m[5] * scalar;
-            dst.m[6] = m[6] * scalar;
-            dst.m[7] = m[7] * scalar;
-            dst.m[8] = m[8] * scalar;
-            dst.m[9] = m[9] * scalar;
-            dst.m[10] = m[10] * scalar;
-            dst.m[11] = m[11] * scalar;
-            dst.m[12] = m[12] * scalar;
-            dst.m[13] = m[13] * scalar;
-            dst.m[14] = m[14] * scalar;
-            dst.m[15] = m[15] * scalar;
+            for (std::size_t i = 0; i < C * R; ++i)
+                dst.m[i] = m[i] * scalar;
         }
 
         void multiply(const Matrix& matrix) noexcept
@@ -723,22 +681,8 @@ namespace ouzel
 
         void negate() noexcept
         {
-            m[0] = -m[0];
-            m[1] = -m[1];
-            m[2] = -m[2];
-            m[3] = -m[3];
-            m[4] = -m[4];
-            m[5] = -m[5];
-            m[6] = -m[6];
-            m[7] = -m[7];
-            m[8] = -m[8];
-            m[9] = -m[9];
-            m[10] = -m[10];
-            m[11] = -m[11];
-            m[12] = -m[12];
-            m[13] = -m[13];
-            m[14] = -m[14];
-            m[15] = -m[15];
+            for (T& c : m)
+                c = -c;
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == Y)>* = nullptr>
@@ -762,22 +706,8 @@ namespace ouzel
 
         void subtract(const Matrix& matrix, Matrix& dst) const noexcept
         {
-            dst.m[0] = m[0] - matrix.m[0];
-            dst.m[1] = m[1] - matrix.m[1];
-            dst.m[2] = m[2] - matrix.m[2];
-            dst.m[3] = m[3] - matrix.m[3];
-            dst.m[4] = m[4] - matrix.m[4];
-            dst.m[5] = m[5] - matrix.m[5];
-            dst.m[6] = m[6] - matrix.m[6];
-            dst.m[7] = m[7] - matrix.m[7];
-            dst.m[8] = m[8] - matrix.m[8];
-            dst.m[9] = m[9] - matrix.m[9];
-            dst.m[10] = m[10] - matrix.m[10];
-            dst.m[11] = m[11] - matrix.m[11];
-            dst.m[12] = m[12] - matrix.m[12];
-            dst.m[13] = m[13] - matrix.m[13];
-            dst.m[14] = m[14] - matrix.m[14];
-            dst.m[15] = m[15] - matrix.m[15];
+            for (std::size_t i = 0; i < C * R; ++i)
+                dst.m[i] = m[i] - matrix.m[i];
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
