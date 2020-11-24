@@ -122,11 +122,17 @@ namespace ouzel
         void setOrthographic(const T width, const T height,
                              const T zNearPlane, const T zFarPlane) noexcept
         {
-            const T halfWidth = width / T(2);
-            const T halfHeight = height / T(2);
-            setOrthographic(-halfWidth, halfWidth,
-                            -halfHeight, halfHeight,
-                            zNearPlane, zFarPlane);
+            assert(width);
+            assert(height);
+            assert(zFarPlane != zNearPlane);
+
+            setZero();
+
+            m[0] = T(2) / width;
+            m[5] = T(2) / height;
+            m[10] = T(1) / (zFarPlane - zNearPlane);
+            m[14] = zNearPlane / (zNearPlane - zFarPlane);
+            m[15] = T(1);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
