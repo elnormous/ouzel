@@ -653,9 +653,10 @@ namespace ouzel
             adjugate.multiply(T(1) / determinant, *this);
         }
 
-        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == Y)>* = nullptr>
-        auto isIdentity() const noexcept
+        constexpr auto isIdentity() const noexcept
         {
+            if constexpr (C != R) return false;
+
             for (std::size_t r = 0; r < R; ++r)
                 for (std::size_t c = 0; c < C; ++c)
                     if (m[r * C + c] != (r == c ? T(1) : T(0)))
