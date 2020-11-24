@@ -105,7 +105,7 @@ namespace ouzel
             if (std::fabs(std::fmod(theta, pi<T> / T(2))) <= std::numeric_limits<T>::min())
                 return;
 
-            const T divisor = tan(theta);
+            const T divisor = std::tan(theta);
             assert(divisor);
             const T factor = T(1) / divisor;
 
