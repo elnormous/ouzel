@@ -556,7 +556,7 @@ namespace ouzel
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 1 && Y == 1)>* = nullptr>
         void invert() noexcept
         {
-            const T determinant = m[0] * m[3] - m[1] * m[2];
+            const T determinant = m[0];
 
             // Close to zero, can't invert
             if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
