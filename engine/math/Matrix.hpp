@@ -22,7 +22,7 @@ namespace ouzel
 #if defined(__SSE__)
         alignas((C == 4 && R == 4) ? 4 * sizeof(T) : alignof(T))
 #endif
-        T m[C * R]{};
+        T m[C * R]{}; // row-major matrix (transformation is pre-multiplying)
 
         constexpr Matrix() noexcept {}
 
@@ -96,10 +96,10 @@ namespace ouzel
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         void setPerspective(const T fieldOfView, const T aspectRatio,
-                            const T zNearPlane, const T zFarPlane) noexcept
+                            const T near, const T far) noexcept
         {
             assert(aspectRatio);
-            assert(zFarPlane != zNearPlane);
+            assert(far != near);
 
             const T theta = fieldOfView / T(2);
             if (std::fabs(std::fmod(theta, pi<T> / T(2))) <= std::numeric_limits<T>::min())
@@ -113,45 +113,45 @@ namespace ouzel
 
             m[0] = factor / aspectRatio;
             m[5] = factor;
-            m[10] = zFarPlane / (zFarPlane - zNearPlane);
+            m[10] = far / (far - near);
             m[11] = T(1);
-            m[14] = -zNearPlane * zFarPlane / (zFarPlane - zNearPlane);
+            m[14] = -near * far / (far - near);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         void setOrthographic(const T width, const T height,
-                             const T zNearPlane, const T zFarPlane) noexcept
+                             const T near, const T far) noexcept
         {
             assert(width);
             assert(height);
-            assert(zFarPlane != zNearPlane);
+            assert(far != near);
 
             setZero();
 
             m[0] = T(2) / width;
             m[5] = T(2) / height;
-            m[10] = T(1) / (zFarPlane - zNearPlane);
-            m[14] = zNearPlane / (zNearPlane - zFarPlane);
+            m[10] = T(1) / (far - near);
+            m[14] = near / (near - far);
             m[15] = T(1);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         void setOrthographic(const T left, const T right,
                              const T bottom, const T top,
-                             const T zNearPlane, const T zFarPlane) noexcept
+                             const T near, const T far) noexcept
         {
             assert(right != left);
             assert(top != bottom);
-            assert(zFarPlane != zNearPlane);
+            assert(far != near);
 
             setZero();
 
             m[0] = T(2) / (right - left);
             m[5] = T(2) / (top - bottom);
-            m[10] = T(1) / (zFarPlane - zNearPlane);
+            m[10] = T(1) / (far - near);
             m[12] = (left + right) / (left - right);
             m[13] = (bottom + top) / (bottom - top);
-            m[14] = zNearPlane / (zNearPlane - zFarPlane);
+            m[14] = near / (near - far);
             m[15] = T(1);
         }
 
@@ -828,19 +828,20 @@ namespace ouzel
             dst.v[3] = v.v[0] * m[3] + v.v[1] * m[7] + v.v[2] * m[11] + v.v[3] * m[15];
         }
 
+        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == Y)>* = nullptr>
         void transpose() noexcept
         {
             transpose(*this);
         }
 
-        void transpose(Matrix& dst) const noexcept
+        void transpose(Matrix<R, C, T>& dst) const noexcept
         {
-            const T t[16] = {
-                m[0], m[4], m[8], m[12],
-                m[1], m[5], m[9], m[13],
-                m[2], m[6], m[10], m[14],
-                m[3], m[7], m[11], m[15]
-            };
+            const T t[C * R];
+
+            for (std::size_t column = 0; column < C; ++column)
+                for (std::size_t row = 0; row < C; ++row)
+                    t[row * C + column] = t[column * R + row];
+
             std::copy(std::begin(t), std::end(t), dst.m);
         }
 
