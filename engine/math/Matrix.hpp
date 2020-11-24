@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstddef>
+#include <iterator>
 #include <limits>
 #include <type_traits>
 #include "Constants.hpp"
