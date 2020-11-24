@@ -125,7 +125,7 @@ namespace ouzel::scene
                 // do nothing
                 break;
             case ProjectionMode::orthographic:
-                projection.setOrthographicFromSize(contentSize.v[0], contentSize.v[1], -1.0F, 1.0F);
+                projection.setOrthographic(contentSize.v[0], contentSize.v[1], -1.0F, 1.0F);
                 break;
             case ProjectionMode::perspective:
                 projection.setPerspective(fov, contentSize.v[0] / contentSize.v[1], nearPlane, farPlane);

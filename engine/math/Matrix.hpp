@@ -119,20 +119,20 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void setOrthographicFromSize(const T width, const T height,
-                                     const T zNearPlane, const T zFarPlane) noexcept
+        void setOrthographic(const T width, const T height,
+                             const T zNearPlane, const T zFarPlane) noexcept
         {
             const T halfWidth = width / T(2);
             const T halfHeight = height / T(2);
-            setOrthographicOffCenter(-halfWidth, halfWidth,
-                                     -halfHeight, halfHeight,
-                                     zNearPlane, zFarPlane);
+            setOrthographic(-halfWidth, halfWidth,
+                            -halfHeight, halfHeight,
+                            zNearPlane, zFarPlane);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void setOrthographicOffCenter(const T left, const T right,
-                                      const T bottom, const T top,
-                                      const T zNearPlane, const T zFarPlane) noexcept
+        void setOrthographic(const T left, const T right,
+                             const T bottom, const T top,
+                             const T zNearPlane, const T zFarPlane) noexcept
         {
             assert(right != left);
             assert(top != bottom);
