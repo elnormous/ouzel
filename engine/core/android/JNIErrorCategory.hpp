@@ -23,6 +23,9 @@ namespace ouzel::core::android
                 case JNI_ERR: return "JNI_ERR";
                 case JNI_EDETACHED: return "JNI_EDETACHED";
                 case JNI_EVERSION: return "JNI_EVERSION";
+                case JNI_ENOMEM: return "JNI_ENOMEM";
+                case JNI_EEXIST: return "JNI_EEXIST";
+                case JNI_EINVAL: return "JNI_EINVAL";
                 default: return "Unknown error (" + std::to_string(condition) + ")";
             }
         }
