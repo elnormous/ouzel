@@ -76,6 +76,8 @@ namespace ouzel::input::macos
             }
         }
     };
+
+    const std::error_category& getErrorCategory() noexcept;
 }
 
 #endif

@@ -28,8 +28,6 @@ typedef id GCControllerPtr;
 
 namespace ouzel::input::macos
 {
-    const std::error_category& getErrorCategory() noexcept;
-
     class Cursor;
 
     class InputSystem final: public input::InputSystem

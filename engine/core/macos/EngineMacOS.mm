@@ -4,6 +4,7 @@
 #import <Cocoa/Cocoa.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #include "EngineMacOS.hpp"
+#include "../../input/macos/IOKitErrorCategory.hpp"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
 @end
@@ -156,8 +157,8 @@ namespace ouzel::core::macos
             {
                 if (noSleepAssertionID)
                 {
-                    if (IOPMAssertionRelease(noSleepAssertionID) != kIOReturnSuccess)
-                        throw std::runtime_error("Failed to enable screen saver");
+                    if (const auto error = IOPMAssertionRelease(noSleepAssertionID); error != kIOReturnSuccess)
+                        throw std::system_error(error, input::macos::getErrorCategory() , "Failed to enable screen saver");
 
                     noSleepAssertionID = 0;
                 }
@@ -168,9 +169,9 @@ namespace ouzel::core::macos
                 {
                     CFStringRef reasonForActivity = CFSTR("Ouzel disabling screen saver");
 
-                    if (IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
-                                                    kIOPMAssertionLevelOn, reasonForActivity, &noSleepAssertionID) != kIOReturnSuccess)
-                        throw std::runtime_error("Failed to disable screen saver");
+                    if (const auto error = IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
+                                                                       kIOPMAssertionLevelOn, reasonForActivity, &noSleepAssertionID); error != kIOReturnSuccess)
+                        throw std::system_error(error, input::macos::getErrorCategory(), "Failed to disable screen saver");
                 }
             }
         });

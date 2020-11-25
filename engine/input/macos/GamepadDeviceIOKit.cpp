@@ -3,6 +3,7 @@
 #include <vector>
 #include "GamepadDeviceIOKit.hpp"
 #include "InputSystemMacOS.hpp"
+#include "IOKitErrorCategory.hpp"
 #include "../GamepadConfig.hpp"
 #include "../../utils/Utils.hpp"
 
