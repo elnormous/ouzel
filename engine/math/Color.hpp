@@ -3,9 +3,9 @@
 #ifndef OUZEL_MATH_COLOR_HPP
 #define OUZEL_MATH_COLOR_HPP
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
-#include <array>
 #include <string>
 #include <type_traits>
 #include "Vector.hpp"
@@ -15,7 +15,7 @@ namespace ouzel
     class Color final
     {
     public:
-        std::uint8_t v[4]{};
+        std::array<std::uint8_t, 4> v{};
 
         constexpr Color() noexcept {}
 

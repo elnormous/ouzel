@@ -3,6 +3,7 @@
 #ifndef OUZEL_MATH_PLANE_HPP
 #define OUZEL_MATH_PLANE_HPP
 
+#include <array>
 #include <cmath>
 #include <cstddef>
 #include <limits>
@@ -15,7 +16,7 @@ namespace ouzel
     template <typename T> class Plane final
     {
     public:
-        T v[4]{};
+        std::array<T, 4> v{};
 
         constexpr Plane() noexcept {}
 

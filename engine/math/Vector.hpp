@@ -3,6 +3,7 @@
 #ifndef OUZEL_MATH_VECTOR_HPP
 #define OUZEL_MATH_VECTOR_HPP
 
+#include <array>
 #include <cassert>
 #include <cmath>
 #include <cstddef>
@@ -17,7 +18,7 @@ namespace ouzel
 #if defined(__SSE__)
         alignas(N == 4 ? 4 * sizeof(T) : alignof(T))
 #endif
-        T v[N]{};
+        std::array<T, N> v{};
 
         constexpr Vector() noexcept {}
 

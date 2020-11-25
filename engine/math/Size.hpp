@@ -3,6 +3,7 @@
 #ifndef OUZEL_MATH_SIZE_HPP
 #define OUZEL_MATH_SIZE_HPP
 
+#include <array>
 #include <cstddef>
 #include <type_traits>
 #include "Vector.hpp"
@@ -12,7 +13,7 @@ namespace ouzel
     template <std::size_t N, typename T> class Size final
     {
     public:
-        T v[N]{};
+        std::array<T, N> v{};
 
         constexpr Size() noexcept {}
 

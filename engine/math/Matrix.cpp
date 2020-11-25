@@ -27,7 +27,7 @@ namespace ouzel
 
                 "st4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%0]\n\t" // result in V9
                 : // output
-                : "r"(dst.m), "r"(m), "r"(&scalar) // input
+                : "r"(dst.m.data()), "r"(m.data()), "r"(&scalar) // input
                 : "v0", "v1", "v2", "v3", "v4", "v8", "v9", "v10", "v11", "memory"
             );
 #  else // NEON
@@ -48,7 +48,7 @@ namespace ouzel
                 "vst1.32 {q8, q9}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q10, q11}, [%0]\n\t" // dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m), "r"(&scalar) // input
+                : "r"(dst.m.data()), "r"(m.data()), "r"(&scalar) // input
                 : "q0", "q1", "q2", "q3", "q4", "q8", "q9", "q10", "q11", "memory"
             );
 #  endif
@@ -100,7 +100,7 @@ namespace ouzel
 
                 "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
+                : "r"(dst.m.data()), "r"(m.data()), "r"(matrix.m.data()) // input
                 : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
             );
 #  else // NEON
@@ -119,7 +119,7 @@ namespace ouzel
                 "vst1.32 {q12, q13}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q14, q15}, [%0]\n\t" // dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
+                : "r"(dst.m.data()), "r"(m.data()), "r"(matrix.m.data()) // input
                 : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
             );
 #  endif
@@ -170,7 +170,7 @@ namespace ouzel
 
                 "st4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m), "r"(&scalar) // input
+                : "r"(dst.m.data()), "r"(m.data()), "r"(&scalar) // input
                 : "v0", "v4", "v5", "v6", "v7", "v8", "v9", "v10", "v11", "memory"
             );
 #  else // NEON
@@ -188,7 +188,7 @@ namespace ouzel
                 "vst1.32 {q8-q9}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q10-q11}, [%0]\n\t" // dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m), "r"(&scalar) // input
+                : "r"(dst.m.data()), "r"(m.data()), "r"(&scalar) // input
                 : "q0", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "memory"
             );
 #  endif
@@ -256,7 +256,7 @@ namespace ouzel
                 "st1 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
 
                 : // output
-                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
+                : "r"(dst.m.data()), "r"(m.data()), "r"(matrix.m.data()) // input
                 : "memory", "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15"
             );
 #  else // NEON
@@ -291,7 +291,7 @@ namespace ouzel
                 "vst1.32 {d28 - d31}, [%0]\n\t" // dst.m[8-15]
 
                 : // output
-                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
+                : "r"(dst.m.data()), "r"(m.data()), "r"(matrix.m.data()) // input
                 : "memory", "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15"
             );
 #  endif
@@ -379,7 +379,7 @@ namespace ouzel
         }
         else
         {
-            const float product[16] {
+            const std::array<float, 16> product {
                 m[0] * matrix.m[0] + m[4] * matrix.m[1] + m[8] * matrix.m[2] + m[12] * matrix.m[3],
                 m[1] * matrix.m[0] + m[5] * matrix.m[1] + m[9] * matrix.m[2] + m[13] * matrix.m[3],
                 m[2] * matrix.m[0] + m[6] * matrix.m[1] + m[10] * matrix.m[2] + m[14] * matrix.m[3],
@@ -401,7 +401,7 @@ namespace ouzel
                 m[3] * matrix.m[12] + m[7] * matrix.m[13] + m[11] * matrix.m[14] + m[15] * matrix.m[15]
             };
 
-            std::copy(std::begin(product), std::end(product), dst.m);
+            std::copy(product.begin(), product.end(), dst.m.begin());
         }
     }
 
@@ -423,7 +423,7 @@ namespace ouzel
 
                 "st4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
                 : // output
-                : "r"(m) // input
+                : "r"(m.data()) // input
                 : "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "memory"
             );
 #  else // NEON
@@ -440,7 +440,7 @@ namespace ouzel
                 "vst1.32 {q4-q5}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q6-q7}, [%0]\n\t" // dst.m[8-15]
                 : // output
-                : "r"(m) // input
+                : "r"(m.data()) // input
                 : "q0", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "memory"
             );
 #  endif
@@ -492,7 +492,7 @@ namespace ouzel
 
                 "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0]\n\t" // dst.m[0-7] dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
+                : "r"(dst.m.data()), "r"(m.data()), "r"(matrix.m.data()) // input
                 : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
             );
 #  else // NEON
@@ -511,7 +511,7 @@ namespace ouzel
                 "vst1.32 {q12, q13}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q14, q15}, [%0]\n\t" // dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m), "r"(matrix.m) // input
+                : "r"(dst.m.data()), "r"(m.data()), "r"(matrix.m.data()) // input
                 : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
             );
 #  endif
@@ -562,7 +562,7 @@ namespace ouzel
 
                 "st1 {v13.4s}, [%0]\n\t" // dst.v[0, 1, 2, 3]
                 : // output
-                : "r"(dst.v), "r"(v.v), "r"(m) // input
+                : "r"(dst.v.data()), "r"(v.v.data()), "r"(m.data()) // input
                 : "v0", "v9", "v10","v11", "v12", "v13", "memory"
             );
 #  else // NEON
@@ -579,7 +579,7 @@ namespace ouzel
 
                 "vst1.32 {d26, d27}, [%0]\n\t" // dst.v[0, 1, 2, 3]
                 : // output
-                : "r"(dst.v), "r"(v.v), "r"(m) // input
+                : "r"(dst.v.data()), "r"(v.v.data()), "r"(m.data()) // input
                 : "q0", "q9", "q10","q11", "q12", "q13", "memory"
              );
 #  endif
@@ -593,7 +593,7 @@ namespace ouzel
                                              _mm_mul_ps(_mm_load_ps(&m[4]), col2)),
                                   _mm_add_ps(_mm_mul_ps(_mm_load_ps(&m[8]), col3),
                                              _mm_mul_ps(_mm_load_ps(&m[12]), col4)));
-            _mm_store_ps(dst.v, s);
+            _mm_store_ps(dst.v.data(), s);
 #endif
         }
         else
@@ -618,7 +618,7 @@ namespace ouzel
                 "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]\n\t" // dst.m[0, 4, 8, 12] = m[0-3]
                 "st1 {v0.4s, v1.4s, v2.4s, v3.4s}, [%0]\n\t" // dst.m[1, 5, 9, 13] = m[4-7]
                 : // output
-                : "r"(dst.m), "r"(m) // input
+                : "r"(dst.m.data()), "r"(m.data()) // input
                 : "v0", "v1", "v2", "v3", "memory"
             );
 #  else // NEON
@@ -632,7 +632,7 @@ namespace ouzel
                 "vst1.32 {q0-q1}, [%0]!\n\t" // dst.m[0-7]
                 "vst1.32 {q2-q3}, [%0]\n\t" // dst.m[8-15]
                 : // output
-                : "r"(dst.m), "r"(m) // input
+                : "r"(dst.m.data()), "r"(m.data()) // input
                 : "q0", "q1", "q2", "q3", "memory"
             );
 #  endif
@@ -649,13 +649,13 @@ namespace ouzel
         }
         else
         {
-            const float t[16] = {
+            const std::array<float, 16> t = {
                 m[0], m[4], m[8], m[12],
                 m[1], m[5], m[9], m[13],
                 m[2], m[6], m[10], m[14],
                 m[3], m[7], m[11], m[15]
             };
-            std::copy(std::begin(t), std::end(t), dst.m);
+            std::copy(t.begin(), t.end(), dst.m.begin());
         }
     }
 

@@ -3,6 +3,7 @@
 #ifndef OUZEL_MATH_MATRIX_HPP
 #define OUZEL_MATH_MATRIX_HPP
 
+#include <array>
 #include <cassert>
 #include <cmath>
 #include <cstddef>
@@ -23,7 +24,7 @@ namespace ouzel
 #if defined(__SSE__)
         alignas((C == 4 && R == 4) ? 4 * sizeof(T) : alignof(T))
 #endif
-        T m[C * R]{}; // row-major matrix (transformation is pre-multiplying)
+        std::array<T, C * R> m{}; // row-major matrix (transformation is pre-multiplying)
 
         constexpr Matrix() noexcept {}
 
@@ -654,7 +655,7 @@ namespace ouzel
 
         void multiply(const Matrix& matrix, Matrix& dst) const noexcept
         {
-            const T product[16] = {
+            const std::array<T, 16> product = {
                 m[0] * matrix.m[0] + m[4] * matrix.m[1] + m[8] * matrix.m[2] + m[12] * matrix.m[3],
                 m[1] * matrix.m[0] + m[5] * matrix.m[1] + m[9] * matrix.m[2] + m[13] * matrix.m[3],
                 m[2] * matrix.m[0] + m[6] * matrix.m[1] + m[10] * matrix.m[2] + m[14] * matrix.m[3],
@@ -676,7 +677,7 @@ namespace ouzel
                 m[3] * matrix.m[12] + m[7] * matrix.m[13] + m[11] * matrix.m[14] + m[15] * matrix.m[15]
             };
 
-            std::copy(std::begin(product), std::end(product), dst.m);
+            std::copy(product.begin(), product.end(), dst.m.begin());
         }
 
         void negate() noexcept
@@ -779,13 +780,13 @@ namespace ouzel
 
         void transpose(Matrix<R, C, T>& dst) const noexcept
         {
-            const T t[C * R];
+            const std::array<T, C * R> t;
 
             for (std::size_t column = 0; column < C; ++column)
                 for (std::size_t row = 0; row < C; ++row)
                     t[row * C + column] = t[column * R + row];
 
-            std::copy(std::begin(t), std::end(t), dst.m);
+            std::copy(t.begin(), t.end(), dst.m.begin());
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
