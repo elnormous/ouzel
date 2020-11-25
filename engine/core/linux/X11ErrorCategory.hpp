@@ -5,7 +5,8 @@
 
 #include "../Setup.h"
 #if OUZEL_SUPPORTS_X11
-#  include <X11/Xlib.h>
+#include <system_error>
+#include <X11/Xlib.h>
 
 namespace ouzel::core::linux
 {
@@ -21,23 +22,23 @@ namespace ouzel::core::linux
         {
             switch (condition)
             {
-                case BadAccess: return "BadAccess";
-                case BadAlloc: return "BadAlloc";
-                case BadAtom: return "BadAtom";
-                case BadColor: return "BadColor";
-                case BadCursor: return "BadCursor";
-                case BadDrawable: return "BadDrawable";
-                case BadFont: return "BadFont";
-                case BadGC: return "BadGC";
-                case BadIDChoice: return "BadIDChoice";
-                case BadImplementation: return "BadImplementation";
-                case BadLength: return "BadLength";
-                case BadMatch: return "BadMatch";
-                case BadName: return "BadName";
-                case BadPixmap: return "BadPixmap";
                 case BadRequest: return "BadRequest";
                 case BadValue: return "BadValue";
                 case BadWindow: return "BadWindow";
+                case BadPixmap: return "BadPixmap";
+                case BadAtom: return "BadAtom";
+                case BadCursor: return "BadCursor";
+                case BadFont: return "BadFont";
+                case BadMatch: return "BadMatch";
+                case BadDrawable: return "BadDrawable";
+                case BadAccess: return "BadAccess";
+                case BadAlloc: return "BadAlloc";
+                case BadColor: return "BadColor";
+                case BadGC: return "BadGC";
+                case BadIDChoice: return "BadIDChoice";
+                case BadName: return "BadName";
+                case BadLength: return "BadLength";
+                case BadImplementation: return "BadImplementation";
                 default: return "Unknown error (" + std::to_string(condition) + ")";
             }
         }

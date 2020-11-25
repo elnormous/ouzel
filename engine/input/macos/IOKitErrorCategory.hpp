@@ -3,9 +3,7 @@
 #ifndef OUZEL_INPUT_IOKITERRORCATEGORY_HPP
 #define OUZEL_INPUT_IOKITERRORCATEGORY_HPP
 
-#include <memory>
 #include <system_error>
-#include <unordered_map>
 #include <IOKit/IOReturn.h>
 
 namespace ouzel::input::macos
