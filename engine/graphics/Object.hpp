@@ -4,7 +4,9 @@
 #define OUZEL_GRAPHICS_OBJECT_HPP
 
 #include <memory>
+#include "Buffer.hpp"
 #include "Material.hpp"
+#include "../math/Matrix.hpp"
 
 namespace ouzel::graphics
 {
@@ -19,7 +21,10 @@ namespace ouzel::graphics
         Object(Object&&) = delete;
         Object& operator=(Object&&) = delete;
 
+        const Buffer* indexBuffer = nullptr;
+        const Buffer* vertexBuffer = nullptr;
         const Material* material = nullptr;
+        Matrix4F transform;
     };
 }
 
