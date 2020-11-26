@@ -260,7 +260,6 @@
     <ClInclude Include="graphics\Flags.hpp" />
     <ClInclude Include="graphics\Image.hpp" />
     <ClInclude Include="graphics\Material.hpp" />
-    <ClInclude Include="graphics\Object.hpp" />
     <ClInclude Include="graphics\opengl\OGL.h" />
     <ClInclude Include="graphics\opengl\OGLBlendState.hpp" />
     <ClInclude Include="graphics\opengl\OGLBuffer.hpp" />

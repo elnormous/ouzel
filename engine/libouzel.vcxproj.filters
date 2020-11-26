@@ -492,9 +492,6 @@
     <ClInclude Include="graphics\Material.hpp">
       <Filter>engine\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="graphics\Object.hpp">
-      <Filter>engine\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="core\Window.hpp">
       <Filter>engine\core</Filter>
     </ClInclude>

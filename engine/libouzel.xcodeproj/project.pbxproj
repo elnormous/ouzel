@@ -1114,7 +1114,6 @@
 		30EEADD3216ECEFD00D2F525 /* GamepadConfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadConfig.hpp; sourceTree = "<group>"; };
 		30F249ED20A7681E0007D417 /* Commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Commands.hpp; sourceTree = "<group>"; };
 		30F46DBA2377C0B400884EED /* MetalPointer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MetalPointer.hpp; sourceTree = "<group>"; };
-		30F6141924B5FE3900BE3BE0 /* Object.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Object.hpp; sourceTree = "<group>"; };
 		30FE384D1DFDE49E00305B3B /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
 		30FF4D4D21C48DB400153FFF /* Effects.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Effects.hpp; sourceTree = "<group>"; };
 		30FF4D4E21C48DB500153FFF /* Effects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Effects.cpp; sourceTree = "<group>"; };
@@ -1346,7 +1345,6 @@
 				303B74E21C277A7500FEDE92 /* Image.hpp */,
 				30216B721ED464730073E3D5 /* Material.hpp */,
 				30547E351CB3D6570055EE79 /* metal */,
-				30F6141924B5FE3900BE3BE0 /* Object.hpp */,
 				303B75131C288CCE00FEDE92 /* opengl */,
 				3082C3461D94A8D90090FC9D /* PixelFormat.hpp */,
 				30BA5FB22198B42D0032AC23 /* RasterizerState.hpp */,
