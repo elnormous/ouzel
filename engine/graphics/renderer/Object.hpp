@@ -4,8 +4,8 @@
 #define OUZEL_GRAPHICS_RENDERER_OBJECT_HPP
 
 #include "Renderer.hpp"
-#include "Buffer.hpp"
-#include "Material.hpp"
+#include "../Buffer.hpp"
+#include "../Material.hpp"
 #include "../../math/Matrix.hpp"
 
 namespace ouzel::graphics::renderer
