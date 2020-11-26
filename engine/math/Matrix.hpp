@@ -212,9 +212,9 @@ namespace ouzel
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         void setRotation(const Vector<3, T>& axis, T angle) noexcept
         {
-            const T x = axis.v[0];
-            const T y = axis.v[1];
-            const T z = axis.v[2];
+            T x = axis.v[0];
+            T y = axis.v[1];
+            T z = axis.v[2];
 
             const T squared = x * x + y * y + z * z;
             if (squared != T(1))
