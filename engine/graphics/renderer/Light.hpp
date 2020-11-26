@@ -4,6 +4,7 @@
 #define OUZEL_GRAPHICS_RENDERER_LIGHT_HPP
 
 #include "Renderer.hpp"
+#include "../../math/Matrix.hpp"
 
 namespace ouzel::graphics::renderer
 {
@@ -26,6 +27,7 @@ namespace ouzel::graphics::renderer
     private:
         Renderer& renderer;
         Renderer::Resource resource;
+        Matrix4F transform;
     };
 }
 
