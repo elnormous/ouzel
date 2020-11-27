@@ -27,6 +27,7 @@ namespace ouzel::graphics::renderer
     private:
         Renderer& renderer;
         Renderer::Resource resource;
+        Type type = Type::point;
         Matrix4F transform;
     };
 }

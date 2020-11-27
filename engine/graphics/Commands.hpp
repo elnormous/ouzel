@@ -64,7 +64,11 @@ namespace ouzel::graphics
             setMaterialParameter,
             initObject,
             renderObject,
-            setObjectParameters
+            setObjectParameters,
+            initCamera,
+            setCameraParameters,
+            initLight,
+            setLightParameters
         };
 
         explicit constexpr Command(Type initType) noexcept:
