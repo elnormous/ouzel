@@ -33,7 +33,6 @@ namespace ouzel::graphics
     public:
         enum class Type
         {
-            stop,
             resize,
             present,
             deleteResource,
@@ -79,14 +78,6 @@ namespace ouzel::graphics
         virtual ~Command() = default;
 
         const Type type;
-    };
-
-    class StopCommand final: public Command
-    {
-    public:
-        constexpr StopCommand() noexcept:
-            Command(Command::Type::stop)
-        {}
     };
 
     class ResizeCommand final: public Command
