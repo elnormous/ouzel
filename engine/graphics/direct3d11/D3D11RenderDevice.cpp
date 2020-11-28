@@ -612,18 +612,6 @@ namespace ouzel::graphics::d3d11
                         break;
                     }
 
-                    case Command::Type::pushDebugMarker:
-                    {
-                        // D3D11 does not support debug markers
-                        break;
-                    }
-
-                    case Command::Type::popDebugMarker:
-                    {
-                        // D3D11 does not support debug markers
-                        break;
-                    }
-
                     case Command::Type::initBlendState:
                     {
                         auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());

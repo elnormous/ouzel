@@ -45,8 +45,6 @@ namespace ouzel::graphics
             setDepthStencilState,
             setPipelineState,
             draw,
-            pushDebugMarker,
-            popDebugMarker,
             initBlendState,
             initBuffer,
             setBufferData,
@@ -307,27 +305,6 @@ namespace ouzel::graphics
         const ResourceId vertexBuffer;
         const DrawMode drawMode;
         const std::uint32_t startIndex;
-    };
-
-    class PushDebugMarkerCommand final: public Command
-    {
-    public:
-        explicit PushDebugMarkerCommand(const std::string& initName) noexcept(false):
-            Command(Command::Type::pushDebugMarker),
-            name(initName)
-        {
-        }
-
-        const std::string name;
-    };
-
-    class PopDebugMarkerCommand final: public Command
-    {
-    public:
-        constexpr PopDebugMarkerCommand() noexcept:
-            Command(Command::Type::popDebugMarker)
-        {
-        }
     };
 
     class InitBlendStateCommand final: public Command

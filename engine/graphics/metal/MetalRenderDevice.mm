@@ -548,28 +548,6 @@ namespace ouzel::graphics::metal
                         break;
                     }
 
-                    case Command::Type::pushDebugMarker:
-                    {
-                        auto pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                            throw Error("Metal render command encoder not initialized");
-
-                        [currentRenderCommandEncoder pushDebugGroup:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:pushDebugMarkerCommand->name.c_str()])];
-                        break;
-                    }
-
-                    case Command::Type::popDebugMarker:
-                    {
-                        //auto popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
-
-                        if (!currentRenderCommandEncoder)
-                            throw Error("Metal render command encoder not initialized");
-
-                        [currentRenderCommandEncoder popDebugGroup];
-                        break;
-                    }
-
                     case Command::Type::initBlendState:
                     {
                         auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());

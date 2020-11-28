@@ -1061,19 +1061,6 @@ namespace ouzel::graphics::opengl
                         break;
                     }
 
-                    case Command::Type::pushDebugMarker:
-                    {
-                        auto pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command.get());
-                        if (glPushGroupMarkerEXTProc) glPushGroupMarkerEXTProc(0, pushDebugMarkerCommand->name.c_str());
-                        break;
-                    }
-
-                    case Command::Type::popDebugMarker:
-                    {
-                        if (glPopGroupMarkerEXTProc) glPopGroupMarkerEXTProc();
-                        break;
-                    }
-
                     case Command::Type::initBlendState:
                     {
                         auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
