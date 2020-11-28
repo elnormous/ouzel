@@ -64,8 +64,6 @@ namespace ouzel::graphics
                   std::size_t vertexBuffer,
                   DrawMode drawMode,
                   std::uint32_t startIndex);
-        void pushDebugMarker(const std::string& name);
-        void popDebugMarker();
         void setShaderConstants(const std::vector<std::vector<float>>& fragmentShaderConstants,
                                 const std::vector<std::vector<float>>& vertexShaderConstants);
         void setTextures(const std::vector<std::size_t>& textures);

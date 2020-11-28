@@ -244,16 +244,6 @@ namespace ouzel::graphics
                                                  startIndex));
     }
 
-    void Graphics::pushDebugMarker(const std::string& name)
-    {
-        addCommand(std::make_unique<PushDebugMarkerCommand>(name));
-    }
-
-    void Graphics::popDebugMarker()
-    {
-        addCommand(std::make_unique<PopDebugMarkerCommand>());
-    }
-
     void Graphics::setShaderConstants(const std::vector<std::vector<float>>& fragmentShaderConstants,
                                       const std::vector<std::vector<float>>& vertexShaderConstants)
     {
