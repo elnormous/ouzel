@@ -404,13 +404,6 @@ namespace ouzel::graphics::metal
                         break;
                     }
 
-                    case Command::Type::blit:
-                    {
-                        //auto blitCommand = static_cast<const BlitCommand*>(command.get());
-                        //MTLBlitCommandEncoder
-                        break;
-                    }
-
                     case Command::Type::setScissorTest:
                     {
                         auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());

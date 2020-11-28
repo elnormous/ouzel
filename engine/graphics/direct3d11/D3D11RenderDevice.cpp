@@ -452,32 +452,6 @@ namespace ouzel::graphics::d3d11
                         break;
                     }
 
-                    case Command::Type::blit:
-                    {
-                        auto blitCommand = static_cast<const BlitCommand*>(command.get());
-
-                        auto sourceTexture = getResource<Texture>(blitCommand->sourceTexture);
-                        auto destinationTexture = getResource<Texture>(blitCommand->destinationTexture);
-
-                        D3D11_BOX box;
-                        box.left = blitCommand->sourceX;
-                        box.top = blitCommand->sourceY;
-                        box.front = 0;
-                        box.right = blitCommand->sourceX + blitCommand->sourceWidth;
-                        box.bottom = blitCommand->sourceY + blitCommand->sourceHeight;
-                        box.back = 0;
-
-                        context->CopySubresourceRegion(destinationTexture->getTexture().get(),
-                                                        blitCommand->destinationLevel,
-                                                        blitCommand->destinationX,
-                                                        blitCommand->destinationY,
-                                                        0,
-                                                        sourceTexture->getTexture().get(),
-                                                        blitCommand->sourceLevel,
-                                                        &box);
-                        break;
-                    }
-
                     case Command::Type::setScissorTest:
                     {
                         auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());

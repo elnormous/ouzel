@@ -861,35 +861,6 @@ namespace ouzel::graphics::opengl
                         break;
                     }
 
-                    case Command::Type::blit:
-                    {
-#if !OUZEL_OPENGLES
-                        auto blitCommand = static_cast<const BlitCommand*>(command.get());
-
-                        auto sourceTexture = getResource<Texture>(blitCommand->sourceTexture);
-                        auto destinationTexture = getResource<Texture>(blitCommand->destinationTexture);
-
-                        if (glCopyImageSubDataProc)
-                            glCopyImageSubDataProc(sourceTexture->getTextureId(),
-                                                   GL_TEXTURE_2D,
-                                                   static_cast<GLint>(blitCommand->sourceLevel),
-                                                   static_cast<GLint>(blitCommand->sourceX),
-                                                   static_cast<GLint>(blitCommand->sourceY),
-                                                   0,
-                                                   destinationTexture->getTextureId(),
-                                                   GL_TEXTURE_2D,
-                                                   static_cast<GLint>(blitCommand->destinationLevel),
-                                                   static_cast<GLint>(blitCommand->destinationX),
-                                                   static_cast<GLint>(blitCommand->destinationY),
-                                                   0,
-                                                   static_cast<GLsizei>(blitCommand->sourceWidth),
-                                                   static_cast<GLsizei>(blitCommand->sourceHeight),
-                                                   0);
-#endif
-                        // TODO: copy data if glCopyImageSubData is not available
-                        break;
-                    }
-
                     case Command::Type::setScissorTest:
                     {
                         auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());

@@ -39,8 +39,6 @@ namespace ouzel::graphics
             initRenderTarget,
             setRenderTarget,
             clearRenderTarget,
-            blit,
-            compute,
             setScissorTest,
             setViewport,
             initDepthStencilState,
@@ -165,59 +163,6 @@ namespace ouzel::graphics
         const Color clearColor;
         const float clearDepth;
         const std::uint32_t clearStencil;
-    };
-
-    // TODO: implement
-    class BlitCommand final: public Command
-    {
-    public:
-        constexpr BlitCommand(ResourceId initSourceTexture,
-                              std::uint32_t initSourceLevel,
-                              std::uint32_t initSourceX,
-                              std::uint32_t initSourceY,
-                              std::uint32_t initSourceWidth,
-                              std::uint32_t initSourceHeight,
-                              ResourceId initDestinationTexture,
-                              std::uint32_t initDestinationLevel,
-                              std::uint32_t initDestinationX,
-                              std::uint32_t initDestinationY) noexcept:
-            Command(Command::Type::blit),
-            sourceTexture(initSourceTexture),
-            sourceLevel(initSourceLevel),
-            sourceX(initSourceX),
-            sourceY(initSourceY),
-            sourceWidth(initSourceWidth),
-            sourceHeight(initSourceHeight),
-            destinationTexture(initDestinationTexture),
-            destinationLevel(initDestinationLevel),
-            destinationX(initDestinationX),
-            destinationY(initDestinationY)
-        {
-        }
-
-        const ResourceId sourceTexture;
-        const std::uint32_t sourceLevel;
-        const std::uint32_t sourceX;
-        const std::uint32_t sourceY;
-        const std::uint32_t sourceWidth;
-        const std::uint32_t sourceHeight;
-        const ResourceId destinationTexture;
-        const std::uint32_t destinationLevel;
-        const std::uint32_t destinationX;
-        const std::uint32_t destinationY;
-    };
-
-    // TODO: implement
-    class ComputeCommand final: public Command
-    {
-    public:
-        explicit constexpr ComputeCommand(ResourceId initShader) noexcept:
-            Command(Command::Type::compute),
-            shader(initShader)
-        {
-        }
-
-        const ResourceId shader;
     };
 
     class SetScissorTestCommand final: public Command
