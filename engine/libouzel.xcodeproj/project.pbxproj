@@ -1048,6 +1048,7 @@
 		30AEFA3220C0FD7400CDFD33 /* MetalRenderTarget.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderTarget.mm; sourceTree = "<group>"; };
 		30AEFA3320C0FD7400CDFD33 /* MetalRenderTarget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetalRenderTarget.hpp; sourceTree = "<group>"; };
 		30AF9FC32145D6F000F9266B /* OGLRenderResource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLRenderResource.hpp; sourceTree = "<group>"; };
+		30B3296D25732D2500D61F13 /* OGLStateCache.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLStateCache.hpp; sourceTree = "<group>"; };
 		30B40E0022F8FC0C0056CD1A /* Source.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Source.hpp; sourceTree = "<group>"; };
 		30B8598A1F3D286600A16952 /* TTFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTFont.cpp; sourceTree = "<group>"; };
 		30B8598B1F3D286600A16952 /* TTFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TTFont.hpp; sourceTree = "<group>"; };
@@ -1426,6 +1427,7 @@
 				30AEFA2B20C0FD6000CDFD33 /* OGLRenderTarget.hpp */,
 				30381F411D80A3EC00677CAB /* OGLShader.cpp */,
 				30381F421D80A3EC00677CAB /* OGLShader.hpp */,
+				30B3296D25732D2500D61F13 /* OGLStateCache.hpp */,
 				30381F431D80A3EC00677CAB /* OGLTexture.cpp */,
 				30381F441D80A3EC00677CAB /* OGLTexture.hpp */,
 				303820CA1D817E3800677CAB /* tvos */,

@@ -645,6 +645,9 @@
     <ClInclude Include="graphics\opengl\OGLShader.hpp">
       <Filter>engine\graphics\opengl</Filter>
     </ClInclude>
+    <ClInclude Include="graphics\opengl\OGLStateCache.hpp">
+      <Filter>engine\graphics\opengl</Filter>
+    </ClInclude>
     <ClInclude Include="graphics\direct3d11\D3D11Texture.hpp">
       <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>

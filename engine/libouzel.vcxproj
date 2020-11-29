@@ -271,6 +271,7 @@
     <ClInclude Include="graphics\opengl\OGLRenderResource.hpp" />
     <ClInclude Include="graphics\opengl\OGLRenderTarget.hpp" />
     <ClInclude Include="graphics\opengl\OGLShader.hpp" />
+    <ClInclude Include="graphics\opengl\OGLStateCache.hpp" />
     <ClInclude Include="graphics\opengl\OGLTexture.hpp" />
     <ClInclude Include="graphics\opengl\windows\OGLRenderDeviceWin.hpp" />
     <ClInclude Include="graphics\PixelFormat.hpp" />
