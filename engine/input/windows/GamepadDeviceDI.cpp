@@ -5,7 +5,6 @@
 #include "InputSystemWin.hpp"
 #include "DIErrorCategory.hpp"
 #include "../GamepadConfig.hpp"
-#include "../../core/Engine.hpp"
 #include "../../core/windows/NativeWindowWin.hpp"
 #include "../../utils/Log.hpp"
 

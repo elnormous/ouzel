@@ -169,7 +169,6 @@ namespace ouzel
 
     std::unique_ptr<Application> main(const std::vector<std::string>& args);
     inline core::Engine* engine = nullptr;
-    inline Logger logger;
 }
 
 #endif // OUZEL_CORE_ENGINE_HPP
