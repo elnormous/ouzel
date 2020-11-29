@@ -8,7 +8,6 @@
 #include "XA2AudioDevice.hpp"
 #include "XA2ErrorCategory.hpp"
 #include "XAudio27.hpp"
-#include "../../core/Engine.hpp"
 #include "../../utils/Log.hpp"
 #include "../../utils/Utils.hpp"
 

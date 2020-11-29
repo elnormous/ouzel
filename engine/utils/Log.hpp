@@ -326,6 +326,8 @@ namespace ouzel
         thread::Thread logThread;
 #endif
     };
+
+    inline Logger logger;
 }
 
 #endif // OUZEL_UTILS_LOG_HPP

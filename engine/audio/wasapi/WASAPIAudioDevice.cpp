@@ -8,7 +8,7 @@
 #include <Functiondiscoverykeys_devpkey.h>
 #include "WASAPIAudioDevice.hpp"
 #include "WASAPIErrorCategory.hpp"
-#include "../../core/Engine.hpp"
+#include "../../utils/Log.hpp"
 
 const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
 const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
