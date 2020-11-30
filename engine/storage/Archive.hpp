@@ -68,13 +68,10 @@ namespace ouzel::storage
 
                 file.read(name.get(), static_cast<std::streamsize>(fileNameLength));
 
-                Entry& entry = entries[name.get()];
-                entry.size = uncompressedSize;
-
                 file.seekg(static_cast<std::streamoff>(extraFieldLength),
                            std::ios::cur); // skip extra field
 
-                entry.offset = file.tellg();
+                entries[name.get()] = {file.tellg(), uncompressedSize};
 
                 file.seekg(static_cast<std::streamoff>(uncompressedSize),
                            std::ios::cur); // skip uncompressed size
