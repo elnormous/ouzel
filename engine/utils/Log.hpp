@@ -260,6 +260,12 @@ namespace ouzel
 #endif
     };
 
+    inline Log::~Log()
+    {
+        if (!s.empty())
+            logger.log(s, level);
+    }
+
     inline Logger logger;
 }
 
