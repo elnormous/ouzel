@@ -4,12 +4,9 @@
 #define OUZEL_UTILS_LOG_HPP
 
 #include <atomic>
-#include <condition_variable>
 #include <cstring>
 #include <mutex>
-#include <queue>
 #include <string>
-#include <thread>
 #include <type_traits>
 #include "../math/Matrix.hpp"
 #include "../math/Quaternion.hpp"
@@ -226,25 +223,12 @@ namespace ouzel
         explicit Logger(Log::Level initThreshold = Log::Level::all):
             threshold(initThreshold)
         {
-#if !defined(__EMSCRIPTEN__)
-            logThread = thread::Thread(&Logger::logLoop, this);
-#endif
         }
 
         Logger(const Logger&) = delete;
         Logger& operator=(const Logger&) = delete;
         Logger(Logger&&) = delete;
         Logger& operator=(Logger&&) = delete;
-
-        ~Logger()
-        {
-#if !defined(__EMSCRIPTEN__)
-            std::unique_lock lock(queueMutex);
-            commandQueue.push(Command(Command::Type::quit));
-            lock.unlock();
-            queueCondition.notify_all();
-#endif
-        }
 
         Log log(const Log::Level level = Log::Level::info) const
         {
@@ -256,13 +240,9 @@ namespace ouzel
             if (level <= threshold)
             {
 #if defined(__EMSCRIPTEN__)
-                logString(str, level);
-#else
-                std::unique_lock lock(queueMutex);
-                commandQueue.push(Command(Command::Type::logString, level, str));
-                lock.unlock();
-                queueCondition.notify_all();
+                std::scoped_lock lock(logMutex);
 #endif
+                logString(str, level);
             }
         }
 
@@ -276,54 +256,7 @@ namespace ouzel
 #endif
 
 #if !defined(__EMSCRIPTEN__)
-        class Command final
-        {
-        public:
-            enum class Type
-            {
-                logString,
-                quit
-            };
-
-            explicit Command(const Type initType):
-                type(initType)
-            {
-            }
-
-            Command(const Type initType, const Log::Level initLevel,
-                    const std::string& initString):
-                type(initType),
-                level(initLevel),
-                str(initString)
-            {
-            }
-
-            Type type;
-            Log::Level level = Log::Level::all;
-            std::string str;
-        };
-
-        void logLoop()
-        {
-            for (;;)
-            {
-                std::unique_lock lock(queueMutex);
-                while (commandQueue.empty()) queueCondition.wait(lock);
-                auto command = std::move(commandQueue.front());
-                commandQueue.pop();
-                lock.unlock();
-
-                if (command.type == Command::Type::logString)
-                    logString(command.str, command.level);
-                else if (command.type == Command::Type::quit)
-                    break;
-            }
-        }
-
-        mutable std::condition_variable queueCondition;
-        mutable std::mutex queueMutex;
-        mutable std::queue<Command> commandQueue;
-        thread::Thread logThread;
+        mutable std::mutex logMutex;
 #endif
     };
 
