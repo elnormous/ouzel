@@ -266,7 +266,7 @@ namespace ouzel
             logger.log(s, level);
     }
 
-    inline Logger logger;
+    extern Logger logger;
 }
 
 #endif // OUZEL_UTILS_LOG_HPP
