@@ -139,12 +139,6 @@ namespace ouzel
             return *this;
         }
 
-        Log& operator<<(const storage::Path& val)
-        {
-            s += val;
-            return *this;
-        }
-
         template <typename T, std::enable_if_t<isContainerV<T> || std::is_array_v<T>>* = nullptr>
         Log& operator<<(const T& val)
         {
@@ -156,57 +150,6 @@ namespace ouzel
                 operator<<(i);
             }
 
-            return *this;
-        }
-
-        template <std::size_t N, std::size_t M, class T>
-        Log& operator<<(const Matrix<N, M, T>& val)
-        {
-            bool first = true;
-
-            for (const T c : val.m)
-            {
-                if (!first) s += ",";
-                first = false;
-                s += std::to_string(c);
-            }
-
-            return *this;
-        }
-
-        template <typename T>
-        Log& operator<<(const Quaternion<T>& val)
-        {
-            s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
-                std::to_string(val.v[2]) + "," + std::to_string(val.v[3]);
-            return *this;
-        }
-
-        template <std::size_t N, class T>
-        Log& operator<<(const Size<N, T>& val)
-        {
-            bool first = true;
-
-            for (const T c : val.v)
-            {
-                if (!first) s += ",";
-                first = false;
-                s += std::to_string(c);
-            }
-            return *this;
-        }
-
-        template <std::size_t N, class T>
-        Log& operator<<(const Vector<N, T>& val)
-        {
-            bool first = true;
-
-            for (const T c : val.v)
-            {
-                if (!first) s += ",";
-                first = false;
-                s += std::to_string(c);
-            }
             return *this;
         }
 
@@ -263,6 +206,61 @@ namespace ouzel
     {
         if (!s.empty())
             logger.log(s, level);
+    }
+
+    template <std::size_t N, std::size_t M, class T>
+    Log& operator<<(Log& log, const Matrix<N, M, T>& val)
+    {
+        bool first = true;
+
+        for (const T c : val.m)
+        {
+            if (!first) log << ",";
+            first = false;
+            log << c;
+        }
+
+        return log;
+    }
+
+    template <std::size_t N, class T>
+    Log& operator<<(Log& log, const Size<N, T>& val)
+    {
+        bool first = true;
+
+        for (const T c : val.v)
+        {
+            if (!first) log << ",";
+            first = false;
+            log << c;
+        }
+        return log;
+    }
+
+    template <std::size_t N, class T>
+    Log& operator<<(Log& log, const Vector<N, T>& val)
+    {
+        bool first = true;
+
+        for (const T c : val.v)
+        {
+            if (!first) log << ",";
+            first = false;
+            log << c;
+        }
+        return log;
+    }
+
+    template <typename T>
+    Log& operator<<(Log& log, const Quaternion<T>& val)
+    {
+        return log << "[" << val.v[0] << "," << val.v[1] << "," << val.v[2] << "," << val.v[3] << "]";
+    }
+
+    inline Log& operator<<(Log& log, const storage::Path& val)
+    {
+        log << val.getGeneric();
+        return log;
     }
 
     extern Logger logger;
