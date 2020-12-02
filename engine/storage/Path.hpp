@@ -495,8 +495,7 @@ namespace ouzel::storage
 
         static std::wstring convertToNative(char c)
         {
-            wchar_t result = static_cast<wchar_t>(c);
-            if (result == '/') result = '\\';
+            const wchar_t result = (c == '/') ? L'\\' : static_cast<wchar_t>(c);
             return std::wstring{result};
         }
 
@@ -510,8 +509,8 @@ namespace ouzel::storage
 
         static std::wstring convertToNative(wchar_t c)
         {
-            if (c == L'/') c = L'\\';
-            return std::wstring{c};
+            const wchar_t result = (c == L'/') ? L'\\' : c;
+            return std::wstring{result};
         }
 
         static std::wstring convertToNative(const std::wstring& p)
@@ -526,9 +525,7 @@ namespace ouzel::storage
         {
             std::string result = convertToUtf8(p);
 
-            for (auto& c : result)
-                if (c == '\\') c = '/';
-
+            for (auto& c : result) if (c == '\\') c = '/';
             return result;
         }
 
