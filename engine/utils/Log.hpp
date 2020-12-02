@@ -13,7 +13,6 @@
 #include "../math/Size.hpp"
 #include "../math/Vector.hpp"
 #include "../storage/Path.hpp"
-#include "../thread/Thread.hpp"
 #include "Utils.hpp"
 
 namespace ouzel
