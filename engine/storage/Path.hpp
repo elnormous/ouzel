@@ -247,7 +247,7 @@ namespace ouzel::storage
             if (path.size() >= 2 &&
                 ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
                 path[1] == L':')
-                result.path = {path[0], ':'};
+                result.path = {path[0], L':'};
 #elif defined(__unix__) || defined(__APPLE__)
             if (path.size() >= 1 && path[0] == '/') result.path = '/';
 #endif
@@ -265,7 +265,7 @@ namespace ouzel::storage
                 ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
                 path[1] == L':')
             {
-                parts.push_back({path[0], ':'});
+                parts.push_back({path[0], L':'});
                 previousPosition = 2;
 
                 if (path.size() >= 3)
