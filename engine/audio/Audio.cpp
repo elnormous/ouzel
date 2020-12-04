@@ -160,28 +160,28 @@ namespace ouzel::audio
 
     mixer::Mixer::ObjectId Audio::initBus()
     {
-        mixer::Mixer::ObjectId busId = mixer.getObjectId();
+        const auto busId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitBusCommand>(busId));
         return busId;
     }
 
     mixer::Mixer::ObjectId Audio::initStream(mixer::Mixer::ObjectId sourceId)
     {
-        mixer::Mixer::ObjectId streamId = mixer.getObjectId();
+        const auto streamId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitStreamCommand>(streamId, sourceId));
         return streamId;
     }
 
     mixer::Mixer::ObjectId Audio::initData(std::unique_ptr<mixer::Data> data)
     {
-        mixer::Mixer::ObjectId dataId = mixer.getObjectId();
+        const auto dataId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitDataCommand>(dataId, std::move(data)));
         return dataId;
     }
 
     mixer::Mixer::ObjectId Audio::initProcessor(std::unique_ptr<mixer::Processor> processor)
     {
-        mixer::Mixer::ObjectId processorId = mixer.getObjectId();
+        const auto processorId = mixer.getObjectId();
         addCommand(std::make_unique<mixer::InitProcessorCommand>(processorId, std::move(processor)));
         return processorId;
     }
