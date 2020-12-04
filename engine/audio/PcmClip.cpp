@@ -59,7 +59,7 @@ namespace ouzel::audio
         const std::uint32_t neededSize = frames * data.getChannels();
         samples.resize(neededSize);
 
-        auto& pcmData = static_cast<PcmData&>(data);
+        const auto& pcmData = static_cast<PcmData&>(data);
         const std::vector<float>& dataSamples = pcmData.getSamples();
 
         const auto sourceFrames = static_cast<std::uint32_t>(dataSamples.size() / pcmData.getChannels());
