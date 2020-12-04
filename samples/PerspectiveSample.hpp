@@ -3,7 +3,15 @@
 #ifndef PERSPECTIVESAMPLE_HPP
 #define PERSPECTIVESAMPLE_HPP
 
-#include "ouzel.hpp"
+#include "audio/Effects.hpp"
+#include "audio/Listener.hpp"
+#include "audio/Submix.hpp"
+#include "gui/Widgets.hpp"
+#include "input/Cursor.hpp"
+#include "scene/Animator.hpp"
+#include "scene/Camera.hpp"
+#include "scene/Layer.hpp"
+#include "scene/Scene.hpp"
 
 namespace samples
 {

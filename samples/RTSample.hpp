@@ -3,7 +3,10 @@
 #ifndef RTSAMPLE_HPP
 #define RTSAMPLE_HPP
 
-#include "ouzel.hpp"
+#include "gui/Widgets.hpp"
+#include "scene/Camera.hpp"
+#include "scene/Layer.hpp"
+#include "scene/Scene.hpp"
 
 namespace samples
 {

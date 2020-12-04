@@ -3,7 +3,9 @@
 #ifndef GAMESAMPLE_HPP
 #define GAMESAMPLE_HPP
 
-#include "ouzel.hpp"
+#include "scene/Camera.hpp"
+#include "scene/Layer.hpp"
+#include "scene/Scene.hpp"
 
 namespace samples
 {

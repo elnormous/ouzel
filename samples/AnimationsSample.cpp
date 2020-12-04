@@ -1,5 +1,6 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
+#include "core/Engine.hpp"
 #include "AnimationsSample.hpp"
 #include "MainMenu.hpp"
 

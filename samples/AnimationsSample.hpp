@@ -3,7 +3,14 @@
 #ifndef ANIMATIONSSAMPLE_HPP
 #define ANIMATIONSSAMPLE_HPP
 
-#include "ouzel.hpp"
+#include <memory>
+#include "gui/Widgets.hpp"
+#include "scene/Animators.hpp"
+#include "scene/Camera.hpp"
+#include "scene/Layer.hpp"
+#include "scene/Scene.hpp"
+#include "scene/ShapeRenderer.hpp"
+#include "scene/SpriteRenderer.hpp"
 
 namespace samples
 {
