@@ -337,7 +337,6 @@
 		3049DCDF1EDCD0450000997A /* Cursor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD71EDCD0450000997A /* Cursor.hpp */; };
 		3049DCE81EDCD1FA0000997A /* CursorMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCE61EDCD1FA0000997A /* CursorMacOS.hpp */; };
 		3049DCE91EDCD1FA0000997A /* CursorMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCE71EDCD1FA0000997A /* CursorMacOS.mm */; };
-		304A8E501C237C70008B1151 /* ouzel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.hpp */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		304A8E521C237C70008B1151 /* Camera.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.hpp */; };
 		304A8E531C237C70008B1151 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2D1C237C70008B1151 /* Engine.cpp */; };
@@ -899,7 +898,6 @@
 		3049DCE61EDCD1FA0000997A /* CursorMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CursorMacOS.hpp; sourceTree = "<group>"; };
 		3049DCE71EDCD1FA0000997A /* CursorMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CursorMacOS.mm; sourceTree = "<group>"; };
 		304A8E251C237C30008B1151 /* libouzel_macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_macos.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		304A8E2A1C237C70008B1151 /* ouzel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ouzel.hpp; sourceTree = "<group>"; };
 		304A8E2B1C237C70008B1151 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		304A8E2C1C237C70008B1151 /* Camera.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 		304A8E2D1C237C70008B1151 /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
@@ -1617,7 +1615,6 @@
 				30A9C1371CAEBA420084C4BF /* localization */,
 				303B750F1C2882CA00FEDE92 /* math */,
 				304F92A21F4D89560063EEC0 /* network */,
-				304A8E2A1C237C70008B1151 /* ouzel.hpp */,
 				303B750D1C28828600FEDE92 /* scene */,
 				303B75121C2883C800FEDE92 /* storage */,
 				306E509F24F47B2E00D9017F /* thread */,
@@ -2192,7 +2189,6 @@
 				306792F6211F98070006FF79 /* Bundle.hpp in Headers */,
 				30519CBC1F9B53AB00AF3DC4 /* WaveLoader.hpp in Headers */,
 				306A26B71F5DD17700E2B0B6 /* Listener.hpp in Headers */,
-				304A8E501C237C70008B1151 /* ouzel.hpp in Headers */,
 				3038216D1D81876E00677CAB /* EmptyAudioDevice.hpp in Headers */,
 				30519CB01F9B4E3E00AF3DC4 /* Loader.hpp in Headers */,
 				30DADE9F1C5167BC001A63B4 /* Cache.hpp in Headers */,

@@ -332,7 +332,6 @@
     <ClInclude Include="network\Network.hpp" />
     <ClInclude Include="network\Server.hpp" />
     <ClInclude Include="network\Socket.hpp" />
-    <ClInclude Include="ouzel.hpp" />
     <ClInclude Include="scene\Actor.hpp" />
     <ClInclude Include="scene\Animator.hpp" />
     <ClInclude Include="scene\Animators.hpp" />

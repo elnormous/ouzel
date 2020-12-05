@@ -53,7 +53,12 @@ Supported audio backends:
 The following code will open create a scene with a sprite in the center of it:
 
 ```cpp
-#include "ouzel.hpp"
+#include "assets/Bundle.hpp"
+#include "core/Engine.hpp"
+#include "scene/Camera.hpp"
+#include "scene/Layer.hpp"
+#include "scene/Scene.hpp"
+#include "scene/SpriteRenderer.hpp"
 
 class Example: public ouzel::Application
 {

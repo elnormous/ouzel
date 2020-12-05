@@ -729,9 +729,6 @@
     <ClInclude Include="formats\Xml.hpp">
       <Filter>engine\formats</Filter>
     </ClInclude>
-    <ClInclude Include="ouzel.hpp">
-      <Filter>engine</Filter>
-    </ClInclude>
     <ClInclude Include="input\Controller.hpp">
       <Filter>engine\input</Filter>
     </ClInclude>
