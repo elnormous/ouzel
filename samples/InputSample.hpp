@@ -3,6 +3,7 @@
 #ifndef INPUTSAMPLE_HPP
 #define INPUTSAMPLE_HPP
 
+#include "core/Engine.hpp"
 #include "gui/Widgets.hpp"
 #include "input/Cursor.hpp"
 #include "scene/Camera.hpp"
