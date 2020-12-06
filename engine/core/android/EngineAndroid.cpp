@@ -146,9 +146,9 @@ namespace ouzel::core::android
             throw std::runtime_error("Main thread has no looper");
 
         ALooper_acquire(looper);
-        int ret = pipe(looperPipe);
+        int ret = pipe(looperPipe.data());
         while (ret == -1 && errno == EINTR)
-            ret = pipe(looperPipe);
+            ret = pipe(looperPipe.data());
 
         if (ret == -1)
             throw std::system_error(errno, std::system_category(), "Failed to create pipe");

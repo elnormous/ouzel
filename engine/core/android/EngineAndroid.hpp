@@ -3,6 +3,7 @@
 #ifndef OUZEL_CORE_ENGINEANDROID_HPP
 #define OUZEL_CORE_ENGINEANDROID_HPP
 
+#include <array>
 #include <system_error>
 #include <jni.h>
 #include <android/asset_manager.h>
@@ -60,7 +61,7 @@ namespace ouzel::core::android
         jmethodID addFlagsMethod = nullptr;
         jmethodID clearFlagsMethod = nullptr;
         ALooper* looper = nullptr;
-        int looperPipe[2] = {-1, -1};
+        std::array<int, 2> looperPipe{-1, -1};
 
         std::string filesDirectory;
         std::string cacheDirectory;
