@@ -352,6 +352,9 @@ namespace ouzel::core::android
 
         core::Engine::engineMain();
 
+        if (jniEnv->ExceptionCheck())
+            jniEnv->ExceptionDescribe();
+
         if (const auto result = javaVm->DetachCurrentThread(); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to detach current thread from Java VM");
     }
