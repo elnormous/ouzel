@@ -34,6 +34,21 @@ namespace ouzel::audio::opensl
                 logger.log(Log::Level::error) << e.what();
             }
         }
+
+        constexpr SLuint32 getChannelMask(std::uint32_t channels)
+        {
+            switch (channels)
+            {
+                case 1: return SL_SPEAKER_FRONT_CENTER;
+                case 2: return SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT;
+                case 4: return SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_BACK_LEFT | SL_SPEAKER_BACK_RIGHT;
+                case 6: return SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_SIDE_LEFT|SL_SPEAKER_SIDE_RIGHT;
+                case 7: return SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_BACK_CENTER | SL_SPEAKER_SIDE_LEFT | SL_SPEAKER_SIDE_RIGHT;
+                case 8: return SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_BACK_LEFT|SL_SPEAKER_BACK_RIGHT | SL_SPEAKER_SIDE_LEFT | SL_SPEAKER_SIDE_RIGHT;
+                default:
+                    throw std::runtime_error("Invalid channel count");
+            }
+        }
     }
 
     AudioDevice::AudioDevice(const Settings& settings,
@@ -90,19 +105,7 @@ namespace ouzel::audio::opensl
         dataFormat.samplesPerSec = sampleRate * 1000; // mHz
         dataFormat.bitsPerSample = sizeof(std::int16_t) * 8;
         dataFormat.containerSize = dataFormat.bitsPerSample;
-
-        switch (channels)
-        {
-            case 1: dataFormat.channelMask = SL_SPEAKER_FRONT_CENTER; break;
-            case 2: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT; break;
-            case 4: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_BACK_LEFT | SL_SPEAKER_BACK_RIGHT; break;
-            case 6: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_SIDE_LEFT|SL_SPEAKER_SIDE_RIGHT; break;
-            case 7: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_BACK_CENTER | SL_SPEAKER_SIDE_LEFT | SL_SPEAKER_SIDE_RIGHT; break;
-            case 8: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_BACK_LEFT|SL_SPEAKER_BACK_RIGHT | SL_SPEAKER_SIDE_LEFT | SL_SPEAKER_SIDE_RIGHT; break;
-            default:
-                throw std::runtime_error("Invalid channel count");
-        }
-
+        dataFormat.channelMask = getChannelMask(channels);
         dataFormat.endianness = SL_BYTEORDER_LITTLEENDIAN;
 
         SLDataSource dataSource{&location, &dataFormat};
