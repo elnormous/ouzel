@@ -58,23 +58,27 @@ namespace ouzel::graphics::opengl::android
             EGL_SAMPLES, static_cast<int>(settings.sampleCount),
             EGL_NONE
         };
-        EGLConfig config;
+        
         EGLint numConfig;
-        if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
+        if (!eglChooseConfig(display, attributeList, nullptr, 0, &numConfig))
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
+
+        std::vector<EGLConfig> configs(numConfig);
+        if (!eglChooseConfig(display, attributeList, configs.data(), static_cast<EGLint>(configs.size()), &numConfig))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
 
         if (!eglBindAPI(EGL_OPENGL_ES_API))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API");
 
         EGLint format;
-        if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
+        if (!eglGetConfigAttrib(display, configs[0], EGL_NATIVE_VISUAL_ID, &format))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
 
         auto windowAndroid = static_cast<core::android::NativeWindow*>(window.getNativeWindow());
 
         ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 
-        surface = eglCreateWindowSurface(display, config, windowAndroid->getNativeWindow(), nullptr);
+        surface = eglCreateWindowSurface(display, configs[0], windowAndroid->getNativeWindow(), nullptr);
         if (surface == EGL_NO_SURFACE)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");
 
@@ -86,7 +90,7 @@ namespace ouzel::graphics::opengl::android
                 EGL_NONE
             };
 
-            context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
+            context = eglCreateContext(display, configs[0], EGL_NO_CONTEXT, contextAttributes);
 
             if (context != EGL_NO_CONTEXT)
             {

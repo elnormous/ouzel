@@ -76,9 +76,13 @@ namespace ouzel::graphics::opengl::linux
             EGL_SAMPLES, static_cast<int>(settings.sampleCount),
             EGL_NONE
         };
-        EGLConfig config;
+        
         EGLint numConfig;
-        if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
+        if (!eglChooseConfig(display, attributeList, nullptr, 0, &numConfig))
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
+
+        std::vector<EGLConfig> configs(numConfig);
+        if (!eglChooseConfig(display, attributeList, configs.data(), static_cast<EGLint>(configs.size()), &numConfig))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
 
 #if OUZEL_OPENGLES
@@ -96,7 +100,7 @@ namespace ouzel::graphics::opengl::linux
         const auto nativeWindow = bitCast<EGLNativeWindowType>(windowLinux->getNativeWindow());
 #endif
 
-        surface = eglCreateWindowSurface(display, config, nativeWindow, nullptr);
+        surface = eglCreateWindowSurface(display, configs[0], nativeWindow, nullptr);
         if (surface == EGL_NO_SURFACE)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");
 
@@ -112,7 +116,7 @@ namespace ouzel::graphics::opengl::linux
                 EGL_NONE
             };
 
-            context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
+            context = eglCreateContext(display, configs[0], EGL_NO_CONTEXT, contextAttributes);
 
             if (context != EGL_NO_CONTEXT)
             {
