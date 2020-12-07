@@ -28,6 +28,7 @@
 #endif
 
 #include "../../core/Engine.hpp"
+#include "../../utils/Utils.hpp"
 
 namespace ouzel::graphics::opengl
 {

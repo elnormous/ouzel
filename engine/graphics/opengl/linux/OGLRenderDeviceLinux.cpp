@@ -45,6 +45,10 @@ namespace ouzel::graphics::opengl::linux
         if (display == EGL_NO_DISPLAY)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get display");
 
+        const auto eglExtensionsPtr = eglQueryString(display, EGL_EXTENSIONS);
+        const auto eglExtensions = explodeString(eglExtensionsPtr, ' ');
+        logger.log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
+
         if (!eglInitialize(display, nullptr, nullptr))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to initialize EGL");
 
