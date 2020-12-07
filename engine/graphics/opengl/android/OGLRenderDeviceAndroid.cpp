@@ -10,6 +10,7 @@
 #include "../../../core/Window.hpp"
 #include "../../../core/android/NativeWindowAndroid.hpp"
 #include "../../../utils/Log.hpp"
+#include "../../../utils/Utils.hpp"
 
 namespace ouzel::graphics::opengl::android
 {
@@ -32,6 +33,10 @@ namespace ouzel::graphics::opengl::android
 
         if (!eglInitialize(display, nullptr, nullptr))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to initialize EGL");
+
+        const auto eglExtensionsPtr = eglQueryString(display, EGL_EXTENSIONS);
+        const auto eglExtensions = explodeString(eglExtensionsPtr, ' ');
+        logger.log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
 
         const EGLint attributeList[] = {
             EGL_RED_SIZE, 8,
