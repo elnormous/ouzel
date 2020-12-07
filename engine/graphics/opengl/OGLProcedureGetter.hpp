@@ -7,6 +7,7 @@
 
 #if OUZEL_COMPILE_OPENGL
 
+#include <algorithm>
 #include <stdexcept>
 
 #include "OGL.h"
@@ -122,18 +123,8 @@ namespace ouzel::graphics::opengl
 
         bool hasExtension(const char* ext) const noexcept
         {
-            for (const auto& extension : extensions)
-                if (extension == ext) return true;
-            return false;
-        }
-
-        bool hasExtension(const std::vector<const char*>& ext) const noexcept
-        {
-            for (const auto& extension : extensions)
-                for (auto e : ext)
-                    if (extension == e) return true;
-
-            return false;
+            auto i = std::find(extensions.begin(), extensions.end(), ext);
+            return i != extensions.end();
         }
 
     private:
