@@ -63,6 +63,9 @@ namespace ouzel::graphics::opengl::android
         if (!eglChooseConfig(display, attributeList, nullptr, 0, &numConfig))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
 
+        if (numConfig == 0)
+            throw std::runtime_error("No EGL config found");
+
         std::vector<EGLConfig> configs(numConfig);
         if (!eglChooseConfig(display, attributeList, configs.data(), static_cast<EGLint>(configs.size()), &numConfig))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
