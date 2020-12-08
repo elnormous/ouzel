@@ -69,8 +69,10 @@ namespace ouzel::graphics::opengl
                 const auto glGetStringProc = getProcAddress<PFNGLGETSTRINGPROC>("glGetString", ApiVersion(1, 0));
                 const auto extensionsPtr = glGetStringProc(GL_EXTENSIONS);
 
-                if (const auto error = glGetErrorProc(); error != GL_NO_ERROR || !extensionsPtr)
+                if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                     logger.log(Log::Level::warning) << "Failed to get OpenGL extensions, error: " + std::to_string(error);
+                else if (!extensionsPtr)
+                    logger.log(Log::Level::warning) << "Failed to get OpenGL extensions";
                 else
                     extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
             }
