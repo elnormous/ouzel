@@ -81,29 +81,13 @@ namespace ouzel::graphics::opengl
         template <typename T>
         T get(const char* name, ApiVersion procApiVersion) const noexcept
         {
-            if (apiVersion >= procApiVersion)
-                return getProcAddress<T>(name, procApiVersion);
-            else
-                return nullptr;
+            return (apiVersion >= procApiVersion) ? getProcAddress<T>(name, procApiVersion) : nullptr;
         }
 
         template <typename T>
         T get(const char* name, const char* extension) const noexcept
         {
-            if (hasExtension(extension))
-                return getProcAddress<T>(name);
-            else
-                return nullptr;
-        }
-
-        template <typename T>
-        T get(const std::map<const char*, const char*>& procExtensions) const noexcept
-        {
-            for (const auto& extension : procExtensions)
-                if (auto result = get<T>(extension.first, extension.second))
-                    return result;
-
-            return nullptr;
+            return hasExtension(extension) ? getProcAddress<T>(name) : nullptr;
         }
 
         template <typename T>

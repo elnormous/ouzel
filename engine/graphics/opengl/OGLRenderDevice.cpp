@@ -304,7 +304,6 @@ namespace ouzel::graphics::opengl
 
         std::string rendererName;
         const auto rendererNamePointer = glGetStringProc(GL_RENDERER);
-
         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
             logger.log(Log::Level::warning) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
         else if (!rendererNamePointer)
