@@ -453,8 +453,9 @@ namespace ouzel::graphics::opengl
                                                                                                     {"glRenderbufferStorageMultisampleIMG", "GL_IMG_multisampled_render_to_texture"},
                                                                                                     {"glRenderbufferStorageMultisampleAPPLE", "GL_APPLE_framebuffer_multisample"}});
 
-        glFramebufferTexture2DMultisampleProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>({{"glFramebufferTexture2DMultisample", "GL_EXT_multisampled_render_to_texture"},
-                                                                                                         {"glFramebufferTexture2DMultisampleIMG", "GL_IMG_multisampled_render_to_texture"}});
+        glFramebufferTexture2DMultisampleProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisample", "GL_EXT_multisampled_render_to_texture");
+        if (!glFramebufferTexture2DMultisampleProc)
+            glFramebufferTexture2DMultisampleProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisampleIMG", "GL_IMG_multisampled_render_to_texture");
 
 #  if OUZEL_OPENGL_INTERFACE_EAGL
         glDiscardFramebufferEXTProc = getter.get<PFNGLDISCARDFRAMEBUFFEREXTPROC>("glDiscardFramebufferEXT", ApiVersion(2, 0));
