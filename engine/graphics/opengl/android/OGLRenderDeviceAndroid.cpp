@@ -89,8 +89,8 @@ namespace ouzel::graphics::opengl::android
                 throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");
 
             const EGLint contextAttributes[] = {
-                EGL_CONTEXT_MAJOR_VERSION_KHR, 3,
-                EGL_CONTEXT_MINOR_VERSION_KHR, 0,
+                EGL_CONTEXT_MAJOR_VERSION, 3,
+                EGL_CONTEXT_MINOR_VERSION, 0,
                 EGL_CONTEXT_OPENGL_DEBUG, settings.debugRenderer ? EGL_TRUE : EGL_FALSE,
                 EGL_NONE
             };
