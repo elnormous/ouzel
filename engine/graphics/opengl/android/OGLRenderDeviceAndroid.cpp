@@ -60,7 +60,7 @@ namespace ouzel::graphics::opengl::android
                 EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT,
                 EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
                 EGL_SAMPLE_BUFFERS, (settings.sampleCount > 1) ? 1 : 0,
-                EGL_SAMPLES, static_cast<int>(settings.sampleCount),
+                EGL_SAMPLES, static_cast<EGLint>(settings.sampleCount),
                 EGL_NONE
             };
             
@@ -118,7 +118,7 @@ namespace ouzel::graphics::opengl::android
                 EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                 EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
                 EGL_SAMPLE_BUFFERS, (settings.sampleCount > 1) ? 1 : 0,
-                EGL_SAMPLES, static_cast<int>(settings.sampleCount),
+                EGL_SAMPLES, static_cast<EGLint>(settings.sampleCount),
                 EGL_NONE
             };
             

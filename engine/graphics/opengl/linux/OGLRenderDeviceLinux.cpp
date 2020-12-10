@@ -73,7 +73,7 @@ namespace ouzel::graphics::opengl::linux
             EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
 #endif
             EGL_SAMPLE_BUFFERS, (settings.sampleCount > 1) ? 1 : 0,
-            EGL_SAMPLES, static_cast<int>(settings.sampleCount),
+            EGL_SAMPLES, static_cast<EGLint>(settings.sampleCount),
             EGL_NONE
         };
         
