@@ -109,7 +109,7 @@ namespace ouzel::graphics::opengl::android
                 const EGLint contextAttributes[] = {
                     EGL_CONTEXT_MAJOR_VERSION, 3,
                     EGL_CONTEXT_MINOR_VERSION, 0,
-                    //EGL_CONTEXT_OPENGL_DEBUG, settings.debugRenderer ? EGL_TRUE : EGL_FALSE,
+                    EGL_CONTEXT_FLAGS_KHR, settings.debugRenderer ? EGL_CONTEXT_OPENGL_DEBUG_BIT_KHR : 0,
                     EGL_NONE
                 };
 
@@ -148,7 +148,6 @@ namespace ouzel::graphics::opengl::android
 
             const EGLint contextAttributes[] = {
                 EGL_CONTEXT_CLIENT_VERSION, 2,
-                //EGL_CONTEXT_OPENGL_DEBUG, settings.debugRenderer ? EGL_TRUE : EGL_FALSE,
                 EGL_NONE
             };
 
