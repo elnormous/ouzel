@@ -88,6 +88,7 @@ namespace ouzel::audio::opensl
         }
         else
         {
+            // engine capabilities interface is not supported in OpenSL ES 1.0
             apiMajorVersion = 1;
             apiMinorVersion = 0;
         }
