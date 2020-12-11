@@ -86,12 +86,14 @@ namespace ouzel::audio::opensl
             apiMajorVersion = static_cast<std::uint16_t>(major);
             apiMinorVersion = static_cast<std::uint16_t>(minor);
         }
-        else
+        else if (result == SL_RESULT_FEATURE_UNSUPPORTED)
         {
             // engine capabilities interface is not supported in OpenSL ES 1.0
             apiMajorVersion = 1;
             apiMinorVersion = 0;
         }
+        else
+            throw std::system_error(makeErrorCode(result), "Failed to get OpenSL engine capabilities");
 
         if (const auto result = engineObject->GetInterface(engineObject.get(), SL_IID_ENGINE, &engine); result != SL_RESULT_SUCCESS)
             throw std::system_error(makeErrorCode(result), "Failed to get OpenSL engine");
