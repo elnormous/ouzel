@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_OPENSL
 
+#include <array>
 #include <system_error>
 #include "OSLAudioDevice.hpp"
 #include "OSLErrorCategory.hpp"
@@ -58,12 +59,14 @@ namespace ouzel::audio::opensl
                                                       std::vector<float>& samples)>& initDataGetter):
         audio::AudioDevice(Driver::openSL, settings, initDataGetter)
     {
-        constexpr SLuint32 engineMixIIDCount = 1;
-        const auto engineMixIID = SL_IID_ENGINE;
-        constexpr SLboolean engineMixReq = SL_BOOLEAN_TRUE;
+        const std::array engineInterfaces = { SL_IID_ENGINE, SL_IID_ENGINECAPABILITIES };
+        constexpr std::array engineRequirements = { SL_BOOLEAN_TRUE, SL_BOOLEAN_FALSE };
 
         SLObjectItf engineObjectPointer;
-        if (const auto result = slCreateEngine(&engineObjectPointer, 0, nullptr, engineMixIIDCount, &engineMixIID, &engineMixReq); result != SL_RESULT_SUCCESS)
+        if (const auto result = slCreateEngine(&engineObjectPointer, 0, nullptr,
+                                               static_cast<SLuint32>(engineInterfaces.size()),
+                                               engineInterfaces.data(),
+                                               engineRequirements.data()); result != SL_RESULT_SUCCESS)
             throw std::system_error(makeErrorCode(result), "Failed to create OpenSL engine object");
         
         engineObject = engineObjectPointer;
@@ -72,17 +75,22 @@ namespace ouzel::audio::opensl
             throw std::system_error(makeErrorCode(result), "Failed to create OpenSL engine object");
 
         SLEngineCapabilitiesItf engineCapabilities;
-        if (const auto result = engineObject->GetInterface(engineObject.get(), SL_IID_ENGINECAPABILITIES, &engineCapabilities); result != SL_RESULT_SUCCESS)
-           throw std::system_error(makeErrorCode(result), "Failed to get OpenSL engine capabilities");
-
-        SLint16 major;
-        SLint16 minor;
-        SLint16 step;
-        if (const auto result = (*engineCapabilities)->QueryAPIVersion(engineCapabilities, &major, &minor, &step); result != SL_RESULT_SUCCESS)
-            throw std::system_error(makeErrorCode(result), "Failed to get OpenSL version");
-        
-        apiMajorVersion = static_cast<std::uint16_t>(major);
-        apiMinorVersion = static_cast<std::uint16_t>(minor);
+        if (const auto result = engineObject->GetInterface(engineObject.get(), SL_IID_ENGINECAPABILITIES, &engineCapabilities); result == SL_RESULT_SUCCESS)
+        {
+            SLint16 major;
+            SLint16 minor;
+            SLint16 step;
+            if (const auto result = (*engineCapabilities)->QueryAPIVersion(engineCapabilities, &major, &minor, &step); result != SL_RESULT_SUCCESS)
+                throw std::system_error(makeErrorCode(result), "Failed to get OpenSL version");
+            
+            apiMajorVersion = static_cast<std::uint16_t>(major);
+            apiMinorVersion = static_cast<std::uint16_t>(minor);
+        }
+        else
+        {
+            apiMajorVersion = 1;
+            apiMinorVersion = 0;
+        }
 
         if (const auto result = engineObject->GetInterface(engineObject.get(), SL_IID_ENGINE, &engine); result != SL_RESULT_SUCCESS)
             throw std::system_error(makeErrorCode(result), "Failed to get OpenSL engine");
