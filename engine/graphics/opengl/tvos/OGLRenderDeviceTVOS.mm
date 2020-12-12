@@ -30,6 +30,17 @@ namespace ouzel::graphics::opengl::tvos
                 logger.log(Log::Level::error) << e.what();
             }
         }
+
+        constexpr EAGLRenderingAPI getRenderingApi(std::uint16_t version)
+        {
+            switch (version)
+            {
+                case 3: return kEAGLRenderingAPIOpenGLES3;
+                case 2: return kEAGLRenderingAPIOpenGLES2;
+                case 1: return kEAGLRenderingAPIOpenGLES1;
+                default: throw std::runtime_error("Invalid OpenGL version");
+            }
+        }
     }
 
     RenderDevice::RenderDevice(const Settings& settings,
@@ -50,23 +61,20 @@ namespace ouzel::graphics::opengl::tvos
 
         shareGroup = [[EAGLSharegroup alloc] init];
 
-        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:shareGroup];
-
-        if (context)
+        for (std::uint16_t version = 3; version >= 2; --version)
         {
-            apiVersion = ApiVersion(3, 0);
-            logger.log(Log::Level::info) << "EAGL OpenGL ES 3 context created";
-        }
-        else
-        {
-            context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:shareGroup];
+            context = [[EAGLContext alloc] initWithAPI:getRenderingApi(version)
+                                            sharegroup:shareGroup];
 
-            if (!context)
-                throw std::runtime_error("Failed to create EAGL context");
-
-            apiVersion = ApiVersion(2, 0);
-            logger.log(Log::Level::info) << "EAGL OpenGL ES 2 context created";
+            if (context)
+            {
+                apiVersion = ApiVersion(version, 0);
+                logger.log(Log::Level::info) << "EAGL OpenGL ES " << version << " context created";
+            }
         }
+
+        if (!context)
+            throw std::runtime_error("Failed to create EAGL context");
 
         if (![EAGLContext setCurrentContext:context])
             throw std::runtime_error("Failed to set current EAGL context");
