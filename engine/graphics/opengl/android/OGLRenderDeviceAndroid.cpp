@@ -190,17 +190,19 @@ namespace ouzel::graphics::opengl::android
 
         if (renderThread.isJoinable()) renderThread.join();
 
-        if (context != EGL_NO_CONTEXT)
-        {
-            eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-            eglDestroyContext(display, context);
-        }
-
-        if (surface != EGL_NO_SURFACE)
-            eglDestroySurface(display, surface);
-
         if (display != EGL_NO_DISPLAY)
+        {
+            if (context != EGL_NO_CONTEXT)
+            {
+                eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+                eglDestroyContext(display, context);
+            }
+
+            if (surface != EGL_NO_SURFACE)
+                eglDestroySurface(display, surface);
+
             eglTerminate(display);
+        }
     }
 
     void RenderDevice::reload()
