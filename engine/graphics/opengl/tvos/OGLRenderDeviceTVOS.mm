@@ -52,7 +52,7 @@ namespace ouzel::graphics::opengl::tvos
 
         shareGroup = [[EAGLSharegroup alloc] init];
 
-        constexpr std::array openGLVersions = {
+        constexpr std::array<std::pair<EAGLRenderingAPI, ApiVersion>, 2> openGLVersions = {
             std::pair(kEAGLRenderingAPIOpenGLES3, ApiVersion(3, 0)),
             std::pair(kEAGLRenderingAPIOpenGLES2, ApiVersion(2, 0))
         };
