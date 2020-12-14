@@ -8,6 +8,8 @@
 
 #if TARGET_OS_IOS && OUZEL_COMPILE_OPENGL
 
+#include <array>
+#include <utility>
 #include "OGLRenderDeviceIOS.hpp"
 #include "../../../core/Engine.hpp"
 #include "../../../core/Window.hpp"
@@ -30,17 +32,6 @@ namespace ouzel::graphics::opengl::ios
                 logger.log(Log::Level::error) << e.what();
             }
         }
-
-        constexpr EAGLRenderingAPI getRenderingApi(std::uint16_t version)
-        {
-            switch (version)
-            {
-                case 3: return kEAGLRenderingAPIOpenGLES3;
-                case 2: return kEAGLRenderingAPIOpenGLES2;
-                case 1: return kEAGLRenderingAPIOpenGLES1;
-                default: throw std::runtime_error("Invalid OpenGL version");
-            }
-        }
     }
 
     RenderDevice::RenderDevice(const Settings& settings,
@@ -61,15 +52,21 @@ namespace ouzel::graphics::opengl::ios
 
         shareGroup = [[EAGLSharegroup alloc] init];
 
-        for (std::uint16_t version = 3; version >= 2; --version)
+        constexpr std::array openGLVersions = {
+            std::pair(kEAGLRenderingAPIOpenGLES3, ApiVersion(3, 0)),
+            std::pair(kEAGLRenderingAPIOpenGLES2, ApiVersion(2, 0))
+        };
+
+        for (const auto openGLVersion : openGLVersions)
         {
-            context = [[EAGLContext alloc] initWithAPI:getRenderingApi(version)
+            context = [[EAGLContext alloc] initWithAPI:openGLVersion.first
                                             sharegroup:shareGroup];
 
             if (context)
             {
-                apiVersion = ApiVersion(version, 0);
-                logger.log(Log::Level::info) << "EAGL OpenGL ES " << version << " context created";
+                apiVersion = openGLVersion.second;
+                logger.log(Log::Level::info) << "EAGL OpenGL ES " << apiVersion.v[0] << " context created";
+                break;
             }
         }
 
