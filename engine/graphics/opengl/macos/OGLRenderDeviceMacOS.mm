@@ -8,6 +8,7 @@
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_OPENGL
 
+#include <utility>
 #include "OGLRenderDeviceMacOS.hpp"
 #include "OpenGLView.h"
 #include "../../../core/Engine.hpp"
@@ -51,10 +52,10 @@ namespace ouzel::graphics::opengl::macos
     {
         embedded = false;
 
-        constexpr NSOpenGLPixelFormatAttribute openGLVersions[] = {
-            NSOpenGLProfileVersion4_1Core,
-            NSOpenGLProfileVersion3_2Core,
-            NSOpenGLProfileVersionLegacy
+        constexpr std::pair<NSOpenGLPixelFormatAttribute, ApiVersion> openGLVersions[] = {
+            {NSOpenGLProfileVersion4_1Core, ApiVersion(4, 1)},
+            {NSOpenGLProfileVersion3_2Core, ApiVersion(3, 2)},
+            {NSOpenGLProfileVersionLegacy, ApiVersion(2, 0)}
         };
 
         for (const auto openGLVersion : openGLVersions)
@@ -64,7 +65,7 @@ namespace ouzel::graphics::opengl::macos
                 NSOpenGLPFAAccelerated,
                 NSOpenGLPFANoRecovery,
                 NSOpenGLPFADoubleBuffer,
-                NSOpenGLPFAOpenGLProfile, openGLVersion,
+                NSOpenGLPFAOpenGLProfile, openGLVersion.first,
                 NSOpenGLPFAColorSize, 24,
                 NSOpenGLPFAAlphaSize, 8,
                 NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(settings.depth ? 24 : 0),
@@ -86,21 +87,8 @@ namespace ouzel::graphics::opengl::macos
 
             if (pixelFormat)
             {
-                switch (openGLVersion)
-                {
-                    case NSOpenGLProfileVersionLegacy:
-                        apiVersion = ApiVersion(2, 0);
-                        logger.log(Log::Level::info) << "OpenGL 2 pixel format created";
-                        break;
-                    case NSOpenGLProfileVersion3_2Core:
-                        apiVersion = ApiVersion(3, 2);
-                        logger.log(Log::Level::info) << "OpenGL 3.2 pixel format created";
-                        break;
-                    case NSOpenGLProfileVersion4_1Core:
-                        apiVersion = ApiVersion(4, 1);
-                        logger.log(Log::Level::info) << "OpenGL 4.1 pixel format created";
-                        break;
-                }
+                apiVersion = openGLVersion.second;
+                logger.log(Log::Level::info) << "OpenGL " << apiVersion.v[0] << '.' << apiVersion.v[1] << " pixel format created";
                 break;
             }
         }
