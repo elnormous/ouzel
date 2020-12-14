@@ -8,6 +8,7 @@
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_OPENGL
 
+#include <array>
 #include <utility>
 #include "OGLRenderDeviceMacOS.hpp"
 #include "OpenGLView.h"
@@ -52,10 +53,10 @@ namespace ouzel::graphics::opengl::macos
     {
         embedded = false;
 
-        constexpr std::pair<NSOpenGLPixelFormatAttribute, ApiVersion> openGLVersions[] = {
-            {NSOpenGLProfileVersion4_1Core, ApiVersion(4, 1)},
-            {NSOpenGLProfileVersion3_2Core, ApiVersion(3, 2)},
-            {NSOpenGLProfileVersionLegacy, ApiVersion(2, 0)}
+        constexpr std::array openGLVersions = {
+            std::pair(NSOpenGLProfileVersion4_1Core, ApiVersion(4, 1)),
+            std::pair(NSOpenGLProfileVersion3_2Core, ApiVersion(3, 2)),
+            std::pair(NSOpenGLProfileVersionLegacy, ApiVersion(2, 0))
         };
 
         for (const auto openGLVersion : openGLVersions)
