@@ -32,9 +32,7 @@ namespace ouzel::graphics::opengl::emscripten
         if (!webGLContext)
             throw std::runtime_error("Failed to create WebGL context");
 
-        EMSCRIPTEN_RESULT result = emscripten_webgl_make_context_current(webGLContext);
-
-        if (result != EMSCRIPTEN_RESULT_SUCCESS)
+        if (const auto result = emscripten_webgl_make_context_current(webGLContext); result != EMSCRIPTEN_RESULT_SUCCESS)
             throw std::runtime_error("Failed to make WebGL context current");
 
         emscripten_set_main_loop_timing(settings.verticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
