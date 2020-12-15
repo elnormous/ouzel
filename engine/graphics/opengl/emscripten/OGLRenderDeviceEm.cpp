@@ -36,7 +36,7 @@ namespace ouzel::graphics::opengl::emscripten
             attrs.majorVersion = openGLVersion.first;
             attrs.minorVersion = 0;
 
-            webGLContext = emscripten_webgl_create_context(0, &attrs);
+            webGLContext = emscripten_webgl_create_context("#canvas", &attrs);
 
             if (webGLContext)
             {
