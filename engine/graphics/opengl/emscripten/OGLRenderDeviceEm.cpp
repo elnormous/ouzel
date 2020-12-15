@@ -4,9 +4,11 @@
 
 #if defined(__EMSCRIPTEN__) && OUZEL_COMPILE_OPENGL
 
+#include <array>
+#include <utility>
 #include "OGLRenderDeviceEm.hpp"
 #include "../../../core/Window.hpp"
-#include "../../../utils/Utils.hpp"
+#include "../../../utils/Log.hpp"
 
 namespace ouzel::graphics::opengl::emscripten
 {
@@ -17,17 +19,32 @@ namespace ouzel::graphics::opengl::emscripten
     {
         embedded = true;
 
-        apiVersion = ApiVersion(2, 0);
+        constexpr std::array<std::pair<int, ApiVersion>, 2> openGLVersions = {
+            std::pair(2, ApiVersion(3, 0)),
+            std::pair(1, ApiVersion(2, 0))
+        };
 
-        EmscriptenWebGLContextAttributes attrs;
-        emscripten_webgl_init_context_attributes(&attrs);
+        for (const auto openGLVersion : openGLVersions)
+        {
+            EmscriptenWebGLContextAttributes attrs;
+            emscripten_webgl_init_context_attributes(&attrs);
 
-        attrs.alpha = true;
-        attrs.depth = settings.depth;
-        attrs.stencil = settings.stencil;
-        attrs.antialias = settings.sampleCount > 0;
+            attrs.alpha = true;
+            attrs.depth = settings.depth;
+            attrs.stencil = settings.stencil;
+            attrs.antialias = settings.sampleCount > 0;
+            attrs.majorVersion = openGLVersion.first;
+            attrs.minorVersion = 0;
 
-        webGLContext = emscripten_webgl_create_context(0, &attrs);
+            webGLContext = emscripten_webgl_create_context(0, &attrs);
+
+            if (webGLContext)
+            {
+                apiVersion = openGLVersion.second;
+                logger.log(Log::Level::info) << "WebGL " << openGLVersion.first << " context created";
+                break;
+            }
+        }
 
         if (!webGLContext)
             throw std::runtime_error("Failed to create WebGL context");
