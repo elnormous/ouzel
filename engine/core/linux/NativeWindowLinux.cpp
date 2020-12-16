@@ -115,9 +115,6 @@ namespace ouzel::core::linux
 
         if (fullscreen)
         {
-
-            
-
             XEvent event;
             event.type = ClientMessage;
             event.xclient.window = window;
@@ -155,15 +152,15 @@ namespace ouzel::core::linux
         srcRect.width = modeInfo.width;
         srcRect.height = modeInfo.height;
 
-        DISPMANX_UPDATE_HANDLE_T dispmanUpdate = vc_dispmanx_update_start(0);
+        dispmanUpdate = vc_dispmanx_update_start(0);
 
         if (dispmanUpdate == DISPMANX_NO_HANDLE)
             throw std::runtime_error("Failed to start display update");
 
-        DISPMANX_ELEMENT_HANDLE_T dispmanElement = vc_dispmanx_element_add(dispmanUpdate, display,
-                                                                           0, &dstRect, 0,
-                                                                           &srcRect, DISPMANX_PROTECTION_NONE,
-                                                                           0, 0, DISPMANX_NO_ROTATE);
+        dispmanElement = vc_dispmanx_element_add(dispmanUpdate, display,
+                                                 0, &dstRect, 0,
+                                                 &srcRect, DISPMANX_PROTECTION_NONE,
+                                                 0, 0, DISPMANX_NO_ROTATE);
 
         if (dispmanElement == DISPMANX_NO_HANDLE)
             throw std::runtime_error("Failed to add display element");
@@ -184,6 +181,9 @@ namespace ouzel::core::linux
 #if OUZEL_SUPPORTS_X11
         if (display && window)
             XDestroyWindow(display, window);
+#elif OUZEL_SUPPORTS_DISPMANX
+        if (dispmanUpdate != DISPMANX_NO_HANDLE && dispmanElement != DISPMANX_NO_HANDLE)
+            vc_dispmanx_element_remove(dispmanUpdate, dispmanElement);
 #endif
     }
 

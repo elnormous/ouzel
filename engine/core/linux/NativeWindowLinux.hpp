@@ -77,6 +77,8 @@ namespace ouzel::core::linux
         Atom activateWindowAtom = None;
 #elif OUZEL_SUPPORTS_DISPMANX
         EGL_DISPMANX_WINDOW_T window;
+        DISPMANX_UPDATE_HANDLE_T dispmanUpdate = DISPMANX_NO_HANDLE;
+        DISPMANX_ELEMENT_HANDLE_T dispmanElement = DISPMANX_NO_HANDLE;
 #endif
     };
 }
