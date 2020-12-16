@@ -47,7 +47,7 @@ namespace ouzel::core::emscripten
                            newTitle,
                            newHighDpi)
     {
-        emscripten_set_resize_callback(nullptr, this, true, emResizeCallback);
+        emscripten_set_resize_callback(nullptr, this, EM_TRUE, emResizeCallback);
 
         if (size.v[0] == 0 || size.v[1] == 0)
         {
