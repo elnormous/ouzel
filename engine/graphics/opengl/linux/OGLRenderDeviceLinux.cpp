@@ -75,12 +75,12 @@ namespace ouzel::graphics::opengl::linux
         auto windowLinux = static_cast<core::linux::NativeWindow*>(window.getNativeWindow());
 
 #if OUZEL_OPENGLES
-        display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+        const auto nativeDisplay = EGL_DEFAULT_DISPLAY;
 #else
         const auto nativeDisplay = bitCast<EGLNativeDisplayType>(windowLinux->getDisplay());
-        display = eglGetDisplay(nativeDisplay);
 #endif
 
+        display = eglGetDisplay(nativeDisplay);
         if (display == EGL_NO_DISPLAY)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get display");
 
@@ -99,8 +99,7 @@ namespace ouzel::graphics::opengl::linux
         logger.log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
 
 #if OUZEL_OPENGLES
-        const auto dispmanxWindow = &windowLinux->getNativeWindow();
-        const auto nativeWindow = bitCast<EGLNativeWindowType>(dispmanxWindow);
+        const auto nativeWindow = bitCast<EGLNativeWindowType>(&windowLinux->getNativeWindow());
 #else
         const auto nativeWindow = bitCast<EGLNativeWindowType>(windowLinux->getNativeWindow());
 #endif
