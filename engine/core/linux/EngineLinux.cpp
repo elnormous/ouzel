@@ -303,7 +303,6 @@ namespace ouzel::core::linux
         display = vc_dispmanx_display_open(0);
         if (display == DISPMANX_NO_HANDLE)
             throw std::runtime_error("Failed to open display");
-
 #endif
     }
 

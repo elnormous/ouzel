@@ -20,6 +20,7 @@ namespace ouzel::core::emscripten
         void setFullscreen(bool newFullscreen);
 
         void handleResize();
+        void handleFullscreenChange(bool newFullscreen);
     
     private:
         void executeCommand(const Command& command) final;

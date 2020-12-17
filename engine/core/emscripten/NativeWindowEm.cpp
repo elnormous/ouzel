@@ -21,12 +21,12 @@ namespace ouzel::core::emscripten
             return false;
         }
 
-        EM_BOOL emFullscreenCallback(int eventType, const void*, void* userData)
+        EM_BOOL emFullscreenCallback(int eventType, const EmscriptenFullscreenChangeEvent* fullscreenChangeEvent, void* userData)
         {
             if (eventType == EMSCRIPTEN_EVENT_CANVASRESIZED)
             {
                 auto nativeWindowEm = static_cast<NativeWindow*>(userData);
-                nativeWindowEm->handleResize();
+                nativeWindowEm->handleFullscreenChange(fullscreenChangeEvent.isFullscreen == EM_TRUE);
                 return true;
             }
 
@@ -51,16 +51,17 @@ namespace ouzel::core::emscripten
 
         if (size.v[0] == 0 || size.v[1] == 0)
         {
-            int width, height, isFullscreen;
-            emscripten_get_canvas_size(&width, &height, &isFullscreen);
+            double width;
+            double height;
+            emscripten_get_element_css_size("#canvas", &width, &height);
 
             if (size.v[0] == 0) size.v[0] = static_cast<std::uint32_t>(width);
             if (size.v[1] == 0) size.v[1] = static_cast<std::uint32_t>(height);
-            fullscreen = static_cast<bool>(isFullscreen);
         }
         else
-            emscripten_set_canvas_size(static_cast<int>(size.v[0]),
-                                       static_cast<int>(size.v[1]));
+            emscripten_set_element_css_size("#canvas",
+                                            static_cast<double>(size.v[0]),
+                                            static_cast<double>(size.v[1]));
 
         if (fullscreen)
         {
@@ -112,8 +113,9 @@ namespace ouzel::core::emscripten
     {
         size = newSize;
 
-        emscripten_set_canvas_size(static_cast<int>(newSize.v[0]),
-                                   static_cast<int>(newSize.v[1]));
+        emscripten_set_element_css_size("#canvas",
+                                        static_cast<double>(size.v[0]),
+                                        static_cast<double>(size.v[1]));
     }
 
     void NativeWindow::setFullscreen(bool newFullscreen)
@@ -137,8 +139,9 @@ namespace ouzel::core::emscripten
 
     void NativeWindow::handleResize()
     {
-        int width, height, isFullscreen;
-        emscripten_get_canvas_size(&width, &height, &isFullscreen);
+        double width;
+        double height;
+        emscripten_get_element_css_size("#canvas", &width, &height);
 
         Size2U newSize(static_cast<std::uint32_t>(width),
                        static_cast<std::uint32_t>(height));
@@ -156,12 +159,14 @@ namespace ouzel::core::emscripten
         Event resolutionChangeEvent(Event::Type::resolutionChange);
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
+    }
 
-        if (fullscreen != oldFullscreen)
-        {
-            Event fullscreenChangeEvent(Event::Type::fullscreenChange);
-            fullscreenChangeEvent.fullscreen = fullscreen;
-            sendEvent(fullscreenChangeEvent);
-        }
+    void NativeWindow::handleFullscreenChange(bool newFullscreen)
+    {
+        fullscreen = newFullscreen;
+
+        Event fullscreenChangeEvent(Event::Type::fullscreenChange);
+        fullscreenChangeEvent.fullscreen = fullscreen;
+        sendEvent(fullscreenChangeEvent);
     }
 }
