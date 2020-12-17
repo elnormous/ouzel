@@ -21,12 +21,22 @@ namespace ouzel::core::emscripten
             return false;
         }
 
-        EM_BOOL emFullscreenCallback(int eventType, const EmscriptenFullscreenChangeEvent* fullscreenChangeEvent, void* userData)
+        EM_BOOL emCanvasResizeCallback(int eventType, const void*, void* userData)
         {
             if (eventType == EMSCRIPTEN_EVENT_CANVASRESIZED)
             {
                 auto nativeWindowEm = static_cast<NativeWindow*>(userData);
-                nativeWindowEm->handleFullscreenChange(fullscreenChangeEvent.isFullscreen == EM_TRUE);
+                nativeWindowEm->handleResize();
+                return true;
+            }
+        }
+
+        EM_BOOL emFullscreenCallback(int eventType, const EmscriptenFullscreenChangeEvent* fullscreenChangeEvent, void* userData)
+        {
+            if (eventType == EMSCRIPTEN_EVENT_FULLSCREENCHANGE)
+            {
+                auto nativeWindowEm = static_cast<NativeWindow*>(userData);
+                nativeWindowEm->handleFullscreenChange(fullscreenChangeEvent->isFullscreen == EM_TRUE);
                 return true;
             }
 
@@ -48,6 +58,7 @@ namespace ouzel::core::emscripten
                            newHighDpi)
     {
         emscripten_set_resize_callback(nullptr, this, EM_TRUE, emResizeCallback);
+        emscripten_set_fullscreenchange_callback(nullptr, this, EM_TRUE, emFullscreenCallback);
 
         if (size.v[0] == 0 || size.v[1] == 0)
         {
@@ -69,7 +80,7 @@ namespace ouzel::core::emscripten
             s.scaleMode = EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH;
             s.canvasResolutionScaleMode = highDpi ? EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF : EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF;
             s.filteringMode = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
-            s.canvasResizedCallback = emFullscreenCallback;
+            s.canvasResizedCallback = emCanvasResizeCallback;
             s.canvasResizedCallbackUserData = this;
 
             emscripten_request_fullscreen_strategy(nullptr, EM_TRUE, &s);
@@ -128,7 +139,7 @@ namespace ouzel::core::emscripten
             s.scaleMode = EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH;
             s.canvasResolutionScaleMode = highDpi ? EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF : EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF;
             s.filteringMode = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
-            s.canvasResizedCallback = emFullscreenCallback;
+            s.canvasResizedCallback = emCanvasResizeCallback;
             s.canvasResizedCallbackUserData = this;
 
             emscripten_request_fullscreen_strategy(nullptr, EM_TRUE, &s);
@@ -148,9 +159,6 @@ namespace ouzel::core::emscripten
 
         size = newSize;
         resolution = size;
-
-        auto oldFullscreen = fullscreen;
-        fullscreen = (isFullscreen != 0);
 
         Event sizeChangeEvent(Event::Type::sizeChange);
         sizeChangeEvent.size = size;
