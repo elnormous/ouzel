@@ -26,7 +26,7 @@ namespace ouzel::input::linux
         mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
         touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
 #else
-        InputSystem(initCallback)
+        input::InputSystem(initCallback)
 #endif
     {
 #if OUZEL_SUPPORTS_X11
