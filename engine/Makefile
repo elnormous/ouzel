@@ -170,7 +170,7 @@ SOURCES+=audio/alsa/ALSAAudioDevice.cpp \
 ifneq ($(filter arm%,$(architecture)),) # ARM Linux
 VC_DIR=/opt/vc
 CFLAGS+=-I$(VC_DIR)/include -I$(VC_DIR)/include/interface/vcos/pthreads -I$(VC_DIR)/include/interface/vmcs_host/linux
-CXXFLAGS+=-I$(VC_DIR)include -I$(VC_DIR)/include/interface/vcos/pthreads -I$(VC_DIR)/include/interface/vmcs_host/linux
+CXXFLAGS+=-I$(VC_DIR)/include -I$(VC_DIR)/include/interface/vcos/pthreads -I$(VC_DIR)/include/interface/vmcs_host/linux
 endif
 else ifeq ($(PLATFORM),macos)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
