@@ -261,7 +261,9 @@ namespace ouzel::core::linux
 {
     namespace
     {
+#if OUZEL_SUPPORTS_X11
         const ErrorCategory errorCategory;
+#endif
 
         std::vector<std::string> parseArgs(int argc, char* argv[])
         {
