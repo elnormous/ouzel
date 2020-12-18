@@ -119,6 +119,8 @@ $ gradle installDebug
 $ adb shell am start -n org.ouzel/org.ouzel.MainActivity
 ```
 
+To build Ouzel on Raspberry Pi, you will have to install Raspberry Pi development library (`libraspberrypi-dev`) and kernel headers (`raspberrypi-kernel-headers`)
+
 Because on Raspbian Stretch libEGL.so was renamed to libbrcmEGL.so and libGLESv2.so to libbrcmGLESv2.so you will have to run the following commands before building the samples on Raspbian 8 (Jessie) or older:
 
 ```shell
