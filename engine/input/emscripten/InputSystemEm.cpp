@@ -155,13 +155,13 @@ namespace
             case EMSCRIPTEN_EVENT_KEYPRESS:
             case EMSCRIPTEN_EVENT_KEYDOWN:
                 keyboardDevice->handleKeyPress(convertKeyCode(keyEvent->code));
-                return true;
+                return EM_TRUE;
             case EMSCRIPTEN_EVENT_KEYUP:
                 keyboardDevice->handleKeyRelease(convertKeyCode(keyEvent->code));
-                return true;
+                return EM_TRUE;
         }
 
-        return false;
+        return EM_FALSE;
     }
 
     EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData)
@@ -193,17 +193,17 @@ namespace
             case EMSCRIPTEN_EVENT_MOUSEDOWN:
                 mouseDevice->handleButtonPress(button,
                                                ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
-                return true;
+                return EM_TRUE;
             case EMSCRIPTEN_EVENT_MOUSEUP:
                 mouseDevice->handleButtonRelease(button,
                                                  ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
-                return true;
+                return EM_TRUE;
             case EMSCRIPTEN_EVENT_MOUSEMOVE:
                 mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
-                return true;
+                return EM_TRUE;
         }
 
-        return false;
+        return EM_FALSE;
     }
 
     EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelEvent, void* userData)
@@ -218,10 +218,10 @@ namespace
             mouseDevice->handleScroll(ouzel::Vector2F(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
                                       ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
 
-            return true;
+            return EM_TRUE;
         }
 
-        return false;
+        return EM_FALSE;
     }
 
     EM_BOOL emPointerLockChangeCallback(int eventType, const EmscriptenPointerlockChangeEvent* pointerlockChangeEvent, void* userData)
@@ -231,10 +231,10 @@ namespace
         if (eventType == EMSCRIPTEN_EVENT_POINTERLOCKCHANGE)
         {
             mouseDevice->handleCursorLockChange(pointerlockChangeEvent->isActive);
-            return true;
+            return EM_TRUE;
         }
 
-        return false;
+        return EM_FALSE;
     }
 
     EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* gamepadEvent, void* userData)
@@ -244,15 +244,15 @@ namespace
         if (eventType == EMSCRIPTEN_EVENT_GAMEPADCONNECTED)
         {
             inputEm->handleGamepadConnected(gamepadEvent->index);
-            return true;
+            return EM_TRUE;
         }
         else if (eventType == EMSCRIPTEN_EVENT_GAMEPADDISCONNECTED)
         {
             inputEm->handleGamepadDisconnected(gamepadEvent->index);
-            return true;
+            return EM_TRUE;
         }
 
-        return false;
+        return EM_FALSE;
     }
 
     EM_BOOL emTouchCallback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData)
@@ -292,7 +292,7 @@ namespace
             }
         }
 
-        return false;
+        return EM_FALSE;
     }
 }
 
