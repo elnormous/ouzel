@@ -304,23 +304,23 @@ namespace ouzel::input::emscripten
         mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
         touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
     {
-        emscripten_set_keypress_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
-        emscripten_set_keydown_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
-        emscripten_set_keyup_callback(nullptr, keyboardDevice.get(), true, emKeyCallback);
+        emscripten_set_keypress_callback(nullptr, keyboardDevice.get(), EM_TRUE, emKeyCallback);
+        emscripten_set_keydown_callback(nullptr, keyboardDevice.get(), EM_TRUE, emKeyCallback);
+        emscripten_set_keyup_callback(nullptr, keyboardDevice.get(), EM_TRUE, emKeyCallback);
 
-        emscripten_set_mousedown_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
-        emscripten_set_mouseup_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
-        emscripten_set_mousemove_callback("#canvas", mouseDevice.get(), true, emMouseCallback);
-        emscripten_set_wheel_callback("#canvas", mouseDevice.get(), true, emWheelCallback);
-        emscripten_set_pointerlockchange_callback(nullptr, mouseDevice.get(), true, emPointerLockChangeCallback);
+        emscripten_set_mousedown_callback("#canvas", mouseDevice.get(), EM_TRUE, emMouseCallback);
+        emscripten_set_mouseup_callback("#canvas", mouseDevice.get(), EM_TRUE, emMouseCallback);
+        emscripten_set_mousemove_callback("#canvas", mouseDevice.get(), EM_TRUE, emMouseCallback);
+        emscripten_set_wheel_callback("#canvas", mouseDevice.get(), EM_TRUE, emWheelCallback);
+        emscripten_set_pointerlockchange_callback(nullptr, mouseDevice.get(), EM_TRUE, emPointerLockChangeCallback);
 
-        emscripten_set_gamepadconnected_callback(this, true, emGamepadCallback);
-        emscripten_set_gamepaddisconnected_callback(this, true, emGamepadCallback);
+        emscripten_set_gamepadconnected_callback(this, EM_TRUE, emGamepadCallback);
+        emscripten_set_gamepaddisconnected_callback(this, EM_TRUE, emGamepadCallback);
 
-        emscripten_set_touchstart_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
-        emscripten_set_touchend_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
-        emscripten_set_touchmove_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
-        emscripten_set_touchcancel_callback("#canvas", touchpadDevice.get(), true, emTouchCallback);
+        emscripten_set_touchstart_callback("#canvas", touchpadDevice.get(), EM_TRUE, emTouchCallback);
+        emscripten_set_touchend_callback("#canvas", touchpadDevice.get(), EM_TRUE, emTouchCallback);
+        emscripten_set_touchmove_callback("#canvas", touchpadDevice.get(), EM_TRUE, emTouchCallback);
+        emscripten_set_touchcancel_callback("#canvas", touchpadDevice.get(), EM_TRUE, emTouchCallback);
 
         const int result = emscripten_get_num_gamepads();
 
