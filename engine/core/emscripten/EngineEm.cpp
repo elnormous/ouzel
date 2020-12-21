@@ -23,13 +23,26 @@ namespace ouzel::core::emscripten
 
         void loop(void* arg)
         {
-            static_cast<emscripten::Engine*>(arg)->step();
+            static_cast<Engine*>(arg)->step();
+        }
+
+        EM_BOOL emOrientationChangeCallback(int eventType, const EmscriptenOrientationChangeEvent* orientationChangeEvent, void* userData)
+        {
+            if (eventType == EMSCRIPTEN_EVENT_ORIENTATIONCHANGE)
+            {
+                auto engine = static_cast<Engine*>(userData);
+                engine->handleOrientationChange(orientationChangeEvent->orientationIndex);
+                return EM_TRUE;
+            }
+
+            return EM_FALSE;
         }
     }
 
     Engine::Engine(int argc, char* argv[]):
         core::Engine(parseArgs(argc, argv))
     {
+        emscripten_set_orientationchange_callback(this, EM_TRUE, emOrientationChangeCallback);
     }
 
     void Engine::run()
@@ -98,6 +111,33 @@ namespace ouzel::core::emscripten
         }
         else
             emscripten_cancel_main_loop();
+    }
+
+    void Engine::handleOrientationChange(int orientation)
+    {
+        auto event = std::make_unique<SystemEvent>();
+        event->type = Event::Type::orientationChange;
+
+        switch (orientation)
+        {
+            case EMSCRIPTEN_ORIENTATION_PORTRAIT_PRIMARY:
+                event->orientation = SystemEvent::Orientation::portrait;
+                break;
+            case EMSCRIPTEN_ORIENTATION_PORTRAIT_SECONDARY:
+                event->orientation = SystemEvent::Orientation::portraitReverse;
+                break;
+            case EMSCRIPTEN_ORIENTATION_LANDSCAPE_PRIMARY:
+                event->orientation = SystemEvent::Orientation::landscape;
+                break;
+            case EMSCRIPTEN_ORIENTATION_LANDSCAPE_SECONDARY:
+                event->orientation = SystemEvent::Orientation::landscapeReverse;
+                break;
+            default: // unsupported orientation, assume portrait
+                event->orientation = SystemEvent::Orientation::portrait;
+                break;
+        }
+
+        getEventDispatcher().postEvent(std::move(event));
     }
 
     void Engine::runOnMainThread(const std::function<void()>& func)

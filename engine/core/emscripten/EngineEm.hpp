@@ -15,6 +15,7 @@ namespace ouzel::core::emscripten
         void run();
 
         void step();
+        void handleOrientationChange(int orientation);
 
         void openUrl(const std::string& url) final;
 
