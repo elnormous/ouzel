@@ -43,14 +43,14 @@ namespace ouzel::input::tvos
         connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
         [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
-                                                    selector:@selector(handleControllerConnected:)
-                                                        name:GCControllerDidConnectNotification
-                                                    object:nil];
+                                                 selector:@selector(handleControllerConnected:)
+                                                     name:GCControllerDidConnectNotification
+                                                   object:nil];
 
         [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
-                                                    selector:@selector(handleControllerDisconnected:)
-                                                        name:GCControllerDidDisconnectNotification
-                                                    object:nil];
+                                                 selector:@selector(handleControllerDisconnected:)
+                                                     name:GCControllerDidDisconnectNotification
+                                                   object:nil];
 
         for (GCController* controller in [GCController controllers])
             handleGamepadConnected(controller);
