@@ -161,7 +161,7 @@ namespace ouzel::graphics::opengl::macos
     {
         std::vector<Size2U> result;
 
-        CFArrayRef displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
+        const CFArrayRef displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
         const CFIndex displayModeCount = CFArrayGetCount(displayModes);
 
         for (CFIndex i = 0; i < displayModeCount; ++i)
