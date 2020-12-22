@@ -224,7 +224,7 @@ namespace ouzel::graphics::opengl::android
 
         if (std::find(eglExtensions.begin(), eglExtensions.end(), "EGL_KHR_create_context") != eglExtensions.end())
         {
-            const auto configs = chooseConfig(display, settings.depth, settings.stencil, settings.sampleCount, 3);
+            const auto configs = chooseConfig(display, depth, stencil, sampleCount, 3);
 
             if (!configs.empty())
             {
@@ -244,7 +244,7 @@ namespace ouzel::graphics::opengl::android
                 const EGLint contextAttributes[] = {
                     EGL_CONTEXT_MAJOR_VERSION, 3,
                     EGL_CONTEXT_MINOR_VERSION, 0,
-                    EGL_CONTEXT_FLAGS_KHR, settings.debugRenderer ? EGL_CONTEXT_OPENGL_DEBUG_BIT_KHR : 0,
+                    EGL_CONTEXT_FLAGS_KHR, debugRenderer ? EGL_CONTEXT_OPENGL_DEBUG_BIT_KHR : 0,
                     EGL_NONE
                 };
 
@@ -262,7 +262,7 @@ namespace ouzel::graphics::opengl::android
 
         if (context == EGL_NO_CONTEXT)
         {
-            const auto configs = chooseConfig(display, settings.depth, settings.stencil, settings.sampleCount, 2);
+            const auto configs = chooseConfig(display, depth, stencil, sampleCount, 2);
             if (configs.empty())
                 throw std::runtime_error("No EGL config found");
 
