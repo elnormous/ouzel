@@ -214,59 +214,85 @@ namespace ouzel::graphics::opengl::android
 
         if (renderThread.isJoinable()) renderThread.join();
 
-        const EGLint attributeList[] =
-        {
-            EGL_RED_SIZE, 8,
-            EGL_GREEN_SIZE, 8,
-            EGL_BLUE_SIZE, 8,
-            EGL_ALPHA_SIZE, 8,
-            EGL_DEPTH_SIZE, depth ? 24 : 0,
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-            EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-            EGL_SAMPLE_BUFFERS, (sampleCount > 1) ? 1 : 0,
-            EGL_SAMPLES, static_cast<int>(sampleCount),
-            EGL_NONE
-        };
-        EGLConfig config;
-        EGLint numConfig;
-        if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
-
-        if (!eglBindAPI(EGL_OPENGL_ES_API))
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API");
-
-        EGLint format;
-        if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
+        const auto eglExtensionsPtr = eglQueryString(display, EGL_EXTENSIONS);
+        if (!eglExtensionsPtr)
+            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get EGL extensions");
+        const auto eglExtensions = explodeString(eglExtensionsPtr, ' ');
+        logger.log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
 
         auto windowAndroid = static_cast<core::android::NativeWindow*>(window.getNativeWindow());
 
-        ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
-
-        surface = eglCreateWindowSurface(display, config, windowAndroid->getNativeWindow(), nullptr);
-        if (surface == EGL_NO_SURFACE)
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");
-
-        for (EGLint version = 3; version >= 2; --version)
+        if (std::find(eglExtensions.begin(), eglExtensions.end(), "EGL_KHR_create_context") != eglExtensions.end())
         {
-            const EGLint contextAttributes[] = {
-                EGL_CONTEXT_CLIENT_VERSION, version,
-                EGL_CONTEXT_OPENGL_DEBUG, debugRenderer ? EGL_TRUE : EGL_FALSE,
-                EGL_NONE
-            };
+            const auto configs = chooseConfig(display, settings.depth, settings.stencil, settings.sampleCount, 3);
 
-            context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
-
-            if (context != EGL_NO_CONTEXT)
+            if (!configs.empty())
             {
-                apiVersion = ApiVersion(version, 0);
-                logger.log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
-                break;
+                if (!eglBindAPI(EGL_OPENGL_ES_API))
+                    throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API");
+
+                EGLint format;
+                if (!eglGetConfigAttrib(display, configs[0], EGL_NATIVE_VISUAL_ID, &format))
+                    throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
+
+                ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
+
+                surface = eglCreateWindowSurface(display, configs[0], windowAndroid->getNativeWindow(), nullptr);
+                if (surface == EGL_NO_SURFACE)
+                    throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");
+
+                const EGLint contextAttributes[] = {
+                    EGL_CONTEXT_MAJOR_VERSION, 3,
+                    EGL_CONTEXT_MINOR_VERSION, 0,
+                    EGL_CONTEXT_FLAGS_KHR, settings.debugRenderer ? EGL_CONTEXT_OPENGL_DEBUG_BIT_KHR : 0,
+                    EGL_NONE
+                };
+
+                context = eglCreateContext(display, configs[0], EGL_NO_CONTEXT, contextAttributes);
+
+                if (context != EGL_NO_CONTEXT)
+                {
+                    apiVersion = ApiVersion(3, 0);
+                    logger.log(Log::Level::info) << "EGL OpenGL ES " << 3 << " context created";
+                }
+                else // TODO: use RAII for surface
+                    eglDestroySurface(display, surface);
             }
         }
 
         if (context == EGL_NO_CONTEXT)
-            throw std::runtime_error("Failed to create EGL context");
+        {
+            const auto configs = chooseConfig(display, settings.depth, settings.stencil, settings.sampleCount, 2);
+            if (configs.empty())
+                throw std::runtime_error("No EGL config found");
+
+            if (!eglBindAPI(EGL_OPENGL_ES_API))
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API");
+
+            EGLint format;
+            if (!eglGetConfigAttrib(display, configs[0], EGL_NATIVE_VISUAL_ID, &format))
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get config attribute");
+
+            auto windowAndroid = static_cast<core::android::NativeWindow*>(window.getNativeWindow());
+
+            ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
+
+            surface = eglCreateWindowSurface(display, configs[0], windowAndroid->getNativeWindow(), nullptr);
+            if (surface == EGL_NO_SURFACE)
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");
+
+            const EGLint contextAttributes[] = {
+                EGL_CONTEXT_CLIENT_VERSION, 2,
+                EGL_NONE
+            };
+
+            context = eglCreateContext(display, configs[0], EGL_NO_CONTEXT, contextAttributes);
+            if (context == EGL_NO_CONTEXT)
+                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL context");
+
+            apiVersion = ApiVersion(2, 0);
+            logger.log(Log::Level::info) << "EGL OpenGL ES " << 2 << " context created";
+        }
 
         if (!eglMakeCurrent(display, surface, surface, context))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set current EGL context");
