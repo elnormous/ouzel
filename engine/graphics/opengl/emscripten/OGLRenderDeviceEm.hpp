@@ -22,6 +22,9 @@ namespace ouzel::graphics::opengl::emscripten
                      const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;
 
+        void handleContextLost();
+        void handleContextRestored();
+
     private:
         EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
     };
