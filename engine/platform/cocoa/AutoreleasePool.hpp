@@ -10,7 +10,7 @@ typedef NSAutoreleasePool* NSAutoreleasePoolPtr;
 using NSAutoreleasePoolPtr = id;
 #endif
 
-namespace ouzel::core::cocoa
+namespace ouzel::platform::cocoa
 {
     class AutoreleasePool final
     {

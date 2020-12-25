@@ -78,6 +78,8 @@ namespace ouzel::graphics::opengl::emscripten
 
         emscripten_set_main_loop_timing(settings.verticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
+        // emscripten_webgl_get_drawing_buffer_size: https://emscripten.org/docs/api_reference/html5.h.html?highlight=emscripten_webgl_create_context#c.emscripten_webgl_get_drawing_buffer_size
+
         init(static_cast<GLsizei>(window.getResolution().v[0]),
              static_cast<GLsizei>(window.getResolution().v[1]));
     }

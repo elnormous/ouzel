@@ -13,8 +13,8 @@
 #include "OGLRenderDeviceMacOS.hpp"
 #include "OpenGLView.h"
 #include "../../../core/Engine.hpp"
-#include "../../../core/cocoa/AutoreleasePool.hpp"
-#include "../../../core/corevideo/CoreVideoErrorCategory.hpp"
+#include "../../../platform/cocoa/AutoreleasePool.hpp"
+#include "../../../platform/corevideo/CoreVideoErrorCategory.hpp"
 #include "../../../core/macos/NativeWindowMacOS.hpp"
 #include "../../../utils/Log.hpp"
 
@@ -29,7 +29,7 @@ namespace ouzel::graphics::opengl::macos
                                 CVOptionFlags*,
                                 void* userInfo)
         {
-            ouzel::core::cocoa::AutoreleasePool autoreleasePool;
+            platform::cocoa::AutoreleasePool autoreleasePool;
 
             try
             {
@@ -118,15 +118,15 @@ namespace ouzel::graphics::opengl::macos
 
         const CGDirectDisplayID displayId = windowMacOS->getDisplayId();
         if (const auto result = CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink); result != kCVReturnSuccess)
-            throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to create display link");
+            throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to create display link");
 
         if (const auto result = CVDisplayLinkSetOutputCallback(displayLink, macos::renderCallback, this); result != kCVReturnSuccess)
-            throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to set output callback for the display link");
+            throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to set output callback for the display link");
 
         running = true;
 
         if (const auto result = CVDisplayLinkStart(displayLink); result != kCVReturnSuccess)
-            throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to start display link");
+            throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to start display link");
     }
 
     RenderDevice::~RenderDevice()
@@ -197,13 +197,13 @@ namespace ouzel::graphics::opengl::macos
                 const CGDirectDisplayID displayId = event.screenId;
 
                 if (const auto result = CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink); result != kCVReturnSuccess)
-                    throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to create display link");
+                    throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to create display link");
 
                 if (const auto result = CVDisplayLinkSetOutputCallback(displayLink, macos::renderCallback, this); result != kCVReturnSuccess)
-                    throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to set output callback for the display link");
+                    throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to set output callback for the display link");
 
                 if (const auto result = CVDisplayLinkStart(displayLink); result != kCVReturnSuccess)
-                    throw std::system_error(result, core::corevideo::getErrorCategory(), "Failed to start display link");
+                    throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to start display link");
             });
         }
 

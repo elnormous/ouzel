@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "NativeWindowMacOS.hpp"
 #include "ViewMacOS.h"
-#include "../../core/coregraphics/CoreGraphicsErrorCategory.hpp"
+#include "../../platform/coregraphics/CoreGraphicsErrorCategory.hpp"
 #include "../../graphics/RenderDevice.hpp"
 #include "../../graphics/opengl/macos/OpenGLView.h"
 #include "../../graphics/metal/macos/MetalView.h"
@@ -139,7 +139,7 @@ namespace ouzel::core::macos
             if (exclusiveFullscreen)
             {
                 if (const auto result = CGDisplayCapture(displayId); result != kCGErrorSuccess)
-                    throw std::system_error(result, core::coregraphics::getErrorCategory(), "Failed to capture the main display");
+                    throw std::system_error(result, platform::coregraphics::getErrorCategory(), "Failed to capture the main display");
 
                 windowRect = frame;
                 [window setStyleMask:NSBorderlessWindowMask];
@@ -321,7 +321,7 @@ namespace ouzel::core::macos
                 if (newFullscreen)
                 {
                     if (const auto result = CGDisplayCapture(displayId); result != kCGErrorSuccess)
-                        throw std::system_error(result, core::coregraphics::getErrorCategory(), "Failed to capture the main display");
+                        throw std::system_error(result, platform::coregraphics::getErrorCategory(), "Failed to capture the main display");
 
                     windowRect = [window frame];
                     [window setStyleMask:NSBorderlessWindowMask];
@@ -339,7 +339,7 @@ namespace ouzel::core::macos
                     [window setFrame:windowRect display:YES animate:NO];
 
                     if (const auto result = CGDisplayRelease(displayId); result != kCGErrorSuccess)
-                        throw std::system_error(result, core::coregraphics::getErrorCategory(), "Failed to release the main display");
+                        throw std::system_error(result, platform::coregraphics::getErrorCategory(), "Failed to release the main display");
                 }
             }
             else

@@ -175,9 +175,6 @@ endif
 else ifeq ($(PLATFORM),macos)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	audio/openal/OALAudioDevice.cpp \
-	core/cocoa/AutoreleasePool.mm \
-	core/coregraphics/CoreGraphicsErrorCategory.cpp \
-	core/corevideo/CoreVideoErrorCategory.cpp \
 	core/macos/EngineMacOS.mm \
 	core/macos/NativeWindowMacOS.mm \
 	core/macos/SystemMacOS.mm \
@@ -198,11 +195,13 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	input/macos/GamepadDeviceMacOS.cpp \
 	input/macos/InputSystemMacOS.mm \
 	input/macos/MouseDeviceMacOS.mm \
-	input/macos/CursorMacOS.cpp
+	input/macos/CursorMacOS.cpp \
+	platform/cocoa/AutoreleasePool.mm \
+	platform/coregraphics/CoreGraphicsErrorCategory.cpp \
+	platform/corevideo/CoreVideoErrorCategory.cpp
 else ifeq ($(PLATFORM),ios)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	audio/openal/OALAudioDevice.cpp \
-	core/cocoa/AutoreleasePool.mm \
 	core/ios/DisplayLink.mm \
 	core/ios/EngineIOS.mm \
 	core/ios/NativeWindowIOS.mm \
@@ -220,7 +219,8 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	graphics/opengl/ios/OGLRenderDeviceIOS.mm \
 	graphics/opengl/ios/OpenGLView.m \
 	input/ios/GamepadDeviceIOS.mm \
-	input/ios/InputSystemIOS.mm
+	input/ios/InputSystemIOS.mm \
+	platform/cocoa/AutoreleasePool.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 OBJCFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
@@ -228,7 +228,6 @@ OBJCXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path)
 else ifeq ($(PLATFORM),tvos)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	audio/openal/OALAudioDevice.cpp \
-	core/cocoa/AutoreleasePool.mm \
 	core/tvos/DisplayLink.mm \
 	core/tvos/EngineTVOS.mm \
 	core/tvos/NativeWindowTVOS.mm \
@@ -246,7 +245,8 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	graphics/opengl/tvos/OGLRenderDeviceTVOS.mm \
 	graphics/opengl/tvos/OpenGLView.m \
 	input/tvos/GamepadDeviceTVOS.mm \
-	input/tvos/InputSystemTVOS.mm
+	input/tvos/InputSystemTVOS.mm \
+	platform/cocoa/AutoreleasePool.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 OBJCFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0

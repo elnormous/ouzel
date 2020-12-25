@@ -6,7 +6,7 @@
 #include <system_error>
 #include <CoreVideo/CVReturn.h>
 
-namespace ouzel::core::corevideo
+namespace ouzel::platform::corevideo
 {
     class ErrorCategory final: public std::error_category
     {

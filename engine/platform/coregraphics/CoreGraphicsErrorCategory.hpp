@@ -6,7 +6,7 @@
 #include <system_error>
 #include <CoreGraphics/CGError.h>
 
-namespace ouzel::core::coregraphics
+namespace ouzel::platform::coregraphics
 {
     class ErrorCategory final: public std::error_category
     {

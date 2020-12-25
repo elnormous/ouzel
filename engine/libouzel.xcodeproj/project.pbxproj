@@ -1169,6 +1169,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		301116C62595A8EB0093FF14 /* platform */ = {
+			isa = PBXGroup;
+			children = (
+				307F4C2024E20CFE00994B7A /* cocoa */,
+				304BB5DF256B3A420024DD25 /* coregraphics */,
+				304BB5D32569E40F0024DD25 /* corevideo */,
+			);
+			path = platform;
+			sourceTree = "<group>";
+		};
 		303820881D816EAB00677CAB /* empty */ = {
 			isa = PBXGroup;
 			children = (
@@ -1370,9 +1380,6 @@
 			isa = PBXGroup;
 			children = (
 				30EEADB5215DA81500D2F525 /* Application.hpp */,
-				307F4C2024E20CFE00994B7A /* cocoa */,
-				304BB5DF256B3A420024DD25 /* coregraphics */,
-				304BB5D32569E40F0024DD25 /* corevideo */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.hpp */,
 				303B756F1C2A3D0300FEDE92 /* ios */,
@@ -1615,6 +1622,7 @@
 				30A9C1371CAEBA420084C4BF /* localization */,
 				303B750F1C2882CA00FEDE92 /* math */,
 				304F92A21F4D89560063EEC0 /* network */,
+				301116C62595A8EB0093FF14 /* platform */,
 				303B750D1C28828600FEDE92 /* scene */,
 				303B75121C2883C800FEDE92 /* storage */,
 				306E509F24F47B2E00D9017F /* thread */,

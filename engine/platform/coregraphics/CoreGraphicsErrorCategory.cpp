@@ -2,7 +2,7 @@
 
 #include "CoreGraphicsErrorCategory.hpp"
 
-namespace ouzel::core::coregraphics
+namespace ouzel::platform::coregraphics
 {
     namespace
     {

@@ -2,7 +2,7 @@
 
 #include "CoreVideoErrorCategory.hpp"
 
-namespace ouzel::core::corevideo
+namespace ouzel::platform::corevideo
 {
     namespace
     {
