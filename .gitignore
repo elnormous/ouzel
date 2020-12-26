@@ -29,9 +29,7 @@ samples/app/.idea
 samples/app/build
 samples/sprite/win/ipch/
 samples/sprite/win/x64/
-samples/samples
-samples/samples.js
-samples/samples.js.mem
+samples/bin
 *.gch
 samples/samples.app
 engine/html
