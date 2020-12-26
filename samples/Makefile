@@ -80,6 +80,7 @@ SOURCES=AnimationsSample.cpp \
 BASE_NAMES=$(basename $(SOURCES))
 OBJECTS=$(BASE_NAMES:=.o)
 DEPENDENCIES=$(OBJECTS:.o=.d)
+BINDIR=bin
 ifeq ($(PLATFORM),emscripten)
 EXECUTABLE=samples.js
 else
@@ -96,7 +97,7 @@ all: LDFLAGS+=-O3
 endif
 
 .PHONY: bundle
-bundle: $(EXECUTABLE)
+bundle: $(BINDIR)/$(EXECUTABLE)
 ifeq ($(PLATFORM),macos)
 bundle:
 	mkdir -p $(EXECUTABLE).app
@@ -107,7 +108,7 @@ bundle:
 		-e s/'$$(MACOSX_DEPLOYMENT_TARGET)'/10.8/ \
 		macos/Info.plist > $(EXECUTABLE).app/Contents/Info.plist
 	mkdir -p $(EXECUTABLE).app/Contents/MacOS
-	cp -f $(EXECUTABLE) $(EXECUTABLE).app/Contents/MacOS
+	cp -f $(BINDIR)/$(EXECUTABLE) $(EXECUTABLE).app/Contents/MacOS
 	mkdir -p $(EXECUTABLE).app/Contents/Resources
 	cp -f settings.ini $(EXECUTABLE).app/Contents/Resources
 	cp -f Resources/* $(EXECUTABLE).app/Contents/Resources/
@@ -124,7 +125,7 @@ else ifeq ($(PLATFORM),ios)
 		-e s/'$$(PRODUCT_BUNDLE_IDENTIFIER)'/lv.elviss.ouzel/ \
 		-e s/'$$(PRODUCT_NAME)'/samples/ \
 		ios/Info.plist > $(EXECUTABLE).app/Info.plist
-	cp -f $(EXECUTABLE) $(EXECUTABLE).app
+	cp -f $(BINDIR)/$(EXECUTABLE) $(EXECUTABLE).app
 	cp -f settings.ini $(EXECUTABLE).app
 	cp -f Resources/* $(EXECUTABLE).app
 	xcrun actool --output-format human-readable-text --notices --warnings \
@@ -140,7 +141,7 @@ else ifeq ($(PLATFORM),tvos)
 		-e s/'$$(PRODUCT_BUNDLE_IDENTIFIER)'/lv.elviss.ouzel/ \
 		-e s/'$$(PRODUCT_NAME)'/samples/ \
 		tvos/Info.plist > $(EXECUTABLE).app/Info.plist
-	cp -f $(EXECUTABLE) $(EXECUTABLE).app
+	cp -f $(BINDIR)/$(EXECUTABLE) $(EXECUTABLE).app
 	cp -f settings.ini $(EXECUTABLE).app
 	cp -f Resources/* $(EXECUTABLE).app
 	xcrun actool --output-format human-readable-text --notices --warnings \
@@ -150,9 +151,13 @@ else ifeq ($(PLATFORM),tvos)
 		--platform appletvos --compile $(EXECUTABLE).app tvos/Assets.xcassets
 	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Info.plist
 	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Info.plist
+else ifeq ($(PLATFORM),linux)
+	cp settings.ini $(BINDIR)
+	cp -a Resources/. $(BINDIR)
 endif
 
-$(EXECUTABLE): ouzel $(OBJECTS)
+$(BINDIR)/$(EXECUTABLE): ouzel $(OBJECTS)
+	mkdir -p $(BINDIR)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
 -include $(DEPENDENCIES)
@@ -171,5 +176,6 @@ ifeq ($(PLATFORM),windows)
 	-del /f /q "$(EXECUTABLE).exe" "*.o" "*.d" "*.js.mem" "*.js"
 else
 	$(RM) $(EXECUTABLE) *.o *.d *.js.mem *.js $(EXECUTABLE).exe assetcatalog_generated_info.plist assetcatalog_dependencies
+	$(RM) -f $(BINDIR)
 	$(RM) -r $(EXECUTABLE).app
 endif
