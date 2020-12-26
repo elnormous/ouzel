@@ -175,7 +175,7 @@ clean:
 ifeq ($(PLATFORM),windows)
 	-del /f /q "$(EXECUTABLE).exe" "*.o" "*.d" "*.js.mem" "*.js"
 else
-	$(RM) $(EXECUTABLE) *.o *.d *.js.mem *.js $(EXECUTABLE).exe assetcatalog_generated_info.plist assetcatalog_dependencies
+	$(RM) *.o *.d assetcatalog_generated_info.plist assetcatalog_dependencies
 	$(RM) -f $(BINDIR)
 	$(RM) -r $(EXECUTABLE).app
 endif
