@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_CORE_COCOA_AUTORELEASEPOOL_HPP
-#define OUZEL_CORE_COCOA_AUTORELEASEPOOL_HPP
+#ifndef OUZEL_PLATFORM_COCOA_AUTORELEASEPOOL_HPP
+#define OUZEL_PLATFORM_COCOA_AUTORELEASEPOOL_HPP
 
 #if defined(__OBJC__)
 typedef NSAutoreleasePool* NSAutoreleasePoolPtr;
@@ -37,4 +37,4 @@ namespace ouzel::platform::cocoa
     };
 }
 
-#endif // OUZEL_CORE_COCOA_AUTORELEASEPOOL_HPP
+#endif // OUZEL_PLATFORM_COCOA_AUTORELEASEPOOL_HPP

@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_CORE_COREGRAPHICS_COREVIDEOERRORCATEGORY_HPP
-#define OUZEL_CORE_COREGRAPHICS_COREVIDEOERRORCATEGORY_HPP
+#ifndef OUZEL_PLATFORM_COREGRAPHICS_COREVIDEOERRORCATEGORY_HPP
+#define OUZEL_PLATFORM_COREGRAPHICS_COREVIDEOERRORCATEGORY_HPP
 
 #include <system_error>
 #include <CoreGraphics/CGError.h>
@@ -38,4 +38,4 @@ namespace ouzel::platform::coregraphics
     const std::error_category& getErrorCategory() noexcept;
 }
 
-#endif // OUZEL_CORE_COREGRAPHICS_COREVIDEOERRORCATEGORY_HPP
+#endif // OUZEL_PLATFORM_COREGRAPHICS_COREVIDEOERRORCATEGORY_HPP
