@@ -53,3 +53,5 @@ test/test.xcodeproj/project.xcworkspace/xcuserdata
 test/test.xcodeproj/xcshareddata
 test/test.xcodeproj/xcuserdata
 test/test
+samples/app/src/main/libs
+samples/app/src/main/obj
