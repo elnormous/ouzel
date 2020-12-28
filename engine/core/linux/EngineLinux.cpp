@@ -290,11 +290,11 @@ namespace ouzel::core::linux
         core::Engine(parseArgs(argc, argv))
     {
 #if OUZEL_SUPPORTS_X11
-        XSetErrorHandler(errorHandler);
-
         if (!XInitThreads())
             throw std::system_error(getLastError(), errorCategory, "Failed to initialize thread support");
 
+        XSetErrorHandler(errorHandler);
+        
         // open a connection to the X server
         display = XOpenDisplay(nullptr);
         if (!display)
