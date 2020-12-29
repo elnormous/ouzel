@@ -6,6 +6,7 @@
 #include "../Setup.h"
 #if OUZEL_SUPPORTS_X11
 #  include <X11/Xlib.h>
+#  include "../../platform/x11/ThreadSupport.hpp"
 #else
 #  include <bcm_host.h>
 #endif
@@ -40,6 +41,7 @@ namespace ouzel::core::linux
         std::mutex executeMutex;
 
 #if OUZEL_SUPPORTS_X11
+        platform::x11::ThreadSupport threadSupport;
         Display* display = nullptr;
         Atom executeAtom = None;
 #elif OUZEL_SUPPORTS_DISPMANX
