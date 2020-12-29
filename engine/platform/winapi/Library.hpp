@@ -1,7 +1,9 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_CORE_LIBRARY_HPP
-#define OUZEL_CORE_LIBRARY_HPP
+#ifndef OUZEL_PLATFORM_WINAPI_LIBRARY_HPP
+#define OUZEL_PLATFORM_WINAPI_LIBRARY_HPP
+
+#include <string>
 
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("NOMINMAX")
@@ -15,7 +17,7 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-namespace ouzel::core::windows
+namespace ouzel::platform::winapi
 {
     class Library final
     {
@@ -63,4 +65,4 @@ namespace ouzel::core::windows
     };
 }
 
-#endif // OUZEL_CORE_LIBRARY_HPP
+#endif // OUZEL_PLATFORM_WINAPI_LIBRARY_HPP

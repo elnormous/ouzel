@@ -18,7 +18,7 @@
 
 #include "EngineWin.hpp"
 #include "NativeWindowWin.hpp"
-#include "ShellExecuteErrorCategory.hpp"
+#include "../../platform/winapi/ShellExecuteErrorCategory.hpp"
 #include "../../input/windows/InputSystemWin.hpp"
 #include "../../utils/Log.hpp"
 
@@ -46,7 +46,7 @@ namespace ouzel::core::windows
             return result;
         }
 
-        const ShellExecuteErrorCategory shellExecuteErrorCategory{};
+        const platform::winapi::ShellExecuteErrorCategory shellExecuteErrorCategory{};
     }
 
     Engine::Engine(int argc, LPWSTR* argv):

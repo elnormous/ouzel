@@ -2,7 +2,7 @@
 
 #include <system_error>
 #include "CursorWin.hpp"
-#include "../../core/windows/DeviceContext.hpp"
+#include "../../platform/winapi/DeviceContext.hpp"
 
 namespace ouzel::input::windows
 {
@@ -18,7 +18,7 @@ namespace ouzel::input::windows
                     throw std::runtime_error("Failed to create mask bitmap");
             }
 
-            Bitmap(const core::windows::DeviceContext& deviceContext,
+            Bitmap(const platform::winapi::DeviceContext& deviceContext,
                    const BITMAPINFO* bitmapInfo,
                    UINT usage,
                    void** bits,
@@ -110,7 +110,7 @@ namespace ouzel::input::windows
             bitmapInfo.bmiHeader.biBitCount = 32;
             bitmapInfo.bmiHeader.biCompression = BI_RGB;
 
-            core::windows::DeviceContext deviceContext;
+            platform::winapi::DeviceContext deviceContext;
             void* targetPointer = nullptr;
             Bitmap colorBitmap{deviceContext,
                                &bitmapInfo,

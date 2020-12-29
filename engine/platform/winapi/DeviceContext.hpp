@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_CORE_DEVICECONTEXT_HPP
-#define OUZEL_CORE_DEVICECONTEXT_HPP
+#ifndef OUZEL_PLATFORM_WINAPI_DEVICECONTEXT_HPP
+#define OUZEL_PLATFORM_WINAPI_DEVICECONTEXT_HPP
 
 #include <stdexcept>
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
@@ -16,7 +16,7 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-namespace ouzel::core::windows
+namespace ouzel::platform::winapi
 {
     class DeviceContext final
     {
@@ -61,4 +61,4 @@ namespace ouzel::core::windows
     };
 }
 
-#endif // OUZEL_CORE_DEVICECONTEXT_HPP
+#endif // OUZEL_PLATFORM_WINAPI_DEVICECONTEXT_HPP

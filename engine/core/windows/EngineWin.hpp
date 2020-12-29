@@ -16,9 +16,9 @@
 #pragma pop_macro("NOMINMAX")
 
 #include "../Engine.hpp"
-#include "Com.hpp"
+#include "../../platform/winapi/Com.hpp"
 #ifdef DEBUG
-#  include "Console.hpp"
+#  include "../../platform/winapi/Console.hpp"
 #endif
 namespace ouzel::core::windows
 {
@@ -36,9 +36,9 @@ namespace ouzel::core::windows
     private:
         void runOnMainThread(const std::function<void()>& func) final;
 
-        Com com;
+        platform::winapi::Com com;
 #ifdef DEBUG
-        Console console;
+        platform::winapi::Console console;
 #endif
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;

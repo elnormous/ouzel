@@ -495,13 +495,7 @@
     <ClInclude Include="core\Window.hpp">
       <Filter>engine\core</Filter>
     </ClInclude>
-    <ClInclude Include="core\windows\Library.hpp">
-      <Filter>engine\core\windows</Filter>
-    </ClInclude>
     <ClInclude Include="core\windows\NativeWindowWin.hpp">
-      <Filter>engine\core\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="core\windows\ShellExecuteErrorCategory.hpp">
       <Filter>engine\core\windows</Filter>
     </ClInclude>
     <ClInclude Include="math\MathUtils.hpp">
@@ -957,14 +951,20 @@
     <ClInclude Include="graphics\direct3d11\D3D11ErrorCategory.hpp">
       <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="core\windows\Com.hpp">
-      <Filter>engine\core\windows</Filter>
+    <ClInclude Include="platform\winapi\DeviceContext.hpp">
+      <Filter>engine\platform\winapi</Filter>
     </ClInclude>
-    <ClInclude Include="core\windows\Console.hpp">
-      <Filter>engine\core\windows</Filter>
+    <ClInclude Include="platform\winapi\Library.hpp">
+      <Filter>engine\platform\winapi</Filter>
     </ClInclude>
-    <ClInclude Include="core\windows\DeviceContext.hpp">
-      <Filter>engine\core\windows</Filter>
+    <ClInclude Include="platform\winapi\ShellExecuteErrorCategory.hpp">
+      <Filter>engine\platform\winapi</Filter>
+    </ClInclude>
+    <ClInclude Include="platform\winapi\Com.hpp">
+      <Filter>engine\platform\winapi</Filter>
+    </ClInclude>
+    <ClInclude Include="platform\winapi\Console.hpp">
+      <Filter>engine\platform\winapi</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1051,6 +1051,12 @@
     </Filter>
     <Filter Include="engine\hash">
       <UniqueIdentifier>{75d147bd-3823-40ee-a16c-3cab91a445b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\platform">
+      <UniqueIdentifier>{3e4efe4a-5695-4b20-b37e-20895ab7e5ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\platform\winapi">
+      <UniqueIdentifier>{77c5e719-3632-430e-bf7d-aff5d5bfd6ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

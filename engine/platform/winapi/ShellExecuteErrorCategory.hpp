@@ -1,7 +1,7 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_CORE_SHELLEXECUTEERRORCATEGORY_HPP
-#define OUZEL_CORE_SHELLEXECUTEERRORCATEGORY_HPP
+#ifndef OUZEL_PLATFORM_WINAPI_SHELLEXECUTEERRORCATEGORY_HPP
+#define OUZEL_PLATFORM_WINAPI_SHELLEXECUTEERRORCATEGORY_HPP
 
 #include <system_error>
 
@@ -13,11 +13,12 @@
 #ifndef NOMINMAX
 #  define NOMINMAX
 #endif
+#include <winerror.h>
 #include <shellapi.h>
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-namespace ouzel::core::windows
+namespace ouzel::platform::winapi
 {
     class ShellExecuteErrorCategory final: public std::error_category
     {
@@ -50,4 +51,4 @@ namespace ouzel::core::windows
     };
 }
 
-#endif // OUZEL_CORE_SHELLEXECUTEERRORCATEGORY_HPP
+#endif // OUZEL_PLATFORM_WINAPI_SHELLEXECUTEERRORCATEGORY_HPP

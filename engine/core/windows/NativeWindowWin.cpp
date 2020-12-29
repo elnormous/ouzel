@@ -18,7 +18,7 @@
 
 #include "NativeWindowWin.hpp"
 #include "EngineWin.hpp"
-#include "Library.hpp"
+#include "../../platform/winapi/Library.hpp"
 #include "../Engine.hpp"
 #include "../Window.hpp"
 #include "../../input/windows/InputSystemWin.hpp"
@@ -402,7 +402,7 @@ namespace ouzel::core::windows
     {
         if (highDpi)
         {
-            Library shcoreModule("shcore.dll");
+            platform::winapi::Library shcoreModule("shcore.dll");
 
             if (shcoreModule)
             {

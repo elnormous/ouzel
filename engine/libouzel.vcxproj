@@ -206,13 +206,8 @@
     <ClInclude Include="core\System.hpp" />
     <ClInclude Include="core\Timer.hpp" />
     <ClInclude Include="core\Window.hpp" />
-    <ClInclude Include="core\windows\Com.hpp" />
-    <ClInclude Include="core\windows\Console.hpp" />
-    <ClInclude Include="core\windows\DeviceContext.hpp" />
     <ClInclude Include="core\windows\EngineWin.hpp" />
-    <ClInclude Include="core\windows\Library.hpp" />
     <ClInclude Include="core\windows\NativeWindowWin.hpp" />
-    <ClInclude Include="core\windows\ShellExecuteErrorCategory.hpp" />
     <ClInclude Include="core\windows\SystemWin.hpp" />
     <ClInclude Include="DefaultConfig.h" />
     <ClInclude Include="events\Event.hpp" />
@@ -235,6 +230,11 @@
     <ClInclude Include="graphics\renderer\Object.hpp" />
     <ClInclude Include="graphics\renderer\Renderer.hpp" />
     <ClInclude Include="graphics\StencilOperation.hpp" />
+    <ClInclude Include="platform\winapi\Com.hpp" />
+    <ClInclude Include="platform\winapi\Console.hpp" />
+    <ClInclude Include="platform\winapi\DeviceContext.hpp" />
+    <ClInclude Include="platform\winapi\Library.hpp" />
+    <ClInclude Include="platform\winapi\ShellExecuteErrorCategory.hpp" />
     <ClInclude Include="storage\Archive.hpp" />
     <ClInclude Include="storage\FileSystem.hpp" />
     <ClInclude Include="storage\Path.hpp" />

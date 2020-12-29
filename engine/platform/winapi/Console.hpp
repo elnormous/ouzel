@@ -1,12 +1,12 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_CORE_CONSOLE_HPP
-#define OUZEL_CORE_CONSOLE_HPP
+#ifndef OUZEL_PLATFORM_WINAPI_CONSOLE_HPP
+#define OUZEL_PLATFORM_WINAPI_CONSOLE_HPP
 
 #include <system_error>
 #include <ConsoleApi.h>
 
-namespace ouzel::core::windows
+namespace ouzel::platform::winapi
 {
     class Console final
     {
@@ -44,4 +44,4 @@ namespace ouzel::core::windows
     };
 }
 
-#endif // OUZEL_CORE_CONSOLE_HPP
+#endif // OUZEL_PLATFORM_WINAPI_CONSOLE_HPP
