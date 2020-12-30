@@ -46,6 +46,7 @@
 		300C39F01E51355000330E4F /* PcmClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* PcmClip.cpp */; };
 		300C39F11E51355000330E4F /* PcmClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* PcmClip.cpp */; };
 		300C39F21E51355000330E4F /* PcmClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* PcmClip.cpp */; };
+		301116E4259C3EFB0093FF14 /* DisplayLink.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30C758BB1F4A2227008499DC /* DisplayLink.mm */; };
 		3011E1C61EFFE6DE00CB1DDC /* Ini.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* Ini.hpp */; };
 		3011E1C71EFFE6DE00CB1DDC /* Ini.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* Ini.hpp */; };
 		3011E1C81EFFE6DE00CB1DDC /* Ini.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* Ini.hpp */; };
@@ -666,8 +667,6 @@
 		30C758B91F4A0309008499DC /* RenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C758B41F4A0309008499DC /* RenderDevice.hpp */; };
 		30C758BA1F4A0309008499DC /* RenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C758B41F4A0309008499DC /* RenderDevice.hpp */; };
 		30C758BC1F4A2227008499DC /* DisplayLink.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30C758BB1F4A2227008499DC /* DisplayLink.mm */; };
-		30C758C01F4A23BD008499DC /* DisplayLink.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C758BE1F4A23BD008499DC /* DisplayLink.hpp */; };
-		30C758C11F4A23BD008499DC /* DisplayLink.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30C758BF1F4A23BD008499DC /* DisplayLink.mm */; };
 		30CB946B22B455F80025C927 /* SamplerAddressMode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CB946A22B455F80025C927 /* SamplerAddressMode.hpp */; };
 		30CEB36921A6385C00525637 /* System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CEB36721A6385C00525637 /* System.cpp */; };
 		30CEB36A21A6385C00525637 /* System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CEB36721A6385C00525637 /* System.cpp */; };
@@ -1073,8 +1072,6 @@
 		30C758B41F4A0309008499DC /* RenderDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderDevice.hpp; sourceTree = "<group>"; };
 		30C758BB1F4A2227008499DC /* DisplayLink.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DisplayLink.mm; sourceTree = "<group>"; };
 		30C758BD1F4A2261008499DC /* DisplayLink.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DisplayLink.hpp; sourceTree = "<group>"; };
-		30C758BE1F4A23BD008499DC /* DisplayLink.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DisplayLink.hpp; sourceTree = "<group>"; };
-		30C758BF1F4A23BD008499DC /* DisplayLink.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DisplayLink.mm; sourceTree = "<group>"; };
 		30CB946522B1C3CE0025C927 /* SamplerFilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SamplerFilter.hpp; sourceTree = "<group>"; };
 		30CB946922B451A80025C927 /* CompareFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CompareFunction.hpp; sourceTree = "<group>"; };
 		30CB946A22B455F80025C927 /* SamplerAddressMode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SamplerAddressMode.hpp; sourceTree = "<group>"; };
@@ -1175,8 +1172,18 @@
 				307F4C2024E20CFE00994B7A /* cocoa */,
 				304BB5DF256B3A420024DD25 /* coregraphics */,
 				304BB5D32569E40F0024DD25 /* corevideo */,
+				301116D0259C3D740093FF14 /* quartzcore */,
 			);
 			path = platform;
+			sourceTree = "<group>";
+		};
+		301116D0259C3D740093FF14 /* quartzcore */ = {
+			isa = PBXGroup;
+			children = (
+				30C758BD1F4A2261008499DC /* DisplayLink.hpp */,
+				30C758BB1F4A2227008499DC /* DisplayLink.mm */,
+			);
+			path = quartzcore;
 			sourceTree = "<group>";
 		};
 		303820881D816EAB00677CAB /* empty */ = {
@@ -1458,8 +1465,6 @@
 		303B756F1C2A3D0300FEDE92 /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				30C758BD1F4A2261008499DC /* DisplayLink.hpp */,
-				30C758BB1F4A2227008499DC /* DisplayLink.mm */,
 				303820561D816C7700677CAB /* EngineIOS.hpp */,
 				303820571D816C7700677CAB /* EngineIOS.mm */,
 				3038205F1D816C7700677CAB /* NativeWindowIOS.hpp */,
@@ -1513,8 +1518,6 @@
 		303B76311C355A3400FEDE92 /* tvos */ = {
 			isa = PBXGroup;
 			children = (
-				30C758BE1F4A23BD008499DC /* DisplayLink.hpp */,
-				30C758BF1F4A23BD008499DC /* DisplayLink.mm */,
 				30EA711E1D52783000AE8C3E /* EngineTVOS.hpp */,
 				30EA711F1D52783000AE8C3E /* EngineTVOS.mm */,
 				3009342D1C88978D00CC50D3 /* NativeWindowTVOS.hpp */,
@@ -2116,7 +2119,6 @@
 				303696F11E32DE08007F4211 /* Shader.hpp in Headers */,
 				3023200422184518007E0AAD /* Server.hpp in Headers */,
 				30EEADD2216ECEE400D2F525 /* GamepadDevice.hpp in Headers */,
-				30C758C01F4A23BD008499DC /* DisplayLink.hpp in Headers */,
 				303B76681C355A3B00FEDE92 /* InputManager.hpp in Headers */,
 				30C758B21F4A0196008499DC /* AudioDevice.hpp in Headers */,
 				302B728921BDE302006EBC59 /* SilenceSound.hpp in Headers */,
@@ -2590,6 +2592,7 @@
 				306672621F964A77004515F2 /* Light.cpp in Sources */,
 				303B76351C355A3B00FEDE92 /* Graphics.cpp in Sources */,
 				309BA3151F183D6E006F2240 /* CAAudioDevice.mm in Sources */,
+				301116E4259C3EFB0093FF14 /* DisplayLink.mm in Sources */,
 				30B8598E1F3D286600A16952 /* TTFont.cpp in Sources */,
 				30FFBE3C2158FD8D004B0BD3 /* Mouse.cpp in Sources */,
 				304E763B1F7095DE0025C0DB /* Client.cpp in Sources */,
@@ -2612,7 +2615,6 @@
 				C61B49F32174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
 				30519CDA1F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */,
 				307F4C2524E20D2A00994B7A /* AutoreleasePool.mm in Sources */,
-				30C758C11F4A23BD008499DC /* DisplayLink.mm in Sources */,
 				303B76391C355A3B00FEDE92 /* SpriteRenderer.cpp in Sources */,
 				30673DD51F7A694F00EAFAB0 /* NativeWindow.cpp in Sources */,
 				303696C61E32DD8F007F4211 /* Texture.cpp in Sources */,

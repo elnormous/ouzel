@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 #include "DisplayLink.hpp"
-#include "../../platform/cocoa/AutoreleasePool.hpp"
+#include "../cocoa/AutoreleasePool.hpp"
 
 @interface DisplayLinkHandler: NSObject
 @end
@@ -31,7 +31,7 @@
 }
 @end
 
-namespace ouzel::core::ios
+namespace ouzel::platform::quartzcore
 {
     DisplayLink::~DisplayLink()
     {

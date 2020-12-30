@@ -12,7 +12,7 @@
 #if TARGET_OS_IOS && OUZEL_COMPILE_METAL
 
 #include "../MetalRenderDevice.hpp"
-#include "../../../core/ios/DisplayLink.hpp"
+#include "../../../platform/quartzcore/DisplayLink.hpp"
 
 namespace ouzel::graphics::metal::ios
 {
@@ -28,7 +28,7 @@ namespace ouzel::graphics::metal::ios
         void renderCallback();
 
     private:
-        core::ios::DisplayLink displayLink;
+        platform::quartzcore::DisplayLink displayLink;
     };
 }
 

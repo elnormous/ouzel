@@ -12,7 +12,7 @@
 #if TARGET_OS_IOS && OUZEL_COMPILE_OPENGL
 
 #include "../OGLRenderDevice.hpp"
-#include "../../../core/ios/DisplayLink.hpp"
+#include "../../../platform/quartzcore/DisplayLink.hpp"
 
 #if defined(__OBJC__)
 #  import <UIKit/UIKit.h>
@@ -57,7 +57,7 @@ namespace ouzel::graphics::opengl::ios
 
         GLuint depthRenderBufferId = 0;
 
-        core::ios::DisplayLink displayLink;
+        platform::quartzcore::DisplayLink displayLink;
     };
 }
 #endif

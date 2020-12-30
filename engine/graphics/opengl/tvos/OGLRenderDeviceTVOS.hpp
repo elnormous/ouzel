@@ -12,7 +12,7 @@
 #if TARGET_OS_TV && OUZEL_COMPILE_OPENGL
 
 #include "../OGLRenderDevice.hpp"
-#include "../../../core/tvos/DisplayLink.hpp"
+#include "../../../platform/quartzcore/DisplayLink.hpp"
 
 #if defined(__OBJC__)
 #  import <UIKit/UIKit.h>
@@ -57,7 +57,7 @@ namespace ouzel::graphics::opengl::tvos
 
         GLuint depthRenderBufferId = 0;
 
-        core::tvos::DisplayLink displayLink;
+        platform::quartzcore::DisplayLink displayLink;
     };
 }
 #endif

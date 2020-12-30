@@ -202,7 +202,6 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 else ifeq ($(PLATFORM),ios)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	audio/openal/OALAudioDevice.cpp \
-	core/ios/DisplayLink.mm \
 	core/ios/EngineIOS.mm \
 	core/ios/NativeWindowIOS.mm \
 	core/ios/SystemIOS.mm \
@@ -220,7 +219,8 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	graphics/opengl/ios/OpenGLView.m \
 	input/ios/GamepadDeviceIOS.mm \
 	input/ios/InputSystemIOS.mm \
-	platform/cocoa/AutoreleasePool.mm
+	platform/cocoa/AutoreleasePool.mm \
+	platform/quartzcore/DisplayLink.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 OBJCFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
@@ -246,7 +246,8 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	graphics/opengl/tvos/OpenGLView.m \
 	input/tvos/GamepadDeviceTVOS.mm \
 	input/tvos/InputSystemTVOS.mm \
-	platform/cocoa/AutoreleasePool.mm
+	platform/cocoa/AutoreleasePool.mm \
+	platform/quartzcore/DisplayLink.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 OBJCFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
