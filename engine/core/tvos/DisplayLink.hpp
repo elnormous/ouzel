@@ -3,7 +3,6 @@
 #ifndef OUZEL_CORE_DISPLAYLINK_HPP
 #define OUZEL_CORE_DISPLAYLINK_HPP
 
-#include <thread>
 #if defined(__OBJC__)
 #  import <QuartzCore/QuartzCore.h>
 typedef CADisplayLink* CADisplayLinkPtr;
