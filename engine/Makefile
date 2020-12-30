@@ -228,7 +228,6 @@ OBJCXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path)
 else ifeq ($(PLATFORM),tvos)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	audio/openal/OALAudioDevice.cpp \
-	core/tvos/DisplayLink.mm \
 	core/tvos/EngineTVOS.mm \
 	core/tvos/NativeWindowTVOS.mm \
 	core/tvos/SystemTVOS.mm \
