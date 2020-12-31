@@ -78,8 +78,7 @@ namespace ouzel::storage
 
         const auto maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path.get());
         auto resourceDirectory = std::make_unique<char[]>(static_cast<std::size_t>(maximumSize));
-        const auto result = CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.get(), maximumSize);
-        if (!result)
+        if (const auto result = CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.get(), maximumSize); !result)
             throw std::runtime_error("Failed to get resource directory");
 
         appPath = Path{resourceDirectory.get(), Path::Format::native};
@@ -242,7 +241,6 @@ namespace ouzel::storage
 
         CFBundleRef bundle = CFBundleGetMainBundle();
         CFStringRef identifier = CFBundleGetIdentifier(bundle);
-
         if (!identifier)
             identifier = CFSTR(OUZEL_DEVELOPER_NAME "." OUZEL_APPLICATION_NAME);
 
