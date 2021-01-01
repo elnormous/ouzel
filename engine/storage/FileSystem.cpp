@@ -266,12 +266,13 @@ namespace ouzel::storage
             struct passwd pwent;
             struct passwd* pwentp;
             std::vector<char> buffer(1024);
+            int result;
 
-            while (const auto e = getpwuid_r(getuid(), &pwent, buffer.data(), buffer.size(), &pwentp); e != 0)
-                if (e == ERANGE)
+            while ((result = getpwuid_r(getuid(), &pwent, buffer.data(), buffer.size(), &pwentp)) != 0)
+                if (result == ERANGE)
                     buffer.resize(buffer.size() * 2);
                 else
-                    throw std::runtime_error("Failed to get home directory");
+                    throw std::system_error(result, std::system_category(), "Failed to get home directory");
 
             path = Path{pwent.pw_dir, Path::Format::native};
             path /= ".local";
