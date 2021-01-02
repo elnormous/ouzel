@@ -44,7 +44,7 @@ namespace ouzel::graphics::metal
             return *this;
         }
 
-        DispatchSemaphore& operator=(const DispatchSemaphore& other)
+        DispatchSemaphore& operator=(const DispatchSemaphore& other) noexcept
         {
             if (this == &other) return *this;
             if (semaphore) dispatch_release(semaphore);
