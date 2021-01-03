@@ -224,12 +224,9 @@ namespace ouzel::input::linux
     EventDevice::EventDevice(InputSystem& inputSystem, const std::string& initFilename):
         filename(initFilename)
     {
-        fd = open(filename.c_str(), O_RDONLY);
-        while (fd == -1 && errno == EINTR)
-            fd = open(filename.c_str(), O_RDONLY);
-
-        if (fd == -1)
-            throw std::system_error(errno, std::system_category(), "Failed to open device file");
+        while ((ret = open(filename.c_str(), O_RDONLY)) == -1)
+            if (errno != EINTR)
+                throw std::system_error(errno, std::system_category(), "Failed to open device file");
 
         if (ioctl(fd, EVIOCGRAB, 1) == -1)
             logger.log(Log::Level::warning) << "Failed to grab device";

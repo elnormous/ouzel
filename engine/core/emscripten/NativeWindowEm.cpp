@@ -156,8 +156,8 @@ namespace ouzel::core::emscripten
         double height;
         emscripten_get_element_css_size("#canvas", &width, &height);
 
-        Size2U newSize(static_cast<std::uint32_t>(width),
-                       static_cast<std::uint32_t>(height));
+        const Size2U newSize(static_cast<std::uint32_t>(width),
+                             static_cast<std::uint32_t>(height));
 
         size = newSize;
         resolution = size;

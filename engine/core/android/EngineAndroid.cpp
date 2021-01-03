@@ -146,12 +146,10 @@ namespace ouzel::core::android
             throw std::runtime_error("Main thread has no looper");
 
         ALooper_acquire(looper);
-        int ret = pipe(looperPipe.data());
-        while (ret == -1 && errno == EINTR)
-            ret = pipe(looperPipe.data());
-
-        if (ret == -1)
-            throw std::system_error(errno, std::system_category(), "Failed to create pipe");
+        int ret;
+        while ((ret = pipe(looperPipe.data())) == -1)
+            if (errno != EINTR)
+                throw std::system_error(errno, std::system_category(), "Failed to create pipe");
 
         if (ALooper_addFd(looper, looperPipe[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
             throw std::runtime_error("Failed to add looper file descriptor");
@@ -227,7 +225,6 @@ namespace ouzel::core::android
     void Engine::onSurfaceDestroyed()
     {
         void* jniEnvPointer;
-
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
