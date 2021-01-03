@@ -224,7 +224,7 @@ namespace ouzel::input::linux
     EventDevice::EventDevice(InputSystem& inputSystem, const std::string& initFilename):
         filename(initFilename)
     {
-        while ((ret = open(filename.c_str(), O_RDONLY)) == -1)
+        while ((fd = open(filename.c_str(), O_RDONLY)) == -1)
             if (errno != EINTR)
                 throw std::system_error(errno, std::system_category(), "Failed to open device file");
 
