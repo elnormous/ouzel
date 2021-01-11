@@ -348,12 +348,9 @@ namespace ouzel::json
 
             static Iterator skipWhitespaces(Iterator begin, Iterator end)
             {
-                auto iterator = begin;
-                while (iterator != end &&
-                       isWhitespace(static_cast<char>(*iterator)))
-                    ++iterator;
-
-                return iterator;
+                for (auto i = begin; i != end; ++i)
+                    if (!isWhitespace(static_cast<char>(*i))) return i;
+                return end;
             }
 
             static std::pair<bool, Iterator> isSame(Iterator begin, Iterator end,
