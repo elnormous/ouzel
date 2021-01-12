@@ -43,8 +43,7 @@ namespace ouzel::json
         enum class Type
         {
             null,
-            integer,
-            floatingPoint,
+            number,
             string,
             object,
             array,
@@ -55,11 +54,8 @@ namespace ouzel::json
 
         Value(const Type initType): type(initType) {}
 
-        template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
-        Value(const T value): type(Type::floatingPoint), doubleValue(std::isfinite(value) ? static_cast<double>(value) : 0.0) {}
-
-        template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
-        Value(const T value): type(Type::integer), intValue(static_cast<std::int64_t>(value)) {}
+        template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T> && !std::is_same_v<T, bool>>* = nullptr>
+        Value(const T value): type(Type::number), doubleValue(static_cast<double>(value)) {}
 
         Value(const std::string& value): type(Type::string), stringValue(value) {}
 
@@ -79,19 +75,11 @@ namespace ouzel::json
             return *this;
         }
 
-        template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T> && !std::is_same_v<T, bool>>* = nullptr>
         Value& operator=(const T value) noexcept
         {
-            type = Type::floatingPoint;
-            doubleValue = std::isfinite(value) ? static_cast<double>(value) : 0.0;
-            return *this;
-        }
-
-        template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
-        Value& operator=(const T value) noexcept
-        {
-            type = Type::integer;
-            intValue = static_cast<std::int64_t>(value);
+            type = Type::number;
+            doubleValue = static_cast<double>(value);
             return *this;
         }
 
@@ -163,20 +151,18 @@ namespace ouzel::json
         template <typename T, typename std::enable_if_t<std::is_same_v<T, bool>>* = nullptr>
         T as() const
         {
-            if (type != Type::boolean && type != Type::integer && type != Type::floatingPoint)
+            if (type != Type::boolean && type != Type::number)
                 throw TypeError("Wrong type");
             if (type == Type::boolean) return boolValue;
-            else if (type == Type::integer) return intValue != 0;
             else return doubleValue != 0.0;
         }
 
         template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T> && !std::is_same_v<T, bool>>* = nullptr>
         T as() const
         {
-            if (type != Type::boolean && type != Type::integer && type != Type::floatingPoint)
+            if (type != Type::boolean && type != Type::number)
                 throw TypeError("Wrong type");
             if (type == Type::boolean) return boolValue;
-            else if (type == Type::integer) return static_cast<T>(intValue);
             else return static_cast<T>(doubleValue);
         }
 
@@ -243,13 +229,13 @@ namespace ouzel::json
             return objectValue.find(member) != objectValue.end();
         }
 
-        Value& operator[](const std::string& member)
+        Value& operator[](const std::string& member) &
         {
             type = Type::object;
             return objectValue[member];
         }
 
-        const Value& operator[](const std::string& member) const
+        const Value& operator[](const std::string& member) const&
         {
             if (type != Type::object) throw TypeError("Wrong type");
 
@@ -260,14 +246,14 @@ namespace ouzel::json
                 throw RangeError("Member does not exist");
         }
 
-        Value& operator[](std::size_t index)
+        Value& operator[](std::size_t index) &
         {
             type = Type::array;
             if (index >= arrayValue.size()) arrayValue.resize(index + 1);
             return arrayValue[index];
         }
 
-        const Value& operator[](std::size_t index) const
+        const Value& operator[](std::size_t index) const&
         {
             if (type != Type::array) throw TypeError("Wrong type");
 
@@ -283,13 +269,13 @@ namespace ouzel::json
             return arrayValue.size();
         }
 
-        void resize(std::size_t size)
+        void resize(std::size_t size) &
         {
             if (type != Type::array) throw TypeError("Wrong type");
             arrayValue.resize(size);
         }
 
-        void pushBack(const Value& value)
+        void pushBack(const Value& value) &
         {
             if (type != Type::array) throw TypeError("Wrong type");
             arrayValue.push_back(value);
@@ -300,7 +286,6 @@ namespace ouzel::json
         union
         {
             bool boolValue = false;
-            std::int64_t intValue;
             double doubleValue;
         };
         Object objectValue;
@@ -712,15 +697,10 @@ namespace ouzel::json
                         result.insert(result.end(), {'n', 'u', 'l', 'l'});
                         break;
                     }
-                    case Value::Type::integer:
+                    case Value::Type::number:
                     {
-                        const auto str = std::to_string(value.as<std::int64_t>());
-                        result.insert(result.end(), str.begin(), str.end());
-                        break;
-                    }
-                    case Value::Type::floatingPoint:
-                    {
-                        const auto str = std::to_string(value.as<double>());
+                        const auto d = value.as<double>();
+                        const auto str = (std::floor(d) == d) ? std::to_string(static_cast<std::int64_t>(d)) : std::to_string(d);
                         result.insert(result.end(), str.begin(), str.end());
                         break;
                     }
