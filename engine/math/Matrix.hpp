@@ -18,7 +18,7 @@
 
 namespace ouzel
 {
-    template <typename T, std::size_t C, std::size_t R> class Matrix final
+    template <typename T, std::size_t C, std::size_t R = C> class Matrix final
     {
     public:
 #if defined(__SSE__)
@@ -969,7 +969,7 @@ namespace ouzel
         return m * scalar;
     }
 
-    using Matrix4F = Matrix<float, 4, 4>;
+    using Matrix4F = Matrix<float, 4>;
 }
 
 #endif // OUZEL_MATH_MATRIX_HPP
