@@ -11,8 +11,8 @@ namespace ouzel
     template <typename T> class Rect final
     {
     public:
-        Vector<2, T> position;
-        Size<2, T> size;
+        Vector<T, 2> position;
+        Size<T, 2> size;
 
         constexpr Rect() noexcept {}
 
@@ -27,14 +27,14 @@ namespace ouzel
         {
         }
 
-        constexpr Rect(const Vector<2, T>& initPosition,
+        constexpr Rect(const Vector<T, 2>& initPosition,
                        const T width, const T height) noexcept:
             position(initPosition), size(width, height)
         {
         }
 
-        constexpr Rect(const Vector<2, T>& initPosition,
-                       const Size<2, T>& initSize) noexcept:
+        constexpr Rect(const Vector<T, 2>& initPosition,
+                       const Size<T, 2>& initSize) noexcept:
             position(initPosition), size(initSize)
         {
         }
@@ -50,7 +50,7 @@ namespace ouzel
             position.v[1] = y;
         }
 
-        constexpr void setPosition(const Vector<2, T>& newPosition) noexcept
+        constexpr void setPosition(const Vector<T, 2>& newPosition) noexcept
         {
             position = newPosition;
         }
@@ -75,14 +75,14 @@ namespace ouzel
             return position.v[1] + size.v[1];
         }
 
-        constexpr Vector<2, T> bottomLeft() const noexcept
+        constexpr Vector<T, 2> bottomLeft() const noexcept
         {
             return position;
         }
 
-        constexpr Vector<2, T> topRight() const noexcept
+        constexpr Vector<T, 2> topRight() const noexcept
         {
-            return Vector<2, T>(position.v[0] + size.v[0], position.v[1] + size.v[1]);
+            return Vector<T, 2>(position.v[0] + size.v[0], position.v[1] + size.v[1]);
         }
 
         constexpr bool containsPoint(const T x, const T y) const noexcept
@@ -91,7 +91,7 @@ namespace ouzel
                 y >= position.v[1] && y <= (position.v[1] + size.v[1]);
         }
 
-        constexpr bool containsPoint(const Vector<2, T>& point) const noexcept
+        constexpr bool containsPoint(const Vector<T, 2>& point) const noexcept
         {
             return point.v[0] >= position.v[0] && point.v[0] <= (position.v[0] + size.v[0]) &&
                 point.v[1] >= position.v[1] && point.v[1] <= (position.v[1] + size.v[1]);

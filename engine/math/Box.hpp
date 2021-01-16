@@ -10,11 +10,11 @@
 
 namespace ouzel
 {
-    template <std::size_t N, typename T> class Box final
+    template <typename T, std::size_t N> class Box final
     {
     public:
-        Vector<N, T> min;
-        Vector<N, T> max;
+        Vector<T, N> min;
+        Vector<T, N> max;
 
         Box() noexcept
         {
@@ -24,18 +24,18 @@ namespace ouzel
                 v = std::numeric_limits<T>::lowest();
         }
 
-        constexpr Box(const Vector<N, T>& initMin, const Vector<N, T>& initMax) noexcept:
+        constexpr Box(const Vector<T, N>& initMin, const Vector<T, N>& initMax) noexcept:
             min(initMin), max(initMax)
         {
         }
 
         template <std::size_t N2>
-        explicit Box(const Box<N2, T>& box) noexcept:
-            min(Vector<N, T>(box.min)), max(Vector<N, T>(box.max))
+        explicit Box(const Box<T, N2>& box) noexcept:
+            min(Vector<T, N>(box.min)), max(Vector<T, N>(box.max))
         {
         }
 
-        Vector<N, T> getCenter() const noexcept
+        Vector<T, N> getCenter() const noexcept
         {
             return (min + max) / T(2);
         }
@@ -49,7 +49,7 @@ namespace ouzel
             return true;
         }
 
-        bool containsPoint(const Vector<N, T>& point) const noexcept
+        bool containsPoint(const Vector<T, N>& point) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (point.v[i] < min.v[i]) return false;
@@ -82,7 +82,7 @@ namespace ouzel
             return false;
         }
 
-        void insertPoint(const Vector<N, T>& point) noexcept
+        void insertPoint(const Vector<T, N>& point) noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (point.v[i] < min.v[i]) min.v[i] = point.v[i];
@@ -90,38 +90,38 @@ namespace ouzel
                 if (point.v[i] > max.v[i]) max.v[i] = point.v[i];
         }
 
-        constexpr const Box operator+(const Vector<N, T>& v) const noexcept
+        constexpr const Box operator+(const Vector<T, N>& v) const noexcept
         {
             return Box(min + v, max + v);
         }
 
-        Box& operator+=(const Vector<N, T>& v) noexcept
+        Box& operator+=(const Vector<T, N>& v) noexcept
         {
             min += v;
             max += v;
             return *this;
         }
 
-        constexpr const Box operator-(const Vector<N, T>& v) const noexcept
+        constexpr const Box operator-(const Vector<T, N>& v) const noexcept
         {
             return Box(min - v, max - v);
         }
 
-        Box& operator-=(const Vector<N, T>& v) noexcept
+        Box& operator-=(const Vector<T, N>& v) noexcept
         {
             min -= v;
             max -= v;
             return *this;
         }
 
-        Size<N, T> getSize() const noexcept
+        Size<T, N> getSize() const noexcept
         {
-            return Size<N, T>(max - min);
+            return Size<T, N>{max - min};
         }
     };
 
-    using Box2F = Box<2, float>;
-    using Box3F = Box<3, float>;
+    using Box2F = Box<float, 2>;
+    using Box3F = Box<float, 3>;
 }
 
 #endif // OUZEL_MATH_BOX_HPP

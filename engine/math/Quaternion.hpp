@@ -225,7 +225,7 @@ namespace ouzel
                               v[3] * multiplier);
         }
 
-        void rotate(const T angle, const Vector<3, T>& axis) noexcept
+        void rotate(const T angle, const Vector<T, 3>& axis) noexcept
         {
             const auto normalizedAxis = axis.normalized();
 
@@ -238,7 +238,7 @@ namespace ouzel
             v[3] = cosAngle;
         }
 
-        void getRotation(T& angle, Vector<3, T>& axis) const noexcept
+        void getRotation(T& angle, Vector<T, 3>& axis) const noexcept
         {
             angle = T(2) * std::acos(v[3]);
             const T s = std::sqrt(T(1) - v[3] * v[3]);
@@ -256,13 +256,13 @@ namespace ouzel
             }
         }
 
-        Vector<3, T> getEulerAngles() const noexcept
+        Vector<T, 3> getEulerAngles() const noexcept
         {
-            Vector<3, T> result;
-            result.v[0] = std::atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
-            result.v[1] = std::asin(-2 * (v[0] * v[2] - v[3] * v[1]));
-            result.v[2] = std::atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
-            return result;
+            return Vector<T, 3>{
+                std::atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]),
+                std::asin(-2 * (v[0] * v[2] - v[3] * v[1])),
+                std::atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2])
+            };
         }
 
         auto getEulerAngleX() const noexcept
@@ -280,7 +280,7 @@ namespace ouzel
             return std::atan2(T(2) * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }
 
-        void setEulerAngles(const Vector<3, T>& angles) noexcept
+        void setEulerAngles(const Vector<T, 3>& angles) noexcept
         {
             const T angleR = angles.v[0] / T(2);
             const T sr = std::sin(angleR);
@@ -305,31 +305,31 @@ namespace ouzel
             v[3] = cr * cpcy + sr * spsy;
         }
 
-        const Vector<3, T> operator*(const Vector<3, T>& vector) const noexcept
+        const Vector<T, 3> operator*(const Vector<T, 3>& vector) const noexcept
         {
             return rotateVector(vector);
         }
 
-        Vector<3, T> rotateVector(const Vector<3, T>& vector) const noexcept
+        Vector<T, 3> rotateVector(const Vector<T, 3>& vector) const noexcept
         {
-            constexpr Vector<3, T> q(v[0], v[1], v[2]);
-            const Vector<3, T> t = T(2) * q.cross(vector);
+            constexpr Vector<T, 3> q(v[0], v[1], v[2]);
+            const Vector<T, 3> t = T(2) * q.cross(vector);
             return vector + (v[3] * t) + q.cross(t);
         }
 
-        Vector<3, T> getRightVector() const noexcept
+        Vector<T, 3> getRightVector() const noexcept
         {
-            return rotateVector(Vector<3, T>(1, 0, 0));
+            return rotateVector(Vector<T, 3>(1, 0, 0));
         }
 
-        Vector<3, T> getUpVector() const noexcept
+        Vector<T, 3> getUpVector() const noexcept
         {
-            return rotateVector(Vector<3, T>(0, 1, 0));
+            return rotateVector(Vector<T, 3>(0, 1, 0));
         }
 
-        Vector<3, T> getForwardVector() const noexcept
+        Vector<T, 3> getForwardVector() const noexcept
         {
-            return rotateVector(Vector<3, T>(0, 0, 1));
+            return rotateVector(Vector<T, 3>(0, 0, 1));
         }
 
         constexpr Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept

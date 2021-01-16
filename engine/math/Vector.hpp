@@ -12,7 +12,7 @@
 
 namespace ouzel
 {
-    template <std::size_t N, typename T> class Vector final
+    template <typename T, std::size_t N> class Vector final
     {
     public:
 #if defined(__SSE__)
@@ -29,7 +29,7 @@ namespace ouzel
         }
 
         template <std::size_t X = N, std::size_t N2, std::enable_if_t<(X != N2)>* = nullptr>
-        explicit Vector(const Vector<N2, T>& vec) noexcept
+        explicit Vector(const Vector<T, N2>& vec) noexcept
         {
             for (std::size_t i = 0; i < N && i < N2; ++i)
                 v[i] = vec.v[i];
@@ -213,7 +213,7 @@ namespace ouzel
         }
 
         template <std::size_t X = N, std::enable_if_t<(X == 2)>* = nullptr>
-        void rotate(const Vector<2, T>& point, T angle) noexcept
+        void rotate(const Vector<T, 2>& point, T angle) noexcept
         {
             const float sinAngle = std::sin(angle);
             const float cosAngle = std::cos(angle);
@@ -361,15 +361,15 @@ namespace ouzel
         }
     };
 
-    template <std::size_t N, typename T>
-    const Vector<N, T> operator*(const T scalar, const Vector<N, T>& vec) noexcept
+    template <typename T, std::size_t N>
+    const Vector<T, N> operator*(const T scalar, const Vector<T, N>& vec) noexcept
     {
         return vec * scalar;
     }
 
-    using Vector2F = Vector<2, float>;
-    using Vector3F = Vector<3, float>;
-    using Vector4F = Vector<4, float>;
+    using Vector2F = Vector<float, 2>;
+    using Vector3F = Vector<float, 3>;
+    using Vector4F = Vector<float, 4>;
 }
 
 #endif // OUZEL_MATH_VECTOR_HPP

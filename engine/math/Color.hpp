@@ -101,7 +101,7 @@ namespace ouzel
         {
         }
 
-        explicit Color(const Vector<3, float>& vec) noexcept:
+        explicit Color(const Vector<float, 3>& vec) noexcept:
             v{
                 static_cast<std::uint8_t>(std::round(vec.v[0] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(vec.v[1] * 255.0F)),
@@ -111,7 +111,7 @@ namespace ouzel
         {
         }
 
-        explicit Color(const Vector<4, float>& vec) noexcept:
+        explicit Color(const Vector<float, 4>& vec) noexcept:
             v{
                 static_cast<std::uint8_t>(std::round(vec.v[0] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(vec.v[1] * 255.0F)),

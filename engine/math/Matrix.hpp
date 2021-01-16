@@ -18,7 +18,7 @@
 
 namespace ouzel
 {
-    template <std::size_t C, std::size_t R, typename T> class Matrix final
+    template <typename T, std::size_t C, std::size_t R> class Matrix final
     {
     public:
 #if defined(__SSE__)
@@ -47,9 +47,9 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void setLookAt(const Vector<3, T>& eyePosition,
-                       const Vector<3, T>& targetPosition,
-                       const Vector<3, T>& up) noexcept
+        void setLookAt(const Vector<T, 3>& eyePosition,
+                       const Vector<T, 3>& targetPosition,
+                       const Vector<T, 3>& up) noexcept
         {
             setLookAt(eyePosition.v[0], eyePosition.v[1], eyePosition.v[2],
                       targetPosition.v[0], targetPosition.v[1], targetPosition.v[2],
@@ -61,18 +61,18 @@ namespace ouzel
                        const T targetPositionX, const T targetPositionY, const T targetPositionZ,
                        const T upX, const T upY, const T upZ) noexcept
         {
-            const Vector<3, T> eye(eyePositionX, eyePositionY, eyePositionZ);
-            const Vector<3, T> target(targetPositionX, targetPositionY, targetPositionZ);
-            Vector<3, T> up(upX, upY, upZ);
+            const Vector<T, 3> eye(eyePositionX, eyePositionY, eyePositionZ);
+            const Vector<T, 3> target(targetPositionX, targetPositionY, targetPositionZ);
+            Vector<T, 3> up(upX, upY, upZ);
             up.normalize();
 
-            Vector<3, T> zaxis = target - eye;
+            Vector<T, 3> zaxis = target - eye;
             zaxis.normalize();
 
-            Vector<3, T> xaxis = up.cross(zaxis);
+            Vector<T, 3> xaxis = up.cross(zaxis);
             xaxis.normalize();
 
-            Vector<3, T> yaxis = zaxis.cross(xaxis);
+            Vector<T, 3> yaxis = zaxis.cross(xaxis);
             yaxis.normalize();
 
             m[0] = xaxis.v[0];
@@ -158,7 +158,7 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
-        void setScale(const Vector<2, T>& scale) noexcept
+        void setScale(const Vector<T, 2>& scale) noexcept
         {
             setIdentity();
 
@@ -167,7 +167,7 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void setScale(const Vector<3, T>& scale) noexcept
+        void setScale(const Vector<T, 3>& scale) noexcept
         {
             setIdentity();
 
@@ -210,7 +210,7 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void setRotation(const Vector<3, T>& axis, T angle) noexcept
+        void setRotation(const Vector<T, 3>& axis, T angle) noexcept
         {
             T x = axis.v[0];
             T y = axis.v[1];
@@ -344,7 +344,7 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
-        void setTranslation(const Vector<3, T>& translation) noexcept
+        void setTranslation(const Vector<T, 3>& translation) noexcept
         {
             setIdentity();
 
@@ -353,7 +353,7 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void setTranslation(const Vector<3, T>& translation) noexcept
+        void setTranslation(const Vector<T, 3>& translation) noexcept
         {
             setIdentity();
 
@@ -494,37 +494,37 @@ namespace ouzel
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getUpVector() const noexcept
         {
-            return Vector<3, T>(m[4], m[5], m[6]);
+            return Vector<T, 3>(m[4], m[5], m[6]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getDownVector() const noexcept
         {
-            return Vector<3, T>(-m[4], -m[5], -m[6]);
+            return Vector<T, 3>(-m[4], -m[5], -m[6]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getLeftVector() const noexcept
         {
-            return Vector<3, T>(-m[0], -m[1], -m[2]);
+            return Vector<T, 3>(-m[0], -m[1], -m[2]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getRightVector() const noexcept
         {
-            return Vector<3, T>(m[0], m[1], m[2]);
+            return Vector<T, 3>(m[0], m[1], m[2]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getForwardVector() const noexcept
         {
-            return Vector<3, T>(-m[8], -m[9], -m[10]);
+            return Vector<T, 3>(-m[8], -m[9], -m[10]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getBackVector() const noexcept
         {
-            return Vector<3, T>(m[8], m[9], m[10]);
+            return Vector<T, 3>(m[8], m[9], m[10]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 1 && Y == 1)>* = nullptr>
@@ -723,47 +723,47 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void transformPoint(Vector<3, T>& point) const noexcept
+        void transformPoint(Vector<T, 3>& point) const noexcept
         {
             transformVector(point.v[0], point.v[1], point.v[2], T(1), point);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void transformPoint(const Vector<3, T>& point, Vector<3, T>& dst) const noexcept
+        void transformPoint(const Vector<T, 3>& point, Vector<T, 3>& dst) const noexcept
         {
             transformVector(point.v[0], point.v[1], point.v[2], T(1), dst);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void transformVector(Vector<3, T>& v) const noexcept
+        void transformVector(Vector<T, 3>& v) const noexcept
         {
-            Vector<4, T> t;
-            transformVector(Vector<4, T>(v.v[0], v.v[1], v.v[2], T(0)), t);
-            v = Vector<3, T>(t.v[0], t.v[1], t.v[2]);
+            Vector<T, 4> t;
+            transformVector(Vector<T, 4>(v.v[0], v.v[1], v.v[2], T(0)), t);
+            v = Vector<T, 3>(t.v[0], t.v[1], t.v[2]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void transformVector(const Vector<3, T>& v, Vector<3, T>& dst) const noexcept
+        void transformVector(const Vector<T, 3>& v, Vector<T, 3>& dst) const noexcept
         {
             transformVector(v.v[0], v.v[1], v.v[2], T(0), dst);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         void transformVector(const T x, const T y, const T z, const T w,
-                             Vector<3, T>& dst) const noexcept
+                             Vector<T, 3>& dst) const noexcept
         {
-            Vector<4, T> t;
-            transformVector(Vector<4, T>(x, y, z, w), t);
-            dst = Vector<3, T>(t.v[0], t.v[1], t.v[2]);
+            Vector<T, 4> t;
+            transformVector(Vector<T, 4>(x, y, z, w), t);
+            dst = Vector<T, 3>(t.v[0], t.v[1], t.v[2]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void transformVector(Vector<4, T>& v) const noexcept
+        void transformVector(Vector<T, 4>& v) const noexcept
         {
             transformVector(v, v);
         }
 
-        void transformVector(const Vector<4, T>& v, Vector<4, T>& dst) const noexcept
+        void transformVector(const Vector<T, 4>& v, Vector<T, 4>& dst) const noexcept
         {
             assert(&v != &dst);
             dst.v[0] = v.v[0] * m[0] + v.v[1] * m[4] + v.v[2] * m[8] + v.v[3] * m[12];
@@ -778,7 +778,7 @@ namespace ouzel
             transpose(*this);
         }
 
-        void transpose(Matrix<R, C, T>& dst) const noexcept
+        void transpose(Matrix& dst) const noexcept
         {
             const std::array<T, C * R> t;
 
@@ -790,34 +790,34 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
-        constexpr Vector<2, T> getTranslation() const noexcept
+        constexpr Vector<T, 2> getTranslation() const noexcept
         {
-            return Vector<2, T>(m[6], m[7]);
+            return Vector<T, 2>(m[6], m[7]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        constexpr Vector<3, T> getTranslation() const noexcept
+        constexpr Vector<T, 3> getTranslation() const noexcept
         {
-            return Vector<3, T>(m[12], m[13], m[14]);
+            return Vector<T, 3>(m[12], m[13], m[14]);
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
-        Vector<2, T> getScale() const noexcept
+        Vector<T, 2> getScale() const noexcept
         {
-            Vector<2, T> scale;
-            scale.v[0] = Vector<2, T>(m[0], m[1]).length();
-            scale.v[1] = Vector<2, T>(m[3], m[4]).length();
+            Vector<T, 2> scale;
+            scale.v[0] = Vector<T, 2>(m[0], m[1]).length();
+            scale.v[1] = Vector<T, 2>(m[3], m[4]).length();
 
             return scale;
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        Vector<3, T> getScale() const noexcept
+        Vector<T, 3> getScale() const noexcept
         {
-            Vector<3, T> scale;
-            scale.v[0] = Vector<3, T>(m[0], m[1], m[2]).length();
-            scale.v[1] = Vector<3, T>(m[4], m[5], m[6]).length();
-            scale.v[2] = Vector<3, T>(m[8], m[9], m[10]).length();
+            Vector<T, 3> scale;
+            scale.v[0] = Vector<T, 3>(m[0], m[1], m[2]).length();
+            scale.v[1] = Vector<T, 3>(m[4], m[5], m[6]).length();
+            scale.v[2] = Vector<T, 3>(m[8], m[9], m[10]).length();
 
             return scale;
         }
@@ -825,7 +825,7 @@ namespace ouzel
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getRotation() const noexcept
         {
-            const Vector<3, T> scale = getScale();
+            const Vector<T, 3> scale = getScale();
 
             const T m11 = m[0] / scale.v[0];
             const T m21 = m[1] / scale.v[0];
@@ -933,43 +933,43 @@ namespace ouzel
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        const Vector<3, T> operator*(const Vector<3, T>& v) const noexcept
+        const Vector<T, 3> operator*(const Vector<T, 3>& v) const noexcept
         {
-            Vector<3, T> x;
+            Vector<T, 3> x;
             transformVector(v, x);
             return x;
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        const Vector<4, T> operator*(const Vector<4, T>& v) const noexcept
+        const Vector<T, 4> operator*(const Vector<T, 4>& v) const noexcept
         {
-            Vector<4, T> x;
+            Vector<T, 4> x;
             transformVector(v, x);
             return x;
         }
     };
 
     template <typename T>
-    Vector<3, T>& operator*=(Vector<3, T>& v, const Matrix<4, 4, T>& m) noexcept
+    Vector<T, 3>& operator*=(Vector<T, 3>& v, const Matrix<T, 4, 4>& m) noexcept
     {
         m.transformVector(v);
         return v;
     }
 
     template <typename T>
-    Vector<4, T>& operator*=(Vector<4, T>& v, const Matrix<4, 4, T>& m) noexcept
+    Vector<T, 4>& operator*=(Vector<T, 4>& v, const Matrix<T, 4, 4>& m) noexcept
     {
         m.transformVector(v);
         return v;
     }
 
-    template <std::size_t C, std::size_t R, typename T>
-    const Matrix<C, R, T> operator*(const T scalar, const Matrix<C, R, T>& m) noexcept
+    template <typename T, std::size_t C, std::size_t R>
+    const Matrix<T, C, R> operator*(const T scalar, const Matrix<T, C, R>& m) noexcept
     {
         return m * scalar;
     }
 
-    using Matrix4F = Matrix<4, 4, float>;
+    using Matrix4F = Matrix<float, 4, 4>;
 }
 
 #endif // OUZEL_MATH_MATRIX_HPP
