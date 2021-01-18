@@ -41,5 +41,5 @@ clean:
 ifeq ($(PLATFORM),windows)
 	-del /f /q "$(EXECUTABLE).exe" "*.o" "*.d"
 else
-	$(RM) $(EXECUTABLE) *.o *.d *.js.mem *.js $(EXECUTABLE).exe assetcatalog_generated_info.plist assetcatalog_dependencies
+	$(RM) $(EXECUTABLE) $(OBJECTS) $(DEPENDENCIES) $(EXECUTABLE).exe assetcatalog_generated_info.plist assetcatalog_dependencies
 endif

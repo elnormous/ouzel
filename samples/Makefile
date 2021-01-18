@@ -173,9 +173,9 @@ ouzel:
 clean:
 	$(MAKE) -C ../engine/ clean
 ifeq ($(PLATFORM),windows)
-	-del /f /q "$(EXECUTABLE).exe" "*.o" "*.d" "*.js.mem" "*.js"
+	-del /f /q "$(EXECUTABLE).exe" $(OBJECTS) $(DEPENDENCIES) "*.js.mem" "*.js"
 else
-	$(RM) *.o *.d assetcatalog_generated_info.plist assetcatalog_dependencies
+	$(RM) $(EXECUTABLE) $(OBJECTS) $(DEPENDENCIES) *.js.mem *.js assetcatalog_generated_info.plist assetcatalog_dependencies
 	$(RM) -f $(BINDIR)
 	$(RM) -r $(EXECUTABLE).app
 endif

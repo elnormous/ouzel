@@ -352,13 +352,9 @@ pch/objcpp/Prefix.h.gch: pch/objcpp/Prefix.h
 .PHONY: clean
 clean:
 ifeq ($(PLATFORM),windows)
-	-del /f /q "$(LIBRARY)"
+	-del /f /q "$(LIBRARY)" $(OBJECTS) $(DEPENDENCIES)
 	-rmdir /s pch
-	-del /s "..\*.o"
-	-del /s "..\*.d"
 else
-	$(RM) $(LIBRARY)
+	$(RM) $(OBJECTS) $(DEPENDENCIES) $(LIBRARY)
 	$(RM) -rf pch
-	find .. -name '*.o' -type f -delete
-	find .. -name '*.d' -type f -delete
 endif
