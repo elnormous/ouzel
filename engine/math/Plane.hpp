@@ -16,6 +16,9 @@ namespace ouzel
     template <typename T> class Plane final
     {
     public:
+#if defined(__SSE__)
+        alignas(4 * sizeof(T))
+#endif
         std::array<T, 4> v{};
 
         constexpr Plane() noexcept {}
