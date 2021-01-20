@@ -55,32 +55,32 @@ namespace ouzel
             position = newPosition;
         }
 
-        constexpr T left() const noexcept
+        constexpr auto left() const noexcept
         {
             return position.v[0];
         }
 
-        constexpr T bottom() const noexcept
+        constexpr auto bottom() const noexcept
         {
             return position.v[1];
         }
 
-        constexpr T right() const noexcept
+        constexpr auto right() const noexcept
         {
             return position.v[0] + size.v[0];
         }
 
-        constexpr T top() const noexcept
+        constexpr auto top() const noexcept
         {
             return position.v[1] + size.v[1];
         }
 
-        constexpr Vector<T, 2> bottomLeft() const noexcept
+        constexpr auto bottomLeft() const noexcept
         {
             return position;
         }
 
-        constexpr Vector<T, 2> topRight() const noexcept
+        constexpr auto topRight() const noexcept
         {
             return Vector<T, 2>(position.v[0] + size.v[0], position.v[1] + size.v[1]);
         }

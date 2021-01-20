@@ -35,32 +35,32 @@ namespace ouzel
                 v[i] = vec.v[i];
         }
 
-        T& operator[](std::size_t index) noexcept { return v[index]; }
-        constexpr T operator[](std::size_t index) const noexcept { return v[index]; }
+        auto& operator[](std::size_t index) noexcept { return v[index]; }
+        constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
 
         template <std::size_t X = N, std::enable_if_t<(X >= 1)>* = nullptr>
-        T& x() noexcept { return v[0]; }
+        auto& x() noexcept { return v[0]; }
 
         template <std::size_t X = N, std::enable_if_t<(X >= 1)>* = nullptr>
-        constexpr T x() const noexcept { return v[0]; }
+        constexpr auto x() const noexcept { return v[0]; }
 
         template <std::size_t X = N, std::enable_if_t<(X >= 2)>* = nullptr>
-        T& y() noexcept { return v[1]; }
+        auto& y() noexcept { return v[1]; }
 
         template <std::size_t X = N, std::enable_if_t<(X >= 2)>* = nullptr>
-        constexpr T y() const noexcept { return v[1]; }
+        constexpr auto y() const noexcept { return v[1]; }
 
         template <std::size_t X = N, std::enable_if_t<(X >= 3)>* = nullptr>
-        T& z() noexcept { return v[2]; }
+        auto& z() noexcept { return v[2]; }
 
         template <std::size_t X = N, std::enable_if_t<(X >= 3)>* = nullptr>
-        constexpr T z() const noexcept { return v[2]; }
+        constexpr auto z() const noexcept { return v[2]; }
 
         template <std::size_t X = N, std::enable_if_t<(X >= 4)>* = nullptr>
-        T& w() noexcept { return v[3]; }
+        auto& w() noexcept { return v[3]; }
 
         template <std::size_t X = N, std::enable_if_t<(X >= 4)>* = nullptr>
-        constexpr T w() const noexcept { return v[3]; }
+        constexpr auto w() const noexcept { return v[3]; }
 
         template <std::size_t X = N, std::enable_if_t<(X == 2)>* = nullptr>
         auto getAngle() const noexcept
