@@ -950,7 +950,7 @@ namespace ouzel
         static constexpr Matrix generateIdentity(std::index_sequence<I...>)
         {
             return Matrix{
-                ((I % C == I / R) ? 1.0F : 0.0F)...
+                ((I % C == I / R) ? T(1) : T(0))...
             };
         }
     };
