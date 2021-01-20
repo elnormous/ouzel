@@ -37,13 +37,10 @@ namespace ouzel
         T& operator[](std::size_t index) noexcept { return m[index]; }
         constexpr T operator[](std::size_t index) const noexcept { return m[index]; }
 
-        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
+        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == Y)>* = nullptr>
         static constexpr Matrix identity() noexcept
         {
-            return Matrix(T(1), T(0), T(0), T(0),
-                          T(0), T(1), T(0), T(0),
-                          T(0), T(0), T(1), T(0),
-                          T(0), T(0), T(0), T(1));
+            return generateIdentity(std::make_index_sequence<C * R>{});
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
@@ -946,6 +943,15 @@ namespace ouzel
             Vector<T, 4> x;
             transformVector(v, x);
             return x;
+        }
+
+    private:
+        template <std::size_t...I>
+        static constexpr Matrix generateIdentity(std::index_sequence<I...>)
+        {
+            return Matrix{
+                ((I % C == I / R) ? 1.0F : 0.0F)...
+            };
         }
     };
 
