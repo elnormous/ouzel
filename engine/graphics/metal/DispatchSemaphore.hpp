@@ -53,7 +53,7 @@ namespace ouzel::graphics::metal
             return *this;
         }
 
-        operator dispatch_semaphore_t() const noexcept
+        operator auto() const noexcept
         {
             return semaphore;
         }

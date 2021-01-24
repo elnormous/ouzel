@@ -57,7 +57,7 @@ namespace ouzel::audio::opensl
             return p;
         }
 
-        explicit operator bool() const noexcept
+        explicit operator auto() const noexcept
         {
             return p != nullptr;
         }

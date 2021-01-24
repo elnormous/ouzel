@@ -59,7 +59,7 @@ namespace ouzel::storage
             return p;
         }
 
-        explicit operator bool() const noexcept
+        explicit operator auto() const noexcept
         {
             return p != nil;
         }

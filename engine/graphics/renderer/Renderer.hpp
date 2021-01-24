@@ -52,7 +52,7 @@ namespace ouzel::graphics::renderer
                 return *this;
             }
 
-            operator ResourceId() const noexcept { return id; }
+            operator auto() const noexcept { return id; }
 
         private:
             Renderer* renderer = nullptr;

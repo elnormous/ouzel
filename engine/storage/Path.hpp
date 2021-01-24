@@ -66,7 +66,7 @@ namespace ouzel::storage
             return *this;
         }
 
-        operator std::string() const
+        operator auto() const
         {
             return convertToUtf8(path);
         }

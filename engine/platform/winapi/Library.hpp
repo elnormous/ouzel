@@ -50,7 +50,7 @@ namespace ouzel::platform::winapi
             if (handle) FreeLibrary(handle);
         }
 
-        explicit operator bool() const noexcept
+        explicit operator auto() const noexcept
         {
             return handle != nullptr;
         }

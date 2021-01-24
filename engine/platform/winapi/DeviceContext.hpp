@@ -53,7 +53,7 @@ namespace ouzel::platform::winapi
             return *this;
         }
 
-        operator HDC() const noexcept { return dc; }
+        operator auto() const noexcept { return dc; }
 
     private:
         HWND window = nullptr;

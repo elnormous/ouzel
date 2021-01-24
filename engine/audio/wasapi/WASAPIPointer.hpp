@@ -65,7 +65,7 @@ namespace ouzel::audio::wasapi
             return p;
         }
 
-        explicit operator bool() const noexcept
+        explicit operator auto() const noexcept
         {
             return p != nullptr;
         }
