@@ -43,12 +43,9 @@ namespace ouzel
         auto& d() noexcept { return v[3]; }
         constexpr auto d() const noexcept { return v[3]; }
 
-        constexpr void flip() noexcept
+        constexpr const Plane operator-() const noexcept
         {
-            v[0] = -v[0];
-            v[1] = -v[1];
-            v[2] = -v[2];
-            v[3] = -v[3];
+            return Plane{-v[0], -v[1], -v[2], -v[3]};
         }
 
         template<std::size_t N, std::enable_if_t<N >= 3>* = nullptr>
