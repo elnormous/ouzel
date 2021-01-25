@@ -108,7 +108,7 @@ namespace ouzel::network
             return *this;
         }
 
-        operator auto() const noexcept { return endpoint; }
+        operator Type() const noexcept { return endpoint; }
 
     private:
         Type endpoint = invalid;

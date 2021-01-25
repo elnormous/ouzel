@@ -55,7 +55,7 @@ namespace ouzel::input::windows
                 return *this;
             }
 
-            operator auto() const noexcept { return bitmap; }
+            operator HBITMAP() const noexcept { return bitmap; }
 
         private:
             HBITMAP bitmap = nullptr;

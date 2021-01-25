@@ -158,7 +158,7 @@ namespace ouzel::graphics
                 return *this;
             }
 
-            operator auto() const noexcept { return id; }
+            operator ResourceId() const noexcept { return id; }
 
         private:
             RenderDevice* renderDevice = nullptr;
