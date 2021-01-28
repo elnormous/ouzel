@@ -44,7 +44,7 @@ namespace ouzel
             return generateIdentity(std::make_index_sequence<C * R>{});
         }
 
-        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
+        template <std::enable_if_t<(C == 4 && R == 4)>* = nullptr>
         void setLookAt(const Vector<T, 3>& eyePosition,
                        const Vector<T, 3>& targetPosition,
                        const Vector<T, 3>& up) noexcept
