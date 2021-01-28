@@ -19,7 +19,7 @@
 
 namespace ouzel
 {
-    template <typename T, std::size_t C, std::size_t R = C> class Matrix final
+    template <typename T, std::size_t C, std::size_t R = C, bool isSquare = (C == R)> class Matrix final
     {
     public:
 #if defined(__SSE__)
@@ -38,13 +38,13 @@ namespace ouzel
         auto& operator[](std::size_t index) noexcept { return m[index]; }
         constexpr auto operator[](std::size_t index) const noexcept { return m[index]; }
 
-        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == Y)>* = nullptr>
+        template <std::enable_if_t<isSquare>* = nullptr>
         static constexpr Matrix identity() noexcept
         {
             return generateIdentity(std::make_index_sequence<C * R>{});
         }
 
-        template <std::enable_if_t<(C == 4 && R == 4)>* = nullptr>
+        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         void setLookAt(const Vector<T, 3>& eyePosition,
                        const Vector<T, 3>& targetPosition,
                        const Vector<T, 3>& up) noexcept
@@ -155,7 +155,7 @@ namespace ouzel
             m[15] = T(1);
         }
 
-        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == Y)>* = nullptr>
+        template <std::enable_if_t<isSquare>* = nullptr>
         void setScale(const Vector<T, R - 1>& scale) noexcept
         {
             setIdentity();
@@ -331,7 +331,7 @@ namespace ouzel
             m[5] = c;
         }
 
-        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == Y)>* = nullptr>
+        template <std::enable_if_t<isSquare>* = nullptr>
         void setTranslation(const Vector<T, R - 1>& translation) noexcept
         {
             setIdentity();
