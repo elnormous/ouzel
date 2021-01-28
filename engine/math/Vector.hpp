@@ -28,47 +28,47 @@ namespace ouzel
         {
         }
 
-        template <std::size_t X = N, std::size_t N2, std::enable_if_t<(X != N2)>* = nullptr>
-        explicit Vector(const Vector<T, N2>& vec) noexcept
+        template <auto X = N, std::size_t M, std::enable_if_t<(X != M)>* = nullptr>
+        explicit Vector(const Vector<T, M>& vec) noexcept
         {
-            for (std::size_t i = 0; i < N && i < N2; ++i)
+            for (std::size_t i = 0; i < N && i < M; ++i)
                 v[i] = vec.v[i];
         }
 
         auto& operator[](std::size_t index) noexcept { return v[index]; }
         constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
 
-        template <std::size_t X = N, std::enable_if_t<(X >= 1)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X >= 1)>* = nullptr>
         auto& x() noexcept { return v[0]; }
 
-        template <std::size_t X = N, std::enable_if_t<(X >= 1)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X >= 1)>* = nullptr>
         constexpr auto x() const noexcept { return v[0]; }
 
-        template <std::size_t X = N, std::enable_if_t<(X >= 2)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X >= 2)>* = nullptr>
         auto& y() noexcept { return v[1]; }
 
-        template <std::size_t X = N, std::enable_if_t<(X >= 2)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X >= 2)>* = nullptr>
         constexpr auto y() const noexcept { return v[1]; }
 
-        template <std::size_t X = N, std::enable_if_t<(X >= 3)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X >= 3)>* = nullptr>
         auto& z() noexcept { return v[2]; }
 
-        template <std::size_t X = N, std::enable_if_t<(X >= 3)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X >= 3)>* = nullptr>
         constexpr auto z() const noexcept { return v[2]; }
 
-        template <std::size_t X = N, std::enable_if_t<(X >= 4)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X >= 4)>* = nullptr>
         auto& w() noexcept { return v[3]; }
 
-        template <std::size_t X = N, std::enable_if_t<(X >= 4)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X >= 4)>* = nullptr>
         constexpr auto w() const noexcept { return v[3]; }
 
-        template <std::size_t X = N, std::enable_if_t<(X == 2)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X == 2)>* = nullptr>
         auto getAngle() const noexcept
         {
             return std::atan2(v[1], v[0]);
         }
 
-        template <std::size_t X = N, std::enable_if_t<(X == 3)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X == 3)>* = nullptr>
         auto getAngle(const Vector& axis) const noexcept
         {
             constexpr T dx = axis.v[0] - v[0] - v[1] * axis.v[2] + v[2] * axis.v[1];
@@ -78,7 +78,7 @@ namespace ouzel
             return std::atan2(std::sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
         }
 
-        template <std::size_t X = N, std::enable_if_t<(X == 4)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X == 4)>* = nullptr>
         auto getAngle(const Vector& axis) const noexcept
         {
             constexpr T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
@@ -95,7 +95,7 @@ namespace ouzel
                 else if (v[i] > max.v[i]) v[i] = max.v[i];
         }
 
-        template <std::size_t X = N, std::enable_if_t<(X == 3)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X == 3)>* = nullptr>
         constexpr Vector cross(const Vector& vec) const noexcept
         {
             return Vector((v[1] * vec.v[2]) - (v[2] * vec.v[1]),
@@ -201,7 +201,7 @@ namespace ouzel
                 v[i] *= scale.v[i];
         }
 
-        template <std::size_t X = N, std::enable_if_t<(X == 2)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X == 2)>* = nullptr>
         void rotate(T angle) noexcept
         {
             const auto sinAngle = std::sin(angle);
@@ -212,7 +212,7 @@ namespace ouzel
             v[0] = tempX;
         }
 
-        template <std::size_t X = N, std::enable_if_t<(X == 2)>* = nullptr>
+        template <auto X = N, std::enable_if_t<(X == 2)>* = nullptr>
         void rotate(const Vector<T, 2>& point, T angle) noexcept
         {
             const float sinAngle = std::sin(angle);
