@@ -155,23 +155,13 @@ namespace ouzel
             m[15] = T(1);
         }
 
-        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
-        void setScale(const Vector<T, 2>& scale) noexcept
+        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == Y)>* = nullptr>
+        void setScale(const Vector<T, R - 1>& scale) noexcept
         {
             setIdentity();
-
-            m[0] = scale.v[0];
-            m[4] = scale.v[1];
-        }
-
-        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void setScale(const Vector<T, 3>& scale) noexcept
-        {
-            setIdentity();
-
-            m[0] = scale.v[0];
-            m[5] = scale.v[1];
-            m[10] = scale.v[2];
+            
+            for (std::size_t i = 0; i < R - 1; ++i)
+                m[i * C + i] = scale[i];
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
