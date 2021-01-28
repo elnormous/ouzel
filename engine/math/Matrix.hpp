@@ -159,7 +159,7 @@ namespace ouzel
         void setScale(const Vector<T, R - 1>& scale) noexcept
         {
             setIdentity();
-            
+
             for (std::size_t i = 0; i < R - 1; ++i)
                 m[i * C + i] = scale[i];
         }
@@ -331,23 +331,13 @@ namespace ouzel
             m[5] = c;
         }
 
-        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
-        void setTranslation(const Vector<T, 3>& translation) noexcept
+        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == Y)>* = nullptr>
+        void setTranslation(const Vector<T, R - 1>& translation) noexcept
         {
             setIdentity();
 
-            m[6] = translation.v[0];
-            m[7] = translation.v[1];
-        }
-
-        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void setTranslation(const Vector<T, 3>& translation) noexcept
-        {
-            setIdentity();
-
-            m[12] = translation.v[0];
-            m[13] = translation.v[1];
-            m[14] = translation.v[2];
+            for (std::size_t i = 0; i < R - 1; ++i)
+                m[(R - 1) * C + i] = translation[i];
         }
 
         template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
