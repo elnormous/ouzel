@@ -11,13 +11,13 @@
 namespace ouzel
 {
     template <typename T>
-    constexpr T lerp(const T v0, const T v1, const T t) noexcept
+    constexpr auto lerp(const T v0, const T v1, const T t) noexcept
     {
         return (T(1) - t) * v0 + t * v1;
     }
 
     template <typename T>
-    constexpr T smoothStep(const T a, const T b, const T t) noexcept
+    constexpr auto smoothStep(const T a, const T b, const T t) noexcept
     {
         return lerp(a, b, t * t * (T(3) - T(2) * t));
     }
@@ -28,12 +28,12 @@ namespace ouzel
         return x != T(0) && (x & (x - T(1))) == 0;
     }
 
-    template <typename T> constexpr T degToRad(const T x) noexcept
+    template <typename T> constexpr auto degToRad(const T x) noexcept
     {
         return x * T(0.01745329251994329576);
     }
 
-    template <typename T> constexpr T radToDeg(const T x) noexcept
+    template <typename T> constexpr auto radToDeg(const T x) noexcept
     {
         return x * T(57.2957795130823208767);
     }
