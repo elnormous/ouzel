@@ -10,6 +10,9 @@
 #include "../utils/Utils.hpp"
 #include "../graphics/Graphics.hpp"
 #include "../audio/Audio.hpp"
+#if defined(__ANDROID__)
+#  include <cpu-features.h>
+#endif
 
 #if OUZEL_COMPILE_OPENGL
 #  include "../graphics/opengl/OGL.h"

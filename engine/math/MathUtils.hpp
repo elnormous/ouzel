@@ -7,9 +7,6 @@
 #include <cmath>
 #include <limits>
 #include <type_traits>
-#if defined(__ANDROID__)
-#  include <cpu-features.h>
-#endif
 
 namespace ouzel
 {
