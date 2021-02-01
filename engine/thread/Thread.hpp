@@ -83,18 +83,18 @@ namespace ouzel::thread
 #else
             if (priority < 0.0F) priority = 0.0F;
 
-            const int policy = realtime ? SCHED_RR : SCHED_OTHER;
+            const auto policy = realtime ? SCHED_RR : SCHED_OTHER;
 
-            const int minPriority = sched_get_priority_min(policy);
+            const auto minPriority = sched_get_priority_min(policy);
             if (minPriority == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to get thread min priority");
-            const int maxPriority = sched_get_priority_max(policy);
+            const auto maxPriority = sched_get_priority_max(policy);
             if (maxPriority == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to get thread max priority");
 
             sched_param param;
             param.sched_priority = static_cast<int>(priority * static_cast<float>(maxPriority - minPriority)) + minPriority;
-            const int error = pthread_setschedparam(t.native_handle(), policy, &param);
+            const auto error = pthread_setschedparam(t.native_handle(), policy, &param);
             if (error != 0)
                 throw std::system_error(error, std::system_category(), "Failed to set thread priority");
 #endif
@@ -135,11 +135,11 @@ namespace ouzel::thread
         }
 #else
 #  ifdef __APPLE__
-        const int error = pthread_setname_np(name.c_str());
+        const auto error = pthread_setname_np(name.c_str());
         if (error != 0)
             throw std::system_error(error, std::system_category(), "Failed to set thread name");
 #  elif defined(__linux__)
-        const int error = pthread_setname_np(pthread_self(), name.c_str());
+        const auto error = pthread_setname_np(pthread_self(), name.c_str());
         if (error != 0)
             throw std::system_error(error, std::system_category(), "Failed to set thread name");
 #  endif

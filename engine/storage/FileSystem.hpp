@@ -371,7 +371,7 @@ namespace ouzel::storage
                 int fd = -1;
             };
 
-            int inFileDescriptor = open(from.getNative().c_str(), O_RDONLY);
+            auto inFileDescriptor = open(from.getNative().c_str(), O_RDONLY);
             while (inFileDescriptor == -1 && errno == EINTR)
                 inFileDescriptor = open(from.getNative().c_str(), O_RDONLY);
 
@@ -380,13 +380,13 @@ namespace ouzel::storage
 
             const FileDescriptor in = inFileDescriptor;
 
-            const int flags = O_CREAT | O_WRONLY | O_TRUNC | (overwrite ? 0 : O_EXCL);
+            const auto flags = O_CREAT | O_WRONLY | O_TRUNC | (overwrite ? 0 : O_EXCL);
 
             struct stat s;
             if (fstat(in, &s) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to get file status");
 
-            int outFileDescriptor = open(to.getNative().c_str(), flags, s.st_mode);
+            auto outFileDescriptor = open(to.getNative().c_str(), flags, s.st_mode);
             while (outFileDescriptor == -1 && errno == EINTR)
                 outFileDescriptor = open(to.getNative().c_str(), flags, s.st_mode);
 
@@ -398,7 +398,7 @@ namespace ouzel::storage
             std::vector<char> buffer(16384);
             for (;;)
             {
-                ssize_t bytesRead = read(in, buffer.data(), buffer.size());
+                auto bytesRead = read(in, buffer.data(), buffer.size());
                 while (bytesRead == -1 && errno == EINTR)
                     bytesRead = read(in, buffer.data(), buffer.size());
 
@@ -410,7 +410,7 @@ namespace ouzel::storage
                 ssize_t offset = 0;
                 do
                 {
-                    ssize_t bytesWritten = write(out, buffer.data() + offset, static_cast<size_t>(bytesRead));
+                    auto bytesWritten = write(out, buffer.data() + offset, static_cast<size_t>(bytesRead));
                     while (bytesWritten == -1 && errno == EINTR)
                         bytesWritten = write(out, buffer.data() + offset, static_cast<size_t>(bytesRead));
 

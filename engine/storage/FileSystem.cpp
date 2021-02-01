@@ -106,7 +106,7 @@ namespace ouzel::storage
 #if defined(_WIN32)
         WCHAR appDataPath[MAX_PATH];
 
-        const int folderId = (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE;
+        const auto folderId = (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE;
         if (const auto hr = SHGetFolderPathW(nullptr,
                                              folderId,
                                              nullptr,
@@ -324,7 +324,7 @@ namespace ouzel::storage
 
             for (;;)
             {
-                const int bytesRead = AAsset_read(asset, buffer, sizeof(buffer));
+                const auto bytesRead = AAsset_read(asset, buffer, sizeof(buffer));
 
                 if (bytesRead < 0)
                     throw std::runtime_error("Failed to read from file");

@@ -31,7 +31,7 @@ namespace ouzel::gui
         data(initData),
         mipmaps(initMipmaps)
     {
-        const int offset = stbtt_GetFontOffsetForIndex(reinterpret_cast<const unsigned char*>(data.data()), 0);
+        const auto offset = stbtt_GetFontOffsetForIndex(reinterpret_cast<const unsigned char*>(data.data()), 0);
 
         if (offset == -1)
             throw std::runtime_error("Not a font");
@@ -88,7 +88,7 @@ namespace ouzel::gui
             int xoff;
             int yoff;
 
-            if (const int index = stbtt_FindGlyphIndex(font.get(), static_cast<int>(c)))
+            if (const auto index = stbtt_FindGlyphIndex(font.get(), static_cast<int>(c)))
             {
                 int advance;
                 int leftBearing;
@@ -207,7 +207,7 @@ namespace ouzel::gui
 
                 if ((i + 1) != utf32Text.end())
                 {
-                    const int kernAdvance = stbtt_GetCodepointKernAdvance(font.get(),
+                    const auto kernAdvance = stbtt_GetCodepointKernAdvance(font.get(),
                                                                           static_cast<int>(*i),
                                                                           static_cast<int>(*(i + 1)));
                     position.v[0] += static_cast<float>(kernAdvance) * s;

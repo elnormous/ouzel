@@ -78,7 +78,7 @@ namespace ouzel
         std::size_t offset = 0;
         while (offset < output.size())
         {
-            ssize_t written = write(fd, output.data() + offset, output.size() - offset);
+            auto written = write(fd, output.data() + offset, output.size() - offset);
             while (written == -1 && errno == EINTR)
                 written = write(fd, output.data() + offset, output.size() - offset);
 
@@ -88,7 +88,7 @@ namespace ouzel
             offset += static_cast<std::size_t>(written);
         }
 #elif defined(_WIN32)
-        const int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+        const auto bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
             return;
 
