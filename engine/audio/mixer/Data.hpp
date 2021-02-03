@@ -13,15 +13,16 @@ namespace ouzel::audio::mixer
     class Data: public Object
     {
     public:
+        Data() noexcept = default;
+        Data(std::uint32_t initChannels, std::uint32_t initSampleRate) noexcept:
+            channels(initChannels), sampleRate(initSampleRate)
+        {
+        }
+
         virtual std::unique_ptr<Stream> createStream() = 0;
 
         auto getChannels() const noexcept { return channels; }
         auto getSampleRate() const noexcept { return sampleRate; }
-
-        /*virtual void getData(std::uint32_t frames,
-                             std::uint32_t channels,
-                             std::uint32_t sampleRate,
-                             std::vector<float>& samples) = 0;*/
 
     protected:
         std::uint32_t channels = 0;
