@@ -224,16 +224,17 @@ namespace ouzel::audio::mixer
             samples = sourceSamples;
     }
 
-    void Bus::getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                         const Vector3F& listenerPosition, const QuaternionF& listenerRotation,
-                         std::vector<float>& samples)
+    void Bus::generateSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
+                              const Vector3F& listenerPosition, const QuaternionF& listenerRotation,
+                              std::vector<float>& samples)
     {
         samples.resize(frames * channels);
         std::fill(samples.begin(), samples.end(), 0.0F);
 
         for (Bus* bus : inputBuses)
         {
-            bus->getSamples(frames, channels, sampleRate, listenerPosition, listenerRotation, buffer);
+            bus->generateSamples(frames, channels, sampleRate,
+                                 listenerPosition, listenerRotation, buffer);
 
             for (std::size_t s = 0; s < samples.size(); ++s)
                 samples[s] += buffer[s];
@@ -249,11 +250,11 @@ namespace ouzel::audio::mixer
                 if (sourceSampleRate != sampleRate)
                 {
                     std::uint32_t sourceFrames = (frames * sourceSampleRate + sampleRate - 1) / sampleRate; // round up
-                    stream->getSamples(sourceFrames, resampleBuffer);
+                    stream->generateSamples(sourceFrames, resampleBuffer);
                     resample(sourceChannels, sourceFrames, resampleBuffer, frames, mixBuffer);
                 }
                 else
-                    stream->getSamples(frames, mixBuffer);
+                    stream->generateSamples(frames, mixBuffer);
 
                 if (sourceChannels != channels)
                     convert(frames, sourceChannels, mixBuffer, channels, buffer);

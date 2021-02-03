@@ -21,7 +21,7 @@ namespace ouzel::audio
             position = 0;
         }
 
-        void getSamples(std::uint32_t frames, std::vector<float>& samples) final;
+        void generateSamples(std::uint32_t frames, std::vector<float>& samples) final;
 
     private:
         std::uint32_t position = 0;
@@ -31,14 +31,13 @@ namespace ouzel::audio
     {
     public:
         PcmData(std::uint32_t initChannels, std::uint32_t initSampleRate,
-                const std::vector<float>& initSamples):
-            samples(initSamples)
+                const std::vector<float>& initData):
+            Data(initChannels, initSampleRate),
+            data(initData)
         {
-            channels = initChannels;
-            sampleRate = initSampleRate;
         }
 
-        auto& getSamples() const noexcept { return samples; }
+        auto& getData() const noexcept { return data; }
 
         std::unique_ptr<mixer::Stream> createStream() final
         {
@@ -46,7 +45,7 @@ namespace ouzel::audio
         }
 
     private:
-        std::vector<float> samples;
+        std::vector<float> data;
     };
 
     PcmStream::PcmStream(PcmData& pcmData):
@@ -54,13 +53,13 @@ namespace ouzel::audio
     {
     }
 
-    void PcmStream::getSamples(std::uint32_t frames, std::vector<float>& samples)
+    void PcmStream::generateSamples(std::uint32_t frames, std::vector<float>& samples)
     {
         const std::uint32_t neededSize = frames * data.getChannels();
         samples.resize(neededSize);
 
         const auto& pcmData = static_cast<PcmData&>(data);
-        const std::vector<float>& dataSamples = pcmData.getSamples();
+        const std::vector<float>& dataSamples = pcmData.getData();
 
         const auto sourceFrames = static_cast<std::uint32_t>(dataSamples.size() / pcmData.getChannels());
         const std::uint32_t copyFrames = (frames > sourceFrames - position) ? sourceFrames - position : frames;

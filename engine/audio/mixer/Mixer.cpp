@@ -218,7 +218,8 @@ namespace ouzel::audio::mixer
             Vector3F listenerPosition;
             QuaternionF listenerRotation;
 
-            masterBus->getSamples(frames, channelCount, sampleRate, listenerPosition, listenerRotation, samples);
+            masterBus->generateSamples(frames, channelCount, sampleRate,
+                                       listenerPosition, listenerRotation, samples);
         }
 
         for (float& sample : samples)

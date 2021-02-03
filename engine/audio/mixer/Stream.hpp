@@ -52,7 +52,7 @@ namespace ouzel::audio::mixer
 
         virtual void reset() = 0;
 
-        virtual void getSamples(std::uint32_t frames, std::vector<float>& samples) = 0;
+        virtual void generateSamples(std::uint32_t frames, std::vector<float>& samples) = 0;
 
     protected:
         Data& data;

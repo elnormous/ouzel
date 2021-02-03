@@ -61,7 +61,7 @@ namespace ouzel::audio
             stb_vorbis_seek_start(vorbisStream);
         }
 
-        void getSamples(std::uint32_t frames, std::vector<float>& samples) final;
+        void generateSamples(std::uint32_t frames, std::vector<float>& samples) final;
 
     private:
         stb_vorbis* vorbisStream = nullptr;
@@ -107,7 +107,7 @@ namespace ouzel::audio
                                               nullptr, nullptr);
     }
 
-    void VorbisStream::getSamples(std::uint32_t frames, std::vector<float>& samples)
+    void VorbisStream::generateSamples(std::uint32_t frames, std::vector<float>& samples)
     {
         std::uint32_t neededSize = frames * data.getChannels();
         samples.resize(neededSize);

@@ -19,7 +19,7 @@ namespace ouzel::audio
             position = 0;
         }
 
-        void getSamples(std::uint32_t frames, std::vector<float>& samples) final;
+        void generateSamples(std::uint32_t frames, std::vector<float>& samples) final;
 
     private:
         std::uint32_t position = 0;
@@ -29,10 +29,9 @@ namespace ouzel::audio
     {
     public:
         explicit SilenceData(float initLength):
+            Data(1, 44100),
             length(initLength)
         {
-            channels = 1;
-            sampleRate = 44100;
         }
 
         auto getLength() const noexcept { return length; }
@@ -51,7 +50,7 @@ namespace ouzel::audio
     {
     }
 
-    void SilenceStream::getSamples(std::uint32_t frames, std::vector<float>& samples)
+    void SilenceStream::generateSamples(std::uint32_t frames, std::vector<float>& samples)
     {
         auto& silenceData = static_cast<SilenceData&>(data);
 

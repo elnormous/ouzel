@@ -20,7 +20,7 @@ namespace ouzel::audio
             position = 0;
         }
 
-        void getSamples(std::uint32_t frames, std::vector<float>& samples) final;
+        void generateSamples(std::uint32_t frames, std::vector<float>& samples) final;
 
     private:
         std::uint32_t position = 0;
@@ -30,13 +30,12 @@ namespace ouzel::audio
     {
     public:
         OscillatorData(float initFrequency, Oscillator::Type initType, float initAmplitude, float initLength):
+            Data(1, 44100),
             frequency(initFrequency),
             type(initType),
             amplitude(initAmplitude),
             length(initLength)
         {
-            channels = 1;
-            sampleRate = 44100;
         }
 
         auto getFrequency() const noexcept { return frequency; }
@@ -93,7 +92,7 @@ namespace ouzel::audio
         }
     }
 
-    void OscillatorStream::getSamples(std::uint32_t frames, std::vector<float>& samples)
+    void OscillatorStream::generateSamples(std::uint32_t frames, std::vector<float>& samples)
     {
         auto& oscillatorData = static_cast<OscillatorData&>(data);
 
