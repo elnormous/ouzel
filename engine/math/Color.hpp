@@ -121,15 +121,15 @@ namespace ouzel
         {
         }
 
-        static constexpr Color black() noexcept { return Color(0, 0, 0, 255); }
-        static constexpr Color red() noexcept { return Color(255, 0, 0, 255); }
-        static constexpr Color magenta() noexcept { return Color(255, 0, 255, 255); }
-        static constexpr Color green() noexcept { return Color(0, 255, 0, 255); }
-        static constexpr Color cyan() noexcept { return Color(0, 255, 255, 255); }
-        static constexpr Color blue() noexcept { return Color(0, 0, 255, 255); }
-        static constexpr Color yellow() noexcept { return Color(255, 255, 0, 255); }
-        static constexpr Color white() noexcept { return Color(255, 255, 255, 255); }
-        static constexpr Color gray() noexcept { return Color(128, 128, 128, 255); }
+        static constexpr Color black() noexcept { return Color{0, 0, 0, 255}; }
+        static constexpr Color red() noexcept { return Color{255, 0, 0, 255}; }
+        static constexpr Color magenta() noexcept { return Color{255, 0, 255, 255}; }
+        static constexpr Color green() noexcept { return Color{0, 255, 0, 255}; }
+        static constexpr Color cyan() noexcept { return Color{0, 255, 255, 255}; }
+        static constexpr Color blue() noexcept { return Color{0, 0, 255, 255}; }
+        static constexpr Color yellow() noexcept { return Color{255, 255, 0, 255}; }
+        static constexpr Color white() noexcept { return Color{255, 255, 255, 255}; }
+        static constexpr Color gray() noexcept { return Color{128, 128, 128, 255}; }
 
         auto& operator[](std::size_t index) noexcept { return v[index]; }
         constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
