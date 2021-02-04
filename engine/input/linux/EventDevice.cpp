@@ -470,8 +470,8 @@ namespace ouzel::input::linux
                             }
                             case REL_Y:
                             {
-                                const Vector2F position{,
-                                    0.0F
+                                const Vector2F position{
+                                    0.0F,
                                     static_cast<float>(event.value)
                                 };
                                 const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
