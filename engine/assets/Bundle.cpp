@@ -175,7 +175,7 @@ namespace ouzel::assets
                                         spriteSize.v[0],
                                         spriteSize.v[1]);
 
-                        animation.frames.emplace_back(filename, textureSize, rectangle, false, spriteSize, Vector2F(), pivot);
+                        animation.frames.emplace_back(filename, textureSize, rectangle, false, spriteSize, Vector2F{}, pivot);
                     }
                 }
 

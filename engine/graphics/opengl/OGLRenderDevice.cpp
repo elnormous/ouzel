@@ -272,15 +272,19 @@ namespace ouzel::graphics::opengl
         textureBaseLevelSupported(false),
         textureMaxLevelSupported(false)
     {
-        projectionTransform = Matrix4F(1.0F, 0.0F, 0.0F, 0.0F,
-                                       0.0F, 1.0F, 0.0F, 0.0F,
-                                       0.0F, 0.0F, 2.0F, 0.0F,
-                                       0.0F, 0.0F, -1.0F, 1.0F);
+        projectionTransform = Matrix4F{
+            1.0F, 0.0F, 0.0F, 0.0F,
+            0.0F, 1.0F, 0.0F, 0.0F,
+            0.0F, 0.0F, 2.0F, 0.0F,
+            0.0F, 0.0F, -1.0F, 1.0F
+        };
 
-        renderTargetProjectionTransform = Matrix4F(1.0F, 0.0F, 0.0F, 0.0F,
-                                                   0.0F, -1.0F, 0.0F, 0.0F,
-                                                   0.0F, 0.0F, 2.0F, 0.0F,
-                                                   0.0F, 0.0F, -1.0F, 1.0F);
+        renderTargetProjectionTransform = Matrix4F{
+            1.0F, 0.0F, 0.0F, 0.0F,
+            0.0F, -1.0F, 0.0F, 0.0F,
+            0.0F, 0.0F, 2.0F, 0.0F,
+            0.0F, 0.0F, -1.0F, 1.0F
+        };
     }
 
     RenderDevice::~RenderDevice()

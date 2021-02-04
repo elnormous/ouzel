@@ -252,7 +252,7 @@ namespace ouzel::assets
 
                     skipLine(iterator, data.end());
 
-                    diffuseColor = Color(red, green, blue, 1.0F);
+                    diffuseColor = Color{red, green, blue, 1.0F};
                 }
                 else if (keyword == "Ks") // specular color
                     skipLine(iterator, data.end());
