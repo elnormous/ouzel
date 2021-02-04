@@ -24,7 +24,7 @@ namespace ouzel
         constexpr Plane() noexcept {}
 
         constexpr Plane(const T a, const T b, const T c, const T d) noexcept:
-            v{a, b, c, d}
+            v{{a, b, c, d}}
         {
         }
 

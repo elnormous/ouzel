@@ -20,12 +20,12 @@ namespace ouzel
         constexpr Color() noexcept {}
 
         explicit constexpr Color(std::uint32_t color) noexcept:
-            v{
+            v{{
                 static_cast<std::uint8_t>((color & 0xFF000000) >> 24),
                 static_cast<std::uint8_t>((color & 0x00FF0000) >> 16),
                 static_cast<std::uint8_t>((color & 0x0000FF00) >> 8),
                 static_cast<std::uint8_t>(color & 0x000000FF)
-            }
+            }}
         {
         }
 
@@ -77,47 +77,47 @@ namespace ouzel
 
         template <typename T, std::enable_if_t<std::is_integral_v<T>>* = nullptr>
         constexpr Color(T red, T green, T blue, T alpha = 0xFF) noexcept:
-            v{std::uint8_t(red), std::uint8_t(green), std::uint8_t(blue), std::uint8_t(alpha)}
+            v{{std::uint8_t(red), std::uint8_t(green), std::uint8_t(blue), std::uint8_t(alpha)}}
         {
         }
 
         constexpr Color(float red, float green, float blue, float alpha = 1.0F) noexcept:
-            v{
+            v{{
                 static_cast<std::uint8_t>(red * 255.0F),
                 static_cast<std::uint8_t>(green * 255.0F),
                 static_cast<std::uint8_t>(blue * 255.0F),
                 static_cast<std::uint8_t>(alpha * 255.0F)
-            }
+            }}
         {
         }
 
         explicit Color(const float color[4]) noexcept:
-            v{
+            v{{
                 static_cast<std::uint8_t>(std::round(color[0] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(color[1] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(color[2] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(color[3] * 255.0F))
-            }
+            }}
         {
         }
 
         explicit Color(const Vector<float, 3>& vec) noexcept:
-            v{
+            v{{
                 static_cast<std::uint8_t>(std::round(vec.v[0] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(vec.v[1] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(vec.v[2] * 255.0F)),
                 0
-            }
+            }}
         {
         }
 
         explicit Color(const Vector<float, 4>& vec) noexcept:
-            v{
+            v{{
                 static_cast<std::uint8_t>(std::round(vec.v[0] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(vec.v[1] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(vec.v[2] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(vec.v[3] * 255.0F))
-            }
+            }}
         {
         }
 
