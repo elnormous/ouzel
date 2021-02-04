@@ -406,15 +406,17 @@ namespace ouzel::core::linux
                         auto inputSystemLinux = static_cast<ouzel::input::linux::InputSystem*>(inputManager->getInputSystem());
                         auto mouseDevice = inputSystemLinux->getMouseDevice();
 
-                        Vector2F pos(static_cast<float>(event.xbutton.x),
-                                     static_cast<float>(event.xbutton.y));
+                        const Vector2F position{
+                            static_cast<float>(event.xbutton.x),
+                            static_cast<float>(event.xbutton.y)
+                        };
 
                         if (event.type == ButtonPress)
                             mouseDevice->handleButtonPress(convertButtonCode(event.xbutton.button),
-                                                           window->convertWindowToNormalizedLocation(pos));
+                                                           window->convertWindowToNormalizedLocation(position));
                         else
                             mouseDevice->handleButtonRelease(convertButtonCode(event.xbutton.button),
-                                                             window->convertWindowToNormalizedLocation(pos));
+                                                             window->convertWindowToNormalizedLocation(position));
                         break;
                     }
                     case MapNotify:
@@ -432,10 +434,12 @@ namespace ouzel::core::linux
                         auto inputSystemLinux = static_cast<ouzel::input::linux::InputSystem*>(inputManager->getInputSystem());
                         auto mouseDevice = inputSystemLinux->getMouseDevice();
 
-                        Vector2F pos(static_cast<float>(event.xmotion.x),
-                                     static_cast<float>(event.xmotion.y));
+                        const Vector2F position{
+                            static_cast<float>(event.xmotion.x),
+                            static_cast<float>(event.xmotion.y)
+                        };
 
-                        mouseDevice->handleMove(window->convertWindowToNormalizedLocation(pos));
+                        mouseDevice->handleMove(window->convertWindowToNormalizedLocation(position));
 
                         break;
                     }
@@ -462,7 +466,7 @@ namespace ouzel::core::linux
                             {
                                 case XI_TouchBegin:
                                 {
-                                    auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchBegin(xievent->detail,
                                                                      window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
                                                                                                                         static_cast<float>(xievent->event_y))));
@@ -470,7 +474,7 @@ namespace ouzel::core::linux
                                 }
                                 case XI_TouchEnd:
                                 {
-                                    auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchEnd(xievent->detail,
                                                                    window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
                                                                                                                       static_cast<float>(xievent->event_y))));
@@ -478,7 +482,7 @@ namespace ouzel::core::linux
                                 }
                                 case XI_TouchUpdate:
                                 {
-                                    auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
                                     touchpadDevice->handleTouchMove(xievent->detail,
                                                                     window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
                                                                                                                        static_cast<float>(xievent->event_y))));

@@ -102,8 +102,13 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
+                    const Vector2F position{
+                        static_cast<float>(x),
+                        static_cast<float>(y)
+                    };
+
                     touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(pointerId),
-                                                     engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
+                                                     engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                      pressure);
                     return true;
                 }
@@ -125,8 +130,13 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
+                    const Vector2F position{
+                        static_cast<float>(x),
+                        static_cast<float>(y)
+                    };
+
                     touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(pointerId),
-                                                     engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
+                                                     engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                      pressure);
                     return true;
                 }
@@ -142,7 +152,14 @@ namespace ouzel::input::android
                 if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                 {
                     if (!updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y))
-                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+                    {
+                        const Vector2F position{
+                            static_cast<float>(x),
+                            static_cast<float>(y)
+                        };
+
+                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
+                    }
                     return true;
                 }
                 else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -151,8 +168,13 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
+                    const Vector2F position{
+                        static_cast<float>(x),
+                        static_cast<float>(y)
+                    };
+
                     touchpadDevice->handleTouchMove(static_cast<std::uint64_t>(pointerId),
-                                                    engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
+                                                    engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                     pressure);
                     return true;
                 }
@@ -173,8 +195,13 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
+                    const Vector2F position{
+                        static_cast<float>(x),
+                        static_cast<float>(y)
+                    };
+
                     touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(pointerId),
-                                                   engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
+                                                   engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                    pressure);
                     return true;
                 }
@@ -196,8 +223,13 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
+                    const Vector2F position{
+                        static_cast<float>(x),
+                        static_cast<float>(y)
+                    };
+
                     touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(pointerId),
-                                                   engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
+                                                   engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                    pressure);
                     return true;
                 }
@@ -213,7 +245,14 @@ namespace ouzel::input::android
                 if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                 {
                     if (!updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y))
-                        mouseDevice->handleButtonRelease(Mouse::Button::left, engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+                    {
+                        const Vector2F position{
+                            static_cast<float>(x),
+                            static_cast<float>(y)
+                        };
+
+                        mouseDevice->handleButtonRelease(Mouse::Button::left, engine->getWindow()->convertWindowToNormalizedLocation(position));
+                    }
                     return true;
                 }
                 else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
@@ -222,8 +261,13 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
+                    const Vector2F position{
+                        static_cast<float>(x),
+                        static_cast<float>(y)
+                    };
+
                     touchpadDevice->handleTouchCancel(static_cast<std::uint64_t>(pointerId),
-                                                      engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)),
+                                                      engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                       pressure);
                     return true;
                 }
@@ -255,7 +299,12 @@ namespace ouzel::input::android
             {
                 if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                 {
-                    mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+                    const Vector2F position{
+                        static_cast<float>(x),
+                        static_cast<float>(y)
+                    };
+
+                    mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
                     return true;
                 }
                 break;
@@ -267,8 +316,13 @@ namespace ouzel::input::android
 
                 if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                 {
+                    const Vector2F position{
+                        static_cast<float>(x),
+                        static_cast<float>(y)
+                    };
+
                     mouseDevice->handleScroll(Vector2F(scrollX, scrollY),
-                                              engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+                                              engine->getWindow()->convertWindowToNormalizedLocation(position));
                     return true;
                 }
                 break;
@@ -294,10 +348,15 @@ namespace ouzel::input::android
         {
             if ((newButtonState & button.first) != (buttonState & button.first))
             {
+                const Vector2F position{
+                    static_cast<float>(x),
+                    static_cast<float>(y)
+                };
+
                 if (newButtonState & button.first)
-                    mouseDevice->handleButtonPress(button.second, engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+                    mouseDevice->handleButtonPress(button.second, engine->getWindow()->convertWindowToNormalizedLocation(position));
                 else
-                    mouseDevice->handleButtonRelease(button.second, engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(x, y)));
+                    mouseDevice->handleButtonRelease(button.second, engine->getWindow()->convertWindowToNormalizedLocation(position));
 
                 result = true;
             }

@@ -446,8 +446,11 @@ namespace ouzel::input::linux
                                 break;
                         }
 
-                        const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                        static_cast<float>(cursorPosition.y)));
+                        const Vector2F position{
+                            static_cast<float>(cursorPosition.x),
+                            static_cast<float>(cursorPosition.y)
+                        };
+                        const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
                         mouseDevice->handleMove(normalizedPosition);
                         break;
                     }
@@ -457,27 +460,41 @@ namespace ouzel::input::linux
                         {
                             case REL_X:
                             {
-                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(event.value), 0.0F));
+                                const Vector2F position{
+                                    static_cast<float>(event.value),
+                                    0.0F
+                                };
+                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
                                 mouseDevice->handleRelativeMove(normalizedPosition);
                                 break;
                             }
                             case REL_Y:
                             {
-                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(0.0F, static_cast<float>(event.value)));
+                                const Vector2F position{,
+                                    0.0F
+                                    static_cast<float>(event.value)
+                                };
+                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
                                 mouseDevice->handleRelativeMove(normalizedPosition);
                                 break;
                             }
                             case REL_WHEEL:
                             {
-                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                                static_cast<float>(cursorPosition.y)));
+                                const Vector2F position{
+                                    static_cast<float>(cursorPosition.x),
+                                    static_cast<float>(cursorPosition.y)
+                                };
+                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
                                 mouseDevice->handleScroll(Vector2F(0.0F, static_cast<float>(event.value)), normalizedPosition);
                                 break;
                             }
                             case REL_HWHEEL:
                             {
-                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                                static_cast<float>(cursorPosition.y)));
+                                const Vector2F position{
+                                    static_cast<float>(cursorPosition.x),
+                                    static_cast<float>(cursorPosition.y)
+                                };
+                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
                                 mouseDevice->handleScroll(Vector2F(static_cast<float>(event.value), 0.0F), normalizedPosition);
                                 break;
                             }
@@ -486,8 +503,11 @@ namespace ouzel::input::linux
                     }
                     case EV_KEY:
                     {
-                        const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(cursorPosition.x),
-                                                                                                                        static_cast<float>(cursorPosition.y)));
+                        const Vector2F position{
+                            static_cast<float>(cursorPosition.x),
+                            static_cast<float>(cursorPosition.y)
+                        };
+                        const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
 
                         if (event.value == 1)
                             mouseDevice->handleButtonPress(convertButtonCode(event.code), normalizedPosition);
@@ -550,8 +570,10 @@ namespace ouzel::input::linux
                                 for (Slot& slot : touchSlots)
                                     if (slot.action != Slot::Action::none)
                                     {
-                                        const Vector2F position(static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
-                                                                static_cast<float>(slot.positionY - touchMinY) / touchRangeY);
+                                        const Vector2F position{
+                                            static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
+                                            static_cast<float>(slot.positionY - touchMinY) / touchRangeY
+                                        };
                                         const auto pressure = static_cast<float>(slot.pressure - touchMinPressure) / touchMaxPressure;
 
                                         switch (slot.action)
@@ -739,8 +761,8 @@ namespace ouzel::input::linux
             const auto floatValue = static_cast<float>(newValue - min) / range;
 
             gamepadDevice->handleButtonValueChange(negativeButton,
-                                                    floatValue > 0.0F,
-                                                    floatValue);
+                                                   floatValue > 0.0F,
+                                                   floatValue);
         }
         else
         {
@@ -749,14 +771,14 @@ namespace ouzel::input::linux
             if (floatValue > 0.0F)
             {
                 gamepadDevice->handleButtonValueChange(positiveButton,
-                                                        floatValue > thumbDeadzone,
-                                                        floatValue);
+                                                       floatValue > thumbDeadzone,
+                                                       floatValue);
             }
             else if (floatValue < 0.0F)
             {
                 gamepadDevice->handleButtonValueChange(negativeButton,
-                                                        -floatValue > thumbDeadzone,
-                                                        -floatValue);
+                                                       -floatValue > thumbDeadzone,
+                                                       -floatValue);
             }
             else // thumbstick is 0
             {

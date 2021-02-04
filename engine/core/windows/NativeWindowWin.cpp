@@ -710,8 +710,10 @@ namespace ouzel::core::windows
                 if (!GetCursorPos(&cursorPos))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
 
-                Vector2F position(static_cast<float>(cursorPos.x),
-                                  static_cast<float>(cursorPos.y));
+                const Vector2F position{
+                    static_cast<float>(cursorPos.x),
+                    static_cast<float>(cursorPos.y)
+                };
                 mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
     }
@@ -748,8 +750,11 @@ namespace ouzel::core::windows
         if (!GetCursorPos(&cursorPos))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
 
-        Vector2F position(static_cast<float>(cursorPos.x),
-                          static_cast<float>(cursorPos.y));
+        const Vector2F position{
+            static_cast<float>(cursorPos.x),
+            static_cast<float>(cursorPos.y)
+        };
+
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
 
         sendEvent(Event(Event::Type::restore));
@@ -771,8 +776,10 @@ namespace ouzel::core::windows
         auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
         auto mouseDevice = inputSystemWin->getMouseDevice();
 
-        Vector2F position(static_cast<float>(GET_X_LPARAM(lParam)),
-                          static_cast<float>(GET_Y_LPARAM(lParam)));
+        const Vector2F position{
+            static_cast<float>(GET_X_LPARAM(lParam)),
+            static_cast<float>(GET_Y_LPARAM(lParam))
+        };
 
         mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
@@ -782,8 +789,10 @@ namespace ouzel::core::windows
         auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
         auto mouseDevice = inputSystemWin->getMouseDevice();
 
-        Vector2F position(static_cast<float>(GET_X_LPARAM(lParam)),
-                          static_cast<float>(GET_Y_LPARAM(lParam)));
+        const Vector2F position{
+            static_cast<float>(GET_X_LPARAM(lParam)),
+            static_cast<float>(GET_Y_LPARAM(lParam))
+        };
 
         input::Mouse::Button button;
 
@@ -818,18 +827,20 @@ namespace ouzel::core::windows
         auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
         auto mouseDevice = inputSystemWin->getMouseDevice();
 
-        Vector2F position(static_cast<float>(GET_X_LPARAM(lParam)),
-                          static_cast<float>(GET_Y_LPARAM(lParam)));
+        const Vector2F position{
+            static_cast<float>(GET_X_LPARAM(lParam)),
+            static_cast<float>(GET_Y_LPARAM(lParam))
+        };
 
         if (message == WM_MOUSEWHEEL)
         {
-            auto param = static_cast<short>(HIWORD(wParam));
+            const auto param = static_cast<short>(HIWORD(wParam));
             mouseDevice->handleScroll(Vector2F(0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
                                       engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
         else if (message == WM_MOUSEHWHEEL)
         {
-            auto param = static_cast<short>(HIWORD(wParam));
+            const auto param = static_cast<short>(HIWORD(wParam));
             mouseDevice->handleScroll(Vector2F(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F),
                                       engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
@@ -846,12 +857,12 @@ namespace ouzel::core::windows
         if (!GetTouchInputInfo(reinterpret_cast<HTOUCHINPUT>(lParam), inputCount, touches.data(), sizeof(TOUCHINPUT)))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get touch info");
 
-        Vector2F position;
-
         for (const TOUCHINPUT& touch : touches)
         {
-            position.v[0] = static_cast<float>(touch.x / 100);
-            position.v[1] = static_cast<float>(touch.y / 100);
+            const Vector2F position{
+                static_cast<float>(touch.x / 100),
+                static_cast<float>(touch.y / 100)
+            };
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
                 touchpadDevice->handleTouchBegin(touch.dwID,
