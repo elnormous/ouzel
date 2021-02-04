@@ -45,14 +45,14 @@ namespace ouzel
 
         auto isBoxInside(const Box<T, 3>& box) const noexcept
         {
-            const Vector<T, 4> leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2], 1);
-            const Vector<T, 4> leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2], 1);
-            const Vector<T, 4> leftTopBack(box.min.v[0], box.max.v[1], box.min.v[2], 1);
-            const Vector<T, 4> leftTopFront(box.min.v[0], box.max.v[1], box.max.v[2], 1);
-            const Vector<T, 4> rightBottomBack(box.max.v[0], box.min.v[1], box.min.v[2], 1);
-            const Vector<T, 4> rightBottomFront(box.max.v[0], box.min.v[1], box.max.v[2], 1);
-            const Vector<T, 4> rightTopBack(box.max.v[0], box.max.v[1], box.min.v[2], 1);
-            const Vector<T, 4> rightTopFront(box.max.v[0], box.max.v[1], box.max.v[2], 1);
+            const Vector<T, 4> leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2], T(1));
+            const Vector<T, 4> leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2], T(1));
+            const Vector<T, 4> leftTopBack(box.min.v[0], box.max.v[1], box.min.v[2], T(1));
+            const Vector<T, 4> leftTopFront(box.min.v[0], box.max.v[1], box.max.v[2], T(1));
+            const Vector<T, 4> rightBottomBack(box.max.v[0], box.min.v[1], box.min.v[2], T(1));
+            const Vector<T, 4> rightBottomFront(box.max.v[0], box.min.v[1], box.max.v[2], T(1));
+            const Vector<T, 4> rightTopBack(box.max.v[0], box.max.v[1], box.min.v[2], T(1));
+            const Vector<T, 4> rightTopFront(box.max.v[0], box.max.v[1], box.max.v[2], T(1));
 
             for (const Plane<T>& plane : planes)
                 if (plane.dot(leftBottomBack) < T(0) &&

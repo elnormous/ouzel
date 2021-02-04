@@ -31,7 +31,7 @@ namespace ouzel
 
         template <typename ...A>
         explicit constexpr Matrix(A... args) noexcept:
-            m{static_cast<T>(args)...}
+            m{args...}
         {
         }
 
