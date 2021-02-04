@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <limits>
 #include <type_traits>
+#include <utility>
 
 namespace ouzel
 {
@@ -292,12 +293,9 @@ namespace ouzel
             return *this;
         }
 
-        const Vector operator-() const noexcept
+        constexpr const Vector operator-() const noexcept
         {
-            Vector result = *this;
-            for (T& c : result.v)
-                c = -c;
-            return result;
+            return generateInverse(std::make_index_sequence<N>{});
         }
 
         const Vector operator*(const T scalar) const noexcept
@@ -358,6 +356,13 @@ namespace ouzel
             for (const T& c : v)
                 if (c != T(0)) return false;
             return true;
+        }
+
+    private:
+        template <std::size_t...I>
+        constexpr Vector generateInverse(std::index_sequence<I...>) const
+        {
+            return Vector{-v[I]...};
         }
     };
 
