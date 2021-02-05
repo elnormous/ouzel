@@ -97,14 +97,14 @@ namespace ouzel
         }
 
         template <auto X = N, std::enable_if_t<(X == 3)>* = nullptr>
-        constexpr Vector cross(const Vector& vec) const noexcept
+        constexpr auto cross(const Vector& vec) const noexcept
         {
             return Vector((v[1] * vec.v[2]) - (v[2] * vec.v[1]),
                           (v[2] * vec.v[0]) - (v[0] * vec.v[2]),
                           (v[0] * vec.v[1]) - (v[1] * vec.v[0]));
         }
 
-        T distance(const Vector& vec) const noexcept
+        auto distance(const Vector& vec) const noexcept
         {
             T d = 0;
             for (std::size_t i = 0; i < N; ++i)
@@ -112,7 +112,7 @@ namespace ouzel
             return std::sqrt(d);
         }
 
-        T distanceSquared(const Vector& vec) const noexcept
+        auto distanceSquared(const Vector& vec) const noexcept
         {
             T d = 0;
             for (std::size_t i = 0; i < N; ++i)
@@ -120,7 +120,7 @@ namespace ouzel
             return d;
         }
 
-        T dot(const Vector& vec) const noexcept
+        auto dot(const Vector& vec) const noexcept
         {
             T d = 0;
             for (std::size_t i = 0; i < N; ++i)
@@ -128,7 +128,7 @@ namespace ouzel
             return d;
         }
 
-        T length() const noexcept
+        auto length() const noexcept
         {
             T l = 0;
             for (const T& c : v)
@@ -136,7 +136,7 @@ namespace ouzel
             return std::sqrt(l);
         }
 
-        T lengthSquared() const noexcept
+        auto lengthSquared() const noexcept
         {
             T l = 0;
             for (const T& c : v)
@@ -173,7 +173,7 @@ namespace ouzel
                 c *= multiplier;
         }
 
-        Vector normalized() const noexcept
+        auto normalized() const noexcept
         {
             T squared = T(0);
             for (const T& c : v)
@@ -263,72 +263,60 @@ namespace ouzel
             return result;
         }
 
-        const Vector operator+(const Vector& vec) const noexcept
+        constexpr const auto operator-() const noexcept
         {
-            Vector result = *this;
-            for (std::size_t i = 0; i < N; ++i)
-                result.v[i] += vec.v[i];
-            return result;
+            return generateInverse(std::make_index_sequence<N>{});
         }
 
-        Vector& operator+=(const Vector& vec) noexcept
+        constexpr const auto operator+(const Vector& vec) const noexcept
+        {
+            return generateSum(std::make_index_sequence<N>{}, vec);
+        }
+
+        auto& operator+=(const Vector& vec) noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 v[i] += vec.v[i];
             return *this;
         }
 
-        const Vector operator-(const Vector& vec) const noexcept
+        constexpr const auto operator-(const Vector& vec) const noexcept
         {
-            Vector result = *this;
-            for (std::size_t i = 0; i < N; ++i)
-                result.v[i] -= vec.v[i];
-            return result;
+            return generateDiff(std::make_index_sequence<N>{}, vec);
         }
 
-        Vector& operator-=(const Vector& vec) noexcept
+        auto& operator-=(const Vector& vec) noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 v[i] -= vec.v[i];
             return *this;
         }
 
-        constexpr const Vector operator-() const noexcept
+        constexpr const auto operator*(const T scalar) const noexcept
         {
-            return generateInverse(std::make_index_sequence<N>{});
+            return generateMul(std::make_index_sequence<N>{}, scalar);
         }
 
-        const Vector operator*(const T scalar) const noexcept
-        {
-            Vector result(*this);
-            for (T& c : result.v)
-                c *= scalar;
-            return result;
-        }
-
-        Vector& operator*=(const T scalar) noexcept
+        auto& operator*=(const T scalar) noexcept
         {
             for (T& c : v)
                 c *= scalar;
             return *this;
         }
 
-        const Vector operator/(const T scalar) const noexcept
+        constexpr const auto operator/(const T scalar) const noexcept
         {
-            Vector result(*this);
-            for (T& c : result.v)
-                c /= scalar;
-            return result;
+            return generateDiv(std::make_index_sequence<N>{}, scalar);
         }
 
-        Vector& operator/=(const T scalar) noexcept
+        auto& operator/=(const T scalar) noexcept
         {
             for (T& c : v)
                 c /= scalar;
             return *this;
         }
 
-        bool operator<(const Vector& vec) const noexcept
+        auto operator<(const Vector& vec) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] < vec.v[i]) return true;
@@ -337,14 +325,14 @@ namespace ouzel
             return false;
         }
 
-        bool operator==(const Vector& vec) const noexcept
+        auto operator==(const Vector& vec) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] != vec.v[i]) return false;
             return true;
         }
 
-        bool operator!=(const Vector& vec) const noexcept
+        auto operator!=(const Vector& vec) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] != vec.v[i]) return true;
@@ -360,14 +348,38 @@ namespace ouzel
 
     private:
         template <std::size_t...I>
-        constexpr Vector generateInverse(std::index_sequence<I...>) const
+        constexpr auto generateInverse(std::index_sequence<I...>) const
         {
             return Vector{-v[I]...};
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateSum(std::index_sequence<I...>, const Vector& vec) const
+        {
+            return Vector{(v[I] + vec.v[I])...};
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateDiff(std::index_sequence<I...>, const Vector& vec) const
+        {
+            return Vector{(v[I] - vec.v[I])...};
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateMul(std::index_sequence<I...>, T scalar) const
+        {
+            return Vector{(v[I] * scalar)...};
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateDiv(std::index_sequence<I...>, T scalar) const
+        {
+            return Vector{(v[I] / scalar)...};
         }
     };
 
     template <typename T, std::size_t N>
-    const Vector<T, N> operator*(const T scalar, const Vector<T, N>& vec) noexcept
+    const auto operator*(const T scalar, const Vector<T, N>& vec) noexcept
     {
         return vec * scalar;
     }
