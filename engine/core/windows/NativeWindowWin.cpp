@@ -261,7 +261,7 @@ namespace
             case WM_XBUTTONDOWN:
             case WM_XBUTTONUP:
             {
-                LONG_PTR extraInfo = GetMessageExtraInfo();
+                const auto extraInfo = GetMessageExtraInfo();
 
                 // don't handle mouse event that came from pen or touch
                 if ((extraInfo & SIGNATURE_MASK) != MI_WP_SIGNATURE)
@@ -278,7 +278,7 @@ namespace
             }
             case WM_MOUSEMOVE:
             {
-                LONG_PTR extraInfo = GetMessageExtraInfo();
+                const auto extraInfo = GetMessageExtraInfo();
 
                 // don't handle mouse event that came from pen or touch
                 if ((extraInfo & SIGNATURE_MASK) != MI_WP_SIGNATURE)
@@ -319,12 +319,12 @@ namespace
                         break;
                     case SIZE_RESTORED:
                         windowWin->handleResize(ouzel::Size2U(static_cast<std::uint32_t>(LOWORD(lParam)),
-                                                            static_cast<std::uint32_t>(HIWORD(lParam))));
+                                                              static_cast<std::uint32_t>(HIWORD(lParam))));
                         windowWin->handleRestore();
                         break;
                     case SIZE_MAXIMIZED:
                         windowWin->handleResize(ouzel::Size2U(static_cast<std::uint32_t>(LOWORD(lParam)),
-                                                            static_cast<std::uint32_t>(HIWORD(lParam))));
+                                                              static_cast<std::uint32_t>(HIWORD(lParam))));
                         windowWin->handleMaximize();
                         break;
                 }
@@ -714,6 +714,7 @@ namespace ouzel::core::windows
                     static_cast<float>(cursorPos.x),
                     static_cast<float>(cursorPos.y)
                 };
+
                 mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
     }

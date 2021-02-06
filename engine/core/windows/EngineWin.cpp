@@ -105,11 +105,9 @@ namespace ouzel::core::windows
                     break;
                 }
                 else
-                {
                     translateMessage(windowWin->getNativeWindow(),
                                      windowWin->accelerators,
                                      message);
-                }
             }
 
             inputWin->update();
@@ -128,7 +126,6 @@ namespace ouzel::core::windows
 
         if (!PostMessage(windowWin->getNativeWindow(), WM_USER, 0, 0))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to post message");
-
     }
 
     void Engine::executeAll()

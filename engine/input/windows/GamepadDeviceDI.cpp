@@ -34,7 +34,7 @@ namespace ouzel::input::windows
         const std::int32_t vendorId = LOWORD(instance->guidProduct.Data1);
         const std::int32_t productId = HIWORD(instance->guidProduct.Data1);
 
-        const int bufferSize = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr);
+        const auto bufferSize = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr);
         if (bufferSize != 0)
         {
             auto buffer = std::make_unique<char[]>(bufferSize);
@@ -237,8 +237,8 @@ namespace ouzel::input::windows
         {
             if (events[e].dwOfs == DIJOFS_POV(0))
             {
-                const std::uint32_t oldHatValue = getHatValue(hatValue);
-                const std::uint32_t newHatValue = getHatValue(events[e].dwData);
+                const auto oldHatValue = getHatValue(hatValue);
+                const auto newHatValue = getHatValue(events[e].dwData);
 
                 const std::uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                     (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
@@ -316,8 +316,8 @@ namespace ouzel::input::windows
 
         if (hatValue != newDIState.rgdwPOV[0])
         {
-            const std::uint32_t oldHatValue = getHatValue(hatValue);
-            const std::uint32_t newHatValue = getHatValue(newDIState.rgdwPOV[0]);
+            const auto oldHatValue = getHatValue(hatValue);
+            const auto newHatValue = getHatValue(newDIState.rgdwPOV[0]);
 
             const std::uint32_t oldBitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
                 (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
