@@ -15,7 +15,7 @@ namespace ouzel::input::windows
                 bitmap{CreateBitmap(width, height, planes, bitCount, bits)}
             {
                 if (!bitmap)
-                    throw std::runtime_error("Failed to create mask bitmap");
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create mask bitmap");
             }
 
             Bitmap(const platform::winapi::DeviceContext& deviceContext,
@@ -32,7 +32,7 @@ namespace ouzel::input::windows
                                         offset)}
             {
                 if (!bitmap)
-                    throw std::runtime_error("Failed to create mask bitmap");
+                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create mask bitmap");
             }
 
             ~Bitmap()
@@ -62,32 +62,26 @@ namespace ouzel::input::windows
         };
     }
 
-    Cursor::Cursor(SystemCursor systemCursor)
+    namespace
     {
-        switch (systemCursor)
+        HCURSOR loadCursor(SystemCursor systemCursor)
         {
-            case SystemCursor::arrow:
-                cursor = LoadCursor(nullptr, IDC_ARROW);
-                break;
-            case SystemCursor::hand:
-                cursor = LoadCursor(nullptr, IDC_HAND);
-                break;
-            case SystemCursor::horizontalResize:
-                cursor = LoadCursor(nullptr, IDC_SIZEWE);
-                break;
-            case SystemCursor::verticalResize:
-                cursor = LoadCursor(nullptr, IDC_SIZENS);
-                break;
-            case SystemCursor::cross:
-                cursor = LoadCursor(nullptr, IDC_CROSS);
-                break;
-            case SystemCursor::iBeam:
-                cursor = LoadCursor(nullptr, IDC_IBEAM);
-                break;
-            default:
-                throw std::runtime_error("Invalid cursor");
+            switch (systemCursor)
+            {
+            case SystemCursor::arrow: return LoadCursor(nullptr, IDC_ARROW);
+            case SystemCursor::hand: return LoadCursor(nullptr, IDC_HAND);
+            case SystemCursor::horizontalResize: return LoadCursor(nullptr, IDC_SIZEWE);
+            case SystemCursor::verticalResize: return LoadCursor(nullptr, IDC_SIZENS);
+            case SystemCursor::cross: return LoadCursor(nullptr, IDC_CROSS);
+            case SystemCursor::iBeam: return LoadCursor(nullptr, IDC_IBEAM);
+            default: throw std::runtime_error("Invalid cursor");
+            }
         }
+    }
 
+    Cursor::Cursor(SystemCursor systemCursor):
+        cursor{loadCursor(systemCursor)}
+    {
         if (!cursor)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to load cursor");
     }
