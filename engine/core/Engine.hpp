@@ -60,38 +60,38 @@ namespace ouzel::core
 
         void init();
 
-        auto& getFileSystem() { return fileSystem; }
-        auto& getFileSystem() const { return fileSystem; }
+        [[nodiscard]] auto& getFileSystem() { return fileSystem; }
+        [[nodiscard]] auto& getFileSystem() const { return fileSystem; }
 
-        auto& getEventDispatcher() { return eventDispatcher; }
-        auto& getEventDispatcher() const { return eventDispatcher; }
+        [[nodiscard]] auto& getEventDispatcher() { return eventDispatcher; }
+        [[nodiscard]] auto& getEventDispatcher() const { return eventDispatcher; }
 
-        auto& getCache() { return cache; }
-        auto& getCache() const { return cache; }
+        [[nodiscard]] auto& getCache() { return cache; }
+        [[nodiscard]] auto& getCache() const { return cache; }
 
-        auto getWindow() const { return window.get(); }
+        [[nodiscard]] auto getWindow() const { return window.get(); }
 
-        auto getGraphics() const noexcept { return graphics.get(); }
-        auto getAudio() const noexcept { return audio.get(); }
+        [[nodiscard]] auto getGraphics() const noexcept { return graphics.get(); }
+        [[nodiscard]] auto getAudio() const noexcept { return audio.get(); }
 
-        auto& getSceneManager() { return sceneManager; }
-        auto& getSceneManager() const { return sceneManager; }
+        [[nodiscard]] auto& getSceneManager() { return sceneManager; }
+        [[nodiscard]] auto& getSceneManager() const { return sceneManager; }
 
-        auto getInputManager() const noexcept { return inputManager.get(); }
+        [[nodiscard]] auto getInputManager() const noexcept { return inputManager.get(); }
 
-        auto& getLocalization() { return localization; }
-        auto& getLocalization() const { return localization; }
+        [[nodiscard]] auto& getLocalization() { return localization; }
+        [[nodiscard]] auto& getLocalization() const { return localization; }
 
-        auto& getNetwork() { return network; }
-        auto& getNetwork() const { return network; }
+        [[nodiscard]] auto& getNetwork() { return network; }
+        [[nodiscard]] auto& getNetwork() const { return network; }
 
         void start();
         void pause();
         void resume();
         void exit();
 
-        bool isPaused() const noexcept { return paused; }
-        bool isActive() const noexcept { return active; }
+        [[nodiscard]] bool isPaused() const noexcept { return paused; }
+        [[nodiscard]] bool isActive() const noexcept { return active; }
 
         void update();
 
@@ -99,10 +99,10 @@ namespace ouzel::core
 
         virtual void openUrl(const std::string& url);
 
-        bool isScreenSaverEnabled() const noexcept { return screenSaverEnabled; }
+        [[nodiscard]] bool isScreenSaverEnabled() const noexcept { return screenSaverEnabled; }
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
 
-        bool isOneUpdatePerFrame() const noexcept { return oneUpdatePerFrame; }
+        [[nodiscard]] bool isOneUpdatePerFrame() const noexcept { return oneUpdatePerFrame; }
         void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
 
     protected:
