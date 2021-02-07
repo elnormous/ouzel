@@ -645,6 +645,21 @@ namespace ouzel::graphics
     {
     }
 
+    namespace
+    {
+        template <typename T, std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
+        constexpr auto isPowerOfTwo(const T x) noexcept
+        {
+            return x != T(0) && (x & (x - T(1))) == 0;
+        }
+
+        template <typename T, std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
+        constexpr auto isPowerOfTwo(const Size<T, 2> x) noexcept
+        {
+            return isPowerOfTwo(x.v[0]) && isPowerOfTwo(x.v[1]);
+        }
+    }
+
     Texture::Texture(Graphics& initGraphics,
                      const Size2U& initSize,
                      Flags initFlags,
@@ -665,8 +680,7 @@ namespace ouzel::graphics
             (mipmaps == 0 || mipmaps > 1))
             throw std::runtime_error("Invalid mip map count");
 
-        if (!initGraphics.getDevice()->isNPOTTexturesSupported() &&
-            (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
+        if (!initGraphics.getDevice()->isNPOTTexturesSupported() && !isPowerOfTwo(size))
             mipmaps = 1;
 
         std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = calculateSizes(size, mipmaps, pixelFormat);
@@ -701,8 +715,7 @@ namespace ouzel::graphics
             (mipmaps == 0 || mipmaps > 1))
             throw std::runtime_error("Invalid mip map count");
 
-        if (!initGraphics.getDevice()->isNPOTTexturesSupported() &&
-            (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
+        if (!initGraphics.getDevice()->isNPOTTexturesSupported() && !isPowerOfTwo(size))
             mipmaps = 1;
 
         std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
@@ -738,8 +751,7 @@ namespace ouzel::graphics
 
         std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = initLevels;
 
-        if (!initGraphics.getDevice()->isNPOTTexturesSupported() &&
-            (!isPowerOfTwo(size.v[0]) || !isPowerOfTwo(size.v[1])))
+        if (!initGraphics.getDevice()->isNPOTTexturesSupported() && !isPowerOfTwo(size))
         {
             mipmaps = 1;
             levels.resize(1);
