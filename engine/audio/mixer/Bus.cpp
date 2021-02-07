@@ -52,9 +52,9 @@ namespace ouzel::audio::mixer
                     const auto sourceChannel = &sourceSamples[channel * sourceFrames];
                     auto outputChannel = &samples[channel * frames];
 
-                    outputChannel[frame] = ouzel::lerp(sourceChannel[sourceCurrentFrame],
-                                                       sourceChannel[sourceNextFrame],
-                                                       fraction);
+                    outputChannel[frame] = lerp(sourceChannel[sourceCurrentFrame],
+                                                sourceChannel[sourceNextFrame],
+                                                fraction);
                 }
 
                 sourcePosition += sourceIncrement;
