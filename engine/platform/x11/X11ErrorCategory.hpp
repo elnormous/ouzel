@@ -1,14 +1,12 @@
 // Copyright 2015-2020 Elviss Strazdins. All rights reserved.
 
-#ifndef OUZEL_CORE_X11ERRORCATEGORY_HPP
-#define OUZEL_CORE_X11ERRORCATEGORY_HPP
+#ifndef OUZEL_PLATFORM_X11_X11ERRORCATEGORY_HPP
+#define OUZEL_PLATFORM_X11_X11ERRORCATEGORY_HPP
 
-#include "../Setup.h"
-#if OUZEL_SUPPORTS_X11
 #include <system_error>
 #include <X11/Xlib.h>
 
-namespace ouzel::core::linux
+namespace ouzel::platform::x11
 {
     class ErrorCategory final: public std::error_category
     {
@@ -44,6 +42,5 @@ namespace ouzel::core::linux
         }
     };
 }
-#endif
 
-#endif // OUZEL_CORE_X11ERRORCATEGORY_HPP
+#endif // OUZEL_PLATFORM_X11_X11ERRORCATEGORY_HPP

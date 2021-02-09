@@ -15,7 +15,7 @@
 #endif
 #include "EngineLinux.hpp"
 #include "NativeWindowLinux.hpp"
-#include "X11ErrorCategory.hpp"
+#include "../../platform/x11/X11ErrorCategory.hpp"
 #include "../../events/Event.hpp"
 #include "../../graphics/RenderDevice.hpp"
 #include "../../input/linux/InputSystemLinux.hpp"
@@ -262,7 +262,7 @@ namespace ouzel::core::linux
     namespace
     {
 #if OUZEL_SUPPORTS_X11
-        const ErrorCategory errorCategory;
+        const platform::x11::ErrorCategory errorCategory;
 #endif
 
         std::vector<std::string> parseArgs(int argc, char* argv[])
