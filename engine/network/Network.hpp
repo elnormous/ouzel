@@ -15,6 +15,7 @@
 #  include <winsock2.h>
 #  pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #  pragma pop_macro("NOMINMAX")
+#  include "../platform/winapi/WinSock.hpp"
 #endif
 
 #include <cstdint>
@@ -45,7 +46,7 @@ namespace ouzel::network
 
     private:
 #if defined(_WIN32)
-        WORD wsaVersion = 0;
+        platform::winapi::WinSock winSock;
 #endif
 
         std::vector<std::unique_ptr<Client>> clients;

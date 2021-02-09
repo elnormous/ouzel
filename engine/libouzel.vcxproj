@@ -235,6 +235,7 @@
     <ClInclude Include="platform\winapi\DeviceContext.hpp" />
     <ClInclude Include="platform\winapi\Library.hpp" />
     <ClInclude Include="platform\winapi\ShellExecuteErrorCategory.hpp" />
+    <ClInclude Include="platform\winapi\WinSock.hpp" />
     <ClInclude Include="storage\Archive.hpp" />
     <ClInclude Include="storage\FileSystem.hpp" />
     <ClInclude Include="storage\Path.hpp" />

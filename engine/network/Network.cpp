@@ -29,28 +29,10 @@ namespace ouzel::network
 {
     Network::Network()
     {
-#if defined(_WIN32)
-        const auto sockVersion = MAKEWORD(2, 2);
-        WSADATA wsaData;
-        const auto error = WSAStartup(sockVersion, &wsaData);
-        if (error != 0)
-            throw std::system_error(error, std::system_category(), "Failed to start WinSock failed");
-
-        if (wsaData.wVersion != sockVersion)
-        {
-            WSACleanup();
-            throw std::runtime_error("Invalid WinSock version");
-        }
-
-        wsaVersion = wsaData.wVersion;
-#endif
     }
 
     Network::~Network()
     {
-#if defined(_WIN32)
-        if (wsaVersion) WSACleanup();
-#endif
     }
 
     std::uint32_t Network::getAddress(const std::string& address)
