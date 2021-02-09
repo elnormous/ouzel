@@ -52,8 +52,8 @@ namespace ouzel::input::linux
 
         if (!data.empty())
         {
-            auto width = static_cast<int>(size.v[0]);
-            auto height = static_cast<int>(size.v[1]);
+            const auto width = static_cast<int>(size.v[0]);
+            const auto height = static_cast<int>(size.v[1]);
 
             XcursorImage* cursorImage = XcursorImageCreate(width, height);
 
