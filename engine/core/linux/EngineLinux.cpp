@@ -280,7 +280,7 @@ namespace ouzel::core::linux
         return errorCategory;
     }
 
-    int getLastError()
+    int getLastError() noexcept
     {
         return error;
     }
