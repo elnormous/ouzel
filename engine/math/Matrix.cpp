@@ -9,7 +9,7 @@
 namespace ouzel
 {
     template <>
-    void Matrix<float, 4, 4>::add(float scalar, Matrix& dst) const noexcept
+    void Matrix<float, 4, 4>::add(const float scalar, Matrix& dst) const noexcept
     {
         if (core::isSimdAvailable)
         {
@@ -152,7 +152,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<float, 4, 4>::multiply(float scalar, Matrix& dst) const noexcept
+    void Matrix<float, 4, 4>::multiply(const float scalar, Matrix& dst) const noexcept
     {
         if (core::isSimdAvailable)
         {

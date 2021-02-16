@@ -879,14 +879,14 @@ namespace ouzel
             return *this;
         }
 
-        const Matrix operator*(float scalar) const noexcept
+        const Matrix operator*(const float scalar) const noexcept
         {
             Matrix result(*this);
             result.multiply(scalar);
             return result;
         }
 
-        Matrix& operator*=(float scalar) noexcept
+        Matrix& operator*=(const float scalar) noexcept
         {
             multiply(scalar);
             return *this;
@@ -928,7 +928,7 @@ namespace ouzel
 
     private:
         template <std::size_t...I>
-        static constexpr Matrix generateIdentity(std::index_sequence<I...>)
+        static constexpr Matrix generateIdentity(const std::index_sequence<I...>)
         {
             return Matrix{
                 ((I % C == I / R) ? T(1) : T(0))...
