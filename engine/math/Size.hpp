@@ -18,7 +18,7 @@ namespace ouzel
         constexpr Size() noexcept {}
 
         template <typename ...A>
-        explicit constexpr Size(A... args) noexcept:
+        explicit constexpr Size(const A... args) noexcept:
             v{static_cast<T>(args)...}
         {
         }
@@ -35,8 +35,8 @@ namespace ouzel
         {
         }
 
-        auto& operator[](std::size_t index) noexcept { return v[index]; }
-        constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
+        auto& operator[](const std::size_t index) noexcept { return v[index]; }
+        constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
         template <auto X = N, std::enable_if_t<(X >= 1)>* = nullptr>
         auto& width() noexcept { return v[0]; }

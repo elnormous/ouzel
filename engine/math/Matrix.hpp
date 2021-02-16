@@ -30,13 +30,13 @@ namespace ouzel
         constexpr Matrix() noexcept {}
 
         template <typename ...A>
-        explicit constexpr Matrix(A... args) noexcept:
+        explicit constexpr Matrix(const A... args) noexcept:
             m{args...}
         {
         }
 
-        auto& operator[](std::size_t index) noexcept { return m[index]; }
-        constexpr auto operator[](std::size_t index) const noexcept { return m[index]; }
+        auto& operator[](const std::size_t index) noexcept { return m[index]; }
+        constexpr auto operator[](const std::size_t index) const noexcept { return m[index]; }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == Y)>* = nullptr>
         static constexpr Matrix identity() noexcept

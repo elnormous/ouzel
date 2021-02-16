@@ -24,7 +24,7 @@ namespace ouzel
         constexpr Vector() noexcept {}
 
         template <typename ...A>
-        explicit constexpr Vector(A... args) noexcept:
+        explicit constexpr Vector(const A... args) noexcept:
             v{args...}
         {
         }
@@ -36,8 +36,8 @@ namespace ouzel
                 v[i] = vec.v[i];
         }
 
-        auto& operator[](std::size_t index) noexcept { return v[index]; }
-        constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
+        auto& operator[](const std::size_t index) noexcept { return v[index]; }
+        constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
         template <auto X = N, std::enable_if_t<(X >= 1)>* = nullptr>
         auto& x() noexcept { return v[0]; }
@@ -190,7 +190,7 @@ namespace ouzel
             return *this * multiplier;
         }
 
-        void scale(T scalar) noexcept
+        void scale(const T scalar) noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 v[i] *= scalar;
@@ -203,7 +203,7 @@ namespace ouzel
         }
 
         template <auto X = N, std::enable_if_t<(X == 2)>* = nullptr>
-        void rotate(T angle) noexcept
+        void rotate(const T angle) noexcept
         {
             const auto sinAngle = std::sin(angle);
             const auto cosAngle = std::cos(angle);
@@ -348,31 +348,31 @@ namespace ouzel
 
     private:
         template <std::size_t...I>
-        constexpr auto generateInverse(std::index_sequence<I...>) const
+        constexpr auto generateInverse(const std::index_sequence<I...>) const
         {
             return Vector{-v[I]...};
         }
 
         template <std::size_t...I>
-        constexpr auto generateSum(std::index_sequence<I...>, const Vector& vec) const
+        constexpr auto generateSum(const std::index_sequence<I...>, const Vector& vec) const
         {
             return Vector{(v[I] + vec.v[I])...};
         }
 
         template <std::size_t...I>
-        constexpr auto generateDiff(std::index_sequence<I...>, const Vector& vec) const
+        constexpr auto generateDiff(const std::index_sequence<I...>, const Vector& vec) const
         {
             return Vector{(v[I] - vec.v[I])...};
         }
 
         template <std::size_t...I>
-        constexpr auto generateMul(std::index_sequence<I...>, T scalar) const
+        constexpr auto generateMul(const std::index_sequence<I...>, T scalar) const
         {
             return Vector{(v[I] * scalar)...};
         }
 
         template <std::size_t...I>
-        constexpr auto generateDiv(std::index_sequence<I...>, T scalar) const
+        constexpr auto generateDiv(const std::index_sequence<I...>, T scalar) const
         {
             return Vector{(v[I] / scalar)...};
         }

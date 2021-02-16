@@ -28,8 +28,8 @@ namespace ouzel
         {
         }
 
-        auto& operator[](std::size_t index) noexcept { return v[index]; }
-        constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
+        auto& operator[](const std::size_t index) noexcept { return v[index]; }
+        constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
         auto& a() noexcept { return v[0]; }
         constexpr auto a() const noexcept { return v[0]; }

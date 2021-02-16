@@ -19,7 +19,7 @@ namespace ouzel
 
         constexpr Color() noexcept {}
 
-        explicit constexpr Color(std::uint32_t color) noexcept:
+        explicit constexpr Color(const std::uint32_t color) noexcept:
             v{{
                 static_cast<std::uint8_t>((color & 0xFF000000) >> 24),
                 static_cast<std::uint8_t>((color & 0x00FF0000) >> 16),
@@ -76,12 +76,12 @@ namespace ouzel
         }
 
         template <typename T, std::enable_if_t<std::is_integral_v<T>>* = nullptr>
-        constexpr Color(T red, T green, T blue, T alpha = 0xFF) noexcept:
+        constexpr Color(const T red, const T green, const T blue, const T alpha = 0xFF) noexcept:
             v{{std::uint8_t(red), std::uint8_t(green), std::uint8_t(blue), std::uint8_t(alpha)}}
         {
         }
 
-        constexpr Color(float red, float green, float blue, float alpha = 1.0F) noexcept:
+        constexpr Color(const float red, const float green, const float blue, const float alpha = 1.0F) noexcept:
             v{{
                 static_cast<std::uint8_t>(red * 255.0F),
                 static_cast<std::uint8_t>(green * 255.0F),
