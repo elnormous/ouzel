@@ -35,8 +35,8 @@ namespace ouzel
         {
         }
 
-        auto& operator[](const std::size_t index) noexcept { return m[index]; }
-        constexpr auto operator[](const std::size_t index) const noexcept { return m[index]; }
+        auto operator[](const std::size_t row) noexcept { return &m[row * C]; }
+        constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * C]; }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == Y)>* = nullptr>
         static constexpr Matrix identity() noexcept
