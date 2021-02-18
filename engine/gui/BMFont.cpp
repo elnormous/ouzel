@@ -395,7 +395,7 @@ namespace ouzel::gui
                     (f.y + f.height) / static_cast<float>(height)
                 };
 
-                const std::array textCoords{
+                const std::array<Vector2F, 4> textCoords{
                     Vector2F{leftTop.v[0], rightBottom.v[1]},
                     Vector2F{rightBottom.v[0], rightBottom.v[1]},
                     Vector2F{leftTop.v[0], leftTop.v[1]},
