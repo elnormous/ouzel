@@ -55,12 +55,14 @@ namespace ouzel::input
         int height;
         int comp;
 
-        stbi_uc* tempData = stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(data.data()),
-                                                  static_cast<int>(data.size()),
-                                                  &width,
-                                                  &height,
-                                                  &comp,
-                                                  STBI_default);
+        using ImageFreeFunction = void(*)(void*);
+        std::unique_ptr<stbi_uc, ImageFreeFunction> tempData{
+            stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(data.data()),
+                                  static_cast<int>(data.size()),
+                                  &width, &height,
+                                  &comp, STBI_default),
+            stbi_image_free
+        };
 
         if (!tempData)
             throw std::runtime_error("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
@@ -84,13 +86,12 @@ namespace ouzel::input
                     {
                         const auto sourceOffset = static_cast<std::size_t>(y * height + x);
                         const auto destinationOffset = static_cast<std::size_t>((y * height + x) * 4);
-                        imageData[destinationOffset + 0] = tempData[sourceOffset];
-                        imageData[destinationOffset + 1] = tempData[sourceOffset];
-                        imageData[destinationOffset + 2] = tempData[sourceOffset];
+                        imageData[destinationOffset + 0] = tempData.get()[sourceOffset];
+                        imageData[destinationOffset + 1] = tempData.get()[sourceOffset];
+                        imageData[destinationOffset + 2] = tempData.get()[sourceOffset];
                         imageData[destinationOffset + 3] = 255;
                     }
                 }
-                stbi_image_free(tempData);
                 break;
             }
             case STBI_grey_alpha:
@@ -106,13 +107,12 @@ namespace ouzel::input
                     {
                         const auto sourceOffset = static_cast<std::size_t>((y * height + x) * 2);
                         const auto destinationOffset = static_cast<std::size_t>((y * height + x) * 4);
-                        imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
-                        imageData[destinationOffset + 1] = tempData[sourceOffset + 0];
-                        imageData[destinationOffset + 2] = tempData[sourceOffset + 0];
-                        imageData[destinationOffset + 3] = tempData[sourceOffset + 1];
+                        imageData[destinationOffset + 0] = tempData.get()[sourceOffset + 0];
+                        imageData[destinationOffset + 1] = tempData.get()[sourceOffset + 0];
+                        imageData[destinationOffset + 2] = tempData.get()[sourceOffset + 0];
+                        imageData[destinationOffset + 3] = tempData.get()[sourceOffset + 1];
                     }
                 }
-                stbi_image_free(tempData);
                 break;
             }
             case STBI_rgb:
@@ -128,26 +128,23 @@ namespace ouzel::input
                     {
                         const auto sourceOffset = static_cast<std::size_t>((y * height + x) * 3);
                         const auto destinationOffset = static_cast<std::size_t>((y * height + x) * 4);
-                        imageData[destinationOffset + 0] = tempData[sourceOffset + 0];
-                        imageData[destinationOffset + 1] = tempData[sourceOffset + 1];
-                        imageData[destinationOffset + 2] = tempData[sourceOffset + 2];
+                        imageData[destinationOffset + 0] = tempData.get()[sourceOffset + 0];
+                        imageData[destinationOffset + 1] = tempData.get()[sourceOffset + 1];
+                        imageData[destinationOffset + 2] = tempData.get()[sourceOffset + 2];
                         imageData[destinationOffset + 3] = 255;
                     }
                 }
-                stbi_image_free(tempData);
                 break;
             }
             case STBI_rgb_alpha:
             {
                 pixelFormat = graphics::PixelFormat::rgba8UnsignedNorm;
                 pixelSize = 4;
-                imageData.assign(tempData,
-                                 tempData + static_cast<std::size_t>(width * height) * pixelSize);
-                stbi_image_free(tempData);
+                imageData.assign(tempData.get(),
+                                 tempData.get() + static_cast<std::size_t>(width * height) * pixelSize);
                 break;
             }
             default:
-                stbi_image_free(tempData);
                 throw std::runtime_error("Unsupported pixel size");
         }
 
