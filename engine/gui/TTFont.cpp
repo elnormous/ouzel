@@ -164,8 +164,6 @@ namespace ouzel::gui
         indices.reserve(utf32Text.size() * 6);
         vertices.reserve(utf32Text.size() * 4);
 
-        Vector2F textCoords[4];
-
         std::size_t firstChar = 0;
 
         for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
@@ -185,16 +183,22 @@ namespace ouzel::gui
                 indices.push_back(startIndex + 3);
                 indices.push_back(startIndex + 2);
 
-                Vector2F leftTop(f.x / static_cast<float>(width),
-                                 f.y / static_cast<float>(height));
+                const Vector2F leftTop{
+                    f.x / static_cast<float>(width),
+                    f.y / static_cast<float>(height)
+                };
 
-                Vector2F rightBottom((f.x + f.width) / static_cast<float>(width),
-                                     (f.y + f.height) / static_cast<float>(height));
+                const Vector2F rightBottom{
+                    (f.x + f.width) / static_cast<float>(width),
+                    (f.y + f.height) / static_cast<float>(height)
+                };
 
-                textCoords[0] = Vector2F(leftTop.v[0], rightBottom.v[1]);
-                textCoords[1] = Vector2F(rightBottom.v[0], rightBottom.v[1]);
-                textCoords[2] = Vector2F(leftTop.v[0], leftTop.v[1]);
-                textCoords[3] = Vector2F(rightBottom.v[0], leftTop.v[1]);
+                const std::array<Vector2F, 4> textCoords{
+                    Vector2F{leftTop.v[0], rightBottom.v[1]},
+                    Vector2F{rightBottom.v[0], rightBottom.v[1]},
+                    Vector2F{leftTop.v[0], leftTop.v[1]},
+                    Vector2F{rightBottom.v[0], leftTop.v[1]}
+                };
 
                 vertices.emplace_back(Vector3F{position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1] - f.height, 0.0F},
                                       color, textCoords[0], Vector3F{0.0F, 0.0F, -1.0F});
