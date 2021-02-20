@@ -607,7 +607,10 @@ namespace ouzel::input::linux
                                     sizeof(*input_mt_request_layout::values) * touchSlots.size();
 
                                 using FreeFunction = void(*)(void*);
-                                std::unique_ptr<input_mt_request_layout, FreeFunction> request(static_cast<input_mt_request_layout*>(malloc(size)), free);
+                                std::unique_ptr<input_mt_request_layout, FreeFunction> request{
+                                    static_cast<input_mt_request_layout*>(malloc(size)),
+                                    free
+                                };
 
                                 request->code = ABS_MT_TRACKING_ID;
                                 if (ioctl(fd, EVIOCGMTSLOTS(size), request.get()) == -1)
