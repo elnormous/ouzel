@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Elviss Strazdins. All rights reserved.
+// Ouzel by Elviss Strazdins
 
 #ifndef OUZEL_AUDIO_MIXER_OBJECT_HPP
 #define OUZEL_AUDIO_MIXER_OBJECT_HPP

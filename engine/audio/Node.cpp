@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Elviss Strazdins. All rights reserved.
+// Ouzel by Elviss Strazdins
 
 #include "Node.hpp"
 #include "Audio.hpp"

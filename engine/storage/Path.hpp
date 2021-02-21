@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Elviss Strazdins. All rights reserved.
+// Ouzel by Elviss Strazdins
 
 #ifndef OUZEL_STORAGE_PATH_HPP
 #define OUZEL_STORAGE_PATH_HPP

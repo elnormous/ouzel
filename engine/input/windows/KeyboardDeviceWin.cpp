@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Elviss Strazdins. All rights reserved.
+// Ouzel by Elviss Strazdins
 
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("NOMINMAX")

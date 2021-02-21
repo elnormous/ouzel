@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Elviss Strazdins. All rights reserved.
+// Ouzel by Elviss Strazdins
 
 #ifndef OUZEL_ASSETS_BMFLOADER_HPP
 #define OUZEL_ASSETS_BMFLOADER_HPP

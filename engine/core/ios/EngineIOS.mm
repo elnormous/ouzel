@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Elviss Strazdins. All rights reserved.
+// Ouzel by Elviss Strazdins
 
 #import <UIKit/UIKit.h>
 #include "EngineIOS.hpp"

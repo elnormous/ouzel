@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Elviss Strazdins. All rights reserved.
+// Ouzel by Elviss Strazdins
 
 #ifndef OUZEL_GRAPHICS_OPENGLVIEW_H
 #define OUZEL_GRAPHICS_OPENGLVIEW_H

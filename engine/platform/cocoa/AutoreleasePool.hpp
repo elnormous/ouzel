@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Elviss Strazdins. All rights reserved.
+// Ouzel by Elviss Strazdins
 
 #ifndef OUZEL_PLATFORM_COCOA_AUTORELEASEPOOL_HPP
 #define OUZEL_PLATFORM_COCOA_AUTORELEASEPOOL_HPP

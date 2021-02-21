@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Elviss Strazdins. All rights reserved.
+// Ouzel by Elviss Strazdins
 
 #ifndef OUZEL_GRAPHICS_D3D11RENDERDEVICE_HPP
 #define OUZEL_GRAPHICS_D3D11RENDERDEVICE_HPP

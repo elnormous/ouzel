@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Elviss Strazdins. All rights reserved.
+// Ouzel by Elviss Strazdins
 
 #ifndef OUZEL_CORE_SYSTEMLINUX_HPP
 #define OUZEL_CORE_SYSTEMLINUX_HPP
