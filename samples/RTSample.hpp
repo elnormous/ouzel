@@ -1,4 +1,4 @@
-// Copyright 2015-2020 Elviss Strazdins. All rights reserved.
+// Copyright 2015-2021 Elviss Strazdins. All rights reserved.
 
 #ifndef RTSAMPLE_HPP
 #define RTSAMPLE_HPP
