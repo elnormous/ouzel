@@ -36,8 +36,8 @@ namespace ouzel::audio::alsa
         snd_pcm_hw_params_t* hwParams = nullptr;
         snd_pcm_sw_params_t* swParams = nullptr;
 
-        unsigned int periods = 4;
-        snd_pcm_uframes_t periodSize = 1024;
+        unsigned int periods = 4U;
+        snd_pcm_uframes_t periodSize = 1024U;
 
         std::vector<std::uint8_t> data;
 
