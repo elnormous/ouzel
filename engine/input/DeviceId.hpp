@@ -7,7 +7,7 @@
 
 namespace ouzel::input
 {
-    struct DeviceId
+    struct DeviceId final
     {
         std::size_t value = 0;
 
