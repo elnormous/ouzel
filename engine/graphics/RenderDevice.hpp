@@ -63,7 +63,7 @@ namespace ouzel::graphics
             Vertex::Attribute{Vertex::Attribute::Usage::normal, DataType::float32Vector3}
         };
 
-        struct Event
+        struct Event final
         {
             enum class Type
             {
