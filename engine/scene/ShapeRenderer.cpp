@@ -106,7 +106,7 @@ namespace ouzel::scene
 
             Vector2F tangent = finish - start;
             tangent.normalize();
-            const Vector2F normal(-tangent.v[1], tangent.v[0]);
+            const Vector2F normal{-tangent.v[1], tangent.v[0]};
 
             const float halfThickness = thickness / 2.0F;
 

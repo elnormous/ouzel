@@ -206,7 +206,10 @@ namespace ouzel::scene
             const auto diff = Vector2F(box.max - box.min);
 
             // offset the center point, so that it is relative to 0,0
-            Vector3F v3p(box.min.v[0] + diff.v[0] / 2.0F, box.min.v[1] + diff.v[1] / 2.0F, 0.0F);
+            Vector3F v3p{
+                box.min.v[0] + diff.v[0] / 2.0F,
+                box.min.v[1] + diff.v[1] / 2.0F, 0.0F
+            };
 
             // apply local transform to the center point
             boxTransform.transformPoint(v3p);
@@ -218,8 +221,10 @@ namespace ouzel::scene
             assert(clipPos.v[3] != 0.0F);
 
             // normalize position of the center point
-            const Vector2F v2p((clipPos.v[0] / clipPos.v[3] + 1.0F) * 0.5F,
-                               (clipPos.v[1] / clipPos.v[3] + 1.0F) * 0.5F);
+            const Vector2F v2p{
+                (clipPos.v[0] / clipPos.v[3] + 1.0F) * 0.5F,
+                (clipPos.v[1] / clipPos.v[3] + 1.0F) * 0.5F
+            };
 
             // calculate half size
             const Size2F halfSize(diff.v[0] / 2.0F, diff.v[1] / 2.0F);
