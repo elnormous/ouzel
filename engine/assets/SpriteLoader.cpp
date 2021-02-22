@@ -55,25 +55,33 @@ namespace ouzel::assets
 
             const json::Value& frameRectangleObject = frameObject["frame"];
 
-            RectF frameRectangle(static_cast<float>(frameRectangleObject["x"].as<std::int32_t>()),
-                                 static_cast<float>(frameRectangleObject["y"].as<std::int32_t>()),
-                                 static_cast<float>(frameRectangleObject["w"].as<std::int32_t>()),
-                                 static_cast<float>(frameRectangleObject["h"].as<std::int32_t>()));
+            const RectF frameRectangle{
+                frameRectangleObject["x"].as<float>(),
+                frameRectangleObject["y"].as<float>(),
+                frameRectangleObject["w"].as<float>(),
+                frameRectangleObject["h"].as<float>()
+            };
 
             const json::Value& sourceSizeObject = frameObject["sourceSize"];
 
-            Size2F sourceSize(static_cast<float>(sourceSizeObject["w"].as<std::int32_t>()),
-                              static_cast<float>(sourceSizeObject["h"].as<std::int32_t>()));
+            const Size2F sourceSize{
+                sourceSizeObject["w"].as<float>(),
+                sourceSizeObject["h"].as<float>()
+            };
 
             const json::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
 
-            Vector2F sourceOffset(static_cast<float>(spriteSourceSizeObject["x"].as<std::int32_t>()),
-                                  static_cast<float>(spriteSourceSizeObject["y"].as<std::int32_t>()));
+            const Vector2F sourceOffset{
+                spriteSourceSizeObject["x"].as<float>(),
+                spriteSourceSizeObject["y"].as<float>()
+            };
 
             const json::Value& pivotObject = frameObject["pivot"];
 
-            const Vector2F pivot(pivotObject["x"].as<float>(),
-                                 pivotObject["y"].as<float>());
+            const Vector2F pivot{
+                pivotObject["x"].as<float>(),
+                pivotObject["y"].as<float>()
+            };
 
             if (frameObject.hasMember("vertices") &&
                 frameObject.hasMember("verticesUV") &&
@@ -97,8 +105,10 @@ namespace ouzel::assets
                 const json::Value& verticesObject = frameObject["vertices"];
                 const json::Value& verticesUVObject = frameObject["verticesUV"];
 
-                Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
-                                     -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
+                const Vector2F finalOffset{
+                    -sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
+                    -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1])
+                };
 
                 for (std::size_t vertexIndex = 0; vertexIndex < verticesObject.getSize(); ++vertexIndex)
                 {
