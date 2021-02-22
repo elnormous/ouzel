@@ -22,9 +22,9 @@ namespace std
 {
     template <> struct hash<ouzel::input::DeviceId>
     {
-        std::size_t operator()(const ouzel::input::DeviceId& deviceId) const noexcept
+        size_t operator()(const ouzel::input::DeviceId& deviceId) const noexcept
         {
-            return hash<std::size_t>()(deviceId.value);
+            return hash<size_t>()(deviceId.value);
         }
     };
 }
