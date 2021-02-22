@@ -598,9 +598,11 @@ namespace ouzel::scene
                 nextPosition.v[2] = (2.0F * (static_cast<float>(hash::fnv1::hash<std::uint32_t>(seedZ | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[2];
             }
 
-            const Vector3F noise(smoothStep(previousPosition.v[0], nextPosition.v[0], t),
-                                 smoothStep(previousPosition.v[1], nextPosition.v[1], t),
-                                 smoothStep(previousPosition.v[2], nextPosition.v[2], t));
+            const Vector3F noise{
+                smoothStep(previousPosition.v[0], nextPosition.v[0], t),
+                smoothStep(previousPosition.v[1], nextPosition.v[1], t),
+                smoothStep(previousPosition.v[2], nextPosition.v[2], t)
+            };
 
             targetActor->setPosition(startPosition + noise);
         }
