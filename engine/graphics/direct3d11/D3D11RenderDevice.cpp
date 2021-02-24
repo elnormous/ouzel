@@ -946,9 +946,9 @@ namespace ouzel::graphics::d3d11
         if (frameBufferWidth != newWidth || frameBufferHeight != newHeight)
         {
             backBuffer = nullptr;
-			renderTargetView = nullptr;
-			depthStencilTexture = nullptr;
-			depthStencilView = nullptr;
+            renderTargetView = nullptr;
+            depthStencilTexture = nullptr;
+            depthStencilView = nullptr;
             
             if (const auto hr = swapChain->ResizeBuffers(0, newWidth, newHeight, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH); FAILED(hr))
                 throw std::system_error(hr, errorCategory, "Failed to resize Direct3D 11 backbuffer");
