@@ -25,16 +25,22 @@ namespace ouzel::scene
         indexCount = static_cast<std::uint32_t>(indices.size());
 
         Vector2F textCoords[4];
-        const Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
-                                   -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
+        const Vector2F finalOffset{
+            -sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
+            -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1])
+        };
 
         if (!rotated)
         {
-            const Vector2F leftTop(frameRectangle.position.v[0] / textureSize.v[0],
-                                   frameRectangle.position.v[1] / textureSize.v[1]);
+            const Vector2F leftTop{
+                frameRectangle.position.v[0] / textureSize.v[0],
+                frameRectangle.position.v[1] / textureSize.v[1]
+            };
 
-            const Vector2F rightBottom((frameRectangle.position.v[0] + frameRectangle.size.v[0]) / textureSize.v[0],
-                                       (frameRectangle.position.v[1] + frameRectangle.size.v[1]) / textureSize.v[1]);
+            const Vector2F rightBottom{
+                (frameRectangle.position.v[0] + frameRectangle.size.v[0]) / textureSize.v[0],
+                (frameRectangle.position.v[1] + frameRectangle.size.v[1]) / textureSize.v[1]
+            };
 
             textCoords[0] = Vector2F(leftTop.v[0], rightBottom.v[1]);
             textCoords[1] = Vector2F(rightBottom.v[0], rightBottom.v[1]);
@@ -43,11 +49,15 @@ namespace ouzel::scene
         }
         else
         {
-            const auto leftTop = Vector2F(frameRectangle.position.v[0] / textureSize.v[0],
-                                          frameRectangle.position.v[1] / textureSize.v[1]);
+            const auto leftTop = Vector2F{
+                frameRectangle.position.v[0] / textureSize.v[0],
+                frameRectangle.position.v[1] / textureSize.v[1]
+            };
 
-            const auto rightBottom = Vector2F((frameRectangle.position.v[0] + frameRectangle.size.v[1]) / textureSize.v[0],
-                                              (frameRectangle.position.v[1] + frameRectangle.size.v[0]) / textureSize.v[1]);
+            const auto rightBottom = Vector2F{
+                (frameRectangle.position.v[0] + frameRectangle.size.v[1]) / textureSize.v[0],
+                (frameRectangle.position.v[1] + frameRectangle.size.v[0]) / textureSize.v[1]
+            };
 
             textCoords[0] = Vector2F(leftTop.v[0], leftTop.v[1]);
             textCoords[1] = Vector2F(leftTop.v[0], rightBottom.v[1]);
@@ -120,8 +130,10 @@ namespace ouzel::scene
             boundingBox.insertPoint(Vector2F(vertex.position));
 
         // TODO: fix
-        const Vector2F finalOffset(-sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
-                                   -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1]));
+        const Vector2F finalOffset{
+            -sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
+            -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1])
+        };
 
         indexBuffer = std::make_shared<graphics::Buffer>(*engine->getGraphics(),
                                                          graphics::BufferType::index,

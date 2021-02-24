@@ -104,8 +104,7 @@ namespace ouzel::scene
         {
             command.mode = graphics::DrawMode::triangleList;
 
-            Vector2F tangent = finish - start;
-            tangent.normalize();
+            const Vector2F tangent = (finish - start).normalized();
             const Vector2F normal{-tangent.v[1], tangent.v[0]};
 
             const float halfThickness = thickness / 2.0F;
