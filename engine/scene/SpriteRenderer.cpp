@@ -251,7 +251,6 @@ namespace ouzel::scene
         animation.frames.reserve(spritesX * spritesY);
 
         for (std::uint32_t x = 0; x < spritesX; ++x)
-        {
             for (std::uint32_t y = 0; y < spritesY; ++y)
             {
                 const RectF rectangle(spriteSize.v[0] * x,
@@ -260,7 +259,6 @@ namespace ouzel::scene
                                       spriteSize.v[1]);
                 animation.frames.emplace_back("", size, rectangle, false, spriteSize, Vector2F(), pivot);
             }
-        }
 
         animations[""] = std::move(animation);
 
