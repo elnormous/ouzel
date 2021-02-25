@@ -511,8 +511,8 @@ namespace ouzel::scene
 
                     for (std::uint16_t n = 0; n < controlPoints.size(); ++n)
                         position += static_cast<float>(binomialCoefficients[n]) *
-                            std::powf(t, static_cast<float>(n)) *
-                            std::powf(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) *
+                            std::pow(t, static_cast<float>(n)) *
+                            std::pow(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) *
                             controlPoints[n];
 
                     graphics::Vertex vertex(Vector3F(position), color, Vector2F(), Vector3F{0.0F, 0.0F, -1.0F});
