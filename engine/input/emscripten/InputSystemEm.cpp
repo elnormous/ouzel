@@ -245,16 +245,16 @@ namespace ouzel::input::emscripten
 
         EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* gamepadEvent, void* userData)
         {
-            auto inputEm = static_cast<InputSystem*>(userData);
+            auto inputSystemEm = static_cast<InputSystem*>(userData);
 
             if (eventType == EMSCRIPTEN_EVENT_GAMEPADCONNECTED)
             {
-                inputEm->handleGamepadConnected(gamepadEvent->index);
+                inputSystemEm->handleGamepadConnected(gamepadEvent->index);
                 return EM_TRUE;
             }
             else if (eventType == EMSCRIPTEN_EVENT_GAMEPADDISCONNECTED)
             {
-                inputEm->handleGamepadDisconnected(gamepadEvent->index);
+                inputSystemEm->handleGamepadDisconnected(gamepadEvent->index);
                 return EM_TRUE;
             }
 

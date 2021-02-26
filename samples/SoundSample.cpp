@@ -132,7 +132,7 @@ namespace samples
         camera.setClearColorBuffer(true);
         camera.setClearColor(ouzel::Color(64, 0, 0));
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        camera.setTargetContentSize(Size<float, 2>(800.0F, 600.0F));
+        camera.setTargetContentSize(ouzel::Size<float, 2>(800.0F, 600.0F));
         cameraActor.addComponent(camera);
         layer.addChild(cameraActor);
         addLayer(layer);

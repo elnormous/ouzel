@@ -19,7 +19,7 @@ namespace ouzel::input
         InputSystem::Command command(InputSystem::Command::Type::setAbsoluteDpadValues);
         command.deviceId = deviceId;
         command.absoluteDpadValues = absoluteDpadValues;
-        inputManager.getInputSystem()->addCommand(command);
+        inputManager.getInputSystem().addCommand(command);
     }
 
     void Gamepad::setPlayerIndex(std::int32_t newPlayerIndex)
@@ -29,7 +29,7 @@ namespace ouzel::input
         InputSystem::Command command(InputSystem::Command::Type::setPlayerIndex);
         command.deviceId = deviceId;
         command.playerIndex = playerIndex;
-        inputManager.getInputSystem()->addCommand(command);
+        inputManager.getInputSystem().addCommand(command);
     }
 
     bool Gamepad::handleButtonValueChange(Gamepad::Button button, bool pressed, float value)
@@ -57,6 +57,6 @@ namespace ouzel::input
         command.deviceId = deviceId;
         command.motor = motor;
         command.speed = speed;
-        inputManager.getInputSystem()->addCommand(command);
+        inputManager.getInputSystem().addCommand(command);
     }
 }

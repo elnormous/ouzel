@@ -11,7 +11,7 @@ namespace ouzel::input
     Cursor::Cursor(InputManager& initInputManager):
         inputManager(initInputManager)
     {
-        cursorResource = inputManager.getInputSystem()->getResourceId();
+        cursorResource = inputManager.getInputSystem().getResourceId();
     }
 
     Cursor::Cursor(InputManager& initInputManager, SystemCursor systemCursor):
@@ -32,9 +32,9 @@ namespace ouzel::input
         {
             InputSystem::Command command(InputSystem::Command::Type::destroyCursor);
             command.cursorResource = cursorResource;
-            inputManager.getInputSystem()->addCommand(command);
+            inputManager.getInputSystem().addCommand(command);
 
-            inputManager.getInputSystem()->deleteResourceId(cursorResource);
+            inputManager.getInputSystem().deleteResourceId(cursorResource);
         }
     }
 
@@ -43,7 +43,7 @@ namespace ouzel::input
         InputSystem::Command command(InputSystem::Command::Type::initCursor);
         command.cursorResource = cursorResource;
         command.systemCursor = systemCursor;
-        inputManager.getInputSystem()->addCommand(command);
+        inputManager.getInputSystem().addCommand(command);
     }
 
     void Cursor::init(const std::string& filename, const Vector<float, 2>& hotSpot)
@@ -165,6 +165,6 @@ namespace ouzel::input
         command.size = size;
         command.pixelFormat = pixelFormat;
         command.hotSpot = hotSpot;
-        inputManager.getInputSystem()->addCommand(command);
+        inputManager.getInputSystem().addCommand(command);
     }
 }

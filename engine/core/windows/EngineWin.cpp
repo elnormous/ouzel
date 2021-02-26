@@ -74,7 +74,7 @@ namespace ouzel::core::windows
         init();
         start();
 
-        auto inputWin = static_cast<input::windows::InputSystem*>(inputManager->getInputSystem());
+        auto& inputSystemWin = inputManager->getInputSystem();
         auto windowWin = static_cast<NativeWindow*>(window->getNativeWindow());
 
         while (active)
@@ -110,7 +110,7 @@ namespace ouzel::core::windows
                                      message);
             }
 
-            inputWin->update();
+            inputSystemWin.update();
         }
 
         exit();

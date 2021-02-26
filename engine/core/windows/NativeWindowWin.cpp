@@ -299,8 +299,8 @@ namespace
             {
                 if (LOWORD(lParam) == HTCLIENT)
                 {
-                    auto inputSystemWin = static_cast<ouzel::input::windows::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
-                    inputSystemWin->updateCursor();
+                    auto& inputSystemWin = ouzel::engine->getInputManager()->getInputSystem();
+                    inputSystemWin.updateCursor();
                     return TRUE;
                 }
                 break;
@@ -703,8 +703,8 @@ namespace ouzel::core::windows
 
         if (wParam)
         {
-                auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
-                auto mouseDevice = inputSystemWin->getMouseDevice();
+                auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+                auto mouseDevice = inputSystemWin.getMouseDevice();
 
                 POINT cursorPos;
                 if (!GetCursorPos(&cursorPos))
@@ -744,8 +744,8 @@ namespace ouzel::core::windows
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
 
-        auto inputSystemWin = static_cast<input::windows::InputSystem* > (engine->getInputManager()->getInputSystem());
-        auto mouseDevice = inputSystemWin->getMouseDevice();
+        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto mouseDevice = inputSystemWin.getMouseDevice();
 
         POINT cursorPos;
         if (!GetCursorPos(&cursorPos))
@@ -763,8 +763,8 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleKey(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
-        auto keyboardDevice = inputSystemWin->getKeyboardDevice();
+        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto keyboardDevice = inputSystemWin.getKeyboardDevice();
 
         if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
             keyboardDevice->handleKeyPress(convertKeyCode(lParam, wParam));
@@ -774,8 +774,8 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleMouseMove(LPARAM lParam)
     {
-        auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
-        auto mouseDevice = inputSystemWin->getMouseDevice();
+        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto mouseDevice = inputSystemWin.getMouseDevice();
 
         const Vector<float, 2> position{
             static_cast<float>(GET_X_LPARAM(lParam)),
@@ -787,8 +787,8 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleMouseButton(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
-        auto mouseDevice = inputSystemWin->getMouseDevice();
+        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto mouseDevice = inputSystemWin.getMouseDevice();
 
         const Vector<float, 2> position{
             static_cast<float>(GET_X_LPARAM(lParam)),
@@ -825,8 +825,8 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleMouseWheel(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
-        auto mouseDevice = inputSystemWin->getMouseDevice();
+        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto mouseDevice = inputSystemWin.getMouseDevice();
 
         const Vector<float, 2> position{
             static_cast<float>(GET_X_LPARAM(lParam)),
@@ -849,8 +849,8 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleTouch(WPARAM wParam, LPARAM lParam)
     {
-        auto inputSystemWin = static_cast<input::windows::InputSystem*>(engine->getInputManager()->getInputSystem());
-        auto touchpadDevice = inputSystemWin->getTouchpadDevice();
+        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto touchpadDevice = inputSystemWin.getTouchpadDevice();
 
         const UINT inputCount = LOWORD(wParam);
         std::vector<TOUCHINPUT> touches(inputCount);

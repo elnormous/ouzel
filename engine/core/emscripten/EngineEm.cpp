@@ -55,7 +55,7 @@ namespace ouzel::core::emscripten
 
     void Engine::step()
     {
-        auto inputEm = static_cast<input::emscripten::InputSystem*>(inputManager->getInputSystem());
+        auto& inputSystemEm = inputManager->getInputSystem();
 
         if (active)
         {
@@ -102,7 +102,7 @@ namespace ouzel::core::emscripten
 
             try
             {
-                inputEm->update();
+                inputSystemEm.update();
             }
             catch (const std::exception& e)
             {

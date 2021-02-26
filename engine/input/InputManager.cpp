@@ -14,41 +14,25 @@
 #include "../events/EventDispatcher.hpp"
 #include "../math/MathUtils.hpp"
 
-#if TARGET_OS_IOS
-#  include "ios/InputSystemIOS.hpp"
-#elif TARGET_OS_TV
-#  include "tvos/InputSystemTVOS.hpp"
-#elif TARGET_OS_MAC
-#  include "macos/InputSystemMacOS.hpp"
-#elif defined(__ANDROID__)
-#  include "android/InputSystemAndroid.hpp"
-#elif defined(__linux__)
-#  include "linux/InputSystemLinux.hpp"
-#elif defined(_WIN32)
-#  include "windows/InputSystemWin.hpp"
-#elif defined(__EMSCRIPTEN__)
-#  include "emscripten/InputSystemEm.hpp"
-#endif
-
 namespace ouzel::input
 {
     InputManager::InputManager():
 #if TARGET_OS_IOS
-        inputSystem(std::make_unique<ios::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::bind(&InputManager::eventCallback, this, std::placeholders::_1))
 #elif TARGET_OS_TV
-        inputSystem(std::make_unique<tvos::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::bind(&InputManager::eventCallback, this, std::placeholders::_1))
 #elif TARGET_OS_MAC
-        inputSystem(std::make_unique<macos::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::bind(&InputManager::eventCallback, this, std::placeholders::_1))
 #elif defined(__ANDROID__)
-        inputSystem(std::make_unique<android::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::bind(&InputManager::eventCallback, this, std::placeholders::_1))
 #elif defined(__linux__)
-        inputSystem(std::make_unique<linux::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::bind(&InputManager::eventCallback, this, std::placeholders::_1))
 #elif defined(_WIN32)
-        inputSystem(std::make_unique<windows::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::bind(&InputManager::eventCallback, this, std::placeholders::_1))
 #elif defined(__EMSCRIPTEN__)
-        inputSystem(std::make_unique<emscripten::InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::bind(&InputManager::eventCallback, this, std::placeholders::_1))
 #else
-        inputSystem(std::make_unique<InputSystem>(std::bind(&InputManager::eventCallback, this, std::placeholders::_1)))
+        inputSystem(std::bind(&InputManager::eventCallback, this, std::placeholders::_1))
 #endif
     {
     }
@@ -356,7 +340,7 @@ namespace ouzel::input
         discovering = true;
 
         InputSystem::Command command(InputSystem::Command::Type::startDeviceDiscovery);
-        inputSystem->addCommand(command);
+        inputSystem.addCommand(command);
     }
 
     void InputManager::stopDeviceDiscovery()
@@ -364,18 +348,18 @@ namespace ouzel::input
         discovering = false;
 
         InputSystem::Command command(InputSystem::Command::Type::stopDeviceDiscovery);
-        inputSystem->addCommand(command);
+        inputSystem.addCommand(command);
     }
 
     void InputManager::showVirtualKeyboard()
     {
         InputSystem::Command command(InputSystem::Command::Type::showVirtualKeyboard);
-        inputSystem->addCommand(command);
+        inputSystem.addCommand(command);
     }
 
     void InputManager::hideVirtualKeyboard()
     {
         InputSystem::Command command(InputSystem::Command::Type::hideVirtualKeyboard);
-        inputSystem->addCommand(command);
+        inputSystem.addCommand(command);
     }
 }

@@ -22,7 +22,7 @@ namespace ouzel::input
         InputSystem::Command command(InputSystem::Command::Type::setPosition);
         command.deviceId = deviceId;
         command.position = position;
-        inputManager.getInputSystem()->addCommand(command);
+        inputManager.getInputSystem().addCommand(command);
     }
 
     void Mouse::setCursorVisible(bool visible)
@@ -32,7 +32,7 @@ namespace ouzel::input
         InputSystem::Command command(InputSystem::Command::Type::setCursorVisible);
         command.deviceId = deviceId;
         command.visible = cursorVisible;
-        inputManager.getInputSystem()->addCommand(command);
+        inputManager.getInputSystem().addCommand(command);
     }
 
     void Mouse::setCursorLocked(bool locked)
@@ -42,7 +42,7 @@ namespace ouzel::input
         InputSystem::Command command(InputSystem::Command::Type::setCursorLocked);
         command.deviceId = deviceId;
         command.locked = cursorLocked;
-        inputManager.getInputSystem()->addCommand(command);
+        inputManager.getInputSystem().addCommand(command);
     }
 
     void Mouse::setCursor(const Cursor* newCursor)
@@ -52,7 +52,7 @@ namespace ouzel::input
         InputSystem::Command command(InputSystem::Command::Type::setCursor);
         command.deviceId = deviceId;
         command.cursorResource = cursor->getCursorResource();
-        inputManager.getInputSystem()->addCommand(command);
+        inputManager.getInputSystem().addCommand(command);
     }
 
     bool Mouse::handleButtonPress(Mouse::Button button, const Vector<float, 2>& pos)

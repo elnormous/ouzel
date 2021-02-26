@@ -13,11 +13,11 @@ namespace samples
         characterSprite("run.json"),
         backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
         renderTexture(std::make_shared<graphics::Texture>(*engine->getGraphics(),
-                                                          Size<std::uint32_t, 2>(256, 256),
+                                                          ouzel::Size<std::uint32_t, 2>(256, 256),
                                                           graphics::Flags::bindRenderTarget |
                                                           graphics::Flags::bindShader, 1, 1)),
         depthTexture(*engine->getGraphics(),
-                     Size<std::uint32_t, 2>(256, 256),
+                     ouzel::Size<std::uint32_t, 2>(256, 256),
                      graphics::Flags::bindRenderTarget |
                      graphics::Flags::bindShader, 1, 1,
                      graphics::PixelFormat::depth),
@@ -85,13 +85,13 @@ namespace samples
 
         camera1.setClearColorBuffer(true);
         camera1.setScaleMode(scene::Camera::ScaleMode::showAll);
-        camera1.setTargetContentSize(Size<float, 2>(400.0F, 600.0F));
-        camera1.setViewport(Rect<float>(0.0F, 0.0F, 0.5F, 1.0F));
+        camera1.setTargetContentSize(ouzel::Size<float, 2>(400.0F, 600.0F));
+        camera1.setViewport(ouzel::Rect<float>(0.0F, 0.0F, 0.5F, 1.0F));
         camera1Actor.addComponent(camera1);
 
         camera2.setScaleMode(scene::Camera::ScaleMode::showAll);
-        camera2.setTargetContentSize(Size<float, 2>(400.0F, 600.0F));
-        camera2.setViewport(Rect<float>(0.5F, 0.0F, 0.5F, 1.0F));
+        camera2.setTargetContentSize(ouzel::Size<float, 2>(400.0F, 600.0F));
+        camera2.setViewport(ouzel::Rect<float>(0.5F, 0.0F, 0.5F, 1.0F));
         camera2Actor.addComponent(camera2);
 
         layer.addChild(camera1Actor);
@@ -108,7 +108,7 @@ namespace samples
         layer.addChild(rtActor);
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        guiCamera.setTargetContentSize(Size<float, 2>(800.0F, 600.0F));
+        guiCamera.setTargetContentSize(ouzel::Size<float, 2>(800.0F, 600.0F));
         guiCameraActor.addComponent(guiCamera);
         guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);

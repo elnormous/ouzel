@@ -75,7 +75,7 @@ namespace samples
         camera.setClearColorBuffer(true);
         camera.setClearColor(ouzel::Color(64, 64, 64));
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        camera.setTargetContentSize(Size<float, 2>(800.0F, 600.0F));
+        camera.setTargetContentSize(ouzel::Size<float, 2>(800.0F, 600.0F));
         cameraActor.addComponent(camera);
         layer.addChild(cameraActor);
         addLayer(layer);
@@ -111,7 +111,7 @@ namespace samples
         layer.addChild(triangleActor);
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        guiCamera.setTargetContentSize(Size<float, 2>(800.0F, 600.0F));
+        guiCamera.setTargetContentSize(ouzel::Size<float, 2>(800.0F, 600.0F));
         guiCameraActor.addComponent(guiCamera);
         guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);
