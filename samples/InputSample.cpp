@@ -15,12 +15,12 @@ namespace samples
         backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
         cursor(*engine->getInputManager())
     {
-        cursor.init("cursor.png", Vector2F(0.0F, 63.0F));
+        cursor.init("cursor.png", Vector<float, 2>(0.0F, 63.0F));
 
         handler.keyboardHandler = [this](const KeyboardEvent& event) {
             if (event.type == Event::Type::keyboardKeyPress)
             {
-                Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
+                Vector<float, 2> flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
                 switch (event.key)
                 {
@@ -37,7 +37,7 @@ namespace samples
                         flamePosition.x() += 0.01F;
                         break;
                     case Keyboard::Key::r:
-                        engine->getWindow()->setSize(Size2U(640, 480));
+                        engine->getWindow()->setSize(Size<std::uint32_t, 2>(640, 480));
                         break;
                     case Keyboard::Key::tab:
                         hideButton.setEnabled(!hideButton.isEnabled());
@@ -53,7 +53,7 @@ namespace samples
                         break;
                 }
 
-                auto worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
+                auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(flamePosition));
 
                 flame.setPosition(worldLocation);
             }
@@ -78,7 +78,7 @@ namespace samples
             {
                 case Event::Type::mouseMove:
                 {
-                    auto worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
+                    auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(event.position));
                     flame.setPosition(worldLocation);
                     break;
                 }
@@ -92,7 +92,7 @@ namespace samples
         handler.touchHandler = [this](const TouchEvent& event) {
             if (event.touchpad->isScreen())
             {
-                auto worldLocation = Vector2F(camera.convertNormalizedToWorld(event.position));
+                auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(event.position));
                 flame.setPosition(worldLocation);
             }
 
@@ -102,7 +102,7 @@ namespace samples
         handler.gamepadHandler = [this](const GamepadEvent& event) {
             if (event.type == Event::Type::gamepadButtonChange)
             {
-                Vector2F flamePosition = camera.convertWorldToNormalized(flame.getPosition());
+                Vector<float, 2> flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
                 switch (event.button)
                 {
@@ -133,7 +133,7 @@ namespace samples
                         break;
                 }
 
-                auto worldLocation = Vector2F(camera.convertNormalizedToWorld(flamePosition));
+                auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(flamePosition));
                 flame.setPosition(worldLocation);
             }
 
@@ -166,7 +166,7 @@ namespace samples
         camera.setClearColorBuffer(true);
         camera.setClearColor(ouzel::Color(64, 0, 0));
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        camera.setTargetContentSize(Size2F(800.0F, 600.0F));
+        camera.setTargetContentSize(Size<float, 2>(800.0F, 600.0F));
         cameraActor.addComponent(camera);
 
         mover = std::make_unique<Mover>();
@@ -182,27 +182,27 @@ namespace samples
         layer.addChild(flame);
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
+        guiCamera.setTargetContentSize(Size<float, 2>(800.0F, 600.0F));
         guiCameraActor.addComponent(guiCamera);
         guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);
 
         guiLayer.addChild(menu);
 
-        hideButton.setPosition(Vector2F(-200.0F, 200.0F));
+        hideButton.setPosition(Vector<float, 2>(-200.0F, 200.0F));
         menu.addWidget(hideButton);
 
-        discoverButton.setPosition(Vector2F(-200.0F, 140.0F));
+        discoverButton.setPosition(Vector<float, 2>(-200.0F, 140.0F));
         menu.addWidget(discoverButton);
 
-        backButton.setPosition(Vector2F(-200.0F, -200.0F));
+        backButton.setPosition(Vector<float, 2>(-200.0F, -200.0F));
         menu.addWidget(backButton);
 
         if (Mouse* mouse = engine->getInputManager()->getMouse())
         {
             mouse->setCursor(&cursor);
 
-            auto worldLocation = Vector2F(camera.convertNormalizedToWorld(mouse->getPosition()));
+            auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(mouse->getPosition()));
             flame.setPosition(worldLocation);
         }
     }

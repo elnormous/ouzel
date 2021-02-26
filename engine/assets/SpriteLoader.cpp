@@ -40,7 +40,7 @@ namespace ouzel::assets
         if (!spriteData.texture)
             return false;
 
-        const Size2F textureSize{
+        const Size<float, 2> textureSize{
             static_cast<float>(spriteData.texture->getSize().v[0]),
             static_cast<float>(spriteData.texture->getSize().v[1])
         };
@@ -57,7 +57,7 @@ namespace ouzel::assets
 
             const json::Value& frameRectangleObject = frameObject["frame"];
 
-            const RectF frameRectangle{
+            const Rect<float> frameRectangle{
                 frameRectangleObject["x"].as<float>(),
                 frameRectangleObject["y"].as<float>(),
                 frameRectangleObject["w"].as<float>(),
@@ -66,21 +66,21 @@ namespace ouzel::assets
 
             const json::Value& sourceSizeObject = frameObject["sourceSize"];
 
-            const Size2F sourceSize{
+            const Size<float, 2> sourceSize{
                 sourceSizeObject["w"].as<float>(),
                 sourceSizeObject["h"].as<float>()
             };
 
             const json::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
 
-            const Vector2F sourceOffset{
+            const Vector<float, 2> sourceOffset{
                 spriteSourceSizeObject["x"].as<float>(),
                 spriteSourceSizeObject["y"].as<float>()
             };
 
             const json::Value& pivotObject = frameObject["pivot"];
 
-            const Vector2F pivot{
+            const Vector<float, 2> pivot{
                 pivotObject["x"].as<float>(),
                 pivotObject["y"].as<float>()
             };
@@ -105,7 +105,7 @@ namespace ouzel::assets
                 const json::Value& verticesObject = frameObject["vertices"];
                 const json::Value& verticesUVObject = frameObject["verticesUV"];
 
-                const Vector2F finalOffset{
+                const Vector<float, 2> finalOffset{
                     -sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
                     -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1])
                 };
@@ -115,12 +115,12 @@ namespace ouzel::assets
                     const json::Value& vertexObject = verticesObject[vertexIndex];
                     const json::Value& vertexUVObject = verticesUVObject[vertexIndex];
 
-                    vertices.emplace_back(Vector3F{static_cast<float>(vertexObject[0].as<std::int32_t>()) + finalOffset.v[0],
+                    vertices.emplace_back(Vector<float, 3>{static_cast<float>(vertexObject[0].as<std::int32_t>()) + finalOffset.v[0],
                                                    -static_cast<float>(vertexObject[1].as<std::int32_t>()) - finalOffset.v[1], 0.0F},
                                           Color::white(),
-                                          Vector2F{static_cast<float>(vertexUVObject[0].as<std::int32_t>()) / textureSize.v[0],
+                                          Vector<float, 2>{static_cast<float>(vertexUVObject[0].as<std::int32_t>()) / textureSize.v[0],
                                                    static_cast<float>(vertexUVObject[1].as<std::int32_t>()) / textureSize.v[1]},
-                                          Vector3F{0.0F, 0.0F, -1.0F});
+                                          Vector<float, 3>{0.0F, 0.0F, -1.0F});
                 }
 
                 animation.frames.emplace_back(filename, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot);

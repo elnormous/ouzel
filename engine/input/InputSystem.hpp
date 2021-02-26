@@ -63,13 +63,13 @@ namespace ouzel::input
             };
 
             Gamepad::Motor motor;
-            Vector2F position;
+            Vector<float, 2> position;
             std::size_t cursorResource;
             SystemCursor systemCursor;
             std::vector<std::uint8_t> data;
-            Size2F size;
+            Size<float, 2> size;
             graphics::PixelFormat pixelFormat;
-            Vector2F hotSpot;
+            Vector<float, 2> hotSpot;
         };
 
         class Event final
@@ -120,9 +120,9 @@ namespace ouzel::input
             bool previousPressed = false;
             float value = 0.0F; // force for touch events
             float previousValue = 0.0F;
-            Vector2F difference;
-            Vector2F position;
-            Vector2F scroll;
+            Vector<float, 2> difference;
+            Vector<float, 2> position;
+            Vector<float, 2> scroll;
             float force = 1.0F;
         };
 

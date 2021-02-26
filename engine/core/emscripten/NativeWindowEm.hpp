@@ -11,12 +11,12 @@ namespace ouzel::core::emscripten
     {
     public:
         NativeWindow(const std::function<void(const Event&)>& initCallback,
-                     const Size2U& newSize,
+                     const Size<std::uint32_t, 2>& newSize,
                      bool newFullscreen,
                      const std::string& newTitle,
                      bool newHighDpi);
 
-        void setSize(const Size2U& newSize);
+        void setSize(const Size<std::uint32_t, 2>& newSize);
         void setFullscreen(bool newFullscreen);
 
         void handleResize();

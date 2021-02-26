@@ -35,7 +35,7 @@ namespace ouzel::graphics::renderer
     private:
         Renderer& renderer;
         Renderer::Resource resource;
-        Matrix4F transform;
+        Matrix<float, 4> transform;
     };
 }
 

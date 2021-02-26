@@ -343,8 +343,6 @@ namespace ouzel
             return *this;
         }
     };
-
-    using QuaternionF = Quaternion<float>;
 }
 
 #endif // OUZEL_MATH_QUATERNION_HPP

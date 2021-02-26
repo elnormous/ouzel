@@ -404,7 +404,7 @@ namespace ouzel::graphics
             return static_cast<std::uint8_t>(std::round(std::pow(value, 1.0F / gamma) * 255.0F));
         }
 
-        void decode(const Size2U& size,
+        void decode(const Size<std::uint32_t, 2>& size,
                     const std::vector<std::uint8_t>& encodedData,
                     PixelFormat pixelFormat,
                     std::vector<float>& decodedData)
@@ -471,7 +471,7 @@ namespace ouzel::graphics
             }
         }
 
-        void encode(const Size2U& size,
+        void encode(const Size<std::uint32_t, 2>& size,
                     const std::vector<float>& decodedData,
                     PixelFormat pixelFormat,
                     std::vector<std::uint8_t>& encodedData)
@@ -538,11 +538,11 @@ namespace ouzel::graphics
             }
         }
 
-        std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> calculateSizes(const Size2U& size,
+        std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> calculateSizes(const Size<std::uint32_t, 2>& size,
                                                                                  std::uint32_t mipmaps,
                                                                                  PixelFormat pixelFormat)
         {
-            std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
+            std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
 
             std::uint32_t newWidth = size.v[0];
             std::uint32_t newHeight = size.v[1];
@@ -560,7 +560,7 @@ namespace ouzel::graphics
                 if (newWidth < 1) newWidth = 1;
                 if (newHeight < 1) newHeight = 1;
 
-                auto mipMapSize = Size2U(newWidth, newHeight);
+                auto mipMapSize = Size<std::uint32_t, 2>(newWidth, newHeight);
                 bufferSize = newWidth * newHeight * pixelSize;
 
                 levels.emplace_back(mipMapSize, std::vector<std::uint8_t>(bufferSize));
@@ -569,12 +569,12 @@ namespace ouzel::graphics
             return levels;
         }
 
-        std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> calculateSizes(const Size2U& size,
+        std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> calculateSizes(const Size<std::uint32_t, 2>& size,
                                                                                  const std::vector<std::uint8_t>& data,
                                                                                  std::uint32_t mipmaps,
                                                                                  PixelFormat pixelFormat)
         {
-            std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
+            std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
 
             std::uint32_t newWidth = size.v[0];
             std::uint32_t newHeight = size.v[1];
@@ -599,7 +599,7 @@ namespace ouzel::graphics
                 if (newWidth < 1) newWidth = 1;
                 if (newHeight < 1) newHeight = 1;
 
-                auto mipMapSize = Size2U(newWidth, newHeight);
+                auto mipMapSize = Size<std::uint32_t, 2>(newWidth, newHeight);
 
                 switch (pixelFormat)
                 {
@@ -661,7 +661,7 @@ namespace ouzel::graphics
     }
 
     Texture::Texture(Graphics& initGraphics,
-                     const Size2U& initSize,
+                     const Size<std::uint32_t, 2>& initSize,
                      Flags initFlags,
                      std::uint32_t initMipmaps,
                      std::uint32_t initSampleCount,
@@ -683,7 +683,7 @@ namespace ouzel::graphics
         if (!initGraphics.getDevice()->isNPOTTexturesSupported() && !isPowerOfTwo(size))
             mipmaps = 1;
 
-        std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = calculateSizes(size, mipmaps, pixelFormat);
+        std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = calculateSizes(size, mipmaps, pixelFormat);
 
         initGraphics.addCommand(std::make_unique<InitTextureCommand>(resource,
                                                                     levels,
@@ -697,7 +697,7 @@ namespace ouzel::graphics
 
     Texture::Texture(Graphics& initGraphics,
                      const std::vector<std::uint8_t>& initData,
-                     const Size2U& initSize,
+                     const Size<std::uint32_t, 2>& initSize,
                      Flags initFlags,
                      std::uint32_t initMipmaps,
                      PixelFormat initPixelFormat):
@@ -718,7 +718,7 @@ namespace ouzel::graphics
         if (!initGraphics.getDevice()->isNPOTTexturesSupported() && !isPowerOfTwo(size))
             mipmaps = 1;
 
-        std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
+        std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
 
         initGraphics.addCommand(std::make_unique<InitTextureCommand>(resource,
                                                                      levels,
@@ -731,8 +731,8 @@ namespace ouzel::graphics
     }
 
     Texture::Texture(Graphics& initGraphics,
-                     const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
-                     const Size2U& initSize,
+                     const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& initLevels,
+                     const Size<std::uint32_t, 2>& initSize,
                      Flags initFlags,
                      PixelFormat initPixelFormat):
         graphics(&initGraphics),
@@ -749,7 +749,7 @@ namespace ouzel::graphics
             (mipmaps == 0 || mipmaps > 1))
             throw std::runtime_error("Invalid mip map count");
 
-        std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = initLevels;
+        std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = initLevels;
 
         if (!initGraphics.getDevice()->isNPOTTexturesSupported() && !isPowerOfTwo(size))
         {
@@ -773,7 +773,7 @@ namespace ouzel::graphics
             (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
             throw std::runtime_error("Texture is not dynamic");
 
-        const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
+        const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
         if (resource)
             graphics->addCommand(std::make_unique<SetTextureDataCommand>(resource,

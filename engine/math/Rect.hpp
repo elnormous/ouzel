@@ -204,8 +204,6 @@ namespace ouzel
             return *this;
         }
     };
-
-    using RectF = Rect<float>;
 }
 
 #endif // OUZEL_MATH_RECT_HPP

@@ -187,7 +187,7 @@ namespace ouzel::input::emscripten
                     break;
             }
 
-            const ouzel::Vector2F position{
+            const ouzel::Vector<float, 2> position{
                 static_cast<float>(mouseEvent->canvasX),
                 static_cast<float>(mouseEvent->canvasY)
             };
@@ -216,12 +216,12 @@ namespace ouzel::input::emscripten
 
             if (eventType == EMSCRIPTEN_EVENT_WHEEL)
             {
-                const ouzel::Vector2F position{
+                const ouzel::Vector<float, 2> position{
                     static_cast<float>(wheelEvent->mouse.canvasX),
                     static_cast<float>(wheelEvent->mouse.canvasY)
                 };
 
-                mouseDevice->handleScroll(ouzel::Vector2F(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
+                mouseDevice->handleScroll(ouzel::Vector<float, 2>{static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)},
                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
 
                 return EM_TRUE;
@@ -269,7 +269,7 @@ namespace ouzel::input::emscripten
             {
                 if (touchEvent->touches[i].isChanged)
                 {
-                    const ouzel::Vector2F position{
+                    const ouzel::Vector<float, 2> position{
                         static_cast<float>(touchEvent->touches[i].canvasX),
                         static_cast<float>(touchEvent->touches[i].canvasY)
                     };

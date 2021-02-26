@@ -15,12 +15,12 @@ namespace ouzel::scene
     {
     public:
         StaticMeshData() = default;
-        StaticMeshData(const Box3F& initBoundingBox,
+        StaticMeshData(const Box<float, 3>& initBoundingBox,
                        const std::vector<std::uint32_t> indices,
                        const std::vector<graphics::Vertex>& vertices,
                        const graphics::Material* initMaterial);
 
-        Box3F boundingBox;
+        Box<float, 3> boundingBox;
         const graphics::Material* material = nullptr;
         std::uint32_t indexCount = 0;
         std::uint32_t indexSize = 0;
@@ -36,9 +36,9 @@ namespace ouzel::scene
 
         void init(const StaticMeshData& meshData);
 
-        void draw(const Matrix4F& transformMatrix,
+        void draw(const Matrix<float, 4>& transformMatrix,
                   float opacity,
-                  const Matrix4F& renderViewProjection,
+                  const Matrix<float, 4>& renderViewProjection,
                   bool wireframe) override;
 
         auto& getMaterial() const noexcept { return material; }

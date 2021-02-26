@@ -15,7 +15,7 @@ namespace ouzel::input
     {
     }
 
-    void Mouse::setPosition(const Vector2F& newPosition)
+    void Mouse::setPosition(const Vector<float, 2>& newPosition)
     {
         position = newPosition;
 
@@ -55,7 +55,7 @@ namespace ouzel::input
         inputManager.getInputSystem()->addCommand(command);
     }
 
-    bool Mouse::handleButtonPress(Mouse::Button button, const Vector2F& pos)
+    bool Mouse::handleButtonPress(Mouse::Button button, const Vector<float, 2>& pos)
     {
         buttonStates[static_cast<std::uint32_t>(button)] = true;
 
@@ -68,7 +68,7 @@ namespace ouzel::input
         return engine->getEventDispatcher().dispatchEvent(std::move(event));
     }
 
-    bool Mouse::handleButtonRelease(Mouse::Button button, const Vector2F& pos)
+    bool Mouse::handleButtonRelease(Mouse::Button button, const Vector<float, 2>& pos)
     {
         buttonStates[static_cast<std::uint32_t>(button)] = false;
 
@@ -81,7 +81,7 @@ namespace ouzel::input
         return engine->getEventDispatcher().dispatchEvent(std::move(event));
     }
 
-    bool Mouse::handleMove(const Vector2F& pos)
+    bool Mouse::handleMove(const Vector<float, 2>& pos)
     {
         auto event = std::make_unique<MouseEvent>();
         event->type = Event::Type::mouseMove;
@@ -94,9 +94,9 @@ namespace ouzel::input
         return engine->getEventDispatcher().dispatchEvent(std::move(event));
     }
 
-    bool Mouse::handleRelativeMove(const Vector2F& pos)
+    bool Mouse::handleRelativeMove(const Vector<float, 2>& pos)
     {
-        Vector2F newPosition = position + pos;
+        Vector<float, 2> newPosition = position + pos;
 
         newPosition.v[0] = std::clamp(newPosition.v[0], 0.0F, 1.0F);
         newPosition.v[1] = std::clamp(newPosition.v[1], 0.0F, 1.0F);
@@ -104,7 +104,7 @@ namespace ouzel::input
         return handleMove(newPosition);
     }
 
-    bool Mouse::handleScroll(const Vector2F& scroll, const Vector2F& pos)
+    bool Mouse::handleScroll(const Vector<float, 2>& scroll, const Vector<float, 2>& pos)
     {
         auto event = std::make_unique<MouseEvent>();
         event->type = Event::Type::mouseScroll;

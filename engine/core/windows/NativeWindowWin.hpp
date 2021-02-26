@@ -27,7 +27,7 @@ namespace ouzel::core::windows
         friend Engine;
     public:
         NativeWindow(const std::function<void(const Event&)>& initCallback,
-                     const Size2U& newSize,
+                     const Size<std::uint32_t, 2>& newSize,
                      bool newResizable,
                      bool newFullscreen,
                      bool newExclusiveFullscreen,
@@ -37,7 +37,7 @@ namespace ouzel::core::windows
 
         void close();
 
-        void setSize(const Size2U& newSize);
+        void setSize(const Size<std::uint32_t, 2>& newSize);
         void setFullscreen(bool newFullscreen);
         void setTitle(const std::string& newTitle);
         void bringToFront();
@@ -47,7 +47,7 @@ namespace ouzel::core::windows
         void maximize();
         void restore();
 
-        void handleResize(const Size2U& newSize);
+        void handleResize(const Size<std::uint32_t, 2>& newSize);
         void handleMove();
         void handleActivate(WPARAM wParam);
         void handleShowWindow(BOOL shown);

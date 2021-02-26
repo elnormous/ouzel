@@ -34,7 +34,7 @@ namespace ouzel::core
             explicit Command(Type initType) noexcept: type(initType) {}
 
             Type type;
-            Size2U size;
+            Size<std::uint32_t, 2> size;
             bool fullscreen = false;
             std::string title;
         };
@@ -62,7 +62,7 @@ namespace ouzel::core
 
             Type type;
 
-            Size2U size;
+            Size<std::uint32_t, 2> size;
             union
             {
                 bool fullscreen = false;
@@ -72,7 +72,7 @@ namespace ouzel::core
         };
 
         NativeWindow(const std::function<void(const Event&)>& initCallback,
-                     const Size2U& newSize,
+                     const Size<std::uint32_t, 2>& newSize,
                      bool newResizable,
                      bool newFullscreen,
                      bool newExclusiveFullscreen,
@@ -100,8 +100,8 @@ namespace ouzel::core
         virtual void executeCommand(const Command&) {}
         void sendEvent(const Event& event);
 
-        Size2U size;
-        Size2U resolution;
+        Size<std::uint32_t, 2> size;
+        Size<std::uint32_t, 2> resolution;
         float contentScale = 1.0F;
         bool resizable = false;
         bool fullscreen = false;

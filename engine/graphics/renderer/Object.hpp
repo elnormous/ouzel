@@ -26,7 +26,7 @@ namespace ouzel::graphics::renderer
         const Buffer* indexBuffer = nullptr;
         const Buffer* vertexBuffer = nullptr;
         const Material* material = nullptr;
-        Matrix4F transform;
+        Matrix<float, 4> transform;
     };
 }
 

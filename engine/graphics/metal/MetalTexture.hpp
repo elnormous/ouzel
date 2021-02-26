@@ -57,7 +57,7 @@ namespace ouzel::graphics::metal
     {
     public:
         Texture(RenderDevice& initRenderDevice,
-                const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels,
+                const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& levels,
                 TextureType type,
                 Flags initFlags,
                 std::uint32_t initSampleCount,
@@ -65,7 +65,7 @@ namespace ouzel::graphics::metal
                 SamplerFilter initFilter,
                 std::uint32_t initMaxAnisotropy);
 
-        void setData(const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& levels);
+        void setData(const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& levels);
         void setFilter(SamplerFilter filter);
         void setAddressX(SamplerAddressMode addressX);
         void setAddressY(SamplerAddressMode addressY);

@@ -36,7 +36,7 @@ namespace ouzel::gui
         virtual RenderData getRenderData(const std::string& text,
                                          Color color,
                                          float fontSize,
-                                         const Vector2F& anchor) const = 0;
+                                         const Vector<float, 2>& anchor) const = 0;
     };
 }
 

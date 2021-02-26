@@ -33,7 +33,7 @@ namespace ouzel::core
         };
 
         Window(Engine& initEngine,
-               const Size2U& newSize,
+               const Size<std::uint32_t, 2>& newSize,
                Flags flags,
                const std::string& newTitle,
                graphics::Driver graphicsDriver);
@@ -49,7 +49,7 @@ namespace ouzel::core
         void update();
 
         auto& getSize() const noexcept { return size; }
-        void setSize(const Size2U& newSize);
+        void setSize(const Size<std::uint32_t, 2>& newSize);
 
         auto& getResolution() const noexcept { return resolution; }
 
@@ -72,17 +72,17 @@ namespace ouzel::core
         auto isVisible() const noexcept { return visible; }
         auto isMinimized() const noexcept { return minimized; }
 
-        auto convertWindowToNormalizedLocation(const Vector2F& position) const noexcept
+        auto convertWindowToNormalizedLocation(const Vector<float, 2>& position) const noexcept
         {
-            return Vector2F{
+            return Vector<float, 2>{
                 position.v[0] / static_cast<float>(size.v[0]),
                 position.v[1] / static_cast<float>(size.v[1])
             };
         }
 
-        auto convertNormalizedToWindowLocation(const Vector2F& position) const noexcept
+        auto convertNormalizedToWindowLocation(const Vector<float, 2>& position) const noexcept
         {
-            return Vector2F{
+            return Vector<float, 2>{
                 position.v[0] * static_cast<float>(size.v[0]),
                 position.v[1] * static_cast<float>(size.v[1])
             };
@@ -95,8 +95,8 @@ namespace ouzel::core
         Engine& engine;
         std::unique_ptr<NativeWindow> nativeWindow;
 
-        Size2U size;
-        Size2U resolution;
+        Size<std::uint32_t, 2> size;
+        Size<std::uint32_t, 2> resolution;
         bool resizable = false;
         bool fullscreen = false;
         bool exclusiveFullscreen = false;

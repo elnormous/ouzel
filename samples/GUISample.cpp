@@ -15,9 +15,9 @@ namespace samples
         minimizeButton("button.png", "button_selected.png", "button_down.png", "", "Minimize", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
         maximizeButton("button.png", "button_selected.png", "button_down.png", "", "Maximize", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
         checkBox("checkbox.png", "", "", "", "tick.png"),
-        label1("checkbox test", "AmosisTechnik", 24.0F, Color::white(), Vector2F(0.0F, 0.5F)),
+        label1("checkbox test", "AmosisTechnik", 24.0F, Color::white(), Vector<float, 2>(0.0F, 0.5F)),
         label2("", "ArialBlack"),
-        label3("UTF-8 ĀāČč\nNew line", "ArialBlack", 1.0F, Color::white(), Vector2F(0.0F, 0.5F)),
+        label3("UTF-8 ĀāČč\nNew line", "ArialBlack", 1.0F, Color::white(), Vector<float, 2>(0.0F, 0.5F)),
         backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
     {
         handler.gamepadHandler = [](const GamepadEvent& event) {
@@ -91,30 +91,30 @@ namespace samples
         camera.setClearColorBuffer(true);
         camera.setClearColor(ouzel::Color(64, 0, 0));
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        camera.setTargetContentSize(Size2F(800.0F, 600.0F));
+        camera.setTargetContentSize(Size<float, 2>(800.0F, 600.0F));
         cameraActor.addComponent(camera);
         layer.addChild(cameraActor);
         addLayer(layer);
 
         layer.addChild(menu);
 
-        button.setPosition(Vector2F(-200.0F, 100.0F));
+        button.setPosition(Vector<float, 2>(-200.0F, 100.0F));
         menu.addWidget(button);
 
-        checkBox.setPosition(Vector2F(-100.0F, 100.0F));
+        checkBox.setPosition(Vector<float, 2>(-100.0F, 100.0F));
         layer.addChild(checkBox);
 
-        fullscreenButton.setPosition(Vector2F(-200.0F, 40.0F));
+        fullscreenButton.setPosition(Vector<float, 2>(-200.0F, 40.0F));
         menu.addWidget(fullscreenButton);
 
-        minimizeButton.setPosition(Vector2F(-200.0F, -0.0F));
+        minimizeButton.setPosition(Vector<float, 2>(-200.0F, -0.0F));
         menu.addWidget(minimizeButton);
 
-        maximizeButton.setPosition(Vector2F(-200.0F, -40.0F));
+        maximizeButton.setPosition(Vector<float, 2>(-200.0F, -40.0F));
         menu.addWidget(maximizeButton);
 
         label1.getLabelDrawable()->setColor(Color::cyan());
-        label1.setPosition(Vector2F(-88.0F, 108.0F));
+        label1.setPosition(Vector<float, 2>(-88.0F, 108.0F));
         layer.addChild(label1);
 
         engine->getLocalization().addLanguage("latvian", engine->getFileSystem().readFile("lv.mo"));
@@ -122,15 +122,15 @@ namespace samples
 
         label2.setText(engine->getLocalization().getString("Ouzel"));
 
-        label2.setPosition(Vector2F(10.0F, 0.0F));
+        label2.setPosition(Vector<float, 2>(10.0F, 0.0F));
         layer.addChild(label2);
 
         label3.getLabelDrawable()->setColor(Color::blue());
-        label3.setPosition(Vector2F(-100.0F, -100.0F));
-        label3.setScale(Vector3F(0.5F, 0.5F, 1.0F));
+        label3.setPosition(Vector<float, 2>(-100.0F, -100.0F));
+        label3.setScale(Vector<float, 3>(0.5F, 0.5F, 1.0F));
         layer.addChild(label3);
 
-        backButton.setPosition(Vector2F(-200.0F, -200.0F));
+        backButton.setPosition(Vector<float, 2>(-200.0F, -200.0F));
         menu.addWidget(backButton);
     }
 }

@@ -15,7 +15,7 @@ namespace ouzel::input::linux
     {
     }
 
-    void MouseDevice::setPosition(const Vector2F& position)
+    void MouseDevice::setPosition(const Vector<float, 2>& position)
     {
 #if OUZEL_SUPPORTS_X11
         auto engineLinux = static_cast<core::linux::Engine*>(engine);

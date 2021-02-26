@@ -45,7 +45,7 @@ namespace ouzel::gui
     Font::RenderData TTFont::getRenderData(const std::string& text,
                                            Color color,
                                            float fontSize,
-                                           const Vector2F& anchor) const
+                                           const Vector<float, 2>& anchor) const
     {
         if (!font)
             throw std::runtime_error("Font not loaded");
@@ -74,7 +74,7 @@ namespace ouzel::gui
             std::uint16_t y = 0;
             std::uint16_t width = 0;
             std::uint16_t height = 0;
-            Vector2F offset;
+            Vector<float, 2> offset;
             float advance = 0;
             std::vector<std::uint8_t> bitmap;
         };
@@ -150,11 +150,11 @@ namespace ouzel::gui
 
         auto texture = std::make_shared<graphics::Texture>(*engine->getGraphics(),
                                                            textureData,
-                                                           Size2U(width, height),
+                                                           Size<std::uint32_t, 2>(width, height),
                                                            graphics::Flags::none,
                                                            mipmaps ? 0 : 1);
 
-        Vector2F position;
+        Vector<float, 2> position;
 
         std::vector<std::uint16_t> indices;
         std::vector<graphics::Vertex> vertices;
@@ -180,31 +180,31 @@ namespace ouzel::gui
                 indices.push_back(startIndex + 3);
                 indices.push_back(startIndex + 2);
 
-                const Vector2F leftTop{
+                const Vector<float, 2> leftTop{
                     f.x / static_cast<float>(width),
                     f.y / static_cast<float>(height)
                 };
 
-                const Vector2F rightBottom{
+                const Vector<float, 2> rightBottom{
                     (f.x + f.width) / static_cast<float>(width),
                     (f.y + f.height) / static_cast<float>(height)
                 };
 
-                const std::array<Vector2F, 4> textCoords{
-                    Vector2F{leftTop.v[0], rightBottom.v[1]},
-                    Vector2F{rightBottom.v[0], rightBottom.v[1]},
-                    Vector2F{leftTop.v[0], leftTop.v[1]},
-                    Vector2F{rightBottom.v[0], leftTop.v[1]}
+                const std::array<Vector<float, 2>, 4> textCoords{
+                    Vector<float, 2>{leftTop.v[0], rightBottom.v[1]},
+                    Vector<float, 2>{rightBottom.v[0], rightBottom.v[1]},
+                    Vector<float, 2>{leftTop.v[0], leftTop.v[1]},
+                    Vector<float, 2>{rightBottom.v[0], leftTop.v[1]}
                 };
 
-                vertices.emplace_back(Vector3F{position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1] - f.height, 0.0F},
-                                      color, textCoords[0], Vector3F{0.0F, 0.0F, -1.0F});
-                vertices.emplace_back(Vector3F{position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1] - f.height, 0.0F},
-                                      color, textCoords[1], Vector3F{0.0F, 0.0F, -1.0F});
-                vertices.emplace_back(Vector3F{position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1], 0.0F},
-                                      color, textCoords[2], Vector3F{0.0F, 0.0F, -1.0F});
-                vertices.emplace_back(Vector3F{position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1], 0.0F},
-                                      color, textCoords[3], Vector3F{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(Vector<float, 3>{position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1] - f.height, 0.0F},
+                                      color, textCoords[0], Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(Vector<float, 3>{position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1] - f.height, 0.0F},
+                                      color, textCoords[1], Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(Vector<float, 3>{position.v[0] + f.offset.v[0], -position.v[1] - f.offset.v[1], 0.0F},
+                                      color, textCoords[2], Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(Vector<float, 3>{position.v[0] + f.offset.v[0] + f.width, -position.v[1] - f.offset.v[1], 0.0F},
+                                      color, textCoords[3], Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
                 if ((i + 1) != utf32Text.end())
                 {

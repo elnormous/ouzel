@@ -81,7 +81,7 @@ namespace ouzel::assets
 
         void preloadSpriteData(const std::string& filename, bool mipmaps = true,
                                std::uint32_t spritesX = 1, std::uint32_t spritesY = 1,
-                               const Vector2F& pivot = Vector2F{0.5F, 0.5F});
+                               const Vector<float, 2>& pivot = Vector<float, 2>{0.5F, 0.5F});
         const scene::SpriteData* getSpriteData(const std::string& name) const;
         void setSpriteData(const std::string& name, const scene::SpriteData& newSpriteData);
         void releaseSpriteData();

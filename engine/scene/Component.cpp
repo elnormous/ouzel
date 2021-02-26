@@ -11,23 +11,23 @@ namespace ouzel::scene
         if (actor) actor->removeComponent(*this);
     }
 
-    void Component::draw(const Matrix4F&,
+    void Component::draw(const Matrix<float, 4>&,
                          float,
-                         const Matrix4F&,
+                         const Matrix<float, 4>&,
                          bool)
     {
     }
 
-    bool Component::pointOn(const Vector2F& position) const
+    bool Component::pointOn(const Vector<float, 2>& position) const
     {
-        return boundingBox.containsPoint(Vector3F(position));
+        return boundingBox.containsPoint(Vector<float, 3>(position));
     }
 
     namespace
     {
         template <class Iterator>
         void gatherPolygonProjectionExtents(Iterator begin, Iterator end,
-                                            const Vector2F& v,
+                                            const Vector<float, 2>& v,
                                             float& outMin, float& outMax) noexcept
         {
             auto i = begin;
@@ -49,11 +49,11 @@ namespace ouzel::scene
         bool findSeparatingAxis(IteratorA aBegin, IteratorA aEnd,
                                 IteratorB bBegin, IteratorB bEnd) noexcept
         {
-            Vector2F v;
+            Vector<float, 2> v;
             auto prev = aEnd - 1;
             for (auto cur = aBegin; cur != aEnd; ++cur)
             {
-                const Vector2F edge = *cur - *prev;
+                const Vector<float, 2> edge = *cur - *prev;
                 v.v[0] = edge.v[1];
                 v.v[1] = -edge.v[0];
 
@@ -74,13 +74,13 @@ namespace ouzel::scene
         }
     }
 
-    bool Component::shapeOverlaps(const std::vector<Vector2F>& edges) const
+    bool Component::shapeOverlaps(const std::vector<Vector<float, 2>>& edges) const
     {
-        const std::array<Vector2F, 4> boundingBoxEdges = {
-            Vector2F(boundingBox.min),
-            Vector2F(boundingBox.max.v[0], boundingBox.min.v[1]),
-            Vector2F(boundingBox.max),
-            Vector2F(boundingBox.min.v[0], boundingBox.max.v[1])
+        const std::array<Vector<float, 2>, 4> boundingBoxEdges = {
+            Vector<float, 2>(boundingBox.min),
+            Vector<float, 2>(boundingBox.max.v[0], boundingBox.min.v[1]),
+            Vector<float, 2>(boundingBox.max),
+            Vector<float, 2>(boundingBox.min.v[0], boundingBox.max.v[1])
         };
 
         if (findSeparatingAxis(boundingBoxEdges.begin(), boundingBoxEdges.end(),

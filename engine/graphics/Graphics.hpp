@@ -50,8 +50,8 @@ namespace ouzel::graphics
                                Color clearColor,
                                float clearDepth,
                                std::uint32_t clearStencil);
-        void setScissorTest(bool enabled, const RectF& rectangle);
-        void setViewport(const RectF& viewport);
+        void setScissorTest(bool enabled, const Rect<float>& rectangle);
+        void setViewport(const Rect<float>& viewport);
         void setDepthStencilState(std::size_t depthStencilState,
                                   std::uint32_t stencilReferenceValue);
         void setPipelineState(std::size_t blendState,
@@ -77,17 +77,17 @@ namespace ouzel::graphics
         void waitForNextFrame();
         bool getRefillQueue() const noexcept { return refillQueue; }
 
-        Vector2F convertScreenToNormalizedLocation(const Vector2F& position)
+        Vector<float, 2> convertScreenToNormalizedLocation(const Vector<float, 2>& position)
         {
-            return Vector2F{
+            return Vector<float, 2>{
                 position.v[0] / size.v[0],
                 1.0F - (position.v[1] / size.v[1])
             };
         }
 
-        Vector2F convertNormalizedToScreenLocation(const Vector2F& position)
+        Vector<float, 2> convertNormalizedToScreenLocation(const Vector<float, 2>& position)
         {
-            return Vector2F{
+            return Vector<float, 2>{
                 position.v[0] * size.v[0],
                 (1.0F - position.v[1]) * size.v[1]
             };
@@ -95,12 +95,12 @@ namespace ouzel::graphics
 
     private:
         void handleEvent(const RenderDevice::Event& event);
-        void setSize(const Size2U& newSize);
+        void setSize(const Size<std::uint32_t, 2>& newSize);
 
         SamplerFilter textureFilter = SamplerFilter::point;
         std::uint32_t maxAnisotropy = 1;
 
-        Size2U size;
+        Size<std::uint32_t, 2> size;
         CommandBuffer commandBuffer;
 
         bool newFrame = false;

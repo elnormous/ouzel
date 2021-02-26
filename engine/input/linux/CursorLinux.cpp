@@ -42,9 +42,9 @@ namespace ouzel::input::linux
     }
 
     Cursor::Cursor(const std::vector<std::uint8_t>& data,
-                   const Size2F& size,
+                   const Size<float, 2>& size,
                    graphics::PixelFormat pixelFormat,
-                   const Vector2F& hotSpot)
+                   const Vector<float, 2>& hotSpot)
     {
 #if OUZEL_SUPPORTS_X11
         auto engineLinux = static_cast<core::linux::Engine*>(engine);

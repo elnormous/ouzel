@@ -21,11 +21,11 @@ namespace ouzel::scene
                      float initFontSize = 1.0F,
                      const std::string& initText = std::string(),
                      Color initColor = Color::white(),
-                     const Vector2F& initTextAnchor = Vector2F{0.5F, 0.5F});
+                     const Vector<float, 2>& initTextAnchor = Vector<float, 2>{0.5F, 0.5F});
 
-        void draw(const Matrix4F& transformMatrix,
+        void draw(const Matrix<float, 4>& transformMatrix,
                   float opacity,
-                  const Matrix4F& renderViewProjection,
+                  const Matrix<float, 4>& renderViewProjection,
                   bool wireframe) override;
 
         void setFont(const std::string& fontFile);
@@ -34,7 +34,7 @@ namespace ouzel::scene
         void setFontSize(float newFontSize);
 
         auto& getTextAnchor() const noexcept { return textAnchor; }
-        void setTextAnchor(const Vector2F& newTextAnchor);
+        void setTextAnchor(const Vector<float, 2>& newTextAnchor);
 
         auto& getText() const noexcept { return text; }
         void setText(const std::string& newText);
@@ -69,7 +69,7 @@ namespace ouzel::scene
         const gui::Font* font = nullptr;
         std::string text;
         float fontSize = 1.0F;
-        Vector2F textAnchor;
+        Vector<float, 2> textAnchor;
 
         std::vector<std::uint16_t> indices;
         std::vector<graphics::Vertex> vertices;

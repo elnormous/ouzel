@@ -38,17 +38,17 @@ namespace ouzel::graphics
         };
 
         constexpr Vertex() noexcept = default;
-        constexpr Vertex(const Vector3F& initPosition, Color initColor,
-                         const Vector2F& initTexCoord, const Vector3F& initNormal) noexcept:
+        constexpr Vertex(const Vector<float, 3>& initPosition, Color initColor,
+                         const Vector<float, 2>& initTexCoord, const Vector<float, 3>& initNormal) noexcept:
             position(initPosition), color(initColor),
             texCoords{initTexCoord}, normal(initNormal)
         {
         }
 
-        Vector3F position;
+        Vector<float, 3> position;
         Color color;
-        std::array<Vector2F, 2> texCoords;
-        Vector3F normal;
+        std::array<Vector<float, 2>, 2> texCoords;
+        Vector<float, 3> normal;
     };
 }
 

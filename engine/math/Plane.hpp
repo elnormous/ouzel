@@ -111,8 +111,6 @@ namespace ouzel
                          d * multiplier);
         }
     };
-
-    using PlaneF = Plane<float>;
 }
 
 #endif // OUZEL_MATH_PLANE_HPP

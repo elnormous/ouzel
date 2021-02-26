@@ -12,7 +12,7 @@ namespace ouzel::input
     {
     }
 
-    bool Touchpad::handleTouchBegin(std::uint64_t touchId, const Vector2F& position, float force)
+    bool Touchpad::handleTouchBegin(std::uint64_t touchId, const Vector<float, 2>& position, float force)
     {
         auto event = std::make_unique<TouchEvent>();
         event->type = Event::Type::touchBegin;
@@ -26,7 +26,7 @@ namespace ouzel::input
         return engine->getEventDispatcher().dispatchEvent(std::move(event));
     }
 
-    bool Touchpad::handleTouchEnd(std::uint64_t touchId, const Vector2F& position, float force)
+    bool Touchpad::handleTouchEnd(std::uint64_t touchId, const Vector<float, 2>& position, float force)
     {
         auto event = std::make_unique<TouchEvent>();
         event->type = Event::Type::touchEnd;
@@ -43,7 +43,7 @@ namespace ouzel::input
         return engine->getEventDispatcher().dispatchEvent(std::move(event));
     }
 
-    bool Touchpad::handleTouchMove(std::uint64_t touchId, const Vector2F& position, float force)
+    bool Touchpad::handleTouchMove(std::uint64_t touchId, const Vector<float, 2>& position, float force)
     {
         auto event = std::make_unique<TouchEvent>();
         event->type = Event::Type::touchMove;
@@ -58,7 +58,7 @@ namespace ouzel::input
         return engine->getEventDispatcher().dispatchEvent(std::move(event));
     }
 
-    bool Touchpad::handleTouchCancel(std::uint64_t touchId, const Vector2F& position, float force)
+    bool Touchpad::handleTouchCancel(std::uint64_t touchId, const Vector<float, 2>& position, float force)
     {
         auto event = std::make_unique<TouchEvent>();
         event->type = Event::Type::touchCancel;

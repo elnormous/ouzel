@@ -26,20 +26,20 @@ namespace ouzel::graphics
 
         explicit Texture(Graphics& initGraphics);
         Texture(Graphics& initGraphics,
-                const Size2U& initSize,
+                const Size<std::uint32_t, 2>& initSize,
                 Flags initFlags = Flags::none,
                 std::uint32_t initMipmaps = 0,
                 std::uint32_t initSampleCount = 1,
                 PixelFormat initPixelFormat = PixelFormat::rgba8UnsignedNorm);
         Texture(Graphics& initGraphics,
                 const std::vector<std::uint8_t>& initData,
-                const Size2U& initSize,
+                const Size<std::uint32_t, 2>& initSize,
                 Flags initFlags = Flags::none,
                 std::uint32_t initMipmaps = 0,
                 PixelFormat initPixelFormat = PixelFormat::rgba8UnsignedNorm);
         Texture(Graphics& initGraphics,
-                const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
-                const Size2U& initSize,
+                const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& initLevels,
+                const Size<std::uint32_t, 2>& initSize,
                 Flags initFlags = Flags::none,
                 PixelFormat initPixelFormat = PixelFormat::rgba8UnsignedNorm);
 
@@ -79,7 +79,7 @@ namespace ouzel::graphics
         RenderDevice::Resource resource;
 
         TextureType type = TextureType::twoDimensional;
-        Size2U size;
+        Size<std::uint32_t, 2> size;
         Flags flags = Flags::none;
         std::uint32_t mipmaps = 0;
         std::uint32_t sampleCount = 1;

@@ -28,7 +28,7 @@ namespace samples
         ouzel::scene::Camera camera;
         ouzel::scene::Actor cameraActor;
 
-        ouzel::Vector3F cameraRotation;
+        ouzel::Vector<float, 3> cameraRotation;
 
         ouzel::scene::SpriteRenderer floorSprite;
         ouzel::scene::Actor floor;

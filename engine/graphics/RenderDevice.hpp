@@ -91,7 +91,7 @@ namespace ouzel::graphics
 
         auto getSampleCount() const noexcept { return sampleCount; }
 
-        virtual std::vector<Size2U> getSupportedResolutions() const;
+        virtual std::vector<Size<std::uint32_t, 2>> getSupportedResolutions() const;
 
         void submitCommandBuffer(CommandBuffer&& commandBuffer)
         {
@@ -192,8 +192,8 @@ namespace ouzel::graphics
         bool multisamplingSupported:1;
         bool uintIndicesSupported:1;
 
-        Matrix4F projectionTransform = Matrix4F::identity();
-        Matrix4F renderTargetProjectionTransform = Matrix4F::identity();
+        Matrix<float, 4> projectionTransform = Matrix<float, 4>::identity();
+        Matrix<float, 4> renderTargetProjectionTransform = Matrix<float, 4>::identity();
 
         std::uint32_t drawCallCount = 0;
 

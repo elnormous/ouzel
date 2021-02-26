@@ -198,13 +198,13 @@ namespace ouzel::assets
     {
         std::string objectName = name;
         const graphics::Material* material = nullptr;
-        std::vector<Vector3F> positions;
-        std::vector<Vector2F> texCoords;
-        std::vector<Vector3F> normals;
+        std::vector<Vector<float, 3>> positions;
+        std::vector<Vector<float, 2>> texCoords;
+        std::vector<Vector<float, 3>> normals;
         std::vector<graphics::Vertex> vertices;
         std::map<std::tuple<std::uint32_t, std::uint32_t, std::uint32_t>, std::uint32_t> vertexMap;
         std::vector<std::uint32_t> indices;
-        Box3F boundingBox;
+        Box<float, 3> boundingBox;
 
         std::uint32_t objectCount = 0;
 
@@ -269,7 +269,7 @@ namespace ouzel::assets
                 }
                 else if (keyword == "v")
                 {
-                    Vector3F position;
+                    Vector<float, 3> position;
 
                     skipWhitespaces(iterator, data.end());
                     position.v[0] = parseFloat(iterator, data.end());
@@ -284,7 +284,7 @@ namespace ouzel::assets
                 }
                 else if (keyword == "vt")
                 {
-                    Vector2F texCoord;
+                    Vector<float, 2> texCoord;
 
                     skipWhitespaces(iterator, data.end());
                     texCoord.v[0] = parseFloat(iterator, data.end());
@@ -297,7 +297,7 @@ namespace ouzel::assets
                 }
                 else if (keyword == "vn")
                 {
-                    Vector3F normal;
+                    Vector<float, 3> normal;
 
                     skipWhitespaces(iterator, data.end());
                     normal.v[0] = parseFloat(iterator, data.end());

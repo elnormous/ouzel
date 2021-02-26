@@ -139,7 +139,7 @@ namespace ouzel::assets
 
     void Bundle::preloadSpriteData(const std::string& filename, bool mipmaps,
                                    std::uint32_t spritesX, std::uint32_t spritesY,
-                                   const Vector2F& pivot)
+                                   const Vector<float, 2>& pivot)
     {
         auto extension = std::string(storage::Path(filename).getExtension());
         std::transform(extension.begin(), extension.end(), extension.begin(),
@@ -155,14 +155,14 @@ namespace ouzel::assets
 
             newSpriteData.texture = getTexture(filename);
 
-            const Size2F textureSize{
+            const Size<float, 2> textureSize{
                 static_cast<float>(newSpriteData.texture->getSize().v[0]),
                 static_cast<float>(newSpriteData.texture->getSize().v[1])
             };
 
             if (newSpriteData.texture)
             {
-                const auto spriteSize = Size2F(textureSize.v[0] / spritesX,
+                const auto spriteSize = Size<float, 2>(textureSize.v[0] / spritesX,
                                                textureSize.v[1] / spritesY);
 
                 scene::SpriteData::Animation animation;
@@ -172,12 +172,12 @@ namespace ouzel::assets
                 {
                     for (std::uint32_t y = 0; y < spritesY; ++y)
                     {
-                        RectF rectangle(spriteSize.v[0] * x,
+                        Rect<float> rectangle(spriteSize.v[0] * x,
                                         spriteSize.v[1] * y,
                                         spriteSize.v[0],
                                         spriteSize.v[1]);
 
-                        animation.frames.emplace_back(filename, textureSize, rectangle, false, spriteSize, Vector2F{}, pivot);
+                        animation.frames.emplace_back(filename, textureSize, rectangle, false, spriteSize, Vector<float, 2>{}, pivot);
                     }
                 }
 

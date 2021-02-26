@@ -119,9 +119,6 @@ namespace ouzel
             return Size<T, N>{max - min};
         }
     };
-
-    using Box2F = Box<float, 2>;
-    using Box3F = Box<float, 3>;
 }
 
 #endif // OUZEL_MATH_BOX_HPP

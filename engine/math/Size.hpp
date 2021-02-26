@@ -188,11 +188,6 @@ namespace ouzel
             result.v[i] /= v.v[i];
         return result;
     }
-
-    using Size2U = Size<std::uint32_t, 2>;
-    using Size3U = Size<std::uint32_t, 3>;
-    using Size2F = Size<float, 2>;
-    using Size3F = Size<float, 3>;
 }
 
 #endif // OUZEL_MATH_SIZE_HPP

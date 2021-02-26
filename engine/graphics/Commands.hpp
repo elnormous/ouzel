@@ -79,12 +79,12 @@ namespace ouzel::graphics
     class ResizeCommand final: public Command
     {
     public:
-        explicit constexpr ResizeCommand(const Size2U& initSize) noexcept:
+        explicit constexpr ResizeCommand(const Size<std::uint32_t, 2>& initSize) noexcept:
             Command(Command::Type::resize),
             size(initSize)
         {}
 
-        const Size2U size;
+        const Size<std::uint32_t, 2> size;
     };
 
     class PresentCommand final: public Command
@@ -167,7 +167,7 @@ namespace ouzel::graphics
     {
     public:
         constexpr SetScissorTestCommand(bool initEnabled,
-                                        const RectF& initRectangle) noexcept:
+                                        const Rect<float>& initRectangle) noexcept:
             Command(Command::Type::setScissorTest),
             enabled(initEnabled),
             rectangle(initRectangle)
@@ -175,19 +175,19 @@ namespace ouzel::graphics
         }
 
         const bool enabled;
-        const RectF rectangle;
+        const Rect<float> rectangle;
     };
 
     class SetViewportCommand final: public Command
     {
     public:
-        explicit constexpr SetViewportCommand(const RectF& initViewport) noexcept:
+        explicit constexpr SetViewportCommand(const Rect<float>& initViewport) noexcept:
             Command(Command::Type::setViewport),
             viewport(initViewport)
         {
         }
 
-        const RectF viewport;
+        const Rect<float> viewport;
     };
 
     class InitDepthStencilStateCommand final: public Command
@@ -434,7 +434,7 @@ namespace ouzel::graphics
     {
     public:
         InitTextureCommand(ResourceId initTexture,
-                           const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
+                           const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& initLevels,
                            TextureType initTextureType,
                            Flags initFlags,
                            std::uint32_t initSampleCount,
@@ -454,7 +454,7 @@ namespace ouzel::graphics
         }
 
         const ResourceId texture;
-        const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
+        const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
         const TextureType textureType;
         const Flags flags;
         const std::uint32_t sampleCount;
@@ -467,7 +467,7 @@ namespace ouzel::graphics
     {
     public:
         SetTextureDataCommand(ResourceId initTexture,
-                              const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels) noexcept(false):
+                              const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& initLevels) noexcept(false):
             Command(Command::Type::setTextureData),
             texture(initTexture),
             levels(initLevels),
@@ -476,7 +476,7 @@ namespace ouzel::graphics
         }
 
         SetTextureDataCommand(ResourceId initTexture,
-                              const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>>& initLevels,
+                              const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& initLevels,
                               CubeFace initFace) noexcept(false):
             Command(Command::Type::setTextureData),
             texture(initTexture),
@@ -486,7 +486,7 @@ namespace ouzel::graphics
         }
 
         const ResourceId texture;
-        const std::vector<std::pair<Size2U, std::vector<std::uint8_t>>> levels;
+        const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
         const CubeFace face;
     };
 

@@ -30,7 +30,7 @@ namespace ouzel::scene
             std::vector<Actor*> drawQueue;
 
             for (const auto actor : children)
-                actor->visit(drawQueue, Matrix4F::identity(), false, camera, 0, false);
+                actor->visit(drawQueue, Matrix<float, 4>::identity(), false, camera, 0, false);
 
             engine->getGraphics()->setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
             engine->getGraphics()->setViewport(camera->getRenderViewport());
@@ -46,7 +46,7 @@ namespace ouzel::scene
     {
         ActorContainer::addChild(actor);
 
-        actor.updateTransform(Matrix4F::identity());
+        actor.updateTransform(Matrix<float, 4>::identity());
     }
 
     void Layer::addCamera(Camera& camera)
@@ -75,7 +75,7 @@ namespace ouzel::scene
             lights.erase(i);
     }
 
-    std::pair<Actor*, Vector3F> Layer::pickActor(const Vector2F& position, bool renderTargets) const
+    std::pair<Actor*, Vector<float, 3>> Layer::pickActor(const Vector<float, 2>& position, bool renderTargets) const
     {
         for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
         {
@@ -83,18 +83,18 @@ namespace ouzel::scene
 
             if (renderTargets || !camera->getRenderTarget())
             {
-                const auto worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
+                const auto worldPosition = Vector<float, 2>(camera->convertNormalizedToWorld(position));
                 const auto actors = findActors(worldPosition);
                 if (!actors.empty()) return actors.front();
             }
         }
 
-        return std::pair(nullptr, Vector3F());
+        return std::pair(nullptr, Vector<float, 3>());
     }
 
-    std::vector<std::pair<Actor*, Vector3F>> Layer::pickActors(const Vector2F& position, bool renderTargets) const
+    std::vector<std::pair<Actor*, Vector<float, 3>>> Layer::pickActors(const Vector<float, 2>& position, bool renderTargets) const
     {
-        std::vector<std::pair<Actor*, Vector3F>> result;
+        std::vector<std::pair<Actor*, Vector<float, 3>>> result;
 
         for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
         {
@@ -102,7 +102,7 @@ namespace ouzel::scene
 
             if (renderTargets || !camera->getRenderTarget())
             {
-                const auto worldPosition = Vector2F(camera->convertNormalizedToWorld(position));
+                const auto worldPosition = Vector<float, 2>(camera->convertNormalizedToWorld(position));
                 const auto actors = findActors(worldPosition);
                 result.insert(result.end(), actors.begin(), actors.end());
             }
@@ -111,7 +111,7 @@ namespace ouzel::scene
         return result;
     }
 
-    std::vector<Actor*> Layer::pickActors(const std::vector<Vector2F>& edges, bool renderTargets) const
+    std::vector<Actor*> Layer::pickActors(const std::vector<Vector<float, 2>>& edges, bool renderTargets) const
     {
         std::vector<Actor*> result;
 
@@ -121,7 +121,7 @@ namespace ouzel::scene
 
             if (renderTargets || !camera->getRenderTarget())
             {
-                std::vector<Vector2F> worldEdges;
+                std::vector<Vector<float, 2>> worldEdges;
                 worldEdges.reserve(edges.size());
 
                 for (const auto& edge : edges)

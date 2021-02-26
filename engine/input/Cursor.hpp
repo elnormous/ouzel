@@ -19,7 +19,7 @@ namespace ouzel::input
     public:
         explicit Cursor(InputManager& initInputManager);
         Cursor(InputManager& initInputManager, SystemCursor systemCursor);
-        Cursor(InputManager& initInputManager, const std::string& filename, const Vector2F& hotSpot = Vector2F());
+        Cursor(InputManager& initInputManager, const std::string& filename, const Vector<float, 2>& hotSpot = Vector<float, 2>());
         ~Cursor();
 
         Cursor(const Cursor&) = delete;
@@ -29,11 +29,11 @@ namespace ouzel::input
         Cursor& operator=(Cursor&&) = delete;
 
         void init(SystemCursor systemCursor);
-        void init(const std::string& filename, const Vector2F& hotSpot = Vector2F());
+        void init(const std::string& filename, const Vector<float, 2>& hotSpot = Vector<float, 2>());
         void init(const std::vector<std::uint8_t>& data,
-                  const Size2F& size,
+                  const Size<float, 2>& size,
                   graphics::PixelFormat pixelFormat,
-                  const Vector2F& hotSpot);
+                  const Vector<float, 2>& hotSpot);
 
         auto getCursorResource() const noexcept { return cursorResource; }
 

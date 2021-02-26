@@ -190,9 +190,9 @@ namespace ouzel::graphics::opengl::linux
         }
     }
 
-    std::vector<Size2U> RenderDevice::getSupportedResolutions() const
+    std::vector<Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
     {
-        std::vector<Size2U> result;
+        std::vector<Size<std::uint32_t, 2>> result;
 
 #if OUZEL_OPENGL_INTERFACE_GLX
         auto engineLinux = static_cast<core::linux::Engine*>(engine);

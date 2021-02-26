@@ -30,7 +30,7 @@ namespace ouzel::scene
         void setColor(Color newColor) { color = newColor; }
 
         auto& getDirection() const noexcept { return direction; }
-        void setDirection(const QuaternionF& newDirection) { direction = newDirection; }
+        void setDirection(const Quaternion<float>& newDirection) { direction = newDirection; }
 
         auto getAngle() const noexcept { return angle; }
         void setAngle(float newAngle) { angle = newAngle; }
@@ -46,7 +46,7 @@ namespace ouzel::scene
 
         Type type = Type::point;
         Color color;
-        QuaternionF direction = QuaternionF::identity(); // for spot and directional ligt
+        Quaternion<float> direction = Quaternion<float>::identity(); // for spot and directional ligt
         float angle = 0.0F; // for spot light
         float range = 0.0F; // for point and spot light
         float intensity = 1.0F;

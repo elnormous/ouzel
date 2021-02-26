@@ -955,8 +955,6 @@ namespace ouzel
     {
         return m * scalar;
     }
-
-    using Matrix4F = Matrix<float, 4>;
 }
 
 #endif // OUZEL_MATH_MATRIX_HPP

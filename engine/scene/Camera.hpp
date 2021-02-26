@@ -34,8 +34,8 @@ namespace ouzel::scene
             showAll
         };
 
-        explicit Camera(const Matrix4F& initProjection);
-        explicit Camera(const Size2F& initTargetContentSize = Size2F(), ScaleMode initScaleMode = ScaleMode::noScale);
+        explicit Camera(const Matrix<float, 4>& initProjection);
+        explicit Camera(const Size<float, 2>& initTargetContentSize = Size<float, 2>(), ScaleMode initScaleMode = ScaleMode::noScale);
         explicit Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
         ~Camera() override;
 
@@ -54,24 +54,24 @@ namespace ouzel::scene
         auto& getProjection() const noexcept { return projection; }
         void recalculateProjection();
 
-        const Matrix4F& getViewProjection() const;
-        const Matrix4F& getRenderViewProjection() const;
-        const Matrix4F& getInverseViewProjection() const;
+        const Matrix<float, 4>& getViewProjection() const;
+        const Matrix<float, 4>& getRenderViewProjection() const;
+        const Matrix<float, 4>& getInverseViewProjection() const;
 
-        Vector3F convertNormalizedToWorld(const Vector2F& normalizedPosition) const;
-        Vector2F convertWorldToNormalized(const Vector3F& worldPosition) const;
+        Vector<float, 3> convertNormalizedToWorld(const Vector<float, 2>& normalizedPosition) const;
+        Vector<float, 2> convertWorldToNormalized(const Vector<float, 3>& worldPosition) const;
 
-        bool checkVisibility(const Matrix4F& boxTransform, const Box3F& box) const;
+        bool checkVisibility(const Matrix<float, 4>& boxTransform, const Box<float, 3>& box) const;
 
         auto& getViewport() const noexcept { return viewport; }
         auto& getRenderViewport() const noexcept { return renderViewport; }
-        void setViewport(const RectF& newViewport);
+        void setViewport(const Rect<float>& newViewport);
 
         auto getScaleMode() const noexcept { return scaleMode; }
         void setScaleMode(ScaleMode newScaleMode);
 
         auto& getTargetContentSize() const noexcept { return targetContentSize; }
-        void setTargetContentSize(const Size2F& newTargetContentSize);
+        void setTargetContentSize(const Size<float, 2>& newTargetContentSize);
 
         auto& getContentSize() const noexcept { return contentSize; }
         auto& getContentScale() const noexcept { return contentScale; }
@@ -120,26 +120,26 @@ namespace ouzel::scene
         float nearPlane = 1.0F;
         float farPlane = 100.0F;
 
-        Matrix4F projection;
+        Matrix<float, 4> projection;
 
-        RectF viewport = RectF(0.0F, 0.0F, 1.0F, 1.0F);
-        RectF renderViewport;
-        Size2F targetContentSize;
+        Rect<float> viewport = Rect<float>(0.0F, 0.0F, 1.0F, 1.0F);
+        Rect<float> renderViewport;
+        Size<float, 2> targetContentSize;
 
         ScaleMode scaleMode = ScaleMode::noScale;
-        Size2F contentSize;
-        Vector2F contentScale;
-        Vector2F contentPosition;
+        Size<float, 2> contentSize;
+        Vector<float, 2> contentScale;
+        Vector<float, 2> contentPosition;
 
         bool depthTest = false;
         bool wireframe = false;
 
         mutable bool viewProjectionDirty = true;
-        mutable Matrix4F viewProjection;
-        mutable Matrix4F renderViewProjection;
+        mutable Matrix<float, 4> viewProjection;
+        mutable Matrix<float, 4> renderViewProjection;
 
         mutable bool inverseViewProjectionDirty = true;
-        mutable Matrix4F inverseViewProjection;
+        mutable Matrix<float, 4> inverseViewProjection;
 
         graphics::RenderTarget* renderTarget = nullptr;
         std::unique_ptr<graphics::DepthStencilState> depthStencilState;

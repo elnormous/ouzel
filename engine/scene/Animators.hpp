@@ -70,7 +70,7 @@ namespace ouzel::scene
     class Move final: public Animator
     {
     public:
-        Move(float initLength, const Vector3F& initPosition, bool initRelative = false);
+        Move(float initLength, const Vector<float, 3>& initPosition, bool initRelative = false);
 
         void play() final;
 
@@ -78,10 +78,10 @@ namespace ouzel::scene
         void updateProgress() final;
 
     private:
-        Vector3F position;
-        Vector3F startPosition;
-        Vector3F targetPosition;
-        Vector3F diff;
+        Vector<float, 3> position;
+        Vector<float, 3> startPosition;
+        Vector<float, 3> targetPosition;
+        Vector<float, 3> diff;
         bool relative;
     };
 
@@ -113,7 +113,7 @@ namespace ouzel::scene
     class Rotate final: public Animator
     {
     public:
-        Rotate(float initLength, const Vector3F& initRotation, bool initRelative = false);
+        Rotate(float initLength, const Vector<float, 3>& initRotation, bool initRelative = false);
 
         void play() final;
 
@@ -121,17 +121,17 @@ namespace ouzel::scene
         void updateProgress() final;
 
     private:
-        Vector3F rotation;
-        Vector3F startRotation;
-        Vector3F targetRotation;
-        Vector3F diff;
+        Vector<float, 3> rotation;
+        Vector<float, 3> startRotation;
+        Vector<float, 3> targetRotation;
+        Vector<float, 3> diff;
         bool relative;
     };
 
     class Scale final: public Animator
     {
     public:
-        Scale(float initLength, const Vector3F& initScale, bool initRelative = false);
+        Scale(float initLength, const Vector<float, 3>& initScale, bool initRelative = false);
 
         void play() final;
 
@@ -139,10 +139,10 @@ namespace ouzel::scene
         void updateProgress() final;
 
     private:
-        Vector3F scale;
-        Vector3F startScale;
-        Vector3F targetScale;
-        Vector3F diff;
+        Vector<float, 3> scale;
+        Vector<float, 3> startScale;
+        Vector<float, 3> targetScale;
+        Vector<float, 3> diff;
         bool relative;
     };
 
@@ -164,7 +164,7 @@ namespace ouzel::scene
     class Shake final: public Animator
     {
     public:
-        Shake(float initLength, const Vector3F& initDistance, float initTimeScale);
+        Shake(float initLength, const Vector<float, 3>& initDistance, float initTimeScale);
 
         void play() final;
 
@@ -175,9 +175,9 @@ namespace ouzel::scene
         std::uint32_t seedX;
         std::uint32_t seedY;
         std::uint32_t seedZ;
-        Vector3F distance;
+        Vector<float, 3> distance;
         float timeScale;
-        Vector3F startPosition;
+        Vector<float, 3> startPosition;
     };
 }
 

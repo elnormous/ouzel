@@ -840,9 +840,9 @@ namespace ouzel::graphics::d3d11
         return nullptr;
     }
 
-    std::vector<Size2U> RenderDevice::getSupportedResolutions() const
+    std::vector<Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
     {
-        std::vector<Size2U> result;
+        std::vector<Size<std::uint32_t, 2>> result;
 
         IDXGIOutput* output = getOutput();
 

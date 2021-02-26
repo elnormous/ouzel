@@ -20,7 +20,7 @@ namespace ouzel::input
         init(systemCursor);
     }
 
-    Cursor::Cursor(InputManager& initInputManager, const std::string& filename, const Vector2F& hotSpot):
+    Cursor::Cursor(InputManager& initInputManager, const std::string& filename, const Vector<float, 2>& hotSpot):
         Cursor(initInputManager)
     {
         init(filename, hotSpot);
@@ -46,7 +46,7 @@ namespace ouzel::input
         inputManager.getInputSystem()->addCommand(command);
     }
 
-    void Cursor::init(const std::string& filename, const Vector2F& hotSpot)
+    void Cursor::init(const std::string& filename, const Vector<float, 2>& hotSpot)
     {
         // TODO: load with asset loader
         const auto data = engine->getFileSystem().readFile(filename);
@@ -149,15 +149,15 @@ namespace ouzel::input
         }
 
         init(imageData,
-             Size2F(static_cast<float>(width), static_cast<float>(height)),
+             Size<float, 2>(static_cast<float>(width), static_cast<float>(height)),
              pixelFormat,
              hotSpot);
     }
 
     void Cursor::init(const std::vector<std::uint8_t>& data,
-                      const Size2F& size,
+                      const Size<float, 2>& size,
                       graphics::PixelFormat pixelFormat,
-                      const Vector2F& hotSpot)
+                      const Vector<float, 2>& hotSpot)
     {
         InputSystem::Command command(InputSystem::Command::Type::initCursor);
         command.cursorResource = cursorResource;

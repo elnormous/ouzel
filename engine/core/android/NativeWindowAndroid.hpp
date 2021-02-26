@@ -17,7 +17,7 @@ namespace ouzel::core::android
                      const std::string& newTitle);
         ~NativeWindow() override;
 
-        void handleResize(const Size2U& newSize);
+        void handleResize(const Size<std::uint32_t, 2>& newSize);
         void handleSurfaceChange(jobject surface);
         void handleSurfaceDestroy();
 

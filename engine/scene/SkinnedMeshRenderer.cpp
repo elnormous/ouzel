@@ -21,9 +21,9 @@ namespace ouzel::scene
         material = meshData.material;
     }
 
-    void SkinnedMeshRenderer::draw(const Matrix4F& transformMatrix,
+    void SkinnedMeshRenderer::draw(const Matrix<float, 4>& transformMatrix,
                                    float opacity,
-                                   const Matrix4F& renderViewProjection,
+                                   const Matrix<float, 4>& renderViewProjection,
                                    bool wireframe)
     {
         Component::draw(transformMatrix,

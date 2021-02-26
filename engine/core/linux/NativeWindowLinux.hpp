@@ -29,7 +29,7 @@ namespace ouzel::core::linux
         friend Engine;
     public:
         NativeWindow(const std::function<void(const Event&)>& initCallback,
-                     const Size2U& newSize,
+                     const Size<std::uint32_t, 2>& newSize,
                      bool newResizable,
                      bool newFullscreen,
                      bool newExclusiveFullscreen,
@@ -38,7 +38,7 @@ namespace ouzel::core::linux
 
         void close();
 
-        void setSize(const Size2U& newSize);
+        void setSize(const Size<std::uint32_t, 2>& newSize);
         void setFullscreen(bool newFullscreen);
         void setTitle(const std::string& newTitle);
         void bringToFront();
@@ -62,7 +62,7 @@ namespace ouzel::core::linux
 #if OUZEL_SUPPORTS_X11
         void handleFocusIn();
         void handleFocusOut();
-        void handleResize(const Size2U& newSize);
+        void handleResize(const Size<std::uint32_t, 2>& newSize);
         void handleMap();
         void handleUnmap();
         bool isMapped() const;

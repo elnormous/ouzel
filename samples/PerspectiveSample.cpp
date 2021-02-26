@@ -61,7 +61,7 @@ namespace samples
                 if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
                 if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
 
-                cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
+                cameraActor.setRotation(Vector<float, 3>(cameraRotation.x(), cameraRotation.y(), 0.0F));
             }
             else if (event.type == Event::Type::keyboardKeyRelease)
             {
@@ -89,7 +89,7 @@ namespace samples
                 if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
                 if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
 
-                cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
+                cameraActor.setRotation(Vector<float, 3>(cameraRotation.x(), cameraRotation.y(), 0.0F));
             }
 
             return false;
@@ -105,7 +105,7 @@ namespace samples
                 if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
                 if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
 
-                cameraActor.setRotation(Vector3F(cameraRotation.x(), cameraRotation.y(), 0.0F));
+                cameraActor.setRotation(Vector<float, 3>(cameraRotation.x(), cameraRotation.y(), 0.0F));
             }
 
             return false;
@@ -141,7 +141,7 @@ namespace samples
 
         camera.setProjectionMode(scene::Camera::ProjectionMode::perspective);
         camera.setFarPlane(1000.0F);
-        cameraActor.setPosition(Vector3F(0.0F, 0.0F, -400.0F));
+        cameraActor.setPosition(Vector<float, 3>(0.0F, 0.0F, -400.0F));
         cameraActor.addComponent(camera);
         layer.addChild(cameraActor);
         addLayer(layer);
@@ -152,8 +152,8 @@ namespace samples
 
         floor.addComponent(floorSprite);
         layer.addChild(floor);
-        floor.setPosition(Vector2F(0.0F, -50.0F));
-        floor.setRotation(Vector3F(tau<float> / 4.04F, tau<float> / 8.0F, 0.0F));
+        floor.setPosition(Vector<float, 2>(0.0F, -50.0F));
+        floor.setRotation(Vector<float, 3>(tau<float> / 4.04F, tau<float> / 8.0F, 0.0F));
 
         // character
         characterSprite.init("run.json");
@@ -164,7 +164,7 @@ namespace samples
 
         character.addComponent(characterSprite);
         layer.addChild(character);
-        character.setPosition(Vector2F(10.0F, 0.0F));
+        character.setPosition(Vector<float, 2>(10.0F, 0.0F));
 
         submix.setOutput(&engine->getAudio()->getMasterMix());
 
@@ -178,24 +178,24 @@ namespace samples
         jumpPanner.setRolloffFactor(0.01F);
         character.addComponent(jumpPanner);
 
-        rotate = std::make_unique<scene::Rotate>(10.0F, Vector3F(0.0F, tau<float>, 0.0F));
+        rotate = std::make_unique<scene::Rotate>(10.0F, Vector<float, 3>(0.0F, tau<float>, 0.0F));
         character.addComponent(*rotate);
         rotate->start();
 
         boxModel.init(*engine->getCache().getStaticMeshData("cube.obj"));
         box.addComponent(boxModel);
-        box.setPosition(Vector3F(-160.0F, 0.0F, -50.0F));
+        box.setPosition(Vector<float, 3>(-160.0F, 0.0F, -50.0F));
         layer.addChild(box);
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        guiCamera.setTargetContentSize(Size2F(800.0F, 600.0F));
+        guiCamera.setTargetContentSize(Size<float, 2>(800.0F, 600.0F));
         guiCameraActor.addComponent(guiCamera);
         guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);
 
         guiLayer.addChild(menu);
 
-        backButton.setPosition(Vector2F(-200.0F, -200.0F));
+        backButton.setPosition(Vector<float, 2>(-200.0F, -200.0F));
         menu.addWidget(backButton);
     }
 }

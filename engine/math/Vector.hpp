@@ -383,10 +383,6 @@ namespace ouzel
     {
         return vec * scalar;
     }
-
-    using Vector2F = Vector<float, 2>;
-    using Vector3F = Vector<float, 3>;
-    using Vector4F = Vector<float, 4>;
 }
 
 #endif // OUZEL_MATH_VECTOR_HPP

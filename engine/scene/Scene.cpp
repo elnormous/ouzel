@@ -129,22 +129,22 @@ namespace ouzel::scene
             layer->recalculateProjection();
     }
 
-    std::pair<Actor*, Vector3F> Scene::pickActor(const Vector2F& position, bool renderTargets) const
+    std::pair<Actor*, Vector<float, 3>> Scene::pickActor(const Vector<float, 2>& position, bool renderTargets) const
     {
         for (auto i = layers.rbegin(); i != layers.rend(); ++i)
         {
             const Layer* layer = *i;
-            std::pair<Actor*, Vector3F> result = layer->pickActor(position, renderTargets);
+            std::pair<Actor*, Vector<float, 3>> result = layer->pickActor(position, renderTargets);
 
             if (result.first) return result;
         }
 
-        return std::pair(nullptr, Vector3F());
+        return std::pair(nullptr, Vector<float, 3>());
     }
 
-    std::vector<std::pair<Actor*, Vector3F>> Scene::pickActors(const Vector2F& position, bool renderTargets) const
+    std::vector<std::pair<Actor*, Vector<float, 3>>> Scene::pickActors(const Vector<float, 2>& position, bool renderTargets) const
     {
-        std::vector<std::pair<Actor*, Vector3F>> result;
+        std::vector<std::pair<Actor*, Vector<float, 3>>> result;
 
         for (auto i = layers.rbegin(); i != layers.rend(); ++i)
         {
@@ -156,7 +156,7 @@ namespace ouzel::scene
         return result;
     }
 
-    std::vector<Actor*> Scene::pickActors(const std::vector<Vector2F>& edges, bool renderTargets) const
+    std::vector<Actor*> Scene::pickActors(const std::vector<Vector<float, 2>>& edges, bool renderTargets) const
     {
         std::vector<Actor*> result;
 
@@ -205,22 +205,22 @@ namespace ouzel::scene
         {
             case Event::Type::mousePress:
             {
-                std::pair<Actor*, Vector3F> actor = pickActor(event.position);
+                std::pair<Actor*, Vector<float, 3>> actor = pickActor(event.position);
                 pointerDownOnActor(0, actor.first, event.position, actor.second);
                 break;
             }
             case Event::Type::mouseRelease:
             {
-                std::pair<Actor*, Vector3F> actor = pickActor(event.position);
+                std::pair<Actor*, Vector<float, 3>> actor = pickActor(event.position);
                 pointerUpOnActor(0, actor.first, event.position);
                 break;
             }
             case Event::Type::mouseMove:
             {
-                std::pair<Actor*, Vector3F> previousActor = pickActor(event.position - event.difference);
+                std::pair<Actor*, Vector<float, 3>> previousActor = pickActor(event.position - event.difference);
                 pointerLeaveActor(0, previousActor.first, event.position);
 
-                std::pair<Actor*, Vector3F> actor = pickActor(event.position);
+                std::pair<Actor*, Vector<float, 3>> actor = pickActor(event.position);
                 pointerEnterActor(0, actor.first, event.position);
 
                 const auto i = pointerDownOnActors.find(0);
@@ -244,22 +244,22 @@ namespace ouzel::scene
             {
                 case Event::Type::touchBegin:
                 {
-                    std::pair<Actor*, Vector3F> actor = pickActor(event.position);
+                    std::pair<Actor*, Vector<float, 3>> actor = pickActor(event.position);
                     pointerDownOnActor(event.touchId, actor.first, event.position, actor.second);
                     break;
                 }
                 case Event::Type::touchEnd:
                 {
-                    std::pair<Actor*, Vector3F> actor = pickActor(event.position);
+                    std::pair<Actor*, Vector<float, 3>> actor = pickActor(event.position);
                     pointerUpOnActor(event.touchId, actor.first, event.position);
                     break;
                 }
                 case Event::Type::touchMove:
                 {
-                    std::pair<Actor*, Vector3F> previousActor = pickActor(event.position - event.difference);
+                    std::pair<Actor*, Vector<float, 3>> previousActor = pickActor(event.position - event.difference);
                     pointerLeaveActor(0, previousActor.first, event.position);
 
-                    std::pair<Actor*, Vector3F> actor = pickActor(event.position);
+                    std::pair<Actor*, Vector<float, 3>> actor = pickActor(event.position);
                     pointerEnterActor(0, actor.first, event.position);
 
                     const auto i = pointerDownOnActors.find(event.touchId);
@@ -270,7 +270,7 @@ namespace ouzel::scene
                 }
                 case Event::Type::touchCancel:
                 {
-                    std::pair<Actor*, Vector3F> actor = pickActor(event.position);
+                    std::pair<Actor*, Vector<float, 3>> actor = pickActor(event.position);
                     pointerUpOnActor(event.touchId, actor.first, event.position);
                     break;
                 }
@@ -282,7 +282,7 @@ namespace ouzel::scene
         return false;
     }
 
-    void Scene::pointerEnterActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position)
+    void Scene::pointerEnterActor(std::uint64_t pointerId, Actor* actor, const Vector<float, 2>& position)
     {
         if (actor)
         {
@@ -295,7 +295,7 @@ namespace ouzel::scene
         }
     }
 
-    void Scene::pointerLeaveActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position)
+    void Scene::pointerLeaveActor(std::uint64_t pointerId, Actor* actor, const Vector<float, 2>& position)
     {
         if (actor)
         {
@@ -308,7 +308,7 @@ namespace ouzel::scene
         }
     }
 
-    void Scene::pointerDownOnActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position, const Vector3F& localPosition)
+    void Scene::pointerDownOnActor(std::uint64_t pointerId, Actor* actor, const Vector<float, 2>& position, const Vector<float, 3>& localPosition)
     {
         if (actor)
         {
@@ -324,7 +324,7 @@ namespace ouzel::scene
         }
     }
 
-    void Scene::pointerUpOnActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position)
+    void Scene::pointerUpOnActor(std::uint64_t pointerId, Actor* actor, const Vector<float, 2>& position)
     {
         const auto i = pointerDownOnActors.find(pointerId);
 
@@ -359,8 +359,8 @@ namespace ouzel::scene
         pointerDownOnActors.erase(pointerId);
     }
 
-    void Scene::pointerDragActor(std::uint64_t pointerId, Actor* actor, const Vector2F& position,
-                                 const Vector2F& difference, const Vector3F& localPosition)
+    void Scene::pointerDragActor(std::uint64_t pointerId, Actor* actor, const Vector<float, 2>& position,
+                                 const Vector<float, 2>& difference, const Vector<float, 3>& localPosition)
     {
         if (actor)
         {

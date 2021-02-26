@@ -350,7 +350,7 @@ namespace ouzel::gui
                  const std::string& fontFile,
                  float fontSize,
                  Color color,
-                 const Vector2F& textAnchor):
+                 const Vector<float, 2>& textAnchor):
         text(initText),
         labelDrawable(std::make_shared<scene::TextRenderer>(fontFile, fontSize, text, color, textAnchor))
     {
@@ -530,7 +530,7 @@ namespace ouzel::gui
                         auto clickEvent = std::make_unique<UIEvent>();
                         clickEvent->type = Event::Type::actorClick;
                         clickEvent->actor = selectedWidget;
-                        clickEvent->position = Vector2F(selectedWidget->getPosition());
+                        clickEvent->position = Vector<float, 2>(selectedWidget->getPosition());
                         engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                     }
                     break;
@@ -577,7 +577,7 @@ namespace ouzel::gui
                     auto clickEvent = std::make_unique<UIEvent>();
                     clickEvent->type = Event::Type::actorClick;
                     clickEvent->actor = selectedWidget;
-                    clickEvent->position = Vector2F(selectedWidget->getPosition());
+                    clickEvent->position = Vector<float, 2>(selectedWidget->getPosition());
                     engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                 }
             }

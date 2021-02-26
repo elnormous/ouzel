@@ -21,9 +21,9 @@ namespace ouzel::input::linux
     public:
         explicit Cursor(SystemCursor systemCursor);
         Cursor(const std::vector<std::uint8_t>& data,
-                    const Size2F& size,
+                    const Size<float, 2>& size,
                     graphics::PixelFormat pixelFormat,
-                    const Vector2F& hotSpot);
+                    const Vector<float, 2>& hotSpot);
         ~Cursor();
 
         Cursor(const Cursor&) = delete;

@@ -13,9 +13,9 @@ namespace ouzel::input::macos
     {
     }
 
-    void MouseDevice::setPosition(const Vector2F& position)
+    void MouseDevice::setPosition(const Vector<float, 2>& position)
     {
-        ouzel::Vector2F windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
+        ouzel::Vector<float, 2> windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
         const CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 

@@ -16,7 +16,7 @@ namespace ouzel::graphics
         Image() = default;
 
         Image(PixelFormat initPixelFormat,
-              const Size2U& initSize,
+              const Size<std::uint32_t, 2>& initSize,
               const std::vector<std::uint8_t>& initData):
             pixelFormat(initPixelFormat), size(initSize), data(initData)
         {
@@ -28,7 +28,7 @@ namespace ouzel::graphics
 
     private:
         PixelFormat pixelFormat = PixelFormat::rgba8UnsignedNorm;
-        Size2U size;
+        Size<std::uint32_t, 2> size;
         std::vector<std::uint8_t> data;
     };
 }

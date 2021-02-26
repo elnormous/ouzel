@@ -225,7 +225,7 @@ namespace ouzel::audio::mixer
     }
 
     void Bus::generateSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                              const Vector3F& listenerPosition, const QuaternionF& listenerRotation,
+                              const Vector<float, 3>& listenerPosition, const Quaternion<float>& listenerRotation,
                               std::vector<float>& samples)
     {
         samples.resize(frames * channels);

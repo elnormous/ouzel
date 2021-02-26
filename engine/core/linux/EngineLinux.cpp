@@ -406,7 +406,7 @@ namespace ouzel::core::linux
                         auto inputSystemLinux = static_cast<ouzel::input::linux::InputSystem*>(inputManager->getInputSystem());
                         auto mouseDevice = inputSystemLinux->getMouseDevice();
 
-                        const Vector2F position{
+                        const Vector<float, 2> position{
                             static_cast<float>(event.xbutton.x),
                             static_cast<float>(event.xbutton.y)
                         };
@@ -434,7 +434,7 @@ namespace ouzel::core::linux
                         auto inputSystemLinux = static_cast<ouzel::input::linux::InputSystem*>(inputManager->getInputSystem());
                         auto mouseDevice = inputSystemLinux->getMouseDevice();
 
-                        const Vector2F position{
+                        const Vector<float, 2> position{
                             static_cast<float>(event.xmotion.x),
                             static_cast<float>(event.xmotion.y)
                         };
@@ -445,8 +445,12 @@ namespace ouzel::core::linux
                     }
                     case ConfigureNotify:
                     {
-                        windowLinux->handleResize(Size2U(static_cast<std::uint32_t>(event.xconfigure.width),
-                                                         static_cast<std::uint32_t>(event.xconfigure.height)));
+                        const Size<std::uint32_t, 2> size{
+                            static_cast<std::uint32_t>(event.xconfigure.width),
+                            static_cast<std::uint32_t>(event.xconfigure.height)
+                        };
+
+                        windowLinux->handleResize(size);
                         break;
                     }
                     case Expose:
@@ -467,25 +471,37 @@ namespace ouzel::core::linux
                                 case XI_TouchBegin:
                                 {
                                     const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    const Vector<float, 2> position{
+                                        static_cast<float>(xievent->event_x),
+                                        static_cast<float>(xievent->event_y)
+                                    };
+
                                     touchpadDevice->handleTouchBegin(xievent->detail,
-                                                                     window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
-                                                                                                                        static_cast<float>(xievent->event_y))));
+                                                                     window->convertWindowToNormalizedLocation(position));
                                     break;
                                 }
                                 case XI_TouchEnd:
                                 {
                                     const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    const Vector<float, 2> position{
+                                        static_cast<float>(xievent->event_x),
+                                        static_cast<float>(xievent->event_y)
+                                    };
+
                                     touchpadDevice->handleTouchEnd(xievent->detail,
-                                                                   window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
-                                                                                                                      static_cast<float>(xievent->event_y))));
+                                                                   window->convertWindowToNormalizedLocation(position));
                                     break;
                                 }
                                 case XI_TouchUpdate:
                                 {
                                     const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    const Vector<float, 2> position{
+                                        static_cast<float>(xievent->event_x),
+                                        static_cast<float>(xievent->event_y)
+                                    };
+
                                     touchpadDevice->handleTouchMove(xievent->detail,
-                                                                    window->convertWindowToNormalizedLocation(Vector2F(static_cast<float>(xievent->event_x),
-                                                                                                                       static_cast<float>(xievent->event_y))));
+                                                                    window->convertWindowToNormalizedLocation(position));
                                     break;
                                 }
                             }

@@ -19,7 +19,7 @@ namespace
 namespace ouzel::core::linux
 {
     NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
-                               const Size2U& newSize,
+                               const Size<std::uint32_t, 2>& newSize,
                                bool newResizable,
                                bool newFullscreen,
                                bool newExclusiveFullscreen,
@@ -249,7 +249,7 @@ namespace ouzel::core::linux
 #endif
     }
 
-    void NativeWindow::setSize(const Size2U& newSize)
+    void NativeWindow::setSize(const Size<std::uint32_t, 2>& newSize)
     {
         size = newSize;
 
@@ -405,7 +405,7 @@ namespace ouzel::core::linux
         sendEvent(focusChangeEvent);
     }
 
-    void NativeWindow::handleResize(const Size2U& newSize)
+    void NativeWindow::handleResize(const Size<std::uint32_t, 2>& newSize)
     {
         size = newSize;
         resolution = size;

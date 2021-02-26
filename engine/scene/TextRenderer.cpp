@@ -13,7 +13,7 @@ namespace ouzel::scene
                                float initFontSize,
                                const std::string& initText,
                                Color initColor,
-                               const Vector2F& initTextAnchor):
+                               const Vector<float, 2>& initTextAnchor):
         shader(engine->getCache().getShader(shaderTexture)),
         blendState(engine->getCache().getBlendState(blendAlpha)),
         indexBuffer(*engine->getGraphics(),
@@ -41,7 +41,7 @@ namespace ouzel::scene
         updateText();
     }
 
-    void TextRenderer::setTextAnchor(const Vector2F& newTextAnchor)
+    void TextRenderer::setTextAnchor(const Vector<float, 2>& newTextAnchor)
     {
         textAnchor = newTextAnchor;
 
@@ -55,9 +55,9 @@ namespace ouzel::scene
         updateText();
     }
 
-    void TextRenderer::draw(const Matrix4F& transformMatrix,
+    void TextRenderer::draw(const Matrix<float, 4>& transformMatrix,
                             float opacity,
-                            const Matrix4F& renderViewProjection,
+                            const Matrix<float, 4>& renderViewProjection,
                             bool wireframe)
     {
         Component::draw(transformMatrix,

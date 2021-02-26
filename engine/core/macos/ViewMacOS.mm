@@ -246,7 +246,7 @@ namespace
 
     auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
-    const ouzel::Vector2F position{
+    const ouzel::Vector<float, 2> position{
         static_cast<float>(location.x),
         static_cast<float>(location.y)
     };
@@ -261,7 +261,7 @@ namespace
 
     auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
-    const ouzel::Vector2F position{
+    const ouzel::Vector<float, 2> position{
         static_cast<float>(location.x),
         static_cast<float>(location.y)
     };
@@ -276,7 +276,7 @@ namespace
 
     auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
-    const ouzel::Vector2F position{
+    const ouzel::Vector<float, 2> position{
         static_cast<float>(location.x),
         static_cast<float>(location.y)
     };
@@ -291,7 +291,7 @@ namespace
 
     auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
-    const ouzel::Vector2F position{
+    const ouzel::Vector<float, 2> position{
         static_cast<float>(location.x),
         static_cast<float>(location.y)
     };
@@ -306,7 +306,7 @@ namespace
 
     auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
-    const ouzel::Vector2F position{
+    const ouzel::Vector<float, 2> position{
         static_cast<float>(location.x),
         static_cast<float>(location.y)
     };
@@ -321,7 +321,7 @@ namespace
 
     auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
-    const ouzel::Vector2F position{
+    const ouzel::Vector<float, 2> position{
         static_cast<float>(location.x),
         static_cast<float>(location.y)
     };
@@ -336,7 +336,7 @@ namespace
 
     auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
-    const ouzel::Vector2F position{
+    const ouzel::Vector<float, 2> position{
         static_cast<float>(location.x),
         static_cast<float>(location.y)
     };
@@ -350,7 +350,7 @@ namespace
 
     auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
-    const ouzel::Vector2F position{
+    const ouzel::Vector<float, 2> position{
         static_cast<float>(location.x),
         static_cast<float>(location.y)
     };
@@ -364,7 +364,7 @@ namespace
 
     auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
-    const ouzel::Vector2F position{
+    const ouzel::Vector<float, 2> position{
         static_cast<float>(location.x),
         static_cast<float>(location.y)
     };
@@ -378,7 +378,7 @@ namespace
 
     auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
-    const ouzel::Vector2F position{
+    const ouzel::Vector<float, 2> position{
         static_cast<float>(location.x),
         static_cast<float>(location.y)
     };
@@ -392,13 +392,12 @@ namespace
 
     auto inputSystemMacOS = static_cast<ouzel::input::macos::InputSystem*>(ouzel::engine->getInputManager()->getInputSystem());
     auto mouseDevice = inputSystemMacOS->getMouseDevice();
-    const ouzel::Vector2F position{
+    const ouzel::Vector<float, 2> position{
         static_cast<float>(location.x),
         static_cast<float>(location.y)
     };
 
-    mouseDevice->handleScroll(ouzel::Vector2F(static_cast<float>(event.scrollingDeltaX),
-                                              static_cast<float>(event.scrollingDeltaY)),
+    mouseDevice->handleScroll(ouzel::Vector<float, 2>{static_cast<float>(event.scrollingDeltaX), static_cast<float>(event.scrollingDeltaY)},
                               ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
 }
 
@@ -411,7 +410,7 @@ namespace
     for (NSTouch* touch in touches)
     {
         const CGPoint location = touch.normalizedPosition;
-        const ouzel::Vector2F position{
+        const ouzel::Vector<float, 2> position{
             static_cast<float>(location.x),
             static_cast<float>(location.y)
         };
@@ -429,7 +428,7 @@ namespace
     for (NSTouch* touch in touches)
     {
         const CGPoint location = touch.normalizedPosition;
-        const ouzel::Vector2F position{
+        const ouzel::Vector<float, 2> position{
             static_cast<float>(location.x),
             static_cast<float>(location.y)
         };
@@ -447,7 +446,7 @@ namespace
     for (NSTouch* touch in touches)
     {
         const CGPoint location = touch.normalizedPosition;
-        const ouzel::Vector2F position{
+        const ouzel::Vector<float, 2> position{
             static_cast<float>(location.x),
             static_cast<float>(location.y)
         };
@@ -465,7 +464,7 @@ namespace
     for (NSTouch* touch in touches)
     {
         const CGPoint location = touch.normalizedPosition;
-        const ouzel::Vector2F position{
+        const ouzel::Vector<float, 2> position{
             static_cast<float>(location.x),
             static_cast<float>(location.y)
         };

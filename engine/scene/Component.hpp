@@ -29,16 +29,16 @@ namespace ouzel::scene
         Component(Component&&) = delete;
         Component& operator=(Component&&) = delete;
 
-        virtual void draw(const Matrix4F& transformMatrix,
+        virtual void draw(const Matrix<float, 4>& transformMatrix,
                           float opacity,
-                          const Matrix4F& renderViewProjection,
+                          const Matrix<float, 4>& renderViewProjection,
                           bool wireframe);
 
-        virtual const Box3F& getBoundingBox() const noexcept { return boundingBox; }
-        virtual void setBoundingBox(const Box3F& newBoundingBox) { boundingBox = newBoundingBox; }
+        virtual const Box<float, 3>& getBoundingBox() const noexcept { return boundingBox; }
+        virtual void setBoundingBox(const Box<float, 3>& newBoundingBox) { boundingBox = newBoundingBox; }
 
-        virtual bool pointOn(const Vector2F& position) const;
-        virtual bool shapeOverlaps(const std::vector<Vector2F>& edges) const;
+        virtual bool pointOn(const Vector<float, 2>& position) const;
+        virtual bool shapeOverlaps(const std::vector<Vector<float, 2>>& edges) const;
 
         auto isHidden() const noexcept { return hidden; }
         void setHidden(bool newHidden) { hidden = newHidden; }
@@ -51,7 +51,7 @@ namespace ouzel::scene
         virtual void setLayer(Layer* newLayer);
         virtual void updateTransform();
 
-        Box3F boundingBox;
+        Box<float, 3> boundingBox;
         bool hidden = false;
 
         Layer* layer = nullptr;

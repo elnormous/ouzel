@@ -37,7 +37,7 @@ namespace ouzel::graphics::opengl::macos
                      const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;
 
-        std::vector<Size2U> getSupportedResolutions() const final;
+        std::vector<Size<std::uint32_t, 2>> getSupportedResolutions() const final;
 
         auto getOpenGLContext() const noexcept { return openGLContext; }
 

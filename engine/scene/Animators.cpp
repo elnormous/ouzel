@@ -309,7 +309,7 @@ namespace ouzel::scene
             targetActor->setOpacity(startOpacity + (diff * progress));
     }
 
-    Move::Move(float initLength, const Vector3F& initPosition, bool initRelative):
+    Move::Move(float initLength, const Vector<float, 3>& initPosition, bool initRelative):
         Animator(initLength), position(initPosition), relative(initRelative)
     {
     }
@@ -427,7 +427,7 @@ namespace ouzel::scene
         }
     }
 
-    Rotate::Rotate(float initLength, const Vector3F& initRotation, bool initRelative):
+    Rotate::Rotate(float initLength, const Vector<float, 3>& initRotation, bool initRelative):
         Animator(initLength), rotation(initRotation), relative(initRelative)
     {
     }
@@ -454,7 +454,7 @@ namespace ouzel::scene
             targetActor->setRotation(startRotation + diff * progress);
     }
 
-    Scale::Scale(float initLength, const Vector3F& initScale, bool initRelative):
+    Scale::Scale(float initLength, const Vector<float, 3>& initScale, bool initRelative):
         Animator(initLength), scale(initScale), relative(initRelative)
     {
     }
@@ -553,7 +553,7 @@ namespace ouzel::scene
         }
     }
 
-    Shake::Shake(float initLength, const Vector3F& initDistance, float initTimeScale):
+    Shake::Shake(float initLength, const Vector<float, 3>& initDistance, float initTimeScale):
         Animator(initLength), distance(initDistance), timeScale(initTimeScale)
     {
         seedX = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(core::randomEngine);
@@ -581,8 +581,8 @@ namespace ouzel::scene
             const auto x2 = x1 + 1;
             const auto t = x - static_cast<float>(x1);
 
-            Vector3F previousPosition;
-            Vector3F nextPosition;
+            Vector<float, 3> previousPosition;
+            Vector<float, 3> nextPosition;
 
             if (x1 != 0)
             {
@@ -598,7 +598,7 @@ namespace ouzel::scene
                 nextPosition.v[2] = (2.0F * (static_cast<float>(hash::fnv1::hash<std::uint32_t>(seedZ | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[2];
             }
 
-            const Vector3F noise{
+            const Vector<float, 3> noise{
                 smoothStep(previousPosition.v[0], nextPosition.v[0], t),
                 smoothStep(previousPosition.v[1], nextPosition.v[1], t),
                 smoothStep(previousPosition.v[2], nextPosition.v[2], t)

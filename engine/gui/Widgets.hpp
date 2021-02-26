@@ -123,7 +123,7 @@ namespace ouzel::gui
               const std::string& fontFile,
               float fontSize = 1.0F,
               Color color = Color::white(),
-              const Vector2F& textAnchor = Vector2F{0.5F, 0.5F});
+              const Vector<float, 2>& textAnchor = Vector<float, 2>{0.5F, 0.5F});
 
         auto& getText() const noexcept { return text; }
         virtual void setText(const std::string& newText);

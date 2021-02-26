@@ -24,9 +24,9 @@ namespace ouzel::input::macos
     public:
         explicit Cursor(SystemCursor systemCursor);
         Cursor(const std::vector<std::uint8_t>& newData,
-               const Size2F& size,
+               const Size<float, 2>& size,
                graphics::PixelFormat pixelFormat,
-               const Vector2F& hotSpot);
+               const Vector<float, 2>& hotSpot);
         ~Cursor();
 
         Cursor(const Cursor&) = delete;
