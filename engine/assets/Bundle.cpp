@@ -155,8 +155,10 @@ namespace ouzel::assets
 
             newSpriteData.texture = getTexture(filename);
 
-            const Size2F textureSize(static_cast<float>(newSpriteData.texture->getSize().v[0]),
-                                     static_cast<float>(newSpriteData.texture->getSize().v[1]));
+            const Size2F textureSize{
+                static_cast<float>(newSpriteData.texture->getSize().v[0]),
+                static_cast<float>(newSpriteData.texture->getSize().v[1])
+            };
 
             if (newSpriteData.texture)
             {

@@ -11,7 +11,7 @@ namespace
     constexpr std::uint16_t WAVE_FORMAT_PCM = 1;
     constexpr std::uint16_t WAVE_FORMAT_IEEE_FLOAT = 3;
 
-    constexpr std::int32_t convert24bitTo232bit(std::byte data[3])
+    constexpr std::int32_t convert24bitTo232bit(std::byte data[3]) noexcept
     {
         return (static_cast<std::uint8_t>(data[2]) & 0x80) ?
             static_cast<int32_t>(static_cast<std::uint8_t>(data[0]) |

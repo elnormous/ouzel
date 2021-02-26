@@ -40,8 +40,10 @@ namespace ouzel::assets
         if (!spriteData.texture)
             return false;
 
-        const Size2F textureSize(static_cast<float>(spriteData.texture->getSize().v[0]),
-                                       static_cast<float>(spriteData.texture->getSize().v[1]));
+        const Size2F textureSize{
+            static_cast<float>(spriteData.texture->getSize().v[0]),
+            static_cast<float>(spriteData.texture->getSize().v[1])
+        };
 
         const json::Value& framesArray = d["frames"];
 
@@ -92,10 +94,8 @@ namespace ouzel::assets
                 const json::Value& trianglesObject = frameObject["triangles"];
 
                 for (const json::Value& triangleObject : trianglesObject)
-                {
                     for (const json::Value& indexObject : triangleObject)
                         indices.push_back(static_cast<std::uint16_t>(indexObject.as<std::uint32_t>()));
-                }
 
                 // reverse the vertices, so that they are counterclockwise
                 std::reverse(indices.begin(), indices.end());
