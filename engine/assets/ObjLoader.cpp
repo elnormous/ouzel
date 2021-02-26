@@ -14,25 +14,25 @@ namespace ouzel::assets
 {
     namespace
     {
-        constexpr auto isWhitespace(std::byte c)
+        constexpr auto isWhitespace(std::byte c) noexcept
         {
             return static_cast<char>(c) == ' ' ||
                 static_cast<char>(c) == '\t';
         }
 
-        constexpr auto isNewline(std::byte c)
+        constexpr auto isNewline(std::byte c) noexcept
         {
             return static_cast<char>(c) == '\r' ||
                 static_cast<char>(c) == '\n';
         }
 
-        constexpr auto isControlChar(std::byte c)
+        constexpr auto isControlChar(std::byte c) noexcept
         {
             return static_cast<std::uint8_t>(c) <= 0x1F;
         }
 
         void skipWhitespaces(std::vector<std::byte>::const_iterator& iterator,
-                             std::vector<std::byte>::const_iterator end)
+                             std::vector<std::byte>::const_iterator end) noexcept
         {
             while (iterator != end)
                 if (isWhitespace(*iterator))
@@ -42,7 +42,7 @@ namespace ouzel::assets
         }
 
         void skipLine(std::vector<std::byte>::const_iterator& iterator,
-                      std::vector<std::byte>::const_iterator end)
+                      std::vector<std::byte>::const_iterator end) noexcept
         {
             while (iterator != end)
             {
