@@ -12,25 +12,25 @@ namespace ouzel::gui
 {
     namespace
     {
-        constexpr auto isWhitespace(std::byte c)
+        constexpr auto isWhitespace(std::byte c) noexcept
         {
             return static_cast<char>(c) == ' ' ||
                 static_cast<char>(c) == '\t';
         }
 
-        constexpr auto isNewline(std::byte c)
+        constexpr auto isNewline(std::byte c) noexcept
         {
             return static_cast<char>(c) == '\r' ||
                 static_cast<char>(c) == '\n';
         }
 
-        constexpr auto isControlChar(std::byte c)
+        constexpr auto isControlChar(std::byte c) noexcept
         {
             return static_cast<std::uint8_t>(c) <= 0x1F;
         }
 
         void skipWhitespaces(const std::vector<std::byte>& str,
-                             std::vector<std::byte>::const_iterator& iterator)
+                             std::vector<std::byte>::const_iterator& iterator) noexcept
         {
             while (iterator != str.end())
                 if (isWhitespace(*iterator))
@@ -40,7 +40,7 @@ namespace ouzel::gui
         }
 
         void skipLine(const std::vector<std::byte>& str,
-                      std::vector<std::byte>::const_iterator& iterator)
+                      std::vector<std::byte>::const_iterator& iterator) noexcept
         {
             while (iterator != str.end())
             {
