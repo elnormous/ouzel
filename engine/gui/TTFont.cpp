@@ -83,11 +83,6 @@ namespace ouzel::gui
 
         for (const char32_t c : glyphs)
         {
-            int w;
-            int h;
-            int xoff;
-            int yoff;
-
             if (const auto index = stbtt_FindGlyphIndex(font.get(), static_cast<int>(c)))
             {
                 int advance;
@@ -95,6 +90,10 @@ namespace ouzel::gui
                 stbtt_GetGlyphHMetrics(font.get(), index, &advance, &leftBearing);
 
                 CharDescriptor charDesc;
+                int w;
+                int h;
+                int xoff;
+                int yoff;
 
                 if (const auto bitmap = stbtt_GetGlyphBitmapSubpixel(font.get(), s, s, 0.0F, 0.0F, index, &w, &h, &xoff, &yoff))
                 {
@@ -123,7 +122,6 @@ namespace ouzel::gui
         std::vector<std::uint8_t> textureData(width * height * 4);
 
         for (std::uint16_t posX = 0; posX < width; ++posX)
-        {
             for (std::uint16_t posY = 0; posY < height; ++posY)
             {
                 textureData[(posY * width + posX) * 4 + 0] = 255;
@@ -131,7 +129,6 @@ namespace ouzel::gui
                 textureData[(posY * width + posX) * 4 + 2] = 255;
                 textureData[(posY * width + posX) * 4 + 3] = 0;
             }
-        }
 
         for (const auto& c : chars)
         {
