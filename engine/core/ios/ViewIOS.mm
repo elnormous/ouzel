@@ -46,7 +46,7 @@
         const ouzel::Vector<float, 2> position{
             static_cast<float>(location.x / self.bounds.size.width),
             static_cast<float>(location.y / self.bounds.size.height)
-        }
+        };
 
         touchpadDevice->handleTouchMove(ouzel::bitCast<std::uint64_t>(&touch),
                                         position,
