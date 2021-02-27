@@ -267,7 +267,7 @@ namespace ouzel::audio::coreaudio
             throw std::system_error(result, errorCategory, "Failed to set CoreAudio unit property");
 #endif
 
-        constexpr AudioUnitElement bus = 0;
+        constexpr AudioUnitElement bus = 0U;
 
         AudioStreamBasicDescription streamDescription;
         streamDescription.mSampleRate = sampleRate;
@@ -278,7 +278,7 @@ namespace ouzel::audio::coreaudio
         streamDescription.mBitsPerChannel = sizeof(float) * 8;
         streamDescription.mBytesPerFrame = streamDescription.mBitsPerChannel * streamDescription.mChannelsPerFrame / 8;
         streamDescription.mBytesPerPacket = streamDescription.mBytesPerFrame * streamDescription.mFramesPerPacket;
-        streamDescription.mReserved = 0;
+        streamDescription.mReserved = 0U;
 
         sampleFormat = SampleFormat::float32;
         sampleSize = sizeof(float);
@@ -345,7 +345,7 @@ namespace ouzel::audio::coreaudio
             callback.inputProc = nullptr;
             callback.inputProcRefCon = nullptr;
 
-            constexpr AudioUnitElement bus = 0;
+            constexpr AudioUnitElement bus = 0U;
 
             AudioUnitSetProperty(audioUnit,
                                  kAudioUnitProperty_SetRenderCallback,

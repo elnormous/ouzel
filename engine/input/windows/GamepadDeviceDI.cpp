@@ -13,7 +13,7 @@ namespace ouzel::input::windows
     namespace
     {
         constexpr float thumbDeadzone = 0.2F;
-        constexpr std::size_t inputQueueSize = 32;
+        constexpr std::size_t inputQueueSize = 32U;
 
         // converts the angle to the hat value
         constexpr std::uint32_t getHatValue(std::uint32_t value) noexcept

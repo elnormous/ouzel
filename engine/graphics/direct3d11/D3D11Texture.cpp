@@ -338,8 +338,8 @@ namespace ouzel::graphics::d3d11
                 mappedSubresource.DepthPitch = 0;
 
                 if (const auto hr = renderDevice.getContext()->Map(texture.get(), static_cast<UINT>(level),
-                                                                    (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
-                                                                    0, &mappedSubresource); FAILED(hr))
+                                                                   (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
+                                                                   0, &mappedSubresource); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to map Direct3D 11 texture");
 
                 auto destination = static_cast<std::uint8_t*>(mappedSubresource.pData);
@@ -347,8 +347,8 @@ namespace ouzel::graphics::d3d11
                 if (mappedSubresource.RowPitch == levels[level].first.v[0] * pixelSize)
                 {
                     std::copy(levels[level].second.begin(),
-                                levels[level].second.end(),
-                                destination);
+                              levels[level].second.end(),
+                              destination);
                 }
                 else
                 {
@@ -359,8 +359,8 @@ namespace ouzel::graphics::d3d11
                     for (UINT row = 0; row < rows; ++row)
                     {
                         std::copy(source,
-                                    source + rowSize,
-                                    destination);
+                                  source + rowSize,
+                                  destination);
 
                         source += levels[level].first.v[0] * pixelSize;
                         destination += mappedSubresource.RowPitch;
