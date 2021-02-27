@@ -83,7 +83,7 @@ namespace ouzel::scene
         virtual void setPosition(const Vector<float, 3>& newPosition);
 
         auto getOrder() const noexcept { return order; }
-        void setOrder(Order newOrder) { order = newOrder; }
+        void setOrder(Order newOrder) noexcept { order = newOrder; }
 
         virtual const Quaternion<float>& getRotation() const noexcept { return rotation; }
         virtual void setRotation(const Quaternion<float>& newRotation);
