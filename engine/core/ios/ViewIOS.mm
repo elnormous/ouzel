@@ -10,7 +10,7 @@
 
 @implementation View
 
-- (void)touchesBegan:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
+- (void)touchesBegan:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
     auto& inputSystemIOS = ouzel::engine->getInputManager()->getInputSystem();
     auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
@@ -32,7 +32,7 @@
     }
 }
 
-- (void)touchesMoved:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
+- (void)touchesMoved:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
     auto& inputSystemIOS = ouzel::engine->getInputManager()->getInputSystem();
     auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
@@ -54,7 +54,7 @@
     }
 }
 
-- (void)touchesEnded:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
+- (void)touchesEnded:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
     auto& inputSystemIOS = ouzel::engine->getInputManager()->getInputSystem();
     auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
@@ -76,7 +76,7 @@
     }
 }
 
-- (void)touchesCancelled:(NSSet*)touches withEvent:(__unused ::UIEvent*)event
+- (void)touchesCancelled:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
     auto& inputSystemIOS = ouzel::engine->getInputManager()->getInputSystem();
     auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
