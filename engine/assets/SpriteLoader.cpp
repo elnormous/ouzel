@@ -116,10 +116,10 @@ namespace ouzel::assets
                     const json::Value& vertexUVObject = verticesUVObject[vertexIndex];
 
                     vertices.emplace_back(Vector<float, 3>{static_cast<float>(vertexObject[0].as<std::int32_t>()) + finalOffset.v[0],
-                                                   -static_cast<float>(vertexObject[1].as<std::int32_t>()) - finalOffset.v[1], 0.0F},
+                                                           -static_cast<float>(vertexObject[1].as<std::int32_t>()) - finalOffset.v[1], 0.0F},
                                           Color::white(),
                                           Vector<float, 2>{static_cast<float>(vertexUVObject[0].as<std::int32_t>()) / textureSize.v[0],
-                                                   static_cast<float>(vertexUVObject[1].as<std::int32_t>()) / textureSize.v[1]},
+                                                           static_cast<float>(vertexUVObject[1].as<std::int32_t>()) / textureSize.v[1]},
                                           Vector<float, 3>{0.0F, 0.0F, -1.0F});
                 }
 

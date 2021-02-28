@@ -38,10 +38,10 @@ namespace ouzel::assets
     {
         try
         {
-            std::uint32_t channels = 0;
-            std::uint32_t sampleRate = 0;
+            std::uint32_t channels = 0U;
+            std::uint32_t sampleRate = 0U;
 
-            const std::size_t formatOffset = 0;
+            const std::size_t formatOffset = 0U;
 
             if (data.size() < 12) // RIFF + size + WAVE
                 throw std::runtime_error("Failed to load sound file, file too small");
@@ -71,8 +71,8 @@ namespace ouzel::assets
                 static_cast<char>(data[typeOffset + 3]) != 'E')
                 throw std::runtime_error("Failed to load sound file, not a WAVE file");
 
-            std::uint16_t bitsPerSample = 0;
-            std::uint16_t formatTag = 0;
+            std::uint16_t bitsPerSample = 0U;
+            std::uint16_t formatTag = 0U;
             std::vector<std::byte> soundData;
 
             for (std::size_t offset = typeOffset + 4; offset < data.size();)
