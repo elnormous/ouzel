@@ -26,7 +26,7 @@
             static_cast<float>(location.y / self.bounds.size.height)
         };
 
-        touchpadDevice->handleTouchBegin(ouzel::bitCast<std::uint64_t>(touch),
+        touchpadDevice->handleTouchBegin(ouzel::bitCast<std::uintptr_t>(touch),
                                          position,
                                          static_cast<float>(force));
     }
@@ -48,7 +48,7 @@
             static_cast<float>(location.y / self.bounds.size.height)
         };
 
-        touchpadDevice->handleTouchMove(ouzel::bitCast<std::uint64_t>(touch),
+        touchpadDevice->handleTouchMove(ouzel::bitCast<std::uintptr_t>(touch),
                                         position,
                                         static_cast<float>(force));
     }
@@ -70,7 +70,7 @@
             static_cast<float>(location.y / self.bounds.size.height)
         };
 
-        touchpadDevice->handleTouchEnd(ouzel::bitCast<std::uint64_t>(touch),
+        touchpadDevice->handleTouchEnd(ouzel::bitCast<std::uintptr_t>(touch),
                                        position,
                                        static_cast<float>(force));
     }
@@ -92,7 +92,7 @@
             static_cast<float>(location.y / self.bounds.size.height)
         };
 
-        touchpadDevice->handleTouchCancel(ouzel::bitCast<std::uint64_t>(touch),
+        touchpadDevice->handleTouchCancel(ouzel::bitCast<std::uintptr_t>(touch),
                                           position,
                                           static_cast<float>(force));
     }
