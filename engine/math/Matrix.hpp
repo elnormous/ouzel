@@ -478,31 +478,31 @@ namespace ouzel
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getDownVector() const noexcept
         {
-            return Vector<T, 3>(-m[4], -m[5], -m[6]);
+            return Vector<T, 3>{-m[4], -m[5], -m[6]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getLeftVector() const noexcept
         {
-            return Vector<T, 3>(-m[0], -m[1], -m[2]);
+            return Vector<T, 3>{-m[0], -m[1], -m[2]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getRightVector() const noexcept
         {
-            return Vector<T, 3>(m[0], m[1], m[2]);
+            return Vector<T, 3>{m[0], m[1], m[2]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getForwardVector() const noexcept
         {
-            return Vector<T, 3>(-m[8], -m[9], -m[10]);
+            return Vector<T, 3>{-m[8], -m[9], -m[10]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getBackVector() const noexcept
         {
-            return Vector<T, 3>(m[8], m[9], m[10]);
+            return Vector<T, 3>{m[8], m[9], m[10]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 1 && Y == 1)>* = nullptr>
@@ -716,8 +716,8 @@ namespace ouzel
         void transformVector(Vector<T, 3>& v) const noexcept
         {
             Vector<T, 4> t;
-            transformVector(Vector<T, 4>(v.v[0], v.v[1], v.v[2], T(0)), t);
-            v = Vector<T, 3>(t.v[0], t.v[1], t.v[2]);
+            transformVector(Vector<T, 4>{v.v[0], v.v[1], v.v[2], T(0)}, t);
+            v = Vector<T, 3>{t.v[0], t.v[1], t.v[2]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
@@ -731,8 +731,8 @@ namespace ouzel
                              Vector<T, 3>& dst) const noexcept
         {
             Vector<T, 4> t;
-            transformVector(Vector<T, 4>(x, y, z, w), t);
-            dst = Vector<T, 3>(t.v[0], t.v[1], t.v[2]);
+            transformVector(Vector<T, 4>{x, y, z, w}, t);
+            dst = Vector<T, 3>{t.v[0], t.v[1], t.v[2]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
@@ -776,15 +776,15 @@ namespace ouzel
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         constexpr Vector<T, 3> getTranslation() const noexcept
         {
-            return Vector<T, 3>(m[12], m[13], m[14]);
+            return Vector<T, 3>{m[12], m[13], m[14]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
         Vector<T, 2> getScale() const noexcept
         {
             Vector<T, 2> scale;
-            scale.v[0] = Vector<T, 2>(m[0], m[1]).length();
-            scale.v[1] = Vector<T, 2>(m[3], m[4]).length();
+            scale.v[0] = Vector<T, 2>{m[0], m[1]}.length();
+            scale.v[1] = Vector<T, 2>{m[3], m[4]}.length();
 
             return scale;
         }
@@ -793,9 +793,9 @@ namespace ouzel
         Vector<T, 3> getScale() const noexcept
         {
             Vector<T, 3> scale;
-            scale.v[0] = Vector<T, 3>(m[0], m[1], m[2]).length();
-            scale.v[1] = Vector<T, 3>(m[4], m[5], m[6]).length();
-            scale.v[2] = Vector<T, 3>(m[8], m[9], m[10]).length();
+            scale.v[0] = Vector<T, 3>{m[0], m[1], m[2]}.length();
+            scale.v[1] = Vector<T, 3>{m[4], m[5], m[6]}.length();
+            scale.v[2] = Vector<T, 3>{m[8], m[9], m[10]}.length();
 
             return scale;
         }
