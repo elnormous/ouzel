@@ -530,7 +530,7 @@ namespace ouzel::gui
                         auto clickEvent = std::make_unique<UIEvent>();
                         clickEvent->type = Event::Type::actorClick;
                         clickEvent->actor = selectedWidget;
-                        clickEvent->position = Vector<float, 2>(selectedWidget->getPosition());
+                        clickEvent->position = Vector<float, 2>{selectedWidget->getPosition()};
                         engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                     }
                     break;
@@ -577,7 +577,7 @@ namespace ouzel::gui
                     auto clickEvent = std::make_unique<UIEvent>();
                     clickEvent->type = Event::Type::actorClick;
                     clickEvent->actor = selectedWidget;
-                    clickEvent->position = Vector<float, 2>(selectedWidget->getPosition());
+                    clickEvent->position = Vector<float, 2>{selectedWidget->getPosition()};
                     engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                 }
             }

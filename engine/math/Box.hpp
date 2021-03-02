@@ -31,7 +31,7 @@ namespace ouzel
 
         template <std::size_t N2>
         explicit Box(const Box<T, N2>& box) noexcept:
-            min(Vector<T, N>(box.min)), max(Vector<T, N>(box.max))
+            min{Vector<T, N>{box.min}}, max{Vector<T, N>{box.max}}
         {
         }
 

@@ -162,8 +162,10 @@ namespace ouzel::assets
 
             if (newSpriteData.texture)
             {
-                const auto spriteSize = Size<float, 2>(textureSize.v[0] / spritesX,
-                                               textureSize.v[1] / spritesY);
+                const auto spriteSize = Size<float, 2>{
+                    textureSize.v[0] / spritesX,
+                    textureSize.v[1] / spritesY
+                };
 
                 scene::SpriteData::Animation animation;
                 animation.frames.reserve(spritesX * spritesY);

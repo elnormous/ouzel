@@ -472,7 +472,7 @@ namespace ouzel
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getUpVector() const noexcept
         {
-            return Vector<T, 3>(m[4], m[5], m[6]);
+            return Vector<T, 3>{m[4], m[5], m[6]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
