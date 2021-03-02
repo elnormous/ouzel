@@ -139,7 +139,7 @@ namespace ouzel::scene
             if (result.first) return result;
         }
 
-        return std::pair(nullptr, Vector<float, 3>());
+        return std::pair(nullptr, Vector<float, 3>{});
     }
 
     std::vector<std::pair<Actor*, Vector<float, 3>>> Scene::pickActors(const Vector<float, 2>& position, bool renderTargets) const

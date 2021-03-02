@@ -20,7 +20,7 @@ namespace ouzel::scene
 
     bool Component::pointOn(const Vector<float, 2>& position) const
     {
-        return boundingBox.containsPoint(Vector<float, 3>(position));
+        return boundingBox.containsPoint(Vector<float, 3>{position});
     }
 
     namespace
@@ -77,10 +77,10 @@ namespace ouzel::scene
     bool Component::shapeOverlaps(const std::vector<Vector<float, 2>>& edges) const
     {
         const std::array<Vector<float, 2>, 4> boundingBoxEdges = {
-            Vector<float, 2>(boundingBox.min),
-            Vector<float, 2>(boundingBox.max.v[0], boundingBox.min.v[1]),
-            Vector<float, 2>(boundingBox.max),
-            Vector<float, 2>(boundingBox.min.v[0], boundingBox.max.v[1])
+            Vector<float, 2>{boundingBox.min},
+            Vector<float, 2>{boundingBox.max.v[0], boundingBox.min.v[1]},
+            Vector<float, 2>{boundingBox.max},
+            Vector<float, 2>{boundingBox.min.v[0], boundingBox.max.v[1]}
         };
 
         if (findSeparatingAxis(boundingBoxEdges.begin(), boundingBoxEdges.end(),

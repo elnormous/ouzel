@@ -223,17 +223,15 @@ namespace ouzel::scene
 
                     for (std::uint32_t i = 0; i < particleCount; ++i)
                     {
-                        auto position = Vector<float, 3>(particles[i].position);
+                        auto position = Vector<float, 3>{particles[i].position};
                         inverseTransform.transformPoint(position);
                         boundingBox.insertPoint(position);
                     }
                 }
             }
             else if (particleSystemData.positionType == ParticleSystemData::PositionType::grouped)
-            {
                 for (std::uint32_t i = 0; i < particleCount; ++i)
-                    boundingBox.insertPoint(Vector<float, 3>(particles[i].position));
-            }
+            boundingBox.insertPoint(Vector<float, 3>{particles[i].position});
         }
     }
 
@@ -337,9 +335,9 @@ namespace ouzel::scene
                 const Vector<float, 2> position = (particleSystemData.positionType == ParticleSystemData::PositionType::free) ?
                     particles[i].position :
                     (particleSystemData.positionType == ParticleSystemData::PositionType::parent) ?
-                    Vector<float, 2>(actor->getPosition()) + particles[i].position :
+                    Vector<float, 2>{actor->getPosition()} + particles[i].position :
                     (particleSystemData.positionType == ParticleSystemData::PositionType::grouped) ?
-                    Vector<float, 2>() :
+                    Vector<float, 2>{} :
                     throw std::runtime_error("Invalid position type");
 
                 const float halfSize = particles[i].size / 2.0F;
@@ -362,16 +360,16 @@ namespace ouzel::scene
                     particles[i].colorAlpha
                 };
 
-                vertices[i * 4 + 0].position = Vector<float, 3>(a + position);
+                vertices[i * 4 + 0].position = Vector<float, 3>{a + position};
                 vertices[i * 4 + 0].color = color;
 
-                vertices[i * 4 + 1].position = Vector<float, 3>(b + position);
+                vertices[i * 4 + 1].position = Vector<float, 3>{b + position};
                 vertices[i * 4 + 1].color = color;
 
-                vertices[i * 4 + 2].position = Vector<float, 3>(d + position);
+                vertices[i * 4 + 2].position = Vector<float, 3>{d + position};
                 vertices[i * 4 + 2].color = color;
 
-                vertices[i * 4 + 3].position = Vector<float, 3>(c + position);
+                vertices[i * 4 + 3].position = Vector<float, 3>{c + position};
                 vertices[i * 4 + 3].color = color;
             }
 
@@ -387,11 +385,11 @@ namespace ouzel::scene
         if (count && actor)
         {
             const Vector<float, 2> position = (particleSystemData.positionType == ParticleSystemData::PositionType::free) ?
-                Vector<float, 2>(actor->convertLocalToWorld(Vector<float, 3>())) :
+                Vector<float, 2>{actor->convertLocalToWorld(Vector<float, 3>{})} :
                 (particleSystemData.positionType == ParticleSystemData::PositionType::parent) ?
-                Vector<float, 2>(actor->convertLocalToWorld(Vector<float, 3>()) - actor->getPosition()) :
+                Vector<float, 2>{actor->convertLocalToWorld(Vector<float, 3>{}) - actor->getPosition()} :
                 (particleSystemData.positionType == ParticleSystemData::PositionType::grouped) ?
-                Vector<float, 2>() :
+                Vector<float, 2>{} :
                 throw std::runtime_error("Invalid position type");
 
             for (std::uint32_t i = particleCount; i < particleCount + count; ++i)
@@ -400,8 +398,10 @@ namespace ouzel::scene
                 {
                     particles[i].life = std::max(particleSystemData.particleLifespan + particleSystemData.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(core::randomEngine), 0.0F);
 
-                    particles[i].position = particleSystemData.sourcePosition + position + Vector<float, 2>(particleSystemData.sourcePositionVariance.v[0] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(core::randomEngine),
-                                                                                                    particleSystemData.sourcePositionVariance.v[1] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(core::randomEngine));
+                    particles[i].position = particleSystemData.sourcePosition + position + Vector<float, 2>{
+                        particleSystemData.sourcePositionVariance.v[0] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(core::randomEngine),
+                        particleSystemData.sourcePositionVariance.v[1] * std::uniform_real_distribution<float>{-1.0F, 1.0F}(core::randomEngine)
+                    };
 
                     particles[i].size = std::max(particleSystemData.startParticleSize + particleSystemData.startParticleSizeVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(core::randomEngine), 0.0F);
 

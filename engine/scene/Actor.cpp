@@ -185,7 +185,7 @@ namespace ouzel::scene
 
                     if (actor->isPickable() && actor->pointOn(position))
                     {
-                        auto result = std::pair(actor, actor->convertWorldToLocal(Vector<float, 3>(position)));
+                        auto result = std::pair(actor, actor->convertWorldToLocal(Vector<float, 3>{position}));
 
                         const auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
                                                                  [](const auto& a, const auto& b) noexcept {
@@ -382,13 +382,11 @@ namespace ouzel::scene
 
     bool Actor::pointOn(const Vector<float, 2>& worldPosition) const
     {
-        const auto localPosition = Vector<float, 2>(convertWorldToLocal(Vector<float, 3>(worldPosition)));
+        const auto localPosition = Vector<float, 2>{convertWorldToLocal(Vector<float, 3>{worldPosition})};
 
         for (const auto component : components)
-        {
             if (component->pointOn(localPosition))
                 return true;
-        }
 
         return false;
     }
@@ -401,7 +399,7 @@ namespace ouzel::scene
 
         for (const auto& edge : edges)
         {
-            auto transformedEdge = Vector<float, 3>(edge);
+            auto transformedEdge = Vector<float, 3>{edge};
 
             inverse.transformPoint(transformedEdge);
 
@@ -409,10 +407,8 @@ namespace ouzel::scene
         }
 
         for (const auto component : components)
-        {
             if (component->shapeOverlaps(transformedEdges))
                 return true;
-        }
 
         return false;
     }
@@ -470,9 +466,11 @@ namespace ouzel::scene
 
         localTransform *= rotationMatrix;
 
-        const auto finalScale = Vector<float, 3>{scale.v[0] * (flipX ? -1.0F : 1.0F),
-                                         scale.v[1] * (flipY ? -1.0F : 1.0F),
-                                         scale.v[2]};
+        const auto finalScale = Vector<float, 3>{
+            scale.v[0] * (flipX ? -1.0F : 1.0F),
+            scale.v[1] * (flipY ? -1.0F : 1.0F),
+            scale.v[2]
+        };
 
         Matrix<float, 4> scaleMatrix;
         scaleMatrix.setScale(finalScale);

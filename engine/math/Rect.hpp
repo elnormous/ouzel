@@ -82,7 +82,7 @@ namespace ouzel
 
         constexpr auto topRight() const noexcept
         {
-            return Vector<T, 2>(position.v[0] + size.v[0], position.v[1] + size.v[1]);
+            return Vector<T, 2>{position.v[0] + size.v[0], position.v[1] + size.v[1]};
         }
 
         constexpr bool containsPoint(const T x, const T y) const noexcept

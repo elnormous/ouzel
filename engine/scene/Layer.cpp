@@ -83,13 +83,13 @@ namespace ouzel::scene
 
             if (renderTargets || !camera->getRenderTarget())
             {
-                const auto worldPosition = Vector<float, 2>(camera->convertNormalizedToWorld(position));
+                const auto worldPosition = Vector<float, 2>{camera->convertNormalizedToWorld(position)};
                 const auto actors = findActors(worldPosition);
                 if (!actors.empty()) return actors.front();
             }
         }
 
-        return std::pair(nullptr, Vector<float, 3>());
+        return std::pair(nullptr, Vector<float, 3>{});
     }
 
     std::vector<std::pair<Actor*, Vector<float, 3>>> Layer::pickActors(const Vector<float, 2>& position, bool renderTargets) const
@@ -102,7 +102,7 @@ namespace ouzel::scene
 
             if (renderTargets || !camera->getRenderTarget())
             {
-                const auto worldPosition = Vector<float, 2>(camera->convertNormalizedToWorld(position));
+                const auto worldPosition = Vector<float, 2>{camera->convertNormalizedToWorld(position)};
                 const auto actors = findActors(worldPosition);
                 result.insert(result.end(), actors.begin(), actors.end());
             }

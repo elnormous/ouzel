@@ -770,7 +770,7 @@ namespace ouzel
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
         constexpr Vector<T, 2> getTranslation() const noexcept
         {
-            return Vector<T, 2>(m[6], m[7]);
+            return Vector<T, 2>{m[6], m[7]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
