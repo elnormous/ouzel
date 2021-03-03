@@ -66,14 +66,22 @@ namespace ouzel::scene
         }
 
         const std::vector<graphics::Vertex> vertices{
-            graphics::Vertex(Vector<float, 3>{finalOffset.v[0], finalOffset.v[1], 0.0F}, Color::white(),
-                             textCoords[0], Vector<float, 3>{0.0F, 0.0F, -1.0F}),
-            graphics::Vertex(Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, Color::white(),
-                             textCoords[1], Vector<float, 3>{0.0F, 0.0F, -1.0F}),
-            graphics::Vertex(Vector<float, 3>{finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, Color::white(),
-                             textCoords[2], Vector<float, 3>{0.0F, 0.0F, -1.0F}),
-            graphics::Vertex(Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, Color::white(),
-                             textCoords[3], Vector<float, 3>{0.0F, 0.0F, -1.0F})
+            graphics::Vertex{
+                Vector<float, 3>{finalOffset.v[0], finalOffset.v[1], 0.0F}, Color::white(),
+                textCoords[0], Vector<float, 3>{0.0F, 0.0F, -1.0F}
+            },
+            graphics::Vertex{
+                Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, Color::white(),
+                textCoords[1], Vector<float, 3>{0.0F, 0.0F, -1.0F}
+            },
+            graphics::Vertex{
+                Vector<float, 3>{finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, Color::white(),
+                textCoords[2], Vector<float, 3>{0.0F, 0.0F, -1.0F}
+            },
+            graphics::Vertex{
+                Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, Color::white(),
+                textCoords[3], Vector<float, 3>{0.0F, 0.0F, -1.0F}
+            }
         };
 
         boundingBox.min = finalOffset;
