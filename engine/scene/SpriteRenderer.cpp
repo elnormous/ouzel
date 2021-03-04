@@ -222,8 +222,10 @@ namespace ouzel::scene
 
             SpriteData::Animation animation;
 
-            const Size<float, 2> size(static_cast<float>(texture->getSize().v[0]),
-                              static_cast<float>(texture->getSize().v[1]));
+            const Size<float, 2> size{
+                static_cast<float>(texture->getSize().v[0]),
+                static_cast<float>(texture->getSize().v[1])
+            };
 
             const Rect<float> rectangle(0.0F, 0.0F, size.v[0], size.v[1]);
             animation.frames.emplace_back("", size, rectangle, false, size, Vector<float, 2>(), Vector<float, 2>{0.5F, 0.5F});
@@ -249,11 +251,15 @@ namespace ouzel::scene
         material->textures[0] = newTexture;
         animations.clear();
 
-        const Size<float, 2> size(static_cast<float>(newTexture->getSize().v[0]),
-                          static_cast<float>(newTexture->getSize().v[1]));
+        const Size<float, 2> size{
+            static_cast<float>(newTexture->getSize().v[0]),
+            static_cast<float>(newTexture->getSize().v[1])
+        };
 
-        auto spriteSize = Size<float, 2>(size.v[0] / spritesX,
-                                 size.v[1] / spritesY);
+        const Size<float, 2> spriteSize{
+            size.v[0] / spritesX,
+            size.v[1] / spritesY
+        };
 
         SpriteData::Animation animation;
         animation.frames.reserve(spritesX * spritesY);

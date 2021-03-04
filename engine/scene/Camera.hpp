@@ -35,7 +35,7 @@ namespace ouzel::scene
         };
 
         explicit Camera(const Matrix<float, 4>& initProjection);
-        explicit Camera(const Size<float, 2>& initTargetContentSize = Size<float, 2>(), ScaleMode initScaleMode = ScaleMode::noScale);
+        explicit Camera(const Size<float, 2>& initTargetContentSize = Size<float, 2>{}, ScaleMode initScaleMode = ScaleMode::noScale);
         explicit Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
         ~Camera() override;
 

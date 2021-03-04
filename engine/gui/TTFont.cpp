@@ -150,7 +150,7 @@ namespace ouzel::gui
 
         auto texture = std::make_shared<graphics::Texture>(*engine->getGraphics(),
                                                            textureData,
-                                                           Size<std::uint32_t, 2>(width, height),
+                                                           Size<std::uint32_t, 2>{width, height},
                                                            graphics::Flags::none,
                                                            mipmaps ? 0 : 1);
 

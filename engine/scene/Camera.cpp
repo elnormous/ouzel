@@ -67,7 +67,7 @@ namespace ouzel::scene
                 renderTarget->getColorTextures()[0]->getSize() :
                 renderTarget->getDepthTexture() ?
                     renderTarget->getDepthTexture()->getSize() :
-                    Size<std::uint32_t, 2>() :
+                    Size<std::uint32_t, 2>{} :
             engine->getGraphics()->getSize();
 
         renderViewport.position.v[0] = renderTargetSize.v[0] * viewport.position.v[0];
@@ -108,7 +108,10 @@ namespace ouzel::scene
                     return;
             }
 
-            contentSize = Size<float, 2>(renderViewport.size.v[0] / contentScale.v[0], renderViewport.size.v[1] / contentScale.v[1]);
+            contentSize = Size<float, 2>{
+                renderViewport.size.v[0] / contentScale.v[0],
+                renderViewport.size.v[1] / contentScale.v[1]
+            };
             contentPosition = Vector<float, 2>{
                 (contentSize.v[0] - targetContentSize.v[0]) / 2.0F,
                 (contentSize.v[1] - targetContentSize.v[1]) / 2.0F
@@ -117,7 +120,7 @@ namespace ouzel::scene
         else
         {
             contentScale = Vector<float, 2>{1.0F, 1.0F};
-            contentSize = Size<float, 2>(renderViewport.size.v[0], renderViewport.size.v[1]);
+            contentSize = Size<float, 2>{renderViewport.size.v[0], renderViewport.size.v[1]};
             contentPosition = Vector<float, 2>{0.0F, 0.0F};
         }
 
@@ -231,7 +234,7 @@ namespace ouzel::scene
             };
 
             // calculate half size
-            const Size<float, 2> halfSize(diff.v[0] / 2.0F, diff.v[1] / 2.0F);
+            const Size<float, 2> halfSize{diff.v[0] / 2.0F, diff.v[1] / 2.0F};
 
             // convert content size to world coordinates
             Size<float, 2> halfWorldSize{

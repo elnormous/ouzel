@@ -149,7 +149,7 @@ namespace ouzel::input
         }
 
         init(imageData,
-             Size<float, 2>(static_cast<float>(width), static_cast<float>(height)),
+             Size<float, 2>{static_cast<float>(width), static_cast<float>(height)},
              pixelFormat,
              hotSpot);
     }

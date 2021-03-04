@@ -539,8 +539,8 @@ namespace ouzel::graphics
         }
 
         std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> calculateSizes(const Size<std::uint32_t, 2>& size,
-                                                                                 std::uint32_t mipmaps,
-                                                                                 PixelFormat pixelFormat)
+                                                                                                 std::uint32_t mipmaps,
+                                                                                                 PixelFormat pixelFormat)
         {
             std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
 
@@ -560,7 +560,7 @@ namespace ouzel::graphics
                 if (newWidth < 1) newWidth = 1;
                 if (newHeight < 1) newHeight = 1;
 
-                auto mipMapSize = Size<std::uint32_t, 2>(newWidth, newHeight);
+                const Size<std::uint32_t, 2> mipMapSize{newWidth, newHeight};
                 bufferSize = newWidth * newHeight * pixelSize;
 
                 levels.emplace_back(mipMapSize, std::vector<std::uint8_t>(bufferSize));
@@ -570,9 +570,9 @@ namespace ouzel::graphics
         }
 
         std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> calculateSizes(const Size<std::uint32_t, 2>& size,
-                                                                                 const std::vector<std::uint8_t>& data,
-                                                                                 std::uint32_t mipmaps,
-                                                                                 PixelFormat pixelFormat)
+                                                                                                 const std::vector<std::uint8_t>& data,
+                                                                                                 std::uint32_t mipmaps,
+                                                                                                 PixelFormat pixelFormat)
         {
             std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
 
@@ -599,7 +599,7 @@ namespace ouzel::graphics
                 if (newWidth < 1) newWidth = 1;
                 if (newHeight < 1) newHeight = 1;
 
-                auto mipMapSize = Size<std::uint32_t, 2>(newWidth, newHeight);
+                const Size<std::uint32_t, 2> mipMapSize{newWidth, newHeight};
 
                 switch (pixelFormat)
                 {

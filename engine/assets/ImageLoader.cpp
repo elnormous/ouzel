@@ -147,8 +147,8 @@ namespace ouzel::assets
         }
 
         graphics::Image image(pixelFormat,
-                              Size<std::uint32_t, 2>(static_cast<std::uint32_t>(width),
-                                                     static_cast<std::uint32_t>(height)),
+                              Size<std::uint32_t, 2>{static_cast<std::uint32_t>(width),
+                                                     static_cast<std::uint32_t>(height)},
                               imageData);
 
         auto texture = std::make_shared<graphics::Texture>(*engine->getGraphics(),

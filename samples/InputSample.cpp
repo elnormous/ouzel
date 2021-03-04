@@ -37,7 +37,7 @@ namespace samples
                         flamePosition.x() += 0.01F;
                         break;
                     case Keyboard::Key::r:
-                        engine->getWindow()->setSize(ouzel::Size<std::uint32_t, 2>(640, 480));
+                        engine->getWindow()->setSize(ouzel::Size<std::uint32_t, 2>{640U, 480U});
                         break;
                     case Keyboard::Key::tab:
                         hideButton.setEnabled(!hideButton.isEnabled());
@@ -166,7 +166,7 @@ namespace samples
         camera.setClearColorBuffer(true);
         camera.setClearColor(ouzel::Color(64, 0, 0));
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        camera.setTargetContentSize(ouzel::Size<float, 2>(800.0F, 600.0F));
+        camera.setTargetContentSize(ouzel::Size<float, 2>{800.0F, 600.0F});
         cameraActor.addComponent(camera);
 
         mover = std::make_unique<Mover>();
@@ -182,20 +182,20 @@ namespace samples
         layer.addChild(flame);
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        guiCamera.setTargetContentSize(ouzel::Size<float, 2>(800.0F, 600.0F));
+        guiCamera.setTargetContentSize(ouzel::Size<float, 2>{800.0F, 600.0F});
         guiCameraActor.addComponent(guiCamera);
         guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);
 
         guiLayer.addChild(menu);
 
-        hideButton.setPosition(Vector<float, 2>(-200.0F, 200.0F));
+        hideButton.setPosition(Vector<float, 2>{-200.0F, 200.0F});
         menu.addWidget(hideButton);
 
-        discoverButton.setPosition(Vector<float, 2>(-200.0F, 140.0F));
+        discoverButton.setPosition(Vector<float, 2>{-200.0F, 140.0F});
         menu.addWidget(discoverButton);
 
-        backButton.setPosition(Vector<float, 2>(-200.0F, -200.0F));
+        backButton.setPosition(Vector<float, 2>{-200.0F, -200.0F});
         menu.addWidget(backButton);
 
         if (Mouse* mouse = engine->getInputManager()->getMouse())
