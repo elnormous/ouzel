@@ -158,7 +158,7 @@ namespace ouzel::core::macos
                 if (noSleepAssertionId)
                 {
                     if (const auto error = IOPMAssertionRelease(noSleepAssertionId); error != kIOReturnSuccess)
-                        throw std::system_error(error, input::macos::getErrorCategory() , "Failed to enable screen saver");
+                        throw std::system_error(error, input::macos::getErrorCategory(), "Failed to enable screen saver");
 
                     noSleepAssertionId = 0;
                 }
@@ -181,9 +181,8 @@ namespace ouzel::core::macos
     {
         core::Engine::engineMain();
 
-        executeOnMainThread([]() {
-            NSApplication* app = [NSApplication sharedApplication];
-            if ([app isRunning]) [app terminate:nil];
+        executeOnMainThread([this]() {
+            if ([application isRunning]) [application terminate:nil];
         });
     }
 
