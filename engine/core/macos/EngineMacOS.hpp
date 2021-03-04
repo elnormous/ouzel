@@ -9,6 +9,7 @@ typedef NSApplication* NSApplicationPtr;
 #  include <objc/NSObjCRuntime.h>
 typedef id NSApplicationPtr;
 #endif
+#include <IOKit/pwr_mgt/IOPMLib.h>
 
 #include "../Engine.hpp"
 
@@ -37,7 +38,7 @@ namespace ouzel::core::macos
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
 
-        std::uint32_t noSleepAssertionID = 0;
+        IOPMAssertionID noSleepAssertionId = 0;
         id executeHanlder = nil;
     };
 }
