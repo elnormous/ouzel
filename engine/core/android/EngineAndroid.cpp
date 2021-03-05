@@ -20,8 +20,9 @@ namespace ouzel::core::android
             if (events & ALOOPER_EVENT_INPUT)
             {
                 char command;
-                if (read(fd, &command, sizeof(command)) == -1)
-                    throw std::system_error(errno, std::system_category(), "Failed to read from pipe");
+                while (read(fd, &command, sizeof(command)) == -1)
+                    if (errno != EINTR)
+                        throw std::system_error(errno, std::system_category(), "Failed to read from pipe");
 
                 auto engineAndroid = static_cast<Engine*>(data);
 
@@ -146,8 +147,7 @@ namespace ouzel::core::android
             throw std::runtime_error("Main thread has no looper");
 
         ALooper_acquire(looper);
-        int ret;
-        while ((ret = pipe(looperPipe.data())) == -1)
+        while (pipe(looperPipe.data()) == -1)
             if (errno != EINTR)
                 throw std::system_error(errno, std::system_category(), "Failed to create pipe");
 
@@ -193,7 +193,7 @@ namespace ouzel::core::android
 
         auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
-        jint newOrientation = jniEnv->GetIntField(newConfig, orientationField);
+        const jint newOrientation = jniEnv->GetIntField(newConfig, orientationField);
 
         if (orientation != newOrientation)
         {
@@ -266,8 +266,9 @@ namespace ouzel::core::android
         lock.unlock();
 
         const std::uint8_t command = 1;
-        if (write(looperPipe[1], &command, sizeof(command)) == -1)
-            throw std::system_error(errno, std::system_category(), "Failed to write to pipe");
+        while (write(looperPipe[1], &command, sizeof(command)) == -1)
+            if (errno != EINTR)
+                throw std::system_error(errno, std::system_category(), "Failed to write to pipe");
     }
 
     void Engine::openUrl(const std::string& url)

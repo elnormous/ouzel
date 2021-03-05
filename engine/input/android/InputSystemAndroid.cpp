@@ -59,13 +59,9 @@ namespace ouzel::input::android
         case Command::Type::stopDeviceDiscovery:
             break;
         case Command::Type::setPlayerIndex:
-        {
             break;
-        }
         case Command::Type::setVibration:
-        {
             break;
-        }
         case Command::Type::showVirtualKeyboard:
             break;
         case Command::Type::hideVirtualKeyboard:
