@@ -135,7 +135,7 @@ namespace samples
         engine->getEventDispatcher().addEventHandler(handler);
 
         camera.setClearColorBuffer(true);
-        camera.setClearColor(ouzel::Color(0, 0, 128));
+        camera.setClearColor(ouzel::Color{0, 0, 128});
         camera.setClearDepthBuffer(true);
         camera.setDepthTest(true);
 
@@ -164,7 +164,7 @@ namespace samples
 
         character.addComponent(characterSprite);
         layer.addChild(character);
-        character.setPosition(Vector<float, 2>(10.0F, 0.0F));
+        character.setPosition(Vector<float, 2>{10.0F, 0.0F});
 
         submix.setOutput(&engine->getAudio()->getMasterMix());
 

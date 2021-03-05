@@ -73,7 +73,7 @@ namespace samples
         engine->getEventDispatcher().addEventHandler(handler);
 
         camera.setClearColorBuffer(true);
-        camera.setClearColor(ouzel::Color(64, 64, 64));
+        camera.setClearColor(ouzel::Color{64, 64, 64});
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
         camera.setTargetContentSize(ouzel::Size<float, 2>{800.0F, 600.0F});
         cameraActor.addComponent(camera);

@@ -15,7 +15,7 @@ namespace samples
         backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
         cursor(*engine->getInputManager())
     {
-        cursor.init("cursor.png", Vector<float, 2>(0.0F, 63.0F));
+        cursor.init("cursor.png", Vector<float, 2>{0.0F, 63.0F});
 
         handler.keyboardHandler = [this](const KeyboardEvent& event) {
             if (event.type == Event::Type::keyboardKeyPress)
@@ -164,7 +164,7 @@ namespace samples
         engine->getEventDispatcher().addEventHandler(handler);
 
         camera.setClearColorBuffer(true);
-        camera.setClearColor(ouzel::Color(64, 0, 0));
+        camera.setClearColor(ouzel::Color{64, 0, 0});
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
         camera.setTargetContentSize(ouzel::Size<float, 2>{800.0F, 600.0F});
         cameraActor.addComponent(camera);

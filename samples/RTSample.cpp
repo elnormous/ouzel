@@ -79,7 +79,7 @@ namespace samples
 
         rtCamera.setRenderTarget(&renderTarget);
         rtCamera.setClearColorBuffer(true);
-        rtCamera.setClearColor(Color(0, 64, 0));
+        rtCamera.setClearColor(Color{0, 64, 0});
         rtCameraActor.addComponent(rtCamera);
         rtLayer.addChild(rtCameraActor);
 

@@ -63,7 +63,7 @@ namespace samples
         engine->getEventDispatcher().addEventHandler(handler);
 
         camera.setClearColorBuffer(true);
-        camera.setClearColor(ouzel::Color(64, 0, 0));
+        camera.setClearColor(ouzel::Color{64, 0, 0});
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
         camera.setTargetContentSize(ouzel::Size<float, 2>{800.0F, 600.0F});
         cameraActor.addComponent(camera);
@@ -72,7 +72,7 @@ namespace samples
 
         shapeDrawable.rectangle(ouzel::Rect<float>{100.0F, 100.0F}, Color{0, 128, 128, 255}, true);
         shapeDrawable.rectangle(ouzel::Rect<float>{100.0F, 100.0F}, Color::white(), false, 2.0F);
-        shapeDrawable.line(Vector<float, 2>(0.0F, 0.0F), Vector<float, 2>(50.0F, 50.0F), Color::cyan(), 2.0F);
+        shapeDrawable.line(Vector<float, 2>{0.0F, 0.0F}, Vector<float, 2>{50.0F, 50.0F}, Color::cyan(), 2.0F);
 
         shapeDrawable.curve({Vector<float, 2>{50.0F, 50.0F},
                              Vector<float, 2>{100.0F, 50.0F},
