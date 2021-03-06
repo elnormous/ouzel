@@ -528,7 +528,7 @@ namespace ouzel::scene
 
             const auto& frame = currentAnimation->animation->frames[currentFrame];
 
-            boundingBox = Box<float, 3>(frame.getBoundingBox());
+            boundingBox = Box<float, 3>{frame.getBoundingBox()};
             boundingBox.min.v[0] += offset.v[0];
             boundingBox.min.v[1] += offset.v[1];
 
