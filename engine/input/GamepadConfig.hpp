@@ -3,14 +3,15 @@
 #ifndef OUZEL_INPUT_GAMEPADCONFIG_HPP
 #define OUZEL_INPUT_GAMEPADCONFIG_HPP
 
+#include <array>
 #include "Gamepad.hpp"
 
 namespace ouzel::input
 {
     struct GamepadConfig final
     {
-        Gamepad::Button buttonMap[24];
-        Gamepad::Axis axisMap[6]; // X, Y, Z, RX, RY, RZ
+        const std::array<Gamepad::Button, 24> buttonMap;
+        const std::array<Gamepad::Axis, 6> axisMap; // X, Y, Z, RX, RY, RZ
     };
 
     // Playstation 3 controller
