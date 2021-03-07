@@ -860,7 +860,6 @@ namespace ouzel::graphics::metal
             pipelineStateDescriptor.get().stencilAttachmentPixelFormat = desc.stencilFormat;
 
             if (desc.blendState)
-            {
                 for (std::size_t i = 0; i < desc.colorFormats.size(); ++i)
                 {
                     // blending
@@ -876,7 +875,6 @@ namespace ouzel::graphics::metal
 
                     pipelineStateDescriptor.get().colorAttachments[i].writeMask = desc.blendState->getColorWriteMask();
                 }
-            }
 
             NSError* error;
             Pointer<id<MTLRenderPipelineState>> pipelineState = [device.get()

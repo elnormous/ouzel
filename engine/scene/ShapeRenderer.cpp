@@ -186,7 +186,7 @@ namespace ouzel::scene
                 for (std::uint32_t i = 0; i <= segments; ++i)
                 {
                     vertices.emplace_back(Vector<float, 3>{position.v[0] + radius * std::cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + radius * std::sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
-                                          color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                          color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
                 }
 
                 command.indexCount = segments + 1;
@@ -208,10 +208,10 @@ namespace ouzel::scene
                 for (std::uint32_t i = 0; i <= segments; ++i)
                 {
                     vertices.emplace_back(Vector<float, 3>{position.v[0] + (radius - halfThickness) * std::cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + (radius - halfThickness) * std::sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
-                                          color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                          color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
                     vertices.emplace_back(Vector<float, 3>{position.v[0] + (radius + halfThickness) * std::cos(i * tau<float> / static_cast<float>(segments)), position.v[1] + (radius + halfThickness) * std::sin(i * tau<float> / static_cast<float>(segments)), 0.0F},
-                                          color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                          color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
                 }
 
                 for (const graphics::Vertex& vertex : vertices)
@@ -267,13 +267,13 @@ namespace ouzel::scene
             command.mode = graphics::DrawMode::triangleList;
 
             vertices.emplace_back(Vector<float, 3>{rectangle.left(), rectangle.bottom(), 0.0F},
-                                  color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                  color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
             vertices.emplace_back(Vector<float, 3>{rectangle.right(), rectangle.bottom(), 0.0F},
-                                  color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                  color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
             vertices.emplace_back(Vector<float, 3>{rectangle.right(), rectangle.top(), 0.0F},
-                                  color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                  color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
             vertices.emplace_back(Vector<float, 3>{rectangle.left(), rectangle.top(), 0.0F},
-                                  color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                  color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
             command.indexCount = 6;
 
@@ -295,19 +295,19 @@ namespace ouzel::scene
 
                 // left bottom
                 vertices.emplace_back(Vector<float, 3>(rectangle.left(), rectangle.bottom(), 0.0F),
-                                      color, Vector<float, 2>(), Vector<float, 3>(0.0F, 0.0F, -1.0F));
+                                      color, Vector<float, 2>{}, Vector<float, 3>(0.0F, 0.0F, -1.0F));
 
                 // right bottom
                 vertices.emplace_back(Vector<float, 3>(rectangle.right(), rectangle.bottom(), 0.0F),
-                                      color, Vector<float, 2>(), Vector<float, 3>(0.0F, 0.0F, -1.0F));
+                                      color, Vector<float, 2>{}, Vector<float, 3>(0.0F, 0.0F, -1.0F));
 
                 // right top
                 vertices.emplace_back(Vector<float, 3>(rectangle.right(), rectangle.top(), 0.0F),
-                                      color, Vector<float, 2>(), Vector<float, 3>(0.0F, 0.0F, -1.0F));
+                                      color, Vector<float, 2>{}, Vector<float, 3>(0.0F, 0.0F, -1.0F));
 
                 // left top
                 vertices.emplace_back(Vector<float, 3>(rectangle.left(), rectangle.top(), 0.0F),
-                                      color, Vector<float, 2>(), Vector<float, 3>(0.0F, 0.0F, -1.0F));
+                                      color, Vector<float, 2>{}, Vector<float, 3>(0.0F, 0.0F, -1.0F));
 
                 command.indexCount = 5;
 
@@ -328,27 +328,27 @@ namespace ouzel::scene
 
                 // left bottom
                 vertices.emplace_back(Vector<float, 3>{rectangle.left() - halfThickness, rectangle.bottom() - halfThickness, 0.0F},
-                                      color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                      color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
                 vertices.emplace_back(Vector<float, 3>{rectangle.left() + halfThickness, rectangle.bottom() + halfThickness, 0.0F},
-                                      color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                      color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
                 // right bottom
                 vertices.emplace_back(Vector<float, 3>{rectangle.right() + halfThickness, rectangle.bottom() - halfThickness, 0.0F},
-                                      color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                      color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
                 vertices.emplace_back(Vector<float, 3>{rectangle.right() - halfThickness, rectangle.bottom() + halfThickness, 0.0F},
-                                      color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                      color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
                 // right top
                 vertices.emplace_back(Vector<float, 3>{rectangle.right() + halfThickness, rectangle.top() + halfThickness, 0.0F},
-                                      color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                      color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
                 vertices.emplace_back(Vector<float, 3>{rectangle.right() - halfThickness, rectangle.top() - halfThickness, 0.0F},
-                                      color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                      color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
                 // left top
                 vertices.emplace_back(Vector<float, 3>{rectangle.left() - halfThickness, rectangle.top() + halfThickness, 0.0F},
-                                      color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                      color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
                 vertices.emplace_back(Vector<float, 3>{rectangle.left() + halfThickness, rectangle.top() - halfThickness, 0.0F},
-                                      color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                                      color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
                 command.indexCount = 24;
                 // bottom
@@ -415,7 +415,7 @@ namespace ouzel::scene
             command.mode = graphics::DrawMode::triangleList;
 
             for (std::uint16_t i = 0; i < edges.size(); ++i)
-                vertices.emplace_back(Vector<float, 3>(edges[i]), color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(Vector<float, 3>(edges[i]), color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
             command.indexCount = static_cast<std::uint32_t>(edges.size() - 2) * 3;
 
@@ -436,7 +436,7 @@ namespace ouzel::scene
                 command.mode = graphics::DrawMode::lineStrip;
 
                 for (std::uint16_t i = 0; i < edges.size(); ++i)
-                    vertices.emplace_back(Vector<float, 3>(edges[i]), color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                    vertices.emplace_back(Vector<float, 3>(edges[i]), color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
                 command.indexCount = static_cast<std::uint32_t>(edges.size()) + 1;
 
@@ -496,7 +496,7 @@ namespace ouzel::scene
                 {
                     indices.push_back(startVertex + static_cast<std::uint16_t>(command.indexCount));
                     ++command.indexCount;
-                    vertices.emplace_back(Vector<float, 3>(controlPoints[i]), color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                    vertices.emplace_back(Vector<float, 3>(controlPoints[i]), color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
                     boundingBox.insertPoint(Vector<float, 3>(controlPoints[i]));
                 }
             }
@@ -515,7 +515,7 @@ namespace ouzel::scene
                             std::pow(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) *
                             controlPoints[n];
 
-                    graphics::Vertex vertex(Vector<float, 3>(position), color, Vector<float, 2>(), Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                    graphics::Vertex vertex(Vector<float, 3>(position), color, Vector<float, 2>{}, Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
                     indices.push_back(startVertex + static_cast<std::uint16_t>(command.indexCount));
                     ++command.indexCount;
