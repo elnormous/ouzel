@@ -346,7 +346,7 @@ namespace ouzel::core
 
                 assetBundle.setShader(shaderTexture, std::move(textureShader));
 
-                auto colorShader = std::make_unique<graphics::Shader>(*graphics);
+                std::unique_ptr<graphics::Shader> colorShader;
 
                 switch (graphics->getDevice()->getAPIMajorVersion())
                 {
