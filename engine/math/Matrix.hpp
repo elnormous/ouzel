@@ -545,18 +545,19 @@ namespace ouzel
             // Close to zero, can't invert
             if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
 
-            Matrix inverse;
-            inverse.m[0] = m[4] * m[8] - m[5] * m[7];
-            inverse.m[1] = -(m[3] * m[8] - m[5] * m[6]);
-            inverse.m[2] = m[3] * m[7] - m[4] * m[6];
-            inverse.m[3] = -(m[1] * m[8] - m[2] * m[7]);
-            inverse.m[4] = m[0] * m[8] - m[2] * m[6];
-            inverse.m[5] = -(m[0] * m[7] - m[1] * m[6]);
-            inverse.m[6] = m[1] * m[5] - m[2] * m[4];
-            inverse.m[7] = -(m[0] * m[5] - m[2] * m[3]);
-            inverse.m[8] = m[0] * m[4] - m[1] * m[3];
+            const Matrix adjugate{
+                m[4] * m[8] - m[5] * m[7],
+                -(m[3] * m[8] - m[5] * m[6]),
+                m[3] * m[7] - m[4] * m[6],
+                -(m[1] * m[8] - m[2] * m[7]),
+                m[0] * m[8] - m[2] * m[6],
+                -(m[0] * m[7] - m[1] * m[6]),
+                m[1] * m[5] - m[2] * m[4],
+                -(m[0] * m[5] - m[2] * m[3]),
+                m[0] * m[4] - m[1] * m[3]
+            };
 
-            inverse.multiply(T(1) / determinant, *this);
+            adjugate.multiply(T(1) / determinant, *this);
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
@@ -580,26 +581,27 @@ namespace ouzel
             // Close to zero, can't invert
             if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
 
-            Matrix adjugate;
-            adjugate.m[0] = m[5] * b5 - m[6] * b4 + m[7] * b3;
-            adjugate.m[1] = -m[1] * b5 + m[2] * b4 - m[3] * b3;
-            adjugate.m[2] = m[13] * a5 - m[14] * a4 + m[15] * a3;
-            adjugate.m[3] = -m[9] * a5 + m[10] * a4 - m[11] * a3;
+            const Matrix adjugate{
+                m[5] * b5 - m[6] * b4 + m[7] * b3,
+                -m[1] * b5 + m[2] * b4 - m[3] * b3,
+                m[13] * a5 - m[14] * a4 + m[15] * a3,
+                -m[9] * a5 + m[10] * a4 - m[11] * a3,
 
-            adjugate.m[4] = -m[4] * b5 + m[6] * b2 - m[7] * b1;
-            adjugate.m[5] = m[0] * b5 - m[2] * b2 + m[3] * b1;
-            adjugate.m[6] = -m[12] * a5 + m[14] * a2 - m[15] * a1;
-            adjugate.m[7] = m[8] * a5 - m[10] * a2 + m[11] * a1;
+                -m[4] * b5 + m[6] * b2 - m[7] * b1,
+                m[0] * b5 - m[2] * b2 + m[3] * b1,
+                -m[12] * a5 + m[14] * a2 - m[15] * a1,
+                m[8] * a5 - m[10] * a2 + m[11] * a1,
 
-            adjugate.m[8] = m[4] * b4 - m[5] * b2 + m[7] * b0;
-            adjugate.m[9] = -m[0] * b4 + m[1] * b2 - m[3] * b0;
-            adjugate.m[10] = m[12] * a4 - m[13] * a2 + m[15] * a0;
-            adjugate.m[11] = -m[8] * a4 + m[9] * a2 - m[11] * a0;
+                m[4] * b4 - m[5] * b2 + m[7] * b0,
+                -m[0] * b4 + m[1] * b2 - m[3] * b0,
+                m[12] * a4 - m[13] * a2 + m[15] * a0,
+                -m[8] * a4 + m[9] * a2 - m[11] * a0,
 
-            adjugate.m[12] = -m[4] * b3 + m[5] * b1 - m[6] * b0;
-            adjugate.m[13] = m[0] * b3 - m[1] * b1 + m[2] * b0;
-            adjugate.m[14] = -m[12] * a3 + m[13] * a1 - m[14] * a0;
-            adjugate.m[15] = m[8] * a3 - m[9] * a1 + m[10] * a0;
+                -m[4] * b3 + m[5] * b1 - m[6] * b0,
+                m[0] * b3 - m[1] * b1 + m[2] * b0,
+                -m[12] * a3 + m[13] * a1 - m[14] * a0,
+                m[8] * a3 - m[9] * a1 + m[10] * a0
+            };
 
             adjugate.multiply(T(1) / determinant, *this);
         }
