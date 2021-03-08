@@ -17,25 +17,25 @@ namespace ouzel
         constexpr Rect() noexcept {}
 
         constexpr Rect(const T width, const T height) noexcept:
-            size(width, height)
+            size{width, height}
         {
         }
 
         constexpr Rect(const T x, const T y,
                        const T width, const T height) noexcept:
-            position(x, y), size(width, height)
+            position{x, y}, size{width, height}
         {
         }
 
         constexpr Rect(const Vector<T, 2>& initPosition,
                        const T width, const T height) noexcept:
-            position(initPosition), size(width, height)
+            position{initPosition}, size{width, height}
         {
         }
 
         constexpr Rect(const Vector<T, 2>& initPosition,
                        const Size<T, 2>& initSize) noexcept:
-            position(initPosition), size(initSize)
+            position{initPosition}, size{initSize}
         {
         }
 
@@ -176,8 +176,10 @@ namespace ouzel
 
         constexpr const Rect operator*(const T scalar) const noexcept
         {
-            return Rect(position.v[0] * scalar, position.v[1] * scalar,
-                        size.v[0] * scalar, size.v[1] * scalar);
+            return Rect{
+                position.v[0] * scalar, position.v[1] * scalar,
+                size.v[0] * scalar, size.v[1] * scalar
+            };
         }
 
         constexpr Rect& operator*=(const T scalar) noexcept
@@ -191,8 +193,10 @@ namespace ouzel
 
         constexpr const Rect operator/(const T scalar) const noexcept
         {
-            return Rect(position.v[0] / scalar, position.v[1] / scalar,
-                        size.v[0] / scalar, size.v[1] / scalar);
+            return Rect{
+                position.v[0] / scalar, position.v[1] / scalar,
+                size.v[0] / scalar, size.v[1] / scalar
+            };
         }
 
         constexpr Rect& operator/=(const T scalar) noexcept
