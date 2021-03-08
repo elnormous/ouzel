@@ -19,7 +19,7 @@ namespace ouzel
 
         template <typename ...A>
         explicit constexpr Size(const A... args) noexcept:
-            v{static_cast<T>(args)...}
+            v{args...}
         {
         }
 
