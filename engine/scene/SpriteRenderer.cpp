@@ -42,10 +42,10 @@ namespace ouzel::scene
                 (frameRectangle.position.v[1] + frameRectangle.size.v[1]) / textureSize.v[1]
             };
 
-            textCoords[0] = Vector<float, 2>(leftTop.v[0], rightBottom.v[1]);
-            textCoords[1] = Vector<float, 2>(rightBottom.v[0], rightBottom.v[1]);
-            textCoords[2] = Vector<float, 2>(leftTop.v[0], leftTop.v[1]);
-            textCoords[3] = Vector<float, 2>(rightBottom.v[0], leftTop.v[1]);
+            textCoords[0] = Vector<float, 2>{leftTop.v[0], rightBottom.v[1]};
+            textCoords[1] = Vector<float, 2>{rightBottom.v[0], rightBottom.v[1]};
+            textCoords[2] = Vector<float, 2>{leftTop.v[0], leftTop.v[1]};
+            textCoords[3] = Vector<float, 2>{rightBottom.v[0], leftTop.v[1]};
         }
         else
         {
@@ -59,10 +59,10 @@ namespace ouzel::scene
                 (frameRectangle.position.v[1] + frameRectangle.size.v[0]) / textureSize.v[1]
             };
 
-            textCoords[0] = Vector<float, 2>(leftTop.v[0], leftTop.v[1]);
-            textCoords[1] = Vector<float, 2>(leftTop.v[0], rightBottom.v[1]);
-            textCoords[2] = Vector<float, 2>(rightBottom.v[0], leftTop.v[1]);
-            textCoords[3] = Vector<float, 2>(rightBottom.v[0], rightBottom.v[1]);
+            textCoords[0] = Vector<float, 2>{leftTop.v[0], leftTop.v[1]};
+            textCoords[1] = Vector<float, 2>{leftTop.v[0], rightBottom.v[1]};
+            textCoords[2] = Vector<float, 2>{rightBottom.v[0], leftTop.v[1]};
+            textCoords[3] = Vector<float, 2>{rightBottom.v[0], rightBottom.v[1]};
         }
 
         const std::vector<graphics::Vertex> vertices{
@@ -85,7 +85,7 @@ namespace ouzel::scene
         };
 
         boundingBox.min = finalOffset;
-        boundingBox.max = finalOffset + Vector<float, 2>(frameRectangle.size.v[0], frameRectangle.size.v[1]);
+        boundingBox.max = finalOffset + Vector<float, 2>{frameRectangle.size.v[0], frameRectangle.size.v[1]};
 
         indexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
                                                          graphics::BufferType::index,
@@ -108,7 +108,7 @@ namespace ouzel::scene
         indexCount = static_cast<std::uint32_t>(indices.size());
 
         for (const graphics::Vertex& vertex : vertices)
-            boundingBox.insertPoint(Vector<float, 2>(vertex.position));
+            boundingBox.insertPoint(Vector<float, 2>{vertex.position});
 
         indexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
                                                          graphics::BufferType::index,
@@ -135,7 +135,7 @@ namespace ouzel::scene
         indexCount = static_cast<std::uint32_t>(indices.size());
 
         for (const graphics::Vertex& vertex : vertices)
-            boundingBox.insertPoint(Vector<float, 2>(vertex.position));
+            boundingBox.insertPoint(Vector<float, 2>{vertex.position});
 
         // TODO: fix
         const Vector<float, 2> finalOffset{
@@ -407,7 +407,7 @@ namespace ouzel::scene
     void SpriteRenderer::setOffset(const Vector<float, 2>& newOffset)
     {
         offset = newOffset;
-        offsetMatrix.setTranslation(Vector<float, 3>(offset));
+        offsetMatrix.setTranslation(Vector<float, 3>{offset});
         updateBoundingBox();
     }
 
