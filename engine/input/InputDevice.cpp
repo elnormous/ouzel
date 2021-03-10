@@ -6,7 +6,7 @@
 namespace ouzel::input
 {
     InputDevice::InputDevice(InputSystem& initInputSystem, DeviceId initId, Controller::Type initType):
-        inputSystem(initInputSystem), id(initId), type(initType)
+        inputSystem{initInputSystem}, id{initId}, type{initType}
     {
         inputSystem.addInputDevice(*this);
     }

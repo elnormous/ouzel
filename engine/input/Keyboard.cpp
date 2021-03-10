@@ -8,7 +8,7 @@
 namespace ouzel::input
 {
     Keyboard::Keyboard(InputManager& initInputManager, DeviceId initDeviceId):
-        Controller(initInputManager, Controller::Type::keyboard, initDeviceId)
+        Controller{initInputManager, Controller::Type::keyboard, initDeviceId}
     {
     }
 

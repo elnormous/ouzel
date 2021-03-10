@@ -17,7 +17,7 @@ namespace ouzel
         ConvexVolume() noexcept {}
 
         explicit ConvexVolume(const std::vector<Plane<T>>& initPlanes) noexcept:
-            planes(initPlanes)
+            planes{initPlanes}
         {
         }
 

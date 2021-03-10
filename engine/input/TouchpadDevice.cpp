@@ -6,7 +6,7 @@
 namespace ouzel::input
 {
     TouchpadDevice::TouchpadDevice(InputSystem& initInputSystem, DeviceId initId, bool screen):
-        InputDevice(initInputSystem, initId, Controller::Type::touchpad)
+        InputDevice{initInputSystem, initId, Controller::Type::touchpad}
     {
         InputSystem::Event deviceConnectEvent(InputSystem::Event::Type::deviceConnect);
         deviceConnectEvent.deviceId = id;

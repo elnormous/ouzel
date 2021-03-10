@@ -7,7 +7,7 @@
 namespace ouzel::input
 {
     InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
-        callback(initCallback)
+        callback{initCallback}
     {
     }
 

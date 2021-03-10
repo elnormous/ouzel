@@ -6,7 +6,7 @@
 namespace ouzel::input
 {
     GamepadDevice::GamepadDevice(InputSystem& initInputSystem, DeviceId initId):
-        InputDevice(initInputSystem, initId, Controller::Type::gamepad)
+        InputDevice{initInputSystem, initId, Controller::Type::gamepad}
     {
         InputSystem::Event deviceConnectEvent(InputSystem::Event::Type::deviceConnect);
         deviceConnectEvent.deviceId = id;

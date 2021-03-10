@@ -7,8 +7,8 @@
 namespace ouzel::input
 {
     Touchpad::Touchpad(InputManager& initInputManager, DeviceId initDeviceId, bool initScreen):
-        Controller(initInputManager, Controller::Type::touchpad, initDeviceId),
-        screen(initScreen)
+        Controller{initInputManager, Controller::Type::touchpad, initDeviceId},
+        screen{initScreen}
     {
     }
 

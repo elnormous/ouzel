@@ -9,19 +9,19 @@
 namespace ouzel::input
 {
     Cursor::Cursor(InputManager& initInputManager):
-        inputManager(initInputManager)
+        inputManager{initInputManager}
     {
         cursorResource = inputManager.getInputSystem().getResourceId();
     }
 
     Cursor::Cursor(InputManager& initInputManager, SystemCursor systemCursor):
-        Cursor(initInputManager)
+        Cursor{initInputManager}
     {
         init(systemCursor);
     }
 
     Cursor::Cursor(InputManager& initInputManager, const std::string& filename, const Vector<float, 2>& hotSpot):
-        Cursor(initInputManager)
+        Cursor{initInputManager}
     {
         init(filename, hotSpot);
     }
