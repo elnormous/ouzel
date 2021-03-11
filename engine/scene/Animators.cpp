@@ -12,136 +12,136 @@ namespace ouzel::scene
 {
     namespace
     {
-        float sineIn(const float t)
+        float sineIn(const float t) noexcept
         {
             return 1.0F - std::cos(t * pi<float> / 2.0F);
         }
 
-        float sineOut(const float t)
+        float sineOut(const float t) noexcept
         {
             return std::sin(t * pi<float> / 2.0F);
         }
 
-        float sineInOut(const float t)
+        float sineInOut(const float t) noexcept
         {
             return -0.5F * (std::cos(pi<float> * t) - 1.0F);
         }
 
-        constexpr float quadIn(const float t)
+        constexpr float quadIn(const float t) noexcept
         {
             return t * t;
         }
 
-        constexpr float quadOut(const float t)
+        constexpr float quadOut(const float t) noexcept
         {
             return t * (2.0F - t);
         }
 
-        constexpr float quadInOut(const float t)
+        constexpr float quadInOut(const float t) noexcept
         {
             return (t < 0.5F) ?
                 2.0F * t * t :
                 -1.0F + (4.0F - 2.0F * t) * t;
         }
 
-        constexpr float cubicIn(const float t)
+        constexpr float cubicIn(const float t) noexcept
         {
             return t * t * t;
         }
 
-        constexpr float cubicOut(const float t)
+        constexpr float cubicOut(const float t) noexcept
         {
             return (t - 1.0F) * (t - 1.0F) * (t - 1.0F) + 1.0F;
         }
 
-        constexpr float cubicInOut(const float t)
+        constexpr float cubicInOut(const float t) noexcept
         {
             return (t < 0.5F) ?
                 4.0F * t * t * t :
                 (t - 1.0F) * (2.0F * t - 2.0F) * (2.0F * t - 2.0F) + 1.0F;
         }
 
-        constexpr float quartIn(const float t)
+        constexpr float quartIn(const float t) noexcept
         {
             return t * t * t * t;
         }
 
-        constexpr float quartOut(const float t)
+        constexpr float quartOut(const float t) noexcept
         {
             return 1.0F - (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
         }
 
-        constexpr float quartInOut(const float t)
+        constexpr float quartInOut(const float t) noexcept
         {
             return (t < 0.5F) ?
                 8.0F * t * t * t * t :
                 1.0F - 8.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
         }
 
-        constexpr float quintIn(const float t)
+        constexpr float quintIn(const float t) noexcept
         {
             return t * t * t * t * t;
         }
 
-        constexpr float quintOut(const float t)
+        constexpr float quintOut(const float t) noexcept
         {
             return 1.0F + (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
         }
 
-        constexpr float quintInOut(const float t)
+        constexpr float quintInOut(const float t) noexcept
         {
             return (t < 0.5F) ?
                 16.0F * t * t * t * t * t :
                 1.0F + 16.0F * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F) * (t - 1.0F);
         }
 
-        float expoIn(const float t)
+        float expoIn(const float t) noexcept
         {
             return std::pow(2.0F, 10.0F * (t - 1.0F));
         }
 
-        float expoOut(const float t)
+        float expoOut(const float t) noexcept
         {
             return 1.0F - std::pow(2.0F, -10.0F * t);
         }
 
-        float expoInOut(const float t)
+        float expoInOut(const float t) noexcept
         {
             return (t < 0.5F) ?
                 0.5F * std::pow(2.0F, 10.0F * (2.0F * t - 1.0F)) :
                 0.5F * (std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
         }
 
-        float circIn(const float t)
+        float circIn(const float t) noexcept
         {
             return 1.0F - std::sqrt(1.0F - t * t);
         }
 
-        float circOut(const float t)
+        float circOut(const float t) noexcept
         {
             return std::sqrt(1.0F - (t - 1.0F) * (t - 1.0F));
         }
 
-        float circInOut(const float t)
+        float circInOut(const float t) noexcept
         {
             return (t < 0.5F) ?
                 0.5F * (-std::sqrt(1.0F - (t * 2.0F) * (t * 2.0F)) + 1.0F) :
                 0.5F * (std::sqrt(1.0F - (t * 2.0F - 2.0F) * (t * 2.0F - 2.0F)) + 1.0F);
         }
 
-        float backIn(const float t)
+        float backIn(const float t) noexcept
         {
             static constexpr float s = 1.70158F;
             return t * t * ((s + 1.0F) * t - s);
         }
 
-        float backOut(const float t)
+        float backOut(const float t) noexcept
         {
             static constexpr float s = 1.70158F;
             return (t - 1.0F) * (t - 1.0F) * ((s + 1.0F) * (t - 1.0F) + s) + 1.0F;
         }
 
-        float backInOut(const float t)
+        float backInOut(const float t) noexcept
         {
             static constexpr float s = 1.70158F * 1.525F;
             return (t < 0.5F) ?
@@ -149,7 +149,7 @@ namespace ouzel::scene
                 0.5F * ((t * 2.0F - 2.0F) * (t * 2.0F - 2.0F) * ((s + 1.0F) * (t * 2.0F - 2.0F) + s) + 2.0F);
         }
 
-        float elasticIn(const float t)
+        float elasticIn(const float t) noexcept
         {
             if (t == 0.0F) return 0.0F;
             if (t == 1.0F) return 1.0F;
@@ -159,7 +159,7 @@ namespace ouzel::scene
             return -std::pow(2.0F, 10.0F * (t - 1.0F)) * std::sin(((t - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p);
         }
 
-        float elasticOut(const float t)
+        float elasticOut(const float t) noexcept
         {
             if (t == 0.0F) return 0.0F;
             if (t == 1.0F) return 1.0F;
@@ -169,7 +169,7 @@ namespace ouzel::scene
             return std::pow(2.0F, -10.0F * t) * std::sin((t - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
         }
 
-        float elasticInOut(const float t)
+        float elasticInOut(const float t) noexcept
         {
             if (t == 0.0F) return 0.0F;
             if (t == 1.0F) return 1.0F;
@@ -181,7 +181,7 @@ namespace ouzel::scene
                 0.5F * std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
         }
 
-        float bounceOut(const float t)
+        float bounceOut(const float t) noexcept
         {
             if (t < 1.0F / 2.75F)
                 return 7.5625F * t * t;
@@ -193,12 +193,12 @@ namespace ouzel::scene
                 return 7.5625F * (t - 2.625F / 2.75F) * (t - 2.625F / 2.75F) + 0.984375F;
         }
 
-        float bounceIn(const float t)
+        float bounceIn(const float t) noexcept
         {
             return 1.0F - bounceOut(1.0F - t);
         }
 
-        float bounceInOut(const float t)
+        float bounceInOut(const float t) noexcept
         {
             return (t < 0.5F) ?
                 bounceOut(t * 2.0F) * 0.5F :
