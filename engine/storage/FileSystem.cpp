@@ -42,7 +42,7 @@
 namespace ouzel::storage
 {
     FileSystem::FileSystem(core::Engine& initEngine):
-        engine(initEngine)
+        engine{initEngine}
     {
 #if defined(_WIN32)
         HINSTANCE instance = GetModuleHandleW(nullptr);

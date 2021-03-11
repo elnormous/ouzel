@@ -11,8 +11,8 @@ namespace ouzel::scene
                                    const std::vector<std::uint32_t> indices,
                                    const std::vector<graphics::Vertex>& vertices,
                                    const graphics::Material* initMaterial):
-        boundingBox(initBoundingBox),
-        material(initMaterial)
+        boundingBox{initBoundingBox},
+        material{initMaterial}
     {
         indexCount = static_cast<std::uint32_t>(indices.size());
 

@@ -9,7 +9,7 @@
 namespace ouzel::scene
 {
     Animator::Animator(float initLength):
-        length(initLength)
+        length{initLength}
     {
         updateHandler.updateHandler = [this](const UpdateEvent& event) {
             update(event.delta);

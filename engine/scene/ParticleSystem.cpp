@@ -22,8 +22,8 @@ namespace ouzel::scene
     }
 
     ParticleSystem::ParticleSystem():
-        shader(engine->getCache().getShader(shaderTexture)),
-        blendState(engine->getCache().getBlendState(blendAlpha))
+        shader{engine->getCache().getShader(shaderTexture)},
+        blendState{engine->getCache().getBlendState(blendAlpha)}
     {
         whitePixelTexture = engine->getCache().getTexture(textureWhitePixel);
 
@@ -34,7 +34,7 @@ namespace ouzel::scene
     }
 
     ParticleSystem::ParticleSystem(const ParticleSystemData& initParticleSystemData):
-        ParticleSystem()
+        ParticleSystem{}
     {
         init(initParticleSystemData);
     }

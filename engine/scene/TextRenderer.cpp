@@ -14,18 +14,18 @@ namespace ouzel::scene
                                const std::string& initText,
                                Color initColor,
                                const Vector<float, 2>& initTextAnchor):
-        shader(engine->getCache().getShader(shaderTexture)),
-        blendState(engine->getCache().getBlendState(blendAlpha)),
-        indexBuffer(*engine->getGraphics(),
+        shader{engine->getCache().getShader(shaderTexture)},
+        blendState{engine->getCache().getBlendState(blendAlpha)},
+        indexBuffer{*engine->getGraphics(),
                     graphics::BufferType::index,
-                    graphics::Flags::dynamic),
-        vertexBuffer(*engine->getGraphics(),
+                    graphics::Flags::dynamic},
+        vertexBuffer{*engine->getGraphics(),
                      graphics::BufferType::vertex,
-                     graphics::Flags::dynamic),
-        text(initText),
-        fontSize(initFontSize),
-        textAnchor(initTextAnchor),
-        color(initColor)
+                     graphics::Flags::dynamic},
+        text{initText},
+        fontSize{initFontSize},
+        textAnchor{initTextAnchor},
+        color{initColor}
     {
         whitePixelTexture = engine->getCache().getTexture(textureWhitePixel);
 

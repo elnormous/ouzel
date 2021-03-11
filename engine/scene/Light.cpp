@@ -7,7 +7,7 @@
 namespace ouzel::scene
 {
     Light::Light(Type initType):
-        type(initType)
+        type{initType}
     {
     }
 

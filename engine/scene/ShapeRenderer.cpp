@@ -11,14 +11,14 @@
 namespace ouzel::scene
 {
     ShapeRenderer::ShapeRenderer():
-        shader(engine->getCache().getShader(shaderColor)),
-        blendState(engine->getCache().getBlendState(blendAlpha)),
-        indexBuffer(*engine->getGraphics(),
+        shader{engine->getCache().getShader(shaderColor)},
+        blendState{engine->getCache().getBlendState(blendAlpha)},
+        indexBuffer{*engine->getGraphics(),
                     graphics::BufferType::index,
-                    graphics::Flags::dynamic),
-        vertexBuffer(*engine->getGraphics(),
+                    graphics::Flags::dynamic},
+        vertexBuffer{*engine->getGraphics(),
                      graphics::BufferType::vertex,
-                     graphics::Flags::dynamic)
+                     graphics::Flags::dynamic}
     {
     }
 

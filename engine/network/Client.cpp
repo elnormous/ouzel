@@ -6,7 +6,7 @@
 namespace ouzel::network
 {
     Client::Client(Network& initNetwork):
-        network(&initNetwork)
+        network{&initNetwork}
     {
     }
 

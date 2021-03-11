@@ -72,7 +72,7 @@ namespace ouzel::network
 #endif
 
         explicit Socket(InternetProtocol internetProtocol = InternetProtocol::v4):
-            endpoint(socket(getAddressFamily(internetProtocol), SOCK_STREAM, IPPROTO_TCP))
+            endpoint{socket(getAddressFamily(internetProtocol), SOCK_STREAM, IPPROTO_TCP)}
         {
             if (endpoint == invalid)
                 throw std::system_error(getLastError(), std::system_category(), "Failed to create socket");
@@ -92,7 +92,7 @@ namespace ouzel::network
         Socket& operator=(const Socket&) = delete;
 
         Socket(Socket&& other) noexcept:
-            endpoint(other.endpoint)
+            endpoint{other.endpoint}
         {
             other.endpoint = invalid;
         }

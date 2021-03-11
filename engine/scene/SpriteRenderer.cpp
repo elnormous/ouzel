@@ -19,7 +19,7 @@ namespace ouzel::scene
                              const Size<float, 2>& sourceSize,
                              const Vector<float, 2>& sourceOffset,
                              const Vector<float, 2>& pivot):
-        name(frameName)
+        name{frameName}
     {
         const std::vector<std::uint16_t> indices = {0, 1, 2, 1, 3, 2};
         indexCount = static_cast<std::uint32_t>(indices.size());
@@ -103,7 +103,7 @@ namespace ouzel::scene
     SpriteData::Frame::Frame(const std::string& frameName,
                              const std::vector<std::uint16_t>& indices,
                              const std::vector<graphics::Vertex>& vertices):
-        name(frameName)
+        name{frameName}
     {
         indexCount = static_cast<std::uint32_t>(indices.size());
 
@@ -130,7 +130,7 @@ namespace ouzel::scene
                              const Size<float, 2>& sourceSize,
                              const Vector<float, 2>& sourceOffset,
                              const Vector<float, 2>& pivot):
-        name(frameName)
+        name{frameName}
     {
         indexCount = static_cast<std::uint32_t>(indices.size());
 
@@ -167,13 +167,13 @@ namespace ouzel::scene
     }
 
     SpriteRenderer::SpriteRenderer(const SpriteData& spriteData):
-        SpriteRenderer()
+        SpriteRenderer{}
     {
         init(spriteData);
     }
 
     SpriteRenderer::SpriteRenderer(const std::string& filename):
-        SpriteRenderer()
+        SpriteRenderer{}
     {
         init(filename);
     }
@@ -181,7 +181,7 @@ namespace ouzel::scene
     SpriteRenderer::SpriteRenderer(std::shared_ptr<graphics::Texture> texture,
                                    std::uint32_t spritesX, std::uint32_t spritesY,
                                    const Vector<float, 2>& pivot):
-        SpriteRenderer()
+        SpriteRenderer{}
     {
         init(texture, spritesX, spritesY, pivot);
     }

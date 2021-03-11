@@ -12,22 +12,25 @@
 namespace ouzel::scene
 {
     Camera::Camera(const Matrix<float, 4>& initProjection):
-        projectionMode(ProjectionMode::custom), projection(initProjection)
+        projectionMode{ProjectionMode::custom}, projection{initProjection}
 
     {
         calculateViewProjection();
     }
 
     Camera::Camera(const Size<float, 2>& initTargetContentSize, ScaleMode initScaleMode):
-        projectionMode(ProjectionMode::orthographic), targetContentSize(initTargetContentSize),
-        scaleMode(initScaleMode)
+        projectionMode{ProjectionMode::orthographic},
+        targetContentSize{initTargetContentSize},
+        scaleMode{initScaleMode}
     {
         calculateViewProjection();
     }
 
     Camera::Camera(float initFov, float initNearPlane, float initFarPlane):
-        projectionMode(ProjectionMode::perspective), fov(initFov),
-        nearPlane(initNearPlane), farPlane(initFarPlane)
+        projectionMode{ProjectionMode::perspective},
+        fov{initFov},
+        nearPlane{initNearPlane},
+        farPlane{initFarPlane}
     {
         calculateViewProjection();
     }

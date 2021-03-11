@@ -37,18 +37,18 @@ namespace ouzel::storage
         Path() = default;
 
         Path(const Path& p):
-            path(p.path)
+            path{p.path}
         {
         }
 
         Path(Path&& p) noexcept:
-            path(std::move(p.path))
+            path{std::move(p.path)}
         {
         }
 
         template <class Source>
         Path(const Source& p, Format format = Format::generic):
-            path(format == Format::generic ? convertToNative(p) : encode(p))
+            path{format == Format::generic ? convertToNative(p) : encode(p)}
         {
         }
 

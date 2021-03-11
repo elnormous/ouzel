@@ -207,7 +207,7 @@ namespace ouzel::scene
     }
 
     Ease::Ease(Animator& animator, Mode initMode, Func initFunc):
-        Animator(animator.getLength()), mode(initMode), func(initFunc)
+        Animator{animator.getLength()}, mode{initMode}, func{initFunc}
     {
         addAnimator(animator);
     }
