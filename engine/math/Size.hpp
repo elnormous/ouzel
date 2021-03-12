@@ -102,7 +102,7 @@ namespace ouzel
 
         const Size operator*(const T scalar) const noexcept
         {
-            Size result(*this);
+            Size result = *this;
             for (T& c : result.v)
                 c *= scalar;
             return result;
@@ -117,7 +117,7 @@ namespace ouzel
 
         const Size operator/(const T scalar) const noexcept
         {
-            Size result(*this);
+            Size result = *this;
             for (T& c : result.v)
                 c /= scalar;
             return result;

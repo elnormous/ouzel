@@ -99,9 +99,11 @@ namespace ouzel
         template <auto X = N, std::enable_if_t<(X == 3)>* = nullptr>
         constexpr auto cross(const Vector& vec) const noexcept
         {
-            return Vector((v[1] * vec.v[2]) - (v[2] * vec.v[1]),
-                          (v[2] * vec.v[0]) - (v[0] * vec.v[2]),
-                          (v[0] * vec.v[1]) - (v[1] * vec.v[0]));
+            return Vector{
+                (v[1] * vec.v[2]) - (v[2] * vec.v[1]),
+                (v[2] * vec.v[0]) - (v[0] * vec.v[2]),
+                (v[0] * vec.v[1]) - (v[1] * vec.v[0])
+            };
         }
 
         auto distance(const Vector& vec) const noexcept
