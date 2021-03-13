@@ -133,10 +133,8 @@ namespace ouzel
         bool operator<(const Size& size) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
-            {
                 if (v[i] < size.v[i]) return true;
                 else if (size.v[i] < v[i]) return false;
-            }
 
             return false;
         }
@@ -174,7 +172,7 @@ namespace ouzel
     template <typename T, std::size_t N>
     const Size<T, N> operator*(const Size<T, N>& size, const Vector<T, N>& v) noexcept
     {
-        Size<T, N> result = size;
+        auto result = size;
         for (std::size_t i = 0; i < N; ++i)
             result.v[i] *= v.v[i];
         return result;
@@ -183,7 +181,7 @@ namespace ouzel
     template <typename T, std::size_t N>
     const Size<T, N> operator/(const Size<T, N>& size, const Vector<T, N>& v) noexcept
     {
-        Size<T, N> result = size;
+        auto result = size;
         for (std::size_t i = 0; i < N; ++i)
             result.v[i] /= v.v[i];
         return result;
