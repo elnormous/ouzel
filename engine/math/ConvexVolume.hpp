@@ -25,7 +25,7 @@ namespace ouzel
         std::enable_if_t<N >= 3, bool>
         isPointInside(const Vector<T, N>& position) const noexcept
         {
-            for (const Plane<T>& plane : planes)
+            for (const auto& plane : planes)
                 if (plane.dot(position) < T(0))
                     return false;
 
@@ -36,7 +36,7 @@ namespace ouzel
         std::enable_if_t<N >= 3, bool>
         isSphereInside(const Vector<T, N>& position, const T radius) const noexcept
         {
-            for (const Plane<T>& plane : planes)
+            for (const auto& plane : planes)
                 if (plane.dot(position) < -radius)
                     return false;
 
@@ -54,7 +54,7 @@ namespace ouzel
             const Vector<T, 4> rightTopBack(box.max.v[0], box.max.v[1], box.min.v[2], T(1));
             const Vector<T, 4> rightTopFront(box.max.v[0], box.max.v[1], box.max.v[2], T(1));
 
-            for (const Plane<T>& plane : planes)
+            for (const auto& plane : planes)
                 if (plane.dot(leftBottomBack) < T(0) &&
                     plane.dot(leftBottomFront) < T(0) &&
                     plane.dot(leftTopBack) < T(0) &&
