@@ -101,13 +101,13 @@ namespace ouzel
             assert(aspectRatio);
             assert(farClip != nearClip);
 
-            const T theta = fieldOfView / T(2);
+            const auto theta = fieldOfView / T(2);
             if (std::fabs(std::fmod(theta, pi<T> / T(2))) <= std::numeric_limits<T>::min())
                 return;
 
-            const T divisor = std::tan(theta);
+            const auto divisor = std::tan(theta);
             assert(divisor);
-            const T factor = T(1) / divisor;
+            const auto factor = T(1) / divisor;
 
             setZero();
 
@@ -188,8 +188,8 @@ namespace ouzel
         {
             setIdentity();
 
-            const T c = std::cos(angle);
-            const T s = std::sin(angle);
+            const auto c = std::cos(angle);
+            const auto s = std::sin(angle);
 
             m[0] = c;
             m[3] = -s;
@@ -200,36 +200,36 @@ namespace ouzel
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         void setRotation(const Vector<T, 3>& axis, T angle) noexcept
         {
-            T x = axis.v[0];
-            T y = axis.v[1];
-            T z = axis.v[2];
+            auto x = axis.v[0];
+            auto y = axis.v[1];
+            auto z = axis.v[2];
 
-            const T squared = x * x + y * y + z * z;
+            const auto squared = x * x + y * y + z * z;
             if (squared != T(1))
             {
-                const T length = std::sqrt(squared);
+                const auto length = std::sqrt(squared);
                 if (length > std::numeric_limits<T>::min())
                 {
-                    const T multiplier = T(1) / length;
+                    const auto multiplier = T(1) / length;
                     x *= multiplier;
                     y *= multiplier;
                     z *= multiplier;
                 }
             }
 
-            const T c = std::cos(angle);
-            const T s = std::sin(angle);
+            const auto c = std::cos(angle);
+            const auto s = std::sin(angle);
 
-            const T t = T(1) - c;
-            const T tx = t * x;
-            const T ty = t * y;
-            const T tz = t * z;
-            const T txy = tx * y;
-            const T txz = tx * z;
-            const T tyz = ty * z;
-            const T sx = s * x;
-            const T sy = s * y;
-            const T sz = s * z;
+            const auto t = T(1) - c;
+            const auto tx = t * x;
+            const auto ty = t * y;
+            const auto tz = t * z;
+            const auto txy = tx * y;
+            const auto txz = tx * z;
+            const auto tyz = ty * z;
+            const auto sx = s * x;
+            const auto sy = s * y;
+            const auto sz = s * z;
 
             m[0] = c + tx * x;
             m[4] = txy - sz;
@@ -255,18 +255,18 @@ namespace ouzel
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         void setRotation(const Quaternion<T>& rotation) noexcept
         {
-            const T wx = rotation.v[3] * rotation.v[0];
-            const T wy = rotation.v[3] * rotation.v[1];
-            const T wz = rotation.v[3] * rotation.v[2];
+            const auto wx = rotation.v[3] * rotation.v[0];
+            const auto wy = rotation.v[3] * rotation.v[1];
+            const auto wz = rotation.v[3] * rotation.v[2];
 
-            const T xx = rotation.v[0] * rotation.v[0];
-            const T xy = rotation.v[0] * rotation.v[1];
-            const T xz = rotation.v[0] * rotation.v[2];
+            const auto xx = rotation.v[0] * rotation.v[0];
+            const auto xy = rotation.v[0] * rotation.v[1];
+            const auto xz = rotation.v[0] * rotation.v[2];
 
-            const T yy = rotation.v[1] * rotation.v[1];
-            const T yz = rotation.v[1] * rotation.v[2];
+            const auto yy = rotation.v[1] * rotation.v[1];
+            const auto yz = rotation.v[1] * rotation.v[2];
 
-            const T zz = rotation.v[2] * rotation.v[2];
+            const auto zz = rotation.v[2] * rotation.v[2];
 
             m[0] = T(1) - T(2) * (yy + zz);
             m[4] = T(2) * (xy - wz);
@@ -294,8 +294,8 @@ namespace ouzel
         {
             setIdentity();
 
-            const T c = std::cos(angle);
-            const T s = std::sin(angle);
+            const auto c = std::cos(angle);
+            const auto s = std::sin(angle);
 
             m[5] = c;
             m[9] = -s;
@@ -308,8 +308,8 @@ namespace ouzel
         {
             setIdentity();
 
-            const T c = std::cos(angle);
-            const T s = std::sin(angle);
+            const auto c = std::cos(angle);
+            const auto s = std::sin(angle);
 
             m[0] = c;
             m[8] = s;
@@ -322,8 +322,8 @@ namespace ouzel
         {
             setIdentity();
 
-            const T c = std::cos(angle);
-            const T s = std::sin(angle);
+            const auto c = std::cos(angle);
+            const auto s = std::sin(angle);
 
             m[0] = c;
             m[4] = -s;
@@ -508,7 +508,7 @@ namespace ouzel
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 1 && Y == 1)>* = nullptr>
         void invert() noexcept
         {
-            const T determinant = m[0];
+            const auto determinant = m[0];
 
             // Close to zero, can't invert
             if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
@@ -519,7 +519,7 @@ namespace ouzel
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 2 && Y == 2)>* = nullptr>
         void invert() noexcept
         {
-            const T determinant = m[0] * m[3] - m[1] * m[2];
+            const auto determinant = m[0] * m[3] - m[1] * m[2];
 
             // Close to zero, can't invert
             if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
@@ -536,11 +536,11 @@ namespace ouzel
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
         void invert() noexcept
         {
-            const T a0 = m[0] * (m[4] * m[8] - m[5] * m[7]);
-            const T a1 = m[1] * (m[3] * m[8] - m[5] * m[6]);
-            const T a2 = m[2] * (m[3] * m[7] - m[4] * m[6]);
+            const auto a0 = m[0] * (m[4] * m[8] - m[5] * m[7]);
+            const auto a1 = m[1] * (m[3] * m[8] - m[5] * m[6]);
+            const auto a2 = m[2] * (m[3] * m[7] - m[4] * m[6]);
 
-            const T determinant = a0 - a1 + a2;
+            const auto determinant = a0 - a1 + a2;
 
             // Close to zero, can't invert
             if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
@@ -563,20 +563,20 @@ namespace ouzel
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         void invert() noexcept
         {
-            const T a0 = m[0] * m[5] - m[1] * m[4];
-            const T a1 = m[0] * m[6] - m[2] * m[4];
-            const T a2 = m[0] * m[7] - m[3] * m[4];
-            const T a3 = m[1] * m[6] - m[2] * m[5];
-            const T a4 = m[1] * m[7] - m[3] * m[5];
-            const T a5 = m[2] * m[7] - m[3] * m[6];
-            const T b0 = m[8] * m[13] - m[9] * m[12];
-            const T b1 = m[8] * m[14] - m[10] * m[12];
-            const T b2 = m[8] * m[15] - m[11] * m[12];
-            const T b3 = m[9] * m[14] - m[10] * m[13];
-            const T b4 = m[9] * m[15] - m[11] * m[13];
-            const T b5 = m[10] * m[15] - m[11] * m[14];
+            const auto a0 = m[0] * m[5] - m[1] * m[4];
+            const auto a1 = m[0] * m[6] - m[2] * m[4];
+            const auto a2 = m[0] * m[7] - m[3] * m[4];
+            const auto a3 = m[1] * m[6] - m[2] * m[5];
+            const auto a4 = m[1] * m[7] - m[3] * m[5];
+            const auto a5 = m[2] * m[7] - m[3] * m[6];
+            const auto b0 = m[8] * m[13] - m[9] * m[12];
+            const auto b1 = m[8] * m[14] - m[10] * m[12];
+            const auto b2 = m[8] * m[15] - m[11] * m[12];
+            const auto b3 = m[9] * m[14] - m[10] * m[13];
+            const auto b4 = m[9] * m[15] - m[11] * m[13];
+            const auto b5 = m[10] * m[15] - m[11] * m[14];
 
-            const T determinant = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
+            const auto determinant = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
             // Close to zero, can't invert
             if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
@@ -635,7 +635,7 @@ namespace ouzel
 
         void multiply(const Matrix& matrix, Matrix& dst) const noexcept
         {
-            const std::array<T, 16> product = {
+            const auto product = {
                 m[0] * matrix.m[0] + m[4] * matrix.m[1] + m[8] * matrix.m[2] + m[12] * matrix.m[3],
                 m[1] * matrix.m[0] + m[5] * matrix.m[1] + m[9] * matrix.m[2] + m[13] * matrix.m[3],
                 m[2] * matrix.m[0] + m[6] * matrix.m[1] + m[10] * matrix.m[2] + m[14] * matrix.m[3],
@@ -807,17 +807,17 @@ namespace ouzel
         {
             const Vector<T, 3> scale = getScale();
 
-            const T m11 = m[0] / scale.v[0];
-            const T m21 = m[1] / scale.v[0];
-            const T m31 = m[2] / scale.v[0];
+            const auto m11 = m[0] / scale.v[0];
+            const auto m21 = m[1] / scale.v[0];
+            const auto m31 = m[2] / scale.v[0];
 
-            const T m12 = m[4] / scale.v[1];
-            const T m22 = m[5] / scale.v[1];
-            const T m32 = m[6] / scale.v[1];
+            const auto m12 = m[4] / scale.v[1];
+            const auto m22 = m[5] / scale.v[1];
+            const auto m32 = m[6] / scale.v[1];
 
-            const T m13 = m[8] / scale.v[2];
-            const T m23 = m[9] / scale.v[2];
-            const T m33 = m[10] / scale.v[2];
+            const auto m13 = m[8] / scale.v[2];
+            const auto m23 = m[9] / scale.v[2];
+            const auto m33 = m[10] / scale.v[2];
 
             Quaternion<T> result;
             result.v[0] = std::sqrt(std::max(T(0), T(1) + m11 - m22 - m33)) / T(2);

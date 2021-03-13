@@ -133,7 +133,7 @@ namespace ouzel
         auto length() const noexcept
         {
             T l = 0;
-            for (const T& c : v)
+            for (const auto& c : v)
                 l += c * c;
             return std::sqrt(l);
         }
@@ -141,7 +141,7 @@ namespace ouzel
         auto lengthSquared() const noexcept
         {
             T l = 0;
-            for (const T& c : v)
+            for (const auto& c : v)
                 l += c * c;
             return l;
         }
@@ -160,17 +160,17 @@ namespace ouzel
         void normalize() noexcept
         {
             T squared = T(0);
-            for (const T& c : v)
+            for (const auto& c : v)
                 squared += c * c;
 
             if (squared == T(1)) // already normalized
                 return;
 
-            const T length = std::sqrt(squared);
+            const auto length = std::sqrt(squared);
             if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            const T multiplier = T(1) / length;
+            const auto multiplier = T(1) / length;
             for (T& c : v)
                 c *= multiplier;
         }
@@ -178,17 +178,17 @@ namespace ouzel
         auto normalized() const noexcept
         {
             T squared = T(0);
-            for (const T& c : v)
+            for (const auto& c : v)
                 squared += c * c;
 
             if (squared == T(1)) // already normalized
                 return *this;
 
-            const T length = std::sqrt(squared);
+            const auto length = std::sqrt(squared);
             if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 
-            const T multiplier = T(1) / length;
+            const auto multiplier = T(1) / length;
             return *this * multiplier;
         }
 
@@ -343,7 +343,7 @@ namespace ouzel
 
         auto isZero() const noexcept
         {
-            for (const T& c : v)
+            for (const auto& c : v)
                 if (c != T(0)) return false;
             return true;
         }
