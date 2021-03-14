@@ -66,8 +66,8 @@ namespace ouzel::audio
 
         for (std::uint32_t channel = 0; channel < pcmData.getChannels(); ++channel)
         {
-            const float* sourceChannel = &dataSamples[channel * sourceFrames];
-            float* outputChannel = &samples[channel * frames];
+            const auto sourceChannel = &dataSamples[channel * sourceFrames];
+            auto outputChannel = &samples[channel * frames];
 
             for (std::uint32_t frame = 0; frame < copyFrames; ++frame)
                 outputChannel[frame] = sourceChannel[frame + position];

@@ -21,7 +21,7 @@ namespace ouzel::assets
     {
         scene::SpriteData spriteData;
 
-        const json::Value d = json::parse(data);
+        const auto d = json::parse(data);
 
         if (!d.hasMember("meta") ||
             !d.hasMember("frames"))

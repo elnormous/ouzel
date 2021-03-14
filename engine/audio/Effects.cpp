@@ -28,8 +28,8 @@ namespace ouzel::audio
 
             for (std::uint32_t channel = 0; channel < channels; ++channel)
             {
-                float* bufferChannel = &buffer[channel * bufferFrames];
-                float* outputChannel = &samples[channel * frames];
+                auto bufferChannel = &buffer[channel * bufferFrames];
+                auto outputChannel = &samples[channel * frames];
 
                 for (std::uint32_t frame = 0; frame < frames; ++frame)
                     bufferChannel[frame + delayFrames] += outputChannel[frame];
@@ -344,7 +344,7 @@ namespace ouzel::audio
                 std::vector<float>& buffer = buffers[channel];
                 buffer.resize(bufferFrames);
 
-                float* outputChannel = &samples[channel * frames];
+                auto outputChannel = &samples[channel * frames];
 
                 for (std::uint32_t frame = 0; frame < frames; ++frame)
                     buffer[frame] += outputChannel[frame];
