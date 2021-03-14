@@ -805,7 +805,7 @@ namespace ouzel
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
         auto getRotation() const noexcept
         {
-            const Vector<T, 3> scale = getScale();
+            const auto scale = getScale();
 
             const auto m11 = m[0] / scale.v[0];
             const auto m21 = m[1] / scale.v[0];
