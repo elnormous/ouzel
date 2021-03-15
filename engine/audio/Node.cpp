@@ -12,8 +12,7 @@ namespace ouzel::audio
             if (child.parent)
                 child.parent->removeChild(child);
 
-            const auto i = std::find(children.begin(), children.end(), &child);
-            if (i == children.end())
+            if (std::find(children.begin(), children.end(), &child) == children.end())
             {
                 child.parent = this;
                 children.push_back(&child);
@@ -25,14 +24,11 @@ namespace ouzel::audio
     void Node::removeChild(Node& child)
     {
         if (child.parent == this)
-        {
-            const auto i = std::find(children.begin(), children.end(), &child);
-            if (i != children.end())
+            if (const auto i = std::find(children.begin(), children.end(), &child); i != children.end())
             {
                 child.parent = this;
                 children.erase(i);
                 audio.addCommand(std::make_unique<mixer::RemoveChildCommand>(objectId, child.objectId));
             }
-        }
     }
 }

@@ -118,9 +118,7 @@ namespace ouzel::scene
 
     bool Scene::hasLayer(const Layer& layer) const
     {
-        const auto i = std::find(layers.cbegin(), layers.cend(), &layer);
-
-        return i != layers.end();
+        return std::find(layers.cbegin(), layers.cend(), &layer) != layers.end();
     }
 
     void Scene::recalculateProjection()

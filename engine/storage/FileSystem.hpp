@@ -269,17 +269,13 @@ namespace ouzel::storage
 
         void addResourcePath(const Path& path)
         {
-            const auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
-
-            if (i == resourcePaths.end())
+            if (std::find(resourcePaths.begin(), resourcePaths.end(), path) == resourcePaths.end())
                 resourcePaths.push_back(path);
         }
 
         void removeResourcePath(const Path& path)
         {
-            const auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
-
-            if (i != resourcePaths.end())
+            if (const auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path); i != resourcePaths.end())
                 resourcePaths.erase(i);
         }
 

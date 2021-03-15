@@ -299,10 +299,8 @@ namespace ouzel::input::macos
             std::vector<std::int32_t> playerIndices = {0, 1, 2, 3};
 
             for (const auto& i : gamepadDevicesGC)
-            {
-                const auto n = std::find(playerIndices.begin(), playerIndices.end(), i.second->getPlayerIndex());
-                if (n != playerIndices.end()) playerIndices.erase(n);
-            }
+                if (const auto n = std::find(playerIndices.begin(), playerIndices.end(), i.second->getPlayerIndex()); n != playerIndices.end())
+                    playerIndices.erase(n);
 
             if (!playerIndices.empty())
                 controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());

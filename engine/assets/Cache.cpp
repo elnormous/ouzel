@@ -38,22 +38,19 @@ namespace ouzel::assets
 
     void Cache::addBundle(const Bundle* bundle)
     {
-        const auto i = std::find(bundles.begin(), bundles.end(), bundle);
-        if (i == bundles.end())
+        if (std::find(bundles.begin(), bundles.end(), bundle) == bundles.end())
             bundles.push_back(bundle);
     }
 
     void Cache::removeBundle(const Bundle* bundle)
     {
-        const auto i = std::find(bundles.begin(), bundles.end(), bundle);
-        if (i != bundles.end())
+        if (const auto i = std::find(bundles.begin(), bundles.end(), bundle); i != bundles.end())
             bundles.erase(i);
     }
 
     void Cache::addLoader(std::unique_ptr<Loader> loader)
     {
-        const auto i = std::find(loaders.begin(), loaders.end(), loader);
-        if (i == loaders.end())
+        if (const auto i = std::find(loaders.begin(), loaders.end(), loader); i == loaders.end())
             loaders.push_back(std::move(loader));
     }
 

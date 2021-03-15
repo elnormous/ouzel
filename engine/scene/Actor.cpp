@@ -44,9 +44,7 @@ namespace ouzel::scene
     {
         bool result = false;
 
-        const auto childIterator = std::find(children.begin(), children.end(), &actor);
-
-        if (childIterator != children.end())
+        if (const auto childIterator = std::find(children.begin(), children.end(), &actor); childIterator != children.end())
         {
             Actor* child = *childIterator;
 
@@ -88,12 +86,9 @@ namespace ouzel::scene
 
     bool ActorContainer::moveChildToBack(Actor& actor)
     {
-        const auto i = std::find(children.begin(), children.end(), &actor);
-
-        if (i != children.end())
+        if (const auto i = std::find(children.begin(), children.end(), &actor); i != children.end())
         {
             std::rotate(children.begin(), i, i + 1);
-
             return true;
         }
 
@@ -102,12 +97,9 @@ namespace ouzel::scene
 
     bool ActorContainer::moveChildToFront(Actor& actor)
     {
-        const auto i = std::find(children.begin(), children.end(), &actor);
-
-        if (i != children.end())
+        if (const auto i = std::find(children.begin(), children.end(), &actor); i != children.end())
         {
             std::rotate(i, i + 1, children.end());
-
             return true;
         }
 

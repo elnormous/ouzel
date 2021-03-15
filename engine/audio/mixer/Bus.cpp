@@ -273,8 +273,7 @@ namespace ouzel::audio::mixer
 
     void Bus::addProcessor(Processor* processor)
     {
-        const auto i = std::find(processors.begin(), processors.end(), processor);
-        if (i == processors.end())
+        if (std::find(processors.begin(), processors.end(), processor) == processors.end())
         {
             if (processor->bus) processor->bus->removeProcessor(processor);
             processor->bus = this;
@@ -284,8 +283,7 @@ namespace ouzel::audio::mixer
 
     void Bus::removeProcessor(Processor* processor)
     {
-        const auto i = std::find(processors.begin(), processors.end(), processor);
-        if (i != processors.end())
+        if (const auto i = std::find(processors.begin(), processors.end(), processor); i != processors.end())
         {
             processor->bus = nullptr;
             processors.erase(i);
@@ -294,25 +292,24 @@ namespace ouzel::audio::mixer
 
     void Bus::addInput(Bus* bus)
     {
-        const auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
-        if (i == inputBuses.end()) inputBuses.push_back(bus);
+        if (std::find(inputBuses.begin(), inputBuses.end(), bus) == inputBuses.end())
+            inputBuses.push_back(bus);
     }
 
     void Bus::removeInput(Bus* bus)
     {
-        const auto i = std::find(inputBuses.begin(), inputBuses.end(), bus);
-        if (i != inputBuses.end()) inputBuses.erase(i);
+        if (const auto i = std::find(inputBuses.begin(), inputBuses.end(), bus); i != inputBuses.end())
+            inputBuses.erase(i);
     }
 
     void Bus::addInput(Stream* stream)
     {
-        const auto i = std::find(inputStreams.begin(), inputStreams.end(), stream);
-        if (i == inputStreams.end()) inputStreams.push_back(stream);
+        if (std::find(inputStreams.begin(), inputStreams.end(), stream) == inputStreams.end()) inputStreams.push_back(stream);
     }
 
     void Bus::removeInput(Stream* stream)
     {
-        const auto i = std::find(inputStreams.begin(), inputStreams.end(), stream);
-        if (i != inputStreams.end()) inputStreams.erase(i);
+        if (const auto i = std::find(inputStreams.begin(), inputStreams.end(), stream); i != inputStreams.end())
+            inputStreams.erase(i);
     }
 }

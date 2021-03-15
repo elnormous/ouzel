@@ -109,8 +109,7 @@ namespace ouzel::graphics::opengl
 
         bool hasExtension(const char* ext) const noexcept
         {
-            auto i = std::find(extensions.begin(), extensions.end(), ext);
-            return i != extensions.end();
+            return std::find(extensions.begin(), extensions.end(), ext) != extensions.end();
         }
 
     private:
