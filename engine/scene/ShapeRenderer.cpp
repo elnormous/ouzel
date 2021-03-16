@@ -506,7 +506,7 @@ namespace ouzel::scene
 
                 for (std::uint32_t segment = 0; segment < segments; ++segment)
                 {
-                    auto t = static_cast<float>(segment) / static_cast<float>(segments - 1);
+                    const auto t = static_cast<float>(segment) / static_cast<float>(segments - 1);
                     Vector<float, 2> position;
 
                     for (std::uint16_t n = 0; n < controlPoints.size(); ++n)

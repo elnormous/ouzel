@@ -118,7 +118,7 @@ namespace ouzel::storage
 #if defined(_WIN32)
             using hundrednanoseconds = std::chrono::duration<std::int64_t, std::ratio_multiply<std::hecto, std::nano>>;
 
-            auto t = hundrednanoseconds{
+            const auto t = hundrednanoseconds{
                 ((static_cast<std::uint64_t>(time.dwHighDateTime) << 32) |
                  static_cast<std::uint64_t>(time.dwLowDateTime)) - 116444736000000000LL
             };

@@ -239,8 +239,7 @@ namespace ouzel::json
         {
             if (type != Type::object) throw TypeError("Wrong type");
 
-            auto i = objectValue.find(member);
-            if (i != objectValue.end())
+            if (const auto i = objectValue.find(member); i != objectValue.end())
                 return i->second;
             else
                 throw RangeError("Member does not exist");

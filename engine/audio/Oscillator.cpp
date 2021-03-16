@@ -67,7 +67,7 @@ namespace ouzel::audio
         {
             for (std::uint32_t i = 0; i < frames; ++i)
             {
-                auto t = static_cast<float>(offset) * frameLength;
+                const auto t = static_cast<float>(offset) * frameLength;
 
                 switch (type)
                 {
