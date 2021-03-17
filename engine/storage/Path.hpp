@@ -163,18 +163,16 @@ namespace ouzel::storage
 
         Path getExtension() const
         {
-            const std::size_t position = path.rfind(Char('.'));
-            Path result;
-            result.path = position != std::string::npos ?
-                path.substr(position + 1) : String{};
-            return result;
+            if (const std::size_t position = path.rfind(Char('.')); position != std::string::npos)
+                return Path{path.substr(position + 1)};
+            else
+                return Path{};
         }
 
         template <class Source>
         Path& replaceExtension(const Source& extension)
         {
-            const std::size_t position = path.rfind(Char('.'));
-            if (position != std::string::npos)
+            if (const std::size_t position = path.rfind(Char('.')); position != std::string::npos)
                 path.resize(position + 1);
             path += convertToNative(extension);
             return *this;
@@ -182,25 +180,23 @@ namespace ouzel::storage
 
         Path& removeExtension()
         {
-            const std::size_t position = path.rfind(Char('.'));
-            if (position != std::string::npos)
+            if (const std::size_t position = path.rfind(Char('.')); position != std::string::npos)
                 path.resize(position);
             return *this;
         }
 
         Path getFilename() const
         {
-            const std::size_t position = findLastDirectorySeparator(path);
-            Path result;
-            result.path = position != String::npos ? path.substr(position + 1) : path;
-            return result;
+            if (const std::size_t position = findLastDirectorySeparator(path); position != String::npos)
+                return Path{path.substr(position + 1)};
+            else
+                return Path{path};
         }
 
         template <class Source>
         Path& replaceFilename(const Source& filename)
         {
-            const std::size_t position = findLastDirectorySeparator(path);
-            if (position != std::string::npos)
+            if (const std::size_t position = findLastDirectorySeparator(path); position != std::string::npos)
                 path.resize(position + 1);
             else
                 path.clear();
@@ -210,8 +206,7 @@ namespace ouzel::storage
 
         Path& removeFilename()
         {
-            const std::size_t position = findLastDirectorySeparator(path);
-            if (position != std::string::npos)
+            if (const std::size_t position = findLastDirectorySeparator(path); position != std::string::npos)
                 path.resize(position + 1);
             else
                 path.clear();
@@ -232,12 +227,10 @@ namespace ouzel::storage
 
         Path getDirectory() const
         {
-            Path result;
-            const std::size_t position = findLastDirectorySeparator(path);
-            if (position != String::npos)
-                result.path = path.substr(0, position);
-
-            return result;
+            if (const std::size_t position = findLastDirectorySeparator(path); position != String::npos)
+                return Path{path.substr(0, position)};
+            else
+                return Path{};
         }
 
         Path getRoot() const
