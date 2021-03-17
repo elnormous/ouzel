@@ -108,7 +108,7 @@ namespace ouzel::assets
 
         if (d.hasMember("textureFileName"))
         {
-            auto textureFileName = d["textureFileName"].as<std::string>();
+            const auto textureFileName = d["textureFileName"].as<std::string>();
             particleSystemData.texture = cache.getTexture(textureFileName);
 
             if (!particleSystemData.texture)

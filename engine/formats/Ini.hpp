@@ -60,8 +60,7 @@ namespace ouzel::ini
 
         bool hasValue(const std::string& key) const
         {
-            auto valueIterator = values.find(key);
-            return valueIterator != values.end();
+            return values.find(key) != values.end();
         }
 
         std::string& operator[](const std::string& key)
@@ -71,8 +70,7 @@ namespace ouzel::ini
 
         std::string operator[](const std::string& key) const
         {
-            auto valueIterator = values.find(key);
-            if (valueIterator != values.end())
+            if (const auto valueIterator = values.find(key); valueIterator != values.end())
                 return valueIterator->second;
 
             return std::string();
@@ -80,9 +78,7 @@ namespace ouzel::ini
 
         const std::string& getValue(const std::string& key, const std::string& defaultValue = {}) const
         {
-            auto valueIterator = values.find(key);
-
-            if (valueIterator != values.end())
+            if (const auto valueIterator = values.find(key); valueIterator != values.end())
                 return valueIterator->second;
 
             return defaultValue;
@@ -95,9 +91,7 @@ namespace ouzel::ini
 
         void deleteValue(const std::string& key)
         {
-            auto valueIterator = values.find(key);
-
-            if (valueIterator != values.end())
+            if (const auto valueIterator = values.find(key); valueIterator != values.end())
                 values.erase(valueIterator);
         }
 

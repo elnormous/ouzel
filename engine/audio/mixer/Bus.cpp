@@ -35,17 +35,17 @@ namespace ouzel::audio::mixer
     {
         if (sourceFrames != frames)
         {
-            auto sourceIncrement = static_cast<float>(sourceFrames - 1) / static_cast<float>(frames - 1);
+            const auto sourceIncrement = static_cast<float>(sourceFrames - 1) / static_cast<float>(frames - 1);
             auto sourcePosition = 0.0F;
 
             samples.resize(frames * channels);
 
             for (std::uint32_t frame = 0; frame < frames - 1; ++frame)
             {
-                auto sourceCurrentFrame = static_cast<std::uint32_t>(sourcePosition);
-                auto fraction = sourcePosition - sourceCurrentFrame;
+                const auto sourceCurrentFrame = static_cast<std::uint32_t>(sourcePosition);
+                const auto fraction = sourcePosition - sourceCurrentFrame;
 
-                std::uint32_t sourceNextFrame = sourceCurrentFrame + 1;
+                const std::uint32_t sourceNextFrame = sourceCurrentFrame + 1;
 
                 for (std::uint32_t channel = 0; channel < channels; ++channel)
                 {

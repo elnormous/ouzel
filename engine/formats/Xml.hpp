@@ -371,7 +371,7 @@ namespace ouzel::xml
                 if (*iterator != '"' && *iterator != '\'')
                     throw ParseError("Expected quotes");
 
-                auto quotes = *iterator;
+                const auto quotes = *iterator;
 
                 ++iterator;
 
