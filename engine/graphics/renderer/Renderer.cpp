@@ -40,12 +40,12 @@ namespace ouzel::graphics::renderer
                 case Command::Type::initMaterial: break;
                 case Command::Type::setMaterialParameter: break;
                 case Command::Type::initObject: break;
-                case Command::Type::renderObject: break;
                 case Command::Type::setObjectParameters: break;
                 case Command::Type::initCamera: break;
                 case Command::Type::setCameraParameters: break;
                 case Command::Type::initLight: break;
                 case Command::Type::setLightParameters: break;
+                case Command::Type::renderScene: break;
                 default:
                     break;
             }

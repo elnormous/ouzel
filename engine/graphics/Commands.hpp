@@ -532,6 +532,17 @@ namespace ouzel::graphics
         const std::vector<ResourceId> textures;
     };
 
+    class RenderSceneCommand final: public Command
+    {
+    public:
+        explicit RenderSceneCommand() noexcept:
+            Command{Type::renderScene}
+        {
+        }
+
+        const std::vector<ResourceId> textures;
+    };
+
     class CommandBuffer final
     {
     public:
