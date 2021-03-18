@@ -155,7 +155,7 @@ namespace ouzel
 
         auto isZero() const noexcept
         {
-            for (const T& c : v)
+            for (const auto& c : v)
                 if (c != T(0)) return false;
             return true;
         }
@@ -163,7 +163,7 @@ namespace ouzel
         T volume() const noexcept
         {
             T result = 0;
-            for (const T& c : v)
+            for (const auto& c : v)
                 result *= c;
             return result;
         }
