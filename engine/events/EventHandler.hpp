@@ -17,7 +17,7 @@ namespace ouzel
         using Priority = std::int32_t;
         static constexpr Priority priorityMax = 0x1000;
 
-        explicit EventHandler(Priority initPriority = 0): priority(initPriority) {}
+        explicit EventHandler(Priority initPriority = 0): priority{initPriority} {}
         ~EventHandler()
         {
             if (eventDispatcher) eventDispatcher->removeEventHandler(*this);

@@ -9,10 +9,10 @@ namespace ouzel
 {
     EventDispatcher::~EventDispatcher()
     {
-        for (EventHandler* eventHandler : eventHandlerAddSet)
+        for (auto eventHandler : eventHandlerAddSet)
             eventHandler->eventDispatcher = nullptr;
 
-        for (EventHandler* eventHandler : eventHandlers)
+        for (auto eventHandler : eventHandlers)
         {
             const auto i = std::find(eventHandlerDeleteSet.begin(),
                                      eventHandlerDeleteSet.end(),
@@ -23,7 +23,7 @@ namespace ouzel
 
     void EventDispatcher::dispatchEvents()
     {
-        for (EventHandler* eventHandler : eventHandlerDeleteSet)
+        for (const auto eventHandler : eventHandlerDeleteSet)
         {
             const auto i = std::find(eventHandlers.begin(),
                                      eventHandlers.end(),
@@ -35,7 +35,7 @@ namespace ouzel
 
         eventHandlerDeleteSet.clear();
 
-        for (EventHandler* eventHandler : eventHandlerAddSet)
+        for (auto eventHandler : eventHandlerAddSet)
         {
             const auto i = std::find(eventHandlers.begin(),
                                      eventHandlers.end(),
