@@ -397,7 +397,7 @@ namespace ouzel::gui
         {
             selectedWidget = nullptr;
 
-            for (Widget* childWidget : widgets)
+            for (auto childWidget : widgets)
                 childWidget->setSelected(false);
         }
     }
@@ -441,7 +441,7 @@ namespace ouzel::gui
 
         selectedWidget = nullptr;
 
-        for (Widget* childWidget : widgets)
+        for (auto childWidget : widgets)
         {
             if (childWidget == widget)
             {

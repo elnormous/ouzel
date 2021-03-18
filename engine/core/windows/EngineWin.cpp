@@ -58,7 +58,7 @@ namespace ouzel::core::windows
     {
         bool translate = true;
 
-        for (HACCEL accelerator : accelerators)
+        for (auto accelerator : accelerators)
             if (TranslateAccelerator(window, accelerator, &message))
                 translate = false;
 

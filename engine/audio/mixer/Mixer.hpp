@@ -26,7 +26,7 @@ namespace ouzel::audio::mixer
             samples.resize(frames * channels);
             std::fill(samples.begin(), samples.end(), 0.0F);
 
-            for (Object* child : children)
+            for (auto child : children)
             {
                 child->getSamples(frames, channels, sampleRate, buffer);
 

@@ -65,7 +65,7 @@ namespace ouzel::assets
 
     std::shared_ptr<graphics::Texture> Cache::getTexture(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto texture = bundle->getTexture(name))
                 return texture;
 
@@ -74,7 +74,7 @@ namespace ouzel::assets
 
     const graphics::Shader* Cache::getShader(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto shader = bundle->getShader(name))
                 return shader;
 
@@ -83,7 +83,7 @@ namespace ouzel::assets
 
     const graphics::BlendState* Cache::getBlendState(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto blendState = bundle->getBlendState(name))
                 return blendState;
 
@@ -92,7 +92,7 @@ namespace ouzel::assets
 
     const graphics::DepthStencilState* Cache::getDepthStencilState(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto depthStencilState = bundle->getDepthStencilState(name))
                 return depthStencilState;
 
@@ -101,7 +101,7 @@ namespace ouzel::assets
 
     const scene::SpriteData* Cache::getSpriteData(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto spriteData = bundle->getSpriteData(name))
                 return spriteData;
 
@@ -110,7 +110,7 @@ namespace ouzel::assets
 
     const scene::ParticleSystemData* Cache::getParticleSystemData(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto particleSystemData = bundle->getParticleSystemData(name))
                 return particleSystemData;
 
@@ -119,7 +119,7 @@ namespace ouzel::assets
 
     const gui::Font* Cache::getFont(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto font = bundle->getFont(name))
                 return font;
 
@@ -128,7 +128,7 @@ namespace ouzel::assets
 
     const audio::Cue* Cache::getCue(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto cue = bundle->getCue(name))
                 return cue;
 
@@ -137,7 +137,7 @@ namespace ouzel::assets
 
     const audio::Sound* Cache::getSound(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto sound = bundle->getSound(name))
                 return sound;
 
@@ -146,7 +146,7 @@ namespace ouzel::assets
 
     const graphics::Material* Cache::getMaterial(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto material = bundle->getMaterial(name))
                 return material;
 
@@ -155,7 +155,7 @@ namespace ouzel::assets
 
     const scene::SkinnedMeshData* Cache::getSkinnedMeshData(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto meshData = bundle->getSkinnedMeshData(name))
                 return meshData;
 
@@ -164,7 +164,7 @@ namespace ouzel::assets
 
     const scene::StaticMeshData* Cache::getStaticMeshData(const std::string& name) const
     {
-        for (const Bundle* bundle : bundles)
+        for (const auto bundle : bundles)
             if (const auto meshData = bundle->getStaticMeshData(name))
                 return meshData;
 

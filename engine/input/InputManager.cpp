@@ -155,7 +155,7 @@ namespace ouzel::input
                             disconnectEvent->type = Event::Type::keyboardDisconnect;
                             disconnectEvent->keyboard = static_cast<Keyboard*>(i->second.get());
                             keyboard = nullptr;
-                            for (Controller* controller : controllers)
+                            for (auto controller : controllers)
                                 if (controller->getType() == Controller::Type::keyboard)
                                     keyboard = static_cast<Keyboard*>(controller);
                             handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
@@ -167,7 +167,7 @@ namespace ouzel::input
                             disconnectEvent->type = Event::Type::mouseDisconnect;
                             disconnectEvent->mouse = static_cast<Mouse*>(i->second.get());
                             mouse = nullptr;
-                            for (Controller* controller : controllers)
+                            for (auto controller : controllers)
                                 if (controller->getType() == Controller::Type::mouse)
                                     mouse = static_cast<Mouse*>(controller);
                             handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
@@ -179,7 +179,7 @@ namespace ouzel::input
                             disconnectEvent->type = Event::Type::touchpadDisconnect;
                             disconnectEvent->touchpad = static_cast<Touchpad*>(i->second.get());
                             touchpad = nullptr;
-                            for (Controller* controller : controllers)
+                            for (auto controller : controllers)
                                 if (controller->getType() == Controller::Type::touchpad)
                                     touchpad = static_cast<Touchpad*>(controller);
                             handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));

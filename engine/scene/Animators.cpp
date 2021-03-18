@@ -338,7 +338,7 @@ namespace ouzel::scene
     Parallel::Parallel(const std::vector<Animator*>& initAnimators):
         Animator(0.0F)
     {
-        for (Animator* animator : initAnimators)
+        for (auto animator : initAnimators)
         {
             assert(animator);
 
@@ -367,7 +367,7 @@ namespace ouzel::scene
     {
         Animator::updateProgress();
 
-        for (Animator* animator : animators)
+        for (auto animator : animators)
         {
             const float animationLength = animator->getLength();
 
@@ -483,7 +483,7 @@ namespace ouzel::scene
     Sequence::Sequence(const std::vector<Animator*>& initAnimators):
         Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, Animator* b) noexcept { return a + b->getLength(); }))
     {
-        for (Animator* animator : initAnimators)
+        for (auto animator : initAnimators)
         {
             assert(animator);
 
@@ -528,7 +528,7 @@ namespace ouzel::scene
 
         float time = 0.0F;
 
-        for (Animator* animator : animators)
+        for (auto animator : animators)
         {
             if (animator->getLength() <= 0.0F || currentTime > time + animator->getLength())
             {

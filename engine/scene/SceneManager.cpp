@@ -10,7 +10,7 @@ namespace ouzel::scene
 {
     SceneManager::~SceneManager()
     {
-        for (Scene* scene : scenes)
+        for (auto scene : scenes)
         {
             if (scene->entered) scene->leave();
             scene->sceneManger = nullptr;

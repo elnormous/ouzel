@@ -26,7 +26,7 @@ namespace ouzel::graphics::d3d11
 
     void RenderTarget::resolve()
     {
-        for (Texture* colorTexture : colorTextures)
+        for (auto colorTexture : colorTextures)
             colorTexture->resolve();
 
         if (depthTexture)

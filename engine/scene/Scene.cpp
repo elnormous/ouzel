@@ -23,7 +23,7 @@ namespace ouzel::scene
     {
         if (sceneManger) sceneManger->removeScene(*this);
 
-        for (Layer* layer : layers)
+        for (auto layer : layers)
         {
             if (entered) layer->leave();
             layer->scene = nullptr;
@@ -38,7 +38,7 @@ namespace ouzel::scene
 
         std::set<graphics::RenderTarget*> clearedRenderTargets;
 
-        for (Layer* layer : layers)
+        for (auto layer : layers)
         {
             // clear all the render targets
             for (Camera* camera : layer->getCameras())
@@ -108,7 +108,7 @@ namespace ouzel::scene
     {
         if (entered)
         {
-            for (Layer* layer : layers)
+            for (auto layer : layers)
                 layer->leave();
         }
 
@@ -123,7 +123,7 @@ namespace ouzel::scene
 
     void Scene::recalculateProjection()
     {
-        for (Layer* layer : layers)
+        for (auto layer : layers)
             layer->recalculateProjection();
     }
 
@@ -131,7 +131,7 @@ namespace ouzel::scene
     {
         for (auto i = layers.rbegin(); i != layers.rend(); ++i)
         {
-            const Layer* layer = *i;
+            const auto layer = *i;
             std::pair<Actor*, Vector<float, 3>> result = layer->pickActor(position, renderTargets);
 
             if (result.first) return result;
@@ -175,7 +175,7 @@ namespace ouzel::scene
         recalculateProjection();
         engine->getEventDispatcher().addEventHandler(eventHandler);
 
-        for (Layer* layer : layers)
+        for (auto layer : layers)
             layer->enter();
     }
 
@@ -185,7 +185,7 @@ namespace ouzel::scene
 
         eventHandler.remove();
 
-        for (Layer* layer : layers)
+        for (auto layer : layers)
             layer->leave();
     }
 

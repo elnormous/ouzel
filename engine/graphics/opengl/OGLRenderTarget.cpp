@@ -55,7 +55,7 @@ namespace ouzel::graphics::opengl
 
     void RenderTarget::reload()
     {
-        for (Texture* colorTexture : colorTextures)
+        for (auto colorTexture : colorTextures)
             colorTexture->reload();
         if (depthTexture) depthTexture->reload();
 
@@ -70,7 +70,7 @@ namespace ouzel::graphics::opengl
         if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
 
-        for (Texture* colorTexture : colorTextures)
+        for (auto colorTexture : colorTextures)
         {
             if (colorTexture)
             {
