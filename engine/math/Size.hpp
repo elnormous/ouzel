@@ -110,7 +110,7 @@ namespace ouzel
 
         Size& operator*=(const T scalar) noexcept
         {
-            for (T& c : v)
+            for (auto& c : v)
                 c *= scalar;
             return *this;
         }
@@ -125,7 +125,7 @@ namespace ouzel
 
         Size& operator/=(const T scalar) noexcept
         {
-            for (T& c : v)
+            for (auto& c : v)
                 c /= scalar;
             return *this;
         }

@@ -222,7 +222,7 @@ namespace ouzel::audio::mixer
                                        listenerPosition, listenerRotation, samples);
         }
 
-        for (float& sample : samples)
+        for (auto& sample : samples)
             sample = std::clamp(sample, -1.0F, 1.0F);
     }
 
@@ -247,7 +247,7 @@ namespace ouzel::audio::mixer
                 //masterBus->getData(frames, channels, sampleRate, listenerPosition, listenerRotation, samples);
             }*/
 
-            //for (float& f : samples)
+            //for (auto& f : samples)
             //    f = std::clamp(f, -1.0F, 1.0F);
         }
     }

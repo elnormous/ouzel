@@ -148,7 +148,7 @@ namespace ouzel
 
         void negate() noexcept
         {
-            for (T& c : v)
+            for (auto& c : v)
                 c = -c;
         }
 
@@ -171,7 +171,7 @@ namespace ouzel
                 return;
 
             const auto multiplier = T(1) / length;
-            for (T& c : v)
+            for (auto& c : v)
                 c *= multiplier;
         }
 
@@ -301,7 +301,7 @@ namespace ouzel
 
         auto& operator*=(const T scalar) noexcept
         {
-            for (T& c : v)
+            for (auto& c : v)
                 c *= scalar;
             return *this;
         }
@@ -313,7 +313,7 @@ namespace ouzel
 
         auto& operator/=(const T scalar) noexcept
         {
-            for (T& c : v)
+            for (auto& c : v)
                 c /= scalar;
             return *this;
         }

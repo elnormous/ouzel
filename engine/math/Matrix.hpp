@@ -662,7 +662,7 @@ namespace ouzel
 
         void negate() noexcept
         {
-            for (T& c : m)
+            for (auto& c : m)
                 c = -c;
         }
 
@@ -676,7 +676,7 @@ namespace ouzel
 
         void setZero() noexcept
         {
-            for (T& c : m)
+            for (auto& c : m)
                 c = T(0);
         }
 

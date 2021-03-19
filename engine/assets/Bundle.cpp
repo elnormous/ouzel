@@ -53,7 +53,7 @@ namespace ouzel::assets
 
     void Bundle::loadAssets(const std::vector<Asset>& assets)
     {
-        for (const Asset& asset : assets)
+        for (const auto& asset : assets)
             loadAsset(asset.type, asset.name, asset.filename, asset.mipmaps);
     }
 

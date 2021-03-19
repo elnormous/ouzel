@@ -13,13 +13,13 @@ namespace ouzel::audio::mixer
     {
         if (output) output->removeInput(this);
 
-        for (Bus* inputBus : inputBuses)
+        for (auto inputBus : inputBuses)
             inputBus->output = nullptr;
 
-        for (Stream* stream : inputStreams)
+        for (auto stream : inputStreams)
             stream->output = nullptr;
 
-        for (Processor* processor : processors)
+        for (auto processor : processors)
             processor->bus = nullptr;
     }
 
@@ -231,7 +231,7 @@ namespace ouzel::audio::mixer
         samples.resize(frames * channels);
         std::fill(samples.begin(), samples.end(), 0.0F);
 
-        for (Bus* bus : inputBuses)
+        for (auto bus : inputBuses)
         {
             bus->generateSamples(frames, channels, sampleRate,
                                  listenerPosition, listenerRotation, buffer);
@@ -240,7 +240,7 @@ namespace ouzel::audio::mixer
                 samples[s] += buffer[s];
         }
 
-        for (Stream* stream : inputStreams)
+        for (auto stream : inputStreams)
         {
             if (stream->isPlaying())
             {
@@ -266,7 +266,7 @@ namespace ouzel::audio::mixer
             }
         }
 
-        for (Processor* processor : processors)
+        for (auto processor : processors)
             if (processor->isEnabled())
                 processor->process(frames, channels, sampleRate, samples);
     }

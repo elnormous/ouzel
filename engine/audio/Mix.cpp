@@ -17,16 +17,16 @@ namespace ouzel::audio
 
     Mix::~Mix()
     {
-        for (Submix* submix : inputSubmixes)
+        for (auto submix : inputSubmixes)
             submix->output = nullptr;
 
-        for (Voice* voice : inputVoices)
+        for (auto voice : inputVoices)
             voice->output = nullptr;
 
-        for (Effect* effect : effects)
+        for (auto effect : effects)
             effect->mix = nullptr;
 
-        for (Listener* listener : listeners)
+        for (auto listener : listeners)
             listener->mix = nullptr;
 
         if (busId) audio.deleteObject(busId);

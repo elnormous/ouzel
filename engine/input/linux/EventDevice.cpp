@@ -567,7 +567,7 @@ namespace ouzel::input::linux
                         {
                             case SYN_REPORT:
                             {
-                                for (Slot& slot : touchSlots)
+                                for (auto& slot : touchSlots)
                                     if (slot.action != Slot::Action::none)
                                     {
                                         const Vector<float, 2> position{

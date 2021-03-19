@@ -91,7 +91,7 @@ namespace ouzel::audio
         void process(std::uint32_t, std::uint32_t, std::uint32_t,
                      std::vector<float>& samples) final
         {
-            for (float& sample : samples)
+            for (auto& sample : samples)
                 sample *= gainFactor;
         }
 
