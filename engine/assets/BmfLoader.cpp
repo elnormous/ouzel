@@ -7,7 +7,7 @@
 namespace ouzel::assets
 {
     BmfLoader::BmfLoader(Cache& initCache):
-        Loader(initCache, Type::font)
+        Loader{initCache, Type::font}
     {
     }
 

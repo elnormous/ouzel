@@ -145,7 +145,7 @@ namespace ouzel::assets
     }
 
     MtlLoader::MtlLoader(Cache& initCache):
-        Loader(initCache, Type::material)
+        Loader{initCache, Type::material}
     {
     }
 

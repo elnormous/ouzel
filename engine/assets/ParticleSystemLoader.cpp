@@ -9,7 +9,7 @@
 namespace ouzel::assets
 {
     ParticleSystemLoader::ParticleSystemLoader(Cache& initCache):
-        Loader(initCache, Type::particleSystem)
+        Loader{initCache, Type::particleSystem}
     {
     }
 

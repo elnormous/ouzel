@@ -30,7 +30,7 @@ namespace ouzel::assets
         };
 
         Loader(Cache& initCache, Type initType):
-            cache(initCache), type(initType)
+            cache{initCache}, type{initType}
         {
         }
 

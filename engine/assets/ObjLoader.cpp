@@ -187,7 +187,7 @@ namespace ouzel::assets
     }
 
     ObjLoader::ObjLoader(Cache& initCache):
-        Loader(initCache, Type::staticMesh)
+        Loader{initCache, Type::staticMesh}
     {
     }
 

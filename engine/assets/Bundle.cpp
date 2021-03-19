@@ -10,7 +10,7 @@
 namespace ouzel::assets
 {
     Bundle::Bundle(Cache& initCache, storage::FileSystem& initFileSystem):
-        cache(initCache), fileSystem(initFileSystem)
+        cache{initCache}, fileSystem{initFileSystem}
     {
         cache.addBundle(this);
     }

@@ -8,7 +8,7 @@
 namespace ouzel::assets
 {
     GltfLoader::GltfLoader(Cache& initCache):
-        Loader(initCache, Type::skinnedMesh)
+        Loader{initCache, Type::skinnedMesh}
     {
     }
 
