@@ -52,12 +52,12 @@ namespace ouzel::gui
 
         constexpr std::uint32_t spacing = 2U;
 
-        const float s = stbtt_ScaleForPixelHeight(font.get(), fontSize);
+        const auto s = stbtt_ScaleForPixelHeight(font.get(), fontSize);
 
-        const std::u32string utf32Text = utf8::toUtf32(text);
+        const auto utf32Text = utf8::toUtf32(text);
 
         std::set<char32_t> glyphs;
-        for (const char32_t i : utf32Text)
+        for (const auto i : utf32Text)
             glyphs.insert(i);
 
         std::uint16_t width = 0;
@@ -82,7 +82,6 @@ namespace ouzel::gui
         std::unordered_map<std::uint32_t, CharDescriptor> chars;
 
         for (const char32_t c : glyphs)
-        {
             if (const auto index = stbtt_FindGlyphIndex(font.get(), static_cast<int>(c)))
             {
                 int advance;
@@ -117,7 +116,6 @@ namespace ouzel::gui
 
                 chars[c] = charDesc;
             }
-        }
 
         std::vector<std::uint8_t> textureData(width * height * 4);
 
@@ -135,7 +133,6 @@ namespace ouzel::gui
             const auto& charDesc = c.second;
 
             for (std::uint16_t posX = 0; posX < charDesc.width; ++posX)
-            {
                 for (std::uint16_t posY = 0; posY < charDesc.height; ++posY)
                 {
                     textureData[(posY * width + posX + charDesc.x) * 4 + 0] = 255;
@@ -143,7 +140,6 @@ namespace ouzel::gui
                     textureData[(posY * width + posX + charDesc.x) * 4 + 2] = 255;
                     textureData[(posY * width + posX + charDesc.x) * 4 + 3] = charDesc.bitmap[posY * charDesc.width + posX];
                 }
-            }
         }
 
         RenderData result;
@@ -209,8 +205,8 @@ namespace ouzel::gui
                 if ((i + 1) != utf32Text.end())
                 {
                     const auto kernAdvance = stbtt_GetCodepointKernAdvance(font.get(),
-                                                                          static_cast<int>(*i),
-                                                                          static_cast<int>(*(i + 1)));
+                                                                           static_cast<int>(*i),
+                                                                           static_cast<int>(*(i + 1)));
                     position.v[0] += static_cast<float>(kernAdvance) * s;
                 }
 
@@ -220,7 +216,7 @@ namespace ouzel::gui
             if (*i == static_cast<std::uint32_t>('\n') || // line feed
                 (i + 1) == utf32Text.end()) // end of string
             {
-                const float lineWidth = position.v[0];
+                const auto lineWidth = position.v[0];
                 position.v[0] = 0.0F;
                 position.v[1] += fontSize + lineGap;
 
@@ -231,9 +227,9 @@ namespace ouzel::gui
             }
         }
 
-        const float textHeight = position.v[1];
+        const auto textHeight = position.v[1];
 
-        for (graphics::Vertex& vertex : vertices)
+        for (auto& vertex : vertices)
             vertex.position.v[1] += textHeight * (1.0F - anchor.v[1]);
 
         return std::make_tuple(std::move(indices), std::move(vertices), std::move(texture));

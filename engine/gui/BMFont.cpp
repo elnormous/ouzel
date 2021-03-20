@@ -359,7 +359,7 @@ namespace ouzel::gui
     {
         Vector<float, 2> position;
 
-        const std::u32string utf32Text = utf8::toUtf32(text);
+        const auto utf32Text = utf8::toUtf32(text);
 
         std::vector<std::uint16_t> indices;
         std::vector<graphics::Vertex> vertices;
@@ -431,9 +431,9 @@ namespace ouzel::gui
             }
         }
 
-        const float textHeight = position.v[1];
+        const auto textHeight = position.v[1];
 
-        for (graphics::Vertex& vertex : vertices)
+        for (auto& vertex : vertices)
         {
             vertex.position.v[1] += textHeight * (1.0F - anchor.v[1]);
 
@@ -458,7 +458,7 @@ namespace ouzel::gui
     {
         float total = 0.0F;
 
-        const std::u32string utf32Text = utf8::toUtf32(text);
+        const auto utf32Text = utf8::toUtf32(text);
 
         for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
         {
